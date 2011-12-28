@@ -640,10 +640,10 @@
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="5" Opacity="0.35"></DropShadowEffect>
             </Grid.Effect>
-            <Path Data="M 0,0 L 0,5 L 0,0 L 5,0 L 0,0" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2"></Path>
-            <Path Data="M 5,5 L 0,5 L 5,5 L 5,0 L 5,5" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2"></Path>
-            <Path Data="M 0,5 L 0,0 L 0,5 L 5,5 L 0,5" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="2"></Path>
-            <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
+            <Path Data="M 0,0 L 0,5 L 0,0 L 5,0 L 0,0" StrokeThickness="2" Stroke="#666" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,5 L 0,5 L 5,5 L 5,0 L 5,5" StrokeThickness="2" Stroke="#666" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2"></Path>
+            <Path Data="M 0,5 L 0,0 L 0,5 L 5,5 L 0,5" StrokeThickness="2" Stroke="#666" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="#666" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
         </Grid>
 
 
@@ -696,7 +696,7 @@
             <!--##########Docking Panels##########-->
             <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="0" Grid.Row="1">
                 <ItemsControl x:Name="West" ItemsSource="{Binding Path=WestConnectorCollection}" 
-                              PreviewDrop="PreviewDropHandler">
+                              PreviewDrop="PreviewDropHandler" Tag="West">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="West" Background="#01000000"></local:NSWEStackPanel>
@@ -707,7 +707,7 @@
 
             <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="2" Grid.Row="1"> 
                 <ItemsControl x:Name="East" ItemsSource="{Binding Path=EastConnectorCollection}" 
-                              PreviewDrop="PreviewDropHandler">
+                              PreviewDrop="PreviewDropHandler" Tag="East">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="East" Background="#01000000"></local:NSWEStackPanel>
@@ -718,7 +718,7 @@
 
             <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="1" Grid.Row="0">
                 <ItemsControl x:Name="North" ItemsSource="{Binding Path=NorthConnectorCollection}" 
-                              PreviewDrop="PreviewDropHandler">
+                              PreviewDrop="PreviewDropHandler" Tag="North">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="North" Background="#01000000"></local:NSWEStackPanel>
@@ -729,7 +729,7 @@
 
             <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="1" Grid.Row="2">
                 <ItemsControl x:Name="South" ItemsSource="{Binding Path=SouthConnectorCollection}" 
-                              PreviewDrop="PreviewDropHandler">
+                              PreviewDrop="PreviewDropHandler" Tag="South">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="South" Background="#01000000"></local:NSWEStackPanel>

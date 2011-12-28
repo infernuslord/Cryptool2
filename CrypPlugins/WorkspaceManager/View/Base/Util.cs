@@ -107,7 +107,7 @@ namespace WorkspaceManager.View.Base
 
             binding = new Binding();
             binding.Source = connectable;
-            binding.Path = new PropertyPath(BinConnectorVisual.OrientationProperty);
+            binding.Path = new PropertyPath(BinConnectorVisual.PositionProperty);
             multiBinding.Bindings.Add(binding);
 
             return multiBinding;

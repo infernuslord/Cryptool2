@@ -30,6 +30,8 @@ namespace WorkspaceManager.View.BinVisual
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<IsDraggedEventArgs> Dragged;
+        public event EventHandler Update;
         #endregion
 
         #region Properties
@@ -62,6 +64,21 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Dependency Properties
+
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
+            typeof(Point?), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnPositionChanged)));
+
+        public Point? Position
+        {
+            get
+            {
+                return (Point?)base.GetValue(PositionProperty);
+            }
+            set
+            {
+                base.SetValue(PositionProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description",
             typeof(string), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
@@ -124,6 +141,21 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged",
+            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedChanged)));
+
+        public bool IsDragged
+        {
+            get
+            {
+                return (bool)base.GetValue(IsDraggedProperty);
+            }
+            set
+            {
+                base.SetValue(IsDraggedProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty IsOutgoingProperty = DependencyProperty.Register("IsOutgoing",
             typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false));
 
@@ -170,7 +202,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation",
-            typeof(ConnectorOrientation), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(ConnectorOrientation.Unset));
+            typeof(ConnectorOrientation), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(ConnectorOrientation.Unset, new PropertyChangedCallback(OnOrientationChanged)));
 
         public ConnectorOrientation Orientation
         {
@@ -254,6 +286,12 @@ namespace WorkspaceManager.View.BinVisual
             InitializeComponent();
         }
 
+        public void RaiseUpdate()
+        {
+            if (Update != null)
+                Update.Invoke(this, null);
+        }
+
         private static void OnMarkedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinConnectorVisual bin = (BinConnectorVisual)d;
@@ -302,17 +340,40 @@ namespace WorkspaceManager.View.BinVisual
             //bin.Model.Orientation = bin.Orientation;
         }
 
-        public Point GetPosition()
+        private static void OnPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+            //bin.Model.Orientation = bin.Orientation;
+        }
+
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorOrientation oldO = (ConnectorOrientation)e.OldValue;
+            ConnectorOrientation newO = (ConnectorOrientation)e.NewValue;
+
+            //if (oldO != ConnectorOrientation.Unset)
+            //    bin.RaiseUpdate();
+            //bin.Model.Orientation = bin.Orientation;
+        }
+
+        private static void OnIsDraggedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+            if (bin.Dragged != null)
+                bin.Dragged.Invoke(bin, new IsDraggedEventArgs() { IsDragged = bin.IsDragged });
+
+            bin.RaiseUpdate();
+        }
+
+        public Point GetAbsolutePosition()
         {
             Panel ic = VisualParent as Panel;
-            if (ic == null)
+            if (ic == null || Position == null)
                 return new Point(0, 0);
 
-            var gTransform = ic.TransformToVisual(WindowParent);
-            var gTransformSec = this.TransformToVisual(ic);
-
-            var point = gTransform.Transform(new Point(0, 0));
-            var relativePoint = gTransformSec.Transform(new Point(0, 0));
+            var point = ic.TranslatePoint(new Point(0, 0), WindowParent);
+            var relativePoint = (Point)Position;
             return new Point(WindowParent.Position.X + point.X + relativePoint.X, WindowParent.Position.Y + point.Y + relativePoint.Y);
         }
 
@@ -388,6 +449,11 @@ namespace WorkspaceManager.View.BinVisual
         }
     }
 
+    public class IsDraggedEventArgs: EventArgs
+    {
+        public bool IsDragged { get; set; }
+    }
+
     public class BinConnectorVisualBindingConverter : IMultiValueConverter
     {
         #region IMultiValueConverter Members
@@ -395,7 +461,7 @@ namespace WorkspaceManager.View.BinVisual
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             BinConnectorVisual connector = (BinConnectorVisual)parameter;
-            Point p = connector.GetPosition();
+            Point p = connector.GetAbsolutePosition();
             switch (connector.Orientation)
             {
                 case ConnectorOrientation.West:

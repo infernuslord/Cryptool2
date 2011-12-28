@@ -39,6 +39,7 @@ namespace WorkspaceManager.View.BinVisual
         public event EventHandler<VisualStateChangedArgs> StateChanged;
         public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
         public event EventHandler<ZIndexChangedArgs> ZIndexChanged;
+        public event EventHandler<IsDraggingChangedArgs> IsDraggingChanged;
         #endregion
 
         #region IZOrdering
@@ -254,7 +255,8 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsDraggingProperty = DependencyProperty.Register("IsDragging", typeof(bool),
-            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure,
+                new PropertyChangedCallback(OnIsDraggingChanged)));
 
         public bool IsDragging
         {
@@ -685,8 +687,8 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
                     break;
             }
             ConnectorCollection.Add(bin);
+            bin.Dragged += new EventHandler<IsDraggedEventArgs>(ConnectorDragged);
         }
-
         #endregion
 
         #region protected
@@ -847,6 +849,11 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             e.Handled = true;
         }
 
+        void ConnectorDragged(object sender, IsDraggedEventArgs e)
+        {
+            IsConnectorDragStarted = e.IsDragged;
+        }
+
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             Delta = new Vector(e.HorizontalChange, e.VerticalChange);
@@ -862,11 +869,20 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             bin.OnPropertyChanged("ActivePresentation");
             bin.OnPropertyChanged("HasComponentSetting");
             bin.OnPropertyChanged("HasComponentPresentation");
-            if(bin.StateChanged != null)
-                bin.StateChanged.Invoke(bin,new VisualStateChangedArgs(){State = bin.State});
+            if (bin.StateChanged != null)
+                bin.StateChanged.Invoke(bin, new VisualStateChangedArgs() { State = bin.State });
             bin.Model.ViewState = (PluginViewState)Enum.Parse(typeof(PluginViewState), e.NewValue.ToString());
             if (bin.State == BinComponentState.Log)
                 bin.IsErrorDisplayVisible = false;
+        }
+
+
+        private static void OnIsDraggingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinComponentVisual bin = (BinComponentVisual)d;
+            if (bin.IsDraggingChanged != null)
+                bin.IsDraggingChanged.Invoke(bin, new IsDraggingChangedArgs() { IsDragging= bin.IsDragging });
+            
         }
 
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -948,6 +964,11 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
     public class ZIndexChangedArgs : EventArgs
     {
         public int ZIndex { get; set; }
+    }
+
+    public class IsDraggingChangedArgs : EventArgs
+    {
+        public bool IsDragging { get; set; }
     }
     #endregion
 
@@ -1157,58 +1178,144 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
     {
         public PanelOrientation PanelOrientation { get; set; }
 
-        protected override Size MeasureOverride(Size constraint)
+        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
+        {
+            BinConnectorVisual cNew = visualAdded as BinConnectorVisual;
+            BinConnectorVisual cOld = visualRemoved as BinConnectorVisual;
+
+            if (cNew != null)
+            {
+                cNew.Dragged += new EventHandler<IsDraggedEventArgs>(ConnectorDragged);
+            }
+
+            if (cOld != null)
+            {
+                cOld.Dragged -= new EventHandler<IsDraggedEventArgs>(ConnectorDragged);
+                update();
+            }
+        }
+
+        void ConnectorDragged(object sender, IsDraggedEventArgs e)
+        {
+            if (!e.IsDragged)
+            {
+                update();
+            }
+        }
+
+        private void update()
         {
             IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
 
-            foreach (BinConnectorVisual bin in filter)
+            foreach (BinConnectorVisual child in filter)
+            {
+                child.RaiseUpdate();
+            }
+        }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            Size resultSize = new Size(0, 0);
+
+            IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
+
+            foreach (BinConnectorVisual child in filter)
             {
                 switch (PanelOrientation)
                 {
                     case Base.PanelOrientation.East:
-                        if (bin.Orientation == ConnectorOrientation.East)
+                        if (child.Orientation == ConnectorOrientation.East)
                             continue;
 
-                        bin.Orientation = ConnectorOrientation.East;
-                        if (bin.IsOutgoing)
-                            bin.RotationAngle = (double)-90;
+                        child.Orientation = ConnectorOrientation.East;
+                        if (child.IsOutgoing)
+                            child.RotationAngle = (double)-90;
                         else
-                            bin.RotationAngle = (double)90;
+                            child.RotationAngle = (double)90;
                         break;
                     case Base.PanelOrientation.South:
-                        if (bin.Orientation == ConnectorOrientation.South)
+                        if (child.Orientation == ConnectorOrientation.South)
                             continue;
 
-                        bin.Orientation = ConnectorOrientation.South;
-                        if (bin.IsOutgoing)
-                            bin.RotationAngle = (double)0;
+                        child.Orientation = ConnectorOrientation.South;
+                        if (child.IsOutgoing)
+                            child.RotationAngle = (double)0;
                         else
-                            bin.RotationAngle = (double)180;
+                            child.RotationAngle = (double)180;
                         break;
                     case Base.PanelOrientation.West:
-                        if (bin.Orientation == ConnectorOrientation.West)
+                        if (child.Orientation == ConnectorOrientation.West)
                             continue;
 
-                        bin.Orientation = ConnectorOrientation.West;
-                        if (bin.IsOutgoing)
-                            bin.RotationAngle = (double)90;
+                        child.Orientation = ConnectorOrientation.West;
+                        if (child.IsOutgoing)
+                            child.RotationAngle = (double)90;
                         else
-                            bin.RotationAngle = (double)-90;
+                            child.RotationAngle = (double)-90;
                         break;
                     case Base.PanelOrientation.North:
-                        if (bin.Orientation == ConnectorOrientation.North)
+                        if (child.Orientation == ConnectorOrientation.North)
                             continue;
 
-                        bin.Orientation = ConnectorOrientation.North;
-                        if (bin.IsOutgoing)
-                            bin.RotationAngle = (double)180;
+                        child.Orientation = ConnectorOrientation.North;
+                        if (child.IsOutgoing)
+                            child.RotationAngle = (double)180;
                         else
-                            bin.RotationAngle = (double)0;
+                            child.RotationAngle = (double)0;
                         break;
                 }
+                child.Measure(availableSize);
+                resultSize.Width = Math.Max(resultSize.Width, child.DesiredSize.Width);
+                resultSize.Height = Math.Max(resultSize.Height, child.DesiredSize.Height);
             }
 
-            return base.MeasureOverride(constraint);
+            resultSize.Width = double.IsPositiveInfinity(availableSize.Width) ?
+                resultSize.Width : availableSize.Width;
+
+            resultSize.Height = double.IsPositiveInfinity(availableSize.Height) ?
+                resultSize.Height : availableSize.Height;
+
+            return resultSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            if (Children.Count == 0)
+                return finalSize;
+
+            double currentX = 0, currentY = 0, currentHeight = 0, currentWidth = 0;
+
+            IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
+            foreach (BinConnectorVisual child in filter)
+            {
+                if (Orientation == System.Windows.Controls.Orientation.Vertical)
+                {
+                    currentY += currentHeight;
+                    Point p = new Point(currentX, currentY);
+                    child.Arrange(new Rect(currentX, currentY, child.DesiredSize.Width,
+                        child.DesiredSize.Height));
+
+                    currentHeight = child.DesiredSize.Height;
+                    child.Position = null;
+                    child.Position = p;
+                }
+
+                if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+                {
+                    currentX += currentWidth;
+                    Point p = new Point(currentX, currentY);
+                    child.Arrange(new Rect(currentX, currentY, child.DesiredSize.Width,
+                        child.DesiredSize.Height));
+
+                    currentWidth = child.DesiredSize.Width;
+                    child.Position = null;
+                    child.Position = p;
+                }
+
+                child.IsDragged = false;
+            }
+
+            return finalSize;
         }
     }
 
@@ -1239,5 +1346,6 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             this.PluginModel = pluginModel;
         }
     }
+
     #endregion
 }

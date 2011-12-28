@@ -101,30 +101,8 @@
                     <Style TargetType="ColumnDefinition">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsSettingsOpen}" Value="True">
-                                <DataTrigger.EnterActions>
-                                    <StopStoryboard BeginStoryboardName="Close"></StopStoryboard>
-                                    <BeginStoryboard Name="Open">
-                                        <Storyboard>
-                                            <DoubleAnimation Timeline.DesiredFrameRate="5"
-                                                 Storyboard.TargetProperty="MinWidth"
-                                                 To="150" DecelerationRatio="0.2" Duration="0:0:0.3" />
-                                            <DoubleAnimation Timeline.DesiredFrameRate="5"
-                                                 Storyboard.TargetProperty="MaxWidth"
-                                                 To="400" DecelerationRatio="0.2" Duration="0:0:0.3" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <StopStoryboard BeginStoryboardName="Open"></StopStoryboard>
-                                    <BeginStoryboard Name="Close">
-                                        <Storyboard>
-                                            <DoubleAnimation Timeline.DesiredFrameRate="5"
-                                                 Storyboard.TargetProperty="WinWidth"
-                                                 To="0" DecelerationRatio="0.2" Duration="0:0:0.3" />
-
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
+                                <Setter Property="MinWidth" Value="150"></Setter>
+                                <Setter Property="MaxWidth" Value="400"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
                         <Setter Property="MinWidth" Value="0"></Setter>
