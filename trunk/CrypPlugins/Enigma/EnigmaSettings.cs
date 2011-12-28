@@ -312,31 +312,6 @@ namespace Cryptool.Enigma
         /// </summary>
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
-        /// <summary>
-        /// Return the expected length of n-grams statistics for the given search method.
-        /// </summary>
-        /// <returns></returns>
-        public int GetGramLength(int searchMethod)
-        {
-            switch (searchMethod)
-            {
-                case 0:
-                    return 1;
-                case 1:
-                    return 2;
-                case 2:
-                    return 3;
-                case 3:
-                    return 1;
-                case 4:
-                    return 2;
-                case 5:
-                    return 1;
-                default:
-                    throw new NotSupportedException("Search method with index " + searchMethod + " is unknown");
-            }
-        }
-
         public int AlphabetIndexOf(char c)
         {
             return c - 'A';
