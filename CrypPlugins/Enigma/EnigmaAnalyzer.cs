@@ -639,10 +639,10 @@ namespace Cryptool.Enigma
             return score;
         }
 
-        private double calculateEntropy(string input, int length)
+        private double calculateEntropy(string input)
         {
             double score = 0;
-            IDictionary<string, double[]> inputGrams = calculateConditional(input, length);
+            IDictionary<string, double[]> inputGrams = calculateConditional(input, 1);
 
             foreach (double[] values in inputGrams.Values)
             {
@@ -909,13 +909,15 @@ namespace Cryptool.Enigma
                 case 0:
                     return calculateIC(input);
                 case 1:
+                    return calculateNGrams(input, 2, Enigma.LOG2);
                 case 2:
-                    return calculateNGrams(input, settings.GetGramLength(searchMethod), Enigma.LOG2);
+                    return calculateNGrams(input, 3, Enigma.LOG2);
                 case 3:
+                    return calculateSinkov(input, 1);
                 case 4:
-                    return calculateSinkov(input, settings.GetGramLength(searchMethod));
+                    return calculateSinkov(input, 2);
                 case 5:
-                    return calculateEntropy(input, settings.GetGramLength(searchMethod));
+                    return calculateEntropy(input);
                 default:
                     throw new NotSupportedException("Search method not supported");
             }
