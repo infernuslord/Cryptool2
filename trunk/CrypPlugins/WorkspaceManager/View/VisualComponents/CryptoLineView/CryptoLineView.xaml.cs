@@ -33,6 +33,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private InternalCryptoLineView line = null;
         private ConnectionModel model = null;
+        private UIElement[] newItems, oldItems;
+        private IEnumerable<BinComponentVisual> selected;
         public ConnectionModel Model
         {
             get { return model; }
@@ -104,11 +106,45 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line = new InternalCryptoLineView(model, source, target, visuals);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, Util.CreateConnectorBinding(target, this));
-            Line.SetBinding(InternalCryptoLineView.IsDraggedProperty, Util.CreateIsDraggingBinding(
-                new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
-            Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
+            //Line.SetBinding(InternalCryptoLineView.IsDraggedProperty, Util.CreateIsDraggingBinding(
+            //    new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
+            //Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
+            BinEditorVisual editor = (BinEditorVisual)model.WorkspaceModel.MyEditor.Presentation;
+            editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
         }
+
+        void editor_ItemsSelected(object sender, SelectedItemsEventArgs e)
+        {
+            oldItems = newItems;
+            newItems = e.Items;
+            if (newItems != null)
+            {
+                if (newItems.Contains(source.WindowParent) || newItems.Contains(target.WindowParent) || true)
+                {
+                    selected = (IEnumerable<BinComponentVisual>)newItems.OfType<BinComponentVisual>();
+                    foreach (var x in selected)
+                    {
+                        x.IsDraggingChanged += x_IsDraggingChanged;
+                    }
+                }
+            }
+            if(oldItems != null)
+            {
+                foreach (var x in oldItems.OfType<BinComponentVisual>())
+                {
+                    x.IsDraggingChanged -= x_IsDraggingChanged;
+                }
+            }
+            
+        }
+
+        void x_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
+        {
+            bool b = selected.Any(x => x.IsDragging == true);
+            Line.IsDragged = b;
+        }
+
 
         void LineComputationDone(object sender, EventArgs e)
         {
@@ -340,6 +376,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.StartPointSource = source;
             this.EndPointSource = target;
             this.Visuals = visuals;
+
             
         }
 
@@ -632,7 +669,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             bool failed = false;
             if (!IsEditingPoint)
             {
-                //Problem Liegt hier. Der Elsefall wird durchlaufen obwohl computed ist.
                 if (!isSubstituteLine && !IsDragged && !HasComputed)
                 {
                     List<Node> nodeList = new List<Node>();
@@ -894,8 +930,21 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             get { return startPointSource; } 
             set 
             {
+                value.Update += new EventHandler(ConnectorSourceUpdate);
+                //value.Dragged += new EventHandler<IsDraggedEventArgs>(SourceDragged);
                 startPointSource = value;  
             } 
+        }
+
+        void SourceDragged(object sender, IsDraggedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ConnectorSourceUpdate(object sender, EventArgs e)
+        {
+            if(!((BinEditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
+                HasComputed = false;
         }
 
         private BinConnectorVisual endPointSource;
@@ -905,7 +954,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         { 
             get { return endPointSource; } 
             set 
-            { 
+            {
+                value.Update += new EventHandler(ConnectorSourceUpdate);
+                //value.Dragged += new EventHandler<IsDraggedEventArgs>(SourceDragged);
                 endPointSource = value;
             } 
         }

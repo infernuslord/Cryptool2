@@ -31,7 +31,7 @@
         </Style>
     </UserControl.Resources>
     <Canvas>
-        <Path Data="{Binding Path=PathGeo}" Style="{StaticResource ResourceKey=Path}" StrokeThickness="7" Stroke="White" Opacity="0.6"></Path>
+        <!--<Path Data="{Binding Path=PathGeo}" Style="{StaticResource ResourceKey=Path}" StrokeThickness="7" Stroke="White" Opacity="0.6"></Path>-->
         
         <ContentPresenter Content="{Binding Path=Line}">
 

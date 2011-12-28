@@ -43,6 +43,7 @@ namespace WorkspaceManager.View.BinVisual
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SampleLoaded;
+        public event EventHandler<SelectedItemsEventArgs> ItemsSelected;
         #endregion
 
         #region Fields
@@ -317,7 +318,7 @@ namespace WorkspaceManager.View.BinVisual
             if (mode == 1)
             {
                 GeneralTransform g = new ScaleTransform(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, 0, 0);
-                Point p = g.Transform(new Point(randomNumber(0, (int)ActualWidth), randomNumber(0, (int)ActualHeight)));
+                Point p = g.Transform(new Point(randomNumber(0, (int)(ActualWidth-bin.ActualWidth)), randomNumber(0, (int)(ActualHeight-bin.ActualHeight))));
                 bin.Position = p;
                 return;
             }
@@ -775,14 +776,24 @@ namespace WorkspaceManager.View.BinVisual
             BinEditorVisual b = (BinEditorVisual)d;
             UIElement[] newItem = e.NewValue as UIElement[];
             UIElement[] oldItem = e.OldValue as UIElement[];
-            if (newItem != null)
-            {
-                b.SelectedItemsObservable.Concat(newItem);
-            }
-            else
-            {
-                b.SelectedItemsObservable.Clear();
-            }
+
+            if(b.ItemsSelected != null)
+                b.ItemsSelected.Invoke(b, new SelectedItemsEventArgs(){Items = b.SelectedItems});
+
+            //if (newItem != null)
+            //{
+            //    foreach (var x in newItem)
+            //    {
+            //        b.SelectedItemsObservable.Add(x);
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (var x in oldItem)
+            //    {
+            //        b.SelectedItemsObservable.Remove(x);
+            //    }
+            //}
         }
 
         private static void OnIsLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -958,11 +969,12 @@ namespace WorkspaceManager.View.BinVisual
                 FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
                 if (element is BinConnectorVisual)
                 {
+                    BinConnectorVisual con = (BinConnectorVisual)element;
                     DataObject data = new DataObject("BinConnector", element);
                     DragDrop.AddQueryContinueDragHandler(this, QueryContinueDragHandler);
-                    c.IsConnectorDragStarted = true;
+                    con.IsDragged = true;
                     DragDrop.DoDragDrop(c, data, DragDropEffects.Move);
-                    c.IsConnectorDragStarted = false;
+                    con.IsDragged = false;
                     e.Handled = true;
                 }
             }
@@ -1160,6 +1172,7 @@ namespace WorkspaceManager.View.BinVisual
                 }
             }
             reset();
+            startedSelection = false;
         }
 
         #region DragDropHandler
@@ -1239,6 +1252,11 @@ namespace WorkspaceManager.View.BinVisual
     }
 
     #region HelperClass
+
+    public class SelectedItemsEventArgs : EventArgs
+    {
+        public UIElement[] Items { get; set; }
+    }
 
     class SelectionChangedConverter : IValueConverter
     {
