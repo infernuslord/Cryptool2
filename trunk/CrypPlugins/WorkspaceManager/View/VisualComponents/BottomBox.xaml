@@ -96,7 +96,8 @@
             <DockPanel>
                 <ToggleButton x:Name="PluginSettingButton" 
                               IsChecked="{Binding Path=IsSettingsOpen, Mode=TwoWay}" 
-                              Style="{StaticResource ResourceKey=ToggleButtonStyle}" DockPanel.Dock="Right">
+                              Style="{StaticResource ResourceKey=ToggleButtonStyle}" DockPanel.Dock="Right"
+                              ToolTip="{Loc Toggle_Plugin_Parameters}">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
                 </ToggleButton>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Right">
