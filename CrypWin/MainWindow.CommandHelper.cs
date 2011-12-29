@@ -36,19 +36,8 @@ namespace Cryptool.CrypWin
 {
     public partial class MainWindow
     {
-        # region constValues
-        private const string DirectoryDocs = "Docs";
-        private const string TutorialFile = "HowTo_EncryptionPlugin.pdf";
-        # endregion constValues
-
         #region Private variables
-        private bool isMaximized = false;
-        private bool isFullscreen;
-        private bool fullScreenRibbonMinimized;
-        private bool fullScreenDockWinAlgoAutoHide;
-        private bool fullScreenDockWinLogMessagesAutoHide;
         private bool closedByMenu = false;
-        private WindowState fullScreenWindowStateSave;
         private Window aboutWindow;
 
         private DemoController demoController;
@@ -404,18 +393,6 @@ namespace Cryptool.CrypWin
             e.CanExecute = true;
         }
 
-        private void Maximize_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (!isFullscreen)
-            {
-                naviPane.IsExpanded = isMaximized;
-                dockWindowAlgorithmSettings.IsAutoHide = !isMaximized;
-                dockWindowLogMessages.IsAutoHide = !isMaximized;
-                AppRibbon.IsMinimized = !isMaximized;
-                isMaximized = !isMaximized;
-            }
-        }
-
         private void Fullscreen_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -423,46 +400,7 @@ namespace Cryptool.CrypWin
 
         private void Fullscreen_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            isFullscreen = !isFullscreen;
-            if (isFullscreen)
-            {
-                fullScreenWindowStateSave = WindowState;
-
-                naviPane.Visibility = System.Windows.Visibility.Collapsed;
-
-                splitPanelAlgorithmSettings.Visibility = Visibility.Collapsed;
-                dockWindowAlgorithmSettings.Visibility = Visibility.Collapsed;
-                fullScreenDockWinAlgoAutoHide = dockWindowAlgorithmSettings.IsAutoHide;
-                dockWindowAlgorithmSettings.IsAutoHide = true;
-
-                splitPanelLogMessages.Visibility = Visibility.Collapsed;
-                dockWindowLogMessages.Visibility = Visibility.Collapsed;
-                fullScreenDockWinLogMessagesAutoHide = dockWindowLogMessages.IsAutoHide;
-                dockWindowLogMessages.IsAutoHide = true;
-
-                statusBar.Visibility = Visibility.Collapsed;
-                fullScreenRibbonMinimized = AppRibbon.IsMinimized;
-                AppRibbon.IsMinimized = true;
-                this.WindowState = System.Windows.WindowState.Maximized;
-            }
-            if (!isFullscreen)
-            {
-                this.WindowState = fullScreenWindowStateSave;
-
-                naviPane.Visibility = System.Windows.Visibility.Visible;
-
-                splitPanelAlgorithmSettings.Visibility = Visibility.Visible;
-                dockWindowAlgorithmSettings.Visibility = Visibility.Visible;
-                dockWindowAlgorithmSettings.IsAutoHide = fullScreenDockWinAlgoAutoHide;
-
-                splitPanelLogMessages.Visibility = Visibility.Visible;
-                dockWindowLogMessages.Visibility = Visibility.Visible;
-                dockWindowLogMessages.IsAutoHide = fullScreenDockWinLogMessagesAutoHide;
-
-                statusBar.Visibility = Visibility.Visible;
-                AppRibbon.IsMinimized = fullScreenRibbonMinimized;
-                WindowState = fullScreenWindowStateSave;
-            }
+            AppRibbon.IsMinimized = !AppRibbon.IsMinimized; // toggle
         }
 
         private void PlayDemo_CanExecute(object sender, CanExecuteRoutedEventArgs e)
