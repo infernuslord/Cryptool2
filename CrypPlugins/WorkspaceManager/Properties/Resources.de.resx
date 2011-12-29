@@ -408,4 +408,7 @@
   <data name="EditingDisabled" xml:space="preserve">
     <value>Einige Bearbeitungsfunktionen sind während der Ausführung deaktiviert.</value>
   </data>
+	<data name="Toggle_Plugin_Parameters" xml:space="preserve">
+    <value>Öffne/schließe Fenster mit Komponentenparametern</value>
+  </data>
 </root>

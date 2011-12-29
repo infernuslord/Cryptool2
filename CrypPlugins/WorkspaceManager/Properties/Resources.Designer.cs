@@ -124,7 +124,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Image to Workspace.
+        ///   Looks up a localized string similar to Add image to workspace.
         /// </summary>
         internal static string BBox_Add_Image_to_Workspace_Tooltip {
             get {
@@ -133,7 +133,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Text to Workspace.
+        ///   Looks up a localized string similar to Add text to workspace.
         /// </summary>
         internal static string BBox_Add_Text_to_Workspace_Tooltip {
             get {
@@ -142,7 +142,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fit to Screen.
+        ///   Looks up a localized string similar to Fit to screen.
         /// </summary>
         internal static string BBox_Fit_to_Screen_Tooltip {
             get {
@@ -412,7 +412,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clear Log Window.
+        ///   Looks up a localized string similar to Clear log panel.
         /// </summary>
         internal static string Delete_all_messagesTooltip {
             get {
@@ -849,6 +849,15 @@ namespace WorkspaceManager.Properties {
         internal static string SynchronousEvents_Tooltip {
             get {
                 return ResourceManager.GetString("SynchronousEvents_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle component parameter panel.
+        /// </summary>
+        internal static string Toggle_Plugin_Parameters {
+            get {
+                return ResourceManager.GetString("Toggle_Plugin_Parameters", resourceCulture);
             }
         }
         

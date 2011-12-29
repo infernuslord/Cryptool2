@@ -127,13 +127,13 @@
     <value>Asymmetric:</value>
   </data>
   <data name="BBox_Add_Image_to_Workspace_Tooltip" xml:space="preserve">
-    <value>Add Image to Workspace</value>
+    <value>Add image to workspace</value>
   </data>
   <data name="BBox_Add_Text_to_Workspace_Tooltip" xml:space="preserve">
-    <value>Add Text to Workspace</value>
+    <value>Add text to workspace</value>
   </data>
   <data name="BBox_Fit_to_Screen_Tooltip" xml:space="preserve">
-    <value>Fit to Screen</value>
+    <value>Fit to screen</value>
   </data>
   <data name="BBox_Sort_Caption" xml:space="preserve">
     <value>Sort</value>
@@ -172,7 +172,7 @@
     <value>Delete all messages</value>
   </data>
   <data name="Delete_all_messagesTooltip" xml:space="preserve">
-    <value>Clear Log Window</value>
+    <value>Clear log panel</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
@@ -407,5 +407,8 @@
   </data>
   <data name="EditingDisabled" xml:space="preserve">
     <value>Some editing functions are disabled during execution.</value>
+  </data>
+  <data name="Toggle_Plugin_Parameters" xml:space="preserve">
+    <value>Toggle component parameter panel</value>
   </data>
 </root>
