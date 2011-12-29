@@ -1300,7 +1300,7 @@ namespace Cryptool.CrypWin
 
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
             CTTabItem tabitem = new CTTabItem();
-            tabitem.RequestBigViewFrame += new EventHandler(tabitem_RequestBigViewFrame);
+            tabitem.RequestBigViewFrame += handleMaximizeTab;
 
             var plugin = content as IPlugin;
             if (plugin != null)
@@ -1954,7 +1954,7 @@ namespace Cryptool.CrypWin
             LogBTN_Checked(LogBTN, null);
         }
 
-        void tabitem_RequestBigViewFrame(object sender, EventArgs e)
+        void handleMaximizeTab(object sender, EventArgs e)
         {
 
             if (LogBTN.IsChecked || SettingBTN.IsChecked || PluginBTN.IsChecked)

@@ -286,7 +286,7 @@
       
     <CommandBinding Command="cw:CrypWinCommands.PlayDemo" Executed="PlayDemo_Executed" CanExecute="PlayDemo_CanExecute" />
     <CommandBinding Command="cw:CrypWinCommands.StopDemo" Executed="StopDemo_Executed" CanExecute="StopDemo_CanExecute" />
-    <CommandBinding Command="cw:CrypWinCommands.Maximize" Executed="Maximize_Executed" CanExecute="Maximize_CanExecute" />
+    <CommandBinding Command="cw:CrypWinCommands.Maximize" Executed="handleMaximizeTab" CanExecute="Maximize_CanExecute" />   
     <CommandBinding Command="cw:CrypWinCommands.Fullscreen" Executed="Fullscreen_Executed" CanExecute="Fullscreen_CanExecute" />    
     <CommandBinding Command="cw:CrypWinCommands.P2P" Executed="P2P_Executed" CanExecute="P2P_CanExecute" />
     <CommandBinding Command="cw:CrypWinCommands.Startcenter" Executed="Startcenter_Executed" CanExecute="Startcenter_CanExecute" />
