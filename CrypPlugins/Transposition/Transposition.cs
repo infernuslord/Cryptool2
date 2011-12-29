@@ -1097,20 +1097,12 @@ namespace Transposition
     {
         private Transposition plugin;
 
-
         public TranspositionControl(Transposition plugin)
         {
             this.plugin = plugin;
         }
 
-        #region IControlTranspoEncryption Member
-        
-        public byte[] Decrypt(byte[] key, int blocksize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
             if (plugin.Input != ciphertext)
             {
@@ -1127,40 +1119,10 @@ namespace Transposition
             return plugin.decrypt(plugin.Input, k);
         }
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
-        {
-            return Decrypt(ciphertext, key, IV);
-        }
-
-        public int GetBlockSize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] Encrypt(byte[] key, int blocksize)
-        {
-            return null;
-        }
-
-        public IControlTranspoEncryption clone()
-        {
-            return null;
-        }
-
-        public string GetKeyPattern()
-        {
-            return null;
-        }
-
         public void onStatusChanged()
         {
             if (OnStatusChanged != null)
                 OnStatusChanged(this, true);
-        }
-
-        public string GetOpenCLCode(int decryptionLength, byte[] iv)
-        {
-            return null;
         }
 
         public void changeSettings(string setting, object value)
@@ -1168,28 +1130,11 @@ namespace Transposition
             plugin.changeSettings(setting, value);
         }
 
-        public IKeyTranslator GetKeyTranslator()
-        {
-            throw new NotImplementedException();
-        }
-
-        public event KeyPatternChanged keyPatternChanged;
-
-        #endregion
-
-        #region IControl Member
-
         public event IControlStatusChangedEventHandler OnStatusChanged;
-
-        #endregion
-
-        #region IDisposable Member
 
         public void Dispose()
         {
 
         }
-
-        #endregion
     }
 }
