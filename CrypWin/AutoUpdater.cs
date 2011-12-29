@@ -201,6 +201,7 @@ namespace Cryptool.CrypWin
                         presentation.label1.Content = serverAvailable ?
                             Properties.Resources.You_have_currently_the_latest_version_installed_ :
                             string.Format(Properties.Resources.Checking_failed__cannot_contact_server__0, serverNotAvailableMessage);
+                        presentation.smallRightImage.Visibility = Visibility.Collapsed;
                         break;
                     case State.Checking:
                         presentation.button1.IsEnabled = false;
@@ -214,7 +215,8 @@ namespace Cryptool.CrypWin
                             string.Format(Properties.Resources.Update_available___0, updateName);
                         presentation.button1.Visibility = Visibility.Visible;
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
-                        presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
+                        presentation.smallRightImage.Source = (ImageSource)presentation.FindResource("Update");
+                        presentation.smallRightImage.Visibility = Visibility.Visible;
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
                         FillRSS(presentation);
                         break;
@@ -225,8 +227,9 @@ namespace Cryptool.CrypWin
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Downloading_update___ :
                             string.Format(Properties.Resources.Downloading_update___0_____, updateName);
-                        presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
+                        presentation.smallRightImage.Source = (ImageSource)presentation.FindResource("Update");
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
+                        presentation.smallRightImage.Visibility = Visibility.Visible;
                         FillRSS(presentation);
                         break;
                     case State.UpdateReady:
@@ -237,8 +240,9 @@ namespace Cryptool.CrypWin
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Update_ready_to_install_ :
                             string.Format(Properties.Resources.Update___0___ready_to_install_, updateName);
-                        presentation.image1.Source = (ImageSource)presentation.FindResource("UpdateReady");
+                        presentation.smallRightImage.Source = (ImageSource)presentation.FindResource("UpdateReady");
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
+                        presentation.smallRightImage.Visibility = Visibility.Visible;
                         FillRSS(presentation);
                         break;
                 }

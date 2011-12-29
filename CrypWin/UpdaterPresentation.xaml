@@ -58,8 +58,8 @@
             
             <Button Height="30" Name="button1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="5" Visibility="Collapsed" Click="button1_Click" IsDefault="True" />
             <ProgressBar Height="30" Name="progressBar1" ToolTip="{Loc Downloading_update___}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="5" Visibility="Collapsed"/>
-            
-            <Image Height="{Binding ElementName=label1, Path=ActualHeight}" HorizontalAlignment="Right" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="{Binding ElementName=image1, Path=ActualHeight}" Grid.Column="2" Source="{StaticResource NoUpdate}" />
+            <!-- wander 2011-12-29: hidden by default, will be turned visible by AutoUpdater -->
+            <Image Height="{Binding ElementName=label1, Path=ActualHeight}" HorizontalAlignment="Right" Name="smallRightImage" Stretch="Fill" VerticalAlignment="Center" Width="{Binding ElementName=smallRightImage, Path=ActualHeight}" Grid.Column="2" Source="{StaticResource NoUpdate}" Visibility="Collapsed" />
         </Grid>
 
         <Label Content="{Loc Changelog}" Grid.Row="2" FontSize="16" Visibility="{Binding ElementName=ChangelogBorder, Path=Visibility}" />
