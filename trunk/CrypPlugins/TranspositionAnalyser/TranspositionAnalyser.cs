@@ -535,7 +535,7 @@ namespace TranspositionAnalyser
                                 {
                                     b[j] = Convert.ToByte(key[j]);
                                 }
-                                byte[] dec = sender.Decrypt(input, b, null);
+                                byte[] dec = sender.Decrypt(input, b);
                                 if (dec != null)
                                 {
                                     double val = costMaster.CalculateCost(dec);
@@ -799,7 +799,7 @@ namespace TranspositionAnalyser
                 byte[] key = intArrayToByteArray(keyPlusOne);
 
                 ValueKey tmpValue = new ValueKey();
-                byte[] dec = sender.Decrypt(input, key, null);
+                byte[] dec = sender.Decrypt(input, key);
                 double val = costMaster.CalculateCost(dec);
 
                 String keyStr = "";
@@ -1370,7 +1370,7 @@ namespace TranspositionAnalyser
                 for (int i = 0; i < 12; i++)
                 {
                     byte[] rndkey = randomArray(keylength);
-                    byte[] dec = sender.Decrypt(input, rndkey, null);
+                    byte[] dec = sender.Decrypt(input, rndkey);
                     double val = costMaster.CalculateCost(dec);
 
                     String keyStr = "";
@@ -1516,7 +1516,7 @@ namespace TranspositionAnalyser
                                 //GuiLogMessage("ZWEI GLEICHE", NotificationLevel.Debug);
                                 ValueKey tmpValue = new ValueKey();
                                 tmpValue.keyArray = randomArray(keylength);
-                                byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
+                                byte[] dec = sender.Decrypt(input, tmpValue.keyArray);
                                 double val = costMaster.CalculateCost(dec);
 
                                 String keyStr = "";
@@ -1543,7 +1543,7 @@ namespace TranspositionAnalyser
                                     //GuiLogMessage("ZWEI GLEICHE", NotificationLevel.Debug);
                                     ValueKey tmpValue = new ValueKey();
                                     tmpValue.keyArray = randomArray(keylength);
-                                    byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
+                                    byte[] dec = sender.Decrypt(input, tmpValue.keyArray);
                                     double val = costMaster.CalculateCost(dec);
 
                                     String keyStr = "";
@@ -1564,7 +1564,7 @@ namespace TranspositionAnalyser
                         if (!eq)
                         {
                             ValueKey tmpValue = new ValueKey();
-                            byte[] dec = sender.Decrypt(input, child, null);
+                            byte[] dec = sender.Decrypt(input, child);
                             double val = costMaster.CalculateCost(dec);
 
                             String keyStr = "";
