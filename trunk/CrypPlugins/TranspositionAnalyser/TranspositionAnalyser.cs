@@ -199,11 +199,6 @@ namespace TranspositionAnalyser
 
         }
 
-        private void onStatusChanged(IControl sender, bool readyForExecution)
-        {
-
-        }
-
         public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
@@ -463,156 +458,148 @@ namespace TranspositionAnalyser
             valuequeue = Queue.Synchronized(new Queue());
             int[] set = getBruteforceSettings();
             stop = false;
-            if (sender != null && costMaster != null && set != null)
-            {
-                GuiLogMessage("start", NotificationLevel.Info);
-                double best = Double.MinValue;
-
-                if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-                {
-                    best = Double.MaxValue;
-                }
-
-                list1 = getDummyLinkedList(best);
-                String best_text = "";
-                ArrayList list = null;
-
-
-                //Just for fractional-calculation:
-                PermutationGenerator per = new PermutationGenerator(2);
-                DateTime starttime = DateTime.Now;
-                DateTime lastUpdate = DateTime.Now;
-
-                int max = 0;
-                max = settings.MaxLength;
-                //GuiLogMessage("Max: " + max, NotificationLevel.Info);
-                if (max > 1 && max < 21)
-                {
-                    long size = 0;
-                    for (int i = 2; i <= max; i++)
-                    {
-                        size = size + per.getFactorial(i);
-                    }
-                    size = size * set.Length;
-                    long sum = 0;
-                    for (int i = 1; i <= max; i++)
-                    {
-                        // for every selected bruteforce mode:
-                        for (int s = 0; s < set.Length; s++)
-                        {
-                            switch (set[s])
-                            {
-                                case (0):
-                                    controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
-                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
-                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
-                                    break;
-                                case (1):
-                                    controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
-                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
-                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
-                                    break;
-                                case (2):
-                                    controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
-                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
-                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
-                                    break;
-                                case (3):
-                                    controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
-                                    controlMaster.changeSettings("Permute", PermutationMode.byColumn);
-                                    controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
-                                    break;
-                            }
-
-                            per = new PermutationGenerator(i);
-
-                            while (per.hasMore() && !stop)
-                            {
-                                best = list1.Last.Value.value;
-                                int[] key = per.getNext();
-                                byte[] b = new byte[key.Length];
-                                for (int j = 0; j < b.Length; j++)
-                                {
-                                    b[j] = Convert.ToByte(key[j]);
-                                }
-                                byte[] dec = sender.Decrypt(input, b);
-                                if (dec != null)
-                                {
-                                    double val = costMaster.CalculateCost(dec);
-                                    if (val.Equals(new Double()))
-                                    {
-                                        return new byte[0];
-                                    }
-                                    if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-                                    {
-                                        if (val <= best)
-                                        {
-                                            ValueKey valkey = new ValueKey();
-                                            String keyStr = "";
-                                            foreach (int xyz in key)
-                                            {
-                                                keyStr += xyz + ", ";
-                                            }
-                                            valkey.decryption = dec;
-                                            valkey.key = keyStr;
-                                            valkey.value = val;
-                                            valuequeue.Enqueue(valkey);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (val >= best)
-                                        {
-                                            ValueKey valkey = new ValueKey();
-                                            String keyStr = "";
-                                            foreach (int xyz in key)
-                                            {
-                                                keyStr += xyz;
-                                            }
-                                            valkey.decryption = dec;
-                                            valkey.key = keyStr;
-                                            valkey.value = val;
-                                            valuequeue.Enqueue(valkey);
-                                        }
-                                    }
-                                }
-
-                                sum++;
-                                if (DateTime.Now >= lastUpdate.AddMilliseconds(1000))
-                                {
-                                    updateToplist(list1);
-                                    showProgress(starttime, size, sum);
-                                    ProgressChanged(sum, size);
-                                    lastUpdate = DateTime.Now;
-                                }
-                            }
-                        }
-                    }
-                    if (list != null)
-                    {
-                        int i = 1;
-                        foreach (string tmp in list)
-                        {
-                            GuiLogMessage("ENDE (" + i++ + ")" + best + ": " + tmp, NotificationLevel.Info);
-                        }
-                    }
-                    else
-                    {
-                        GuiLogMessage("ENDE " + best + ": " + best_text, NotificationLevel.Info);
-                    }
-                    return list1.First.Value.decryption;
-                }
-                else
-                {
-                    GuiLogMessage("Error: Check transposition bruteforce length. Max length is 20!", NotificationLevel.Error);
-                    return null;
-                }
-            }
-            else
+            if (sender == null || costMaster == null || set == null)
             {
                 GuiLogMessage("Error: No costfunction applied.", NotificationLevel.Error);
                 return null;
             }
+
+            GuiLogMessage("start", NotificationLevel.Info);
+            double best = Double.MinValue;
+
+            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
+            {
+                best = Double.MaxValue;
+            }
+
+            list1 = getDummyLinkedList(best);
+
+            //Just for fractional-calculation:
+            PermutationGenerator per = new PermutationGenerator(2);
+            DateTime starttime = DateTime.Now;
+            DateTime lastUpdate = DateTime.Now;
+
+            int max = settings.MaxLength;
+            //GuiLogMessage("Max: " + max, NotificationLevel.Info);
+            if (max <= 1 || max >= 21)
+            {
+                GuiLogMessage("Error: Check transposition bruteforce length. Max length is 20!",
+                              NotificationLevel.Error);
+                return null;
+            }
+
+            long size = 0;
+            for (int i = 2; i <= max; i++)
+            {
+                size = size + per.getFactorial(i);
+            }
+            size = size*set.Length;
+            long sum = 0;
+            for (int i = 1; i <= max; i++)
+            {
+                // for every selected bruteforce mode:
+                for (int s = 0; s < set.Length; s++)
+                {
+                    switch (set[s])
+                    {
+                        case (0):
+                            controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
+                            controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                            controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
+                            break;
+                        case (1):
+                            controlMaster.changeSettings("ReadIn", ReadInMode.byColumn);
+                            controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                            controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
+                            break;
+                        case (2):
+                            controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
+                            controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                            controlMaster.changeSettings("ReadOut", ReadOutMode.byColumn);
+                            break;
+                        case (3):
+                            controlMaster.changeSettings("ReadIn", ReadInMode.byRow);
+                            controlMaster.changeSettings("Permute", PermutationMode.byColumn);
+                            controlMaster.changeSettings("ReadOut", ReadOutMode.byRow);
+                            break;
+                    }
+
+                    per = new PermutationGenerator(i);
+
+                    while (per.hasMore() && !stop)
+                    {
+                        best = list1.Last.Value.value;
+                        int[] key = per.getNext();
+                        byte[] b = new byte[key.Length];
+                        for (int j = 0; j < b.Length; j++)
+                        {
+                            b[j] = Convert.ToByte(key[j]);
+                        }
+                        byte[] dec = sender.Decrypt(input, b);
+                        if (dec != null)
+                        {
+                            double val = costMaster.CalculateCost(dec);
+                            if (val.Equals(new Double()))
+                            {
+                                return new byte[0];
+                            }
+                            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
+                            {
+                                if (val <= best)
+                                {
+                                    ValueKey valkey = new ValueKey();
+                                    String keyStr = "";
+                                    foreach (int xyz in key)
+                                    {
+                                        keyStr += xyz + ", ";
+                                    }
+                                    valkey.decryption = dec;
+                                    valkey.key = keyStr;
+                                    valkey.value = val;
+                                    valuequeue.Enqueue(valkey);
+                                }
+                            }
+                            else
+                            {
+                                if (val >= best)
+                                {
+                                    ValueKey valkey = new ValueKey();
+                                    String keyStr = "";
+                                    foreach (int xyz in key)
+                                    {
+                                        keyStr += xyz;
+                                    }
+                                    valkey.decryption = dec;
+                                    valkey.key = keyStr;
+                                    valkey.value = val;
+                                    valuequeue.Enqueue(valkey);
+                                }
+                            }
+                        }
+
+                        sum++;
+                        if (DateTime.Now >= lastUpdate.AddMilliseconds(1000))
+                        {
+                            lastUpdate = UpdatePresentationList(size, sum, starttime);
+                        }
+                    }
+                }
+            }
+
+            // wander 2011-12-29: ensure presentation list is updated at least once
+            UpdatePresentationList(size, sum, starttime);
+
+            return list1.First.Value.decryption;
+        }
+
+        private DateTime UpdatePresentationList(long size, long sum, DateTime starttime)
+        {
+            DateTime lastUpdate;
+            updateToplist(list1);
+            showProgress(starttime, size, sum);
+            ProgressChanged(sum, size);
+            lastUpdate = DateTime.Now;
+            return lastUpdate;
         }
 
         #endregion
@@ -1444,7 +1431,6 @@ namespace TranspositionAnalyser
                     // Kinder der besten Keys erstellen
                     int rndInt = 0;
 
-                    int listSize = valList.Count;
                     for (int a = 0; a < 6; a++)
                     {
                         if (a % 2 == 0)
@@ -1686,10 +1672,6 @@ namespace TranspositionAnalyser
             for (int i = 0; i < length; i++)
             {
                 src[i] = i + 1;
-            }
-            if (src == null)
-            {
-                return null;
             }
 
             int[] tmp = new int[src.Length];
