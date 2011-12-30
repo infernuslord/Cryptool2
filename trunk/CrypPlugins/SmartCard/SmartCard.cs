@@ -153,7 +153,7 @@ namespace SmartCard
 
 
       // just virtual reader ??  -> response = 0x9000
-        if (settings.Collection[settings.CardReader] == SmartCardSettings.VirtualReader)
+        if (settings.Collection[settings.CardReader] == typeof(SmartCard).GetPluginStringResource(SmartCardSettings.VirtualReader))
         {
             byte[] bResponse = new byte[2];
             bResponse[0] = 0x64;
