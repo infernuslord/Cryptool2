@@ -186,6 +186,17 @@ namespace TextOutput
                 byte[] byteArray = ConvertStreamToByteArray((ICryptoolStream)value);
                 fillValue = BitConverter.ToString(byteArray).Replace("-", " ");
             }
+            else if (value is Array)
+            {
+                Array array = (Array)value;
+                StringBuilder sb = new StringBuilder();
+
+                foreach (object obj in array)
+                {
+                    sb.AppendLine(obj == null ? "null" : obj.ToString());
+                }
+                fillValue = sb.ToString();
+            }
             else
             {
                 fillValue = value.ToString();
