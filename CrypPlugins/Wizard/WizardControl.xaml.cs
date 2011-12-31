@@ -1199,7 +1199,7 @@ namespace Wizard
         //finds elements according to the current language
         private IEnumerable<XElement> FindElementsInElement(XElement element, string xname)
         {
-            CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
+            CultureInfo currentLang = CultureInfo.CurrentUICulture;
 
             IEnumerable<XElement> allElements = element.Elements(xname);
             IEnumerable<XElement> foundElements = null;
