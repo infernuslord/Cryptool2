@@ -186,8 +186,7 @@
   <data name="Could_not_recover_key" xml:space="preserve">
     <value>Could not recover key.
 Maybe you need more packets for a
-successful attack.
-</value>
+successful attack.</value>
   </data>
   <data name="FMS_more_packets" xml:space="preserve">
     <value>For a 104 bit key and a FMS attack

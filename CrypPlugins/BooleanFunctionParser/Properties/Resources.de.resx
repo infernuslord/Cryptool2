@@ -172,7 +172,7 @@
     <value>Daten:</value>
   </data>
   <data name="LabelMemoryBit" xml:space="preserve">
-    <value> Speicher-Bit: 0</value>
+    <value>Speicher-Bit: 0</value>
   </data>
   <data name="LabelSecretKey" xml:space="preserve">
     <value>Geheimer Schlüssel:</value>

@@ -223,8 +223,7 @@
     <value>shifted value</value>
   </data>
   <data name="Shift_constant" xml:space="preserve">
-    <value>Shift constant
-</value>
+    <value>Shift constant</value>
   </data>
   <data name="Since_we_read_only" xml:space="preserve">
     <value>Since we read only</value>
@@ -305,11 +304,7 @@
     <value>The variables H1 - H4 are our accumulator variables. While we perform the hash, we will change them after each execution of the compression function. When we are done, they contain the final MD5 hash value.</value>
   </data>
   <data name="Unsigned_integer_addition_discarding_carry_bit" xml:space="preserve">
-    <value>Unsigned integer addition discarding carry bit
-
-
-
-</value>
+    <value>Unsigned integer addition discarding carry bit</value>
   </data>
   <data name="We_also_split_our_512_bit_data_block_into_16_" xml:space="preserve">
     <value>We also split our 512 bit data block into 16 little-endian integers, each 32 bit:</value>

@@ -157,19 +157,19 @@
     <value>Set clock to...</value>
   </data>
   <data name="SetClockToTrueTooltip" xml:space="preserve">
-    <value> true / false </value>
+    <value>true / false</value>
   </data>
   <data name="SetClockToTrueTPCaption" xml:space="preserve">
     <value>Set clock output to</value>
   </data>
   <data name="SetClockToTrueTPTooltip" xml:space="preserve">
-    <value> true / false </value>
+    <value>true / false</value>
   </data>
   <data name="UseEventCaption" xml:space="preserve">
     <value>Use input event instead of clock</value>
   </data>
   <data name="UseEventTooltip" xml:space="preserve">
-    <value> yes / no </value>
+    <value>yes / no</value>
   </data>
   <data name="SetClockToTrueList1" xml:space="preserve">
     <value>false</value>

@@ -123,9 +123,6 @@
   <data name="AssocStringToolTip" xml:space="preserve">
     <value>Festlegung der Abbildung der hexdezimalen Zahlen größer als A auf Zahlen zwischen 0 - 9.</value>
   </data>
-  <data name="DescriptionURL" xml:space="preserve">
-    <value>Decimalization/DetailedDescription/doc.xml</value>
-  </data>
   <data name="IBMACaption" xml:space="preserve">
     <value>A=</value>
   </data>

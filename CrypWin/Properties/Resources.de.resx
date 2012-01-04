@@ -178,12 +178,6 @@
   <data name="Symmetric" xml:space="preserve">
     <value>Symmetrisch</value>
   </data>
-  <data name="Check_Sum_Hash_Hash_Functions" xml:space="preserve">
-    <value>Prüfsummen</value>
-  </data>
-  <data name="Cryptographic_Hash_Functions" xml:space="preserve">
-    <value>Kryptographische Hash-Funktionen</value>
-  </data>
   <data name="Added_plugin___0__" xml:space="preserve">
     <value>Plugin "{0}" hinzugefügt</value>
   </data>
@@ -264,9 +258,6 @@
   </data>
   <data name="File__0__doesn_t_exist_" xml:space="preserve">
     <value>Datei {0} existiert nicht!</value>
-  </data>
-  <data name="CrypTool_2_0_Settings" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="Pause" xml:space="preserve">
     <value>Pause</value>
@@ -384,9 +375,6 @@
   </data>
   <data name="_0_Messages_" xml:space="preserve">
     <value>0 Nachrichten</value>
-  </data>
-  <data name="Downloading_update_" xml:space="preserve">
-    <value>Lade Update...</value>
   </data>
   <data name="Exit_CrypTool_" xml:space="preserve">
     <value>Beende CrypTool</value>
@@ -786,5 +774,11 @@
   </data>
   <data name="HelpHome" xml:space="preserve">
     <value>Startseite</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value>Boolean</value>
+  </data>
+  <data name="CrypTutorial" xml:space="preserve">
+    <value>CrypTutorial</value>
   </data>
 </root>

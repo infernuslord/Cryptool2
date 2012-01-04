@@ -313,7 +313,7 @@
             </StatusBarItem>
             <StatusBarItem VerticalAlignment="Top" Height="25" Name="statusBarItem2" HorizontalAlignment="Right">
                 <StatusBarItem.Content>
-                    <ProgressBar Width="150" Name="updateDownloadBar" Height="12" ToolTip="{Loc Downloading_update_}" Margin="1" Visibility="Hidden"/>
+                    <ProgressBar Width="150" Name="updateDownloadBar" Height="12" ToolTip="{Loc Downloading_update___}" Margin="1" Visibility="Hidden"/>
                 </StatusBarItem.Content>
             </StatusBarItem>
         </StatusBar>

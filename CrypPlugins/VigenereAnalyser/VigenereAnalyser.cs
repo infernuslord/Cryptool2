@@ -16,7 +16,7 @@ namespace Cryptool.VigenereAnalyser
 {
     [Author("Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources",
-    "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+    "PluginCaption", "PluginTooltip", "",
     "VigenereAnalyser/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class VigenereAnalyser : ICrypComponent

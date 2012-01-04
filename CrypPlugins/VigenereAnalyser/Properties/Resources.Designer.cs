@@ -268,7 +268,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Array cointains keylengths as proposed by the Kasiski Test. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Array contains keylengths as proposed by the Kasiski Test. ähnelt.
         /// </summary>
         internal static string KasiskiInputTooltip {
             get {
@@ -322,16 +322,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string PluginDescriptionURL {
-            get {
-                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Analyses a plain text encrypted using the Vigenere cipher. Output is the keyword of the Vigenere cipher ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Analyses a cipher text encrypted using the Vigenère cipher. Output is the keyword of the Vigènere cipher ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
@@ -340,7 +331,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text Input. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text Input ähnelt.
         /// </summary>
         internal static string StringInputCaption {
             get {
@@ -349,7 +340,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cipher text encrypted with the Vigenere cipher. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cipher text encrypted with the Vigenère cipher. ähnelt.
         /// </summary>
         internal static string StringInputTooltip {
             get {
@@ -367,7 +358,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  Keyword of the cipher which was used to encrypt the input text.  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keyword of the cipher which was used to encrypt the input text.  ähnelt.
         /// </summary>
         internal static string StringOutputTooltip {
             get {

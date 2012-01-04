@@ -35,7 +35,7 @@ using BooleanOperators;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Julian Weyers", "julian.weyers@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBI_Caption", "PluginBI_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBI_Caption", "PluginBI_Tooltip", "BooleanOperators/DetailedDescription/doc.xml", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanInput : ICrypComponent
     {

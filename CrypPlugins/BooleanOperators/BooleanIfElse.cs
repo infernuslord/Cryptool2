@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBIE_Caption", "PluginBIE_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/ifelse.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBIE_Caption", "PluginBIE_Tooltip", "BooleanOperators/DetailedDescription/doc.xml", "BooleanOperators/icons/ifelse.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanIfElse : ICrypComponent
     {

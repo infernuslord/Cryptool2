@@ -139,7 +139,7 @@
     <value>Bigraph Statistic from Playfair Analysis Statistic Plugin</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text output</value>
+    <value>Ausgabetext</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
     <value>The output string after playfair analysis</value>

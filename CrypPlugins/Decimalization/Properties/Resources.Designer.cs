@@ -394,15 +394,6 @@ namespace Decimalization.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Decimalization/DetailedDescription/doc.xml ähnelt.
-        /// </summary>
-        internal static string PluginDescriptionURL {
-            get {
-                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Convert Binary Numbers to Decimals ähnelt.
         /// </summary>
         internal static string PluginToolTip {

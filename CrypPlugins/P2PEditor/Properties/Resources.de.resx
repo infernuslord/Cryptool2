@@ -538,8 +538,7 @@ Grund: Benutzername oder E-Mail-Adresse wurden abgelehnt.</value>
   <data name="Please_enter_the_password_reset_verification_code" xml:space="preserve">
     <value>Bitte geben Sie den Bestätigungscode ein, den Sie per E-Mail erhalten haben, um das Passwort zurück zu setzen.
 Wählen Sie ein neues Passwort und bestätigen Sie dieses. Sie erhalten Ihren neuen Account sofort,
-nachdem Sie das Passwort zurückgesetzt haben.
-</value>
+nachdem Sie das Passwort zurückgesetzt haben.</value>
   </data>
   <data name="Reset_password_" xml:space="preserve">
     <value>Passwort zurücksetzen...</value>
