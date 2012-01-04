@@ -220,7 +220,7 @@
     <value>Aho-Corasick</value>
   </data>
   <data name="IgnoreDiacriticsCaption" xml:space="preserve">
-    <value>Diakritische Zeichen ignorieren </value>
+    <value>Diakritische Zeichen ignorieren</value>
   </data>
   <data name="IgnoreDiacriticsTooltip" xml:space="preserve">
     <value>Akzente, Häkchen und Zirkumflexe ignorieren</value>

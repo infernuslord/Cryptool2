@@ -388,7 +388,7 @@
     <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignorieren (unverändert lassen)</value>
+    <value>Ignorieren (nicht ändern)</value>
   </data>
   <data name="UnknownSymbolHandlingList2" xml:space="preserve">
     <value>Entfernen</value>

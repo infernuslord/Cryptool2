@@ -184,9 +184,7 @@
     <value>PTW-Angriff läuft...</value>
   </data>
   <data name="Could_not_recover_key" xml:space="preserve">
-    <value>Schlüssel nicht gefunden.
-
-</value>
+    <value>Schlüssel nicht gefunden.</value>
   </data>
   <data name="FMS_more_packets" xml:space="preserve">
     <value>Für einen 104-Bit-Schlüssel und einen FMS-Angriff brauchen

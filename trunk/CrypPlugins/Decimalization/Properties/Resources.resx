@@ -228,9 +228,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Decimalization</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Decimalization/DetailedDescription/doc.xml</value>
-  </data>
   <data name="PluginToolTip" xml:space="preserve">
     <value>Convert Binary Numbers to Decimals</value>
   </data>

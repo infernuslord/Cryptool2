@@ -118,13 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Purpel</value>
+    <value>Purple</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Purpel</value>
-  </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
+    <value>Purple</value>
   </data>
   <data name="InputNumberCaption" xml:space="preserve">
     <value>Text input</value>
@@ -137,5 +134,98 @@
   </data>
   <data name="OutputTooltip" xml:space="preserve">
     <value>True if input is a prime number, otherwise false</value>
+  </data>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="DecryptCaption" xml:space="preserve">
+    <value>Decryption</value>
+  </data>
+  <data name="EncryptCaption" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="MotionCaption" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="MotionTooltip" xml:space="preserve">
+    <value>Order of the 20ies stepping switches from 1 to 3 (1=slow,2=medium,3=fast)</value>
+  </data>
+  <data name="PlugBoardCaption" xml:space="preserve">
+    <value>Plugboard</value>
+  </data>
+  <data name="PositionCaption" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="PositionSixesCaption" xml:space="preserve">
+    <value>Sixes stepping switch</value>
+  </data>
+  <data name="PositionTwentiesCaption1" xml:space="preserve">
+    <value>Twenties stepping switch #1</value>
+  </data>
+  <data name="PositionTwentiesCaption2" xml:space="preserve">
+    <value>Twenties stepping switch #2</value>
+  </data>
+  <data name="PositionTwentiesCaption3" xml:space="preserve">
+    <value>Twenties stepping switch #3</value>
+  </data>
+  <data name="SixesCaption" xml:space="preserve">
+    <value>Sixes</value>
+  </data>
+  <data name="TwentiesCaption" xml:space="preserve">
+    <value>Twenties</value>
+  </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Case handling</value>
+  </data>
+  <data name="CaseHandlingList1" xml:space="preserve">
+    <value>Preserve case</value>
+  </data>
+  <data name="CaseHandlingList2" xml:space="preserve">
+    <value>Convert to upper</value>
+  </data>
+  <data name="CaseHandlingList3" xml:space="preserve">
+    <value>Convert to lower</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>What should be done with upper and lower case letters?</value>
+  </data>
+  <data name="TextOptionsGroup" xml:space="preserve">
+    <value>Text options</value>
+  </data>
+  <data name="TextTooltip" xml:space="preserve">
+    <value>Input Text</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Unknown symbol handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with 'X'</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Select the algorithm action</value>
+  </data>
+  <data name="OutputStringCaption" xml:space="preserve">
+    <value>Text output</value>
+  </data>
+  <data name="OutputStringTooltip" xml:space="preserve">
+    <value>The string after processing with the Purple machine</value>
+  </data>
+  <data name="PlugBoardTooltip" xml:space="preserve">
+    <value>Plugboard</value>
+  </data>
+  <data name="StartwertTooltip" xml:space="preserve">
+    <value>Starting value</value>
+  </data>
+  <data name="TextCaption" xml:space="preserve">
+    <value>Input Text</value>
   </data>
 </root>

@@ -145,7 +145,7 @@
     <value>Keylength is either the most common factor, or a multiple of it.</value>
   </data>
   <data name="CaseSensitivityCaption" xml:space="preserve">
-    <value>Case Sensitivity </value>
+    <value>Case Sensitivity</value>
   </data>
   <data name="CaseSensitivityTooltip" xml:space="preserve">
     <value>Is a==A? Please pay attention to the alphabet used in the given ciphertext as well as the 'Case Sensitivity' of the applied Vigenère cipher.</value>

@@ -118,13 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Vigenere Analyser</value>
-  </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
+    <value>Vigenère Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analyses a plain text encrypted using the Vigenere cipher. Output is the keyword of the Vigenere cipher</value>
+    <value>Analyses a cipher text encrypted using the Vigenère cipher. Output is the keyword of the Vigènere cipher</value>
   </data>
   <data name="FriedmanInputCaption" xml:space="preserve">
     <value>Double precission floating point value.</value>
@@ -133,16 +130,16 @@
     <value>Keylength as proposed by the Friedman Test.</value>
   </data>
   <data name="StringInputCaption" xml:space="preserve">
-    <value>Text Input.</value>
+    <value>Text Input</value>
   </data>
   <data name="StringInputTooltip" xml:space="preserve">
-    <value>Cipher text encrypted with the Vigenere cipher.</value>
+    <value>Cipher text encrypted with the Vigenère cipher.</value>
   </data>
   <data name="KasiskiInputCaption" xml:space="preserve">
     <value>Integer Array.</value>
   </data>
   <data name="KasiskiInputTooltip" xml:space="preserve">
-    <value>The Array cointains keylengths as proposed by the Kasiski Test.</value>
+    <value>The Array contains keylengths as proposed by the Kasiski Test.</value>
   </data>
   <data name="KeywordOutputCaption" xml:space="preserve">
     <value>Integer Array.</value>
@@ -166,7 +163,7 @@
     <value>Text output</value>
   </data>
   <data name="StringOutputTooltip" xml:space="preserve">
-    <value> Keyword of the cipher which was used to encrypt the input text. </value>
+    <value>Keyword of the cipher which was used to encrypt the input text. </value>
   </data>
   <data name="ColumnAnalysisCaption" xml:space="preserve">
     <value>Method of column analysis</value>

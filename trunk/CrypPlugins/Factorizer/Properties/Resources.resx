@@ -133,7 +133,7 @@
     <value>Prime factor</value>
   </data>
   <data name="FactorTooltip" xml:space="preserve">
-    <value>A string that represents a factor that is a prime. </value>
+    <value>A string that represents a factor that is a prime.</value>
   </data>
   <data name="RemainderCaption" xml:space="preserve">
     <value>Remainder</value>

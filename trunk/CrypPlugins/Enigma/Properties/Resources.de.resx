@@ -256,8 +256,7 @@
     <value>Enigma-Modell</value>
   </data>
   <data name="ModelTooltip" xml:space="preserve">
-    <value>
-Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche Rotoren mit unterschiedlicher innerer Verdrahtung.</value>
+    <value>Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche Rotoren mit unterschiedlicher innerer Verdrahtung.</value>
   </data>
   <data name="ModelTPCaption" xml:space="preserve">
     <value>Enigma-Modell</value>
@@ -536,7 +535,7 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
     <value>G ("Abwehr-Enigma")</value>
   </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignorieren (unverändert lassen)</value>
+    <value>Ignorieren (nicht ändern)</value>
   </data>
   <data name="UnknownSymbolHandlingList2" xml:space="preserve">
     <value>Entfernen</value>
@@ -557,7 +556,7 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
     <value>Ringstellung</value>
   </data>
   <data name="TextOptionsGroup" xml:space="preserve">
-    <value>Textoptionen</value>
+    <value>Text-Optionen</value>
   </data>
   <data name="UsedRotorsGroup" xml:space="preserve">
     <value>Verwendete Rotoren</value>
@@ -728,25 +727,25 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
     <value>III (D)</value>
   </data>
   <data name="RotorA15" xml:space="preserve">
-    <value>I -- seit  7. Feb. 1941</value>
+    <value>I -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA16" xml:space="preserve">
-    <value>II -- seit  7. Feb. 1941</value>
+    <value>II -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA17" xml:space="preserve">
-    <value>III -- seit  7. Feb. 1941</value>
+    <value>III -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA18" xml:space="preserve">
-    <value>I (K) -- seit  Feb. 1939</value>
+    <value>I (K) -- seit Feb. 1939</value>
   </data>
   <data name="RotorA19" xml:space="preserve">
-    <value>II (K) -- seit  Feb. 1939</value>
+    <value>II (K) -- seit Feb. 1939</value>
   </data>
   <data name="RotorA2" xml:space="preserve">
-    <value>II (seit  1930)</value>
+    <value>II (seit 1930)</value>
   </data>
   <data name="RotorA20" xml:space="preserve">
-    <value>III (K) -- seit  Feb. 1939</value>
+    <value>III (K) -- seit Feb. 1939</value>
   </data>
   <data name="RotorA21" xml:space="preserve">
     <value>I (G)</value>
@@ -758,33 +757,33 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
     <value>III (G)</value>
   </data>
   <data name="RotorA3" xml:space="preserve">
-    <value>III (seit  1930)</value>
+    <value>III (seit 1930)</value>
   </data>
   <data name="RotorA4" xml:space="preserve">
-    <value>IV (seit  1938, M3 "Heer")</value>
+    <value>IV (seit 1938, M3 "Heer")</value>
   </data>
   <data name="RotorA5" xml:space="preserve">
-    <value>V (seit  1938, M3 "Heer")</value>
+    <value>V (seit 1938, M3 "Heer")</value>
   </data>
   <data name="RotorA6" xml:space="preserve">
-    <value>VI (seit  1939, M3/M4)</value>
+    <value>VI (seit 1939, M3/M4)</value>
   </data>
   <data name="RotorA7" xml:space="preserve">
-    <value>VII (seit  1939, M3/M4)</value>
+    <value>VII (seit 1939, M3/M4)</value>
   </data>
   <data name="RotorA8" xml:space="preserve">
-    <value>VIII (seit  1939, M3/M4)</value>
+    <value>VIII (seit 1939, M3/M4)</value>
   </data>
   <data name="RotorA9" xml:space="preserve">
-    <value>I (C) -- seit  1924</value>
+    <value>I (C) -- seit 1924</value>
   </data>
   <data name="RotorB1" xml:space="preserve">
     <value>Für dieses Modell nicht vorhanden.</value>
   </data>
   <data name="RotorB2" xml:space="preserve">
-    <value>Beta -- seit  1. Feb. 1942</value>
+    <value>Beta -- seit 1. Feb. 1942</value>
   </data>
   <data name="RotorB3" xml:space="preserve">
-    <value>Gamma -- seit  1. Juli 1943</value>
+    <value>Gamma -- seit 1. Juli 1943</value>
   </data>
 </root>

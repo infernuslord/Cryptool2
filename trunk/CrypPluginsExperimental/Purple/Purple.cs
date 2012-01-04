@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.Purple
 {
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Purple.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL","Purple/Images/Purple.PNG")]
+    [PluginInfo("Purple.Properties.Resources", false, "PluginCaption", "PluginTooltip", "","Purple/Images/Purple.PNG")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Purple : ICrypComponent
     {

@@ -181,7 +181,7 @@
     <value>Unknown symbol handling</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>What should be done with ecountered characters at the input which are not in the alphabet?</value>
+    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère</value>

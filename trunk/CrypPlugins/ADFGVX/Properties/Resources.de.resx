@@ -139,7 +139,7 @@
     <value>Chiffre-Variante</value>
   </data>
   <data name="CipherVariantTooltip" xml:space="preserve">
-    <value>ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9).</value>
+    <value>ADFGX verwendet ein Alphabet mit 25 Buchstaben (A-Z ohne J). ADFGVX verwendet ein Alphabet mit 36 Buchstaben (A-Z und 0-9).</value>
   </data>
   <data name="CleanTranspositionPassCaption" xml:space="preserve">
     <value>Transposition Spaltenreihenfolge</value>
@@ -148,7 +148,7 @@
     <value>Reihenfolge der Spalten in der Transpositionsstufe</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabetext</value>
+    <value>Input Text</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
     <value>Eingabetext, der ver- bzw. entschlüsselt werden soll</value>

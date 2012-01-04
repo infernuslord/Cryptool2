@@ -126,7 +126,7 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Capture data from a network device (requires WinPcap library)</value>
   </data>
-    <data name="DataStreamCaption" xml:space="preserve">
+  <data name="DataStreamCaption" xml:space="preserve">
     <value>Captured stream</value>
   </data>
   <data name="DataStreamTooltip" xml:space="preserve">
@@ -138,7 +138,7 @@
   <data name="DataPacketTooltip" xml:space="preserve">
     <value>Data packets that have been captured from selected network device</value>
   </data>
-    <data name="DeviceCaption" xml:space="preserve">
+  <data name="DeviceCaption" xml:space="preserve">
     <value>Device</value>
   </data>
   <data name="DeviceTooltip" xml:space="preserve">

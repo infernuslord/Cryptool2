@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Purple</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputNumberCaption" xml:space="preserve">
     <value>Eingabe der Zahl</value>
   </data>
@@ -196,13 +193,13 @@
     <value>Text-Optionen</value>
   </data>
   <data name="TextTooltip" xml:space="preserve">
-    <value>Input Text</value>
+    <value>Eingabetext</value>
   </data>
   <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
     <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignorieren (unverändert lassen)</value>
+    <value>Ignorieren (nicht ändern)</value>
   </data>
   <data name="UnknownSymbolHandlingList2" xml:space="preserve">
     <value>Entfernen</value>
@@ -212,5 +209,23 @@
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
+  </data>
+  <data name="OutputStringCaption" xml:space="preserve">
+    <value>Ausgabetext</value>
+  </data>
+  <data name="OutputStringTooltip" xml:space="preserve">
+    <value>Der mit der Purple ver-/entschlüsselte Text.</value>
+  </data>
+  <data name="PlugBoardTooltip" xml:space="preserve">
+    <value>Steckerbrett</value>
+  </data>
+  <data name="StartwertTooltip" xml:space="preserve">
+    <value>Startwert</value>
+  </data>
+  <data name="TextCaption" xml:space="preserve">
+    <value>Eingabetext</value>
   </data>
 </root>
