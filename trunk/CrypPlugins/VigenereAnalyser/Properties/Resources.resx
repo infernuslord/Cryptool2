@@ -121,10 +121,10 @@
     <value>Vigenère Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analyses a cipher text encrypted using the Vigenère cipher. Output is the keyword of the Vigènere cipher</value>
+    <value>Analyses a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
   </data>
   <data name="FriedmanInputCaption" xml:space="preserve">
-    <value>Double precission floating point value.</value>
+    <value>Double precision floating point value.</value>
   </data>
   <data name="FriedmanInputTooltip" xml:space="preserve">
     <value>Keylength as proposed by the Friedman Test.</value>
@@ -133,7 +133,7 @@
     <value>Text Input</value>
   </data>
   <data name="StringInputTooltip" xml:space="preserve">
-    <value>Cipher text encrypted with the Vigenère cipher.</value>
+    <value>Ciphertext encrypted with the Vigenère cipher.</value>
   </data>
   <data name="KasiskiInputCaption" xml:space="preserve">
     <value>Integer Array.</value>
@@ -157,7 +157,7 @@
     <value>String</value>
   </data>
   <data name="FrequencyOutputTooltip" xml:space="preserve">
-    <value>The cipher text divided into columns. Number of columns (strings) equals keylength.</value>
+    <value>The ciphertext divided into columns. Number of columns (strings) equals keylength.</value>
   </data>
   <data name="StringOutputCaption" xml:space="preserve">
     <value>Text output</value>

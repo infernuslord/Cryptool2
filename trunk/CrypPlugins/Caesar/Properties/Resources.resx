@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Classic alphabet shift substitution cipher</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Caesar/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
   </data>
@@ -206,5 +203,24 @@
   </data>
   <data name="ShiftStringTooltip" xml:space="preserve">
     <value>This shows how a single character will be mapped with the current alphabet and shift key.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="OutputDataCaption" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="OutputDataTooltip" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="ShiftCharCaption" xml:space="preserve">
+    <value>Shift key (single letter)</value>
+  </data>
+  <data name="ShiftCharTooltip" xml:space="preserve">
+    <value>Enter a single letter as the key.</value>
+  </data>
+  <data name="AlphabetCaseList1" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="AlphabetCaseList2" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
 </root>

@@ -123,15 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet-Verschiebung</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Caesar/DetailedDescription/Description.xaml</value>
-  </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedaten</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Die mit dem Caesar-Verfahren ver-/entschlüsselten Ausgabedaten</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>
   </data>
@@ -180,12 +171,6 @@
   <data name="AlphabetSymbolsTooltip" xml:space="preserve">
     <value>Verwendetes Eingabe-Alphabet</value>
   </data>
-  <data name="ShiftCharCaption" xml:space="preserve">
-    <value>Schlüssel als einzelner Buchstabe</value>
-  </data>
-  <data name="ShiftCharTooltip" xml:space="preserve">
-    <value>Geben Sie den Schlüssel als ein einzelnes Zeichen ein. Dieses wird in die Zahl übersetzt, die der Verschiebung des Alphabets entspricht (siehe 'Schlüssel als Zahl').</value>
-  </data>
   <data name="ShiftValueCaption" xml:space="preserve">
     <value>Schlüssel als Zahl</value>
   </data>
@@ -204,12 +189,6 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Entschlüsselung</value>
   </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Groß-/Kleinschreibung nicht beachten</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Groß-/Kleinschreibung beachten</value>
-  </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
     <value>Ignorieren (nicht ändern)</value>
   </data>
@@ -218,5 +197,11 @@
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
     <value>Ersetzen durch '?'</value>
+  </data>
+  <data name="ShiftStringCaption" xml:space="preserve">
+    <value>Zeichenzuordnung</value>
+  </data>
+  <data name="ShiftStringTooltip" xml:space="preserve">
+    <value>Zeigt die Zeichenzuordnung für ein einzelnes Zeichen des Eingabe-Alphabetes für die angegebene Verschiebung.</value>
   </data>
 </root>

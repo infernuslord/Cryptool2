@@ -145,7 +145,7 @@
     <value>Output data encoding</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the encoding of the output data (if input format is 'Plain text').</value>
+    <value>Choose the encoding of the output data (if input format is 'Text').</value>
   </data>
   <data name="EncodingSettingList1" xml:space="preserve">
     <value>UTF-8</value>
@@ -172,7 +172,7 @@
     <value>Input format</value>
   </data>
   <data name="PresentationFormatSettingList1" xml:space="preserve">
-    <value>Plain text</value>
+    <value>Text</value>
   </data>
   <data name="PresentationFormatSettingList3" xml:space="preserve">
     <value>Octal</value>

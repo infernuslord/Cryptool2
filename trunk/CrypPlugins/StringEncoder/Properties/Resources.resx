@@ -172,7 +172,7 @@
     <value>Presentation format</value>
   </data>
   <data name="PresentationFormatSettingList1" xml:space="preserve">
-    <value>Plain text</value>
+    <value>Text</value>
   </data>
   <data name="PresentationFormatSettingList3" xml:space="preserve">
     <value>Octal</value>

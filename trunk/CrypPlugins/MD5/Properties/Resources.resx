@@ -310,7 +310,7 @@
     <value>We also split our 512 bit data block into 16 little-endian integers, each 32 bit:</value>
   </data>
   <data name="We_can_now_begin_the_padding_process_" xml:space="preserve">
-    <value>We can now begin the padding process, which has two uses:
+    <value>We can now begin the padding process, which has two purposes:
 
 • It gives us the opportunity to increase the length of our data until we again have blocks with length of a multiple of 64 bytes.
 
