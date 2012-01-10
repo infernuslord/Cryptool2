@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Cube Attack</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>CubeAttack/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="OutputSuperpolyCaption" xml:space="preserve">
     <value>Output of superpolys</value>
   </data>
