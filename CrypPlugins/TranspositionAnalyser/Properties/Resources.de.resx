@@ -178,7 +178,7 @@
     <value>Maximale Schlüssellänge</value>
   </data>
   <data name="CribSearchKeylengthTooltip" xml:space="preserve">
-    <value>Geben Sie die maximale Schlüssellänge für die Crib-Analyse ein.</value>
+    <value>Bitte die maximale Schlüssellänge für die Crib-Analyse eingeben.</value>
   </data>
   <data name="IterationsCaption" xml:space="preserve">
     <value>Iterationen</value>

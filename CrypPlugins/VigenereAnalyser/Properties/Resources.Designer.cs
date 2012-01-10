@@ -196,7 +196,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The cipher text divided into columns. Number of columns (strings) equals keylength. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The ciphertext divided into columns. Number of columns (strings) equals keylength. ähnelt.
         /// </summary>
         internal static string FrequencyOutputTooltip {
             get {
@@ -223,7 +223,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Double precission floating point value. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Double precision floating point value. ähnelt.
         /// </summary>
         internal static string FriedmanInputCaption {
             get {
@@ -313,7 +313,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vigenere Analyser ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vigenère Analyser ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -322,7 +322,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Analyses a cipher text encrypted using the Vigenère cipher. Output is the keyword of the Vigènere cipher ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Analyses a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
@@ -340,7 +340,7 @@ namespace Cryptool.VigenereAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cipher text encrypted with the Vigenère cipher. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ciphertext encrypted with the Vigenère cipher. ähnelt.
         /// </summary>
         internal static string StringInputTooltip {
             get {

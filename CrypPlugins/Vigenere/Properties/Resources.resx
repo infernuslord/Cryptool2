@@ -163,7 +163,7 @@
     <value>Shift key (multiple letters)</value>
   </data>
   <data name="ShiftCharTooltip" xml:space="preserve">
-    <value>Enter multiple letters as the key</value>
+    <value>Enter multiple letters as the key.</value>
   </data>
   <data name="ShiftValueCaption" xml:space="preserve">
     <value>String</value>
