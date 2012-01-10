@@ -4,13 +4,83 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The cube attack is a type of algebraic attack in order to find out the cryptosystem's secret key. 
+    It was published by Itai Dinur and Adi Shamir in September 2008.
+    <newline/><newline/>
+    Cube attacks can be applied to any block cipher, stream cipher or MAC (message authentication code) which is provided as a black box
+    in which at least one output bit can be represented by a low degree multivariate polynomial over GF(2) in the key and plaintext bits.
+    <newline/><newline/>
+    It works by summing a cryptosystem's output bit value for all possible values of a subset of public input bits,
+    chosen such that the sum results in derived polynomials on the secret bits. The goal is to get a set of linearly independent polynomials
+    on the secret key bits and to solve this system of equations to discover the secret key.
+    <newline/><newline/>
+    The cube attack consists of two phases, a preprocessing and an online phase.
+    In the preprocessing phase, the attacker has the possibility to set the values in the public bits as well as in the secret bits and
+    to query the black box in order to evaluate the corresponding output bit.
+    The aim of the preprocessing phase is to determine subsets of public bits that correspond to linear polynomials on the secret bits and
+    to reconstruct the algebraic structure of those polynomials. The preprocessing phase is computed only once per each cryptosystem and
+    can be used in all subsequent online phases on this appropriate cryptosystem. In other words, once enough linearly independent
+    polynomials on the secret bits have been found, they can be stored and used in all subsequent online phases to discover the secret key
+    bits of the cryptosystem. The preprocessing phase stops if n linearly independent polynomials have been found, whereby n is the number
+    of secret input bits on the cryptosystem under attack.
+    <newline/><newline/>
+    During the online phase of the attack, the secret bits are fixed and unknown to the attacker and may is only allowed to set the 
+    public bits to any value and to evaluate the output bit on this combined input. The aim of the online phase is to compute the values of 
+    the polynomials found in the preprocessing phase. The polynomials with their corresponding values form a system of linear equations on 
+    the secret bits. If we have found n linearly independent polynomials equations in the preprocessing phase, then we can solve the system 
+    of equations to recover the values of the secret bits.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
   </introduction>
 
   <usage lang="en">
+    For the cube attack to work correctly we need to set it up accordingly through use of its options. The settings Panel for the plug-in
+    consists of the following options:
+    <newline/><newline/>
+    The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual Public Bit Input".
+    <newline/><newline/>
+    The settings "Public Bit Size" and "Secret Bit Size" are used to set the bit size of public and secret input bits of the cryptosystem
+    under attack.
+    <newline/><newline/>
+    The setting "Max Cube Size" is used to limit the size of the cube in the preprocessing phase of the attack. Any subset of public bits
+    of size k defines a k-dimensional Boolean cube of 2^k vectors in which we assign all the possible conbinations of 0/1 values to the
+    public variables. Therefore, we have to limit the size to avoid a number of computations that are infeasible in practise.
+    <newline/><newline/>
+    The "Constant Test" setting is used to set the number of constant tests for each polynomial. The test computes the value of the
+    polynomial for several different secret inputs and checks that the result is always the same. If it is, it must be constant.
+    <newline/><newline/>
+    The "Linearity Test" setting is used to set the number of linearity tests for each polynomial. The test always succeeds if the
+    polynomial is linear. However, if the polynomial is not linear, the test fails with high probability. The default value is fifty.
+    Setting the value higher increases the probability that the polynomial is truly linear on the secret bits.
+    <newline/><newline/>
+    The setting "Output Bit" chooses the target output bit of the cryptosystem under attack. A cube attack can be successful against a
+    single output bit, but in most cryptosystems we need more than just one output bit to find enough linearly independent superpolys to
+    cover all the secret
+    bits. The setting is changeable while excecuting a preprocessing phase to consider multiple output bit values.
+    <newline/><newline/>
+    The text box "Manual Public Bit Input" provides the manual input of values for the public bits. Possible inputs are '0' (set bit to
+    value 0), '1' (set bit to value 1) and '*' (sum over this bit value). Note, you have to set under "Action" the modus "Manual Public Bit
+    Input" to evaluate the polynomial under this public bit input.
+    <newline/><newline/>
+    The plug-in itself provides two text outputs. On the one hand the output of the linearly independent polynomials on the secret bits with
+    its corresponding cube indexes and output bit index and on the other hand a text output that provides the recovered key bits.
+    <newline/><newline/>
+    To see the plug-in in action just open either the "CubeAttackParser.cte" or "CubeAttackTrivium.cte" sample file, which is located in
+    the Cryptool2.0 ProjectSamples folder. "CubeAttackParser.cte" provides a cube attack on a simple polynomial which can be entered in
+    the BooleanFunctionParser's "QuickwatchPresentation" area. The setting "Output Bit Index" in the cube attack settings Panel can be
+    ignored in this particular case.
+    <newline/><newline/>
+    "CubeAttackTrivium.cte" provides a cube attack on the stream cipher Trivium with a reduced number of initialisation rounds.
+    Standard Trivium used 1152 initialisation rounds, our sample file attacks Trivium with 480 initialisation rounds.
+    You can also increase the number of initialisation rounds in the Trivium setting Panel, but a higher number of rounds leads to bigger
+    cubes which in turn leads to a higher amount of time. Trivium takes a 80-Bit key and 80-Bit IV as input, so the preprocessing phase
+    tries to find 80 linearly independent polynomials to discover the full key. We were able to find 68 linearly independent polynomials
+    during the preprocessing phase on the Trivium variant with 480 initialisation rounds.
+    <newline/><newline/>
+    For computing the values of the polynomials and according to that to discover the secret bit values just click on the "Stop" button,
+    select the "Online" phase and click on the "Start" button to begin with the online phase.
   </usage>
 
   <usage lang="de-DE">
@@ -23,5 +93,10 @@
   </presentation>
   
   <references>
+      <linkReference>
+        <link url="http://eprint.iacr.org/2008/385" lang="en" />
+        <caption lang="en">A more detailed description of the cube attack.</caption>
+      </linkReference>
   </references>
+  
 </documentation>

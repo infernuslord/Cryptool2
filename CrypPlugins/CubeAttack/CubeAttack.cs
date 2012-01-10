@@ -12,15 +12,8 @@ using Cryptool.PluginBase.IO;
 
 namespace Cryptool.CubeAttack
 {
-    [Author("David Oruba", 
-        "david.oruba@web.de", 
-        "Uni-Bochum", 
-        "http://www.ruhr-uni-bochum.de/")]
-    [PluginInfo("Cryptool.CubeAttack.Properties.Resources", 
-		  "PluginCaption",
-		  "PluginTooltip",
-		  "PluginDescriptionURL",
-        "CubeAttack/Images/ca_color.png")]
+    [Author("David Oruba", "david.oruba@web.de", "Uni-Bochum", "http://www.ruhr-uni-bochum.de/")]
+    [PluginInfo("Cryptool.CubeAttack.Properties.Resources", "PluginCaption", "PluginTooltip", "CubeAttack/DetailedDescription/doc.xml", "CubeAttack/Images/ca_color.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class CubeAttack : ICrypComponent
     {
