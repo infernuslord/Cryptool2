@@ -1152,13 +1152,12 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (SelectedConnector.Model.ConnectorType != null || b.Model.ConnectorType != null)
                             {
-                                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model);
+                                ConnectorModel input, output;
+                                input = SelectedConnector.Model.Outgoing == true ? b.Model : SelectedConnector.Model;
+                                output = SelectedConnector.Model.Outgoing == false ? b.Model : SelectedConnector.Model;
+                                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(output, input);
                                 if (lvl != ConversionLevel.Red && lvl != ConversionLevel.NA)
                                 {
-                                    ConnectorModel input, output;
-                                    input = SelectedConnector.Model.Outgoing == true ? b.Model : SelectedConnector.Model;
-                                    output = SelectedConnector.Model.Outgoing == false ? b.Model : SelectedConnector.Model;
-
                                     ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
                                         output,
                                         input,

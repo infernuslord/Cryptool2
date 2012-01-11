@@ -317,11 +317,15 @@ namespace WorkspaceManager.View.BinVisual
             }
 
             BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
+            ConnectorModel input, output;
+            input = selected.Model.Outgoing == true ? bin.Model : selected.Model;
+            output = selected.Model.Outgoing == false ? bin.Model : selected.Model;
+
             if (bin == selected)
                 bin.CVLevel = new ConversionLevelInformation() { Level = ConversionLevel.NA };
             else
             {
-                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(bin.Model, selected.Model);
+                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(output,input);
                 bin.CVLevel = new ConversionLevelInformation() { Level = lvl };
             }
 
