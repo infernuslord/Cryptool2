@@ -281,6 +281,11 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="WindowStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{Binding Path=ActiveComponent.BackgroundBrushColor}"></Setter>
+            <Setter Property="BorderBrush" Value="{Binding Path=ActiveComponent.BorderBrushColor}"></Setter>
+        </Style>
+
         <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
             <!--<Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsFullscreen}" Value="True">
@@ -319,16 +324,23 @@
                 <model:BinComponentState>Data</model:BinComponentState>
             </Button>
         </x:Array>
+
+        <x:Array Type="{x:Type ButtonBase}" x:Key="Operations">
+
+            <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler"></Button>
+
+            <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="CloseClickHandler">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </Button.Tag>
+            </Button>
+        </x:Array>
     </UserControl.Resources>
     <Grid Background="{StaticResource ResourceKey=ContentBackground}" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BinFullscreenVisual}}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         <Border CornerRadius="0,5,5,0" Background="#ccd8eb" BorderThickness="1.5" BorderBrush="#aaa" 
                 Grid.Column="0" Grid.RowSpan="2">
             <Border CornerRadius="0,5,5,0" Background="#98a1af" Margin="1.5">
@@ -340,43 +352,75 @@
                     <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ActionHandler"
                             HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1">
                     </Button>
-                    <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}"
-                              HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"></StackPanel>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+
                     <ListView Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
                               SelectedItem="{Binding Path=ActiveComponent, Mode=TwoWay}"
                               SelectionMode="Single" Width="230" Grid.Column="0"></ListView>
                 </Grid>
             </Border>
         </Border>
-        <Border Background="{StaticResource ResourceKey=BackgroundTitle}" Grid.Column="1" Grid.Row="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Grid.Column="2" Click="CloseClick">
-                    <Button.Tag>
-                        <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                    </Button.Tag>
-                </Button>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Image Source="{Binding Path=ActiveComponent.Icon.Source}" Margin="2.5" Grid.Column="0"></Image>
-                    <StackPanel Orientation="Vertical" Grid.Column="1">
-                        <TextBlock Text="{Binding Path=ActiveComponent.CustomName}" 
+
+        <Border CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="0" Grid.Column="1">
+            <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" 
+                        CornerRadius="2" BorderThickness="3">
+                <Grid>
+                    <!--##########Definitions##########-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <!--<RowDefinition Height="16"></RowDefinition>-->
+                    </Grid.RowDefinitions>
+                    <!--##########/Definitions##########-->
+
+                    <!--##########Window Titlebar##########-->
+                    <Rectangle Fill="{Binding ElementName=Window, Path=BorderBrush}" Height="32" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
+
+                    <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
+
+                        <Border Background="{Binding ElementName=Window, Path=BorderBrush}" Padding="0,0,7,0" CornerRadius="0,0,10,0" DockPanel.Dock="Left">
+                            <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Border>
+
+                        <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Height="32" Orientation="Horizontal"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <Grid Height="30" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Image Source="{Binding Path=ActiveComponent.Icon.Source}" Margin="2.5" Grid.Column="0"></Image>
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <TextBlock Text="{Binding Path=ActiveComponent.CustomName}" 
                                TextTrimming="WordEllipsis" Foreground="#555" 
-                               FontWeight="Bold" FontSize="14"></TextBlock>
-                        <TextBlock Text="{Binding Path=ActiveComponent.FunctionName}" 
+                               FontWeight="Bold" FontSize="12"></TextBlock>
+                                    <TextBlock Text="{Binding Path=ActiveComponent.FunctionName}" 
                                TextTrimming="WordEllipsis" Foreground="#555"></TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                    </DockPanel>
+                    <!--##########/Window Titlebar##########-->
+
+                    <!--##########Content##########-->
+                    <ContentPresenter Content="{Binding Path=ActivePresentation}" Grid.Column="1" Grid.Row="1"></ContentPresenter>
+                    <!--##########/Content##########-->
+                </Grid>
+            </Border>
         </Border>
-        <ContentPresenter Content="{Binding Path=ActivePresentation}" Grid.Column="1" Grid.Row="1"></ContentPresenter>
+        <!--##########/Window##########-->
+
     </Grid>
 </UserControl>
