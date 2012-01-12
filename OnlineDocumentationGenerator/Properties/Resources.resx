@@ -160,58 +160,100 @@
   <data name="TemplateEditorDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templateeditordocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-	<data name="References_description">
-		<value xml:space="preserve">Further references about this topic are listed below.</value>
-	</data>
-	<data name="Templates_description">
-		<value xml:space="preserve">The templates listed below are available for this component.</value>
-	</data>
-	<data name="Text_box">
-		<value xml:space="preserve">Text box</value>
-	</data>
-	<data name="Combo_box">
-		<value xml:space="preserve">Combo box</value>
-	</data>
-	<data name="Radio_button">
-		<value xml:space="preserve">Radio button</value>
-	</data>
-	<data name="Check_box">
-		<value xml:space="preserve">Check box</value>
-	</data>
-	<data name="Open_file_dialog">
-		<value xml:space="preserve">Open file dialog</value>
-	</data>
-	<data name="Save_file_dialog">
-		<value xml:space="preserve">Save file dialog</value>
-	</data>
-	<data name="Numeric_up_down">
-		<value xml:space="preserve">Numeric up/down</value>
-	</data>
-	<data name="Button">
-		<value xml:space="preserve">Button</value>
-	</data>
-	<data name="Slider">
-		<value xml:space="preserve">Slider</value>
-	</data>
-	<data name="Text_box__read_only_">
-		<value xml:space="preserve">Text box (read only)</value>
-	</data>
-	<data name="Dynamic_combo_box">
-		<value xml:space="preserve">Dynamic combo box</value>
-	</data>
-	<data name="Text_box__hidden_">
-		<value xml:space="preserve">Text box (hidden)</value>
-	</data>
-	<data name="Input_data">
-		<value xml:space="preserve">Input data</value>
-	</data>
-	<data name="Output_data">
-		<value xml:space="preserve">Output data</value>
-	</data>
-	<data name="Control_slave">
-		<value xml:space="preserve">Control slave</value>
-	</data>
-	<data name="Control_master">
-		<value xml:space="preserve">Control master</value>
-	</data>
+  <data name="References_description" xml:space="preserve">
+    <value>Further references about this topic are listed below.</value>
+  </data>
+  <data name="Templates_description" xml:space="preserve">
+    <value>The templates listed below are available for this component.</value>
+  </data>
+  <data name="Text_box" xml:space="preserve">
+    <value>Text box</value>
+  </data>
+  <data name="Combo_box" xml:space="preserve">
+    <value>Combo box</value>
+  </data>
+  <data name="Radio_button" xml:space="preserve">
+    <value>Radio button</value>
+  </data>
+  <data name="Check_box" xml:space="preserve">
+    <value>Check box</value>
+  </data>
+  <data name="Open_file_dialog" xml:space="preserve">
+    <value>Open file dialog</value>
+  </data>
+  <data name="Save_file_dialog" xml:space="preserve">
+    <value>Save file dialog</value>
+  </data>
+  <data name="Numeric_up_down" xml:space="preserve">
+    <value>Numeric up/down</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>Button</value>
+  </data>
+  <data name="Slider" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="Text_box__read_only_" xml:space="preserve">
+    <value>Text box (read only)</value>
+  </data>
+  <data name="Dynamic_combo_box" xml:space="preserve">
+    <value>Dynamic combo box</value>
+  </data>
+  <data name="Text_box__hidden_" xml:space="preserve">
+    <value>Text box (hidden)</value>
+  </data>
+  <data name="Input_data" xml:space="preserve">
+    <value>Input data</value>
+  </data>
+  <data name="Output_data" xml:space="preserve">
+    <value>Output data</value>
+  </data>
+  <data name="Control_slave" xml:space="preserve">
+    <value>Control slave</value>
+  </data>
+  <data name="Control_master" xml:space="preserve">
+    <value>Control master</value>
+  </data>
+  <data name="CiphersModernAsymmetric" xml:space="preserve">
+    <value>Modern asymmetric ciphers</value>
+  </data>
+  <data name="CiphersModernSymmetric" xml:space="preserve">
+    <value>Modern symmetric ciphers</value>
+  </data>
+  <data name="Classic_Ciphers" xml:space="preserve">
+    <value>Classic ciphers</value>
+  </data>
+  <data name="CryptanalysisGeneric" xml:space="preserve">
+    <value>Cryptanalysis generic</value>
+  </data>
+  <data name="CryptanalysisSpecific" xml:space="preserve">
+    <value>Cryptanalysis specific</value>
+  </data>
+  <data name="HashFunctions" xml:space="preserve">
+    <value>Hash functions</value>
+  </data>
+  <data name="Protocols" xml:space="preserve">
+    <value>Protocols</value>
+  </data>
+  <data name="Steganography" xml:space="preserve">
+    <value>Steganography</value>
+  </data>
+  <data name="ToolsBoolean" xml:space="preserve">
+    <value>Tools boolean</value>
+  </data>
+  <data name="ToolsDataflow" xml:space="preserve">
+    <value>Tools dataflow</value>
+  </data>
+  <data name="ToolsDataInputOutput" xml:space="preserve">
+    <value>Tools data input output</value>
+  </data>
+  <data name="ToolsMisc" xml:space="preserve">
+    <value>Tools misc</value>
+  </data>
+  <data name="ToolsP2P" xml:space="preserve">
+    <value>Tools Peer2Peer</value>
+  </data>
+  <data name="Unknown_Category" xml:space="preserve">
+    <value>Unknown category</value>
+  </data>
 </root>

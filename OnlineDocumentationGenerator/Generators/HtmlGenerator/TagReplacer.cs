@@ -15,6 +15,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex FindBeginningLanguageSwitchTagRegex = new Regex("<languageSwitch.*?lang=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEndingLanguageSwitchTagRegex = new Regex("</.*?languageSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindComponentListTagRegex = new Regex("<componentList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindComponentTreeTagRegex = new Regex("<componentTree.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEditorListTagRegex = new Regex("<editorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ReplaceDocItemTags(string html, LocalizedEntityDocumentationPage localizedDocumentationPage, ObjectConverter objectConverter)
@@ -124,9 +125,32 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return htmlBuilder.ToString();
         }
 
+        public static string ReplaceComponentTree(string html, string componentTreeCode)
+        {
+            int pos;
+            int len;
+            var htmlBuilder = new StringBuilder(html);
+
+            while (FindComponentTreeTag(htmlBuilder.ToString(), out pos, out len))
+            {
+                htmlBuilder.Remove(pos, len);
+                htmlBuilder.Insert(pos, componentTreeCode);
+            }
+
+            return htmlBuilder.ToString();
+        }
+
         internal static bool FindComponentListTag(string html, out int pos, out int len)
         {
             var match = FindComponentListTagRegex.Match(html);
+            pos = match.Index;
+            len = match.Length;
+            return match.Success;
+        }
+
+        internal static bool FindComponentTreeTag(string html, out int pos, out int len)
+        {
+            var match = FindComponentTreeTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;

@@ -34,6 +34,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
                 var componentListCode = GenerateComponentListCode(DocPages.FindAll(x => x is ComponentDocumentationPage), lang);
                 indexHtml = TagReplacer.ReplaceComponentList(indexHtml, componentListCode);
+                var componentTreeCode = GenerateComponentTreeCode(DocPages.FindAll(x => x is ComponentDocumentationPage), lang);
+                indexHtml = TagReplacer.ReplaceComponentTree(indexHtml, componentTreeCode);
                 var editorListCode = GenerateEditorListCode(DocPages.FindAll(x => x is EditorDocumentationPage), lang);
                 indexHtml = TagReplacer.ReplaceEditorList(indexHtml, editorListCode);
 
@@ -72,6 +74,87 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             stringBuilder.AppendLine("</table>");
             stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
 
+            anchorBuilder.Append("</p>");
+            anchorBuilder.Append(stringBuilder);
+            return anchorBuilder.ToString();
+        }
+
+        private static string GenerateComponentTreeCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)        
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+
+            var anchorBuilder = new StringBuilder();
+            anchorBuilder.Append("<p>");
+
+            var query = from pages in componentDocumentationPages
+                        orderby pages.Category
+                        select pages;
+
+            ComponentCategory actualCategory = ComponentCategory.ToolsP2P;
+            foreach (var page in query)
+            {
+
+                var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
+                var pp = page.Localizations[linkedLang];
+
+                
+                if (actualCategory != page.Category)
+                {                    
+                    actualCategory = page.Category;
+                    string categoryName = null;
+                    switch (page.Category)
+                    {
+                        case ComponentCategory.CiphersClassic:
+                            categoryName = Properties.Resources.Classic_Ciphers;
+                            break;
+                        case ComponentCategory.CiphersModernSymmetric:
+                            categoryName = Properties.Resources.CiphersModernSymmetric;
+                            break;
+                        case ComponentCategory.CiphersModernAsymmetric:
+                            categoryName = Properties.Resources.CiphersModernAsymmetric;
+                            break;
+                        case ComponentCategory.Steganography:
+                            categoryName = Properties.Resources.Steganography;
+                            break;
+                        case ComponentCategory.HashFunctions:
+                            categoryName = Properties.Resources.HashFunctions;
+                            break;
+                        case ComponentCategory.CryptanalysisSpecific:
+                            categoryName = Properties.Resources.CryptanalysisSpecific;
+                            break;
+                        case ComponentCategory.CryptanalysisGeneric:
+                            categoryName = Properties.Resources.CryptanalysisGeneric;
+                            break;
+                        case ComponentCategory.Protocols:
+                            categoryName = Properties.Resources.Protocols;
+                            break;
+                        case ComponentCategory.ToolsBoolean:
+                            categoryName = Properties.Resources.ToolsBoolean;
+                            break;
+                        case ComponentCategory.ToolsDataflow:
+                            categoryName = Properties.Resources.ToolsDataflow;
+                            break;
+                        case ComponentCategory.ToolsDataInputOutput:
+                            categoryName = Properties.Resources.ToolsDataInputOutput;
+                            break;
+                        case ComponentCategory.ToolsMisc:
+                            categoryName = Properties.Resources.ToolsMisc;
+                            break;
+                        case ComponentCategory.ToolsP2P:
+                            categoryName = Properties.Resources.ToolsP2P;
+                            break;
+                        default:
+                            categoryName = Properties.Resources.Unknown_Category;
+                            break;
+                    }
+                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h2></td><td></td></tr>", categoryName));
+                    anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", categoryName));
+                }
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
+                    OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
+            }
+            stringBuilder.AppendLine("</table>");
             anchorBuilder.Append("</p>");
             anchorBuilder.Append(stringBuilder);
             return anchorBuilder.ToString();
