@@ -20,6 +20,7 @@ namespace OnlineDocumentationGenerator.DocInformations
         public string AuthorEmail { get; protected set; }
         public string AuthorName { get; protected set; }
         public TaskPaneAttribute[] Settings { get; protected set; }
+        public ComponentCategory Category { get; protected set; }
         public Reference.ReferenceList References { get; protected set; }
         public Dictionary<string, LocalizedEntityDocumentationPage> Localizations { get; protected set; }
 
@@ -38,6 +39,8 @@ namespace OnlineDocumentationGenerator.DocInformations
                 AuthorInstitute = authorAttribut.Institute;
                 AuthorURL = authorAttribut.URL;
             }
+
+            Category = editorType.GetComponentCategoryAttributes().First().Category;
 
             Settings = GetSettings(editorType);
 
