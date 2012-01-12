@@ -192,7 +192,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region EventHandler
 
-        private void CloseClick(object sender, RoutedEventArgs e)
+        private void CloseClickHandler(object sender, RoutedEventArgs e)
         {
             IsFullscreenOpen = false;
             if (Close != null)
@@ -260,6 +260,7 @@ namespace WorkspaceManager.View.BinVisual
             f.OnPropertyChanged("ActivePresentation");
         }
         #endregion
+
 
     }
 }
