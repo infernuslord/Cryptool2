@@ -36,8 +36,6 @@
         <TextBox Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="4" Name="textBox4" FontFamily="Arial" IsTabStop="False" IsReadOnly="True" />
         <Button Content="Initialize" Name="button1" Click="button1_Click" />
         <Button Content="Automatic" Grid.Column="6" Name="button7" IsEnabled="False" Click="button7_Click" />
-        <WindowsFormsHost Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="1" Name="windowsFormsHost1">
-            <wf:RichTextBox x:Name="richBox" ReadOnly="True" />
-        </WindowsFormsHost>
+        <RichTextBox Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="1" Name="richBox" IsReadOnly="True" />
     </Grid>
 </UserControl>

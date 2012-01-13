@@ -26,10 +26,12 @@ namespace Solitaire
         private int numberOfCards, i, j;
         private enum CipherMode { encrypt, decrypt };
         private CipherMode mode;
-        private System.Windows.Forms.RichTextBox rtb;
+        private System.Windows.Controls.RichTextBox rtb;
         private int[] oldDeck, newDeck;
         private System.Drawing.Font textFont;
         private System.Drawing.Font symbolFont;
+        private Color black = System.Windows.Media.Color.FromRgb((byte)0, (byte)0, (byte)0);
+        private Color red = System.Windows.Media.Color.FromRgb((byte)255, (byte)0, (byte)0);
 
         public SolitaireQuickWatchPresentation(Solitaire plugin)
         {
@@ -38,12 +40,12 @@ namespace Solitaire
             InitializeComponent();
             
             //this.SizeChanged += new EventHandler(this.resetFontSize);
-            this.rtb = windowsFormsHost1.FindName("richBox") as System.Windows.Forms.RichTextBox;
+            this.rtb = richBox;
             textFont = new System.Drawing.Font(
                 "Arial",
                 9F               
             );
-            rtb.Font = textFont;
+            //rtb.Font = textFont;
             symbolFont = new System.Drawing.Font(
                 "Arial",
                 11F
@@ -61,6 +63,21 @@ namespace Solitaire
         public void stop()
         {
             enabled = false;
+            button1.IsEnabled = true;
+            button2.IsEnabled = false;
+            button3.IsEnabled = false;
+            button4.IsEnabled = false;
+            button5.IsEnabled = false;
+            button6.IsEnabled = false;
+            button7.IsEnabled = false;
+        }
+
+        public void clear()
+        {
+            richBox.Document = new FlowDocument();
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
         }
 
         private string convertDeckToSymbolDeck(string deck)
@@ -172,56 +189,35 @@ namespace Solitaire
 
         private void showDeck(string deck)
         {
+            TextPointer tp;
+            TextRange tr;
+            
             newDeck = stringToDeck(deck);
-            rtb.Text = convertDeckToSymbolDeck(deck);
-            rtb.SelectAll();
-            rtb.SelectionFont = textFont;
-            rtb.SelectionColor = System.Drawing.Color.Black;
+            rtb.Document = new FlowDocument();
             string text;
             for (int i = 0; i < numberOfCards; i++)
             {
+                text = convertCardNumberToSymbol((newDeck[i] == numberOfCards - 1) ? "A" : ((newDeck[i] == numberOfCards) ? "B" : newDeck[i].ToString()));
+                tp = rtb.Document.ContentEnd;
+                tr = new TextRange(tp, tp);
+                tr.Text = text.Substring(0, 1);
+                if (text.Contains("\u2666") || text.Contains("\u2665"))
+                {
+                    tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+                }
                 if (oldDeck[i] != newDeck[i])
                 {
-                    text = convertCardNumberToSymbol((newDeck[i] == numberOfCards - 1) ? "A" : ((newDeck[i] == numberOfCards) ? "B" : newDeck[i].ToString()));
-                    rtb.Select(rtb.Text.LastIndexOf(text), text.Length);
-                    rtb.SelectionFont = new System.Drawing.Font(
-                        textFont.FontFamily,
-                        textFont.Size,
-                        System.Drawing.FontStyle.Bold
-                    );
+                    tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
                 }
-            }
-            for (int i = 0; i < rtb.Text.Length; i++)
-            {
-                if (i == 0)
+                tp = rtb.Document.ContentEnd;
+                tr = new TextRange(tp, tp);
+                tr.Text = text.Substring(1);
+                tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Black);
+                if (oldDeck[i] != newDeck[i])
                 {
-                    if (rtb.Text.Substring(i, 1).Equals("\u2666") || rtb.Text.Substring(i, 1).Equals("\u2665"))
-                    {
-                        rtb.Select(i, 1);
-                        rtb.SelectionColor = System.Drawing.Color.Red;
-                        rtb.SelectionFont = symbolFont;
-                    }
-                    if (rtb.Text.Substring(i, 1).Equals("\u2660") || rtb.Text.Substring(i, 1).Equals("\u2663"))
-                    {
-                        rtb.Select(i, 1);
-                        rtb.SelectionFont = symbolFont;
-                    }
+                    tr.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
                 }
-                else if (rtb.Text.Substring(i,1).Equals(","))
-                {
-                    if (rtb.Text.Substring(i+1, 1).Equals("\u2666") || rtb.Text.Substring(i+1, 1).Equals("\u2665"))
-                    {
-                        rtb.Select(i+1, 1);
-                        rtb.SelectionColor = System.Drawing.Color.Red;
-                        rtb.SelectionFont = symbolFont;
-                    }
-                    if (rtb.Text.Substring(i+1, 1).Equals("\u2660") || rtb.Text.Substring(i+1, 1).Equals("\u2663"))
-                    {
-                        rtb.Select(i+1, 1);
-                        rtb.SelectionFont = symbolFont;
-                    }
-                }
-
+                if (i != numberOfCards - 1) rtb.AppendText(",");
             }
         }
 
