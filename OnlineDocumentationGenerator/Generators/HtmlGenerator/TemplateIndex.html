@@ -127,14 +127,53 @@
 
 						<languageSwitch lang="en">
 							<h2>Components:</h2>
+                            <a href="javascript:ToggleIndexes();"><small><u><div id="OderSwitchText">Order by categories</div></u></small></a>
 						</languageSwitch>
 						<languageSwitch lang="de">
 							<h2>Komponenten:</h2>
+                            <a href="javascript:ToggleIndexes();"><small><u><div id="OderSwitchText">Nach Kategorien sortieren</div></u></small></a>
 						</languageSwitch>						
-						<div class="description">								
-							<componentList />
-                            <componentTree />
+						<div class="description">
+                            <div id="ComponentList">
+							    <componentList />
+                            </div>
+                            <div id="ComponentTree" style="display:none;">
+                                <componentTree />
+                            </div>
 						</div>
+                        <script type="text/javascript">
+			            <!--    
+                            var ordering=0;                        
+                            function ToggleIndexes() {
+                                ShowHideDiv('ComponentList');
+                                ShowHideDiv('ComponentTree');
+                                div = document.getElementById('OderSwitchText');                               
+                                ordering = ordering + 1;
+                                if(ordering==2){
+                                    ordering=0;
+                                }
+                                <languageSwitch lang="en">
+                                    if(ordering==1){
+                                        div.innerHTML='Order by alphabet';
+                                    }else{
+                                        div.innerHTML='Order by categories';
+                                    }
+                                </languageSwitch>
+                                <languageSwitch lang="de">
+                                    if(ordering==1){
+                                        div.innerHTML='Alphabetisch sortieren';
+                                    }else{
+                                        div.innerHTML='Nach Kategorien sortieren';
+                                    }
+                                </languageSwitch>
+                            }
+                            function ShowHideDiv(divName) {
+                                if (document.getElementById(divName)) {
+                                    document.getElementById(divName).style.display = (document.getElementById(divName).style.display == 'none') ? 'inline' : 'none';
+                                }
+                            }
+			            // -->
+                        </script>
 						</p>
 						<br/>
 						<p>

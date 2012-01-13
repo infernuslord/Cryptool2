@@ -91,7 +91,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                         orderby pages.Category
                         select pages;
 
-            ComponentCategory actualCategory = ComponentCategory.ToolsP2P;
+            ComponentCategory actualCategory = ComponentCategory.Undefined;
             foreach (var page in query)
             {
 

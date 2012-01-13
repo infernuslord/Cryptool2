@@ -117,83 +117,124 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="HtmlGenerator_GenerateConnectorListCode_Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
   <data name="HtmlGenerator_GenerateSettingsListCode_Type" xml:space="preserve">
     <value>Typ</value>
   </data>
-	<data name="HtmlGenerator_GenerateConnectorListCode_Direction">
-		<value xml:space="preserve">Richtung</value>
-	</data>
-	<data name="HtmlGenerator_GenerateConnectorListCode_Type">
-		<value xml:space="preserve">Typ</value>
-	</data>
-	<data name="File">
-		<value xml:space="preserve">Datei</value>
-	</data>
-	<data name="Description">
-		<value xml:space="preserve">Beschreibung</value>
-	</data>
-	<data name="Not_available">
-		<value xml:space="preserve">Nicht verfügbar.</value>
-	</data>
-	<data name="NoContent">
-		<value xml:space="preserve">Keine</value>
-	</data>
-	<data name="References_description">
-		<value xml:space="preserve">Weitere Referenzen zu diesem Thema sind unten aufgelistet.</value>
-	</data>
-	<data name="Templates_description">
-		<value xml:space="preserve">Die unten aufgelisteten Vorlagen sind für diese Komponente verfügbar.</value>
-	</data>
-	<data name="Text_box">
-		<value xml:space="preserve">Textbox</value>
-	</data>
-	<data name="Combo_box">
-		<value xml:space="preserve">Kombinationsfeld</value>
-	</data>
-	<data name="Radio_button">
-		<value xml:space="preserve">Optionsfeld</value>
-	</data>
-	<data name="Check_box">
-		<value xml:space="preserve">Auswahlkasten</value>
-	</data>
-	<data name="Open_file_dialog">
-		<value xml:space="preserve">Datei-Öffnen-Dialog</value>
-	</data>
-	<data name="Save_file_dialog">
-		<value xml:space="preserve">Datei-Speichern-Dialog</value>
-	</data>
-	<data name="Numeric_up_down">
-		<value xml:space="preserve">Numerisch hoch/runter</value>
-	</data>
-	<data name="Button">
-		<value xml:space="preserve">Taste</value>
-	</data>
-	<data name="Slider">
-		<value xml:space="preserve">Gleiter</value>
-	</data>
-	<data name="Text_box__read_only_">
-		<value xml:space="preserve">Textbox (nur lesen)</value>
-	</data>
-	<data name="Dynamic_combo_box">
-		<value xml:space="preserve">Dynamisches Kombinationsfeld</value>
-	</data>
-	<data name="Text_box__hidden_">
-		<value xml:space="preserve">Textbox (versteckt)</value>
-	</data>
-	<data name="Input_data">
-		<value xml:space="preserve">Eingabedaten</value>
-	</data>
-	<data name="Output_data">
-		<value xml:space="preserve">Ausgabedaten</value>
-	</data>
-	<data name="Control_slave">
-		<value xml:space="preserve">Kontroll-Sklave</value>
-	</data>
-	<data name="Control_master">
-		<value xml:space="preserve">Kontroll-Meister</value>
-	</data>
+  <data name="HtmlGenerator_GenerateConnectorListCode_Direction" xml:space="preserve">
+    <value>Richtung</value>
+  </data>
+  <data name="HtmlGenerator_GenerateConnectorListCode_Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="Not_available" xml:space="preserve">
+    <value>Nicht verfügbar.</value>
+  </data>
+  <data name="NoContent" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="References_description" xml:space="preserve">
+    <value>Weitere Referenzen zu diesem Thema sind unten aufgelistet.</value>
+  </data>
+  <data name="Templates_description" xml:space="preserve">
+    <value>Die unten aufgelisteten Vorlagen sind für diese Komponente verfügbar.</value>
+  </data>
+  <data name="Text_box" xml:space="preserve">
+    <value>Textbox</value>
+  </data>
+  <data name="Combo_box" xml:space="preserve">
+    <value>Kombinationsfeld</value>
+  </data>
+  <data name="Radio_button" xml:space="preserve">
+    <value>Optionsfeld</value>
+  </data>
+  <data name="Check_box" xml:space="preserve">
+    <value>Auswahlkasten</value>
+  </data>
+  <data name="Open_file_dialog" xml:space="preserve">
+    <value>Datei-Öffnen-Dialog</value>
+  </data>
+  <data name="Save_file_dialog" xml:space="preserve">
+    <value>Datei-Speichern-Dialog</value>
+  </data>
+  <data name="Numeric_up_down" xml:space="preserve">
+    <value>Numerisch hoch/runter</value>
+  </data>
+  <data name="Button" xml:space="preserve">
+    <value>Taste</value>
+  </data>
+  <data name="Slider" xml:space="preserve">
+    <value>Gleiter</value>
+  </data>
+  <data name="Text_box__read_only_" xml:space="preserve">
+    <value>Textbox (nur lesen)</value>
+  </data>
+  <data name="Dynamic_combo_box" xml:space="preserve">
+    <value>Dynamisches Kombinationsfeld</value>
+  </data>
+  <data name="Text_box__hidden_" xml:space="preserve">
+    <value>Textbox (versteckt)</value>
+  </data>
+  <data name="Input_data" xml:space="preserve">
+    <value>Eingabedaten</value>
+  </data>
+  <data name="Output_data" xml:space="preserve">
+    <value>Ausgabedaten</value>
+  </data>
+  <data name="Control_slave" xml:space="preserve">
+    <value>Kontroll-Sklave</value>
+  </data>
+  <data name="Control_master" xml:space="preserve">
+    <value>Kontroll-Meister</value>
+  </data>
+  <data name="CiphersModernAsymmetric" xml:space="preserve">
+    <value>Moderne asymmetrische Verfahren</value>
+  </data>
+  <data name="CiphersModernSymmetric" xml:space="preserve">
+    <value>Moderne symmetrische Verfahren</value>
+  </data>
+  <data name="Classic_Ciphers" xml:space="preserve">
+    <value>Klassische Verfahren</value>
+  </data>
+  <data name="CryptanalysisGeneric" xml:space="preserve">
+    <value>Generische Cryptoanalyse</value>
+  </data>
+  <data name="CryptanalysisSpecific" xml:space="preserve">
+    <value>Spezifische Cryptoanalyse</value>
+  </data>
+  <data name="HashFunctions" xml:space="preserve">
+    <value>Hash-Funktionen</value>
+  </data>
+  <data name="Protocols" xml:space="preserve">
+    <value>Protokolle</value>
+  </data>
+  <data name="Steganography" xml:space="preserve">
+    <value>Steganographie</value>
+  </data>
+  <data name="ToolsBoolean" xml:space="preserve">
+    <value>Werkzeuge Boolean</value>
+  </data>
+  <data name="ToolsDataflow" xml:space="preserve">
+    <value>Werkzeuge Dataflow</value>
+  </data>
+  <data name="ToolsDataInputOutput" xml:space="preserve">
+    <value>Werkzeuge Daten Input/Output</value>
+  </data>
+  <data name="ToolsMisc" xml:space="preserve">
+    <value>Werkzeuge diverse</value>
+  </data>
+  <data name="ToolsP2P" xml:space="preserve">
+    <value>Werkzeuge Peer2Peer</value>
+  </data>
+  <data name="Unknown_Category" xml:space="preserve">
+    <value>Andere</value>
+  </data>
 </root>
