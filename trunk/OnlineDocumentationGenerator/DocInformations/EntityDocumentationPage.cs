@@ -40,8 +40,14 @@ namespace OnlineDocumentationGenerator.DocInformations
                 AuthorURL = authorAttribut.URL;
             }
 
-            Category = editorType.GetComponentCategoryAttributes().First().Category;
-
+            if (editorType.GetComponentCategoryAttributes().Count() > 0)
+            {
+                Category = editorType.GetComponentCategoryAttributes().First().Category;
+            }
+            else
+            {
+                Category = ComponentCategory.Undefined;
+            }
             Settings = GetSettings(editorType);
 
             if (_xml == null || _xml.Name != "documentation")
