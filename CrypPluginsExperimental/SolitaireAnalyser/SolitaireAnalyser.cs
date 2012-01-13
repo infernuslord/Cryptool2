@@ -31,7 +31,7 @@ using System.Threading;
 namespace SolitaireAnalyser
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("SolitaireAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SolitaireAnalyser/solbreak.jpg")]
+    [PluginInfo("SolitaireAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "SolitaireAnalyser/DetailedDescription/doc.xml", "SolitaireAnalyser/solbreak.jpg")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class SolitaireAnalyser : ICrypComponent
 
@@ -233,7 +233,7 @@ namespace SolitaireAnalyser
                     updatePassSec(Convert.ToInt32(ts));
                 }
 
-                decryption = decrypt(passDictionary[i].ToUpper(), inputString.Substring(0, Math.Min(inputString.Length, 20)));
+                decryption = decrypt(passDictionary[i].ToUpper(), inputString.Substring(0, Math.Min(inputString.Length, 23)));
                 
                 start = 0; length = Math.Min(maxLength, decryption.Length - start); score = 0;
                 test = true;

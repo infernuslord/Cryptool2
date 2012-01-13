@@ -1,27 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
+  <language culture="en" />
+  <language culture="de-DE" />
+  <introduction lang="en">The Solitaire Cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book Cryptonomicon. 
+Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools". For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html. <newline />
+This plugin attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute force attack is to complex, a dictionary attack on the passwords is given. Thus this only works if the initial deck for encryption was created using a password!
+</introduction>
+  <introduction lang="de-DE">The Solitaire Cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book Cryptonomicon. 
+Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools". For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html. <newline />
+This plugin attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute force attack is to complex, a dictionary attack on the passwords is given. Thus this only works if the initial deck for encryption was created using a password!
 
-  <introduction lang="en">    
-  </introduction>
+</introduction>
+  <usage lang="en">To try to decrypt a ciphertext, the user must know the amount of cards used. If this number is wrong, analysis will not work correctly. Furthermore, it is important to use a good password dictionary. The plugin can only try each password in this dictionary. If it is not present, it will also fail. <newline />
+To verify the password, the plugin decrypts the first 20 characters and tries to recognize words from the language dictionary. Based on the length and amount of recognized words, a password is given a score. The top 10 passwords are shown at all times. 
+</usage>
+  <usage lang="de-DE">To try to decrypt a ciphertext, the user must know the amount of cards used. If this number is wrong, analysis will not work correctly. Furthermore, it is important to use a good password dictionary. The plugin can only try each password in this dictionary. If it is not present, it will also fail. <newline />
+To verify the password, the plugin decrypts the first 20 characters and tries to recognize words from the language dictionary. Based on the length and amount of recognized words, a password is given a score. The top 10 passwords are shown at all times. 
 
-  <introduction lang="de-DE">    
-  </introduction>
+</usage>
+  <presentation lang="en">The presentation gives real time feedback on remaining time, passwords per second and password dictionary index. This index runs from 0 to the dictionary length with steps of 1000. <newline />
+Also, the user can see the top 10 passwords at all times. It might be possible that the correct password will not end in the first position, but it should with reasonable probability end within the top 10. So if the plugin is finished, the decrypted text might be unreadable, but the correct password should be visible somewhere in the top 10.
+</presentation>
+  <presentation lang="de-DE">The presentation gives real time feedback on remaining time, passwords per second and password dictionary index. This index runs from 0 to the dictionary length with steps of 1000. <newline />
+Also, the user can see the top 10 passwords at all times. It might be possible that the correct password will not end in the first position, but it should with reasonable probability end within the top 10. So if the plugin is finished, the decrypted text might be unreadable, but the correct password should be visible somewhere in the top 10.
 
-  <usage lang="en">
-  </usage>
-
-  <usage lang="de-DE">
-  </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+</presentation>
   <references>
   </references>
 </documentation>

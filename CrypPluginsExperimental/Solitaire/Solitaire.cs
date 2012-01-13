@@ -28,8 +28,10 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Solitaire
 {
+    public delegate void DelegateFunction();
+
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Solitaire/sol.jpg")]
+    [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "Solitaire/DetailedDescription/doc.xml", "Solitaire/sol.jpg")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Solitaire : ICrypComponent
     {
@@ -192,6 +194,7 @@ namespace Solitaire
 
         public void PreExecution()
         {
+            myPresentation.Dispatcher.Invoke(new DelegateFunction(myPresentation.clear), null);
         }
 
         public void Execute()
@@ -217,14 +220,7 @@ namespace Solitaire
 
         public void Stop()
         {
-            myPresentation.button1.IsEnabled = true;
-            myPresentation.button2.IsEnabled = false;
-            myPresentation.button3.IsEnabled = false;
-            myPresentation.button4.IsEnabled = false;
-            myPresentation.button5.IsEnabled = false;
-            myPresentation.button6.IsEnabled = false;
-            myPresentation.button7.IsEnabled = false;
-            myPresentation.stop();
+            myPresentation.Dispatcher.Invoke(new DelegateFunction(myPresentation.stop), null); 
         }
 
         public void Initialize()
