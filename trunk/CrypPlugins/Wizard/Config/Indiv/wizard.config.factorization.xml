@@ -2,14 +2,14 @@
 <!DOCTYPE input SYSTEM "..\wizard.dtd">
 
 <input image="Primes" >
-  <name lang="en" >Prime Number Factorization</name>
-  <name lang="de" >Primzahl-Faktorisierung</name>
-  <description lang="en" >Select this to factorize prime numbers.</description>
+  <name lang="en" >Prime Factorization</name>
+  <name lang="de" >Primfaktorzerlegung</name>
+  <description lang="en" >Select this to factorize a number into prime numbers.</description>
   <description lang="de" >Wählen Sie diesen Punkt, um zusammengesetzte Zahlen zu faktorisieren.</description>
 
-  <headline lang="en">Prime Number Factorization</headline>
-  <headline lang="de">Primzahl-Faktorisierung</headline>
-  <task lang="en">Please input the number to factorize.</task>
+  <headline lang="en">Prime Factorization</headline>
+  <headline lang="de">Primfaktorzerlegung</headline>
+  <task lang="en">Please enter the number to factorize.</task>
   <task lang="de">Bitte geben Sie die zu faktorisierende Zahl ein.</task>
 
   <inputBox alignment="Stretch" plugin="Number" property="Number">
@@ -19,13 +19,13 @@
   </inputBox>
 
   <sampleViewer image="Primes" file="Mathematics\QuadraticSieve.cwm">
-    <name lang="en" >Prime Number Factorization</name>
-    <name lang="de" >Primzahl-Faktorisierung</name>
-    <description lang="en" >Prime Number Factorization Output</description>
-    <description lang="de" >Primzahl-Faktorisierung: Ausgabe</description>
+    <name lang="en" >Prime Factorization</name>
+    <name lang="de" >Primfaktorzerlegung</name>
+    <description lang="en" >Prime Factorization Output</description>
+    <description lang="de" >Primfaktorzerlegung: Ausgabe</description>
 
-    <headline lang="en">Prime Number Factorization Output</headline>
-    <headline lang="de">Primzahl-Faktorisierung: Ausgabe</headline>
+    <headline lang="en">Prime Factorization Output</headline>
+    <headline lang="de">Primfaktorzerlegung: Ausgabe</headline>
     <task lang="en">Here, you can see the factorization process and the result. This can take some time, depending on the number.</task>
     <task lang="de">Hier können Sie den Faktorisierungsprozess und das Ergebnis sehen. Dies kann, abhängig von der Zahl, einige Zeit dauern.</task>
 
