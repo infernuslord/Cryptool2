@@ -47,10 +47,11 @@ namespace OnlineDocumentationGenerator.DocInformations
                     if (File.Exists(templateXMLFile))
                     {
                         XElement templateXml = XElement.Load(templateXMLFile);
+                        var title = FindLocalizedChildElement(templateXml, "title");
                         var description = FindLocalizedChildElement(templateXml, "description");
                         if (description != null)
                         {
-                            Templates.Add(template, description);
+                            Templates.Add(title, template, description);
                         }
                     }
                 }
