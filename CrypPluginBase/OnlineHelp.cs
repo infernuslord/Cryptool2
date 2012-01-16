@@ -39,5 +39,11 @@ namespace Cryptool.PluginBase
         {
             return string.Format("index_{0}.html", lang);
         }
+
+        public static string GetTemplatesPageFilename(string lang)
+        {
+            return string.Format("templates_{0}.html", lang);
+        }
+        
     }
 }

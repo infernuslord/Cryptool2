@@ -446,6 +446,30 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        ///		table{
+        ///			font-family: Verdana, sans-serif, Helvetica,  Arial ;
+        ///		}
+        ///	&lt;/style&gt;
+        ///&lt;/head&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TemplateTemplatesPage {
+            get {
+                return ResourceManager.GetString("TemplateTemplatesPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text box.
         /// </summary>
         public static string Text_box {

@@ -22,9 +22,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             _objectConverter = new ObjectConverter(DocPages, OutputDir);
             GenerateDocPages();
             GenerateIndexPages();
+            GenerateTemplatePages();
             CopyAdditionalResources();
         }
-
+       
         private void GenerateIndexPages()
         {
             foreach (var lang in AvailableLanguages)
@@ -47,6 +48,51 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 StoreIndexPage(indexHtml, filename);
             }
         }
+
+        private void GenerateTemplatePages()
+        {
+            foreach (var lang in AvailableLanguages)
+            {
+                var cultureInfo = new CultureInfo(lang);
+                Thread.CurrentThread.CurrentCulture = cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+                var templatesHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateTemplatesPage, lang);
+                var languageSelectionCode = GenerateTemplatesPageLanguageSelectionCode(AvailableLanguages, lang);
+                templatesHtml = TagReplacer.ReplaceLanguageSelectionTag(templatesHtml, languageSelectionCode);
+                var templatesListCode = GenerateTemplatesList(DocPages.FindAll(x => x is ComponentDocumentationPage), lang);
+                templatesHtml = TagReplacer.ReplaceTemplatesList(templatesHtml, templatesListCode);
+
+                var filename = OnlineHelp.GetTemplatesPageFilename(lang);
+                StoreTemplatePage(templatesHtml, filename);
+            }
+        }
+
+        private string GenerateTemplatesList(List<EntityDocumentationPage> list, string lang)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" >");
+
+            var anchorBuilder = new StringBuilder();
+            anchorBuilder.Append("<p>");
+
+            var query = from pages in list
+                        from template in ((LocalizedComponentDocumentationPage)pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"]).Templates.Templates
+                        orderby template.Title.Value
+                        select template;
+
+            foreach (var template in query.Distinct())
+            {
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",template.Path, template.Title.Value,template.Description));
+            }
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
+
+            anchorBuilder.Append("</p>");
+            anchorBuilder.Append(stringBuilder);
+            return anchorBuilder.ToString();
+        }
+
 
         private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
         {
@@ -260,6 +306,26 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
+        private void StoreTemplatePage(string html, string filename)
+        {
+            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, filename));
+            try
+            {
+                if (!Directory.Exists(Path.Combine(OutputDir, OnlineHelp.HelpDirectory)))
+                {
+                    Directory.CreateDirectory(Path.Combine(OutputDir, OnlineHelp.HelpDirectory));
+                }
+
+                var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
+                streamWriter.Write(html);
+                streamWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
+            }
+        }
+
         private static readonly Dictionary<string, string> _languagePresentationString = new Dictionary<string, string>() {{"en", "English"}, {"de", "Deutsch"}};
         private static readonly Dictionary<string, string> _languagePresentationIcon = new Dictionary<string, string>() { { "en", "en.png" }, { "de", "de.png" } };
 
@@ -299,6 +365,26 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 else
                 {
                     codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", OnlineHelp.GetIndexFilename(availableLanguage), _languagePresentationString[availableLanguage], _languagePresentationIcon[availableLanguage]));
+                }
+                codeBuilder.AppendLine("|");
+            }
+
+            return codeBuilder.ToString();
+        }
+
+        private static string GenerateTemplatesPageLanguageSelectionCode(IEnumerable<string> availableLanguages, string lang)
+        {
+            var codeBuilder = new StringBuilder();
+
+            foreach (var availableLanguage in availableLanguages)
+            {
+                if (availableLanguage == lang)
+                {
+                    codeBuilder.AppendLine(string.Format("<img src=\"{1}\" border=\"0\"/>&nbsp;{0}", _languagePresentationString[lang], _languagePresentationIcon[availableLanguage]));
+                }
+                else
+                {
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", OnlineHelp.GetTemplatesPageFilename(availableLanguage), _languagePresentationString[availableLanguage], _languagePresentationIcon[availableLanguage]));
                 }
                 codeBuilder.AppendLine("|");
             }
