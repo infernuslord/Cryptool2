@@ -29,6 +29,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         {
             foreach (var lang in AvailableLanguages)
             {
+                var cultureInfo = new CultureInfo(lang);
+                Thread.CurrentThread.CurrentCulture = cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
                 var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateIndex, lang);
                 var languageSelectionCode = GenerateIndexLanguageSelectionCode(AvailableLanguages, lang);
                 indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
