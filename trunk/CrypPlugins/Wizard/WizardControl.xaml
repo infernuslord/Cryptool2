@@ -60,6 +60,7 @@
                 </EventTrigger>
             </Style.Triggers>
             <EventSetter Event="Checked" Handler="EventSetter_OnHandler"/>
+            <Setter Property="FontSize" Value="18"/>
         </Style>
         
         <Style x:Key="InputFieldStyle" TargetType="FrameworkElement">
@@ -108,7 +109,7 @@
             
             <StackPanel Orientation="Vertical">
                 <Label Name="ErrorLabel" Content="{Loc Error}" FontSize="20" Foreground="#FFF56161" Visibility="Collapsed" />
-                <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
+                <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="22" FontWeight="Bold" />
             </StackPanel>
 
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">
@@ -118,7 +119,7 @@
                 </Grid.ColumnDefinitions>
                 <Label HorizontalAlignment="Stretch" FontSize="13" Margin="5">
                     <Label.Content>
-                        <TextBlock Name="descHeader" TextWrapping="Wrap"/>
+                        <TextBlock Name="descHeader" TextWrapping="Wrap" FontSize="15" Foreground="White" />
                     </Label.Content>
                 </Label>
                 
@@ -147,8 +148,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
-                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5">
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Content="{Loc Description}" />
+                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" FontSize="18">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu><MenuItem Command="ApplicationCommands.Copy" /></ContextMenu>
                                 </TextBlock.ContextMenu>
