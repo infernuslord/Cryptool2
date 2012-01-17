@@ -342,7 +342,7 @@ namespace Wizard
                         border.CornerRadius = new CornerRadius(5, 0, 0, 5);
                         border.BorderBrush = Brushes.LightSeaGreen;
 
-                        l.Height = 30;
+                        l.Height = 35;
                         l.HorizontalAlignment = HorizontalAlignment.Stretch;
                         XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
