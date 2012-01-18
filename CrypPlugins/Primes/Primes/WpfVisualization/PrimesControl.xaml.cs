@@ -368,6 +368,7 @@ namespace Primes.WpfVisualization
       }
     }
 
+    /*
     private void miSwitch_Click(object sender, RoutedEventArgs e)
     {
       if (pnlLeft.Visibility == Visibility.Visible)
@@ -394,6 +395,7 @@ namespace Primes.WpfVisualization
       //}
       //m_Collapsed = !m_Collapsed;
     }
+     */
 
 
     #region IPlugin Members

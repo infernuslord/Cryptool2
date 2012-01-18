@@ -100,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="SettingsTab\PrimesSettingsTab.xaml.cs">
+      <DependentUpon>PrimesSettingsTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\NumberTheory\PowerMod\PowerModCommands.cs" />
     <Compile Include="Library\ControlHandler.cs" />
     <Compile Include="Library\Delegates.cs" />
@@ -395,6 +398,7 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -443,6 +447,10 @@
     <Page Include="Navigation\Navigation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsTab\PrimesSettingsTab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
