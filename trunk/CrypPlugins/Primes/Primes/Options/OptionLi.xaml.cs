@@ -132,7 +132,6 @@ namespace Primes.Options
       OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Simpson_Lin);
       e.Handled = true;
       OnlineHelp.OnlineHelpAccess.Activate();
-
     }
   }
 }

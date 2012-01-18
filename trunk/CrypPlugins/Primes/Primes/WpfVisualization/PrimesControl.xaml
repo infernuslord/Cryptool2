@@ -90,21 +90,7 @@
             </MenuItem.Style>
           </MenuItem>
           <TextBlock Width="2" />
-          
-          <MenuItem Header="{x:Static lang:PrimesControl.mioptions}" Name="miOptions" Click="miOptions_Click">
-              <MenuItem.Icon>
-                <Image Source="../Resources/icons/application_edit.png"/>
-              </MenuItem.Icon>
-              
-            </MenuItem>
-          <TextBlock Width="2" />
-            
-            <MenuItem  Name="miSwitch" Header="{x:Static lang:PrimesControl.miswitch_hide}" Click="miSwitch_Click" >
-              <MenuItem.Icon>
-                <Image Source="../Resources/icons/application_tile_horizontal.png"/>
-              </MenuItem.Icon>
-            </MenuItem>
-            
+                      
           <TextBlock Width="2" />
             <MenuItem Header="{x:Static lang:PrimesControl.miclose}" Name="miClose" Click="miClose_Click" Visibility="Hidden" >
 

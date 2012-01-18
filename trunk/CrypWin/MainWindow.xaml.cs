@@ -781,6 +781,13 @@ namespace Cryptool.CrypWin
             if (type == null)
                 return;
 
+            //CrypTutorials are singletons:
+            foreach (var tab in contentToTabMap.Where(x => x.Key.GetType() == type))
+            {
+                tab.Value.IsSelected = true;
+                return;
+            }
+
             var content = type.CreateTutorialInstance();
             if (content == null)
                 return;
