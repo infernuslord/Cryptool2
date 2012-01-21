@@ -237,8 +237,9 @@ namespace Cryptool.CrypWin
 
         private bool IsUpdaterEnabled
         {
-            //get { return AssemblyHelper.BuildType != Ct2BuildType.Developer && !IsCommandParameterGiven("-noupdate"); }
-            get { return true; }
+            get { return AssemblyHelper.BuildType != Ct2BuildType.Developer && !IsCommandParameterGiven("-noupdate"); }
+            // just for testing
+            //get { return true; }
         }
 
         #region Init
