@@ -31,7 +31,10 @@ namespace Cryptool.CrypWin
         public enum State { Idle, Checking, UpdateAvailable, Downloading, UpdateReady };
             
         private static AutoUpdater autoUpdater = null;
-        private const string XmlPath = "https://www.cryptool.org/cryptool2/downloads/Builds/CT2_Versions.xml";
+        // URI where the updates can be found on our webserver
+        // changed due to general update of the website on 18.01.2012
+        //private const string XmlPath = "https://www.cryptool.org/cryptool2/downloads/Builds/CT2_Versions.xml";
+        private const string XmlPath = "https://www.cryptool.org/c2download/Builds/CT2_Versions.xml";
         private readonly string TempPath = DirectoryHelper.DirectoryLocalTemp;
 
 
@@ -48,7 +51,8 @@ namespace Cryptool.CrypWin
         private System.Timers.Timer checkTimer = new System.Timers.Timer(1000 * 60 * Settings.Default.CheckInterval);
         private System.Timers.Timer progressTimer;
 
-        private X509Certificate serverTlsCertificate;
+        private X509Certificate serverTlsCertificate1;
+        private X509Certificate serverTlsCertificate2;
         private int downloadRetry = 0;
 
         private State currentState = State.Idle;
@@ -112,7 +116,8 @@ namespace Cryptool.CrypWin
 
         private AutoUpdater()
         {
-            serverTlsCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
+            serverTlsCertificate1 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
+            serverTlsCertificate2 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.old_www_cryptool_org);
 
             ServicePointManager.ServerCertificateValidationCallback = UpdateServerCertificateValidationCallback;
 
@@ -152,7 +157,8 @@ namespace Cryptool.CrypWin
             }
 
             // Check equality of remote and local certificate
-            if (!certificate.Equals(this.serverTlsCertificate))
+            // check for current and new certificate, in case server-certificate is changed
+            if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
             {
                 GuiLogMessage("AutoUpdate: Received TLS certificate is not a valid certificate: Equality check failed", NotificationLevel.Error);
                 return false;

@@ -498,7 +498,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CrypTutorial.
+        ///   Looks up a localized string similar to Crypto tutorial.
         /// </summary>
         internal static string CrypTutorial {
             get {
@@ -1196,6 +1196,13 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Nr {
             get {
                 return ResourceManager.GetString("Nr", resourceCulture);
+            }
+        }
+        
+        internal static byte[] old_www_cryptool_org {
+            get {
+                object obj = ResourceManager.GetObject("old_www_cryptool_org", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -2033,6 +2040,15 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        internal static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
             }
         }
         
