@@ -586,9 +586,6 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
-  <data name="www_cryptool_org" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\www.cryptool.org.crt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="cryptoolP2P" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\cryptoolp2p.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -810,5 +807,11 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="old_www_cryptool_org" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\old-www.cryptool.org.crt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="www_cryptool_org" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\www.cryptool.org.crt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
