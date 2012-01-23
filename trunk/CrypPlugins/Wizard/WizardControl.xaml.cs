@@ -1012,12 +1012,7 @@ namespace Wizard
                 property = settings.GetType().GetProperty(ppv.PropertyName);
                 propertyObject = settings;
             }
-
-            if (ppv.Value is object)
-            {
-                return true;
-            }
-
+            
             if (property != null)
             {
                 if (ppv.Value is string)
@@ -1026,14 +1021,16 @@ namespace Wizard
                     property.SetValue(propertyObject, (int)ppv.Value, null);
                 else if (ppv.Value is bool)
                     property.SetValue(propertyObject, (bool)ppv.Value, null);
-                else
-                    return false;
+                return true;
             }
             else
             {
+                if (ppv.Value is object)
+                {
+                    return true;
+                }
                 return false;
             }
-            return true;
         }
 
         private static void SetPropertyToString(PluginPropertyValue ppv, object settings, PropertyInfo property)
