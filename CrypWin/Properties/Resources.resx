@@ -814,4 +814,7 @@
   <data name="www_cryptool_org" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\www.cryptool.org.crt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="UpdaterTooltip" xml:space="preserve">
+    <value>Auto updater</value>
+  </data>
 </root>

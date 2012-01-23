@@ -2035,6 +2035,15 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto updater.
+        /// </summary>
+        internal static string UpdaterTooltip {
+            get {
+                return ResourceManager.GetString("UpdaterTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         internal static string Value {
