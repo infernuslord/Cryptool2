@@ -131,7 +131,7 @@ namespace WorkspaceManager
             CurrentFile = typeof(WorkspaceManagerClass).GetPluginStringResource("unnamed_project");
             if (this.OnProjectTitleChanged != null)
             {
-                this.OnProjectTitleChanged.BeginInvoke(this, CurrentFile, null, null);
+                this.OnProjectTitleChanged.Invoke(this, CurrentFile);
             }
             WorkspaceModel.UndoRedoManager.ClearStacks();
             WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
@@ -178,7 +178,7 @@ namespace WorkspaceManager
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
-                this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
+                this.OnProjectTitleChanged.Invoke(this, System.IO.Path.GetFileName(fileName));
                 CurrentFile = fileName;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
@@ -205,7 +205,7 @@ namespace WorkspaceManager
                 var persistance = new ModelPersistance();
                 persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 persistance.saveModel(this.WorkspaceModel, fileName);
-                this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
+                this.OnProjectTitleChanged.Invoke(this, System.IO.Path.GetFileName(fileName));
                 CurrentFile = fileName;
             }
             catch (Exception ex)
