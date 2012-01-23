@@ -138,6 +138,20 @@ namespace Cryptool.CrypWin
                         };
             return items.ToList();
         }
+        
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (ChangelogList.SelectedItem != null)
+            {
+                var rssItem = (RssItem)ChangelogList.SelectedItem;
+                Clipboard.SetData(DataFormats.Text, rssItem);
+            }
+        }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetData(DataFormats.Text, ChangelogText.Html);
+        }
     }
 
     class RssItem
@@ -146,5 +160,10 @@ namespace Cryptool.CrypWin
         public string Message { get; set; }
         public DateTime PublishingDate { get; set; }
         public string URL { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}\nPublished: {1}\n\n{2}\nURL: {3}", Title, PublishingDate, Message, URL);
+        }
     }
 }
