@@ -140,7 +140,10 @@ namespace KeySearcher
         [TaskPane( "ResetCaption", "ResetTooltip", null, 2, false, ControlType.Button)]
         public void Reset()
         {
-            Key = keysearcher.Pattern.giveInputPattern();
+            if (keysearcher != null && keysearcher.Pattern != null)
+            {
+                Key = keysearcher.Pattern.giveInputPattern();
+            }
         }
         
         [TaskPane( "CoresUsedCaption", "CoresUsedTooltip", null, 3, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
