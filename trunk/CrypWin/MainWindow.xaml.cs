@@ -1762,6 +1762,7 @@ namespace Cryptool.CrypWin
             else
             {
                 taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
+                ProjectTitleChanged();
             }
 
             lastEditor = ActiveEditor;
