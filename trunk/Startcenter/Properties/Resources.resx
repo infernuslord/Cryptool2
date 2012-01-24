@@ -192,10 +192,16 @@
   <data name="ClearList" xml:space="preserve">
     <value>Clear recently opened file list.</value>
   </data>
-  <data name="RSS_error_Message">
-    <value xml:space="preserve">RSS error</value>
+  <data name="RSS_error_Message" xml:space="preserve">
+    <value>RSS error</value>
   </data>
-  <data name="Exception">
-    <value xml:space="preserve">Exception</value>
+  <data name="Exception" xml:space="preserve">
+    <value>Exception</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete this entry</value>
+  </data>
+  <data name="StartTemplate" xml:space="preserve">
+    <value>Start this workspace</value>
   </data>
 </root>

@@ -106,6 +106,15 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete this entry.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exception.
         /// </summary>
         internal static string Exception {
@@ -219,6 +228,15 @@ namespace Startcenter.Properties {
         internal static string Show_this_welcome_screen_at_CrypTool_2_0_startup_ {
             get {
                 return ResourceManager.GetString("Show_this_welcome_screen_at_CrypTool_2_0_startup_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start this workspace.
+        /// </summary>
+        internal static string StartTemplate {
+            get {
+                return ResourceManager.GetString("StartTemplate", resourceCulture);
             }
         }
         
