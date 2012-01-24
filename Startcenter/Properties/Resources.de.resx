@@ -192,4 +192,10 @@
   <data name="ClearList" xml:space="preserve">
     <value>Liste der zuletzt geöffneten Dateien löschen.</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Diesen Eintrag löschen</value>
+  </data>
+  <data name="StartTemplate" xml:space="preserve">
+    <value>Diese Arbeitsfläche starten</value>
+  </data>
 </root>

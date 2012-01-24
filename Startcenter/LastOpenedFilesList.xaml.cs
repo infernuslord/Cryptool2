@@ -125,7 +125,12 @@ namespace Startcenter
 
         private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedItem = (RecentFileInfo)RecentFileListBox.SelectedItem;
+            OpenSelectedTemplate();
+        }
+
+        private void OpenSelectedTemplate()
+        {
+            var selectedItem = (RecentFileInfo) RecentFileListBox.SelectedItem;
             IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
 
             if (selectedItem.File != null)
@@ -136,7 +141,7 @@ namespace Startcenter
             {
                 editor.Presentation.Tag = selectedItem.Icon;
             }
-            
+
             editor.Open(selectedItem.File);
             if (selectedItem.Title != null)
             {
@@ -148,6 +153,17 @@ namespace Startcenter
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             _recentFileList.Clear();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSelectedTemplate();
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            var file = ((RecentFileInfo) RecentFileListBox.SelectedItem).File;
+            _recentFileList.RemoveFile(file);
         }
     }
 

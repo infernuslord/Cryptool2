@@ -11,6 +11,12 @@
             <ColumnDefinition Width="48" />
         </Grid.ColumnDefinitions>
         <ListBox Name="RecentFileListBox" ItemsSource="{Binding}" Background="#00000000">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Loc StartTemplate}" Click="MenuItem_Click" />
+                    <MenuItem Header="{Loc Delete}" Click="MenuItem_Click_1" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=Description}">
