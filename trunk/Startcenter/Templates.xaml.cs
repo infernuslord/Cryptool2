@@ -175,7 +175,7 @@ namespace Startcenter
                 {
                     try
                     {
-                        image = new BitmapImage(new Uri(iconFile));
+                        image = ImageLoader.LoadImage(new Uri(iconFile));
                     }
                     catch (Exception)
                     {

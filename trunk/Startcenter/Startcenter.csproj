@@ -68,6 +68,7 @@
       <DependentUpon>CTTreeViewItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <Compile Include="ImageLoader.cs" />
     <Compile Include="LastOpenedFilesList.xaml.cs">
       <DependentUpon>LastOpenedFilesList.xaml</DependentUpon>
     </Compile>
