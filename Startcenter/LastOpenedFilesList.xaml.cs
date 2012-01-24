@@ -108,7 +108,7 @@ namespace Startcenter
 
                     if (iconFile == null || !File.Exists(iconFile))
                         iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
-                    var image = File.Exists(iconFile) ? new BitmapImage(new Uri(iconFile)) : editorType.GetImage(0).Source;
+                    var image = File.Exists(iconFile) ? ImageLoader.LoadImage(new Uri(iconFile)) : editorType.GetImage(0).Source;
                     
                     _recentFileInfos.Add(new RecentFileInfo()
                         {
