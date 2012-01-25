@@ -2035,7 +2035,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto updater.
+        ///   Looks up a localized string similar to Available updates for CrypTool 2.
         /// </summary>
         internal static string UpdaterTooltip {
             get {
