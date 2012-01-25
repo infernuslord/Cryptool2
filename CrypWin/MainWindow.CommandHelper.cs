@@ -113,13 +113,50 @@ namespace Cryptool.CrypWin
 
         private void Print_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = ActiveEditor != null && ActiveEditor.CanPrint;
+            if (MainTab == null)
+                return;
+
+            var tab = (TabItem) (MainTab.SelectedItem);
+            if (tab == null)
+                return;
+
+            if (tabToContentMap.ContainsKey(tab))
+            {
+                var o = tabToContentMap[tab];
+                if (o is OnlineHelpTab)
+                {
+                    e.CanExecute = true;
+                }
+                else
+                {
+                    e.CanExecute = ActiveEditor != null && ActiveEditor.CanPrint;
+                }
+            }
             e.Handled = true;
         }
 
         private void Print_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ActiveEditor.Print();
+            if (MainTab == null)
+                return;
+
+            var tab = (TabItem)(MainTab.SelectedItem);
+            if (tab == null)
+                return;
+
+            if (tabToContentMap.ContainsKey(tab))
+            {
+                var o = tabToContentMap[tab];
+                if (o is OnlineHelpTab)
+                {
+                    ((OnlineHelpTab) o).Print();
+                }
+                else
+                {
+                    if (ActiveEditor != null)
+                        ActiveEditor.Print();
+                }
+            }
         }
 
         private void Close_CanExecute(object sender, CanExecuteRoutedEventArgs e)
