@@ -543,7 +543,9 @@ namespace Cryptool.Enigma
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
 
-            PresentationDisabled = false;
+            PresentationDisabled = new DisabledBool();
+
+            //PresentationDisabled.DisabledBoolProperty = true;
 
             storyboard1 = new Storyboard();
             storyboard1.Completed += prefadeout1;
@@ -1019,7 +1021,30 @@ namespace Cryptool.Enigma
         }
 
         private TextBlock tb;
-        public Boolean PresentationDisabled;
+        public DisabledBool PresentationDisabled;
+
+        public void giveFeedbackAndDie()
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+                                                                                  {
+                                                                                      if (playbool)
+                                                                                      {
+                                                                                          stopclick(this,
+                                                                                                    EventArgs.Empty);
+                                                                                          Object[] carrier =
+                                                                                              new Object[3];
+                                                                                          carrier[0] =
+                                                                                              output.Substring(0,
+                                                                                                               output.
+                                                                                                                   Length);
+                                                                                          carrier[1] = output.Length;
+                                                                                          carrier[2] = output.Length;
+                                                                                          fireLetters(carrier,
+                                                                                                      EventArgs.Empty);
+                                                                                      }
+                                                                                  }, null);
+        }
+
         public void disablePresentation(Boolean isrunning, Boolean isvisible) 
         {
 
@@ -1032,7 +1057,7 @@ namespace Cryptool.Enigma
                     this.IsEnabled = false;
                     if (!IsVisible && !mainmainmain.Children.Contains(tb))
                     {
-                        PresentationDisabled = true;
+                        //PresentationDisabled.DisabledBoolProperty = false;
                         tb = new TextBlock();
                         tb.TextWrapping = TextWrapping.Wrap;
                         tb.Width = 2200;
@@ -1046,7 +1071,7 @@ namespace Cryptool.Enigma
                     if(mainmainmain.Children.Contains(tb))
                     mainmainmain.Children.Remove(tb);
                     this.IsEnabled = true;
-                    PresentationDisabled = false;
+                    //PresentationDisabled.DisabledBoolProperty = true;
                 }
             }, null);
         }
@@ -4457,5 +4482,34 @@ namespace Cryptool.Enigma
 
         #endregion
 
+    }
+    public class DisabledBool : INotifyPropertyChanged
+    {
+        public bool disabledBoolProperty;
+
+        public DisabledBool() { }
+
+
+
+        public bool DisabledBoolProperty
+        {
+            get { return disabledBoolProperty; }
+            set
+            {
+                disabledBoolProperty = value;
+                OnPropertyChanged("DisabledBoolProperty");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
+            }
+        }
     }
 }
