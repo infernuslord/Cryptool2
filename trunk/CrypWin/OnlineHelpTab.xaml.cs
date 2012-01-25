@@ -189,5 +189,19 @@ namespace Cryptool.CrypWin
                 GuiLogMessage(ex.Message, NotificationLevel.Debug);
             }
         }
+
+        public void Print()
+        {
+            try
+            {
+                var doc = webBrowser.Document as mshtml.IHTMLDocument2;
+                if (doc != null)
+                    doc.execCommand("Print", true, null);
+            }
+            catch (Exception ex)
+            {
+                //we do not handle errors from iexplore
+            }
+        }
     }
 }
