@@ -40,17 +40,24 @@ namespace Cryptool.CrypWin
 
         private void NewProject(Type editor)
         {
-            AddEditorDispatched(editor);
-            ActiveEditor.New();
+            try
+            {
+                AddEditorDispatched(editor);
+                ActiveEditor.New();
 
-            //ActiveEditor.Presentation.ToolTip = Properties.Resources.Unsaved_workspace;
+                //ActiveEditor.Presentation.ToolTip = Properties.Resources.Unsaved_workspace;
 
-            if (ActiveEditor != null)
-                taskpaneCtrl.DisplayPluginSettings(ActiveEditor, ActiveEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
-            else
-                taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
+                if (ActiveEditor != null)
+                    taskpaneCtrl.DisplayPluginSettings(ActiveEditor, ActiveEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
+                else
+                    taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
 
-            SetCurrentEditorAsDefaultEditor();
+                SetCurrentEditorAsDefaultEditor();
+            }
+            catch (Exception ex)
+            {
+                //Nothing to do
+            }
         }
 
         internal void OpenProjectInGuiThread(string fileName)
