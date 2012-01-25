@@ -815,6 +815,6 @@
     <value>..\Resources\www.cryptool.org.crt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="UpdaterTooltip" xml:space="preserve">
-    <value>Auto updater</value>
+    <value>Available updates for CrypTool 2</value>
   </data>
 </root>

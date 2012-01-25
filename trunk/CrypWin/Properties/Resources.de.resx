@@ -781,4 +781,7 @@
   <data name="CrypTutorial" xml:space="preserve">
     <value>Kryptotutorium</value>
   </data>
+  <data name="UpdaterTooltip" xml:space="preserve">
+    <value>Verfügbare Updates für CrypTool 2</value>
+  </data>
 </root>
