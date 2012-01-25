@@ -45,11 +45,11 @@ namespace Cryptool.CrypWin
             {
                 Type editorType = ComponentInformations.EditorExtension["cwm"];
                 string filename = e.Uri.LocalPath;
-                string title = "title";
+                string title = Path.GetFileNameWithoutExtension(filename);
                 var editor = OnOpenEditor(editorType, title, filename);
                 editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
                 editor.Open(filename);
-                OnOpenTab(editor, title, editor);
+                OnOpenTab(editor, title, null);
                 e.Cancel = true;
             }
             if(e.Uri.AbsoluteUri.EndsWith("?external"))
