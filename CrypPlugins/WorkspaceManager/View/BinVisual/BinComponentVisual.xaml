@@ -344,6 +344,15 @@
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
+        <Style TargetType="{x:Type Button}" x:Key="OperationFullscreenStyle">
+            <Setter Property="ToolTip" Value="Fullscreen"></Setter>
+            <Setter Property="Height" Value="12"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+        </Style>
+
         <Style TargetType="{x:Type Button}" x:Key="RepeatableButtonStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsRepeatable, Mode=OneWay}" Value="False">
@@ -521,6 +530,12 @@
             <Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>
 
             <Button Style="{StaticResource ResourceKey=OperationMaxMinStyle}" Click="ActionHandler"></Button>
+
+            <Button Style="{StaticResource ResourceKey=OperationFullscreenStyle}" Click="OpenClickHandler">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/maxi.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </Button.Tag>
+            </Button>
 
             <Button Style="{StaticResource ResourceKey=OperationCloseStyle}" Click="CloseClick">
                 <Button.Tag>

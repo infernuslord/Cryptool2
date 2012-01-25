@@ -948,6 +948,11 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         {
             //Mouse.OverrideCursor = null;
         }
+
+        private void OpenClickHandler(object sender, RoutedEventArgs e)
+        {
+            Editor.SetFullscreen(this, this.State);
+        }
     }
 
     #region Events
