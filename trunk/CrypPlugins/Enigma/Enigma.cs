@@ -59,7 +59,8 @@ namespace Cryptool.Enigma
         #region Private variables
 
         private EnigmaSettings settings;
-        private EnigmaPresentation myPresentation;
+        private EnigmaPresentationFrame enigmaPresentationFrame;
+
 
 
         
@@ -71,7 +72,7 @@ namespace Cryptool.Enigma
         //private IDictionary<string, double[]> inputTriGrams;
         private string outputString;
         private string savedKey;
-        private Boolean isrunning;
+        public Boolean isrunning;
         
 
         #endregion
@@ -95,15 +96,16 @@ namespace Cryptool.Enigma
         {
             
             String input = preFormatInput(text);
-            myPresentation.disablePresentation(isrunning, Presentation.IsVisible);
-            if (Presentation.IsVisible && !myPresentation.PresentationDisabled)
+            enigmaPresentationFrame.ChangeStatus(isrunning, enigmaPresentationFrame.EnigmaPresentation.IsVisible);
+
+            if (Presentation.IsVisible && enigmaPresentationFrame.EnigmaPresentation.PresentationDisabled.DisabledBoolProperty)
             {
 
                 String output = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input);
 
-                myPresentation.output = output;
-                if (myPresentation.checkReady())
-                    myPresentation.setinput(input);
+                enigmaPresentationFrame.EnigmaPresentation.output = output;
+                if (enigmaPresentationFrame.EnigmaPresentation.checkReady())
+                    enigmaPresentationFrame.EnigmaPresentation.setinput(input);
                 else
                     LogMessage("Presentation Error!", NotificationLevel.Error);
                 //myPresentation.playClick(null, EventArgs.Empty);
@@ -303,12 +305,14 @@ namespace Cryptool.Enigma
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             
           
-            this.myPresentation = new EnigmaPresentation(this);
-            this.Presentation = myPresentation;
+            
+            enigmaPresentationFrame = new EnigmaPresentationFrame(this);
+            EnigmaPresentation myPresentation = enigmaPresentationFrame.EnigmaPresentation;
+            this.Presentation = enigmaPresentationFrame;
             //this.Presentation.IsVisibleChanged += presentation_isvisibleChanged;
-            this.settings.PropertyChanged += myPresentation.settings_OnPropertyChange;
+            this.settings.PropertyChanged += enigmaPresentationFrame.EnigmaPresentation.settings_OnPropertyChange;
             this.settings.PropertyChanged += settings_OnPropertyChange;
-            this.myPresentation.fireLetters += fireLetters;
+            this.enigmaPresentationFrame.EnigmaPresentation.fireLetters += fireLetters;
             
             
             }
@@ -410,9 +414,9 @@ namespace Cryptool.Enigma
         public void PreExecution()
         {
             isrunning = true;
-            
-            if(myPresentation.checkReady())
-            myPresentation.stopclick(this, EventArgs.Empty);
+
+            if (enigmaPresentationFrame.EnigmaPresentation.checkReady())
+                enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
 
             if (settings.Model != 3)
@@ -501,13 +505,14 @@ namespace Cryptool.Enigma
             }
 
             isrunning = false;
-            myPresentation.disablePresentation(isrunning,Presentation.IsVisible);
+            enigmaPresentationFrame.ChangeStatus(isrunning, enigmaPresentationFrame.EnigmaPresentation.IsVisible);
+            
         }
 
         public void Stop()
         {
             LogMessage("Enigma stopped", NotificationLevel.Info);
-            myPresentation.stopclick(this, EventArgs.Empty);
+            enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
             analyzer.StopAnalysis();
         }
 

@@ -91,6 +91,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="EnigmaPresentationFrame.xaml.cs">
+      <DependentUpon>EnigmaPresentationFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Walze.cs" />
     <Compile Include="Rotor2.cs" />
     <Compile Include="Enigma.cs" />
@@ -149,6 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="EnigmaPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EnigmaPresentationFrame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
