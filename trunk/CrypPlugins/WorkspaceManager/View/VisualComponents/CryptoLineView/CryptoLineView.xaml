@@ -7,12 +7,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
+        <bin:LineOverBindingConverter x:Key="LineOverBindingConverter"></bin:LineOverBindingConverter>
         <Style TargetType="{x:Type Path}" x:Key="Path">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="false">
-                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=LineOverBindingConverter}">
+                            <Binding Path="Target.IsMouseOver"></Binding>
+                            <Binding Path="Source.IsMouseOver"></Binding>
+                            <Binding Path="IsMouseOver"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
             </Style.Triggers>
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+            <Setter Property="Stroke" Value="RoyalBlue"></Setter>
+            <Setter Property="Opacity" Value="1"></Setter>
+            <Setter Property="StrokeThickness" Value="5.5"></Setter>
+            <Setter Property="StrokeDashArray" Value="4,1,4,1"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Thumb}" x:Key="Drag">
@@ -31,7 +44,7 @@
         </Style>
     </UserControl.Resources>
     <Canvas>
-        <!--<Path Data="{Binding Path=PathGeo}" Style="{StaticResource ResourceKey=Path}" StrokeThickness="7" Stroke="White" Opacity="0.6"></Path>-->
+        <Path Data="{Binding Path=PathGeo}" Style="{StaticResource ResourceKey=Path}"></Path>
         
         <ContentPresenter Content="{Binding Path=Line}">
 

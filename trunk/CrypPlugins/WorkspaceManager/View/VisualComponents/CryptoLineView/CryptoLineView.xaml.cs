@@ -46,8 +46,30 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     model.UpdateableView = this;
             }
         }
-        private BinConnectorVisual source;
-        private BinConnectorVisual target;
+
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(BinConnectorVisual),
+            typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+
+        public BinConnectorVisual Target
+        {
+            get { return (BinConnectorVisual)base.GetValue(TargetProperty); }
+            set
+            {
+                base.SetValue(TargetProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(BinConnectorVisual),
+            typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+
+        public BinConnectorVisual Source
+        {
+            get { return (BinConnectorVisual)base.GetValue(SourceProperty); }
+            set
+            {
+                base.SetValue(SourceProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty PathGeoProperty = DependencyProperty.Register("PathGeo", typeof(PathGeometry),
             typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
@@ -90,8 +112,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
             Line = new InternalCryptoLineView(visuals);
-            Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
-            Line.ComputationDone += new EventHandler(LineComputationDone);
         }
 
         public CryptoLineView(ConnectionModel model, BinConnectorVisual source, BinConnectorVisual target, ObservableCollection<UIElement> visuals)
@@ -100,8 +120,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
             this.Model = model;
-            this.source = source;
-            this.target = target;
+            this.Source = source;
+            this.Target = target;
 
             Line = new InternalCryptoLineView(model, source, target, visuals);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, this));
@@ -112,6 +132,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             BinEditorVisual editor = (BinEditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
+
+            if(model.PointList != null)
+                assembleGeo();
         }
 
         void editor_ItemsSelected(object sender, SelectedItemsEventArgs e)
@@ -120,7 +143,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             newItems = e.Items;
             if (newItems != null)
             {
-                if (newItems.Contains(source.WindowParent) || newItems.Contains(target.WindowParent) || true)
+                if (newItems.Contains(Source.WindowParent) || newItems.Contains(Target.WindowParent) || true)
                 {
                     selected = (IEnumerable<BinComponentVisual>)newItems.OfType<BinComponentVisual>();
                     foreach (var x in selected)
@@ -147,6 +170,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
 
         void LineComputationDone(object sender, EventArgs e)
+        {
+            assembleGeo();
+        }
+
+        private void assembleGeo()
         {
             PathGeometry geo = new PathGeometry();
             PathFigure myPathFigure = new PathFigure();
@@ -980,4 +1008,20 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             throw new NotImplementedException();
         }
     }
+
+    public class LineOverBindingConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var val = values.OfType<bool>();
+            var b = val.Any(x => x == true);
+            return b;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

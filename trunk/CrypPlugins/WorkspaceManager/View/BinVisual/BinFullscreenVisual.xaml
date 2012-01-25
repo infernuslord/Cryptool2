@@ -202,9 +202,8 @@
             <Setter Property="Width" Value="23"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=ActiveComponent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=IsEnabled}" Value="false">
                     <Setter Property="Opacity" Value="0.3"></Setter>
-                    <Setter Property="IsEnabled" Value="False"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -326,10 +325,19 @@
         </x:Array>
 
         <x:Array Type="{x:Type ButtonBase}" x:Key="Operations">
-
-            <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler"></Button>
+            <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" IsEnabled="False">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </Button.Tag>
+            </Button>
 
             <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="CloseClickHandler">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/min.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </Button.Tag>
+            </Button>
+
+            <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" IsEnabled="False">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                 </Button.Tag>

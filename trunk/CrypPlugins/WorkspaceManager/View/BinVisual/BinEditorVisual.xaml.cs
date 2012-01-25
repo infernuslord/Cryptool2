@@ -390,12 +390,23 @@ namespace WorkspaceManager.View.BinVisual
 
         public void AddText()
         {
+            var bin = new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
             VisualCollection.Add(new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
+            SelectedText = bin;
         }
 
         public void AddImage(Uri uri)
         {
-            VisualCollection.Add(new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri))));
+            try
+            {
+                BinImageVisual bin = new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri)));
+                VisualCollection.Add(bin);
+            }
+            catch(Exception e)
+            {
+                MyEditor.GuiLogMessage(string.Format("Could not add Image to Workspace: {0}", e.Message), NotificationLevel.Error);
+                MyEditor.GuiLogMessage(e.StackTrace, NotificationLevel.Error);
+            }
         }
         #endregion
 

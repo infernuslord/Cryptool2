@@ -32,7 +32,7 @@ namespace WorkspaceManager.View.BinVisual
         #region DependencyProperties
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
-            typeof(bool), typeof(BinTextVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(BinTextVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsSelectedChanged)));
 
         public bool IsSelected
         {
@@ -149,7 +149,16 @@ namespace WorkspaceManager.View.BinVisual
         {
             BinTextVisual bin = (BinTextVisual)d;
             if (bin.PositionDeltaChanged != null)
-                bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() {});
+                bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() { });
+
+        }
+
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinTextVisual bin = (BinTextVisual)d;
+            bin.mainRTB.Focusable = bin.IsSelected;
+            if(bin.IsSelected)
+                bin.mainRTB.Focus();
         }
 
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
