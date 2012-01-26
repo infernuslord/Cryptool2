@@ -1,3 +1,14 @@
+[b]Beta 7b[/b]
+
+This version contains some minor bug fixes:
+- Some text corrections
+- Connecting two components with different connector types now works as expected
+- Fixed wizard template bug
+- Fixed title of main window
+- Startcenter closes handles on image files now
+- Fixed opening templates from online help
+- Fixed exception handling when loading images in workspace manager
+
 [b]Beta 7[/b]
 
 Updater:
