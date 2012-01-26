@@ -404,8 +404,7 @@ namespace WorkspaceManager.View.BinVisual
             }
             catch(Exception e)
             {
-                MyEditor.GuiLogMessage(string.Format("Could not add Image to Workspace: {0}", e.Message), NotificationLevel.Error);
-                MyEditor.GuiLogMessage(e.StackTrace, NotificationLevel.Error);
+                MyEditor.GuiLogMessage(string.Format("Could not add image to workspace: {0}", e.Message), NotificationLevel.Error);
             }
         }
         #endregion
