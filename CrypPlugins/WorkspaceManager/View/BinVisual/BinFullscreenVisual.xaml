@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:p="clr-namespace:WorkspaceManager.Properties" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -155,10 +156,10 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOverviewOpen, Mode=OneWay}" Value="True">
+                <DataTrigger Binding="{Binding Source={x:Static p:Settings.Default}, Path=ToggleFullscreenPluginList}" Value="True">
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=IsOverviewOpen, Mode=OneWay}" Value="False">
+                <DataTrigger Binding="{Binding Source={x:Static p:Settings.Default}, Path=ToggleFullscreenPluginList}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -166,7 +167,9 @@
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type Button}">
             <Border x:Name="Border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
+                <Image RenderOptions.BitmapScalingMode="Linear" 
+                       Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" 
+                       Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -180,7 +183,7 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="CtrlTemplateChar" TargetType="{x:Type Button}">
+        <ControlTemplate x:Key="CtrlTemplateChar" TargetType="{x:Type ToggleButton}">
             <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag}" FontFamily="Arial"
                             FontWeight="Bold" FontSize="10" TextAlignment="Center" Foreground="WhiteSmoke" VerticalAlignment="Center"></TextBlock>
@@ -246,13 +249,13 @@
 
         </Style>
 
-        <Style x:Key="OpenCloseBtnStyle" TargetType="{x:Type Button}">
+        <Style x:Key="OpenCloseBtnStyle" TargetType="{x:Type ToggleButton}">
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Width" Value="30"></Setter>
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplateChar}"></Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOverviewOpen, Mode=OneWay}" Value="True">
+                <DataTrigger Binding="{Binding Source={x:Static p:Settings.Default}, Path=ToggleFullscreenPluginList}" Value="True">
                     <Setter Property="Content">
                         <Setter.Value>
                             <sys:Boolean>False</sys:Boolean>
@@ -265,7 +268,7 @@
                     </Setter>
                 </DataTrigger>
 
-                <DataTrigger Binding="{Binding Path=IsOverviewOpen, Mode=OneWay}" Value="False">
+                <DataTrigger Binding="{Binding Source={x:Static p:Settings.Default}, Path=ToggleFullscreenPluginList}" Value="False">
                     <Setter Property="Content">
                         <Setter.Value>
                             <sys:Boolean>True</sys:Boolean>
@@ -344,7 +347,8 @@
             </Button>
         </x:Array>
     </UserControl.Resources>
-    <Grid Background="{StaticResource ResourceKey=ContentBackground}" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BinFullscreenVisual}}}">
+    <Grid Background="{StaticResource ResourceKey=ContentBackground}" 
+          DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BinFullscreenVisual}}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"/>
@@ -357,9 +361,11 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="25"/>
                     </Grid.ColumnDefinitions>
-                    <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ActionHandler"
+                    <ToggleButton ToolTip="{Loc SettingsTooltip}" 
+                                  IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ToggleFullscreenPluginList, Mode=TwoWay}" 
+                                  Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ToggleClickOverviewHandler"
                             HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1">
-                    </Button>
+                    </ToggleButton>
 
                     <ListView Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
                               SelectedItem="{Binding Path=ActiveComponent, Mode=TwoWay}"

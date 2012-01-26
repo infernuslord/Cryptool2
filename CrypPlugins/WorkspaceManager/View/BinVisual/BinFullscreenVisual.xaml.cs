@@ -142,20 +142,20 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty IsOverviewOpenProperty = DependencyProperty.Register("IsOverviewOpen",
-            typeof(bool), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(false, null));
+        //public static readonly DependencyProperty IsOverviewOpenProperty = DependencyProperty.Register("IsOverviewOpen",
+        //    typeof(bool), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(false, null));
 
-        public bool IsOverviewOpen
-        {
-            get
-            {
-                return (bool)base.GetValue(IsOverviewOpenProperty);
-            }
-            set
-            {
-                base.SetValue(IsOverviewOpenProperty, value);
-            }
-        }
+        //public bool IsOverviewOpen
+        //{
+        //    get
+        //    {
+        //        return (bool)base.GetValue(IsOverviewOpenProperty);
+        //    }
+        //    set
+        //    {
+        //        base.SetValue(IsOverviewOpenProperty, value);
+        //    }
+        //}
 
         public static readonly DependencyProperty IsFullscreenOpenProperty = DependencyProperty.Register("IsFullscreenOpen",
             typeof(bool), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenOpenChanged)));
@@ -211,14 +211,13 @@ namespace WorkspaceManager.View.BinVisual
                 OnPropertyChanged("ActivePresentation");
                 return;
             }
-
-            if (b.Content is bool)
-            {
-                IsOverviewOpen = (bool)b.Content;
-                return;
-            }
-
+            
             e.Handled = true;
+        }
+
+        private void ToggleClickOverviewHandler(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
 
         private static void OnActiveComponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -260,6 +259,7 @@ namespace WorkspaceManager.View.BinVisual
             f.OnPropertyChanged("ActivePresentation");
         }
         #endregion
+
 
 
     }
