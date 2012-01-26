@@ -44,7 +44,7 @@
             </Style.Triggers>
             <Setter Property="Visibility" Value="Collapsed"></Setter>
             <Setter Property="Height" Value="18"></Setter>
-            <Setter Property="Background" Value="Tomato"></Setter>
+            <Setter Property="Background" Value="Gold"></Setter>
         </Style>
 
         <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">

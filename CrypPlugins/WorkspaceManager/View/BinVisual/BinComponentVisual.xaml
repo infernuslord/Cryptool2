@@ -303,7 +303,7 @@
                     </Setter>
                     <Setter Property="Tag">
                         <Setter.Value>
-                            <Image Source="/WorkspaceManager;component/View/Image/maxi.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                            <Image Source="/WorkspaceManager;component/View/Image/max.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
@@ -322,8 +322,8 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="{Loc MinimizeTooltip}"></Setter>
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -337,8 +337,8 @@
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="ToolTip" Value="{Loc CloseComponentTooltip}"></Setter>
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -346,8 +346,8 @@
 
         <Style TargetType="{x:Type Button}" x:Key="OperationFullscreenStyle">
             <Setter Property="ToolTip" Value="Fullscreen"></Setter>
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -383,8 +383,8 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="{Loc RepeatTooltip}"></Setter>
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -399,8 +399,8 @@
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="ToolTip" Value="{Loc Show_IControlsTooltip}"></Setter>
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -533,7 +533,7 @@
 
             <Button Style="{StaticResource ResourceKey=OperationFullscreenStyle}" Click="OpenClickHandler">
                 <Button.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/maxi.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                    <Image Source="/WorkspaceManager;component/View/Image/full.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                 </Button.Tag>
             </Button>
 

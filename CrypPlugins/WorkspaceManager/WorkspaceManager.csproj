@@ -423,6 +423,9 @@
     <Resource Include="View\Image\Arrow-stop-up-48.png" />
     <Resource Include="View\Image\Arrow-up-48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\full.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
