@@ -239,7 +239,7 @@
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
             <Border x:Name="Border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
+                <Image RenderOptions.BitmapScalingMode="Linear" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
