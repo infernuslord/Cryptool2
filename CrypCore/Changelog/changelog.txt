@@ -8,6 +8,10 @@ This version contains some minor bug fixes:
 - Startcenter closes handles on image files now
 - Fixed opening templates from online help
 - Fixed exception handling when loading images in workspace manager
+- Added new certificate, so the AutoUpdate will work also with the new server certificate
+
+Please update soon!
+
 
 [b]Beta 7[/b]
 
