@@ -26,6 +26,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Threading;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
@@ -33,6 +34,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
@@ -63,7 +65,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private int currentColorComponent = 0;
         private ImageInfo imageInfo;
         private const int PixelSize = 3;
-
+        private StegoLeastSignificantBitPresentation presentation = new StegoLeastSignificantBitPresentation();
+        
         #endregion
 
         #region Data Properties
@@ -119,13 +122,9 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             get { return settings; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide a custom (tabbed) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return presentation; }
         }
 
         public void PreExecution()
@@ -138,6 +137,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         public void Execute()
         {
             ProgressChanged(0, 1);
+
             using (CStreamReader reader = InputCarrier.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -497,6 +497,20 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         #endif
         void Hide(Bitmap bitmap, CStreamReader message, CStreamReader key)
         {
+            // start presentation
+            SendOrPostCallback updatePresentationPictureDelegate = (SendOrPostCallback)delegate
+            {
+                presentation.UpdatePicture(bitmap);
+            };
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+            }
+            /*SendOrPostCallback updatePresentationPixelsDelegate = (SendOrPostCallback)delegate(Object state)
+            {
+                presentation.AddPixel((Point)state);
+            };*/
+
             //make sure that the image is in RGB format
             Bitmap image = PaletteToRGB(bitmap);
 
@@ -567,6 +581,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             pFirstPixel = pixelPosition;
 #endif
 
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+            }
+
             int regionByte;
             while ((regionByte = regionData.ReadByte()) >= 0)
             {
@@ -604,11 +623,17 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
                     WritePixel(pixelPosition, pPixel);
 #endif
+
+                    if (presentation.IsVisible)
+                    {
+                        presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+                    }
                 }
             }
 
             // ----------------------------------------- Hide the Message
 
+            
             //begin with the first pixel of the image
 #if Use_Unsafe_Pointers
             pFirstPixel = (PixelData*)bitmapData.Scan0.ToPointer();
@@ -669,12 +694,22 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                         SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
                         WritePixel(pixelPosition, pPixel);
 #endif
+
+                        if (presentation.IsVisible)
+                        {
+                            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+                        }
                     }
                 }
             }
 
             image.UnlockBits(bitmapData);
             CreateOutputStream(image);
+
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+            }
         }
 
         /// <summary>Convert points (X;Y|X;Y|X;Y) to plain bytes (XYXYXY)</summary>
