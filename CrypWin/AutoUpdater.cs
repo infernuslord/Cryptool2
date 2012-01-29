@@ -156,6 +156,22 @@ namespace Cryptool.CrypWin
                 return false;
             }
 
+
+            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNameMismatch)
+            {
+                GuiLogMessage("AutoUpdate: Certificate name mismatch (certificate not for www.cryptool.org?)", NotificationLevel.Error);
+                return false;
+            }
+
+            //Catch any other SSLPoliy errors
+            //if (sslPolicyErrors != SslPolicyErrors.None)
+            //{
+            //    GuiLogMessage("AutoUpdate: SSL/TLS error: " + sslPolicyErrors.ToString(), NotificationLevel.Error);
+            //    return false;
+            //}
+
+            
+            // Why do we check this?
             // Check equality of remote and local certificate
             // check for current and new certificate, in case server-certificate is changed
             if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
@@ -164,6 +180,7 @@ namespace Cryptool.CrypWin
                 return false;
             }
 
+            //GuiLogMessage("AutoUpdate: SSL fine for " + ((HttpWebRequest)sender).Address.ToString() + ", got valid certificate ("+certificate.Subject+").", NotificationLevel.Info);
             return true;
         }
 
