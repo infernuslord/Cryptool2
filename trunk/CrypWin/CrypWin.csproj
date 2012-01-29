@@ -335,9 +335,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="Resources\old-www.cryptool.org.crt" />
-    <None Include="Resources\old-www_cryptool_org.crt" />
     <None Include="Resources\www.cryptool.org.crt" />
-    <None Include="Resources\www_cryptool_org.crt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\Bold.png" />
