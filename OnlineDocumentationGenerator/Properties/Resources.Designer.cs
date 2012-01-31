@@ -370,17 +370,14 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation der Komponente &lt;docItem property=&quot;Name&quot; /&gt;!
-        ///		&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///		table{ [rest of string was truncated]&quot;;.
+        ///		    Dokumentation der Komponente &lt;docItem propert [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateComponentDocumentationPage {
             get {
@@ -393,18 +390,14 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; /&gt;!
-        ///		&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///		table{
-        ///			font- [rest of string was truncated]&quot;;.
+        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateEditorDocumentationPage {
             get {
@@ -417,18 +410,13 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///		table{
-        ///			font-family: Verdana, sans-serif, Helvetica,  Arial ;
-        ///		}
-        ///	&lt;/style&gt;
-        ///&lt;/head&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/cs [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateIndex {
             get {
@@ -450,18 +438,13 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///		table{
-        ///			font-family: Verdana, sans-serif, Helvetica,  Arial ;
-        ///		}
-        ///	&lt;/style&gt;
-        ///&lt;/head&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/cs [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateTemplatesPage {
             get {

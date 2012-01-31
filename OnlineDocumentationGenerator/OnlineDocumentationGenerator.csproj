@@ -113,6 +113,7 @@
     <Resource Include="Generators\HtmlGenerator\filterTable.js" />
     <Resource Include="Generators\HtmlGenerator\de.png" />
     <Resource Include="Generators\HtmlGenerator\en.png" />
+    <Resource Include="Generators\HtmlGenerator\print.css" />
     <Content Include="Generators\HtmlGenerator\TemplateTemplatesPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateEditorDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
