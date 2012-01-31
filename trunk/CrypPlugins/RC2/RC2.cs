@@ -25,12 +25,11 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
-using Cryptool.RC2;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.RC2.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "RC2/DetailedDescription/doc.xml", "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class RC2 : ICrypComponent
     {
