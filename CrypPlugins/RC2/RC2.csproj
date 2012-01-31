@@ -8,7 +8,7 @@
     <ProjectGuid>{A2A7E7E6-05E6-46AD-B8AE-862D9DA78A1E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.RC2</RootNamespace>
+    <RootNamespace>Cryptool.Plugins.Cryptography.Encryption</RootNamespace>
     <AssemblyName>RC2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
