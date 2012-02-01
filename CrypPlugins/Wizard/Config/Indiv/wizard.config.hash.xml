@@ -174,12 +174,13 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
+      <defaultvalue lang="en">Whirlpool is a cryptographic hash function designed by Vincent Rijmen and Paulo SLM Barreto first described in 2000. It was named after the Whirlpool galaxy in the constellation Canis Venati; Latin for hunting dogs.
+Whirlpool works with files up to 2 ^ 256 bits size and returns a hash of 512 bits. So far no weaknesses in the algorithm are known.  Further study is required, however, since the algorithm is still fairly recent and insufficiently tested.
+The authors have declared that Whirlpool is not patented, nor will it ever be; they have released it to the Public Domain. Whirlpool can be used freely for any purpose. The reference implementation is Public Domain.
+Whirlpool is one of the projects recommended by the NESSIE cryptographic algorithms, developed by the ISO with ISO / IEC 10118-3:2004 standard.</defaultvalue>
       <defaultvalue lang="de">WHIRLPOOL ist eine kryptologische Hash-Funktion, die von Vincent Rijmen und Paulo S. L. M. Barreto entworfen wurde. Sie wurde nach der Whirlpool-Galaxie im Sternbild der Jagdhunde benannt.
-
 Whirlpool funktioniert mit Dateien bis zu 2^256 Bit Größe und gibt einen Hash-Wert von 512 Bit aus. Bislang sind keine Schwächen des Algorithmus bekannt, was allerdings relativiert werden muss, da der Algorithmus noch sehr jung ist und bislang wenig untersucht wurde.
-
 Die Autoren haben erklärt, dass Whirlpool nicht patentiert ist und es nie sein wird. Whirlpool darf kostenlos zu jedem Zweck verwendet werden. Die Referenz-Implementierung ist gemeinfrei.
-
 Whirlpool gehört zu den vom Projekt NESSIE empfohlenen kryptografischen Algorithmen und wurde von der ISO mit ISO/IEC 10118-3:2004 standardisiert.</defaultvalue>
     </inputBox>
 

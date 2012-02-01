@@ -104,8 +104,21 @@ Wählen Sie diesen Punkt, um einen mit dem Vigenère-Verfahren verschlüsselten 
     <task lang="de">Bitte geben Sie den Geheimtext ein und wählen die Textsprache aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
+      <description lang="en">Ciphertext:</description>
       <description lang="de">Geheimtext:</description>
-      <defaultvalue>Giw eu 16. Adlzuarzyjx pqtkpiegivr Bmcyfèvp-Yejokyoüwarryja (fenk Bdwqjh hm Iokahèji) rdll hieji iyy wewzichr Udqwivqrxehagvtwheqa („Ch Gpvljny aroéfhabnidftr“, jiqnkgs: „Giw qvvqxhvljaltech Vwnatkpüafkpqhy“).[1] Itq Sudtüjvitjuvp vwwelmep, ezh zqrri qhv apocza Icsliokxa awrfwzl smigiv. Qoi Wfhlleela tvlxma ymyb syd gej Yivvez-Fafonaxfwigj is.
+      <defaultvalue lang="en">Mom 16lp Uezxmjr zio bze pinwevxemft aj lzx Cqymfèrq ifukfxlqgn yilzhk (vsuwd mjlwk Itsqke pi Nazlvèjm). Lhuw osl swfo uozwavxymv if uzfjwtrittw ezgjqiaqgv slssjamou ("Dm Uhujxjx pvvékzirjjsusm", [Wvyluwz: "Lal qflwcutzwkhjdm uiblwj.")]
+
+Mom wvurktlahu uwbzop ylaephwa euxxahel idxzanilk, xhkz aamupsj mv
+i Uiwsmv sdioitml, iz xzsm pb aa gfrwwl uf aguw ngqtwk vn upsrmglwkz, alijtury khtmopwrq jjgf H bzzm Z, mrv uhubavmizk uqvsqutq uzxad ba zwiuhqw R. Xkvu lpwn ar, al laijbk af E sytpv lw eawi gfx vn 26 vqxfqvwfm Jiwasr mphztimla.
+
+Ohugz gy apwaw axtzsulbk qk ufmdasll lw wnovqhm liup defxwj hm bzm hlmmflxeb vmhezhk mivv s swyisjv, poqup as beajxk, twbled fq dxabwz, oifl uztyiubwre sx lal xdianfipl. Mom cmqwavv kavcdl te mw dggn ik qk fqekausm, kqfcq xzal dwmtv uei s yklilmj ngqtwk vn sthhmfwll, dpakz carljbiclmk ta xzw llkmzatk.  Azwg apw mfd aj lzx rmqegrp mk jxhkzmv, if gquela svv rqtwsmz.
+
+Bzm Truxaka tilpwmmxaubhv Upsrxik Ttijsow sgguwxkmv jq 1854 iz wgdopvy i Nisifèjx lvuzqpfmgf yvz lpw fuvkl mpuw.  Bze reul moil i eeflgv yvz vmurktlahu wx bzie gahalz ziv bqif vbzkgdwrqh osl uwl xmbxmudr rvgef uzxad 9 rlija dafij. Oalbzmj od rgl moqk zwsgplww mzgu Tanfsyx'z sfwon fifvxukq bg pdsujtzbavstq, xzwkl qk idsa xzw ivakqtixmlq moil Mfgxefv, xuosowd mx lzx aqem an flw Ukpuwif Wmv, zsw hlgxlep (efv vsikaafuiv Ehzb Kmurqx) lzx miub lhmx Nazlvèjm wnovqhmpwf ess zs dggnmj awcgvw. Lal Xjcksuef gymqumj Fdmwvkpkz Sssuwca ibjdqkhqh zal vef aglgxagg pv 1863 svv dqwujbimv bze yilzhka mawd.
+
+Flw Nbnmfèzw dqgjqiaqgv eeflgv pvzca an m qsfglz kqeixej lh apsb msqh af tabskcizk s ehuwsthhmfwlbj amjktuxmlbvv, oqlh flw etqwj pagtpq kbnvanacmrl vbmnwzwnoi lzta mskz pxeafmlfl kzadeulxy ksv te  qruaiomjmv bk efq hm 26 lanxedifl laiflsrp edhahjwbk dqtwfwlvl choz azavo twbled sx lal swgoodh sdbnvk eatt azavo idxzanil.  Laba, fwl ozpq utu bzm kayi uaiomj twtfij jxwzwawnf haxylzwvl pxeafmlfl twtfijk, ubb lpw smqw hehqfbwx xillxy ksv te qruaiomjmv iz qmdmpxdm oakw.
+
+Yaolv lpw kqcogkk wj swybljsll, ql qk rqpslbcmdg kiytdw mv lwkjybx lzx jqhpwr. Mrsdrzqk wx a Hmywgèym uqhhqv af mom sjkezgw gy rvgedepkw gy apw swy, tsowolz, aa kisraxbjifbdy ysjw vvuhtwx, nyl utu jw iucaqhdbzpwl fozilzxsmka.</defaultvalue>
+      <defaultvalue lang="de">Giw eu 16. Adlzuarzyjx pqtkpiegivr Bmcyfèvp-Yejokyoüwarryja (fenk Bdwqjh hm Iokahèji) rdll hieji iyy wewzichr Udqwivqrxehagvtwheqa („Ch Gpvljny aroéfhabnidftr“, jiqnkgs: „Giw qvvqxhvljaltech Vwnatkpüafkpqhy“).[1] Itq Sudtüjvitjuvp vwwelmep, ezh zqrri qhv apocza Icsliokxa awrfwzl smigiv. Qoi Wfhlleela tvlxma ymyb syd gej Yivvez-Fafonaxfwigj is.
 
 Giu oxmpckgshn Ewbyhqigooal Ullulwo Jrefitk kafsrr xm vwa Adlz 1854 rxwpgspd giw Avkcmnskvqhy itqej Rqxhrèzr-Ilezxvp. Giwom Vqxlrioqhy afudw fmurgp qgqwfk rtfhl öbnvqxtvil xyceyqt yaurflb. Qkv llwyßtvcza Wwimhvkv Blaiouiud Srvmaxo zalöxjpqtdekywi qz Pedl 1863 kitqe Döocej yvq mmja vexlt aj lzh Kmfilewzxp hif.
 
@@ -116,9 +129,13 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
       <description lang="en">Language of the cleartext message:</description>
       <description lang="de">Sprache der Klartext-Nachricht:</description>
       <item content="English" lang="en"/>
-      <item content="German" lang="en"/>      
+      <item content="German" lang="en"/>
       <item content="French" lang="en"/>
       <item content="Spanish" lang="en"/>
+      <item content="Englisch" lang="de"/>
+      <item content="Deutsch" lang="de"/>
+      <item content="Französisch" lang="de"/>
+      <item content="Spanisch" lang="de"/>
     </comboBox>
 
     <comboBox plugin="VigenereAutokeyAnalyser;Vigenere" property="Modus" defaultValue="1" width="20%" alignment="Left">
@@ -143,7 +160,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
         <description lang="en">Ciphertext:</description>
         <description lang="de">Geheimtext:</description>
       </inputBox>
-
+      
       <outputBox plugin="Plaintext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
