@@ -148,7 +148,7 @@
     <value>Input message</value>
   </data>
   <data name="OutputListCaption" xml:space="preserve">
-    <value>Carrier List</value>
+    <value>Carrier list</value>
   </data>
   <data name="OutputListTooltip" xml:space="preserve">
     <value>Result</value>
