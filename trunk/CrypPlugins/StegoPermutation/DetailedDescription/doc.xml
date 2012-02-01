@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en"></introduction>
+
+  <introduction lang="de-DE">
+    Unter <i>Steganographie</i> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
+    uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
+    noch eine zusätzliche, versteckte Nachricht übermittelt wird.
+    <newline/><newline/>
+    Das Grundprinzip der steganographischen Technik dieses Plugins ist, die zu übertragende Nachricht in eine Zahl
+    zu verwandeln (durch Konvertierung der Buchstaben in ihre ASCII-Werte) und diese Zahl durch die Anordnung
+    einer Menge von Grundobjekten (in diesem Fall Worten) an den Empfänger zu übermitteln.
+    <newline/><newline/>
+    Jede Menge von Grundobjekten, die in eine wohldefinierte Reihenfolge gebracht werden können, kann dazu verwendet werden,
+    eine Nachricht zu kodieren. Die Elemente einer Menge mit <i>N</i> Objekten lassen sich auf genau <i>N! = 1*2*...*(N-1)*N</i> verschiedene
+    Arten in einer Reihenfolge anordnen. Diese <i>N!</i> Möglichkeiten (Permutationen) lassen sich von <i>0</i> bis <i>(N!-1)</i> durchnummerieren.
+    Wird nun eine bestimmte Reihenfolge der Grundobjekte übertragen, so kann der Empfänger aus ihrer Anordnung sofort auf die
+    Nummer dieser Permutation schließen und die auf diese Weise übermittelte Zahl wieder in die lesbare Nachricht
+    zurückverwandeln.
+  </introduction>
+
+  <usage lang="en"></usage>
+
+  <usage lang="de-DE">
+    Das Plugin hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins
+    gewählt werden kann.
+    <newline/><newline/>
+    Bei der <i>Verschlüsselung</i> erwartet das Plugin am Eingang <i>"Nachricht"</i> die zu versteckende Textnachricht und am
+    Eingang <i>"Trägerliste"</i> eine durch Kommas getrennte Liste von Worten. Die Anordnung, in der diese
+    Worte am Ausgang <i>"Trägerliste"</i> des Plugins ausgegeben werden, kodiert die zu versteckende Nachricht.
+    <newline/><newline/>
+    Bei der <i>Entschlüsselung</i> erwartet das Plugin am Eingang <i>"Trägerliste"</i> eine durch Kommas getrennte Liste von Worten, deren
+    Reihenfolge die versteckte Nachricht kodiert. Die dekodierte Nachricht wird dann am entsprechenden Ausgang zur Verfügung
+    gestellt.
+    <newline/><newline/>
+    Da eine endliche Liste von Objekten auch nur eine endliche Zahl von Permutationen zulässt, ist die Länge der Nachricht, die
+    durch die Permutation versteckt werden kann, begrenzt. Ist die eingegbene Nachricht zu lang, so gibt das Plugin eine
+    Warnung aus und schneidet den Teil der Nachricht ab, der die Kapazität der Trägerliste übersteigt.
+    <newline/><newline/>
+    Die Sortierung der Worte der Trägerliste beruht auf der natürlichen lexikograhischen Reihenfolge des Alphabets.
+    Die Einstellungen des Plugins bieten die Möglichkeit, diese Reihenfolge durch eine selbst definierte Reihenfolge
+    abzuändern. Dazu wird in das Textfeld <i>"Alphabet"</i> in den Einstellungen des Plugins das den Trägerworten zugrunde liegende
+    Alphabet in einer frei wählbaren Reihenfolge eingegeben. Da unterschiedliche Alphabete unterschiedlich sortierte
+    Listen von Trägerworten ergeben, fungiert dieses Alphabet zusätzlich als Passwort für die Ver-/Entschlüsselung der Nachricht.
+  </usage>
+  
+  <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Steganography"/>
+      <caption lang="en">Steganography in the english wikipedia</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Steganographie"/>
+      <caption lang="de-DE">Steganographie in der deutschen Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.codeproject.com/Articles/62290/Steganography-19-The-Order-of-the-Code"/>
+      <caption lang="en">Steganography at CodeProject</caption>
+      <link lang="de-DE" url="http://www.codeproject.com/Articles/62290/Steganography-19-The-Order-of-the-Code"/>
+      <caption lang="de-DE">Steganographie bei CodeProject</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.steganografie.eu"/>
+      <caption lang="en">http://www.steganografie.eu</caption>
+      <link lang="de-DE" url="http://www.steganografie.eu"/>
+      <caption lang="de-DE">http://www.steganografie.eu</caption>
+    </linkReference>
+  </references>
+</documentation>
