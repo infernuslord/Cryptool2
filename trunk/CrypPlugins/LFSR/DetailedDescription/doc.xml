@@ -9,7 +9,7 @@ presentation. If all stages are needed, the plugin is able to provide a boolean 
 </introduction>
   <introduction lang="de-DE">
   </introduction>
-  <usage lang="en">Some scenarios includeing detailed walkthroughs that describe the usage of the LFSR plugin can be found here: <external ref="http://cryptool2.vs.uni-due.de/downloads/howto/StreamCipherToolboxScenarios.pdf" />
+  <usage lang="en">Some scenarios including detailed walkthroughs that describe the usage of the LFSR plugin can be found here: <external ref="http://cryptool2.vs.uni-due.de/downloads/howto/StreamCipherToolboxScenarios.pdf" />
 </usage>
   <usage lang="de-DE">
   </usage>
