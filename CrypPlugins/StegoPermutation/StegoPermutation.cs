@@ -30,7 +30,7 @@ using System.Threading;
 namespace Cryptool.Plugins.StegoPermutation
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("StegoPermutation.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoPermutation/DetailedDescription/Description.xaml", "StegoPermutation/Images/StegoPermutation.png")]
+    [PluginInfo("StegoPermutation.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoPermutation/DetailedDescription/doc.xml", "StegoPermutation/Images/StegoPermutation.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoPermutation : ICrypComponent
     {
