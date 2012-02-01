@@ -2,7 +2,7 @@
 <documentation>
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en">The Solitaire Cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book <i>Cryptonomicon</i>. <newline />
+  <introduction lang="en">The Solitaire cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book <i>Cryptonomicon</i>. <newline />
 Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools". For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html.
 </introduction>
   <introduction lang="de-DE"></introduction>
