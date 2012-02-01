@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss, Martin Franz", "", "", "")]
     [PluginInfo("Paillier.Properties.Resources",
-        "PluginCaption", "PluginTooltip", "Paillier/Documentation/doc.xml", 
+        "PluginCaption", "PluginTooltip", "Paillier/DetailedDescription/doc.xml", 
         "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     public class Paillier : ICrypComponent

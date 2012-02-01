@@ -404,7 +404,7 @@
     <Resource Include="View\Image\unlock.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Documentation\doc.xml" />
+    <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\thunder.png" />

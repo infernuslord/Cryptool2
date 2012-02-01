@@ -104,7 +104,7 @@
     <Resource Include="Images\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Documentation\doc.xml">
+    <Resource Include="DetailedDescription\doc.xml">
       <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>

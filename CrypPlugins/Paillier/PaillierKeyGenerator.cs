@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
-    [PluginInfo("Paillier.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
+    [PluginInfo("Paillier.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "", "Paillier/Image/PaillierKey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>

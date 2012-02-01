@@ -25,7 +25,7 @@ using System.Threading;
 namespace PictureOutput
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("PictureOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PictureOutput/documentation.xml", "PictureOutput/icon.png")]
+    [PluginInfo("PictureOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PictureOutput/DetailedDescription/doc.xml", "PictureOutput/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class PictureOutput : ICrypComponent
     {
