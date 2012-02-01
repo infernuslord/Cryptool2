@@ -47,7 +47,7 @@
         <Button Name="btnCancel" Margin="5" HorizontalAlignment="Left" IsEnabled="False" Click="btnCancel_Click" Width="100" Content="{x:Static lang:Numbertheory.proot_btnCancel}"></Button>
       </DockPanel>
     </Grid>
-    <Button Name="btnJump" Margin="5" HorizontalAlignment="Left" IsEnabled="True" Visibility="Hidden" Click="btnJump_Click" Width="200" Height="22" Grid.Row="1" Content="{x:Static lang:Numbertheory.proot_btnSkipCalculation}" />
+    <Button Name="btnJump" Margin="5,0,0,5" HorizontalAlignment="Left" IsEnabled="True" Visibility="Hidden" Click="btnJump_Click" Width="217" Height="27" Grid.Row="1" Content="{x:Static lang:Numbertheory.proot_btnSkipCalculation}" VerticalAlignment="Center" />
     <comps:LogControl x:Name="log" Title="" Grid.Row="2"/>
   </Grid>
 </UserControl>

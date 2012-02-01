@@ -99,24 +99,27 @@ namespace Primes.Options
 
     private void btnChooseGpexe_Click(object sender, RoutedEventArgs e)
     {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Filter = "gp.exe|gp.exe";
-      ofd.Multiselect = false;
-      if (File.Exists(m_Setting.gpexe))
-      {
-        ofd.InitialDirectory = m_Setting.gpexe;
-      }
-      else
-      {
-        ofd.InitialDirectory = "./";
-      }
-      if (ofd.ShowDialog().Value)
-      {
-        if (File.Exists(ofd.FileName))
+        OpenFileDialog ofd = new OpenFileDialog();
+
+        ofd.Filter = "gp.exe|gp.exe";
+        ofd.Multiselect = false;
+
+        if (File.Exists(m_Setting.gpexe))
         {
-          tbGpExe.Text = ofd.FileName;
+            ofd.InitialDirectory = m_Setting.gpexe;
         }
-      }
+        else
+        {
+            ofd.InitialDirectory = String.Empty;
+        }
+
+        if (ofd.ShowDialog() == true)
+        {
+            if (File.Exists(ofd.FileName))
+            {
+                tbGpExe.Text = ofd.FileName;
+            }
+        }
     }
 
     private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

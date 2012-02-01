@@ -52,18 +52,18 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Basis" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_base}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5"/>
                     <comps:InputSingleControl x:Name="iscBase" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"/>
-                    <TextBlock Text="Exponent" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_exponent}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5"/>
                     <comps:InputSingleControl x:Name="iscExp" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5"/>
-                    <TextBlock Text="Modulus" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5"/>
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_modulus}" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5"/>
                     <comps:InputSingleControl x:Name="iscMod" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="2" Margin="5"/>
                     <Slider Name="slidermodulus" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Minimum="2" Maximum="150" Value="2" ValueChanged="slidermodulus_ValueChanged" Margin="5"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Anordnung der Punkte"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:Numbertheory.powermod_points}" VerticalAlignment="Center" />
                     <DockPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
-                        <RadioButton Name="rbOne" Margin="5" Command="this:PowerModCommands.ReOrderPointsCommand" IsChecked="True">im Uhrzeigersinn</RadioButton>
-                        <RadioButton Name="rbTwo" Margin="5" Command="this:PowerModCommands.ReOrderPointsCommand">gegen den Uhrzeigersinn</RadioButton>
+                        <RadioButton Name="rbOne" Margin="5" Command="this:PowerModCommands.ReOrderPointsCommand" Content="{x:Static lang:Numbertheory.powermod_cw}" IsChecked="True" />
+                        <RadioButton Name="rbTwo" Margin="5" Command="this:PowerModCommands.ReOrderPointsCommand" Content="{x:Static lang:Numbertheory.powermod_ccw}" />
                     </DockPanel>
                 </Grid>
             </StackPanel>
@@ -116,7 +116,7 @@
           </Viewbox>
         </ScrollViewer>-->
             </DockPanel>
-            <GroupBox Header="Fortschritt" Grid.Column="1">
+            <GroupBox Header="{x:Static lang:Numbertheory.powermod_progress}" Grid.Column="1">
                 <comps:LogControl x:Name="log" Title=""  />
             </GroupBox>
         </Grid>

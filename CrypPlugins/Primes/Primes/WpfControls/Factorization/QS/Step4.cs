@@ -76,16 +76,17 @@ namespace Primes.WpfControls.Factorization.QS
         }
       }
       result = (productA != null && productB != null)?QSResult.Ok:QSResult.Failed;
-      StringBuilder sbInfo = new StringBuilder();
-      sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated);
-      sbInfo.Append(productA.ToString("D"));
-      sbInfo.Append(" b = ");
-      sbInfo.Append(productB.SquareRoot().ToString("D"));
-      sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong);
-      sbInfo.Append("a² ≡ b² (mod n), a !≡ b (mod n)");
-      ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
       if (result == QSResult.Ok)
       {
+        StringBuilder sbInfo = new StringBuilder();
+        sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated);
+        sbInfo.Append(productA.ToString("D"));
+        sbInfo.Append(" b = ");
+        sbInfo.Append(productB.SquareRoot().ToString("D"));
+        sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong);
+        sbInfo.Append("a² ≡ b² (mod n), a !≡ b (mod n)");
+        ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
+
         result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N)))?QSResult.Ok:QSResult.Failed;
         if (result == QSResult.Ok)
         {

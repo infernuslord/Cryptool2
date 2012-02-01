@@ -118,247 +118,249 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="graph_btnResume" xml:space="preserve">
-    <value>Weiter</value>
+    <value>Resume</value>
   </data>
   <data name="graph_btnStop" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="graph_contextmenucopy" xml:space="preserve">
-    <value>kopieren</value>
+    <value>copy</value>
   </data>
   <data name="graph_gausscountinfo" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem Primzahlsatz beträgt:</value>
+    <value>Number of primes according to the Prime Number Theorem:</value>
   </data>
   <data name="graph_gausscountinfoCalculating" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem Primzahlsatz wird berechnet</value>
+    <value>Calculating the number of primes according to the Prime Number Theorem</value>
   </data>
   <data name="graph_gaussname" xml:space="preserve">
-    <value>Primzahlsatz</value>
+    <value>Prime Number Theorem</value>
   </data>
   <data name="graph_groupboxheader" xml:space="preserve">
-    <value>Verfügbare Funktionen zum Berechnen der Anzahl der Primzahlen Y in einem gegebenen Bereich X</value>
+    <value>Available functions for calculating the number of primes Y in a given range X</value>
   </data>
   <data name="graph_lincountinfo" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem logarothmischen Integral beträgt:</value>
+    <value>Number of primes according to the logarithmic integral:</value>
   </data>
   <data name="graph_lincountinfoCalculating" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem logarothmischen Integral wird berechnet</value>
+    <value>Calculating the number of primes according to the logarithmic integral</value>
   </data>
   <data name="graph_linname" xml:space="preserve">
-    <value>Das logarithmische Integral</value>
+    <value>The logarithmic integral</value>
   </data>
   <data name="graph_pincountinfo" xml:space="preserve">
-    <value>Die tatsächliche Anzahl der Primzahlen beträgt:</value>
+    <value>The actual number of primes is:</value>
   </data>
   <data name="graph_pincountinfoCalculating" xml:space="preserve">
-    <value>Die tatsächliche Anzahl der Primzahlen wird berechnet</value>
+    <value>Calclulating the actual number of primes</value>
   </data>
   <data name="graph_pinlimitinfo" xml:space="preserve">
-    <value>Die Exakte Treppenfunktion wird nur für Werte unter 10.000 gezeichnet. Alle Werte darüber werden lediglich berechnet und hier ausgegeben.</value>
+    <value>The exact step function is only displayed for values smaller than 10.000. All bigger values are merely calculated and printed here.</value>
   </data>
   <data name="graph_pinname" xml:space="preserve">
-    <value>Exakte Treppenfunktion π</value>
+    <value>Exact Step funktion π</value>
   </data>
   <data name="graph_validatorrangemessage" xml:space="preserve">
-    <value>Der Abstand zwischen "von" und "bis" muss mindestens {0} betragen.</value>
+    <value>The difference between "from" and "to" must be at least {0}.</value>
   </data>
   <data name="numbergrid_actualnumber" xml:space="preserve">
-    <value>aktuelle Zahl</value>
+    <value>current number</value>
   </data>
   <data name="numbergrid_btnExecute" xml:space="preserve">
-    <value>Ausführen</value>
+    <value>Execute</value>
   </data>
   <data name="numbergrid_height" xml:space="preserve">
-    <value>Höhe</value>
+    <value>Height</value>
   </data>
   <data name="numbergrid_input" xml:space="preserve">
-    <value>Eingabe</value>
+    <value>Input</value>
   </data>
   <data name="numbergrid_scroll" xml:space="preserve">
-    <value>Zeilenweise im Zahlengrid scrollen</value>
+    <value>Scroll rowwise in the number grid</value>
   </data>
   <data name="numbergrid_start" xml:space="preserve">
-    <value>Startwert</value>
+    <value>Start</value>
   </data>
   <data name="numbergrid_tooltipscrolldown" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie eine Zeile nach unten.</value>
+    <value>Click here to scroll down one row.</value>
   </data>
   <data name="numbergrid_tooltipscrolldownfast" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie zwei Zeilen nach unten.</value>
+    <value>Click here to scroll down two rows.</value>
   </data>
   <data name="numbergrid_tooltipscrollup" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie eine Zeile nach oben.</value>
+    <value>Click here to scroll up one row.</value>
   </data>
   <data name="numbergrid_tooltipscrollupfast" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie zwei Zeilen nach oben.</value>
+    <value>Click here to scroll up two rows.</value>
   </data>
   <data name="numbergrid_width" xml:space="preserve">
-    <value>Breite</value>
+    <value>Width</value>
   </data>
   <data name="numbergrid_zoom" xml:space="preserve">
-    <value>Das Zahlengrid zoom</value>
+    <value>Zoom the number grid</value>
   </data>
   <data name="numberline_actualnumber" xml:space="preserve">
-    <value> Aktuelle Zahl n =</value>
+    <value>current number n =</value>
   </data>
   <data name="numberline_calculating" xml:space="preserve">
-    <value>(wird berechnet)</value>
+    <value>(calculating)</value>
   </data>
   <data name="numberline_cancelcalculations" xml:space="preserve">
-    <value>Laufende Berechnungen abbrechen</value>
+    <value>Cancel calculations</value>
   </data>
   <data name="numberline_countprimesgauss" xml:space="preserve">
-    <value> Nach der Abschätzung durch den Gaußschen Primzahlsatz beträgt die Anzahl</value>
+    <value>The number of primes according to the estimate of Gauss' prime number theorem is</value>
   </data>
   <data name="numberline_countprimespin" xml:space="preserve">
-    <value> Die tatsächliche Anzahl der Primzahlen in diesem Bereich beträgt</value>
+    <value>The actual number of primes in this range is</value>
   </data>
   <data name="numberline_divcount" xml:space="preserve">
-    <value> Anzahl der Teiler</value>
+    <value> number of divisors</value>
   </data>
   <data name="numberline_divsum" xml:space="preserve">
-    <value> Summe der Teiler</value>
+    <value> sum of the divisors</value>
   </data>
   <data name="numberline_eulerphi" xml:space="preserve">
-    <value>Eulersche φ-Funktion</value>
+    <value>Euler's φ-function</value>
   </data>
   <data name="numberline_eulerphifoundresult" xml:space="preserve">
-    <value>({0} teilerfremde Zahlen zur aktuellen Zahl {1} gefunden.)</value>
+    <value>(found {0} coprime numbers for the current number {1})</value>
   </data>
   <data name="numberline_eulerphiisprime" xml:space="preserve">
-    <value>{0} ist eine Primzahl. Darum ist die Anzahl der zu {1} teilerfremden Zahlen {2} - 1 = {3}</value>
+    <value>{0} is a prime. Therefore the number of coprime numbers to {1} is {2} - 1 = {3}.</value>
   </data>
   <data name="numberline_eulerphisum" xml:space="preserve">
-    <value>Teilersummenformel</value>
+    <value>Sum-of-Divisors Function</value>
   </data>
   <data name="numberline_eulerphisuminfo" xml:space="preserve">
-    <value>Der aktuell errechnete Wert beträgt: {0}.</value>
+    <value>For n = {0} the formula evaluates to {1}.</value>
   </data>
   <data name="numberline_eulerphisumlog" xml:space="preserve">
     <value>φ({0}) = {1}</value>
   </data>
   <data name="numberline_factorization" xml:space="preserve">
-    <value> Faktorisierung</value>
+    <value>Factorization</value>
   </data>
   <data name="numberline_factorizationcalculating" xml:space="preserve">
-    <value>(wird faktorisiert)</value>
+    <value>(calculating factorization)</value>
   </data>
   <data name="numberline_from" xml:space="preserve">
-    <value>von</value>
+    <value>from</value>
   </data>
   <data name="numberline_goldbach" xml:space="preserve">
-    <value> Goldbachsche Vermutung</value>
+    <value>Goldbach's conjecture</value>
   </data>
   <data name="numberline_goldbachfoundsums" xml:space="preserve">
-    <value>({0} Primzahlsumme(n) gefunden)</value>
+    <value>(found {0} prime number sums)</value>
   </data>
   <data name="numberline_goldbachinfo" xml:space="preserve">
-    <value>(jede gerade Zahl &gt; 2 kann als Summe von 2 Primzahlen geschrieben werden.)</value>
+    <value>(Every even number &gt; 2 can be expressed as a sum of 2 prime numbers.)</value>
   </data>
   <data name="numberline_header" xml:space="preserve">
-    <value>Hier erhalten Sie zahlentheoretische Aussagen zu den auf der Zahlengeraden angezeigten Zahlen.
-Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen angezeigt werden. Die Intervallbreite wird mit dem Slider festgelegt, indem die Obergrenze angepasst wird.</value>
+    <value>Here you get some number theoretic statements for the numbers on the number line. The number line can display 10 to 90 numbers. You can adjust the range with the slider, which determines the upper limit of the range.</value>
   </data>
   <data name="numberline_headercoutprimes" xml:space="preserve">
-    <value> Anzahl der Primzahlen im ausgewählten Bereich</value>
+    <value>Number of primes in the selected range</value>
   </data>
   <data name="numberline_isodd" xml:space="preserve">
-    <value> ist ungerade</value>
+    <value> is odd</value>
   </data>
   <data name="numberline_isprime" xml:space="preserve">
-    <value> ist eine Primzahl</value>
+    <value>is prime</value>
   </data>
   <data name="numberline_isquadtrupletprime" xml:space="preserve">
-    <value>({0}, {1}, {2}, {3}) ist ein Primzahlvierling.</value>
+    <value>({0}, {1}, {2}, {3}) is a prime quadruplet.</value>
   </data>
   <data name="numberline_issixtupletprime" xml:space="preserve">
-    <value>({0}, {1}, {2}, {3},{4},{5}) ist ein Primzahlsechsling.</value>
+    <value>({0}, {1}, {2}, {3},{4},{5}) is a prime sixtuplet.</value>
   </data>
   <data name="numberline_istwinprime" xml:space="preserve">
-    <value>({0}, {1}) ist ein Primzahlzwilling.</value>
+    <value>({0}, {1}) is a prime twin.</value>
   </data>
   <data name="numberline_maxinterval" xml:space="preserve">
-    <value>Die Untergrenze des Intervalls beträgt 2, die Obergrenze 10^9. Mit den Pfeilen können Sie das ganze Intervall in Einer- und Zehnerschritten nach links oder rechts schieben.</value>
+    <value>The lower boundary of the interval is 2, the upper boundary is 10^9. With the arrow keys, you can move left and right through the interval in steps of size 1 or 10.</value>
   </data>
   <data name="numberline_nextprime" xml:space="preserve">
-    <value> Nächst-größere Primzahl</value>
+    <value>next bigger prime number</value>
   </data>
   <data name="numberline_nexttwinprime" xml:space="preserve">
-    <value>Der nächst größere Primzahlzwilling ist</value>
+    <value>The next bigger twin prime is</value>
   </data>
   <data name="numberline_numberofprimeinterval" xml:space="preserve">
-    <value>Anzahl der Primzahlen im ausgewählten Bereich ({0}, {1})</value>
+    <value>Number of primes in the selected range ({0}, {1})</value>
   </data>
   <data name="numberline_numberofprimes" xml:space="preserve">
-    <value>Anzahl der Primzahlen &lt;= n:</value>
+    <value>number of primes &lt;= n:</value>
   </data>
   <data name="numberline_pointsdisplayed" xml:space="preserve">
-    <value>Anzahl der angezeigten Punkte</value>
+    <value>number of points displayed</value>
   </data>
   <data name="numberline_priorprime" xml:space="preserve">
-    <value> Nächst-kleinere Primzahl</value>
+    <value>next smaller prime number</value>
   </data>
   <data name="numberline_priortwinprime" xml:space="preserve">
-    <value> Der nächst kleinere Primzahlzwilling ist</value>
+    <value>The next smaller twin prime is</value>
   </data>
   <data name="numberline_progress" xml:space="preserve">
-    <value>Fortschritt</value>
+    <value>Progress</value>
   </data>
   <data name="numberline_quadtuplet" xml:space="preserve">
-    <value>Primzahlvierlinge</value>
+    <value>Prime quadruplets</value>
   </data>
   <data name="numberline_rhoinfo" xml:space="preserve">
-    <value>Die Summe der Teiler beträgt: {0}</value>
+    <value>The sum of the divisors is: {0}</value>
   </data>
   <data name="numberline_sixtuplet" xml:space="preserve">
-    <value>Primzahlsechslinge</value>
+    <value>Prime sixtuplet</value>
   </data>
   <data name="numberline_tauinfo" xml:space="preserve">
-    <value>({0} Teiler zur aktuellen Zahl {1} gefunden.)</value>
+    <value>({0} divisors found for {1}.)</value>
   </data>
   <data name="numberline_to" xml:space="preserve">
-    <value>bis</value>
+    <value>to</value>
   </data>
   <data name="numberline_tooltipscrollleft" xml:space="preserve">
-    <value>Verringert den Bereich in 1-er Schritten</value>
+    <value>Reduce range in increments of 1</value>
   </data>
   <data name="numberline_tooltipscrollleftfast" xml:space="preserve">
-    <value>Verringert den Bereich in 10-er Schritten</value>
+    <value>Reduce range in increments of 10</value>
   </data>
   <data name="numberline_tooltipscrollright" xml:space="preserve">
-    <value>Erhöht den Bereich in 1-er Schritten</value>
+    <value>Increase range in increments of 1</value>
   </data>
   <data name="numberline_tooltipscrollrightfast" xml:space="preserve">
-    <value>Erhöht den Bereich in 10-er Schritten</value>
+    <value>Increase range in increments of 10</value>
   </data>
   <data name="numberline_twinprime" xml:space="preserve">
-    <value>Primzahlzwillinge</value>
+    <value>Twin primes</value>
   </data>
   <data name="tabitemgoldbach" xml:space="preserve">
-    <value>Die Goldbach-Vermutung</value>
+    <value>The Goldbach Conjecture</value>
+  </data>
+  <data name="tabitemgraph" xml:space="preserve">
+    <value>Number of Primes</value>
   </data>
   <data name="tabitemnumbergrid" xml:space="preserve">
-    <value>Zahlengrid</value>
+    <value>Number Grid</value>
   </data>
   <data name="tabitemnumberline" xml:space="preserve">
-    <value>Zahlenstrahl</value>
+    <value>Number Line</value>
   </data>
   <data name="tabitemulam" xml:space="preserve">
-    <value>Die Ulam-Spirale</value>
+    <value>Ulam's Spiral</value>
   </data>
   <data name="ulam_btnCancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Cancal</value>
   </data>
   <data name="ulam_btnExecute" xml:space="preserve">
-    <value>Ausführen</value>
+    <value>Execute</value>
   </data>
   <data name="ulam_input" xml:space="preserve">
-    <value>Start- und Endwert der Spirale</value>
+    <value>Beginning and End of the Spiral</value>
   </data>
   <data name="ulam_rotate" xml:space="preserve">
-    <value>Drehnung: </value>
+    <value>Rotation: </value>
   </data>
   <data name="ulam_zoom" xml:space="preserve">
-    <value>Die Spirale zoomen</value>
+    <value>Zoom the spiral</value>
   </data>
 </root>

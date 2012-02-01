@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="bf_actualdiv" xml:space="preserve">
     <value>aktueller Divisor </value>
@@ -148,7 +148,7 @@
     <value>Faktorisierungsergebnis (Die Probedivision wurde abgebrochen. Die benötigte Zeit beträgt = {0} Stunden, {1} Minute(n), {2} Sekunden, {3} Millisekunden)</value>
   </data>
   <data name="fac_resultfinished" xml:space="preserve">
-    <value>Faktorisierungsergebnis beendet)</value>
+    <value>Faktorisierungsergebnis (beendet)</value>
   </data>
   <data name="fac_resultfinishedtime" xml:space="preserve">
     <value>Faktorisierungsergebnis (Die Probedivision wurde beendet. Die benötigte Zeit beträgt = {0} Stunden, {1} Minute(n), {2} Sekunden, {3} Millisekunden)</value>
@@ -181,7 +181,7 @@
     <value>Schritt 3 (Suchen von Quadratzahlen)</value>
   </data>
   <data name="qs_step3_ignored" xml:space="preserve">
-    <value> wird ignored</value>
+    <value> wird ignoriert</value>
   </data>
   <data name="qs_step3_isnotsquare" xml:space="preserve">
     <value> ist keine Quadratzahl</value>

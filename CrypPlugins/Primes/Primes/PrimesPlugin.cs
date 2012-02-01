@@ -8,7 +8,7 @@ using Primes.WpfVisualization;
 namespace Primes
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Primes/PrimesPlugin.png")] 
+  [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "Primes/DetailedDescription/doc.xml", "Primes/PrimesPlugin.png")] 
   public class PrimesPlugin:ICrypTutorial
   {
     #region IPlugin Members

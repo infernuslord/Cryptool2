@@ -112,16 +112,34 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Graph_GaussPi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>en\graph_gausspi.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Distribution_Distribution" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_distribution.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Graph_LargeNumbers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>en\graph_largenumbers.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="Distribution_EulerPhi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_eulerphi.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_Euler_Phi_Sum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_euler_phi_sum.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_Goldbach" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_goldbach.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_NumberGrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_numbergrid.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_Numberline" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_numberline.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Factorization_BruteForce" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\factorization_bruteforce.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Primetest_MillerRabin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\primetest_millerrabin.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

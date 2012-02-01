@@ -18,7 +18,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="Eingabe" BorderThickness="1" InputRangeControlType="Horizontal" BorderBrush="Gray" />
+        <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="{x:Static lang:Numbertheory.groupbox_input}" BorderThickness="1" InputRangeControlType="Horizontal" BorderBrush="Gray" />
     <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}">
     <Grid HorizontalAlignment="Left" Name="gridChooseFunctions">
       <Grid.ColumnDefinitions>

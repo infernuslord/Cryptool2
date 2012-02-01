@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="btnCancel" xml:space="preserve">
     <value>Cancel</value>
@@ -127,7 +127,7 @@
     <value>A large random number</value>
   </data>
   <data name="generaternd_Header" xml:space="preserve">
-    <value>generate random Numbers</value>
+    <value>generate random numbers</value>
   </data>
   <data name="generaternd_integermanyfactors" xml:space="preserve">
     <value>A random number composed of many prime factors</value>
@@ -149,5 +149,8 @@
   </data>
   <data name="logprogress" xml:space="preserve">
     <value>Progress</value>
+  </data>
+  <data name="generaternd1_Header" xml:space="preserve">
+    <value>generate random number</value>
   </data>
 </root>

@@ -193,9 +193,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>World of Primes</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Properties and methods of prime numbers.</value>
   </data>
@@ -213,5 +210,8 @@
   </data>
   <data name="SimpsonFormula" xml:space="preserve">
     <value>the Simpson-Formula</value>
+  </data>
+  <data name="Algorithms" xml:space="preserve">
+    <value>Algorithms</value>
   </data>
 </root>
