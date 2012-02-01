@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="bruteforce" xml:space="preserve">
     <value>Brute-Force</value>
@@ -130,10 +130,10 @@
     <value>Goldbach conjecture</value>
   </data>
   <data name="distributionnumbergrid" xml:space="preserve">
-    <value>Numbergrid</value>
+    <value>Number Grid</value>
   </data>
   <data name="distributionnumberline" xml:space="preserve">
-    <value>Numberline</value>
+    <value>Number Line</value>
   </data>
   <data name="distributionulam" xml:space="preserve">
     <value>Ulam´s Spiral</value>
@@ -148,10 +148,10 @@
     <value>Miller/Rabin-Test</value>
   </data>
   <data name="ntfunctions" xml:space="preserve">
-    <value>Numbertheoretic Functions</value>
+    <value>Number theoretic Functions</value>
   </data>
   <data name="numbertheory" xml:space="preserve">
-    <value>Numbertheory</value>
+    <value>Number Theory</value>
   </data>
   <data name="powermod" xml:space="preserve">
     <value>Powermod</value>
@@ -160,7 +160,7 @@
     <value>Primality Test</value>
   </data>
   <data name="proots" xml:space="preserve">
-    <value>Primitivroots</value>
+    <value>Primitive Roots</value>
   </data>
   <data name="qs" xml:space="preserve">
     <value>Quadratic Sieve</value>

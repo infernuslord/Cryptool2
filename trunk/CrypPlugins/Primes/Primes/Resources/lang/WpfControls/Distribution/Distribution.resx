@@ -139,10 +139,10 @@
     <value>Verfügbare Funktionen zum Berechnen der Anzahl der Primzahlen Y in einem gegebenen Bereich X</value>
   </data>
   <data name="graph_lincountinfo" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem logarothmischen Integral beträgt:</value>
+    <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral beträgt:</value>
   </data>
   <data name="graph_lincountinfoCalculating" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem logarothmischen Integral wird berechnet</value>
+    <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral wird berechnet</value>
   </data>
   <data name="graph_linname" xml:space="preserve">
     <value>Das logarithmische Integral</value>
@@ -181,16 +181,16 @@
     <value>Startwert</value>
   </data>
   <data name="numbergrid_tooltipscrolldown" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie eine Zeile nach unten.</value>
+    <value>Mit Klick hierauf scrollen Sie eine Zeile nach unten.</value>
   </data>
   <data name="numbergrid_tooltipscrolldownfast" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie zwei Zeilen nach unten.</value>
+    <value>Mit Klick hierauf scrollen Sie zwei Zeilen nach unten.</value>
   </data>
   <data name="numbergrid_tooltipscrollup" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie eine Zeile nach oben.</value>
+    <value>Mit Klick hierauf scrollen Sie eine Zeile nach oben.</value>
   </data>
   <data name="numbergrid_tooltipscrollupfast" xml:space="preserve">
-    <value>Mit Klick hieraus scrollen Sie zwei Zeilen nach oben.</value>
+    <value>Mit Klick hierauf scrollen Sie zwei Zeilen nach oben.</value>
   </data>
   <data name="numbergrid_width" xml:space="preserve">
     <value>Breite</value>

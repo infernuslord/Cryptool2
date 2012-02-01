@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="eulerphi" xml:space="preserve">
     <value>Eulersche Phi-Funktion</value>
@@ -129,8 +129,14 @@
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Auswahl der zu berechnenden Funktionen</value>
   </data>
+  <data name="groupbox_input" xml:space="preserve">
+    <value>Eingabe</value>
+  </data>
   <data name="pix" xml:space="preserve">
     <value>Anzahl der Primzahlen</value>
+  </data>
+  <data name="powermod_base" xml:space="preserve">
+    <value>Basis</value>
   </data>
   <data name="powermod_btncancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -144,14 +150,32 @@
   <data name="powermod_btnresume" xml:space="preserve">
     <value>Weiter mit automatischer Ausführung</value>
   </data>
+  <data name="powermod_ccw" xml:space="preserve">
+    <value>gegen den Uhrzeigersinn</value>
+  </data>
+  <data name="powermod_cw" xml:space="preserve">
+    <value>im Uhrzeigersinn</value>
+  </data>
   <data name="powermod_execution" xml:space="preserve">
     <value>{0}. {1} * {2} mod {3} = {4}</value>
   </data>
   <data name="powermod_executionfirst" xml:space="preserve">
     <value>{0}. {1} mod {2} = {3}</value>
   </data>
+  <data name="powermod_exponent" xml:space="preserve">
+    <value>Exponent</value>
+  </data>
   <data name="powermod_inputgroupbox" xml:space="preserve">
     <value>Eingabeparameter</value>
+  </data>
+  <data name="powermod_modulus" xml:space="preserve">
+    <value>Modulus</value>
+  </data>
+  <data name="powermod_points" xml:space="preserve">
+    <value>Anordnung der Punkte</value>
+  </data>
+  <data name="powermod_progress" xml:space="preserve">
+    <value>Fortschritt</value>
   </data>
   <data name="powermod_rbautomatic" xml:space="preserve">
     <value>Automatische Ausführung</value>
@@ -193,7 +217,7 @@
     <value>Bitte geben sie die beide Intervall-Grenzen an. Die Zahl {0} wird als Untergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Obergrenze.</value>
   </data>
   <data name="proot_rangeupper" xml:space="preserve">
-    <value>Bitte geben sie die beide Intervall-Grenzen an. Die Zahl {0} wird als Untergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Untergrenze.</value>
+    <value>Bitte geben sie die beide Intervall-Grenzen an. Die Zahl {0} wird als Obergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Untergrenze.</value>
   </data>
   <data name="proot_result" xml:space="preserve">
     <value>Ergebnis</value>

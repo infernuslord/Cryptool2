@@ -47,7 +47,7 @@ VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
             <sieveOfEratosthenes:SieveOfEratosthenes x:Name="sieveoferatosthenes" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
             </ScrollViewer>
       </comps:HelpTabItem>
-      <comps:HelpTabItem Header="Test nach Fermat" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemTestOfFermat" Visibility="Collapsed" HelpButtonClick="TabItem_HelpButtonClick" >
+                <comps:HelpTabItem Header="{x:Static lang:Primetest.test_fermat}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemTestOfFermat" Visibility="Collapsed" HelpButtonClick="TabItem_HelpButtonClick" >
         <fermat:TestOfFermatControl x:Name="fermat"  />
       </comps:HelpTabItem>
       <comps:HelpTabItem Header="{x:Static lang:Primetest.test_millerrabin}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemMillerRabin" HelpButtonClick="TabItem_HelpButtonClick" >

@@ -7,7 +7,7 @@
     >
   <DockPanel MinWidth="300" MinHeight="300">
     <StackPanel DockPanel.Dock="Top">
-      <GroupBox Header="Verfahren" Name="method" DockPanel.Dock="Top" Margin="7">
+            <GroupBox Header="{x:Static lang:Primetest.soe_method}" Name="method" DockPanel.Dock="Top" Margin="7">
         <DockPanel>
           <RadioButton Name="rbAutomatic" Margin="0,0,10,0" IsChecked="True" VerticalContentAlignment="Center" VerticalAlignment="Center" Click="rbModeClick" Content="{x:Static lang:Primetest.soe_methodauto}"></RadioButton>
           <RadioButton Name="rbManual" Margin="0,0,10,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Click="rbModeClick" Content="{x:Static lang:Primetest.soe_methodstepwise}"></RadioButton>

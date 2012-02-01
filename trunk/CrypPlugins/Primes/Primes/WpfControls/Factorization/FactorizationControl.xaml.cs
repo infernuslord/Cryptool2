@@ -126,6 +126,7 @@ namespace Primes.WpfControls.Factorization
 
     public void OnFactorizationStart()
     {
+      string tmp = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning;
       ControlHandler.SetPropertyValue(gbFactorizationInfo,"Header",Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning);
       inputnumbermanager.LockControls();
 
@@ -133,6 +134,7 @@ namespace Primes.WpfControls.Factorization
 
     public void OnFactorizationStop()    
     {
+        string tmp = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultfinishedtime;
       if (m_Integer != null)
       {
         if (CurrentFactorizer == _bruteforce)

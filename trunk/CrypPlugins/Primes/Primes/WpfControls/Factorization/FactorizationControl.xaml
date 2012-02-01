@@ -5,7 +5,7 @@
     xmlns:thisqs="clr-namespace:Primes.WpfControls.Factorization.QS" 
     xmlns:this="clr-namespace:Primes.WpfControls.Factorization" 
     xmlns:comps="clr-namespace:Primes.WpfControls.Components"
-             xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Factorization"
+    xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Factorization"
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="UserControl_Loaded">
   <UserControl.Resources>
     <ResourceDictionary>
@@ -44,12 +44,10 @@
       <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" >
         <StackPanel Name="pnInfo" Orientation="Horizontal" MouseLeave="pnInfo_MouseLeave" Height="30">
           <DockPanel MouseEnter="DockPanelFactors_MouseEnter" Name="dpInfo">
-            <Label 
-            Name="lblInput" 
-            Foreground="Blue" >
+            <Label Name="lblInput" Foreground="Blue" >
               <Label.ContextMenu>
                 <ContextMenu BorderBrush="LightGray" Background="WhiteSmoke">
-                  <MenuItem Header="Diese Zahl in die Zwischenablage kopieren" Click="MenuItemCopyInputClick">
+                  <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItemCopyInputClick">
                     <MenuItem.Icon>
                       <Image Source="../../Resources/icons/page_copy.png"/>
                     </MenuItem.Icon>

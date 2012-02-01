@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="eulerphi" xml:space="preserve">
     <value>Euler's totient function</value>
   </data>
   <data name="eulerphisum" xml:space="preserve">
-    <value>Teilersummenformel</value>
+    <value>Sum-of-Divisors function</value>
   </data>
   <data name="eulerphivalues" xml:space="preserve">
     <value>List of coprimes</value>
@@ -129,8 +129,14 @@
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Choose Functions</value>
   </data>
+  <data name="groupbox_input" xml:space="preserve">
+    <value>Input</value>
+  </data>
   <data name="pix" xml:space="preserve">
     <value>Number of primes</value>
+  </data>
+  <data name="powermod_base" xml:space="preserve">
+    <value>Base</value>
   </data>
   <data name="powermod_btncancel" xml:space="preserve">
     <value>Cancel</value>
@@ -144,6 +150,42 @@
   <data name="powermod_btnresume" xml:space="preserve">
     <value>Resume</value>
   </data>
+  <data name="powermod_ccw" xml:space="preserve">
+    <value>anti-clockwise</value>
+  </data>
+  <data name="powermod_cw" xml:space="preserve">
+    <value>clockwise</value>
+  </data>
+  <data name="powermod_execution" xml:space="preserve">
+    <value>{0}. {1} * {2} mod {3} = {4}</value>
+  </data>
+  <data name="powermod_executionfirst" xml:space="preserve">
+    <value>{0}. {1} mod {2} = {3}</value>
+  </data>
+  <data name="powermod_exponent" xml:space="preserve">
+    <value>Exponent</value>
+  </data>
+  <data name="powermod_inputgroupbox" xml:space="preserve">
+    <value>Input parameter</value>
+  </data>
+  <data name="powermod_modulus" xml:space="preserve">
+    <value>Modulus</value>
+  </data>
+  <data name="powermod_points" xml:space="preserve">
+    <value>Point order</value>
+  </data>
+  <data name="powermod_progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="powermod_rbautomatic" xml:space="preserve">
+    <value>automatic execution</value>
+  </data>
+  <data name="powermod_stepwise" xml:space="preserve">
+    <value>stepwise execution</value>
+  </data>
+  <data name="powermod_zoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
   <data name="proot_btnCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -151,7 +193,7 @@
     <value>Execute</value>
   </data>
   <data name="proot_btnSkipCalculation" xml:space="preserve">
-    <value>Skip actual calculation</value>
+    <value>Skip current calculation</value>
   </data>
   <data name="proot_genprimes" xml:space="preserve">
     <value>Generate Primes</value>
@@ -160,7 +202,7 @@
     <value>Input</value>
   </data>
   <data name="proot_insert" xml:space="preserve">
-    <value>Please input a number</value>
+    <value>Please enter a number</value>
   </data>
   <data name="proot_noprime" xml:space="preserve">
     <value>{0}  is not a prime</value>
@@ -171,14 +213,20 @@
   <data name="proot_progress" xml:space="preserve">
     <value>Progress</value>
   </data>
+  <data name="proot_rangedown" xml:space="preserve">
+    <value>Please enter the interval boundaries. The number {0} is interpreted as the lower boundary of a closed interval, the upper boundary is still missing.</value>
+  </data>
+  <data name="proot_rangeupper" xml:space="preserve">
+    <value>Please enter the interval boundaries. The number {0} is interpreted as the upper boundary of a closed interval, the lower boundary is still missing.</value>
+  </data>
   <data name="proot_result" xml:space="preserve">
     <value>Result</value>
   </data>
   <data name="proot_resultcalc" xml:space="preserve">
-    <value>{0} Primitivroot for prime {1} found:</value>
+    <value>{0} Primitive root for prime {1} found:</value>
   </data>
   <data name="proot_skipcalc" xml:space="preserve">
-    <value>The Calculation was skipped. {0} Primitivroots for prime {1} found:</value>
+    <value>The Calculation was skipped. {0} Primitive roots for prime {1} found:</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
     <value>The first number of the interval {0} has to be smaller than the second</value>
@@ -187,13 +235,13 @@
     <value>Rho</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
-    <value> Funtions in Numbertheory</value>
+    <value>Functions in Number theory</value>
   </data>
   <data name="tabitemheader_power" xml:space="preserve">
     <value>Powering</value>
   </data>
   <data name="tabitemheader_proots" xml:space="preserve">
-    <value>Primitiv roots</value>
+    <value>Primitive Roots</value>
   </data>
   <data name="tau" xml:space="preserve">
     <value>Number of divisors</value>
