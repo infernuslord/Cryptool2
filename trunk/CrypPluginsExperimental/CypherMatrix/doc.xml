@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+	CypherMatrix is a method to en- and decrypt as well as hash and sign data. Is was patented 1998 by E. E. Schnoor.
+  </introduction>
+
+  <introduction lang="de-DE">
+    CypherMatrix ist ein Verfahren, dass sowohl die Ver- und Entschlüsselung als auch das Hashen und Signieren von Daten ermöglicht. Es wurde 1998 von E. E. Schnoor patentiert.
+    <newline/>
+    Der Name CypherMatrix beruht auf der Besonderheit des Verfahrens, eine Matrix als Ergebnis zu erzeugen. Cypher wird mit "y" geschrieben, weil Kryptographen seit Jahrhunderten ältere Formen und Zeichen verwendet haben und das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - auch nur Bytes verwendet und so an die Geschichte der Kryptographie erinnern soll.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the CypherMatrix component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. Additionally a passphrase consisting of ideally 42 charaters is needed. Both are mandatory.
+    <newline/>
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can change default values.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Zusätzlich wird noch eine Passphrase von optimal 42 Zeichen benötigt. Sowohl Datenquelle als auch die Passphrase ist notwendig. 
+    <newline/>
+    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können auch weitere Optionen verändern.
+  </usage>
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de-DE">
+  </presentation>
+  
+  <references>
+    <linkReference>
+      <link url="http://www.telecypher.net/INDENG.HTM" lang="en" />
+      <caption lang="en">CypherMatrixs Webpage</caption>
+      <link url="http://www.telecypher.net/" lang="de-DE" />
+      <caption lang="de-DE">CypherMatrix-Website</caption>
+    </linkReference>
+  </references>
+</documentation>
