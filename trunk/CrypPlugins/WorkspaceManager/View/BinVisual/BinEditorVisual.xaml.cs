@@ -479,6 +479,12 @@ namespace WorkspaceManager.View.BinVisual
                 return;
 
             CryptoLineView link = new CryptoLineView(model, source, target, VisualCollection);
+            Binding bind = new Binding();
+            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
+            bind.Source = this;
+            bind.ConverterParameter = link;
+            bind.Converter = new SelectionChangedConverter();
+            link.SetBinding(CryptoLineView.IsSelectedProperty, bind);
             VisualCollection.Add(link);
         }
 
@@ -759,7 +765,7 @@ namespace WorkspaceManager.View.BinVisual
             if (SelectedItems != null)
             {
                 var list = new List<Operation>();
-                foreach (var element in SelectedItems)
+                foreach (var element in SelectedItems.OfType<BinComponentVisual>())
                 {
                     var bin = (BinComponentVisual)element;
                     list.Add(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
@@ -1132,13 +1138,11 @@ namespace WorkspaceManager.View.BinVisual
                         Rect elementRect = new Rect(ft.From, ft.To);
                         if (selectRectGeometry.Rect.IntersectsWith(elementRect))
                         {
-                            line.IsSelected = true;
+                            items.Add(line);
                             break;
                         }
                         else
-                        {
-                            line.IsSelected = false;
-                        }
+                            items.Remove(line);
                     }
 
                 }
