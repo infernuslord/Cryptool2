@@ -30,9 +30,10 @@ namespace Cryptool.PluginBase.Editor
         public bool ShowSettingsPanel;
         public bool ShowComponentPanel;
         public string DefaultExtension;
+        public bool CanEdit;
 
         // wander 2011-12-13: showSettingsPanel defaults to false in favor of WorkspaceManager parameter panel
-        public EditorInfoAttribute(string defaultExtension, bool showAsNewButton = true, bool showLogPanel = true, bool showSettingsPanel = false, bool showComponentPanel = true, bool singleton = false)
+        public EditorInfoAttribute(string defaultExtension, bool showAsNewButton = true, bool showLogPanel = true, bool showSettingsPanel = false, bool showComponentPanel = true, bool singleton = false, bool canEdit = false)
         {
             Singleton = singleton;
             ShowAsNewButton = showAsNewButton;
@@ -40,6 +41,7 @@ namespace Cryptool.PluginBase.Editor
             ShowComponentPanel = showComponentPanel;
             ShowLogPanel = showLogPanel;
             ShowSettingsPanel = showSettingsPanel;
+            CanEdit = canEdit;
         }
     }
 }
