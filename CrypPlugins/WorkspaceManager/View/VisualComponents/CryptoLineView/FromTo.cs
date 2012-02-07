@@ -20,16 +20,24 @@ namespace WorkspaceManager.View.VisualComponents
         private Point from, to;
 
         public DirSort DirSort { get; private set; }
-        public Point From 
-        { 
-            get 
-            {
-                return from;
-            } 
-            set 
-            {
-                from = value;
-            } 
+        public FromTo PrevFromTo { get; set; }
+
+        public double Delta
+        {
+            get;
+            set;
+        }
+
+        public bool HasEndPoint
+        {
+            get;
+            set;
+        }
+
+        public bool HasStartPoint
+        {
+            get;
+            set;
         }
 
         public Point To
@@ -44,25 +52,65 @@ namespace WorkspaceManager.View.VisualComponents
                 OnPropertyChanged("To");
             }
         }
+
+        public Point From
+        {
+            get
+            {
+                return from;
+            }
+            set
+            {
+                from = value;
+                OnPropertyChanged("From");
+            }
+        }
         public SortedSet<IntersectPoint> Intersection { get; private set; }
 
         public FromTo(Point from, Point to)
+        {
+            initFromTo(from, to);
+            HasStartPoint = HasEndPoint = false;
+        }
+
+        public FromTo(Point from, Point to, bool hasEndpoint, bool hasStartPoint)
+        {
+            initFromTo(from, to);
+            HasEndPoint = hasEndpoint;
+            HasStartPoint = hasStartPoint;
+        }
+
+        private void initFromTo(Point from, Point to)
         {
             this.From = from;
             this.To = to;
             if (From.X == To.X)
             {
                 if (From.Y > To.Y)
+                {
                     DirSort = DirSort.Y_DESC;
+                    this.Delta = From.Y - To.Y;
+                }
                 else
+                {
                     DirSort = DirSort.Y_ASC;
+                    this.Delta = To.Y - From.Y;
+                }
+
             }
             else if (From.Y == To.Y)
             {
                 if (From.X > To.X)
+                {
                     DirSort = DirSort.X_DESC;
+                    this.Delta = From.X - To.X;
+                }
                 else
+                {
                     DirSort = DirSort.X_ASC;
+                    this.Delta = To.X - From.X;
+                }
+
             }
             else
                 throw new Exception("90° only");

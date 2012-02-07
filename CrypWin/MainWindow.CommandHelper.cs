@@ -409,19 +409,11 @@ namespace Cryptool.CrypWin
 
         private void Remove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-            {
-                e.CanExecute = false;
-                e.Handled = true;
-                return;
-            }
             e.CanExecute = ActiveEditor != null && ActiveEditor.CanRemove;
         }
 
         private void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Remove();
         }
 

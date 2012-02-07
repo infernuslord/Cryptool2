@@ -242,6 +242,23 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         {
             //throw new NotImplementedException();
         }
+
+        private void DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var data = (FromTo)(((FrameworkElement)sender).DataContext);
+            if (data.DirSort == DirSort.Y_ASC || data.DirSort == DirSort.Y_DESC)
+            {
+                data.From = new Point(data.From.X + e.HorizontalChange, data.From.Y);
+                data.To = new Point(data.To.X + e.HorizontalChange, data.To.Y);
+            }
+            if (data.DirSort == DirSort.X_ASC || data.DirSort == DirSort.X_DESC)
+            {
+                data.From = new Point(data.From.X, data.From.Y + e.VerticalChange);
+                data.To = new Point(data.To.X, data.To.Y + e.VerticalChange);
+            }
+            Line.IsEditingPoint = true;
+            Line.InvalidateAllLines();
+        }
     }
 
     	public sealed class InternalCryptoLineView : Shape, IUpdateableView
@@ -838,18 +855,40 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                     if (path != null)
                     {
+                        var list = path.ToList();
                         PointList.Clear();
-                        Point prevPoint = StartPoint;
-
-                        foreach (var i in path)
+                        Point startPoint = StartPoint, curPoint, prevPoint = startPoint;
+                        bool isStart = true;
+                        for (int c = 0; c < list.Count; ++c)
                         {
-                            Point thisPoint = i.Point;
-                            this.PointList.Add(new FromTo(prevPoint, thisPoint));
-                            prevPoint = thisPoint;
+                            var i = list[c];
+                            curPoint = i.Point;
+                            //this.PointList.Add(new FromTo(prevPoint, curPoint));
+                            if ((startPoint.X != curPoint.X && startPoint.Y != curPoint.Y))
+                            {
+                                if (isStart)
+                                {
+                                    this.PointList.Add(new FromTo(startPoint, prevPoint, false, true));
+                                    isStart = false;
+                                }
+                                else
+                                    this.PointList.Add(new FromTo(startPoint, prevPoint));
+
+                                startPoint = prevPoint;
+                            }
+                            if (c == list.Count - 1)
+                                if ((startPoint.X != EndPoint.X && startPoint.Y != EndPoint.Y))
+                                {
+                                    this.PointList.Add(new FromTo(startPoint, curPoint));
+                                    startPoint = curPoint;
+                                }
+
+                            prevPoint = curPoint;
                         }
-                        this.PointList.Add(new FromTo(prevPoint, EndPoint));
+                        this.PointList.Add(new FromTo(startPoint, EndPoint, true, false));
                         HasComputed = true;
                         raiseComputationDone();
+
                         return;
                     }
                     failed = true;     
@@ -1009,12 +1048,27 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
     }
 
-    public class LineOverBindingConverter : IMultiValueConverter
+    public class IsOneTrueBindingConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             var val = values.OfType<bool>();
             var b = val.Any(x => x == true);
+            return b;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsOneFalseBindingConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var val = values.OfType<bool>();
+            var b = val.Any(x => x == false);
             return b;
         }
 

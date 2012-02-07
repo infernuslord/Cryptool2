@@ -179,9 +179,9 @@ namespace WorkspaceManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public string ToggleFullscreenPluginList {
+        public bool ToggleFullscreenPluginList {
             get {
-                return ((string)(this["ToggleFullscreenPluginList"]));
+                return ((bool)(this["ToggleFullscreenPluginList"]));
             }
             set {
                 this["ToggleFullscreenPluginList"] = value;
