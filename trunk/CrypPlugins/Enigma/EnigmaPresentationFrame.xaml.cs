@@ -31,7 +31,9 @@ namespace Cryptool.Enigma
             InitializeComponent();
 
             EnigmaPresentation =  new EnigmaPresentation(facade);
+
             dockPanel1.Children.Add(EnigmaPresentation);
+            
 
 
             Binding disableBoolBinding = new Binding("DisabledBoolProperty");
@@ -84,23 +86,23 @@ namespace Cryptool.Enigma
                                                                                         EnigmaPresentation.disablePresentation(isrunning,isvisible);
                                                                                       if(isrunning && isvisible)
                                                                                       {
-                                                                                          enigmaStatus.Text = "Präsentation aktiv";
+                                                                                          enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Presentation_aktive;
                                                                                           enigmaStatus.Background = Brushes.LawnGreen;
                                                                                       }
                                                                                       else if (!isrunning && isvisible)
                                                                                       {
-                                                                                          enigmaStatus.Text = "Präsentation bereit";
+                                                                                          enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Presentation_ready;
                                                                                           enigmaStatus.Background = Brushes.LawnGreen;
                                                                                       }
                                                                                       else if (isrunning && !isvisible)
                                                                                       {
-                                                                                          enigmaStatus.Text = "Workspace aktiv, Präsentation abgeschaltet";
+                                                                                          enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus;
                                                                                           visbileCheckbox.IsChecked = false;
                                                                                           enigmaStatus.Background = Brushes.Tomato;
                                                                                       }
                                                                                       else
                                                                                       {
-                                                                                          enigmaStatus.Text = "Präsentation abgeschaltet";
+                                                                                          enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off;
                                                                                           enigmaStatus.Background = Brushes.Tomato;
                                                                                       }
                                                                                   }, null);
@@ -114,8 +116,8 @@ namespace Cryptool.Enigma
 
         private void visbileCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-            
-            enigmaStatus.Text = "Präsentation abgeschaltet";
+
+            enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off;
             enigmaStatus.Background = Brushes.Tomato;
 
             EnigmaPresentation.giveFeedbackAndDie();
@@ -125,10 +127,10 @@ namespace Cryptool.Enigma
         {
             if (facade.isrunning)
             {
-                enigmaStatus.Text = "Präsentation bereit, bitte starten Sie den Workspace neu";
+                enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace;
             }
             else
-            enigmaStatus.Text = "Präsentation bereit";
+                enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Presentation_ready;
             enigmaStatus.Background = Brushes.LawnGreen;
         }
 
