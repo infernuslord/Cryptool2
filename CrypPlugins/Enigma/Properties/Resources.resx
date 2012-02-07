@@ -786,4 +786,19 @@
   <data name="RotorB3" xml:space="preserve">
     <value>Gamma -- since 1st July 1943</value>
   </data>
+  <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_aktive" xml:space="preserve">
+    <value>Presentation aktive</value>
+  </data>
+  <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_ready">
+    <value xml:space="preserve">Presentation ready</value>
+  </data>
+  <data name="EnigmaPresentationFrame_ChangeStatus">
+    <value xml:space="preserve">Workspace aktive, Presentation turned off</value>
+  </data>
+  <data name="EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off">
+    <value xml:space="preserve">Präsentation turned off</value>
+  </data>
+  <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace">
+    <value xml:space="preserve">Restart Workspace</value>
+  </data>
 </root>
