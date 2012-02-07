@@ -47,9 +47,8 @@ namespace WorkspaceManager
     /// <summary>
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
-    [EditingInfoAttribute(true)]
     [TabColor("LightSlateGray")]
-    [EditorInfo("cwm")]
+    [EditorInfo("cwm", true, true, false, true, false, true)]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("WorkspaceManager.Properties.Resources", "PluginCaption", "PluginTooltip", "WorkspaceManager/DetailedDescription/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManagerClass : IEditor

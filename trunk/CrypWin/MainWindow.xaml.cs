@@ -1732,23 +1732,15 @@ namespace Cryptool.CrypWin
                 ActiveEditor.OnSelectedPluginChanged += SelectedPluginChanged;
                 ActiveEditor.OnOpenProjectFile += OpenProjectFileEvent;
 
-                var attr = Attribute.GetCustomAttribute(ActiveEditor.GetType(), typeof(EditingInfoAttribute));
-                if (attr != null)
+                if (ActiveEditor.GetEditorInfoAttribute().CanEdit)
                 {
-                    var b = ((EditingInfoAttribute)attr).CanEdit;
-                    if (b)
-                    {
-                        addimg.IsEnabled = addtxt.IsEnabled = true;
-                    }
-                    else
-                    {
-                        addimg.IsEnabled = addtxt.IsEnabled = false;
-                    }
+                    addimg.IsEnabled = addtxt.IsEnabled = true;
                 }
                 else
                 {
                     addimg.IsEnabled = addtxt.IsEnabled = false;
                 }
+
                 ShowEditorSpecificPanels(ActiveEditor);
             }
 
