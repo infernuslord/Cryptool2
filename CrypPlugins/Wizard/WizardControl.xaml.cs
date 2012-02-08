@@ -1622,6 +1622,14 @@ namespace Wizard
                 }
             }
         }
+
+        private void nextButton_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != e.OldValue)
+            {
+                SwitchNextButtonContent();
+            }
+        }
     }
 
     internal class PluginPropertyValue
