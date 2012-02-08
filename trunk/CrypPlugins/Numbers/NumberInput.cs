@@ -32,7 +32,7 @@ using System.Threading;
 namespace Cryptool.Plugins.Numbers
 {
     [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginInputCaption", "PluginInputTooltip", "PluginInputDescriptionURL", "Numbers/icons/inputIcon.png")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginInputCaption", "PluginInputTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/inputIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     class NumberInput : ICrypComponent
     {
