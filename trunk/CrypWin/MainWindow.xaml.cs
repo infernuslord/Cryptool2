@@ -1424,6 +1424,15 @@ namespace Cryptool.CrypWin
             {
                 plugin.Dispose();
             }
+
+            //Open Startcenter if tabcontrol is empty now:
+            if (tabs.Items.Count == 0)
+            {
+                if (Properties.Settings.Default.ShowStartcenter)
+                {
+                    AddEditorDispatched(typeof(StartCenter.StartcenterEditor));
+                }
+            }
         }
 
         private void SaveSession()
