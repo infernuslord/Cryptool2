@@ -34,7 +34,7 @@ namespace Cryptool.CrypWin
         // URI where the updates can be found on our webserver
         // changed due to general update of the website on 18.01.2012
         //private const string XmlPath = "https://www.cryptool.org/cryptool2/downloads/Builds/CT2_Versions.xml";
-        private const string XmlPath = "https://www.cryptool.org/c2download/Builds/CT2_Versions.xml";
+        private const string XmlPath = "https://www.cryptool.org/ct2download/Builds/CT2_Versions.xml";
         private readonly string TempPath = DirectoryHelper.DirectoryLocalTemp;
 
 
