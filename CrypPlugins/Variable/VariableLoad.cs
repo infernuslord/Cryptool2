@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Variable
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Variable.Properties.Resources", "VariableLoadCaption", "VariableLoadTooltip", "VariableLoadDescriptionURL", "Variable/loadIcon.png")]
+    [PluginInfo("Variable.Properties.Resources", "VariableLoadCaption", "VariableLoadTooltip", "Variable/DetailedDescription/doc.xml", "Variable/loadIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     class VariableLoad : ICrypComponent
     {
