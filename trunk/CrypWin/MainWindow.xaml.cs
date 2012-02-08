@@ -279,7 +279,19 @@ namespace Cryptool.CrypWin
             if (Settings.Default.UpdateFlag)
             {
                 Console.WriteLine("Upgrading config ...");
+                Settings.Default.Upgrade();                
+                Cryptool.PluginBase.Properties.Settings.Default.Upgrade();
+                //upgrade p2p settings                    
+                Cryptool.P2P.P2PSettings.Default.Upgrade();
+                //upgrade WorkspaceManagerModel settings
+                WorkspaceManagerModel.Properties.Settings.Default.Upgrade();
+                //upgrade Crypwin settings
+                Cryptool.CrypWin.Properties.Settings.Default.Upgrade();
+                //upgrade Crypcore settings
+                Cryptool.Core.Properties.Settings.Default.Upgrade();
+                //upgrade MainWindow settings
                 Settings.Default.Upgrade();
+                //remove UpdateFlag
                 Settings.Default.UpdateFlag = false;
             }
 
