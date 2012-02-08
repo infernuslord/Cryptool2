@@ -1,27 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
-
-  <introduction lang="en">    
-  </introduction>
-
-  <introduction lang="de-DE">    
-  </introduction>
-
+  <language culture="en" />
+  <introduction lang="en">
+</introduction>
   <usage lang="en">
-  </usage>
-
-  <usage lang="de-DE">
-  </usage>
-  
+</usage>
   <presentation lang="en">
-  </presentation>
-  
+</presentation>
+  <language culture="de-DE" />
+  <introduction lang="de-DE">Mittels der Variablenkomponenten können Variablen im Speicher geschrieben und gelesen werden. So können auch Teile der Arbeitsfläche miteinander kommunizieren, die über keine direkte Verbindung miteinander verfügen.
+</introduction>
+  <usage lang="de-DE">Um mit Variablen zu arbeiten, wird eine "Variable speichern" Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Der Variable kann ein Datum eines beliebigen Datentyps übergeben werden.<newline /><newline />Um an anderer Stelle den Wert der Variablen zu nutzen, wird die "Variable lesen" Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Sobald X nun an anderer Stelle im Arbeitsplatz gespeichert wird, gibt die "Variable lesen" Komponente den Wert von X automatisch weiter.
+</usage>
   <presentation lang="de-DE">
-  </presentation>
-  
+</presentation>
   <references>
+    <linkReference>
+      <link url="http://de.wikipedia.org/wiki/Variable_%28Programmierung%29" lang="de-DE" />
+      <caption lang="de-DE">Variable (Programmierung) in der deutschen Wikipedia</caption>
+    </linkReference>
   </references>
 </documentation>
