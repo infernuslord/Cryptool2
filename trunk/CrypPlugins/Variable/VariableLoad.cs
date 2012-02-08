@@ -48,7 +48,9 @@ namespace Cryptool.Plugins.Variable
         public ISettings Settings
         {
             get { return settings; }
-            set { settings = (VariableSettings)value; }
+            set { settings = (VariableSettings)value;
+                  settings.PropertyChanged += settings_propertyChanged;
+            }
         }
 
         #region Properties
@@ -88,8 +90,6 @@ namespace Cryptool.Plugins.Variable
 
         public void PreExecution()
         {
-            Dispose();
-            VariableStore.OnVariableStore += new StoreVariable(onVariableStore);
         }
 
         public void Execute()
@@ -99,18 +99,22 @@ namespace Cryptool.Plugins.Variable
         }
 
         public void PostExecution()
-        {
-            Dispose();
+        {            
         }
 
         public void Stop()
+        {          
+        }
+
+        private void settings_propertyChanged(object sender, PropertyChangedEventArgs args)
         {
-          
+            Initialize();
         }
 
         public void Initialize()
         {
-            
+            Dispose();
+            VariableStore.OnVariableStore += new StoreVariable(onVariableStore);
         }
 
         public void Dispose()
