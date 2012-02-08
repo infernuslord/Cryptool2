@@ -80,6 +80,7 @@ namespace Cryptool.CrypWin
         private Dictionary<TabItem, object> tabToContentMap = new Dictionary<TabItem, object>();
         private Dictionary<object, TabItem> contentToTabMap = new Dictionary<object, TabItem>();
         private Dictionary<object, IEditor> contentToParentMap = new Dictionary<object, IEditor>();
+        private TabItem lastTab = null;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private bool closingCausedMinimization = false;
         private WindowState oldWindowState;
@@ -1308,6 +1309,7 @@ namespace Cryptool.CrypWin
             }
 
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
+            lastTab = (TabItem) tabs.SelectedItem;
             CTTabItem tabitem = new CTTabItem();
             tabitem.RequestBigViewFrame += handleMaximizeTab;
 
@@ -1423,6 +1425,12 @@ namespace Cryptool.CrypWin
             if (plugin != null)
             {
                 plugin.Dispose();
+            }
+
+            //Jump back to last tab:
+            if (lastTab != null && lastTab != tabitem)
+            {
+                lastTab.IsSelected = true;
             }
 
             //Open Startcenter if tabcontrol is empty now:
