@@ -276,6 +276,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIGHT", "CrypPluginsExperimental\HIGHT\HIGHT.csproj", "{62296CE7-A264-497A-A63A-F7B517F4A0CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherMatrix", "CrypPluginsExperimental\CypherMatrix\CypherMatrix.csproj", "{F182C351-6646-42BF-BD8C-96DFE53D217E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -810,6 +812,10 @@ Global
 		{62296CE7-A264-497A-A63A-F7B517F4A0CC}.Debug|x86.Build.0 = Debug|x86
 		{62296CE7-A264-497A-A63A-F7B517F4A0CC}.Release|x86.ActiveCfg = Release|x86
 		{62296CE7-A264-497A-A63A-F7B517F4A0CC}.Release|x86.Build.0 = Release|x86
+		{F182C351-6646-42BF-BD8C-96DFE53D217E}.Debug|x86.ActiveCfg = Debug|x86
+		{F182C351-6646-42BF-BD8C-96DFE53D217E}.Debug|x86.Build.0 = Debug|x86
+		{F182C351-6646-42BF-BD8C-96DFE53D217E}.Release|x86.ActiveCfg = Release|x86
+		{F182C351-6646-42BF-BD8C-96DFE53D217E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
