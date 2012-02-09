@@ -51,8 +51,6 @@ namespace Cryptool.CrypWin
         private System.Timers.Timer checkTimer = new System.Timers.Timer(1000 * 60 * Settings.Default.CheckInterval);
         private System.Timers.Timer progressTimer;
 
-        private X509Certificate serverTlsCertificate1;
-        private X509Certificate serverTlsCertificate2;
         private int downloadRetry = 0;
 
         private State currentState = State.Idle;
@@ -115,12 +113,7 @@ namespace Cryptool.CrypWin
         }
 
         private AutoUpdater()
-        {
-            serverTlsCertificate1 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
-            serverTlsCertificate2 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.old_www_cryptool_org);
-
-            ServicePointManager.ServerCertificateValidationCallback = UpdateServerCertificateValidationCallback;
-
+        {           
             changelogTemplate = changelogTemplate.Replace("$", (currentlyRunningVersion.Build + 1).ToString()); // show only changes newer than current version
 
             // listen for system suspend/resume
@@ -140,49 +133,7 @@ namespace Cryptool.CrypWin
                 default:
                     return null;
             }
-        }
-
-        private bool UpdateServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            if (certificate == null)
-            {
-                GuiLogMessage("AutoUpdate: Could not validate certificate, as it is null", NotificationLevel.Error);
-                return false;
-            }
-
-            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNotAvailable)
-            {
-                GuiLogMessage("AutoUpdate: Could not validate TLS certificate, as the server did not provide one", NotificationLevel.Error);
-                return false;
-            }
-
-
-            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNameMismatch)
-            {
-                GuiLogMessage("AutoUpdate: Certificate name mismatch (certificate not for www.cryptool.org?)", NotificationLevel.Error);
-                return false;
-            }
-
-            //Catch any other SSLPoliy errors
-            //if (sslPolicyErrors != SslPolicyErrors.None)
-            //{
-            //    GuiLogMessage("AutoUpdate: SSL/TLS error: " + sslPolicyErrors.ToString(), NotificationLevel.Error);
-            //    return false;
-            //}
-
-            
-            // Why do we check this?
-            // Check equality of remote and local certificate
-            // check for current and new certificate, in case server-certificate is changed
-            if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
-            {
-                GuiLogMessage("AutoUpdate: Received TLS certificate is not a valid certificate: Equality check failed", NotificationLevel.Error);
-                return false;
-            }
-
-            //GuiLogMessage("AutoUpdate: SSL fine for " + ((HttpWebRequest)sender).Address.ToString() + ", got valid certificate ("+certificate.Subject+").", NotificationLevel.Info);
-            return true;
-        }
+        }        
 
         private string GetUserAgentString(char checkingReference)
         {

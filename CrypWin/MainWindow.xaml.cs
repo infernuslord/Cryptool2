@@ -60,6 +60,9 @@ using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Orientation = System.Windows.Controls.Orientation;
 using TabControl = System.Windows.Controls.TabControl;
 using ToolTip = System.Windows.Controls.ToolTip;
+using System.Security.Cryptography.X509Certificates;
+using System.Net;
+using System.Net.Security;
 
 namespace Cryptool.CrypWin
 {
@@ -92,6 +95,8 @@ namespace Cryptool.CrypWin
         private System.Windows.Forms.MenuItem playStopMenuItem;
         private EditorTypePanelManager editorTypePanelManager = new EditorTypePanelManager();
         private System.Windows.Forms.Timer hasChangesCheckTimer;
+        private X509Certificate serverTlsCertificate1;
+        private X509Certificate serverTlsCertificate2;
 
         private Dictionary<IEditor, string> editorToFileMap = new Dictionary<IEditor, string>();
         private string ProjectFileName
@@ -456,6 +461,63 @@ namespace Cryptool.CrypWin
                     GuiLogMessage(string.Format("Error occured while resetting configration: {0}",ex), NotificationLevel.Info);
                 }                
             }
+
+            //Load our certificates &
+            //Install validation callback
+            try
+            {
+                serverTlsCertificate1 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
+                serverTlsCertificate2 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.old_www_cryptool_org);
+
+                ServicePointManager.ServerCertificateValidationCallback = UpdateServerCertificateValidationCallback;
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error occured while loading certificates: {0}", ex), NotificationLevel.Error);
+            }
+
+        }
+
+        private bool UpdateServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (certificate == null)
+            {
+                GuiLogMessage("CrypWin: Could not validate certificate, as it is null", NotificationLevel.Error);
+                return false;
+            }
+
+            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNotAvailable)
+            {
+                GuiLogMessage("CrypWin: Could not validate TLS certificate, as the server did not provide one", NotificationLevel.Error);
+                return false;
+            }
+
+
+            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNameMismatch)
+            {
+                GuiLogMessage("CrypWin: Certificate name mismatch (certificate not for www.cryptool.org?)", NotificationLevel.Error);
+                return false;
+            }
+
+            //Catch any other SSLPoliy errors
+            //if (sslPolicyErrors != SslPolicyErrors.None)
+            //{
+            //    GuiLogMessage("AutoUpdate: SSL/TLS error: " + sslPolicyErrors.ToString(), NotificationLevel.Error);
+            //    return false;
+            //}
+
+
+            // Why do we check this?
+            // Check equality of remote and local certificate
+            // check for current and new certificate, in case server-certificate is changed
+            if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
+            {
+                GuiLogMessage("CrypWin: Received TLS certificate is not a valid certificate: Equality check failed", NotificationLevel.Error);
+                return false;
+            }
+
+            //GuiLogMessage("CrypWin: SSL fine for " + ((HttpWebRequest)sender).Address.ToString() + ", got valid certificate ("+certificate.Subject+").", NotificationLevel.Info);
+            return true;
         }
 
         private void SetLanguage()
