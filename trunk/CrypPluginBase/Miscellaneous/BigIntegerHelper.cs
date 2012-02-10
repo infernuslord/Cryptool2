@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Numerics;
 using System.Security.Cryptography;
+using System.Globalization;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -77,6 +78,9 @@ namespace Cryptool.PluginBase.Miscellaneous
                     t.ttype = TOKEN.Ttype.POW;
                     startIndex = 1;
                     break;
+                case 'h':
+                case 'H':
+                case '#':
                 case '0':
                 case '1':
                 case '2':
@@ -87,13 +91,44 @@ namespace Cryptool.PluginBase.Miscellaneous
                 case '7':
                 case '8':
                 case '9':
-                    int length = 1;
-                    for (; length < expr.Length; length++)
-                        if (!(expr[length] >= '0' && expr[length] <= '9'))
-                            break;
-                    t.integer = BigInteger.Parse(expr.Substring(0, length));
-                    t.ttype = TOKEN.Ttype.INTEGER;
-                    startIndex = length;
+                case 'A':
+                case 'a':
+                case 'B':
+                case 'b':
+                case 'C':
+                case 'c':
+                case 'D':
+                case 'd':
+                case 'E':
+                case 'e':
+                case 'F':
+                case 'f':
+                    if (expr[0] == '#' || expr[0] == 'H' || expr[0] == 'h')
+                    {
+                        int length = 1;
+                        for (; length < expr.Length; length++)
+                            if (!(expr[length] >= '0' && expr[length] <= '9') &&
+                                expr[length] != 'A' && expr[length] != 'a' && 
+                                expr[length] != 'B' && expr[length] != 'b' && 
+                                expr[length] != 'C' && expr[length] != 'c' && 
+                                expr[length] != 'D' && expr[length] != 'd' && 
+                                expr[length] != 'E' && expr[length] != 'e' && 
+                                expr[length] != 'F' && expr[length] != 'f')
+                                break;
+                        t.integer =  BigInteger.Parse(expr.Substring(1, length-1), NumberStyles.AllowHexSpecifier);
+                        t.ttype = TOKEN.Ttype.INTEGER;
+                        startIndex = length;
+                    }
+                    else
+                    {                        
+                        int length = 1;
+                        for (; length < expr.Length; length++)
+                            if (!(expr[length] >= '0' && expr[length] <= '9'))
+                                break;
+                        t.integer = BigInteger.Parse(expr.Substring(0, length));
+                        t.ttype = TOKEN.Ttype.INTEGER;
+                        startIndex = length;
+                    }
                     break;
                 default:
                     throw new Exception("Expression parsing failed at character " + expr[0]);
