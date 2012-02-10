@@ -643,7 +643,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private void OnGuiLogNotificationOccuredHandler(IPlugin sender, GuiLogEventArgs args)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 LogMessages.Add(new Log(args));
             }
