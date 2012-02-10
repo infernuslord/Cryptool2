@@ -81,6 +81,8 @@ namespace Cryptool.PluginBase.Miscellaneous
                 case 'h':
                 case 'H':
                 case '#':
+                case 'X':
+                case 'x':
                 case '0':
                 case '1':
                 case '2':
@@ -103,7 +105,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                 case 'e':
                 case 'F':
                 case 'f':
-                    if (expr[0] == '#' || expr[0] == 'H' || expr[0] == 'h')
+                    if (expr[0] == '#' || expr[0] == 'H' || expr[0] == 'h' || expr[0] == 'X' || expr[0] == 'x')
                     {
                         int length = 1;
                         for (; length < expr.Length; length++)
