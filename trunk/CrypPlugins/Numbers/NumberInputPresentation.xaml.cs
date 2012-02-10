@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.Numbers
 
     private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
     {
-        if (!"01234567890+-*/^ ()AaBbCcDdEeFf#Hh".Contains(e.Text))
+        if (!"01234567890+-*/^ ()AaBbCcDdEeFf#HhXx".Contains(e.Text))
         {
             e.Handled = true;
         }
