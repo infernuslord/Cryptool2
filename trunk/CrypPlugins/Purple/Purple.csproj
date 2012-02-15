@@ -111,9 +111,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <CodeAnalysisDictionary Include="DetailedDescription\Description.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
