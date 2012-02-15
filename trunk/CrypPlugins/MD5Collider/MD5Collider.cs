@@ -13,7 +13,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.MD5Collider.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "MD5Collider/MD5Collider.png")]
+    [PluginInfo("Cryptool.Plugins.MD5Collider.Properties.Resources", "PluginCaption", "PluginTooltip", "MD5Collider/DetailedDescription/doc.xml", "MD5Collider/MD5Collider.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     class MD5Collider : ICrypComponent
     {
