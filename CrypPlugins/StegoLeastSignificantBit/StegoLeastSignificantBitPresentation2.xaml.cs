@@ -26,34 +26,24 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
     /// </summary>
     public partial class StegoLeastSignificantBitPresentation : UserControl
     {
-        private StegoLeastSignificantBitDataContext dataContext = new StegoLeastSignificantBitDataContext();
-        private StegoLeastSignificantBitDataContext resultDataContext = new StegoLeastSignificantBitDataContext();
+        private Bitmap bitmap;
 
-        private Bitmap picture;
+        private int originalBitmapScan0 = 0;
 
-        public StegoLeastSignificantBitDataContext DataContext
+        public void Init(Bitmap bitmap, int originalBitmapScan0)
         {
-            get
-            {
-                return this.dataContext;
-            }
-            set
-            {
-                this.dataContext = value;
-            }
-        }
-
-        public void UpdatePicture(Bitmap img)
-        {
-            picture = img;
+            this.originalBitmapScan0 = originalBitmapScan0;
+            this.bitmap = (Bitmap)bitmap.Clone();
             ShowPicture();
         }
 
         private void ShowPicture()
         {
+            image1.Source = null;
+            
             MemoryStream stream = new MemoryStream();
             BitmapImage bmpimg = new BitmapImage();
-            picture.Save(stream, ImageFormat.Bmp);
+            this.bitmap.Save(stream, ImageFormat.Bmp);
             stream.Position = 0;
 
             bmpimg.BeginInit();
@@ -63,104 +53,30 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             image1.Source = bmpimg;
         }
 
-        public void AddPixel(System.Drawing.Point p)
+        public void AddPixel(Int32 offsetToScan0)
         {
-            this.dataContext.Pixels.Add(p);
-
-            Graphics graphics = Graphics.FromImage(picture);
-
-            foreach(System.Drawing.Point pixel in this.dataContext.Pixels)
+            int pixelIndex = offsetToScan0 - originalBitmapScan0;
+            int y = (int)Math.Truncate((double)pixelIndex / this.bitmap.Width);
+            int x = pixelIndex % this.bitmap.Width;
+ 
+            using (Graphics graphics = Graphics.FromImage(this.bitmap))
             {
                 graphics.FillEllipse(
-                    new SolidBrush(System.Drawing.Color.Red), 
-                    pixel.X-1, pixel.Y-1,
-                    pixel.X+1, pixel.Y+1);
-            }
+                        new SolidBrush(System.Drawing.Color.Red),
+                        x-5, y-5,
+                        10, 10);
 
-            ShowPicture();            
+                graphics.DrawEllipse(
+                        new System.Drawing.Pen(System.Drawing.Color.Black, 2),
+                        x-5, y-5,
+                        10, 10);
+            }
+            ShowPicture();       
         }
 
         public StegoLeastSignificantBitPresentation()
         {
             InitializeComponent();
-
-            /*Binding pixelsBinding = new Binding();
-            pixelsBinding.Source = this.dataContext.Pixels;
-            pixelsBinding.Path = new PropertyPath("Text");
-            pixelsBinding.Mode = BindingMode.OneWay;
-            pixelsBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            */
-            //txtResultList.DataContext = this.ResultList;
-            //txtResultList.SetBinding(TextBox.TextProperty, resTextBinding);
         }
-    }
-
-    public class StegoLeastSignificantBitDataContext : INotifyPropertyChanged
-    {
-        public StegoLeastSignificantBitDataContext()
-        {
-            this.pixels = new Collection<System.Drawing.Point>();
-        }
-
-        private Bitmap image;
-        public Bitmap Image
-        {
-            get
-            {
-                return image;
-            }
-            set
-            {
-                image = value;
-            }
-        }
-
-        private Collection<System.Drawing.Point> pixels;
-        public Collection<System.Drawing.Point> Pixels
-        {
-            get
-            {
-                return pixels;
-            }
-            set
-            {
-                this.pixels.Clear();
-                foreach (System.Drawing.Point p in value)
-                {
-                    this.pixels.Add(p);
-                }
-
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("Text"));
-                }
-            }
-        }
-
-        /*public string Text
-        {
-            get
-            {
-                if((list != null)&&(list.Count > 0))
-                {
-                    string text = ListItemToChar(0);
-                    for (int n = 1; n < list.Count; n++)
-                    {
-                        text += "," + ListItemToChar(n);
-                    }
-                    return text;
-                }
-                else if (number > -1)
-                {
-                    return number.ToString();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-        }*/
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

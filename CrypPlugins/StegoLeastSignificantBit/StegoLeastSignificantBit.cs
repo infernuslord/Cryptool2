@@ -66,6 +66,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private ImageInfo imageInfo;
         private const int PixelSize = 3;
         private StegoLeastSignificantBitPresentation presentation = new StegoLeastSignificantBitPresentation();
+        SendOrPostCallback updatePresentationPixelsDelegate;
         
         #endregion
 
@@ -433,7 +434,20 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
 
                 WritePixel(pixelPosition, pPixel);
+
+                // update presentation
+                if (this.presentation.IsVisible)
+                {
+                    ShowPixelInPresentation(pixelPosition);
+                }
             }
+        }
+
+        /// <summary>Updates the presentation to mark the pixel</summary>
+        /// <param name="pixel">Pointer to the pixel</param>
+        private void ShowPixelInPresentation(IntPtr pixel)
+        {
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPixelsDelegate, pixel.ToInt32());
         }
 
         /// <summary>Changes one component of a color</summary>
@@ -488,6 +502,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             Marshal.WriteByte(to + 2, from.Red);
         }
 
+        private void InitPresentation(Bitmap bitmap, int scan0)
+        {
+            SendOrPostCallback initPresentationDelegate = (SendOrPostCallback)delegate
+            {
+                presentation.Init(bitmap, scan0);
+            };
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, initPresentationDelegate, null);
+        }
+
         /// <summary>Hides the given message stream in the image.</summary>
         /// <param name="message">Message.</param>
         /// <param name="key">A stream with varying seed values for a random number generator.</param>
@@ -498,18 +521,18 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         void Hide(Bitmap bitmap, CStreamReader message, CStreamReader key)
         {
             // start presentation
-            SendOrPostCallback updatePresentationPictureDelegate = (SendOrPostCallback)delegate
+            /*SendOrPostCallback updatePresentationPictureDelegate = (SendOrPostCallback)delegate
             {
                 presentation.UpdatePicture(bitmap);
             };
             if (presentation.IsVisible)
             {
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
-            }
-            /*SendOrPostCallback updatePresentationPixelsDelegate = (SendOrPostCallback)delegate(Object state)
+            }*/
+            updatePresentationPixelsDelegate = (SendOrPostCallback)delegate(Object state)
             {
-                presentation.AddPixel((Point)state);
-            };*/
+                presentation.AddPixel((Int32)state);
+            };
 
             //make sure that the image is in RGB format
             Bitmap image = PaletteToRGB(bitmap);
@@ -523,6 +546,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             BitmapData bitmapData = image.LockBits(
                 new Rectangle(0, 0, image.Width, image.Height),
                 ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            InitPresentation(image, bitmapData.Scan0.ToInt32());
 
             //go to the first pixel
 
@@ -581,11 +606,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             pFirstPixel = pixelPosition;
 #endif
 
-            if (presentation.IsVisible)
-            {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
-            }
-
             int regionByte;
             while ((regionByte = regionData.ReadByte()) >= 0)
             {
@@ -626,7 +646,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
                     if (presentation.IsVisible)
                     {
-                        presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+                        ShowPixelInPresentation(pixelPosition);
                     }
                 }
             }
@@ -697,7 +717,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
                         if (presentation.IsVisible)
                         {
-                            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
+                            ShowPixelInPresentation(pixelPosition);
                         }
                     }
                 }
@@ -705,11 +725,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
             image.UnlockBits(bitmapData);
             CreateOutputStream(image);
-
-            if (presentation.IsVisible)
-            {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPictureDelegate, null);
-            }
         }
 
         /// <summary>Convert points (X;Y|X;Y|X;Y) to plain bytes (XYXYXY)</summary>
