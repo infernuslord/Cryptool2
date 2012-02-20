@@ -254,6 +254,10 @@ namespace Cryptool.CrypWin
         {
             SetLanguage();
             LoadResources();
+            if (AssemblyHelper.InstallationType == Ct2InstallationType.ZIP)
+            {
+                UnblockDLLs();
+            }
 
             // will exit application after doc has been generated
             if (IsCommandParameterGiven("-GenerateDoc"))
