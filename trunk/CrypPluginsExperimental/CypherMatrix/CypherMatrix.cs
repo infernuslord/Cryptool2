@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.CypherMatrix
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Passwort", "Input the passwords bytes to be used by the CypherMatrix cipher", true)]
+        [PropertyInfo(Direction.InputData, "Password", "Input the passwords bytes to be used by the CypherMatrix cipher", true)]
         public byte[] InputByteArray
         {
             get;
@@ -150,7 +150,6 @@ namespace Cryptool.Plugins.CypherMatrix
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-            Stopwatch sw = new Stopwatch();
 
             try
             {
@@ -168,6 +167,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 //inputStreamReader.WaitEof();
                 outputStreamWriter = new CStreamWriter();
                 debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, sie überschrieben
+                Stopwatch sw = new Stopwatch();
                 sw.Start();
 
                 switch (settings.Action)
@@ -201,12 +201,20 @@ namespace Cryptool.Plugins.CypherMatrix
                 }
 
                 sw.Stop();
-                GuiLogMessage(string.Format("Compution in {0} ms completed.", sw.ElapsedMilliseconds), NotificationLevel.Info);
-                GuiLogMessage(string.Format("Achieved data throughput: {0:N} kB/s", (double) InputStream.Length / sw.ElapsedMilliseconds), NotificationLevel.Info);
                 outputStreamWriter.Flush();
                 outputStreamWriter.Close();
                 debugDataWriter.Flush();
                 debugDataWriter.Close();
+                if (stop)
+                {
+                    GuiLogMessage("Aborted!", NotificationLevel.Warning);
+                    stop = false;
+                }
+                else
+                {
+                    GuiLogMessage(string.Format("Processed {0:N} kB data in {1} ms.", (double)InputStream.Length / 1024, sw.ElapsedMilliseconds), NotificationLevel.Info);
+                    GuiLogMessage(string.Format("Achieved data throughput: {0:N} kB/s", (double)InputStream.Length / sw.ElapsedMilliseconds), NotificationLevel.Info);
+                }
                 if(settings.Debug)
                     GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
                 OnPropertyChanged("OutputStream");
@@ -365,8 +373,6 @@ namespace Cryptool.Plugins.CypherMatrix
 
                 if (stop)
                 {
-                    GuiLogMessage("Aborted!", NotificationLevel.Warning);
-                    stop = false;
                     break;
                 }
 
@@ -449,8 +455,6 @@ namespace Cryptool.Plugins.CypherMatrix
 
                 if (stop)
                 {
-                    GuiLogMessage("Aborted!", NotificationLevel.Warning);
-                    stop = false;
                     break;
                 }
 
