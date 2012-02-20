@@ -138,6 +138,18 @@
     <Compile Include="MainWindow.Log.cs" />
     <Compile Include="MainWindow.P2P.cs" />
     <Compile Include="MainWindow.System.cs" />
+    <Compile Include="Ntfs\AlternateDataStreamInfo.cs" />
+    <Compile Include="Ntfs\FileStreamAttributes.cs" />
+    <Compile Include="Ntfs\FileStreamType.cs" />
+    <Compile Include="Ntfs\FileSystem.cs" />
+    <Compile Include="Ntfs\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Ntfs\SafeHGlobalHandle.cs" />
+    <Compile Include="Ntfs\SafeNativeMethods.cs" />
+    <Compile Include="Ntfs\StreamName.cs" />
     <Compile Include="OnlineHelpTab.xaml.cs">
       <DependentUpon>OnlineHelpTab.xaml</DependentUpon>
     </Compile>
@@ -398,6 +410,10 @@
     <Resource Include="images\editorSettings.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Ntfs\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
@@ -651,6 +667,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ntfs\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

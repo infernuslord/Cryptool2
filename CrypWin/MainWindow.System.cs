@@ -32,6 +32,7 @@ using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using Microsoft.Win32;
+using Trinet.Core.IO.Ntfs;
 using MessageBox = System.Windows.MessageBox;
 using PowerLineStatus = System.Windows.Forms.PowerLineStatus;
 
@@ -517,5 +518,30 @@ namespace Cryptool.CrypWin
         }
 
         #endregion
+
+        private const string ZoneName = "Zone.Identifier";
+
+        private void UnblockDLLs()
+        {
+            var files = Directory.EnumerateFiles(DirectoryHelper.BaseDirectory, "*.dll", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                bool result = FileSystem.AlternateDataStreamExists(file, ZoneName);
+                if (result)
+                {
+                    // Clear the read-only attribute, if set:
+                    FileAttributes attributes = File.GetAttributes(file);
+                    if (FileAttributes.ReadOnly == (FileAttributes.ReadOnly & attributes))
+                    {
+                        attributes &= ~FileAttributes.ReadOnly;
+                        File.SetAttributes(file, attributes);
+                    }
+
+                    //UnblocK:
+                    FileSystem.DeleteAlternateDataStream(file, ZoneName);
+                }
+
+            }
+        }
     }
 }
