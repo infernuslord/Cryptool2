@@ -6,37 +6,47 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-	CypherMatrix is a method to en- and decrypt as well as hash and sign data. Is was patented 1998 by E. E. Schnoor.
+    CypherMatrix is a method to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E. Schnoor. He has given his approval for using it within the CrypTool project.
+    <newline/>
+    The name CypherMatrix refers to the fact that the result of the cryptographic operation is in a matrix structure. The author wrote Cypher with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - uses still bytes as symbols.
+    <newline/>
+    It is implemented in CrypTool 2 as experimental method for training reasons.
+    <newline/>
+    The capability for signing data is not yet implemented in this plugin.
   </introduction>
 
   <introduction lang="de-DE">
-    CypherMatrix ist ein Verfahren, dass sowohl die Ver- und Entschlüsselung als auch das Hashen und Signieren von Daten ermöglicht. Es wurde 1998 von E. E. Schnoor patentiert.
+    CypherMatrix ist ein Verfahren, dass sowohl die Ver- und Entschlüsselung als auch das Hashen und Signieren von Daten ermöglicht. Es wurde 1998 von E. Schnoor patentiert. Er hat die seine Zustimmung zur Nutzung im CrypTool-Projekt gegeben.
     <newline/>
-    Der Name CypherMatrix beruht auf der Besonderheit des Verfahrens, eine Matrix als Ergebnis zu erzeugen. Cypher wird mit "y" geschrieben, weil Kryptographen seit Jahrhunderten ältere Formen und Zeichen verwendet haben und das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - auch nur Bytes verwendet und so an die Geschichte der Kryptographie erinnern soll.
+    Der Name CypherMatrix beruht auf der Besonderheit des Verfahrens, eine Matrix als Ergebnis zu erzeugen. Der Urheber schrieb Cypher wird mit "y", weil das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - nur Bytes verwendet und so an die Kryptographie vergangener Jahrhunderte erinnern soll.
+    <newline/>
+    In CrypTool 2 ist es zum Lernzweck als experimentelles Verfahren implementiert.
+    <newline/>
+    Das Signieren von Daten ist bisher in diesem Plugin noch nicht implementiert.
   </introduction>
 
   <usage lang="en">
-    After dragging the CypherMatrix component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. Additionally a passphrase consisting of ideally 42 charaters is needed. Both are mandatory.
+    After dragging the CypherMatrix component onto the workspace you need to specify a data source that represents the text to be encrypted or decrypted. The author of the algorithm recommends a passphrase of 42 characters. A passphrase as well as a datasource are neccessary to execute this algorithm.
     <newline/>
-    In the component settings you can decide whether you want to encrypt or decrypt, and you can change default values.
+    In the component settings you can choose the operation mode and change parameters.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Zusätzlich wird noch eine Passphrase von optimal 42 Zeichen benötigt. Sowohl Datenquelle als auch die Passphrase ist notwendig. 
+    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Zusätzlich wird noch eine Passphrase benötigt. Der Urheber empfiehlt dafür eine Länge von 42 Zeichen. Sowohl Datenquelle als auch die Passphrase sind notwendig, um den Algorithmus auszuführen.
     <newline/>
-    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können auch weitere Optionen verändern.
+    In den Einstellungen für die Komponente können Sie den Betriebsmodus einstellen sowie verschiedene Parameter anpassen.
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
     <linkReference>
       <link url="http://www.telecypher.net/INDENG.HTM" lang="en" />
-      <caption lang="en">CypherMatrixs Webpage</caption>
+      <caption lang="en">CypherMatrixs webpage</caption>
       <link url="http://www.telecypher.net/" lang="de-DE" />
       <caption lang="de-DE">CypherMatrix-Website</caption>
     </linkReference>

@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.CypherMatrix
         //    }
         //}
 
-        [TaskPane("Action", "Select the Algorithm action", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt", "Hash" })]
+        [TaskPane("Mode", "Select the algorithm's mode", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt", "Hash" })]
         public CypherMatrixMode Action
         {
             get
@@ -144,7 +144,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Matrix Key Lenght", "Choose the lenght of the Matrix Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
+        [TaskPane("Matrix Key Length", "Choose the length of the Matrix Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
         public int MatrixKeyLen
         {
             get
@@ -162,7 +162,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Block Key Lenght", "Choose the lenght of the Block Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        [TaskPane("Block Key Length", "Choose the length of the Block Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
         public int BlockKeyLen
         {
             get
@@ -180,7 +180,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Hash Block Lenght", "Choose the lenght of the Hash Block", "Hash Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 96)]
+        [TaskPane("Hash Block Length", "Choose the length of the Hash Block", "Hash Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 96)]
         public int HashBlockLen
         {
             get
