@@ -523,7 +523,7 @@ namespace Cryptool.CrypWin
 
         private void UnblockDLLs()
         {
-            var files = Directory.EnumerateFiles(DirectoryHelper.BaseDirectory, "*.dll", SearchOption.AllDirectories);
+            var files = Directory.EnumerateFiles(DirectoryHelper.BaseDirectory, "*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 bool result = FileSystem.AlternateDataStreamExists(file, ZoneName);
