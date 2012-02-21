@@ -27,7 +27,7 @@ namespace Cryptool.WEP
     [PluginInfo("Cryptool.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
-        "PluginDescriptionURL",
+        "WEP/DetailedDescription/doc.xml",
         "WEP/icon.jpg", "WEP/Images/encrypt.png", "WEP/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class WEP : ICrypComponent

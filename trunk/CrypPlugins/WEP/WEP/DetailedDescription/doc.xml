@@ -4,24 +4,54 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This WEP component allows you to encrypt or decrypt the input data according to the Wired Equivalent Privacy (WEP) protocol.
+    Developed and published by the Institute of Electrical and Electronics Engineers (IEEE) in 1999, the WEP protocol was the first
+    protocol for security matters within a Wireless Local Area Network (WLAN). The main features are encryption and decryption of
+    transmitted packets and an Integrity Check Value (ICV) which is used to detect transmission errors within the packets.<newline/>
+      <newline/>
+        According to the protocol a key is used which consists of either 5, 13 or 29 bytes. In the WEP component there are only key sizes of 5 and 13 bytes supported. This key is called RootKey (RK). The RK is concatenated with a packet individual Initialization Vector(IV) consisting of 3 bytes.
+        So the key K, which is in fact used to encrypt or decrypt a packet i is:
+      <newline/>
+    <newline/>
+    K of packet i = (IV of packet i || RK)<newline/>
+    <newline/>
+    The packets are encrypted / decrypted with the RC4 algorithm, a simple stream cipher algorithm.<newline/>
+    <newline/>
+    The user can choose if the component is going to encrypt or to decrypt.<newline/>
+    <newline/>
+    If the packets are going to be encrypted an individual ICV is computed for each packet. This is called Cyclic Redundancy Check (CRC) and it is
+    based on a polynomial division with a well defined 32 bit polynom. The result is a checksum of 32 bit which protects the packet
+    against transmission errors but not against manipulation. This checksum is added to the packet and then the packet will be encrypted.
+    This step is missing within the decryption. Instead, the ICV is removed from the packet. In a real world scenario the receiver of a packet
+    would compute the ICV himself again and compare the two ICVs. If they are not equal the packet would be requested from the sender again.
   </introduction>
 
   <introduction lang="de-DE">    
   </introduction>
 
   <usage lang="en">
+    To use the WEP component the user has to put it onto the workspace. A 40bit key has to be provided. The WEP component offers to encrypt or to
+    decrypt packets which have to be provided using an CryptoolStream. To generate test packets an IFrame Generator component is suitable. Depending
+    on the users choice to encrypt or to decrypt the WEP component delivers encrypted or decrypted packets using the provided key.
   </usage>
 
   <usage lang="de-DE">
   </usage>
   
   <presentation lang="en">
+    The plugin offers no special presentation.
   </presentation>
   
   <presentation lang="de-DE">
   </presentation>
   
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Wired_Equivalent_Privacy" lang="en" />
+      <caption lang="en">WEP (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Wired_Equivalent_Privacy" lang="de-DE" />
+      <caption lang="de-DE">WEP (Wikipedia)</caption>
+    </linkReference>
   </references>
 </documentation>
