@@ -28,7 +28,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.Comparators
 {
     [Author("Raoul Falk", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Comparators.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
+    [PluginInfo("Comparators.Properties.Resources", "PluginCaption", "PluginTooltip", "Comparators/DetailedDescription/doc.xml", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class Comparators : ICrypComponent
     {
