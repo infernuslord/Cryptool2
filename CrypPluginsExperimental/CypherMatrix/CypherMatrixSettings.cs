@@ -50,29 +50,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
-        //[TaskPane("SomeParameter", "This is a parameter tooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        //public int SomeParameter
-        //{
-        //    get
-        //    {
-        //        return someParameter;
-        //    }
-        //    set
-        //    {
-        //        if (someParameter != value)
-        //        {
-        //            someParameter = value;
-        //            // HOWTO: MUST be called every time a property value changes with correct parameter name
-        //            OnPropertyChanged("SomeParameter");
-        //        }
-        //    }
-        //}
-
-        [TaskPane("Mode", "Select the algorithm's mode", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt", "Hash" })]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "CypherMatrixMode0", "CypherMatrixMode1", "CypherMatrixMode2" })]
         public CypherMatrixMode Action
         {
             get
@@ -91,7 +69,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("User Code", "Choose an individual number to customize the calculations", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
+        [TaskPane("UserCodeCaption", "UserCodeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
         public int Code
         {
             get
@@ -109,7 +87,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Expansion Base", "Choose an individual number to customize the expansion function", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        [TaskPane("ExpansionBaseCaption", "ExpansionBaseTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
         public int Basis
         {
             get
@@ -127,7 +105,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("write debug log", "Choose whether the internal parameters should be written in a logfile or not", null, 4, false, ControlType.CheckBox)]
+        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", null, 4, false, ControlType.CheckBox)]
         public bool Debug
         {
             get
@@ -144,7 +122,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Matrix Key Length", "Choose the length of the Matrix Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
+        [TaskPane("MatrixKeySizeCaption", "MatrixKeySizeTooltip", "CipherOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
         public int MatrixKeyLen
         {
             get
@@ -162,7 +140,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Block Key Length", "Choose the length of the Block Key", "Cipher Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        [TaskPane("BlockSizeCaption", "BlockSizeTooltip", "CipherOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
         public int BlockKeyLen
         {
             get
@@ -180,7 +158,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("Hash Block Length", "Choose the length of the Hash Block", "Hash Options", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 96)]
+        [TaskPane("HashBlockSizeCaption", "HashBlockSizeTooltip", "HashOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 96)]
         public int HashBlockLen
         {
             get
