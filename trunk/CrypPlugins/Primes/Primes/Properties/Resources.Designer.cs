@@ -257,9 +257,10 @@ namespace Primes.Properties {
         ///  #content#	
         ///	&lt;br /&gt;
         ///	&lt;br /&gt;
-        ///  &lt;a href=&quot;javascript:window.print()&quot;&gt;Dieses Hilfethema ausdrucken.&lt;/a&gt;
+        ///  &lt;a href=&quot;javascript:window.print()&quot;&gt;Print this topic.&lt;/a&gt;
         ///	&lt;/body&gt;
-        ///&lt;/html&gt; ähnelt.
+        ///&lt;/html&gt;
+        /// ähnelt.
         /// </summary>
         internal static string template {
             get {
