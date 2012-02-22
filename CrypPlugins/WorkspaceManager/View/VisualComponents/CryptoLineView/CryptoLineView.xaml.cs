@@ -144,12 +144,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line = new InternalCryptoLineView(model, source, target, visuals);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, Util.CreateConnectorBinding(target, this));
-            //Line.SetBinding(InternalCryptoLineView.IsDraggedProperty, Util.CreateIsDraggingBinding(
-            //    new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
-            //Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
 
             Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
+            createLinkedList();
             Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
 
             if(model.PointList != null)
@@ -157,6 +155,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         void PointListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            createLinkedList();
+        }
+
+        void createLinkedList()
         {
             LinkedPointList.Clear();
             foreach (var p in Line.PointList)
@@ -251,15 +254,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             //Line.IsEditingPoint = false;
         }
 
-        //private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
-        //{
-        //    model.UpdateableView = this;
-        //    if (this.model != null && !((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
-        //    {
-        //        this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
-        //    }
-        //}
-
         public void update()
         {
             //throw new NotImplementedException();
@@ -271,6 +265,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             var prevData = LinkedPointList.Find(data).Previous;
             if (prevData == null)
                 return;
+
+            Line.IsEditingPoint = true;
             if (data.DirSort == DirSort.Y_ASC || data.DirSort == DirSort.Y_DESC)
             {
                 data.From = prevData.Value.To = new Point(data.From.X + e.HorizontalChange, data.From.Y);
@@ -281,8 +277,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + e.VerticalChange);
                 data.To = new Point(data.To.X, data.To.Y + e.VerticalChange);
             }
-
-            Line.IsEditingPoint = true;
             Line.InvalidateAllLines();
         }
 
