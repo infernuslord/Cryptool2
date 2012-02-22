@@ -430,7 +430,7 @@
                     <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
                     <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
                     <Setter Property="MinHeight" Value="{Binding Path=ActivePresentation.MinHeight}"></Setter>
-                    <Setter Property="MinWidth" Value="{Binding Path=ActivePresentation.MineWidth}"></Setter>
+                    <Setter Property="MinWidth" Value="{Binding Path=ActivePresentation.MinWidth}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Background" Value="{Binding Path=BackgroundBrushColor}"></Setter>

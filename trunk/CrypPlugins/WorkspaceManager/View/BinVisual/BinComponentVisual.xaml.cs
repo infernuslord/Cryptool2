@@ -843,6 +843,8 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             {
                 WindowHeight += e.VerticalChange;
                 WindowWidth += e.HorizontalChange;
+                Console.Out.WriteLine(e.HorizontalChange);
+                Console.Out.WriteLine(e.VerticalChange);
             }
 
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));
