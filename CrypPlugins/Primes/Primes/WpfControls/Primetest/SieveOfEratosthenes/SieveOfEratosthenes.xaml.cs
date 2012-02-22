@@ -170,6 +170,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
       {
         sbResult.Append(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_isprime, m_Value.ToString()));
       }
+      else
       {
         sbResult.Append(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_isnotprime, m_Value.ToString()));
       }
