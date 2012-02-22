@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.CypherMatrix
     [Author("Michael Schäfer", "michael.schaefer@rub.de", null, null)]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("CypherMatrix", "CypherMatrix En/Decryption", "CypherMatrix/doc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("CypherMatrix.Properties.Resources", "PluginCaption", "PluginTooltip", "CypherMatrix/doc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class CypherMatrix : ICrypComponent
@@ -64,14 +64,14 @@ namespace Cryptool.Plugins.CypherMatrix
         /// You can add more input properties of other type if needed.
         /// </summary>
 
-        [PropertyInfo(Direction.InputData, "Input Data", "Data to be processed by the CypherMatrix cipher", true)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputStream
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Password", "Input the passwords bytes to be used by the CypherMatrix cipher", true)]
+        [PropertyInfo(Direction.InputData, "InputPasswordCaption", "InputPasswordTooltip", true)]
         public byte[] InputByteArray
         {
             get;
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.CypherMatrix
         //    set;
         //}
 
-        [PropertyInfo(Direction.OutputData, "Output Data", "Data after processing with CypherMatrix", true)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get
@@ -166,7 +166,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 inputStreamReader = InputStream.CreateReader();
                 //inputStreamReader.WaitEof();
                 outputStreamWriter = new CStreamWriter();
-                debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, sie überschrieben
+                debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, wird sie überschrieben
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
@@ -174,13 +174,11 @@ namespace Cryptool.Plugins.CypherMatrix
                 {
                     case CypherMatrixSettings.CypherMatrixMode.Encrypt:
                         {
-                            //GuiLogMessage("Starting encryption.", NotificationLevel.Debug);
                             Encrypt();
                             break;
                         }
                     case CypherMatrixSettings.CypherMatrixMode.Decrypt:
                         {
-                            //GuiLogMessage("Starting decryption.", NotificationLevel.Debug);
                             Decrypt();
                             break;
                         }
@@ -323,7 +321,6 @@ namespace Cryptool.Plugins.CypherMatrix
                         plaintext[i] = 0x20;
 
                 // Schlüssel generieren
-                //GuiLogMessage(string.Format("Encryption round {0} started.", round), NotificationLevel.Debug);
                 Generator(startseq, startseqLen, round);
 
                 // Verschlüsseln
