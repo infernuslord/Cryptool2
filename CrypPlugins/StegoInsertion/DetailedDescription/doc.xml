@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en"></introduction>
+
+  <introduction lang="de-DE">
+    Unter <i>Steganographie</i> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
+    uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
+    noch eine zusätzliche, versteckte Nachricht übermittelt wird.
+    <newline/><newline/>
+    Das Grundprinzip der steganographischen Technik dieses Plugins ist, die zu übertragende Nachricht in einer
+	 MIDI-Datei zu verstecken. Das MIDI-Protokoll speichert Steuerinformationen zur Kontrolle elekronischer Musikinstrumente.
+	 Unter anderem kann durch einen "Program Change"-Befehl das aktuelle Instrument geändert werden.
+	 Werden direkt vor einem regulären Instrumentenwechsel in der MIDI-Datei weitere Instrumentenwechsel eingefügt,
+	 so haben diese keine Auswirkung und bleiben beim Abspielen unbemerkt. Man kann in jedem hinzugefügten Kontrollblock für
+	 den Instrumentenwechsel einige Bits verstecken und so die zu versteckende Nachricht auf die MIDI-Datei verteilen.
+  </introduction>
+
+  <usage lang="en"></usage>
+
+  <usage lang="de-DE">
+    Das Plugin hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins
+    gewählt werden kann.
+    <newline/><newline/>
+    Bei der <i>Verschlüsselung</i> erwartet das Plugin am Eingang <i>"Nachricht"</i> die zu versteckende Textnachricht und am
+	 Eingang <i>"Trägerdatei"</i> eine MIDI-Datei als Datenstrom, in welcher die Nachricht versteckt werden soll.
+	 (Die MIDI-Datei kann zum Beispiel über das Dateieingabe-Plugin eingelesen werden.)
+	 Am Ausgang <i>"Trägerdatei"</i> wird dann die präparierte MIDI-Datei ausgegeben, die die versteckte Nachricht enthält.
+	 <newline />
+	 Das Plugin kann in jedem zusätzlich eingefügten "Program Change"-Befehl 4 Bits kodieren. 
+	 In den Einstellungen des Plugins kann man angeben, wie viele zusätzliche "Program Change"-Befehle pro regulärem "Program Change" eingefügt
+	 werden sollen. Um die gesamte Nachricht zu kodieren kann es notwendig sein, diese Anzahl zu erhöhen.
+    <newline/><newline/>
+	 Bei der <i>Entschlüsselung</i> erwartet das Plugin am Eingang <i>"Trägerdatei"</i> eine mit einer versteckten Nachricht präparierte
+	 MIDI-Datei. Das Plugin extrahiert die Nachricht und gibt diese am Ausgang <i>"Nachricht"</i> aus. Am Ausgang <i>"Trägerdatei"</i> wird
+	 die von den überflüssigen "Program Change"-Befehlen bereinigte MIDI-Datei zur Verfügung gestellt.
+    <newline/><newline/>
+  </usage>
+  
+  <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Steganography"/>
+      <caption lang="en">Steganography in the english wikipedia</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Steganographie"/>
+      <caption lang="de-DE">Steganographie in der deutschen Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.steganografie.eu"/>
+      <caption lang="en">http://www.steganografie.eu</caption>
+      <link lang="de-DE" url="http://www.steganografie.eu"/>
+      <caption lang="de-DE">http://www.steganografie.eu</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.steganografie.eu/index.php?article=5"/>
+      <caption lang="en">Steganography with MIDI files</caption>
+      <link lang="de-DE" url="http://www.steganografie.eu/index.php?article=5"/>
+      <caption lang="de-DE">Steganographie mit MIDI-Dateien</caption>
+    </linkReference>
+  </references>
+</documentation>

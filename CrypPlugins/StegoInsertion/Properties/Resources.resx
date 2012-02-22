@@ -130,16 +130,16 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="InputCarrierCaption" xml:space="preserve">
-    <value>Carrier file input as a stream</value>
+    <value>Carrier file</value>
   </data>
   <data name="InputCarrierTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Input of carrier file with hidden data / in which to hide data</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
-    <value>Text input as a stream</value>
+    <value>Message</value>
   </data>
   <data name="InputDataTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Message that is to be hidden in the carrier file</value>
   </data>
   <data name="MaxMessageBytesPerCarrierUnitCaption" xml:space="preserve">
     <value>MaxMessageBytesPerCarrierUnit</value>
@@ -148,16 +148,16 @@
     <value>Maximum number of halfbytes to hide around one carrier unit</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
-    <value>Carrier output</value>
+    <value>Carrier file</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
-    <value>Encryption result</value>
+    <value>Output of carrier file without hidden data</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
-    <value>CryptoolStream output</value>
+    <value>Message</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Text decryption result</value>
+    <value>Message that was hidden in the carrier file</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Insertion Steganography</value>

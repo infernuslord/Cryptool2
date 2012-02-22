@@ -130,13 +130,13 @@
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="InputCarrierCaption" xml:space="preserve">
-    <value>Trägerdatei als Eingabedatenstrom</value>
+    <value>Trägerdatei</value>
   </data>
   <data name="InputCarrierTooltip" xml:space="preserve">
     <value>Trägerdatei, in der Daten versteckt bzw. zu verstecken sind.</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
-    <value>Dateneingabe</value>
+    <value>Nachricht</value>
   </data>
   <data name="InputDataTooltip" xml:space="preserve">
     <value>Die in der Trägerdatei zu versteckenden Daten.</value>
@@ -148,13 +148,13 @@
     <value>Max. Anzahl von Halbbytes, die in einer Komponente der Trägerdatei versteckt werden.</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
-    <value>Ausgabe der Trägerdatei</value>
+    <value>Trägerdatei</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
     <value>Trägerdatei, in der die Eingabedaten versteckt wurden, bzw. die von den versteckten Daten bereinigt wurde.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
+    <value>Nachricht</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
     <value>Die in der Trägerdatei versteckten Daten.</value>
