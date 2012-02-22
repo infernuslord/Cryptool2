@@ -11,40 +11,40 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Die MD5-Kollisionskomponente erlaubt dem Benutzer zwei Blöcke mit verschiedenen Binärdaten zu erzeugen, welche entweder auf den selben MD5-Wert abbilden oder welche auf als Teilstück genutzt werden können, um auf den gleichen MD5-Wert abzubilden. Diese Blöcke sind genau 128 Bytes lang. Sie werden als byte[] und als Stromobjekt ausgegeben. Die Komponente nimmt zwei optionale Eingaben entgegen.
+    Mit der MD5-Kollisionskomponente kann man zwei unterschiedliche Blöcke von Binärdaten erzeugen, die entweder denselben MD5-Wert haben oder die als Teilstück genutzt werden können, um auf den gleichen MD5-Wert abzubilden. Diese Blöcke sind genau 128 Bytes lang. Sie werden als byte[] und als Stromobjekt ausgegeben. Die Komponente nimmt zwei optionale Eingaben entgegen.
     <newline/>
     Diese Komponente ist eine Portierung des "fast collision generator" Version 1.0.0.5 von Marc Stevens. Der originale C++ Sourcecode und weitere Informationen sind unter <ref id="FCG"/> verfügbar.
 </introduction>
 
   <usage lang="en">
-    The first input is a <b>random seed</b>. This input - if connected - allows you to get a reproducable result: Two runs of the collider with the same random seed will generate the same binary output in approximately the same running time. If left unconnected, the output and running time will be different for each execution.
+    The first input is a <b>random seed</b>. If this input is connected, you get a reproducible result: Two runs of the collider with the same random seed will generate the same binary output in approximately the same running time. If left unconnected, the output and running time will be different for each execution.
     <newline/>
-    As a second input, an optional <b>"prefix" parameter</b>  can be given. If this parameter is omitted, you will simply receive two blocks of output that hash to the same MD5 value. Due to the nature of MD5, appending identical data to both of these blocks will still result in them hashing to the same value. However, prepending identical data to the blocks will break the collision.
+    As a second input, an optional <b>"prefix" parameter</b>  can be given. If this parameter is omitted, you will simply receive two blocks of output that hash to the same MD5 value. Due to the nature of MD5, appending identical data to both of these blocks will still result in same MD5 value for each of the combined blocks. However, prepending identical data to the blocks will break the collision.
     <newline/>
-    If you want to prepend data to build your collision data, you should set this data as the prefix parameter. It must have a length that is a multiple of 64 bytes. When it is set to a non-empty value, an intermediate hash value is calculated from the input and used in the computation instead of the default starting IHV, resulting in different output blocks which will not hash to the same MD5 value on their own. However, if you concatenate the generated blocks B1 and B2 to the given prefix data P so that you receive two new blocks (P || B1) and (P || B2), they will have the same MD5. You can then append more identical data without breaking the collision. Thus, using the prefix parameter, you may create colliding blocks (Prefix || C1 || Postfix), (Prefix || C2 || Postfix) with identical pre- and postfixes.
+    If you want to prepend data to build your collision data, you should set this data as the prefix parameter. It must have a length that is a multiple of 64 bytes. When it is set to a non-empty value, an intermediate hash value is calculated from the input and used in the computation instead of the default starting IHV, resulting in different output blocks which will not hash to the same MD5 value on their own. However, if you concatenate any two generated blocks B1 and B2 to the given prefix data P so that you receive two new blocks (P || B1) and (P || B2), they will have the same MD5. You can then append more identical data without breaking the collision. Thus, using the prefix parameter, you may create colliding blocks (Prefix || C1 || Postfix), (Prefix || C2 || Postfix) with identical pre- and postfixes.
   </usage>
 
   <usage lang="de-DE">
-    Die erste Eingabe ist ein <b>Zufallssamen</b>. Diese Eingabe - falls verbunden - erlaubt dem benutzer ein reproduzierbares Ergebnis zu erhalten: Zwei Läufe der Kollisionskomponente mit dem selben Zufallssamen führt zur Erzeugung der selben Binärausgabe in einer vergleichbaren Laufzeit. Falls hier keine Verbindung vorliegt wird die Ausgabe und die Laufzeit für jede Ausführung unterschiedlich sein.
+    Die erste Eingabe ist ein <b>Zufallswert</b>. Ist diese Eingabe verbunden, erhält man ein reproduzierbares Ergebnis: Zwei Läufe der Kollisionskomponente mit demselben Zufallswert führen zur Erzeugung derselben Binärausgabe in einer vergleichbaren Laufzeit. Falls dieser Eingang nicht verbunden ist, wird die Ausgabe und die Laufzeit für jede Ausführung unterschiedlich sein.
     <newline/>
-    Als eine zweite Eingabe kann ein optionaler "Präfix"-Parameter übergeben werden. Falls dieser Parameter ausgelassen wird, wird der Benutzer lediglich zwei Ausgabeblöcke, welche auf den selben MD5-Wert abbilden, erhalten. Aufgrund der Natur von MD5 führt ein Anhängen identischer Daten an diese beiden Blöcke weiterhin zu einer Abbildung auf den selben Hash-Wert. Allerdings führt ein Einfügen von identischen Daten an den Anfang der Blöcke zu einem Bruch der Kollision.
+    Die zweite Eingabe ist der optionale "Präfix"-Parameter. Falls dieser Parameter ausgelassen wird, erhält man lediglich zwei Ausgabeblöcke, die auf denselben MD5-Wert abbilden. Aufgrund der Natur von MD5 ergibt ein Anhängen identischer Daten an diese beiden Blöcke für den kombinierten Datenblock denselben Hash-Wert. Allerdings führt ein Einfügen von identischen Daten vor den Anfang der Blöcke zu einem Bruch der Kollision.
     <newline/>
-    Falls der Benutzer Daten an den Anfang anhängen möchte um die Kollisionsdaten zu erzeugen sollte er diese Daten als Präfix-Parameter angeben. Diese Daten müssen ein Vielfaches von 64 Bytes als Länge haben. Falls sie zu einem nicht-leeren Wert gesetzt werden, wird ein Hash-Zwischenwert von dieser Eingabe berechnet und wird somit in der Berechnung anstatt des standardmäßigen IHV-Startwerts genutzt, was zu verschiedenen Ausgabeblöcken führt, welche für sich genommen nicht auf den selben MD5-Wert hashen. Wenn jedoch die Blöcke B1 und B2 mit dem gegebenen Präfixdaten P zusammengefügt werden, sodass zwei neue Blöcke (P || B1) und (P || B2) entstehen, werden diese den gleichen MD5-Wert haben. Es können dann weitere identische Daten angehängt werden ohne die Kollision zu brechen. Somit können mittels des Präfix-Parameters die kollidierenden Blöcke (Prefix || C1 || Postfix) und (Prefix || C2 || Postfix) mit identischem Prä- und Postfix erzeugt werden.    
+    Falls Sie Daten vor den Anfang einfügen möchten, um die Kollisionsdaten zu erzeugen, sind diese Daten als Präfix-Parameter anzugeben. Diese Daten müssen ein Vielfaches von 64 Bytes als Länge haben. Falls sie auf einen nicht-leeren Wert gesetzt werden, wird ein Hash-Zwischenwert von dieser Eingabe berechnet und dieser wird in der Berechnung anstatt des standardmäßigen IHV-Startwerts genutzt, was zu verschiedenen Ausgabeblöcken führt, die für sich genommen nicht auf denselben MD5-Wert hashen. Wenn jedoch zwei beliebige Ausgabeblöcke B1 und B2 mit dem gegebenen Präfixdaten P zusammengefügt werden, so dass zwei neue Blöcke (P || B1) und (P || B2) entstehen, werden diese denselben MD5-Wert haben. Es können dann weitere identische Daten angehängt werden, ohne die Kollision zu brechen.   
   </usage>
   
   <presentation lang="en">
-    The presentation shows you the progress of the computation process. This includes the informations about the number of tries and matches.
+    The presentation shows the progress of the computation process. This includes the number of tries and matches.
   </presentation>
   
   <presentation lang="de-DE">
-    Die Präsentation zeigt dem Benutzer den Fortschritt des Berechnungsprozesses. Dazu gehören die Informationen über die Anzahl der Versuche und der Treffer.
+    Die Präsentation zeigt den Fortschritt der Berechnung. Dazu gehören die Anzahl der Versuche und der Treffer.
   </presentation>
   
   <references>
     <linkReference id="FCG">
       <link lang="en" url="http://www.win.tue.nl/hashclash/"/>
-      <caption lang="en">The "fast collision generator" project.</caption>
-      <caption lang="de">Das "fast collision generator" Projekt.</caption>
+      <caption lang="en">The "Fast Collision Generator" project.</caption>
+      <caption lang="de">Das "Fast Collision Generator"-Projekt.</caption>
     </linkReference>
   </references>
 </documentation>
