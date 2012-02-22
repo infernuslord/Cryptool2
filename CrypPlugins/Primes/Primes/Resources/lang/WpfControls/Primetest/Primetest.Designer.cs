@@ -250,7 +250,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist eine Primzahl ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist eine Primzahl  ähnelt.
         /// </summary>
         public static string soe_isprime {
             get {

@@ -181,7 +181,7 @@
     <value>{0} ist keine Primzahl</value>
   </data>
   <data name="soe_isprime" xml:space="preserve">
-    <value>{0} ist eine Primzahl</value>
+    <value>{0} ist eine Primzahl </value>
   </data>
   <data name="soe_method" xml:space="preserve">
     <value>Verfahren</value>

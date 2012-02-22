@@ -124,8 +124,8 @@
   <data name="Distribution_EulerPhi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\distribution_eulerphi.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Distribution_Euler_Phi_Sum" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>en\distribution_euler_phi_sum.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Distribution_EulerPhiSum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_eulerphisum.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Goldbach" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\distribution_goldbach.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -136,10 +136,34 @@
   <data name="Distribution_Numberline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\distribution_numberline.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="Distribution_QuadrupletPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_quadrupletprimes.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_SixTupletPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_sixtupletprimes.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Distribution_Tau" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_tau.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Distribution_TwinPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\distribution_twinprimes.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Factorization_BruteForce" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\factorization_bruteforce.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Factorization_Factorization" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\factorization_factorization.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Factorization_Generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\factorization_generate.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Factorization_Generate_BigInteger" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\factorization_generate_biginteger.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Primetest_MillerRabin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\primetest_millerrabin.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Simpson_Lin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\simpson_lin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
