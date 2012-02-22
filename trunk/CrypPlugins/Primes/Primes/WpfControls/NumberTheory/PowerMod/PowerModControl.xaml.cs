@@ -597,6 +597,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         {
             FireStartEvent();
             ClearArrows();
+            m_SourceDestination.Clear();
             log.Clear();
             lock (m_RunningLockObject)
             {
