@@ -31,10 +31,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public LinkedList<FromTo> LinkedPointList = new LinkedList<FromTo>();
+        public BinEditorVisual Editor { private set; get; }
+
         private InternalCryptoLineView line = null;
         private ConnectionModel model = null;
         private UIElement[] newItems, oldItems;
         private IEnumerable<BinComponentVisual> selected;
+        private Thumb selectedPart = new Thumb();
         public ConnectionModel Model
         {
             get { return model; }
@@ -68,6 +72,17 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             set
             {
                 base.SetValue(SourceProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedPartProperty = DependencyProperty.Register("SelectedPart", typeof(Thumb), typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+
+        public Thumb SelectedPart
+        {
+            get { return (Thumb)base.GetValue(SelectedPartProperty); }
+            private set
+            {
+                base.SetValue(SelectedPartProperty, value);
             }
         }
 
@@ -117,6 +132,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public CryptoLineView(ConnectionModel model, BinConnectorVisual source, BinConnectorVisual target, ObservableCollection<UIElement> visuals)
         {
             // TODO: Complete member initialization
+            selectedPart.MouseLeave +=new MouseEventHandler(SubPathMouseLeave);
+            selectedPart.DragDelta += new DragDeltaEventHandler(DragDelta);
+            Editor = (BinEditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
             this.Model = model;
@@ -129,12 +147,22 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             //Line.SetBinding(InternalCryptoLineView.IsDraggedProperty, Util.CreateIsDraggingBinding(
             //    new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
             //Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
-            BinEditorVisual editor = (BinEditorVisual)model.WorkspaceModel.MyEditor.Presentation;
-            editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
+
+            Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
+            Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
 
             if(model.PointList != null)
                 assembleGeo();
+        }
+
+        void PointListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            LinkedPointList.Clear();
+            foreach (var p in Line.PointList)
+            {
+                LinkedPointList.AddLast(p);
+            }
         }
 
         void editor_ItemsSelected(object sender, SelectedItemsEventArgs e)
@@ -196,12 +224,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             PathGeo = geo;
         }
 
-        void PointListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-
-
-        }
-
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -246,18 +268,58 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         private void DragDelta(object sender, DragDeltaEventArgs e)
         {
             var data = (FromTo)(((FrameworkElement)sender).DataContext);
+            var prevData = LinkedPointList.Find(data).Previous;
+            if (prevData == null)
+                return;
             if (data.DirSort == DirSort.Y_ASC || data.DirSort == DirSort.Y_DESC)
             {
-                data.From = new Point(data.From.X + e.HorizontalChange, data.From.Y);
+                data.From = prevData.Value.To = new Point(data.From.X + e.HorizontalChange, data.From.Y);
                 data.To = new Point(data.To.X + e.HorizontalChange, data.To.Y);
             }
             if (data.DirSort == DirSort.X_ASC || data.DirSort == DirSort.X_DESC)
             {
-                data.From = new Point(data.From.X, data.From.Y + e.VerticalChange);
+                data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + e.VerticalChange);
                 data.To = new Point(data.To.X, data.To.Y + e.VerticalChange);
             }
+
             Line.IsEditingPoint = true;
             Line.InvalidateAllLines();
+        }
+
+        private void SubPathMouseMove(object sender, MouseEventArgs e)
+        {
+            detPoint(e.GetPosition((IInputElement)sender));
+        }
+
+        private void detPoint(Point point)
+        {
+            for(int i = 1; i < Line.PointList.Count-1 ;++i)
+            {
+                var p = Line.PointList[i];
+                Rect r = new Rect(p.From, new Vector(p.To.X, p.To.Y));
+
+                if(r.IntersectsWith(new Rect(point,new Size(5,5))))
+                {
+                    SelectedPart = selectedPart;
+                    selectedPart.DataContext = p;
+                    return;
+                }
+            }
+            SelectedPart = null;
+        }
+
+        private void SubPathMouseLeave(object sender, MouseEventArgs e)
+        {
+            SelectedPart = null;
+        }
+
+        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        {
+            model.UpdateableView = this;
+            if (this.model != null && !((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
+            {
+                this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
+            }
         }
     }
 
@@ -268,7 +330,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         private IntersectPoint intersectPoint;
         private static double baseoffset = 8;
         public event EventHandler ComputationDone;
-
+        
         private ObservableCollection<FromTo> pointList = new ObservableCollection<FromTo>();
         public ObservableCollection<FromTo> PointList
         {
@@ -373,14 +435,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (l.model == null)
                 return;
 
-            if (l.HasComputed == true)
+            if (l.HasComputed == true && l.PointList.Count > 0)
             {
                 l.Model.PointList = new List<Point>();
                 foreach (var p in l.PointList)
                 {
                     l.Model.PointList.Add(p.From);
                 }
-                l.Model.PointList.Add(l.PointList.Last().To);
+                l.Model.PointList.Add(l.PointList[l.PointList.Count-1].To);
             }
         }
 
@@ -421,8 +483,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.StartPointSource = source;
             this.EndPointSource = target;
             this.Visuals = visuals;
-
-            
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -1073,6 +1133,44 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GeoTrimBindingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return null;
+            var geo = (PathGeometry)value;
+            var subGeo = geo.Clone();
+
+            if (subGeo.Figures[0].Segments.Count <= 1)
+                return subGeo;
+
+            subGeo.Figures[0].StartPoint = ((LineSegment)subGeo.Figures[0].Segments[0]).Point;
+            subGeo.Figures[0].Segments.RemoveAt(0);
+            subGeo.Figures[0].Segments.RemoveAt(subGeo.Figures[0].Segments.Count - 1);
+
+            return subGeo;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class NegateBindingConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }

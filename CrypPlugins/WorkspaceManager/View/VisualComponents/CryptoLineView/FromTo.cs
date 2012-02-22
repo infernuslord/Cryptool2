@@ -20,14 +20,6 @@ namespace WorkspaceManager.View.VisualComponents
         private Point from, to;
 
         public DirSort DirSort { get; private set; }
-        public FromTo PrevFromTo { get; set; }
-
-        public double Delta
-        {
-            get;
-            set;
-        }
-
         public bool HasEndPoint
         {
             get;
@@ -89,12 +81,10 @@ namespace WorkspaceManager.View.VisualComponents
                 if (From.Y > To.Y)
                 {
                     DirSort = DirSort.Y_DESC;
-                    this.Delta = From.Y - To.Y;
                 }
                 else
                 {
                     DirSort = DirSort.Y_ASC;
-                    this.Delta = To.Y - From.Y;
                 }
 
             }
@@ -103,12 +93,10 @@ namespace WorkspaceManager.View.VisualComponents
                 if (From.X > To.X)
                 {
                     DirSort = DirSort.X_DESC;
-                    this.Delta = From.X - To.X;
                 }
                 else
                 {
                     DirSort = DirSort.X_ASC;
-                    this.Delta = To.X - From.X;
                 }
 
             }
