@@ -462,7 +462,15 @@ namespace WorkspaceManager.View.BinVisual
 
                 foreach(var txt in m.GetAllTextModels())
                 {
-                    this.VisualCollection.Add(new BinTextVisual(txt));
+
+                    try
+                    {
+                        this.VisualCollection.Add(new BinTextVisual(txt));
+                    }
+                    catch (Exception e)
+                    {
+                        MyEditor.GuiLogMessage(string.Format("Could not load Text to Workspace: {0}", e.Message), NotificationLevel.Error);
+                    }
                 }
 
                 if (SampleLoaded != null)
@@ -784,7 +792,22 @@ namespace WorkspaceManager.View.BinVisual
 
         private void CopyToClipboardClick(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+            try
+            {
+                Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+            }
+            catch (Exception)
+            {
+                //1ms
+                DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(10000)  };
+                timer.Start();
+                timer.Tick += new EventHandler(delegate(object timerSender, EventArgs ee)
+                {
+                    DispatcherTimer t = (DispatcherTimer)timerSender;
+                    t.Stop();
+                    Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+                });
+            }
         }
 
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -995,11 +1018,11 @@ namespace WorkspaceManager.View.BinVisual
                 }
             }
 
-            if (e.Source is CryptoLineView)
-            {
-                CryptoLineView l = (CryptoLineView)e.Source;
-                Model.ModifyModel(new DeleteConnectionModelOperation(l.Line.Model));
-            }
+            //if (e.Source is CryptoLineView)
+            //{
+            //    CryptoLineView l = (CryptoLineView)e.Source;
+            //    Model.ModifyModel(new DeleteConnectionModelOperation(l.Line.Model));
+            //}
         }
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)

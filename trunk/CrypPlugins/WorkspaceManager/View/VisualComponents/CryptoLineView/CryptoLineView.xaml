@@ -4,12 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:bin="clr-namespace:WorkspaceManager.View.VisualComponents.CryptoLineView"
+             xmlns:bins="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
+        <bin:GeoTrimBindingConverter x:Key="GeoTrimBindingConverter"></bin:GeoTrimBindingConverter>
         <bin:IsOneTrueBindingConverter x:Key="IsOneTrueBindingConverter"></bin:IsOneTrueBindingConverter>
         <bin:IsOneFalseBindingConverter x:Key="IsOneFalseBindingConverter"></bin:IsOneFalseBindingConverter>
+        <bin:NegateBindingConverter x:Key="NegateBindingConverter"></bin:NegateBindingConverter>
         <Style TargetType="{x:Type Path}" x:Key="Path">
             <Style.Triggers>
                 <DataTrigger Value="True">
@@ -31,7 +34,21 @@
             <Setter Property="StrokeDashArray" Value="4,1,4,1"></Setter>
         </Style>
 
-        <Style TargetType="{x:Type Thumb}" x:Key="DragRect">
+        <Style TargetType="{x:Type Path}" x:Key="SubPath">
+            <Style.Triggers>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                         <Binding Path="IsSelected" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}"></Binding>
+                    </DataTrigger.Binding>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+            <Setter Property="Stroke" Value="#77FFFFFF"></Setter>
+            <Setter Property="StrokeThickness" Value="8"></Setter>
+        </Style>
+
+        <!--<Style TargetType="{x:Type Thumb}" x:Key="DragRect">
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -112,53 +129,28 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="Visibility" Value="Collapsed"></Setter>
-        </Style>
+        </Style-->
 
-        <Style TargetType="{x:Type Thumb}" x:Key="Drag">
-            <Style.Triggers>
-                <!--<DataTrigger Value="True">
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{StaticResource ResourceKey=IsOneFalseBindingConverter}">
-                            <Binding Path="HasEndpoint"></Binding>
-                            <Binding Path="IsSelected" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}"></Binding>
-                        </MultiBinding>
-                    </DataTrigger.Binding>
-                    <Setter Property="Visibility" Value="Collapsed"></Setter>
-                </DataTrigger>-->
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=HasEndPoint}" Value="false"></Condition>
-                        <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}}" Value="true"></Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </MultiDataTrigger>
-            </Style.Triggers>
-            <Setter Property="Visibility" Value="Collapsed"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Canvas>
-                            <Thumb Style="{StaticResource ResourceKey=DragRect}" DragDelta="DragDelta">
-                            </Thumb>
-                            <Border Background="White" BorderBrush="RoyalBlue" Width="8" Height="8" BorderThickness="1">
-                                <Border.RenderTransform>
-                                    <TranslateTransform X="{Binding Path=To.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=To.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
-                                </Border.RenderTransform>
-                            </Border>
-                        </Canvas>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
-        <Style x:Key="PointsStyle" TargetType="ItemsControl">
+
+        <!--<Style x:Key="PointsStyle" TargetType="ItemsControl">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}}" Value="true">
                     <Setter Property="ItemsSource" Value="{Binding Path=Line.PointList}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="ContextMenuClick" Header="Delete Line" 
+                      IsEnabled="{Binding Path=Editor.IsExecuting, Converter={StaticResource ResourceKey=NegateBindingConverter}}">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <Canvas>
         <Path Data="{Binding Path=PathGeo}" Style="{StaticResource ResourceKey=Path}"></Path>
 
@@ -166,7 +158,31 @@
 
         </ContentPresenter>
 
-        <ItemsControl Margin="-4.5" Style="{StaticResource ResourceKey=PointsStyle}">
+        <Path Data="{Binding Path=PathGeo, Converter={StaticResource ResourceKey=GeoTrimBindingConverter}}" 
+              Style="{StaticResource ResourceKey=SubPath}"
+              MouseMove="SubPathMouseMove"></Path>
+        
+        <ContentPresenter Content="{Binding Path=SelectedPart}">
+            <ContentPresenter.Resources>
+                <Style TargetType="{x:Type Thumb}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Line Stroke="#aaFFFFFF" StrokeThickness="8" 
+                                      X1="{Binding Path=From.X}"
+                                      Y1="{Binding Path=From.Y}"
+                                      X2="{Binding Path=To.X}"
+                                      Y2="{Binding Path=To.Y}">
+                                </Line>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ContentPresenter.Resources>
+
+        </ContentPresenter>
+
+        <!--<ItemsControl Margin="-4.5" Style="{StaticResource ResourceKey=PointsStyle}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -182,6 +198,6 @@
                 <Style>
                 </Style>
             </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+        </ItemsControl>-->
     </Canvas>
 </UserControl>

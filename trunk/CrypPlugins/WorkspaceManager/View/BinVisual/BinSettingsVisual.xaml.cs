@@ -45,6 +45,7 @@ namespace WorkspaceManager.View.BinVisual
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
         {
+            this.Loaded += new RoutedEventHandler(BinSettingsVisual_Loaded);
 
             noSettings = false;    
             this.isSideBar = isSideBar;
@@ -147,6 +148,11 @@ namespace WorkspaceManager.View.BinVisual
                 noSettings = true;
             }
             
+        }
+
+        void BinSettingsVisual_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.InvalidateVisual();
         }
 
         private void CollectionChangedHandler(Object sender, NotifyCollectionChangedEventArgs args)

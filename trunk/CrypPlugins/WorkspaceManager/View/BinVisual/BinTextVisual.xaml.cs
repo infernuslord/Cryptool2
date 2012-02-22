@@ -127,10 +127,6 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructors
-        public BinTextVisual()
-        {
-            throw new Exception("Don't use this Constructor");
-        }
 
         public BinTextVisual(TextModel model)
         {
