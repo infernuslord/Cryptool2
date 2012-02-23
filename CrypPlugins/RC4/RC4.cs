@@ -91,6 +91,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        private byte[] ToByteArray(ICryptoolStream icstr)
+        {
+            CStreamReader stream = icstr.CreateReader();
+            stream.WaitEof();
+            byte[] buffer = new byte[stream.Length];
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
+            stream.ReadFully(buffer);
+            return buffer;
+        }
+
         public void Execute()
         {
             try
@@ -111,12 +121,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     GuiLogMessage(resourceManager.GetString("ErrorInputKeyNotProvided"), NotificationLevel.Error);
                     return;
                 }
+
+                byte[] key = ToByteArray(inputKey);
                 
                 // make sure the input key is within the desired range
-                if ((inputKey.Length < 5 || inputKey.Length > 256)) 
+                if ((key.Length < 5 || key.Length > 256)) 
                 {
                     GuiLogMessage(resourceManager.GetString("ErrorInputKeyInvalidLength"), NotificationLevel.Error);
-                   return;
+                    return;
                 }
 
                 // now execute the actual encryption
@@ -137,11 +149,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     }
                     // re-align the sbox (and incorporate the key)
                     j = 0;
-                    string key = inputKey.ToString();
-                    int keyLength = key.Length;
                     for (i = 0; i < 256; i++)
                     {
-                        j = (j + sbox[i] + key[i % keyLength]) % 256;
+                        j = (j + sbox[i] + key[i % key.Length]) % 256;
                         byte sboxOld = sbox[i];
                         sbox[i] = sbox[j];
                         sbox[j] = sboxOld;
