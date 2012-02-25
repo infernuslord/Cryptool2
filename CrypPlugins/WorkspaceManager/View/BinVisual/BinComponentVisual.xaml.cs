@@ -1001,6 +1001,27 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         }
     }
 
+    public class EnsureMinHeightConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return double.Epsilon;
+
+            var d = (double)value;
+            var d2 = double.Parse(parameter.ToString());
+            if (double.IsNaN(d) || d < d2)
+                return double.Parse(parameter.ToString());
+            else
+                return d;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class StateFullscreenConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)

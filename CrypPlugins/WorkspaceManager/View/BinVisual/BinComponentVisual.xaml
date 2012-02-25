@@ -76,6 +76,7 @@
         <local:testconverter x:Key="testconverter"></local:testconverter>
         <local:StateFullscreenConverter x:Key="StateFullscreenConverter"></local:StateFullscreenConverter>
         <local:StateConverter x:Key="StateConverter"></local:StateConverter>
+        <local:EnsureMinHeightConverter x:Key="EnsureMinHeightConverter"></local:EnsureMinHeightConverter>
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBoxBase}">
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -429,8 +430,10 @@
                     </DataTrigger.Binding>
                     <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
                     <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
-                    <Setter Property="MinHeight" Value="{Binding Path=ActivePresentation.MinHeight}"></Setter>
-                    <Setter Property="MinWidth" Value="{Binding Path=ActivePresentation.MinWidth}"></Setter>
+                    <Setter Property="MinHeight" Value="{Binding Path=ActivePresentation.MinHeight, 
+                        Converter={StaticResource ResourceKey=EnsureMinHeightConverter}, ConverterParameter=150}"></Setter>
+                    <Setter Property="MinWidth" Value="{Binding Path=ActivePresentation.MinWidth,  
+                        Converter={StaticResource ResourceKey=EnsureMinHeightConverter}, ConverterParameter=200}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Background" Value="{Binding Path=BackgroundBrushColor}"></Setter>
