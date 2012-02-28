@@ -16,7 +16,7 @@ using Cryptool.PluginBase.Control;
 namespace Transposition
 {
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Transposition.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
+    [PluginInfo("Transposition.Properties.Resources", "PluginCaption", "PluginTooltip", "Transposition/DetailedDescription/doc.xml", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Transposition : ICrypComponent
     {

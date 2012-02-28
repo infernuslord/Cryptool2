@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin verschlüsselt die Eingabe mit dem Transpositionsverfahren.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Transposition/Description/TranspositionDescript.xaml</value>
-  </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe</value>
   </data>

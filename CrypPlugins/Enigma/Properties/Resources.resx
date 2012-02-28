@@ -138,9 +138,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Enigma</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Polyalphabetic rotor-cipher machine</value>
   </data>
@@ -789,16 +786,16 @@
   <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_aktive" xml:space="preserve">
     <value>Presentation aktive</value>
   </data>
-  <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_ready">
-    <value xml:space="preserve">Presentation ready</value>
+  <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_ready" xml:space="preserve">
+    <value>Presentation ready</value>
   </data>
-  <data name="EnigmaPresentationFrame_ChangeStatus">
-    <value xml:space="preserve">Workspace aktive, Presentation turned off</value>
+  <data name="EnigmaPresentationFrame_ChangeStatus" xml:space="preserve">
+    <value>Workspace aktive, Presentation turned off</value>
   </data>
-  <data name="EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off">
-    <value xml:space="preserve">Präsentation turned off</value>
+  <data name="EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off" xml:space="preserve">
+    <value>Präsentation turned off</value>
   </data>
-  <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace">
-    <value xml:space="preserve">Restart Workspace</value>
+  <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace" xml:space="preserve">
+    <value>Restart Workspace</value>
   </data>
 </root>

@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin führt eine Bruteforce-Analyse der spaltenweisen Transposition durch.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>TranspositionAnalyser/Description/TADescr.xaml</value>
-  </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe</value>
   </data>

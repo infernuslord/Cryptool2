@@ -109,14 +109,6 @@
     <Resource Include="Images\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Description\TADescr.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="TranspositionAnalyserQuickWatchPresentation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
