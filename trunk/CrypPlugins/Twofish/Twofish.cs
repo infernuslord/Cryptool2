@@ -24,7 +24,7 @@ using System.Security.Cryptography;
 namespace Twofish
 {
     [Author("Gerhard Junker", null, "private project member", null)]
-    [PluginInfo("Twofish.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionUrl",
+    [PluginInfo("Twofish.Properties.Resources", "PluginCaption", "PluginTooltip", "Twofish/DetailedDescription/doc.xml",
         "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Twofish : ICrypComponent
@@ -281,14 +281,12 @@ namespace Twofish
             {
                 Array.Clear(iv, 0, iv.Length);
 
-                if (null == value)
-                    return;
+                if (value == null) return;
 
-                for (int i = 0; i < value.Length && i < iv.Length; i++)
-                    iv[i] = value[i];
+                Array.Copy(value, iv, Math.Min(iv.Length, value.Length));
 
                 NotifyUpdateInput();
-                GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+                GuiLogMessage("IV changed.", NotificationLevel.Debug);
             }
         }
 
@@ -384,6 +382,11 @@ namespace Twofish
         private void Crypt()
         {
             // fit key to correct length
+            if( key.Length < settings.KeyLength / 8 )
+                GuiLogMessage("The supplied key is too short, padding with zero bits.", NotificationLevel.Warning);
+            else if (key.Length > settings.KeyLength / 8)
+                GuiLogMessage("The supplied key is too long, ignoring extra bits.", NotificationLevel.Warning);
+
             byte[] k2 = new byte[settings.KeyLength / 8];
             for (int i = 0; i < settings.KeyLength / 8; i++)
                 if (i < key.Length)

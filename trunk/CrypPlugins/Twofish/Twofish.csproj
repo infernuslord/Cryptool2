@@ -104,14 +104,6 @@
     <Resource Include="Images\Twofish.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\decrypt.png" />
     <Resource Include="Images\encrypt.png" />
   </ItemGroup>

@@ -139,7 +139,7 @@
     <value>Initialisierungsvektor</value>
   </data>
   <data name="IVTooltip" xml:space="preserve">
-    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi. Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi. Er muss gleich groß wie die Blockgröße sein (16 Bytes).</value>
   </data>
   <data name="KeyDataCaption" xml:space="preserve">
     <value>Schlüsseldaten</value>
@@ -179,9 +179,6 @@
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Twofish</value>
-  </data>
-  <data name="PluginDescriptionUrl" xml:space="preserve">
-    <value>Twofish/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Twofish - Chiffre</value>
