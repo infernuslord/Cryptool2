@@ -7,13 +7,60 @@
   <introduction lang="en">    
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Twofish ist ein symmetrischer Blockverschlüsselungsalgorithmus. Er verschlüsselt Blöcke mit einer Größe von 128 Bits und kann
+    mit Schlüssellängen von 128, 192 oder 256 Bits betrieben werden.
+    Er gehört (wie z.B. auch DES, TDES, TEA) zur Klasse der Feistelchiffren und durchläuft 16 Runden.
+    Twofish wurde unter der Führung des Kryptographieexperten Bruce Schneier entwickelt und war einer der 5 Finalisten bei der
+    Auswahl eines Verschlüsselungsverfahrens für den Advanced Encryption Standard (AES).
+    Twofish ist frei von Patenten und in der Public-Domain und damit für die Nutzung frei verfügbar.
   </introduction>
 
   <usage lang="en">
   </usage>
 
   <usage lang="de-DE">
+    Die Twofish-Komponente hat die zwei Betriebsarten "Verschlüsselung" und "Entschlüsselung", zwischen denen in den Einstellungen
+    der Komponente umgeschaltet werden kann.
+    <newline />
+    <newline />
+    <section headline="Verschlüsselung">
+      In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext entweder als
+      Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom". Twofish arbeitet mit einer Blockgröße
+      von 128 Bits (16 Bytes). Ist die Länge der Eingabe kein Vielfaches von 16 Bytes, so werden so viele Nullbytes
+      angehängt, bis sie ohne Rest in 16-Bytes-Blöcke zerlegt werden kann. Der Schlüssel wird ebenso entweder als
+      Byte-Array am Eingang "Schlüsseldaten" oder als Datenstrom am Eingang "Schlüsseldatenstrom" erwartet. In den Einstellungen kann
+      die Größe des zu verwendenden Schlüssels bestimmt werden: 128 Bits, 192 Bits oder 256 Bits. Stimmt die Größe des eingegebenen
+      Schlüssels nicht mit dieser Einstellung überein, so wird eine Warnung ausgegeben und der Schlüssel entweder mit Nullbytes aufgefüllt
+      oder auf die korrekte Größe beschnitten. Der verschlüsselte Datenblock wird dann an den Ausgängen der Komponente als Byte-Array
+      oder als Datenstrom zur Verfügung gestellt.
+    <newline />
+    <newline />
+    </section>
+    <section headline="Entschlüsselung">
+      In der Betriebsart "Entschlüsselung" erwartet die Komponente den zu entschlüsselnden Geheimtext entweder als
+      Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom". Die Länge der Eingabe muss
+      hierbei ein Vielfaches der Blockgröße von Twofish (also 16 Bytes) sein, andernfalls wird die Berechnung mit einer
+      Fehlermeldung abgebrochen. Der Schlüssel wird wie bei der Entschlüsselung eingegeben. Der entschlüsselte Klartext
+      wird dann schliesslich an den Ausgängen der Komponente wiederum als Byte-Array oder als Datenstrom bereitgestellt.
+    <newline />
+    <newline />
+    </section>
+    <section headline="Kryptographischer Modus">
+      Blockverschlüsselungsverfahren unterteilen die Eingabedaten in Blöcke festgelegter Größen (Twofish: 16 Bytes) und
+      wenden die Ver-/Entschlüsselungsfunktion dann fortlaufend auf diese Blöcke an. Der "kryptographische Modus", in dem
+      eine Blockchiffre betrieben wird, gibt an, wie die Ergebnisse der Ver- bzw. Entschlüsselung aufeinanderfolgender Blöcke
+      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die Twofish-Komponente bietet 
+      die beiden kryptographischen Modi ECB (Electronic Code Book) und CBC (Cipher Block Chaining) an, die in den Einstellungen
+      ausgewählt werden können.
+      <newline />
+      Beim ECB-Modus wird dabei jeder Block separat mit dem Twofish-Algorithmus verschlüsselt. Beim CBC-Modus hingegen
+      wird vor der Verschlüsselung jeder Klartextblock mit dem vorangehenden Chiffretextblock XOR-verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor XOR-verknüpft.
+      Dieser muss die von Twofish verwendete Blockgröße von 16 Bytes haben und wird am zugehörigen Eingang der Komponente
+      als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
+      beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus 16 Nullbytes verwendet.
+    </section>
   </usage>
   
   <presentation lang="en">
@@ -23,5 +70,23 @@
   </presentation>
   
   <references>
+    <linkReference>
+      <link url="http://www.schneier.com/twofish.html" lang="de" />
+      <caption lang="de">Twofish von Bruce Schneier (engl.)</caption>
+      <link url="http://www.schneier.com/twofish.html" lang="en" />
+      <caption lang="en">Twofish by Bruce Schneier</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://de.wikipedia.org/wiki/Twofish" lang="de" />
+      <caption lang="de">Twofish (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Twofish" lang="en" />
+      <caption lang="en">Twofish (Wikipedia)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://de.wikipedia.org/wiki/Blockverschlüsselung" lang="de" />
+      <caption lang="de">Blockverschlüsselung (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Block_cipher" lang="en" />
+      <caption lang="en">Block cipher (Wikipedia)</caption>
+    </linkReference>
   </references>
 </documentation>

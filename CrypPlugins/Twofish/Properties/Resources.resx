@@ -180,9 +180,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Twofish</value>
   </data>
-  <data name="PluginDescriptionUrl" xml:space="preserve">
-    <value>Twofish/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Twofish -- cipher</value>
   </data>
