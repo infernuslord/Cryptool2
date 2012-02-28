@@ -138,9 +138,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Enigma</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Polyalphabetische Rotor-Chiffriermaschine</value>
   </data>

@@ -1,34 +1,37 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
-
-  <introduction lang="en">    
-  </introduction>
-
-  <introduction lang="de-DE">    
-  </introduction>
-
+  <language culture="en" />
+  <introduction lang="en">
+</introduction>
   <usage lang="en">
-  </usage>
-
-  <usage lang="de-DE">
-  </usage>
-  
+</usage>
   <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
+</presentation>
+  <language culture="de" />
+  <introduction lang="de">Die Enigma (De)chiffrier-Maschine ist ein polyalphabetischer Verschlüsselungsapparat,
+mit dem Ver- und Entschlüsselungen möglich sind. Der zu verschlüsselnde Text wird dabei Buchstabe für Buchstabe eingegeben, während der verschlüsselte Text durch Lampen buchstabenweise wieder ausgelesen werden kann. Die kryptografische Sicherheit beruht dabei auf Rotoren, welche jeder für sich genommen, einen hineinkommenden Buchstaben monoalphabetisch verschlüsselt, jedoch nach
+einem determinierten Muster rotieren und so die Substitution durch die Maschine verändern. Der Schlüssel des Verfahrens setzt sich dabei aus der Wahl der Rotoren, sowie der Lage selbiger zusammen. Durch das Drehen der Rotoren während der Ver/Entschlüsselung permutiert der Schlüssel. Ergänzend dazu gibt es Maschinen mit einer sogenannten Umkehrwalze, welche bewirkt, dass der hineinkommenden Buchstabe noch einmal revers verschlüsselt wird, um mit demselben Schlüssel zu ver- wie auch entschlüsseln zu können. Zusätzlich wurden Modelle entwickelt die um ein sogenanntes Steckerbrett erweitert sind, bei dem mittels Steckkontakten bestimmte Buchstaben vertauschen werden können, welches eine weitere monoalphabetische vorab und / oder nachträgliche Substitution vornimmt.
+<newline />
+Mit der Enigma Komponente ist es aber nicht nur möglich Texte zu ver- und entschlüsseln, sondern auch Texte zu analysieren.
 
-  <references>
-    <linkReference>
-      <link url="http://en.wikipedia.org/wiki/Enigma_machine" lang="en" />
-      <caption lang="en">Enigma in Wikipedia</caption>
-      <link url="http://de.wikipedia.org/wiki/Enigma_(Maschine)" lang="de-DE" />
-      <caption lang="de-DE">Enigma in Wikipedia</caption>
-    </linkReference>
-  </references>
-  
+</introduction>
+  <usage lang="de">Im Hauptmenu der Einstellungen kann zunächst das Enigma Modell gewählt werden. Unter "Key" kann die Rotorlage gewählt werden und unter "Operation Mode" ob die Komponente den Text verarbeiten oder analysieren soll. <newline />
+Im Menü "Text options" befinden sich Einstellungen bezüglich der Behandlung von Sonderzeichen und der Groß- und Kleinschreibung. Diese Einstellungen sind deshalb nötig, da die Enigma keine Sonderzeichen oder Leerstellen besaß und zwischen Groß- und Kleinschreibung nicht unterschieden wurde. Beim "Case Handling" kann gewählt werden, ob die Buchstaben allgemein Konvertiert werden sollen oder nur intern für die Verarbeitung und die ursprüngliche Schreibweise hinterher wieder hergestellt werden soll. Für die Sonderzeichen kann unter "Unknown Symbol Handling" eingestellt werden, ob unbekannte Symbole ignoriert, entfernt oder durch ein ‚X' ersetzt werden sollen.<newline />Das Menü "Analyse Options" beinhaltet Einstellungsmöglichkeiten für den Analyse Modus. In diesem Menü kann entschieden werden, welche Teile der Enigma bei der Analyse mit einbezogen werden sollen. <newline />Im Menü "Used Rotors" können die Rotoren gewählt werden, mit denen die Enigma bestückt sein soll. Anzahl und Bezeichnungen der zur Verfügung stehenden Rotoren hängen von dem Modell der Enigma ab.<newline />Im "Ring Settings" Menü kann die Ringstellung für jeden einzelnen Rotor bestimmt werden.<newline />Das "Plugboard" Menü bietet die Möglichkeit das Steckerbrett für jeden Buchstaben einzeln zu konfigurieren. "Plugboard substitution" zeigt das gerade aktuelle Substitutionsalphabet an. Die Schaltfläche "Remove all plugs", entfernt alle Steckerverbindungen.
+</usage>
+  <presentation lang="de">Grundidee der Presentation ist es den kompletten Schaltplan der Enigma M3 schematisch darzustellen.<newline />
+Zu diesem Zweck ist die Presentation in drei Bereiche gegliedert. Rechts befindet sich die Oberfläche der Maschine, mit Lampen Tastern und Steckerbrett, als die für den Benutzer nach außen hin sichtbaren Bedienungselemente. Gleichzeitig ist auch die Batterie und die Verkabelung der Elemente zu sehen. Unter dem Steckerbrett sind Setzkästen angebracht um Rotoren und Umkehrwalze austauschen zu können.<newline />
+Die Linke Seite ermöglicht einen Blick in die Maschine. Dort ist der Walzensatz zu erkennen, bestehend aus den drei Rotoren und der Umkehrwalze.  Die Darstellung stellt die Verdrahtung des Rotoren mit Hilfe von Verbindungslinien in einem zweidimensionalen Schema dar. Eine Änderung der Stellung des Rotoren bedeutet in dieser Darstellung, dass die Verbindungslinien ihre Position linear verändern. Um die Lage des Rotoren
+zu verdeutlichen werden die Kontakte auf der linken Seite der Verbindungen
+von A bis Z gekennzeichnet, ähnlich wie bei einem Rotor der echten Maschine.
+Diese Kennzeichnung wird sich bei einer Veränderung der Lage analog ebenfalls
+verändern. Der oberste Buchstabe stellt dabei stets die aktuelle Lage des Rotoren
+dar, den Buchstaben, welcher bei der Enigma durch das Fenster sichtbar wäre.
+Jene Buchstaben, die die Lage darstellen, in welcher übertragen wird, sind
+dabei speziell gekennzeichnet werden. Auf der gegenüberliegenden Seite ist eine
+gegenläufige Zahlenreihe von 26 bis eins den Ring des Rotoren angedeutet, welcher
+sich bei Rotation des Rotoren ebenfalls analog mitbewegt.<newline />
+Dabei stellt stets die Zahl in der rechtsseitigen Zahlenreihe gegenüber des A im
+linksseitigen Alphabet die aktuelle Ringstellung dar. Eine Veränderung der Ringstellung hingegen hat zur Folge, dass sich zwar Linien und Zahlenreihe bewegen, die Position des Alphabetes jedoch unverändert bleibt. Die Zahl gegenüber des A wird auf diese Weise ausgetauscht und zeigt die neue Ringstellung an. Ein Rotor besitzt zudem zwei Schaltflächen zur schrittweisen Änderung der Lage, sowie zwei weitere zur Veränderung der Ringstellung. Durch eine Animation der Linie, welche den Draht repräsentiert der unter Spannung steht, soll der Stromfluss durch den Rotor veranschaulicht werden.
+
+</presentation>
 </documentation>

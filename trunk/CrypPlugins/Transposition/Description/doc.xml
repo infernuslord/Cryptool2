@@ -1,27 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
-
-  <introduction lang="en">    
-  </introduction>
-
-  <introduction lang="de-DE">    
-  </introduction>
-
+  <language culture="en" />
+  <introduction lang="en">
+</introduction>
   <usage lang="en">
-  </usage>
-
-  <usage lang="de-DE">
-  </usage>
-  
+</usage>
   <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
-  <references>
-  </references>
+</presentation>
+  <language culture="de" />
+  <introduction lang="de">Die Spaltentransposition benutzt als Schlüssel ein Codewort, oder eine permutierte Zahlenfolge. Mit Hilfe des Schlüssels wird eine Matrix erzeugt, die die Länge des Schlüssels als Spaltenanzahl aufweist. Dann wird der Schlüssel über die Matrix geschrieben und die Buchstaben des Klartextes werden zeilenweise in diese eingetragen. Sollte die Matrix nicht komplett ausgefüllt sein, werden entweder in die leeren Zellen Platzhalter einfügt (vollständige Transposition), oder sie bleiben frei und werden im weiteren Verlauf nicht beachtet (unvollständige Transposition). Wird ein Codewort als Schlüssel benutzt, werden die Spalten der Matrix nach der alphabetischen Reihenfolge der Buchstaben des Codeworts nummeriert. Anschließend wird die Matrix spaltenweise in der Reihenfolge der Spaltennummerierung ausgelesen.<newline />
+
+Zur Entschlüsselung des Geheimtextes erstellt der Empfänger eine leere Matrix und schreibt den bekannten Schlüssel über diese. Nach dem gleichen Verfahren, wie beim Verschlüsseln, werden die Spalten der Matrix nummeriert. Der Geheimtext wird vom Empfänger spaltenweise nach der
+Nummerierung in die Matrix eingetragen und kann dann zeilenweise ausgelesen werden. Bei der unvollständigen Transposition muss darauf geachtet werden wie viele Zellen der Matrix in der letzten Zeile bei der Verschlüsselung leer waren bzw. nicht beachtet wurden und beim Eintragen des Geheimtextes frei gelassen werden müssen. Die Anzahl der beschriebenen Zellen der letzten Zeile (Z) bekommt man mit der Länge der Nachricht (N) und der Länge des Schlüssels (S) heraus:
+<newline />
+Z = N mod S
+</introduction>
+  <usage lang="de">Der Prozess der Verschlüsselung durch die Transposition gestaltet sich in drei Operationen:<newline />
+
+1.	Das Einlesen in die Matrix<newline />
+
+2.	Die Transposition der Spalten/Reihen<newline />
+
+3.	Das Auslesen aus der Matrix<newline />
+
+Für jede dieser Operationen kann in den Einstellungen gewählt werden, ob diese Reihen- oder Spaltenweise erfolgen soll.  Wenn die Einleseoperation beispielsweise reihenweise erfolgen soll, wird der Klartext von links nach rechts in die Matrix eingetragen, wenn sie spaltenweise erfolgen soll, von oben nach unten.
+Dadurch ergeben sich theoretisch acht verschiedene  Möglichkeiten zur Einstellung.  Es ist zu beachten, dass 
+<newline />
+1.	Wenn alle drei Operationen gleichgeartet sind, heben 
+sie sich gegenseitig auf
+<newline />
+2.	Genau umgekehrte Einstellungen aller drei Operationen liefern dasselbe Ergebnis
+<newline />
+In der Einstellung "Aktion" kann gewählt werden, ob ver- oder entschlüsselt werden soll. 
+Wenn "Entschlüsseln" gewählt ist, wird nicht nach den Stellenwerten der Buchstaben des Schlüsselwortes im Alphabet sortiert, sondern nach den Stellenwerten im Lösungswort, als umgekehrte Operation.<newline />
+Außerdem werden Ein- und Auslese Operation vertauscht.
+ Dadurch ist es möglich, dieselben Operationseinstellungen zum Entschlüsseln zu benutzen, welche auch zum Verschlüsseln verwendet wurden.
+
+</usage>
+  <presentation lang="de">Die Präsentation stellt die drei Operationen nacheinander dar. Zunächst wird in der Mitte das Schlüsselwort eingeblendet, sowie die relative alphabetische Wertigkeit, nach der sortiert wird. Links davon erscheint der Klartext und rechts in der dritten Operation der verschlüsselte Text.<newline />
+Aus dem Klartext wird in der ersten Operation die Matrix gefüllt. Dabei werden die Buchstaben einer Spalte/Reihe im Text ausgeblendet und in der entsprechenden Spalte/Reihe in der Matrix wieder eingeblendet. <newline />
+Danach erfolgt die Transposition der Spalten/Reihen. Die Permutation erfolgt nach dem Selectionsort Algorithmus. Zwei Spalten/Reihen, welche vertauscht werden sollen, werden markiert, ausgeblendet, vertauscht und wieder eingeblendet.
+Die Auslese Operation erfolgt ähnlich wie das Einlesen. Eine Spalte/Reihe der Matrix wird ausgeblendet und an dem Ausgabetext rechts hinzugefügt.<newline />
+Die Wechsel der einzelnen Operationen werden durch einen Wechsel der Hintergrundfarbe angedeutet. Die aktuelle Operation wird unten links in einem Anzeigefeld angezeigt.
+In den Einstellungen kann die Geschwindigkeit der Präsentation und die Darstellungsform der Zeichen(US-ASCII und hex) gewählt werden.
+
+</presentation>
 </documentation>

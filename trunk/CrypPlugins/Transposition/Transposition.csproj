@@ -103,14 +103,6 @@
     <Resource Include="Images\icon.PNG" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Description\TranspositionDescript.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="TranspositionPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
