@@ -1,59 +1,98 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en" />
-  <introduction lang="en">
-</introduction>
-  <usage lang="en">
-</usage>
-  <presentation lang="en">
-</presentation>
-  <language culture="de" />
-  <introduction lang="de">Die TranspositionAnalyser-Komponente bietet drei verschiedene Methoden der computergestützten Analyse von Texten, welche mit der Transposition verschlüsselt wurden, an. Die Methoden sind der "BruteForce Algorithmus", die "Crib-Analyse" und der "genetische Algorithmus". Alle drei Methoden liefern Einstellungen für die angeschlossene Transpositionskomponente und listen die Ergebnisse tabellarisch auf. Die Ergebnisse werden außerdem von einer anschließbaren Costfunction Komponente bewertet und die besten Ergebnisse werden in der Tabelle voran gestellt. Für weitere Informationen lesen Sie bitte die Beschreibungen dieser Komponenten.<newline />
-Bruteforce Algorithmus<newline />
-Die Brute-Force-Methode ist eine der einfachsten Methoden eine verschlüsselte Nachricht zu
-entschlüsseln. Der Grundgedanke dieser Methode ist es, den Geheimtext mit jedem möglichen
-Schlüssel zu entschlüsseln und mit Hilfe einer Kostenfunktion zu überprüfen, welche der
-entschlüsselten Nachrichten der Klartext ist. <newline />Die Erfolgswahrscheinlichkeit mit einer Brute-Force-
-Attacke den richtigen Schlüssel zu finden liegt bei 100%. Es werden alle möglichen Schlüssel
-ausprobiert und unter anderem auch der richtige überprüft. Der einzige Nachteil alle möglichen
-Schlüssel einer Verschlüsselung auszuprobieren ist nur, dass es meistens selbst für moderne
-Computer zu viele Schlüssel für die Durchsuchung über den kompletten Schlüsselraum.
-<newline />
-Bei einer Schlüssellänge von n gibt es für die Spaltentransposition n! (Fakultät) verschiedene Schlüssel.
-<newline />
-Crib Analysis<newline />
-Das Wort "crib" bezeichnet bei dieser Methode ein Stück des Plain textes, welcher dem Angreifer bereits bekannt ist. Die CribAnalyse fällt daher unter die Kategorie der Known-Plaintext Angriffe. Durch die Analyse des Textes mit Hilfe des "cribs" ist es möglich den in Frage kommenden Schlüsselraum um ein Vielfaches zu reduzieren. Wie hoch dieser Vorteil gegenüber dem BruteForce Algorithmus ist, hängt stark von der Qualität des "cribs" ab. Die hier vorgestellte Komponente benötigt ein "crib", welches mit einer Wahrscheinlichkeit von 100% in der Nachricht enthalten ist, von beliebiger Länge. <newline />
-Genetische Algorithmus <newline />
-Der genetische Algorithmus simuliert eine "Evolution" von Schlüsseln. Aus einer Start-Population
-von Schlüsseln entstehen neue Schlüssel und getreu nach der Darwinschen Evolutionstheorie
-überleben nur die "Passendsten". 
-Der genetische Algorithmus beginnt damit, eine Anzahl N zufälliger Schlüssel der Lange P zu erzeugen, welche in eine Liste MAXLIST gespeichert werden. Mit jedem der Schlüssel aus MAXLIST wird der zu analysierende Geheimtext entschlüsselt und der Kostenwert berechnet. Anschließend werden die Schlüssel nach ihrem Kostenwert sortiert. Die schlechtesten N/2 Schlüssel werden aus MAXLIST gelöscht. Nun werden die verbleibenden Schlüssel in Zweierschlüsselpaare unterteilt. Aus den beiden Schlüssel (Par1 und Par2) jedes Schlüsselpaars werden jeweils ein identischer Schlüssel Child1 und Child2 generiert. Die beiden Schlüssel Child1 und Child2 werden wie folgt verändert:<newline />
-1. <newline />
-- Die Zufallszahl n∈1, P
--1
-] wird erzeugt<newline />
-- Die Zahlen ersten an den ersten n Positionen der Schlüssel Child1 und Child2 bleiben unverändert.<newline />
-- Die Zahlen an den Positionen n bis P der Schlüssel Child1 und Child2 werden nach dem Auftreten derselben Zahlen des anderen Elternteils angeordnet<newline />
-2.<newline />
- - Die Zufallszahlen n1 ,n2 , n3 , n4∈[1, P] werden erzeugt<newline />
-- Die Zahlen an den Positionen n1 und n2 in Child1
-und die Zahlen an den Positionen n3 und n4 in Child2 werden vertauscht. <newline />
-Zu den "Kinderschlüssel" Child1 und Child2 von jedem Schlüsselpaar wird nun der jeweilige Kostenwert berechnet und in MAXLIST gespeichert. Nun werden erneut alle Schlüssel nach ihrem Kostenwert sortiert. Sollte nicht die maximale Anzahl an Durchlaufen erreicht sein, werden erneut die N/2 schlechtesten Schlüssel gelöscht. Aus den verbleibenden Schlüsseln werden erneut "Kinderschlüssel" erstellt.
-</introduction>
-  <usage lang="de">Die Komponente besitzt einen Ausgang, zur Ausgabe des am besten bewerteten Ergebnis und zwei Eingänge. Ein Eingang ist für den zu analysierenden Text gedacht, der Zweite ist für die Eingabe eines "cribs" und daher nur für den CribAnalyse Algorithmus relevant.<newline />
-In den Einstellungen der Komponente kann zunächst der Analyse Algorithmus gewählt werden. Da diese jeweils andere Einstellungen benötigen, verändert sich das Menü dementsprechend dynamisch nach der Eingabe.
-<newline />
-BruteforceAlgorithmus:<newline />
-Für den BruteForce Algorithmus kann zunächst unter dem Punkt "Schlüssegröße" festgelegt werden, bis zu welcher Schlüssellänge der Algorithmus die Schlüssel überprüfen soll.  Außerdem kann gewählt werden, welche Arten von Transpositionen getestet werden sollen.  
-<newline />
-CribAnalyse<newline />
-Für die CribAnalyse kann nur die Größe des Schlüsselraums festgelegt werden unter dem Punkt "Schlüsselgröße". 
-<newline />
-Genetischer Algorithmus<newline />
-Beim genetischen Algorithmus kann unter dem Punkt "Schlüsselgröße" die Größe des Schlüsselraums festgelegt werden. Des Weiteren kann unter "Iterationen" gewählt werden, wie tief die Evolution sein soll. Die Anzahl der "Wiederholungen des genetischen Algorithmus" besagt, wie oft neue Zufallszahlen zwecks einer neuen Evolution gebildet werden sollen.
-</usage>
-  <presentation lang="de">Die Presentation zeigt in einem Header Statusinformationen der Komponente, bestehend aus der Startzeit, der wahrscheinlichen Endzeit, der verbleibenden Zeit, sowie der bereits vergangenen und wie viele Schlüssel pro Sekunde überprüft werden.
-<newline />Darunter befindet sich eine Tabelle mit den zehn besten Ergebnissen. In der ersten Spalte der Tabelle unter "#" stehen die Ränge der Einträge. In der Spalte "Wert" steht der Wert, welcher die Costfunction diesem Eintrag zugewiesen hat. Daneben, in der Spalte "Schlüssel" steht der ermittelte Schlüssel für dieses Ergebnis und in der letzten Spalte "Text", steht der mit diesem Schlüssel ermittelte Ausgabetext.<newline />
-Durch einen Doppelklick auf ein beliebiges Ergebnis, wird dieses als Ausgabe der Komponente verwendet.
-</presentation>
+
+	<language culture="en" />
+
+	<introduction lang="en">
+	</introduction>
+
+	<usage lang="en">
+	</usage>
+
+	<presentation lang="en">
+	</presentation>
+
+	<language culture="de" />
+
+	<introduction lang="de">
+		Die Komponente "Transpositions-Analyse" bietet drei verschiedene Methoden an zur Computer-gestützten Analyse von mit der Transposition verschlüsselten Geheimtexten: den "Brute-Force-Algorithmus", die "Crib-Analyse" und den "Genetischen Algorithmus".
+		Alle drei Methoden liefern Einstellungen für die angeschlossene Transpositionskomponente und listen die Ergebnisse tabellarisch auf.
+		Die Ergebnisse werden außerdem von einer an diese Komponente anschließbaren Kostenfunktions-Komponente bewertet, und die besten Ergebnisse werden in der Tabelle an den Anfang gestellt.
+		Für weitere Informationen lesen Sie bitte die Beschreibungen dieser Komponenten.
+
+		<section headline="Brute-Force-Algorithmus">
+		Die Brute-Force-Methode ist eine der einfachsten Methoden, um zu versuchen, eine verschlüsselte Nachricht zu entschlüsseln.
+		Der Grundgedanke dieser Methode ist, den Geheimtext mit jedem möglichen Schlüssel zu entschlüsseln und mit Hilfe einer Kostenfunktion zu bewerten, welche der entschlüsselten Nachrichten am ehesten dem ursprünglichen Klartext entspricht.
+		<newline />
+		Da bei der Brute-Force-Attacke alle möglichen Schlüssel ausprobiert werden, ist auf jeden Fall auch der richtige Schlüssel dabei. Der Nachteil ist allerdings, dass der Schlüsselraum meist so groß ist, dass die Suche selbst für moderne Computer viel zu lange dauern würde.
+		Besipielsweise müssen für eine Spaltentransposition mit n Spalten bereits n! (Fakultät) verschiedene Schlüssel getestet werden.
+		</section>
+
+		<section headline="Crib-Analyse">
+		Das Wort "crib" bezeichnet bei dieser Methode ein Stück des Klartextes, der dem Angreifer bereits bekannt ist. Die Crib-Analyse gehört daher zur Kategorie der Known-Plaintext-Angriffe. Durch die Analyse des Textes mit Hilfe des "cribs" ist es möglich, den in Frage kommenden Schlüsselraum um ein Vielfaches zu reduzieren. Wie hoch dieser Vorteil gegenüber dem Brute-Force-Algorithmus ist, hängt stark von der Qualität des "cribs" ab.
+		Die hier vorgestellte Komponente benötigt ein "crib" beliebiger Länge, das mit einer Wahrscheinlichkeit von 100% in der Nachricht enthalten ist.
+		</section>
+
+		<section headline="Genetischer Algorithmus">
+		Der genetische Algorithmus simuliert eine "Evolution" von Schlüsseln. Aus einer Start-Population von Schlüsseln entstehen neue Schlüssel und gemäß der Darwinschen Evolutionstheorie überleben nur die "Passendsten". 
+		Der genetische Algorithmus beginnt damit, eine Anzahl N zufälliger Schlüssel der Lange P zu erzeugen, welche in eine Liste MAXLIST gespeichert werden. Mit jedem der Schlüssel aus MAXLIST wird der zu analysierende Geheimtext entschlüsselt und der Kostenwert berechnet. Anschließend werden die Schlüssel nach ihrem Kostenwert sortiert. Die schlechtesten N/2 Schlüssel werden aus MAXLIST gelöscht. Nun werden die verbleibenden Schlüssel in Zweierschlüsselpaare unterteilt. Aus den beiden Schlüssel (Par1 und Par2) jedes Schlüsselpaars werden jeweils ein identischer Schlüssel Child1 und Child2 generiert. Die beiden Schlüssel Child1 und Child2 werden wie folgt verändert:<newline />
+
+		<enum>
+			<item>
+				<list>
+					<item>Die Zufallszahl n ∈ [1, P-1] wird erzeugt.</item>
+					<item>Die Zahlen an den ersten n Positionen der Schlüssel Child1 und Child2 bleiben unverändert.</item>
+					<item>Die Zahlen an den Positionen n bis P der Schlüssel Child1 und Child2 werden nach dem Auftreten derselben Zahlen des anderen Elternteils angeordnet.</item>
+				</list>
+			</item>
+			<item>
+				<list>
+					<item>Die Zufallszahlen n1, n2, n3, n4 ∈ [1, P] werden erzeugt.</item>
+					<item>Die Zahlen an den Positionen n1 und n2 in Child1 und die Zahlen an den Positionen n3 und n4 in Child2 werden vertauscht.</item>
+				</list>
+			</item>
+		</enum>
+
+		Zu den "Kinderschlüssel" Child1 und Child2 von jedem Schlüsselpaar wird nun der jeweilige Kostenwert berechnet und in MAXLIST gespeichert. Nun werden erneut alle Schlüssel nach ihrem Kostenwert sortiert.
+		Solange die maximale Anzahl an Durchläufen nicht erreicht ist, werden erneut die N/2 schlechtesten Schlüssel gelöscht. Aus den verbleibenden Schlüsseln werden erneut "Kinderschlüssel" erstellt.
+		</section>
+	</introduction>
+
+	<usage lang="de">
+		Die Komponente besitzt einen Ausgang zur Ausgabe des am besten bewerteten Ergebnisses, und zwei Eingänge. Ein Eingang ist für den zu analysierenden Text gedacht, der zweite ist für die Eingabe eines "cribs" und daher nur für den Crib-Analyse-Algorithmus relevant.
+		<newline />
+		In den Einstellungen der Komponente kann zunächst der Analyse-Algorithmus gewählt werden. Da diese jeweils andere Einstellungen benötigen, verändert sich das Menü dementsprechend dynamisch nach der Eingabe.
+		<newline />
+
+		<section headline="Brute-Force-Algorithmus">
+		Für den Brute-Force-Algorithmus kann zunächst unter dem Punkt "Schlüsselgröße" festgelegt werden, bis zu welcher Schlüssellänge der Algorithmus die Schlüssel überprüfen soll.  Außerdem kann gewählt werden, welche Arten von Transpositionen getestet werden sollen.  
+		</section>
+
+		<section headline="Crib-Analyse">
+		Für die Crib-Analyse kann unter dem Punkt "Schlüsselgröße" die Größe des Schlüsselraums festgelegt werden. 
+		</section>
+
+		<section headline="Genetischer Algorithmus">
+		Beim genetischen Algorithmus kann unter dem Punkt "Schlüsselgröße" die Größe des Schlüsselraums festgelegt werden. Des Weiteren kann unter "Iterationen" gewählt werden, wie tief die Evolution sein soll. Die Anzahl der "Wiederholungen des genetischen Algorithmus" besagt, wie oft neue Zufallszahlen für eine neue Evolution gebildet werden sollen.
+		</section>
+
+	</usage>
+
+	<presentation lang="de">
+		Die Präsentation zeigt im oberen Bereich Statusinformationen der Komponente an: Startzeit, wahrscheinliche Endzeit, verbleibende Zeit, bereits vergangene Zeit, und wie viele Schlüssel pro Sekunde überprüft werden.
+		<newline />
+		Darunter befindet sich eine Tabelle mit den zehn besten Ergebnissen. In der ersten Spalte der Tabelle stehen unter "#" die Ränge der Einträge. In der Spalte "Wert" steht der Wert, den die Kostenfunktion diesem Eintrag zugewiesen hat. In der Spalte "Schlüssel" steht der für dieses Ergebnis ermittelte Schlüssel. In der Spalte "Text" steht schliesslich der mit diesem Schlüssel ermittelte Klartext.
+		<newline />
+		Durch einen Doppelklick auf ein beliebiges Ergebnis wird dieses als Ausgabe der Komponente verwendet.
+	</presentation>
+
+<references>
+    <linkReference>
+      <link url="http://de.wikipedia.org/wiki/Transposition_(Kryptographie)" lang="de" />
+      <caption lang="de">Transposition (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Transposition_cipher" lang="en" />
+      <caption lang="en">Transposition cipher (Wikipedia)</caption>
+    </linkReference>
+</references>
+
 </documentation>
