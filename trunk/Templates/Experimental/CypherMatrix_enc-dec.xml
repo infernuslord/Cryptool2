@@ -4,7 +4,7 @@
   <description lang="en">This template shows how to use <i>CypherMatrix en-/decryption</i>.</description>
   <keywords>CypherMatrix, Schnoor</keywords>
   <title lang="de">CypherMatrix</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>CypherMatrix Ver-/Entschlüsselung</i>.</description>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>CypherMatrix-Ver-/Entschlüsselung</i>.</description>
   <keywords lang="de">CypherMatrix, Schnoor</keywords>
   <icon file="CypherMatrix.png" />
   <relevantPlugins>

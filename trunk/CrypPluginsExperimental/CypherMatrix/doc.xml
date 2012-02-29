@@ -6,23 +6,29 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    CypherMatrix is a method to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E. Schnoor. He has given his approval for using it within the CrypTool project.
+    CypherMatrix is a method to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
     <newline/>
-    The name CypherMatrix refers to the fact that the result of the cryptographic operation is in a matrix structure. The author wrote Cypher with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - uses still bytes as symbols.
+    The name CypherMatrix refers to the fact that the result of the cryptographic operation is in a matrix structure. The author wrote CypherMatrix with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - still uses bytes as symbols.
     <newline/>
-    It is implemented in CrypTool 2 as experimental method for training reasons.
+    It is implemented in CrypTool 2 as experimental method for training purposes.
     <newline/>
-    The capability for signing data is not yet implemented in this plugin.
+    The CypherMatrix-cipher is a symmetric block cipher, whose block size can be set variable between 35 and 96. An apart key scheduler computes the two encryption parameters from the passphrase. The cipher text is worked out in one iteration from the plain text using a XOR and a substitution table. Additionally the cipher has its own operation mode, which ensures that the encryption parameters chance for each block.
+    <newline/>
+    <newline/>
+    Note: The capability for signing data is not yet implemented in this plugin.
   </introduction>
 
   <introduction lang="de-DE">
-    CypherMatrix ist ein Verfahren, dass sowohl die Ver- und Entschlüsselung als auch das Hashen und Signieren von Daten ermöglicht. Es wurde 1998 von E. Schnoor patentiert. Er hat die seine Zustimmung zur Nutzung im CrypTool-Projekt gegeben.
+    CypherMatrix ist ein Verfahren, das sowohl die Ver- und Entschlüsselung als auch das Hashen und Signieren von Daten ermöglicht. Es wurde 1998 von E.E. Schnoor patentiert. Er hat die seine Zustimmung zur Nutzung im CrypTool-Projekt gegeben.
     <newline/>
-    Der Name CypherMatrix beruht auf der Besonderheit des Verfahrens, eine Matrix als Ergebnis zu erzeugen. Der Urheber schrieb Cypher wird mit "y", weil das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - nur Bytes verwendet und so an die Kryptographie vergangener Jahrhunderte erinnern soll.
+    Der Name CypherMatrix beruht darauf, dass das Verfahren eine Matrix als Ergebnis erzeugt. Der Urheber schrieb CypherMatrix mit "y", weil das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - nur Bytes verwendet und so an die Kryptographie vergangener Jahrhunderte erinnern soll.
     <newline/>
-    In CrypTool 2 ist es zum Lernzweck als experimentelles Verfahren implementiert.
+    In CrypTool 2 ist es zu Lernzwecken als experimentelles Verfahren implementiert.
     <newline/>
-    Das Signieren von Daten ist bisher in diesem Plugin noch nicht implementiert.
+    Die CypherMatrix-Chiffre ist eine symmetrische Blockchiffre, deren Blocklänge sich variabel zwischen 35 und 96 Bytes einstellen lässt. Für die Berechnung der beiden für die Verschlüsselung benötigten Parameter, gibt es eine separate Schlüsselableitungsfunktion, die diese aus der Passphrase ableitet. Der Chiffretext wird dann mittels XOR und Substitutionstabelle in einer Iteration aus dem Klartext gewonnen. Zusätzlich besitzt diese Chiffre einen eigenen Betriebsmodus für die Blockverschlüsselung, welcher dafür sorgt, dass sich die Parameter der Verschlüsselungsfunktion mit jedem Block ändern.
+    <newline/>
+    <newline/>
+    Hinweis: Das Signieren von Daten ist bisher in diesem Plugin noch nicht implementiert.
   </introduction>
 
   <usage lang="en">

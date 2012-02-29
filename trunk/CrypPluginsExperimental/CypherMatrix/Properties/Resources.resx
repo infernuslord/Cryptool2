@@ -198,4 +198,40 @@
   <data name="CypherMatrixMode2" xml:space="preserve">
     <value>Hash</value>
   </data>
+  <data name="PermCaption" xml:space="preserve">
+    <value>Permutation</value>
+  </data>
+  <data name="PermOption0" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="PermOption1" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="PermOption2" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="PermTooltip" xml:space="preserve">
+    <value>Select the permutation function</value>
+  </data>
+  <data name="DebugDataCaption" xml:space="preserve">
+    <value>Debug data output</value>
+  </data>
+  <data name="DebugDataTooltip" xml:space="preserve">
+    <value>Log of CypherMatrix's internal variables</value>
+  </data>
+  <data name="HashMode0" xml:space="preserve">
+    <value>serial mode</value>
+  </data>
+  <data name="HashMode1" xml:space="preserve">
+    <value>final mode</value>
+  </data>
+  <data name="HashMode2" xml:space="preserve">
+    <value>last cycle mode</value>
+  </data>
+  <data name="HashModeCaption" xml:space="preserve">
+    <value>Hash mode</value>
+  </data>
+  <data name="HashModeTooltip" xml:space="preserve">
+    <value>Select the hash mode</value>
+  </data>
 </root>

@@ -21,15 +21,18 @@ using System.Windows;
 
 namespace Cryptool.Plugins.CypherMatrix
 {
-    // HOWTO: rename class (click name, press F2)
     public class CypherMatrixSettings : ISettings
     {
         public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1 , Hash = 2};
+        //public enum Permutation { A = 0, B = 1, C = 2 }; // Variante A ist nicht für die Implementierung vorgesehen; bei Aktivierung die Funktion Perm ändern!
+        public enum Permutation { B = 0, C = 1 };
+        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 };
 
         #region Private variables and public constructor
 
-        //private int someParameter = 0;
         private CypherMatrixMode selectedAction = CypherMatrixMode.Encrypt;
+        private Permutation selectedPerm = Permutation.B;
+        private CypherMatrixHashMode selectedHash = CypherMatrixHashMode.SMX;
         private int code = 1;   // 1 bis 99, Standardwert: 1, individueller Anwender-Code
         private int basis = 77; // 35 bis 96, Standardwert: 77?, Zahlensystem für Expansionsfunktion
         private int matrixKeyLen = 42;  // 36 bis 64 Bytes, Standardwert: 44, Länge des Matrix-Schlüssels
@@ -39,6 +42,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
         public CypherMatrixSettings()
         {
+            Initialize();
         }
 
         public void Initialize()
@@ -81,7 +85,6 @@ namespace Cryptool.Plugins.CypherMatrix
                 if (code != value)
                 {
                     code = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("Code");
                 }
             }
@@ -99,13 +102,30 @@ namespace Cryptool.Plugins.CypherMatrix
                 if (basis != value)
                 {
                     basis = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("Basis");
                 }
             }
         }
 
-        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", null, 4, false, ControlType.CheckBox)]
+        [TaskPane("PermCaption", "PermTooltip", null, 4, false, ControlType.ComboBox, new string[] { "PermOption1", "PermOption2" })]
+        public Permutation Perm
+        {
+            get
+            {
+                return this.selectedPerm;
+            }
+            set
+            {
+                if (value != selectedPerm)
+                {
+
+                    this.selectedPerm = value;
+                    OnPropertyChanged("Perm");
+                }
+            }
+        }
+
+        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", null, 5, false, ControlType.CheckBox)]
         public bool Debug
         {
             get
@@ -134,7 +154,6 @@ namespace Cryptool.Plugins.CypherMatrix
                 if (matrixKeyLen != value)
                 {
                     matrixKeyLen = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("MatrixKeyLen");
                 }
             }
@@ -152,7 +171,6 @@ namespace Cryptool.Plugins.CypherMatrix
                 if (blockKeyLen != value)
                 {
                     blockKeyLen = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("BlockKeyLen");
                 }
             }
@@ -170,8 +188,25 @@ namespace Cryptool.Plugins.CypherMatrix
                 if (hashBlockLen != value)
                 {
                     hashBlockLen = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("HashBlockLen");
+                }
+            }
+        }
+
+        [TaskPane("HashModeCaption", "HashModeTooltip", "HashOptionsGroup", 2, false, ControlType.ComboBox, new string[] { "HashMode0", "HashMode1", "HashMode2" })]
+        public CypherMatrixHashMode HashMode
+        {
+            get
+            {
+                return this.selectedHash;
+            }
+            set
+            {
+                if (value != selectedHash)
+                {
+
+                    this.selectedHash = value;
+                    OnPropertyChanged("HashMode");
                 }
             }
         }
@@ -190,11 +225,13 @@ namespace Cryptool.Plugins.CypherMatrix
                         showSettingsElement("MatrixKeyLen");
                         showSettingsElement("BlockKeyLen");
                         hideSettingsElement("HashBlockLen");
+                        hideSettingsElement("HashMode");
                         break;
                     }
                 case CypherMatrixMode.Hash:
                     {
                         showSettingsElement("HashBlockLen");
+                        showSettingsElement("HashMode");
                         hideSettingsElement("MatrixKeyLen");
                         hideSettingsElement("BlockKeyLen");
                         break;
