@@ -22,13 +22,11 @@ using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace Cryptool.Plugins.CypherMatrix
 {
-    // HOWTO: Change author name, email address, organization and URL.
     [Author("Michael Schäfer", "michael.schaefer@rub.de", null, null)]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
     [PluginInfo("CypherMatrix.Properties.Resources", "PluginCaption", "PluginTooltip", "CypherMatrix/doc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
@@ -36,10 +34,9 @@ namespace Cryptool.Plugins.CypherMatrix
     {
         #region Private variables and public constructor
 
-        // HOWTO: You need to adapt the settings class as well, see the corresponding file.
         private readonly CypherMatrixSettings settings;
         private CStreamWriter outputStreamWriter;
-        private StreamWriter debugDataWriter;
+        private CStreamWriter debugDataWriter;
         private CStreamReader inputStreamReader;
         private List<byte> cipherChars;
         private List<byte> blockKey;
@@ -47,22 +44,18 @@ namespace Cryptool.Plugins.CypherMatrix
         private byte[] cm1;
         private byte[] cm3;
         private bool stop = false;
+        private Encoding encoding = Encoding.UTF8;
 
         public CypherMatrix()
         {
             this.settings = new CypherMatrixSettings();
             cm1 = new byte[256];
             cm3 = new byte[256];
+            cipherChars = new List<byte>(128);
         }
-
         #endregion
 
-        #region Data Properties
-
-        /// <summary>
-        /// HOWTO: Input interface to read the input data. 
-        /// You can add more input properties of other type if needed.
-        /// </summary>
+        #region Data Properties and private writers
 
         [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputStream
@@ -78,17 +71,6 @@ namespace Cryptool.Plugins.CypherMatrix
             set;
         }
 
-        /// <summary>
-        /// HOWTO: Output interface to write the output data.
-        /// You can add more output properties ot other type if needed.
-        /// </summary>
-        //[PropertyInfo(Direction.OutputData, "Text Output", "The string after processing with the CypherMatrix cipher")]
-        //public string OutputString
-        //{
-        //    get;
-        //    set;
-        //}
-
         [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
         public ICryptoolStream OutputStream
         {
@@ -102,18 +84,36 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        //[PropertyInfo(Direction.OutputData, "Debug Data", "internal state of CypherMatrix", false)]
-        //public ICryptoolStream OutputDebug
-        //{
-        //    get
-        //    {
-        //        return debugDataWriter;
-        //    }
-        //    set
-        //    {
-        //        // empty
-        //    }
-        //}
+        [PropertyInfo(Direction.OutputData, "DebugDataCaption", "DebugDataTooltip", false)]
+        public ICryptoolStream OutputDebug
+        {
+            get
+            {
+                return debugDataWriter;
+            }
+            set
+            {
+                // empty
+            }
+        }
+
+        /// <summary>
+        /// Function to write data to the OutputStream.
+        /// </summary>
+        /// <param name="value">the value that should be written</param>
+        private void WriteOutput(ulong value)
+        {
+            outputStreamWriter.Write(encoding.GetBytes(value.ToString()));
+        }
+
+        /// <summary>
+        /// Function to write data to the DebugStream.
+        /// </summary>
+        /// <param name="str">the string that should be written</param>
+        private void WriteDebug(string str)
+        {
+            debugDataWriter.Write(encoding.GetBytes(str));
+        }
 
         #endregion
 
@@ -148,7 +148,6 @@ namespace Cryptool.Plugins.CypherMatrix
         /// </summary>
         public void Execute()
         {
-            // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
 
             try
@@ -166,7 +165,10 @@ namespace Cryptool.Plugins.CypherMatrix
                 inputStreamReader = InputStream.CreateReader();
                 //inputStreamReader.WaitEof();
                 outputStreamWriter = new CStreamWriter();
-                debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, wird sie überschrieben
+                //debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, wird sie überschrieben
+                debugDataWriter = new CStreamWriter();
+                blockKey = new List<byte>(settings.BlockKeyLen);
+                matrixKey = new byte[settings.MatrixKeyLen];
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
@@ -184,25 +186,19 @@ namespace Cryptool.Plugins.CypherMatrix
                         }
                     case CypherMatrixSettings.CypherMatrixMode.Hash:
                         {
-                            sw.Stop();
-                            outputStreamWriter.Close();
-                            throw new NotImplementedException();
-                            //break;
+                            Hash();
+                            break;
                         }
                     default:
                         {
                             sw.Stop();
                             outputStreamWriter.Close();
-                            throw new NotImplementedException();
+                            throw new NotImplementedException("Unkown execution mode!");
                             //break;
                         }
                 }
 
                 sw.Stop();
-                outputStreamWriter.Flush();
-                outputStreamWriter.Close();
-                debugDataWriter.Flush();
-                debugDataWriter.Close();
                 if (stop)
                 {
                     GuiLogMessage("Aborted!", NotificationLevel.Warning);
@@ -213,24 +209,22 @@ namespace Cryptool.Plugins.CypherMatrix
                     GuiLogMessage(string.Format("Processed {0:N} kB data in {1} ms.", (double)InputStream.Length / 1024, sw.ElapsedMilliseconds), NotificationLevel.Info);
                     GuiLogMessage(string.Format("Achieved data throughput: {0:N} kB/s", (double)InputStream.Length / sw.ElapsedMilliseconds), NotificationLevel.Info);
                 }
-                if(settings.Debug)
-                    GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
+                if (!settings.Debug)
+                    WriteDebug("You have to enable the debug logging to see the internal variables here.");
+                    //GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
+                    
+                outputStreamWriter.Flush();
+                outputStreamWriter.Close();
+                debugDataWriter.Flush();
+                debugDataWriter.Close();
                 OnPropertyChanged("OutputStream");
+                OnPropertyChanged("OutputDebug");
             }
             catch (Exception exception)
             {
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
             
-            //// HOWTO: After you have changed an output property, make sure you announce the name of the changed property to the CT2 core.
-            //SomeOutput = SomeInput - settings.SomeParameter;
-            //OnPropertyChanged("SomeOutput");
-
-            // HOWTO: You can pass error, warning, info or debug messages to the CT2 main window.
-            //if (settings.SomeParameter < 0)
-            //    GuiLogMessage("SomeParameter is negative", NotificationLevel.Debug);
-
-            // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
         }
 
@@ -301,12 +295,9 @@ namespace Cryptool.Plugins.CypherMatrix
         {
             int length = settings.BlockKeyLen, bytesRead = 0;
             int roundMax = (int)(inputStreamReader.Length / length) + 1;
-            cipherChars = new List<byte>(128);
-            blockKey = new List<byte>(length);
             List<byte> xor = new List<byte>();
             List<uint> index = new List<uint>();
             List<byte> ciphertext = new List<byte>();
-            matrixKey = new byte[settings.MatrixKeyLen];
             byte[] plaintext = new byte[length];
             int startseqLen = InputByteArray.Length < settings.MatrixKeyLen ? settings.MatrixKeyLen : InputByteArray.Length; // als Länge wird immer der größere Wert genommen
             byte[] startseq = new byte[startseqLen];
@@ -385,11 +376,8 @@ namespace Cryptool.Plugins.CypherMatrix
 
             int length = settings.BlockKeyLen, bytesRead = 0, len7 = (int)Math.Round((double)settings.BlockKeyLen * 8 / 7);
             int roundMax = (int)(inputStreamReader.Length / length) + 1;
-            cipherChars = new List<byte>(128);
-            blockKey = new List<byte>(length);
             List<byte> xor = new List<byte>();
             List<uint> index = new List<uint>();
-            matrixKey = new byte[settings.MatrixKeyLen];
             byte[] cipherBlock = new byte[len7];
             int startseqLen = InputByteArray.Length < settings.MatrixKeyLen ? settings.MatrixKeyLen : InputByteArray.Length; // als Länge wird immer der größere Wert genommen
             byte[] startseq = new byte[startseqLen];
@@ -475,7 +463,7 @@ namespace Cryptool.Plugins.CypherMatrix
             int C_k = n * (n - 2) + settings.Code;
             
             for (i = 1; i <= n; i++)
-                H_k += (startseq[i - 1] + 1) * (i + C_k);   // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n
+                H_k += (startseq[i - 1] + 1) * (i + C_k + r);   // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n
 
             // Berechnung der Hashfunktionsfolge
             for (i = 1; i <= n; i++)
@@ -523,23 +511,35 @@ namespace Cryptool.Plugins.CypherMatrix
             }
 
             // 3-fach Permutation der Basis-Variation
-            //Perm. Variante B
-            i = 1; k = 0; l = 0;
-            for (int pos = Alpha - 1; i <= 16; i++)
+            switch (settings.Perm)
             {
-                for (j = 1; j <= 16; j++)
-                {
-                    k = i - j;
-                    if (k <= 0)
-                        k += 16;
-                    l = k - j;
-                    if (l <= 0)
-                        l += 16;
-                    cm3[(k - 1) * 16 + (l - 1)] = cm1[pos];
-                    pos++;
-                    if (pos > 255)
-                        pos = 0;
-                }
+                case CypherMatrixSettings.Permutation.B:
+                    {
+                        i = 1; k = 0; l = 0;
+                        for (int pos = Alpha - 1; i <= 16; i++)
+                        {
+                            for (j = 1; j <= 16; j++)
+                            {
+                                k = i - j;
+                                if (k <= 0)
+                                    k += 16;
+                                l = k - j;
+                                if (l <= 0)
+                                    l += 16;
+                                cm3[(k - 1) * 16 + (l - 1)] = cm1[pos];
+                                pos++;
+                                if (pos > 255)
+                                    pos = 0;
+                            }
+                        }
+                        break;
+                    }
+                case CypherMatrixSettings.Permutation.C:
+                    {
+                        throw new NotImplementedException("NYI! Please use permutation function B!");
+                        break;
+                    }
+                default: throw new NotImplementedException("Unknown permutation function!");
             }
 
             // Entnahme Chiffre-Alphabet
@@ -560,68 +560,131 @@ namespace Cryptool.Plugins.CypherMatrix
             // Debugdaten schreiben
             if (settings.Debug)
             {
-                //debugDataWriter.Write(String.Format("\r\nInputByteArray (hex): \r\n "));
+                //WriteDebug(String.Format("\r\nInputByteArray (hex): \r\n "));
                 //foreach (byte b in InputByteArray)
-                //    debugDataWriter.Write(String.Format(" {0:X2}", b));
-                //debugDataWriter.WriteLine("\r\n");
-                debugDataWriter.WriteLine(String.Format("Data of round {0}\r\n", r));
-                debugDataWriter.WriteLine(String.Format("code = {0}", settings.Code));
-                debugDataWriter.WriteLine(String.Format("basis = {0}", settings.Basis));
-                debugDataWriter.WriteLine(String.Format("blockKeyLen = {0}", settings.BlockKeyLen));
-                debugDataWriter.WriteLine(String.Format("matrixKeyLen = {0}", settings.MatrixKeyLen));
-                debugDataWriter.WriteLine(String.Format("hashBlockLen = {0}", settings.HashBlockLen));
-                debugDataWriter.Write(String.Format("\r\nstartSequence (hex): \r\n "));
+                //    WriteDebug(String.Format(" {0:X2}", b));
+                //WriteDebug("\r\n");
+                WriteDebug(String.Format("Data of round {0}\r\n\r\n", r));
+                WriteDebug(String.Format("code = {0}\r\n", settings.Code));
+                WriteDebug(String.Format("basis = {0}\r\n", settings.Basis));
+                WriteDebug(String.Format("blockKeyLen = {0}\r\n", settings.BlockKeyLen));
+                WriteDebug(String.Format("matrixKeyLen = {0}\r\n", settings.MatrixKeyLen));
+                WriteDebug(String.Format("hashBlockLen = {0}\r\n", settings.HashBlockLen));
+                WriteDebug(String.Format("\r\nstartSequence (hex): \r\n "));
                 for(i = 0; i < startseqLen; i++)
-                    debugDataWriter.Write(String.Format(" {0:X2}", startseq[i]));
-                debugDataWriter.WriteLine("\r\n");
-                debugDataWriter.WriteLine(String.Format("n = {0}", n));
-                debugDataWriter.WriteLine(String.Format("C_k = {0}", C_k));
-                debugDataWriter.WriteLine(String.Format("H_k = {0}", H_k));
-                debugDataWriter.WriteLine(String.Format("H_p = {0}", H_p));
-                debugDataWriter.Write(String.Format("\r\nd (hex): \r\n "));
+                    WriteDebug(String.Format(" {0:X2}", startseq[i]));
+                WriteDebug(String.Format("\r\n\r\nn = {0}\r\n", n));
+                WriteDebug(String.Format("C_k = {0}\r\n", C_k));
+                WriteDebug(String.Format("H_k = {0}\r\n", H_k));
+                WriteDebug(String.Format("H_p = {0}\r\n", H_p));
+                WriteDebug("\r\nd (hex): \r\n ");
                 foreach (int v in d)
-                    debugDataWriter.Write(String.Format(" {0:X2}", v));
-                debugDataWriter.WriteLine("\r\n");
-                debugDataWriter.WriteLine(String.Format("variante = {0}", variante));
-                debugDataWriter.WriteLine(String.Format("Alpha = {0}", Alpha));
-                debugDataWriter.WriteLine(String.Format("Beta = {0}", Beta));
-                debugDataWriter.WriteLine(String.Format("Gamma = {0}", Gamma));
-                debugDataWriter.WriteLine(String.Format("Delta = {0}", Delta));
-                debugDataWriter.WriteLine(String.Format("Theta = {0}", Theta));
-                debugDataWriter.Write(String.Format("\r\ncm1 (hex): \r\n "));
+                    WriteDebug(String.Format(" {0:X2}", v));
+                WriteDebug(String.Format("\r\n\r\nvariante = {0}\r\n", variante));
+                WriteDebug(String.Format("Alpha = {0}\r\n", Alpha));
+                WriteDebug(String.Format("Beta = {0}\r\n", Beta));
+                WriteDebug(String.Format("Gamma = {0}\r\n", Gamma));
+                WriteDebug(String.Format("Delta = {0}\r\n", Delta));
+                WriteDebug(String.Format("Theta = {0}\r\n", Theta));
+                WriteDebug("\r\ncm1 (hex): \r\n");
                 for (i = 0; i < 256; )
                 {
                     for (j = 0; j < 16; j++)
                     {
-                        debugDataWriter.Write(String.Format(" {0:X2}", cm1[i]));
+                        WriteDebug(String.Format(" {0:X2}", cm1[i]));
                         i++;
                     }
-                    debugDataWriter.Write("\r\n ");
+                    WriteDebug("\r\n");
                 }
-                debugDataWriter.Write(String.Format("\r\ncm3 (hex): \r\n "));
+                WriteDebug("\r\ncm3 (hex): \r\n");
                 for (i = 0; i < 256; )
                 {
                     for (j = 0; j < 16; j++)
                     {
-                        debugDataWriter.Write(String.Format(" {0:X2}", cm3[i]));
+                        WriteDebug(String.Format(" {0:X2}", cm3[i]));
                         i++;
                     }
-                    debugDataWriter.Write("\r\n ");
+                    WriteDebug("\r\n");
                 }
-                debugDataWriter.Write(String.Format("\r\ncipherChars (hex): \r\n "));
+                WriteDebug("\r\ncipherChars (hex): \r\n ");
                 foreach (byte b in cipherChars)
-                    debugDataWriter.Write(String.Format(" {0:X2}", b));
-                debugDataWriter.WriteLine();
-                debugDataWriter.Write(String.Format("\r\nblockKey (hex): \r\n "));
+                    WriteDebug(String.Format(" {0:X2}", b));
+                WriteDebug("\r\n\r\nblockKey (hex): \r\n ");
                 foreach (byte b in blockKey)
-                    debugDataWriter.Write(String.Format(" {0:X2}", b));
-                debugDataWriter.WriteLine();
-                debugDataWriter.Write(String.Format("\r\nmatrixKey (hex): \r\n "));
+                    WriteDebug(String.Format(" {0:X2}", b));
+                WriteDebug("\r\n\r\nmatrixKey (hex): \r\n ");
                 foreach (byte b in matrixKey)
-                    debugDataWriter.Write(String.Format(" {0:X2}", b));
-                debugDataWriter.WriteLine();
-                debugDataWriter.WriteLine(String.Format("\r\n>>>>>>>>>> END OF ROUND <<<<<<<<<<\r\n\r\n"));
+                    WriteDebug(String.Format(" {0:X2}", b));
+                WriteDebug("\r\n\r\n>>>>>>>>>> END OF ROUND <<<<<<<<<<\r\n\r\n\r\n");
             }
+        }
+
+        // Hashfunktion, step
+        private ulong HashStep(byte[] data, int dataSize, int r)
+        {
+            ulong H_k = 0, H_p = 0;
+
+            Generator(data, dataSize, r);
+
+            int n = cm3.Length;
+            int C_k = n * (n - 2) + settings.Code;
+
+            for (int i = 1; i <= n; i++)
+                H_k += ((uint)cm3[i - 1] + 1) * (ulong)(i + C_k + r);   // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n
+
+            for (uint i = 1; i <= n; i++)
+            {
+                H_p += (((ulong)cm3[i - 1] + 1) * i * H_k + (uint)(i + settings.Code + r));    // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n; Erhöhung der Präzision durch cast auf long, wichtig!
+            }
+
+            return H_p;
+        }
+
+        private ulong Hash_SMX()
+        {
+            ulong hashPart = 0, hashSum = 0;
+            int round = 1, bytesRead = 0;
+
+            byte[] dataBlock = new byte[settings.HashBlockLen];
+
+            while ((bytesRead = inputStreamReader.ReadFully(dataBlock)) > 0)
+            {
+                hashPart = HashStep(dataBlock, bytesRead, round);
+                hashSum += hashPart;
+
+                // Vorbereitungen für nächste Runde
+                round++;
+            }
+
+            return hashSum;
+        }
+
+        private void Hash()
+        {
+            ulong hash = 0;
+            switch (settings.HashMode)
+            {
+                case CypherMatrixSettings.CypherMatrixHashMode.SMX:
+                    {
+                        hash = Hash_SMX();
+                        break;
+                    }
+                case CypherMatrixSettings.CypherMatrixHashMode.FMX:
+                    //{
+                    //    throw new NotImplementedException("NYI! At the moment only encryption and decryption are possible.");
+                    //    break;
+                    //}
+                case CypherMatrixSettings.CypherMatrixHashMode.LCX:
+                    {
+                        throw new NotImplementedException("NYI! Please choose an other hash mode.");
+                        //break;
+                    }
+                default:
+                    {
+                        throw new NotImplementedException("Unknown hash function!");
+                    }
+            }
+            WriteOutput(hash);
         }
 
         // function for changing to a choosen base

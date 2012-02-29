@@ -151,13 +151,13 @@
     <value>Nutzercode</value>
   </data>
   <data name="UserCodeTooltip" xml:space="preserve">
-    <value>Geben Sie eine Zahl zur Anpassung des Verfahrens an</value>
+    <value>Geben Sie eine Zahl zur Anpassung des Verfahrens ein</value>
   </data>
   <data name="ExpansionBaseCaption" xml:space="preserve">
     <value>Expansionsbasis</value>
   </data>
   <data name="ExpansionBaseTooltip" xml:space="preserve">
-    <value>Geben Sie einen Wert für die Basis zur Anpassung der Expansionsfunktion an</value>
+    <value>Geben Sie einen Wert für die Basis zur Anpassung der Expansionsfunktion ein</value>
   </data>
   <data name="WriteDebugLogCaption" xml:space="preserve">
     <value>Debug Logging</value>
@@ -169,7 +169,7 @@
     <value>Matrix-Schlüssellänge</value>
   </data>
   <data name="MatrixKeySizeTooltip" xml:space="preserve">
-    <value>Geben Sie die Matrix-Schlüssellänge an</value>
+    <value>Geben Sie die Matrix-Schlüssellänge ein</value>
   </data>
   <data name="CipherOptionsGroup" xml:space="preserve">
     <value>Chiffrierungsoptionen</value>
@@ -178,13 +178,13 @@
     <value>Blocklänge</value>
   </data>
   <data name="BlockSizeTooltip" xml:space="preserve">
-    <value>Geben Sie die Blocklänge der Eingabe an</value>
+    <value>Geben Sie die Blocklänge der Eingabe ein</value>
   </data>
   <data name="HashBlockSizeCaption" xml:space="preserve">
     <value>Hash-Blocklänge</value>
   </data>
   <data name="HashBlockSizeTooltip" xml:space="preserve">
-    <value>Geben Sie die Blocklänge beim Hashen an</value>
+    <value>Geben Sie die Blocklänge beim Hashen ein</value>
   </data>
   <data name="HashOptionsGroup" xml:space="preserve">
     <value>Hashoptionen</value>
@@ -197,5 +197,41 @@
   </data>
   <data name="CypherMatrixMode2" xml:space="preserve">
     <value>Hashen</value>
+  </data>
+  <data name="PermCaption" xml:space="preserve">
+    <value>Permutation</value>
+  </data>
+  <data name="PermOption0" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="PermOption1" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="PermOption2" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="PermTooltip" xml:space="preserve">
+    <value>Wählen Sie die Permutationsfunktion</value>
+  </data>
+  <data name="DebugDataCaption" xml:space="preserve">
+    <value>Debug-Daten-Anschluss</value>
+  </data>
+  <data name="DebugDataTooltip" xml:space="preserve">
+    <value>Log der internen Variablen von CypherMatrix</value>
+  </data>
+  <data name="HashMode0" xml:space="preserve">
+    <value>Serieller Modus</value>
+  </data>
+  <data name="HashMode1" xml:space="preserve">
+    <value>Finaler Modus</value>
+  </data>
+  <data name="HashMode2" xml:space="preserve">
+    <value>Letzte Runde Modus</value>
+  </data>
+  <data name="HashModeCaption" xml:space="preserve">
+    <value>Hash Modus</value>
+  </data>
+  <data name="HashModeTooltip" xml:space="preserve">
+    <value>Wählen Sie den Betriebsmodus des Hashes</value>
   </data>
 </root>
