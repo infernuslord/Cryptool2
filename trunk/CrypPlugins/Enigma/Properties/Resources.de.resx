@@ -121,7 +121,7 @@
     <value>N-Gramm-Wörterbuch</value>
   </data>
   <data name="InputGramsTooltip" xml:space="preserve">
-    <value>Dictionary with gram counts (string -&gt; [absolute, percentaged, log2])</value>
+    <value>Wörterbuch mit N-Gramm-Häufigkeiten (string -&gt; [absolut, prozentual, log2])</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>
@@ -241,7 +241,7 @@
     <value>Rotor-/Ring-/Schlüssel-Suchmethode</value>
   </data>
   <data name="KeySearchMethodTooltip" xml:space="preserve">
-    <value>Which method should be used to assess the best rotor configuration?</value>
+    <value>Welche Methode soll zur Bewertung der Rotorkonfiguration verwendet werden?</value>
   </data>
   <data name="MaxSearchedPlugsCaption" xml:space="preserve">
     <value>Max. Stecker suchen</value>
@@ -262,7 +262,7 @@
     <value>Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche Rotoren mit unterschiedlicher innerer Verdrahtung.</value>
   </data>
   <data name="PlugBoardCaption" xml:space="preserve">
-    <value>Plugboard substitution</value>
+    <value>Substitution:</value>
   </data>
   <data name="PlugBoardTooltip" xml:space="preserve">
     <value>Zeigt die aktuelle Substitution</value>
@@ -559,22 +559,22 @@
     <value>Verwendete Rotoren</value>
   </data>
   <data name="KeySearchMethodList1" xml:space="preserve">
-    <value>Index of coincidence</value>
+    <value>Koinzidenzindex</value>
   </data>
   <data name="KeySearchMethodList2" xml:space="preserve">
-    <value>log2-bigram</value>
+    <value>log2-Bigramm</value>
   </data>
   <data name="KeySearchMethodList3" xml:space="preserve">
-    <value>log2-trigram</value>
+    <value>log2-Trigramm</value>
   </data>
   <data name="KeySearchMethodList4" xml:space="preserve">
-    <value>Sinkov unigram</value>
+    <value>Sinkov-Unigramn</value>
   </data>
   <data name="KeySearchMethodList5" xml:space="preserve">
-    <value>Sinkov bigram</value>
+    <value>Sinkov-Bigramm</value>
   </data>
   <data name="KeySearchMethodList6" xml:space="preserve">
-    <value>Unigram entropy</value>
+    <value>Unigramm-Entropie</value>
   </data>
   <data name="Ringstellung_" xml:space="preserve">
     <value>Ringstellung:</value>
@@ -796,6 +796,6 @@
     <value>Präsentation abgeschaltet</value>
   </data>
   <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace" xml:space="preserve">
-    <value>Workspace neustarten</value>
+    <value>Workspace neu starten</value>
   </data>
 </root>

@@ -262,7 +262,7 @@
     <value>Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.</value>
   </data>
   <data name="PlugBoardCaption" xml:space="preserve">
-    <value>Plugboard substitution</value>
+    <value>Substitution:</value>
   </data>
   <data name="PlugBoardTooltip" xml:space="preserve">
     <value>Displays the current substitution</value>
@@ -784,16 +784,16 @@
     <value>Gamma -- since 1st July 1943</value>
   </data>
   <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_aktive" xml:space="preserve">
-    <value>Presentation aktive</value>
+    <value>Presentation active</value>
   </data>
   <data name="EnigmaPresentationFrame_ChangeStatus_Presentation_ready" xml:space="preserve">
     <value>Presentation ready</value>
   </data>
   <data name="EnigmaPresentationFrame_ChangeStatus" xml:space="preserve">
-    <value>Workspace aktive, Presentation turned off</value>
+    <value>Workspace active, Presentation turned off</value>
   </data>
   <data name="EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off" xml:space="preserve">
-    <value>Präsentation turned off</value>
+    <value>Presentation turned off</value>
   </data>
   <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace" xml:space="preserve">
     <value>Restart Workspace</value>

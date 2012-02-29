@@ -385,7 +385,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Workspace aktive, Presentation turned off ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Workspace active, Presentation turned off ähnelt.
         /// </summary>
         public static string EnigmaPresentationFrame_ChangeStatus {
             get {
@@ -394,7 +394,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Präsentation turned off ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation turned off ähnelt.
         /// </summary>
         public static string EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off {
             get {
@@ -403,7 +403,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation aktive ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation active ähnelt.
         /// </summary>
         public static string EnigmaPresentationFrame_ChangeStatus_Presentation_aktive {
             get {
@@ -988,7 +988,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Plugboard substitution ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Substitution: ähnelt.
         /// </summary>
         public static string PlugBoardCaption {
             get {
