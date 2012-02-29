@@ -121,7 +121,7 @@
     <value>Transpositions-Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin führt eine Bruteforce-Analyse der spaltenweisen Transposition durch.</value>
+    <value>Dieses Plugin führt eine Brute-Force-Analyse der spaltenweisen Transposition durch.</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe</value>
@@ -133,7 +133,7 @@
     <value>Crib</value>
   </data>
   <data name="CribTooltip" xml:space="preserve">
-    <value>Crib for Analysis</value>
+    <value>Crib für die Analyse</value>
   </data>
   <data name="ControlMasterCaption" xml:space="preserve">
     <value>Control Master</value>
@@ -193,7 +193,7 @@
     <value>Maximale Schlüssellänge</value>
   </data>
   <data name="MaxLengthTooltip" xml:space="preserve">
-    <value>Geben Sie die maximale Länge für die Bruteforce-Analyse an (max. 20).</value>
+    <value>Geben Sie die maximale Länge für die Brute-Force-Analyse an (max. 20).</value>
   </data>
   <data name="RepeatingsCaption" xml:space="preserve">
     <value>Wiederholungen des genetischen Algorithmus</value>
@@ -214,7 +214,7 @@
     <value>Transposition: zeilenweise einlesen, spaltenweise permutieren, zeilenweise auslesen</value>
   </data>
   <data name="Analysis_methodList1" xml:space="preserve">
-    <value>Bruteforce-Analyse</value>
+    <value>Brute-Force-Analyse</value>
   </data>
   <data name="Analysis_methodList2" xml:space="preserve">
     <value>Crib-Analyse</value>
