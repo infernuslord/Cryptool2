@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.DGK
 {
     [Author("Armin Krauss, Martin Franz", "", "", "")]
     [PluginInfo("DGK.Properties.Resources",
-        "PluginCaption", "PluginTooltip", "DGK/Documentation/doc.xml",
+        "PluginCaption", "PluginTooltip", "DGK/DetailedDescription/doc.xml",
         "DGK/Image/DGKEnc.png", "DGK/Image/DGKDec.png", "DGK/Image/DGKAdd.png", "DGK/Image/DGKMul.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     public class DGK : ICrypComponent
