@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator.Reference
@@ -62,10 +63,9 @@ namespace OnlineDocumentationGenerator.Reference
 
         public override string ToHTML(string lang)
         {
-            string p = "";
             if (!string.IsNullOrEmpty(Publisher))
-                string.Format("(<i>{0}</i>)", Publisher);
-            return string.Format("<b>{0}</b> - {1} {2}", Name, Author, p);
+                string.Format("(<i>{0}</i>)", HttpUtility.HtmlEncode(Publisher));
+            return string.Format("<b>{0}</b> - {1}", HttpUtility.HtmlEncode(Name), HttpUtility.HtmlEncode(Author));
         }
     }
 }

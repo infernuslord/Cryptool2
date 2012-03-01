@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator.Reference
@@ -53,7 +54,7 @@ namespace OnlineDocumentationGenerator.Reference
 
         public override string ToHTML(string lang)
         {
-            return string.Format("{0} - <a href=\"{1}?external\"><img src=\"../external_link.png\" border=\"0\">{1}</a>", Caption, Link);
+            return string.Format("{0} - <a href=\"{1}?external\"><img src=\"../external_link.png\" border=\"0\">{1}</a>", HttpUtility.HtmlEncode(Caption), Link);
         }
     }
 }
