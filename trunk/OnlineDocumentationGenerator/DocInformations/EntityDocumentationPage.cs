@@ -124,28 +124,21 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         protected static XElement GetXML(Type type)
         {
-            try
-            {
-                var descriptionUrl = type.GetPluginInfoAttribute().DescriptionUrl;
-                if (descriptionUrl == null || Path.GetExtension(descriptionUrl).ToLower() != ".xml")
-                {                    
-                    return null;
-                }
+            var descriptionUrl = type.GetPluginInfoAttribute().DescriptionUrl;
+            if (descriptionUrl == null || Path.GetExtension(descriptionUrl).ToLower() != ".xml")
+            {                    
+                return null;
+            }
 
-                if (descriptionUrl != string.Empty)
-                {
-                    int sIndex = descriptionUrl.IndexOf('/');
-                    var xmlUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
-                                                       descriptionUrl.Substring(0, sIndex), descriptionUrl.Substring(sIndex + 1)));
-                    var stream = Application.GetResourceStream(xmlUri).Stream;
-                    return XElement.Load(stream);
-                }
-                return null;
-            }
-            catch (Exception)
+            if (descriptionUrl != string.Empty)
             {
-                return null;
+                int sIndex = descriptionUrl.IndexOf('/');
+                var xmlUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
+                                                    descriptionUrl.Substring(0, sIndex), descriptionUrl.Substring(sIndex + 1)));
+                var stream = Application.GetResourceStream(xmlUri).Stream;
+                return XElement.Load(stream);
             }
+            return null;
         }
     }
 }

@@ -117,7 +117,7 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="DetailedDescription\doc.xml" />
+    <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.de.resx">
