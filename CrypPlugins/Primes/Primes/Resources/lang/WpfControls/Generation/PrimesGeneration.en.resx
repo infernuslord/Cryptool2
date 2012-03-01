@@ -151,13 +151,13 @@
     <value>Choose random values for x</value>
   </data>
   <data name="polynomrange_foreachformulars" xml:space="preserve">
-    <value>For each formula</value>
+    <value>For each function</value>
   </data>
   <data name="polynomrange_numberofcalculations" xml:space="preserve">
     <value>Number of calculations</value>
   </data>
   <data name="polynomrange_numberofformulars" xml:space="preserve">
-    <value>Number of formulas</value>
+    <value>Number of functions</value>
   </data>
   <data name="polynom_values" xml:space="preserve">
     <value>Values for x</value>
@@ -175,22 +175,22 @@
     <value>n x m digits</value>
   </data>
   <data name="rndPrimes" xml:space="preserve">
-    <value>Create random prime in the range...</value>
+    <value>Create random primes in the range...</value>
   </data>
   <data name="rndQuadratic" xml:space="preserve">
-    <value>Quadratic functions for generating primes</value>
+    <value>Quadratic polynomials for generating primes</value>
   </data>
   <data name="rndQuadraticEuler" xml:space="preserve">
-    <value>Euler's formula</value>
+    <value>Test Euler's polynomial</value>
   </data>
   <data name="rndQuadraticFormular" xml:space="preserve">
-    <value>A quadratic function</value>
+    <value>Test a particular polynomial</value>
   </data>
   <data name="rndQuadraticRnd" xml:space="preserve">
-    <value>Check random formulas</value>
+    <value>Test random polynomials</value>
   </data>
   <data name="rndQuadraticSystematic" xml:space="preserve">
-    <value>Check formulas systematically</value>
+    <value>Test polynomials systematically</value>
   </data>
   <data name="soa_generateprimesto" xml:space="preserve">
     <value>Generate all primes to</value>
@@ -226,10 +226,10 @@
     <value>No more prime numbers found</value>
   </data>
   <data name="statRnd" xml:space="preserve">
-    <value>{0} formulas were examined</value>
+    <value>{0} functions were examined</value>
   </data>
   <data name="statRndInterval" xml:space="preserve">
-    <value>{0} formulas in the interval [{1}, {2}] were examined</value>
+    <value>{0} functions in the interval [{1}, {2}] were examined</value>
   </data>
   <data name="soa_actualnumber" xml:space="preserve">
     <value>Consider the number {0}.</value>
@@ -269,5 +269,17 @@
   </data>
   <data name="soa_thirdsolutionfound" xml:space="preserve">
     <value>Found a solution. 3 * {0}² - {1}² = {2}. Let {3} = {4}.</value>
+  </data>
+  <data name="polynomname_polynom" xml:space="preserve">
+    <value>Enter coefficients of a particular polynomial</value>
+  </data>
+  <data name="polynomname_polynomeuler" xml:space="preserve">
+    <value>Enter parameters for Euler's polynomial</value>
+  </data>
+  <data name="polynomname_polynomrnd" xml:space="preserve">
+    <value>Enter parameters for the random polynomials</value>
+  </data>
+  <data name="polynomname_polynomsyst" xml:space="preserve">
+    <value>Enter parameters for the systematic test</value>
   </data>
 </root>

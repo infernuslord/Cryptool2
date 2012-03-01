@@ -27,7 +27,7 @@ namespace Primes.WpfControls.Primegeneration.Function
     {
       get
       {
-        return "Eingabe der Koeffizienten für den zufälligen Test";
+          return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomrnd;
       }
     }
 

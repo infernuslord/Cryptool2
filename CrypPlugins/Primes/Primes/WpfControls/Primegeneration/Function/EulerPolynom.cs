@@ -48,7 +48,7 @@ namespace Primes.WpfControls.Primegeneration.Function
     {
       get
       {
-        return "Auswerten der Formel nach Euler";
+          return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomeuler;
       }
     }
   }

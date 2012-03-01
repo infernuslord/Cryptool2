@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ntimesm_btnCancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -145,13 +145,13 @@
     <value>Wert für x zufällig bestimmen</value>
   </data>
   <data name="polynomrange_foreachformulars" xml:space="preserve">
-    <value>Für jede Formel</value>
+    <value>Für jedes Polynom</value>
   </data>
   <data name="polynomrange_numberofcalculations" xml:space="preserve">
     <value>Berechnungen pro Durchgang</value>
   </data>
   <data name="polynomrange_numberofformulars" xml:space="preserve">
-    <value>Anzahl der Formeln</value>
+    <value>Anzahl der Funktionen</value>
   </data>
   <data name="polynom_values" xml:space="preserve">
     <value>Werte für x</value>
@@ -178,19 +178,19 @@
     <value>Zufällige Primzahl erzeugen im Bereich...</value>
   </data>
   <data name="rndQuadratic" xml:space="preserve">
-    <value>Quadratische Formeln zur Erzeugung von Primzahlen</value>
+    <value>Quadratische Polynome zur Erzeugung von Primzahlen</value>
   </data>
   <data name="rndQuadraticEuler" xml:space="preserve">
-    <value>Formel nach Euler</value>
+    <value>Eulers Polynom testen</value>
   </data>
   <data name="rndQuadraticFormular" xml:space="preserve">
-    <value>Eine Quadratische Formel</value>
+    <value>Spezielles Polynom testen</value>
   </data>
   <data name="rndQuadraticRnd" xml:space="preserve">
-    <value>Zufällige Formeln testen</value>
+    <value>Zufällige Polynome testen</value>
   </data>
   <data name="rndQuadraticSystematic" xml:space="preserve">
-    <value>Formeln systematisch testen</value>
+    <value>Polynome systematisch testen</value>
   </data>
   <data name="statAvgCountPrimes" xml:space="preserve">
     <value>Die durchschnittliche Anzahl der Primzahlen beträgt {0} ( = {1}%)</value>
@@ -220,10 +220,10 @@
     <value>Von {0} Zahlen sind {1} Primzahlen. ({2}%)</value>
   </data>
   <data name="statRnd" xml:space="preserve">
-    <value>Es wurden {0} Formeln untersucht</value>
+    <value>Es wurden {0} Funktionen untersucht</value>
   </data>
   <data name="statRndInterval" xml:space="preserve">
-    <value>Es wurden {0} Formeln im Wertebereich x aus [{1}, {2}] untersucht</value>
+    <value>Es wurden {0} Funktionen im Wertebereich x aus [{1}, {2}] untersucht</value>
   </data>
   <data name="statNonPrimes" xml:space="preserve">
     <value>Es wurden keine weiteren Primzahlen gefunden</value>
@@ -269,5 +269,17 @@
   </data>
   <data name="soa_fourthsolutionfound" xml:space="preserve">
     <value>{0} wurde als Primzahl identifiziert. Entferne alle Vielfachen von {1}</value>
+  </data>
+  <data name="polynomname_polynom" xml:space="preserve">
+    <value>Eingabe der Koeffizienten für ein Polynom</value>
+  </data>
+  <data name="polynomname_polynomeuler" xml:space="preserve">
+    <value>Eingabe der Parameter für Eulers Polynom</value>
+  </data>
+  <data name="polynomname_polynomrnd" xml:space="preserve">
+    <value>Eingabe der Parameter für zufällige Polynome</value>
+  </data>
+  <data name="polynomname_polynomsyst" xml:space="preserve">
+    <value>Eingabe der Parameter für den systematischen Test</value>
   </data>
 </root>

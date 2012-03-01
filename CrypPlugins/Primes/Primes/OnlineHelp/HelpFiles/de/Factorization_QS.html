@@ -13,7 +13,7 @@ Das Rechnen mit Kongruenzen ist dem Rechnen mit ganzen Zahlen sehr ähnlich. Ein
 
 <h4>Die Idee des quadratischen Sieb</h4>
 Findet man zwei ganze Zahlen a und b, für die gilt<br/><br/>
-a<sup>2</sup> &equiv; b<sup>2</sup> (mod n) und a &nequiv; b (mod n) (2.1)<br/><br/>
+a<sup>2</sup> &equiv; b<sup>2</sup> (mod n) und a &#8802; b (mod n) (2.1)<br/><br/>
 dann können mit <i>ggt(a + b, n)</i> und <i>ggt(a - b, n)</i> Faktoren von n gefunden werden.<br/>
 Das quadratische Sieb ist ein Algorithmus, der die beiden Zahlen a und b findet.
 
@@ -57,7 +57,7 @@ a ergibt sich aus dem Produkt 46<sup>2</sup> * 47<sup>2</sup> * 49<sup>2</sup> *
 Damit ist b<sup>2</sup> = 50400<sup>2</sup> und a = 5.402.838<sup>2</sup>. <br /><br />
 Damit sind beide Kriterien aus (2.1) erfüllt denn es gilt:<br />
 a<sup>2</sup> &equiv; b<sup>2</sup> (mod <i>n</i>) = 5402838<sup>2</sup> &equiv; 50400<sup>2</sup> (mod 2.041) und <br />
-a &nequiv; b(mod <i>n</i>) = 5402838 &nequiv; 50400 (mod 2.041).<br /><br />
+a &#8802; b(mod <i>n</i>) = 5402838 &#8802; 50400 (mod 2.041).<br /><br />
 Man reduziert a un b modulo n (a = 5.402.838 mod 2.041 = 311, b = 50.400 mod 2.041 = 1.416) findet die Teiler von n mit:<br /><br />
 ggT(1.416 + 311, 2041) = 157 und ggT(1.416 - 311, 2041) = 13.
 <br /><br />
@@ -202,7 +202,7 @@ Die Folgenglieder von F<sub>2</sub> werden entsprechende der Folgenglieder von F
   <li>
     Im letzen Schritt werden nun noch die Bedingungen aus (2.1) überprüft. Wie oben aufgeführt sind mit<br />
     a<sup>2</sup> &equiv; b<sup>2</sup> (mod <i>n</i>) = 5402838<sup>2</sup> &equiv; 50400<sup>2</sup> (mod 2.041) und <br />
-    a &nequiv; b(mod <i>n</i>) = 5402838 &nequiv; 50400 (mod 2.041)<br />
+    a &#8802; b(mod <i>n</i>) = 5402838 &#8802; 50400 (mod 2.041)<br />
     die Bedingungen erfüllt und es können Teiler von <i>n</i> berechnet werden.<br />
   </li>
 </ol>
