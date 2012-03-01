@@ -83,7 +83,7 @@ namespace Primes.WpfControls.Primegeneration.Function
     }
     public virtual string Name 
     {
-      get { return "Eingabe der Koeffizienten für eine Formel"; }
+      get { return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynom; }
     }
 
     #endregion

@@ -175,7 +175,7 @@
     <value>Eingabe</value>
   </data>
   <data name="numbergrid_scroll" xml:space="preserve">
-    <value>Zeilenweise im Zahlengrid scrollen</value>
+    <value>Zeilenweise im Zahlengitter scrollen</value>
   </data>
   <data name="numbergrid_start" xml:space="preserve">
     <value>Startwert</value>
@@ -196,7 +196,7 @@
     <value>Breite</value>
   </data>
   <data name="numbergrid_zoom" xml:space="preserve">
-    <value>Das Zahlengrid zoom</value>
+    <value>Das Zahlengitter zoomen</value>
   </data>
   <data name="numberline_actualnumber" xml:space="preserve">
     <value> Aktuelle Zahl n =</value>
@@ -338,7 +338,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>Die Goldbach-Vermutung</value>
   </data>
   <data name="tabitemnumbergrid" xml:space="preserve">
-    <value>Zahlengrid</value>
+    <value>Zahlengitter</value>
   </data>
   <data name="tabitemnumberline" xml:space="preserve">
     <value>Zahlenstrahl</value>

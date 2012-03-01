@@ -130,7 +130,7 @@
     <value>Goldbach-Vermutung</value>
   </data>
   <data name="distributionnumbergrid" xml:space="preserve">
-    <value>Im Zahlengrid</value>
+    <value>Im Zahlengitter</value>
   </data>
   <data name="distributionnumberline" xml:space="preserve">
     <value>Auf der Zahlengraden</value>
