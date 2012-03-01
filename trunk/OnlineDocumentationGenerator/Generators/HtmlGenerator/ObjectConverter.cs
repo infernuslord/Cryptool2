@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Web;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
@@ -80,7 +81,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 foreach (var setting in settings)
                 {
                     codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
-                                                         System.Security.SecurityElement.Escape(setting.Caption), System.Security.SecurityElement.Escape(setting.ToolTip),
+                                                         HttpUtility.HtmlEncode(setting.Caption), HttpUtility.HtmlEncode(setting.ToolTip),
                                                          GetControlTypeString(setting.ControlType)));
                 }
 
@@ -141,8 +142,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     var color = ColorHelper.GetLineColor(connector.PropertyInfo.PropertyType);
                     codeBuilder.AppendLine(
                         string.Format("<tr> <td bgcolor=\"#{0}{1}{2}\">{3}</td> <td bgcolor=\"#{0}{1}{2}\">{4}</td> <td bgcolor=\"#{0}{1}{2}\" nowrap>{5}</td> <td bgcolor=\"#{0}{1}{2}\">{6}</td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
-                                      System.Security.SecurityElement.Escape(connector.Caption),
-                                      System.Security.SecurityElement.Escape(connector.ToolTip),
+                                      HttpUtility.HtmlEncode(connector.Caption),
+                                      HttpUtility.HtmlEncode(connector.ToolTip),
                                       GetDirectionString(connector.Direction),
                                       type));
                 }
@@ -237,7 +238,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 if (node is XText)
                 {
-                    result.Append(((XText) node).Value);
+                    result.Append(HttpUtility.HtmlEncode(((XText)node).Value));
                 }
                 else if (node is XElement)
                 {
