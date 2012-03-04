@@ -30,7 +30,7 @@ Wählen Sie diesen Punkt, um einen mit dem Caesar-Verfahren verschlüsselten Tex
     </description>
 
     <headline lang="en">Caesar Analysis</headline>
-    <headline lang="de">Caesar Analyse</headline>
+    <headline lang="de">Caesar-Analyse</headline>
     <task lang="en">Please input the ciphertext and text language.</task>
     <task lang="de">Bitte geben Sie den Geheimtext ein und wählen die Textsprache aus.</task>
 
@@ -239,16 +239,16 @@ Wählen Sie diesen Punkt, um einen mit der Enigma verschlüsselten Text zu analy
     <name lang="en" >Scytale</name>
     <name lang="de" >Skytale</name>
     <description lang="en" >
-The Scytale is a classic transposition cipher. It was used by the Spartans as early as the fifth century and it is the first cryptographic algorithm used for military communications.
+The Scytale is a classic transposition cipher. It was used by the Spartans as early as the fifth century B.C. and it is the first cryptographic algorithm used for military communications.
 The Scytale is a wooden stick wrapped by a strip of leather or parchment. The sender writes his message along the wooden stick and then unwraps the strip. After that the strip seems to contain only a pointless series of letters. In order to recover the message, the receiver simply wraps the strip around a Scytale of the same diameter as the Scytale of the sender. Therefore, the key is a Scytale with the correct diameter or the correct number of edges, respectively.
 
 By selecting this, you can analyze a ciphertext that was encrypted with the Scytale (i.e. find the used diameter and decrypt the encrypted text).
     </description>
     <description lang="de" >
-Die Skytale ist eine klassische Transpositions-Verschlüsselung. Sie wurde von den Spartanern bereits im 5. Jahrhundert gebraucht und war das erste kryptographische Verfahren welches militärisch genutzt wurde.
+Die Skytale ist eine klassische Transpositions-Verschlüsselung. Sie wurde von den Spartanern bereits im 5. Jahrhundert v. Chr. verwendet und war das erste kryptographische Verfahren welches militärisch genutzt wurde.
 Die Skytale ist ein Holzstab, um den ein Streifen Leder oder Pergament gewickelt wird. Der Sender schreibt die Nachricht der Länge des Stabes nach auf den Streifen und wickelt ihn dann ab. Danach scheint der Streifen nur eine sinnlose Aneinanderreihung von Buchstaben zu enthalten. Um die Nachricht wiederherzustellen, wickelt der Empfänger den Lederstreifen einfach um eine Skytale mit demselben Durchmesser, den der Sender benutzt hatte. Der Schlüssel ist also eine Skytale mit dem richtigen Durchmesser bzw. der richtigen Anzahl von Kanten.
 
-Wählen Sie diesen Punkt, um einen mit der Skytale verschlüsselten Text zu analysieren (d.h. die verwendete Stabdicke finden und den verschlüsselten Text entschlüsseln).  
+Wählen Sie diesen Punkt, um einen mit der Skytale verschlüsselten Text zu analysieren (d.h. die verwendete Stabdicke finden und den verschlüsselten Text entschlüsseln).
     </description>
 
     <headline lang="en">Scytale Analysis</headline>
@@ -301,7 +301,7 @@ Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu 
       <headline lang="de">Ergebnisse der Skytale-Analyse</headline>
       <task lang="en">On this page you can see the results of the Scytale cryptanalysis. In the upper textblock the probable plaintext is displayed and in the textblock below you can see all possible results from all trial decryptions with the different sticksizes used. In case that the correct decryption was not detected go back to the previous page and try to adjust the used language and the number of words needed in order to obtain a better result. If no correct decryption can be found within all decrypted texts, you should try to increase the maximum sticksize.
       </task>
-      <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text angezeigt und im darunterliegenden Feld alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen, durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Insofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, sollten Sie versuchen die maximale Stabdicke hochzusetzen.
+      <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text angezeigt und im darunterliegenden Feld alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen, durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Insofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, können Sie versuchen, die maximale Stabdicke hochzusetzen.
       </task>
 
       <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5" alignment="Left" width="80%" group="result">
