@@ -123,9 +123,9 @@
                     </Label.Content>
                 </Label>
                 
-                <Button Grid.Column="1" ToolTip="{Loc CreateProjectToolTip}" Width="45" Name="CreateProjectButton" Visibility="Hidden" Click="CreateProjectButton_Click">
+                <Button Grid.Column="1" ToolTip="{Loc CreateProjectToolTip}" Width="50" Name="CreateProjectButton" Visibility="Hidden" Click="CreateProjectButton_Click">
                     <Button.Content>
-                        <Image Source="/Wizard;component/Images/createProject.png" />
+                        <Image Source="/Wizard;component/Images/createProject.png"/>
                     </Button.Content>
                 </Button>
             </Grid>
