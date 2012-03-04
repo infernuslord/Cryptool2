@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.Model;
-using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Visuals;
 using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
 using WorkspaceManagerModel.Model.Operations;
 using System.ComponentModel;
@@ -32,13 +32,12 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public event PropertyChangedEventHandler PropertyChanged;
 
         public LinkedList<FromTo> LinkedPointList = new LinkedList<FromTo>();
-        public BinEditorVisual Editor { private set; get; }
+        public EditorVisual Editor { private set; get; }
 
         private InternalCryptoLineView line = null;
         private ConnectionModel model = null;
         private UIElement[] newItems, oldItems;
-        private IEnumerable<BinComponentVisual> selected;
-        private Thumb selectedPart = new Thumb();
+        private IEnumerable<ComponentVisual> selected;
         public ConnectionModel Model
         {
             get { return model; }
@@ -51,35 +50,35 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
         }
 
-        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(BinConnectorVisual),
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(ConnectorVisual),
             typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
 
-        public BinConnectorVisual Target
+        public ConnectorVisual Target
         {
-            get { return (BinConnectorVisual)base.GetValue(TargetProperty); }
+            get { return (ConnectorVisual)base.GetValue(TargetProperty); }
             set
             {
                 base.SetValue(TargetProperty, value);
             }
         }
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(BinConnectorVisual),
+        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source", typeof(ConnectorVisual),
             typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
 
-        public BinConnectorVisual Source
+        public ConnectorVisual Source
         {
-            get { return (BinConnectorVisual)base.GetValue(SourceProperty); }
+            get { return (ConnectorVisual)base.GetValue(SourceProperty); }
             set
             {
                 base.SetValue(SourceProperty, value);
             }
         }
 
-        public static readonly DependencyProperty SelectedPartProperty = DependencyProperty.Register("SelectedPart", typeof(Thumb), typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty SelectedPartProperty = DependencyProperty.Register("SelectedPart", typeof(FromTo), typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
 
-        public Thumb SelectedPart
+        public FromTo SelectedPart
         {
-            get { return (Thumb)base.GetValue(SelectedPartProperty); }
+            get { return (FromTo)base.GetValue(SelectedPartProperty); }
             private set
             {
                 base.SetValue(SelectedPartProperty, value);
@@ -129,12 +128,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line = new InternalCryptoLineView(visuals);
         }
 
-        public CryptoLineView(ConnectionModel model, BinConnectorVisual source, BinConnectorVisual target, ObservableCollection<UIElement> visuals)
+        public CryptoLineView(ConnectionModel model, ConnectorVisual source, ConnectorVisual target, ObservableCollection<UIElement> visuals)
         {
             // TODO: Complete member initialization
-            selectedPart.MouseLeave +=new MouseEventHandler(SubPathMouseLeave);
-            selectedPart.DragDelta += new DragDeltaEventHandler(DragDelta);
-            Editor = (BinEditorVisual)model.WorkspaceModel.MyEditor.Presentation;
+            Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
             this.Model = model;
@@ -176,7 +173,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 if (newItems.Contains(Source.WindowParent) || newItems.Contains(Target.WindowParent) || true)
                 {
-                    selected = (IEnumerable<BinComponentVisual>)newItems.OfType<BinComponentVisual>();
+                    selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
                     foreach (var x in selected)
                     {
                         x.IsDraggingChanged += x_IsDraggingChanged;
@@ -185,7 +182,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
             if(oldItems != null)
             {
-                foreach (var x in oldItems.OfType<BinComponentVisual>())
+                foreach (var x in oldItems.OfType<ComponentVisual>())
                 {
                     x.IsDraggingChanged -= x_IsDraggingChanged;
                 }
@@ -294,8 +291,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                 if(r.IntersectsWith(new Rect(point,new Size(5,5))))
                 {
-                    SelectedPart = selectedPart;
-                    selectedPart.DataContext = p;
+                    SelectedPart = p;
                     return;
                 }
             }
@@ -469,8 +465,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
             
-        public InternalCryptoLineView(ConnectionModel connectionModel, BinConnectorVisual source,
-            BinConnectorVisual target, ObservableCollection<UIElement> visuals)
+        public InternalCryptoLineView(ConnectionModel connectionModel, ConnectorVisual source,
+            ConnectorVisual target, ObservableCollection<UIElement> visuals)
         {
             this.Loaded += new RoutedEventHandler(CryptoLineView_Loaded);
             this.Model = connectionModel;
@@ -759,8 +755,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         internal class FakeNode : QuadTreeLib.IHasRect
         {
             public System.Drawing.RectangleF Rectangle { get; set; }
-            public BinConnectorVisual Source { get; set; }
-            public BinConnectorVisual Target { get; set; }
+            public ConnectorVisual Source { get; set; }
+            public ConnectorVisual Target { get; set; }
         }
 
         private void makeOrthogonalPoints()
@@ -791,7 +787,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     {
                         foreach (var element in Visuals)
                         {
-                            if (element is BinComponentVisual)
+                            if (element is ComponentVisual)
                             {
                                 IRouting p1 = element as IRouting;
                                 nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
@@ -980,7 +976,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 ComputationDone.Invoke(this, null);
         }
 
-        private static Point cheat42(Point EndPoint, BinConnectorVisual EndPointSource, int flipper)
+        private static Point cheat42(Point EndPoint, ConnectorVisual EndPointSource, int flipper)
         {
             double xoffset = 0;
             double yoffset = 0;
@@ -1045,8 +1041,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
 
-        private BinConnectorVisual startPointSource;
-        public BinConnectorVisual StartPointSource 
+        private ConnectorVisual startPointSource;
+        public ConnectorVisual StartPointSource 
         { 
             get { return startPointSource; } 
             set 
@@ -1064,14 +1060,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         void ConnectorSourceUpdate(object sender, EventArgs e)
         {
-            if(!((BinEditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
+            if(!((EditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
                 HasComputed = false;
         }
 
-        private BinConnectorVisual endPointSource;
+        private ConnectorVisual endPointSource;
 
 
-        public BinConnectorVisual EndPointSource 
+        public ConnectorVisual EndPointSource 
         { 
             get { return endPointSource; } 
             set 

@@ -19,12 +19,12 @@ using WorkspaceManager.View.Base;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
 
-namespace WorkspaceManager.View.BinVisual.IControlVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinIControlVisual.xaml
     /// </summary>
-    public partial class BinIControlVisual : Popup
+    public partial class IControlVisual : Popup
     {
         #region Properties
 
@@ -35,7 +35,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
         #region Dependency Properties
 
         public static readonly DependencyProperty ConnectorsProperty = DependencyProperty.Register("Connectors",
-            typeof(ObservableCollection<IControlMasterElement>), typeof(BinIControlVisual), new FrameworkPropertyMetadata(null, OnListChanged));
+            typeof(ObservableCollection<IControlMasterElement>), typeof(IControlVisual), new FrameworkPropertyMetadata(null, OnListChanged));
 
         public ObservableCollection<IControlMasterElement> Connectors
         {
@@ -50,7 +50,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
         }
 
         public static readonly DependencyProperty SlotsProperty = DependencyProperty.Register("Slots",
-            typeof(ObservableCollection<Slot>), typeof(BinIControlVisual), new FrameworkPropertyMetadata(null));
+            typeof(ObservableCollection<Slot>), typeof(IControlVisual), new FrameworkPropertyMetadata(null));
 
         public ObservableCollection<Slot> Slots
         {
@@ -66,7 +66,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
         #endregion
 
         #region Constructors
-        public BinIControlVisual()
+        public IControlVisual()
         {
             InitializeComponent();
             Slots = new ObservableCollection<Slot>();
@@ -97,7 +97,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
 
         private static void OnListChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinIControlVisual pop = (BinIControlVisual)d;
+            IControlVisual pop = (IControlVisual)d;
             if (e.NewValue == null)
                 return;
 

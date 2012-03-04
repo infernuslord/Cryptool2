@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
-    xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual">
+    xmlns:local="clr-namespace:WorkspaceManager.View.Visuals">
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>

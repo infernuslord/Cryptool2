@@ -19,13 +19,13 @@ using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Tools;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinDataVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinDataVisual : UserControl, INotifyPropertyChanged
+    public partial class DataVisual : UserControl, INotifyPropertyChanged
     {
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -42,7 +42,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
         public static readonly DependencyProperty ConnectorCollectionProperty = DependencyProperty.Register("ConnectorCollection",
-            typeof(ObservableCollection<IPluginInformation>), typeof(BinDataVisual), new FrameworkPropertyMetadata(null, null));
+            typeof(ObservableCollection<IPluginInformation>), typeof(DataVisual), new FrameworkPropertyMetadata(null, null));
 
         public ObservableCollection<IPluginInformation> ConnectorCollection
         {
@@ -51,7 +51,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty ActiveConnectorProperty = DependencyProperty.Register("ActiveConnector",
-            typeof(IPluginInformation), typeof(BinDataVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnActiveConnectorChanged)));
+            typeof(IPluginInformation), typeof(DataVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnActiveConnectorChanged)));
 
         public IPluginInformation ActiveConnector
         {
@@ -61,7 +61,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructors
-        public BinDataVisual(ObservableCollection<BinConnectorVisual> e)
+        public DataVisual(ObservableCollection<ConnectorVisual> e)
         {
             ConnectorCollection = new ObservableCollection<IPluginInformation>();
             timer.Tick += new EventHandler(TickHandler);
@@ -93,7 +93,7 @@ namespace WorkspaceManager.View.BinVisual
         private void CollectionChangedHandler(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if(e.NewItems != null)
-                ConnectorCollection.Add(new IPluginInformation(((BinConnectorVisual)e.NewItems[0]).Model));
+                ConnectorCollection.Add(new IPluginInformation(((ConnectorVisual)e.NewItems[0]).Model));
         }
 
         private void TickHandler(object sender, EventArgs e)
@@ -104,7 +104,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnActiveConnectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinDataVisual b = (BinDataVisual)d;
+            DataVisual b = (DataVisual)d;
             IPluginInformation newInfo = (IPluginInformation)e.NewValue;
             IPluginInformation oldInfo = (IPluginInformation)e.OldValue;
             b.lastActiveConnector = oldInfo;

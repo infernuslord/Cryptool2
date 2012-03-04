@@ -13,14 +13,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinSideBarVisual.xaml
     /// </summary>
-    public partial class BinSideBarVisual : UserControl
+    public partial class SideBarVisual : UserControl
     {
-        public BinSideBarVisual()
+        public SideBarVisual()
         {
             InitializeComponent();
         }

@@ -87,44 +87,44 @@
     <Compile Include="View\Base\ObservableDictionary.cs" />
     <Compile Include="View\Base\RectanglePacker.cs" />
     <Compile Include="View\Base\Util.cs" />
-    <Compile Include="View\BinVisual\BinConnectorVisual.xaml.cs">
-      <DependentUpon>BinConnectorVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\ComponentVisual.xaml.cs">
+      <DependentUpon>ComponentVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinDataVisual.xaml.cs">
-      <DependentUpon>BinDataVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\ConnectorVisual.xaml.cs">
+      <DependentUpon>ConnectorVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinEditorVisual.xaml.cs">
-      <DependentUpon>BinEditorVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\DataVisual.xaml.cs">
+      <DependentUpon>DataVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinComponentVisual.xaml.cs">
-      <DependentUpon>BinComponentVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\EditorVisual.xaml.cs">
+      <DependentUpon>EditorVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinFullscreenVisual.xaml.cs">
-      <DependentUpon>BinFullscreenVisual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\BinVisual\BinLogNotifier.xaml.cs">
-      <DependentUpon>BinLogNotifier.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\BinVisual\BinSideBarVisual.xaml.cs">
-      <DependentUpon>BinSideBarVisual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\BinVisual\BinTextVisual.xaml.cs">
-      <DependentUpon>BinTextVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\FullscreenVisual.xaml.cs">
+      <DependentUpon>FullscreenVisual.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\BinVisual\IControlVisual\BinIControlVisual.xaml.cs">
       <DependentUpon>BinIControlVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinLogVisual.xaml.cs">
-      <DependentUpon>BinLogVisual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\BinVisual\BinSettingsVisual.xaml.cs">
-      <DependentUpon>BinSettingsVisual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\BinVisual\BinImageVisual.xaml.cs">
-      <DependentUpon>BinImageVisual.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\BinVisual\IControlVisual\Slot.xaml.cs">
       <DependentUpon>Slot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\ImageVisual.xaml.cs">
+      <DependentUpon>ImageVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\LogNotifier.xaml.cs">
+      <DependentUpon>LogNotifier.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\LogVisual.xaml.cs">
+      <DependentUpon>LogVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\SettingsVisual.xaml.cs">
+      <DependentUpon>SettingsVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\SideBarVisual.xaml.cs">
+      <DependentUpon>SideBarVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\TextVisual.xaml.cs">
+      <DependentUpon>TextVisual.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\CryptoLineView.xaml.cs">
       <DependentUpon>CryptoLineView.xaml</DependentUpon>
@@ -196,57 +196,57 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\BinVisual\BinConnectorVisual.xaml">
+    <Page Include="View\BinVisual\ComponentVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BinVisual\BinDataVisual.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BinVisual\BinEditorVisual.xaml">
+    <Page Include="View\BinVisual\ConnectorVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BinVisual\BinComponentVisual.xaml">
+    <Page Include="View\BinVisual\DataVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BinVisual\BinFullscreenVisual.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\BinVisual\EditorVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BinVisual\BinLogNotifier.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\BinVisual\FullscreenVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BinVisual\BinSideBarVisual.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BinVisual\BinTextVisual.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\IControlVisual\BinIControlVisual.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BinVisual\BinLogVisual.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BinVisual\BinSettingsVisual.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\BinVisual\BinImageVisual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\IControlVisual\Slot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\ImageVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\LogNotifier.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\LogVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\SettingsVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\SideBarVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\TextVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\VisualComponents\CryptoLineView\CryptoLineView.xaml">
       <SubType>Designer</SubType>

@@ -28,22 +28,22 @@ using System.Collections.Specialized;
 
 
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
-    public partial class BinSettingsVisual : UserControl
+    public partial class SettingsVisual : UserControl
     {
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         private readonly Thickness CONTROL_DEFAULT_MARGIN = new Thickness(4, 0, 0, 0);
         private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
         private IPlugin plugin;
         private EntryGroup entgrou;
-        private BinComponentVisual bcv;
+        private ComponentVisual bcv;
         private TabControl tbC;
         public String myConnectorName;
         public Boolean noSettings;
         private Boolean isSideBar;
 
-        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
+        public SettingsVisual(IPlugin plugin, ComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
         {
             this.Loaded += new RoutedEventHandler(BinSettingsVisual_Loaded);
 
@@ -179,7 +179,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (vtbI.Uid == master.ConnectorModel.PropertyName)
                     {
 
-                        vtbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false, isSideBar);
+                        vtbI.Content = new SettingsVisual(master.PluginModel.Plugin, bcv, false, isSideBar);
                         vtbI.Header = master.PluginModel.GetName();
                         b = false;
                     }
@@ -189,7 +189,7 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     TabItem tbI = new TabItem();
                     tbI.Uid = master.ConnectorModel.PropertyName;
-                    tbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false,isSideBar);
+                    tbI.Content = new SettingsVisual(master.PluginModel.Plugin, bcv, false,isSideBar);
                     tbI.Header = master.PluginModel.GetName();
                     tbC.Items.Add(tbI);
                 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
-using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Visuals;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
 using WorkspaceManager.View.Base.Interfaces;
 
@@ -119,7 +119,7 @@ namespace WorkspaceManager.View.VisualComponents
                         maxWidth = maxWidth < left ? left : maxWidth;
                         maxHeight = maxHeight < top ? top : maxHeight;
 
-                        if (element is BinTextVisual || element is BinImageVisual)
+                        if (element is TextVisual || element is ImageVisual)
                             Canvas.SetZIndex(element, -2);
                     }
                     else

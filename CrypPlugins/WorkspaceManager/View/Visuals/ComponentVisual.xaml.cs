@@ -25,13 +25,13 @@ using Cryptool.PluginBase;
 using System.Windows.Threading;
 using System.Threading;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinFunctionVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinComponentVisual : UserControl, IRouting, IZOrdering, INotifyPropertyChanged, IUpdateableView
+    public partial class ComponentVisual : UserControl, IRouting, IZOrdering, INotifyPropertyChanged, IUpdateableView
     {
 
         #region events
@@ -113,10 +113,10 @@ namespace WorkspaceManager.View.BinVisual
          #region Properties
         public Queue<Log> ErrorsTillReset { private set; get; }
         public ThumHack HackThumb = new ThumHack();
-        public BinEditorVisual EditorVisual { private set; get; }
+        public EditorVisual EditorVisual { private set; get; }
 
         public Vector Delta { private set; get; }
-        public BinEditorVisual Editor { private set; get; }
+        public EditorVisual Editor { private set; get; }
 
         public bool HasComponentPresentation
         {
@@ -196,20 +196,20 @@ namespace WorkspaceManager.View.BinVisual
         private ObservableCollection<IControlMasterElement> iControlCollection = new ObservableCollection<IControlMasterElement>();
         public ObservableCollection<IControlMasterElement> IControlCollection { get { return iControlCollection; } }
 
-        private ObservableCollection<BinConnectorVisual> connectorCollection = new ObservableCollection<BinConnectorVisual>();
-        public ObservableCollection<BinConnectorVisual> ConnectorCollection { get { return connectorCollection; } }
+        private ObservableCollection<ConnectorVisual> connectorCollection = new ObservableCollection<ConnectorVisual>();
+        public ObservableCollection<ConnectorVisual> ConnectorCollection { get { return connectorCollection; } }
 
-        private ObservableCollection<BinConnectorVisual> southConnectorCollection = new ObservableCollection<BinConnectorVisual>();
-        public ObservableCollection<BinConnectorVisual> SouthConnectorCollection { get { return southConnectorCollection; } }
+        private ObservableCollection<ConnectorVisual> southConnectorCollection = new ObservableCollection<ConnectorVisual>();
+        public ObservableCollection<ConnectorVisual> SouthConnectorCollection { get { return southConnectorCollection; } }
 
-        private ObservableCollection<BinConnectorVisual> northConnectorCollection = new ObservableCollection<BinConnectorVisual>();
-        public ObservableCollection<BinConnectorVisual> NorthConnectorCollection { get { return northConnectorCollection; } }
+        private ObservableCollection<ConnectorVisual> northConnectorCollection = new ObservableCollection<ConnectorVisual>();
+        public ObservableCollection<ConnectorVisual> NorthConnectorCollection { get { return northConnectorCollection; } }
 
-        private ObservableCollection<BinConnectorVisual> eastConnectorCollection = new ObservableCollection<BinConnectorVisual>();
-        public ObservableCollection<BinConnectorVisual> EastConnectorCollection { get { return eastConnectorCollection; } }
+        private ObservableCollection<ConnectorVisual> eastConnectorCollection = new ObservableCollection<ConnectorVisual>();
+        public ObservableCollection<ConnectorVisual> EastConnectorCollection { get { return eastConnectorCollection; } }
 
-        private ObservableCollection<BinConnectorVisual> westConnectorCollection = new ObservableCollection<BinConnectorVisual>();
-        public ObservableCollection<BinConnectorVisual> WestConnectorCollection { get { return westConnectorCollection; } }
+        private ObservableCollection<ConnectorVisual> westConnectorCollection = new ObservableCollection<ConnectorVisual>();
+        public ObservableCollection<ConnectorVisual> WestConnectorCollection { get { return westConnectorCollection; } }
 
         private ObservableCollection<Log> logMessages = new ObservableCollection<Log>();
         public ObservableCollection<Log> LogMessages { get { return logMessages; } }
@@ -219,7 +219,7 @@ namespace WorkspaceManager.View.BinVisual
         #region DependencyProperties
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
-            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
 
         public bool IsSelected
         {
@@ -230,12 +230,12 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty LogNotifierProperty = DependencyProperty.Register("LogNotifier", typeof(BinLogNotifier),
-            typeof(BinComponentVisual), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty LogNotifierProperty = DependencyProperty.Register("LogNotifier", typeof(LogNotifierVisual),
+            typeof(ComponentVisual), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        public BinLogNotifier LogNotifier
+        public LogNotifierVisual LogNotifier
         {
-            get { return (BinLogNotifier)base.GetValue(LogNotifierProperty); }
+            get { return (LogNotifierVisual)base.GetValue(LogNotifierProperty); }
             set
             {
                 base.SetValue(LogNotifierProperty, value);
@@ -243,7 +243,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsConnectorDragStartedProperty = DependencyProperty.Register("IsConnectorDragStarted", typeof(bool),
-            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+            typeof(ComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public bool IsConnectorDragStarted
         {
@@ -255,7 +255,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsDraggingProperty = DependencyProperty.Register("IsDragging", typeof(bool),
-            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure,
+            typeof(ComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure,
                 new PropertyChangedCallback(OnIsDraggingChanged)));
 
         public bool IsDragging
@@ -268,7 +268,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
-            typeof(BinComponentState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(BinComponentState.Min, new PropertyChangedCallback(OnStateValueChanged)));
+            typeof(BinComponentState), typeof(ComponentVisual), new FrameworkPropertyMetadata(BinComponentState.Min, new PropertyChangedCallback(OnStateValueChanged)));
 
         public BinComponentState State
         {
@@ -283,7 +283,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty InternalStateProperty = DependencyProperty.Register("InternalState",
-            typeof(PluginModelState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(PluginModelState.Normal));
+            typeof(PluginModelState), typeof(ComponentVisual), new FrameworkPropertyMetadata(PluginModelState.Normal));
 
         public PluginModelState InternalState
         {
@@ -298,10 +298,10 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
-            typeof(Point), typeof(BinComponentVisual), new FrameworkPropertyMetadata(new Point(0, 0)));
+            typeof(Point), typeof(ComponentVisual), new FrameworkPropertyMetadata(new Point(0, 0)));
 
         public static readonly DependencyProperty IsFullscreenProperty = DependencyProperty.Register("IsFullscreen",
-                typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenChanged)));
+                typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenChanged)));
 
         public bool IsFullscreen
         {
@@ -316,7 +316,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsICPopUpOpenProperty = DependencyProperty.Register("IsICPopUpOpen",
-        typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+        typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsICPopUpOpen
         {
@@ -331,7 +331,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsErrorDisplayVisibleProperty = DependencyProperty.Register("IsErrorDisplayVisible",
-            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsErrorDisplayVisible
         {
@@ -346,7 +346,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsRepeatableProperty = DependencyProperty.Register("IsRepeatable",
-            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsRepeatable
         {
@@ -361,7 +361,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty RepeatProperty = DependencyProperty.Register("Repeat",
-            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false));
 
         public bool Repeat
         {
@@ -377,7 +377,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty CustomNameProperty = DependencyProperty.Register("CustomName",
-            typeof(string), typeof(BinComponentVisual), new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback(OnCustomNameChanged)));
+            typeof(string), typeof(ComponentVisual), new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback(OnCustomNameChanged)));
 
         public string CustomName
         {
@@ -392,7 +392,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsICMasterProperty = DependencyProperty.Register("IsICMaster",
-            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsICMaster
         {
@@ -407,7 +407,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowHeightProperty = DependencyProperty.Register("WindowHeight",
-            typeof(double), typeof(BinComponentVisual), new FrameworkPropertyMetadata(double.Epsilon));
+            typeof(double), typeof(ComponentVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
         public double WindowHeight
         {
@@ -425,7 +425,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowWidthProperty = DependencyProperty.Register("WindowWidth",
-            typeof(double), typeof(BinComponentVisual), new FrameworkPropertyMetadata(double.Epsilon));
+            typeof(double), typeof(ComponentVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
         public double WindowWidth
         {
@@ -443,7 +443,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress",
-            typeof(double), typeof(BinComponentVisual), new FrameworkPropertyMetadata((double)0));
+            typeof(double), typeof(ComponentVisual), new FrameworkPropertyMetadata((double)0));
 
         public double Progress
         {
@@ -458,7 +458,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register("FunctionName",
-            typeof(string), typeof(BinComponentVisual), new FrameworkPropertyMetadata(string.Empty));
+            typeof(string), typeof(ComponentVisual), new FrameworkPropertyMetadata(string.Empty));
 
         public string FunctionName
         {
@@ -473,7 +473,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty BackgroundBrushColorProperty = DependencyProperty.Register("BackgroundBrushColor",
-typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+typeof(SolidColorBrush), typeof(ComponentVisual), new FrameworkPropertyMetadata(null));
 
         public SolidColorBrush BackgroundBrushColor
         {
@@ -488,7 +488,7 @@ typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetada
         }
 
         public static readonly DependencyProperty BorderBrushColorProperty = DependencyProperty.Register("BorderBrushColor",
-    typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+    typeof(SolidColorBrush), typeof(ComponentVisual), new FrameworkPropertyMetadata(null));
 
         public SolidColorBrush BorderBrushColor
         {
@@ -503,13 +503,13 @@ typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetada
         }
 
         public static readonly DependencyProperty SideBarSettingProperty = DependencyProperty.Register("SideBarSetting",
-typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(null));
 
-        public BinSettingsVisual SideBarSetting
+        public SettingsVisual SideBarSetting
         {
             get
             {
-                return (BinSettingsVisual)base.GetValue(SideBarSettingProperty);
+                return (SettingsVisual)base.GetValue(SideBarSettingProperty);
             }
             set
             {
@@ -519,19 +519,19 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         #endregion
 
         #region Constructors
-        public BinComponentVisual(PluginModel model)
+        public ComponentVisual(PluginModel model)
         {
             Model = model;
             Model.UpdateableView = this;
-            Editor = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
+            Editor = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
-            SideBarSetting = new BinSettingsVisual(Model.Plugin, this, true,true);
-            EditorVisual = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
+            SideBarSetting = new SettingsVisual(Model.Plugin, this, true,true);
+            EditorVisual = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
-            Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
-            Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
-            BinSettingsVisual bsv = new BinSettingsVisual(Model.Plugin, this, true,false);
+            Presentations.Add(BinComponentState.Data, new DataVisual(ConnectorCollection));
+            Presentations.Add(BinComponentState.Log, new LogVisual(this));
+            SettingsVisual bsv = new SettingsVisual(Model.Plugin, this, true,false);
             if(!bsv.noSettings)
             Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
             
@@ -593,7 +593,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             }
 
             SouthConnectorCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(SouthConnectorCollectionCollectionChanged);
-            LogNotifier = new BinLogNotifier(LogMessages, this);
+            LogNotifier = new LogNotifierVisual(LogMessages, this);
             LogNotifier.ErrorMessagesOccured += new EventHandler<ErrorMessagesOccuredArgs>(LogNotifierErrorMessagesOccuredHandler);
             //LogMessages.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogMessagesCollectionChanged);
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
@@ -605,7 +605,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             FunctionName = Model.Plugin.GetPluginInfoAttribute().Caption;
             CustomName = Model.GetName();
             IsICMaster = Model.HasIControlInputs();
-            SetBinding(BinComponentVisual.IsDraggingProperty,
+            SetBinding(ComponentVisual.IsDraggingProperty,
                 Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
         }
@@ -658,12 +658,12 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private void addConnectorView(ConnectorModel model)
         {
-            BinConnectorVisual bin = new BinConnectorVisual(model, this);
+            ConnectorVisual bin = new ConnectorVisual(model, this);
 
             Binding bind = new Binding();
-            bind.Path = new PropertyPath(BinEditorVisual.IsLinkingProperty);
+            bind.Path = new PropertyPath(EditorVisual.IsLinkingProperty);
             bind.Source = EditorVisual;
-            bin.SetBinding(BinConnectorVisual.IsLinkingProperty, bind);
+            bin.SetBinding(ConnectorVisual.IsLinkingProperty, bind);
 
             switch (model.Orientation)
             {
@@ -718,7 +718,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
                 try
                 {
                     ItemsControl items = (ItemsControl)sender;
-                    BinConnectorVisual connector = (BinConnectorVisual)e.Data.GetData("BinConnector");
+                    ConnectorVisual connector = (ConnectorVisual)e.Data.GetData("BinConnector");
 
                     if (connector.WindowParent != this)
                         return;
@@ -865,7 +865,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinComponentVisual bin = (BinComponentVisual)d;
+            ComponentVisual bin = (ComponentVisual)d;
             bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
             bin.OnPropertyChanged("ActivePresentation");
@@ -881,7 +881,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private static void OnIsDraggingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinComponentVisual bin = (BinComponentVisual)d;
+            ComponentVisual bin = (ComponentVisual)d;
             if (bin.IsDraggingChanged != null)
                 bin.IsDraggingChanged.Invoke(bin, new IsDraggingChangedArgs() { IsDragging= bin.IsDragging });
             
@@ -889,7 +889,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinComponentVisual bin = (BinComponentVisual)d;
+            ComponentVisual bin = (ComponentVisual)d;
 
             if (bin.IsFullscreen)
                 bin.FullScreenState = bin.State;
@@ -901,12 +901,12 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinComponentVisual bin = (BinComponentVisual)d;
+            ComponentVisual bin = (ComponentVisual)d;
         }
 
         private static void OnCustomNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinComponentVisual bin = (BinComponentVisual)d;
+            ComponentVisual bin = (ComponentVisual)d;
             bin.Model.WorkspaceModel.ModifyModel(new RenameModelElementOperation(bin.Model, (string)e.NewValue));
             /*if (bin.Model.WorkspaceModel.MyEditor != null)
             {
@@ -1208,8 +1208,8 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
         {
-            BinConnectorVisual cNew = visualAdded as BinConnectorVisual;
-            BinConnectorVisual cOld = visualRemoved as BinConnectorVisual;
+            ConnectorVisual cNew = visualAdded as ConnectorVisual;
+            ConnectorVisual cOld = visualRemoved as ConnectorVisual;
 
             if (cNew != null)
             {
@@ -1233,9 +1233,9 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private void update()
         {
-            IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
+            IEnumerable<ConnectorVisual> filter = Children.OfType<ConnectorVisual>();
 
-            foreach (BinConnectorVisual child in filter)
+            foreach (ConnectorVisual child in filter)
             {
                 child.RaiseUpdate();
             }
@@ -1245,9 +1245,9 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         {
             Size resultSize = new Size(0, 0);
 
-            IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
+            IEnumerable<ConnectorVisual> filter = Children.OfType<ConnectorVisual>();
 
-            foreach (BinConnectorVisual child in filter)
+            foreach (ConnectorVisual child in filter)
             {
                 switch (PanelOrientation)
                 {
@@ -1313,8 +1313,8 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
             double currentX = 0, currentY = 0, currentHeight = 0, currentWidth = 0;
 
-            IEnumerable<BinConnectorVisual> filter = Children.OfType<BinConnectorVisual>();
-            foreach (BinConnectorVisual child in filter)
+            IEnumerable<ConnectorVisual> filter = Children.OfType<ConnectorVisual>();
+            foreach (ConnectorVisual child in filter)
             {
                 if (Orientation == System.Windows.Controls.Orientation.Vertical)
                 {

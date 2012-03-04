@@ -34,7 +34,7 @@ using System.Printing;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Collections.ObjectModel;
-using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Visuals;
 using WorkspaceManager.View.Base;
 using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
@@ -61,12 +61,12 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManagerClass()
         {
-            this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();
+            this.SelectedPluginsList = new ObservableCollection<ComponentVisual>();
             Settings = new WorkspaceManagerSettings(this);
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
-            WorkspaceSpaceEditorView = new BinEditorVisual(WorkspaceModel);
+            WorkspaceSpaceEditorView = new EditorVisual(WorkspaceModel);
             WorkspaceSpaceEditorView.SampleLoaded += new EventHandler(WorkspaceSpaceEditorView_SampleLoaded);
         }
 
@@ -79,7 +79,7 @@ namespace WorkspaceManager
         #region private Members
 
         private WorkspaceModel WorkspaceModel = null;
-        private BinEditorVisual WorkspaceSpaceEditorView = null;
+        private EditorVisual WorkspaceSpaceEditorView = null;
         public ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
 
@@ -283,13 +283,13 @@ namespace WorkspaceManager
 
         public void Remove()
         {
-            BinEditorVisual editor = (BinEditorVisual)Presentation;
+            EditorVisual editor = (EditorVisual)Presentation;
             if (editor.Model != null && !isExecuting() && editor.SelectedItems != null)
             {
                 foreach (var item in editor.SelectedItems)
                 {
-                    if (item is BinComponentVisual)
-                        editor.Model.ModifyModel(new DeletePluginModelOperation(((BinComponentVisual)item).Model));
+                    if (item is ComponentVisual)
+                        editor.Model.ModifyModel(new DeletePluginModelOperation(((ComponentVisual)item).Model));
 
                     if (item is CryptoLineView)
                         editor.Model.ModifyModel(new DeleteConnectionModelOperation(((CryptoLineView)item).Model));
@@ -306,7 +306,7 @@ namespace WorkspaceManager
                 double dy = m.M22 * 96;
                 this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
                 const int factor = 4;
-                UIElement control = (UIElement)((BinEditorVisual)this.Presentation).ScrollViewer.Content;
+                UIElement control = (UIElement)((EditorVisual)this.Presentation).ScrollViewer.Content;
                 PrintDialog dialog = new PrintDialog();
                 dialog.PageRangeSelection = PageRangeSelection.AllPages;
                 dialog.UserPageRangeEnabled = true;
@@ -369,9 +369,9 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            if (((BinEditorVisual)Presentation).SelectedItems != null && ((BinEditorVisual)Presentation).SelectedItems[0] is BinComponentVisual)
+            if (((EditorVisual)Presentation).SelectedItems != null && ((EditorVisual)Presentation).SelectedItems[0] is ComponentVisual)
             {
-                var element = (BinComponentVisual)((BinEditorVisual)Presentation).SelectedItems[0];
+                var element = (ComponentVisual)((EditorVisual)Presentation).SelectedItems[0];
                 OnlineHelp.InvokeShowPluginDocPage(element.Model.PluginType);
             }
             else
@@ -459,7 +459,7 @@ namespace WorkspaceManager
         {
             get
             {
-                return ((BinEditorVisual)Presentation).IsLoading == true || executing ? false : true;
+                return ((EditorVisual)Presentation).IsLoading == true || executing ? false : true;
             }
         }
 
@@ -527,7 +527,7 @@ namespace WorkspaceManager
         public System.Windows.Controls.UserControl Presentation
         {
             get { return WorkspaceSpaceEditorView; }
-            set { WorkspaceSpaceEditorView = (BinEditorVisual)value; }
+            set { WorkspaceSpaceEditorView = (EditorVisual)value; }
         }
 
         /// <summary>
@@ -849,12 +849,12 @@ namespace WorkspaceManager
 
         #endregion
 
-        private ObservableCollection<BinComponentVisual> selectedPluginsList;
+        private ObservableCollection<ComponentVisual> selectedPluginsList;
 
         /// <summary>
         /// Selected Collection of Plugin's
         /// </summary> 
-        public ObservableCollection<BinComponentVisual> SelectedPluginsList
+        public ObservableCollection<ComponentVisual> SelectedPluginsList
         {
             get
             {
@@ -872,7 +872,7 @@ namespace WorkspaceManager
 
         public void AddText()
         {
-            ((BinEditorVisual)Presentation).AddText();
+            ((EditorVisual)Presentation).AddText();
         }
 
         public void AddImage()
@@ -881,7 +881,7 @@ namespace WorkspaceManager
             if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Uri uriLocal = new Uri(diag.FileName);
-                ((BinEditorVisual)Presentation).AddImage(uriLocal);
+                ((EditorVisual)Presentation).AddImage(uriLocal);
             }
         }
     }

@@ -17,7 +17,7 @@ using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.Model;
 using System.Collections.ObjectModel;
 
-namespace WorkspaceManager.View.BinVisual.IControlVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for Slot.xaml

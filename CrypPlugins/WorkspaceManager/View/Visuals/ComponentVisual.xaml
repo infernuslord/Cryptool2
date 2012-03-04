@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinComponentVisual"
+﻿<UserControl x:Class="WorkspaceManager.View.Visuals.ComponentVisual"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:state="clr-namespace:WorkspaceManager.View.Base"
-             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
-             xmlns:ic="clr-namespace:WorkspaceManager.View.BinVisual.IControlVisual"
+             xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
+             xmlns:ic="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:dragdrop="clr-namespace:DragDropListBox"
-             xmlns:bin="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:bin="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
@@ -835,8 +835,8 @@
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}" IsSelected="{Binding Path=IsSelected}"
                              Grid.Row="2"></local:CustomTextBox>
         <!--##########/Name##########-->
-        <ic:BinIControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 
-                              PlacementTarget="{Binding ElementName=OperationsItemsControl}" Placement="Top"></ic:BinIControlVisual>
+        <ic:IControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 
+                              PlacementTarget="{Binding ElementName=OperationsItemsControl}" Placement="Top"></ic:IControlVisual>
         
         <!-- <local:BinLogPopup PlacementTarget="{Binding ElementName=Window}" 
                            Placement="Center" IsOpen="{Binding Path=IsLogPopupOpen, Mode= TwoWay}"></local:BinLogPopup>-->

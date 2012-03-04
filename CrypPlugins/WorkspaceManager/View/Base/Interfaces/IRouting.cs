@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Visuals;
 
 namespace WorkspaceManager.View.Base.Interfaces
 {
