@@ -16,13 +16,13 @@ using WorkspaceManager.View.Base;
 using System.ComponentModel;
 using WorkspaceManager.Model;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinFullscreenVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinFullscreenVisual : UserControl, INotifyPropertyChanged
+    public partial class FullscreenVisual : UserControl, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -96,8 +96,8 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private BinComponentVisual lastActiveComponent;
-        public BinComponentVisual LastActiveComponent
+        private ComponentVisual lastActiveComponent;
+        public ComponentVisual LastActiveComponent
         {
             set
             {
@@ -113,13 +113,13 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
         public static readonly DependencyProperty ComponentCollectionProperty = DependencyProperty.Register("ComponentCollection",
-            typeof(ObservableCollection<BinComponentVisual>), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(null, null));
+            typeof(ObservableCollection<ComponentVisual>), typeof(FullscreenVisual), new FrameworkPropertyMetadata(null, null));
 
-        public ObservableCollection<BinComponentVisual> ComponentCollection
+        public ObservableCollection<ComponentVisual> ComponentCollection
         {
             get
             {
-                return (ObservableCollection<BinComponentVisual>)base.GetValue(ComponentCollectionProperty);
+                return (ObservableCollection<ComponentVisual>)base.GetValue(ComponentCollectionProperty);
             }
             set
             {
@@ -128,13 +128,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty ActiveComponentProperty = DependencyProperty.Register("ActiveComponent",
-            typeof(BinComponentVisual), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnActiveComponentChanged)));
+            typeof(ComponentVisual), typeof(FullscreenVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnActiveComponentChanged)));
 
-        public BinComponentVisual ActiveComponent
+        public ComponentVisual ActiveComponent
         {
             get
             {
-                return (BinComponentVisual)base.GetValue(ActiveComponentProperty);
+                return (ComponentVisual)base.GetValue(ActiveComponentProperty);
             }
             set
             {
@@ -158,7 +158,7 @@ namespace WorkspaceManager.View.BinVisual
         //}
 
         public static readonly DependencyProperty IsFullscreenOpenProperty = DependencyProperty.Register("IsFullscreenOpen",
-            typeof(bool), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenOpenChanged)));
+            typeof(bool), typeof(FullscreenVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenOpenChanged)));
 
 
         public bool IsFullscreenOpen
@@ -175,7 +175,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructors
-        public BinFullscreenVisual()
+        public FullscreenVisual()
         {
             InitializeComponent();
         }
@@ -222,9 +222,9 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnActiveComponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinFullscreenVisual f = (BinFullscreenVisual)d;
-            BinComponentVisual newBin = (BinComponentVisual)e.NewValue;
-            BinComponentVisual oldBin = (BinComponentVisual)e.OldValue;
+            FullscreenVisual f = (FullscreenVisual)d;
+            ComponentVisual newBin = (ComponentVisual)e.NewValue;
+            ComponentVisual oldBin = (ComponentVisual)e.OldValue;
             if (newBin != null)
             {
                 newBin.IsFullscreen = true;
@@ -244,7 +244,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnIsFullscreenOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinFullscreenVisual f = (BinFullscreenVisual)d;
+            FullscreenVisual f = (FullscreenVisual)d;
             if ((bool)e.NewValue)
             {
                 if(f.LastActiveComponent != null)

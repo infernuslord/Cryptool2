@@ -25,20 +25,20 @@ using System.Windows;
 using System.Windows.Input;
 using System.Reflection;
 using Cryptool.Core;
-using WorkspaceManager.View.BinVisual.IControlVisual;
 using System.Windows.Data;
 using WorkspaceManager.Base.Sort;
 using System.Windows.Controls.Primitives;
 using WorkspaceManager.View.Base.Interfaces;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
+using WorkspaceManager.View.Visuals;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinEditorVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinEditorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
+    public partial class EditorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,7 +50,7 @@ namespace WorkspaceManager.View.BinVisual
         private ModifiedCanvas panel;
         private Window window;
         private ArevaloRectanglePacker packer;
-        private BinConnectorVisual from, to;
+        private ConnectorVisual from, to;
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
         private bool startedSelection;
         private CryptoLineView draggedLink;
@@ -82,7 +82,7 @@ namespace WorkspaceManager.View.BinVisual
 
         public WorkspaceManagerClass MyEditor { get; private set; }
 
-        public BinFullscreenVisual FullscreenVisual { get { return (BinFullscreenVisual)FullScreen.Content; } }
+        public FullscreenVisual FullscreenVisual { get { return (FullscreenVisual)FullScreen.Content; } }
 
         private ObservableCollection<UIElement> selectedItemsObservable = new ObservableCollection<UIElement>();
         public ObservableCollection<UIElement> SelectedItemsObservable { get { return selectedItemsObservable; } private set { selectedItemsObservable = value; } }
@@ -90,8 +90,8 @@ namespace WorkspaceManager.View.BinVisual
         private ObservableCollection<UIElement> visualCollection = new ObservableCollection<UIElement>();
         public ObservableCollection<UIElement> VisualCollection { get { return visualCollection; } private set { visualCollection = value; } }
 
-        private ObservableCollection<BinComponentVisual> componentCollection = new ObservableCollection<BinComponentVisual>();
-        public ObservableCollection<BinComponentVisual> ComponentCollection { get { return componentCollection; } private set { componentCollection = value; } }
+        private ObservableCollection<ComponentVisual> componentCollection = new ObservableCollection<ComponentVisual>();
+        public ObservableCollection<ComponentVisual> ComponentCollection { get { return componentCollection; } private set { componentCollection = value; } }
 
         private ObservableCollection<CryptoLineView> pathCollection = new ObservableCollection<CryptoLineView>();
         public ObservableCollection<CryptoLineView> PathCollection { get { return pathCollection; } private set { pathCollection = value; } }
@@ -100,7 +100,7 @@ namespace WorkspaceManager.View.BinVisual
         #region DependencyProperties
 
         public static readonly DependencyProperty IsSettingsOpenProperty = DependencyProperty.Register("IsSettingsOpen",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(true));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(true));
 
         public bool IsSettingsOpen
         {
@@ -112,7 +112,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, null));
 
         public bool IsLinking
         {
@@ -127,7 +127,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
-            typeof(BinEditorState), typeof(BinEditorVisual), new FrameworkPropertyMetadata(BinEditorState.READY, null));
+            typeof(BinEditorState), typeof(EditorVisual), new FrameworkPropertyMetadata(BinEditorState.READY, null));
 
         public BinEditorState State
         {
@@ -142,13 +142,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
-            typeof(BinConnectorVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, null));
+            typeof(ConnectorVisual), typeof(EditorVisual), new FrameworkPropertyMetadata(null, null));
 
-        public BinConnectorVisual SelectedConnector
+        public ConnectorVisual SelectedConnector
         {
             get
             {
-                return (BinConnectorVisual)base.GetValue(SelectedConnectorProperty);
+                return (ConnectorVisual)base.GetValue(SelectedConnectorProperty);
             }
             private set
             {
@@ -157,13 +157,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register("SelectedText",
-            typeof(BinTextVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedTextChanged));
+            typeof(TextVisual), typeof(EditorVisual), new FrameworkPropertyMetadata(null, OnSelectedTextChanged));
 
-        public BinTextVisual SelectedText
+        public TextVisual SelectedText
         {
             get
             {
-                return (BinTextVisual)base.GetValue(SelectedTextProperty);
+                return (TextVisual)base.GetValue(SelectedTextProperty);
             }
             set
             {
@@ -172,13 +172,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty SelectedImageProperty = DependencyProperty.Register("SelectedImage",
-            typeof(BinImageVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedImageChanged));
+            typeof(ImageVisual), typeof(EditorVisual), new FrameworkPropertyMetadata(null, OnSelectedImageChanged));
 
-        public BinImageVisual SelectedImage
+        public ImageVisual SelectedImage
         {
             get
             {
-                return (BinImageVisual)base.GetValue(SelectedImageProperty);
+                return (ImageVisual)base.GetValue(SelectedImageProperty);
             }
             set
             {
@@ -187,7 +187,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems",
-            typeof(UIElement[]), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
+            typeof(UIElement[]), typeof(EditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
 
         public UIElement[] SelectedItems
         {
@@ -202,7 +202,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register("IsLoading",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, OnIsLoadingChanged));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, OnIsLoadingChanged));
 
         public bool IsLoading
         {
@@ -217,7 +217,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsFullscreenOpenProperty = DependencyProperty.Register("IsFullscreenOpen",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, null));
 
 
         public bool IsFullscreenOpen
@@ -233,7 +233,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsExecutingProperty = DependencyProperty.Register("IsExecuting",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, null));
 
 
         public bool IsExecuting
@@ -249,7 +249,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty HasLoadingErrorProperty = DependencyProperty.Register("HasLoadingError",
-    typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+    typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, null));
 
         public bool HasLoadingError
         {
@@ -264,7 +264,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty LoadingErrorTextProperty = DependencyProperty.Register("LoadingErrorText",
-    typeof(string), typeof(BinEditorVisual), new FrameworkPropertyMetadata(string.Empty, null));
+    typeof(string), typeof(EditorVisual), new FrameworkPropertyMetadata(string.Empty, null));
 
         public string LoadingErrorText
         {
@@ -281,7 +281,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructors
-        public BinEditorVisual(WorkspaceModel model)
+        public EditorVisual(WorkspaceModel model)
         {
             Model = model;
             MyEditor = (WorkspaceManagerClass)Model.MyEditor;
@@ -302,13 +302,13 @@ namespace WorkspaceManager.View.BinVisual
             if (this.State != BinEditorState.READY)
                 return;
 
-            BinComponentVisual bin = new BinComponentVisual(pluginModel);
+            ComponentVisual bin = new ComponentVisual(pluginModel);
             Binding bind = new Binding();
-            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
+            bind.Path = new PropertyPath(EditorVisual.SelectedItemsProperty);
             bind.Source = this;
             bind.ConverterParameter = bin;
             bind.Converter = new SelectionChangedConverter();
-            bin.SetBinding(BinComponentVisual.IsSelectedProperty, bind);
+            bin.SetBinding(ComponentVisual.IsSelectedProperty, bind);
             bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
             VisualCollection.Add(bin);
 
@@ -377,21 +377,21 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (value == 0)
             {
-                foreach (BinComponentVisual b in ComponentCollection)
+                foreach (ComponentVisual b in ComponentCollection)
                     b.Progress = 0;
             }
 
             if (value == 1)
             {
-                foreach (BinComponentVisual b in ComponentCollection)
+                foreach (ComponentVisual b in ComponentCollection)
                     b.LogMessages.Clear();
             }
         }
 
         public void AddText()
         {
-            var bin = new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
-            VisualCollection.Add(new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
+            var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
+            VisualCollection.Add(new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
             SelectedText = bin;
         }
 
@@ -399,7 +399,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             try
             {
-                BinImageVisual bin = new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri)));
+                ImageVisual bin = new ImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri)));
                 VisualCollection.Add(bin);
             }
             catch(Exception e)
@@ -439,10 +439,10 @@ namespace WorkspaceManager.View.BinVisual
 
                     foreach (UIElement element in VisualCollection)
                     {
-                        BinComponentVisual bin = element as BinComponentVisual;
+                        ComponentVisual bin = element as ComponentVisual;
                         if (bin != null)
                         {
-                            foreach (BinConnectorVisual connector in bin.ConnectorCollection)
+                            foreach (ConnectorVisual connector in bin.ConnectorCollection)
                             {
                                 if (connModel.From == connector.Model)
                                     from = connector;
@@ -457,7 +457,7 @@ namespace WorkspaceManager.View.BinVisual
             
                 foreach(var img in m.GetAllImageModels())
                 {
-                    this.VisualCollection.Add(new BinImageVisual(img));
+                    this.VisualCollection.Add(new ImageVisual(img));
                 }
 
                 foreach(var txt in m.GetAllTextModels())
@@ -465,7 +465,7 @@ namespace WorkspaceManager.View.BinVisual
 
                     try
                     {
-                        this.VisualCollection.Add(new BinTextVisual(txt));
+                        this.VisualCollection.Add(new TextVisual(txt));
                     }
                     catch (Exception e)
                     {
@@ -481,14 +481,14 @@ namespace WorkspaceManager.View.BinVisual
             , null);
         }
 
-        private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
+        private void addConnection(ConnectorVisual source, ConnectorVisual target, ConnectionModel model)
         {
             if (this.State != BinEditorState.READY || source == null || target == null)
                 return;
 
             CryptoLineView link = new CryptoLineView(model, source, target, VisualCollection);
             Binding bind = new Binding();
-            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
+            bind.Path = new PropertyPath(EditorVisual.SelectedItemsProperty);
             bind.Source = this;
             bind.ConverterParameter = link;
             bind.Converter = new SelectionChangedConverter();
@@ -510,7 +510,7 @@ namespace WorkspaceManager.View.BinVisual
             return (double)random.Next(min, max);
         }
 
-        internal void SetFullscreen(BinComponentVisual bin, BinComponentState state)
+        internal void SetFullscreen(ComponentVisual bin, BinComponentState state)
         {
             FullscreenVisual.ActiveComponent = bin;
             bin.State = state;
@@ -641,7 +641,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinComponentVisual plugin = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    ComponentVisual plugin = (ComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                     if (!VisualCollection.Contains(plugin))
                         VisualCollection.Add(plugin);
                 }
@@ -651,7 +651,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
                 {
 
-                    BinImageVisual img = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    ImageVisual img = (ImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
                     if (!VisualCollection.Contains(img))
                         VisualCollection.Add(img);
                 }
@@ -660,7 +660,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((TextModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinTextVisual txt = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    TextVisual txt = (TextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
                     if (!VisualCollection.Contains(txt))
                         VisualCollection.Add(txt);
                 }
@@ -682,7 +682,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinComponentVisual bin = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    ComponentVisual bin = (ComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                     bin.Position = args.NewPosition;
                 }
             }
@@ -690,7 +690,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinImageVisual img = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    ImageVisual img = (ImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
                     img.Position = args.NewPosition;
                 }
             }
@@ -698,7 +698,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((TextModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinTextVisual txt = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    TextVisual txt = (TextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
                     txt.Position = args.NewPosition;
                 }
             }
@@ -720,7 +720,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinComponentVisual pluginContainerView = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    ComponentVisual pluginContainerView = (ComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                     pluginContainerView.WindowWidth = args.NewWidth;
                     pluginContainerView.WindowHeight = args.NewHeight;
                 }
@@ -729,7 +729,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinImageVisual imgWrapper = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    ImageVisual imgWrapper = (ImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
                     imgWrapper.WindowWidth = args.NewWidth;
                     imgWrapper.WindowHeight = args.NewHeight;
                 }
@@ -738,7 +738,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((TextModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinTextVisual txtWrapper = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    TextVisual txtWrapper = (TextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
                     txtWrapper.WindowWidth = args.NewWidth;
                     txtWrapper.WindowHeight = args.NewHeight;
                 }
@@ -759,7 +759,7 @@ namespace WorkspaceManager.View.BinVisual
 
             if (args.EffectedModelElement is PluginModel)
             {
-                BinComponentVisual bin = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                ComponentVisual bin = (ComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                 bin.CustomName = args.NewName;
             }
         }
@@ -769,13 +769,13 @@ namespace WorkspaceManager.View.BinVisual
 
         private void ComponentPositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
         {
-            var b = (BinComponentVisual)sender;
+            var b = (ComponentVisual)sender;
             if (SelectedItems != null)
             {
                 var list = new List<Operation>();
-                foreach (var element in SelectedItems.OfType<BinComponentVisual>())
+                foreach (var element in SelectedItems.OfType<ComponentVisual>())
                 {
-                    var bin = (BinComponentVisual)element;
+                    var bin = (ComponentVisual)element;
                     list.Add(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
                 }
                 b.Model.WorkspaceModel.ModifyModel(new MultiOperation(list));
@@ -812,7 +812,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinEditorVisual b = (BinEditorVisual)d;
+            EditorVisual b = (EditorVisual)d;
             UIElement[] newItem = e.NewValue as UIElement[];
             UIElement[] oldItem = e.OldValue as UIElement[];
 
@@ -837,7 +837,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnIsLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinEditorVisual b = (BinEditorVisual)d;
+            EditorVisual b = (EditorVisual)d;
             bool newItem = (bool)e.NewValue;
             bool oldItem = (bool)e.OldValue;
             if(newItem)
@@ -848,9 +848,9 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnSelectedImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinEditorVisual b = (BinEditorVisual)d;
-            BinImageVisual newItem = e.NewValue as BinImageVisual;
-            BinImageVisual oldItem = e.OldValue as BinImageVisual;
+            EditorVisual b = (EditorVisual)d;
+            ImageVisual newItem = e.NewValue as ImageVisual;
+            ImageVisual oldItem = e.OldValue as ImageVisual;
 
             if (newItem != null)
                 newItem.IsSelected = true;
@@ -860,9 +860,9 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnSelectedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinEditorVisual b = (BinEditorVisual)d;
-            BinTextVisual newItem = e.NewValue as BinTextVisual;
-            BinTextVisual oldItem = e.OldValue as BinTextVisual;
+            EditorVisual b = (EditorVisual)d;
+            TextVisual newItem = e.NewValue as TextVisual;
+            TextVisual oldItem = e.OldValue as TextVisual;
 
             if(newItem != null)
                 newItem.IsSelected = true;
@@ -926,8 +926,8 @@ namespace WorkspaceManager.View.BinVisual
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems == null)
                         return;
-                    if (e.NewItems[0] is BinComponentVisual)
-                        ComponentCollection.Add(e.NewItems[0] as BinComponentVisual);
+                    if (e.NewItems[0] is ComponentVisual)
+                        ComponentCollection.Add(e.NewItems[0] as ComponentVisual);
 
                     if (e.NewItems[0] is CryptoLineView)
                         PathCollection.Add(e.NewItems[0] as CryptoLineView);
@@ -935,10 +935,10 @@ namespace WorkspaceManager.View.BinVisual
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems == null)
                         return;
-                    if (e.OldItems[0] is BinComponentVisual)
-                        ComponentCollection.Remove(e.OldItems[0] as BinComponentVisual);
+                    if (e.OldItems[0] is ComponentVisual)
+                        ComponentCollection.Remove(e.OldItems[0] as ComponentVisual);
 
-                    if (e.OldItems[0] is BinTextVisual)
+                    if (e.OldItems[0] is TextVisual)
                         this.SelectedText = null;
 
                     if (e.OldItems[0] is CryptoLineView)
@@ -995,20 +995,20 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual) && !(e.Source is CryptoLineView))
+            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual) && !(e.Source is CryptoLineView))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.ScrollAll;
                 e.Handled = true;
             }
 
-            if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
+            if (e.Source is ComponentVisual && e.OriginalSource is FrameworkElement)
             {
-                BinComponentVisual c = (BinComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
-                if (element is BinConnectorVisual)
+                ComponentVisual c = (ComponentVisual)e.Source;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
+                if (element is ConnectorVisual)
                 {
-                    BinConnectorVisual con = (BinConnectorVisual)element;
+                    ConnectorVisual con = (ConnectorVisual)element;
                     DataObject data = new DataObject("BinConnector", element);
                     DragDrop.AddQueryContinueDragHandler(this, QueryContinueDragHandler);
                     con.IsDragged = true;
@@ -1027,7 +1027,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual) && !(e.Source is CryptoLineView))
+            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual) && !(e.Source is CryptoLineView))
             {
                 window = Window.GetWindow(this);
                 setDragWindowHandle();
@@ -1039,24 +1039,24 @@ namespace WorkspaceManager.View.BinVisual
             switch(e.ClickCount)
             {
                 case 1:
-                    var result = Util.TryFindParent<BinIControlVisual>(e.OriginalSource as UIElement);
+                    var result = Util.TryFindParent<IControlVisual>(e.OriginalSource as UIElement);
                     if (result != null || e.Source is CryptoLineView)
                         return;
 
-                    if (e.Source is BinImageVisual || e.Source is BinTextVisual)
+                    if (e.Source is ImageVisual || e.Source is TextVisual)
                     {
-                        if (e.Source is BinImageVisual)
+                        if (e.Source is ImageVisual)
                         {
-                            BinImageVisual c = (BinImageVisual)e.Source;
+                            ImageVisual c = (ImageVisual)e.Source;
                             if (SelectedImage != c)
                                 SelectedImage = c;
                         }
                         else
                             SelectedImage = null;
 
-                        if (e.Source is BinTextVisual)
+                        if (e.Source is TextVisual)
                         {
-                            BinTextVisual c = (BinTextVisual)e.Source;
+                            TextVisual c = (TextVisual)e.Source;
                             if (SelectedText != c)
                                 SelectedText = c;
                         }
@@ -1068,13 +1068,13 @@ namespace WorkspaceManager.View.BinVisual
                     else
                     { SelectedText = null; SelectedImage = null; }
 
-                    if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
+                    if (e.Source is ComponentVisual && e.OriginalSource is FrameworkElement)
                     {
-                        BinComponentVisual c = (BinComponentVisual)e.Source;
-                        FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
-                        if ((element is BinConnectorVisual && !IsLinking && State == BinEditorState.READY))
+                        ComponentVisual c = (ComponentVisual)e.Source;
+                        FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
+                        if ((element is ConnectorVisual && !IsLinking && State == BinEditorState.READY))
                         {
-                            BinConnectorVisual b = element as BinConnectorVisual;
+                            ConnectorVisual b = element as ConnectorVisual;
                             SelectedConnector = b;
                             //draggedLink.SetBinding(CryptoLineView.IsLinkingProperty, new Binding() { Source = this, Path = new PropertyPath(BinEditorVisual.IsLinkingProperty) });
                             draggedLink.Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
@@ -1093,9 +1093,9 @@ namespace WorkspaceManager.View.BinVisual
                     break;
 
                 case 2:
-                    if (e.Source is BinComponentVisual)
+                    if (e.Source is ComponentVisual)
                     {
-                        BinComponentVisual c = (BinComponentVisual)e.Source;
+                        ComponentVisual c = (ComponentVisual)e.Source;
                         if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null ||
                             Util.TryFindParent<Thumb>(e.OriginalSource as UIElement) == null)
                         {
@@ -1176,13 +1176,13 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeftButtonUpHandler(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
+            if (e.Source is ComponentVisual && e.OriginalSource is FrameworkElement)
             {
-                BinComponentVisual c = (BinComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
-                if (element is BinConnectorVisual)
+                ComponentVisual c = (ComponentVisual)e.Source;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
+                if (element is ConnectorVisual)
                 {
-                    BinConnectorVisual b = (BinConnectorVisual)element;
+                    ConnectorVisual b = (ConnectorVisual)element;
                     if (IsLinking && SelectedConnector != null)
                     {
                         if (SelectedConnector.Model != null || b.Model != null)
@@ -1250,7 +1250,7 @@ namespace WorkspaceManager.View.BinVisual
             if (this.State != BinEditorState.READY)
                 return;
 
-            if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject") && !(e.Source is BinComponentVisual))
+            if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject") && !(e.Source is ComponentVisual))
             {
                 try
                 {

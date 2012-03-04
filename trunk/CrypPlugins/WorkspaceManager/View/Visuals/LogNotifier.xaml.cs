@@ -19,12 +19,12 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using WorkspaceManager.Model;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for BinLogNotifier.xaml
     /// </summary>
-    public partial class BinLogNotifier : UserControl, INotifyPropertyChanged
+    public partial class LogNotifierVisual : UserControl, INotifyPropertyChanged
     {
         #region Events
         public event EventHandler<ErrorMessagesOccuredArgs> ErrorMessagesOccured;
@@ -32,7 +32,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Properties
-        public BinComponentVisual Parent { get; private set; }
+        public ComponentVisual Parent { get; private set; }
         public BinComponentState CurrentState { get; private set; }
         public BinComponentState LastState { get; private set; }
         #endregion
@@ -69,7 +69,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructor
-        public BinLogNotifier(ObservableCollection<Log> Logs, BinComponentVisual Parent)
+        public LogNotifierVisual(ObservableCollection<Log> Logs, ComponentVisual Parent)
         {
             this.Parent = Parent;
             new ObservableCollection<Log>();
@@ -177,7 +177,7 @@ namespace WorkspaceManager.View.BinVisual
                 Parent.State = BinComponentState.Log;
 
                 UIElement element = Parent.Presentations[BinComponentState.Log];
-                BinLogVisual logVisual = (BinLogVisual)element;
+                LogVisual logVisual = (LogVisual)element;
                 logVisual.SelectedLogs = logsTillReset.Where(a => a.Level == border.NotificationLevel);
             }
         }

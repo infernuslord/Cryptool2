@@ -20,13 +20,13 @@ using WorkspaceManager.View.Base;
 using Cryptool.PluginBase;
 using WorkspaceManagerModel.Model.Tools;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinConnectorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
+    public partial class ConnectorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,7 +66,7 @@ namespace WorkspaceManager.View.BinVisual
         #region Dependency Properties
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
-            typeof(Point?), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnPositionChanged)));
+            typeof(Point?), typeof(ConnectorVisual), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnPositionChanged)));
 
         public Point? Position
         {
@@ -81,7 +81,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description",
-            typeof(string), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
+            typeof(string), typeof(ConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
 
         public string Description
         {
@@ -96,7 +96,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register("Caption",
-            typeof(string), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
+            typeof(string), typeof(ConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
 
         public string Caption
         {
@@ -111,7 +111,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model",
-            typeof(ConnectorModel), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnMyValueChanged)));
+            typeof(ConnectorModel), typeof(ConnectorVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnMyValueChanged)));
 
         public ConnectorModel Model
         {
@@ -127,7 +127,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsMandatoryProperty = DependencyProperty.Register("IsMandatory",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ConnectorVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsMandatory
         {
@@ -142,7 +142,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedChanged)));
+            typeof(bool), typeof(ConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedChanged)));
 
         public bool IsDragged
         {
@@ -157,7 +157,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsOutgoingProperty = DependencyProperty.Register("IsOutgoing",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(ConnectorVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsOutgoing
         {
@@ -172,7 +172,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty RotationAngleProperty = DependencyProperty.Register("RotationAngle",
-            typeof(double), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(double.Epsilon));
+            typeof(double), typeof(ConnectorVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
         public double RotationAngle
         {
@@ -187,7 +187,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty FunctionColorProperty = DependencyProperty.Register("FunctionColor",
-            typeof(SolidColorBrush), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(Brushes.Black));
+            typeof(SolidColorBrush), typeof(ConnectorVisual), new FrameworkPropertyMetadata(Brushes.Black));
 
         public SolidColorBrush FunctionColor
         {
@@ -202,7 +202,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register("Orientation",
-            typeof(ConnectorOrientation), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(ConnectorOrientation.Unset, new PropertyChangedCallback(OnOrientationChanged)));
+            typeof(ConnectorOrientation), typeof(ConnectorVisual), new FrameworkPropertyMetadata(ConnectorOrientation.Unset, new PropertyChangedCallback(OnOrientationChanged)));
 
         public ConnectorOrientation Orientation
         {
@@ -218,13 +218,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowParentProperty = DependencyProperty.Register("WindowParent",
-            typeof(BinComponentVisual), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null));
+            typeof(ComponentVisual), typeof(ConnectorVisual), new FrameworkPropertyMetadata(null));
 
-        public BinComponentVisual WindowParent
+        public ComponentVisual WindowParent
         {
             get
             {
-                return (BinComponentVisual)base.GetValue(WindowParentProperty);
+                return (ComponentVisual)base.GetValue(WindowParentProperty);
             }
             set
             {
@@ -233,7 +233,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty MarkedProperty = DependencyProperty.Register("Marked",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnMarkedValueChanged)));
+            typeof(bool), typeof(ConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnMarkedValueChanged)));
 
         public bool Marked
         {
@@ -248,7 +248,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty CVLevelProperty = DependencyProperty.Register("CVLevel",
-            typeof(ConversionLevelInformation), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null));
+            typeof(ConversionLevelInformation), typeof(ConnectorVisual), new FrameworkPropertyMetadata(null));
 
         public ConversionLevelInformation CVLevel
         {
@@ -263,7 +263,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsLinkingValueChanged)));
+            typeof(bool), typeof(ConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsLinkingValueChanged)));
 
         public bool IsLinking
         {
@@ -278,7 +278,7 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
-        public BinConnectorVisual(ConnectorModel model, BinComponentVisual component)
+        public ConnectorVisual(ConnectorModel model, ComponentVisual component)
         {
             // TODO: Complete member initialization
             this.Model = model;
@@ -294,8 +294,8 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnMarkedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
-            BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
+            ConnectorVisual bin = (ConnectorVisual)d;
+            ConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
 
             //if (selected == null)
             //    return;
@@ -308,7 +308,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnIsLinkingValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
 
             if (bin.IsLinking == false)
             {
@@ -316,7 +316,7 @@ namespace WorkspaceManager.View.BinVisual
                 return;
             }
 
-            BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
+            ConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
             ConnectorModel input, output;
             input = selected.Model.Outgoing == true ? bin.Model : selected.Model;
             output = selected.Model.Outgoing == false ? bin.Model : selected.Model;
@@ -335,7 +335,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
             bin.FunctionColor = new SolidColorBrush(ColorHelper.GetLineColor(bin.Model.ConnectorType));
             bin.IsMandatory = bin.Model.IsMandatory;
             bin.IsOutgoing = bin.Model.Outgoing;
@@ -346,13 +346,13 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
             //bin.Model.Orientation = bin.Orientation;
         }
 
         private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
             ConnectorOrientation oldO = (ConnectorOrientation)e.OldValue;
             ConnectorOrientation newO = (ConnectorOrientation)e.NewValue;
 
@@ -363,7 +363,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnIsDraggedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
             if (bin.Dragged != null)
                 bin.Dragged.Invoke(bin, new IsDraggedEventArgs() { IsDragged = bin.IsDragged });
 
@@ -394,7 +394,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnSelectedConnectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinConnectorVisual bin = (BinConnectorVisual)d;
+            ConnectorVisual bin = (ConnectorVisual)d;
         }
 
         public bool CanConnect
@@ -464,7 +464,7 @@ namespace WorkspaceManager.View.BinVisual
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            BinConnectorVisual connector = (BinConnectorVisual)parameter;
+            ConnectorVisual connector = (ConnectorVisual)parameter;
             Point p = connector.GetAbsolutePosition();
             switch (connector.Orientation)
             {

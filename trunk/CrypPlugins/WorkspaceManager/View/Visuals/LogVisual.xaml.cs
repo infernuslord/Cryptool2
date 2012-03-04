@@ -16,13 +16,13 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows.Controls.Primitives;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
     /// Interaction logic for LogPresentation.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinLogVisual : UserControl, INotifyPropertyChanged
+    public partial class LogVisual : UserControl, INotifyPropertyChanged
     {
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,7 +34,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
         public static readonly DependencyProperty LogMessagesProperty = DependencyProperty.Register("LogMessages",
-            typeof(ObservableCollection<Log>), typeof(BinLogVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnLogMessagesChanged)));
+            typeof(ObservableCollection<Log>), typeof(LogVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnLogMessagesChanged)));
 
         public ObservableCollection<Log> LogMessages
         {
@@ -110,14 +110,14 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public BinComponentVisual Parent { get; private set; }
+        public ComponentVisual Parent { get; private set; }
         #endregion
 
         #region constructors
-        public BinLogVisual(BinComponentVisual Parent)
+        public LogVisual(ComponentVisual Parent)
         {
             this.Parent = Parent;
-            SetBinding(BinLogVisual.LogMessagesProperty, new Binding() { Source = Parent.LogMessages });
+            SetBinding(LogVisual.LogMessagesProperty, new Binding() { Source = Parent.LogMessages });
             InitializeComponent();
         }
         #endregion
@@ -159,7 +159,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private static void OnLogMessagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinLogVisual l = (BinLogVisual)d;
+            LogVisual l = (LogVisual)d;
             ObservableCollection<Log> newCollection = (ObservableCollection<Log>)e.NewValue;
             ObservableCollection<Log> oldCollection = (ObservableCollection<Log>)e.OldValue;
 

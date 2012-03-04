@@ -11,29 +11,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorkspaceManagerModel.Model;
-using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.View.Base.Interfaces;
 
-namespace WorkspaceManager.View.BinVisual
+namespace WorkspaceManager.View.Visuals
 {
     /// <summary>
-    /// Interaction logic for BinWindowVisual.xaml
+    /// Interaction logic for BinTextVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinImageVisual : UserControl, IUpdateableView, IRouting
+    public partial class TextVisual : UserControl, IUpdateableView, IRouting
     {
         #region Properties
-        private ImageModel model;
-        public ImageModel Model { get { return model; } private set { model = value; Model.UpdateableView = this; } }
+        private TextModel model;
+        public TextModel Model { get { return model; } private set { model = value; Model.UpdateableView = this; } }
         #endregion
 
         #region DependencyProperties
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
-            typeof(bool), typeof(BinImageVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(TextVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsSelectedChanged)));
 
         public bool IsSelected
         {
@@ -45,7 +44,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowHeightProperty = DependencyProperty.Register("WindowHeight",
-            typeof(double), typeof(BinImageVisual), new FrameworkPropertyMetadata(double.Epsilon));
+            typeof(double), typeof(TextVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
         public double WindowHeight
         {
@@ -63,7 +62,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowWidthProperty = DependencyProperty.Register("WindowWidth",
-            typeof(double), typeof(BinImageVisual), new FrameworkPropertyMetadata(double.Epsilon));
+            typeof(double), typeof(TextVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
         public double WindowWidth
         {
@@ -81,7 +80,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
-            typeof(Point), typeof(BinImageVisual), new FrameworkPropertyMetadata(new Point(0, 0), new PropertyChangedCallback(OnPositionValueChanged)));
+            typeof(Point), typeof(TextVisual), new FrameworkPropertyMetadata(new Point(0, 0), new PropertyChangedCallback(OnPositionValueChanged)));
 
         public Point Position
         {
@@ -96,7 +95,7 @@ namespace WorkspaceManager.View.BinVisual
         } 
 
         public static readonly DependencyProperty IsLockedProperty = DependencyProperty.Register("IsLocked",
-            typeof(bool), typeof(BinImageVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(TextVisual), new FrameworkPropertyMetadata(false, null));
 
         public bool IsLocked
         {
@@ -111,7 +110,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowNameProperty = DependencyProperty.Register("WindowName",
-            typeof(string), typeof(BinImageVisual), new FrameworkPropertyMetadata( Properties.Resources.Enter_Name, null));
+            typeof(string), typeof(TextVisual), new FrameworkPropertyMetadata( Properties.Resources.Enter_Name, null));
 
         public string WindowName
         {
@@ -125,51 +124,44 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register("Source",
-            typeof(ImageSource), typeof(BinImageVisual), new FrameworkPropertyMetadata(null, null));
-
-        public ImageSource Source
-        {
-            get
-            {
-                return (ImageSource)base.GetValue(SourceProperty);
-            }
-            set
-            {
-                base.SetValue(SourceProperty, value);
-            }
-        } 
-
-
         #endregion
 
         #region Constructors
 
-        public BinImageVisual(ImageModel model)
+        public TextVisual(TextModel model)
         {
-            Model = model;
-            Source = Model.getImage().Source;
-            WindowWidth = Model.GetWidth();
-            WindowHeight = Model.GetHeight();
-            Position = Model.GetPosition();
-            Model.UpdateableView = this;
             InitializeComponent();
+            WindowWidth = model.GetWidth();
+            WindowHeight = model.GetHeight();
+            Position = model.GetPosition();
+            Model = model;
+            Model.loadRTB(mainRTB);
+            Model.UpdateableView = this;
         } 
         #endregion
 
         #region Event Handler
-
         private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            BinImageVisual bin = (BinImageVisual)d;
+            TextVisual bin = (TextVisual)d;
             if (bin.PositionDeltaChanged != null)
                 bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() { });
+
+        }
+
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TextVisual bin = (TextVisual)d;
+            bin.mainRTB.Focusable = bin.IsSelected;
+            if(bin.IsSelected)
+                bin.mainRTB.Focus();
         }
 
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
         {
-            Model.WorkspaceModel.ModifyModel(new DeleteImageModelOperation(Model));
+            Model.WorkspaceModel.ModifyModel(new DeleteTextModelOperation(Model));
         }
+
 
         private void LockHandler(object sender, RoutedEventArgs e)
         {
@@ -190,12 +182,17 @@ namespace WorkspaceManager.View.BinVisual
             Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
             Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, Position));
         }
-        #endregion
 
         public void update()
         {
-            throw new NotImplementedException();
+
         }
+
+        private void TextChangedHandler(object sender, TextChangedEventArgs e)
+        {
+            Model.saveRTB((RichTextBox)sender);
+        }
+        #endregion
 
         public ObjectSize ObjectSize
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Visuals;
 using System.Windows;
 using System.Windows.Media;
 using System.Runtime.InteropServices;
@@ -69,7 +69,7 @@ namespace WorkspaceManager.View.Base
             return VisualTreeHelper.GetParent(child);
         }
 
-        public static MultiBinding CreateConnectorBinding(BinConnectorVisual connectable, CryptoLineView link)
+        public static MultiBinding CreateConnectorBinding(ConnectorVisual connectable, CryptoLineView link)
         {
             MultiBinding multiBinding = new MultiBinding();
             multiBinding.Converter = new BinConnectorVisualBindingConverter();
@@ -77,7 +77,7 @@ namespace WorkspaceManager.View.Base
 
             Binding binding = new Binding();
             binding.Source = connectable.WindowParent;
-            binding.Path = new PropertyPath(BinComponentVisual.PositionProperty);
+            binding.Path = new PropertyPath(ComponentVisual.PositionProperty);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
@@ -107,7 +107,7 @@ namespace WorkspaceManager.View.Base
 
             binding = new Binding();
             binding.Source = connectable;
-            binding.Path = new PropertyPath(BinConnectorVisual.PositionProperty);
+            binding.Path = new PropertyPath(ConnectorVisual.PositionProperty);
             multiBinding.Bindings.Add(binding);
 
             return multiBinding;
@@ -132,14 +132,14 @@ namespace WorkspaceManager.View.Base
                 }
             }
 
-            if (valueType.IsArray && typeof(BinComponentVisual).IsAssignableFrom(valueType.GetElementType()))
+            if (valueType.IsArray && typeof(ComponentVisual).IsAssignableFrom(valueType.GetElementType()))
             {
 
-                foreach (var b in value.Cast<BinComponentVisual>())
+                foreach (var b in value.Cast<ComponentVisual>())
                 {
                     binding = new Binding();
                     binding.Source = b;
-                    binding.Path = new PropertyPath(BinComponentVisual.IsDraggingProperty);
+                    binding.Path = new PropertyPath(ComponentVisual.IsDraggingProperty);
                     multiBinding.Bindings.Add(binding);
                 }
             }
@@ -147,7 +147,7 @@ namespace WorkspaceManager.View.Base
             return multiBinding;
         }
 
-        public static Binding CreateMultiDraggingBinding(BinComponentVisual value, BinComponentVisual parameter)
+        public static Binding CreateMultiDraggingBinding(ComponentVisual value, ComponentVisual parameter)
         {
             Binding binding = new Binding();
 

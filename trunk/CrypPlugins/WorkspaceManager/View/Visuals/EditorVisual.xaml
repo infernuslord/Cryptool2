@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinEditorVisual"
+﻿<UserControl x:Class="WorkspaceManager.View.Visuals.EditorVisual"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:visuals="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
-             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
@@ -82,7 +82,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="SettingsPaneStyle"  TargetType="local:BinSideBarVisual">
+        <Style x:Key="SettingsPaneStyle"  TargetType="local:SideBarVisual">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSettingsOpen}" Value="True">
                     <Setter Property="Visibility" Value="Visible"></Setter>
@@ -141,16 +141,16 @@
         <!--##########Fullscreen##########-->
         <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="1" Grid.Column="0">
             <ContentPresenter.Content>
-                <local:BinFullscreenVisual 
+                <local:FullscreenVisual 
                     IsFullscreenOpen="{Binding Path=IsFullscreenOpen, Mode=TwoWay}" 
                     ComponentCollection="{Binding Path=ComponentCollection}">
-                </local:BinFullscreenVisual>
+                </local:FullscreenVisual>
             </ContentPresenter.Content>
         </ContentPresenter>
         <!--##########/Fullscreen##########-->
 
         <!--##########Fullscreen##########-->
-        <local:BinSideBarVisual x:Name="SideBar" Style="{StaticResource ResourceKey=SettingsPaneStyle}"  Grid.Column="1" Grid.Row="1"></local:BinSideBarVisual>
+        <local:SideBarVisual x:Name="SideBar" Style="{StaticResource ResourceKey=SettingsPaneStyle}"  Grid.Column="1" Grid.Row="1"></local:SideBarVisual>
         <GridSplitter Visibility="{Binding ElementName=SideBar, Path=Visibility}"  Grid.Column="0" Grid.Row="1" Background="Gray" Width="2"></GridSplitter>
         <!--##########/Fullscreen##########-->
 

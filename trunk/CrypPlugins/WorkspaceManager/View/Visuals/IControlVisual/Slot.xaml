@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.IControlVisual.Slot"
+﻿<UserControl x:Class="WorkspaceManager.View.Visuals.Slot"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual.IControlVisual"
+             xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
              mc:Ignorable="d" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">

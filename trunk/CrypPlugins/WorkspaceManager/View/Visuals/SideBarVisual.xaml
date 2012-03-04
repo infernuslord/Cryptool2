@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinSideBarVisual"
+﻿<UserControl x:Class="WorkspaceManager.View.Visuals.SideBarVisual"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
@@ -113,7 +113,7 @@
             </Setter>
             <Setter Property="ItemTemplate">
                 <Setter.Value>
-                    <DataTemplate DataType="{x:Type local:BinComponentVisual}">
+                    <DataTemplate DataType="{x:Type local:ComponentVisual}">
                         <Grid x:Name="Root">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -172,7 +172,7 @@
             </Setter>
             <Setter Property="ItemTemplate">
                 <Setter.Value>
-                    <DataTemplate DataType="{x:Type local:BinComponentVisual}">
+                    <DataTemplate DataType="{x:Type local:ComponentVisual}">
                         <Grid x:Name="Root">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
