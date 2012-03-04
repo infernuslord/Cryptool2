@@ -7,7 +7,7 @@
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Stretch">
+             d:DesignHeight="300" d:DesignWidth="100" HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -222,19 +222,29 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <LinearGradientBrush x:Key="BackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1" Opacity="1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#b1c7e9" Offset="0.0"/>
+                    <GradientStop Color="#e5e9f5" Offset="1.2"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
     </UserControl.Resources>
 
-    <Border Background="#d1dced" BorderThickness="1.5" BorderBrush="#aaa">
+    <Border BorderThickness="1.5" Background="{StaticResource ResourceKey=BackgroundLinearBrush}" BorderBrush="#aaa" Opacity="0.7">
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch">
             <StackPanel>
-                <StackPanel>
-                    <ListView Style="{StaticResource ResourceKey=SelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
-                                SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False">
-                        <ListView.LayoutTransform>
-                            <ScaleTransform ScaleX="1.1" ScaleY="1.1"></ScaleTransform>
-                        </ListView.LayoutTransform>
-                    </ListView>
-                </StackPanel>
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg-setting.png" Opacity="0.5" Stretch="Uniform"></ImageBrush>
+                </StackPanel.Background>
+                <TextBlock Text="Settings" Foreground="#555" FontFamily="David" FontSize="17" Margin="4"></TextBlock>
+                <ListView Style="{StaticResource ResourceKey=SelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
+                            SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False">
+                    <ListView.LayoutTransform>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"></ScaleTransform>
+                    </ListView.LayoutTransform>
+                </ListView>
                 <!--<StackPanel>
                     <TextBlock Text="Not Selected" FontWeight="Bold" FontSize="12" Foreground="#555" TextAlignment="Center"></TextBlock>
                     <ListView Style="{StaticResource ResourceKey=NotSelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
