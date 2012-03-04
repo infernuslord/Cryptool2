@@ -434,6 +434,9 @@
                         Converter={StaticResource ResourceKey=EnsureMinHeightConverter}, ConverterParameter=150}"></Setter>
                     <Setter Property="MinWidth" Value="{Binding Path=ActivePresentation.MinWidth,  
                         Converter={StaticResource ResourceKey=EnsureMinHeightConverter}, ConverterParameter=200}"></Setter>
+
+                    <Setter Property="MaxHeight" Value="{Binding Path=ActivePresentation.MaxHeight}"></Setter>
+                    <Setter Property="MaxWidth" Value="{Binding Path=ActivePresentation.MaxWidth}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Background" Value="{Binding Path=BackgroundBrushColor}"></Setter>
