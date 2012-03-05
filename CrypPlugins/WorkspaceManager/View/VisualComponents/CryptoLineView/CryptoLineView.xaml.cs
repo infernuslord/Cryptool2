@@ -142,10 +142,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, Util.CreateConnectorBinding(target, this));
 
-            Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(editor_ItemsSelected);
+            Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(itemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
             createLinkedList();
-            Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
+            //Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
 
             if(model.PointList != null)
                 assembleGeo();
@@ -165,19 +165,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
         }
 
-        void editor_ItemsSelected(object sender, SelectedItemsEventArgs e)
+        void itemsSelected(object sender, SelectedItemsEventArgs e)
         {
             oldItems = newItems;
             newItems = e.Items;
             if (newItems != null)
             {
-                if (newItems.Contains(Source.WindowParent) || newItems.Contains(Target.WindowParent) || true)
+                selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
+                foreach (var x in selected)
                 {
-                    selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
-                    foreach (var x in selected)
-                    {
-                        x.IsDraggingChanged += x_IsDraggingChanged;
-                    }
+                    x.IsDraggingChanged += x_IsDraggingChanged;
                 }
             }
             if(oldItems != null)
@@ -200,6 +197,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         void LineComputationDone(object sender, EventArgs e)
         {
             assembleGeo();
+            createLinkedList();
         }
 
         private void assembleGeo()
@@ -233,24 +231,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
         }
 
-        private void ThumbDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            var t = (Thumb)sender;
-            var ft = t.DataContext as FromTo;
-            if (ft == null)
-                return;
-
-            Line.IsEditingPoint = true;
-            ft.To = new Point(ft.To.X + e.HorizontalChange, ft.To.Y + e.VerticalChange);
-            Line.InvalidateAllLines();
-
-        }
-
-        private void ThumbDragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            //Line.IsEditingPoint = false;
-        }
-
         public void update()
         {
             //throw new NotImplementedException();
@@ -259,6 +239,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         private void DragDelta(object sender, DragDeltaEventArgs e)
         {
             var data = (FromTo)(((FrameworkElement)sender).DataContext);
+
+            var curData = LinkedPointList.Find(data);
+            if (curData == null)
+                return;
+
             var prevData = LinkedPointList.Find(data).Previous;
             if (prevData == null)
                 return;
@@ -696,10 +681,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             return !quadTree.QueryAny(queryRect);
         }
 
-        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTreePlugins, QuadTreeLib.QuadTree<FakeNode> quadTreeLines)
+        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTreePlugins)
         {
 
-            if (isConnectionPossible(n1.Point, p2, quadTreePlugins) && isConnectionPossible(p2, n3.Point, quadTreePlugins))
+            if (isConnectionPossible(n1.Point, p2, quadTreePlugins))
             {
                 Node n2 = new Node() { Point = p2 };
                 n1.Vertices.Add(n2);
@@ -714,33 +699,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
 
             return false;
-        }
-
-        private List<FakeNode> getQueriesFromLine(Point p1,Point p2,QuadTreeLib.QuadTree<FakeNode> quadTreeLines, out bool isHorizontal)
-        {
-            if (p1.X != p2.X && p1.Y != p2.Y)
-                throw new ArgumentException("only 90° allowed");
-
-            System.Drawing.RectangleF queryRect;
-
-            if (p1.Y != p2.Y)
-            {
-                Point up = p2.Y < p1.Y ? p2 : p1;
-                Point down = p2.Y < p1.Y ? p1 : p2;
-                isHorizontal = false;
-
-                queryRect = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y));
-            }
-            else
-            {
-                Point left = p2.X < p1.X ? p2 : p1;
-                Point right = p2.X < p1.X ? p1 : p2;
-                isHorizontal = true;
-
-                queryRect = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), 1);
-            }
-
-            return quadTreeLines.Query(queryRect);
         }
 
         private void performOrthogonalPointConnection(Node p1, Node p2, QuadTreeLib.QuadTree<FakeNode> quadTree)
@@ -780,8 +738,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     QuadTreeLib.QuadTree<FakeNode> quadTreePlugins = new QuadTreeLib.QuadTree<FakeNode>
                         (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth * 5, actualHeight * 5));
 
-                    QuadTreeLib.QuadTree<FakeNode> quadTreeLines = new QuadTreeLib.QuadTree<FakeNode>
-                        (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth * 5, actualHeight * 5));
+
 
                     for (int routPoint = 0; routPoint < 4; ++routPoint)
                     {
@@ -805,40 +762,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                             if (routPoint != 0)
                                 continue;
-
-                            if (element is CryptoLineView)
-                            {
-                                CryptoLineView l1 = element as CryptoLineView;
-                                foreach (FromTo fromto in l1.Line.PointList)
-                                {
-                                    Point p1 = fromto.From, p2 = fromto.To;
-                                    if (p1.Y != p2.Y)
-                                    {
-                                        Point up = p2.Y < p1.Y ? p2 : p1;
-                                        Point down = p2.Y < p1.Y ? p1 : p2;
-
-                                        quadTreeLines.Insert(new FakeNode()
-                                        {
-                                            Source = l1.Line.StartPointSource,
-                                            Target = l1.Line.EndPointSource,
-                                            Rectangle = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y))
-                                        });
-                                    }
-                                    else
-                                    {
-                                        Point left = p2.X < p1.X ? p2 : p1;
-                                        Point right = p2.X < p1.X ? p1 : p2;
-
-                                        quadTreeLines.Insert(new FakeNode()
-                                        {
-                                            Source = l1.Line.StartPointSource,
-                                            Target = l1.Line.EndPointSource,
-                                            Rectangle = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), 1)
-                                        });
-                                    }
-                                }
-
-                            }
                         }
                     }
 
@@ -884,10 +807,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                             {
                                 Point help = new Point(p1.Point.X, p2.Point.Y);
 
-                                if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins, quadTreeLines))
+                                if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
                                 {
                                     help = new Point(p2.Point.X, p1.Point.Y);
-                                    if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins, quadTreeLines))
+                                    if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
                                     {
                                         // optional todo: double edge helping routes
                                     }
