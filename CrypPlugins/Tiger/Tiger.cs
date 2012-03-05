@@ -37,7 +37,7 @@ namespace Tiger
 {
 
   [Author("Gerhard Junker", null, null, null)]
-  [PluginInfo("Tiger.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Tiger/Tiger1.png")]
+  [PluginInfo("Tiger.Properties.Resources", "PluginCaption", "PluginTooltip", "Tiger/DetailedDescription/doc.xml", "Tiger/Tiger1.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
   public class Tiger : ICrypComponent
   {

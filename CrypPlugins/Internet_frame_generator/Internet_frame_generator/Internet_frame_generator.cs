@@ -25,7 +25,7 @@ namespace Cryptool.Internet_frame_generator
     [PluginInfo("Internet_frame_generator.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
-        "PluginDescriptionURL",
+        "Internet_frame_generator/DetailedDescription/doc.xml",
         "Internet_frame_generator/icon.jpg")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class Internet_frame_generator : ICrypComponent

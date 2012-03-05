@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>HMAC-Algorithmus</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>HMAC/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
   </data>

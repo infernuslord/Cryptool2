@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Splitter
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Splitter.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Splitter/icon.png")]
+  [PluginInfo("Splitter.Properties.Resources", "PluginCaption", "PluginTooltip", "Splitter/DetailedDescription/doc.xml", "Splitter/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataflow)]
   public class Splitter : ICrypComponent
   {

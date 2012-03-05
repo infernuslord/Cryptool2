@@ -104,9 +104,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Calculates the discrete logarithm</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
-  </data>
     <data name="InputValueCaption" xml:space="preserve">
     <value>Input value</value>
   </data>

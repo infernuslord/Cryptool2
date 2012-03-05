@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Berechnet die Autokorrelation eines Geheimtexts</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>AutokorrelationFunction/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputCipherCaption" xml:space="preserve">
     <value>Texteingabe</value>
   </data>

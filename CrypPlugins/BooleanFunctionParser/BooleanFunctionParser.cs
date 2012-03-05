@@ -37,7 +37,7 @@ using Cryptool.RPNExpression;
 namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BooleanFunctionParser/Images/icon2.png")]
+    [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", "PluginCaption", "PluginTooltip", "BooleanFunctionParser/DetailedDescription/doc.xml", "BooleanFunctionParser/Images/icon2.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanFunctionParser : ICrypComponent
     {

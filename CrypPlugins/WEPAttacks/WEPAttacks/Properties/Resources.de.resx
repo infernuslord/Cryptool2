@@ -144,9 +144,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Angriffe auf das WEP-Protokoll</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>WEPAttacks/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Angriffe auf das WEP-Protokoll</value>
   </data>

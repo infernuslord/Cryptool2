@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simple comparators to compare objects of the same type.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Comparators/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputOneCaption" xml:space="preserve">
     <value>Input one</value>
   </data>

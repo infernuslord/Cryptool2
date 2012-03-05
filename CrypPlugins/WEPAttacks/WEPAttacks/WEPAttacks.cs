@@ -23,7 +23,7 @@ namespace Cryptool.WEPAttacks
     [PluginInfo("WEPAttacks.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
-        "PluginDescriptionURL",
+        "WEPAttacks/DetailedDescription/doc.xml",
         "WEPAttacks/Mallory.jpg")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class WEPAttacks : ICrypComponent

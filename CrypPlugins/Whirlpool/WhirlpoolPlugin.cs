@@ -38,7 +38,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Whirlpool
 {
   [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo("Whirlpool.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Whirlpool/Whirlpool1.png")]
+  [PluginInfo("Whirlpool.Properties.Resources", "PluginCaption", "PluginTooltip", "Whirlpool/DetailedDescription/doc.xml", "Whirlpool/Whirlpool1.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
   public class WPHash : ICrypComponent
   {

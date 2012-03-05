@@ -127,9 +127,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Data Encryption Standard</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>DES/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
     <value>DES Slave for Cryptanalysis</value>
   </data>

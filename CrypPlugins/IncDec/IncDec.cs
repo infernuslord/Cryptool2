@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace IncDec
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("IncDec.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "IncDec/increment.png", "IncDec/decrement.png")]
+  [PluginInfo("IncDec.Properties.Resources", "PluginCaption", "PluginTooltip", "IncDec/DetailedDescription/doc.xml", "IncDec/increment.png", "IncDec/decrement.png")]
   [ComponentCategory(ComponentCategory.ToolsMisc)]
   public class IncDec : ICrypComponent
   {

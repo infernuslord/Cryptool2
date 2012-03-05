@@ -690,9 +690,6 @@
   <data name="Working__Days_" xml:space="preserve">
     <value>Working Days</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>KeySearcher/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="HideDeadMachines_" xml:space="preserve">
     <value>Hide Dead Machines</value>
   </data>

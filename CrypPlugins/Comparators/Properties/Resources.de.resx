@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Einfache Vergleichsoperationen (=,!=, &lt;, &gt;, &lt;=, &gt;=). Siehe detaillierte Beschreibung.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Comparators/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputOneCaption" xml:space="preserve">
     <value>Eingabe 1</value>
   </data>

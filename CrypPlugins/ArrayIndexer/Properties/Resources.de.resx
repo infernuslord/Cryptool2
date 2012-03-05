@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Wählt den Inhalt des Eingabe-Arrays am angegebenen Index aus</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="ObjInputCaption" xml:space="preserve">
     <value>Eingabe-Array</value>
   </data>

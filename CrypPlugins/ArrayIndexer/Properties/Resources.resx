@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Content of the chosen index of the array</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="ObjInputCaption" xml:space="preserve">
     <value>Array Input</value>
   </data>

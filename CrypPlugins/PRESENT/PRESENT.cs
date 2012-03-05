@@ -38,7 +38,7 @@ using System.Threading;
 namespace Cryptool.PRESENT
 {
     [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-    [PluginInfo("Cryptool.PRESENT.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PRESENT/icon.png", "PRESENT/Images/encrypt.png", "PRESENT/Images/decrypt.png")]
+    [PluginInfo("Cryptool.PRESENT.Properties.Resources", "PluginCaption", "PluginTooltip", "PRESENT/DetailedDescription/doc.xml", "PRESENT/icon.png", "PRESENT/Images/encrypt.png", "PRESENT/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
     public class PRESENT : ContextBoundObject, ICrypComponent

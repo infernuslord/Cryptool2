@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Berlekamp-Massey Algorithm</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>BerlekampMassey/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Input Sequence</value>
   </data>

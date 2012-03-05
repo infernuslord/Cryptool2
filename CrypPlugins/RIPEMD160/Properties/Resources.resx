@@ -104,9 +104,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>RIPEMD160 hash function</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
-  </data>
     <data name="InputDataCaption" xml:space="preserve">
     <value>Input stream</value>
   </data>

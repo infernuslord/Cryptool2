@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>MD5 hash collider</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>MD5Collider/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="OutputData1Caption" xml:space="preserve">
     <value>First colliding data block</value>
   </data>

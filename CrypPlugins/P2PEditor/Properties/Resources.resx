@@ -457,9 +457,6 @@ Reason: Username or email adresse are revoked.</value>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Control interface for the integrated P2P network.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>P2PEditor/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="ExperiencedSettingsGroup" xml:space="preserve">
     <value>Experienced Settings</value>
   </data>

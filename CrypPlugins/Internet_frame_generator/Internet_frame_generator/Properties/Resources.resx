@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>IP Frame Generator</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Internet_frame_generator/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Internet frame generator (IPv4 or ARP request packets are supported)</value>
   </data>

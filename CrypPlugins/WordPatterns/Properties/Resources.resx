@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Searches for words with the same pattern</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>WordPatterns/WordPatternsDescription.xaml</value>
-  </data>
   <data name="InputTextCaption" xml:space="preserve">
     <value>Input word</value>
   </data>

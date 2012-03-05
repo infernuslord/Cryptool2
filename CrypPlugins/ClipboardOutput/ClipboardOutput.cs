@@ -33,7 +33,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace ClipboardOutput {
   // Converts a stream to given format and writes the results to the clipboard
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo("ClipboardOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ClipboardOutput/icon.png")]
+  [PluginInfo("ClipboardOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "ClipboardOutput /DetailedDescription/doc.xml", "ClipboardOutput/icon.png")]
   [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class ClipboardOutput : ICrypComponent

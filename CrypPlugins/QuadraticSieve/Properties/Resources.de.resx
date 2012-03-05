@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Quadratisches Sieb</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>QuadraticSieve/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputNumberCaption" xml:space="preserve">
     <value>Eingabezahl</value>
   </data>

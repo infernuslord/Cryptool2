@@ -23,5 +23,11 @@
   </presentation>
   
   <references>
+    <linkReference>
+      <link url="http://de.wikipedia.org/wiki/Tiger_(Hashfunktion)" lang="de" />
+      <caption lang="de">Tiger (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Tiger_(cryptography)" lang="en" />
+      <caption lang="en">Tiger (Wikipedia)</caption>
+    </linkReference>
   </references>
 </documentation>

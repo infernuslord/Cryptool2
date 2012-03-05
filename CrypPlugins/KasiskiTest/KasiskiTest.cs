@@ -12,7 +12,7 @@ using System.Windows.Controls;
 namespace Cryptool.KasiskiTest
 {
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("KasiskiTest.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KasiskiTest/icon.png")]
+    [PluginInfo("KasiskiTest.Properties.Resources", "PluginCaption", "PluginTooltip", "KasiskiTest/DetailedDescription/doc.xml", "KasiskiTest/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class KasiskiTest : ICrypComponent
     {

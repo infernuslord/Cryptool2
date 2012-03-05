@@ -26,7 +26,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.ArrayIndexer
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "")]
-    [PluginInfo("ArrayIndexer.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ArrayIndexer/arrayindexer.png")]
+    [PluginInfo("ArrayIndexer.Properties.Resources", "PluginCaption", "PluginTooltip", "ArrayIndexer/DetailedDescription/doc.xml", "ArrayIndexer/arrayindexer.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class ArrayIndexer : ICrypComponent
     {
