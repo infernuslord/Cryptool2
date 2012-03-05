@@ -1024,6 +1024,11 @@
                                     <ListView Name="listViewLogList" Grid.Row="1"
                           ItemContainerStyleSelector="{DynamicResource ListViewItemStyleSelector}"
                           Style="{StaticResource ListViewStyle}">
+                                        <ListView.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem IsEnabled="True" Header="Copy" InputGestureText="Ctrl+C" Click="MenuItem_Click" />
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>
                                         <ListView.View>
                                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle1}" AllowsColumnReorder="True">
                                                 <GridViewColumn Header="{Loc Nr}" Width="40" CellTemplate="{StaticResource NrTemplate}" />

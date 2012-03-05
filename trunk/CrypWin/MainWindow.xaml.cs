@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -2270,6 +2271,16 @@ namespace Cryptool.CrypWin
             var e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
             e2.RoutedEvent = UIElement.MouseWheelEvent;
             ((ListBox)sender).RaiseEvent(e2);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var sb = new StringBuilder();
+            foreach (var item in listViewLogList.SelectedItems)
+            {
+                sb.AppendLine(item.ToString());
+            }
+            Clipboard.SetText(sb.ToString());
         }
     }
 
