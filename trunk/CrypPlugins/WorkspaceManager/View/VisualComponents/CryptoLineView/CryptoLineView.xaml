@@ -6,6 +6,7 @@
              xmlns:bin="clr-namespace:WorkspaceManager.View.VisualComponents.CryptoLineView"
              xmlns:bins="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
@@ -47,27 +48,18 @@
             <Setter Property="Stroke" Value="#77FFFFFF"></Setter>
             <Setter Property="StrokeThickness" Value="8"></Setter>
         </Style>
-
-        <!--<Style TargetType="{x:Type Thumb}" x:Key="DragRect">
+        
+        <Style TargetType="{x:Type Thumb}" x:Key="DragThumb">
             <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=HasEndPoint}" Value="false"></Condition>
-                        <Condition Binding="{Binding Path=HasStartPoint}" Value="false"></Condition>
-                        <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}}" Value="true"></Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </MultiDataTrigger>
-
                 <DataTrigger Binding="{Binding Path=DirSort}">
                     <DataTrigger.Value>
                         <misc:DirSort>X_DESC</misc:DirSort>
                     </DataTrigger.Value>
-                    <Setter Property="Width" Value="{Binding Path=Delta}"></Setter>
-                    <Setter Property="Height" Value="8"/>
-                    <Setter Property="RenderTransform">
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <TranslateTransform X="{Binding Path=To.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=To.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Line X1="0" X2="{Binding Path=From.X}" Y1="0" Y2="0" StrokeThickness="8" Stroke="#aaffffff"></Line>
+                            </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
@@ -77,11 +69,11 @@
                     <DataTrigger.Value>
                         <misc:DirSort>Y_DESC</misc:DirSort>
                     </DataTrigger.Value>
-                    <Setter Property="Height" Value="{Binding Path=Delta}"></Setter>
-                    <Setter Property="Width" Value="8"/>
-                    <Setter Property="RenderTransform">
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <TranslateTransform X="{Binding Path=To.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=To.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Line X1="0" X2="0" Y1="0" Y2="{Binding Path=From.Y}" StrokeThickness="8" Stroke="#aaffffff"></Line>
+                            </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
@@ -91,11 +83,11 @@
                     <DataTrigger.Value>
                         <misc:DirSort>X_ASC</misc:DirSort>
                     </DataTrigger.Value>
-                    <Setter Property="Width" Value="{Binding Path=Delta}"></Setter>
-                    <Setter Property="Height" Value="8"/>
-                    <Setter Property="RenderTransform">
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <TranslateTransform X="{Binding Path=From.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=From.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Line X1="0" X2="{Binding Path=From.X}" Y1="0" Y2="0" StrokeThickness="8" Stroke="#aaffffff"></Line>
+                            </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
@@ -105,54 +97,16 @@
                     <DataTrigger.Value>
                         <misc:DirSort>Y_ASC</misc:DirSort>
                     </DataTrigger.Value>
-                    <Setter Property="Height" Value="{Binding Path=Delta}"></Setter>
-                    <Setter Property="Width" Value="8"/>
-                    <Setter Property="RenderTransform">
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <TranslateTransform X="{Binding Path=From.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=From.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
+                            <ControlTemplate TargetType="{x:Type Thumb}">
+                                <Line X1="0" X2="0" Y1="0" Y2="{Binding Path=From.Y}" StrokeThickness="8" Stroke="#aaffffff"></Line>
+                            </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
 
             </Style.Triggers>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
-                                   x:Name="Rect" Fill="#11ffffff"></Rectangle>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="Rect" Property="Fill" Value="#77ffffff"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Visibility" Value="Collapsed"></Setter>
-        </Style-->
-
-
-
-        <!--<Style x:Key="PointsStyle" TargetType="ItemsControl">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type bin:CryptoLineView}}}" Value="true">
-                    <Setter Property="ItemsSource" Value="{Binding Path=Line.PointList}"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>-->
-        <Style TargetType="{x:Type Thumb}" x:Key="DragThumb">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Line Stroke="#aaFFFFFF" StrokeThickness="8" 
-                                      X1="{Binding Path=From.X}"
-                                      Y1="{Binding Path=From.Y}"
-                                      X2="{Binding Path=To.X}"
-                                      Y2="{Binding Path=To.Y}">
-                        </Line>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <TranslateTransform X="{Binding Path=From.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=From.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
@@ -185,23 +139,5 @@
                DragDelta="DragDelta" MouseLeave="SubPathMouseLeave">
 
         </Thumb>
-
-        <!--<ItemsControl Margin="-4.5" Style="{StaticResource ResourceKey=PointsStyle}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Canvas/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Thumb Style="{StaticResource ResourceKey=Drag}">
-                    </Thumb>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-        </ItemsControl>-->
     </Canvas>
 </UserControl>

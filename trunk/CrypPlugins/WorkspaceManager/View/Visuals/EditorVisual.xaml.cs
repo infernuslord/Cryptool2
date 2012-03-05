@@ -818,21 +818,6 @@ namespace WorkspaceManager.View.Visuals
 
             if(b.ItemsSelected != null)
                 b.ItemsSelected.Invoke(b, new SelectedItemsEventArgs(){Items = b.SelectedItems});
-
-            //if (newItem != null)
-            //{
-            //    foreach (var x in newItem)
-            //    {
-            //        b.SelectedItemsObservable.Add(x);
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var x in oldItem)
-            //    {
-            //        b.SelectedItemsObservable.Remove(x);
-            //    }
-            //}
         }
 
         private static void OnIsLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
