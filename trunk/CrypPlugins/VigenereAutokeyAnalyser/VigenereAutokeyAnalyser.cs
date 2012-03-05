@@ -30,7 +30,7 @@ using System.Windows.Input;
 namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("VigenereAutokeyAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "VigenereAutokeyAnalyser/icon.png")]
+    [PluginInfo("VigenereAutokeyAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "VigenereAutokeyAnalyser/DetailedDescription/doc.xml", "VigenereAutokeyAnalyser/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class VigenereAutokeyAnalyser : ICrypComponent
     {

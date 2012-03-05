@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.LengthOf
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("LengthOf.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LengthOf/LenOf.png")]
+    [PluginInfo("LengthOf.Properties.Resources", "PluginCaption", "PluginTooltip", "LengthOf/DetailedDescription/doc.xml", "LengthOf/LenOf.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class LengthOf : ICrypComponent
     {

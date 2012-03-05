@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Network Capture</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin erfasst Daten von einem Netzwerkgerät (benötigt die WinPcap-Library).</value>
   </data>

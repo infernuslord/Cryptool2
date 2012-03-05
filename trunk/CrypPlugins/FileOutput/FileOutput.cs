@@ -31,7 +31,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FileOutput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("FileOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileOutput/icon.png")]
+  [PluginInfo("FileOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "FileOutput/DetailedDescription/doc.xml", "FileOutput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class FileOutputClass : ICrypComponent
   {

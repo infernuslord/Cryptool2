@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>PKCS#5 V2.1 Hash</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>PKCS5/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="KeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
   </data>

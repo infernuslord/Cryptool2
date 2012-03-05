@@ -666,9 +666,6 @@
   <data name="Top__user_" xml:space="preserve">
     <value>Top Benutzer</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>KeySearcher/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="DisableUpdateCaption" xml:space="preserve">
     <value>Deaktiviere Statistik-Update</value>
   </data>

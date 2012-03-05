@@ -577,9 +577,6 @@ Klicken Sie OK um fortzufahren.</value>
   <data name="PluginCaption" xml:space="preserve">
     <value>P2P-Interface</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>P2PEditor/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Kontroll-Interface für das integrierte P2P-Netzwerk.</value>
   </data>

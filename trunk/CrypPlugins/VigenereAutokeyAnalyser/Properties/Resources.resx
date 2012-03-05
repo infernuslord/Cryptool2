@@ -186,9 +186,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère Autokey Analyser</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>VigenereAutokeyAnalyser/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Ciphertext-only attack on VigenèreAutoKey encryption</value>
   </data>

@@ -29,7 +29,7 @@ namespace PKCS5
 {
   [Author("Gerhard Junker", null, "private project member", null)]
   //"http://tools.ietf.org/html/rfc2898"
-  [PluginInfo("PKCS5.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PKCS5/PKCS5.png")]
+  [PluginInfo("PKCS5.Properties.Resources", "PluginCaption", "PluginTooltip", "PKCS5/DetailedDescription/doc.xml", "PKCS5/PKCS5.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
   public class PKCS5 : ICrypComponent
   {

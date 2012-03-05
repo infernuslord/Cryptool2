@@ -144,9 +144,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Scytale</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Scytale/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Scytale -- classic transposition cipher</value>
   </data>

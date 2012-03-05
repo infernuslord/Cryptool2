@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Analysiert den eingegebenen Vigenère-Geheimtext und gibt die wahrscheinlichen Schlüssellängen aus.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>KasiskiTest/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="StringInputCaption" xml:space="preserve">
     <value>Eingabe des Geheimtextes</value>
   </data>

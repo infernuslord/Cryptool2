@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Boolean Function Parser</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>BooleanFunctionParser/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Boolean Function Parser (BFP). Computes the result of a boolean function.</value>
   </data>

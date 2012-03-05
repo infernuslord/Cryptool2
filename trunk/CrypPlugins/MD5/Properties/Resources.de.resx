@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>MD5-Hashfunktion</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>MD5/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
   </data>

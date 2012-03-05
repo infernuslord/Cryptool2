@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Tiny-Encryption-Algorithmus</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>TEA/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
   </data>

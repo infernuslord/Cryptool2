@@ -141,9 +141,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Wizard</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Wizard/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Schritt-für-Schritt-Assistent</value>
   </data>

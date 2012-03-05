@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Alphabets
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.Alphabets.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Alphabets/icon.gif")]
+    [PluginInfo("Cryptool.Alphabets.Properties.Resources", "PluginCaption", "PluginTooltip", "Alphabets/DetailedDescription/doc.xml", "Alphabets/icon.gif")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class Alphabet : ICrypComponent
     {

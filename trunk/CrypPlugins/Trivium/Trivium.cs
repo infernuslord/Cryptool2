@@ -32,7 +32,7 @@ using Cryptool.PluginBase.Control;
 namespace Cryptool.Trivium
 {
     [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
-    [PluginInfo("Trivium.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
+    [PluginInfo("Trivium.Properties.Resources", "PluginCaption", "PluginTooltip", "Trivium/DetailedDescription/doc.xml", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Trivium : ICrypComponent
     {

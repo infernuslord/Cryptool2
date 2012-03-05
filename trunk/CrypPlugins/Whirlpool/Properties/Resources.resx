@@ -144,9 +144,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Whirlpool</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Whirlpool hash function</value>
   </data>

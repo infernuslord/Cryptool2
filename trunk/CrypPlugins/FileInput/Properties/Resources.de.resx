@@ -127,9 +127,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Datei-basierte Eingabe</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="StreamOutputCaption" xml:space="preserve">
     <value>Ausgabedatenstrom</value>
   </data>

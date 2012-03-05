@@ -11,7 +11,7 @@ using System.Windows.Controls;
 namespace SmartCard
 {
   [Author("Malte Gronau", null, "", "")]
-  [PluginInfo("SmartCard.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartCard/Images/SmartCard.png")]
+  [PluginInfo("SmartCard.Properties.Resources", "PluginCaption", "PluginTooltip", "SmartCard/DetailedDescription/doc.xml", "SmartCard/Images/SmartCard.png")]
   [ComponentCategory(ComponentCategory.Protocols)]
   public class SmartCard : ICrypComponent
   {

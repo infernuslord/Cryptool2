@@ -8,7 +8,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    (Message-Digest Algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion, die einen 128-Bit-Hashwert erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Die errechneten MD5-Summen (kurz md5sum) werden zum Beispiel zur Integritätsprüfung von Dateien eingesetzt.
+      MD5 (Message-Digest Algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion, die einen 128-Bit-Hashwert erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Die errechneten MD5-Summen (kurz md5sum) werden zum Beispiel zur Integritätsprüfung von Dateien eingesetzt.
     <section headline="Geschichte">
       MD5 ist ein Vertreter aus einer Reihe von (kryptographischen) Hash-Funktionen, die von Professor Ronald L. Rivest am Massachusetts Institute of Technology entwickelt wurden. Als Analysen ergaben, dass der Vorgänger MD4 wahrscheinlich unsicher ist, wurde MD5 1991 als sicherer Ersatz entwickelt. Tatsächlich wurden später von Hans Dobbertin Schwächen in MD4 gefunden.
       1996 meldete Dobbertin eine Kollision in der Kompressionsfunktion von MD5. Dies war zwar kein Angriff auf die vollständige MD5-Funktion, dennoch empfahlen Kryptographen bereits damals, wenn möglich, auf sicherere Algorithmen wie SHA-256 oder RIPEMD-160 umzusteigen. Im August 2004 fanden chinesische Forscher Kollisionen für die vollständige MD5-Funktion. Wie sich diese Entdeckung auf die Verwendung von MD5 auswirkt, bleibt abzuwarten.

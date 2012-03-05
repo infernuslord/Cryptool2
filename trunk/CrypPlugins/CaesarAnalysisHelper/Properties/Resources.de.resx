@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin führt die Kryptoanalyse des Caesar-Verfahrens durch mit Hilfe der Häufigkeit von Einzelbuchstaben und Bi-Grammen des Eingabetextes.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="EncryptedTextCaption" xml:space="preserve">
     <value>verschlüsselter Text</value>
   </data>

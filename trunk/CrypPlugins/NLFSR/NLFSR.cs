@@ -41,7 +41,7 @@ using Cryptool.MathParser;
 namespace Cryptool.NLFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("NLFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
+    [PluginInfo("NLFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "NLFSR/DetailedDescription/doc.xml", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class NLFSR : ICrypComponent
     {

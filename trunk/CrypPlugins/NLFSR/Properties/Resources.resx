@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Non-Linear Feedback Shift Register</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>NLFSR/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputTapSequenceCaption" xml:space="preserve">
     <value>TapSequence</value>
   </data>

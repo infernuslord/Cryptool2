@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Parser für Boolesche Funktion</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>BooleanFunctionParser/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Parser für boolesche Funktionen (BFP). Berechnet das Resultat einer booleschen Funktion.</value>
   </data>

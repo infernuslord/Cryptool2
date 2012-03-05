@@ -16,7 +16,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.StreamComparator
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Cryptool.StreamComparator.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
+  [PluginInfo("Cryptool.StreamComparator.Properties.Resources", "PluginCaption", "PluginTooltip", "StreamComparator/DetailedDescription/doc.xml", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
   [ComponentCategory(ComponentCategory.ToolsMisc)]
   public class StreamComparator : ICrypComponent
   {

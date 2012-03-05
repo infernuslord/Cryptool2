@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Tiger2 V1.0.2 Hash</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Tiger/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
   </data>

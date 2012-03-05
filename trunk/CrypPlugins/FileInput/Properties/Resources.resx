@@ -127,9 +127,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>File based input</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="StreamOutputCaption" xml:space="preserve">
     <value>Stream Output</value>
   </data>

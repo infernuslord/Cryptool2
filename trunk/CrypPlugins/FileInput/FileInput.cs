@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FileInput
 {
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("FileInput.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileInput/Images/FileInput.png")]
+    [PluginInfo("FileInput.Properties.Resources", "PluginCaption", "PluginTooltip", "FileInput/DetailedDescription/doc.xml", "FileInput/Images/FileInput.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class FileInputClass : ICrypComponent
     {

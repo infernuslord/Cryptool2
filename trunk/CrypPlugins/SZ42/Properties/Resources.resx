@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Represents the SZ42 Lorenz machine</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>SZ42/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text Input</value>
   </data>

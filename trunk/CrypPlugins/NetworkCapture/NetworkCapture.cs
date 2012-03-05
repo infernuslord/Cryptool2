@@ -24,7 +24,7 @@ using SharpPcap.WinPcap;
 namespace Cryptool.Plugins.NetworkCapture
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("NetworkCapture.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NetworkCapture/Images/nc.png")]
+    [PluginInfo("NetworkCapture.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkCapture/DetailedDescription/doc.xml", "NetworkCapture/Images/nc.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkCapture : ICrypComponent
     {

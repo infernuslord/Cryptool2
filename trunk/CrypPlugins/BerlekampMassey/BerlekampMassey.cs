@@ -31,7 +31,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
+    [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", "PluginCaption", "PluginTooltip", "BerlekampMassey/DetailedDescription/doc.xml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class BerlekampMassey : ICrypComponent
     {

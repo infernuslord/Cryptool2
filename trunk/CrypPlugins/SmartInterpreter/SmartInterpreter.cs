@@ -11,7 +11,7 @@ using System.Windows.Controls;
 namespace SmartInterpreter
 {
   [Author("Malte Gronau", "malte.gronau@web.de", "", "")]
-  [PluginInfo("SmartInterpreter.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartInterpreter/Images/SmartInterpreter.png")]
+  [PluginInfo("SmartInterpreter.Properties.Resources", "PluginCaption", "PluginTooltip", "SmartInterpreter/DetailedDescription/doc.xml", "SmartInterpreter/Images/SmartInterpreter.png")]
   [ComponentCategory(ComponentCategory.Protocols)]
   public class SmartInterpreter : ICrypComponent
   {

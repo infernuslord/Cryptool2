@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Calculates possible key lengths of a polyalphabetic substitution cipher.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>KasiskiTest/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="StringInputCaption" xml:space="preserve">
     <value>The string to be analyzed</value>
   </data>

@@ -186,9 +186,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Vigenere/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Vigenère -- klassische polyalphabetische Substitutions-Verschlüsselung</value>
   </data>

@@ -28,7 +28,7 @@ using Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("AutokorrelationFunction.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AutokorrelationFunction/icon.png")]
+    [PluginInfo("AutokorrelationFunction.Properties.Resources", "PluginCaption", "PluginTooltip", "AutokorrelationFunction/DetailedDescription/doc.xml", "AutokorrelationFunction/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class AutokorrelationFunction : ICrypComponent
     {
