@@ -273,8 +273,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 var p = Line.PointList[i];
                 Rect r = new Rect(p.From, new Vector(p.To.X, p.To.Y));
+                IntersectPoint isect = null;
+                if (InternalCryptoLineView.FindIntersection(p.From, p.To, point, new Point(point.X - 8 + 16, point.Y), out isect))
+                {
+                    SelectedPart = p;
+                    return;
+                }
 
-                if(r.IntersectsWith(new Rect(point,new Size(5,5))))
+                if (InternalCryptoLineView.FindIntersection(p.From, p.To, point, new Point(point.X, point.Y - 8 + 16), out isect))
                 {
                     SelectedPart = p;
                     return;
@@ -508,21 +514,23 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 		#endregion
 
 		#region Privates
-        private bool isBetween(double min, double max, double between)
+        public static bool IsBetween(double min, double max, double between)
         {
             return min <= between && between <= max;
         }
 
-        private bool findIntersection(Point StartPoint, Point EndPoint, Point StartPointSec, Point EndPointSec)
+        public static bool FindIntersection(Point StartPoint, Point EndPoint, Point StartPointSec, Point EndPointSec, out IntersectPoint intersectPoint)
         {
             if (StartPoint.X != EndPoint.X &&
                 StartPoint.Y != EndPoint.Y)
             {
+                intersectPoint = null;
                 return false;
             }
             if (StartPointSec.X != EndPointSec.X &&
                 StartPointSec.Y != EndPointSec.Y)
             {
+                intersectPoint = null;
                 return false;
             }
 
@@ -530,6 +538,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (StartPoint.X == EndPoint.X && StartPointSec.X == EndPointSec.X ||
                 StartPoint.Y == EndPoint.Y && StartPointSec.Y == EndPointSec.Y)
             {
+                intersectPoint = null;
                 return false;
             }
             else
@@ -565,7 +574,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     right.X = swap;
                 }
                  //check if is intersected at all
-                if(isBetween(down.Y, up.Y, left.Y) && isBetween(left.X, right.X, up.X))
+                if(IsBetween(down.Y, up.Y, left.Y) && IsBetween(left.X, right.X, up.X))
                 {
                     if (up.Y == left.Y ||
                         down.Y == left.Y ||
@@ -579,6 +588,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     }
                     return true;
                 }
+                intersectPoint = null;
                 return false;
             }
         }
@@ -602,7 +612,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         fromTo.Intersection.Clear();
                         foreach (FromTo resultFromTo in result.Line.PointList)
                         {
-                            if (findIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To))
+                            if (FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
                             {
                                 fromTo.Intersection.Add(intersectPoint);
                             }
