@@ -181,183 +181,75 @@ namespace Cryptool.Plugins.Convertor
 
         private void processInput(string value)
         {
-                ShowProgress(50, 100);
+            ShowProgress(50, 100);
 
-                ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
+            ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
                 
-                // here conversion happens
-                switch (settings.PresentationFormatSetting)
-                {
-                    case StringDecoderSettings.PresentationFormat.Base64:
-                        try
-                        {
-                            outputBytes = Convert.FromBase64String(value);
-                            outputStream = new CStreamWriter(outputBytes);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowStatusBarMessage("Error converting input! Not a valid base64 string (" + ex.Message + ")", NotificationLevel.Error);
-                            // outputStream = null;
-                            return;
-                        }
-                        break;
+            switch (settings.PresentationFormatSetting)
+            {
+                case StringDecoderSettings.PresentationFormat.Base64:
+                    outputBytes = Convert.FromBase64String(value);
+                    break;
 
-                    case StringDecoderSettings.PresentationFormat.Hex:
-                        try
-                        {
-                            outputBytes = convertHexStringToByteArray(value);
-                            outputStream = new CStreamWriter(outputBytes);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowStatusBarMessage("Error converting input! Not a valid hex string (" + ex.Message + ")", NotificationLevel.Error);
-                            return;
-                        }
-                        break;
+                case StringDecoderSettings.PresentationFormat.Octal:
+                    outputBytes = ToByteArray(value, "[0-7]+", 8);
+                    break;
 
-                    case StringDecoderSettings.PresentationFormat.Octal:
-                        try
-                        {
-                            outputBytes = convertOctalStringToByteArray(value);
-                            outputStream = new CStreamWriter(outputBytes);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowStatusBarMessage("Error converting input! Not a valid octal string (" + ex.Message + ")", NotificationLevel.Error);
-                            return;
-                        }
-                        break;
+                case StringDecoderSettings.PresentationFormat.Decimal:
+                    outputBytes = ToByteArray(value, @"\d+", 10);
+                    break;
 
-                    case StringDecoderSettings.PresentationFormat.Decimal:
-                        try
-                        {
-                            outputBytes = convertDecimalStringToByteArray(value);
-                            outputStream = new CStreamWriter(outputBytes);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowStatusBarMessage("Error converting input! Not a valid decimal string (" + ex.Message + ")", NotificationLevel.Error);
-                            return;
-                        }
-                        break;
+                case StringDecoderSettings.PresentationFormat.Binary:
+                    if (settings.RemoveSpaces)
+                    {
+                        value = new Regex("[^01]").Replace(value, "");
+                        value = (value + "0000000").Substring(0, ((value.Length + 7) / 8) * 8);
+                        outputBytes = ToByteArray(value, "[01]{1,8}", 2);
+                    }
+                    else
+                    {
+                        outputBytes = ToByteArray(value, "[01]+", 2);
+                    }
+                    break;
 
-                    case StringDecoderSettings.PresentationFormat.Binary:
-                        try
-                        {
-                            outputBytes = convertBinaryStringToByteArray(value);
-                            outputStream = new CStreamWriter(outputBytes);
-                        }
-                        catch (Exception ex)
-                        {
-                            ShowStatusBarMessage("Error converting input! Not a valid binary string (" + ex.Message + ")", NotificationLevel.Error);
-                            return;
-                        }
-                        break;
+                case StringDecoderSettings.PresentationFormat.Hex:
+                    if (settings.RemoveSpaces)
+                    {
+                        value = new Regex("[^a-fA-F0-9]").Replace(value, "");
+                        value = (value + "0").Substring(0, ((value.Length + 1) / 2) * 2);
+                        outputBytes = ToByteArray(value, "[a-fA-F0-9]{2}", 16);
+                    }
+                    else
+                    {
+                        outputBytes = ToByteArray(value, "[a-fA-F0-9]+", 16);
+                    }
+                    break;
 
-                    case StringDecoderSettings.PresentationFormat.Text:
-                    default:
-                        outputBytes = GetBytesForEncoding(value, settings.Encoding);
-                        outputStream = new CStreamWriter(outputBytes);
-                        break;
-                }
-
-                ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
-
-                ShowProgress(100, 100);
-
-                OnPropertyChanged("OutputBytes");
-                OnPropertyChanged("OutputStream");
+                case StringDecoderSettings.PresentationFormat.Text:
+                default:
+                    outputBytes = GetBytesForEncoding(value, settings.Encoding);
+                    break;
             }
-        
+           
+            outputStream = new CStreamWriter(outputBytes);
 
-        private byte[] convertHexStringToByteArray(String hexString)
+            ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
+
+            ShowProgress(100, 100);
+
+            OnPropertyChanged("OutputBytes");
+            OnPropertyChanged("OutputStream");
+        }
+
+        private byte[] ToByteArray(string input, string pattern, int b)
         {
-            if (null == hexString)
-                return new byte[0];
+            MatchCollection matches = new Regex(pattern).Matches(input);
+
+            byte[] bytes = new byte[matches.Count];
+
+            for (int i = 0; i < matches.Count; i++)
+                bytes[i] = Convert.ToByte(matches[i].Value, b);
             
-            StringBuilder cleanHexString = new StringBuilder();
-
-            //cleanup the input
-            foreach (char c in hexString)
-            {
-                if (Uri.IsHexDigit(c))
-                    cleanHexString.Append(c);
-            }
-
-            int numberChars = cleanHexString.Length;
-
-            if (numberChars < 2) // Need at least 2 chars to make one byte
-                return new byte[0];
-
-            byte[] bytes = new byte[numberChars / 2];
-
-            for (int i = 0; i < numberChars; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(cleanHexString.ToString().Substring(i, 2), 16);
-            }
-            return bytes;
-        }
-
-
-        private byte[] convertOctalStringToByteArray(String octalString)
-        {
-            if (null == octalString)
-                return new byte[0];
-
-            StringBuilder cleanOctalString = new StringBuilder();
-
-            //cleanup the input
-            foreach (char c in octalString)
-            {
-                if (char.IsDigit(c) && c != '8' && c != '9')
-                    cleanOctalString.Append(c);
-            }
-
-            int numberChars = cleanOctalString.Length;
-
-            if (numberChars < 3) // Need at least 3 chars to make one byte
-                return new byte[0];
-
-            byte[] bytes = new byte[numberChars / 3];
-
-            for (int i = 0; i < numberChars; i += 3)
-            {
-                bytes[i / 3] = Convert.ToByte(cleanOctalString.ToString().Substring(i, 3), 8);
-            }
-            return bytes;
-        }
-
-        private byte[] convertDecimalStringToByteArray(String decimalString)
-        {
-            MatchCollection matches = new Regex(@"\d+").Matches(decimalString);
-
-            byte[] bytes = new byte[matches.Count];
-            int i = 0;
-
-            foreach (Match match in matches)
-            {
-                int value = Convert.ToInt32(match.Value);
-                if (value < 0 || value >= 256) return new byte[0];
-                bytes[i++] = (byte)value;
-            }
-
-            return bytes;
-        }
-
-        private byte[] convertBinaryStringToByteArray(String binaryString)
-        {
-            MatchCollection matches = new Regex(@"[01]+").Matches(binaryString);
-
-            byte[] bytes = new byte[matches.Count];
-            int i = 0;
-
-            foreach (Match match in matches)
-            {
-                int value = Convert.ToInt32(match.Value,2);
-                if (value < 0 || value >= 256) return new byte[0];
-                bytes[i++] = (byte)value;
-            }
-
             return bytes;
         }
 
@@ -382,7 +274,14 @@ namespace Cryptool.Plugins.Convertor
         {
             if (!string.IsNullOrEmpty(InputText))
             {
-                processInput(InputText);
+                try
+                {
+                    processInput(InputText);
+                }
+                catch (Exception ex)
+                {
+                    ShowStatusBarMessage("Error converting input: " + ex.Message, NotificationLevel.Error);
+                }
             }
             else
             {
