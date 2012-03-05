@@ -192,4 +192,10 @@
   <data name="PresentationFormatSettingList2" xml:space="preserve">
     <value>Binär</value>
   </data>
+  <data name="RemoveSpacesSettingCaption" xml:space="preserve">
+    <value>Leerzeichen entfernen</value>
+  </data>
+  <data name="RemoveSpacesSettingTooltip" xml:space="preserve">
+    <value>Leerzeichen aus der Eingabe entfernen</value>
+  </data>
 </root>

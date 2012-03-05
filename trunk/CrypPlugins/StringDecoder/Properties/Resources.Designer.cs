@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the encoding of the output data (if input format is &apos;Plain text&apos;). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the encoding of the output data (if input format is &apos;Text&apos;). ähnelt.
         /// </summary>
         internal static string EncodingSettingTooltip {
             get {
@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Plain text ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
         /// </summary>
         internal static string PresentationFormatSettingList1 {
             get {
@@ -282,6 +282,24 @@ namespace Cryptool.Plugins.Convertor.Properties {
         internal static string PresentationFormatSettingTooltip {
             get {
                 return ResourceManager.GetString("PresentationFormatSettingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die remove spaces ähnelt.
+        /// </summary>
+        internal static string RemoveSpacesSettingCaption {
+            get {
+                return ResourceManager.GetString("RemoveSpacesSettingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Remove spaces from input string ähnelt.
+        /// </summary>
+        internal static string RemoveSpacesSettingTooltip {
+            get {
+                return ResourceManager.GetString("RemoveSpacesSettingTooltip", resourceCulture);
             }
         }
     }

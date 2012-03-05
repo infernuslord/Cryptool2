@@ -33,6 +33,7 @@ namespace Cryptool.Plugins.Convertor
 
         private EncodingTypes encoding = EncodingTypes.UTF8;
         private PresentationFormat presentation = PresentationFormat.Text;
+        private Boolean removeSpaces = false;
 
         #endregion
 
@@ -82,6 +83,27 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
+        /// <summary>
+        /// RemoveSpaces property used in the Settings pane. 
+        /// </summary>
+        [ContextMenu("RemoveSpacesSettingCaption", "RemoveSpacesSettingTooltip", 3, ContextMenuControlType.CheckBox,null)]
+        [TaskPane("RemoveSpacesSettingCaption", "RemoveSpacesSettingTooltip", null, 3, false, ControlType.CheckBox)]
+        public Boolean RemoveSpaces
+        {
+            get
+            {
+                return this.removeSpaces;
+            }
+            set
+            {
+                if (this.removeSpaces != value)
+                {
+                    this.removeSpaces = value;
+                    OnPropertyChanged("RemoveSpaces");
+                }
+            }
+        }
+
         #endregion
 
         #region Events
@@ -100,12 +122,14 @@ namespace Cryptool.Plugins.Convertor
 
         internal void SetVisibilityOfEncoding()
         {
-            Visibility visibility = this.presentation == PresentationFormat.Text
-                                        ? Visibility.Visible
-                                        : Visibility.Collapsed;
-
             if (TaskPaneAttributeChanged != null)
+            {
+                Visibility visibility;
+                visibility = this.presentation == PresentationFormat.Text ? Visibility.Visible : Visibility.Collapsed;
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Encoding", visibility)));
+                visibility = (this.presentation == PresentationFormat.Binary || this.presentation == PresentationFormat.Hex) ? Visibility.Visible : Visibility.Collapsed;
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RemoveSpaces", visibility)));
+            }
         }
 
         #endregion

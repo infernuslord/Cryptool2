@@ -192,4 +192,10 @@
   <data name="PresentationFormatSettingList2" xml:space="preserve">
     <value>Binary</value>
   </data>
+  <data name="RemoveSpacesSettingCaption" xml:space="preserve">
+    <value>remove spaces</value>
+  </data>
+  <data name="RemoveSpacesSettingTooltip" xml:space="preserve">
+    <value>Remove spaces from input string</value>
+  </data>
 </root>
