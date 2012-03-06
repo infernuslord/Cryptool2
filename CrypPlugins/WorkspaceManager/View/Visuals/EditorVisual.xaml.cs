@@ -334,7 +334,7 @@ namespace WorkspaceManager.View.Visuals
         {
             foreach (CryptoLineView view in PathCollection)
 	        {
-                view.Line.Reset();
+                view.Line.reset();
 	        }
         }
 

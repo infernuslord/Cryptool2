@@ -31,13 +31,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public LinkedList<FromTo> LinkedPointList = new LinkedList<FromTo>();
-        public EditorVisual Editor { private set; get; }
-
+        #region Fields
+        private LinkedList<FromTo> linkedPointList = new LinkedList<FromTo>();
         private InternalCryptoLineView line = null;
-        private ConnectionModel model = null;
         private UIElement[] newItems, oldItems;
-        private IEnumerable<ComponentVisual> selected;
+        private IEnumerable<ComponentVisual> selected; 
+        #endregion
+        #region Properties
+		public EditorVisual Editor { private set; get; }
+
+        private ConnectionModel model;
         public ConnectionModel Model
         {
             get { return model; }
@@ -49,9 +52,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     model.UpdateableView = this;
             }
         }
-
+        #endregion
+        #region Dependency Properties
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register("Target", typeof(ConnectorVisual),
-            typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+           typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
 
         public ConnectorVisual Target
         {
@@ -119,8 +123,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 base.SetValue(IsSelectedProperty, value);
             }
-        }
-
+        } 
+        #endregion
+        #region Constructors
         public CryptoLineView(ObservableCollection<UIElement> visuals)
         {
             InitializeComponent();
@@ -137,67 +142,48 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.Model = model;
             this.Source = source;
             this.Target = target;
-
             Line = new InternalCryptoLineView(model, source, target, visuals);
-            Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, this));
-            Line.SetBinding(InternalCryptoLineView.EndPointProperty, Util.CreateConnectorBinding(target, this));
+            Line.SetBinding(InternalCryptoLineView.StartPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(source, this));
+            Line.SetBinding(InternalCryptoLineView.EndPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(target, this));
 
             Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(itemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
             createLinkedList();
-            //Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
 
-            if(model.PointList != null)
+            if (model.PointList != null)
                 assembleGeo();
-        }
-
-        void PointListCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            createLinkedList();
-        }
-
+        } 
+        #endregion
+        #region Private
         void createLinkedList()
         {
-            LinkedPointList.Clear();
+            linkedPointList.Clear();
             foreach (var p in Line.PointList)
             {
-                LinkedPointList.AddLast(p);
+                linkedPointList.AddLast(p);
             }
         }
 
-        void itemsSelected(object sender, SelectedItemsEventArgs e)
+        private void detPoint(Point point)
         {
-            oldItems = newItems;
-            newItems = e.Items;
-            if (newItems != null)
+            for (int i = 1; i < Line.PointList.Count - 1; ++i)
             {
-                selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
-                foreach (var x in selected)
+                var p = Line.PointList[i];
+                Rect r = new Rect(p.From, new Vector(p.To.X, p.To.Y));
+                IntersectPoint isect = null;
+                if (LineUtil.FindIntersection(p.From, p.To, point, new Point(point.X - 8 + 16, point.Y), out isect))
                 {
-                    x.IsDraggingChanged += x_IsDraggingChanged;
+                    SelectedPart = p;
+                    return;
+                }
+
+                if (LineUtil.FindIntersection(p.From, p.To, point, new Point(point.X, point.Y - 8 + 16), out isect))
+                {
+                    SelectedPart = p;
+                    return;
                 }
             }
-            if(oldItems != null)
-            {
-                foreach (var x in oldItems.OfType<ComponentVisual>())
-                {
-                    x.IsDraggingChanged -= x_IsDraggingChanged;
-                }
-            }
-            
-        }
-
-        void x_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
-        {
-            bool b = selected.Any(x => x.IsDragging == true);
-            Line.IsDragged = b;
-        }
-
-
-        void LineComputationDone(object sender, EventArgs e)
-        {
-            assembleGeo();
-            createLinkedList();
+            SelectedPart = null;
         }
 
         private void assembleGeo()
@@ -220,8 +206,15 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
             geo.Figures = myPathFigureCollection;
             PathGeo = geo;
-        }
-
+        } 
+        #endregion
+        #region Public
+        public void update()
+        {
+            //throw new NotImplementedException();
+        } 
+        #endregion
+        #region EventHandler
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -231,20 +224,15 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
         }
 
-        public void update()
-        {
-            //throw new NotImplementedException();
-        }
-
         private void DragDelta(object sender, DragDeltaEventArgs e)
         {
             var data = (FromTo)(((FrameworkElement)sender).DataContext);
 
-            var curData = LinkedPointList.Find(data);
+            var curData = linkedPointList.Find(data);
             if (curData == null)
                 return;
 
-            var prevData = LinkedPointList.Find(data).Previous;
+            var prevData = linkedPointList.Find(data).Previous;
             if (prevData == null)
                 return;
 
@@ -267,28 +255,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             detPoint(e.GetPosition((IInputElement)sender));
         }
 
-        private void detPoint(Point point)
-        {
-            for(int i = 1; i < Line.PointList.Count-1 ;++i)
-            {
-                var p = Line.PointList[i];
-                Rect r = new Rect(p.From, new Vector(p.To.X, p.To.Y));
-                IntersectPoint isect = null;
-                if (InternalCryptoLineView.FindIntersection(p.From, p.To, point, new Point(point.X - 8 + 16, point.Y), out isect))
-                {
-                    SelectedPart = p;
-                    return;
-                }
-
-                if (InternalCryptoLineView.FindIntersection(p.From, p.To, point, new Point(point.X, point.Y - 8 + 16), out isect))
-                {
-                    SelectedPart = p;
-                    return;
-                }
-            }
-            SelectedPart = null;
-        }
-
         private void SubPathMouseLeave(object sender, MouseEventArgs e)
         {
             SelectedPart = null;
@@ -302,16 +268,80 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
             }
         }
+
+        void itemsSelected(object sender, SelectedItemsEventArgs e)
+        {
+            oldItems = newItems;
+            newItems = e.Items;
+            if (newItems != null)
+            {
+                selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
+                foreach (var x in selected)
+                {
+                    x.IsDraggingChanged += x_IsDraggingChanged;
+                }
+            }
+            if (oldItems != null)
+            {
+                foreach (var x in oldItems.OfType<ComponentVisual>())
+                {
+                    x.IsDraggingChanged -= x_IsDraggingChanged;
+                }
+            }
+
+        }
+
+        void x_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
+        {
+            bool b = selected.Any(x => x.IsDragging == true);
+            Line.IsDragged = b;
+        }
+
+
+        void LineComputationDone(object sender, EventArgs e)
+        {
+            assembleGeo();
+            createLinkedList();
+        } 
+        #endregion
     }
 
-    	public sealed class InternalCryptoLineView : Shape, IUpdateableView
+    public sealed class InternalCryptoLineView : Shape, IUpdateableView
     {
-        #region Variables
+        #region Events
+        public event EventHandler ComputationDone; 
+        #endregion
+        #region Fields
+		private IntersectPoint intersectPoint;
+        private static double offset = 6;
 
-        private IntersectPoint intersectPoint;
-        private static double baseoffset = 8;
-        public event EventHandler ComputationDone;
-        
+        private Brush ActiveColorBrush;
+        private Brush NonActiveColorBrush;
+        private bool isSubstituteLine = false; 
+	    #endregion
+        #region Properties
+        private ConnectorVisual endPointSource;
+        public ConnectorVisual EndPointSource
+        {
+            get { return endPointSource; }
+            set
+            {
+                value.Update += new EventHandler(ConnectorSourceUpdate);
+                endPointSource = value;
+            }
+        }
+
+        private ConnectorVisual startPointSource;
+        public ConnectorVisual StartPointSource
+        {
+            get { return startPointSource; }
+            set
+            {
+                value.Update += new EventHandler(ConnectorSourceUpdate);
+                startPointSource = value;
+            }
+        }
+
         private ObservableCollection<FromTo> pointList = new ObservableCollection<FromTo>();
         public ObservableCollection<FromTo> PointList
         {
@@ -322,8 +352,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public ConnectionModel Model
         {
             get { return model; }
-            set 
-            { 
+            set
+            {
                 model = value;
 
                 if (model.UpdateableView == null)
@@ -332,9 +362,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 if (model.PointList != null)
                 {
                     PointList.Clear();
-                    for (int i = 0; i <= model.PointList.Count()-2;i++)
+                    for (int i = 0; i <= model.PointList.Count() - 2; i++)
                     {
-                        PointList.Add(new FromTo(model.PointList[i], model.PointList[i+1]));
+                        PointList.Add(new FromTo(model.PointList[i], model.PointList[i + 1]));
                     }
                     HasComputed = true;
                 }
@@ -347,23 +377,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             get { return visuals; }
             private set { visuals = value; }
         }
-        private static double offset = 6;
-
+        
         #endregion
-
         #region Dependency Properties
-
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint",
-            typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), 
-                FrameworkPropertyMetadataOptions.AffectsRender |FrameworkPropertyMetadataOptions.AffectsMeasure));
+           typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),
+               FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint",
-            typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), 
-                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        
-		#endregion
-
-		#region CLR Properties
+            typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),
+                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure)); 
 
         public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged", typeof(bool),
             typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedValueChanged)));
@@ -446,7 +469,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
 		#endregion
-
+        #region Constructors
         public InternalCryptoLineView(ObservableCollection<UIElement> visuals)
         {
             Stroke = Brushes.Black;
@@ -455,7 +478,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             isSubstituteLine = true;
         }
 
-            
         public InternalCryptoLineView(ConnectionModel connectionModel, ConnectorVisual source,
             ConnectorVisual target, ObservableCollection<UIElement> visuals)
         {
@@ -464,13 +486,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.StartPointSource = source;
             this.EndPointSource = target;
             this.Visuals = visuals;
-        }
-
-        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            base.OnPropertyChanged(e);
-        }
-
+        } 
+        #endregion
+        #region Public
         public void InvalidateAllLines()
         {
             var col = Visuals.OfType<CryptoLineView>();
@@ -478,20 +496,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 x.Line.InvalidateVisual();
             }
-        }
-
-        protected override void OnMouseDown(MouseButtonEventArgs args)
-        {
-
-        }
-
-        void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
-        {
-            Color color = ColorHelper.GetLineColor(Model.ConnectionType);
-            Stroke = new SolidColorBrush(color);
-            StrokeThickness = 2;
-        }
-
+        } 
+        #endregion
 		#region Overrides
 
 		protected override Geometry DefiningGeometry
@@ -512,89 +518,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 		}		
 
 		#endregion
-
-		#region Privates
-        public static bool IsBetween(double min, double max, double between)
-        {
-            return min <= between && between <= max;
-        }
-
-        public static bool FindIntersection(Point StartPoint, Point EndPoint, Point StartPointSec, Point EndPointSec, out IntersectPoint intersectPoint)
-        {
-            if (StartPoint.X != EndPoint.X &&
-                StartPoint.Y != EndPoint.Y)
-            {
-                intersectPoint = null;
-                return false;
-            }
-            if (StartPointSec.X != EndPointSec.X &&
-                StartPointSec.Y != EndPointSec.Y)
-            {
-                intersectPoint = null;
-                return false;
-            }
-
-            // parallel, also overlapping case
-            if (StartPoint.X == EndPoint.X && StartPointSec.X == EndPointSec.X ||
-                StartPoint.Y == EndPoint.Y && StartPointSec.Y == EndPointSec.Y)
-            {
-                intersectPoint = null;
-                return false;
-            }
-            else
-            {
-                // orthogonal but maybe not intersected
-                Point up, down, left, right;
-                if (StartPoint.X == EndPoint.X)
-                {
-                    up = StartPoint;
-                    down = EndPoint;
-                    left = StartPointSec;
-                    right = EndPointSec;
-                }
-                else
-                {
-                    up = StartPointSec;
-                    down = EndPointSec;
-                    left = StartPoint;
-                    right = EndPoint;
-                }
-
-                if (up.Y < down.Y)
-                {
-                    double swap = up.Y;
-                    up.Y = down.Y;
-                    down.Y = swap;
-                }
-
-                if (left.X > right.X)
-                {
-                    double swap = left.X;
-                    left.X = right.X;
-                    right.X = swap;
-                }
-                 //check if is intersected at all
-                if(IsBetween(down.Y, up.Y, left.Y) && IsBetween(left.X, right.X, up.X))
-                {
-                    if (up.Y == left.Y ||
-                        down.Y == left.Y ||
-                        left.X == up.X || right.X == up.X)
-                    {
-                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.InnerIntersect);
-                    }
-                    else
-                    {
-                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.NormalIntersect);
-                    }
-                    return true;
-                }
-                intersectPoint = null;
-                return false;
-            }
-        }
-
-        
-
+		#region Private
 		private void internalGeometryDraw(StreamGeometryContext context)
 		{
             makeOrthogonalPoints();
@@ -612,7 +536,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         fromTo.Intersection.Clear();
                         foreach (FromTo resultFromTo in result.Line.PointList)
                         {
-                            if (FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
+                            if (LineUtil.FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
                             {
                                 fromTo.Intersection.Add(intersectPoint);
                             }
@@ -668,65 +592,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             }
         }
 
-        private bool isConnectionPossible(Point p1, Point p2, QuadTreeLib.QuadTree<FakeNode> quadTree)
-        {
-            if (p1.X != p2.X && p1.Y != p2.Y)
-                throw new ArgumentException("only 90° allowed");
-
-            System.Drawing.RectangleF queryRect;
-            if (p1.Y != p2.Y)
-            {
-                Point up = p2.Y < p1.Y ? p2 : p1;
-                Point down = p2.Y < p1.Y ? p1 : p2;
-
-                queryRect = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y));
-            }
-            else
-            {
-                Point left = p2.X < p1.X ? p2 : p1;
-                Point right = p2.X < p1.X ? p1 : p2;
-
-                queryRect = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), 1);
-            }
-            return !quadTree.QueryAny(queryRect);
-        }
-
-        private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTreePlugins)
-        {
-
-            if (isConnectionPossible(n1.Point, p2, quadTreePlugins))
-            {
-                Node n2 = new Node() { Point = p2 };
-                n1.Vertices.Add(n2);
-
-                n2.Vertices.Add(n1);
-                n2.Vertices.Add(n3);
-
-                n3.Vertices.Add(n2);
-
-                nodeList.Add(n2);
-                return true;
-            }
-
-            return false;
-        }
-
-        private void performOrthogonalPointConnection(Node p1, Node p2, QuadTreeLib.QuadTree<FakeNode> quadTree)
-        {
-            if (isConnectionPossible(p1.Point, p2.Point, quadTree))
-            {
-                p1.Vertices.Add(p2);
-                p2.Vertices.Add(p1);
-            }
-        }
-
-        internal class FakeNode : QuadTreeLib.IHasRect
-        {
-            public System.Drawing.RectangleF Rectangle { get; set; }
-            public ConnectorVisual Source { get; set; }
-            public ConnectorVisual Target { get; set; }
-        }
-
         private void makeOrthogonalPoints()
         {
             bool failed = false;
@@ -738,8 +603,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
 
                     // add start and end. Index will be 0 and 1 
-                    Node startNode = new Node() { Point = cheat42(StartPoint, StartPointSource, 1) },
-                        endNode = new Node() { Point = cheat42(EndPoint, EndPointSource, -1) };
+                    Node startNode = new Node() { Point = LineUtil.Cheat42(StartPoint, StartPointSource, 1) },
+                        endNode = new Node() { Point = LineUtil.Cheat42(EndPoint, EndPointSource, -1) };
                     nodeList.Add(startNode);
                     nodeList.Add(endNode);
 
@@ -811,16 +676,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                             if (p1.Point.X == p2.Point.X ||
                                 p1.Point.Y == p2.Point.Y)
                             {
-                                performOrthogonalPointConnection(p1, p2, quadTreePlugins);
+                                LineUtil.PerformOrthogonalPointConnection(p1, p2, quadTreePlugins);
                             }
                             else
                             {
                                 Point help = new Point(p1.Point.X, p2.Point.Y);
 
-                                if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
+                                if (!LineUtil.PerformOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
                                 {
                                     help = new Point(p2.Point.X, p1.Point.Y);
-                                    if (!performOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
+                                    if (!LineUtil.PerformOrthogonalPointConnection(p1, help, p2, nodeList, quadTreePlugins))
                                     {
                                         // optional todo: double edge helping routes
                                     }
@@ -909,7 +774,201 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 ComputationDone.Invoke(this, null);
         }
 
-        private static Point cheat42(Point EndPoint, ConnectorVisual EndPointSource, int flipper)
+        internal void reset()
+        {
+            if (NonActiveColorBrush == null)
+            {
+                NonActiveColorBrush = new SolidColorBrush(ColorHelper.GetLineColor(Model.ConnectionType));
+            }
+            Stroke = NonActiveColorBrush;
+            StrokeThickness = 2;
+        }
+		#endregion
+        #region EventsHandler
+        void ConnectorSourceUpdate(object sender, EventArgs e)
+        {
+            if (!((EditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
+                HasComputed = false;
+        }
+
+
+        void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Color color = ColorHelper.GetLineColor(Model.ConnectionType);
+            Stroke = new SolidColorBrush(color);
+            StrokeThickness = 2;
+        }
+        #endregion
+        #region IUpdateableView Members
+
+        public void update()
+        {
+            if (this.Model.Active)
+            {
+                if (ActiveColorBrush == null)
+                {
+                    Color ActiveColor = ColorHelper.GetLineColor(this.Model.ConnectionType);
+                    ActiveColor.ScR = (ActiveColor.ScR * 2f < 255 ? ActiveColor.ScR * 2f : 255f);
+                    ActiveColor.ScG = (ActiveColor.ScG * 2f < 255 ? ActiveColor.ScG * 2f : 255f);
+                    ActiveColor.ScB = (ActiveColor.ScB * 2f < 255 ? ActiveColor.ScB * 2f : 255f);
+                    ActiveColorBrush = new SolidColorBrush(ActiveColor);
+                }
+                Stroke = ActiveColorBrush;                
+                StrokeThickness = 4;
+            }
+            else
+            {
+                reset();
+            }
+        }
+
+        #endregion
+    }
+
+    #region Custom Class
+    public class FakeNode : QuadTreeLib.IHasRect
+    {
+        public System.Drawing.RectangleF Rectangle { get; set; }
+        public ConnectorVisual Source { get; set; }
+        public ConnectorVisual Target { get; set; }
+    }
+
+    public class LineUtil 
+    {
+        private static double baseoffset = 8;
+
+        public static bool IsBetween(double min, double max, double between)
+        {
+            return min <= between && between <= max;
+        }
+
+        public static bool FindIntersection(Point StartPoint, Point EndPoint, Point StartPointSec, Point EndPointSec, out IntersectPoint intersectPoint)
+        {
+            if (StartPoint.X != EndPoint.X &&
+                StartPoint.Y != EndPoint.Y)
+            {
+                intersectPoint = null;
+                return false;
+            }
+            if (StartPointSec.X != EndPointSec.X &&
+                StartPointSec.Y != EndPointSec.Y)
+            {
+                intersectPoint = null;
+                return false;
+            }
+
+            // parallel, also overlapping case
+            if (StartPoint.X == EndPoint.X && StartPointSec.X == EndPointSec.X ||
+                StartPoint.Y == EndPoint.Y && StartPointSec.Y == EndPointSec.Y)
+            {
+                intersectPoint = null;
+                return false;
+            }
+            else
+            {
+                // orthogonal but maybe not intersected
+                Point up, down, left, right;
+                if (StartPoint.X == EndPoint.X)
+                {
+                    up = StartPoint;
+                    down = EndPoint;
+                    left = StartPointSec;
+                    right = EndPointSec;
+                }
+                else
+                {
+                    up = StartPointSec;
+                    down = EndPointSec;
+                    left = StartPoint;
+                    right = EndPoint;
+                }
+
+                if (up.Y < down.Y)
+                {
+                    double swap = up.Y;
+                    up.Y = down.Y;
+                    down.Y = swap;
+                }
+
+                if (left.X > right.X)
+                {
+                    double swap = left.X;
+                    left.X = right.X;
+                    right.X = swap;
+                }
+                //check if is intersected at all
+                if (IsBetween(down.Y, up.Y, left.Y) && IsBetween(left.X, right.X, up.X))
+                {
+                    if (up.Y == left.Y ||
+                        down.Y == left.Y ||
+                        left.X == up.X || right.X == up.X)
+                    {
+                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.InnerIntersect);
+                    }
+                    else
+                    {
+                        intersectPoint = new IntersectPoint(new Point(up.X, left.Y), IntersectPointMode.NormalIntersect);
+                    }
+                    return true;
+                }
+                intersectPoint = null;
+                return false;
+            }
+        }
+
+        public static bool IsConnectionPossible(Point p1, Point p2, QuadTreeLib.QuadTree<WorkspaceManager.View.VisualComponents.CryptoLineView.FakeNode> quadTree)
+        {
+            if (p1.X != p2.X && p1.Y != p2.Y)
+                throw new ArgumentException("only 90° allowed");
+
+            System.Drawing.RectangleF queryRect;
+            if (p1.Y != p2.Y)
+            {
+                Point up = p2.Y < p1.Y ? p2 : p1;
+                Point down = p2.Y < p1.Y ? p1 : p2;
+
+                queryRect = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y));
+            }
+            else
+            {
+                Point left = p2.X < p1.X ? p2 : p1;
+                Point right = p2.X < p1.X ? p1 : p2;
+
+                queryRect = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), 1);
+            }
+            return !quadTree.QueryAny(queryRect);
+        }
+
+        public static bool PerformOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<WorkspaceManager.View.VisualComponents.CryptoLineView.FakeNode> quadTreePlugins)
+        {
+
+            if (LineUtil.IsConnectionPossible(n1.Point, p2, quadTreePlugins))
+            {
+                Node n2 = new Node() { Point = p2 };
+                n1.Vertices.Add(n2);
+
+                n2.Vertices.Add(n1);
+                n2.Vertices.Add(n3);
+
+                n3.Vertices.Add(n2);
+
+                nodeList.Add(n2);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void PerformOrthogonalPointConnection(Node p1, Node p2, QuadTreeLib.QuadTree<WorkspaceManager.View.VisualComponents.CryptoLineView.FakeNode> quadTree)
+        {
+            if (IsConnectionPossible(p1.Point, p2.Point, quadTree))
+            {
+                p1.Vertices.Add(p2);
+                p2.Vertices.Add(p1);
+            }
+        }
+
+        public static Point Cheat42(Point EndPoint, ConnectorVisual EndPointSource, int flipper)
         {
             double xoffset = 0;
             double yoffset = 0;
@@ -932,105 +991,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             //yoffset *= flipper;
             return new Point(EndPoint.X + xoffset, EndPoint.Y + yoffset);
         }
-		
-		#endregion
-
-        #region IUpdateableView Members
-
-        private Brush ActiveColorBrush;
-        private Brush NonActiveColorBrush;
-
-        public void update()
-        {
-            if (this.Model.Active)
-            {
-                if (ActiveColorBrush == null)
-                {
-                    Color ActiveColor = ColorHelper.GetLineColor(this.Model.ConnectionType);
-                    ActiveColor.ScR = (ActiveColor.ScR * 2f < 255 ? ActiveColor.ScR * 2f : 255f);
-                    ActiveColor.ScG = (ActiveColor.ScG * 2f < 255 ? ActiveColor.ScG * 2f : 255f);
-                    ActiveColor.ScB = (ActiveColor.ScB * 2f < 255 ? ActiveColor.ScB * 2f : 255f);
-                    ActiveColorBrush = new SolidColorBrush(ActiveColor);
-                }
-                Stroke = ActiveColorBrush;                
-                StrokeThickness = 4;
-            }
-            else
-            {
-                Reset();
-            }
-        }
-
-        #endregion
-
-        internal void Reset()
-        {
-            if (NonActiveColorBrush == null)
-            {
-                NonActiveColorBrush = new SolidColorBrush(ColorHelper.GetLineColor(Model.ConnectionType));
-            }
-            Stroke = NonActiveColorBrush;
-            StrokeThickness = 2;
-        }
-
-
-        private ConnectorVisual startPointSource;
-        public ConnectorVisual StartPointSource 
-        { 
-            get { return startPointSource; } 
-            set 
-            {
-                value.Update += new EventHandler(ConnectorSourceUpdate);
-                //value.Dragged += new EventHandler<IsDraggedEventArgs>(SourceDragged);
-                startPointSource = value;  
-            } 
-        }
-
-        void SourceDragged(object sender, IsDraggedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ConnectorSourceUpdate(object sender, EventArgs e)
-        {
-            if(!((EditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
-                HasComputed = false;
-        }
-
-        private ConnectorVisual endPointSource;
-
-
-        public ConnectorVisual EndPointSource 
-        { 
-            get { return endPointSource; } 
-            set 
-            {
-                value.Update += new EventHandler(ConnectorSourceUpdate);
-                //value.Dragged += new EventHandler<IsDraggedEventArgs>(SourceDragged);
-                endPointSource = value;
-            } 
-        }
-        private bool isSubstituteLine = false;
     }
-
-    public class MultiDragValueConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return null;
-            /*bool a = (bool)values[0], b = (bool)values[1];
-            if (a == true || b == true)
-                return true;
-            else
-                return false;*/
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
+    #endregion
+    #region Converter
     public class IsOneTrueBindingConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -1097,6 +1060,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         {
             throw new NotImplementedException();
         }
-    }
-
+    } 
+    #endregion
 }
