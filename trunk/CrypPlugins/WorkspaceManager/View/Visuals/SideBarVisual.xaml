@@ -238,7 +238,10 @@
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg-setting.png" Opacity="0.5" Stretch="Uniform"></ImageBrush>
                 </StackPanel.Background>
-                <TextBlock Text="Settings" Foreground="#555" FontFamily="David" FontSize="17" Margin="4"></TextBlock>
+                <Border Background="#55ffffff" Margin="4" BorderThickness="1" BorderBrush="#b9c9de">
+                    <TextBlock Text="Parameter" Foreground="#555" FontFamily="David" FontSize="17" Margin="4"></TextBlock>
+                </Border>
+
                 <ListView Style="{StaticResource ResourceKey=SelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
                             SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False">
                     <ListView.LayoutTransform>
