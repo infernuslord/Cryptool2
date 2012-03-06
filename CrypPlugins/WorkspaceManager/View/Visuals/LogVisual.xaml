@@ -162,24 +162,18 @@
                         <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
                             <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="20"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="110"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="40"/>
                                     <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
                                 <Border Grid.Column="0" Grid.Row="0">
-                                    <Image Style="{StaticResource ResourceKey=LevelImageStyle}" Width="35" Height="35"></Image>
+                                    <Image Style="{StaticResource ResourceKey=LevelImageStyle}" Width="20" Height="20"></Image>
                                 </Border>
-                                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <TextBlock LineStackingStrategy="BlockLineHeight"  LineHeight="11.5" FontSize="9" FontFamily="Lucida Sans Unicode" Foreground="#555" Text="{Binding Path=Date}" TextWrapping="Wrap"></TextBlock>
-                                    </ScrollViewer>
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Left">
-                                        <TextBlock LineStackingStrategy="BlockLineHeight" FontWeight="Bold"  LineHeight="11.5" FontSize="11" FontFamily="Lucida Sans Unicode" Foreground="#555" Text="{Binding Path=Message}" TextWrapping="Wrap"></TextBlock>
-                                    </ScrollViewer>
-                                </StackPanel>
+                                <TextBlock LineStackingStrategy="BlockLineHeight" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FontWeight="Bold"  LineHeight="11.5" FontSize="11.5" FontFamily="Consolas" Foreground="#555" Text="{Binding Path=Message}" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock LineStackingStrategy="BlockLineHeight" Grid.Column="2" Grid.Row="0" LineHeight="11.5" FontSize="9.5" FontFamily="Lucida Sans Unicode" Foreground="#555" Text="{Binding Path=Date}" TextWrapping="Wrap"></TextBlock>
                             </Grid>
                         </Border>
                         <DataTemplate.Triggers>

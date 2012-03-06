@@ -184,6 +184,11 @@ namespace WorkspaceManager.View.Visuals
         {
         
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     #region Custom Class
