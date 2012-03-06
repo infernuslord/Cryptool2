@@ -7,13 +7,21 @@
   <introduction lang="en">    
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+	  Tiger ist eine kryptografische Hashfunktion und wurde 1996 von den Kryptographieexperten Ross Anderson und Eli Biham entworfen. 
+	  Der Tiger-Algorithmus berechnet für eine Eingabe beliebiger Länge einen Hashwert mit einer Länge von 192 Bits (24 Bytes).
+	  Er arbeitet intern mit 64-Bit-Worten und ist daher optimiert für die Verwendung auf 64-Bit-Architekturen.
+	  In CrypTool ist die Version 2 des Tiger-Algorithmus implementiert.
+	  <newline />
+	  Tiger ist patentfrei und unterliegt keinen Nutzungsbeschränkungen.
   </introduction>
 
   <usage lang="en">
   </usage>
 
   <usage lang="de-DE">
+	  Die Tiger-Komponente erwartet die Daten, deren Hashwert berechnet werden soll, entweder als Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom".
+	  Der resultierende Tiger-Hashwert wird an den Ausgängen der Komponente wiederum als Datenstrom und als Byte-Array bereitgestellt.
   </usage>
   
   <presentation lang="en">
@@ -28,6 +36,12 @@
       <caption lang="de">Tiger (Wikipedia)</caption>
       <link url="http://en.wikipedia.org/wiki/Tiger_(cryptography)" lang="en" />
       <caption lang="en">Tiger (Wikipedia)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://www.cs.technion.ac.il/~biham/Reports/Tiger/" lang="de" />
+      <caption lang="de">Tiger-Homepage (engl.)</caption>
+      <link url="http://www.cs.technion.ac.il/~biham/Reports/Tiger/" lang="en" />
+      <caption lang="en">Tiger Homepage</caption>
     </linkReference>
   </references>
 </documentation>
