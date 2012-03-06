@@ -514,28 +514,6 @@ namespace Cryptool.Plugins.CypherMatrix
 
             // Generierung der Basis-Variation
             k = 0;
-            if (256 < d.Count - 3)
-                j = 256;
-            else
-                j = d.Count - 3;    // es sollen im 3 Elemente ausgelesen werden; es würde ein Fehler geworfen werden, wenn das 3. Element nicht mehr gelesen werden kann
-            for (byte e = 0; k < j; k++)
-            {
-                e = (byte)(BaseXToInt(d, k + variante - 1, 3, settings.Basis + 1) - Theta);    // k + variante - 1, weil array d bei 0 anfängt; beim byte-cast wird automatisch mod 256 gerechnet
-                cm1[k] = (byte)e;
-                //Logik zum testen ob ein Wert schon im Array vorhanden ist
-                for (i = 0; i < k; i++)
-                {
-                    if (cm1[i] == e)
-                    {
-                        e++;
-                        //if (e >= 256)
-                        //    e = e - 256;    // Reduziere e falls es zu groß wird
-                        cm1[k] = e;
-                        i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
-                    }
-                }
-            }
-            // 2. for-Schleife für den Fall, dass d zu wenig Elemente enthällt
             for (byte e = 0; k < 256; k++)
             {
                 e = (byte)(BaseXToIntSafe(d, k + variante - 1, 3, settings.Basis + 1) - Theta);    // k + variante - 1, weil array d bei 0 anfängt; beim byte-cast wird automatisch mod 256 gerechnet
@@ -808,6 +786,7 @@ namespace Cryptool.Plugins.CypherMatrix
         }
 
         // function for changing back to the base 10, without errors
+        // verhällt sich wie die Funktion im Basiccode, wenn außerhalb des gültigen Wertebereichs von list gelesen werden soll
         static int BaseXToIntSafe(List<int> list, int start, int length, int Base)
         {
             if (list.Count < start + length)
