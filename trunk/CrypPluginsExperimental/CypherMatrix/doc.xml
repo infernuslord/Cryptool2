@@ -12,7 +12,7 @@
     <newline/>
     It is implemented in CrypTool 2 as experimental method for training purposes.
     <newline/>
-    The CypherMatrix-cipher is a symmetric block cipher, whose block size can be set variable between 35 and 96. An apart key scheduler computes the two encryption parameters from the passphrase. The cipher text is worked out in one iteration from the plain text using a XOR and a substitution table. Additionally the cipher has its own operation mode, which ensures that the encryption parameters chance for each block.
+    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The cipher text is computed in one iteration from the plain text using an XOR and a substitution table. Additionally the cipher has its own operation mode which ensures that the encryption parameters change for each block.
     <newline/>
     <newline/>
     Note: The capability for signing data is not yet implemented in this plugin.
@@ -25,14 +25,14 @@
     <newline/>
     In CrypTool 2 ist es zu Lernzwecken als experimentelles Verfahren implementiert.
     <newline/>
-    Die CypherMatrix-Chiffre ist eine symmetrische Blockchiffre, deren Blocklänge sich variabel zwischen 35 und 96 Bytes einstellen lässt. Für die Berechnung der beiden für die Verschlüsselung benötigten Parameter, gibt es eine separate Schlüsselableitungsfunktion, die diese aus der Passphrase ableitet. Der Chiffretext wird dann mittels XOR und Substitutionstabelle in einer Iteration aus dem Klartext gewonnen. Zusätzlich besitzt diese Chiffre einen eigenen Betriebsmodus für die Blockverschlüsselung, welcher dafür sorgt, dass sich die Parameter der Verschlüsselungsfunktion mit jedem Block ändern.
+    Die CypherMatrix-Chiffre ist eine symmetrische Blockchiffre, deren Blocklänge variabel zwischen 35 und 96 Bytes einstellbar ist. Für die Berechnung der beiden für die Verschlüsselung benötigten Parameter, gibt es eine separate Schlüsselableitungsfunktion, die diese aus der Passphrase ableitet. Der Chiffretext wird dann mittels XOR und Substitutionstabelle in einer Iteration aus dem Klartext gewonnen. Zusätzlich besitzt diese Chiffre einen eigenen Betriebsmodus für die Blockverschlüsselung, welcher dafür sorgt, dass sich die Parameter der Verschlüsselungsfunktion mit jedem Block ändern.
     <newline/>
     <newline/>
     Hinweis: Das Signieren von Daten ist bisher in diesem Plugin noch nicht implementiert.
   </introduction>
 
   <usage lang="en">
-    After dragging the CypherMatrix component onto the workspace you need to specify a data source that represents the text to be encrypted or decrypted. The author of the algorithm recommends a passphrase of 42 characters. A passphrase as well as a datasource are neccessary to execute this algorithm.
+    After dragging the CypherMatrix component onto the workspace you need to specify a data source that represents the text to be encrypted or decrypted. The author of the algorithm recommends a passphrase of 42 characters. A passphrase as well as a data source are neccessary to execute this algorithm.
     <newline/>
     In the component settings you can choose the operation mode and change parameters.
   </usage>
