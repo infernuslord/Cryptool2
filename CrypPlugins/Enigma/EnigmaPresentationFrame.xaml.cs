@@ -110,8 +110,6 @@ namespace Cryptool.Enigma
 
         private void EnigmaPresentationFrame_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            //if(!this.IsVisible)
-            //EnigmaPresentation.giveFeedbackAndDie();
         }
 
         private void visbileCheckbox_Unchecked(object sender, RoutedEventArgs e)
@@ -121,6 +119,8 @@ namespace Cryptool.Enigma
             enigmaStatus.Background = Brushes.Tomato;
 
             EnigmaPresentation.giveFeedbackAndDie();
+
+            dockPanel1.Background.Opacity = 100;
         }
 
         private void visbileCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -132,6 +132,9 @@ namespace Cryptool.Enigma
             else
                 enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Presentation_ready;
             enigmaStatus.Background = Brushes.LawnGreen;
+
+
+            dockPanel1.Background.Opacity = 0;
         }
 
     }

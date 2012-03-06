@@ -143,6 +143,7 @@ namespace Cryptool.Enigma
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
                 OnPropertyChanged("PlugBoardDisplay");
+                OnPropertyChanged("PlugBoard");
                 
             }
         }
@@ -1332,6 +1333,7 @@ namespace Cryptool.Enigma
 
             // Are the following needed? For the presentation?
             OnPropertyChanged("PlugBoardDisplay");
+            OnPropertyChanged("PlugBoard");
             OnPropertyChanged("Remove all Plugs");
         }
 

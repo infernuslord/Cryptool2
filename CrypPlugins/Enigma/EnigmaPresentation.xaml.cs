@@ -539,6 +539,7 @@ namespace Cryptool.Enigma
         #region Constructor
         public EnigmaPresentation(Enigma facade)
         {
+            
             ars = new AutoResetEvent(false);
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;

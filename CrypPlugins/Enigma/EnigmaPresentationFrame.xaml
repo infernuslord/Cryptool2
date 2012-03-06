@@ -29,12 +29,16 @@
     </UserControl.Resources>
     
     <DockPanel Name="dockPanel1" >
-        
+        <DockPanel.Background>
+            <ImageBrush ImageSource="Images/Enigma2.png" Stretch="Uniform" />
+        </DockPanel.Background>
         <Grid DockPanel.Dock="Bottom" Height="20" Margin="5"  >
+            
             <TextBlock Name="enigmaStatus" HorizontalAlignment="Left" > Presentation bereit </TextBlock>
             <CheckBox Name="visbileCheckbox" HorizontalAlignment="Right"  Unchecked="visbileCheckbox_Unchecked" Checked="visbileCheckbox_Checked" IsChecked="True">Präsentation aktivieren</CheckBox>
             
         </Grid>
+        
         
         
     </DockPanel>
