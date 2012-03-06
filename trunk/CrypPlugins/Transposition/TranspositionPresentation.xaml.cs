@@ -80,7 +80,7 @@ namespace Transposition
         private int number;             //
         private TextBlock[] reina;      // incoming matrix as texblock array
         private TextBlock[] reouta;     // outgoing matrix as textblock array, never used
-        private int speed = 1;          // animation speed
+        private int speed = 100;          // animation speed
         private int rowper;             // help variable to differnce between permute by row and column
         private int colper;             // help variable to differnce between permute by row and column
         private byte[,] read_in_matrix; // read in matrix as byte array
@@ -131,9 +131,17 @@ namespace Transposition
             if (keyword != null && input != null)
             {
                 init(read_in_matrix, permuted_matrix, keyword, per, rein, reout, act, key, number);
-                this.speed = speed2;
+                if (speed > 100)
+                {
+                    this.speed = speed2;
+                }
+                else
+                {
+                    this.speed = 100;
+                }
                 create(read_in_matrix, permuted_matrix, key, keyword, input, output);
                 sizeChanged(this, EventArgs.Empty);
+                
             }
         }
 

@@ -16,7 +16,7 @@ namespace Transposition
         private ReadInMode selectedReadIn = ReadInMode.byRow;
         private PermutationMode selectedPermutation = PermutationMode.byColumn;
         private ReadOutMode selectedReadOut = ReadOutMode.byColumn;
-        private int Presentation_Speed = 1;
+        private int Presentation_Speed = 100;
         private NumberMode selectedNumberMode = NumberMode.asChar;
         
         # endregion
