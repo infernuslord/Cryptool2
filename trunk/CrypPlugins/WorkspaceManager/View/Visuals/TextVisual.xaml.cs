@@ -153,8 +153,8 @@ namespace WorkspaceManager.View.Visuals
         {
             TextVisual bin = (TextVisual)d;
             bin.mainRTB.Focusable = bin.IsSelected;
-            if(bin.IsSelected)
-                bin.mainRTB.Focus();
+            if (bin.IsSelected)
+                bin.mainRTB.MoveFocus(new TraversalRequest(FocusNavigationDirection.Last));
         }
 
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
