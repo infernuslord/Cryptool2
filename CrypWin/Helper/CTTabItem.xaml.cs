@@ -107,5 +107,10 @@ namespace Cryptool.CrypWin.Helper
         }
 
         public PluginBase.Editor.IEditor Editor { get; set; }
+
+        private void CopyToClipboard(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(Header.ToString());
+        }
     }
 }
