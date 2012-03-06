@@ -197,22 +197,28 @@ namespace Cryptool.Plugins.CypherMatrix
                             //break;
                         }
                 }
-
                 sw.Stop();
+                if (!stop)
+                {
+                    GuiLogMessage(string.Format("Processed {0:N} kB data in {1} ms.", (double)InputStream.Length / 1024, sw.ElapsedMilliseconds), NotificationLevel.Info);
+                    GuiLogMessage(string.Format("Achieved data throughput: {0:N} kB/s", (double)InputStream.Length / sw.ElapsedMilliseconds), NotificationLevel.Info);
+                }
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
+            finally
+            {
                 if (stop)
                 {
                     GuiLogMessage("Aborted!", NotificationLevel.Warning);
                     stop = false;
                 }
-                else
-                {
-                    GuiLogMessage(string.Format("Processed {0:N} kB data in {1} ms.", (double)InputStream.Length / 1024, sw.ElapsedMilliseconds), NotificationLevel.Info);
-                    GuiLogMessage(string.Format("Achieved data throughput: {0:N} kB/s", (double)InputStream.Length / sw.ElapsedMilliseconds), NotificationLevel.Info);
-                }
                 if (!settings.Debug)
                     WriteDebug("You have to enable the debug logging to see the internal variables here.");
-                    //GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
-                    
+                //GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
+
                 outputStreamWriter.Flush();
                 outputStreamWriter.Close();
                 debugDataWriter.Flush();
@@ -220,11 +226,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 OnPropertyChanged("OutputStream");
                 OnPropertyChanged("OutputDebug");
             }
-            catch (Exception exception)
-            {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-            }
-            
+
             ProgressChanged(1, 1);
         }
 
@@ -233,6 +235,12 @@ namespace Cryptool.Plugins.CypherMatrix
         /// </summary>
         public void PostExecution()
         {
+            // lösche die angefallenen Werte
+            cm1 = new byte[256];
+            cm3 = new byte[256];
+            cipherChars = new List<byte>(128);
+            blockKey = null;
+            matrixKey = null;
         }
 
         /// <summary>
@@ -299,17 +307,21 @@ namespace Cryptool.Plugins.CypherMatrix
             List<uint> index = new List<uint>();
             List<byte> ciphertext = new List<byte>();
             byte[] plaintext = new byte[length];
-            int startseqLen = InputByteArray.Length < settings.MatrixKeyLen ? settings.MatrixKeyLen : InputByteArray.Length; // als Länge wird immer der größere Wert genommen
-            byte[] startseq = new byte[startseqLen];
+            byte[] startseq;
+            if (InputByteArray.Length < settings.MatrixKeyLen)
+                startseq = new byte[settings.MatrixKeyLen];
+            else
+                startseq = new byte[InputByteArray.Length];
+            int startseqLen = InputByteArray.Length;
             Buffer.BlockCopy(InputByteArray, 0, startseq, 0, InputByteArray.Length);
             int round = 1;
-            
             while ((bytesRead = inputStreamReader.ReadFully(plaintext)) > 0)
             {
                 if (bytesRead < length)
                     // in der letzten Runde Padding durch hinzufügen von Leerzeichen bis der Puffer voll ist
-                    for(int i = bytesRead; i < plaintext.Length; i++)
+                    for (int i = bytesRead; i < plaintext.Length; i++)
                         plaintext[i] = 0x20;
+
 
                 // Schlüssel generieren
                 Generator(startseq, startseqLen, round);
@@ -322,6 +334,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 // bit conversation
                 long puffer = 0;
                 int bitCount = 0;
+
                 for (int i = 0; i < length; i++)
                 {
                     puffer <<= 8;       // mache für die nächsten 8 Bits Platz
@@ -379,8 +392,12 @@ namespace Cryptool.Plugins.CypherMatrix
             List<byte> xor = new List<byte>();
             List<uint> index = new List<uint>();
             byte[] cipherBlock = new byte[len7];
-            int startseqLen = InputByteArray.Length < settings.MatrixKeyLen ? settings.MatrixKeyLen : InputByteArray.Length; // als Länge wird immer der größere Wert genommen
-            byte[] startseq = new byte[startseqLen];
+            byte[] startseq;
+            if (InputByteArray.Length < settings.MatrixKeyLen)
+                startseq = new byte[settings.MatrixKeyLen];
+            else
+                startseq = new byte[InputByteArray.Length];
+            int startseqLen = InputByteArray.Length;
             Buffer.BlockCopy(InputByteArray, 0, startseq, 0, InputByteArray.Length);
             int round = 1;
 
@@ -458,12 +475,17 @@ namespace Cryptool.Plugins.CypherMatrix
             int i, j, k, l;
             long H_p = 0, s_i = 0;
             List<int> d = new List<int>();
-            
+            int[] perm = new int[16];   // Permutationsarray bei Permutation mit Variate C
+
             int n = startseqLen;
             int C_k = n * (n - 2) + settings.Code;
-            
+
             for (i = 1; i <= n; i++)
+                //!!Die alte Variante ist nur für Testzwecke gedacht!!
+                //neue Variante
                 H_k += (startseq[i - 1] + 1) * (i + C_k + r);   // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n
+            //alte Variante
+            //H_k += (startseq[i - 1] + 1) * (i + C_k);   // i-1, da das Array von 0 bis n-1 läuft, im Paper von 1 bis n
 
             // Berechnung der Hashfunktionsfolge
             for (i = 1; i <= n; i++)
@@ -488,13 +510,17 @@ namespace Cryptool.Plugins.CypherMatrix
             int Beta = H_k % 169 + 1;
             int Gamma = (int)((H_p + settings.Code) % 196 + 1);
             int Delta = (int)(H_ges % 155 + settings.Code);
-            int Theta = H_k % 32 + 1;            
+            int Theta = H_k % 32 + 1;
 
             // Generierung der Basis-Variation
             k = 0;
-            for (int e = 0; k < 256; k++)
+            if (256 < d.Count - 3)
+                j = 256;
+            else
+                j = d.Count - 3;    // es sollen im 3 Elemente ausgelesen werden; es würde ein Fehler geworfen werden, wenn das 3. Element nicht mehr gelesen werden kann
+            for (byte e = 0; k < j; k++)
             {
-                e = (BaseXToInt(d, k + variante - 1, 3, settings.Basis + 1) - Theta) % 256;    // k + variante - 1, weil array d bei 0 anfängt
+                e = (byte)(BaseXToInt(d, k + variante - 1, 3, settings.Basis + 1) - Theta);    // k + variante - 1, weil array d bei 0 anfängt; beim byte-cast wird automatisch mod 256 gerechnet
                 cm1[k] = (byte)e;
                 //Logik zum testen ob ein Wert schon im Array vorhanden ist
                 for (i = 0; i < k; i++)
@@ -502,9 +528,27 @@ namespace Cryptool.Plugins.CypherMatrix
                     if (cm1[i] == e)
                     {
                         e++;
-                        if (e >= 256)
-                            e = e - 256;    // Reduziere e falls es zu groß wird
-                        cm1[k] = (byte)e;
+                        //if (e >= 256)
+                        //    e = e - 256;    // Reduziere e falls es zu groß wird
+                        cm1[k] = e;
+                        i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
+                    }
+                }
+            }
+            // 2. for-Schleife für den Fall, dass d zu wenig Elemente enthällt
+            for (byte e = 0; k < 256; k++)
+            {
+                e = (byte)(BaseXToIntSafe(d, k + variante - 1, 3, settings.Basis + 1) - Theta);    // k + variante - 1, weil array d bei 0 anfängt; beim byte-cast wird automatisch mod 256 gerechnet
+                cm1[k] = e;
+                //Logik zum testen ob ein Wert schon im Array vorhanden ist
+                for (i = 0; i < k; i++)
+                {
+                    if (cm1[i] == e)
+                    {
+                        e++;
+                        //if (e >= 256)
+                        //    e = e - 256;    // Reduziere e falls es zu groß wird
+                        cm1[k] = e;
                         i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
                     }
                 }
@@ -537,6 +581,45 @@ namespace Cryptool.Plugins.CypherMatrix
                 case CypherMatrixSettings.Permutation.C:
                     {
                         throw new NotImplementedException("NYI! Please use permutation function B!");
+                        int x = Delta - 1, a = 0;
+                        for (k = 0; k < 16; k++)
+                        {
+                            x++;
+                            if (x > 256)
+                                x -= 256;
+                            a = (cm1[x] + Theta) % 16;
+                            perm[k] = a;
+
+                            //Logik um doppelte Werte zu vermeiden
+                            for (i = 0; i < k; i++)
+                            {
+                                if (perm[i] == a)
+                                {
+                                    a++;
+                                    if (a >= 16)
+                                        a = a - 16;    // Reduziere e falls es zu groß wird
+                                    perm[k] = a;
+                                    i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
+                                }
+                            }
+                        }
+
+                        i = 1; k = 0; l = 0;
+                        for (int pos = Alpha - 1; i <= 16; i++)
+                        {
+                            for (j = 1; j <= 16; j++)
+                            {
+                                k = i - j;
+                                if (k <= 0)
+                                    k += 16;
+                                l = perm[j - 1];    // l ist ein Wert mod 16
+                                cm3[(k - 1) * 16 + l] = cm1[pos];   // l ist ein Wert mod 16, weshalb er nicht um 1 reduziert werden muss
+                                pos++;
+                                if (pos > 255)
+                                    pos = 0;
+                            }
+                        }
+
                         break;
                     }
                 default: throw new NotImplementedException("Unknown permutation function!");
@@ -552,7 +635,7 @@ namespace Cryptool.Plugins.CypherMatrix
             // Block-Schlüssel
             for (i = 0; i < settings.BlockKeyLen; i++)
                 blockKey.Add((byte)cm3[Beta - 1 + i]);
-            
+
             // Matrix-Schlüssel
             for (i = 0; i < settings.MatrixKeyLen; i++)
                 matrixKey[i] = cm3[Gamma - 1 + i];
@@ -571,7 +654,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 WriteDebug(String.Format("matrixKeyLen = {0}\r\n", settings.MatrixKeyLen));
                 WriteDebug(String.Format("hashBlockLen = {0}\r\n", settings.HashBlockLen));
                 WriteDebug(String.Format("\r\nstartSequence (hex): \r\n "));
-                for(i = 0; i < startseqLen; i++)
+                for (i = 0; i < startseqLen; i++)
                     WriteDebug(String.Format(" {0:X2}", startseq[i]));
                 WriteDebug(String.Format("\r\n\r\nn = {0}\r\n", n));
                 WriteDebug(String.Format("C_k = {0}\r\n", C_k));
@@ -596,6 +679,16 @@ namespace Cryptool.Plugins.CypherMatrix
                     }
                     WriteDebug("\r\n");
                 }
+                if (settings.Perm == CypherMatrixSettings.Permutation.C)
+                {
+                    WriteDebug("\r\nperm: \r\n");
+                    for (j = 0; j < 16; j++)
+                    {
+                        WriteDebug(String.Format(" {0}", perm[j]));
+                    }
+                    WriteDebug("\r\n");
+                }
+
                 WriteDebug("\r\ncm3 (hex): \r\n");
                 for (i = 0; i < 256; )
                 {
@@ -670,10 +763,10 @@ namespace Cryptool.Plugins.CypherMatrix
                         break;
                     }
                 case CypherMatrixSettings.CypherMatrixHashMode.FMX:
-                    //{
-                    //    throw new NotImplementedException("NYI! At the moment only encryption and decryption are possible.");
-                    //    break;
-                    //}
+                //{
+                //    throw new NotImplementedException("NYI! At the moment only encryption and decryption are possible.");
+                //    break;
+                //}
                 case CypherMatrixSettings.CypherMatrixHashMode.LCX:
                     {
                         throw new NotImplementedException("NYI! Please choose an other hash mode.");
@@ -712,6 +805,18 @@ namespace Cryptool.Plugins.CypherMatrix
                 b *= Base;
             }
             return a;
+        }
+
+        // function for changing back to the base 10, without errors
+        static int BaseXToIntSafe(List<int> list, int start, int length, int Base)
+        {
+            if (list.Count < start + length)
+            {
+                if (list.Count < start)
+                    return 0;   // start zeigt in nicht von list genutzten Speicher
+                length = list.Count - start;    // Berechne length neu
+            }
+            return BaseXToInt(list, start, length, Base);
         }
 
         // function to filter certain chars
