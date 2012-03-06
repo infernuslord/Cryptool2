@@ -167,7 +167,7 @@
                                     <ColumnDefinition Width="110"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Border Grid.Column="0" Grid.Row="0">
                                     <Image Style="{StaticResource ResourceKey=LevelImageStyle}" Width="20" Height="20"></Image>
