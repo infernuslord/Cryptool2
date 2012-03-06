@@ -13,10 +13,9 @@
 
   <introduction lang="de-DE">
     PRESENT ist ein Beispiel für ein SP-Netzwerk und besteht aus 31 Runden.
-    Die Blocklänge beträgt 64 Bits und zwei Schlüssellängen von 80 und 128 Bits werden unterstützt.
-    PRESENT ist ein ultra-leichtgewichtiger Blockchiffre, welcher darauf ausgelegt ist in extrem beschränkten Umgebungen, wie
-    beispielsweise RFID-Tags und Sensornetzwerken, zu arbeiten und dabei sowohl Aspekte der Sicherheit als auch der Hardwareeffizienz
-    zu berücksichtigen.
+    Die Blocklänge beträgt 64 Bits, es werden zwei Schlüssellängen von 80 und 128 Bits unterstützt.
+    PRESENT ist eine ultra-leichtgewichtige Blockchiffre, die darauf ausgelegt ist, in extrem Ressourcen-beschränkten Umgebungen, wie
+    beispielsweise RFID-Tags und Sensornetzwerken, zu arbeiten. PRESENT berücksichtigt damit sowohl Aspekte der Sicherheit als auch der Hardwareeffizienz.
   </introduction>
 
   <usage lang="en">
