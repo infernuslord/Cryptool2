@@ -188,6 +188,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private void assembleGeo()
         {
+            if (Model.PointList.Count == 0)
+                return;
+
             PathGeometry geo = new PathGeometry();
             PathFigure myPathFigure = new PathFigure();
             PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();

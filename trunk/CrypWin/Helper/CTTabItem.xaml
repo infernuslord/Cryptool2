@@ -57,6 +57,11 @@
                         <Grid>
                             <Grid.ContextMenu>
                                 <ContextMenu>
+                                    <MenuItem Click="CopyToClipboard"  Header="Copy Title">
+                                        <MenuItem.Icon>
+                                            <Image Width="15" Height="15" Source="../images/Paste32.png"></Image>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                     <MenuItem Click="Button_Click2"  Header="{Loc Close_All}">
                                         <MenuItem.Icon>
                                             <Image Width="15" Height="15" Source="../images/delete.png"></Image>
