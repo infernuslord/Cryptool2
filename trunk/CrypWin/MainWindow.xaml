@@ -301,6 +301,8 @@
         <KeyBinding Command="cw:CrypWinCommands.Maximize" Gesture="F11"/>
         <KeyBinding Command="cw:CrypWinCommands.Fullscreen" Gesture="F12"/>
         <KeyBinding Command="cw:CrypWinCommands.Remove" Gesture="Del"/>
+        <KeyBinding Command="cw:CrypWinCommands.Redo" Gesture="Ctrl + Y"/>
+        <KeyBinding Command="cw:CrypWinCommands.Undo" Gesture="Ctrl + Z"/>
     </dc:RibbonWindow.InputBindings>
     <DockPanel LastChildFill="True">
         <StatusBar Name="statusBar" DockPanel.Dock="Bottom" Height="22" MouseDoubleClick="statusBar_MouseDoubleClick">

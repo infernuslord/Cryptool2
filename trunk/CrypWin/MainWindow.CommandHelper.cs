@@ -330,8 +330,6 @@ namespace Cryptool.CrypWin
 
         private void Undo_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Undo();
         }
 
@@ -348,8 +346,6 @@ namespace Cryptool.CrypWin
 
         private void Redo_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Redo();
         }
 
