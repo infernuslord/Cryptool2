@@ -300,13 +300,7 @@ namespace WorkspaceManager
         public void Print()
         {
             try
-            {
-                Matrix m = PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
-                double dx = m.M11 * 96;
-                double dy = m.M22 * 96;
-                this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
-                const int factor = 4;
-                UIElement control = (UIElement)((EditorVisual)this.Presentation).ScrollViewer.Content;
+            {                
                 PrintDialog dialog = new PrintDialog();
                 dialog.PageRangeSelection = PageRangeSelection.AllPages;
                 dialog.UserPageRangeEnabled = true;
@@ -315,6 +309,14 @@ namespace WorkspaceManager
                 if (print == true)
                 {
                     this.GuiLogMessage("Printing document \"" + this.CurrentFile + "\" now", NotificationLevel.Info);
+
+                    ((EditorVisual)this.Presentation).FitToScreen();
+                    Matrix m = PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
+                    double dx = m.M11 * 96;
+                    double dy = m.M22 * 96;
+                    this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
+                    const int factor = 4;
+                    UIElement control = (UIElement)((EditorVisual)this.Presentation).ScrollViewer.Content;
 
                     PrintCapabilities capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
                     System.Windows.Size pageSize = new System.Windows.Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
