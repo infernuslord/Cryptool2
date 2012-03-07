@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">HMAC</title>
+  <description lang="en">This template shows how to use the <i>HMAC</i>. component</description>
+  <keywords>hash</keywords>
+  <title lang="de">HMAC</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>HMAC</i> Komponente.</description>
+  <keywords lang="de">hash</keywords>
+  <icon file="HMAC.png" />
+  <relevantPlugins>
+    <plugin name="HMAC" />
+  </relevantPlugins>
+</sample>

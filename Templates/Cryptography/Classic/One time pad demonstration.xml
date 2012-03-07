@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">One time pad demonstration</title>
+  <description lang="en">This template shows how to use a <i>One time pad</i> in CrypTool 2.0.</description>
+  <keywords>One time pad, XOR, perfect security</keywords>
+  <title lang="de">One time pad Demonstration</title>
+  <description lang="de">Diese Vorlage zeigt, wie man ein <i>One time pad</i> in CrypTool 2.0 erstellt.</description>
+  <keywords lang="de">One time pad, perfekte Sicherheit, XOR</keywords>
+  <icon file="One time pad demonstration.png" />
+  <relevantPlugins>
+    <plugin name="XOR" />
+  </relevantPlugins>
+</sample>

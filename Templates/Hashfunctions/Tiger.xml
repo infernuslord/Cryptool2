@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <description lang="en">-</description>
+  <title lang="en">Tiger</title>
+  <description lang="en">This template shows how to use the <i>Tiger</i>. component</description>
   <keywords>Hash, Anderson, Biham, 192</keywords>
-  <description lang="de">-</description>
-  <icon file="" />
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Tiger</i> Komponente.</description>
+  <keywords lang="de">hash</keywords>
+  <icon file="Tiger.png" />
+  <relevantPlugins>
+    <plugin name="Tiger" />
+  </relevantPlugins>
 </sample>

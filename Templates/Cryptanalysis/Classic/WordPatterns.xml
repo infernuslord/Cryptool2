@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Wordpattern analysis</title>
+  <description lang="en">This template shows the usage of the <i>WordPatterns</i> component.</description>
+  <keywords>WordPatterns</keywords>
+  <title lang="de">Wortmusteranalyse</title>
+  <description lang="de">Diese Vorlage zeigt die Kryptanalyse mittels der <i>Wortmuster</i> Komponente.</description>
+  <keywords lang="de">Wortmuster</keywords>
+  <icon file="WordPatterns.png" />
+  <relevantPlugins>
+    <plugin name="WordPatterns" />
+  </relevantPlugins>
+</sample>

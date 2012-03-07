@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <description lang="en">-</description>
+  <title lang="en">SHA1</title>
+  <description lang="en">This template shows how to use the <i>SHA1</i>. component</description>
   <keywords>Hash, nist, secure, 160</keywords>
-  <description lang="de">-</description>
-  <icon file="" />
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>SHA1</i> Komponente.</description>
+  <keywords lang="de">hash</keywords>
+  <icon file="SHA1.png" />
+  <relevantPlugins>
+    <plugin name="SHA1" />
+  </relevantPlugins>
 </sample>
