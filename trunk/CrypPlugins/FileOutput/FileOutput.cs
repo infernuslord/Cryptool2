@@ -109,7 +109,7 @@ namespace FileOutput
 
     public void Stop()
     {
-
+        Dispose();
     }
 
     public void PreExecution()
@@ -192,7 +192,7 @@ namespace FileOutput
                             {
                                 position = (int)(reader.Position * 100 / reader.Length);
                                 Progress(reader.Position, reader.Length);
-    }
+                            }
                         }
                         fs.Flush();
                         fs.Close();
