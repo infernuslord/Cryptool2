@@ -27,7 +27,26 @@
     would compute the ICV himself again and compare the two ICVs. If they are not equal the packet would be requested from the sender again.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die WEP-Komponente ermöglicht es, die Eingabedaten entsprechend des "Wired Equivalent Privacy Protovol" (WEP-Protokoll) zu ver- oder entschlüsseln.
+    Entwickelt und veröffentlicht vom "Institute of Electrical and Electronics Engineering (IEEE) im Jahr 1999, war das WEP-protocol das erste Protokoll
+    für Sicherheit innerhalb eines Drahlosen Netzwerkes (WLAN). Die hauptsächlichen Aufgaben sind das Ver- und Entschlüsseln von übertragenen
+    Paketen und ein "Integrity Check Value" (ICV), welcher verwendet wird, um Übertragungsfehler innerhalb des Pakets zu entdecken. <newline/>
+    <newline/>
+    Je nach Protokoll wird ein Schlüssel benötigt, welcher aus 5, 13, oder 29 bytes bestehen kann. In der WEP-Komponente kann nur ein Schlüssel mit einer Größe von 5 und 13 bytes genutzt werden. Dieser Schlüssel wird RootKey genannt (RK). Der RootKey wird mit einem individuellen Initialisierungsvektor (IV), welcher aus 3 bytes besteht, konkateniert.
+    Das bedeutet, dass der Schlüssel K, welcher tatsächlich ein Paket i ent- oder verschlüsselt, folgendermaßen lautet:
+    <newline/>
+    <newline/>
+    K von Paket i = (IV of packet i || RK)<newline/>
+    <newline/>
+    Die Pakete werden verschlüsselt/ entschlüsselt mit dem RC4 Algorithmus, ein einfacher Stromverschlüsselungsalgorithmus.<newline/>
+    <newline/>
+    Der Benutzer kann auswählen, ob die Komponente ver- oder entschlüsseln soll.<newline/>
+    <newline/>
+    Wenn die Pakete verschlüsselt werden, wird ein individueller ICV für jedes Paket berechnet. Das wird als "Cyclic Redundancy Check" (CRC) bezeichnet
+    und basiert auf einer Polynomdivision mit einem definierten 32 bit Polynom. Das Ergebnis gibt eine Prüfsumme von 32 bit, welche das Paket zwar vor Übertragungsfehlern schützt, aber nicht vor Manipulation. Diese Checksumme wird dem Paket hinzugefügt und anschließend wird alles verschlüsselt. Dieser
+    Schritt wird bei der Entschlüsselung nicht durchgeführt. An Stelle dessen wird der ICV vom Paket entfernt. In der realen Welt würde der Empfänger
+    den ICV ebenfalls bestimmen und mit dem empfangenen vergleichen. Wären beide ICVs nicht gleich würde das Paket verworfen und neu vom Sender angefordert.
   </introduction>
 
   <usage lang="en">
@@ -37,6 +56,9 @@
   </usage>
 
   <usage lang="de-DE">
+    Um die WEP-Komponente zu verwenden muss der Benutzer diese auf den Arbeitsplatz ziehen. Ein 40bit Schlüssel muss angegeben werden. Die WEP Komponente bietet
+    die Möglichkeit Pakete zu ver- oder entschlüsseln, welche durch einen CryptoolStream geliefert werden. Um WEP Pakete zu generieren bietet sich der IFRame Generator an.
+    Abhängig von der Wahl des Benutzers liefert die WEP Komponente verschlüsselte oder entschlüsselte WEP Pakete unter Nutzung des angegeben Schlüssels.
   </usage>
   
   <presentation lang="en">
@@ -44,6 +66,7 @@
   </presentation>
   
   <presentation lang="de-DE">
+    Das Plugin bietet keine spezielle Präsentation an.
   </presentation>
   
   <references>
