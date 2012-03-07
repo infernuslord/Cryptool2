@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Statistic test classic</title>
+  <description lang="en">This template shows how to use the statistic test components provided by CrypTool 2.0 for classic ciphers.</description>
+  <keywords>Analysis, FrequencyTest, FriedmanTest</keywords>
+  <title lang="de">Stastistiktests für klassische Chiffren</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der Statistikkomponenten in CrypTool 2.0 für klassische Chiffren</description>
+  <keywords lang="de">Analyse, Frequenztest, Friedmantest</keywords>
+  <icon file="Statistic test classic.png" />
+  <relevantPlugins>
+    <plugin name="FrequencyTest" />
+    <plugin name="FriedmanTest" />
+  </relevantPlugins>
+</sample>

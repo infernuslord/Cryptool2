@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">PRESENT Cipher</title>
+  <description lang="en">This template shows how to use the <i>PRESENT Cipher</i>.</description>
+  <keywords>symmetric</keywords>
+  <title lang="de">PRESENT-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>PRESENT-Ver-/Entschlüsselung</i>.</description>
+  <keywords lang="de">symmetrisch</keywords>
+  <icon file="PRESENT.png" />
+  <relevantPlugins>
+    <plugin name="PRESENT" />
+  </relevantPlugins>
+</sample>
