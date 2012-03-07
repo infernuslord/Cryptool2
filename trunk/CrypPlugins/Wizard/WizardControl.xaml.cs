@@ -47,6 +47,7 @@ namespace Wizard
             public string description;
             public string image;
             public XElement tag;
+            public string headline;
         }
 
         ObservableCollection<PageInfo> currentHistory = new ObservableCollection<PageInfo>();
@@ -817,7 +818,7 @@ namespace Wizard
                 }
                 var nameLabel = new Label { Content = page.name };
                 sp.Children.Add(nameLabel);
-                p.ToolTip = page.description;
+                p.ToolTip = page.headline;
                 var translateTranform = new TranslateTransform();
                 triangle.RenderTransform = translateTranform;
                 Binding binding = new Binding("ActualWidth");
@@ -1368,6 +1369,7 @@ namespace Wizard
                                    {
                                        name = FindElementsInElement(ele, "name").First().Value.Trim(),
                                        description = FindElementsInElement(ele, "description").First().Value.Trim(),
+                                       headline = FindElementsInElement(ele, "headline").First().Value.Trim(),
                                        tag = ele
                                    };
 
