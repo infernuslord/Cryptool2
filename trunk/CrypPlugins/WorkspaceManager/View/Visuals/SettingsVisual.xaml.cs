@@ -888,7 +888,10 @@ namespace WorkspaceManager.View.Visuals
                             fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
                             
                             fileTextBox.Tag = tpa;
-                            fileTextBox.ToolTip = tpa.ToolTip;
+                            if (fileTextBox.ToolTip == null || fileTextBox.ToolTip == string.Empty)
+                            {
+                                fileTextBox.ToolTip = tpa.ToolTip;
+                            }
                             fileTextBox.MouseEnter += fileTextBox_MouseEnter;
                             sp.Children.Add(fileTextBox);
 
@@ -896,10 +899,9 @@ namespace WorkspaceManager.View.Visuals
                             
                             btn.Tag = fileTextBox;
                             if (tpa.ControlType == ControlType.SaveFileDialog)
-                                //btn.Content = Properties.Resources.Save_file;
-                                btn.Content = "Save File";
+                                btn.Content = Properties.Resources.Save_File;
                             else
-                                btn.Content = "Open File";
+                                btn.Content = Properties.Resources.Open_File;
                             btn.Click += FileDialogClick;
                             sp.Children.Add(btn);
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(sp, tpa, sfa));

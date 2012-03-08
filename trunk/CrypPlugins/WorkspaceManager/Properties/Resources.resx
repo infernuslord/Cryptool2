@@ -411,4 +411,10 @@
   <data name="Toggle_Plugin_Parameters" xml:space="preserve">
     <value>Toggle component parameter panel</value>
   </data>
+  <data name="Save_File">
+    <value xml:space="preserve">Save File</value>
+  </data>
+  <data name="Open_File">
+    <value xml:space="preserve">Open File</value>
+  </data>
 </root>

@@ -682,6 +682,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open File.
+        /// </summary>
+        internal static string Open_File {
+            get {
+                return ResourceManager.GetString("Open_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste.
         /// </summary>
         internal static string Paste {
@@ -768,6 +777,15 @@ namespace WorkspaceManager.Properties {
         internal static string ResetColors_Tooltip {
             get {
                 return ResourceManager.GetString("ResetColors_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save File.
+        /// </summary>
+        internal static string Save_File {
+            get {
+                return ResourceManager.GetString("Save_File", resourceCulture);
             }
         }
         

@@ -411,4 +411,10 @@
 	<data name="Toggle_Plugin_Parameters" xml:space="preserve">
     <value>Öffne/schließe Fenster mit Komponentenparametern</value>
   </data>
+  <data name="Save_File">
+    <value xml:space="preserve">Speichere Datei</value>
+  </data>
+  <data name="Open_File">
+    <value xml:space="preserve">Öffne Datei</value>
+  </data>
 </root>
