@@ -271,7 +271,7 @@ namespace Cryptool.CrypWin
 
             // check whether update is available to be installed
             if (IsUpdaterEnabled
-                && CheckCommandProjectFileGiven() == null // NO project file given as command line argument
+                && CheckCommandProjectFileGiven().Count == 0 // NO project file given as command line argument
                 && IsUpdateFileAvailable()) // update file ready for install
             {
                 // really start the update process?
@@ -1138,7 +1138,7 @@ namespace Cryptool.CrypWin
                     // open projects at startup if necessary, return whether any project has been opened
                     bool hasOpenedProject = CheckCommandOpenProject();
 
-                    if (Properties.Settings.Default.ShowStartcenter && CheckCommandProjectFileGiven() == null)
+                    if (Properties.Settings.Default.ShowStartcenter && CheckCommandProjectFileGiven().Count == 0)
                     {
                         AddEditorDispatched(typeof(StartCenter.StartcenterEditor));
                     }
@@ -1201,8 +1201,9 @@ namespace Cryptool.CrypWin
         /// Find workspace parameter and if found, load workspace
         /// </summary>
         /// <returns>project file name or null if none</returns>
-        private string CheckCommandProjectFileGiven()
+        private List<string> CheckCommandProjectFileGiven()
         {
+            var res = new List<string>();
             string[] args = Environment.GetCommandLineArgs();
             for (int i = 1; i < args.Length; i++)
             {
@@ -1214,11 +1215,11 @@ namespace Cryptool.CrypWin
 
                 if (File.Exists(currentParameter))
                 {
-                    return currentParameter;
+                    res.Add(currentParameter);
                 }
             }
 
-            return null;
+            return res;
         }
 
         /// <summary>
@@ -1231,14 +1232,9 @@ namespace Cryptool.CrypWin
 
             try
             {
-                string filePath = CheckCommandProjectFileGiven();
-                if (filePath != null)
-                {
-                    GuiLogMessage(string.Format(Resource.workspace_loading, filePath), NotificationLevel.Info);
-                    OpenProject(filePath);
-                    hasOpenedProject = true;
-                }
-                else
+                var filesPath = CheckCommandProjectFileGiven();
+
+                if (filesPath.Count == 0)
                 {
                     if (Settings.Default.ReopenLastFiles && Settings.Default.LastOpenedFiles != null)
                     {
@@ -1250,6 +1246,15 @@ namespace Cryptool.CrypWin
                                 hasOpenedProject = true;
                             }
                         }
+                    }
+                }
+                else
+                {
+                    foreach (var filePath in filesPath)
+                    {
+                        GuiLogMessage(string.Format(Resource.workspace_loading, filePath), NotificationLevel.Info);
+                        OpenProject(filePath);
+                        hasOpenedProject = true;
                     }
                 }
 
