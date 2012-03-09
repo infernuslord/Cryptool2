@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
         private CypherMatrixMode selectedAction = CypherMatrixMode.Encrypt;
         private Permutation selectedPerm = Permutation.B;
-        private CypherMatrixHashMode selectedHash = CypherMatrixHashMode.SMX;
+        private CypherMatrixHashMode selectedHash = CypherMatrixHashMode.FMX;
         private int code = 1;   // 1 bis 99, Standardwert: 1, individueller Anwender-Code
         private int basis = 77; // 35 bis 96, Standardwert: 77?, Zahlensystem für Expansionsfunktion
         private int matrixKeyLen = 42;  // 36 bis 64 Bytes, Standardwert: 44, Länge des Matrix-Schlüssels
