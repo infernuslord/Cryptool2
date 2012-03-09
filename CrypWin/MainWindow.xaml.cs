@@ -22,9 +22,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -255,6 +257,13 @@ namespace Cryptool.CrypWin
         {
             SetLanguage();
             LoadResources();
+
+            if (!EstablishSingleInstance())
+            {
+                Application.Current.Shutdown();
+                return;
+            }
+
             if (AssemblyHelper.InstallationType == Ct2InstallationType.ZIP)
             {
                 UnblockDLLs();
@@ -481,6 +490,85 @@ namespace Cryptool.CrypWin
                 GuiLogMessage(string.Format("Error occured while loading certificates: {0}", ex), NotificationLevel.Error);
             }
 
+        }
+
+        private bool EstablishSingleInstance()
+        {
+            bool createdNew;
+            MD5 md5 = new MD5CryptoServiceProvider();
+            var id = BitConverter.ToInt32(md5.ComputeHash(Encoding.ASCII.GetBytes(Environment.GetCommandLineArgs()[0])), 0);
+            var identifyingString = string.Format("Local\\CrypTool 2.0 ID {0}", id);
+            _singletonMutex = new Mutex(true, identifyingString, out createdNew);
+
+            if (createdNew)
+            {
+                var queueThread = new Thread(QueueThread);
+                queueThread.IsBackground = true;
+                queueThread.Start(identifyingString);
+            }
+            else
+            {
+                //CT2 instance already exists... send files to it and shutdown
+                using (var pipeClient = new NamedPipeClientStream(".", identifyingString, PipeDirection.Out))
+                {
+                    pipeClient.Connect();
+                    using (var sw = new StreamWriter(pipeClient))
+                    {
+                        foreach (var file in CheckCommandProjectFileGiven())
+                        {
+                            sw.WriteLine(file);
+                        }
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        private void QueueThread(object identifyingString)
+        {
+            while (true)
+            {
+                try
+                {
+                    using (var pipeServer = new NamedPipeServerStream((string)identifyingString, PipeDirection.In))
+                    {
+                    
+                        pipeServer.WaitForConnection();
+                        BringToFront();
+                        using (var sr = new StreamReader(pipeServer))
+                        {
+                            string file;
+                            do
+                            {
+                                file = sr.ReadLine();
+                                if (!string.IsNullOrEmpty(file))
+                                {
+                                    string theFile = file;
+                                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                    {
+                                        GuiLogMessage(string.Format(Resource.workspace_loading, theFile), NotificationLevel.Info);
+                                        OpenProject(theFile);
+                                    }, null);
+                                }
+                            } while (!string.IsNullOrEmpty(file));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Error while maintaning single instance: {0}", ex.Message), NotificationLevel.Error);
+                }
+            }
+        }
+
+        private void BringToFront()
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                WindowState = WindowState.Normal;
+                Activate();
+            }, null);
         }
 
         private bool UpdateServerCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
@@ -974,6 +1062,8 @@ namespace Cryptool.CrypWin
         }
 
         private HashSet<Type> pluginInSearchListBox = new HashSet<Type>();
+        private Mutex _singletonMutex;
+
         private void AddPluginToNavigationPane(GUIContainerElementsForPlugins contElements)
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -1739,6 +1829,11 @@ namespace Cryptool.CrypWin
             {
                 if (demoController != null)
                     demoController.Stop();
+
+                if (_singletonMutex != null)
+                {
+                    _singletonMutex.ReleaseMutex();
+                }
 
                 FileOperationResult result = CloseProject(); // Editor Dispose will be called here.
                 if (result == FileOperationResult.Abort)
