@@ -15,21 +15,23 @@ namespace WorkspaceManager.View.VisualComponents
         Y_ASC
     };
 
+    public enum FromToMeta
+    {
+        HasStartPoint,
+        HasEndpoint,
+        HasEndStartPoint,
+        None,
+    }
+
     public class FromTo: INotifyPropertyChanged
     {
         private Point from, to;
 
         public DirSort DirSort { get; private set; }
-        public bool HasEndPoint
+        public FromToMeta MetaData
         {
             get;
-            set;
-        }
-
-        public bool HasStartPoint
-        {
-            get;
-            set;
+            private set;
         }
 
         public Point To
@@ -59,23 +61,16 @@ namespace WorkspaceManager.View.VisualComponents
         }
         public SortedSet<IntersectPoint> Intersection { get; private set; }
 
-        public FromTo(Point from, Point to)
+        public FromTo(Point from, Point to, FromToMeta meta = FromToMeta.None)
         {
             initFromTo(from, to);
-            HasStartPoint = HasEndPoint = false;
-        }
-
-        public FromTo(Point from, Point to, bool hasEndpoint, bool hasStartPoint)
-        {
-            initFromTo(from, to);
-            HasEndPoint = hasEndpoint;
-            HasStartPoint = hasStartPoint;
+            MetaData = meta;
         }
 
         private void initFromTo(Point from, Point to)
         {
-            this.From = from;
-            this.To = to;
+            this.from = from;
+            this.to = to;
             if (From.X == To.X)
             {
                 if (From.Y > To.Y)

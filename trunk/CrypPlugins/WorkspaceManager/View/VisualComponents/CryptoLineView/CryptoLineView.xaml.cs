@@ -24,6 +24,13 @@ using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 {
+    public enum CryptoLineState
+    {
+        Substitute,
+        Normal,
+        Edit
+    }
+
     /// <summary>
     /// Interaction logic for CryptoLineView.xaml
     /// </summary>
@@ -133,7 +140,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line = new InternalCryptoLineView(visuals);
         }
 
-        public CryptoLineView(ConnectionModel model, ConnectorVisual source, ConnectorVisual target, ObservableCollection<UIElement> visuals)
+        public CryptoLineView(ConnectionModel model, ConnectorVisual source, ConnectorVisual target)
         {
             // TODO: Complete member initialization
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
@@ -142,7 +149,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.Model = model;
             this.Source = source;
             this.Target = target;
-            Line = new InternalCryptoLineView(model, source, target, visuals);
+            Line = new InternalCryptoLineView(model, source, target, Editor.VisualCollection);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(target, this));
 
@@ -409,7 +416,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public bool HasComputed
         {
             get { return (bool)base.GetValue(HasComputedProperty); }
-            set
+            private set
             {
                 base.SetValue(HasComputedProperty, value);
             }
@@ -616,8 +623,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     QuadTreeLib.QuadTree<FakeNode> quadTreePlugins = new QuadTreeLib.QuadTree<FakeNode>
                         (new System.Drawing.RectangleF(-actualWidth, -actualHeight, actualWidth * 5, actualHeight * 5));
 
-
-
                     for (int routPoint = 0; routPoint < 4; ++routPoint)
                     {
                         foreach (var element in Visuals)
@@ -667,8 +672,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         // is k=i instead of k=0 correct?
                         for (int k = i; k < loopCount; ++k)
                         {
-
-
                             var p2 = nodeList[k];
                             if (p1 == p2)
                                 continue;
@@ -719,7 +722,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                             {
                                 if (isStart)
                                 {
-                                    this.PointList.Add(new FromTo(startPoint, prevPoint, false, true));
+                                    this.PointList.Add(new FromTo(startPoint, prevPoint, FromToMeta.HasStartPoint));
                                     isStart = false;
                                 }
                                 else
@@ -736,9 +739,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                             prevPoint = curPoint;
                         }
-                        this.PointList.Add(new FromTo(startPoint, EndPoint, true, false));
+                        this.PointList.Add(new FromTo(startPoint, EndPoint, FromToMeta.HasEndpoint));
                         HasComputed = true;
-                        raiseComputationDone();
 
                         return;
                     }
@@ -753,7 +755,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         PointList.Add(new FromTo(StartPoint, new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y)));
                         PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y), new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y)));
                         PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y), EndPoint));
-                        raiseComputationDone();
                     }
                     else
                     {
@@ -763,12 +764,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                             PointList.Add(new FromTo(StartPoint, new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y)));
                             PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y), new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y)));
                             PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y), EndPoint));
-                            raiseComputationDone();
                         }
                     }
                 }
+                raiseComputationDone();
             }
-            else { raiseComputationDone(); }
         }
 
         private void raiseComputationDone()
