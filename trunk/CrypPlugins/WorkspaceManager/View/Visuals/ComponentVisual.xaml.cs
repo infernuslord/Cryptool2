@@ -1010,8 +1010,8 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
             var d = (double)value;
             var d2 = double.Parse(parameter.ToString());
-            if (double.IsNaN(d) || d < d2)
-                return double.Parse(parameter.ToString());
+            if (double.IsNaN(d) || d == 0)
+                return d2;
             else
                 return d;
         }
