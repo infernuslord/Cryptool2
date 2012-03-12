@@ -740,7 +740,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                     //m_Arrows.Add(l);
                     m_ArrowsMark.Add(counter, l);
                 }
-                else
+                else if (m_ArrowsWithSourceAndDestination.ContainsKey(pair))
                 {
                     l = m_ArrowsWithSourceAndDestination[pair];
                     ResetLine(counter, l);
