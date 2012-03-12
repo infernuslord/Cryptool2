@@ -523,24 +523,31 @@ namespace Cryptool.CrypWin
 
         private void UnblockDLLs()
         {
-            var files = Directory.EnumerateFiles(DirectoryHelper.BaseDirectory, "*", SearchOption.AllDirectories);
-            foreach (var file in files)
+            try
             {
-                bool result = FileSystem.AlternateDataStreamExists(file, ZoneName);
-                if (result)
+                var files = Directory.EnumerateFiles(DirectoryHelper.BaseDirectory, "*", SearchOption.AllDirectories);
+                foreach (var file in files)
                 {
-                    // Clear the read-only attribute, if set:
-                    FileAttributes attributes = File.GetAttributes(file);
-                    if (FileAttributes.ReadOnly == (FileAttributes.ReadOnly & attributes))
+                    bool result = FileSystem.AlternateDataStreamExists(file, ZoneName);
+                    if (result)
                     {
-                        attributes &= ~FileAttributes.ReadOnly;
-                        File.SetAttributes(file, attributes);
+                        // Clear the read-only attribute, if set:
+                        FileAttributes attributes = File.GetAttributes(file);
+                        if (FileAttributes.ReadOnly == (FileAttributes.ReadOnly & attributes))
+                        {
+                            attributes &= ~FileAttributes.ReadOnly;
+                            File.SetAttributes(file, attributes);
+                        }
+
+                        //UnblocK:
+                        FileSystem.DeleteAlternateDataStream(file, ZoneName);
                     }
-
-                    //UnblocK:
-                    FileSystem.DeleteAlternateDataStream(file, ZoneName);
                 }
-
+            }
+            catch (Exception)
+            {
+                //If unblocking fails, there is a big chance that it isn't needed anyway.
+                //So do nothing.
             }
         }
     }
