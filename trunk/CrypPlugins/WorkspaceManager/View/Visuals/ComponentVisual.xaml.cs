@@ -1013,7 +1013,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             if (double.IsNaN(d) || d == 0)
                 return d2;
             else
-                return d;
+                return d + 60;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
