@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Windows;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
@@ -43,6 +43,19 @@ namespace Cryptool.Plugins.Numbers
         {
             settings = new NumberInputSettings();
             _presentation.TextBox.TextChanged +=new TextChangedEventHandler(TextBox_TextChanged);
+            DataObject.AddPastingHandler(_presentation.TextBox, OnCancelCommand);
+        }
+
+        private void OnCancelCommand(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetData(DataFormats.Text) is string)
+            {
+                var s = (string)e.DataObject.GetData(DataFormats.Text);
+                if (s.Any(c => !"01234567890+-*/^ ()AaBbCcDdEeFf#HhXx".Contains(c)))
+                {
+                    e.CancelCommand();
+                }
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs args)
