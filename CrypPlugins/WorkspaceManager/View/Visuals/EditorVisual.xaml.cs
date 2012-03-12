@@ -486,7 +486,7 @@ namespace WorkspaceManager.View.Visuals
             if (this.State != BinEditorState.READY || source == null || target == null)
                 return;
 
-            CryptoLineView link = new CryptoLineView(model, source, target, VisualCollection);
+            CryptoLineView link = new CryptoLineView(model, source, target);
             Binding bind = new Binding();
             bind.Path = new PropertyPath(EditorVisual.SelectedItemsProperty);
             bind.Source = this;
@@ -794,7 +794,7 @@ namespace WorkspaceManager.View.Visuals
         {
             try
             {
-                Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+                Clipboard.SetText(LoadingErrorText);
             }
             catch (Exception)
             {
@@ -805,7 +805,7 @@ namespace WorkspaceManager.View.Visuals
                 {
                     DispatcherTimer t = (DispatcherTimer)timerSender;
                     t.Stop();
-                    Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+                    Clipboard.SetText(LoadingErrorText);
                 });
             }
         }
