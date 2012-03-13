@@ -160,7 +160,7 @@
     <value>Geben Sie einen Wert für die Basis zur Anpassung der Expansionsfunktion ein</value>
   </data>
   <data name="WriteDebugLogCaption" xml:space="preserve">
-    <value>Debug Logging</value>
+    <value>Debug-Logging</value>
   </data>
   <data name="WriteDebugLogTooltip" xml:space="preserve">
     <value>Aktiviert das Schreiben der internen Parameter in eine Logdatei</value>
@@ -178,7 +178,7 @@
     <value>Blocklänge</value>
   </data>
   <data name="BlockSizeTooltip" xml:space="preserve">
-    <value>Geben Sie die Blocklänge der Eingabe ein</value>
+    <value>Geben Sie die Blocklänge der Eingabedaten ein</value>
   </data>
   <data name="HashBlockSizeCaption" xml:space="preserve">
     <value>Hash-Blocklänge</value>
@@ -229,7 +229,7 @@
     <value>Letzte Runde Modus</value>
   </data>
   <data name="HashModeCaption" xml:space="preserve">
-    <value>Hash Modus</value>
+    <value>Hash-Modus</value>
   </data>
   <data name="HashModeTooltip" xml:space="preserve">
     <value>Wählen Sie den Betriebsmodus des Hashes</value>

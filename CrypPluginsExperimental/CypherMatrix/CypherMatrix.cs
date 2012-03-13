@@ -315,6 +315,12 @@ namespace Cryptool.Plugins.CypherMatrix
             matrixKey = new byte[passwordBytes.Length];
             Buffer.BlockCopy(passwordBytes, 0, matrixKey, 0, passwordBytes.Length);
             int round = 1;
+
+            if (settings.Debug)
+            {
+                WriteDebug("computing encryption ...\r\n");
+            }
+
             while ((bytesRead = inputStreamReader.ReadFully(plaintext)) > 0)
             {
                 if (bytesRead < length)
@@ -364,6 +370,31 @@ namespace Cryptool.Plugins.CypherMatrix
                 for (int i = 0; i < index.Count; i++)
                     outputStreamWriter.WriteByte(cipherChars[index[i]]);
 
+                // Debugdaten schreiben
+                if (settings.Debug)
+                {
+                    WriteDebug("\r\n\r\nplaintext (hex): \r\n ");
+                    foreach (byte b in plaintext)
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    WriteDebug("\r\n\r\nplaintext xor block key (hex): \r\n ");
+                    xor.ForEach(delegate(byte b)
+                    {
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    });
+                    WriteDebug("\r\n\r\nindex: \r\n ");
+                    index.ForEach(delegate(byte b)
+                    {
+                        WriteDebug(String.Format(" {0}", b));
+                    });
+                    WriteDebug("\r\n\r\nciphertext (hex): \r\n ");
+                    CStreamReader reader = outputStreamWriter.CreateReader();
+                    int start = settings.BlockKeyLen * (round - 1);
+                    reader.Seek(start, SeekOrigin.Begin);
+                    for (int i = 0; i < index.Count; i++)
+                        WriteDebug(String.Format(" {0:X2}", (byte)reader.ReadByte()));
+                    WriteDebug("\r\n\r\n>>>>>>>>>> END OF ROUND <<<<<<<<<<\r\n\r\n\r\n");
+                }
+
                 // Vorbereitungen für die nächste Runde
                 cipherChars.Clear();
                 blockKey.Clear();
@@ -380,6 +411,12 @@ namespace Cryptool.Plugins.CypherMatrix
                 roundMax = (int)(inputStreamReader.Length / length) + 1;
                 ProgressChanged(round, roundMax);
                 round++;
+            }
+
+            // Debugdaten schreiben
+            if (settings.Debug)
+            {
+                WriteDebug(">>>>>>>>>> END OF OPERATION <<<<<<<<<<");
             }
         }
 
@@ -401,6 +438,11 @@ namespace Cryptool.Plugins.CypherMatrix
             matrixKey = new byte[passwordBytes.Length];
             Buffer.BlockCopy(passwordBytes, 0, matrixKey, 0, passwordBytes.Length);
             int round = 1;
+
+            if (settings.Debug)
+            {
+                WriteDebug("computing decryption ...\r\n");
+            }
 
             while ((bytesRead = inputStreamReader.ReadFully(cipherBlock)) > 0)
             {
@@ -446,6 +488,31 @@ namespace Cryptool.Plugins.CypherMatrix
                     //plaintext.Append((char)(xor[i] ^ blockKey[i]));
                     outputStreamWriter.WriteByte((byte)(xor[i] ^ blockKey[i]));
 
+                // Debugdaten schreiben
+                if (settings.Debug)
+                {
+                    WriteDebug("\r\n\r\nciphertext (hex): \r\n ");
+                    foreach (byte b in cipherBlock)
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    WriteDebug("\r\n\r\nindex: \r\n ");
+                    index.ForEach(delegate(byte b)
+                    {
+                        WriteDebug(String.Format(" {0}", b));
+                    });
+                    WriteDebug("\r\n\r\nplaintext xor block key (hex): \r\n ");
+                    xor.ForEach(delegate(byte b)
+                    {
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    });
+                    WriteDebug("\r\n\r\nplaintext (hex): \r\n ");
+                    CStreamReader reader = outputStreamWriter.CreateReader();
+                    int start = settings.BlockKeyLen * (round - 1);
+                    reader.Seek(start, SeekOrigin.Begin);
+                    for (int i = 0; i < xor.Count; i++)
+                        WriteDebug(String.Format(" {0:X2}", (byte)reader.ReadByte()));
+                    WriteDebug("\r\n\r\n>>>>>>>>>> END OF ROUND <<<<<<<<<<\r\n\r\n\r\n");
+                }
+
                 // Vorbereitungen für die nächste Runde
                 cipherChars.Clear();
                 blockKey.Clear();
@@ -464,6 +531,12 @@ namespace Cryptool.Plugins.CypherMatrix
                 roundMax = (int)(inputStreamReader.Length / length) + 1;
                 ProgressChanged(round, roundMax);
                 round++;
+            }
+
+            // Debugdaten schreiben
+            if (settings.Debug)
+            {
+                WriteDebug(">>>>>>>>>> END OF OPERATION <<<<<<<<<<");
             }
         }
 
@@ -728,7 +801,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
             if (settings.Debug)
             {
-                WriteDebug("computing hash smx\r\n");
+                WriteDebug("computing hash smx ...\r\n");
             }
 
             while ((bytesRead = inputStreamReader.ReadFully(dataBlock)) > 0)
@@ -774,7 +847,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
             if (settings.Debug)
             {
-                WriteDebug("computing hash fmx\r\n");
+                WriteDebug("computing hash fmx ...\r\n");
             }
 
             while ((bytesRead = inputStreamReader.ReadFully(dataBlock)) > 0)
@@ -903,7 +976,9 @@ namespace Cryptool.Plugins.CypherMatrix
                     }
                 case CypherMatrixSettings.CypherMatrixMode.Hash:
                     {
-                        if (InputByteArray != null || InputByteArray.Length != 0)
+                        if (InputByteArray == null)
+                            return true;
+                        else if (InputByteArray.Length != 0)
                         {
                             GuiLogMessage("No password is needed for hashing. It will not be used.", NotificationLevel.Warning);
                         }

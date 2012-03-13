@@ -8,11 +8,11 @@
   <introduction lang="en">
     CypherMatrix is a method to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
     <newline/>
-    The name CypherMatrix refers to the fact that the result of the cryptographic operation is in a matrix structure. The author wrote CypherMatrix with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - still uses bytes as symbols.
+    The name CypherMatrix refers to the fact that the result of the cryptographic operation has a matrix structure. The author wrote CypherMatrix with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - still uses bytes as symbols.
     <newline/>
     It is implemented in CrypTool 2 as experimental method for training purposes.
     <newline/>
-    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The cipher text is computed in one iteration from the plain text using an XOR and a substitution table. Additionally the cipher has its own operation mode which ensures that the encryption parameters change for each block.
+    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The cipher text is computed in one iteration from the plaintext using an XOR and a substitution table. Additionally the cipher has its own operation mode which ensures that the encryption parameters change for each block.
     <newline/>
     <newline/>
     Note: The capability for signing data is not yet implemented in this plugin.
@@ -52,7 +52,7 @@
   <references>
     <linkReference>
       <link url="http://www.telecypher.net/INDENG.HTM" lang="en" />
-      <caption lang="en">CypherMatrixs webpage</caption>
+      <caption lang="en">CypherMatrix's webpage</caption>
       <link url="http://www.telecypher.net/" lang="de-DE" />
       <caption lang="de-DE">CypherMatrix-Website</caption>
     </linkReference>
