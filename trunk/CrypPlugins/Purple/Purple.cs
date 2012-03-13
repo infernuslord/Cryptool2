@@ -221,7 +221,7 @@ namespace Cryptool.Plugins.Purple
             if (Text == null)
             {
                 GuiLogMessage("Input is not set. Execution is stopped!", NotificationLevel.Warning);
-                return;
+                return; 
             }
 
             switch (settings.Action)
