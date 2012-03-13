@@ -178,7 +178,7 @@
     <value>Block size</value>
   </data>
   <data name="BlockSizeTooltip" xml:space="preserve">
-    <value>Choose the input's block size</value>
+    <value>Choose the input data block size</value>
   </data>
   <data name="HashBlockSizeCaption" xml:space="preserve">
     <value>Hash block size</value>
