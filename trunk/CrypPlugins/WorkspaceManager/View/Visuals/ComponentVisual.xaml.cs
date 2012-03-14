@@ -77,19 +77,6 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
-        public Point[] RoutingPoints
-        {
-            get
-            {
-                return new Point[] 
-                {
-                        new Point(Position.X-1, Position.Y-1),
-                        new Point(Position.X-1, Position.Y + ObjectSize.Y + 1),
-                        new Point(Position.X + ObjectSize.X + 1,Position.Y + 1),
-                        new Point(Position.X + ObjectSize.X + 1, Position.Y + ObjectSize.Y + 1)
-                };
-            }
-        }
         #endregion 
 
         #region Model
@@ -550,11 +537,11 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                 case 0:
                     return new Point(Position.X - 1, Position.Y - 1);
                 case 1:
-                    return new Point(Position.X - 1, Position.Y + ActualHeight + 1);
+                    return new Point(Position.X - 1, Position.Y + ObjectSize.Y + 1);
                 case 2:
-                    return new Point(Position.X + 1 + ActualWidth, Position.Y + 1);
+                    return new Point(Position.X + 1 + ObjectSize.X, Position.Y - 1);
                 case 3:
-                    return new Point(Position.X + ActualWidth + 1, Position.Y + ActualHeight + 1);
+                    return new Point(Position.X + ObjectSize.X + 1, Position.Y + ObjectSize.Y + 1);
             }
             return default(Point);
         }
