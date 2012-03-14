@@ -39,7 +39,7 @@ namespace WorkspaceManager.View.Visuals
         private System.Drawing.RectangleF rect = new System.Drawing.RectangleF((float)-2000, (float)-2000, (float)6000, (float)6000);
         private Point? startDragPoint;
 
-        private Line part = new Line();
+        internal Line part = new Line();
         LinkedList<FromTo> linkedPointList = new LinkedList<FromTo>();
         public ObservableCollection<UIElement> Visuals { get; set; }
         public QuadTreeLib.QuadTree<FakeNode> PluginTree { get; set; }
@@ -74,7 +74,6 @@ namespace WorkspaceManager.View.Visuals
             private set
             {
                 editor = value;
-                part.Style = (Style)editor.FindResource("FromToLine");
             }
         }
 
@@ -85,16 +84,19 @@ namespace WorkspaceManager.View.Visuals
             PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             part.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PartPreviewMouseLeftButtonDown);
-
-            Editor.panel.PreviewMouseMove += new MouseEventHandler(EditorPreviewMouseMove);
-            Editor.panel.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(panel_PreviewMouseLeftButtonUp);
+            part.PreviewMouseRightButtonDown += new MouseButtonEventHandler(part_PreviewMouseRightButtonDown);
 
             Visuals = Editor.VisualCollection;
             Visuals.CollectionChanged += new NotifyCollectionChangedEventHandler(VisualsCollectionChanged);
             Visuals.Add(part);
         }
 
-        void panel_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void part_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = false;
+        }
+
+        internal void panelPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             reset();
         }
@@ -106,7 +108,7 @@ namespace WorkspaceManager.View.Visuals
             startDragPoint = null;
         }
 
-        void EditorPreviewMouseMove(object sender, MouseEventArgs e)
+        internal void panelPreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.Source is CryptoLineView)
             {
@@ -595,6 +597,7 @@ namespace WorkspaceManager.View.Visuals
         public EditorVisual(WorkspaceModel model)
         {
             Model = model;
+            VisualsHelper = new VisualsHelper(Model, this);
             MyEditor = (WorkspaceManagerClass)Model.MyEditor;
             MyEditor.executeEvent += new EventHandler(ExecuteEvent);
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
@@ -1434,7 +1437,9 @@ namespace WorkspaceManager.View.Visuals
         private void PanelLoaded(object sender, RoutedEventArgs e)
         {
             panel = (ModifiedCanvas)sender;
-            VisualsHelper = new VisualsHelper(Model, this);
+            panel.PreviewMouseMove += new MouseEventHandler(VisualsHelper.panelPreviewMouseMove);
+            panel.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(VisualsHelper.panelPreviewMouseLeftButtonUp);
+            VisualsHelper.part.Style = (Style)FindResource("FromToLine");
         }
 
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)
