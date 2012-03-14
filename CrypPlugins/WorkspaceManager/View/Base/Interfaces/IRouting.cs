@@ -12,7 +12,6 @@ namespace WorkspaceManager.View.Base.Interfaces
         event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
         ObjectSize ObjectSize { get; }
         Point Position { get; set; }
-        Point[] RoutingPoints{ get; }
         Point GetRoutingPoint(int routPoint);
     }
 

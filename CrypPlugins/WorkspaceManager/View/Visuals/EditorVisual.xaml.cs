@@ -34,6 +34,305 @@ using WorkspaceManager.View.Visuals;
 
 namespace WorkspaceManager.View.Visuals
 {
+    public class VisualsHelper: INotifyPropertyChanged
+    {
+        private System.Drawing.RectangleF rect = new System.Drawing.RectangleF((float)-2000, (float)-2000, (float)6000, (float)6000);
+        private Point? startDragPoint;
+
+        private Line part = new Line();
+        LinkedList<FromTo> linkedPointList = new LinkedList<FromTo>();
+        public ObservableCollection<UIElement> Visuals { get; set; }
+        public QuadTreeLib.QuadTree<FakeNode> PluginTree { get; set; }
+        public QuadTreeLib.QuadTree<FakeNode> FromToTree { get; set; }
+        public CryptoLineView CurrentLine { get; set; }
+
+        private FromTo selectedPart;
+        public FromTo SelectedPart
+        {
+            get { return selectedPart; }
+            set
+            {
+                selectedPart = value;
+                OnPropertyChanged("SelectedPart");
+            }
+        }
+
+        private WorkspaceModel model;
+        public WorkspaceModel Model
+        {
+            get { return model; }
+            set
+            {
+                model = value;
+            }
+        }
+
+        private EditorVisual editor;
+        public EditorVisual Editor
+        {
+            get { return editor; }
+            private set
+            {
+                editor = value;
+                part.Style = (Style)editor.FindResource("FromToLine");
+            }
+        }
+
+        public VisualsHelper(WorkspaceModel model, EditorVisual editor)
+        {
+            this.Model = model;
+            this.Editor = editor;
+            PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
+            FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
+            part.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PartPreviewMouseLeftButtonDown);
+
+            Editor.panel.PreviewMouseMove += new MouseEventHandler(EditorPreviewMouseMove);
+            Editor.panel.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(panel_PreviewMouseLeftButtonUp);
+
+            Visuals = Editor.VisualCollection;
+            Visuals.CollectionChanged += new NotifyCollectionChangedEventHandler(VisualsCollectionChanged);
+            Visuals.Add(part);
+        }
+
+        void panel_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            reset();
+        }
+
+        void reset()
+        {
+            CurrentLine = null;
+            SelectedPart = null;
+            startDragPoint = null;
+        }
+
+        void EditorPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Source is CryptoLineView)
+            {
+                CryptoLineView l = (CryptoLineView)e.Source;
+                if (l.IsSelected)
+                {
+                    Point p = Mouse.GetPosition(sender as FrameworkElement);
+                    Console.Out.WriteLine(p);
+                    var list = FromToTree.Query(new System.Drawing.RectangleF(
+                        (float)p.X - (float)10, (float)p.Y - (float)10, (float)10, (float)10));
+
+                    if (list.Count != 0)
+                    {
+                        CurrentLine = l;
+                        SelectedPart = list[0].FromTo;
+                    }
+                }
+            }
+            else
+            {
+                if (!(e.Source is Line) && e.LeftButton == MouseButtonState.Released)
+                {
+                    reset();
+                }
+            }
+
+            if (startDragPoint == null)
+                return;
+
+            if (e.LeftButton == MouseButtonState.Pressed && SelectedPart != null && CurrentLine != null)
+            {
+                Point currentPoint = Util.MouseUtilities.CorrectGetPosition(Editor.panel);
+                Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
+                delta.Negate();
+
+                var data = SelectedPart;
+                foreach (var p in CurrentLine.Line.PointList)
+                {
+                    linkedPointList.AddLast(p);
+                }
+
+                var curData = linkedPointList.Find(data);
+                if (curData == null)
+                    return;
+
+                var prevData = linkedPointList.Find(data).Previous;
+                if (prevData == null)
+                    return;
+
+                var nextData = linkedPointList.Find(data).Next;
+                if (nextData == null)
+                    return;
+
+                CurrentLine.Line.IsEditingPoint = true;
+
+                switch (data.DirSort)
+                {
+                    case DirSort.X_ASC:
+                        data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + delta.Y);
+                        data.To = nextData.Value.From = new Point(data.To.X, data.To.Y + delta.Y);
+                        break;
+                    case DirSort.X_DESC:
+                        data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + delta.Y);
+                        data.To = nextData.Value.From = new Point(data.To.X, data.To.Y + delta.Y);
+                        break;
+                    case DirSort.Y_ASC:
+                        data.From = prevData.Value.To = new Point(data.From.X + delta.X, data.From.Y);
+                        data.To = nextData.Value.From = new Point(data.To.X + delta.X, data.To.Y);
+                        break;
+                    case DirSort.Y_DESC:
+                        data.From = prevData.Value.To = new Point(data.From.X + delta.X, data.From.Y);
+                        data.To = nextData.Value.From = new Point(data.To.X + delta.X, data.To.Y);
+                        break;
+                }
+                CurrentLine.Line.InvalidateAllLines();
+
+
+                foreach (var fromTo in CurrentLine.Line.PointList)
+                {
+                    fromTo.Update();
+                }
+            }
+        }
+
+        void PartPreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            startDragPoint = Util.MouseUtilities.CorrectGetPosition(Editor.panel);
+        }
+
+        #region Protected
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
+        void VisualsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    if (e.NewItems == null)
+                        return;
+                    if (e.NewItems[0] is ComponentVisual)
+                    {
+                        (e.NewItems[0] as ComponentVisual).IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(VisualsHelperIsDraggingChanged);
+                        (e.NewItems[0] as ComponentVisual).Loaded += new RoutedEventHandler(VisualsHelper_Loaded);
+                    }
+
+                    if (e.NewItems[0] is CryptoLineView)
+                    {
+                        (e.NewItems[0] as CryptoLineView).Line.ComputationDone += new EventHandler(Line_ComputationDone);
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.OldItems == null)
+                        return;
+                    if (e.OldItems[0] is ComponentVisual)
+                    {
+                        (e.OldItems[0] as ComponentVisual).IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(VisualsHelperIsDraggingChanged);
+                        (e.OldItems[0] as ComponentVisual).Loaded -= new RoutedEventHandler(VisualsHelper_Loaded);
+                    }
+
+
+                    if (e.OldItems[0] is CryptoLineView)
+                    {
+                        (e.OldItems[0] as CryptoLineView).Line.ComputationDone -= new EventHandler(Line_ComputationDone);
+                    }
+
+                    break;
+            }
+        }
+
+        void Line_ComputationDone(object sender, EventArgs e)
+        {
+            renewFromToTree();
+        }
+
+        void VisualsHelper_Loaded(object sender, RoutedEventArgs e)
+        {
+            renewPluginTree();
+        }
+
+        void VisualsHelperIsDraggingChanged(object sender, IsDraggingChangedArgs e)
+        {
+            if (!e.IsDragging)
+            {
+                renewPluginTree();
+            }
+        }
+
+        private void renewPluginTree()
+        {
+            PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
+            foreach (var element in Visuals.OfType<ComponentVisual>())
+            {
+                PluginTree.Insert(new FakeNode()
+                {
+                    Rectangle = new System.Drawing.RectangleF((float)element.Position.X,
+                                                               (float)element.Position.Y,
+                                                               (float)element.ObjectSize.X,
+                                                               (float)element.ObjectSize.Y)
+                });
+            }
+        }
+
+        private void renewFromToTree()
+        {
+            FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
+            foreach (var element in Visuals.OfType<CryptoLineView>())
+            {
+                foreach (var fromTo in element.Line.PointList)
+                {
+                    if (fromTo.MetaData == FromToMeta.HasEndpoint || fromTo.MetaData == FromToMeta.HasStartPoint)
+                        continue;
+
+                    float x = 0, y = 0, sizeY = 0, sizeX = 0;
+                    double stroke = 8;
+                    switch (fromTo.DirSort)
+                    {
+                        case DirSort.X_ASC:
+                            x = (float)(fromTo.From.X);
+                            y = (float)(fromTo.From.Y - (stroke / 2));
+                            sizeX = (float)(fromTo.To.X);
+                            sizeY = (float)((stroke * 2));
+                            break;
+                        case DirSort.X_DESC:
+                            x = (float)(fromTo.To.X);
+                            y = (float)(fromTo.To.Y - (stroke / 2));
+                            sizeX = (float)(fromTo.From.X);
+                            sizeY = (float)((stroke * 2));
+                            break;
+                        case DirSort.Y_ASC:
+                            y = (float)(fromTo.From.Y);
+                            x = (float)(fromTo.From.X - (stroke / 2));
+                            sizeY = (float)(fromTo.To.Y);
+                            sizeX = (float)((stroke * 2));
+                            break;
+                        case DirSort.Y_DESC:
+                            y = (float)(fromTo.To.Y);
+                            x = (float)(fromTo.To.X - (stroke / 2));
+                            sizeY = (float)(fromTo.From.Y);
+                            sizeX = (float)((stroke * 2));
+                            break;
+                    }
+                    FromToTree.Insert(new FakeNode()
+                    {
+                        Rectangle = new System.Drawing.RectangleF(x,
+                                                                   y,
+                                                                   sizeX,
+                                                                   sizeY),
+                        FromTo = fromTo
+                    });
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
     /// <summary>
     /// Interaction logic for BinEditorVisual.xaml
     /// </summary>
@@ -47,7 +346,7 @@ namespace WorkspaceManager.View.Visuals
         #endregion
 
         #region Fields
-        private ModifiedCanvas panel;
+        internal ModifiedCanvas panel;
         private Window window;
         private ArevaloRectanglePacker packer;
         private ConnectorVisual from, to;
@@ -65,6 +364,18 @@ namespace WorkspaceManager.View.Visuals
         #endregion
 
         #region Properties
+
+        private VisualsHelper visualsHelper;
+        public VisualsHelper VisualsHelper
+        {
+            get { return visualsHelper; }
+            set
+            {
+                visualsHelper = value;
+                OnPropertyChanged("VisualsHelper");
+            }
+        }
+
         private WorkspaceModel model;
         public WorkspaceModel Model
         {
@@ -297,7 +608,7 @@ namespace WorkspaceManager.View.Visuals
 
         #region Public
 
-        public void AddBinComponentVisual(PluginModel pluginModel, int mode)
+        public void AddBinComponentVisual(PluginModel pluginModel, int mode = 0)
         {
             if (this.State != BinEditorState.READY)
                 return;
@@ -310,18 +621,20 @@ namespace WorkspaceManager.View.Visuals
             bind.Converter = new SelectionChangedConverter();
             bin.SetBinding(ComponentVisual.IsSelectedProperty, bind);
             bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
-            VisualCollection.Add(bin);
 
             if (mode == 0)
-                return;
+            {
+
+            }
 
             if (mode == 1)
             {
                 GeneralTransform g = new ScaleTransform(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, 0, 0);
                 Point p = g.Transform(new Point(randomNumber(0, (int)(ActualWidth-bin.ActualWidth)), randomNumber(0, (int)(ActualHeight-bin.ActualHeight))));
                 bin.Position = p;
-                return;
             }
+
+            VisualCollection.Add(bin);
         }
 
         public void Load(WorkspaceModel model)
@@ -980,7 +1293,8 @@ namespace WorkspaceManager.View.Visuals
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual) && !(e.Source is CryptoLineView))
+            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && 
+                !(e.Source is TextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.ScrollAll;
@@ -990,7 +1304,8 @@ namespace WorkspaceManager.View.Visuals
             if (e.Source is ComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 ComponentVisual c = (ComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, 
+                    element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
                 if (element is ConnectorVisual)
                 {
                     ConnectorVisual con = (ConnectorVisual)element;
@@ -1012,7 +1327,8 @@ namespace WorkspaceManager.View.Visuals
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual) && !(e.Source is CryptoLineView))
+            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual)
+                && !(e.Source is CryptoLineView) && !(e.Source is Line))
             {
                 window = Window.GetWindow(this);
                 setDragWindowHandle();
@@ -1118,6 +1434,7 @@ namespace WorkspaceManager.View.Visuals
         private void PanelLoaded(object sender, RoutedEventArgs e)
         {
             panel = (ModifiedCanvas)sender;
+            VisualsHelper = new VisualsHelper(Model, this);
         }
 
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)

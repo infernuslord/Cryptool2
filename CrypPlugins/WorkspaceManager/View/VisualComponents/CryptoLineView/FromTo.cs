@@ -43,6 +43,7 @@ namespace WorkspaceManager.View.VisualComponents
             set
             {
                 to = value;
+                checkDirSort(from, to);
                 OnPropertyChanged("To");
             }
         }
@@ -56,6 +57,7 @@ namespace WorkspaceManager.View.VisualComponents
             set
             {
                 from = value;
+                checkDirSort(from, to);
                 OnPropertyChanged("From");
             }
         }
@@ -71,6 +73,12 @@ namespace WorkspaceManager.View.VisualComponents
         {
             this.from = from;
             this.to = to;
+            this.checkDirSort(from, to);
+            this.Intersection = new SortedSet<IntersectPoint>(new InLineSorter(DirSort));
+        }
+
+        private void checkDirSort(Point from, Point to)
+        {
             if (From.X == To.X)
             {
                 if (From.Y > To.Y)
@@ -95,9 +103,11 @@ namespace WorkspaceManager.View.VisualComponents
                 }
 
             }
-            else
-                throw new Exception("90° only");
-            this.Intersection = new SortedSet<IntersectPoint>(new InLineSorter(DirSort));
+        }
+
+        public void Update()
+        {
+            checkDirSort(From, To);
         }
 
         public override string ToString()
