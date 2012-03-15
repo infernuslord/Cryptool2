@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using KeySearcher.P2P.Storage;
 using KeySearcher.Properties;
+using KeyTextBox;
 using OpenCLNet;
 
 namespace KeySearcher
@@ -65,6 +66,8 @@ namespace KeySearcher
             CoresUsed = Environment.ProcessorCount - 1;
 
             chunkSize = 21;
+
+            KeyManager = new SimpleKeyManager("");
         }
 
         private void RefreshDevicesList(OpenCLManager oclManager)
@@ -120,22 +123,23 @@ namespace KeySearcher
             }
         }
 
-        private string key;
-        [TaskPane( "KeyCaption", "KeyTooltip", null, 1, false, ControlType.TextBox)]
+        [TaskPane("KeyCaption", "KeyTooltip", null, 1, false, ControlType.KeyTextBox, true, "KeyManager")]
         public String Key
         {
             get
             {
-                return key;
+                return KeyManager.GetKey();
             }
             set
             {
-                key = value;
+                KeyManager.SetKey(value);
                 OnPropertyChanged("Key");
-                if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
-                    keysearcher.GuiLogMessage(Resources.Wrong_key_pattern_, NotificationLevel.Error);
+                //if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
+                //    keysearcher.GuiLogMessage(Resources.Wrong_key_pattern_, NotificationLevel.Error);
             }
         }
+
+        public KeyTextBox.SimpleKeyManager KeyManager { get; private set; }
 
         [TaskPane( "ResetCaption", "ResetTooltip", null, 2, false, ControlType.Button)]
         public void Reset()

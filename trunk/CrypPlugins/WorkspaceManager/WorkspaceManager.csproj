@@ -189,6 +189,11 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\KeyTextBox\KeyTextBox.csproj">
+      <Project>{FD4214D8-FFB9-406F-9202-BB5EC0645E8F}</Project>
+      <Name>KeyTextBox</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\WorkspaceManagerModel\WorkspaceManagerModel.csproj">
       <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>
       <Name>WorkspaceManagerModel</Name>

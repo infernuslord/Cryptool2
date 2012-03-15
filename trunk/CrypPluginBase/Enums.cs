@@ -57,7 +57,8 @@ namespace Cryptool.PluginBase
         Slider,
         TextBoxReadOnly, 
         DynamicComboBox,
-        TextBoxHidden
+        TextBoxHidden,
+        KeyTextBox
     }
 
     public enum ContextMenuControlType

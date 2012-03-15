@@ -68,6 +68,7 @@ namespace Cryptool.PluginBase
 
         public readonly int Order;
         public readonly ControlType ControlType;
+        public string AdditionalPropertyName { get; private set; }
         
         public readonly string[] controlValues;
         private string[] translatedControlValues;
@@ -243,6 +244,25 @@ namespace Cryptool.PluginBase
           this.DoubleMinValue = doubleMinValue;
           this.DoubleMaxValue = doubleMaxValue;
           this.ChangeableWhileExecuting = changeableWhileExecuting;
+        }
+
+        /// <summary>
+        /// This constructor is used to mark methods in combination with ControlType.Button and Textblock
+        /// </summary>
+        /// <param name="caption">The caption.</param>
+        /// <param name="toolTip">The tool tip.</param>
+        /// <param name="order">The order.</param>
+        /// <param name="controlType">Type of the control should be button in this construcor.</param>
+        public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, bool hasAdditionalProperty, string AdditionalPropertyName)
+        {
+            this.caption = caption;
+            this.toolTip = toolTip;
+            this.groupName = groupName;
+            this.Order = order;
+            this.ControlType = controlType;
+            this.ChangeableWhileExecuting = changeableWhileExecuting;
+            if (hasAdditionalProperty)
+                this.AdditionalPropertyName = AdditionalPropertyName;
         }
 
         /// <summary>

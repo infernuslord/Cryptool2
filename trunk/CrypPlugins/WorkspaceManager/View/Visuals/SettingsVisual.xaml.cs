@@ -682,8 +682,7 @@ namespace WorkspaceManager.View.Visuals
                             textbox.ToolTip = tpa.ToolTip;
                             textbox.MouseEnter += Control_MouseEnter;
                             
-                            if (
-                                    tpa.RegularExpression != null && tpa.RegularExpression != string.Empty)
+                            if (tpa.RegularExpression != null && tpa.RegularExpression != string.Empty)
                             {
                                 ControlTemplate validationTemplate = Application.Current.Resources["validationTemplate"] as ControlTemplate;
                                 RegExRule regExRule = new RegExRule();
@@ -979,7 +978,20 @@ namespace WorkspaceManager.View.Visuals
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(passwordBox, tpa, sfa));
                         break;
                         #endregion TextBoxHidden
-              
+
+                        #region KeyTextBox
+                            case ControlType.KeyTextBox:
+                            var keyTextBox = new KeyTextBox.KeyTextBox();
+                            var keyManager = plugin.Settings.GetType().GetProperty(tpa.AdditionalPropertyName).GetValue(plugin.Settings, null) as KeyTextBox.IKeyManager;
+                            keyTextBox.KeyManager = keyManager;
+                            keyTextBox.Tag = tpa;
+                            keyTextBox.ToolTip = tpa.ToolTip;
+                            keyTextBox.MouseEnter += Control_MouseEnter;
+                            keyTextBox.SetBinding(KeyTextBox.KeyTextBox.CurrentKeyProperty, dataBinding);
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(keyTextBox, tpa, sfa));
+                        break;
+                        #endregion KeyTextBox
+
                     }
 
                      
@@ -1079,6 +1091,7 @@ namespace WorkspaceManager.View.Visuals
                 if (sender is ComboBox) SetHelpText((sender as ComboBox).Tag as string);
                 if (sender is Slider) SetHelpText((sender as Slider).Tag as string);
                 if (sender is Button) SetHelpText((sender as Button).Tag as string);
+                if (sender is KeyTextBox.KeyTextBox) SetHelpText((sender as KeyTextBox.KeyTextBox).Tag as string);
             }
             catch (Exception)
             {
