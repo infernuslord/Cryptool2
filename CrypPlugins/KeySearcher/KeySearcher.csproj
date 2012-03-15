@@ -175,6 +175,10 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\KeyTextBox\KeyTextBox.csproj">
+      <Project>{FD4214D8-FFB9-406F-9202-BB5EC0645E8F}</Project>
+      <Name>KeyTextBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CostFunction\CostFunction.csproj">
       <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
       <Name>CostFunction</Name>

@@ -99,8 +99,7 @@ namespace KeySearcher
             set
             {
                 pattern = value;
-                if ((settings.Key == null) || ((settings.Key != null) && !pattern.testWildcardKey(settings.Key)))
-                    settings.Key = pattern.giveInputPattern();
+                settings.KeyManager.Format = value.GetPattern();
             }
         }
 
@@ -767,11 +766,11 @@ namespace KeySearcher
         {
             if (sender == null || costMaster == null)
                 return;
-            if (!Pattern.testWildcardKey(settings.Key))
-            {
-                GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
-                return;
-            }
+            //if (!Pattern.testWildcardKey(settings.Key))
+            //{
+            //    GuiLogMessage("Wrong key pattern!", NotificationLevel.Error);
+            //    return;
+            //}
             Pattern.WildcardKey = settings.Key;
             this.sender = sender;
 
