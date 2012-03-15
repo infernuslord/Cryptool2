@@ -132,9 +132,6 @@
   <data name="OutputCaption" xml:space="preserve">
     <value>Ausgabealphabet</value>
   </data>
-  <data name="OutputTooltip" xml:space="preserve">
-    <value>Ausgabe ist 'Wahr', wenn die Zahl prim ist. Sonst 'Falsch'.</value>
-  </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
   </data>
@@ -153,7 +150,7 @@
   <data name="PlugBoardCaption" xml:space="preserve">
     <value>Steckerbrett</value>
   </data>
-  <data name="PositionCaption" xml:space="preserve">
+  <data name="PositionGroup" xml:space="preserve">
     <value>Position</value>
   </data>
   <data name="PositionSixesCaption" xml:space="preserve">
@@ -199,13 +196,13 @@
     <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignorieren (nicht ändern)</value>
+    <value>Ignorieren</value>
   </data>
   <data name="UnknownSymbolHandlingList2" xml:space="preserve">
-    <value>Entfernen</value>
+    <value>Kopieren (nicht ändern)</value>
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
-    <value>Ersetzen durch 'X'</value>
+    <value>Ersetzen durch Platzhalter</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
@@ -227,5 +224,29 @@
   </data>
   <data name="TextCaption" xml:space="preserve">
     <value>Eingabetext</value>
+  </data>
+  <data name="AlphabetCaption" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="AlphabetTooltip" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="PlugBoardGroup" xml:space="preserve">
+    <value>Steckerbrett</value>
+  </data>
+  <data name="OutputFormattingCaption" xml:space="preserve">
+    <value>Ausgabeformatierung</value>
+  </data>
+  <data name="OutputFormattingList1" xml:space="preserve">
+    <value>Eingabeformatierung beibehalten</value>
+  </data>
+  <data name="OutputFormattingList2" xml:space="preserve">
+    <value>Leerraumzeichen entfernen</value>
+  </data>
+  <data name="OutputFormattingList3" xml:space="preserve">
+    <value>Blöcke von 5 Zeichen</value>
+  </data>
+  <data name="OutputFormattingTooltip" xml:space="preserve">
+    <value>Formatierung der Ausgabe</value>
   </data>
 </root>

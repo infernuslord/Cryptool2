@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Purple</title>
+  <description lang="en"></description>
+  <keywords>japan, angooki, angoki, machine, War</keywords>
+  <icon file="Purple.png" />
+  <relevantPlugins>
+    <plugin name="Purple" />
+  </relevantPlugins>
+</sample>
