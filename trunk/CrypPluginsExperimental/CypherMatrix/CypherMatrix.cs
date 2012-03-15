@@ -189,7 +189,7 @@ namespace Cryptool.Plugins.CypherMatrix
                         {
                             sw.Stop();
                             outputStreamWriter.Close();
-                            throw new NotImplementedException("Unkown execution mode!");
+                            throw new NotSupportedException("Unkown execution mode!");
                             //break;
                         }
                 }
@@ -452,12 +452,20 @@ namespace Cryptool.Plugins.CypherMatrix
                 // Schlüssel generieren
                 Generator(round);
 
+                int puffer = 0;
                 // Analyse Chiffrat, char zu 7-Bit Index
                 foreach (byte b in cipherBlock)
-                    index.Add((byte)cipherChars.IndexOf(b));
+                {
+                    if ((puffer = cipherChars.IndexOf(b)) >= 0)
+                        index.Add((byte)puffer);
+                    else
+                    {
+                        throw new ArgumentException("Decryption failed!", "cipherBlock");
+                    }
+                }
 
                 // Bit-Konversion, 7-Bit Index zu 8-Bit Werten
-                int puffer = 0;
+                puffer = 0;
                 int bitCount = 0;
                 for (int i = 0; i < index.Count; i++)
                 {
@@ -575,8 +583,6 @@ namespace Cryptool.Plugins.CypherMatrix
             tmp.Reverse();
             d.AddRange(tmp);
             tmp.Clear();
-            //folgende Zeile findet sich im Basic Code 
-            //d.RemoveAll(new System.Predicate<int>(delegate(int val) { return (val == 8); }));   // ANSI 0x08: Backspace Steuerzeichen
 
             // Berechnung der Parameter
             int variante = (H_k % 11) + 1;
@@ -591,19 +597,12 @@ namespace Cryptool.Plugins.CypherMatrix
             for (byte e = 0; k < 256; k++)
             {
                 e = (byte)(BaseXToIntSafe(d, k + variante - 1, 3, settings.Basis + 1) - Theta);    // k + variante - 1, weil array d bei 0 anfängt; beim byte-cast wird automatisch mod 256 gerechnet
-                cm1[k] = e;
                 //Logik zum testen ob ein Wert schon im Array vorhanden ist
-                for (i = 0; i < k; i++)
+                while (Array.IndexOf(cm1, e, 0, k) >= 0)
                 {
-                    if (cm1[i] == e)
-                    {
-                        e++;
-                        //if (e >= 256)
-                        //    e = e - 256;    // Reduziere e falls es zu groß wird
-                        cm1[k] = e;
-                        i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
-                    }
+                    e++;
                 }
+                cm1[k] = e;
             }
 
             // 3-fach Permutation der Basis-Variation
@@ -612,7 +611,7 @@ namespace Cryptool.Plugins.CypherMatrix
                 case CypherMatrixSettings.Permutation.B:
                     {
                         i = 1; k = 0; l = 0;
-                        for (int pos = Alpha - 1; i <= 16; i++)
+                        for (byte pos = (byte)(Alpha - 1); i <= 16; i++)
                         {
                             for (j = 1; j <= 16; j++)
                             {
@@ -623,9 +622,7 @@ namespace Cryptool.Plugins.CypherMatrix
                                 if (l <= 0)
                                     l += 16;
                                 cm3[(k - 1) * 16 + (l - 1)] = cm1[pos];
-                                pos++;
-                                if (pos > 255)
-                                    pos = 0;
+                                pos++;  // wird automatisch mod 256 gerechnet, da byte-Wert
                             }
                         }
                         break;
@@ -674,7 +671,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
                         break;
                     }
-                default: throw new NotImplementedException("Unknown permutation function!");
+                default: throw new NotSupportedException("Unknown permutation function!");
             }
 
             // Debugdaten schreiben, Teil 1
@@ -1041,7 +1038,7 @@ namespace Cryptool.Plugins.CypherMatrix
         private StringBuilder DezNachSystem(uint basis, ulong zahl)
         {
             if (basis > 128)
-                throw new NotSupportedException("The maximum for conversion supported base is 128.");
+                throw new ArgumentException("The maximum for conversion supported base is 128.", "basis");
             StringBuilder output = new StringBuilder();
             ulong number = zahl;
             uint tmp = 0;

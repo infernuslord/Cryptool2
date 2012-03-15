@@ -88,7 +88,7 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the input data block size ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the block size of the input data ähnelt.
         /// </summary>
         internal static string BlockSizeTooltip {
             get {
