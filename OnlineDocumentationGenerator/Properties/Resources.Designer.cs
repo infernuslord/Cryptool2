@@ -258,6 +258,15 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Key text box.
+        /// </summary>
+        public static string Key_text_box {
+            get {
+                return ResourceManager.GetString("Key_text_box", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string NoContent {

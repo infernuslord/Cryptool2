@@ -119,6 +119,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     return Resources.Dynamic_combo_box;
                 case ControlType.TextBoxHidden:
                     return Resources.Text_box__hidden_;
+                case ControlType.KeyTextBox:
+                    return Resources.Key_text_box;
                 default:
                     throw new ArgumentOutOfRangeException("controlType");
             }
