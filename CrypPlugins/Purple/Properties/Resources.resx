@@ -132,9 +132,6 @@
   <data name="OutputCaption" xml:space="preserve">
     <value>Boolean output</value>
   </data>
-  <data name="OutputTooltip" xml:space="preserve">
-    <value>True if input is a prime number, otherwise false</value>
-  </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
@@ -153,7 +150,7 @@
   <data name="PlugBoardCaption" xml:space="preserve">
     <value>Plugboard</value>
   </data>
-  <data name="PositionCaption" xml:space="preserve">
+  <data name="PositionGroup" xml:space="preserve">
     <value>Position</value>
   </data>
   <data name="PositionSixesCaption" xml:space="preserve">
@@ -199,13 +196,13 @@
     <value>Unknown symbol handling</value>
   </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignore (leave unmodified)</value>
+    <value>Ignore</value>
   </data>
   <data name="UnknownSymbolHandlingList2" xml:space="preserve">
-    <value>Remove</value>
+    <value>Copy (leave unmodified)</value>
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
-    <value>Replace with 'X'</value>
+    <value>Replace with placeholder</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
@@ -227,5 +224,29 @@
   </data>
   <data name="TextCaption" xml:space="preserve">
     <value>Input Text</value>
+  </data>
+  <data name="AlphabetCaption" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="AlphabetTooltip" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="PlugBoardGroup" xml:space="preserve">
+    <value>Plugboard</value>
+  </data>
+  <data name="OutputFormattingCaption" xml:space="preserve">
+    <value>Output formatting</value>
+  </data>
+  <data name="OutputFormattingList1" xml:space="preserve">
+    <value>Keep input format</value>
+  </data>
+  <data name="OutputFormattingList2" xml:space="preserve">
+    <value>Remove whitespaces</value>
+  </data>
+  <data name="OutputFormattingList3" xml:space="preserve">
+    <value>Blocks of 5</value>
+  </data>
+  <data name="OutputFormattingTooltip" xml:space="preserve">
+    <value>Formatting of the output</value>
   </data>
 </root>

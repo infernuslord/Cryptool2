@@ -70,11 +70,29 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the algorithm action ähnelt.
         /// </summary>
         internal static string ActionTooltip {
             get {
                 return ResourceManager.GetString("ActionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet ähnelt.
+        /// </summary>
+        internal static string AlphabetCaption {
+            get {
+                return ResourceManager.GetString("AlphabetCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet ähnelt.
+        /// </summary>
+        internal static string AlphabetTooltip {
+            get {
+                return ResourceManager.GetString("AlphabetTooltip", resourceCulture);
             }
         }
         
@@ -187,7 +205,52 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output formatting ähnelt.
+        /// </summary>
+        internal static string OutputFormattingCaption {
+            get {
+                return ResourceManager.GetString("OutputFormattingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keep input format ähnelt.
+        /// </summary>
+        internal static string OutputFormattingList1 {
+            get {
+                return ResourceManager.GetString("OutputFormattingList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Remove whitespaces ähnelt.
+        /// </summary>
+        internal static string OutputFormattingList2 {
+            get {
+                return ResourceManager.GetString("OutputFormattingList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blocks of 5 ähnelt.
+        /// </summary>
+        internal static string OutputFormattingList3 {
+            get {
+                return ResourceManager.GetString("OutputFormattingList3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Formatting of the output ähnelt.
+        /// </summary>
+        internal static string OutputFormattingTooltip {
+            get {
+                return ResourceManager.GetString("OutputFormattingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text output ähnelt.
         /// </summary>
         internal static string OutputStringCaption {
             get {
@@ -196,20 +259,11 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The string after processing with the Purple machine ähnelt.
         /// </summary>
         internal static string OutputStringTooltip {
             get {
                 return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die True if input is a prime number, otherwise false ähnelt.
-        /// </summary>
-        internal static string OutputTooltip {
-            get {
-                return ResourceManager.GetString("OutputTooltip", resourceCulture);
             }
         }
         
@@ -223,7 +277,16 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Plugboard ähnelt.
+        /// </summary>
+        internal static string PlugBoardGroup {
+            get {
+                return ResourceManager.GetString("PlugBoardGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Plugboard ähnelt.
         /// </summary>
         internal static string PlugBoardTooltip {
             get {
@@ -252,9 +315,9 @@ namespace Purple.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Position ähnelt.
         /// </summary>
-        internal static string PositionCaption {
+        internal static string PositionGroup {
             get {
-                return ResourceManager.GetString("PositionCaption", resourceCulture);
+                return ResourceManager.GetString("PositionGroup", resourceCulture);
             }
         }
         
@@ -304,7 +367,7 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Starting value ähnelt.
         /// </summary>
         internal static string StartwertTooltip {
             get {
@@ -358,7 +421,7 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ignore (leave unmodified) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ignore ähnelt.
         /// </summary>
         internal static string UnknownSymbolHandlingList1 {
             get {
@@ -367,7 +430,7 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Remove ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy (leave unmodified) ähnelt.
         /// </summary>
         internal static string UnknownSymbolHandlingList2 {
             get {
@@ -376,7 +439,7 @@ namespace Purple.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Replace with &apos;X&apos; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Replace with placeholder ähnelt.
         /// </summary>
         internal static string UnknownSymbolHandlingList3 {
             get {

@@ -28,16 +28,19 @@ namespace Cryptool.Plugins.Purple
         #region Private Variables
 
         private bool hasChanges = false;
-        private string alphabet = "AEIOUYBCDFGHJKLMNPQRSTVWXZ";
         private int motion = 123;
-        private int selectedAction = 0;
-        public int sechserPos = 0;
-        public int zwanzigerPos1 = 0;
-        public int zwanzigerPos2 = 0;
-        public int zwanzigerPos3 = 0;
-        private int unknownSymbolHandling = 0; // 0=ignore, leave unmodified
-        private int caseHandling = 0; // 0=preserve, 1, convert all to upper, 2= convert all to lower
+        public int sechserPos = 1;
+        public int zwanzigerPos1 = 1;
+        public int zwanzigerPos2 = 1;
+        public int zwanzigerPos3 = 1;
+        private int unknownSymbolHandling = 2; // 0=ignore, 1=leave unmodified, 2=placeholder
+        private int caseHandling = 0; // 0=preserve, 1=convert all to upper, 2= convert all to lower
+        private int outputFormatting = 0; // format of output
         public string hardcodedAlphabet="AEIOUYBCDFGHJKLMNPQRSTVWXZ";
+        private string alphabet = "AEIOUYBCDFGHJKLMNPQRSTVWXZ";
+
+        public enum actions { encrypt = 0, decrypt };
+        private actions selectedAction = actions.encrypt;
 
         #endregion
 
@@ -47,13 +50,13 @@ namespace Cryptool.Plugins.Purple
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "EncryptCaption", "DecryptCaption")]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "EncryptCaption", "DecryptCaption")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "EncryptCaption", "DecryptCaption" })]
-        public int Action
+        public actions Action
         {
             get
             {
-                return this.selectedAction;
+                return (actions)this.selectedAction;
             }
             set
             {
@@ -66,14 +69,14 @@ namespace Cryptool.Plugins.Purple
         }
 
         #region PlugBoard Setting
-        [TaskPane("PlugBoardCaption", "PlugBoardTooltip", "PlugBoardCaption", 2, true, ControlType.TextBoxReadOnly)]
+        [TaskPane("PlugBoardCaption", "PlugBoardTooltip", "PlugBoardGroup", 2, true, ControlType.TextBoxReadOnly)]
         public string PlugBoard
         {
             get { return hardcodedAlphabet; }
             set { }
         }
 
-        [TaskPaneAttribute("OutputCaption", "OutputTooltip", "PlugBoardCaption", 3, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{26}$")]
+        [TaskPaneAttribute("AlphabetCaption", "AlphabetTooltip", "PlugBoardGroup", 3, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{26}$")]
         public string Alphabet
         {
             get
@@ -93,7 +96,7 @@ namespace Cryptool.Plugins.Purple
         #endregion
 
         #region Position Setting
-        [TaskPaneAttribute("PositionSixesCaption", "StartwertTooltip", "PositionCaption", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
+        [TaskPaneAttribute("PositionSixesCaption", "StartwertTooltip", "PositionGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
         public int Sixes
         {
             get
@@ -110,9 +113,9 @@ namespace Cryptool.Plugins.Purple
                 }
             }
         }
-        
-        
-        [TaskPaneAttribute("PositionTwentiesCaption1", "StartwertTooltip", "PositionCaption", 6, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
+
+
+        [TaskPaneAttribute("PositionTwentiesCaption1", "StartwertTooltip", "PositionGroup", 6, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
         public int Twenties
         {
             get
@@ -130,7 +133,7 @@ namespace Cryptool.Plugins.Purple
             }
         }
 
-        [TaskPaneAttribute("PositionTwentiesCaption2", "StartwertTooltip", "PositionCaption", 7, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
+        [TaskPaneAttribute("PositionTwentiesCaption2", "StartwertTooltip", "PositionGroup", 7, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
         public int Twenties2
         {
             get
@@ -148,7 +151,7 @@ namespace Cryptool.Plugins.Purple
             }
         }
 
-        [TaskPaneAttribute("PositionTwentiesCaption3", "StartwertTooltip", "PositionCaption", 8, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
+        [TaskPaneAttribute("PositionTwentiesCaption3", "StartwertTooltip", "PositionGroup", 8, true, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,2}$")]
         public int Twenties3
         {
             get
@@ -195,12 +198,8 @@ namespace Cryptool.Plugins.Purple
 
         #region Text options
 
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
-            3, ContextMenuControlType.ComboBox, null,
-            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
-            "TextOptionsGroup", 10, false, ControlType.ComboBox,
-            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 10, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "TextOptionsGroup", 10, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return this.unknownSymbolHandling; }
@@ -212,12 +211,8 @@ namespace Cryptool.Plugins.Purple
             }
         }
 
-        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip",
-            4, ContextMenuControlType.ComboBox, null,
-            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
-        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip",
-            "TextOptionsGroup", 4, false, ControlType.ComboBox,
-            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip", 11, ContextMenuControlType.ComboBox, null, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip", "TextOptionsGroup", 11, false, ControlType.ComboBox, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
         public int CaseHandling
         {
             get { return this.caseHandling; }
@@ -226,6 +221,19 @@ namespace Cryptool.Plugins.Purple
                 if ((int)value != caseHandling) HasChanges = true;
                 this.caseHandling = (int)value;
                 OnPropertyChanged("CaseHandling");
+            }
+        }
+
+        [ContextMenu("OutputFormattingCaption", "OutputFormattingTooltip", 11, ContextMenuControlType.ComboBox, null, new string[] { "OutputFormattingList1", "OutputFormattingList2", "OutputFormattingList3" })]
+        [TaskPane("OutputFormattingCaption", "OutputFormattingTooltip", "TextOptionsGroup", 11, false, ControlType.ComboBox, new string[] { "OutputFormattingList1", "OutputFormattingList2", "OutputFormattingList3" })]
+        public int OutputFormatting
+        {
+            get { return this.outputFormatting; }
+            set
+            {
+                if (value != outputFormatting) HasChanges = true;
+                this.outputFormatting = value;
+                OnPropertyChanged("OutputFormatting");
             }
         }
 
