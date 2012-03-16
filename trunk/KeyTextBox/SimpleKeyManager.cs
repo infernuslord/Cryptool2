@@ -61,8 +61,11 @@ namespace KeyTextBox
 
         public void SetKey(string key)
         {
-            _key = key;
-            OnOnKeyChanged();
+            if (key != _key)
+            {
+                _key = key;
+                OnOnKeyChanged();
+            }
         }
 
         public string GetKey()
