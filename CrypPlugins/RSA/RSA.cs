@@ -126,21 +126,30 @@ namespace Cryptool.Plugins.RSA
                 GuiLogMessage("starting RSA on texts", NotificationLevel.Info);
 
                 threads = ArrayList.Synchronized(new ArrayList());
+
                 int blocksize_input = 0;
                 int blocksize_output = 0;
 
-                //calculate block sizes from N          
-                //Encryption
-                if (settings.Action == 0)
+                if (settings.OverrideBlocksizes)
                 {
-                    blocksize_input = (int)Math.Floor(BigInteger.Log(InputN, 256));
-                    blocksize_output = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
+                    blocksize_input = settings.InputBlocksize;
+                    blocksize_output = settings.OutputBlocksize;
                 }
-                //Decryption
                 else
                 {
-                    blocksize_input = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
-                    blocksize_output = (int)Math.Floor(BigInteger.Log(InputN, 256));
+                    //calculate block sizes from N          
+                    //Encryption
+                    if (settings.Action == 0)
+                    {
+                        blocksize_input = (int)Math.Floor(BigInteger.Log(InputN, 256));
+                        blocksize_output = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
+                    }
+                    //Decryption
+                    else
+                    {
+                        blocksize_input = (int)Math.Ceiling(BigInteger.Log(InputN, 256));
+                        blocksize_output = (int)Math.Floor(BigInteger.Log(InputN, 256));
+                    }
                 }
 
                 GuiLogMessage("Input blocksize = " + blocksize_input, NotificationLevel.Debug);
@@ -154,7 +163,7 @@ namespace Cryptool.Plugins.RSA
 
                 if (blocksize_output == 0)
                 {
-                    GuiLogMessage("Input blocksize 0 - RSA can not work", NotificationLevel.Error);
+                    GuiLogMessage("Output blocksize 0 - RSA can not work", NotificationLevel.Error);
                     return;
                 }
 
@@ -230,6 +239,7 @@ namespace Cryptool.Plugins.RSA
         /// </summary>
         public void Initialize()
         {
+            settings.UpdateTaskPaneVisibility();
             this.stopped = true;
         }
 
@@ -388,7 +398,8 @@ namespace Cryptool.Plugins.RSA
                     if (bint > this.InputN)
                     {
                         //Go out with an error because encryption/decryption is not possible
-                        GuiLogMessage("N = " + this.InputN + " is not suitable for encrypting this text: M = " + new BigInteger(help) + " > N. Please choose another pair of primes!", NotificationLevel.Error);
+                        string mode = (settings.Action == 0) ? "encrypting" : "decrypting";
+                        GuiLogMessage("N = " + this.InputN + " is not suitable for " + mode + " this text: M = " + new BigInteger(help) + " > N.", NotificationLevel.Error);
                         return;
                     }
 
@@ -398,6 +409,13 @@ namespace Cryptool.Plugins.RSA
                     //create a block from the byte array of the BigInteger
                     byte[] bytes = removeZeros(bint.ToByteArray());
                     int diff = (blocksize_output - (bytes.Length % blocksize_output)) % blocksize_output;
+
+                    if (bytes.Length > blocksize_output)
+                    {
+                        //Go out with an error because encryption/decryption is not possible
+                        GuiLogMessage("Output blocksize = "+ blocksize_output + " is too small, must be at least " + bytes.Length + "!", NotificationLevel.Error);
+                        return;
+                    }
 
                     for (int j = 0; j < bytes.Length; j++)
                     {

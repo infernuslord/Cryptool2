@@ -249,4 +249,26 @@
   <data name="SourceList4" xml:space="preserve">
     <value>X.509-Zertifikat</value>
   </data>
+  <data name="InputBlocksizeCaption" xml:space="preserve">
+    <value>Eingabeblock</value>
+  </data>
+  <data name="InputBlocksizeTooltip" xml:space="preserve">
+    <value>Geben Sie die Größe eines Eingabeblocks in Bytes an.</value>
+  </data>
+  <data name="OutputBlocksizeCaption" xml:space="preserve">
+    <value>Ausgabeblock</value>
+  </data>
+  <data name="OutputBlocksizeTooltip" xml:space="preserve">
+    <value>Geben Sie die Größe eines Ausgabeblocks in Bytes an.</value>
+  </data>
+  <data name="OverrideBlocksizesCaption" xml:space="preserve">
+    <value>Blockgrößen festlegen</value>
+  </data>
+  <data name="OverrideBlocksizesGroup" xml:space="preserve">
+    <value>Blockgrößen</value>
+  </data>
+  <data name="OverrideBlocksizesTooltip" xml:space="preserve">
+    <value>Aktivieren Sie diese Checkbox, um die zu verwendenden Blockgrößen selbst zu bestimmen.
+Diese werden dann anstatt der automatisch ermittelten Blockgrößen verwendet. </value>
+  </data>
 </root>

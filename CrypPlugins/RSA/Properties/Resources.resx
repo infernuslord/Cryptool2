@@ -249,4 +249,25 @@
   <data name="SourceList4" xml:space="preserve">
     <value>X.509 Certificate</value>
   </data>
+  <data name="InputBlocksizeCaption" xml:space="preserve">
+    <value>Input block size</value>
+  </data>
+  <data name="InputBlocksizeTooltip" xml:space="preserve">
+    <value>Enter the number of bytes for an input block.</value>
+  </data>
+  <data name="OutputBlocksizeCaption" xml:space="preserve">
+    <value>Output block size</value>
+  </data>
+  <data name="OutputBlocksizeTooltip" xml:space="preserve">
+    <value>Enter the number of bytes for an output block.</value>
+  </data>
+  <data name="OverrideBlocksizesCaption" xml:space="preserve">
+    <value>Override implicit block sizes</value>
+  </data>
+  <data name="OverrideBlocksizesGroup" xml:space="preserve">
+    <value>Block sizes</value>
+  </data>
+  <data name="OverrideBlocksizesTooltip" xml:space="preserve">
+    <value>Override the implicit block sizes and enter the values manually.</value>
+  </data>
 </root>
