@@ -28,6 +28,7 @@ using System.Globalization;
 using System.Xml.Schema;
 using Cryptool.Core;
 using Cryptool.PluginBase;
+using KeyTextBox;
 using WorkspaceManager.Model;
 using Wizard.Properties;
 using Path = System.IO.Path;
@@ -274,7 +275,7 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Visible;
 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "presentation"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "presentation"
                              select el;
 
                 inputStack.Children.Clear();
@@ -707,6 +708,20 @@ namespace Wizard
                     currentOutputBoxes.Add(outputBox);
                     element = outputBox;
                     break;
+
+                case "keyTextBox":
+                    var keyTextBox = new KeyTextBox.KeyTextBox();
+                    var keyManager = new SimpleKeyManager(input.Attribute("format").Value);
+                    keyTextBox.KeyManager = keyManager;
+                    if (input.Attribute("defaultkey") != null)
+                    {
+                        keyManager.SetKey(input.Attribute("defaultkey").Value);
+                    }
+                    keyTextBox.Tag = input;
+                    keyTextBox.Style = inputFieldStyle;
+                    element = keyTextBox;
+                    break;
+
                 case "presentation":
                     if (isInput)
                         break;
@@ -1392,7 +1407,7 @@ namespace Wizard
 
             foreach (var input in sp.Children)
             {
-                if (input is TextBox || input is ComboBox || input is CheckBox)
+                if (input is TextBox || input is ComboBox || input is CheckBox || input is KeyTextBox.KeyTextBox)
                 {
                     Control c = (Control)input;
                     XElement ele = (XElement)c.Tag;
@@ -1412,6 +1427,17 @@ namespace Wizard
                                            Value = textBox.Text,
                                            Path = ele.Parent
                                        };
+                        }
+                        else if (input is KeyTextBox.KeyTextBox)
+                        {
+                            var keyTextBox = (KeyTextBox.KeyTextBox)input;
+                            newEntry = new PluginPropertyValue()
+                            {
+                                PluginName = ele.Attribute("plugin").Value,
+                                PropertyName = ele.Attribute("property").Value,
+                                Value = keyTextBox.CurrentKey,
+                                Path = ele.Parent
+                            };
                         }
                         else if (input is ComboBox)
                         {
