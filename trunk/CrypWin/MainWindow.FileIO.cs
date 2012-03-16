@@ -241,8 +241,8 @@ namespace Cryptool.CrypWin
                 isInvalidPath = Path.GetFullPath(dlg.FileName).StartsWith(defaultSamplesDirectory);
                 if (isInvalidPath)
                 {
-                    MessageBox.Show("Overwriting the delivered templates is not recommended. You are being redirected to your home directory.",
-                        "Please store your changes in a different directory", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show(Properties.Resources.WritingInTemplatesNotAllowed,
+                        Properties.Resources.TemplateUseDifferentDirectory, MessageBoxButton.OK, MessageBoxImage.Information);
                     dlg.InitialDirectory = personalDir;
                     dlg.FileName = new FileInfo(dlg.FileName).Name;
                 }
