@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
 
@@ -33,6 +34,9 @@ namespace Cryptool.Plugins.RSA
 
         private int action;
         private int coresUsed;
+        private int inputBlocksize = 8;
+        private int outputBlocksize = 8;
+        private bool overrideBlocksizes = false;
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
 
         #endregion
@@ -94,8 +98,8 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the action (encryption or decryption)
         /// </summary>
-        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
@@ -104,7 +108,59 @@ namespace Cryptool.Plugins.RSA
                 if (action != value)
                 {
                     action = value;
-                    OnPropertyChanged("Action");   
+                    OnPropertyChanged("Action");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter for the override blocksize checkbox
+        /// </summary>
+        [TaskPane("OverrideBlocksizesCaption", "OverrideBlocksizesTooltip", "OverrideBlocksizesGroup", 2, false, ControlType.CheckBox)]
+        public bool OverrideBlocksizes
+        {
+            get { return this.overrideBlocksizes; }
+            set
+            {
+                if (overrideBlocksizes != value)
+                {
+                    overrideBlocksizes = value;
+                    UpdateTaskPaneVisibility();
+                    OnPropertyChanged("OverrideBlocksizes");
+                }
+            }
+        }  
+        
+        /// <summary>
+        /// Getter/Setter for the input blocksize
+        /// </summary>
+        [TaskPane("InputBlocksizeCaption", "InputBlocksizeTooltip", "OverrideBlocksizesGroup", 3, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,}$")]
+        public int InputBlocksize
+        {
+            get { return this.inputBlocksize; }
+            set
+            {
+                if (inputBlocksize != value)
+                {
+                    inputBlocksize = value;
+                    OnPropertyChanged("InputBlocksize");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter for the input blocksize
+        /// </summary>
+        [TaskPane("OutputBlocksizeCaption", "OutputBlocksizeTooltip", "OverrideBlocksizesGroup", 4, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]{1,}$")]
+        public int OutputBlocksize
+        {
+            get { return this.outputBlocksize; }
+            set
+            {
+                if (outputBlocksize != value)
+                {
+                    outputBlocksize = value;
+                    OnPropertyChanged("OutputBlocksize");
                 }
             }
         }
@@ -126,6 +182,31 @@ namespace Cryptool.Plugins.RSA
         }
 
         #endregion
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        private void settingChanged(string setting, Visibility vis)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+        }
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            if (OverrideBlocksizes)
+            {
+                settingChanged("InputBlocksize", Visibility.Visible);
+                settingChanged("OutputBlocksize", Visibility.Visible);
+            } 
+            else
+            {
+                settingChanged("InputBlocksize", Visibility.Collapsed);
+                settingChanged("OutputBlocksize", Visibility.Collapsed);
+            }
+        }
+     
 
     }//end RSASettings
 

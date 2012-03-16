@@ -187,6 +187,24 @@ namespace RSA.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input block size ähnelt.
+        /// </summary>
+        internal static string InputBlocksizeCaption {
+            get {
+                return ResourceManager.GetString("InputBlocksizeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number of bytes for an input block. ähnelt.
+        /// </summary>
+        internal static string InputBlocksizeTooltip {
+            get {
+                return ResourceManager.GetString("InputBlocksizeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Public key E / private key D input ähnelt.
         /// </summary>
         internal static string InputEDCaption {
@@ -277,6 +295,24 @@ namespace RSA.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output block size ähnelt.
+        /// </summary>
+        internal static string OutputBlocksizeCaption {
+            get {
+                return ResourceManager.GetString("OutputBlocksizeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number of bytes for an output block. ähnelt.
+        /// </summary>
+        internal static string OutputBlocksizeTooltip {
+            get {
+                return ResourceManager.GetString("OutputBlocksizeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cipher C output / message M output ähnelt.
         /// </summary>
         internal static string OutputMCCaption {
@@ -309,6 +345,33 @@ namespace RSA.Properties {
         internal static string OutputTextTooltip {
             get {
                 return ResourceManager.GetString("OutputTextTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Override implicit block sizes ähnelt.
+        /// </summary>
+        internal static string OverrideBlocksizesCaption {
+            get {
+                return ResourceManager.GetString("OverrideBlocksizesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Block sizes ähnelt.
+        /// </summary>
+        internal static string OverrideBlocksizesGroup {
+            get {
+                return ResourceManager.GetString("OverrideBlocksizesGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Override the implicit block sizes and enter the values manually. ähnelt.
+        /// </summary>
+        internal static string OverrideBlocksizesTooltip {
+            get {
+                return ResourceManager.GetString("OverrideBlocksizesTooltip", resourceCulture);
             }
         }
         
