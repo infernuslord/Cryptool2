@@ -37,10 +37,10 @@ namespace KeyTextBox
                 }
 
                 SetValue(KeyManagerProperty, value);
-                Reset();
                 
                 if (value != null)
                 {
+                    SetKeyBox(value.GetKey(), 0);
                     value.OnKeyChanged += KeyManagerChanged;
                 }
             }
@@ -66,12 +66,7 @@ namespace KeyTextBox
                 KeyManager.SetKey(value);
             }
         }
-
-        private void Reset()
-        {
-            SetKeyBox(KeyManager.GetKey(), 0);
-        }
-
+        
         public KeyTextBox()
         {
             InitializeComponent();
@@ -309,6 +304,7 @@ namespace KeyTextBox
 
         private void KeyManagerChanged(string key)
         {
+            SetValue(CurrentKeyProperty, key);
             SetKeyBox(key, 0);
         }
 

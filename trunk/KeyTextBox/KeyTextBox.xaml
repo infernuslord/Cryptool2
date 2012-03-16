@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" VerticalContentAlignment="Center" VerticalAlignment="Center">
     <Grid>
-        <RichTextBox Name="KeyBox" PreviewTextInput="KeyBox_PreviewTextInput" AcceptsReturn="False" AutoWordSelection="False" Height="30" MinWidth="300" FontSize="18" FontFamily="Courier New" PreviewKeyDown="KeyBox_PreviewKeyDown" VerticalAlignment="Top"/>
+        <RichTextBox Name="KeyBox" PreviewTextInput="KeyBox_PreviewTextInput" AcceptsReturn="False" AutoWordSelection="False" Height="20" FontFamily="Courier New" PreviewKeyDown="KeyBox_PreviewKeyDown" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

@@ -1364,6 +1364,17 @@ namespace WorkspaceManager.View.Visuals
 
                 }
 
+                if (child is KeyTextBox.KeyTextBox)
+                {
+                    var dummyKeyTextBox = child as KeyTextBox.KeyTextBox;
+                    dummyKeyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyKeyTextBox.Arrange(new Rect(dummyKeyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+
+                    dummyKeyTextBox.MaxWidth = maxSizeContent;
+
+                }
+
                 if (child is TextBlock)
                 {
                     TextBlock dummyTextBox = child as TextBlock;
@@ -1544,7 +1555,22 @@ namespace WorkspaceManager.View.Visuals
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
+                if (child is KeyTextBox.KeyTextBox)
+                {
 
+                    var dummykeyTextBox = child as KeyTextBox.KeyTextBox;
+                    dummykeyTextBox.MinWidth = 0;
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    {
+                        dummykeyTextBox.MaxWidth = Double.MaxValue;
+                    }
+                    else
+                    {
+                        dummykeyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
+                    }
+
+                    dummykeyTextBox.Width = this.ActualWidth;
+                }
 
                 if (child is Expander)
                 {
