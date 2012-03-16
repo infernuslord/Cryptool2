@@ -1873,6 +1873,15 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please store your changes in a different directory..
+        /// </summary>
+        internal static string TemplateUseDifferentDirectory {
+            get {
+                return ResourceManager.GetString("TemplateUseDifferentDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Text.
         /// </summary>
         internal static string Text {
@@ -2094,6 +2103,15 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Warnings {
             get {
                 return ResourceManager.GetString("Warnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing into the template directory is not allowed. You are being redirected to your home directory..
+        /// </summary>
+        internal static string WritingInTemplatesNotAllowed {
+            get {
+                return ResourceManager.GetString("WritingInTemplatesNotAllowed", resourceCulture);
             }
         }
         

@@ -784,4 +784,10 @@
   <data name="UpdaterTooltip" xml:space="preserve">
     <value>Verfügbare Updates für CrypTool 2</value>
   </data>
+  <data name="WritingInTemplatesNotAllowed">
+    <value xml:space="preserve">Das Schreiben im Vorlageordner ist nicht erlaubt. Sie werden in Ihr Heimverzeichnis weitergeleitet.</value>
+  </data>
+  <data name="TemplateUseDifferentDirectory">
+    <value xml:space="preserve">Bitte speichern Sie Ihre Änderungen in einem anderen Verzeichnis.</value>
+  </data>
 </root>

@@ -817,4 +817,10 @@
   <data name="UpdaterTooltip" xml:space="preserve">
     <value>Available updates for CrypTool 2</value>
   </data>
+  <data name="WritingInTemplatesNotAllowed">
+    <value xml:space="preserve">Writing into the template directory is not allowed. You are being redirected to your home directory.</value>
+  </data>
+  <data name="TemplateUseDifferentDirectory">
+    <value xml:space="preserve">Please store your changes in a different directory.</value>
+  </data>
 </root>
