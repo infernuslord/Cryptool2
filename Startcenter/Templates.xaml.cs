@@ -230,8 +230,11 @@ namespace Startcenter
             navItem.Tag = new KeyValuePair<string, string>(file.FullName, title);
 
             navItem.MouseDoubleClick += TemplateItemDoubleClick;
-            var tooltipBlock = new TextBlock(tooltip) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
-            navItem.ToolTip = tooltipBlock;
+            if (tooltip != null)
+            {
+                var tooltipBlock = new TextBlock(tooltip) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
+                navItem.ToolTip = tooltipBlock;
+            }
 
             ToolTipService.SetShowDuration(navItem, Int32.MaxValue);
             return navItem;
