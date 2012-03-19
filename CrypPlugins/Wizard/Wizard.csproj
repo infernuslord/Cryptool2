@@ -269,12 +269,6 @@
     <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\header_wizard6.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\header_wizard9.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\header_wizard5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

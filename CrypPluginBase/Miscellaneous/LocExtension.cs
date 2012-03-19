@@ -57,7 +57,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             {
                 IRootObjectProvider service = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
                 var locAttribute = (LocalizationAttribute)Attribute.GetCustomAttribute(service.RootObject.GetType(), typeof(LocalizationAttribute));
-                ResourceManager resman = new ResourceManager(locAttribute.ResourceFile, service.RootObject.GetType().Assembly);
+                ResourceManager resman = new ResourceManager(locAttribute.ResourceClassPath, service.RootObject.GetType().Assembly);
 
                 if (resman.GetString(Key) != null)
                     return resman.GetString(Key);
