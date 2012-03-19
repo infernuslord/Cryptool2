@@ -162,7 +162,7 @@ namespace Cryptool.CrypWin
         {
             var settingsTabAttribute = (SettingsTabAttribute)Attribute.GetCustomAttribute(tab.GetType(), typeof(SettingsTabAttribute));
             var localitationAttribute = (LocalizationAttribute)Attribute.GetCustomAttribute(tab.GetType(), typeof(LocalizationAttribute));
-            ResourceManager resman = new ResourceManager(localitationAttribute.ResourceFile, tab.GetType().Assembly);
+            ResourceManager resman = new ResourceManager(localitationAttribute.ResourceClassPath, tab.GetType().Assembly);
 
             TreeViewItem i = GetTreeViewItemFromAddress(settingsTree.Items, settingsTabAttribute.Address + settingsTabAttribute.Caption + "/", settingsTabAttribute.Priority);
             i.Header = resman.GetString(settingsTabAttribute.Caption);
