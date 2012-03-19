@@ -94,7 +94,7 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\KeyTextBox\KeyTextBox.csproj">
+    <ProjectReference Include="..\..\LibSource\KeyTextBox\KeyTextBox.csproj">
       <Project>{FD4214D8-FFB9-406F-9202-BB5EC0645E8F}</Project>
       <Name>KeyTextBox</Name>
       <Private>False</Private>
