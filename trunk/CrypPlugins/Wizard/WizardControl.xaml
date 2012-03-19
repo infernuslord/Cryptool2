@@ -109,7 +109,10 @@
             
             <StackPanel Orientation="Vertical">
                 <Label Name="ErrorLabel" Content="{Loc Error}" FontSize="20" Foreground="#FFF56161" Visibility="Collapsed" />
-                <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="22" FontWeight="Bold" />
+                <Grid >
+                    <Label   HorizontalContentAlignment="Center" Name="taskHeader" FontSize="18" />
+                    <Image Source="Images/header_wizard5.png" Stretch="Uniform"  HorizontalAlignment="Left"></Image>
+                </Grid>
             </StackPanel>
 
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">
