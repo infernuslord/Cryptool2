@@ -157,7 +157,7 @@ Next we will define some class properties to be used as data input and output co
 		\item \texttt{Direction.Input}
 		\item \texttt{Direction.Output}
 	\end{itemize}
-	\item \textit{caption} --- a short caption of the data property shown in the editor. May be either a text or a key refering to a multilingual resource file (see Section~\ref{sec:Intersec:Internationalization}).
+	\item \textit{caption} --- a short caption of the data property shown in the editor. May be either a text or a key refering to a multilingual resource file (see Section~\ref{sec:Internationalization}).
 	\item \textit{toolTip} --- similar as a caption, but more descriptive. May be either a text or a key refering to a multilingual resource file.
 	\item \textit{mandatory} --- this flag determines whether an input must be attached by the user to use the plugin. If set to \texttt{true}, an input connection will be required or else the plugin will not be executed in the workflow chain. If set to \texttt{false}, connecting an input is optional. As this only applies to input properties, if the direction has been set to \texttt{Direction.Output}, this flag will be ignored.
 
@@ -195,7 +195,7 @@ public ICryptoolStream OutputData
 	get
 	{
 		if (OutputString != null)
-		{                    
+		{
 			return new CStreamWriter(Encoding.UTF8.GetBytes(OutputString));
 		}
 			return null;
