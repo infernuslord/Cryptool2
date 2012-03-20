@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+ <title lang="en">Solitaire Cipher</title>
+ <description lang="en">This template shows how to encrypt a text with the Solitaire cipher using a password. Using other options of the plugin, you can also encrypt or decrypt texts using a given deckstate, a random deckstate, ascending decks or descending decks.</description>
+ <keywords>solitaire, cipher, encryption, decryption, secret, cards, deck</keywords>
+ <relevantPlugins>
+   <plugin name="Solitaire" />
+ </relevantPlugins>
+</sample>
