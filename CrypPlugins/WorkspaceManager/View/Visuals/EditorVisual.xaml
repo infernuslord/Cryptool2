@@ -192,7 +192,7 @@
                         <ColumnDefinition Width="70"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/error01.png" Width="50" Height="50" Grid.Column="0"></Image>
+                    <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Images/WMIcons/error01.png" Width="50" Height="50" Grid.Column="0"></Image>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>

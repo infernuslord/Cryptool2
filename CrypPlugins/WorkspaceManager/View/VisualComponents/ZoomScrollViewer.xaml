@@ -65,7 +65,7 @@
                                         </TextBlock>
                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
                                         <Button Height="13" Margin="0" Click="DecZoom" Style="{DynamicResource ButtonStyle}">
-                                            <Image Source="/WorkspaceManager;component/View/Image/reduce.png" Width="13" Height="13"></Image>
+                                            <Image Source="/WorkspaceManager;component/View/Images/WMIcons/reduce.png" Width="13" Height="13"></Image>
                                         </Button>
                                                                         <!--  Dynamic Ressource, alternately the style has to be implemented in the slider. -->
                                         <Slider x:Name="FullScreenScaleSlider" Style="{DynamicResource HorizontalSliderStyle}"
@@ -75,7 +75,7 @@
                                         Value="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=TwoWay}"/>
 
                                         <Button Height="13" Margin="0" Click="IncZoom" Style="{DynamicResource ButtonStyle}">
-                                            <Image Source="/WorkspaceManager;component/View/Image/increase.png" Width="13" Height="13"></Image>
+                                            <Image Source="/WorkspaceManager;component/View/Images/WMIcons/increase.png" Width="13" Height="13"></Image>
                                         </Button>
                                     </StackPanel>
                                 </Border>

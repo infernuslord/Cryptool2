@@ -98,7 +98,7 @@
                               IsChecked="{Binding Path=IsSettingsOpen, Mode=TwoWay}" 
                               Style="{StaticResource ResourceKey=ToggleButtonStyle}" DockPanel.Dock="Right"
                               ToolTip="{Loc Toggle_Plugin_Parameters}">
-                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
+                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Images/WMIcons/pluginSetting-small.png" Width="35" Height="35"></Image>
                 </ToggleButton>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Right">
                     <StackPanel.Style>
@@ -117,15 +117,15 @@
                     </StackPanel.Style>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
                     <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Fit_to_Screen_Tooltip}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
-                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="35" Height="35"></Image>
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Images/WMIcons/f2s-small.png" Width="35" Height="35"></Image>
                     </Button>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
                     <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Image_to_Workspace_Tooltip}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
-                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="35" Height="35"></Image>
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Images/WMIcons/addimg-small.png" Width="35" Height="35"></Image>
                     </Button>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
                     <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Text_to_Workspace_Tooltip}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
-                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="35" Height="35"></Image>
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Images/WMIcons/addtxt-small.png" Width="35" Height="35"></Image>
                     </Button>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
                 

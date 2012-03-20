@@ -119,7 +119,7 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <Style TargetType="{x:Type Button}" x:Key="OperationLockStyle">
+        <!--<Style TargetType="{x:Type Button}" x:Key="OperationLockStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsLocked, Mode=OneWay}" Value="True">
                     <Setter Property="ToolTip" Value="{Loc Lock}"></Setter>
@@ -141,7 +141,7 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
-        </Style>
+        </Style>-->
 
         <Style x:Key="ImageStyle" TargetType="{x:Type Image}">
             <Setter Property="Source" Value="{Binding Path=Source}"></Setter>

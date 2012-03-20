@@ -262,7 +262,7 @@
                         <model:ConversionLevel>Yellow</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundWarning}"></Setter>
-                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/warn01.png"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Images/WMIcons/warn01.png"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -270,7 +270,7 @@
                         <model:ConversionLevel>Red</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundError}"></Setter>
-                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/error01.png"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Images/WMIcons/error01.png"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -278,7 +278,7 @@
                         <model:ConversionLevel>NA</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundError}"></Setter>
-                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/error01.png"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Images/WMIcons/error01.png"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -286,7 +286,7 @@
                         <model:ConversionLevel>Green</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundOK}"></Setter>
-                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/ok01.png"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Images/WMIcons/ok01.png"></Setter>
                 </DataTrigger>
             </Style.Triggers>
             

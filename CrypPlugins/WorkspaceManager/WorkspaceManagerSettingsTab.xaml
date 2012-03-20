@@ -6,7 +6,7 @@
              xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="632" DataContext="{Binding}">
     <Grid>
-        <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
+        <Image Source="/WorkspaceManager;component/View/Images/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="20">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1">
                 <Grid.RowDefinitions>
