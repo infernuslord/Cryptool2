@@ -182,10 +182,13 @@ namespace WorkspaceManager.View.Visuals
             bin.mainRTB.Focusable = bin.IsSelected;
             if (bin.IsSelected)
             {
-                FocusHelper.Focus(bin.mainRTB);     // set logical focus
-                bin.mainRTB.Focus();
-                Keyboard.Focus(bin.mainRTB);   
+                bin.mainRTB.Loaded += new RoutedEventHandler(mainRTB_Loaded);
             }
+        }
+
+        static void mainRTB_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusHelper.Focus((UIElement)sender);
         }
 
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
