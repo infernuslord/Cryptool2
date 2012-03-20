@@ -15,12 +15,12 @@
     number will be available on one single output. The "NumberOperations" offer settings to select the operation which
     should be calculated. It has three inputs and one output. The first two inputs accept the two numbers which should
     be used for calculating. The third input accepts a third number which will be used to calculate the modulo of the
-    outcome of the arithmetic operation. The output provides the final result of the operation and the modulo operation.
+    outcome of the arithmetic operation. The output provides the final result of the 2-operator-operation and of the modulo operation.
   </usage>
   <presentation lang="en">
-    The "NumberInput" provides a textfield in its presentation which can be used to enter numbers either in number form
-    or described by arithmetic expressions.<newline /><newline /> The "Number Operations" have no special presentation but
-    thy show the actual operation showing a special icon for each operation type.
+    The "NumberInput" provides a text field in its presentation which can be used to enter numbers either in number form
+    or described by arithmetic expressions.<newline /><newline /> The "Number Operations" have no special presentation 
+    but they show the actual operation using a special icon for each operation type.
   </presentation>
   <language culture="de-DE" />
   <introduction lang="de-DE">
