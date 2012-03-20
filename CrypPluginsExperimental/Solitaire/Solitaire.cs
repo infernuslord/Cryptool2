@@ -30,7 +30,7 @@ namespace Solitaire
 {
     public delegate void DelegateFunction();
 
-    [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
+    [Author("Coen Ramaekers", "cfwramaekers@gmail.com", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
     [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "Solitaire/DetailedDescription/doc.xml", "Solitaire/sol.jpg")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Solitaire : ICrypComponent

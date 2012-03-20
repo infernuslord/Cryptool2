@@ -30,14 +30,13 @@ using System.Threading;
 
 namespace SolitaireAnalyser
 {
-    [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
+    [Author("Coen Ramaekers", "cfwramaekers@gmail.com", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
     [PluginInfo("SolitaireAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "SolitaireAnalyser/DetailedDescription/doc.xml", "SolitaireAnalyser/solbreak.jpg")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class SolitaireAnalyser : ICrypComponent
 
     {
         #region Private Variables
-
         private readonly SolitaireAnalyserSettings settings = new SolitaireAnalyserSettings();
 
         private SolitaireAnalyserQuickWatchPresentation myPresentation;
@@ -273,7 +272,6 @@ namespace SolitaireAnalyser
                     updateList(i, j, score, passDictionary[i], decryption);
                 }
             }
-
             Password = passDictionary[indexList[0]];
             OutputString = decrypt(passDictionary[indexList[0]].ToUpper(), inputString);
         }
@@ -465,7 +463,7 @@ namespace SolitaireAnalyser
                 PushAndCut(ref deck, numberOfCards);
                 curKey = deck[0];
                 curChar = ((int)cipher[i] - 64);
-                while (curChar == -32 & i < cipher.Length)
+                while (curChar == -32 & i < cipher.Length-1)
                 {
                     i++;
                     curChar = ((int)cipher[i] - 64);
