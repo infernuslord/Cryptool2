@@ -38,6 +38,8 @@ namespace WorkspaceManager.View.Visuals
     {
         private System.Drawing.RectangleF rect = new System.Drawing.RectangleF((float)-2000, (float)-2000, (float)6000, (float)6000);
         private Point? startDragPoint;
+        private Point? draggedFrom,draggedTo;
+        private FromTo draggedFT;
 
         internal Line part = new Line();
         LinkedList<FromTo> linkedPointList = new LinkedList<FromTo>();
@@ -83,7 +85,6 @@ namespace WorkspaceManager.View.Visuals
             this.Editor = editor;
             PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
-            part.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PartPreviewMouseLeftButtonDown);
             part.PreviewMouseRightButtonDown += new MouseButtonEventHandler(part_PreviewMouseRightButtonDown);
 
             Visuals = Editor.VisualCollection;
@@ -93,7 +94,8 @@ namespace WorkspaceManager.View.Visuals
 
         void part_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            e.Handled = false;
+            //var u = (UIElement)sender;
+            //u.IsHitTestVisible = false;
         }
 
         internal void panelPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -101,16 +103,36 @@ namespace WorkspaceManager.View.Visuals
             reset();
         }
 
+
+        internal void panelMouseLeave(object sender, MouseEventArgs e)
+        {
+            reset();
+        }
+
+        internal void panelPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedPart != null)
+                draggedFT = SelectedPart;
+
+            startDragPoint = Util.MouseUtilities.CorrectGetPosition((UIElement)sender);
+        }
+
         void reset()
         {
+            if(CurrentLine != null)
+                CurrentLine.Line.IsEditingPoint = false;
+
             CurrentLine = null;
             SelectedPart = null;
             startDragPoint = null;
+            draggedFrom = null;
+            draggedTo = null;
+            draggedFT = null;
         }
 
         internal void panelPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Source is CryptoLineView)
+            if (e.Source is CryptoLineView && draggedFT == null)
             {
                 CryptoLineView l = (CryptoLineView)e.Source;
                 if (l.IsSelected)
@@ -122,29 +144,35 @@ namespace WorkspaceManager.View.Visuals
 
                     if (list.Count != 0)
                     {
-                        CurrentLine = l;
+                        if (CurrentLine == null)
+                            CurrentLine = l;
+
                         SelectedPart = list[0].FromTo;
                     }
                 }
             }
             else
             {
-                if (!(e.Source is Line) && e.LeftButton == MouseButtonState.Released)
+                if (draggedFT == null && !(e.Source is Line))
                 {
-                    reset();
+                    SelectedPart = null;
                 }
             }
 
             if (startDragPoint == null)
                 return;
 
-            if (e.LeftButton == MouseButtonState.Pressed && SelectedPart != null && CurrentLine != null)
+            if (e.LeftButton == MouseButtonState.Pressed && draggedFT != null && CurrentLine != null)
             {
+                if (e.Source is CryptoLineView)
+                    if (e.Source as CryptoLineView != CurrentLine)
+                        return;
+
                 Point currentPoint = Util.MouseUtilities.CorrectGetPosition(Editor.panel);
                 Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
                 delta.Negate();
 
-                var data = SelectedPart;
+                var data = draggedFT;
                 foreach (var p in CurrentLine.Line.PointList)
                 {
                     linkedPointList.AddLast(p);
@@ -164,23 +192,29 @@ namespace WorkspaceManager.View.Visuals
 
                 CurrentLine.Line.IsEditingPoint = true;
 
+                if (draggedFrom == null || draggedTo == null)
+                {
+                    draggedFrom = new Point(data.From.X, data.From.Y);
+                    draggedTo = new Point(data.To.X, data.To.Y);
+                }
+
                 switch (data.DirSort)
                 {
                     case DirSort.X_ASC:
-                        data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + delta.Y);
-                        data.To = nextData.Value.From = new Point(data.To.X, data.To.Y + delta.Y);
+                        data.From = prevData.Value.To = new Point(((Point)draggedFrom).X, ((Point)draggedFrom).Y + delta.Y);
+                        data.To = nextData.Value.From = new Point(((Point)draggedTo).X, ((Point)draggedTo).Y + delta.Y);
                         break;
                     case DirSort.X_DESC:
-                        data.From = prevData.Value.To = new Point(data.From.X, data.From.Y + delta.Y);
-                        data.To = nextData.Value.From = new Point(data.To.X, data.To.Y + delta.Y);
+                        data.From = prevData.Value.To = new Point(((Point)draggedFrom).X, ((Point)draggedFrom).Y + delta.Y);
+                        data.To = nextData.Value.From = new Point(((Point)draggedTo).X, ((Point)draggedTo).Y + delta.Y);
                         break;
                     case DirSort.Y_ASC:
-                        data.From = prevData.Value.To = new Point(data.From.X + delta.X, data.From.Y);
-                        data.To = nextData.Value.From = new Point(data.To.X + delta.X, data.To.Y);
+                        data.From = prevData.Value.To = new Point(((Point)draggedFrom).X + delta.X, ((Point)draggedFrom).Y);
+                        data.To = nextData.Value.From = new Point(((Point)draggedTo).X + delta.X, ((Point)draggedTo).Y);
                         break;
                     case DirSort.Y_DESC:
-                        data.From = prevData.Value.To = new Point(data.From.X + delta.X, data.From.Y);
-                        data.To = nextData.Value.From = new Point(data.To.X + delta.X, data.To.Y);
+                        data.From = prevData.Value.To = new Point(((Point)draggedFrom).X + delta.X, ((Point)draggedFrom).Y);
+                        data.To = nextData.Value.From = new Point(((Point)draggedTo).X + delta.X, ((Point)draggedTo).Y);
                         break;
                 }
                 CurrentLine.Line.InvalidateAllLines();
@@ -191,11 +225,6 @@ namespace WorkspaceManager.View.Visuals
                     fromTo.Update();
                 }
             }
-        }
-
-        void PartPreviewMouseLeftButtonDown(object sender, MouseEventArgs e)
-        {
-            startDragPoint = Util.MouseUtilities.CorrectGetPosition(Editor.panel);
         }
 
         #region Protected
@@ -344,6 +373,7 @@ namespace WorkspaceManager.View.Visuals
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SampleLoaded;
+        public event EventHandler SelectedTextChanged;
         public event EventHandler<SelectedItemsEventArgs> ItemsSelected;
         #endregion
 
@@ -707,7 +737,7 @@ namespace WorkspaceManager.View.Visuals
         public void AddText()
         {
             var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
-            VisualCollection.Add(new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
+            VisualCollection.Add(bin);
             SelectedText = bin;
         }
 
@@ -1169,6 +1199,8 @@ namespace WorkspaceManager.View.Visuals
                 newItem.IsSelected = true;
             if (oldItem != null)
                 oldItem.IsSelected = false;
+
+            b.SelectedTextChanged.Invoke(b, null);
         }
 
         public void update()
@@ -1344,7 +1376,7 @@ namespace WorkspaceManager.View.Visuals
             {
                 case 1:
                     var result = Util.TryFindParent<IControlVisual>(e.OriginalSource as UIElement);
-                    if (result != null || e.Source is CryptoLineView)
+                    if (result != null)
                         return;
 
                     if (e.Source is ImageVisual || e.Source is TextVisual)
@@ -1394,6 +1426,14 @@ namespace WorkspaceManager.View.Visuals
                         startedSelection = true;
                         return;
                     }
+
+                    if (e.Source is CryptoLineView)
+                    {
+                        CryptoLineView line = e.Source as CryptoLineView;
+                        if (SelectedItems == null || !SelectedItems.Contains(line))
+                            SelectedItems = new UIElement[] { line };
+                        startedSelection = true;
+                    }
                     break;
 
                 case 2:
@@ -1439,6 +1479,8 @@ namespace WorkspaceManager.View.Visuals
             panel = (ModifiedCanvas)sender;
             panel.PreviewMouseMove += new MouseEventHandler(VisualsHelper.panelPreviewMouseMove);
             panel.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(VisualsHelper.panelPreviewMouseLeftButtonUp);
+            panel.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(VisualsHelper.panelPreviewMouseLeftButtonDown);
+            panel.MouseLeave += new MouseEventHandler(VisualsHelper.panelMouseLeave);
             VisualsHelper.part.Style = (Style)FindResource("FromToLine");
         }
 

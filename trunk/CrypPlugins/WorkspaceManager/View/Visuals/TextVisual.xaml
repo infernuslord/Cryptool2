@@ -68,7 +68,7 @@
                 <DataTrigger Binding="{Binding Path=IsLocked}" Value="True">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=ScrollViewerRTB, Path=ComputedVerticalScrollBarVisibility}" Value="Visible">
+                <DataTrigger Binding="{Binding ElementName=mainRTB, Path=ComputedVerticalScrollBarVisibility}" Value="Visible">
                     <Setter Property="Margin" Value="5,5,20,5"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -227,16 +227,14 @@
             <Border ClipToBounds="True" Grid.Column="0" Grid.Row="1">
                 <!--##########Content##########-->
                 <Grid>
-                    <ScrollViewer x:Name="ScrollViewerRTB" VerticalScrollBarVisibility="Auto">
-                        <RichTextBox x:Name="mainRTB" Foreground="Black" AcceptsTab="True" OverridesDefaultStyle="True" TextChanged="TextChangedHandler"
-                             BorderBrush="#888" BorderThickness="1" Focusable="{Binding Path=IsSelected}" VerticalScrollBarVisibility="Auto">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </RichTextBox.Resources>
-                        </RichTextBox>
-                    </ScrollViewer>
+                    <RichTextBox x:Name="mainRTB" Foreground="Black" AcceptsTab="True" TextChanged="TextChangedHandler" BorderBrush="Transparent"
+                            VerticalScrollBarVisibility="Auto" Background="{Binding Path=Color}">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                    </RichTextBox>
 
                     
                     <!--<Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
