@@ -15,6 +15,7 @@ using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.View.Base.Interfaces;
+using System.Threading;
 
 namespace WorkspaceManager.View.Visuals
 {
@@ -110,7 +111,7 @@ namespace WorkspaceManager.View.Visuals
         }
 
         public static readonly DependencyProperty WindowNameProperty = DependencyProperty.Register("WindowName",
-            typeof(string), typeof(TextVisual), new FrameworkPropertyMetadata( Properties.Resources.Enter_Name, null));
+            typeof(string), typeof(TextVisual), new FrameworkPropertyMetadata(Properties.Resources.Enter_Name, null));
 
         public string WindowName
         {
@@ -124,6 +125,21 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color",
+            typeof(SolidColorBrush), typeof(TextVisual), new FrameworkPropertyMetadata(Brushes.White, new PropertyChangedCallback(OnColorValueChanged)));
+
+        public SolidColorBrush Color
+        {
+            get
+            {
+                return (SolidColorBrush)base.GetValue(ColorProperty);
+            }
+            set
+            {
+                base.SetValue(ColorProperty, value);
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -134,6 +150,8 @@ namespace WorkspaceManager.View.Visuals
             WindowWidth = model.GetWidth();
             WindowHeight = model.GetHeight();
             Position = model.GetPosition();
+            //if (model.BackgroundColor != null)
+            //    Color = new SolidColorBrush(model.BackgroundColor);
             Model = model;
             Model.loadRTB(mainRTB);
             Model.UpdateableView = this;
@@ -143,10 +161,19 @@ namespace WorkspaceManager.View.Visuals
         #region Event Handler
         private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+
             TextVisual bin = (TextVisual)d;
             if (bin.PositionDeltaChanged != null)
                 bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() { });
 
+        }
+
+        private static void OnColorValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
+            TextVisual bin = (TextVisual)d;
+            //if(bin.Model != null)
+            //    bin.Model.BackgroundColor = bin.Color.Color;
         }
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -154,7 +181,11 @@ namespace WorkspaceManager.View.Visuals
             TextVisual bin = (TextVisual)d;
             bin.mainRTB.Focusable = bin.IsSelected;
             if (bin.IsSelected)
-                bin.mainRTB.MoveFocus(new TraversalRequest(FocusNavigationDirection.Last));
+            {
+                FocusHelper.Focus(bin.mainRTB);     // set logical focus
+                bin.mainRTB.Focus();
+                Keyboard.Focus(bin.mainRTB);   
+            }
         }
 
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
@@ -210,6 +241,27 @@ namespace WorkspaceManager.View.Visuals
         public Point GetRoutingPoint(int routPoint)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    static class FocusHelper
+    {
+        private delegate void MethodInvoker();
+
+        public static void Focus(UIElement element)
+        {
+            //Focus in a callback to run on another thread, ensuring the main UI thread is initialized by the
+            //time focus is set
+            ThreadPool.QueueUserWorkItem(delegate(Object foo)
+            {
+                UIElement elem = (UIElement)foo;
+                elem.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    (MethodInvoker)delegate()
+                    {
+                        elem.Focus();
+                        Keyboard.Focus(elem);
+                    });
+            }, element);
         }
     }
 }

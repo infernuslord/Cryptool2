@@ -21,6 +21,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Documents;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WorkspaceManager.Model
 {
@@ -93,5 +94,6 @@ namespace WorkspaceManager.Model
         }
 
         public bool IsEnabled { get; set; }
+        ///public Color BackgroundColor = Colors.White;
     }
 }

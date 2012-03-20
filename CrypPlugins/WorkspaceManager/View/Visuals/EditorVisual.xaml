@@ -34,72 +34,7 @@
         <LinearGradientBrush x:Key="ButtonBGMouseOver" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#71dbe5" Offset="0" />
             <GradientStop Color="#37a1bf" Offset="1" />
-        </LinearGradientBrush>
-
-        <Style TargetType="{x:Type Thumb}" x:Key="DragThumb">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=DirSort}">
-                    <DataTrigger.Value>
-                        <misc:DirSort>X_DESC</misc:DirSort>
-                    </DataTrigger.Value>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Line X1="0" Y1="0" X2="{Binding Path=From.X}" Y2="0" StrokeThickness="8" Stroke="#aaffffff"></Line>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-
-
-                <DataTrigger Binding="{Binding Path=DirSort}">
-                    <DataTrigger.Value>
-                        <misc:DirSort>Y_DESC</misc:DirSort>
-                    </DataTrigger.Value>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Line X1="0" Y1="0" X2="0" Y2="{Binding Path=From.Y}" StrokeThickness="8" Stroke="#aaffffff"></Line>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-
-
-                <DataTrigger Binding="{Binding Path=DirSort}">
-                    <DataTrigger.Value>
-                        <misc:DirSort>X_ASC</misc:DirSort>
-                    </DataTrigger.Value>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Line X1="0" Y1="0" X2="{Binding Path=To.X}" Y2="0" StrokeThickness="8" Stroke="#aaffffff"></Line>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-
-
-                <DataTrigger Binding="{Binding Path=DirSort}">
-                    <DataTrigger.Value>
-                        <misc:DirSort>Y_ASC</misc:DirSort>
-                    </DataTrigger.Value>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Thumb}">
-                                <Line X1="0" Y1="0" X2="0" Y2="{Binding Path=To.Y}" StrokeThickness="8" Stroke="#aaffffff"></Line>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-
-            </Style.Triggers>
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <TranslateTransform X="{Binding Path=From.X, UpdateSourceTrigger=PropertyChanged}" Y="{Binding Path=From.Y, UpdateSourceTrigger=PropertyChanged}"></TranslateTransform>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        </LinearGradientBrush>       
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
             <Border x:Name="Border" Background="{StaticResource ResourceKey=ButtonBG}" CornerRadius="4"

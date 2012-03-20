@@ -347,7 +347,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         public static readonly DependencyProperty IsEditingPointProperty = DependencyProperty.Register("IsEditingPoint", typeof(bool),
-            typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(false));
+            typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnHasComputedChanged)));
         private VisualsHelper helper;
 
         public bool IsEditingPoint
@@ -381,7 +381,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 {
                     l.Model.PointList.Add(p.From);
                 }
-                l.Model.PointList.Add(l.PointList[l.PointList.Count-1].To);
+                l.Model.PointList.Add(l.PointList[l.PointList.Count - 1].To);
             }
         }
 
