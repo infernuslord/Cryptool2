@@ -232,10 +232,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         void LineComputationDone(object sender, EventArgs e)
         {
-            if (Line.HasComputed)
-            {
+            //if (Line.HasComputed)
+            //{
                 assembleGeo();
-            }
+            //}
         } 
         #endregion
     }
