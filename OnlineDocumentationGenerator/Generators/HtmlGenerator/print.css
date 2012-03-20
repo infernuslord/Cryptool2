@@ -33,8 +33,9 @@ hr {
 .section{
 	margin-left:30px;
 	margin-right:30px;
-	width: 100%;
+	width: 95%;
 	text-align: justify;
+	float: left;
 }
 
 .boximage img
