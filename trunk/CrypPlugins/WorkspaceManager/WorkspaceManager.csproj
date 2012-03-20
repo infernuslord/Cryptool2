@@ -93,10 +93,6 @@
     <Compile Include="View\VisualComponents\TextEditPanel.xaml.cs">
       <DependentUpon>TextEditPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisualComponents\ColorPickPopUp.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ColorPickPopUp.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
@@ -213,10 +209,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\VisualComponents\ColorPickPopUp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\VisualComponents\ZoomScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -298,150 +290,65 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Image\delete.png" />
-    <Resource Include="View\Image\setting.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\increase.png" />
-    <Resource Include="View\Image\reduce.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\arrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\max.png" />
-    <Resource Include="View\Image\min.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\showall.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\error.png" />
-    <Resource Include="View\Image\warning.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\bg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\ct.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\data.png" />
-    <Resource Include="View\Image\log.png" />
-    <Resource Include="View\Image\minimize.png" />
-    <Resource Include="View\Image\presentation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\left.png" />
-    <Resource Include="View\Image\right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\error2.png" />
-    <Resource Include="View\Image\warn.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\debug.png" />
-    <Resource Include="View\Image\info.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\resizeimg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\charactergrowfont.png" />
-    <Resource Include="View\Image\charactershrinkfont.png" />
-    <Resource Include="View\Image\editcopy.png" />
-    <Resource Include="View\Image\editcut.png" />
-    <Resource Include="View\Image\editpaste.png" />
-    <Resource Include="View\Image\editredo.png" />
-    <Resource Include="View\Image\editundo.png" />
-    <Resource Include="View\Image\fileopen.png" />
-    <Resource Include="View\Image\filesave.png" />
-    <Resource Include="View\Image\listbullets.png" />
-    <Resource Include="View\Image\listnumbering.png" />
-    <Resource Include="View\Image\paragraphcenterjustify.png" />
-    <Resource Include="View\Image\paragraphdecreaseindentation.png" />
-    <Resource Include="View\Image\paragraphfulljustify.png" />
-    <Resource Include="View\Image\paragraphincreaseindentation.png" />
-    <Resource Include="View\Image\paragraphleftjustify.png" />
-    <Resource Include="View\Image\paragraphrightjustify.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\add.png" />
-    <Resource Include="View\Image\anno.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\pause.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\maxi.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\addimg-big.png" />
-    <Resource Include="View\Image\addimg-small.png" />
-    <Resource Include="View\Image\addtxt-big.png" />
-    <Resource Include="View\Image\addtxt-small.png" />
-    <Resource Include="View\Image\f2s-small.png" />
-    <Resource Include="View\Image\f2s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\WorkspaceManagerIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\icm.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\WorkspaceManagerIcon_orig.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="View\Resources\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\WorkspaceManagerIcon_orig.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\lock.png" />
-    <Resource Include="View\Image\unlock.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Image\thunder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\error01.png" />
-    <Resource Include="View\Image\ok01.png" />
-    <Resource Include="View\Image\warn01.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\presIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\help32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\sorticon-small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\pluginSetting-small.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\Arrow-down-48.png" />
-    <Resource Include="View\Image\Arrow-stop-down-48.png" />
-    <Resource Include="View\Image\Arrow-stop-up-48.png" />
-    <Resource Include="View\Image\Arrow-up-48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\full.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\bg-setting.png" />
+    <Content Include="View\Images\Bak\WorkspaceManagerIcon.png" />
+    <Content Include="View\Images\Bak\WorkspaceManagerIcon_Nils.png" />
+    <Content Include="View\Images\Bak\WorkspaceManagerIcon_orig.ico" />
+    <Content Include="View\Images\Bak\WorkspaceManagerIcon_orig.png" />
+    <Content Include="View\Images\Bak\WorkspaceManager_Nils.ico" />
+    <Resource Include="View\Images\bg-setting.png" />
+    <Resource Include="View\Images\ComponentIcons\Arrow-down-48.png" />
+    <Resource Include="View\Images\ComponentIcons\Arrow-stop-down-48.png" />
+    <Resource Include="View\Images\ComponentIcons\Arrow-stop-up-48.png" />
+    <Resource Include="View\Images\ComponentIcons\Arrow-up-48.png" />
+    <Resource Include="View\Images\ComponentIcons\data.png" />
+    <Resource Include="View\Images\ComponentIcons\delete.png" />
+    <Resource Include="View\Images\ComponentIcons\full.png" />
+    <Resource Include="View\Images\ComponentIcons\help.png" />
+    <Resource Include="View\Images\ComponentIcons\log.png" />
+    <Resource Include="View\Images\ComponentIcons\max.png" />
+    <Resource Include="View\Images\ComponentIcons\min.png" />
+    <Resource Include="View\Images\ComponentIcons\minimize.png" />
+    <Resource Include="View\Images\ComponentIcons\presentation.png" />
+    <Resource Include="View\Images\ComponentIcons\presIcon.png" />
+    <Resource Include="View\Images\ComponentIcons\setting.png" />
+    <Resource Include="View\Images\ComponentIcons\thunder.png" />
+    <Resource Include="View\Images\LogIcons\debug.png" />
+    <Resource Include="View\Images\LogIcons\error2.png" />
+    <Resource Include="View\Images\LogIcons\info.png" />
+    <Resource Include="View\Images\LogIcons\warn.png" />
+    <Resource Include="View\Images\TextIcons\charactergrowfont.png" />
+    <Resource Include="View\Images\TextIcons\charactershrinkfont.png" />
+    <Resource Include="View\Images\TextIcons\editcopy.png" />
+    <Resource Include="View\Images\TextIcons\editcut.png" />
+    <Resource Include="View\Images\TextIcons\editpaste.png" />
+    <Resource Include="View\Images\TextIcons\editredo.png" />
+    <Resource Include="View\Images\TextIcons\editundo.png" />
+    <Resource Include="View\Images\TextIcons\fileopen.png" />
+    <Resource Include="View\Images\TextIcons\filesave.png" />
+    <Resource Include="View\Images\TextIcons\listbullets.png" />
+    <Resource Include="View\Images\TextIcons\listnumbering.png" />
+    <Resource Include="View\Images\TextIcons\paragraphcenterjustify.png" />
+    <Resource Include="View\Images\TextIcons\paragraphdecreaseindentation.png" />
+    <Resource Include="View\Images\TextIcons\paragraphfulljustify.png" />
+    <Resource Include="View\Images\TextIcons\paragraphincreaseindentation.png" />
+    <Resource Include="View\Images\TextIcons\paragraphleftjustify.png" />
+    <Resource Include="View\Images\TextIcons\paragraphrightjustify.png" />
+    <Resource Include="View\Images\WMIcons\addimg-small.png" />
+    <Resource Include="View\Images\WMIcons\addtxt-small.png" />
+    <Resource Include="View\Images\WMIcons\error01.png" />
+    <Resource Include="View\Images\WMIcons\f2s-small.png" />
+    <Resource Include="View\Images\WMIcons\increase.png" />
+    <Resource Include="View\Images\WMIcons\ok01.png" />
+    <Resource Include="View\Images\WMIcons\pluginSetting-small.png" />
+    <Resource Include="View\Images\WMIcons\reduce.png" />
+    <Resource Include="View\Images\WMIcons\warn01.png" />
+    <Resource Include="View\Images\WorkspaceManagerIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

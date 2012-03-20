@@ -236,7 +236,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch">
             <StackPanel>
                 <StackPanel.Background>
-                    <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg-setting.png" Opacity="0.5" Stretch="Uniform"></ImageBrush>
+                    <ImageBrush ImageSource="/WorkspaceManager;component/View/Images/bg-setting.png" Opacity="0.5" Stretch="Uniform"></ImageBrush>
                 </StackPanel.Background>
                 <Border Background="#55ffffff" Margin="4" BorderThickness="1" BorderBrush="#b9c9de">
                     <TextBlock Text="Parameter" Foreground="#555" FontFamily="David" FontSize="17" Margin="4"></TextBlock>

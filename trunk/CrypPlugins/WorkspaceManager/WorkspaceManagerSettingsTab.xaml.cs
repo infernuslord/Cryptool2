@@ -58,15 +58,15 @@ namespace WorkspaceManager
         
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs eventArgs)
         {            
-            if (sender is Rectangle)
-            {
-                eventArgs.Handled = true;
-                var rect = (Rectangle) sender;
-                var colorPickPopUp = new ColorPickPopUp(rect);
-                colorPickPopUp.Placement = PlacementMode.MousePoint;
-                colorPickPopUp.IsOpen = true;
-                colorPickPopUp.ColorPickerColorChanged+=new EventHandler<EventArgs>(colorPickPopUp_ColorPickerColorChanged);              
-            }
+            //if (sender is Rectangle)
+            //{
+            //    eventArgs.Handled = true;
+            //    var rect = (Rectangle) sender;
+            //    var colorPickPopUp = new ColorPickPopUp(rect);
+            //    colorPickPopUp.Placement = PlacementMode.MousePoint;
+            //    colorPickPopUp.IsOpen = true;
+            //    colorPickPopUp.ColorPickerColorChanged+=new EventHandler<EventArgs>(colorPickPopUp_ColorPickerColorChanged);              
+            //}
         }
 
         private void colorPickPopUp_ColorPickerColorChanged(object sender, EventArgs args)
