@@ -354,7 +354,7 @@
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="RepeatableButtonStyle">
+        <!--<Style TargetType="{x:Type Button}" x:Key="RepeatableButtonStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsRepeatable, Mode=OneWay}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
@@ -389,7 +389,7 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
-        </Style>
+        </Style>-->
 
         <Style TargetType="{x:Type ToggleButton}" x:Key="ICMButtonStyle">
             <Style.Triggers>
@@ -533,7 +533,7 @@
                 </ToggleButton.Tag>
             </ToggleButton>
 
-            <Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>
+            <!--<Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>-->
 
             <Button Style="{StaticResource ResourceKey=OperationMaxMinStyle}" Click="ActionHandler"></Button>
 
