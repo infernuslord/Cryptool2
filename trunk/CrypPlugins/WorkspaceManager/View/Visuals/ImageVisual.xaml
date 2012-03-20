@@ -166,22 +166,22 @@
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
-            <Setter Property="Height" Value="12"></Setter>
-            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="Height" Value="15"></Setter>
+            <Setter Property="Width" Value="15"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
-        <Path x:Key="Cross" Stroke="White" StrokeThickness="3" HorizontalAlignment="Right">
+        <Path x:Key="Cross" Stroke="Red" StrokeThickness="3" HorizontalAlignment="Right" Opacity="0.5">
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
                         <PathFigure StartPoint="0,0">
-                            <LineSegment Point="7,7"/>
+                            <LineSegment Point="10,10"/>
                         </PathFigure>
-                        <PathFigure StartPoint="0,7">
-                            <LineSegment Point="7,0"/>
+                        <PathFigure StartPoint="0,10">
+                            <LineSegment Point="10,0"/>
                         </PathFigure>
                     </PathGeometry.Figures>
                 </PathGeometry>
@@ -204,7 +204,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="13"></RowDefinition>
+                <RowDefinition Height="17"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <!--<RowDefinition Height="16"></RowDefinition>-->
             </Grid.RowDefinitions>
