@@ -25,6 +25,7 @@ using WorkspaceManager.Execution;
 using WorkspaceManager.Model.Tools;
 using Cryptool.PluginBase.Editor;
 using WorkspaceManagerModel.Model.Operations;
+using Cryptool.PluginBase;
 
 namespace WorkspaceManager.Model
 {
@@ -184,7 +185,7 @@ namespace WorkspaceManager.Model
             pluginModel.WorkspaceModel = this;
             pluginModel.Position = position;
             pluginModel.PluginType = pluginType;
-            pluginModel.Name = pluginType.Name;
+            pluginModel.Name = pluginType.GetPluginInfoAttribute().Caption;
             pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();
             pluginModel.Plugin.Initialize();
