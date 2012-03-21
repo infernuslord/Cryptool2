@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>HIGHT is a HIgh security and liGHT weight block cipher</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>HIGHT/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Input</value>
   </data>

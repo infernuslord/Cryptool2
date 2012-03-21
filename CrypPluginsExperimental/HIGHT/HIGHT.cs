@@ -30,7 +30,7 @@ using System.Security.Cryptography;
 namespace Cryptool.HIGHT
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo("HIGHT.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
+    [PluginInfo("HIGHT.Properties.Resources", "PluginCaption", "PluginTooltip", "HIGHT/DetailedDescription/doc.xml", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class HIGHT : ICrypComponent
     {
