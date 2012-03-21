@@ -45,6 +45,37 @@ namespace FileOutput
         TargetFilename = null;
     }
 
+    private bool append = false;
+    [ContextMenu("AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "AppendList1" })]
+    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 0, false, ControlType.CheckBox, "", null)]
+    public bool Append
+    {
+        get { return append; }
+        set
+        {
+            if (value != append)
+            {
+                append = value;
+                OnPropertyChanged("Append");
+            }
+        }
+    }
+
+    private int appendBreaks = 1;
+    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    public int AppendBreaks
+    {
+        get { return this.appendBreaks; }
+        set
+        {
+            if (value != this.appendBreaks)
+            {
+                this.appendBreaks = value;
+                OnPropertyChanged("AppendBreaks");
+            }
+        }
+    }
+
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
