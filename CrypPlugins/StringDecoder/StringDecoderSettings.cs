@@ -33,7 +33,9 @@ namespace Cryptool.Plugins.Convertor
 
         private EncodingTypes encoding = EncodingTypes.UTF8;
         private PresentationFormat presentation = PresentationFormat.Text;
-        private Boolean removeSpaces = false;
+        //private Boolean removeSpaces = false;
+        private Boolean useSeparators = false;
+        private string separators = " ,";
 
         #endregion
 
@@ -84,22 +86,41 @@ namespace Cryptool.Plugins.Convertor
         }
 
         /// <summary>
-        /// RemoveSpaces property used in the Settings pane. 
+        /// Use a separator to split input
         /// </summary>
-        [ContextMenu("RemoveSpacesSettingCaption", "RemoveSpacesSettingTooltip", 3, ContextMenuControlType.CheckBox,null)]
-        [TaskPane("RemoveSpacesSettingCaption", "RemoveSpacesSettingTooltip", null, 3, false, ControlType.CheckBox)]
-        public Boolean RemoveSpaces
+        [TaskPane("UseSeparatorsSettingCaption", "UseSeparatorsSettingTooltip", null, 3, false, ControlType.CheckBox)]
+        public Boolean UseSeparators
         {
             get
             {
-                return this.removeSpaces;
+                return this.useSeparators;
             }
             set
             {
-                if (this.removeSpaces != value)
+                if (this.useSeparators != value)
                 {
-                    this.removeSpaces = value;
-                    OnPropertyChanged("RemoveSpaces");
+                    this.useSeparators = value;
+                    OnPropertyChanged("UseSeparators");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Separator characters used to split the input
+        /// </summary>
+        [TaskPane("SeparatorsSettingCaption", "SeparatorsSettingTooltip", null, 4, false, ControlType.TextBox)]
+        public string Separators
+        {
+            get
+            {
+                return this.separators;
+            }
+            set
+            {
+                if (this.separators != value)
+                {
+                    this.separators = value;
+                    OnPropertyChanged("Separators");
                 }
             }
         }
@@ -127,8 +148,9 @@ namespace Cryptool.Plugins.Convertor
                 Visibility visibility;
                 visibility = this.presentation == PresentationFormat.Text ? Visibility.Visible : Visibility.Collapsed;
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Encoding", visibility)));
-                visibility = (this.presentation == PresentationFormat.Binary || this.presentation == PresentationFormat.Hex) ? Visibility.Visible : Visibility.Collapsed;
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RemoveSpaces", visibility)));
+                visibility = (this.presentation == PresentationFormat.Text || this.presentation == PresentationFormat.Base64) ? Visibility.Collapsed : Visibility.Visible;
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseSeparators", visibility)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Separators", visibility)));
             }
         }
 

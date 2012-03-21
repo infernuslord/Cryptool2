@@ -286,20 +286,39 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die remove spaces ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set of separators ähnelt.
         /// </summary>
-        internal static string RemoveSpacesSettingCaption {
+        internal static string SeparatorsSettingCaption {
             get {
-                return ResourceManager.GetString("RemoveSpacesSettingCaption", resourceCulture);
+                return ResourceManager.GetString("SeparatorsSettingCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Remove spaces from input string ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the characters that shall be used for splitting the
+        ///input string into smaller components. ähnelt.
         /// </summary>
-        internal static string RemoveSpacesSettingTooltip {
+        internal static string SeparatorsSettingTooltip {
             get {
-                return ResourceManager.GetString("RemoveSpacesSettingTooltip", resourceCulture);
+                return ResourceManager.GetString("SeparatorsSettingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use separators for grouping ähnelt.
+        /// </summary>
+        internal static string UseSeparatorsSettingCaption {
+            get {
+                return ResourceManager.GetString("UseSeparatorsSettingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use separator characters for grouping the input string. ähnelt.
+        /// </summary>
+        internal static string UseSeparatorsSettingTooltip {
+            get {
+                return ResourceManager.GetString("UseSeparatorsSettingTooltip", resourceCulture);
             }
         }
     }

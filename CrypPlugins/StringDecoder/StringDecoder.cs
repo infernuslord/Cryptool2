@@ -192,37 +192,20 @@ namespace Cryptool.Plugins.Convertor
                     break;
 
                 case StringDecoderSettings.PresentationFormat.Octal:
-                    outputBytes = ToByteArray(value, "[0-7]+", 8);
+                    outputBytes = ToByteArray(value, ".{1,3}", "[^0-7]", 8);
                     break;
 
                 case StringDecoderSettings.PresentationFormat.Decimal:
-                    outputBytes = ToByteArray(value, @"\d+", 10);
+                    outputBytes = ToByteArray(value, ".{1,3}", "[^0-9]", 10);
                     break;
 
                 case StringDecoderSettings.PresentationFormat.Binary:
-                    if (settings.RemoveSpaces)
-                    {
-                        value = new Regex("[^01]").Replace(value, "");
-                        value = (value + "0000000").Substring(0, ((value.Length + 7) / 8) * 8);
-                        outputBytes = ToByteArray(value, "[01]{1,8}", 2);
-                    }
-                    else
-                    {
-                        outputBytes = ToByteArray(value, "[01]+", 2);
-                    }
+
+                    outputBytes = ToByteArray(value, ".{1,8}", "[^01]", 2);
                     break;
 
                 case StringDecoderSettings.PresentationFormat.Hex:
-                    if (settings.RemoveSpaces)
-                    {
-                        value = new Regex("[^a-fA-F0-9]").Replace(value, "");
-                        value = (value + "0").Substring(0, ((value.Length + 1) / 2) * 2);
-                        outputBytes = ToByteArray(value, "[a-fA-F0-9]{2}", 16);
-                    }
-                    else
-                    {
-                        outputBytes = ToByteArray(value, "[a-fA-F0-9]+", 16);
-                    }
+                    outputBytes = ToByteArray(value, ".{1,2}", "[^a-fA-F0-9]", 16);
                     break;
 
                 case StringDecoderSettings.PresentationFormat.Text:
@@ -241,14 +224,27 @@ namespace Cryptool.Plugins.Convertor
             OnPropertyChanged("OutputStream");
         }
 
-        private byte[] ToByteArray(string input, string pattern, int b)
+        private byte[] ToByteArray(string input, string pattern, string removepattern, int b)
         {
-            MatchCollection matches = new Regex(pattern).Matches(input);
+            string[] matches;
 
-            byte[] bytes = new byte[matches.Count];
+            if (settings.UseSeparators)
+            {
+                matches = input.Split((settings.Separators+"\n\r").ToCharArray(),StringSplitOptions.RemoveEmptyEntries);
+            }
+            else
+            {
+                input = new Regex(removepattern).Replace(input, "");
+                MatchCollection matchcoll = new Regex(pattern).Matches(input);
+                matches = new string[matchcoll.Count];
+                for(int i=0;i<matchcoll.Count;i++)
+                    matches[i] = matchcoll[i].Value;
+            }
 
-            for (int i = 0; i < matches.Count; i++)
-                bytes[i] = Convert.ToByte(matches[i].Value, b);
+            byte[] bytes = new byte[matches.Length];
+
+            for (int i = 0; i < matches.Length; i++)
+                bytes[i] = Convert.ToByte(matches[i], b);
             
             return bytes;
         }
