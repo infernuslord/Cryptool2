@@ -196,4 +196,16 @@
   <data name="Target_filename_" xml:space="preserve">
     <value>Zieldatei: </value>
   </data>
+  <data name="AppendCaption" xml:space="preserve">
+    <value>Eingabetext anfügen</value>
+  </data>
+  <data name="AppendTooltip" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird die Texteingabe an den aktuellen Text angehängt.</value>
+  </data>
+  <data name="AppendBreaksCaption" xml:space="preserve">
+    <value>Zeilenumbrüche anfügen</value>
+  </data>
+  <data name="AppendBreaksTooltip" xml:space="preserve">
+    <value>Wie viele Zeilenumbrüche sollen bei neuem Eingabetext angefügt werden (gilt nur, wenn "Eingabetext anfügen" aktiviert ist).</value>
+  </data>
 </root>

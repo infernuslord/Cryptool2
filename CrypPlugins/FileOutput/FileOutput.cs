@@ -178,11 +178,25 @@ namespace FileOutput
                             fileOutputPresentation.ClosePresentationFile();
                         }, null);
 
-                        FileStream fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
+                        FileStream fs;
+                        if (!settings.Append)
+                        {
+                            fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
+                        }
+                        else
+                        {
+                            fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Append);
+                            for (int i = 0; i < settings.AppendBreaks; i++)
+                            {
+                                const string nl = "\n";
+                                fs.Write(Encoding.ASCII.GetBytes(nl), 0, Encoding.ASCII.GetByteCount(nl));
+                            }
+                        }
+
                         byte[] byteValues = new byte[1024];
                         int byteRead;
 
-                        int position = 0;
+                        long position = fs.Position;
                         GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
                         while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
                         {
