@@ -148,7 +148,7 @@
     <value>Reihenfolge der Spalten in der Transpositionsstufe</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
-    <value>Input Text</value>
+    <value>Eingabetext</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
     <value>Eingabetext, der ver- bzw. entschlüsselt werden soll</value>

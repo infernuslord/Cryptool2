@@ -141,10 +141,10 @@
   <data name="InputKeylengthTooltip" xml:space="preserve">
     <value>Enter the assumed keylength from the autokorrelationfunction here</value>
   </data>
-  <data name="InputKorpusCaption" xml:space="preserve">
-    <value>Textkorpus Input</value>
+  <data name="InputCorpusCaption" xml:space="preserve">
+    <value>Text corpus Input</value>
   </data>
-  <data name="InputKorpusTooltip" xml:space="preserve">
+  <data name="InputCorpusTooltip" xml:space="preserve">
     <value>Enter your sample text here or choose a language from the task-pane</value>
   </data>
   <data name="LanguageCaption" xml:space="preserve">
