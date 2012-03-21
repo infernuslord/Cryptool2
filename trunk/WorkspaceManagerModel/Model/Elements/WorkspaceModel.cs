@@ -41,7 +41,7 @@ namespace WorkspaceManager.Model
     /// Class to represent our Workspace
     /// </summary>
     [Serializable]
-    public class WorkspaceModel : VisualElementModel
+    public class WorkspaceModel : VisualElementModel, IDisposable
     {
 
         /// <summary>

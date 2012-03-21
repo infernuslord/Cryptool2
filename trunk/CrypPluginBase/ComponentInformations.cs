@@ -33,7 +33,7 @@ namespace Cryptool.PluginBase
         {
             try
             {
-                AllLoadedPlugins.Add(pluginType.Name, pluginType);
+                AllLoadedPlugins.Add(pluginType.FullName, pluginType);
 
                 foreach (PropertyInfo pInfo in pluginType.GetProperties())
                 {
