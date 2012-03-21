@@ -115,9 +115,9 @@ namespace Cryptool.Enigma
                                        "V",  // III
                                        "J",  // IV
                                        "Z",  // V
-                                       "YL", // VI
-                                       "YL", // VII
-                                       "YL"  // VIII
+                                       "ZM", // VI
+                                       "ZM", // VII
+                                       "ZM"  // VIII
                                     };
 
 

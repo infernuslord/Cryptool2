@@ -140,7 +140,7 @@ namespace Cryptool.Enigma
         }
 
         IList<UnknownToken> unknownList = new List<UnknownToken>();
-
+        IList<UnknownToken> lowerList = new List<UnknownToken>();
         /// <summary>
         /// Format the string to contain only alphabet characters in upper case
         /// </summary>
@@ -151,12 +151,17 @@ namespace Cryptool.Enigma
             StringBuilder result = new StringBuilder();
             bool newToken = true;
             unknownList.Clear();
+            lowerList.Clear();
 
             for (int i = 0; i < text.Length; i++)
             {
                 if (settings.Alphabet.Contains(char.ToUpper(text[i])))
                 {
                     newToken = true;
+                    if (text[i] == char.ToLower(text[i])) //Solution for preserve FIXME underconstruction
+                    {
+                        lowerList.Add(new UnknownToken(text[i], i));
+                    }                                      //underconstruction end
                     result.Append(char.ToUpper(text[i])); // FIXME: shall save positions of lowercase letters
                 }
                 else if (settings.UnknownSymbolHandling != 1) // 1 := remove
@@ -206,6 +211,13 @@ namespace Cryptool.Enigma
             {
                 workstring.Insert(token.position, token.text);
             }
+
+            foreach (UnknownToken token in lowerList)   //Solution for preserve FIXME underconstruction
+            {
+                char help = workstring[token.position];
+                workstring.Remove(token.position, 1);
+                workstring.Insert(token.position, char.ToLower(help));
+            }                                           //underconstruction end
 
             switch (settings.CaseHandling)
             {

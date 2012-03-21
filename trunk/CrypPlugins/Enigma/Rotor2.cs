@@ -71,9 +71,9 @@ namespace Cryptool.Enigma
         int dreinext = 21;
         int viernext = 9;
         int fuenfnext = 25;
-        int[] sechsnext = { 24, 11 };
-        int[] siebennext = { 24, 11 };
-        int[] achtnext = { 24, 11 };
+        int[] sechsnext = { 25, 12 };
+        int[] siebennext = { 25, 12 };
+        int[] achtnext = { 25, 12 };
 
 
         int[] eins = new int[] { 4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15, 0, 8, 1, 17, 2, 9 };
@@ -1647,21 +1647,36 @@ namespace Cryptool.Enigma
                         t1.Y2 = 29.4 * ((sechs[i] + rest + ringoffset) % 26) + 75;
                         nextint = sechsnext;
                         iAm.Text = "VI";
-
+                        if (i == 0)
+                        {
+                            t2.Foreground = Brushes.OrangeRed;
+                            t2.FontWeight = FontWeights.UltraBold;
+                            t2.FontSize = 22;
+                        }
                         break;
                     case 7:
                         maparray[inew, 1] = (sieben[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((sieben[i] + rest + ringoffset) % 26) + 75;
                         nextint = siebennext;
                         iAm.Text = "VII";
-
+                        if (i == 0)
+                        {
+                            t2.Foreground = Brushes.OrangeRed;
+                            t2.FontWeight = FontWeights.UltraBold;
+                            t2.FontSize = 22;
+                        }
                         break;
                     case 8:
                         maparray[inew, 1] = (acht[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((acht[i] + rest + ringoffset) % 26) + 75;
                         nextint = achtnext;
                         iAm.Text = "VIII";
-
+                        if (i == 0)
+                        {
+                            t2.Foreground = Brushes.OrangeRed;
+                            t2.FontWeight = FontWeights.UltraBold;
+                            t2.FontSize = 22;
+                        }
                         break;
 
                 }
