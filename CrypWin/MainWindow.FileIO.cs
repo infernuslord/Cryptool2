@@ -202,7 +202,7 @@ namespace Cryptool.CrypWin
 
         private FileOperationResult SaveProject()
         {
-            if (ProjectFileName == null || this.ProjectFileName == String.Empty || Path.GetFullPath(this.ProjectFileName).StartsWith(defaultSamplesDirectory,true,null))
+            if (ProjectFileName == null || this.ProjectFileName == String.Empty || Path.GetFullPath(this.ProjectFileName).StartsWith(defaultTemplatesDirectory,true,null))
             {
                 return SaveProjectAs();
             }
@@ -238,7 +238,7 @@ namespace Cryptool.CrypWin
                         return FileOperationResult.Abort;
                 }
 
-                isInvalidPath = Path.GetFullPath(dlg.FileName).StartsWith(defaultSamplesDirectory);
+                isInvalidPath = Path.GetFullPath(dlg.FileName).StartsWith(defaultTemplatesDirectory);
                 if (isInvalidPath)
                 {
                     MessageBox.Show(Properties.Resources.WritingInTemplatesNotAllowed,

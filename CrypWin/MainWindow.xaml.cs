@@ -122,7 +122,7 @@ namespace Cryptool.CrypWin
         private bool dragStarted;
         private Splash splashWindow;
         private bool startUpRunning = true;
-        private string defaultSamplesDirectory = "";
+        private string defaultTemplatesDirectory = "";
         private bool silent = false;
         private List<IPlugin> listPluginsAlreadyInitialized = new List<IPlugin>();
         private string[] interfaceNameList = new string[] {
@@ -278,6 +278,21 @@ namespace Cryptool.CrypWin
                 return;
             }
 
+            defaultTemplatesDirectory = Path.Combine(DirectoryHelper.BaseDirectory, Settings.Default.SamplesDir);
+            if (!Directory.Exists(defaultTemplatesDirectory))
+            {
+                GuiLogMessage("Directory with project templates not found", NotificationLevel.Debug);
+                defaultTemplatesDirectory = personalDir;
+            }
+
+            if (IsCommandParameterGiven("-GenerateComponentConnectionStatistics"))
+            {
+                ComponentConnectionStatistics.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                ComponentConnectionStatistics.SaveCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
+                Application.Current.Shutdown();
+                return;
+            }
+
             // check whether update is available to be installed
             if (IsUpdaterEnabled
                 && CheckCommandProjectFileGiven().Count == 0 // NO project file given as command line argument
@@ -331,13 +346,6 @@ namespace Cryptool.CrypWin
             {
                 // minor error, ignore
                 GuiLogMessage("Could not create personal dir: " + ex.Message, NotificationLevel.Debug);
-            }
-
-            defaultSamplesDirectory = Path.Combine(DirectoryHelper.BaseDirectory, Settings.Default.SamplesDir);
-            if (!Directory.Exists(defaultSamplesDirectory))
-            {
-                GuiLogMessage("Directory with project templates not found", NotificationLevel.Debug);
-                defaultSamplesDirectory = personalDir;
             }
 
             if (string.IsNullOrEmpty(Settings.Default.LastPath) || !Settings.Default.useLastPath || !Directory.Exists(Settings.Default.LastPath))
@@ -489,7 +497,31 @@ namespace Cryptool.CrypWin
             {
                 GuiLogMessage(string.Format("Error occured while loading certificates: {0}", ex), NotificationLevel.Error);
             }
+        }
 
+        private void LoadIndividualComponentConnectionStatistics()
+        {
+            return; //Do nothing yet
+
+            ComponentConnectionStatistics.OnGuiLogMessageOccured += GuiLogMessage;
+
+            //Load component connection statistics if available, or generate them
+            try
+            {
+                ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.DirectoryLocal, "ccs.xml"));
+                }
+                catch (Exception ex2)
+                {
+                    GuiLogMessage("No component connection statistics found... Generate them.", NotificationLevel.Info);
+                    ComponentConnectionStatistics.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                }
+            }
         }
 
         private bool EstablishSingleInstance()
@@ -1186,6 +1218,11 @@ namespace Cryptool.CrypWin
                 AsyncCallback asyncCallback = new AsyncCallback(TypeInitFinished);
                 InitTypesDelegate initTypesDelegate = new InitTypesDelegate(this.InitTypes);
                 initTypesDelegate.BeginInvoke(loadedTypes, asyncCallback, null);
+
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+                {
+                    LoadIndividualComponentConnectionStatistics();
+                }, null);
             }
             catch (Exception ex)
             {
@@ -1391,7 +1428,7 @@ namespace Cryptool.CrypWin
                 ToolTipService.SetIsEnabled(editor.Presentation, false);
                 editor.Presentation.Tag = type.GetImage(0).Source;   
             }
-            editor.SamplesDir = defaultSamplesDirectory;
+            editor.SamplesDir = defaultTemplatesDirectory;
 
             if (editor is StartCenter.StartcenterEditor)
             {

@@ -38,7 +38,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         public delegate void GuiLogMessageHandler(string message, NotificationLevel logLevel);
         public static event GuiLogMessageHandler OnGuiLogMessageOccured;
 
-        public static void OnOnGuiLogMessageOccured(string message, NotificationLevel loglevel)
+        public static void GuiLogMessageOccured(string message, NotificationLevel loglevel)
         {
             if (OnGuiLogMessageOccured != null)
                 OnGuiLogMessageOccured(message, loglevel);
@@ -63,13 +63,13 @@ namespace Cryptool.PluginBase.Miscellaneous
                     return resman.GetString(Key);
                 else
                 {
-                    OnOnGuiLogMessageOccured(string.Format(Resources.Can_t_find_localization_key, Key, service.RootObject.GetType()), NotificationLevel.Warning);
+                    GuiLogMessageOccured(string.Format(Resources.Can_t_find_localization_key, Key, service.RootObject.GetType()), NotificationLevel.Warning);
                     return Key;
                 }
             }
             catch (Exception ex)
             {
-                OnOnGuiLogMessageOccured(string.Format(Resources.Error_trying_to_lookup_localization_key, Key, ex.Message), NotificationLevel.Warning);
+                GuiLogMessageOccured(string.Format(Resources.Error_trying_to_lookup_localization_key, Key, ex.Message), NotificationLevel.Warning);
                 return Key;
             }
         }
