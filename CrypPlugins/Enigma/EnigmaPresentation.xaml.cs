@@ -4356,30 +4356,74 @@ namespace Cryptool.Enigma
             justme = false;
             Button dummy = sender as Button;
 
-            if (dummy == rotorarray[0].up || dummy == rotorarray[1].up || dummy == rotorarray[2].up)
+            if(rotorarray[0]!=null)
+            if (dummy == rotorarray[0].up )
             {
-                settings.Key = rotorarray[0].custom.Text + rotorarray[1].custom.Text + rotorarray[2].custom.Text;
+                settings.Key = rotorarray[0].custom.Text + settings.Key[1] + settings.Key[2];
+                
+            }
+            if (rotorarray[1] != null)
+            if (dummy == rotorarray[1].up)
+            {
+                settings.Key = settings.Key[0] + rotorarray[1].custom.Text + settings.Key[2];
+            }
+            if (rotorarray[2] != null)
+            if (dummy == rotorarray[2].up)
+            {
+                settings.Key = settings.Key[0] + settings.Key[1] + rotorarray[2].custom.Text;
+            }
+            if (rotorarray[0] != null)
+            if (dummy == rotorarray[0].down)
+            {
+                settings.Key = rotorarray[0].custom.Text + settings.Key[1] + settings.Key[2];
+
+            }
+            if (rotorarray[1] != null)
+            if (dummy == rotorarray[1].down)
+            {
+                settings.Key = settings.Key[0] + rotorarray[1].custom.Text + settings.Key[2];
+            }
+            if (rotorarray[2] != null)
+            if (dummy == rotorarray[2].down)
+            {
+                settings.Key = settings.Key[0] + settings.Key[1] + rotorarray[2].custom.Text;
             }
 
-            if (dummy == rotorarray[0].down || dummy == rotorarray[1].down || dummy == rotorarray[2].down)
+            if (rotorarray[2] != null)
+            if (dummy == rotorarray[2].up1 )
             {
-                settings.Key = rotorarray[0].custom.Text + rotorarray[1].custom.Text + rotorarray[2].custom.Text;
-            }
-            if (dummy == rotorarray[0].up1 || dummy == rotorarray[1].up1 || dummy == rotorarray[2].up1)
-            {
+
                 settings.Ring1 = Int32.Parse(rotorarray[2].custom2.Text);
+            }
+            if (rotorarray[1] != null)
+            if (dummy == rotorarray[1].up1)
+            {
                 settings.Ring2 = Int32.Parse(rotorarray[1].custom2.Text);
+            }
+            if (rotorarray[0] != null)
+            if (dummy == rotorarray[0].up1)
+            {
                 settings.Ring3 = Int32.Parse(rotorarray[0].custom2.Text);
             }
 
-            if (dummy == rotorarray[0].down1 || dummy == rotorarray[1].down1 || dummy == rotorarray[2].down1)
-            {
-                settings.Ring1 = Int32.Parse(rotorarray[2].custom2.Text);
-                settings.Ring2 = Int32.Parse(rotorarray[1].custom2.Text);
-                settings.Ring3 = Int32.Parse(rotorarray[0].custom2.Text);
+            if (rotorarray[2] != null)
+            if (dummy == rotorarray[2].down1)
+                {
+                    settings.Ring1 = Int32.Parse(rotorarray[2].custom2.Text);
+                }
+            if (rotorarray[1] != null)
+            if (dummy == rotorarray[1].down1 )
+                    {
+                        settings.Ring2 = Int32.Parse(rotorarray[1].custom2.Text);
+                    }
+            if (rotorarray[0] != null)
+            if (dummy == rotorarray[0].down1 )
+                    {
+                        settings.Ring3 = Int32.Parse(rotorarray[0].custom2.Text);
+                    }
 
-            }
-
+                
+            
         }
 
         private void List_DragEnter(object sender, DragEventArgs e)
