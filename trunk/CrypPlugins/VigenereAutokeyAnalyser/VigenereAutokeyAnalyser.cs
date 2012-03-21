@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         private double IC;                                          //One probable index of coincidence
         private String completeplain;                               //One probable mixed up plaintext
 
-        private String textkorpus;                                  //Alternative to the predetermindet Frequencys in Languages
+        private String textcorpus;                                  //Alternative to the predetermindet Frequencys in Languages
 
         private int maxkeylength;                                   //The maximum keylength we search for
         private int keylength;                                      //One probable keylength
@@ -86,19 +86,19 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         }
 
         /// <summary>
-        /// The input for the textkorpus (optional) 
+        /// The input for the textcorpus (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputKorpusCaption", "InputKorpusTooltip", false)]
-        public String InputKorpus
+        [PropertyInfo(Direction.InputData, "InputCorpusCaption", "InputCorpusTooltip", false)]
+        public String InputCorpus
         {
             get
             {
-                return textkorpus;
+                return textcorpus;
             }
             set
             {
-                this.textkorpus = value;
-                OnPropertyChanged("InputKorpus");
+                this.textcorpus = value;
+                OnPropertyChanged("InputCorpus");
             }
         }
 
@@ -182,10 +182,10 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
                 language = settings.Language;                       //initialise which language frequencys are expected
                 finalIC = 0.0;                                      //initialise the highest index of coincidence to be found among all tests
 
-                if (textkorpus != null)                             //1)  if there's a textkorpus given us it to calculate the expected frequency...
+                if (textcorpus != null)                             //1)  if there's a textcorpus given us it to calculate the expected frequency...
                 {                                                   //    (-> see private methods section)
-                    textkorpus = prepareForAnalyse(textkorpus);
-                    EF = observedFrequency(textkorpus);
+                    textcorpus = prepareForAnalyse(textcorpus);
+                    EF = observedFrequency(textcorpus);
                 }
                 else                                                //OR
                 {

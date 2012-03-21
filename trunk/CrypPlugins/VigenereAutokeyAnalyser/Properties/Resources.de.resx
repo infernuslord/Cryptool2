@@ -141,10 +141,10 @@
   <data name="InputKeylengthTooltip" xml:space="preserve">
     <value>Geben Sie hier die vermutete Schlüssellänge ein (z.B. vom Autokorrelations-Plugin).</value>
   </data>
-  <data name="InputKorpusCaption" xml:space="preserve">
+  <data name="InputCorpusCaption" xml:space="preserve">
     <value>Eingabe des Textkorpus</value>
   </data>
-  <data name="InputKorpusTooltip" xml:space="preserve">
+  <data name="InputCorpusTooltip" xml:space="preserve">
     <value>Geben Sie hier einen Beispieltext ein oder wählen Sie die vermutete Sprache des Geheimtextes in den Plugin-Einstellungen.</value>
   </data>
   <data name="LanguageCaption" xml:space="preserve">
