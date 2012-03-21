@@ -181,7 +181,7 @@
     <value>in Großbuchstaben konvertieren</value>
   </data>
   <data name="CaseHandlingList3" xml:space="preserve">
-    <value>in Kleinbuchstaben</value>
+    <value>in Kleinbuchstaben konvertieren</value>
   </data>
   <data name="CaseHandlingTooltip" xml:space="preserve">
     <value>Wie sollen Groß- und Kleinbuchstaben behandelt werden?</value>
