@@ -192,10 +192,16 @@
   <data name="PresentationFormatSettingList2" xml:space="preserve">
     <value>Binär</value>
   </data>
-  <data name="RemoveSpacesSettingCaption" xml:space="preserve">
-    <value>Leerzeichen entfernen</value>
+  <data name="SeparatorsSettingCaption" xml:space="preserve">
+    <value>Menge der Trennzeichen</value>
   </data>
-  <data name="RemoveSpacesSettingTooltip" xml:space="preserve">
-    <value>Leerzeichen aus der Eingabe entfernen</value>
+  <data name="SeparatorsSettingTooltip" xml:space="preserve">
+    <value>Geben Sie die Trennzeichen an, die zur Gruppierung der Eingabe verwendet werden sollen.</value>
+  </data>
+  <data name="UseSeparatorsSettingCaption" xml:space="preserve">
+    <value>Trennzeichen zur Gruppierung verwenden</value>
+  </data>
+  <data name="UseSeparatorsSettingTooltip" xml:space="preserve">
+    <value>Sollen Trennzeichen zur Gruppierung der Eingabe verwendet werden?</value>
   </data>
 </root>
