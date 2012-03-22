@@ -187,6 +187,6 @@
     <value>Vigenère Autokey Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ciphertext-only attack on VigenèreAutoKey encryption</value>
+    <value>Ciphertext-only attack on Vigenère autokey encryption</value>
   </data>
 </root>

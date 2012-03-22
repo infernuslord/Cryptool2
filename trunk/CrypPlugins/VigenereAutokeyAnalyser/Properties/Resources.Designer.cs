@@ -268,7 +268,7 @@ namespace VigenereAutokeyAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ciphertext-only attack on VigenèreAutoKey encryption.
+        ///   Looks up a localized string similar to Ciphertext-only attack on Vigenère autokey encryption.
         /// </summary>
         internal static string PluginTooltip {
             get {
