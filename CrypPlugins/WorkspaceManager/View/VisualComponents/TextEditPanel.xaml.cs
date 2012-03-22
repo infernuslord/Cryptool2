@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Windows.Controls;
 using WorkspaceManager.View.Visuals;
+
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -26,11 +18,11 @@ namespace WorkspaceManager.View.VisualComponents
 
         public TextEditPanel()
         {
-            DataContextChanged += new DependencyPropertyChangedEventHandler(TextEditPanel_DataContextChanged);
+            DataContextChanged += new DependencyPropertyChangedEventHandler(TextEditPanelDataContextChanged);
             InitializeComponent();
         }
 
-        void TextEditPanel_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void TextEditPanelDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is EditorVisual)
             {
@@ -40,19 +32,12 @@ namespace WorkspaceManager.View.VisualComponents
                     if (editor.SelectedText == null)
                         return;
 
-                    //Binding bind = new Binding();
-                    //bind.Converter = new ColorToBrushConverter();
-                    //bind.Mode = BindingMode.TwoWay;
-                    //bind.Source = editor.SelectedText.mainRTB;
-                    //bind.Path = new PropertyPath(System.Windows.Controls.RichTextBox.BackgroundProperty);
-                    //CrPicker.SetBinding(ColorPicker.SelectedColorProperty, bind);
-
                     CrPicker.SelectedColor = editor.SelectedText.Color.Color;
                 };
             }
         }
 
-        private void CrPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+        private void CrPickerSelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
             if (editor.SelectedText == null)
                 return;
@@ -73,9 +58,10 @@ namespace WorkspaceManager.View.VisualComponents
                 b = new SolidColorBrush(c);
                 return b;
             }
-            if (value is SolidColorBrush)
+            var solidColorBrush = value as SolidColorBrush;
+            if (solidColorBrush != null)
             {
-                b = (SolidColorBrush)value;
+                b = solidColorBrush;
                 c = b.Color;
                 return c;
             }

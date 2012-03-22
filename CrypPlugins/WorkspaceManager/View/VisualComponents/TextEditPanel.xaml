@@ -37,7 +37,7 @@
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
         <ToolBar Foreground="Black" Name="mainToolBar" Background="{StaticResource ResourceKey=BlueRadientBrush}" BorderBrush="#666" BorderThickness="1" Height="34" DockPanel.Dock="Top">
-            <tools:ColorPicker x:Name="CrPicker" SelectedColorChanged="CrPicker_SelectedColorChanged" Width="50"></tools:ColorPicker>
+            <tools:ColorPicker x:Name="CrPicker" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
             <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="{Loc Cut}">
                 <Image Source="/WorkspaceManager;component/View/Images/TextIcons/EditCut.png"></Image>
             </Button>
