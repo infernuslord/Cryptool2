@@ -42,7 +42,7 @@
       Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom". Die Länge der Eingabe muss
       hierbei ein Vielfaches der Blockgröße von Twofish (also 16 Bytes) sein, andernfalls wird die Berechnung mit einer
       Fehlermeldung abgebrochen. Der Schlüssel wird wie bei der Entschlüsselung eingegeben. Der entschlüsselte Klartext
-      wird dann schliesslich an den Ausgängen der Komponente wiederum als Byte-Array oder als Datenstrom bereitgestellt.
+      wird dann schließlich an den Ausgängen der Komponente wiederum als Byte-Array oder als Datenstrom bereitgestellt.
     <newline />
     <newline />
     </section>

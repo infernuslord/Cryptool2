@@ -8,9 +8,9 @@
   </introduction>
 
   <introduction lang="de-DE">    
-	  <i>Purple</i> ist eine elektromechanische Verschlüsselungsmaschine, die von den Japanern vor und während des zweiten Weltkriegs im diplomatischen Dienst eingesetzt wurde.
+	  <i>Purple</i> ist eine elektromechanische Verschlüsselungsmaschine, die von japanischen Diplomaten vor und während des zweiten Weltkriegs eingesetzt wurde.
 	  <newline />
-	  Das Funktionsprinzip ist ähnlich wie das der Enigma: der zu verschlüsselnde Klartext wird über eine Tastatur eingegeben. Jeder Tastendruck schliesst einen Stromkreis, der von der Tastatur durch mehrere Permutationseinheiten und schliesslich zur Ausgabeeinheit verläuft.
+	  Das Funktionsprinzip ist ähnlich wie das der Enigma: Der zu verschlüsselnde Klartext wird über eine Tastatur eingegeben. Jeder Tastendruck schließt einen Stromkreis, der von der Tastatur durch mehrere Permutationseinheiten und schliesslich zur Ausgabeeinheit verläuft.
 	  Nach jedem ausgegebenen Buchstaben werden die internen Permutationseinheiten nach gewissen Regeln weitergeschaltet.
 	  <newline />
 	  Im Gegensatz zur Enigma werden die Permutationen allerdings nicht durch Rotoren realisiert, sondern durch spezielle Vermittlungsschalter, wie sie damals auch für die Vermittlung von Telefongesprächen eingesetzt wurden. Die <i>Purple</i> verwendet vier Vermittlungsschalter, von denen jeder 25 Positionen und eine bestimmte Anzahl von Ein- und Ausgängen hat. In jeder der 25 Positionen wird dabei eine andere Permutation der Eingänge realisiert und an die Ausgänge weitergeleitet.
@@ -23,7 +23,7 @@
 	  <newline />
 	  Nach jedem Tastendruck werden die Vermittlungsschalter nach gewissen Regeln weitergeschaltet. Wenn ein Schalter weitergeschaltet wird, so springt er von Position n zur Position n+1 und realisiert dadurch eine neue Permutation. Ist er bei Position 25 angelangt, so springt er beim nächsten Mal zur Position 1 zurück.
 	  <newline />
-	  Die Vermittlungsschalter werden in unterschiedlichen Geschwindigkeiten weitergeschaltet: der 6er-Schalter wird nach jedem Tastendruck weitergeschaltet, während von den drei 20er-Schaltern einer schnell (nach jedem Tastendruck), einer mit mittlerer Geschwindigkeit (nach jedem Überlauf des schnellen) und einer langsam (nach jedem Überlauf des mittleren) weiterschaltet. Da der Benutzer selbst bestimmen kann, wie die drei Geschwindigkeiten den drei 20er-Schaltern zugeordnet werden sollen, ist dies ebenso Teil des Schlüssels wie die Startpositionen aller vier Schalter sowie die durch ein Steckerbrett realisierte Eingangs- und Ausgangpermutation.
+	  Die Vermittlungsschalter werden in unterschiedlichen Geschwindigkeiten weitergeschaltet: Der 6er-Schalter wird nach jedem Tastendruck weitergeschaltet, während von den drei 20er-Schaltern einer schnell (nach jedem Tastendruck), einer mit mittlerer Geschwindigkeit (nach jedem Überlauf des schnellen) und einer langsam (nach jedem Überlauf des mittleren) weiterschaltet. Da der Benutzer selbst bestimmen kann, wie die drei Geschwindigkeiten den drei 20er-Schaltern zugeordnet werden sollen, ist dies ebenso Teil des Schlüssels wie die Startpositionen aller vier Schalter sowie die durch ein Steckerbrett realisierte Eingangs- und Ausgangpermutation.
 	  <newline />
 	  <newline />
 	  Die Entschlüsselung der <i>Purple</i> gelang dem amerikanischen Kryptologen William Friedman und seinen Mitarbeitern und wird als eine der größten Leistungen in der Kryptologie angesehen, da es ihnen gelang, ohne Kenntnis des inneren Aufbaus der <i>Purple</i> das Verschlüsselungsprinzip alleine aus den aufgefangenen Geheimtexten zu rekonstruieren und die Maschine nachzubauen. Der Name <i>Purple</i> ist hierbei nur der von den Amerikanern verwendete Codename. Die japanischen Konstrukteure nannten die Maschine "<i>97-shiki O-bun In-ji-ki</i>" (Alphabetische Schreibmaschine 97). 
@@ -49,9 +49,9 @@
 	 In der Rubrik <i>Text-Optionen</i> kann eingestellt werden, wie auf Zeichen in der Eingabe reagiert werden soll, die nicht Bestandteil des von der <i>Purple</i> verwendeten Standardalphabets A-Z sind. Werden unbekannte Zeichen ignoriert, so werden die Vermittlungsschalter beim Lesen dieses Zeichens nicht weitergeschaltet. Wird "kopieren" gewählt, so wird das unbekannte Zeichen unverändert an die Ausgabe weitergegeben und die Vermittlungsschalter werden um eine Position weitergeschaltet. Dies ist nützlich, wenn ein zu entschlüsselnder Geheimtext unleserliche Zeichen enthält, die z.B. durch ein "?" dargestellt werden. Würde dieses bei der Entschlüsselung einfach ignoriert werden, so würde der Klartext ab dem weggelassenen Zeichen falsch dekodiert werden. Schliesslich gibt es noch die Option, ein unbekanntes Zeichen in der Ausgabe durch ein Platzhalterzeichen zu ersetzen.
 	 <newline/>
 	 <newline/>
-	 Unter dem Punkt <i>Ausgabeformatierung</i> kann ausgewählt werden, wie die Ausgabe der Komponente aufbearbeitet werden soll. Es gibt die Möglichkeit entweder die Formatierung des Eingabetextes beizubehalten, alle Leerraumzeichen (Leerzeichen, Tabulator, Zeilenumbruch) zu löschen oder die Ausgabe in Blöcken zu 5 Zeichen zu formatieren.
+	 Unter dem Punkt <i>Ausgabeformatierung</i> kann ausgewählt werden, wie die Ausgabe der Komponente aufbearbeitet werden soll. Es gibt die Möglichkeit, entweder die Formatierung des Eingabetextes beizubehalten, alle Leerraumzeichen (Leerzeichen, Tabulator, Zeilenumbruch) zu löschen oder die Ausgabe in Blöcken zu 5 Zeichen zu formatieren.
     <newline/><newline/>
-	 Schliesslich kann noch die Behandlung der Groß-/Kleinschreibung gewählt werden. Man kann die Ausgabe komplett in Groß- oder Kleinbuchstaben konvertieren oder die Schreibweise des Eingangstextes beibehalten.
+	 Schließlich kann noch die Behandlung der Groß-/Kleinschreibung gewählt werden. Man kann die Ausgabe komplett in Groß- oder Kleinbuchstaben konvertieren oder die Schreibweise des Eingangstextes beibehalten.
   </usage>
   
   <presentation lang="en">
