@@ -81,7 +81,7 @@
 	<presentation lang="de">
 		Die Präsentation zeigt im oberen Bereich Statusinformationen der Komponente an: Startzeit, wahrscheinliche Endzeit, verbleibende Zeit, bereits vergangene Zeit, und wie viele Schlüssel pro Sekunde überprüft werden.
 		<newline />
-		Darunter befindet sich eine Tabelle mit den zehn besten Ergebnissen. In der ersten Spalte der Tabelle stehen unter "#" die Ränge der Einträge. In der Spalte "Wert" steht der Wert, den die Kostenfunktion diesem Eintrag zugewiesen hat. In der Spalte "Schlüssel" steht der für dieses Ergebnis ermittelte Schlüssel. In der Spalte "Text" steht schliesslich der mit diesem Schlüssel ermittelte Klartext.
+		Darunter befindet sich eine Tabelle mit den zehn besten Ergebnissen. In der ersten Spalte der Tabelle stehen unter "#" die Ränge der Einträge. In der Spalte "Wert" steht der Wert, den die Kostenfunktion diesem Eintrag zugewiesen hat. In der Spalte "Schlüssel" steht der für dieses Ergebnis ermittelte Schlüssel. In der Spalte "Text" steht schließlich der mit diesem Schlüssel ermittelte Klartext.
 		<newline />
 		Durch einen Doppelklick auf ein beliebiges Ergebnis wird dieses als Ausgabe der Komponente verwendet.
 	</presentation>
