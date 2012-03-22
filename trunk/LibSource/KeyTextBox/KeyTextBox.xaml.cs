@@ -135,6 +135,7 @@ namespace KeyTextBox
             }
         }
 
+        private int x = 0;
         private void KeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             var key = KeyManager.GetKey();

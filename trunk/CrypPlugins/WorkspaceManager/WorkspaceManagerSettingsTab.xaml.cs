@@ -57,8 +57,9 @@ namespace WorkspaceManager
         }
         
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs eventArgs)
-        {            
-            //if (sender is Rectangle)
+        {
+            throw new NotImplementedException();
+            //if (sender is Rectangle
             //{
             //    eventArgs.Handled = true;
             //    var rect = (Rectangle) sender;
