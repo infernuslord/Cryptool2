@@ -79,7 +79,13 @@ namespace Cryptool.CrypWin
                 this.listPluginsAlreadyInitialized.Clear();
                 taskpaneCtrl.ClearCache();
 
-                var ext = new FileInfo(fileName).Extension.Remove(0, 1);
+                var ext = new FileInfo(fileName).Extension;
+                if (ext.Length < 2)
+                {
+                    return;
+                }
+
+                ext = ext.Remove(0, 1);
                 if (ComponentInformations.EditorExtension.ContainsKey(ext))
                 {
                     Type editorType = ComponentInformations.EditorExtension[ext];
