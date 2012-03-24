@@ -18,7 +18,7 @@
     As seen above the component has three inputs and one output. The output delivers the most likely keyword your text was encrypted with. To find the most likely key letters for each column of the cipher, the component uses "the sum of least squares" method. To calculate this key only a ciphertext and a guess about the language is required. <newline/>
 
     <section headline="Configuring the component">
-      The first input requires the ciphertext that needs to be analysed, however the other two inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with. Instead of using these two optional inputs you can just select a language in the task pane on the right side of your CrypTool window:
+      The first input requires the ciphertext that needs to be analyzed, however the other two inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with. Instead of using these two optional inputs you can just select a language in the task pane on the right side of your CrypTool window:
       <newline/>
       <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic2.JPG"/>
       <newline/>
