@@ -287,7 +287,7 @@ namespace Cryptool.CrypWin
 
             if (IsCommandParameterGiven("-GenerateComponentConnectionStatistics"))
             {
-                ComponentConnectionStatistics.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
                 ComponentConnectionStatistics.SaveCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
                 Application.Current.Shutdown();
                 return;
@@ -354,6 +354,8 @@ namespace Cryptool.CrypWin
             }
 
             SaveSettingsSavely();
+
+            ComponentConnectionStatistics.OnGuiLogMessageOccured += GuiLogMessage;
 
             recentFileList.ListChanged += RecentFileListChanged;
 
@@ -501,11 +503,7 @@ namespace Cryptool.CrypWin
 
         private void LoadIndividualComponentConnectionStatistics()
         {
-            return; //Do nothing yet
-
-            ComponentConnectionStatistics.OnGuiLogMessageOccured += GuiLogMessage;
-
-            //Load component connection statistics if available, or generate them
+            //Load component connection statistics if available, or generate them:
             try
             {
                 ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
@@ -519,7 +517,9 @@ namespace Cryptool.CrypWin
                 catch (Exception ex2)
                 {
                     GuiLogMessage("No component connection statistics found... Generate them.", NotificationLevel.Info);
-                    ComponentConnectionStatistics.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                    TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                    SaveComponentConnectionStatistics();
+                    GuiLogMessage("Component connection statistics successfully generated from templates.", NotificationLevel.Info);
                 }
             }
         }
@@ -1864,6 +1864,8 @@ namespace Cryptool.CrypWin
         {
             try
             {
+                SaveComponentConnectionStatistics();
+
                 if (demoController != null)
                     demoController.Stop();
 
@@ -1916,6 +1918,11 @@ namespace Cryptool.CrypWin
             {
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
+        }
+
+        private void SaveComponentConnectionStatistics()
+        {
+            ComponentConnectionStatistics.SaveCurrentStatistics(Path.Combine(DirectoryHelper.DirectoryLocal, "ccs.xml"));
         }
 
         private bool WorkspacesRunning()
