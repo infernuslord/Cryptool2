@@ -121,7 +121,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ComponentConnectionStatistics.cs" />
+    <Compile Include="TemplatesAnalyzer.cs" />
     <Compile Include="GeneratingDocWindow.xaml.cs">
       <DependentUpon>GeneratingDocWindow.xaml</DependentUpon>
     </Compile>

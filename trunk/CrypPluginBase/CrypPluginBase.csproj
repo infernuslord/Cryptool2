@@ -97,6 +97,7 @@
     <Compile Include="Control\IControlCost.cs" />
     <Compile Include="Control\IControlEncryption.cs" />
     <Compile Include="Control\KeyTranslator.cs" />
+    <Compile Include="Editor\ComponentConnectionStatistics.cs" />
     <Compile Include="ICrypComponent.cs" />
     <Compile Include="IO\CStreamReader.cs" />
     <Compile Include="IO\CStreamWriter.cs" />

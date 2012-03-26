@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using WorkspaceManager.Model;
 
-namespace Cryptool.CrypWin
+namespace Cryptool.PluginBase.Editor
 {
     public static class ComponentConnectionStatistics
     {
@@ -90,7 +85,7 @@ namespace Cryptool.CrypWin
             }
         }
 
-        public static readonly Dictionary<ComponentConnector, ConnectorStatistics> Statistics = new Dictionary<ComponentConnector, ConnectorStatistics>();
+        private static readonly Dictionary<ComponentConnector, ConnectorStatistics> Statistics = new Dictionary<ComponentConnector, ConnectorStatistics>();
 
         public static void SaveCurrentStatistics(string file)
         {
@@ -167,59 +162,35 @@ namespace Cryptool.CrypWin
             }
         }
 
-        public static void GenerateStatisticsFromTemplate(string templateDir)
+        public static void IncrementConnectionUsage(Type fromComponent, string fromConnectorName, Type toComponent, string toConnectorName)
         {
-            var modelLoader = new ModelPersistance();
-
-            foreach (var file in Directory.GetFiles(templateDir, "*.cwm", SearchOption.AllDirectories))
-            {
-                var templateFile = new FileInfo(file);
-                if (templateFile.Name.StartsWith("."))
-                {
-                    continue;
-                }
-
-                using (var model = modelLoader.loadModel(templateFile.FullName))
-                {
-                    //Analyse model connections:
-                    foreach (var pluginModel in model.GetAllPluginModels())
-                    {
-                        foreach (var inputConnector in pluginModel.GetInputConnectors())
-                        {
-                            AnalyseConnectorUsage(inputConnector);
-                        }
-                        foreach (var outputConnector in pluginModel.GetOutputConnectors())
-                        {
-                            AnalyseConnectorUsage(outputConnector);
-                        }
-                    }
-                }
-            }
+            var from = new ComponentConnector(fromComponent, fromConnectorName);
+            var to = new ComponentConnector(toComponent, toConnectorName);
+            IncrementConnectionUsage(from, to);
         }
 
-        private static void AnalyseConnectorUsage(ConnectorModel connectorModel)
+        public static void IncrementConnectionUsage(ComponentConnector from, ComponentConnector to)
         {
-            var componentConnector = new ComponentConnector(connectorModel.PluginModel.PluginType, connectorModel.PropertyName);
-            foreach (var otherConnector in AllConnectedConnectors(connectorModel))
+            if (!Statistics.ContainsKey(from))
             {
-                if (!Statistics.ContainsKey(componentConnector))
-                {
-                    Statistics.Add(componentConnector, new ConnectorStatistics());
-                }
-                Statistics[componentConnector].IncrementConnectorUsage(otherConnector);
+                Statistics.Add(from, new ConnectorStatistics());
             }
+            Statistics[from].IncrementConnectorUsage(to);
         }
 
-        private static IEnumerable<ComponentConnector> AllConnectedConnectors(ConnectorModel connectorModel)
+        public static IEnumerable<ComponentConnector> GetMostlyUsedComponentsFromConnector(Type component, string connectorName)
         {
-            foreach (var inputConnection in connectorModel.GetInputConnections())
+            var componentConnector = new ComponentConnector(component, connectorName);
+            return GetMostlyUsedComponentsFromConnector(componentConnector);
+        }
+
+        public static IEnumerable<ComponentConnector> GetMostlyUsedComponentsFromConnector(ComponentConnector componentConnector)
+        {
+            if (!Statistics.ContainsKey(componentConnector))
             {
-                yield return new ComponentConnector(inputConnection.From.PluginModel.PluginType, inputConnection.From.PropertyName);
+                return null;
             }
-            foreach (var outputConnection in connectorModel.GetOutputConnections())
-            {
-                yield return new ComponentConnector(outputConnection.To.PluginModel.PluginType, outputConnection.To.PropertyName);
-            }
+            return Statistics[componentConnector].GetSortedConnectorUsages();
         }
 
         private static void GuiLogMessageOccured(string message, NotificationLevel loglevel)
