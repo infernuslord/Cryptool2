@@ -42,7 +42,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Instantiate a new TextModel
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="data"></param>
         public TextModel(byte[] data)
         {
             this.data = data;
@@ -94,6 +94,11 @@ namespace WorkspaceManager.Model
         }
 
         public bool IsEnabled { get; set; }
-        ///public Color BackgroundColor = Colors.White;
+        public Color BackgroundColor = Colors.White;
+
+        public bool HasData()
+        {
+            return data != null && data.Length != 0;
+        }
     }
 }
