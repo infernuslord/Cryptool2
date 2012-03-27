@@ -84,6 +84,11 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The WorkspaceModel of this ImageModel
         /// </summary>
-        public WorkspaceModel WorkspaceModel { get; set; }        
+        public WorkspaceModel WorkspaceModel { get; set; }
+
+        internal bool HasData()
+        {
+            return data != null && data.Length != 0;
+        }
     }
 }

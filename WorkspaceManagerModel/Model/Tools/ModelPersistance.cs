@@ -205,6 +205,28 @@ namespace WorkspaceManager.Model
                 }
             }
 
+            //Check if all TextModels and ImageModelsmodels are valid (byte array != null || byte array is empty)
+            //Otherwise delete them from the model and show a warning GuiLogMessage
+            foreach (var textModel in new List<TextModel>(workspacemodel.AllTextModels))
+            {
+                if (!textModel.HasData())
+                {
+                    GuiLogMessage(
+                        string.Format("A TextModel without data (byte array == null || byte array is empty) can not be restored. Delete it now."),
+                        NotificationLevel.Warning);
+                    workspacemodel.AllTextModels.Remove(textModel);
+                }
+            }
+            foreach (var imageModel in new List<ImageModel>(workspacemodel.AllImageModels))
+            {
+                if (!imageModel.HasData())
+                {
+                    GuiLogMessage(string.Format("An ImageModel without data (byte array == null || byte array is empty) can not be restored. Delete it now."),
+                        NotificationLevel.Warning);
+                    workspacemodel.AllImageModels.Remove(imageModel);
+                }
+            }
+
             workspacemodel.UndoRedoManager.ClearStacks();
             return workspacemodel;          
         }

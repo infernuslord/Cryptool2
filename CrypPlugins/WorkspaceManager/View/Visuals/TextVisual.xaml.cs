@@ -142,8 +142,8 @@ namespace WorkspaceManager.View.Visuals
             WindowWidth = model.GetWidth();
             WindowHeight = model.GetHeight();
             Position = model.GetPosition();
-            //if (model.BackgroundColor != null)
-            //    Color = new SolidColorBrush(model.BackgroundColor);
+            if (model.BackgroundColor != null)
+                Color = new SolidColorBrush(model.BackgroundColor);
             Model = model;
             Model.loadRTB(mainRTB);
             Model.UpdateableView = this;
@@ -164,8 +164,8 @@ namespace WorkspaceManager.View.Visuals
         {
 
             TextVisual bin = (TextVisual)d;
-            //if(bin.Model != null)
-            //    bin.Model.BackgroundColor = bin.Color.Color;
+            if(bin.Model != null)
+                bin.Model.BackgroundColor = bin.Color.Color;
         }
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

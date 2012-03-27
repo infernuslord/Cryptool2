@@ -27,7 +27,8 @@ using Cryptool.PluginBase;
 using WorkspaceManager;
 using System.Windows;
 using System.Globalization;
-using System.Runtime.CompilerServices; 
+using System.Runtime.CompilerServices;
+using System.Windows.Media; 
 
 namespace XMLSerialization
 {
@@ -247,6 +248,11 @@ namespace XMLSerialization
                             byte[] bytes = enc.GetBytes(value.ToString());
                             writer.WriteLine("<value><![CDATA[" + Convert.ToBase64String(bytes) + "]]></value>");
                             writer.WriteLine("<B64Encoded/>");
+                        }
+                        else if(value is Color)
+                        {
+                            Color c = (Color) value;
+                            writer.WriteLine("<value><![CDATA[" + c.R + ";" + c.G + ";" + c.B + ";" + c.A + "]]></value>");
                         }
                         else
                         {
@@ -539,6 +545,30 @@ namespace XMLSerialization
                                                                         out y);
 
                                 System.Windows.Point result = new System.Windows.Point(x, y);
+                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                             BindingFlags.NonPublic |
+                                                             BindingFlags.Public |
+                                                             BindingFlags.Instance).SetValue(newObject, result);
+                            }
+                            else if(RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Media.Color"))
+                            {
+                                string[] values = value.InnerText.Split(new char[] { ';' });
+
+                                if (values.Length != 4)
+                                {
+                                    throw new Exception("Can not create a Color with " + values.Length + " Channels!");
+                                }
+                                byte r = 0;
+                                byte g = 0;
+                                byte b = 0;
+                                byte a = 0;
+                                System.Byte.TryParse(values[0],out r);
+                                System.Byte.TryParse(values[1], out g);
+                                System.Byte.TryParse(values[2], out b);
+                                System.Byte.TryParse(values[3], out a);
+
+                                Color result = Color.FromArgb(a, r, g, b);
+
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                                              BindingFlags.NonPublic |
                                                              BindingFlags.Public |
