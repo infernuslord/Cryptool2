@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<sample>
+<sample> 
   <title lang="en">AES Analyzing using entropy</title>
   <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfunction</i> Entropy.</description>
   <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric</keywords>
