@@ -26,20 +26,27 @@ namespace Cryptool.CrypWin
                     continue;
                 }
 
-                using (var model = modelLoader.loadModel(templateFile.FullName))
+                try
                 {
-                    //Analyse model connections:
-                    foreach (var pluginModel in model.GetAllPluginModels())
+                    using (var model = modelLoader.loadModel(templateFile.FullName))
                     {
-                        foreach (var inputConnector in pluginModel.GetInputConnectors())
+                        //Analyse model connections:
+                        foreach (var pluginModel in model.GetAllPluginModels())
                         {
-                            AnalyseConnectorUsage(inputConnector);
-                        }
-                        foreach (var outputConnector in pluginModel.GetOutputConnectors())
-                        {
-                            AnalyseConnectorUsage(outputConnector);
+                            foreach (var inputConnector in pluginModel.GetInputConnectors())
+                            {
+                                AnalyseConnectorUsage(inputConnector);
+                            }
+                            foreach (var outputConnector in pluginModel.GetOutputConnectors())
+                            {
+                                AnalyseConnectorUsage(outputConnector);
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    //Error loading model... Just ignore
                 }
             }
         }
