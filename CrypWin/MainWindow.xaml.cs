@@ -506,13 +506,13 @@ namespace Cryptool.CrypWin
             //Load component connection statistics if available, or generate them:
             try
             {
-                ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
+                ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.DirectoryLocal, "ccs.xml"));
             }
             catch (Exception ex)
             {
                 try
                 {
-                    ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.DirectoryLocal, "ccs.xml"));
+                    ComponentConnectionStatistics.LoadCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
                 }
                 catch (Exception ex2)
                 {
