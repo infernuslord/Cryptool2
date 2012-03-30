@@ -22,9 +22,8 @@ namespace Cryptool.CrypTutorials
         public CrypTutorialsPresentation(CrypTutorials crypTutorials)
         {
             InitializeComponent();
-
-            _youTubeVideos = LoadVideosKey("cryptography");
             _crypTutorials = crypTutorials;
+            _youTubeVideos = LoadVideosKey("cryptography");
             YoutubeVideos.DataContext = _youTubeVideos;
         }
 
