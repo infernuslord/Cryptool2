@@ -89,6 +89,7 @@ namespace KeyTextBox
 
         private void HandleInput(string input)
         {
+            input = input.ToUpper();
             foreach (var inChar in input)
             {
                 List<char> possibleChars;
@@ -124,7 +125,6 @@ namespace KeyTextBox
 
                 if (!next)
                 {
-                    //If the current position allows multiple options:
                     if (ReplaceCharInKey(key, possibleChars, inChar, caretIndex))
                         return;
                 }
@@ -135,7 +135,6 @@ namespace KeyTextBox
             }
         }
 
-        private int x = 0;
         private void KeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             var key = KeyManager.GetKey();
@@ -149,9 +148,9 @@ namespace KeyTextBox
                     {
                         caretIndex = (caretIndex == 0) ? 0 : (caretIndex - 1);
                     }
-                    ReplaceCharInKey(key, null, '*', caretIndex);
-                    caretIndex = GetKeyOffset(KeyBox.CaretPosition);
-                    SetKeyOffset(caretIndex-1);
+                    ReplaceCharInKey(key, GetPossibleCharactersAtKeyEnd(key.Substring(0, caretIndex)), '*', caretIndex);
+                    //caretIndex = GetKeyOffset(KeyBox.CaretPosition);
+                    SetKeyOffset(caretIndex);
                     break;
             }
         }
@@ -169,8 +168,11 @@ namespace KeyTextBox
                     {
                         case ElementType.Joker:
                         case ElementType.Character:
-                            key = key.Remove(caretIndex, 1).Insert(caretIndex, "[]");
-                            caretIndex++;
+                            if (possibleChars.Count > 1)
+                            {
+                                key = key.Remove(caretIndex, 1).Insert(caretIndex, "[]");
+                                caretIndex++;
+                            }
                             break;
                         case ElementType.Group:
                             caretIndex = startPosition + 1;
@@ -188,8 +190,11 @@ namespace KeyTextBox
                     {
                         case ElementType.Joker:
                         case ElementType.Character:
-                            key = key.Remove(caretIndex, 1).Insert(caretIndex, "*");
-                            caretIndex++;
+                            if (possibleChars.Count > 1 || possibleChars.Contains('*'))
+                            {
+                                key = key.Remove(caretIndex, 1).Insert(caretIndex, "*");
+                                caretIndex++;
+                            }
                             break;
                         case ElementType.Group:
                             key = key.Remove(startPosition, endPosition - startPosition + 1).Insert(startPosition, "*");
@@ -299,7 +304,9 @@ namespace KeyTextBox
                     kcount++;
                 }
             }
-            KeyBox.Document = new FlowDocument(paragraph);
+
+            KeyBoxDocument.Blocks.Clear();
+            KeyBoxDocument.Blocks.Add(paragraph);
             SetKeyOffset(caretIndex);
         }
 
