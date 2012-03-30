@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Cryptool.PluginBase;
 
 namespace Cryptool.CrypTutorials
 {
     /// <summary>
     /// Interaction logic for CrypTutorialsPresentation.xaml
     /// </summary>
+    [PluginBase.Attributes.Localization("Cryptool.CrypTutorials.Properties.Resources")]
     public partial class CrypTutorialsPresentation
     {
         private readonly List<YouTubeInfo> _youTubeVideos;
+        private readonly CrypTutorials _crypTutorials;
+        private const string Search = "http://gdata.youtube.com/feeds/api/videos?q={0}&alt=rss&&max-results=20&v=1";
 
-        public CrypTutorialsPresentation()
+        public CrypTutorialsPresentation(CrypTutorials crypTutorials)
         {
             InitializeComponent();
 
             _youTubeVideos = LoadVideosKey("cryptography");
+            _crypTutorials = crypTutorials;
             YoutubeVideos.DataContext = _youTubeVideos;
         }
 
-        private const string Search = "http://gdata.youtube.com/feeds/api/videos?q={0}&alt=rss&&max-results=20&v=1";
-
-        public static List<YouTubeInfo> LoadVideosKey(string keyWord)
+        private List<YouTubeInfo> LoadVideosKey(string keyWord)
         {
             try
             {
@@ -54,7 +56,7 @@ namespace Cryptool.CrypTutorials
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.Message, "ERROR");
+                _crypTutorials.GuiLogMessage(e.Message,NotificationLevel.Error);
             }
             return null;
         }
@@ -73,7 +75,7 @@ namespace Cryptool.CrypTutorials
         }
 
 
-        private static string GetThumbNailUrlFromLink(XElement element)
+        private string GetThumbNailUrlFromLink(XElement element)
         {
             var thumbnailUrl = "/CrypTutorials;component/no_preview.png";
             try
@@ -98,7 +100,7 @@ namespace Cryptool.CrypTutorials
             }
             catch(Exception e)
             {
-                Trace.WriteLine(e.Message, "ERROR");
+                _crypTutorials.GuiLogMessage(e.Message, NotificationLevel.Error);
             }
             return thumbnailUrl;
         }
@@ -119,7 +121,7 @@ namespace Cryptool.CrypTutorials
             }
             catch(Exception e)
             {
-                Trace.WriteLine(e.Message, "ERROR");
+                _crypTutorials.GuiLogMessage(e.Message, NotificationLevel.Error);
             }
         }
 
@@ -143,14 +145,15 @@ namespace Cryptool.CrypTutorials
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.Message, "ERROR");
+                _crypTutorials.GuiLogMessage(e.Message, NotificationLevel.Error);
             }
         }
 
         private void BackButtonClick(object sender, RoutedEventArgs e)
         {
+            WebBrowser.Source = null;
             ScrollViewer.Visibility = Visibility.Visible;
-            WebBrowserGrid.Visibility = Visibility.Hidden;
+            WebBrowserGrid.Visibility = Visibility.Hidden;            
         }
 
         private void WebBrowserOnPreviewKeyDown(object sender, KeyEventArgs e)
@@ -160,7 +163,7 @@ namespace Cryptool.CrypTutorials
 
         private void WebBrowserNavigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
-            if (!e.Uri.Authority.Equals("www.youtube.com"))
+            if (e.Uri != null && !e.Uri.Authority.Equals("www.youtube.com"))
             {
                 e.Cancel = true;
             }

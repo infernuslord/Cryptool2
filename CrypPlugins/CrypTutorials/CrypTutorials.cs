@@ -12,11 +12,19 @@ namespace Cryptool.CrypTutorials
     public class CrypTutorials : IEditor
     {
 
-        private readonly CrypTutorialsPresentation _presentation = null;
+        private readonly CrypTutorialsPresentation _presentation;
 
         public CrypTutorials()
         {
-            _presentation = new CrypTutorialsPresentation();
+            _presentation = new CrypTutorialsPresentation(this);
+        }
+
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
         }
 
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
@@ -205,7 +213,7 @@ namespace Cryptool.CrypTutorials
 
         public void Initialize()
         {
-            OnProjectTitleChanged(this, "CrypTutorials");
+            OnProjectTitleChanged(this, Properties.Resources.PluginCaption);
         }
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

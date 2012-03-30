@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Back_to_overview" xml:space="preserve">
-    <value>Back to overview</value>
+    <value>Zurück zur Übersicht</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Cryptutorials</value>
+    <value>Kryptutoriale</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Cryptutorials</value>
+    <value>Kryptuoriale</value>
   </data>
   <data name="Show_Video" xml:space="preserve">
-    <value>Show video</value>
+    <value>Zeige Video</value>
   </data>
   <data name="Welcome_Cryptutorials" xml:space="preserve">
-    <value>Welcome to the Cryptutorials. In this section you may watch YouTube videos concerning the work with CrypTool 2.0</value>
+    <value>Willkommen bei den Kryptutorialen. Hier können Sie sich YouTube videos (Tutoriale) anschauen, die Ihnen die Arbeit mit CrypTool 2.0 erläutern.</value>
   </data>
 </root>

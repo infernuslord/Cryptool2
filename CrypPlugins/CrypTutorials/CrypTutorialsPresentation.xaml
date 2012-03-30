@@ -22,7 +22,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock Foreground="White" FontSize="14" Margin="10,10,10,10" Grid.Row="0" Text="{Binding Path=Title}" TextAlignment="Left"/>
                         <TextBlock Foreground="White" FontSize="12" Margin="10,10,10,10" Grid.Row="1" Text="{Binding Path=Description}" TextAlignment="Justify" TextWrapping="Wrap"/>
-                        <Button Click="PlayVideoButtonClick" Name="PlayVideoButton" Content="Show video" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,10,10,10"/>
+                            <Button Click="PlayVideoButtonClick" Name="PlayVideoButton" Content="{Loc Show_Video}" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,10,10,10"/>
                     </Grid>
                         <Image MouseDown="ImageClick"  Margin="10,10,10,10" Source="{Binding Path=ThumbNailUrl}" Width="300" Height="300" Grid.Column="2"/>
                 </Grid>
@@ -40,7 +40,7 @@
 
         <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center" Margin="21,0,12,0">
             <Label.Content>
-                <TextBlock Foreground="White" TextWrapping="Wrap" Text="Welcome to the Cryptutorials. In this section you may watch YouTube videos concerning the work with CrypTool 2.0" />
+                <TextBlock Foreground="White" TextWrapping="Wrap" Text="{Loc Welcome_Cryptutorials}" />
             </Label.Content>
         </Label>
 
@@ -50,7 +50,7 @@
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
             <WebBrowser VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Navigating="WebBrowserNavigating" PreviewKeyDown="WebBrowserOnPreviewKeyDown" Name="WebBrowser" Grid.Row="0" />
-            <Button Name="BackButton" Click="BackButtonClick" Content="Back to overview" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,10,10,10"/>
+            <Button Name="BackButton" Click="BackButtonClick" Content="{Loc Back_to_overview}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,10,10,10"/>
         </Grid>
         <ScrollViewer Name="ScrollViewer" Grid.Row="2" CanContentScroll="false" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
             <ItemsControl HorizontalContentAlignment="Stretch" Name="YoutubeVideos" ItemsSource="{Binding}" ItemTemplate="{StaticResource YouTubeItemTemplate}" Margin="21,0,12,0" Background="Black"/>
