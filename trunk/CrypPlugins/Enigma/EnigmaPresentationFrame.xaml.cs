@@ -120,7 +120,7 @@ namespace Cryptool.Enigma
 
             EnigmaPresentation.giveFeedbackAndDie();
 
-            dockPanel1.Background.Opacity = 100;
+            dockPanel1.Background.Opacity = 1;
         }
 
         private void visbileCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -128,9 +128,12 @@ namespace Cryptool.Enigma
             if (facade.isrunning)
             {
                 enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace;
+                
             }
             else
+            {
                 enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Presentation_ready;
+            }
             enigmaStatus.Background = Brushes.LawnGreen;
 
 
