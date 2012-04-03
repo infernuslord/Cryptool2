@@ -713,7 +713,11 @@ namespace Wizard
                     var keyTextBox = new KeyTextBox.KeyTextBox();
                     var keyManager = new SimpleKeyManager(input.Attribute("format").Value);
                     keyTextBox.KeyManager = keyManager;
-                    if (input.Attribute("defaultkey") != null)
+                    if (key != null && pluginPropertyValue != null)
+                    {
+                        keyManager.SetKey((string) pluginPropertyValue.Value);
+                    }
+                    else if (input.Attribute("defaultkey") != null)
                     {
                         keyManager.SetKey(input.Attribute("defaultkey").Value);
                     }
