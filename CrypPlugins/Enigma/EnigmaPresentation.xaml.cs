@@ -546,6 +546,7 @@ namespace Cryptool.Enigma
 
             PresentationDisabled = new DisabledBool();
 
+            
             //PresentationDisabled.DisabledBoolProperty = true;
 
             storyboard1 = new Storyboard();
@@ -555,6 +556,13 @@ namespace Cryptool.Enigma
             //settings.PropertyChanged += changeSettings;
             speed = settings.PresentationSpeed;
             InitializeComponent();
+
+            dropBoxCanvasWalze.AllowDrop = false;
+            rotorarea.AllowDrop = false;
+            walzenarea.AllowDrop = false;
+            maingrid.AllowDrop = false;
+
+
             SizeChanged += sizeChanged;
 
 
@@ -1028,6 +1036,7 @@ namespace Cryptool.Enigma
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
                                                                                   {
+                                                                                      
                                                                                       if (playbool)
                                                                                       {
                                                                                           stopclick(this,
@@ -1055,7 +1064,10 @@ namespace Cryptool.Enigma
                 if (isrunning)
                 {
                     this.stopclick(this,null);
-                    this.IsEnabled = false;
+                    walzenarea.IsEnabled = false;
+                    rotorarea.IsEnabled = false;
+                    mainmain.IsEnabled = false;
+                    
                     if (!IsVisible && !mainmainmain.Children.Contains(tb))
                     {
                         //PresentationDisabled.DisabledBoolProperty = false;
@@ -1072,6 +1084,9 @@ namespace Cryptool.Enigma
                     if(mainmainmain.Children.Contains(tb))
                     mainmainmain.Children.Remove(tb);
                     this.IsEnabled = true;
+                    walzenarea.IsEnabled = true;
+                    rotorarea.IsEnabled = true;
+                    mainmain.IsEnabled = true;
                     //PresentationDisabled.DisabledBoolProperty = true;
                 }
             }, null);
@@ -2195,22 +2210,23 @@ namespace Cryptool.Enigma
 
         public void resetkey()
         {
+
             if (rotorarray[2] != null)
             {
-                
+                if (settings.Key.ToUpper()[2] - 65>0)
                 rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
                 
             }
             if (rotorarray[1] != null)
             {
-             
+               if (settings.Key.ToUpper()[1] - 65 > 0)
                rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
              
             }
             if (rotorarray[0] != null)
             {
-             
-               rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
+                if (settings.Key.ToUpper()[0] - 65 > 0)
+                rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
              
             }
         }
@@ -4359,34 +4375,34 @@ namespace Cryptool.Enigma
             if(rotorarray[0]!=null)
             if (dummy == rotorarray[0].up )
             {
-                settings.Key = rotorarray[0].custom.Text + settings.Key[1] + settings.Key[2];
+                settings.Key = rotorarray[0].custom.Text + "" + settings.Key[1] + "" + settings.Key[2];
                 
             }
             if (rotorarray[1] != null)
             if (dummy == rotorarray[1].up)
             {
-                settings.Key = settings.Key[0] + rotorarray[1].custom.Text + settings.Key[2];
+                settings.Key = settings.Key[0] + "" + rotorarray[1].custom.Text + "" + settings.Key[2];
             }
             if (rotorarray[2] != null)
             if (dummy == rotorarray[2].up)
             {
-                settings.Key = settings.Key[0] + settings.Key[1] + rotorarray[2].custom.Text;
+                settings.Key = settings.Key[0] + "" + settings.Key[1] + "" + rotorarray[2].custom.Text;
             }
             if (rotorarray[0] != null)
             if (dummy == rotorarray[0].down)
             {
-                settings.Key = rotorarray[0].custom.Text + settings.Key[1] + settings.Key[2];
+                settings.Key = rotorarray[0].custom.Text +"" + settings.Key[1] + ""+settings.Key[2];
 
             }
             if (rotorarray[1] != null)
             if (dummy == rotorarray[1].down)
             {
-                settings.Key = settings.Key[0] + rotorarray[1].custom.Text + settings.Key[2];
+                settings.Key = settings.Key[0] + "" + rotorarray[1].custom.Text + "" + settings.Key[2];
             }
             if (rotorarray[2] != null)
             if (dummy == rotorarray[2].down)
             {
-                settings.Key = settings.Key[0] + settings.Key[1] + rotorarray[2].custom.Text;
+                settings.Key = settings.Key[0] + "" + settings.Key[1] + "" + rotorarray[2].custom.Text;
             }
 
             if (rotorarray[2] != null)

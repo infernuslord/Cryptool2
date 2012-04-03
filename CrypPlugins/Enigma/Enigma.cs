@@ -160,7 +160,15 @@ namespace Cryptool.Enigma
                     newToken = true;
                     if (text[i] == char.ToLower(text[i])) //Solution for preserve FIXME underconstruction
                     {
-                        lowerList.Add(new UnknownToken(text[i], i));
+                        if (settings.UnknownSymbolHandling == 1)
+                        {
+                            lowerList.Add(new UnknownToken(text[i], result.Length));
+                        }
+                        else
+                        {
+                            lowerList.Add(new UnknownToken(text[i], i));
+                        }
+                        
                     }                                      //underconstruction end
                     result.Append(char.ToUpper(text[i])); // FIXME: shall save positions of lowercase letters
                 }
