@@ -97,6 +97,24 @@ namespace VigenereAutokeyAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to External alphabet input.
+        /// </summary>
+        internal static string InputAlphabetCaption {
+            get {
+                return ResourceManager.GetString("InputAlphabetCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input a string containing the alhabet which should be used by Vigenère. If no alphabet is provided on this input, the internal alphabet will be used..
+        /// </summary>
+        internal static string InputAlphabetTooltip {
+            get {
+                return ResourceManager.GetString("InputAlphabetTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cipher Input.
         /// </summary>
         internal static string InputCipherCaption {

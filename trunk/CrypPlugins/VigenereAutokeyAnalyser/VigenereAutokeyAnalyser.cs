@@ -120,6 +120,23 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         }
 
         /// <summary>
+        /// Choose the alphabet letters to work with
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false)]
+        public string InputAlphabet
+        {
+            get { return ((VigenereAutokeyAnalyserSettings)this.settings).AlphabetSymbols; }
+            set
+            {
+                if (value != null && value != settings.AlphabetSymbols)
+                {
+                    ((VigenereAutokeyAnalyserSettings)this.settings).AlphabetSymbols = value;
+                    OnPropertyChanged("InputAlphabet");
+                }
+            }
+        }
+
+        /// <summary>
         /// The output for the key 
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip")]
