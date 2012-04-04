@@ -90,6 +90,7 @@
     <ProjectReference Include="..\..\LibSource\HexBox\HexBox.csproj">
       <Project>{229CD5E9-AA72-4109-8DD9-C0ABFA3D6721}</Project>
       <Name>HexBox</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
