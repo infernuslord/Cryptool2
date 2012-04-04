@@ -287,12 +287,9 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         }
         m_FunctionLiN.MaxValue = to.DoubleValue;
         cgraph.RangeX = new RangeX(from, to);
-        string strFrom = (Math.Floor(m_RangeYFrom).ToString("N"));
-        strFrom = strFrom.Substring(0,strFrom.IndexOf(','));
-        strFrom = strFrom.Replace(".","");
-        string strTo = (Math.Ceiling(m_RangeYTo).ToString("N"));
-        strTo = strTo.Substring(0,strTo.IndexOf(','));
-        strTo = strTo.Replace(".","");
+
+        string strFrom = Convert.ToInt32(Math.Floor(m_RangeYFrom)).ToString();
+        string strTo = Convert.ToInt32(Math.Ceiling(m_RangeYTo)).ToString();
 
         cgraph.RangeY = new RangeY(new PrimesBigInteger(strFrom), new PrimesBigInteger(strTo));
         if (cbPiGauss.IsChecked.Value)
