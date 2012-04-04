@@ -126,6 +126,9 @@
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
+    <Compile Include="View\VisualComponents\UsageStatisticPopup.xaml.cs">
+      <DependentUpon>UsageStatisticPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\ZoomScrollViewer.xaml.cs">
       <DependentUpon>ZoomScrollViewer.xaml</DependentUpon>
     </Compile>
@@ -208,6 +211,10 @@
     <Page Include="View\VisualComponents\BottomBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualComponents\UsageStatisticPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VisualComponents\ZoomScrollViewer.xaml">
       <SubType>Designer</SubType>

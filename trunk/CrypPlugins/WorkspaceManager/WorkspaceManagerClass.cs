@@ -16,6 +16,8 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
@@ -38,6 +40,7 @@ using WorkspaceManager.View.Visuals;
 using WorkspaceManager.View.Base;
 using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
+using WorkspaceManagerModel.Model.Tools;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -273,12 +276,20 @@ namespace WorkspaceManager
 
         public void Copy()
         {
-
+            if (WorkspaceSpaceEditorView.SelectedItems != null)
+            {
+                var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
+                var list = filter.Select(visual => visual.Model).ToList();
+                PartialCopyHelper.Copy(list, this.WorkspaceModel);
+            }
         }
 
         public void Paste()
         {
+            if (PartialCopyHelper.CurrentSelection == null)
+                return;
 
+            WorkspaceSpaceEditorView.Load(PartialCopyHelper.CurrentSelection, true);
         }
 
         public void Remove()
@@ -441,12 +452,12 @@ namespace WorkspaceManager
 
         public bool CanCopy
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool CanPaste
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool CanRemove

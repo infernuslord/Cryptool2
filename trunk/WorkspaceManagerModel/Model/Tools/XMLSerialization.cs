@@ -123,7 +123,6 @@ namespace XMLSerialization
         public static void Serialize(object obj, StreamWriter writer,bool compress=false)
         {
             HashSet<object> alreadySerializedObjects = new HashSet<object>();
-
             writer.WriteLine("<?xml version=\"1.0\" encoding=\"" + writer.Encoding.HeaderName + "\"?>");
             writer.WriteLine("<!--");
             writer.WriteLine("     XML serialized C# Objects");
@@ -389,7 +388,7 @@ namespace XMLSerialization
         /// <param name="compress"></param>
         /// <param name="workspaceManager"></param>
         /// <returns></returns>
-        public static object Deserialize(String filename, bool compress=false)
+        public static object Deserialize(String filename, bool compress = false)
         {
             FileStream sourceFile = File.OpenRead(filename);
             XmlDocument doc = new XmlDocument();
@@ -415,6 +414,22 @@ namespace XMLSerialization
                 {
                     compStream.Close();
                 }
+            }
+        }
+        public static object Deserialize(StreamWriter writer)
+        {
+            XmlDocument doc = new XmlDocument();
+            writer.BaseStream.Position = 0;
+
+            doc.Load(writer.BaseStream);
+
+            try
+            {
+                return XMLSerialization.Deserialize(doc);
+            }
+            finally
+            {
+                //writer.Close();
             }
         }
 

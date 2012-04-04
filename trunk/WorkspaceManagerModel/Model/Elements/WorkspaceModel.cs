@@ -206,15 +206,38 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="pluginModel"></param>
         /// <returns></returns>
-        internal void addPluginModel(PluginModel pluginModel)
-        {            
+        public void addPluginModel(PluginModel pluginModel)
+        {
+            pluginModel.WorkspaceModel = this;
             this.AllPluginModels.Add(pluginModel);
             foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
             {
+                connectorModel.WorkspaceModel = this;
+                foreach (var connection in connectorModel.InputConnections)
+                {
+                    connection.WorkspaceModel = this;
+                    this.AllConnectionModels.Add(connection);
+                }
+                foreach (var connection in connectorModel.OutputConnections)
+                {
+                    connection.WorkspaceModel = this;
+                    this.AllConnectionModels.Add(connection);
+                }
                 this.AllConnectorModels.Add(connectorModel);
             }
             foreach (ConnectorModel connectorModel in pluginModel.OutputConnectors)
             {
+                connectorModel.WorkspaceModel = this;
+                foreach (var connection in connectorModel.OutputConnections)
+                {
+                    connection.WorkspaceModel = this;
+                    this.AllConnectionModels.Add(connection);
+                }
+                foreach (var connection in connectorModel.InputConnections)
+                {
+                    connection.WorkspaceModel = this;
+                    this.AllConnectionModels.Add(connection);
+                }
                 this.AllConnectorModels.Add(connectorModel);
             }
             this.OnNewChildElement(pluginModel);

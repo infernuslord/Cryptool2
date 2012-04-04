@@ -181,7 +181,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         [NonSerialized] 
         public object LastData;
-        
+
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
@@ -249,8 +249,11 @@ namespace WorkspaceManager.Model
                 }            
             }
         }
-        
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         #endregion                
     }
 
