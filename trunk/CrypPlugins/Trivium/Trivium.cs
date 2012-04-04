@@ -45,18 +45,21 @@ namespace Cryptool.Trivium
         private string inputIV;
         private bool stop = false;
 
+        const int lengthA = 93;
+        const int lengthB = 84;
+        const int lengthC = 111;
+
         #endregion
 
         #region Public Variables
-        public List<uint> a = new List<uint>(new uint[93]);
-        public List<uint> b = new List<uint>(new uint[84]);
-        public List<uint> c = new List<uint>(new uint[111]);
+        public List<uint> a = new List<uint>(new uint[lengthA]);
+        public List<uint> b = new List<uint>(new uint[lengthB]);
+        public List<uint> c = new List<uint>(new uint[lengthC]);
         #endregion
 
         public Trivium()
         {
             this.settings = new TriviumSettings();
-            //((TriviumSettings)(this.settings)).LogMessage += Trivium_LogMessage;
         }
 
         public ISettings Settings
@@ -111,337 +114,115 @@ namespace Cryptool.Trivium
 
         public void Dispose()
         {
-                stop = false;
-                inputKey = null;
-                outputString = null;
-                inputString = null;
-                }
+            stop = false;
+            inputKey = null;
+            outputString = null;
+            inputString = null;
+        }
 
-        public int[] hextobin(char[] hex)
+        public int[] hextobin(string hex)
         {
-            int i;
-            int[] bin = new int[hex.Length * 4];
+            if (hex.Length % 2 == 1) hex += '0';
+            List<int> bin = new List<int>();
 
-            for (i = 0; i < hex.Length; i++)
+            for (int i = 0; i < hex.Length; i+=2)
             {
-                switch (hex[i])
-                {
-                    case '0':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case '1':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case '2':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case '3':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case '4':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case '5':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case '6':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case '7':
-                        bin[i * 4] = 0;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case '8':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case '9':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'a':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'b':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'c':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'd':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'e':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'f':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'A':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'B':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 0;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'C':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'D':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 0;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                    case 'E':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 0;
-                        break;
-                    case 'F':
-                        bin[i * 4] = 1;
-                        bin[i * 4 + 1] = 1;
-                        bin[i * 4 + 2] = 1;
-                        bin[i * 4 + 3] = 1;
-                        break;
-                }
+                int z = Convert.ToInt32(hex.Substring(i, 2), 16);
+                for (int j = 0; j < 8; j++, z >>= 1) bin.Insert(0, z & 1);
             }
 
-            return bin;
+            return bin.ToArray();
         }
 
         public string bintohex(string bin)
         {
-            int i;
-            string hex = null;
-            string temp;
+            StringBuilder hex = new StringBuilder(bin.Length>>2);
 
-            for (i = 0; i < bin.Length / 4; i++)
-            {
-                temp = null;
-                temp += bin[i * 4];
-                temp += bin[i * 4 + 1];
-                temp += bin[i * 4 + 2];
-                temp += bin[i * 4 + 3];
+            for (int i = 0; i < bin.Length; i += 8)
+                hex.Append(String.Format("{0:X02}", Convert.ToByte( reverseString( bin.Substring(i,8) ), 2), 16));
 
-                switch (temp)
-                {
-                    case "0000":
-                        hex += '0';
-                        break;
-                    case "0001":
-                        hex += '1';
-                        break;
-                    case "0010":
-                        hex += '2';
-                        break;
-                    case "0011":
-                        hex += '3';
-                        break;
-                    case "0100":
-                        hex += '4';
-                        break;
-                    case "0101":
-                        hex += '5';
-                        break;
-                    case "0110":
-                        hex += '6';
-                        break;
-                    case "0111":
-                        hex += '7';
-                        break;
-                    case "1000":
-                        hex += '8';
-                        break;
-                    case "1001":
-                        hex += '9';
-                        break;
-                    case "1010":
-                        hex += 'A';
-                        break;
-                    case "1011":
-                        hex += 'B';
-                        break;
-                    case "1100":
-                        hex += 'C';
-                        break;
-                    case "1101":
-                        hex += 'D';
-                        break;
-                    case "1110":
-                        hex += 'E';
-                        break;
-                    case "1111":
-                        hex += 'F';
-                        break;
-                }
-            }
-
-            return hex;
+            return hex.ToString();
         }
 
-        // TODO: check if input is boolean or hex
-        // returns -1 if no hex
-        // returns 1 is hex
-        private int checkInput(string input)
+        public string ByteSwap(string s)
         {
-            int returnValue = 1;
-            return returnValue;
+            StringBuilder res = new StringBuilder(s.Length);
+
+            for (int i = 0; i < s.Length; i += 8)
+                res.Append( reverseString(s.Substring(i, 8)) );
+
+            return res.ToString();
         }
 
+        public string reverseString(string s)
+        {
+            char[] c = s.ToCharArray();
+            Array.Reverse(c);
+            return new string(c);
+        }
 
         public void Execute()
         {
-            process(1);
-        }
-
-        private void process(int padding)
-        {
-            //Encrypt/Decrypt String
             try
             {
-                // a test vector; should have the following output:
-                // FC9659CB953A37F...
-                //string IV_string = "288ff65dc42b92f960c7";
-                //string key_string = "0f62b5085bae0154a7fa";
-                string input_string = inputString;
-
-                // check input string
-                if (checkInput(input_string) == -1)
+                int[] IV = hextobin( inputIV );
+                int[] key = hextobin( inputKey );
+                
+                if (IV.Length > 80)
+                {
+                    GuiLogMessage("Initialization vector is too long (" + IV.Length + " bits). It can be at most 80 bits long!", NotificationLevel.Error);
                     return;
+                }
 
-                string IV_string = inputIV;
-                string key_string = inputKey;
-
-                int[] IV = new int[IV_string.Length * 4];
-                int[] key = new int[key_string.Length * 4];
-
-                IV = hextobin(IV_string.ToCharArray());
-                key = hextobin(key_string.ToCharArray());
+                if (key.Length != 80)
+                {
+                    GuiLogMessage("Invalid key length (" + key.Length + " bits). It must be 80 bits long!", NotificationLevel.Error);
+                    return;
+                }
 
                 GuiLogMessage("length of IV: " + IV.Length, NotificationLevel.Info);
                 GuiLogMessage("length of key: " + key.Length, NotificationLevel.Info);
+                
+                int bitsToGenerate;
 
-                // test if padding to do
-                int bitsToPad = (32 - input_string.Length % 32) % 32;
-                GuiLogMessage("Bits to pad: " + bitsToPad, NotificationLevel.Info);
-                // pad partial block with zeros
-                if (bitsToPad != 0)
+                if (settings.KeystreamLength > 0)
                 {
-                    for (int i = 0; i < bitsToPad; i++)
+                    if (settings.KeystreamLength % 32 != 0)
                     {
-                        input_string += "0";
+                        GuiLogMessage("Keystream length must be a multiple of 32. " + settings.KeystreamLength + " mod 32 = " + (settings.KeystreamLength % 32), NotificationLevel.Error);
+                        return;
                     }
+                    bitsToGenerate = settings.KeystreamLength;
                 }
-
-                string keystream;
-
-                int keyStreamLength = settings.KeystreamLength;
-                if ((keyStreamLength % 32) != 0)
+                else
                 {
-                    GuiLogMessage("Keystream length must be a multiple of 32. " + keyStreamLength + " != 32", NotificationLevel.Error);
-                    return;
+                    int bitsToPad = (32 - inputString.Length % 32) % 32;
+                    GuiLogMessage("Bits to pad: " + bitsToPad, NotificationLevel.Info);
+                    bitsToGenerate = inputString.Length;
                 }
 
-                // encryption/decryption
+                bitsToGenerate = ((bitsToGenerate + 31) >> 5) << 5; // round to next bigger multiple of 32
+
+                ProgressChanged(0, bitsToGenerate-1);
+
+                // generate keystream
                 DateTime startTime = DateTime.Now;
 
                 GuiLogMessage("Starting encryption [Keysize=80 Bits]", NotificationLevel.Info);
 
-                // init Trivium
                 initTrivium(IV, key);
+                string keystream = keystreamTrivium(bitsToGenerate);
 
-                // generate keystream with given length (TODO: padding if inputstring % 32 != 0)
-                // ACHTUNG, mag keine grossen zahlen als inputs
-                // EDIT 30.07.09: Jetzt mag er große Zahlen ;)
-                if (settings.KeystreamLength <= 0)
-                {
-                    keystream = keystreamTrivium(input_string.Length);
-                    //GuiLogMessage("DEBUG: inputString.Length + bitsToPad: " + (inputString.Length + bitsToPad), NotificationLevel.Info);
-                }
-                else
-                {
-                    keystream = keystreamTrivium(settings.KeystreamLength);
-                }
+                TimeSpan duration = DateTime.Now - startTime;
 
-                DateTime stopTime = DateTime.Now;
-                TimeSpan duration = stopTime - startTime;
-
-                if (!settings.HexOutput)
-                {
-                    outputString = keystream;
-                    GuiLogMessage("Keystream hex: " + bintohex(keystream), NotificationLevel.Info);
-                }
-                else
-                {
-                    outputString = bintohex(keystream);
-                    GuiLogMessage("Keystream binary: " + keystream, NotificationLevel.Info);
-                }
-                OnPropertyChanged("OutputString");
-
-                if (!stop)
-                {
-                    GuiLogMessage("Encryption complete in " + duration + "! (input length : " + input_string.Length + ", keystream/output length: " + keystream.Length + " bit)", NotificationLevel.Info);
-                }
+                if (settings.UseByteSwapping) keystream = ByteSwap(keystream);
+                OutputString = settings.HexOutput ? bintohex(keystream) : keystream;
 
                 if (stop)
-                {
                     GuiLogMessage("Aborted!", NotificationLevel.Info);
-                }
+                else
+                    GuiLogMessage("Encryption complete in " + duration + "! (input length : " + inputString.Length + ", keystream/output length: " + keystream.Length + " bit)", NotificationLevel.Info);
+
             }
             catch (Exception exception)
             {
@@ -456,111 +237,49 @@ namespace Cryptool.Trivium
         public void initTrivium(int[] IV, int[] key)
         {
             int i;
-            if (settings.UseByteSwapping)
-            {
-                int[] buffer = new int[8];
-                // Byte-Swapping Key
-                for (int l = 0; l < 10; l++)
-                {
-                    for (int k = 0; k < 8; k++)
-                        buffer[k] = key[((l * 8) + 7) - k];
-                    for (int k = 0; k < 8; k++)
-                        key[(l * 8) + k] = buffer[k];
-                }
-                // Byte-Swapping IV
-                for (int l = 0; l < 10; l++)
-                {
-                    for (int k = 0; k < 8; k++)
-                        buffer[k] = IV[((l * 8) + 7) - k];
-                    for (int k = 0; k < 8; k++)
-                        IV[(l * 8) + k] = buffer[k];
-                }
-            }
-            for (i = 0; i < 80; i++)
-            {
-                a[i] = (uint)key[i]; // hier key rein als binär
-                b[i] = (uint)IV[i]; // hier IV rein als binär
-                c[i] = 0;
-            }
-            while (i < 84)
-            {
-                a[i] = 0;
-                b[i] = 0;
-                c[i] = 0;
-                i++;
-            }
-            while (i < 93)
-            {
-                a[i] = 0;
-                c[i] = 0;
-                i++;
-            }
-            while (i < 108)
-            {
-                c[i] = 0;
-                i++;
-            }
-            while (i < 111)
-            {
-                c[i] = 1;
-                i++;
-            }
-            int initRounds = settings.InitRounds;
-            for (i = 0; i < initRounds; i++) // default 1152 = 4 * 288
-            {
-                a.Insert(0, c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68]);
-                b.Insert(0, a[66] ^ (a[91] & a[92]) ^ a[93] ^ b[77]);
-                c.Insert(0, b[69] ^ (b[82] & b[83]) ^ b[84] ^ c[86]);
-                a.RemoveAt(93);
-                b.RemoveAt(84);
-                c.RemoveAt(111);
-            }
+
+            for (i = 0; i < lengthA; i++) a[i] = 0;
+            for (i = 0; i < lengthB; i++) b[i] = 0;
+            for (i = 0; i < lengthC; i++) c[i] = 0;
+
+            for (i = 0; i < 80; i++) a[i] = (uint)key[i];       // initialize 'a' with key bits
+            for (i = 0; i < IV.Length; i++) b[i] = (uint)IV[i]; // initialize 'b' with IV bits
+            for (i = 0; i < 3; i++) c[lengthC - 1 - i] = 1;     // initialize 'c'
+
+            for (i = 0; i < settings.InitRounds; i++) Round();  // default: 1152 = 4 * 288
+        }
+
+        private uint Round()
+        {
+            uint result = (c[65] ^ c[110]) ^ (a[65] ^ a[92]) ^ (b[68] ^ b[83]);
+
+            uint aa = (c[65] ^ c[110]) ^ (c[109] & c[108]) ^ a[68];
+            uint bb = (a[65] ^ a[92]) ^ (a[91] & a[90]) ^ b[77];
+            uint cc = (b[68] ^ b[83]) ^ (b[82] & b[81]) ^ c[86];
+
+            a.Insert(0, aa);
+            b.Insert(0, bb);
+            c.Insert(0, cc);
+
+            a.RemoveAt(lengthA);
+            b.RemoveAt(lengthB);
+            c.RemoveAt(lengthC);
+            
+            return result;
         }
 
         public string keystreamTrivium(int nBits)
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder(nBits);
+
             for (int i = 0; i < nBits; i++)
             {
-                builder.Append((int)(a[65] ^ a[92] ^ b[68] ^ b[83] ^ c[65] ^ c[110]));
-                a.Insert(0, c[65] ^ (c[108] & c[109]) ^ c[110] ^ a[68] ^ (c[108] & c[109]) ^ a[68]);
-                b.Insert(0, a[66] ^ (a[91] & a[92]) ^ a[93] ^ b[77] ^ (a[91] & a[92]) ^ b[77]);
-                c.Insert(0, b[69] ^ (b[82] & b[83]) ^ b[84] ^ c[86] ^ (b[82] & b[83]) ^ c[86]);
-                a.RemoveAt(93);
-                b.RemoveAt(84);
-                c.RemoveAt(111);
+                builder.Append(Round());
+                if (stop) break;
+                ProgressChanged(i, nBits - 1);
             }
-            if (settings.UseByteSwapping)
-            {
-                int[] temp = new int[nBits];
 
-                // Little-Endian für den Keystream
-                for (int k = 0; k < nBits; k++)
-                    temp[k] = builder[k];
-                for (int l = 0; l < nBits / 32; l++)
-                {
-                    for (int k = 0; k < 8; k++)
-                    {
-                        builder[(l * 32) + k] = (char)temp[(l * 32) + 24 + k];
-                        builder[(l * 32) + 8 + k] = (char)temp[(l * 32) + 16 + k];
-                        builder[(l * 32) + 16 + k] = (char)temp[(l * 32) + 8 + k];
-                        builder[(l * 32) + 24 + k] = (char)temp[(l * 32) + k];
-                    }
-                }
-            }
             return builder.ToString();
-        }
-
-        public void Encrypt()
-        {
-            //Encrypt Stream
-            process(0);
-        }
-
-        public void Decrypt()
-        {
-            //Decrypt Stream
-            process(1);
         }
 
         public void Initialize()
@@ -608,10 +327,6 @@ namespace Cryptool.Trivium
         public void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-            /*if (PropertyChanged != null)
-            {
-              PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }*/
         }
 
         private void StatusChanged(int imageIndex)
@@ -655,7 +370,7 @@ namespace Cryptool.Trivium
         public int GenerateBlackboxOutputBit(int[] IV, int[] key, int length)
         {
             if (key == null) // Online phase
-                plugin.initTrivium(IV, plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray()));
+                plugin.initTrivium(IV, plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey));
             else // Preprocessing phase
                 plugin.initTrivium(IV, key);
             return Int32.Parse(plugin.keystreamTrivium(length).Substring(plugin.keystreamTrivium(length).Length - 1, 1));
@@ -665,11 +380,4 @@ namespace Cryptool.Trivium
     }
 
     #endregion
-
-    enum TriviumImage
-    {
-        Default,
-        Encode,
-        Decode
-    }
 }
