@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase.Editor;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.Model;
 using WorkspaceManager.View.Visuals;
@@ -40,7 +41,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         #region Fields
 
-        private InternalCryptoLineView line = null;
         private UIElement[] newItems, oldItems;
         private IEnumerable<ComponentVisual> selected; 
         #endregion
@@ -132,6 +132,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public CryptoLineView(ConnectionModel model, ConnectorVisual source, ConnectorVisual target)
         {
             // TODO: Complete member initialization
+            ComponentConnectionStatistics.IncrementConnectionUsage(source.Model.PluginModel.PluginType,
+                                                                   source.Model.GetName(),
+                                                                   target.Model.PluginModel.PluginType,
+                                                                   target.Model.GetName());
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
@@ -144,10 +148,18 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
             Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(itemsSelected);
             Line.ComputationDone += new EventHandler(LineComputationDone);
+            Source.Update += new EventHandler(Update);
+            Target.Update += new EventHandler(Update);
 
             if (model.PointList != null)
                 assembleGeo();
-        } 
+        }
+
+        void Update(object sender, EventArgs e)
+        {
+            InvalidateVisual();
+        }
+
         #endregion
         #region Private
 

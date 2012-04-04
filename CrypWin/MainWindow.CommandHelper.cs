@@ -369,37 +369,21 @@ namespace Cryptool.CrypWin
 
         private void Copy_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-            {
-                e.CanExecute = false;
-                e.Handled = true;
-                return;
-            }
             e.CanExecute = ActiveEditor != null && ActiveEditor.CanCopy;
         }
 
         private void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Copy();
         }
 
         private void Paste_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-            {
-                e.CanExecute = false;
-                e.Handled = true;
-                return;
-            }
             e.CanExecute = ActiveEditor != null && ActiveEditor.CanPaste;
         }
 
         private void Paste_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Paste();
         }
 

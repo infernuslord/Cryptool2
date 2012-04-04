@@ -363,6 +363,12 @@ namespace WorkspaceManager.Model
         private bool stopped = false;
         internal bool Stop { get { return stopped; } set { stopped = value; } }
 
+        public string CopyID
+        {
+            get;
+            set;
+        }
+
         [NonSerialized]
         internal ManualResetEvent resetEvent = new ManualResetEvent(true);
 

@@ -103,7 +103,7 @@
             <Setter Property="Grid.Row" Value="1"></Setter>
             <Setter Property="Grid.Column" Value="0"></Setter>
         </Style>
-
+       
     </UserControl.Resources>
     <Grid x:Name="Root">
         <!--##########Definitions##########-->
@@ -150,7 +150,7 @@
             </ItemsControl>
         </visuals:ZoomScrollViewer>
         <!--##########/Content Space##########-->
-
+        
         <!--##########Fullscreen##########-->
         <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="1" Grid.Column="0">
             <ContentPresenter.Content>
@@ -167,6 +167,7 @@
         <GridSplitter Visibility="{Binding ElementName=SideBar, Path=Visibility}"  Grid.Column="0" Grid.Row="1" Background="Gray" Width="2"></GridSplitter>
         <!--##########/Fullscreen##########-->
 
+        
         <!--##########Bottom Operations##########-->
         <visuals:BottomBox x:Name="BottomBoxPane" AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Sort="SortHandler"
                            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></visuals:BottomBox>

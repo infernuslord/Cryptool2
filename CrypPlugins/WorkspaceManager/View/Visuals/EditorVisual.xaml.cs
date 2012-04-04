@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.Model;
@@ -17,7 +13,6 @@ using Cryptool.PluginBase.Editor;
 using WorkspaceManagerModel.Model.Operations;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using System.Threading;
 using System.Collections.Specialized;
@@ -28,9 +23,8 @@ using Cryptool.Core;
 using System.Windows.Data;
 using WorkspaceManager.Base.Sort;
 using System.Windows.Controls.Primitives;
-using WorkspaceManager.View.Base.Interfaces;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
-using WorkspaceManager.View.Visuals;
+using WorkspaceManagerModel.Model.Tools;
 
 namespace WorkspaceManager.View.Visuals
 {
@@ -40,6 +34,7 @@ namespace WorkspaceManager.View.Visuals
         private Point? startDragPoint;
         private Point? draggedFrom,draggedTo;
         private FromTo draggedFT;
+        private Popup pop;
 
         internal Line part = new Line();
         LinkedList<FromTo> linkedPointList = new LinkedList<FromTo>();
@@ -374,6 +369,7 @@ namespace WorkspaceManager.View.Visuals
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SampleLoaded;
         public event EventHandler SelectedTextChanged;
+        public event EventHandler SelectedConnectorChanged;
         public event EventHandler<SelectedItemsEventArgs> ItemsSelected;
         #endregion
 
@@ -455,7 +451,7 @@ namespace WorkspaceManager.View.Visuals
         }
 
         public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
-            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(false, OnIsLinkingChanged));
 
         public bool IsLinking
         {
@@ -485,7 +481,7 @@ namespace WorkspaceManager.View.Visuals
         }
 
         public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
-            typeof(ConnectorVisual), typeof(EditorVisual), new FrameworkPropertyMetadata(null, null));
+            typeof(ConnectorVisual), typeof(EditorVisual), new FrameworkPropertyMetadata(null, OnSelectedConnectorChanged));
 
         public ConnectorVisual SelectedConnector
         {
@@ -635,6 +631,12 @@ namespace WorkspaceManager.View.Visuals
             draggedLink = new CryptoLineView(VisualCollection);
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
             InitializeComponent();
+            Loaded += new RoutedEventHandler(EditorVisualLoaded);
+        }
+
+        void EditorVisualLoaded(object sender, RoutedEventArgs e)
+        {
+            this.Root.Children.Add(new UsageStatisticPopup(Model));
         }
 
         #endregion
@@ -670,10 +672,68 @@ namespace WorkspaceManager.View.Visuals
             VisualCollection.Add(bin);
         }
 
-        public void Load(WorkspaceModel model)
+        public void Load(WorkspaceModel model, bool isPaste = false)
         {
-            Model = model;
-            internalLoad(Model);
+            if (model == null) throw new ArgumentNullException("model");
+            if(!isPaste)
+            {
+                Model = model;
+                internalLoad(model);
+            }
+            else
+            {
+                internalPasteLoad(model);
+            }
+
+        }
+
+        private void internalPasteLoad(WorkspaceModel model)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (SendOrPostCallback)delegate
+            {
+                WorkspaceModel m = (WorkspaceModel)model;
+
+                foreach (PluginModel pluginModel in m.GetAllPluginModels())
+                {
+                    this.model.addPluginModel(pluginModel);
+                    bool skip = false;
+                    foreach (ConnectorModel connModel in pluginModel.GetInputConnectors())
+                    {
+                        if (connModel.IControl && connModel.GetInputConnections().Count > 0)
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (!skip)
+                        AddBinComponentVisual(pluginModel, 0);
+                }
+
+                foreach (ConnectionModel connModel in m.GetAllConnectionModels())
+                {
+                    if (connModel.To.IControl)
+                        continue;
+
+                    foreach (UIElement element in VisualCollection)
+                    {
+                        ComponentVisual bin = element as ComponentVisual;
+                        if (bin != null)
+                        {
+                            foreach (ConnectorVisual connector in bin.ConnectorCollection)
+                            {
+                                if (connModel.From == connector.Model)
+                                    from = connector;
+                                else if (connModel.To == connector.Model)
+                                    to = connector;
+                            }
+                        }
+                    }
+
+                    AddConnection(from, to, connModel);
+                }
+                PartialCopyHelper.CurrentSelection = null;
+            }
+, null);
         }
 
         public void ResetConnections()
@@ -798,7 +858,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
 
-                    addConnection(from, to, connModel);
+                    AddConnection(from, to, connModel);
                 }
             
                 foreach(var img in m.GetAllImageModels())
@@ -827,7 +887,7 @@ namespace WorkspaceManager.View.Visuals
             , null);
         }
 
-        private void addConnection(ConnectorVisual source, ConnectorVisual target, ConnectionModel model)
+        public void AddConnection(ConnectorVisual source, ConnectorVisual target, ConnectionModel model)
         {
             if (this.State != BinEditorState.READY || source == null || target == null)
                 return;
@@ -1189,18 +1249,33 @@ namespace WorkspaceManager.View.Visuals
                 oldItem.IsSelected = false;
         }
 
+        private static void OnIsLinkingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EditorVisual b = (EditorVisual)d;
+            if(b.IsLinking)
+            {
+
+            }
+        }
+
         private static void OnSelectedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EditorVisual b = (EditorVisual)d;
             TextVisual newItem = e.NewValue as TextVisual;
             TextVisual oldItem = e.OldValue as TextVisual;
 
-            if(newItem != null)
+            if (newItem != null)
                 newItem.IsSelected = true;
             if (oldItem != null)
                 oldItem.IsSelected = false;
 
             b.SelectedTextChanged.Invoke(b, null);
+        }
+
+        private static void OnSelectedConnectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EditorVisual b = (EditorVisual)d;
+            if (b.SelectedConnectorChanged != null) b.SelectedConnectorChanged.Invoke(b, null);
         }
 
         public void update()
@@ -1548,7 +1623,7 @@ namespace WorkspaceManager.View.Visuals
                                         output,
                                         input,
                                         output.ConnectorType));
-                                    addConnection(SelectedConnector, b, connectionModel);
+                                    AddConnection(SelectedConnector, b, connectionModel);
                                     e.Handled = true;
                                 }
                             }

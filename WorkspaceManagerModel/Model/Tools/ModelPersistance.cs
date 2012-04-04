@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cryptool.PluginBase;
+using System.IO;
 
 namespace WorkspaceManager.Model
 {
@@ -28,7 +29,7 @@ namespace WorkspaceManager.Model
     public class ModelPersistance
     {
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        
+
         /// <summary>
         /// Deserializes a model from the given file with the given filename
         /// </summary>
@@ -36,9 +37,24 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public WorkspaceModel loadModel(string filename)
         {
-            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
+            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename, true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
-            
+
+            restoreSettings(persistantModel, workspacemodel);
+            workspacemodel.UndoRedoManager.ClearStacks();
+            return workspacemodel;
+        }
+
+        public WorkspaceModel loadModel(StreamWriter writer)
+        {
+            PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(writer);
+            WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
+            restoreSettings(persistantModel, workspacemodel);
+            return workspacemodel;
+        }
+
+        private void restoreSettings(PersistantModel persistantModel, WorkspaceModel workspacemodel)
+        {
             //restore all settings of each plugin
             foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
             {
@@ -54,7 +70,7 @@ namespace WorkspaceManager.Model
                         try
                         {
                             DontSaveAttribute[] dontSave =
-                                (DontSaveAttribute[]) pInfo.GetCustomAttributes(typeof (DontSaveAttribute), false);
+                                (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
                             if (dontSave.Length == 0)
                             {
                                 if (pInfo.Name.Equals(persistantSetting.Name))
@@ -62,47 +78,48 @@ namespace WorkspaceManager.Model
                                     if (persistantSetting.Type.Equals("System.String"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       (String) persistantSetting.Value, null);
+                                                       (String)persistantSetting.Value, null);
                                     }
                                     else if (persistantSetting.Type.Equals("System.Int16"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       System.Int16.Parse((String) persistantSetting.Value), null);
+                                                       System.Int16.Parse((String)persistantSetting.Value), null);
                                     }
                                     else if (persistantSetting.Type.Equals("System.Int32"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       System.Int32.Parse((String) persistantSetting.Value), null);
+                                                       System.Int32.Parse((String)persistantSetting.Value), null);
                                     }
                                     else if (persistantSetting.Type.Equals("System.Int64"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       System.Int64.Parse((String) persistantSetting.Value), null);
+                                                       System.Int64.Parse((String)persistantSetting.Value), null);
                                     }
                                     else if (persistantSetting.Type.Equals("System.Double"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       System.Double.Parse((String) persistantSetting.Value), null);
+                                                       System.Double.Parse((String)persistantSetting.Value), null);
                                     }
                                     else if (persistantSetting.Type.Equals("System.Boolean"))
                                     {
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
-                                                       System.Boolean.Parse((String) persistantSetting.Value), null);
+                                                       System.Boolean.Parse((String)persistantSetting.Value), null);
                                     }
                                     else if (pInfo.PropertyType.IsEnum)
                                     {
                                         Int32 result = 0;
-                                        System.Int32.TryParse((String) persistantSetting.Value, out result);
+                                        System.Int32.TryParse((String)persistantSetting.Value, out result);
                                         object newEnumValue = Enum.ToObject(pInfo.PropertyType, result);
                                         pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, newEnumValue, null);
                                     }
                                 }
                             }
-                        }catch(Exception ex)
+                        }
+                        catch (Exception ex)
                         {
                             throw new Exception("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\"", ex);
                         }
-                    }                    
+                    }
                 }
             }
 
@@ -125,25 +142,25 @@ namespace WorkspaceManager.Model
                         //so we delete the connector
                         pluginModel.WorkspaceModel.deleteConnectorModel(connectorModel);
                         connectorModels.Remove(connectorModel);
-                        GuiLogMessage(string.Format("A property with name '{0}' of type '{1}' does not exist in '{2}:{3}' but a ConnectorModel exists in the PluginModel. Delete the ConnectorModel now.", connectorModel.PropertyName,connectorModel.ConnectorType.Name, pluginModel.PluginType, pluginModel.Name),
+                        GuiLogMessage(string.Format("A property with name '{0}' of type '{1}' does not exist in '{2}:{3}' but a ConnectorModel exists in the PluginModel. Delete the ConnectorModel now.", connectorModel.PropertyName, connectorModel.ConnectorType.Name, pluginModel.PluginType, pluginModel.Name),
                                       NotificationLevel.Warning);
                     }
                 }
                 //Check if there are properties which have no own ConnectorModel
-                foreach(PropertyInfoAttribute propertyInfoAttribute in pluginModel.Plugin.GetProperties())
+                foreach (PropertyInfoAttribute propertyInfoAttribute in pluginModel.Plugin.GetProperties())
                 {
                     var query = from c in connectorModels
                                 where c.PropertyName.Equals(propertyInfoAttribute.PropertyName)
                                 select c;
-                    if(query.Count()==0)
+                    if (query.Count() == 0)
                     {
                         //we found a property which has no ConnectorModel, so we create a new one
                         pluginModel.generateConnector(propertyInfoAttribute);
-                        GuiLogMessage(string.Format("A ConnectorModel for the plugins property '{0}' of type '{1}' does not exist in the PluginModel of '{2}:{3}'. Create a ConnectorModel now.", propertyInfoAttribute.PropertyName,propertyInfoAttribute.PropertyInfo.PropertyType.Name, pluginModel.PluginType, pluginModel.Name),
+                        GuiLogMessage(string.Format("A ConnectorModel for the plugins property '{0}' of type '{1}' does not exist in the PluginModel of '{2}:{3}'. Create a ConnectorModel now.", propertyInfoAttribute.PropertyName, propertyInfoAttribute.PropertyInfo.PropertyType.Name, pluginModel.PluginType, pluginModel.Name),
                                       NotificationLevel.Warning);
                     }
-                }                        
-            }                        
+                }
+            }
 
             //initialize the plugins
             //connect all listener for plugins/plugin models            
@@ -154,19 +171,19 @@ namespace WorkspaceManager.Model
                     pluginModel.Plugin.Initialize();
                     pluginModel.PercentageFinished = 0;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw new Exception("Error while initializing \"" + pluginModel.Name + "\".", ex);
                 }
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspacemodel.GuiLogMessage;
-                pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
-                pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;                
+                pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+                pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
                 if (pluginModel.Plugin.Settings != null)
                 {
                     pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
                 }
-            }                
-            
+            }
+
             foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
                 //refresh language stuff
@@ -178,12 +195,12 @@ namespace WorkspaceManager.Model
                         connectorModel.Caption = property.Caption;
                         break;
                     }
-                }           
+                }
                 connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
             }
 
             //restore all IControls
-            foreach (ConnectionModel connectionModel in workspacemodel.AllConnectionModels) 
+            foreach (ConnectionModel connectionModel in workspacemodel.AllConnectionModels)
             {
                 ConnectorModel from = connectionModel.From;
                 ConnectorModel to = connectionModel.To;
@@ -193,15 +210,15 @@ namespace WorkspaceManager.Model
                     {
                         object data = null;
                         //Get IControl data from "to"                       
-                        data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);                                                
+                        data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
                         PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
                         propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
 
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.",ex);
+                    throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.", ex);
                 }
             }
 
@@ -226,9 +243,6 @@ namespace WorkspaceManager.Model
                     workspacemodel.AllImageModels.Remove(imageModel);
                 }
             }
-
-            workspacemodel.UndoRedoManager.ClearStacks();
-            return workspacemodel;          
         }
 
         /// <summary>
@@ -239,11 +253,18 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public void saveModel(WorkspaceModel workspaceModel, string filename)
         {
+            XMLSerialization.XMLSerialization.Serialize(GetPersistantModel(workspaceModel), filename, true);
+            workspaceModel.UndoRedoManager.SavedHere = true;
+        }
+
+        public PersistantModel GetPersistantModel(WorkspaceModel workspaceModel)
+        {
             PersistantModel persistantModel = new PersistantModel();
-            persistantModel.WorkspaceModel = workspaceModel;            
+            persistantModel.WorkspaceModel = workspaceModel;
 
             //Save all Settings of each Plugin
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels){
+            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            {
 
                 if (pluginModel.Plugin.Settings != null)
                 {
@@ -276,8 +297,7 @@ namespace WorkspaceManager.Model
                     persistantModel.PersistantPluginList.Add(persistantPlugin);
                 }
             }
-            XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
-            workspaceModel.UndoRedoManager.SavedHere = true;
+            return persistantModel;
         }
 
         /// <summary>
@@ -302,8 +322,9 @@ namespace WorkspaceManager.Model
     /// stores the model and a list of persistant plugin models
     /// </summary>
     [Serializable]
-    public class PersistantModel{
-        public WorkspaceModel WorkspaceModel{get;set;}
+    public class PersistantModel
+    {
+        public WorkspaceModel WorkspaceModel { get; set; }
         public List<PersistantPlugin> PersistantPluginList = new List<PersistantPlugin>();
     }
 
@@ -325,7 +346,7 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class PersistantSetting
     {
-        public string Name {get;set;}
+        public string Name { get; set; }
         public string Type { get; set; }
         public string Value { get; set; }
     }
