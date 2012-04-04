@@ -42,11 +42,7 @@ namespace Primes.Library
 
     public static string FormatDoubleToIntString(double value)
     {
-      string result = value.ToString("n");
-      int index = result.IndexOf(",");
-
-      if (index > 0) result = result.Substring(0, index);
-      return result;
+        return Convert.ToInt32(value).ToString();
     }
   }
 }

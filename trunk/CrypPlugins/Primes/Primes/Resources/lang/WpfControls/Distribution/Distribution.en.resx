@@ -349,7 +349,7 @@
     <value>Ulam's Spiral</value>
   </data>
   <data name="ulam_btnCancel" xml:space="preserve">
-    <value>Cancal</value>
+    <value>Cancel</value>
   </data>
   <data name="ulam_btnExecute" xml:space="preserve">
     <value>Execute</value>
