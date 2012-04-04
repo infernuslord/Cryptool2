@@ -36,7 +36,9 @@ This method is ciphertext-only.
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
       <description lang="de">Geheimtext:</description>
-      <defaultvalue>Iuai  tioehh inu u isd eootuoorlek meE t s 6tuieeertehrh,dd35nmnomienfd,eon mtmcnc B fwhtfleydeFp Boht l)htsd tdhredi e  " nsnesn    nu bnhnh roow sea u   yolwRf hae,ea  aiees .strb2.aap,s  rala tcy,esosartit  ttmudbwreoA 6ern  tdblcr  k  h e  ro swoo enr o    somdhdhapihnseyo ,rSl  egapieypa lieIcew 4c staruwfndealcacaembe teneoesuf re d e(r tneof hloenyna o" otihgitsig aguonornelrth drn  aiadxt insoohdrnita ft w sou61lrteet  xttdamldle  e.h r m caln .ahZsgowf  m nhbo ttoterl  </defaultvalue>
+      <defaultvalue>rr ntiieornhhi btpehrmctrpctaiai uy a rctaunhi. heti eti e i o c ioydn i pS::wdg/poh oyrs r dni  ondnfn( oya ofa)sdrte mthhttsri lxa rfuinMalivcidhrsi ca sctr
+ctnpokntinthtoneaoetyhpoluoi hclrsrors eo rre tpxseetfpeh,oo  a mlbin etarssn nrn c
+rtei.iaic]cg,aic m cowtss i twam cou c h dogs,hee i motatttd nsgatyjets ea'ttrnietoy[ep.erisipyaasipstfy iethyslxieohe sherfcnalsstctou t en ierhtcdhcacfounctpo p vfodto /ii/ToneIpp poh h pbc ie  atc narg aretcg ato ientpao tTs  esh.ea tuns heonetaeune.uh/kawrs_r</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
@@ -108,7 +110,9 @@ Diese Methode benötigt für die Analyse nur den Geheimtext ("Ciphertext-only-An
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
       <description lang="de">Geheimtext:</description>
-      <defaultvalue>r mwaim r cites m  aeourtat ny i'a uf sr r esuyIi   ooaudhw  huwpeautrrg rhe i sorr   lroirn,nafbedthmratscetetooisIufplaindawp,nb  r ia edi oa nlnhiora-cosfa ugosrtfm isblinogasselntatnnwkmas lh elecol  Ctoanlr    a eke  aaa  ed hae oacg.A hjth romhedoc f,iue yr m aas hy dohyo-snohopduata.onlahb roo stia tC  ale waghgdeb fe m napso nnsnnsd valsina   o peehfn  ba sA  wo  onrflWesC Wata d ineveeh yitepr ben yp   armat cirdy n soooalce ts ohe.h gro lhhd,dtt toi   c owugcortpoasneoh.aau eainom  fr t-ohpi n la b e onuu panr  qay.ttdc erltobihg a hgprlxsal e d lair"iudno,ra    ot henlto.smdybae d  ,wTllwefIcentt ge  e  ha,tirb mnu e xrW',  o  bfl uanttalscvoqothoyaaeln(yoiro hudsio  n?decwcsnt ettR mkmjsea natnnthikarietynilf,o,b  t tmdi ,etawshieptueni io.ridprowteit hs i.oercBkn 'atetn oy letaicsoyotlli "oelmlndeyet st,tttndg ceea cc lorsM.nurpc eontesia ps seua e hntm  phhateb osds ntira n edrnn 't h 'swowstiept oo  uh iytstweldou(o wa ttuatmaloonwmpsoosti upal ea  bos   a Oureubttvchuyuem athauayeeo ,hagofnctaewrec lfyheurniros t:eta  g eii'o oene aeti etrr,srttoon)ocoo re  nhtiuol sr hT ofsnye ger tdute tTmi rr g eyuu eheisve o ot fttn  r tcng cer ,ebtywt as ccr s odon)enohr wlC</defaultvalue>
+      <defaultvalue> arirtn  tdsnioh sardnestctur l  rucMcifinrp p fttc/p/nnnrtteeenhiltihccspraeiry  xtenp.,e   ib  oa syn  pr:igao]rhnnioryhoboehmrrot a ueapceufihhoiatlen tcso nn 
+:edipct oiaothp up rltrcsio r trsathe ot em iie rindricStw./ihp,pc  pw s  tancg rhcoa, en attt  sgeyttseetenete[h.aispcpao hcbti  tcmao ce ggthi tmoaTt nhaajus aottiuo.e/ews_Ig ihm ocseiaw  rua td soeeipo tsdes.t en h'nraenyupkrriryys sdy enyfx oa fesctlmthost naeftnhlccuhti avcd
+ nikoioasp fiiohnl(eyeoh)fra shtt iexirhidaavodcsoc sorotioTte</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
@@ -179,13 +183,15 @@ Diese Methode benötigt für die Analyse einen Teil des Klartextes ("Known-plain
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
       <description lang="de">Geheimtext:</description>
-      <defaultvalue>tlesiug tneifht-ihntl  eta dnsg ro   rttyoc.a  ed fm u tr taiPn i  st eug rs id i xe eib  netpsm wym id tx ei io.if rs isataaumTpu.Ton-ae aipght wymta t xobut aeuethrd  tsahntl anak  txt-TaiPnstnm,no nyoc.r,e ab  nltspeto xptu l pogepedynreiPnesiurtxotdi esr lAtimhr ro srtr o aatapFo,Ton-tlx  po nls pogeht rentt,obufhtueir lAtehmtuttnssu</defaultvalue>
+      <defaultvalue>rr ntiieornhhi btpehrmctrpctaiai uy a rctaunhi. heti eti e i o c ioydn i pS::wdg/poh oyrs r dni  ondnfn( oya ofa)sdrte mthhttsri lxa rfuinMalivcidhrsi ca sctr
+ctnpokntinthtoneaoetyhpoluoi hclrsrors eo rre tpxseetfpeh,oo  a mlbin etarssn nrn c
+rtei.iaic]cg,aic m cowtss i twam cou c h dogs,hee i motatttd nsgatyjets ea'ttrnietoy[ep.erisipyaasipstfy iethyslxieohe sherfcnalsstctou t en ierhtcdhcacfounctpo p vfodto /ii/ToneIpp poh h pbc ie  atc narg aretcg ato ientpao tTs  esh.ea tuns heonetaeune.uh/kawrs_r</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Crib" property="Text" visibleLines="5">
       <description lang="en">Crib (Known plaintext):</description>
       <description lang="de">Crib (Bekannter Klartext):</description>
-      <defaultvalue>Transposition</defaultvalue>
+      <defaultvalue>transposition</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
