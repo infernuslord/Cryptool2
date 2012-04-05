@@ -75,23 +75,30 @@ namespace Startcenter
 
         private List<RssItem> ReadRSSItems(string rssFeedURL)
         {
-            var req = (HttpWebRequest)WebRequest.Create(rssFeedURL);
-            req.Method = "GET";
-            req.UserAgent = "CrypZilla";
+            try
+            {
+                var req = (HttpWebRequest)WebRequest.Create(rssFeedURL);
+                req.Method = "GET";
+                req.UserAgent = "CrypZilla";
 
-            var rep = req.GetResponse();
-            var reader = XmlReader.Create(rep.GetResponseStream());
-            
-            var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item")
-                        select new RssItem()
-                                   {
-                                       Title = x.Descendants("title").Single().Value,
-                                       Message = x.Descendants("description").Single().Value.Replace("[", "(").Replace("]", ")")
-                                                                                            .Replace('<', '[').Replace('>', ']'),
-                                       PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
-                                       URL = x.Descendants("link").Single().Value
-                                   };
-            return items.ToList();
+                var rep = req.GetResponse();
+                var reader = XmlReader.Create(rep.GetResponseStream());
+
+                var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item")
+                            select new RssItem()
+                                       {
+                                           Title = x.Descendants("title").Single().Value,
+                                           Message = x.Descendants("description").Single().Value.Replace("[", "(").Replace("]", ")")
+                                                                                                .Replace('<', '[').Replace('>', ']'),
+                                           PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
+                                           URL = x.Descendants("link").Single().Value
+                                       };
+                return items.ToList();
+            }
+            catch (Exception)
+            {
+                return new List<RssItem>();
+            }
         }
 
         private void RSSItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
