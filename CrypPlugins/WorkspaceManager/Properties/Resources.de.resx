@@ -417,4 +417,25 @@
   <data name="Open_File">
     <value xml:space="preserve">Öffne Datei</value>
   </data>
+  <data name="Show_ComponentConnection_Proposition">
+    <value xml:space="preserve">Zeige Komponenten-Verbindungsvorschläge</value>
+  </data>
+  <data name="Show_ComponentConnection_Proposition_Tooltip">
+    <value xml:space="preserve">Zeigt die meist verwendeten Komponenten wenn eine Verbindungslinie gehalten wird.</value>
+  </data>
+  <data name="ComponentAppearanceBehaviourGroupHeader">
+    <value xml:space="preserve">Standardmäßige Darstellung von Komponenten</value>
+  </data>
+  <data name="ComponentAppearanceBehaviourGroupTooltip">
+    <value xml:space="preserve">Auswählen wie eine neuplatzierte Komponentenvisualisierung erscheinen soll.</value>
+  </data>
+  <data name="DefaultComponentAppearance">
+    <value xml:space="preserve">Erscheinung von der Komponente vorgegeben</value>
+  </data>
+  <data name="AlwaysOpenedComponentAppearance">
+    <value xml:space="preserve">Immer geöffnet</value>
+  </data>
+  <data name="AlwaysClosedComponentAppearance">
+    <value xml:space="preserve">Immer geschlossen</value>
+  </data>
 </root>

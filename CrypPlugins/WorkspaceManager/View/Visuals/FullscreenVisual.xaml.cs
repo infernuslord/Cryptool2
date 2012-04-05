@@ -215,11 +215,6 @@ namespace WorkspaceManager.View.Visuals
             e.Handled = true;
         }
 
-        private void ToggleClickOverviewHandler(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.Save();
-        }
-
         private static void OnActiveComponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             FullscreenVisual f = (FullscreenVisual)d;
