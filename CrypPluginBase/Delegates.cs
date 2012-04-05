@@ -67,6 +67,11 @@ namespace Cryptool.PluginBase
   /// Used to signal crypwin that an editor wants to open an editor.
   /// </summary>  
   public delegate IEditor OpenEditorHandler(Type editorType, string title, string filename);
+
+  /// <summary>
+  /// Used to signal crypwin, that the loading of a file (initiated by the IEditor.Open method) is done.
+  /// </summary>
+  public delegate void FileLoadedHandler(IEditor editor, string filename);
   # endregion editor delegates
 
   #region optional delegates

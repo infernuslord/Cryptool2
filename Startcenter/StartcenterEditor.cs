@@ -75,6 +75,8 @@ namespace StartCenter
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
+        public event FileLoadedHandler OnFileLoaded;
+
         public void New()
         {
             
@@ -82,7 +84,10 @@ namespace StartCenter
 
         public void Open(string fileName)
         {
-            
+            if (OnFileLoaded != null)
+            {
+                OnFileLoaded(this, fileName);
+            }
         }
 
         public void Save(string fileName)

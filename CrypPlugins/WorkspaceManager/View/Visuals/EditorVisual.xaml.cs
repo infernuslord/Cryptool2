@@ -367,7 +367,6 @@ namespace WorkspaceManager.View.Visuals
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler SampleLoaded;
         public event EventHandler SelectedTextChanged;
         public event EventHandler SelectedConnectorChanged;
         public event EventHandler<SelectedItemsEventArgs> ItemsSelected;
@@ -672,19 +671,19 @@ namespace WorkspaceManager.View.Visuals
             VisualCollection.Add(bin);
         }
 
-        public void Load(WorkspaceModel model, bool isPaste = false)
+        public DispatcherOperation Load(WorkspaceModel model, bool isPaste = false)
         {
             if (model == null) throw new ArgumentNullException("model");
             if(!isPaste)
             {
                 Model = model;
-                internalLoad(model);
+                return internalLoad(model);
             }
             else
             {
                 internalPasteLoad(model);
             }
-
+            return null;
         }
 
         private void internalPasteLoad(WorkspaceModel model)
@@ -817,10 +816,10 @@ namespace WorkspaceManager.View.Visuals
 
         #region Private
 
-        private void internalLoad(object model)
+        private DispatcherOperation internalLoad(object model)
         {
             IsLoading = true;
-            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (SendOrPostCallback)delegate
+            return Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (SendOrPostCallback)delegate
             {
                 WorkspaceModel m = (WorkspaceModel)model;
                 foreach (PluginModel pluginModel in m.GetAllPluginModels())
@@ -878,9 +877,6 @@ namespace WorkspaceManager.View.Visuals
                         MyEditor.GuiLogMessage(string.Format("Could not load Text to Workspace: {0}", e.Message), NotificationLevel.Error);
                     }
                 }
-
-                if (SampleLoaded != null)
-                    SampleLoaded.Invoke(this, null);
 
                 IsLoading = false;
             }

@@ -241,16 +241,20 @@ namespace Cryptool.CrypWin
 
         private void PlayProject()
         {
+            PlayProject(ActiveEditor);
+        }
+
+        private void PlayProject(IEditor editor)
+        {
             try
             {
-                if (ActiveEditor != null)
+                if (editor != null)
                 {
                     taskpaneCtrl.IsChangeable = false;
                     setEditorRibbonElementsState(false);
-                    ExecuteDelegate executeEditor = ActiveEditor.Execute;
+                    ExecuteDelegate executeEditor = editor.Execute;
                     AsyncCallback executeCallback = new AsyncCallback(this.ExecuteCallBack);
                     executeEditor.BeginInvoke(executeCallback, null);
-                    // activeEditor.Execute();
                 }
             }
             catch (Exception ex)
