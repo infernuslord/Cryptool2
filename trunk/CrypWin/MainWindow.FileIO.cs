@@ -64,7 +64,7 @@ namespace Cryptool.CrypWin
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                OpenProject(fileName);
+                OpenProject(fileName, null);
             }, null);
         }
 
@@ -72,7 +72,7 @@ namespace Cryptool.CrypWin
         /// Warning: does not check for unsaved changes. Use OpenProject() if you need to.
         /// </summary>
         /// <param name="fileName"></param>
-        private void OpenProject(string fileName)
+        private void OpenProject(string fileName, FileLoadedHandler OnLoaded)
         {
             if (File.Exists(fileName))
             {
@@ -91,6 +91,12 @@ namespace Cryptool.CrypWin
                     Type editorType = ComponentInformations.EditorExtension[ext];
 
                     AddEditorDispatched(editorType);
+                    if (OnLoaded != null)
+                    {
+                        var editor = this.ActiveEditor;
+                        editor.OnFileLoaded += OnLoaded;
+                        editor.OnFileLoaded += delegate { editor.OnFileLoaded -= OnLoaded; };
+                    }
                     this.ActiveEditor.Open(fileName);
                     ActiveEditor.Presentation.ToolTip = fileName;
 
@@ -115,7 +121,7 @@ namespace Cryptool.CrypWin
 
         private void OpenProjectFileEvent(IEditor editor, string fileName)
         {
-            OpenProject(fileName);
+            OpenProject(fileName, null);
         }
 
         private void OpenProject()
@@ -126,7 +132,7 @@ namespace Cryptool.CrypWin
             
             if (dlg.ShowDialog() == true)            
             {
-                this.OpenProject(dlg.FileName);
+                this.OpenProject(dlg.FileName, null);
 
                 if (Settings.Default.useLastPath)
                     Settings.Default.LastPath = Directory.GetParent(dlg.FileName).FullName;

@@ -56,6 +56,8 @@ namespace Cryptool.P2PEditor
 
         public event OpenProjectFileHandler OnOpenProjectFile;
 
+        public event FileLoadedHandler OnFileLoaded;
+
         public void New()
         {
             if (OnSelectedPluginChanged != null)
@@ -77,6 +79,10 @@ namespace Cryptool.P2PEditor
         public void Open(string fileName)
         {
             GuiLogMessage("P2PEditor: Open(" + fileName + ")", NotificationLevel.Debug);
+            if (OnFileLoaded != null)
+            {
+                OnFileLoaded(this, fileName);
+            }
         }
 
         public void Save(string fileName)

@@ -28,6 +28,7 @@ using System.Globalization;
 using System.Xml.Schema;
 using Cryptool.Core;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Editor;
 using KeyTextBox;
 using WorkspaceManager.Model;
 using Wizard.Properties;
@@ -944,7 +945,7 @@ namespace Wizard
                     currentManager.Open(model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
-                        currentManager.SampleLoaded += NewEditorSampleLoaded;
+                        currentManager.OnFileLoaded += NewEditorOnFileLoaded;
                     }
                     
                     if (element.Attribute("image") != null)
@@ -962,7 +963,7 @@ namespace Wizard
                     currentManager = new WorkspaceManager.WorkspaceManagerClass();
                     currentManager.Open(model);
                     canStopOrExecute = true;
-                    currentManager.SampleLoaded += SampleLoaded;
+                    currentManager.OnFileLoaded += OnFileLoaded;
                 }
 
                 _recentFileList.AddRecentFile(file);
@@ -975,18 +976,18 @@ namespace Wizard
             return true;
         }
 
-        private void NewEditorSampleLoaded(object sender, EventArgs e)
+        private void NewEditorOnFileLoaded(IEditor editor, string filename)
         {
             if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate && currentManager.CanExecute)
                 currentManager.Execute();
-            currentManager.SampleLoaded -= NewEditorSampleLoaded;
+            currentManager.OnFileLoaded -= NewEditorOnFileLoaded;
             OnOpenTab(currentManager, _title, null);
         }
 
-        private void SampleLoaded(object sender, EventArgs e)
+        private void OnFileLoaded(IEditor editor, string filename)
         {
             currentManager.Execute();
-            currentManager.SampleLoaded -= SampleLoaded;
+            currentManager.OnFileLoaded -= OnFileLoaded;
         }
 
         private void FillDataToModel(WorkspaceModel model, XElement element)

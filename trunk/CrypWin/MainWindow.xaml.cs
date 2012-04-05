@@ -580,7 +580,7 @@ namespace Cryptool.CrypWin
                                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                     {
                                         GuiLogMessage(string.Format(Resource.workspace_loading, theFile), NotificationLevel.Info);
-                                        OpenProject(theFile);
+                                        OpenProject(theFile, null);
                                     }, null);
                                 }
                             } while (!string.IsNullOrEmpty(file));
@@ -1369,7 +1369,7 @@ namespace Cryptool.CrypWin
                         {
                             if (File.Exists(file))
                             {
-                                this.OpenProject(file);
+                                this.OpenProject(file, null);
                                 hasOpenedProject = true;
                             }
                         }
@@ -1380,15 +1380,9 @@ namespace Cryptool.CrypWin
                     foreach (var filePath in filesPath)
                     {
                         GuiLogMessage(string.Format(Resource.workspace_loading, filePath), NotificationLevel.Info);
-                        OpenProject(filePath);
+                        OpenProject(filePath, FileLoadedOnStartup);
                         hasOpenedProject = true;
                     }
-                }
-
-                // Switch to "Play"-state, if parameter is given
-                if (IsCommandParameterGiven("-autostart"))
-                {
-                    PlayProject();
                 }
             }
             catch (Exception ex)
@@ -1400,6 +1394,16 @@ namespace Cryptool.CrypWin
 
             return hasOpenedProject;
         }
+
+        private void FileLoadedOnStartup(IEditor editor, string filename)
+        {
+            // Switch to "Play"-state, if parameter is given
+            if (IsCommandParameterGiven("-autostart"))
+            {
+                PlayProject(editor);
+            }
+        }
+
         #endregion Init
 
         #region Editor
@@ -2041,7 +2045,7 @@ namespace Cryptool.CrypWin
                 btn.IsChecked = (this.ProjectFileName == file);
                 btn.Click += delegate(Object sender, RoutedEventArgs e)
                 {
-                    OpenProject(file);
+                    OpenProject(file, null);
                 };
 
                 buttonDropDownOpen.Items.Add(btn);

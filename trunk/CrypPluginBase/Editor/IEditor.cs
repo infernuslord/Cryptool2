@@ -28,6 +28,7 @@ namespace Cryptool.PluginBase.Editor
         event OpenProjectFileHandler OnOpenProjectFile;
         event OpenTabHandler OnOpenTab;
         event OpenEditorHandler OnOpenEditor;
+        event FileLoadedHandler OnFileLoaded;
 
         void New();
         void Open(string fileName);

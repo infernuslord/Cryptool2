@@ -24,6 +24,7 @@ namespace Wizard
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
+        public event FileLoadedHandler OnFileLoaded;
 
         public Wizard()
         {
@@ -90,7 +91,10 @@ namespace Wizard
 
         public void Open(string fileName)
         {
-            
+            if (OnFileLoaded != null)
+            {
+                OnFileLoaded(this, fileName);
+            }
         }
 
         public void Save(string fileName)

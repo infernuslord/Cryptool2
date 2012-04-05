@@ -56,7 +56,7 @@ namespace WorkspaceManager
     [PluginInfo("WorkspaceManager.Properties.Resources", "PluginCaption", "PluginTooltip", "WorkspaceManager/DetailedDescription/doc.xml", "WorkspaceManager/View/Images/WorkspaceManagerIcon.ico")]
     public class WorkspaceManagerClass : IEditor
     {
-        public event EventHandler SampleLoaded;
+        public event FileLoadedHandler OnFileLoaded;
         public event EventHandler<LoadingErrorEventArgs> LoadingErrorOccurred;
 
         /// <summary>
@@ -70,13 +70,12 @@ namespace WorkspaceManager
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new EditorVisual(WorkspaceModel);
-            WorkspaceSpaceEditorView.SampleLoaded += new EventHandler(WorkspaceSpaceEditorView_SampleLoaded);
         }
 
-        void WorkspaceSpaceEditorView_SampleLoaded(object sender, EventArgs e)
+        private void OnSampleLoaded(string filename)
         {
-            if (SampleLoaded != null)
-                SampleLoaded.Invoke(this, null);
+            if (OnFileLoaded != null)
+                OnFileLoaded.Invoke(this, filename);
         }
 
         #region private Members
@@ -154,7 +153,8 @@ namespace WorkspaceManager
                 New();
                 WorkspaceModel = model;
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
-                WorkspaceSpaceEditorView.Load(WorkspaceModel);
+                var dispatcherOp = WorkspaceSpaceEditorView.Load(WorkspaceModel);
+                HandleTemplateLoadingDispatcher(dispatcherOp, null);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
@@ -162,6 +162,15 @@ namespace WorkspaceManager
             catch (Exception ex)
             {
                 GuiLogMessage("Could not open Model:" + ex.ToString(), NotificationLevel.Error);
+            }
+        }
+
+        private void HandleTemplateLoadingDispatcher(DispatcherOperation dispatcherOp, string filename)
+        {
+            dispatcherOp.Completed += delegate { OnSampleLoaded(filename); };
+            if (dispatcherOp.Status == DispatcherOperationStatus.Completed)
+            {
+                OnSampleLoaded(filename);
             }
         }
 
@@ -180,7 +189,8 @@ namespace WorkspaceManager
                 persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 WorkspaceModel = persistance.loadModel(fileName);
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
-                WorkspaceSpaceEditorView.Load(WorkspaceModel);
+                var dispatcherOp = WorkspaceSpaceEditorView.Load(WorkspaceModel);
+                HandleTemplateLoadingDispatcher(dispatcherOp, fileName);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 this.OnProjectTitleChanged.Invoke(this, System.IO.Path.GetFileName(fileName));
                 CurrentFile = fileName;
