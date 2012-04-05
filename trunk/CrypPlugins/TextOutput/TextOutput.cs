@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -33,6 +34,7 @@ namespace TextOutput
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("TextOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "TextOutput/DetailedDescription/doc.xml", "TextOutput/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class TextOutput : DependencyObject, ICrypComponent
     {
         #region Fields and properties

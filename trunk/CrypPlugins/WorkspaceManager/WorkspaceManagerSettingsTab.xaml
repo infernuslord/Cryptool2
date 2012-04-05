@@ -18,7 +18,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
-                    <CheckBox Content="{Loc Show_ComponentConnection_Proposition}" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" ToolTip="{Loc Show_ComponentConnection_Proposition_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ShowComponentConnection, Mode=TwoWay}"/>
+                    <CheckBox Content="{Loc Show_ComponentConnection_Proposition}" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" ToolTip="{Loc Show_ComponentConnection_Proposition_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ShowComponentConnectionProposition, Mode=TwoWay}"/>
                     <GroupBox Header="{Loc ComponentAppearanceBehaviourGroupHeader}" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc ComponentAppearanceBehaviourGroupTooltip}">
                         <StackPanel>
                             <RadioButton Content="{Loc DefaultComponentAppearance}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ComponentAppearance, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=0, Mode=TwoWay}" />
