@@ -149,8 +149,14 @@ namespace KeyTextBox
                         caretIndex = (caretIndex == 0) ? 0 : (caretIndex - 1);
                     }
                     ReplaceCharInKey(key, GetPossibleCharactersAtKeyEnd(key.Substring(0, caretIndex)), '*', caretIndex);
-                    //caretIndex = GetKeyOffset(KeyBox.CaretPosition);
                     SetKeyOffset(caretIndex);
+                    break;
+                case Key.Home:
+                    KeyBox.ScrollToHome();
+                    break;
+                case Key.End:
+                    var x = KeyBox.Document.ContentEnd.GetCharacterRect(LogicalDirection.Forward).X;
+                    KeyBox.ScrollToHorizontalOffset(x + KeyBox.HorizontalOffset - KeyBox.ActualWidth + 5);
                     break;
             }
         }
@@ -431,6 +437,20 @@ namespace KeyTextBox
             }
 
             return FormatHelper.GetPossibleCharactersFromFormat(format, fcount);
+        }
+
+        private void KeyBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Fix the position of the scrollviewer if necessary:
+            var rect = KeyBox.CaretPosition.GetCharacterRect(LogicalDirection.Forward);
+            if (rect.X < 0)
+            {
+                KeyBox.ScrollToHorizontalOffset(KeyBox.HorizontalOffset + rect.X - 5);
+            }
+            if (rect.X + rect.Width > KeyBox.ActualWidth)
+            {
+                KeyBox.ScrollToHorizontalOffset(KeyBox.HorizontalOffset + (rect.X + rect.Width - KeyBox.ActualWidth) + 5);
+            }
         }
     }
 }

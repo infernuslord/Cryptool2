@@ -178,7 +178,7 @@
     </UserControl.Resources>
     <Grid x:Name="root" Width="Auto">
         <RichTextBox Name="KeyBox" PreviewTextInput="KeyBox_PreviewTextInput" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Width="{Binding ElementName=root, Path=ActualWidth}"
-                AcceptsReturn="False" AutoWordSelection="False" Height="22" FontFamily="Courier New" PreviewKeyDown="KeyBox_PreviewKeyDown" VerticalAlignment="Top">
+                AcceptsReturn="False" AutoWordSelection="False" Height="22" FontFamily="Courier New" PreviewKeyDown="KeyBox_PreviewKeyDown" VerticalAlignment="Top" KeyDown="KeyBox_KeyDown">
             <FlowDocument Name="KeyBoxDocument"/>
         </RichTextBox>
     </Grid>
