@@ -24,9 +24,9 @@ namespace Cryptool.Plugins.CypherMatrix
     public class CypherMatrixSettings : ISettings
     {
         public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1 , Hash = 2};
-        //public enum Permutation { A = 0, B = 1, C = 2 }; // Variante A ist nicht für die Implementierung vorgesehen; bei Aktivierung die Funktion Perm ändern!
-        public enum Permutation { B = 0, C = 1 };
-        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 };
+        //public enum Permutation { A = 0, B = 1, C = 2, D = 3 }; // Variante A ist nicht für die Implementierung vorgesehen; bei Aktivierung die Funktion Perm ändern!
+        public enum Permutation { B = 0, C = 1, D = 2 };
+        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 , Mini = 3};
 
         #region Private variables and public constructor
 
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("PermCaption", "PermTooltip", null, 4, false, ControlType.ComboBox, new string[] { "PermOption1", "PermOption2" })]
+        [TaskPane("PermCaption", "PermTooltip", null, 4, false, ControlType.ComboBox, new string[] { "PermOption1", "PermOption2", "PermOption3" })]
         public Permutation Perm
         {
             get
@@ -193,7 +193,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("HashModeCaption", "HashModeTooltip", "HashOptionsGroup", 2, false, ControlType.ComboBox, new string[] { "HashMode0", "HashMode1", "HashMode2" })]
+        [TaskPane("HashModeCaption", "HashModeTooltip", "HashOptionsGroup", 2, false, ControlType.ComboBox, new string[] { "HashModeSMX", "HashModeFMX", "HashModeLCX", "HashModeMini" })]
         public CypherMatrixHashMode HashMode
         {
             get

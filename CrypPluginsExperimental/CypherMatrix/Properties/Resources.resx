@@ -219,19 +219,25 @@
   <data name="DebugDataTooltip" xml:space="preserve">
     <value>Log of CypherMatrix's internal variables</value>
   </data>
-  <data name="HashMode0" xml:space="preserve">
-    <value>serial mode</value>
+  <data name="HashModeSMX" xml:space="preserve">
+    <value>serial</value>
   </data>
-  <data name="HashMode1" xml:space="preserve">
-    <value>final mode</value>
+  <data name="HashModeFMX" xml:space="preserve">
+    <value>final</value>
   </data>
-  <data name="HashMode2" xml:space="preserve">
-    <value>last cycle mode</value>
+  <data name="HashModeLCX" xml:space="preserve">
+    <value>last cycle</value>
   </data>
   <data name="HashModeCaption" xml:space="preserve">
     <value>Hash mode</value>
   </data>
   <data name="HashModeTooltip" xml:space="preserve">
     <value>Select the hash mode</value>
+  </data>
+  <data name="PermOption3" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="HashModeMini" xml:space="preserve">
+    <value>mini</value>
   </data>
 </root>

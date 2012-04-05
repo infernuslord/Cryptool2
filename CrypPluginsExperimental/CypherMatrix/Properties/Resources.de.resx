@@ -219,19 +219,25 @@
   <data name="DebugDataTooltip" xml:space="preserve">
     <value>Log der internen Variablen von CypherMatrix</value>
   </data>
-  <data name="HashMode0" xml:space="preserve">
-    <value>Serieller Modus</value>
-  </data>
-  <data name="HashMode1" xml:space="preserve">
-    <value>Finaler Modus</value>
-  </data>
-  <data name="HashMode2" xml:space="preserve">
-    <value>Letzte Runde Modus</value>
-  </data>
   <data name="HashModeCaption" xml:space="preserve">
     <value>Hash-Modus</value>
   </data>
   <data name="HashModeTooltip" xml:space="preserve">
     <value>Wählen Sie den Betriebsmodus des Hashes</value>
+  </data>
+  <data name="PermOption3" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="HashModeFMX" xml:space="preserve">
+    <value>Final</value>
+  </data>
+  <data name="HashModeLCX" xml:space="preserve">
+    <value>Letzte Runde</value>
+  </data>
+  <data name="HashModeMini" xml:space="preserve">
+    <value>Mini</value>
+  </data>
+  <data name="HashModeSMX" xml:space="preserve">
+    <value>Seriell</value>
   </data>
 </root>

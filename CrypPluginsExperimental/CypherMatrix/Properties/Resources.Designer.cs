@@ -187,38 +187,47 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die serial mode ähnelt.
-        /// </summary>
-        internal static string HashMode0 {
-            get {
-                return ResourceManager.GetString("HashMode0", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die final mode ähnelt.
-        /// </summary>
-        internal static string HashMode1 {
-            get {
-                return ResourceManager.GetString("HashMode1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die last cycle mode ähnelt.
-        /// </summary>
-        internal static string HashMode2 {
-            get {
-                return ResourceManager.GetString("HashMode2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Hash mode ähnelt.
         /// </summary>
         internal static string HashModeCaption {
             get {
                 return ResourceManager.GetString("HashModeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die final ähnelt.
+        /// </summary>
+        internal static string HashModeFMX {
+            get {
+                return ResourceManager.GetString("HashModeFMX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die last cycle ähnelt.
+        /// </summary>
+        internal static string HashModeLCX {
+            get {
+                return ResourceManager.GetString("HashModeLCX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die mini ähnelt.
+        /// </summary>
+        internal static string HashModeMini {
+            get {
+                return ResourceManager.GetString("HashModeMini", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die serial ähnelt.
+        /// </summary>
+        internal static string HashModeSMX {
+            get {
+                return ResourceManager.GetString("HashModeSMX", resourceCulture);
             }
         }
         
@@ -345,6 +354,15 @@ namespace CypherMatrix.Properties {
         internal static string PermOption2 {
             get {
                 return ResourceManager.GetString("PermOption2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die D ähnelt.
+        /// </summary>
+        internal static string PermOption3 {
+            get {
+                return ResourceManager.GetString("PermOption3", resourceCulture);
             }
         }
         
