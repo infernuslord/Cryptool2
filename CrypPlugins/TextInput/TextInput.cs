@@ -23,6 +23,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Data;
 using System.IO;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.TextInput.Helper;
 using System.Windows.Threading;
 using System.Threading;
@@ -37,6 +38,7 @@ namespace Cryptool.TextInput
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Cryptool.TextInput.Properties.Resources", "PluginCaption", "PluginTooltip", "TextInput/DetailedDescription/doc.xml", "TextInput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
   public class TextInput : DependencyObject, ICrypComponent
   {
     private TextInputPresentation textInputPresentation;

@@ -263,12 +263,12 @@ namespace Cryptool.PluginBase.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool WorkspaceManager_ShowComponentConnection {
+        public bool WorkspaceManager_ShowComponentConnectionProposition {
             get {
-                return ((bool)(this["WorkspaceManager_ShowComponentConnection"]));
+                return ((bool)(this["WorkspaceManager_ShowComponentConnectionProposition"]));
             }
             set {
-                this["WorkspaceManager_ShowComponentConnection"] = value;
+                this["WorkspaceManager_ShowComponentConnectionProposition"] = value;
             }
         }
         
