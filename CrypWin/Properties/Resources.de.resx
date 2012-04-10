@@ -790,4 +790,7 @@
   <data name="TemplateUseDifferentDirectory">
     <value xml:space="preserve">Bitte speichern Sie Ihre Änderungen in einem anderen Verzeichnis.</value>
   </data>
+  <data name="SI_Runtime_Path" xml:space="preserve">
+    <value>Laufzeitpfad</value>
+  </data>
 </root>
