@@ -468,7 +468,14 @@ namespace Cryptool.CrypWin
                 }
                 else
                 {
-                    File.Delete(filePath);
+                    try
+                    {
+                        File.Delete(filePath);
+                    }
+                    catch (Exception)
+                    {
+                        //Just ignore
+                    }
                     GuiLogMessage("AutoUpdate: Update failed, one or more files cannot be found.", NotificationLevel.Error);
                     return false;
                 }
@@ -476,7 +483,14 @@ namespace Cryptool.CrypWin
             }
             catch (Exception e)
             {
-                File.Delete(filePath);
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception)
+                {
+                    //Just ignore
+                }
                 GuiLogMessage("AutoUpdate: Update failed: " + e.Message, NotificationLevel.Error);
                 return false;
             }
