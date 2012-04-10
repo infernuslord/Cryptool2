@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
@@ -437,6 +438,15 @@ namespace Cryptool.Plugins.Converter
                     Output = ((BigInteger)input).ToByteArray();
                     return true;
                 }
+                try
+                {
+                    Output = ((BigInteger)input).ToString(this.settings.Format);
+                    return true;
+                }
+                catch (FormatException ex)
+                {
+                    ShowFormatErrorMessage(ex);
+                }
             }
             #endregion
             #region  ConvertFromInt
@@ -446,6 +456,15 @@ namespace Cryptool.Plugins.Converter
                 {
                     Output = BitConverter.GetBytes((int)input);
                     return true;
+                }
+                try
+                {
+                    Output = ((int)input).ToString(this.settings.Format);
+                    return true;
+                }
+                catch (FormatException ex)
+                {
+                    ShowFormatErrorMessage(ex);
                 }
             }
             #endregion
@@ -457,6 +476,18 @@ namespace Cryptool.Plugins.Converter
                     Output = BitConverter.GetBytes((short)input);
                     return true;
                 }
+                if (this.settings.Converter == OutputTypes.StringType && !string.IsNullOrEmpty(this.settings.Format))
+                {
+                    try
+                    {
+                        Output = ((short)input).ToString(this.settings.Format);
+                        return true;
+                    }
+                    catch (FormatException ex)
+                    {
+                        ShowFormatErrorMessage(ex);
+                    }
+                }
             }
             #endregion
             #region ConvertFromByte
@@ -467,6 +498,18 @@ namespace Cryptool.Plugins.Converter
                     Output = new byte[] { (byte)input };
                     return true;
                 }
+                if (this.settings.Converter == OutputTypes.StringType && !string.IsNullOrEmpty(this.settings.Format))
+                {
+                    try
+                    {
+                        Output = ((byte)input).ToString(this.settings.Format);
+                        return true;
+                    }
+                    catch (FormatException ex)
+                    {
+                        ShowFormatErrorMessage(ex);
+                    }
+                }
             }
             #endregion
             #region ConvertFromDouble
@@ -476,6 +519,18 @@ namespace Cryptool.Plugins.Converter
                 {
                     Output = BitConverter.GetBytes((Double)input);
                     return true;
+                }
+                if (this.settings.Converter == OutputTypes.StringType && !string.IsNullOrEmpty(this.settings.Format))
+                {
+                    try
+                    {
+                        Output = ((double)input).ToString(this.settings.Format);
+                        return true;
+                    }
+                    catch (FormatException ex)
+                    {
+                        ShowFormatErrorMessage(ex);
+                    }
                 }
             }
             #endregion
@@ -743,6 +798,11 @@ namespace Cryptool.Plugins.Converter
             }
 
             #endregion
+        }
+
+        private void ShowFormatErrorMessage(FormatException ex)
+        {
+            GuiLogMessage(string.Format("Format error: {0}.", ex.Message), NotificationLevel.Error);
         }
 
         public void Execute()
