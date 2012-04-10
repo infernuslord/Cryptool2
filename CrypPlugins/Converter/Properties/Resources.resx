@@ -255,4 +255,10 @@
   <data name="TypesList8" xml:space="preserve">
     <value>Cryptoolstream</value>
   </data>
+  <data name="FormatCaption" xml:space="preserve">
+    <value>Numeric format</value>
+  </data>
+  <data name="FormatTooltip" xml:space="preserve">
+    <value>Provide a format string for specifying the conversion of a numeric type in the common .NET format. Leave blank if you don't know what that means.</value>
+  </data>
 </root>

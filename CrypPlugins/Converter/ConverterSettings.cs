@@ -37,6 +37,7 @@ namespace Cryptool.Plugins.Converter
         private OutputTypes converter = OutputTypes.StringType;
 
         private bool numeric = false;
+        private string format;
         private bool formatAmer = false;
         private bool reverseOrder = false;
         private bool BigEndian = false;
@@ -88,6 +89,20 @@ namespace Cryptool.Plugins.Converter
                 {
                     this.numeric = value;
                     OnPropertyChanged("Numeric");
+                }
+            }
+        }
+
+        [TaskPane("FormatCaption", "FormatTooltip", null, 3, true, ControlType.TextBox)]
+        public string Format
+        {
+            get { return this.format; }
+            set
+            {
+                if (value != this.format)
+                {
+                    this.format = value;
+                    OnPropertyChanged("Format");
                 }
             }
         }
@@ -207,6 +222,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.StringType:
                     {
                         settingChanged("Numeric", Visibility.Visible);
+                        settingChanged("Format", Visibility.Visible);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -218,6 +234,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.IntType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -229,6 +246,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ShortType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -240,6 +258,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -251,6 +270,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.DoubleType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -262,6 +282,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.BigIntegerType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -284,6 +305,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteArrayType:
                     {
                         settingChanged("Numeric", Visibility.Visible);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Visible);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
@@ -295,6 +317,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.CryptoolStreamType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("InputEncoding", Visibility.Visible);
                         settingChanged("OutputEncoding", Visibility.Visible);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
