@@ -8,7 +8,7 @@
    image	CDATA #IMPLIED
 >
 
-<!ELEMENT sampleViewer (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|outputBox|presentation)*) >
+<!ELEMENT sampleViewer (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|outputBox|progressBar|presentation)*) >
 <!ATTLIST sampleViewer 
    image	CDATA 	#IMPLIED
    file		CDATA       #REQUIRED
@@ -102,6 +102,14 @@
    property		CDATA       #REQUIRED
    format		CDATA       #REQUIRED
    defaultkey		CDATA       #IMPLIED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+>
+
+<!ELEMENT progressBar (description+) >
+<!ATTLIST progressBar
+   plugin		CDATA       #REQUIRED   
    alignment	CDATA       #IMPLIED
    width		CDATA       #IMPLIED
    group		CDATA       #IMPLIED
