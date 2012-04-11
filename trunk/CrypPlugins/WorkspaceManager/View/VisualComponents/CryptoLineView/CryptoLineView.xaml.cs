@@ -132,10 +132,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public CryptoLineView(ConnectionModel model, ConnectorVisual source, ConnectorVisual target)
         {
             // TODO: Complete member initialization
+            //Add connection to statistics:
             ComponentConnectionStatistics.IncrementConnectionUsage(source.Model.PluginModel.PluginType,
                                                                    source.Model.GetName(),
                                                                    target.Model.PluginModel.PluginType,
                                                                    target.Model.GetName());
+            ComponentConnectionStatistics.IncrementConnectionUsage(target.Model.PluginModel.PluginType,
+                                                                   target.Model.GetName(),
+                                                                   source.Model.PluginModel.PluginType,
+                                                                   source.Model.GetName());
+
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
