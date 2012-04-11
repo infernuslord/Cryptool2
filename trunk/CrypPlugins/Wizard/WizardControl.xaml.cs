@@ -63,6 +63,7 @@ namespace Wizard
         private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
         private HistoryTranslateTransformConverter historyTranslateTransformConverter = new HistoryTranslateTransformConverter();
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
+        private List<ProgressBar> currentProgressBars = new List<ProgressBar>();
         private List<TextBox> currentInputBoxes = new List<TextBox>();
         private List<ContentControl> currentPresentations = new List<ContentControl>();
         private WorkspaceManager.WorkspaceManagerClass currentManager = null;
@@ -230,6 +231,7 @@ namespace Wizard
             HideErrorLabel();
 
             currentOutputBoxes.Clear();
+            currentProgressBars.Clear();
             currentInputBoxes.Clear();
             currentPresentations.Clear();
             SaveContent();
@@ -276,7 +278,7 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Visible;
 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "presentation"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "presentation"
                              select el;
 
                 inputStack.Children.Clear();
@@ -554,7 +556,7 @@ namespace Wizard
             Control element = null;
 
             string key = null;
-            if (input.Name != "presentation")
+            if (input.Name != "presentation" && input.Name != "progressBar")
                 key = GetElementPluginPropertyKey(input);
 
             var pluginPropertyValue = GetPropertyValue(key, input.Parent);
@@ -708,6 +710,18 @@ namespace Wizard
 
                     currentOutputBoxes.Add(outputBox);
                     element = outputBox;
+                    break;
+
+                case "progressBar":
+                    if (isInput)
+                        break;
+
+                    var progressBar = new ProgressBar();
+                    progressBar.Tag = input;
+                    progressBar.Style = inputFieldStyle;
+                    progressBar.Height = 30;
+                    currentProgressBars.Add(progressBar);
+                    element = progressBar;
                     break;
 
                 case "keyTextBox":
@@ -1110,6 +1124,24 @@ namespace Wizard
                                                                                                          });
                     }
                 }
+            }
+
+            //Register events for progress bars:
+            foreach (var progressBar in currentProgressBars)
+            {
+                XElement ele = (XElement) progressBar.Tag;
+                var pluginName = ele.Attribute("plugin").Value;
+                var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
+                ProgressBar bar = progressBar;
+                plugin.OnPluginProgressChanged += delegate(IPlugin sender, PluginProgressEventArgs args)
+                                                      {
+                                                          Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                          {
+                                                              bar.Maximum = args.Max;
+                                                              bar.Value = args.Value;
+                                                          }, null);
+                                                      };
+
             }
 
             //fill presentations
