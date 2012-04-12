@@ -843,13 +843,14 @@ namespace Cryptool.Plugins.QuadraticSieve
             quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
-
+                int count = 0;
                 foreach (BigInteger pf in primeFactors)
                 {
+                    count++;
                     var spf = pf.ToString();
                     var bitcount = Math.Ceiling(BigInteger.Log(pf, 2));
                     quadraticSieveQuickWatchPresentation.factorList.Items.Add(
-                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + ": " + spf + " (" + spf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + " " + count + " : " + spf + " (" + spf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
                 }
                 foreach (BigInteger cf in compositeFactors)
                 {
