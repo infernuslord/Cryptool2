@@ -1975,16 +1975,6 @@ namespace Cryptool.CrypWin
                 //ActiveEditor.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 ActiveEditor.OnSelectedPluginChanged += SelectedPluginChanged;
                 ActiveEditor.OnOpenProjectFile += OpenProjectFileEvent;
-
-                if (ActiveEditor.GetEditorInfoAttribute().CanEdit)
-                {
-                    addimg.IsEnabled = addtxt.IsEnabled = true;
-                }
-                else
-                {
-                    addimg.IsEnabled = addtxt.IsEnabled = false;
-                }
-
                 ShowEditorSpecificPanels(ActiveEditor);
             }
 

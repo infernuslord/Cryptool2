@@ -283,6 +283,8 @@
         <CommandBinding Command="cw:CrypWinCommands.Copy" Executed="Copy_Executed" CanExecute="Copy_CanExecute" />
         <CommandBinding Command="cw:CrypWinCommands.Paste" Executed="Paste_Executed" CanExecute="Paste_CanExecute" />
         <CommandBinding Command="cw:CrypWinCommands.Remove" Executed="Remove_Executed" CanExecute="Remove_CanExecute" />
+        <CommandBinding Command="cw:CrypWinCommands.AddImage" Executed="addimg_Click" CanExecute="AddImage_CanExecute" />
+        <CommandBinding Command="cw:CrypWinCommands.AddText" Executed="addtxt_Click" CanExecute="AddText_CanExecute" />
 
         <CommandBinding Command="cw:CrypWinCommands.PlayDemo" Executed="PlayDemo_Executed" CanExecute="PlayDemo_CanExecute" />
         <CommandBinding Command="cw:CrypWinCommands.StopDemo" Executed="StopDemo_Executed" CanExecute="StopDemo_CanExecute" />
@@ -646,21 +648,21 @@
                         </dc:RibbonBar>
                         <dc:RibbonBar Header="{Loc Add}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
 
-                            <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" IsEnabled="False" ImagePosition="Top" Header="{Loc Image}" Click="addimg_Click">
+                            <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddImage" ImagePosition="Top">
                                 <dc:ButtonDropDown.Image>
                                     <Image Source="images/addimg-big.png" Height="32" Width="32"/>
                                 </dc:ButtonDropDown.Image>
                                 <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/addtxt-big.png" Height="16" Width="16"/>
+                                    <Image Source="images/addimg-big.png" Height="16" Width="16"/>
                                 </dc:ButtonDropDown.ImageSmall>
                             </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" IsEnabled="False" ImagePosition="Top" Header="{Loc Text}" Click="addtxt_Click">
+                            <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddText" ImagePosition="Top">
                                 <dc:ButtonDropDown.Image>
-                                    <Image Source="images/SchemeBlue.png" Height="32" Width="32"/>
+                                    <Image Source="images/addtxt-big.png" Height="32" Width="32"/>
                                 </dc:ButtonDropDown.Image>
                                 <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/SchemeBlue.png" Height="16" Width="16"/>
+                                    <Image Source="images/addtxt-big.png" Height="16" Width="16"/>
                                 </dc:ButtonDropDown.ImageSmall>
                             </dc:ButtonDropDown>
                         </dc:RibbonBar>
