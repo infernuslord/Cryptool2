@@ -192,11 +192,21 @@
             <TextBlock FontWeight="Bold" FontSize="15" Foreground="#555" Text="{Loc DataTooltip}"
                        HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
         </Border>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
-            <TextBlock Text="{Binding Path=ActiveConnector.Data}" TextWrapping="Wrap" 
-                       Margin="5"></TextBlock>
-        </ScrollViewer>
-
+        <TextBox HorizontalScrollBarVisibility="Disabled" 
+                    VerticalScrollBarVisibility="Auto"
+                    Grid.Row="1" 
+                    BorderThickness="0" 
+                    Text="{Binding Path=ActiveConnector.Data, Mode=OneWay}"
+                    IsReadOnly="True"
+                    TextWrapping="Wrap" 
+                    Margin="5">
+            <TextBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Loc Copy}" Command="Copy"/>
+                    <MenuItem Header="{Loc SelectAll}" Command="SelectAll"/>
+                </ContextMenu>
+            </TextBox.ContextMenu>
+        </TextBox>
         <StackPanel Orientation="Vertical" Grid.Row="2" Margin="3">
             <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=ActiveConnector.Caption}" TextWrapping="Wrap"></TextBlock>
             <TextBlock FontSize="10" Foreground="{Binding Path=ActiveConnector.Color}" Text="{Binding Path=ActiveConnector.TypeName}" TextWrapping="Wrap"></TextBlock>

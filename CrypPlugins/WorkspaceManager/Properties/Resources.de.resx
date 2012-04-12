@@ -220,7 +220,7 @@
     <value>Keine Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Workspace Manager</value>
+    <value>Arbeitsbereich</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Graphischer Plugin-Editor für die CrypTool-Arbeitsfläche</value>
@@ -408,34 +408,37 @@
   <data name="EditingDisabled" xml:space="preserve">
     <value>Einige Bearbeitungsfunktionen sind während der Ausführung deaktiviert.</value>
   </data>
-	<data name="Toggle_Plugin_Parameters" xml:space="preserve">
+  <data name="Toggle_Plugin_Parameters" xml:space="preserve">
     <value>Öffne/schließe Fenster mit Komponentenparametern</value>
   </data>
-  <data name="Save_File">
-    <value xml:space="preserve">Speichere Datei</value>
+  <data name="Save_File" xml:space="preserve">
+    <value>Speichere Datei</value>
   </data>
-  <data name="Open_File">
-    <value xml:space="preserve">Öffne Datei</value>
+  <data name="Open_File" xml:space="preserve">
+    <value>Öffne Datei</value>
   </data>
-  <data name="Show_ComponentConnection_Proposition">
-    <value xml:space="preserve">Zeige Komponenten-Verbindungsvorschläge</value>
+  <data name="Show_ComponentConnection_Proposition" xml:space="preserve">
+    <value>Zeige Komponenten-Verbindungsvorschläge</value>
   </data>
-  <data name="Show_ComponentConnection_Proposition_Tooltip">
-    <value xml:space="preserve">Zeigt die meist verwendeten Komponenten wenn eine Verbindungslinie gehalten wird.</value>
+  <data name="Show_ComponentConnection_Proposition_Tooltip" xml:space="preserve">
+    <value>Zeigt die meist verwendeten Komponenten wenn eine Verbindungslinie gehalten wird.</value>
   </data>
-  <data name="ComponentAppearanceBehaviourGroupHeader">
-    <value xml:space="preserve">Standardmäßige Darstellung von Komponenten</value>
+  <data name="ComponentAppearanceBehaviourGroupHeader" xml:space="preserve">
+    <value>Standardmäßige Darstellung von Komponenten</value>
   </data>
-  <data name="ComponentAppearanceBehaviourGroupTooltip">
-    <value xml:space="preserve">Auswählen wie eine neuplatzierte Komponentenvisualisierung erscheinen soll.</value>
+  <data name="ComponentAppearanceBehaviourGroupTooltip" xml:space="preserve">
+    <value>Auswählen wie eine neuplatzierte Komponentenvisualisierung erscheinen soll.</value>
   </data>
-  <data name="DefaultComponentAppearance">
-    <value xml:space="preserve">Erscheinung von der Komponente vorgegeben</value>
+  <data name="DefaultComponentAppearance" xml:space="preserve">
+    <value>Erscheinung von der Komponente vorgegeben</value>
   </data>
-  <data name="AlwaysOpenedComponentAppearance">
-    <value xml:space="preserve">Immer geöffnet</value>
+  <data name="AlwaysOpenedComponentAppearance" xml:space="preserve">
+    <value>Immer geöffnet</value>
   </data>
-  <data name="AlwaysClosedComponentAppearance">
-    <value xml:space="preserve">Immer geschlossen</value>
+  <data name="AlwaysClosedComponentAppearance" xml:space="preserve">
+    <value>Immer geschlossen</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Alles markieren</value>
   </data>
 </root>
