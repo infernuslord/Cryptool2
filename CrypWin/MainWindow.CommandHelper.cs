@@ -401,6 +401,16 @@ namespace Cryptool.CrypWin
             if (ActiveEditor != null) ActiveEditor.Remove();
         }
 
+        private void AddImage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ActiveEditor != null && ActiveEditor.GetEditorInfoAttribute().CanEdit;
+        }
+
+        private void AddText_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = ActiveEditor != null && ActiveEditor.GetEditorInfoAttribute().CanEdit;
+        }
+
         private void Maximize_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;

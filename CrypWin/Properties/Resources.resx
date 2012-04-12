@@ -643,7 +643,7 @@
   <data name="Fit_to_Screen" xml:space="preserve">
     <value>Fit to Screen</value>
   </data>
-  <data name="Image" xml:space="preserve">
+  <data name="AddImage" xml:space="preserve">
     <value>Image</value>
   </data>
   <data name="Log" xml:space="preserve">
@@ -652,7 +652,7 @@
   <data name="Main_controls_of_the_current_plugin_editor_" xml:space="preserve">
     <value>Main controls of the current plugin editor</value>
   </data>
-  <data name="Text" xml:space="preserve">
+  <data name="AddText" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="Zoom" xml:space="preserve">

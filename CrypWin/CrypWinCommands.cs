@@ -34,6 +34,8 @@ namespace Cryptool.CrypWin
     public static ButtonDropDownCommand Copy = new ButtonDropDownCommand(Properties.Resources.Copy, "Copy", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Paste = new ButtonDropDownCommand(Properties.Resources.Paste, "Paste", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Remove = new ButtonDropDownCommand(Properties.Resources.Remove, "Remove", typeof(CrypWin.MainWindow));
+    public static ButtonDropDownCommand AddImage = new ButtonDropDownCommand(Properties.Resources.AddImage, "AddImage", typeof(CrypWin.MainWindow));
+    public static ButtonDropDownCommand AddText = new ButtonDropDownCommand(Properties.Resources.AddText, "AddText", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand PlayDemo = new ButtonDropDownCommand(Properties.Resources.PlayDemo, "PlayDemo", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand StopDemo = new ButtonDropDownCommand(Properties.Resources.StopDemo, "StopDemo", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Maximize = new ButtonDropDownCommand(Properties.Resources.Maximize, "Maximize", typeof(CrypWin.MainWindow));

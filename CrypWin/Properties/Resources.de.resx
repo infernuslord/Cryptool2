@@ -610,7 +610,7 @@
   <data name="Fit_to_Screen" xml:space="preserve">
     <value>an Bildschirmgröße anpassen</value>
   </data>
-  <data name="Image" xml:space="preserve">
+  <data name="AddImage" xml:space="preserve">
     <value>Bild</value>
   </data>
   <data name="Log" xml:space="preserve">
@@ -619,7 +619,7 @@
   <data name="Main_controls_of_the_current_plugin_editor_" xml:space="preserve">
     <value>Hauptsteuerung des aktuellen Plugin-Editors</value>
   </data>
-  <data name="Text" xml:space="preserve">
+  <data name="AddText" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="Zoom" xml:space="preserve">

@@ -196,6 +196,24 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        internal static string AddImage {
+            get {
+                return ResourceManager.GetString("AddImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        internal static string AddText {
+            get {
+                return ResourceManager.GetString("AddText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         internal static string Are_you_sure_ {
@@ -962,15 +980,6 @@ namespace Cryptool.CrypWin.Properties {
         internal static string How_long_should_a_sample_be_kept_running_before_opening_next_one_ {
             get {
                 return ResourceManager.GetString("How_long_should_a_sample_be_kept_running_before_opening_next_one_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image.
-        /// </summary>
-        internal static string Image {
-            get {
-                return ResourceManager.GetString("Image", resourceCulture);
             }
         }
         
@@ -1887,15 +1896,6 @@ namespace Cryptool.CrypWin.Properties {
         internal static string TemplateUseDifferentDirectory {
             get {
                 return ResourceManager.GetString("TemplateUseDifferentDirectory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Text.
-        /// </summary>
-        internal static string Text {
-            get {
-                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         
