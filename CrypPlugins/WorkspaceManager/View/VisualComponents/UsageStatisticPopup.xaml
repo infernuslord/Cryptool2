@@ -6,7 +6,8 @@
              mc:Ignorable="d" 
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
              AllowsTransparency="True" Panel.ZIndex="9000" Placement="MousePoint"
-             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade"
+             Width="250" MaxHeight="350">
     <Popup.Resources>
 
         <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
@@ -41,12 +42,9 @@
                     <ControlTemplate>
                         <Grid Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="test" FontSize="14" FontWeight="Bold" 
-                                       Foreground="#444" Margin="5" Grid.Row="0"></TextBlock>
-                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="0">
                                 <ItemsPresenter/>
                             </ScrollViewer>
                         </Grid>
@@ -62,13 +60,13 @@
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border BorderThickness="2" BorderBrush="#444" CornerRadius="5" Grid.Column="0" Grid.Row="0">
+                                <Border BorderThickness="1.5" BorderBrush="#33444444" CornerRadius="5" Grid.Column="0" Grid.Row="0">
                                     <Image Source="{Binding Path=Icon.Source}" Margin="2.5"></Image>
                                 </Border>
                                 <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                                    <TextBlock Text="{Binding Path=ConnectorName}" TextTrimming="WordEllipsis" Foreground="#555" 
-                                               FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"></TextBlock>
                                     <TextBlock Text="{Binding Path=ComponentType.Name}" TextTrimming="WordEllipsis" Foreground="#555" 
+                                               FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"></TextBlock>
+                                    <TextBlock Text="{Binding Path=ConnectorName}" TextTrimming="WordEllipsis" Foreground="#555" 
                                                HorizontalAlignment="Center"></TextBlock>
                                 </StackPanel>
                             </Grid>
@@ -86,30 +84,24 @@
 
     </Popup.Resources>
 
-    <Border BorderBrush="White" BorderThickness="1.5" Width="200" 
+    <Border BorderBrush="White" BorderThickness="1.5" Opacity="0.8"
                 CornerRadius="3" Margin="2" Background="#edf5ff">
         <Border.Effect>
             <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
         </Border.Effect>
-        <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
-            <Grid HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="32"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Center">
+        <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2" HorizontalAlignment="Stretch">
+            <!--<Grid HorizontalAlignment="Center">
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock TextAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#555" Text="Most Used" TextTrimming="CharacterEllipsis"></TextBlock>
                         <TextBlock TextAlignment="Center" FontSize="11" Text="Test" TextTrimming="CharacterEllipsis"></TextBlock>
                     </StackPanel>
-                </Grid>
-                <ListView x:Name="TopUsages" Grid.Row="1" ItemsSource="{Binding Path=Suggestions}" 
+                </Grid>-->
+            <ListView x:Name="TopUsages" Grid.Row="0" ItemsSource="{Binding Path=Suggestions}" 
                           Style="{StaticResource ResourceKey=ComponentListStyle}" 
                           SelectionMode="Single" SelectionChanged="SelectedItem">
 
-                </ListView>
-            </Grid>
+            </ListView>
         </Grid>
     </Border>
 
-    </Popup>
+</Popup>

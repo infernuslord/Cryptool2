@@ -20,6 +20,7 @@ using WorkspaceManager.Model;
 using WorkspaceManager.View.Base;
 using WorkspaceManager.View.Visuals;
 using WorkspaceManagerModel.Model.Operations;
+using System.Windows.Media.Animation;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -29,6 +30,7 @@ namespace WorkspaceManager.View.VisualComponents
     public partial class UsageStatisticPopup : Popup
     {
         private readonly WorkspaceModel _model;
+        private Adorner _currentAdorner;
 
         public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
             typeof(ConnectorVisual),
@@ -43,13 +45,15 @@ namespace WorkspaceManager.View.VisualComponents
                 SetValue(SelectedConnectorProperty, value);
             }
         }
+        DispatcherTimer timer = new DispatcherTimer();
 
         public static readonly DependencyProperty SuggestionsProperty = DependencyProperty.Register("Suggestions",
             typeof(ObservableCollection<SuggestionContainer>),
             typeof(UsageStatisticPopup),
-            new FrameworkPropertyMetadata(null,null));
+            new FrameworkPropertyMetadata(null, null));
 
         private EditorVisual _editor;
+        private Point position;
 
         public ObservableCollection<SuggestionContainer> Suggestions
         {
@@ -64,76 +68,82 @@ namespace WorkspaceManager.View.VisualComponents
         {
             InitializeComponent();
             _model = model;
-            _editor = (EditorVisual) model.MyEditor.Presentation;
+            _editor = (EditorVisual)model.MyEditor.Presentation;
             this.Loaded += new RoutedEventHandler(ComponentConnectionStatisticsPopUpLoaded);
             this.MouseLeave += new MouseEventHandler(ComponentConnectionStatisticsPopUpMouseLeave);
             this.Opened += new EventHandler(ComponentConnectionStatisticsPopUpOpened);
             this.Closed += new EventHandler(ComponentConnectionStatisticsPopUpClosed);
             _editor.SelectedConnectorChanged += new EventHandler(_editorSelectedConnectorChanged);
-            
-            Suggestions = new ObservableCollection<SuggestionContainer>();
-            Suggestions.Add(new SuggestionContainer());
 
+            Suggestions = new ObservableCollection<SuggestionContainer>();
         }
 
         void ComponentConnectionStatisticsPopUpClosed(object sender, EventArgs e)
         {
-            
+
         }
 
         void _editorSelectedConnectorChanged(object sender, EventArgs e)
         {
-            DispatcherTimer timer = new DispatcherTimer();
+            var win = AdornerLayer.GetAdornerLayer((FrameworkElement)Window.GetWindow(this).Content);
+
             if (this._editor.SelectedConnector == null)
             {
                 timer.Stop();
+                if(_currentAdorner != null)
+                    win.Remove(_currentAdorner);
                 return;
             }
             SelectedConnector = this._editor.SelectedConnector;
-            timer.Interval = new TimeSpan(0,0,0,3);
+
+            var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
+            if (list == null)
+                return;
+
+            _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)Window.GetWindow(this).Content, new CricularLineProgress());
+            win.Add(_currentAdorner);
+            Suggestions = new ObservableCollection<SuggestionContainer>();
+            foreach (var componentConnector in list)
+            {
+                Type t = componentConnector.Component;
+                string name = componentConnector.ConnectorName;
+                Suggestions.Add(new SuggestionContainer(name, t));
+            }
+
+            timer.Interval = TimeSpan.FromSeconds(3);
             timer.Tick += delegate(object o, EventArgs args)
                               {
                                   timer.Stop();
-                                  Suggestions = new ObservableCollection<SuggestionContainer>();
-                                  var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
-                                  foreach (var componentConnector in list)
-                                  {
-                                      Type t = componentConnector.Component;
-                                      string name = componentConnector.ConnectorName;
-                                      Suggestions.Add(new SuggestionContainer(name,t));
-                                  }
-                                  this.IsOpen = true;
+                                  win.Remove(_currentAdorner);
+                                  IsOpen = true;
                               };
             timer.Start();
         }
 
         void ComponentConnectionStatisticsPopUpOpened(object sender, EventArgs e)
         {
-           
+            position = Util.MouseUtilities.CorrectGetPosition(_editor.panel);
         }
 
         void ComponentConnectionStatisticsPopUpMouseLeave(object sender, MouseEventArgs e)
         {
             IsOpen = false;
+
         }
 
         void SelectedItem(object sender, SelectionChangedEventArgs e)
         {
-            
+            //IsOpen = false;
         }
 
         void ComponentConnectionStatisticsPopUpLoaded(object sender, RoutedEventArgs e)
         {
-            var win = Window.GetWindow(this);
-            if (win != null)
-            {
-                win.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(WinPreviewMouseLeftButtonUp);
-            }
+            _editor.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(_editorMouseLeftButtonUp);
         }
 
-        void WinPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void _editorMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(!IsMouseOver)
+            if (!IsMouseOver)
             {
                 IsOpen = false;
             }
@@ -143,7 +153,7 @@ namespace WorkspaceManager.View.VisualComponents
                 try
                 {
                     var x = (SuggestionContainer)TopUsages.SelectedItem;
-                    PluginModel pluginModel = (PluginModel)_model.ModifyModel(new NewPluginModelOperation(Util.MouseUtilities.CorrectGetPosition(_editor.panel), 0, 0, x.ComponentType));
+                    PluginModel pluginModel = (PluginModel)_model.ModifyModel(new NewPluginModelOperation(position, 0, 0, x.ComponentType));
                     _editor.AddBinComponentVisual(pluginModel, 0);
                     ConnectorVisual connector = null;
                     foreach (var con in pluginModel.GetInputConnectors())
@@ -167,6 +177,9 @@ namespace WorkspaceManager.View.VisualComponents
                         input,
                         output.ConnectorType));
                     _editor.AddConnection(SelectedConnector, connector, connectionModel);
+
+                    position.X += 50;
+                    position.Y += 50;
                 }
                 catch (Exception)
                 {
@@ -174,7 +187,7 @@ namespace WorkspaceManager.View.VisualComponents
                 }
             }
         }
-        
+
     }
 
     public class SuggestionContainer
@@ -239,17 +252,22 @@ typeof(double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((dou
         }
 
         public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register("Radius",
-typeof(double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((double)40, null));
+typeof(Double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((Double)40, OnRadiusChanged));
 
-        public double Radius
+        public Double Radius
         {
-            get { return (double)GetValue(RadiusProperty); }
+            get { return (Double)GetValue(RadiusProperty); }
             set
             {
                 SetValue(RadiusProperty, value);
             }
         }
 
+        private static void OnRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CricularLineProgress c = (CricularLineProgress)d;
+            c.InvalidateVisual();
+        }
 
         protected override Geometry DefiningGeometry
         {
@@ -270,22 +288,9 @@ typeof(double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((dou
 
         public CricularLineProgress()
         {
-            Stroke = Brushes.Black;
-            StrokeThickness = 2;
-            this.Loaded += new RoutedEventHandler(CricularLineProgressLoaded);
-        }
-
-        void CricularLineProgressLoaded(object sender, RoutedEventArgs e)
-        {
-            var window = Window.GetWindow(this);
-            if (window != null)
-                window.KeyDown += new KeyEventHandler(CricularLineProgressKeyDown);
-        }
-
-        void CricularLineProgressKeyDown(object sender, KeyEventArgs e)
-        {
-            Radius += 1;
-            this.InvalidateVisual();
+            Stroke = Brushes.RoyalBlue;
+            Opacity = 0.7;
+            StrokeThickness = 3;
         }
 
         static double kappa = 4 * ((Math.Sqrt(2) - 1) / 3);
@@ -360,6 +365,64 @@ typeof(double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((dou
             var realSP = new Point(StartPoint.X, StartPoint.Y - Radius);
             context.BeginFigure(realSP, true, false);
             ellipse(StartPoint.X, StartPoint.Y, Radius, context);
+        }
+    }
+
+    public class CricularLineProgressAdorner : Adorner
+    {
+        private readonly UIElement _adornedElement;
+        private readonly CricularLineProgress _clp;
+        private Window _win;
+
+        public CricularLineProgressAdorner(UIElement adornedElement, CricularLineProgress clp)
+            : base(adornedElement)
+        {
+            _adornedElement = adornedElement;
+            _clp = clp;
+            _win = Window.GetWindow(adornedElement);
+            _win.PreviewMouseMove += new MouseEventHandler(_win_PreviewMouseMove);
+            var p = Mouse.GetPosition(_win);
+            _clp.RenderTransform = new TranslateTransform(p.X, p.Y);
+
+            DoubleAnimation anim = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(3)));
+            Storyboard sb = new Storyboard();
+            Storyboard.SetTarget(anim, _clp);
+            Storyboard.SetTargetProperty(anim, new PropertyPath(CricularLineProgress.RadiusProperty));  
+            sb.Children.Add(anim);
+            sb.Begin();
+        }
+
+        void _win_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            var trans = (TranslateTransform)_clp.RenderTransform;
+            trans.X = e.GetPosition(_win).X;
+            trans.Y = e.GetPosition(_win).Y;
+        }
+
+        protected override int VisualChildrenCount
+        {
+            get { return 1; }
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            this._clp.Measure(constraint);
+            if (double.IsInfinity(constraint.Height))
+            {
+                constraint.Height = this._adornedElement.DesiredSize.Height;
+            }
+            return constraint;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            this._clp.Arrange(new Rect(finalSize));
+            return finalSize;
+        }
+
+        protected override Visual GetVisualChild(int index)
+        {
+            return this._clp;
         }
     }
 }
