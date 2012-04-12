@@ -124,16 +124,16 @@
     <value>Autor</value>
   </data>
   <data name="email_subject" xml:space="preserve">
-    <value>CrypTool 2 -&gt; Plugin:</value>
+    <value>CrypTool 2 -&gt; Komponente:</value>
   </data>
   <data name="PluginManager_TypeLoadException" xml:space="preserve">
-    <value>Plugin kann nicht geladen werden: </value>
+    <value>Komponente kann nicht geladen werden: </value>
   </data>
   <data name="plugin_has_no_icon" xml:space="preserve">
-    <value>Can't get icon from plugin: {0}. Plugin can't be used.</value>
+    <value>Kein Icon in Komponente: {0}. Komponente kann nicht benutzt werden.</value>
   </data>
   <data name="plugin_no_algo_settings" xml:space="preserve">
-    <value>Dieses Plugin hat keine Parameter.</value>
+    <value>Diese Komponente hat keine Parameter.</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Titel</value>
@@ -142,10 +142,10 @@
     <value>Schreibe E-Mail an den Autor.</value>
   </data>
   <data name="go_to" xml:space="preserve">
-    <value>Go to: </value>
+    <value>Gehe zu: </value>
   </data>
   <data name="Affiliation" xml:space="preserve">
-    <value>Affiliation</value>
+    <value>Zugehörigkeit</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="row_template" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -158,7 +158,7 @@
     <value>CrypTool-LogMessages.html</value>
   </data>
   <data name="HTML_fileFilter" xml:space="preserve">
-    <value>HTML Files (*.html)|*.html</value>
+    <value>HTML-Dateien (*.html)|*.html</value>
   </data>
   <data name="adjusting_selection_both" xml:space="preserve">
     <value>Adjusting algorithm selection to RibbonTab and NavigationPane.</value>
@@ -173,60 +173,60 @@
     <value>Löschen</value>
   </data>
   <data name="missing_plugin_info_attribute" xml:space="preserve">
-    <value>Missing PluginInfoAttribute on Plugin: {0}</value>
+    <value>Vermisse PluginInfoAttribute an Komponente: {0}</value>
   </data>
   <data name="main_window_title_prefix" xml:space="preserve">
     <value>CrypTool {0} - </value>
   </data>
   <data name="tutorial_file_not_available" xml:space="preserve">
-    <value>The tutorial file is not available.</value>
+    <value>Die Tutorialdatei ist nicht verfügbar.</value>
   </data>
   <data name="crypTool" xml:space="preserve">
     <value>CrypTool</value>
   </data>
   <data name="pluginManager" xml:space="preserve">
-    <value>Plugin-Manager</value>
+    <value>Komponentenverwalter</value>
   </data>
   <data name="found_new_plugins" xml:space="preserve">
-    <value>Found new plugins: {0}</value>
+    <value>Neue Komponenten gefunden: {0}</value>
   </data>
   <data name="no_new_plugins_found" xml:space="preserve">
-    <value>Can't find new plugins.</value>
+    <value>Kann neue Komponente nicht finden.</value>
   </data>
   <data name="plugin_signature" xml:space="preserve">
-    <value>Plugin signature: unknown signer or not signed</value>
+    <value>Komponentensignatur: unbekannter Signierer oder nicht signiert</value>
   </data>
   <data name="plugin_version" xml:space="preserve">
-    <value>Plugin-Version: </value>
+    <value>Komponentenversion: </value>
   </data>
   <data name="show_plugin_description" xml:space="preserve">
     <value>Zeige Beschreibung</value>
   </data>
   <data name="classic_ciphers" xml:space="preserve">
-    <value>Classic Ciphers</value>
+    <value>Klassische Chiffre</value>
   </data>
   <data name="show_quick_access_toolbar_below_the_ribbon" xml:space="preserve">
-    <value>_Show Quick Access Toolbar below the Ribbon</value>
+    <value>Zeige _Schnellzugriff-Werkeugleiste unter dem Ribbon</value>
   </data>
   <data name="started_and_ready" xml:space="preserve">
-    <value> started and ready!</value>
+    <value> gestartet und bereit!</value>
   </data>
   <data name="copy_to_clipboard" xml:space="preserve">
     <value>Kopiere in Zwischenablage</value>
   </data>
   <data name="plugin_has_no_description" xml:space="preserve">
-    <value>Dieses Plugin hat keine Beschreibung.</value>
+    <value>Diese Komponente hat keine Beschreibung.</value>
   </data>
   <data name="no_plugin_info_attribute" xml:space="preserve">
-    <value>Plugin "{0}" has no plugin info attribute and will not be added to GUI.</value>
+    <value>Komponente "{0}" hat kein Komponenten-Infoattribut und wird nicht zur GUI hinzugefügt.</value>
   </data>
   <data name="autostart_enabled" xml:space="preserve">
-    <value>Workspace has been started automatically due to the command line option.</value>
+    <value>Der Arbeitsbereich wurde automatisch gestartet aufgrund der Kommandozeilenoption.</value>
   </data>
   <data name="workspace_loading" xml:space="preserve">
-    <value>Using {0} as a workspace file and loading it into the editor.</value>
+    <value>Benutze {0} als Arbeitsbereichsdatei und lade es in den Editor.</value>
   </data>
   <data name="MainWindow_ShowHelpPage_Error_trying_to_open_documentation___0__" xml:space="preserve">
-    <value>Error trying to open documentation: {0}!</value>
+    <value>Fehler während des Versuchs die Dokumentation zu laden: {0}!</value>
   </data>
 </root>
