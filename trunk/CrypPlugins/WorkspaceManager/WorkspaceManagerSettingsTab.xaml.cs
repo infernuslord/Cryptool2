@@ -34,126 +34,107 @@ namespace WorkspaceManager
 
         private void InitializeColors()
         {
-            IntegerColor.Fill = new SolidColorBrush(ColorHelper.IntegerColor);
-            ByteColor.Fill = new SolidColorBrush(ColorHelper.ByteColor);
-            DoubleColor.Fill = new SolidColorBrush(ColorHelper.DoubleColor);
-            BoolColor.Fill = new SolidColorBrush(ColorHelper.BoolColor);
-            StreamColor.Fill = new SolidColorBrush(ColorHelper.StreamColor);
-            StringColor.Fill = new SolidColorBrush(ColorHelper.StringColor);
-            ObjectColor.Fill = new SolidColorBrush(ColorHelper.ObjectColor);
-            BigIntegerColor.Fill = new SolidColorBrush(ColorHelper.BigIntegerColor);
-            DefaultColor.Fill = new SolidColorBrush(ColorHelper.DefaultColor);
+            IntegerColor.SelectedColor = (ColorHelper.IntegerColor);
+            ByteColor.SelectedColor = (ColorHelper.ByteColor);
+            DoubleColor.SelectedColor = (ColorHelper.DoubleColor);
+            BoolColor.SelectedColor = (ColorHelper.BoolColor);
+            StreamColor.SelectedColor = (ColorHelper.StreamColor);
+            StringColor.SelectedColor = (ColorHelper.StringColor);
+            ObjectColor.SelectedColor = (ColorHelper.ObjectColor);
+            BigIntegerColor.SelectedColor = (ColorHelper.BigIntegerColor);
+            DefaultColor.SelectedColor = (ColorHelper.DefaultColor);
 
-            AsymmetricColor.Fill = new SolidColorBrush(ColorHelper.AsymmetricColor);
-            ClassicColor.Fill = new SolidColorBrush(ColorHelper.ClassicColor);
-            SymmetricColor.Fill = new SolidColorBrush(ColorHelper.SymmetricColor);
-            ToolsColor.Fill = new SolidColorBrush(ColorHelper.ToolsColor);
-            SteganographyColor.Fill = new SolidColorBrush(ColorHelper.SteganographyColor);
-            HashColor.Fill = new SolidColorBrush(ColorHelper.HashColor);
-            AnalysisGenericColor.Fill = new SolidColorBrush(ColorHelper.AnalysisGenericColor);
-            AnalysisSpecificColor.Fill = new SolidColorBrush(ColorHelper.AnalysisSpecificColor);
-            ProtocolColor.Fill = new SolidColorBrush(ColorHelper.ProtocolColor);
-        }
-        
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs eventArgs)
-        {
-            throw new NotImplementedException();
-            //if (sender is Rectangle
-            //{
-            //    eventArgs.Handled = true;
-            //    var rect = (Rectangle) sender;
-            //    var colorPickPopUp = new ColorPickPopUp(rect);
-            //    colorPickPopUp.Placement = PlacementMode.MousePoint;
-            //    colorPickPopUp.IsOpen = true;
-            //    colorPickPopUp.ColorPickerColorChanged+=new EventHandler<EventArgs>(colorPickPopUp_ColorPickerColorChanged);              
-            //}
-        }
-
-        private void colorPickPopUp_ColorPickerColorChanged(object sender, EventArgs args)
-        {
-            if(!(sender is Rectangle) || !(((Rectangle)sender).Fill is SolidColorBrush))
-            {
-                return;
-            }
-
-            if (sender == IntegerColor)
-            {
-                ColorHelper.IntegerColor = ((SolidColorBrush)IntegerColor.Fill).Color;
-            }
-            else if (sender == ByteColor)
-            {
-                ColorHelper.ByteColor = ((SolidColorBrush)ByteColor.Fill).Color;
-            }
-            else if (sender == DoubleColor)
-            {
-                ColorHelper.DoubleColor = ((SolidColorBrush)DoubleColor.Fill).Color;
-            }
-            else if (sender == BoolColor)
-            {
-                ColorHelper.BoolColor = ((SolidColorBrush)BoolColor.Fill).Color;
-            }
-            else if (sender == StreamColor)
-            {
-                ColorHelper.StreamColor = ((SolidColorBrush)StreamColor.Fill).Color;
-            }
-            else if (sender == StringColor)
-            {
-                ColorHelper.StringColor = ((SolidColorBrush)StringColor.Fill).Color;
-            }
-            else if (sender == ObjectColor)
-            {
-                ColorHelper.ObjectColor = ((SolidColorBrush)ObjectColor.Fill).Color;
-            }
-            else if (sender == BigIntegerColor)
-            {
-                ColorHelper.BigIntegerColor = ((SolidColorBrush)BigIntegerColor.Fill).Color;
-            }
-            else if (sender == DefaultColor)
-            {
-                ColorHelper.DefaultColor = ((SolidColorBrush)DefaultColor.Fill).Color;
-            }
-            else if (sender == AsymmetricColor)
-            {
-                ColorHelper.AsymmetricColor = ((SolidColorBrush)AsymmetricColor.Fill).Color;
-            }
-            else if (sender == ClassicColor)
-            {
-                ColorHelper.ClassicColor = ((SolidColorBrush)ClassicColor.Fill).Color;
-            }
-            else if (sender == SymmetricColor)
-            {
-                ColorHelper.SymmetricColor = ((SolidColorBrush)SymmetricColor.Fill).Color;
-            }
-            else if (sender == SteganographyColor)
-            {
-                ColorHelper.SteganographyColor = ((SolidColorBrush)SteganographyColor.Fill).Color;
-            }
-            else if (sender == ProtocolColor)
-            {
-                ColorHelper.ProtocolColor = ((SolidColorBrush)ProtocolColor.Fill).Color;
-            }
-            else if (sender == ToolsColor)
-            {
-                ColorHelper.ToolsColor = ((SolidColorBrush)ToolsColor.Fill).Color;
-            }
-            else if (sender == HashColor)
-            {
-                ColorHelper.HashColor = ((SolidColorBrush)HashColor.Fill).Color;
-            }
-            else if (sender == AnalysisGenericColor)
-            {
-                ColorHelper.AnalysisGenericColor = ((SolidColorBrush)AnalysisGenericColor.Fill).Color;
-            }
-            else if (sender == AnalysisSpecificColor)
-            {
-                ColorHelper.AnalysisSpecificColor = ((SolidColorBrush)AnalysisSpecificColor.Fill).Color;
-            }
+            AsymmetricColor.SelectedColor = (ColorHelper.AsymmetricColor);
+            ClassicColor.SelectedColor = (ColorHelper.ClassicColor);
+            SymmetricblockColor.SelectedColor = (ColorHelper.SymmetricColor);
+            ToolsColor.SelectedColor = (ColorHelper.ToolsColor);
+            SteganographyColor.SelectedColor = (ColorHelper.SteganographyColor);
+            HashColor.SelectedColor = (ColorHelper.HashColor);
+            AnalysisGenericColor.SelectedColor = (ColorHelper.AnalysisGenericColor);
+            AnalysisSpecificColor.SelectedColor = (ColorHelper.AnalysisSpecificColor);
+            ProtocolsColor.SelectedColor = (ColorHelper.ProtocolColor);
         }
 
         private void ResetColorButton_Click(object sender, RoutedEventArgs e)
         {
             ColorHelper.SetDefaultColors();
             this.InitializeColors();
+        }
+
+        private void CrPickerSelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+        {
+            if (sender == IntegerColor)
+            {
+                ColorHelper.IntegerColor = (IntegerColor.SelectedColor);
+            }
+            else if (sender == ByteColor)
+            {
+                ColorHelper.ByteColor = (ByteColor.SelectedColor);
+            }
+            else if (sender == DoubleColor)
+            {
+                ColorHelper.DoubleColor = (DoubleColor.SelectedColor);
+            }
+            else if (sender == BoolColor)
+            {
+                ColorHelper.BoolColor = (BoolColor.SelectedColor);
+            }
+            else if (sender == StreamColor)
+            {
+                ColorHelper.StreamColor = (StreamColor.SelectedColor);
+            }
+            else if (sender == StringColor)
+            {
+                ColorHelper.StringColor = (StringColor.SelectedColor);
+            }
+            else if (sender == ObjectColor)
+            {
+                ColorHelper.ObjectColor = (ObjectColor.SelectedColor);
+            }
+            else if (sender == BigIntegerColor)
+            {
+                ColorHelper.BigIntegerColor = (BigIntegerColor.SelectedColor);
+            }
+            else if (sender == DefaultColor)
+            {
+                ColorHelper.DefaultColor = (DefaultColor.SelectedColor);
+            }
+            else if (sender == AsymmetricColor)
+            {
+                ColorHelper.AsymmetricColor = (AsymmetricColor.SelectedColor);
+            }
+            else if (sender == ClassicColor)
+            {
+                ColorHelper.ClassicColor = (ClassicColor.SelectedColor);
+            }
+            else if (sender == SymmetricblockColor)
+            {
+                ColorHelper.SymmetricColor = (SymmetricblockColor.SelectedColor);
+            }
+            else if (sender == SteganographyColor)
+            {
+                ColorHelper.SteganographyColor = (SteganographyColor.SelectedColor);
+            }
+            else if (sender == ProtocolsColor)
+            {
+                ColorHelper.ProtocolColor = (ProtocolsColor.SelectedColor);
+            }
+            else if (sender == ToolsColor)
+            {
+                ColorHelper.ToolsColor = (ToolsColor.SelectedColor);
+            }
+            else if (sender == HashColor)
+            {
+                ColorHelper.HashColor = (HashColor.SelectedColor);
+            }
+            else if (sender == AnalysisGenericColor)
+            {
+                ColorHelper.AnalysisGenericColor = (AnalysisGenericColor.SelectedColor);
+            }
+            else if (sender == AnalysisSpecificColor)
+            {
+                ColorHelper.AnalysisSpecificColor = (AnalysisSpecificColor.SelectedColor);
+            }
         }
     }
 }

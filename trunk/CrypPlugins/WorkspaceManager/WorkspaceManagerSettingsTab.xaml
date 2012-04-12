@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:tools="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              xmlns:WorkspaceManager="clr-namespace:WorkspaceManager" mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="632" DataContext="{Binding}">
     <Grid>
@@ -66,80 +67,80 @@
 
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Datatypecolors_Label}" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
 
-                    <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="IntegerColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="80"  HorizontalAlignment="Left"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="IntegerColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Byte:" Grid.Row="8" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="ByteColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="ByteColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Double:" Grid.Row="9" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="DoubleColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="DoubleColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Bool:" Grid.Row="10" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="BoolColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="BoolColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Stream:" Grid.Row="11" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="StreamColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="StreamColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="String:" Grid.Row="12" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="StringColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="12" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="StringColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Object:" Grid.Row="13" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="ObjectColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="ObjectColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="BigInteger:" Grid.Row="14" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="BigIntegerColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="14" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="BigIntegerColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Default:" Grid.Row="15" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left">
-                        <Rectangle Name="DefaultColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="DefaultColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
 
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Functioncolors_Label}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left"/>
 
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Asymmetric_Label}" Grid.Row="7" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="AsymmetricColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="AsymmetricColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Classic_Label}" Grid.Row="8" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="8" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="ClassicColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="8" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="ClassicColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Symmetricblock_Label}" Grid.Row="9" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="9" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="SymmetricColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="9" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="SymmetricblockColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Tools_Label}" Grid.Row="10" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="10" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="ToolsColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="10" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="ToolsColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Hash_Label}" Grid.Row="11" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="11" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="HashColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="11" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="HashColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc AnalysisGeneric_Label}" Grid.Row="12" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="AnalysisGenericColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="12" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="AnalysisGenericColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc AnalysisSpecific_Label}" Grid.Row="13" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Left">
-                        <Rectangle Name="AnalysisSpecificColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="AnalysisSpecificColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Steganography_Label}" Grid.Row="14" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="4" HorizontalAlignment="Left">
-                      <Rectangle Name="SteganographyColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="14" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="SteganographyColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Protocols_Label}" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
-                      <Rectangle Name="ProtocolColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                    <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
+                        <tools:ColorPicker x:Name="ProtocolsColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
 
                     <Button Click="ResetColorButton_Click" Width="133" Height="25" Margin="2,2,198,2" Grid.Row="16" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc ResetColors_Label}" ToolTip="{Loc ResetColors_Tooltip}" Grid.ColumnSpan="2" />
