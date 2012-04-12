@@ -36,11 +36,11 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
-        <LinearGradientBrush x:Key="BackgroundIsFullscreen" StartPoint="0,0" EndPoint="0,1">
+        <LinearGradientBrush x:Key="BackgroundIsSelected" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="#fff5eb" Offset="0.0"/>
-                    <GradientStop Color="#fddfc2" Offset="1.0"/>
+                    <GradientStop Color="#D2FFCC" Offset="0.0"/>
+                    <GradientStop Color="#8FFF93" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -86,7 +86,7 @@
                     <Setter Property="BorderBrush" Value="#aa666666" TargetName="Border" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="true">
-                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundIsFullscreen}" TargetName="Border" />
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}" TargetName="Border" />
                     <Setter Property="BorderBrush" Value="#99666666" TargetName="Border" />
                 </Trigger>
             </ControlTemplate.Triggers>
@@ -131,9 +131,8 @@
                 <Setter.Value>
                     <ControlTemplate>
                         <Grid Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
-                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch">
+
                                 <ItemsPresenter/>
-                            </ScrollViewer>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -183,7 +182,7 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsSelected}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#cea57d"></Setter>
-                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsFullscreen}"></Setter>
+                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -223,7 +222,7 @@
             </local:CustomToggleButton>
             <Separator/>
             <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc DebugCheckedFalseTooltip}" CheckedTrueToolTip="{Loc DebugCheckedTrueTooltip}"
-                                      IsChecked="True" Text="{Loc Debug}" ClickMode="Press" Count="{Binding Path=DebugCount}" Click="FilteringHandler">
+                                      IsChecked="False" Text="{Loc Debug}" ClickMode="Press" Count="{Binding Path=DebugCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Images/LogIcons/debug.png"/>
                 </local:CustomToggleButton.Tag>
@@ -242,7 +241,9 @@
             </Button>
             <Separator/>
         </ToolBar>
-        <ListView x:Name="LogList" SelectionChanged="SelectionChangedHandler" Style="{StaticResource ResourceKey=ListViewStyle}" ItemsSource="{Binding Path=LogMessages, Mode=OneWay}" SelectionMode="Multiple" Grid.Row="1"/>
+        <ScrollViewer x:Name="Scroll" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
+            <ListView x:Name="LogList" SelectionChanged="SelectionChangedHandler" Style="{StaticResource ResourceKey=ListViewStyle}" ItemsSource="{Binding Path=LogMessages, Mode=OneWay}" SelectionMode="Multiple"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>
 

@@ -118,6 +118,11 @@ namespace WorkspaceManager.View.Visuals
         {
             this.Parent = Parent;
             SetBinding(LogVisual.LogMessagesProperty, new Binding() { Source = Parent.LogMessages });
+            filter.Add(NotificationLevel.Error);
+            filter.Add(NotificationLevel.Warning);
+            filter.Add(NotificationLevel.Info);
+            ICollectionView view = CollectionViewSource.GetDefaultView(LogMessages);
+            view.Filter = new Predicate<object>(FilterCallback);
             InitializeComponent();
         }
         #endregion
@@ -177,6 +182,7 @@ namespace WorkspaceManager.View.Visuals
             OnPropertyChanged("DebugCount");
             OnPropertyChanged("InfoCount");
             OnPropertyChanged("WarningCount");
+            Scroll.ScrollToEnd();
         }
         #endregion
 
