@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkspaceManager.View.Visuals;
+using WorkspaceManager.View.Base;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -30,23 +32,26 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void IncZoom(object sender, RoutedEventArgs e)
         {
-            double scale = Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale;
+            EditorVisual editor = (EditorVisual)Util.TryFindParent<EditorVisual>(this);
+            double scale = editor.ZoomLevel;
 
-            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale < max ? scale + 0.15 : scale;
+            editor.ZoomLevel = scale < max ? scale + 0.15 : scale;
         }
 
         private void DecZoom(object sender, RoutedEventArgs e)
         {
-            double scale = Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale;
+            EditorVisual editor = (EditorVisual)Util.TryFindParent<EditorVisual>(this);
+            double scale = editor.ZoomLevel;
 
-            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale > min ? scale - 0.15 : scale;
+            editor.ZoomLevel = scale > min ? scale - 0.15 : scale;
         }
 
         private void TextBlockMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             double scale = 1.0;
+            EditorVisual editor = (EditorVisual)Util.TryFindParent<EditorVisual>(this);
 
-            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale;
+            editor.ZoomLevel = scale;
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
