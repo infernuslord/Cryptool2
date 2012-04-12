@@ -415,6 +415,8 @@ namespace WorkspaceManager.View.Visuals
                 model.ChildPositionChanged += ChildPositionChanged;
                 model.ChildSizeChanged += ChildSizeChanged;
                 model.ChildNameChanged += ChildNameChanged;
+                if(model.Zoom != 0)
+                    ZoomLevel = model.Zoom;
             }
         }
 
@@ -461,6 +463,21 @@ namespace WorkspaceManager.View.Visuals
             set
             {
                 base.SetValue(IsLinkingProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ZoomLevelProperty = DependencyProperty.Register("ZoomLevel",
+    typeof(double), typeof(EditorVisual), new FrameworkPropertyMetadata((double)1, OnZoomLevelChanged));
+
+        public double ZoomLevel
+        {
+            get
+            {
+                return (double)base.GetValue(ZoomLevelProperty);
+            }
+            set
+            {
+                base.SetValue(ZoomLevelProperty, value);
             }
         }
 
@@ -1248,10 +1265,16 @@ namespace WorkspaceManager.View.Visuals
         private static void OnIsLinkingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             EditorVisual b = (EditorVisual)d;
-            if(b.IsLinking)
+            if (b.IsLinking)
             {
 
             }
+        }
+
+        private static void OnZoomLevelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            EditorVisual b = (EditorVisual)d;
+            b.model.Zoom = b.ZoomLevel;
         }
 
         private static void OnSelectedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

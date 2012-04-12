@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
+              
+             xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
              mc:Ignorable="d"     
              d:DesignHeight="300" d:DesignWidth="300" ScrollChanged="ScrollViewer_ScrollChanged">
     <ScrollViewer.Style>
@@ -61,7 +63,7 @@
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Foreground="#33486d" FontWeight="ExtraBold" Width="32" Margin="5,0,0,0"
                                            VerticalAlignment="Center" FontSize="10" TextAlignment="Center" MouseLeftButtonDown="TextBlockMouseLeftButtonDown"
-                                           Text="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay, StringFormat='{}{0:P0}'}">
+                                           Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditorVisual}}, Path=ZoomLevel, Mode=OneWay, StringFormat='{}{0:P0}'}">
                                         </TextBlock>
                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
                                         <Button Height="13" Margin="0" Click="DecZoom" Style="{DynamicResource ButtonStyle}">
@@ -72,7 +74,7 @@
                                         Minimum="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_MinScale, Mode=OneWay}" 
                                         Maximum="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_MaxScale, Mode=OneWay}" 
                                         Width="45" Height="15"
-                                        Value="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=TwoWay}"/>
+                                        Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditorVisual}}, Path=ZoomLevel, Mode=TwoWay}"/>
 
                                         <Button Height="13" Margin="0" Click="IncZoom" Style="{DynamicResource ButtonStyle}">
                                             <Image Source="/WorkspaceManager;component/View/Images/WMIcons/increase.png" Width="13" Height="13"></Image>

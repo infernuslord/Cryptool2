@@ -141,8 +141,8 @@
                             PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler"
                             MouseWheel="MouseWheelHandler" PreviewMouseUp="MouseUpButtonUpHandler" Loaded="PanelLoaded">
                             <visuals:ModifiedCanvas.LayoutTransform>
-                                <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay}" 
-                                    ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay}"/>
+                                <ScaleTransform ScaleX="{Binding Path=ZoomLevel, Mode=OneWay}"
+                                    ScaleY="{Binding Path=ZoomLevel, Mode=OneWay}"/>
                             </visuals:ModifiedCanvas.LayoutTransform>
                         </visuals:ModifiedCanvas>
                     </ItemsPanelTemplate>

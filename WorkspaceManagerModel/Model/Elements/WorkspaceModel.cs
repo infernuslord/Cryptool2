@@ -43,6 +43,11 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel : VisualElementModel, IDisposable
     {
+        public double Zoom
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// The executing editor
