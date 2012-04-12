@@ -282,4 +282,10 @@
   <data name="very_soon" xml:space="preserve">
     <value>very soon</value>
   </data>
+  <data name="Bits" xml:space="preserve">
+    <value>bits</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>digits</value>
+  </data>
 </root>

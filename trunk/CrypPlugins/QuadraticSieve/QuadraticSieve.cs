@@ -844,11 +844,20 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
 
-                foreach (BigInteger pf in primeFactors)         
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add( typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + ": " + pf.ToString());            
-
+                foreach (BigInteger pf in primeFactors)
+                {
+                    var spf = pf.ToString();
+                    var bitcount = Math.Ceiling(BigInteger.Log(pf, 2));
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(
+                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + ": " + spf + " (" + spf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                }
                 foreach (BigInteger cf in compositeFactors)
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add( typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + cf.ToString());
+                {
+                    var scf = cf.ToString();
+                    var bitcount = Math.Ceiling(BigInteger.Log(cf, 2));
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(
+                        typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + scf + " (" + scf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                }
                 quadraticSieveQuickWatchPresentation.SelectFirstComposite();
             }, null);
         }

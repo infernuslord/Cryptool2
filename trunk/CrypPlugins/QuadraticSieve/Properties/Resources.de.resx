@@ -282,4 +282,10 @@
   <data name="very_soon" xml:space="preserve">
     <value>sehr bald</value>
   </data>
+  <data name="Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>Dezimalstellen</value>
+  </data>
 </root>
