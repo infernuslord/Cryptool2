@@ -220,7 +220,7 @@
     <value>No data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Workspace Manager</value>
+    <value>Workspace</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Graphical plugin editor for the CrypTool workspace</value>
@@ -411,31 +411,34 @@
   <data name="Toggle_Plugin_Parameters" xml:space="preserve">
     <value>Toggle component parameter panel</value>
   </data>
-  <data name="Save_File">
-    <value xml:space="preserve">Save File</value>
+  <data name="Save_File" xml:space="preserve">
+    <value>Save File</value>
   </data>
-  <data name="Open_File">
-    <value xml:space="preserve">Open File</value>
+  <data name="Open_File" xml:space="preserve">
+    <value>Open File</value>
   </data>
-  <data name="Show_ComponentConnection_Proposition">
-    <value xml:space="preserve">Show component connection propositions</value>
+  <data name="Show_ComponentConnection_Proposition" xml:space="preserve">
+    <value>Show component connection propositions</value>
   </data>
-  <data name="Show_ComponentConnection_Proposition_Tooltip">
-    <value xml:space="preserve">Shows the most frequently used components when holding a connection line.</value>
+  <data name="Show_ComponentConnection_Proposition_Tooltip" xml:space="preserve">
+    <value>Shows the most frequently used components when holding a connection line.</value>
   </data>
-  <data name="ComponentAppearanceBehaviourGroupHeader">
-    <value xml:space="preserve">Standard appearance of components</value>
+  <data name="ComponentAppearanceBehaviourGroupHeader" xml:space="preserve">
+    <value>Standard appearance of components</value>
   </data>
-  <data name="ComponentAppearanceBehaviourGroupTooltip">
-    <value xml:space="preserve">Choose how a newly placed component visualization should appear.</value>
+  <data name="ComponentAppearanceBehaviourGroupTooltip" xml:space="preserve">
+    <value>Choose how a newly placed component visualization should appear.</value>
   </data>
-  <data name="DefaultComponentAppearance">
-    <value xml:space="preserve">Appearance predetermined by the component</value>
+  <data name="DefaultComponentAppearance" xml:space="preserve">
+    <value>Appearance predetermined by the component</value>
   </data>
-  <data name="AlwaysOpenedComponentAppearance">
-    <value xml:space="preserve">Always opened</value>
+  <data name="AlwaysOpenedComponentAppearance" xml:space="preserve">
+    <value>Always opened</value>
   </data>
-  <data name="AlwaysClosedComponentAppearance">
-    <value xml:space="preserve">Always closed</value>
+  <data name="AlwaysClosedComponentAppearance" xml:space="preserve">
+    <value>Always closed</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
   </data>
 </root>

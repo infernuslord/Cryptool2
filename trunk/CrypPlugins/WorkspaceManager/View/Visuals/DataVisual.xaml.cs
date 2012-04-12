@@ -120,6 +120,7 @@ namespace WorkspaceManager.View.Visuals
             }
         }
         #endregion
+
     }
 
     #region Custom Class
@@ -134,6 +135,7 @@ namespace WorkspaceManager.View.Visuals
         #endregion
 
         #region Properties
+
         public string Data 
         { 
             get 
@@ -142,7 +144,7 @@ namespace WorkspaceManager.View.Visuals
                     return Properties.Resources.No_data;
 
                 return ViewHelper.GetDataPresentationString(model.LastData);
-            } 
+            }             
         }
         public string Caption { get; private set; }
         public string TypeName { get; private set; }

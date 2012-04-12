@@ -745,7 +745,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Workspace Manager.
+        ///   Looks up a localized string similar to Workspace.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -831,6 +831,15 @@ namespace WorkspaceManager.Properties {
         internal static string Save_File {
             get {
                 return ResourceManager.GetString("Save_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select All.
+        /// </summary>
+        internal static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
             }
         }
         
