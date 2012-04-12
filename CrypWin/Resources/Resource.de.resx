@@ -227,6 +227,6 @@
     <value>Benutze {0} als Arbeitsbereichsdatei und lade es in den Editor.</value>
   </data>
   <data name="MainWindow_ShowHelpPage_Error_trying_to_open_documentation___0__" xml:space="preserve">
-    <value>Fehler während des Versuchs die Dokumentation zu laden: {0}!</value>
+    <value>Fehler während des Versuchs, die Dokumentation zu laden: {0}!</value>
   </data>
 </root>
