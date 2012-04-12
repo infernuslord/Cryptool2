@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using WorkspaceManager.Model;
 using System.Windows;
 
@@ -467,6 +468,98 @@ namespace WorkspaceManagerModel.Model.Operations
             foreach (Operation op in _operations)
             {
                 op.Undo(workspaceModel);
+            }
+        }
+    }
+
+    public sealed class CopyOperation : Operation
+    {
+        private readonly List<VisualElementModel> _copiedElements;
+
+        public CopyOperation(List<VisualElementModel> elements ) : base(null)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            try
+            {
+                //deep copy model elements
+                XMLSerialization.XMLSerialization.Serialize(elements, writer);
+                _copiedElements = (List<VisualElementModel>)XMLSerialization.XMLSerialization.Deserialize(writer);
+            }
+            finally
+            {                
+                writer.Close();
+                stream.Close();
+            }
+        }
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            foreach (var visualElementModel in _copiedElements)
+            {
+                var pluginModel = visualElementModel as PluginModel;
+                var connectorModel = visualElementModel as ConnectorModel;
+                var connectionModel = visualElementModel as ConnectionModel;
+                var textModel = visualElementModel as TextModel;
+                var imageModel = visualElementModel as ImageModel;
+               
+                if (pluginModel != null)
+                {
+                    workspaceModel.AllPluginModels.Add(pluginModel);
+                }
+                if (connectorModel != null)
+                {
+                    workspaceModel.AllConnectorModels.Add(connectorModel);
+                }
+                if (connectionModel != null)
+                {
+                    workspaceModel.AllConnectionModels.Add(connectionModel);
+                }
+                if (textModel != null)
+                {
+                    workspaceModel.AllTextModels.Add(textModel);
+                }
+                if (imageModel != null)
+                {
+                    workspaceModel.AllImageModels.Add(imageModel);
+                }
+                workspaceModel.OnNewChildElement(visualElementModel);
+            }
+
+            return true;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            foreach (var visualElementModel in _copiedElements)
+            {
+                var pluginModel = visualElementModel as PluginModel;
+                var connectorModel = visualElementModel as ConnectorModel;
+                var connectionModel = visualElementModel as ConnectionModel;
+                var textModel = visualElementModel as TextModel;
+                var imageModel = visualElementModel as ImageModel;
+
+                if (pluginModel != null)
+                {
+                    workspaceModel.AllPluginModels.Remove(pluginModel);
+                }
+                if (connectorModel != null)
+                {
+                    workspaceModel.AllConnectorModels.Remove(connectorModel);
+                }
+                if (connectionModel != null)
+                {
+                    workspaceModel.AllConnectionModels.Remove(connectionModel);
+                }
+                if (textModel != null)
+                {
+                    workspaceModel.AllTextModels.Remove(textModel);
+                }
+                if (imageModel != null)
+                {
+                    workspaceModel.AllImageModels.Remove(imageModel);
+                }
+                workspaceModel.OnDeletedChildElement(visualElementModel);
             }
         }
     }
