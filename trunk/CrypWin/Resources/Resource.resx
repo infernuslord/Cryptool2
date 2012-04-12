@@ -124,16 +124,16 @@
     <value>Author</value>
   </data>
   <data name="email_subject" xml:space="preserve">
-    <value>CrypTool 2 -&gt; Plugin:</value>
+    <value>CrypTool 2 -&gt; Component:</value>
   </data>
   <data name="PluginManager_TypeLoadException" xml:space="preserve">
-    <value>Can't load the plugin: </value>
+    <value>Can't load the component: </value>
   </data>
   <data name="plugin_has_no_icon" xml:space="preserve">
-    <value>Can't get icon from plugin: {0}. Plugin can't be used.</value>
+    <value>Can't get icon from component: {0}. Component can't be used.</value>
   </data>
   <data name="plugin_no_algo_settings" xml:space="preserve">
-    <value>Plugin has no parameters.</value>
+    <value>Component has no parameters.</value>
   </data>
   <data name="title" xml:space="preserve">
     <value>Title</value>
@@ -173,7 +173,7 @@
     <value>Delete</value>
   </data>
   <data name="missing_plugin_info_attribute" xml:space="preserve">
-    <value>Missing PluginInfoAttribute on Plugin: {0}</value>
+    <value>Missing PluginInfoAttribute on component: {0}</value>
   </data>
   <data name="main_window_title_prefix" xml:space="preserve">
     <value>CrypTool {0} - </value>
@@ -185,19 +185,19 @@
     <value>CrypTool</value>
   </data>
   <data name="pluginManager" xml:space="preserve">
-    <value>Plugin Manager</value>
+    <value>Component Manager</value>
   </data>
   <data name="found_new_plugins" xml:space="preserve">
-    <value>Found new plugins: {0}</value>
+    <value>Found new components: {0}</value>
   </data>
   <data name="no_new_plugins_found" xml:space="preserve">
-    <value>Can't find new plugins.</value>
+    <value>Can't find new components.</value>
   </data>
   <data name="plugin_signature" xml:space="preserve">
-    <value>Plugin signature: unknown signer or not signed</value>
+    <value>Component signature: unknown signer or not signed</value>
   </data>
   <data name="plugin_version" xml:space="preserve">
-    <value>Plugin version: </value>
+    <value>Component version: </value>
   </data>
   <data name="show_plugin_description" xml:space="preserve">
     <value>Show description</value>
@@ -215,10 +215,10 @@
     <value>Copy to clipboard</value>
   </data>
   <data name="plugin_has_no_description" xml:space="preserve">
-    <value>This plugin has no description.</value>
+    <value>This component has no description.</value>
   </data>
   <data name="no_plugin_info_attribute" xml:space="preserve">
-    <value>Plugin "{0}" has no plugin info attribute and will not be added to GUI.</value>
+    <value>Component "{0}" has no plugin info attribute and will not be added to GUI.</value>
   </data>
   <data name="autostart_enabled" xml:space="preserve">
     <value>Workspace has been started automatically due to the command line option.</value>
