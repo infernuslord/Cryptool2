@@ -45,7 +45,6 @@ namespace Cryptool.Caesar
         {
             this.settings = new CaesarSettings();
             this.settings.LogMessage += GuiLogMessage;
-            this.settings.ReExecute += Caesar_ReExecute;
         }
   
         /// <summary>
@@ -56,11 +55,13 @@ namespace Cryptool.Caesar
             get { return this.settings; }
         }
 
+        private string _inputString;
+
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
-            get;
-            set; 
+            get { return _inputString; }
+            set { _inputString = value; }
         }
 
         [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
