@@ -44,10 +44,6 @@ namespace Cryptool.Caesar
         /// </summary>
         public event CaesarLogMessage LogMessage;
 
-        public delegate void CaesarReExecute();
-
-        public event CaesarReExecute ReExecute;
-
         #endregion
 
         #region Private variables and public constructor
@@ -132,8 +128,6 @@ namespace Cryptool.Caesar
                 {
                     this.selectedAction = value;
                     OnPropertyChanged("Action");
-
-                    if (ReExecute != null) ReExecute();   
                 }
             }
         }
@@ -146,7 +140,6 @@ namespace Cryptool.Caesar
             set
             {
                 setKeyByValue(value);
-                if (ReExecute != null) ReExecute();
             }
         }
 
@@ -168,8 +161,6 @@ namespace Cryptool.Caesar
                 {
                     this.unknownSymbolHandling = value;
                     OnPropertyChanged("UnknownSymbolHandling");
-
-                    if (ReExecute != null) ReExecute();   
                 }
             }
         }
@@ -193,8 +184,6 @@ namespace Cryptool.Caesar
               setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
               OnLogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
               OnPropertyChanged("AlphabetSymbols");
-
-              if (ReExecute != null) ReExecute();
             }
           }
         }
@@ -250,7 +239,6 @@ namespace Cryptool.Caesar
                 }
 
                 OnPropertyChanged("CaseSensitive");
-                if (ReExecute != null) ReExecute();
             }
         }
 
