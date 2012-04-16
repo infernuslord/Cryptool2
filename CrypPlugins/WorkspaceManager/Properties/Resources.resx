@@ -441,4 +441,7 @@
   <data name="SelectAll" xml:space="preserve">
     <value>Select All</value>
   </data>
+  <data name="ResetCCS" xml:space="preserve">
+    <value>Reset Component Connection Statistics</value>
+  </data>
 </root>

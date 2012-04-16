@@ -356,6 +356,7 @@ namespace Cryptool.CrypWin
             SaveSettingsSavely();
 
             ComponentConnectionStatistics.OnGuiLogMessageOccured += GuiLogMessage;
+            ComponentConnectionStatistics.OnStatisticReset += GenerateStatisticsFromTemplates;
 
             recentFileList.ListChanged += RecentFileListChanged;
 
@@ -517,11 +518,16 @@ namespace Cryptool.CrypWin
                 catch (Exception ex2)
                 {
                     GuiLogMessage("No component connection statistics found... Generate them.", NotificationLevel.Info);
-                    TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
-                    SaveComponentConnectionStatistics();
-                    GuiLogMessage("Component connection statistics successfully generated from templates.", NotificationLevel.Info);
+                    GenerateStatisticsFromTemplates();
                 }
             }
+        }
+
+        private void GenerateStatisticsFromTemplates()
+        {
+            TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+            SaveComponentConnectionStatistics();
+            GuiLogMessage("Component connection statistics successfully generated from templates.", NotificationLevel.Info);
         }
 
         private bool EstablishSingleInstance()

@@ -441,4 +441,7 @@
   <data name="SelectAll" xml:space="preserve">
     <value>Alles markieren</value>
   </data>
+  <data name="ResetCCS" xml:space="preserve">
+    <value>Komponenten-Konnektoren-Statistik zurücksetzen</value>
+  </data>
 </root>
