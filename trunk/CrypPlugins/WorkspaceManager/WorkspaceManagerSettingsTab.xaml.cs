@@ -136,5 +136,10 @@ namespace WorkspaceManager
                 ColorHelper.AnalysisSpecificColor = (AnalysisSpecificColor.SelectedColor);
             }
         }
+
+        private void ButtonResetCCS_Click(object sender, RoutedEventArgs e)
+        {
+            Cryptool.PluginBase.Editor.ComponentConnectionStatistics.Reset();
+        }
     }
 }

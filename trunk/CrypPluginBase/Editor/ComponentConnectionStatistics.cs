@@ -11,6 +11,9 @@ namespace Cryptool.PluginBase.Editor
         public delegate void GuiLogMessageHandler(string message, NotificationLevel logLevel);
         public static event GuiLogMessageHandler OnGuiLogMessageOccured;
 
+        public delegate void StatisticResetHandler();
+        public static event StatisticResetHandler OnStatisticReset;
+        
         public class ComponentConnector
         {
             private readonly Type _component;
@@ -191,6 +194,18 @@ namespace Cryptool.PluginBase.Editor
                 return null;
             }
             return Statistics[componentConnector].GetSortedConnectorUsages();
+        }
+
+        public static void Reset()
+        {
+            Statistics.Clear();
+            StatisticResetOccured();
+        }
+        
+        public static void StatisticResetOccured()
+        {
+            if (OnStatisticReset != null)
+                OnStatisticReset();
         }
 
         private static void GuiLogMessageOccured(string message, NotificationLevel loglevel)

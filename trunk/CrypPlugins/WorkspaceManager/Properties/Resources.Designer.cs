@@ -808,6 +808,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Component Connection Statistics.
+        /// </summary>
+        internal static string ResetCCS {
+            get {
+                return ResourceManager.GetString("ResetCCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset Colors.
         /// </summary>
         internal static string ResetColors_Label {
