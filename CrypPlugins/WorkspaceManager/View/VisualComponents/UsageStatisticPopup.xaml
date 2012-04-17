@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
-             AllowsTransparency="True" Panel.ZIndex="9000" Placement="MousePoint"
-             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade" 
+             AllowsTransparency="True" Panel.ZIndex="9000" Placement="Mouse"
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade" StaysOpen="False" VerticalOffset="-20" HorizontalOffset="10"
              Width="250" MaxHeight="350">
     <Popup.Resources>
 
