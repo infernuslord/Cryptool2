@@ -509,7 +509,7 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var connectionModel in connectorModel.InputConnections)
                         {
-                            if (!elements.Contains(connectionModel.From.PluginModel))
+                            if (elements.Contains(connectionModel.From.PluginModel) && !elements.Contains(connectionModel))
                             {
                                 elements.Add(connectionModel);
                             }
@@ -519,7 +519,7 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var connectionModel in connectorModel.OutputConnections)
                         {
-                            if (!elements.Contains(connectionModel.To.PluginModel))
+                            if (elements.Contains(connectionModel.To.PluginModel) && !elements.Contains(connectionModel))
                             {
                                 elements.Add(connectionModel);
                             }
