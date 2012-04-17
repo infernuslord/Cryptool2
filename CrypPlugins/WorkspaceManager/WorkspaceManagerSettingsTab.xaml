@@ -68,7 +68,7 @@
 
                     <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Datatypecolors_Label}" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
 
-                    <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="80"  HorizontalAlignment="Left"/>
+                    <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
                     <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="80" Height="26" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left">
                         <tools:ColorPicker x:Name="IntegerColor" SelectedColorChanged="CrPickerSelectedColorChanged" Width="50"></tools:ColorPicker>
                     </Border>
