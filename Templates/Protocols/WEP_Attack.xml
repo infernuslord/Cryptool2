@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
+  <title lang="en">WEP Attack</title>
+  <title lang="de">WEP Angriff</title>
   <description lang="en">-</description>
   <keywords>wired, equivalent, privacy, WEP, wifi, wlan</keywords>
   <description lang="de">-</description>
-  <icon file="" />
+  <icon file="WEP_Attack.png" />
 </sample>
