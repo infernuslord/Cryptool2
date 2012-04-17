@@ -506,6 +506,15 @@ namespace WorkspaceManagerModel.Model.Operations
                 if (pluginModel != null)
                 {
                     workspaceModel.AllPluginModels.Add(pluginModel);
+                    //add input/output connectors of this pluginModel to the WorkspaceModel
+                    foreach(var myConnectorModel in pluginModel.InputConnectors)
+                    {
+                        workspaceModel.AllConnectorModels.Add(myConnectorModel);
+                    }
+                    foreach (var myConnectorModel in pluginModel.OutputConnectors)
+                    {
+                        workspaceModel.AllConnectorModels.Add(myConnectorModel);
+                    }
                 }
                 if (connectorModel != null)
                 {
