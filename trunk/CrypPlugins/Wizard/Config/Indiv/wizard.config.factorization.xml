@@ -33,5 +33,10 @@
       <description lang="en">Factorization:</description>
       <description lang="de">Faktorisierung:</description>
     </presentation>
+    
+    <progressBar plugin="QuadraticSieve">
+      <description lang="en">Progress:</description>
+      <description lang="de">Fortschritt:</description>
+    </progressBar>
   </sampleViewer>
 </input>

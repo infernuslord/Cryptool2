@@ -205,7 +205,7 @@
     <value>Faktorenliste</value>
   </data>
   <data name="Found_enough_relations" xml:space="preserve">
-    <value>Genügens Relationen gefunden! Bitte warten...</value>
+    <value>Genügend Relationen gefunden! Bitte warten...</value>
   </data>
   <data name="Found_Relations_" xml:space="preserve">
     <value>Gefundene Relationen:</value>
