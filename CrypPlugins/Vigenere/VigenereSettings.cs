@@ -52,7 +52,7 @@ namespace Cryptool.Vigenere
         [PropertySaveOrder(0)]
         public int[] ShiftKey
         {
-            get { return shiftValue; }
+            get { return keyShiftValues; }
             set { setKeyByValue(value); }
         }
 
@@ -78,8 +78,8 @@ namespace Cryptool.Vigenere
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private char[] shiftChar = { 'B', 'C', 'D' };
-        private int[] shiftValue = { 1, 2, 3 };
+        private char[] keyChars = { 'B', 'C', 'D' };
+        private int[] keyShiftValues = { 1, 2, 3 };
         private UnknownSymbolHandlingMode unknowSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; //0=case insensitive, 1 = case sensitive
         #endregion
@@ -123,7 +123,7 @@ namespace Cryptool.Vigenere
             }
             catch (Exception e)
             {
-                LogMessage("Bad input \"" + offsetString + "\"! (" + e.Message + ") Reverting to " + shiftValue.ToString() + "!", NotificationLevel.Error);
+                LogMessage("Bad input \"" + offsetString + "\"! (" + e.Message + ") Reverting to " + intArrayToString(keyShiftValues) + "!", NotificationLevel.Error);
                 OnPropertyChanged("ShiftValue");
             }
         }
@@ -139,21 +139,21 @@ namespace Cryptool.Vigenere
                 offset[i] = offset[i] % alphabet.Length;
 
             //set the new shiftChar
-            shiftChar = new char[offset.Length];
+            keyChars = new char[offset.Length];
             for (int i = 0; i < offset.Length; i++)
-                shiftChar[i] = alphabet[offset[i]];
+                keyChars[i] = alphabet[offset[i]];
 
             //set the new shiftValue
-            shiftValue = new int[offset.Length];
+            keyShiftValues = new int[offset.Length];
             for (int i = 0; i < offset.Length; i++)
-                shiftValue[i] = offset[i];
+                keyShiftValues[i] = offset[i];
 
             //Anounnce this to the settings pane
             OnPropertyChanged("ShiftValue");
             OnPropertyChanged("ShiftChar");
 
             //print some info in the log.
-            LogMessage("Accepted new shift value " + offset.ToString() + "! (Adjusted shift character to '" + shiftChar.ToString() + "\'", NotificationLevel.Info);
+            LogMessage("Accepted new shift values " + intArrayToString(offset) + "! (Adjusted key to '" + charArrayToString(keyChars) + "\'", NotificationLevel.Info);
         }
 
         private void setKeyByCharacter(string value)
@@ -175,27 +175,49 @@ namespace Cryptool.Vigenere
                 {
                     if (offset[i] >= 0)
                     {
-                        shiftValue = new int[offset.Length];
+                        keyShiftValues = new int[offset.Length];
                         for (int j = 0; j < offset.Length; j++)
-                            shiftValue[j] = offset[j];
-                        shiftChar = new char[shiftValue.Length];
-                        for (int j = 0; j < shiftValue.Length; j++)
-                            shiftChar[j] = alphabet[shiftValue[j]];
-                        LogMessage("Accepted new shift character \'" + shiftChar.ToString() + "\'! (Adjusted shift value to " + shiftValue.ToString() + ")", NotificationLevel.Info);
+                            keyShiftValues[j] = offset[j];
+                        keyChars = new char[keyShiftValues.Length];
+                        for (int j = 0; j < keyShiftValues.Length; j++)
+                            keyChars[j] = alphabet[keyShiftValues[j]];
+                        LogMessage("Accepted key \'" + charArrayToString(keyChars) + "\'! (Adjusted shift values to " + intArrayToString(keyShiftValues) + ")", NotificationLevel.Info);
                         OnPropertyChanged("ShiftValue");
                         OnPropertyChanged("ShiftChar");
                         break;
                     }
                     else
                     {
-                        LogMessage("Bad input \"" + value + "\"! (Character not in alphabet!) Reverting to " + shiftChar.ToString() + "!", NotificationLevel.Error);
+                        LogMessage("Bad input \"" + value + "\"! (Some character not in alphabet!) Reverting to " + charArrayToString(keyChars) + "!", NotificationLevel.Error);
                     }
                 }
             }
             catch (Exception e)
             {
-                LogMessage("Bad input \"" + value + "\"! (" + e.Message + ") Reverting to " + shiftChar.ToString() + "!", NotificationLevel.Error);
+                LogMessage("Bad input \"" + value + "\"! (" + e.Message + ") Reverting to " + charArrayToString(keyChars) + "!", NotificationLevel.Error);
             }
+        }
+
+        private string charArrayToString(char[] chars)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var c in chars)
+            {
+                sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        private string intArrayToString(int[] ints)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var i in ints)
+            {
+                sb.Append(i);
+                sb.Append(',');
+            }
+            if (sb.Length > 0) sb.Remove(sb.Length - 1, 1);
+            return sb.ToString();
         }
         #endregion
 
@@ -241,10 +263,10 @@ namespace Cryptool.Vigenere
             get
             {
                 StringBuilder str = new StringBuilder(string.Empty);
-                for (int i = 0; i < this.shiftValue.Length; i++)
+                for (int i = 0; i < this.keyShiftValues.Length; i++)
                 {
-                    str.Append(this.shiftValue[i].ToString());
-                    if (i != this.shiftValue.Length - 1)
+                    str.Append(this.keyShiftValues[i].ToString());
+                    if (i != this.keyShiftValues.Length - 1)
                         str.Append(",");
                 }
                 return str.ToString();
@@ -256,7 +278,7 @@ namespace Cryptool.Vigenere
         [TaskPane("ShiftCharCaption", "ShiftCharTooltip", null, 4, false, ControlType.TextBox, null)]
         public string ShiftChar
         {
-            get { return new String(this.shiftChar); }
+            get { return new String(this.keyChars); }
             set { setKeyByCharacter(value); }
         }
 
@@ -295,7 +317,7 @@ namespace Cryptool.Vigenere
                             LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + "Symbols)", NotificationLevel.Info);
                             OnPropertyChanged("AlphabetSymbols");
                             //re-set also the key (shifvalue/shiftchar to be in the range of the new alphabet
-                            setKeyByValue(shiftValue);
+                            setKeyByValue(keyShiftValues);
                         }
                     }
                     else
@@ -337,7 +359,7 @@ namespace Cryptool.Vigenere
                 else if (!alphabet.Equals(a))
                 {
                     this.alphabet = a;
-                    setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is stillt within the range
+                    setKeyByValue(keyShiftValues); //re-evaluate if the shiftvalue is stillt within the range
                     LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
                     OnPropertyChanged("AlphabetSymbols");
                 }

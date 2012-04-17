@@ -35,6 +35,7 @@ namespace Splitter
     private SplitterSettings settings = new SplitterSettings();
     private string dictionaryInputString;
     private List<string> listWords = new List<string>();
+    private int listLength = 0;
     # endregion 
 
     # region public interfacde
@@ -49,7 +50,12 @@ namespace Splitter
         dictionaryInputString = value;
         listWords.Clear();
         if (value != null)
-          listWords.AddRange(value.Split(settings.DelimiterDictionary[0]));          
+        {
+            //listWords.AddRange(value.Split(settings.DelimiterDictionary[0]));
+            char[] delimeters = (settings.DelimiterDictionary + Environment.NewLine).ToCharArray();
+            listWords.AddRange(value.Split(delimeters,StringSplitOptions.RemoveEmptyEntries));
+            listLength = listWords.Count;
+        }
         OnPropertyChanged("DictionaryInputString");
       }
     }
@@ -122,12 +128,17 @@ namespace Splitter
 
     public void Execute()
     {
-        Progress(0.0,1.0);
+
 
         if (DictionaryInputString == null)
             GuiLogMessage("Got null value for dictionary.", NotificationLevel.Warning);
-
-        Progress(1.0, 1.0);
+     
+        Progress((double)(listLength - listWords.Count), (double)listLength);
+        // FIXME in WSM:
+        // We have to add a sleep here, otherwise, the progress can never be seen, since the WSM set the progres automaticall to 100% when execute is finisehd
+        // This behavior needs to be changed or we need a way to control this, since some plugins have a state beyond multiple executions
+        System.Threading.Thread.Sleep(300);
+        
     }
 
     public void PostExecution()
