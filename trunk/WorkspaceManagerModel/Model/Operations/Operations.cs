@@ -526,6 +526,39 @@ namespace WorkspaceManagerModel.Model.Operations
                 workspaceModel.OnNewChildElement(visualElementModel);
             }
 
+            //remove connections which should not be copied
+            //deletes implicitly all PluginModels and ConnectorModels which
+            //are now not referenced any more (will be deleted by garbage collector)
+            foreach (var visualElementModel in _copiedElements)
+            {
+                var pluginModel = visualElementModel as PluginModel;
+                if (pluginModel != null)
+                {
+                    foreach (var connectorModel in pluginModel.InputConnectors)
+                    {
+                        foreach (var connectionModel in connectorModel.InputConnections)
+                        {
+                            if(!_copiedElements.Contains(connectionModel))
+                            {
+                                _copiedElements.Remove(connectionModel);
+                                connectorModel.InputConnections.Remove(connectionModel);
+                            }
+                        }
+                    }
+                    foreach (var connectorModel in pluginModel.OutputConnectors)
+                    {
+                        foreach (var connectionModel in connectorModel.OutputConnections)
+                        {
+                            if (!_copiedElements.Contains(connectionModel))
+                            {
+                                _copiedElements.Remove(connectionModel);
+                                connectorModel.OutputConnections.Remove(connectionModel);
+                            }
+                        }
+                    }
+                }
+            }
+
             return true;
         }
 
