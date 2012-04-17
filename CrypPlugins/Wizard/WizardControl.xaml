@@ -110,7 +110,7 @@
             <StackPanel Orientation="Vertical">
                 <Label Name="ErrorLabel" Content="{Loc Error}" FontSize="20" Foreground="#FFF56161" Visibility="Collapsed" />
                 <Grid >
-                    <Label   HorizontalContentAlignment="Center" Name="taskHeader" FontSize="18" />
+                    <Label   HorizontalContentAlignment="Center" Name="taskHeader" FontSize="28" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Florsn01" Foreground="#FF003399" VerticalAlignment="Bottom" />
                     <Image Source="Images/header_wizard5.png" Stretch="Uniform"  HorizontalAlignment="Left"></Image>
                 </Grid>
             </StackPanel>
