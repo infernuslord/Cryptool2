@@ -59,7 +59,7 @@ namespace Cryptool.Caesar
 
         public CaesarSettings()
         {
-            setKeyByValue(shiftValue);
+            SetKeyByValue(shiftValue);
         }
 
         #endregion
@@ -96,16 +96,18 @@ namespace Cryptool.Caesar
         /// <summary>
         /// Set the new shiftValue and the new shiftString to offset % alphabet.Length
         /// </summary>
-        private void setKeyByValue(int offset)
+        public void SetKeyByValue(int offset, bool firePropertyChanges = true)
         {
             // making sure the shift value lies within the alphabet range      
             shiftValue = offset % alphabet.Length;
             shiftString = "A -> " + alphabet[shiftValue];
 
             // Anounnce this to the settings pane
-            OnPropertyChanged("ShiftValue");
-            OnPropertyChanged("ShiftString");
-
+            if (firePropertyChanges)
+            {
+                OnPropertyChanged("ShiftValue");
+                OnPropertyChanged("ShiftString");
+            }
             // print some info in the log.
             OnLogMessage("Accepted new shift value: " + offset, NotificationLevel.Debug);
         }
@@ -139,7 +141,7 @@ namespace Cryptool.Caesar
             get { return shiftValue; }
             set
             {
-                setKeyByValue(value);
+                SetKeyByValue(value);
             }
         }
 
@@ -181,7 +183,7 @@ namespace Cryptool.Caesar
             else if (!alphabet.Equals(a))
             {
               this.alphabet = a;
-              setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
+              SetKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
               OnLogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
               OnPropertyChanged("AlphabetSymbols");
             }
@@ -224,7 +226,7 @@ namespace Cryptool.Caesar
                             NotificationLevel.Debug);
                         OnPropertyChanged("AlphabetSymbols");
                         // re-set also the key (shiftvalue/shiftString to be in the range of the new alphabet
-                        setKeyByValue(shiftValue);
+                        SetKeyByValue(shiftValue);
                     }
                 }
 
