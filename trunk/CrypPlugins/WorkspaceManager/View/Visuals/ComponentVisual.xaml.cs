@@ -593,7 +593,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             CustomName = Model.GetName();
             IsICMaster = Model.HasIControlInputs();
             SetBinding(ComponentVisual.IsDraggingProperty,
-                Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
+                Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb, TopLeftDrag, TopRightDrag, BottomLeftDrag }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
         }
 
@@ -1037,10 +1037,10 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             if (value == null)
                 return false;
 
-            if (value.Count() == 4)
+            if (value.Count() == 7)
             {
-                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2], b4 = (bool)value[3];
-                if (b1 || b2 || b3 || b4)
+                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2], b4 = (bool)value[3], b5 = (bool)value[4], b6 = (bool)value[5], b7 = (bool)value[6];
+                if (b1 || b2 || b3 || b4 || b5 || b6 || b7)
                     return true;
                 else
                     return false;
