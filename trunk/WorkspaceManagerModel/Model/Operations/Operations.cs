@@ -476,7 +476,7 @@ namespace WorkspaceManagerModel.Model.Operations
     {
         private readonly List<VisualElementModel> _copiedElements;
 
-        public CopyOperation(List<VisualElementModel> elements ) : base(null)
+        public CopyOperation(List<VisualElementModel> elements) : base(null)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -484,16 +484,55 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 //deep copy model elements
                 XMLSerialization.XMLSerialization.Serialize(elements, writer);
-                _copiedElements = (List<VisualElementModel>)XMLSerialization.XMLSerialization.Deserialize(writer);
+                _copiedElements = (List<VisualElementModel>) XMLSerialization.XMLSerialization.Deserialize(writer);
             }
             finally
-            {                
+            {
                 writer.Close();
                 stream.Close();
             }
         }
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        /// <summary>
+        /// Adds all ConnectionModels which are "between" PluginModels located in the list to the list
+        /// </summary>
+        /// <param name="elements">List with PluginModels</param>
+        /// <returns></returns>
+        public static List<VisualElementModel> SelectConnections(List<VisualElementModel> elements)
+        {
+            foreach (var visualElementModel in new List<VisualElementModel>(elements))
+            {
+                var pluginModel = visualElementModel as PluginModel;
+                if (pluginModel != null)
+                {
+                    foreach (var connectorModel in pluginModel.InputConnectors)
+                    {
+                        foreach (var connectionModel in connectorModel.InputConnections)
+                        {
+                            if (!elements.Contains(connectionModel.From.PluginModel))
+                            {
+                                elements.Add(connectionModel);
+                            }
+                        }
+                    }
+                    foreach (var connectorModel in pluginModel.OutputConnectors)
+                    {
+                        foreach (var connectionModel in connectorModel.OutputConnections)
+                        {
+                            if (!elements.Contains(connectionModel.To.PluginModel))
+                            {
+                                elements.Add(connectionModel);
+                            }
+                        }
+                    }
+                }
+            }
+            return elements;
+        }
+    
+
+
+    internal override object Execute(WorkspaceModel workspaceModel)
         {
             foreach (var visualElementModel in _copiedElements)
             {
