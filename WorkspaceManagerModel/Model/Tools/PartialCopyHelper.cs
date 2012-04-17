@@ -11,7 +11,7 @@ namespace WorkspaceManagerModel.Model.Tools
 {
     public static class PartialCopyHelper
     {
-        static public WorkspaceModel CurrentSelection;
+        static public object CurrentSelection;
 
         public static bool Copy(List<PluginModel> copyComponents, WorkspaceModel model)
         {

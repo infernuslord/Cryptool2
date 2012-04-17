@@ -8,6 +8,7 @@
              xmlns:ic="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:dragdrop="clr-namespace:DragDropListBox"
+             xmlns:base="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
              xmlns:bin="clr-namespace:WorkspaceManager.View.Visuals"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
@@ -34,7 +35,7 @@
 
             <MenuItem Click="ContextMenuClick" Header="{Loc DataTooltip}" Tag="data">
                 <MenuItem.Icon>
-                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/Images/ComponentIcons/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Images/ComponentIcons/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
 
@@ -803,7 +804,7 @@
                             </ItemsControl>
 
                             <Grid>
-                                <TextBlock Text="{Binding Path=FunctionName}" FontFamily="Tahoma" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis" TextAlignment="Center" Foreground="#666"></TextBlock>
+                                <TextBlock Text="{Binding Path=FunctionName}" FontFamily="Consolas" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis" TextAlignment="Center" Foreground="#666"></TextBlock>
                         
                                 <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyleSecond}" Grid.Column="0" Grid.Row="1"
                                     DragDelta="PositionDragDeltaHandler"></Thumb>

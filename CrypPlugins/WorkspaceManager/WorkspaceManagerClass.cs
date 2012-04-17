@@ -299,7 +299,7 @@ namespace WorkspaceManager
             if (PartialCopyHelper.CurrentSelection == null)
                 return;
 
-            WorkspaceSpaceEditorView.Load(PartialCopyHelper.CurrentSelection, true);
+            //WorkspaceSpaceEditorView.Load(PartialCopyHelper.CurrentSelection, true);
         }
 
         public void Remove()

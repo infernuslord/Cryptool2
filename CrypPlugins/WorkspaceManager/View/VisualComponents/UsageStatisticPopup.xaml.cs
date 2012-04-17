@@ -29,7 +29,6 @@ namespace WorkspaceManager.View.VisualComponents
     /// </summary>
     public partial class UsageStatisticPopup : Popup
     {
-        private readonly WorkspaceModel _model;
         private Adorner _currentAdorner;
 
         public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
@@ -45,7 +44,8 @@ namespace WorkspaceManager.View.VisualComponents
                 SetValue(SelectedConnectorProperty, value);
             }
         }
-        DispatcherTimer timer = new DispatcherTimer();
+        DispatcherTimer timer= new DispatcherTimer();
+        DispatcherTimer timer2 = new DispatcherTimer();
 
         public static readonly DependencyProperty SuggestionsProperty = DependencyProperty.Register("Suggestions",
             typeof(ObservableCollection<SuggestionContainer>),
@@ -54,6 +54,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private EditorVisual _editor;
         private Point position;
+        private EditorVisual editorVisual;
 
         public ObservableCollection<SuggestionContainer> Suggestions
         {
@@ -64,17 +65,14 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
-        public UsageStatisticPopup(WorkspaceModel model)
+        public UsageStatisticPopup(EditorVisual editor)
         {
             InitializeComponent();
-            _model = model;
-            _editor = (EditorVisual)model.MyEditor.Presentation;
-            this.Loaded += new RoutedEventHandler(ComponentConnectionStatisticsPopUpLoaded);
+            _editor = editor;
             this.MouseLeave += new MouseEventHandler(ComponentConnectionStatisticsPopUpMouseLeave);
             this.Opened += new EventHandler(ComponentConnectionStatisticsPopUpOpened);
             this.Closed += new EventHandler(ComponentConnectionStatisticsPopUpClosed);
             _editor.SelectedConnectorChanged += new EventHandler(_editorSelectedConnectorChanged);
-
             Suggestions = new ObservableCollection<SuggestionContainer>();
         }
 
@@ -85,39 +83,50 @@ namespace WorkspaceManager.View.VisualComponents
 
         void _editorSelectedConnectorChanged(object sender, EventArgs e)
         {
-            var win = AdornerLayer.GetAdornerLayer((FrameworkElement)Window.GetWindow(this).Content);
-
-            if (this._editor.SelectedConnector == null)
+            var window = Window.GetWindow(this);
+            if (window != null)
             {
-                timer.Stop();
-                if(_currentAdorner != null)
-                    win.Remove(_currentAdorner);
-                return;
+                var win = AdornerLayer.GetAdornerLayer((FrameworkElement)window.Content);
+
+                if (this._editor.SelectedConnector == null)
+                {
+                    timer.Stop();
+                    timer2.Stop();
+                    if(_currentAdorner != null)
+                        win.Remove(_currentAdorner);
+                    return;
+                }
+                SelectedConnector = this._editor.SelectedConnector;
+
+                var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
+                if (list == null)
+                    return;
+                Suggestions = new ObservableCollection<SuggestionContainer>();
+                foreach (var componentConnector in list)
+                {
+                    Type t = componentConnector.Component;
+                    string name = componentConnector.ConnectorName;
+                    Suggestions.Add(new SuggestionContainer(name, t));
+                }
+
+                timer.Interval = TimeSpan.FromSeconds(3);
+                timer.Tick += delegate(object o, EventArgs args)
+                                  {
+                                      timer.Stop();
+                                      timer2.Interval = TimeSpan.FromSeconds(3);
+                                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
+                                      timer2.Tick += delegate(object o2, EventArgs args2)
+                                      {
+                                          timer2.Stop();
+                                          win.Remove(_currentAdorner);
+                                          IsOpen = true;
+                                      };
+                                      win.Add(_currentAdorner);
+                                      timer2.Start();
+                                  };
+                timer.Start();
             }
-            SelectedConnector = this._editor.SelectedConnector;
 
-            var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
-            if (list == null)
-                return;
-
-            _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)Window.GetWindow(this).Content, new CricularLineProgress());
-            win.Add(_currentAdorner);
-            Suggestions = new ObservableCollection<SuggestionContainer>();
-            foreach (var componentConnector in list)
-            {
-                Type t = componentConnector.Component;
-                string name = componentConnector.ConnectorName;
-                Suggestions.Add(new SuggestionContainer(name, t));
-            }
-
-            timer.Interval = TimeSpan.FromSeconds(3);
-            timer.Tick += delegate(object o, EventArgs args)
-                              {
-                                  timer.Stop();
-                                  win.Remove(_currentAdorner);
-                                  IsOpen = true;
-                              };
-            timer.Start();
         }
 
         void ComponentConnectionStatisticsPopUpOpened(object sender, EventArgs e)
@@ -128,34 +137,19 @@ namespace WorkspaceManager.View.VisualComponents
         void ComponentConnectionStatisticsPopUpMouseLeave(object sender, MouseEventArgs e)
         {
             IsOpen = false;
-
         }
 
         void SelectedItem(object sender, SelectionChangedEventArgs e)
         {
-            //IsOpen = false;
-        }
-
-        void ComponentConnectionStatisticsPopUpLoaded(object sender, RoutedEventArgs e)
-        {
-            _editor.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(_editorMouseLeftButtonUp);
-        }
-
-        void _editorMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!IsMouseOver)
+            if (TopUsages.SelectedItem != null)
             {
-                IsOpen = false;
-            }
-            if (TopUsages.SelectedItem != null && IsMouseOver)
-            {
-
                 try
                 {
                     var x = (SuggestionContainer)TopUsages.SelectedItem;
-                    PluginModel pluginModel = (PluginModel)_model.ModifyModel(new NewPluginModelOperation(position, 0, 0, x.ComponentType));
+                    PluginModel pluginModel = (PluginModel)_editor.Model.ModifyModel(new NewPluginModelOperation(position, 0, 0, x.ComponentType));
                     _editor.AddBinComponentVisual(pluginModel, 0);
                     ConnectorVisual connector = null;
+
                     foreach (var con in pluginModel.GetInputConnectors())
                     {
                         if (con.GetName() == x.ConnectorName)
@@ -172,7 +166,7 @@ namespace WorkspaceManager.View.VisualComponents
 
                     var input = SelectedConnector.Model.Outgoing == true ? connector.Model : SelectedConnector.Model;
                     var output = SelectedConnector.Model.Outgoing == false ? connector.Model : SelectedConnector.Model;
-                    ConnectionModel connectionModel = (ConnectionModel)_model.ModifyModel(new NewConnectionModelOperation(
+                    ConnectionModel connectionModel = (ConnectionModel)_editor.Model.ModifyModel(new NewConnectionModelOperation(
                         output,
                         input,
                         output.ConnectorType));
@@ -187,7 +181,6 @@ namespace WorkspaceManager.View.VisualComponents
                 }
             }
         }
-
     }
 
     public class SuggestionContainer
@@ -370,8 +363,8 @@ typeof(Double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((Dou
 
     public class CricularLineProgressAdorner : Adorner
     {
-        private readonly UIElement _adornedElement;
-        private readonly CricularLineProgress _clp;
+        private UIElement _adornedElement;
+        private CricularLineProgress _clp;
         private Window _win;
 
         public CricularLineProgressAdorner(UIElement adornedElement, CricularLineProgress clp)
@@ -379,16 +372,23 @@ typeof(Double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((Dou
         {
             _adornedElement = adornedElement;
             _clp = clp;
+            _clp.IsHitTestVisible = false;
+            AddLogicalChild(clp);
+            AddVisualChild(clp);
             _win = Window.GetWindow(adornedElement);
             _win.PreviewMouseMove += new MouseEventHandler(_win_PreviewMouseMove);
             var p = Mouse.GetPosition(_win);
             _clp.RenderTransform = new TranslateTransform(p.X, p.Y);
 
             DoubleAnimation anim = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(3)));
+            DoubleAnimation anim2 = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(3)));
             Storyboard sb = new Storyboard();
             Storyboard.SetTarget(anim, _clp);
-            Storyboard.SetTargetProperty(anim, new PropertyPath(CricularLineProgress.RadiusProperty));  
+            Storyboard.SetTarget(anim2, _clp);
+            Storyboard.SetTargetProperty(anim, new PropertyPath(CricularLineProgress.RadiusProperty));
+            Storyboard.SetTargetProperty(anim2, new PropertyPath(CricularLineProgress.OpacityProperty));
             sb.Children.Add(anim);
+            sb.Children.Add(anim2);
             sb.Begin();
         }
 
