@@ -28,11 +28,11 @@ using WorkspaceManagerModel.Model.Tools;
 
 namespace WorkspaceManager.View.Visuals
 {
-    public class VisualsHelper: INotifyPropertyChanged
+    public class VisualsHelper : INotifyPropertyChanged
     {
         private System.Drawing.RectangleF rect = new System.Drawing.RectangleF((float)-2000, (float)-2000, (float)6000, (float)6000);
         private Point? startDragPoint;
-        private Point? draggedFrom,draggedTo;
+        private Point? draggedFrom, draggedTo;
         private FromTo draggedFT;
         private Popup pop;
 
@@ -114,7 +114,7 @@ namespace WorkspaceManager.View.Visuals
 
         void reset()
         {
-            if(CurrentLine != null)
+            if (CurrentLine != null)
                 CurrentLine.Line.IsEditingPoint = false;
 
             CurrentLine = null;
@@ -380,11 +380,11 @@ namespace WorkspaceManager.View.Visuals
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
         private bool startedSelection;
         private CryptoLineView draggedLink;
-        private Path selectionPath = new Path() 
-        { 
+        private Path selectionPath = new Path()
+        {
             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3399ff")),
             Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff")),
-            StrokeThickness = 1, 
+            StrokeThickness = 1,
             Opacity = 0.5
         };
         private Point? startDragPoint;
@@ -415,7 +415,7 @@ namespace WorkspaceManager.View.Visuals
                 model.ChildPositionChanged += ChildPositionChanged;
                 model.ChildSizeChanged += ChildSizeChanged;
                 model.ChildNameChanged += ChildNameChanged;
-                if(model.Zoom != 0)
+                if (model.Zoom != 0)
                     ZoomLevel = model.Zoom;
             }
         }
@@ -647,12 +647,22 @@ namespace WorkspaceManager.View.Visuals
             draggedLink = new CryptoLineView(VisualCollection);
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
             InitializeComponent();
-            Loaded += new RoutedEventHandler(EditorVisualLoaded);
+            _usagePopup = new UsageStatisticPopup(this);
+            this.Root.Children.Add(_usagePopup);
+            _usagePopup.Closed += new EventHandler(_usagePopup_Closed);
+            _usagePopup.Opened += new EventHandler(_usagePopup_Closed);
         }
 
-        void EditorVisualLoaded(object sender, RoutedEventArgs e)
+        void _usagePopup_Closed(object sender, EventArgs e)
         {
-            this.Root.Children.Add(new UsageStatisticPopup(Model));
+            if (_usagePopup.IsOpen)
+            {
+                reset();
+            }
+            else
+            {
+                reset();
+            }
         }
 
         #endregion
@@ -681,7 +691,7 @@ namespace WorkspaceManager.View.Visuals
             if (mode == 1)
             {
                 GeneralTransform g = new ScaleTransform(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, 0, 0);
-                Point p = g.Transform(new Point(randomNumber(0, (int)(ActualWidth-bin.ActualWidth)), randomNumber(0, (int)(ActualHeight-bin.ActualHeight))));
+                Point p = g.Transform(new Point(randomNumber(0, (int)(ActualWidth - bin.ActualWidth)), randomNumber(0, (int)(ActualHeight - bin.ActualHeight))));
                 bin.Position = p;
             }
 
@@ -691,7 +701,7 @@ namespace WorkspaceManager.View.Visuals
         public DispatcherOperation Load(WorkspaceModel model, bool isPaste = false)
         {
             if (model == null) throw new ArgumentNullException("model");
-            if(!isPaste)
+            if (!isPaste)
             {
                 Model = model;
                 return internalLoad(model);
@@ -755,9 +765,9 @@ namespace WorkspaceManager.View.Visuals
         public void ResetConnections()
         {
             foreach (CryptoLineView view in PathCollection)
-	        {
+            {
                 view.Line.reset();
-	        }
+            }
         }
 
         /// <summary>
@@ -824,7 +834,7 @@ namespace WorkspaceManager.View.Visuals
                 ImageVisual bin = new ImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri)));
                 VisualCollection.Add(bin);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MyEditor.GuiLogMessage(string.Format("Could not add image to workspace: {0}", e.Message), NotificationLevel.Error);
             }
@@ -851,7 +861,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
                     if (!skip)
-                        AddBinComponentVisual(pluginModel,0);
+                        AddBinComponentVisual(pluginModel, 0);
                 }
 
                 foreach (ConnectionModel connModel in m.GetAllConnectionModels())
@@ -876,13 +886,13 @@ namespace WorkspaceManager.View.Visuals
 
                     AddConnection(from, to, connModel);
                 }
-            
-                foreach(var img in m.GetAllImageModels())
+
+                foreach (var img in m.GetAllImageModels())
                 {
                     this.VisualCollection.Add(new ImageVisual(img));
                 }
 
-                foreach(var txt in m.GetAllTextModels())
+                foreach (var txt in m.GetAllTextModels())
                 {
 
                     try
@@ -924,6 +934,8 @@ namespace WorkspaceManager.View.Visuals
         }
 
         private static Random random = new Random();
+        private UsageStatisticPopup _usagePopup;
+
         private double randomNumber(int min, int max)
         {
             return (double)random.Next(min, max);
@@ -1218,7 +1230,7 @@ namespace WorkspaceManager.View.Visuals
             catch (Exception)
             {
                 //1ms
-                DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(10000)  };
+                DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(10000) };
                 timer.Start();
                 timer.Tick += new EventHandler(delegate(object timerSender, EventArgs ee)
                 {
@@ -1235,8 +1247,8 @@ namespace WorkspaceManager.View.Visuals
             UIElement[] newItem = e.NewValue as UIElement[];
             UIElement[] oldItem = e.OldValue as UIElement[];
 
-            if(b.ItemsSelected != null)
-                b.ItemsSelected.Invoke(b, new SelectedItemsEventArgs(){Items = b.SelectedItems});
+            if (b.ItemsSelected != null)
+                b.ItemsSelected.Invoke(b, new SelectedItemsEventArgs() { Items = b.SelectedItems });
         }
 
         private static void OnIsLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1244,7 +1256,7 @@ namespace WorkspaceManager.View.Visuals
             EditorVisual b = (EditorVisual)d;
             bool newItem = (bool)e.NewValue;
             bool oldItem = (bool)e.OldValue;
-            if(newItem)
+            if (newItem)
                 Mouse.OverrideCursor = Cursors.Wait;
             else
                 Mouse.OverrideCursor = Cursors.Arrow;
@@ -1332,14 +1344,14 @@ namespace WorkspaceManager.View.Visuals
         {
             if (State == BinEditorState.READY)
             {
-                packer = new ArevaloRectanglePacker( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortWidth,  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortHeight);
+                packer = new ArevaloRectanglePacker(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortWidth, Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortHeight);
                 foreach (var element in ComponentCollection)
                 {
                     Point point;
-                    if (packer.TryPack(element.ActualWidth +  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, element.ActualHeight +  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, out point))
+                    if (packer.TryPack(element.ActualWidth + Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, element.ActualHeight + Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, out point))
                     {
-                        point.X +=  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
-                        point.Y +=  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
+                        point.X += Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
+                        point.Y += Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
                         element.Position = point;
                     }
                 }
@@ -1348,7 +1360,7 @@ namespace WorkspaceManager.View.Visuals
 
         private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems == null)
@@ -1389,13 +1401,13 @@ namespace WorkspaceManager.View.Visuals
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale + 0.05 <  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale &&
+                if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale + 0.05 < Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale &&
                     e.Delta >= 0)
-                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.05;
+                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.05;
 
-                if ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale - 0.05 >  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale &&
+                if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale - 0.05 > Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale &&
                     e.Delta <= 0)
-                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += -0.05;
+                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += -0.05;
 
                 e.Handled = true;
             }
@@ -1422,7 +1434,7 @@ namespace WorkspaceManager.View.Visuals
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && 
+            if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) &&
                 !(e.Source is TextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
@@ -1433,7 +1445,7 @@ namespace WorkspaceManager.View.Visuals
             if (e.Source is ComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 ComponentVisual c = (ComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, 
+                FrameworkElement f = (FrameworkElement)e.OriginalSource,
                     element = (FrameworkElement)Util.TryFindParent<ConnectorVisual>(f);
                 if (element is ConnectorVisual)
                 {
@@ -1466,7 +1478,7 @@ namespace WorkspaceManager.View.Visuals
                 e.Handled = true;
             }
 
-            switch(e.ClickCount)
+            switch (e.ClickCount)
             {
                 case 1:
                     var result = Util.TryFindParent<IControlVisual>(e.OriginalSource as UIElement);
@@ -1580,40 +1592,43 @@ namespace WorkspaceManager.View.Visuals
 
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
+            if (!_usagePopup.IsOpen)
             {
-                startedSelection = true;
-                Point currentPoint = Util.MouseUtilities.CorrectGetPosition(panel);
-                Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
-                delta.Negate();
-                selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
-                selectionPath.Data = selectRectGeometry;
-                List<UIElement> items = new List<UIElement>();
-                foreach (var element in ComponentCollection)
+                if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
                 {
-                    Rect elementRect = new Rect(element.Position, new Size(element.ActualWidth, element.ActualHeight));
-                    if (selectRectGeometry.Rect.IntersectsWith(elementRect))
-                        items.Add(element);
-                    else
-                        items.Remove(element);
-                }
-                foreach (var line in PathCollection)
-                {
-                    foreach (var ft in line.Line.PointList)
+                    startedSelection = true;
+                    Point currentPoint = Util.MouseUtilities.CorrectGetPosition(panel);
+                    Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
+                    delta.Negate();
+                    selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
+                    selectionPath.Data = selectRectGeometry;
+                    List<UIElement> items = new List<UIElement>();
+                    foreach (var element in ComponentCollection)
                     {
-                        Rect elementRect = new Rect(ft.From, ft.To);
+                        Rect elementRect = new Rect(element.Position, new Size(element.ActualWidth, element.ActualHeight));
                         if (selectRectGeometry.Rect.IntersectsWith(elementRect))
-                        {
-                            items.Add(line);
-                            break;
-                        }
+                            items.Add(element);
                         else
-                            items.Remove(line);
+                            items.Remove(element);
                     }
+                    foreach (var line in PathCollection)
+                    {
+                        foreach (var ft in line.Line.PointList)
+                        {
+                            Rect elementRect = new Rect(ft.From, ft.To);
+                            if (selectRectGeometry.Rect.IntersectsWith(elementRect))
+                            {
+                                items.Add(line);
+                                break;
+                            }
+                            else
+                                items.Remove(line);
+                        }
 
+                    }
+                    SelectedItems = items.ToArray();
+                    return;
                 }
-                SelectedItems = items.ToArray();
-                return;
             }
         }
 
@@ -1652,6 +1667,7 @@ namespace WorkspaceManager.View.Visuals
             }
             reset();
             startedSelection = false;
+
         }
 
         #region DragDropHandler
@@ -1699,7 +1715,7 @@ namespace WorkspaceManager.View.Visuals
                 {
                     DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
                     PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(Util.MouseUtilities.CorrectGetPosition(sender as FrameworkElement), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
-                    AddBinComponentVisual(pluginModel,0);
+                    AddBinComponentVisual(pluginModel, 0);
                     e.Handled = true;
                 }
                 catch (Exception ex)
@@ -1773,6 +1789,6 @@ namespace WorkspaceManager.View.Visuals
             }
             return null;
         }
-    } 
+    }
     #endregion
 }

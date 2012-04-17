@@ -164,6 +164,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         void Update(object sender, EventArgs e)
         {
             InvalidateVisual();
+            Line.InvalidateVisual();
         }
 
         #endregion

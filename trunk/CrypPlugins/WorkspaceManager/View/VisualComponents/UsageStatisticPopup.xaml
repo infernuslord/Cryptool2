@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
              AllowsTransparency="True" Panel.ZIndex="9000" Placement="MousePoint"
-             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade"
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade" 
              Width="250" MaxHeight="350">
     <Popup.Resources>
 
