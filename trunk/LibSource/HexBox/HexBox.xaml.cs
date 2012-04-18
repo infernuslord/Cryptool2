@@ -27,16 +27,18 @@ namespace HexBox
         private DynamicFileByteProvider dyfipro;
         
         private TextBox tb3 = new TextBox();
-        private string Pfad = string.Empty;
+        public string Pfad = string.Empty;
 
         private long[] mark;
         private Boolean markedBackwards = false;
 
-
+        
 
         public HexBox()
         {
             InitializeComponent();
+
+            
 
             mark = new long[2];
 
@@ -325,7 +327,10 @@ namespace HexBox
             return null;
         }
 
-
+        public void dispose()
+        {
+            dyfipro.Dispose();
+        }
 
         public void fill(long position)
         {
@@ -1546,42 +1551,141 @@ namespace HexBox
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void openFile(String fileName,Boolean canRead)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog().Value)
+            
+            dyfipro.Dispose();
+            try
             {
-                Pfad = openFileDialog.FileName;
+                if (fileName != "")
+                {
+                    FileName.Text = fileName;
+
+                    dyfipro = new DynamicFileByteProvider(fileName, canRead);
+
+
+                    dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
+
+
+
+                    fileSlider.Minimum = 0;
+                    fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
+                    fileSlider.ViewportSize = 16;
+
+
+
+                    tb3.Text = dyfipro.Length/256 + "";
+
+
+                    fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                    fileSlider.SmallChange = 1;
+                    fileSlider.LargeChange = 1;
+
+
+
+
+
+                    fill(0);
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        public void closeFile()
+        {
+            dyfipro.Dispose();
+            //fillempty();
+        }
+
+        public void fillempty()
+        {
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+
+            
+            int max = 256;
+
+            
+            for (int j = 0; j < 16; j++)
+            {
+                TextBlock id = gridid.Children[j] as TextBlock;
+                //id.Text = (position + j) * 16 + "";
+                long s = j * 16;
+                id.Text = s.ToString("X");
+
             }
 
-            FileName.Text = Pfad;
+            for (int i = 0; i < 256; i++)
+            {
+                TextBlock tb = grid1.Children[i] as TextBlock;
+                
+                tb.Text = String.Format("{0:X2}", "");
+                
+                
 
-            dyfipro = new DynamicFileByteProvider(Pfad, false);
+                tb.Background = Brushes.Transparent;
+                
+            }
+
+            for (int i = 0; i < 256; i++)
+            {
+                TextBlock tb = grid2.Children[i] as TextBlock;
+                
+                    tb.Text = "";
+
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            dyfipro.Dispose();
+            try
+            {
+
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                //openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog().Value)
+                {
+                    Pfad = openFileDialog.FileName;
+                }
+                if (Pfad != "" && File.Exists(Pfad))
+                {
+                    FileName.Text = Pfad;
+
+                    dyfipro = new DynamicFileByteProvider(Pfad, false);
 
 
-            dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
+                    dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
 
 
 
-            fileSlider.Minimum = 0;
-            fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
-            fileSlider.ViewportSize = 16;
+                    fileSlider.Minimum = 0;
+                    fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
+                    fileSlider.ViewportSize = 16;
 
 
 
-            tb3.Text = dyfipro.Length/256 + "";
+                    tb3.Text = dyfipro.Length/256 + "";
 
 
-            fileSlider.ValueChanged += MyManipulationCompleteEvent;
-            fileSlider.SmallChange = 1;
-            fileSlider.LargeChange = 1;
+                    fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                    fileSlider.SmallChange = 1;
+                    fileSlider.LargeChange = 1;
 
 
 
 
 
-            fill(0);
+                    fill(0);
+
+                    OnFileChanged(this, EventArgs.Empty);
+                }
+            }
+            finally
+            {
+                
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -1595,22 +1699,32 @@ namespace HexBox
             saveFileDialog1.Title = "Save Data";
             saveFileDialog1.ShowDialog();
 
-
+            
 
             // If the file name is not an empty string open it for saving.
             if (saveFileDialog1.FileName != "")
             {
                 // Saves the Image via a FileStream created by the OpenFile method.
-                System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
 
-                for (long i = 0; i < dyfipro.Length; i++)
+                if (saveFileDialog1.FileName != Pfad)
                 {
-                    fs.WriteByte(dyfipro.ReadByte(i));
+                    System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
+
+                    for (long i = 0; i < dyfipro.Length; i++)
+                    {
+                        fs.WriteByte(dyfipro.ReadByte(i));
+                    }
+                    FileName.Text = saveFileDialog1.FileName;
+                    fs.Close();
                 }
-                FileName.Text = saveFileDialog1.FileName;
-                fs.Close();
+                else
+                {
+                    dyfipro.ApplyChanges();
+                }
             }
         }
+
+        public event EventHandler OnFileChanged;
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -1625,38 +1739,40 @@ namespace HexBox
                 // Saves the Image via a FileStream created by the OpenFile method.
                 System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
 
+                fs.Dispose();
                 fs.Close();
+
                 Pfad = saveFileDialog1.FileName;
+
+
+                FileName.Text = Pfad;
+
+                dyfipro = new DynamicFileByteProvider(Pfad, false);
+
+
+                dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
+
+
+
+                fileSlider.Minimum = 0;
+                fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
+                fileSlider.ViewportSize = 16;
+
+
+
+                tb3.Text = dyfipro.Length/256 + "";
+
+
+                fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                fileSlider.SmallChange = 1;
+                fileSlider.LargeChange = 1;
+
+
+
+
+
+                fill(0);
             }
-
-            FileName.Text = Pfad;
-
-            dyfipro = new DynamicFileByteProvider(Pfad, false);
-
-
-            dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
-
-
-
-            fileSlider.Minimum = 0;
-            fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
-            fileSlider.ViewportSize = 16;
-
-
-
-            tb3.Text = dyfipro.Length/256 + "";
-
-
-            fileSlider.ValueChanged += MyManipulationCompleteEvent;
-            fileSlider.SmallChange = 1;
-            fileSlider.LargeChange = 1;
-
-
-
-
-
-            fill(0);
-
 
         }
     }
