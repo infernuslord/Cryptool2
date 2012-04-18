@@ -16,6 +16,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
@@ -30,7 +31,13 @@
                     <Button Content="{Loc ResetCCS}" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=settingsStyle}" Click="ButtonResetCCS_Click" />
                 </StackPanel>
                 
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1" Grid.Row="1">
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Component Suggestion Popup Delay" Margin="3"></TextBlock>
+                    <tools:DoubleUpDown Width="200" Margin="3" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_BlingDelay, Mode=TwoWay}"></tools:DoubleUpDown>
+
+                </StackPanel>
+                
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1" Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

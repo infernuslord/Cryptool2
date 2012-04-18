@@ -283,5 +283,29 @@ namespace Cryptool.PluginBase.Properties {
                 this["WorkspaceManager_ComponentAppearance"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public string WorkspaceManager_ShowComponentConnection {
+            get {
+                return ((string)(this["WorkspaceManager_ShowComponentConnection"]));
+            }
+            set {
+                this["WorkspaceManager_ShowComponentConnection"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double WorkspaceManager_BlingDelay {
+            get {
+                return ((double)(this["WorkspaceManager_BlingDelay"]));
+            }
+            set {
+                this["WorkspaceManager_BlingDelay"] = value;
+            }
+        }
     }
 }

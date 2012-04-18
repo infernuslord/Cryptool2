@@ -289,8 +289,11 @@ namespace WorkspaceManager
             if (WorkspaceSpaceEditorView.SelectedItems != null)
             {
                 var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
-                var list = filter.Select(visual => visual.Model).ToList();
-                PartialCopyHelper.Copy(list, this.WorkspaceModel);
+                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
+                var connections = CopyOperation.SelectConnections(list);
+                var copy = WorkspaceModel.ModifyModel(new CopyOperation(connections));
+
+                //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
         }
 
