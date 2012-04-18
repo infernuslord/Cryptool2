@@ -16,8 +16,12 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using FileInputWPF;
+using FileInputWPF.Helper;
 using HexBox;
+using System.IO;
 
 namespace Cryptool.Plugins.FileInputWPF
 {
@@ -30,15 +34,48 @@ namespace Cryptool.Plugins.FileInputWPF
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class FileInputWPF : ICrypComponent
     {
+        private FileInputWPFPresentation fwpfp;
+
         public FileInputWPF()
         {
-            Presentation = new HexBox.HexBox();
+            fwpfp = new FileInputWPFPresentation(new HexBox.HexBox(),this);
+            Presentation = fwpfp;
+
+            settings = new ExamplePluginCT2Settings();
+            settings.PropertyChanged += settings_PropertyChanged;
+
+            
+            
+        }
+
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+
+            if (e.PropertyName == "OpenFilename" )
+            {
+                string fileName = settings.OpenFilename;
+
+                if (File.Exists(fileName))
+                {
+                    fwpfp.CloseFile();
+                    fwpfp.OpenFile(settings.OpenFilename);
+                    FileSize = (int)new FileInfo(fileName).Length;
+                    GuiLogMessage("Opened file: " + settings.OpenFilename , NotificationLevel.Info);
+                }
+                else if (e.PropertyName == "OpenFilename" && fileName == null)
+                {
+
+                    fwpfp.CloseFile();
+                    FileSize = 0;
+                }
+                NotifyPropertyChange();
+            }
         }
 
         #region Private Variables
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly ExamplePluginCT2Settings settings = new ExamplePluginCT2Settings();
+        public readonly ExamplePluginCT2Settings settings = new ExamplePluginCT2Settings();
 
         #endregion
 
@@ -48,23 +85,19 @@ namespace Cryptool.Plugins.FileInputWPF
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description")]
-        public int SomeInput
+        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true)]
+        public ICryptoolStream StreamOutput
         {
-            get;
-            set;
+            get
+            {
+                return cstreamWriter;
+            }
+            set { } // readonly
         }
 
-        /// <summary>
-        /// HOWTO: Output interface to write the output data.
-        /// You can add more output properties ot other type if needed.
-        /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
-        public int SomeOutput
-        {
-            get;
-            set;
-        }
+        [PropertyInfo(Direction.OutputData, "FileSizeCaption", "FileSizeTooltip")]
+        public int FileSize { get; private set; }
+
 
         #endregion
 
@@ -90,26 +123,45 @@ namespace Cryptool.Plugins.FileInputWPF
         /// </summary>
         public void PreExecution()
         {
+            //fwpfp.CloseFileToGetFileStreamForExecution();
+
+            DispatcherHelper.ExecuteMethod(fwpfp.Dispatcher,  fwpfp, "CloseFileToGetFileStreamForExecution", null);
         }
 
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
         /// </summary>
+        /// 
+        private CStreamWriter cstreamWriter;
+
         public void Execute()
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
 
-            // HOWTO: After you have changed an output property, make sure you announce the name of the changed property to the CT2 core.
-            SomeOutput = SomeInput - settings.SomeParameter;
-            OnPropertyChanged("SomeOutput");
+            if (string.IsNullOrWhiteSpace(settings.OpenFilename))
+            {
+                GuiLogMessage("No input file selected, can't proceed", NotificationLevel.Error);
+                return;
+            }
 
-            // HOWTO: You can pass error, warning, info or debug messages to the CT2 main window.
-            if (settings.SomeParameter < 0)
-                GuiLogMessage("SomeParameter is negative", NotificationLevel.Debug);
+            cstreamWriter = new CStreamWriter(settings.OpenFilename);
+            cstreamWriter.Close();
+            cstreamWriter.Dispose();
+            
+            
+            
+
+            NotifyPropertyChange();
 
             // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
+        }
+
+        public void NotifyPropertyChange()
+        {
+            OnPropertyChanged("StreamOutput");
+            OnPropertyChanged("FileSize");
         }
 
         /// <summary>
@@ -117,6 +169,10 @@ namespace Cryptool.Plugins.FileInputWPF
         /// </summary>
         public void PostExecution()
         {
+            
+
+            DispatcherHelper.ExecuteMethod(fwpfp.Dispatcher, fwpfp, "ReopenClosedFile", null);
+            
         }
 
         /// <summary>
@@ -139,6 +195,7 @@ namespace Cryptool.Plugins.FileInputWPF
         /// </summary>
         public void Dispose()
         {
+            fwpfp.dispose();
         }
 
         #endregion
