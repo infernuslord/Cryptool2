@@ -23,37 +23,41 @@ namespace Cryptool.Plugins.FileInputWPF
     // HOWTO: rename class (click name, press F2)
     public class ExamplePluginCT2Settings : ISettings
     {
-        #region Private Variables
 
-        private int someParameter = 0;
-
-        #endregion
-
-        #region TaskPane Settings
-
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
-        [TaskPane("SomeParameter", "This is a parameter tooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int SomeParameter
+        private string saveAndRestoreState;
+        public string SaveAndRestoreState
         {
-            get
-            {
-                return someParameter;
-            }
+            get { return saveAndRestoreState; }
             set
             {
-                if (someParameter != value)
+                if (value != saveAndRestoreState) hasChanges = true;
+                saveAndRestoreState = value;
+                OnPropertyChanged("SaveAndRestoreState");
+            }
+        }
+
+        private bool hasChanges;
+
+        private string openFilename;
+        [TaskPane("OpenFilenameCaption", "OpenFilenameTooltip", null, 1, false, ControlType.OpenFileDialog, FileExtension = "All Files (*.*)|*.*")]
+        public string OpenFilename
+        {
+            get { return openFilename; }
+            set
+            {
+                if (value != openFilename)
                 {
-                    someParameter = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    OnPropertyChanged("SomeParameter");
+                    openFilename = value;
+                    OnPropertyChanged("OpenFilename");
                 }
             }
         }
 
-        #endregion
+        [TaskPane("CloseFileCaption", "CloseFileTooltip", null, 2, false, ControlType.Button)]
+        public void CloseFile()
+        {
+            OpenFilename = null;
+        }
 
         #region Events
 

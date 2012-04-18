@@ -79,6 +79,10 @@
   <ItemGroup>
     <Compile Include="ExamplePluginCT2.cs" />
     <Compile Include="ExamplePluginCT2Settings.cs" />
+    <Compile Include="FileInputWPFPresentation.xaml.cs">
+      <DependentUpon>FileInputWPFPresentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DispatcherHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="userdoc.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="FileInputWPFPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
