@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600" ClipToBounds="True">
+             d:DesignHeight="300" d:DesignWidth="600" ClipToBounds="True" FontWeight="Bold">
     <UserControl.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Copy" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute" />
     </UserControl.CommandBindings>
@@ -109,8 +109,8 @@
             
             <StackPanel Orientation="Vertical">
                 <Label Name="ErrorLabel" Content="{Loc Error}" FontSize="20" Foreground="#FFF56161" Visibility="Collapsed" />
-                <Grid >
-                    <Label   HorizontalContentAlignment="Center" Name="taskHeader" FontSize="28" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Florsn01" Foreground="#FF003399" VerticalAlignment="Bottom" />
+                <Grid>
+                    <Label  HorizontalContentAlignment="Center" Name="taskHeader" FontSize="28" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Florsn01" Foreground="#FF003399" VerticalAlignment="Bottom" />
                     <Image Source="Images/header_wizard5.png" Stretch="Uniform"  HorizontalAlignment="Left"></Image>
                 </Grid>
             </StackPanel>

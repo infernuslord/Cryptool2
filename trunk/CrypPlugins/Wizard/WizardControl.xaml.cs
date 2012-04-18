@@ -264,7 +264,7 @@ namespace Wizard
             //set headline
             XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
-                taskHeader.Content = headline.Value.Trim();
+                taskHeader.Content = headline.Value.Trim().ToUpper();
 
             //set task description label
             XElement task = FindElementsInElement(element, "task").First();
