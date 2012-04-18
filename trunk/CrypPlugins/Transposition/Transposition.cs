@@ -191,7 +191,7 @@ namespace Transposition
             if (Presentation.IsVisible)
             {
                     
-                    Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
                        myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed    );
                    }
