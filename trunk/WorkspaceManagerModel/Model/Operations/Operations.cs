@@ -472,19 +472,26 @@ namespace WorkspaceManagerModel.Model.Operations
         }
     }
 
+    [Serializable]
+    public class SerializationWrapper
+    {
+        public List<VisualElementModel> elemens = null;
+    }
+
     public sealed class CopyOperation : Operation
     {
         private readonly List<VisualElementModel> _copiedElements;
 
-        public CopyOperation(List<VisualElementModel> elements) : base(null)
+        public CopyOperation(SerializationWrapper wrapper)
+            : base(null)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
             try
             {
                 //deep copy model elements
-                XMLSerialization.XMLSerialization.Serialize(elements, writer);
-                _copiedElements = (List<VisualElementModel>) XMLSerialization.XMLSerialization.Deserialize(writer);
+                XMLSerialization.XMLSerialization.Serialize(wrapper, writer);
+                _copiedElements = ((SerializationWrapper) XMLSerialization.XMLSerialization.Deserialize(writer)).elemens;
             }
             finally
             {
