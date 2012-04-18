@@ -113,7 +113,7 @@ namespace WorkspaceManager.View.VisualComponents
                 timer.Tick += delegate(object o, EventArgs args)
                                   {
                                       timer.Stop();
-                                      timer2.Interval = TimeSpan.FromSeconds(3);
+                                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
                                       _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
                                       timer2.Tick += delegate(object o2, EventArgs args2)
                                       {
@@ -380,8 +380,8 @@ typeof(Double), typeof(CricularLineProgress), new FrameworkPropertyMetadata((Dou
             var p = Mouse.GetPosition(_win);
             _clp.RenderTransform = new TranslateTransform(p.X, p.Y);
 
-            DoubleAnimation anim = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(3)));
-            DoubleAnimation anim2 = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(3)));
+            DoubleAnimation anim = new DoubleAnimation(50, 0, new Duration(TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay)));
+            DoubleAnimation anim2 = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay)));
             Storyboard sb = new Storyboard();
             Storyboard.SetTarget(anim, _clp);
             Storyboard.SetTarget(anim2, _clp);
