@@ -304,6 +304,24 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Component connection suggestion delay.
+        /// </summary>
+        internal static string ComponentConnection_Delay {
+            get {
+                return ResourceManager.GetString("ComponentConnection_Delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How long to hold the mouse before suggestion popup appears?.
+        /// </summary>
+        internal static string ComponentConnection_Delay_Tooltip {
+            get {
+                return ResourceManager.GetString("ComponentConnection_Delay_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conversion to different data type, ambiguity may occur..
         /// </summary>
         internal static string ConversionAmbig {
