@@ -290,8 +290,8 @@ namespace WorkspaceManager
             {
                 var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
                 var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
-                var connections = CopyOperation.SelectConnections(list);
-                var copy = WorkspaceModel.ModifyModel(new CopyOperation(connections));
+                var elementsToCopy = CopyOperation.SelectConnections(list);
+                copy = new CopyOperation(new SerializationWrapper() { elemens = elementsToCopy});
 
                 //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
@@ -299,10 +299,10 @@ namespace WorkspaceManager
 
         public void Paste()
         {
-            if (PartialCopyHelper.CurrentSelection == null)
+            if (copy == null)
                 return;
 
-            //WorkspaceSpaceEditorView.Load(PartialCopyHelper.CurrentSelection, true);
+            WorkspaceModel.ModifyModel(copy);
         }
 
         public void Remove()
@@ -893,6 +893,7 @@ namespace WorkspaceManager
         }
 
         public bool IsCtrlToggled = false;
+        private static CopyOperation copy;
         public BinEditorState State { get; set; }
 
 
