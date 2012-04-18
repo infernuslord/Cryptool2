@@ -16,11 +16,20 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
                     <CheckBox Content="{Loc Show_ComponentConnection_Proposition}" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" ToolTip="{Loc Show_ComponentConnection_Proposition_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ShowComponentConnectionProposition, Mode=TwoWay}"/>
+                    <Grid ToolTip="{Loc ComponentConnection_Delay_Tooltip}" Style="{StaticResource ResourceKey=settingsStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Loc ComponentConnection_Delay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+                        <Slider Width="200" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_BlingDelay, Mode=TwoWay}" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Style="{StaticResource ResourceKey=settingsStyle}" Grid.Column="1" IsEnabled="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ShowComponentConnectionProposition}" />
+                        <TextBox Height="25" Width="100" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_BlingDelay, Mode=TwoWay}" IsEnabled="False" Style="{StaticResource ResourceKey=settingsStyle}" Grid.Column="2" />
+                    </Grid>
                     <GroupBox Header="{Loc ComponentAppearanceBehaviourGroupHeader}" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc ComponentAppearanceBehaviourGroupTooltip}">
                         <StackPanel>
                             <RadioButton Content="{Loc DefaultComponentAppearance}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ComponentAppearance, Converter={StaticResource radioBoolToIntConverter}, ConverterParameter=0, Mode=TwoWay}" />
@@ -31,13 +40,7 @@
                     <Button Content="{Loc ResetCCS}" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=settingsStyle}" Click="ButtonResetCCS_Click" />
                 </StackPanel>
                 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
-                    <TextBlock Text="Component Suggestion Popup Delay" Margin="3"></TextBlock>
-                    <tools:DoubleUpDown Width="200" Margin="3" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_BlingDelay, Mode=TwoWay}"></tools:DoubleUpDown>
-
-                </StackPanel>
-                
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1" Grid.Row="2">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1" Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

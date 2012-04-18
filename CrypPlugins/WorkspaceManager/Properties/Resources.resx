@@ -444,4 +444,10 @@
   <data name="ResetCCS" xml:space="preserve">
     <value>Reset Component Connection Statistics</value>
   </data>
+  <data name="ComponentConnection_Delay" xml:space="preserve">
+    <value>Component connection suggestion delay</value>
+  </data>
+  <data name="ComponentConnection_Delay_Tooltip" xml:space="preserve">
+    <value>How long to hold the mouse before suggestion popup appears?</value>
+  </data>
 </root>
