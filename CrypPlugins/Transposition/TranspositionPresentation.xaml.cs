@@ -33,6 +33,7 @@ namespace Transposition
         {
             InitializeComponent();
             SizeChanged += sizeChanged; //fits the quickwatch size
+            outPut.SizeChanged += sizeChanged; 
             mainStory3.Completed += the_End;
             mainStory2.Completed += my_Help142;
             progressTimer = new DispatcherTimer();
@@ -52,8 +53,15 @@ namespace Transposition
         /// <param name="eventArgs"></param>
         private void sizeChanged(Object sender, EventArgs eventArgs)
         {
+            outPut.MaxWidth = this.ActualWidth / 4;
+            outPut.MaxHeight = this.ActualHeight;
+
             this.Stack.RenderTransform = new ScaleTransform(this.ActualWidth / this.Stack.ActualWidth,
                                                             this.ActualHeight / this.Stack.ActualHeight);
+            this.outPut.RenderTransform = new ScaleTransform(this.ActualWidth / this.outPut.ActualWidth,
+                                                            this.ActualHeight / this.outPut.ActualHeight);
+
+            
         }
 
         #region declarating variables
@@ -1157,7 +1165,17 @@ namespace Transposition
         {
             textBox2.Text = typeof(Transposition).GetPluginStringResource("accomplished"); //finish
             feuerEnde(this, EventArgs.Empty);
-        
+
+            outPut.Visibility = Visibility.Visible;
+            Stack.Visibility = Visibility.Hidden;
+
+            foreach (TextBlock t in mywrap2.Children)
+                outPut.Text += t.Text;
+
+            
+            
+            
+
             /*
             DoubleAnimation fadeOut2 = new DoubleAnimation();
             fadeOut2.From = 1.0;
@@ -1186,11 +1204,14 @@ namespace Transposition
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void my_Stop(object sender, EventArgs e)
+        public void my_Stop (object sender, EventArgs e)
         {   //resetting the grid
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
+                                                                                 {
+            outPut.Visibility = Visibility.Hidden;
+            Stack.Visibility = Visibility.Visible;
+                outPut.Text = "";
                 progress = 0;
                 progressTimer.Stop();
                 mainStory1.Stop();

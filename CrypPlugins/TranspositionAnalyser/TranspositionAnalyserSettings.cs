@@ -14,6 +14,8 @@ namespace TranspositionAnalyser
 
         internal void UpdateTaskPaneVisibility()
         {
+            
+
             if (TaskPaneAttributeChanged == null)
                 return;
 
@@ -225,6 +227,7 @@ namespace TranspositionAnalyser
         #endregion
 
         #region Events
+
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

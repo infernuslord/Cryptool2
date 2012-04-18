@@ -79,6 +79,7 @@ namespace TranspositionAnalyser
             Presentation = myPresentation;
             myPresentation.doppelClick += new EventHandler(this.doppelClick);
             ars = new AutoResetEvent(false);
+            
         }
 
         private void doppelClick(object sender, EventArgs e)
@@ -347,7 +348,7 @@ namespace TranspositionAnalyser
                 }
 
 
-                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
 
                     ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
@@ -1240,7 +1241,7 @@ namespace TranspositionAnalyser
                 }
 
 
-                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
 
                     ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
