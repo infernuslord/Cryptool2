@@ -146,11 +146,6 @@ namespace Cryptool.Plugins.FileInputWPF
             }
 
             cstreamWriter = new CStreamWriter(settings.OpenFilename);
-            cstreamWriter.Close();
-            cstreamWriter.Dispose();
-            
-            
-            
 
             NotifyPropertyChange();
 
@@ -196,6 +191,7 @@ namespace Cryptool.Plugins.FileInputWPF
         public void Dispose()
         {
             fwpfp.dispose();
+            cstreamWriter.Dispose();
         }
 
         #endregion
