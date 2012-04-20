@@ -906,7 +906,6 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             // process only if workspace is not running
             if (Model != null && !((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).isExecuting())
             {
-                this.State = BinComponentState.Min;
                 Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
             }
         }

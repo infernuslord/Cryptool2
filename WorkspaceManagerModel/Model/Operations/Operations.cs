@@ -17,6 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using System.Windows;
 
@@ -34,7 +36,7 @@ namespace WorkspaceManagerModel.Model.Operations
 
         public int Identifier { get; protected set; }
         public VisualElementModel Model { get; internal set; }
-        internal abstract object Execute(WorkspaceModel workspaceModel);
+        internal abstract object Execute(WorkspaceModel workspaceModel, bool events = true);
         internal abstract void Undo(WorkspaceModel workspaceModel);
         internal bool SavedHere;
     }
@@ -52,34 +54,36 @@ namespace WorkspaceManagerModel.Model.Operations
         public NewPluginModelOperation(Point position, double width, double height, Type pluginType)
             : base(null)
         {
-            this.Position = position;
-            this.Width = width;
-            this.Height = height;
-            this.PluginType = pluginType;
-            this.Identifier = 0;
+            Position = position;
+            Width = width;
+            Height = height;
+            PluginType = pluginType;
+            Identifier = 0;
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
-            if (this.Model == null)
+            if (Model == null)
             {
-                this.Model = workspaceModel.newPluginModel(this.Position,
-                    this.Width,
-                    this.Height,
-                    this.PluginType);
+                Model = workspaceModel.newPluginModel(Position,
+                    Width,
+                    Height,
+                    PluginType);
             }
             else
             {
                 workspaceModel.addPluginModel((PluginModel)Model);
             }
-            return this.Model;
+            if(events)
+                workspaceModel.OnNewChildElement(Model);
+            return Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.deletePluginModel((PluginModel)this.Model);
+            workspaceModel.deletePluginModel((PluginModel)Model);
         }
 
         #endregion
@@ -98,24 +102,25 @@ namespace WorkspaceManagerModel.Model.Operations
         public DeletePluginModelOperation(PluginModel model)
             : base(model)
         {
-            this.Position = model.GetPosition();
-            this.Width = model.GetWidth();
-            this.Height = model.GetHeight();
-            this.PluginType = model.PluginType;
-            this.Identifier = model.GetHashCode();
+            Position = model.GetPosition();
+            Width = model.GetWidth();
+            Height = model.GetHeight();
+            PluginType = model.PluginType;
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
-            workspaceModel.deletePluginModel((PluginModel)this.Model);
+            workspaceModel.deletePluginModel((PluginModel)Model);
             return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
             workspaceModel.addPluginModel((PluginModel)Model);
+            workspaceModel.OnNewChildElement(Model);
         }
 
         #endregion
@@ -133,30 +138,32 @@ namespace WorkspaceManagerModel.Model.Operations
         public NewConnectionModelOperation(ConnectorModel from, ConnectorModel to, Type connectionType) :
             base(null)
         {
-            this.From = from;
-            this.To = to;
-            this.ConnectionType = connectionType;
-            this.Identifier = 0;
+            From = from;
+            To = to;
+            ConnectionType = connectionType;
+            Identifier = 0;
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
-            if (this.Model == null)
+            if (Model == null)
             {
-                this.Model = workspaceModel.newConnectionModel(From, To, ConnectionType);
+                Model = workspaceModel.newConnectionModel(From, To, ConnectionType);
             }
             else
             {
-                workspaceModel.addConnectionModel((ConnectionModel)this.Model);
+                workspaceModel.addConnectionModel((ConnectionModel)Model);
             }
-            return this.Model;
+            if(events)
+                workspaceModel.OnNewChildElement(Model);
+            return Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.deleteConnectionModel((ConnectionModel)this.Model);
+            workspaceModel.deleteConnectionModel((ConnectionModel)Model);
         }
 
         #endregion
@@ -174,7 +181,7 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             workspaceModel.deleteConnectionModel((ConnectionModel)Model);
             return true;
@@ -182,7 +189,8 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.addConnectionModel((ConnectionModel)this.Model);
+            workspaceModel.addConnectionModel((ConnectionModel)Model);
+            workspaceModel.OnNewChildElement(Model);
         }
 
         #endregion
@@ -198,28 +206,30 @@ namespace WorkspaceManagerModel.Model.Operations
         public NewImageModelOperation(Uri imgUri)
             : base(null)
         {
-            this.ImgUri = imgUri;
-            this.Identifier = GetHashCode();
+            ImgUri = imgUri;
+            Identifier = GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
-            if (this.Model == null)
+            if (Model == null)
             {
-                this.Model = workspaceModel.newImageModel(ImgUri);
+                Model = workspaceModel.newImageModel(ImgUri);
             }
             else
             {
                 workspaceModel.addImageModel((ImageModel)Model);
             }
-            return this.Model;
+            if (events)
+                workspaceModel.OnNewChildElement(Model);
+            return Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.deleteImageModel((ImageModel)this.Model);
+            workspaceModel.deleteImageModel((ImageModel)Model);
         }
 
         #endregion
@@ -233,12 +243,12 @@ namespace WorkspaceManagerModel.Model.Operations
         public DeleteImageModelOperation(ImageModel model) :
             base(model)
         {
-            this.Identifier = model.GetHashCode();
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             workspaceModel.deleteImageModel((ImageModel)Model);
             return true;
@@ -246,7 +256,8 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.addImageModel((ImageModel)this.Model);
+            workspaceModel.addImageModel((ImageModel)Model);
+            workspaceModel.OnNewChildElement(Model);
         }
 
         #endregion
@@ -264,22 +275,23 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
-            if (this.Model == null)
+            if (Model == null)
             {
-                this.Model = workspaceModel.newTextModel();
+                Model = workspaceModel.newTextModel();
             }
             else
             {
                 workspaceModel.addTextModel((TextModel)Model);
             }
-            return this.Model;
+            workspaceModel.OnNewChildElement(Model);
+            return Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.deleteTextModel((TextModel)this.Model);
+            workspaceModel.deleteTextModel((TextModel)Model);
         }
 
         #endregion
@@ -293,12 +305,12 @@ namespace WorkspaceManagerModel.Model.Operations
         public DeleteTextModelOperation(TextModel model) :
             base(model)
         {
-            this.Identifier = model.GetHashCode();
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events =  true)
         {
             workspaceModel.deleteTextModel((TextModel)Model);
             return true;
@@ -306,7 +318,8 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            workspaceModel.addTextModel((TextModel)this.Model);
+            workspaceModel.addTextModel((TextModel)Model);
+            workspaceModel.OnNewChildElement(Model);
         }
 
         #endregion
@@ -324,14 +337,14 @@ namespace WorkspaceManagerModel.Model.Operations
         public MoveModelElementOperation(VisualElementModel model, Point newPosition)
             : base(model)
         {
-            this.OldPosition = model.GetPosition();
-            this.NewPosition = newPosition;
-            this.Identifier = model.GetHashCode();
+            OldPosition = model.GetPosition();
+            NewPosition = newPosition;
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             if(OldPosition.Equals(NewPosition))
             {
@@ -364,16 +377,16 @@ namespace WorkspaceManagerModel.Model.Operations
         public ResizeModelElementOperation(VisualElementModel model, double newWidth, double newHeight)
             : base(model)
         {
-            this.OldWidth = model.GetWidth();
-            this.OldHeight = model.GetHeight();
-            this.NewWidth = newWidth;
-            this.NewHeight = newHeight;
-            this.Identifier = model.GetHashCode();
+            OldWidth = model.GetWidth();
+            OldHeight = model.GetHeight();
+            NewWidth = newWidth;
+            NewHeight = newHeight;
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             if (OldWidth.Equals(NewWidth) && OldHeight.Equals(NewHeight))
             {
@@ -381,7 +394,7 @@ namespace WorkspaceManagerModel.Model.Operations
             }
             Model.Width = NewWidth;
             Model.Height = NewHeight;
-            workspaceModel.OnChildSizeChanged(Model, this.OldWidth, this.NewWidth, this.OldHeight, this.NewHeight);
+            workspaceModel.OnChildSizeChanged(Model, OldWidth, NewWidth, OldHeight, NewHeight);
             return true;
         }
 
@@ -389,7 +402,7 @@ namespace WorkspaceManagerModel.Model.Operations
         {
             Model.Width = OldWidth;
             Model.Height = OldHeight;
-            workspaceModel.OnChildSizeChanged(Model, this.NewWidth, this.OldWidth, this.NewHeight, this.OldHeight);
+            workspaceModel.OnChildSizeChanged(Model, NewWidth, OldWidth, NewHeight, OldHeight);
         }
 
         #endregion
@@ -406,28 +419,28 @@ namespace WorkspaceManagerModel.Model.Operations
         public RenameModelElementOperation(VisualElementModel model, string newName)
             : base(model)
         {
-            this.OldName = model.Name;
-            this.NewName = newName;
-            this.Identifier = model.GetHashCode();
+            OldName = model.Name;
+            NewName = newName;
+            Identifier = model.GetHashCode();
         }
 
         #region Operation Members
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             if(OldName.Equals(NewName))
             {
                 return false;
             }
             Model.Name = NewName;
-            workspaceModel.OnRenamedChildElement(this.Model, OldName, NewName);
+            workspaceModel.OnRenamedChildElement(Model, OldName, NewName);
             return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
             Model.Name = OldName;
-            workspaceModel.OnRenamedChildElement(this.Model, NewName, OldName);
+            workspaceModel.OnRenamedChildElement(Model, NewName, OldName);
         }
 
         #endregion
@@ -447,18 +460,18 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 throw new ArgumentNullException("operations");
             }
-            this._operations = operations;
+            _operations = operations;
             foreach (var operation in operations)
             {
                 Identifier += operation.Identifier;
             }
         }
 
-        internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             foreach (Operation op in _operations)
             {
-                op.Execute(workspaceModel);
+                op.Execute(workspaceModel, events);
             }
             return true;
         }
@@ -475,12 +488,14 @@ namespace WorkspaceManagerModel.Model.Operations
     [Serializable]
     public class SerializationWrapper
     {
-        public List<VisualElementModel> elemens = null;
+        public List<VisualElementModel> elements = null;
+        internal List<PersistantPlugin> persistantPlugins = new List<PersistantPlugin>();
     }
 
     public sealed class CopyOperation : Operation
     {
         private readonly List<VisualElementModel> _copiedElements;
+        private readonly List<PersistantPlugin> _persistantPlugins;
 
         public CopyOperation(SerializationWrapper wrapper)
             : base(null)
@@ -489,9 +504,47 @@ namespace WorkspaceManagerModel.Model.Operations
             var writer = new StreamWriter(stream);
             try
             {
+                //Save all Settings of each Plugin
+                foreach (var element in wrapper.elements)
+                {
+                    var pluginModel = element as PluginModel;
+                    if (pluginModel != null && pluginModel.Plugin.Settings != null)
+                    {
+                        PropertyInfo[] arrpInfo = pluginModel.Plugin.Settings.GetType().GetProperties();
+
+                        PersistantPlugin persistantPlugin = new PersistantPlugin();
+                        persistantPlugin.PluginModel = pluginModel;
+
+                        foreach (PropertyInfo pInfo in arrpInfo)
+                        {
+                            DontSaveAttribute[] dontSave = (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
+                            if (pInfo.CanWrite && dontSave.Length == 0)
+                            {
+                                PersistantSetting persistantSetting = new PersistantSetting();
+                                if (pInfo.PropertyType.IsEnum)
+                                {
+                                    persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null).GetHashCode();
+                                }
+                                else
+                                {
+                                    persistantSetting.Value = "" + pInfo.GetValue(pluginModel.Plugin.Settings, null);
+                                }
+                                persistantSetting.Name = pInfo.Name;
+                                persistantSetting.Type = pInfo.PropertyType.FullName;
+                                persistantPlugin.PersistantSettingsList.Add(persistantSetting);
+                            }
+
+                        }
+                        wrapper.persistantPlugins.Add(persistantPlugin);
+                    }
+                }
+
                 //deep copy model elements
                 XMLSerialization.XMLSerialization.Serialize(wrapper, writer);
-                _copiedElements = ((SerializationWrapper) XMLSerialization.XMLSerialization.Deserialize(writer)).elemens;
+                var deserializedWrapper = ((SerializationWrapper) XMLSerialization.XMLSerialization.Deserialize(writer));
+                _copiedElements = deserializedWrapper.elements;
+                _persistantPlugins = deserializedWrapper.persistantPlugins;
+
             }
             finally
             {
@@ -516,9 +569,13 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var connectionModel in connectorModel.InputConnections)
                         {
-                            if (elements.Contains(connectionModel.From.PluginModel) && !elements.Contains(connectionModel))
+                            if (((connectionModel.From.IControl || elements.Contains(connectionModel.From.PluginModel)) && !elements.Contains(connectionModel)))
                             {
                                 elements.Add(connectionModel);
+                            }
+                            if (connectionModel.From.IControl && !elements.Contains(connectionModel.From.PluginModel))
+                            {
+                                elements.Add(connectionModel.From.PluginModel);
                             }
                         }
                     }
@@ -526,9 +583,13 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var connectionModel in connectorModel.OutputConnections)
                         {
-                            if (elements.Contains(connectionModel.To.PluginModel) && !elements.Contains(connectionModel))
+                            if (((connectionModel.From.IControl || elements.Contains(connectionModel.From.PluginModel)) && !elements.Contains(connectionModel)))
                             {
                                 elements.Add(connectionModel);
+                            }
+                            if (connectionModel.To.IControl && !elements.Contains(connectionModel.To.PluginModel))
+                            {
+                                elements.Add(connectionModel.To.PluginModel);
                             }
                         }
                     }
@@ -537,9 +598,7 @@ namespace WorkspaceManagerModel.Model.Operations
             return elements;
         }
     
-
-
-    internal override object Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
             foreach (var visualElementModel in _copiedElements)
             {
@@ -552,6 +611,9 @@ namespace WorkspaceManagerModel.Model.Operations
                 if (pluginModel != null)
                 {
                     workspaceModel.AllPluginModels.Add(pluginModel);
+                    pluginModel.WorkspaceModel = workspaceModel;
+                    pluginModel.SettingesHaveChanges = false;
+
                     //add input/output connectors of this pluginModel to the WorkspaceModel
                     foreach(var myConnectorModel in pluginModel.InputConnectors)
                     {
@@ -564,54 +626,215 @@ namespace WorkspaceManagerModel.Model.Operations
                 }
                 if (connectorModel != null)
                 {
+                    connectorModel.WorkspaceModel = workspaceModel;                    
                     workspaceModel.AllConnectorModels.Add(connectorModel);
                 }
                 if (connectionModel != null)
                 {
+                    connectionModel.WorkspaceModel = workspaceModel;
                     workspaceModel.AllConnectionModels.Add(connectionModel);
                 }
                 if (textModel != null)
                 {
+                    textModel.WorkspaceModel = workspaceModel;
                     workspaceModel.AllTextModels.Add(textModel);
                 }
                 if (imageModel != null)
                 {
+                    imageModel.WorkspaceModel = workspaceModel;
                     workspaceModel.AllImageModels.Add(imageModel);
                 }
-                workspaceModel.OnNewChildElement(visualElementModel);
             }
 
-            //remove connections which should not be copied
-            //deletes implicitly all PluginModels and ConnectorModels which
-            //are now not referenced any more (will be deleted by garbage collector)
-            foreach (var visualElementModel in _copiedElements)
+            //restore all settings of each plugin
+            foreach (PersistantPlugin persistantPlugin in _persistantPlugins)
+            {
+                if (persistantPlugin.PluginModel.Plugin.Settings == null)
+                    continue; // do not attempt deserialization if plugin type has no settings
+
+                foreach (PersistantSetting persistantSetting in persistantPlugin.PersistantSettingsList)
+                {
+
+                    PropertyInfo[] arrpInfo = persistantPlugin.PluginModel.Plugin.Settings.GetType().GetProperties();
+                    foreach (PropertyInfo pInfo in arrpInfo)
+                    {
+                        try
+                        {
+                            DontSaveAttribute[] dontSave =
+                                (DontSaveAttribute[])pInfo.GetCustomAttributes(typeof(DontSaveAttribute), false);
+                            if (dontSave.Length == 0)
+                            {
+                                if (pInfo.Name.Equals(persistantSetting.Name))
+                                {
+                                    if (persistantSetting.Type.Equals("System.String"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       (String)persistantSetting.Value, null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int16"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int16.Parse((String)persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int32"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int32.Parse((String)persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Int64"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Int64.Parse((String)persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Double"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Double.Parse((String)persistantSetting.Value), null);
+                                    }
+                                    else if (persistantSetting.Type.Equals("System.Boolean"))
+                                    {
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings,
+                                                       System.Boolean.Parse((String)persistantSetting.Value), null);
+                                    }
+                                    else if (pInfo.PropertyType.IsEnum)
+                                    {
+                                        Int32 result = 0;
+                                        System.Int32.TryParse((String)persistantSetting.Value, out result);
+                                        object newEnumValue = Enum.ToObject(pInfo.PropertyType, result);
+                                        pInfo.SetValue(persistantPlugin.PluginModel.Plugin.Settings, newEnumValue, null);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception(
+                                "Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" +
+                                persistantPlugin.PluginModel.Name + "\"", ex);
+                        }
+                    }
+                }
+            }
+
+            foreach (var visualElementModel in new List<VisualElementModel>(_copiedElements))
             {
                 var pluginModel = visualElementModel as PluginModel;
+                var connectionModel = visualElementModel as ConnectionModel;
+
                 if (pluginModel != null)
                 {
+                    //remove connections which should not be copied
+                    //deletes implicitly all PluginModels and ConnectorModels which
+                    //are now not referenced any more (will be deleted by garbage collector)
                     foreach (var connectorModel in pluginModel.InputConnectors)
                     {
-                        foreach (var connectionModel in connectorModel.InputConnections)
+                        foreach (var myconnectionModel in new List<ConnectionModel>(connectorModel.InputConnections))
                         {
-                            if(!_copiedElements.Contains(connectionModel))
+                            if (!_copiedElements.Contains(myconnectionModel))
                             {
-                                _copiedElements.Remove(connectionModel);
-                                connectorModel.InputConnections.Remove(connectionModel);
+                                _copiedElements.Remove(myconnectionModel);
+                                connectorModel.InputConnections.Remove(myconnectionModel);
                             }
                         }
                     }
                     foreach (var connectorModel in pluginModel.OutputConnectors)
                     {
-                        foreach (var connectionModel in connectorModel.OutputConnections)
+                        foreach (var myconnectionModel in new List<ConnectionModel>(connectorModel.OutputConnections))
                         {
-                            if (!_copiedElements.Contains(connectionModel))
+                            if (!_copiedElements.Contains(myconnectionModel))
                             {
-                                _copiedElements.Remove(connectionModel);
-                                connectorModel.OutputConnections.Remove(connectionModel);
+                                _copiedElements.Remove(myconnectionModel);
+                                connectorModel.OutputConnections.Remove(myconnectionModel);
                             }
                         }
                     }
+
+                    //initialize plugin and register event handlers
+                    try
+                    {
+                        pluginModel.Plugin.Initialize();
+                        pluginModel.PercentageFinished = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error while initializing \"" + pluginModel.Name + "\".", ex);
+                    }
+                    pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceModel.GuiLogMessage;
+                    pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
+                    pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
+                    if (pluginModel.Plugin.Settings != null)
+                    {
+                        pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
+                    }
+
+                    //refresh language stuff and register connector model event handlers
+                    //also set correct workspace model
+                    foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
+                    {
+                        //refresh language stuff
+                        foreach (var property in connectorModel.PluginModel.Plugin.GetProperties())
+                        {
+                            if (property.PropertyName.Equals(connectorModel.PropertyName))
+                            {
+                                connectorModel.ToolTip = property.ToolTip;
+                                connectorModel.Caption = property.Caption;
+                                break;
+                            }
+                        }
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.WorkspaceModel = workspaceModel;
+                    }
+                    foreach (ConnectorModel connectorModel in pluginModel.OutputConnectors)
+                    {
+                        //refresh language stuff
+                        foreach (var property in connectorModel.PluginModel.Plugin.GetProperties())
+                        {
+                            if (property.PropertyName.Equals(connectorModel.PropertyName))
+                            {
+                                connectorModel.ToolTip = property.ToolTip;
+                                connectorModel.Caption = property.Caption;
+                                break;
+                            }
+                        }
+                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                        connectorModel.WorkspaceModel = workspaceModel;
+                    }
                 }
+                
+                if(connectionModel != null)
+                {
+                    ConnectorModel from = connectionModel.From;
+                    ConnectorModel to = connectionModel.To;
+                    try
+                    {
+                        if (from.IControl && to.IControl)
+                        {
+                            object data = null;
+                            //Get IControl data from "to"                       
+                            data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
+                            PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                            propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.", ex);
+                    }
+                }
+            }
+
+            //move model elements x+50 y+50
+            foreach (var visualElementModel in _copiedElements)
+            {
+                visualElementModel.Position = new Point(visualElementModel.Position.X + 50, visualElementModel.Position.Y + 50);
+            }
+
+            //fire events for the view to draw the elements
+            foreach (var visualElementModel in _copiedElements)
+            {
+                if (events)
+                    workspaceModel.OnNewChildElement(visualElementModel);                
             }
 
             return true;
