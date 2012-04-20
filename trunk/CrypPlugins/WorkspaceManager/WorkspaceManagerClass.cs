@@ -291,7 +291,7 @@ namespace WorkspaceManager
                 var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
                 var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
                 var elementsToCopy = CopyOperation.SelectConnections(list);
-                copy = new CopyOperation(new SerializationWrapper() { elemens = elementsToCopy});
+                copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy});
 
                 //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
@@ -302,7 +302,9 @@ namespace WorkspaceManager
             if (copy == null)
                 return;
 
-            WorkspaceModel.ModifyModel(copy);
+            WorkspaceModel.ModifyModel(copy, true);
+
+            copy = null;
         }
 
         public void Remove()

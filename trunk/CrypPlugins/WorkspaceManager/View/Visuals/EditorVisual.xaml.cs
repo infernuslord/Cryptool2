@@ -759,7 +759,7 @@ namespace WorkspaceManager.View.Visuals
                 }
                 PartialCopyHelper.CurrentSelection = null;
             }
-, null);
+            , null);
         }
 
         public void ResetConnections()
@@ -1066,6 +1066,11 @@ namespace WorkspaceManager.View.Visuals
                     {
                         VisualCollection.Add(conn);
                     }
+                }else
+                {
+                    var model = (ConnectionModel) args.EffectedModelElement;
+                    if (!model.To.IControl)
+                        AddConnection((ConnectorVisual)model.From.UpdateableView, (ConnectorVisual)model.To.UpdateableView, model);
                 }
             }
             else if (args.EffectedModelElement is PluginModel)
@@ -1075,6 +1080,20 @@ namespace WorkspaceManager.View.Visuals
                     ComponentVisual plugin = (ComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                     if (!VisualCollection.Contains(plugin))
                         VisualCollection.Add(plugin);
+                }else
+                {
+                    var pluginModel = (PluginModel)args.EffectedModelElement;
+                    bool skip = false;
+                    foreach (ConnectorModel connModel in pluginModel.GetInputConnectors())
+                    {
+                        if (connModel.IControl && connModel.GetInputConnections().Count > 0)
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (!skip)
+                        AddBinComponentVisual(pluginModel);
                 }
             }
             else if (args.EffectedModelElement is ImageModel)

@@ -201,8 +201,7 @@ namespace WorkspaceManager.Model
             {
                 pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }
-            this.AllPluginModels.Add(pluginModel);
-            this.OnNewChildElement(pluginModel);
+            AllPluginModels.Add(pluginModel);
             return pluginModel;
         }
 
@@ -244,8 +243,7 @@ namespace WorkspaceManager.Model
                     this.AllConnectionModels.Add(connection);
                 }
                 this.AllConnectorModels.Add(connectorModel);
-            }
-            this.OnNewChildElement(pluginModel);
+            }            
         }
        
         /// <summary>
@@ -279,8 +277,7 @@ namespace WorkspaceManager.Model
               
             }
 
-            this.AllConnectionModels.Add(connectionModel);
-            this.OnNewChildElement(connectionModel);
+            AllConnectionModels.Add(connectionModel);
             return connectionModel;
         }
 
@@ -309,9 +306,7 @@ namespace WorkspaceManager.Model
                 propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
                 
             }
-
-            this.AllConnectionModels.Add(connectionModel);
-            this.OnNewChildElement(connectionModel);
+            AllConnectionModels.Add(connectionModel);            
         }
 
         /// <summary>
@@ -323,8 +318,7 @@ namespace WorkspaceManager.Model
         {
             ImageModel imageModel = new ImageModel(imgUri);
             imageModel.WorkspaceModel = this;
-            this.AllImageModels.Add(imageModel);
-            this.OnNewChildElement(imageModel);
+            AllImageModels.Add(imageModel);
             return imageModel;
         }
 
@@ -335,8 +329,8 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         internal void addImageModel(ImageModel imageModel)
         {
-            this.AllImageModels.Add(imageModel);
-            this.OnNewChildElement(imageModel);
+            AllImageModels.Add(imageModel);
+            OnNewChildElement(imageModel);
         }
 
         /// <summary>
@@ -348,8 +342,7 @@ namespace WorkspaceManager.Model
         {
             TextModel textModel = new TextModel();
             textModel.WorkspaceModel = this;
-            this.AllTextModels.Add(textModel);
-            this.OnNewChildElement(textModel);
+            AllTextModels.Add(textModel);
             return textModel;
         }
 
@@ -360,8 +353,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         internal void addTextModel(TextModel textModel)
         {
-            this.AllTextModels.Add(textModel);
-            this.OnNewChildElement(textModel);
+            AllTextModels.Add(textModel);         
         }
 
         /// <summary>
@@ -371,8 +363,8 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         internal bool deleteImageModel(ImageModel imageModel)
         {
-            this.OnDeletedChildElement(imageModel);
-            return this.AllImageModels.Remove(imageModel);            
+            OnDeletedChildElement(imageModel);
+            return AllImageModels.Remove(imageModel);            
         }
 
         /// <summary>
@@ -382,8 +374,8 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         internal bool deleteTextModel(TextModel textModel)
         {
-            this.OnDeletedChildElement(textModel);
-            return this.AllTextModels.Remove(textModel);
+            OnDeletedChildElement(textModel);
+            return AllTextModels.Remove(textModel);
         }
 
         /// <summary>
@@ -409,8 +401,8 @@ namespace WorkspaceManager.Model
                     deleteConnectorModel(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();                
-                this.OnDeletedChildElement(pluginModel);
-                return this.AllPluginModels.Remove(pluginModel);
+                OnDeletedChildElement(pluginModel);
+                return AllPluginModels.Remove(pluginModel);
             }            
             return false;
         }
@@ -424,20 +416,20 @@ namespace WorkspaceManager.Model
         internal bool deleteConnectorModel(ConnectorModel connectorModel)
         {
             //we can only delete ConnectorModels which are part of our WorkspaceModel
-            if(this.AllConnectorModels.Contains(connectorModel)){
+            if(AllConnectorModels.Contains(connectorModel)){
 
                 //remove all input ConnectionModels belonging to this Connector from our WorkspaceModel
                 foreach (ConnectionModel connectionModel in new List<ConnectionModel>(connectorModel.InputConnections))
                 {
                     //deleteConnectionModel(connectionModel);
-                    this.ModifyModel(new DeleteConnectionModelOperation(connectionModel));
+                    ModifyModel(new DeleteConnectionModelOperation(connectionModel));
                 }
 
                 //remove all output ConnectionModels belonging to this Connector from our WorkspaceModel
                 foreach (ConnectionModel outputConnection in new List<ConnectionModel>(connectorModel.OutputConnections))
                 {
                     //deleteConnectionModel(outputConnection);
-                    this.ModifyModel(new DeleteConnectionModelOperation(outputConnection));
+                    ModifyModel(new DeleteConnectionModelOperation(outputConnection));
                 }
 
 
@@ -453,8 +445,8 @@ namespace WorkspaceManager.Model
                     connectorModel.PluginModel.InputConnectors.Remove(connectorModel);
                 }
 
-                this.OnDeletedChildElement(connectorModel);
-                return this.AllConnectorModels.Remove(connectorModel);
+                OnDeletedChildElement(connectorModel);
+                return AllConnectorModels.Remove(connectorModel);
             }
             return false;
         }
@@ -471,8 +463,8 @@ namespace WorkspaceManager.Model
 
             connectionModel.To.InputConnections.Remove(connectionModel);
             connectionModel.From.OutputConnections.Remove(connectionModel);            
-            this.OnDeletedChildElement(connectionModel);
-            return this.AllConnectionModels.Remove(connectionModel);
+            OnDeletedChildElement(connectionModel);
+            return AllConnectionModels.Remove(connectionModel);
         }
 
         /// <summary>
@@ -504,22 +496,23 @@ namespace WorkspaceManager.Model
         ///     Example: you change the size from x to x -> return false
         ///     Example: you change the size from x to y -> return true
         /// </summary>
-        /// <param name="operation"></param>
-        public object ModifyModel(Operation operation)
+        /// <param name="operation">The operation to execute</param>
+        /// <param name="events">Should the model fire events?</param>
+        public object ModifyModel(Operation operation, bool events = false)
         {
-            var operationReturn = operation.Execute(this);
+            var operationReturn = operation.Execute(this, events);
 
             if(operationReturn is Boolean)
             {
                 if (((Boolean) operationReturn) == true)
                 {
-                    this.UndoRedoManager.DidOperation(operation);
+                    UndoRedoManager.DidOperation(operation);
                     return true;
                 }
                 return false;
             }
 
-            this.UndoRedoManager.DidOperation(operation);
+            UndoRedoManager.DidOperation(operation);
             return operationReturn;
 
         }
