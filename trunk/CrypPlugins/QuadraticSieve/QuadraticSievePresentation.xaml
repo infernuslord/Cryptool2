@@ -78,7 +78,7 @@
                         <Label Content="{Loc Progress}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="65" HorizontalContentAlignment="Center" />
                     </Border>
 
-                    <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,0,165,0" />
+                    <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,0,125,0" />
                     <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="140,0,4,0" />
                     <Label Content="{Loc Needed_Relations_}" HorizontalAlignment="Left" Grid.Column="2" Margin="0,-3,0,3" />
                     <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="144,0,0,0" />
