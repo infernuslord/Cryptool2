@@ -196,7 +196,7 @@
     <value>Check this to reopen the last opened file on CrypTool 2 startup</value>
   </data>
   <data name="PluginSettings" xml:space="preserve">
-    <value>Plugins</value>
+    <value>Components</value>
   </data>
   <data name="BackgroundingContent" xml:space="preserve">
     <value>Hide in background when closing while projects are running</value>
