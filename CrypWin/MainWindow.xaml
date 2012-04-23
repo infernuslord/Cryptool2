@@ -306,6 +306,7 @@
         <KeyBinding Command="cw:CrypWinCommands.Redo" Gesture="Ctrl + Y"/>
         <KeyBinding Command="cw:CrypWinCommands.Undo" Gesture="Ctrl + Z"/>
         <KeyBinding Command="cw:CrypWinCommands.Copy" Gesture="Ctrl + C"/>
+        <KeyBinding Command="cw:CrypWinCommands.Cut" Gesture="Ctrl + X"/>
         <KeyBinding Command="cw:CrypWinCommands.Paste" Gesture="Ctrl + V"/>
     </dc:RibbonWindow.InputBindings>
     <DockPanel LastChildFill="True">

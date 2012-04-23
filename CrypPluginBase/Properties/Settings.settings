@@ -74,5 +74,8 @@
     <Setting Name="WorkspaceManager_BlingDelay" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="WorkspaceManager_ToggleFullscreenPluginList" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

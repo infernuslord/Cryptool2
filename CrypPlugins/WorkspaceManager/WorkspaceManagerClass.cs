@@ -281,7 +281,17 @@ namespace WorkspaceManager
 
         public void Cut()
         {
-
+            if (WorkspaceSpaceEditorView.SelectedItems != null)
+            {
+                var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
+                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
+                var elementsToCopy = CopyOperation.SelectConnections(list);
+                copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy });
+                foreach (var plugin in filter)
+                {
+                    WorkspaceModel.ModifyModel(new DeletePluginModelOperation(plugin.Model));
+                }
+            }
         }
 
         public void Copy()

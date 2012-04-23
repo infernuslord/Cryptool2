@@ -21,7 +21,7 @@ namespace WorkspaceManager.View.VisualComponents
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonClick(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             if (btn.Name == "ADDIMG")
