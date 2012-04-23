@@ -21,6 +21,7 @@ using System.Reflection;
 using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using System.Windows;
+using WorkspaceManagerModel.Properties;
 
 namespace WorkspaceManagerModel.Model.Operations
 {
@@ -709,8 +710,7 @@ namespace WorkspaceManagerModel.Model.Operations
                         catch (Exception ex)
                         {
                             throw new Exception(
-                                "Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" +
-                                persistantPlugin.PluginModel.Name + "\"", ex);
+                                String.Format(Resources.CopyOperation_Execute_Could_not_restore_the_setting___0___of_plugin___1__,persistantSetting.Name,persistantPlugin.PluginModel.Name) , ex);
                         }
                     }
                 }
@@ -757,7 +757,7 @@ namespace WorkspaceManagerModel.Model.Operations
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Error while initializing \"" + pluginModel.Name + "\".", ex);
+                        throw new Exception(String.Format(Resources.CopyOperation_Execute_Error_while_initializing___0__,  pluginModel.Name), ex);
                     }
                     pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceModel.GuiLogMessage;
                     pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
@@ -819,7 +819,7 @@ namespace WorkspaceManagerModel.Model.Operations
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.", ex);
+                        throw new Exception(String.Format(Resources.CopyOperation_Execute_Error_while_restoring_IControl_Connection_between___0___to___1____Workspace_surely_will_not_work_well_, from.PluginModel.Name, to.PluginModel.Name), ex);
                     }
                 }
             }

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Reflection;
 using Cryptool.PluginBase;
 using System.IO;
+using WorkspaceManagerModel.Properties;
 
 namespace WorkspaceManager.Model
 {
@@ -117,7 +118,7 @@ namespace WorkspaceManager.Model
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\"", ex);
+                            throw new Exception(String.Format(Resources.ModelPersistance_restoreSettings_Could_not_restore_the_setting___0___of_plugin___1__, persistantSetting.Name,persistantPlugin.PluginModel.Name), ex);
                         }
                     }
                 }
@@ -142,7 +143,7 @@ namespace WorkspaceManager.Model
                         //so we delete the connector
                         pluginModel.WorkspaceModel.deleteConnectorModel(connectorModel);
                         connectorModels.Remove(connectorModel);
-                        GuiLogMessage(string.Format("A property with name '{0}' of type '{1}' does not exist in '{2}:{3}' but a ConnectorModel exists in the PluginModel. Delete the ConnectorModel now.", connectorModel.PropertyName, connectorModel.ConnectorType.Name, pluginModel.PluginType, pluginModel.Name),
+                        GuiLogMessage(string.Format(Resources.ModelPersistance_restoreSettings_A_property_with_name___0___of_type___1___does_not_exist_in___2___3___but_a_ConnectorModel_exists_in_the_PluginModel__Delete_the_ConnectorModel_now_, connectorModel.PropertyName, connectorModel.ConnectorType.Name, pluginModel.PluginType, pluginModel.Name),
                                       NotificationLevel.Warning);
                     }
                 }
@@ -156,7 +157,7 @@ namespace WorkspaceManager.Model
                     {
                         //we found a property which has no ConnectorModel, so we create a new one
                         pluginModel.generateConnector(propertyInfoAttribute);
-                        GuiLogMessage(string.Format("A ConnectorModel for the plugins property '{0}' of type '{1}' does not exist in the PluginModel of '{2}:{3}'. Create a ConnectorModel now.", propertyInfoAttribute.PropertyName, propertyInfoAttribute.PropertyInfo.PropertyType.Name, pluginModel.PluginType, pluginModel.Name),
+                        GuiLogMessage(string.Format(Resources.ModelPersistance_restoreSettings_A_ConnectorModel_for_the_plugins_property___0___of_type___1___does_not_exist_in_the_PluginModel_of___2___3____Create_a_ConnectorModel_now_, propertyInfoAttribute.PropertyName, propertyInfoAttribute.PropertyInfo.PropertyType.Name, pluginModel.PluginType, pluginModel.Name),
                                       NotificationLevel.Warning);
                     }
                 }
@@ -173,7 +174,7 @@ namespace WorkspaceManager.Model
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error while initializing \"" + pluginModel.Name + "\".", ex);
+                    throw new Exception(String.Format(Resources.ModelPersistance_restoreSettings_Error_while_initializing____0__, pluginModel.Name), ex);
                 }
                 pluginModel.Plugin.OnGuiLogNotificationOccured += workspacemodel.GuiLogMessage;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
@@ -218,7 +219,7 @@ namespace WorkspaceManager.Model
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.", ex);
+                    throw new Exception(String.Format(Resources.ModelPersistance_restoreSettings_Error_while_restoring_IControl_Connection_between___0___to___1____Workspace_surely_will_not_work_well_, from.PluginModel.Name, to.PluginModel.Name), ex);
                 }
             }
 
@@ -229,7 +230,7 @@ namespace WorkspaceManager.Model
                 if (!textModel.HasData())
                 {
                     GuiLogMessage(
-                        string.Format("A TextModel without data (byte array == null || byte array is empty) can not be restored. Delete it now."),
+                        string.Format(Resources.ModelPersistance_restoreSettings_TextModel),
                         NotificationLevel.Warning);
                     workspacemodel.AllTextModels.Remove(textModel);
                 }
@@ -238,7 +239,7 @@ namespace WorkspaceManager.Model
             {
                 if (!imageModel.HasData())
                 {
-                    GuiLogMessage(string.Format("An ImageModel without data (byte array == null || byte array is empty) can not be restored. Delete it now."),
+                    GuiLogMessage(string.Format(Resources.ModelPersistance_restoreSettings_ImageModel),
                         NotificationLevel.Warning);
                     workspacemodel.AllImageModels.Remove(imageModel);
                 }
