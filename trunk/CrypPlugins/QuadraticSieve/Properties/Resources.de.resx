@@ -184,7 +184,7 @@
     <value>Aktive Peers:</value>
   </data>
   <data name="Composite_Factor" xml:space="preserve">
-    <value>zusammengesetzter Faktor</value>
+    <value>Zusammengesetzter Faktor</value>
   </data>
   <data name="Cores_used_" xml:space="preserve">
     <value>Verwendete CPUs:</value>
@@ -214,7 +214,7 @@
     <value>Stunden</value>
   </data>
   <data name="Information_" xml:space="preserve">
-    <value>Information:</value>
+    <value>Status:</value>
   </data>
   <data name="left" xml:space="preserve">
     <value>verbleiben</value>

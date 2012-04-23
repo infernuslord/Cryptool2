@@ -475,11 +475,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                 this.obj = (IntPtr)getObjFromConf.Invoke(null, new object[] { conf });
                 relationPackageQueue = Queue.Synchronized(new Queue());
                 conf_list = new ArrayList();
-
-                String message = typeof(QuadraticSieve).GetPluginStringResource("Sieving_now");
-                GuiLogMessage(message, NotificationLevel.Info);
+                
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    String message = typeof(QuadraticSieve).GetPluginStringResource("Sieving_now");
+                    GuiLogMessage(message, NotificationLevel.Info);
                     quadraticSieveQuickWatchPresentation.coresUsed.Content = (threads+1);
                     quadraticSieveQuickWatchPresentation.information.Content = message;
                     if (usePeer2Peer)
