@@ -29,7 +29,7 @@ namespace StringOperations
         #endregion
 
         [TaskPane("OperationCaption", "OperationCaptionToolTip", null, 1, false, ControlType.ComboBox,
-            new[] { "Concatenate", "Substring", "ToLowercase", "ToUppercase", "Length", "CompareTo", "Trim", "IndexOf", "Equals" })]
+            new[] { "Concatenate", "Substring", "ToLowercase", "ToUppercase", "Length", "CompareTo", "Trim", "IndexOf", "Equals", "Replace", "RegexReplace" })]
         public int Operation
         {
             get
@@ -65,6 +65,8 @@ namespace StringOperations
         CompareTo,
         Trim, 
         IndexOf,
-        Equals
+        Equals,
+        Replace,
+        RegexReplace
     }
 }

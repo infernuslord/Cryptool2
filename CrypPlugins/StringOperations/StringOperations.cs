@@ -15,8 +15,10 @@
 */
 using System;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
+using StringOperations.Properties;
 
 namespace StringOperations
 {
@@ -29,6 +31,7 @@ namespace StringOperations
 
         private string _string1;
         private string _string2;
+        private string _string3;
         private int _value1;
         private int _value2;
         private string _outputString;
@@ -104,12 +107,20 @@ namespace StringOperations
                         _outputValue = (_string1.Equals(_string2) ? 1 : 0);                        
                         OnPropertyChanged("OutputValue");
                         break;
+                    case StringOperationType.Replace:
+                        _outputString = _string1.Replace(_string2, _string3);
+                        OnPropertyChanged("OutputString");
+                        break;
+                    case StringOperationType.RegexReplace:
+                        _outputString = Regex.Replace(_string1, _string2, _string3);
+                        OnPropertyChanged("OutputString");
+                        break;
                 }
                 ProgressChanged(1, 1);
             }
             catch(Exception ex)
             {
-                GuiLogMessage("Could not execute operation '" + ((StringOperationType) (_settings).Operation) +  "' :" + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.StringOperations_Execute_Could_not_execute_operation___0______1_, ((StringOperationType)(_settings).Operation), ex.Message), NotificationLevel.Error);
             }
         }
 
@@ -154,6 +165,14 @@ namespace StringOperations
             get { return _string2; }
             set { _string2 = value; }
         }
+
+        [PropertyInfo(Direction.InputData, "String3Caption", "String3Tooltip", false)]
+        public string String3
+        {
+            get { return _string3; }
+            set { _string3 = value; }
+        }
+
 
         [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", false)]
         public int Value1
