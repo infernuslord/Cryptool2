@@ -36,6 +36,7 @@ using System.Printing;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Collections.ObjectModel;
+using WorkspaceManager.Properties;
 using WorkspaceManager.View.Visuals;
 using WorkspaceManager.View.Base;
 using WorkspaceManagerModel.Model.Operations;
@@ -184,7 +185,7 @@ namespace WorkspaceManager
             try
             {
                 New();
-                GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);
+                GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Open_Loading_Model___0_, fileName), NotificationLevel.Info);
                 var persistance = new ModelPersistance();
                 persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 WorkspaceModel = persistance.loadModel(fileName);
@@ -200,7 +201,7 @@ namespace WorkspaceManager
             catch (Exception ex)
             {
                 string s = ex.ToString();
-                GuiLogMessage("Could not load Model:" + s, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Open_Could_not_load_Model___0_, s), NotificationLevel.Error);
                 if (LoadingErrorOccurred != null)
                     LoadingErrorOccurred.Invoke(this, new LoadingErrorEventArgs() { Message = s });
             }
@@ -215,7 +216,7 @@ namespace WorkspaceManager
         {
             try
             {
-                GuiLogMessage("Saving Model: " + fileName, NotificationLevel.Info);
+                GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Save_Saving_Model___0_, fileName), NotificationLevel.Info);
                 var persistance = new ModelPersistance();
                 persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 persistance.saveModel(this.WorkspaceModel, fileName);
@@ -224,7 +225,7 @@ namespace WorkspaceManager
             }
             catch (Exception ex)
             {
-                GuiLogMessage("Could not save Model:" + ex.ToString(), NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Save_Could_not_save_Model___0_, ex.ToString()), NotificationLevel.Error);
             }
 
         }
@@ -256,7 +257,7 @@ namespace WorkspaceManager
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Can not undo:" + ex.Message, NotificationLevel.Error);
+                    GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Undo_Can_not_undo___0_, ex.Message), NotificationLevel.Error);
                 }
             }
         }
@@ -274,7 +275,7 @@ namespace WorkspaceManager
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Can not redo:" + ex.Message, NotificationLevel.Error);
+                    GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Redo_Can_not_redo___0_, ex.Message), NotificationLevel.Error);
                 }
             }
         }
@@ -344,7 +345,7 @@ namespace WorkspaceManager
                 Nullable<Boolean> print = dialog.ShowDialog();
                 if (print == true)
                 {
-                    this.GuiLogMessage("Printing document \"" + this.CurrentFile + "\" now", NotificationLevel.Info);
+                    this.GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Print_Printing_document___0___now, this.CurrentFile), NotificationLevel.Info);
 
                     ((EditorVisual)this.Presentation).FitToScreen();
                     Matrix m = PresentationSource.FromVisual(Application.Current.MainWindow).CompositionTarget.TransformToDevice;
@@ -393,12 +394,12 @@ namespace WorkspaceManager
                         xOffset += visibleSize.Width;
                     }
                     dialog.PrintDocument(fixedDoc.DocumentPaginator, "WorkspaceManager_" + this.CurrentFile);
-                    this.GuiLogMessage("Printed \"" + fixedDoc.DocumentPaginator.PageCount + "\" pages of document \"" + this.CurrentFile + "\"", NotificationLevel.Info);
+                    this.GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Print_Printed__0__pages_of_document___1__, fixedDoc.DocumentPaginator.PageCount, this.CurrentFile), NotificationLevel.Info);
                 }
             }
             catch (Exception ex)
             {
-                this.GuiLogMessage("Exception while printing: " + ex.Message, NotificationLevel.Error);
+                this.GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Print_Exception_while_printing___0_, ex.Message), NotificationLevel.Error);
             }
         }
 
@@ -581,7 +582,7 @@ namespace WorkspaceManager
 
             try
             {
-                GuiLogMessage("Execute Model now!", NotificationLevel.Info);
+                GuiLogMessage(Resources.WorkspaceManagerClass_Execute_Execute_Model_now_, NotificationLevel.Info);
                 executing = true;
                 executeEvent(this, EventArgs.Empty);
 
@@ -611,13 +612,13 @@ namespace WorkspaceManager
                     ExecutionEngine.GuiUpdateInterval = int.Parse(((WorkspaceManagerSettings)this.Settings).GuiUpdateInterval);
                     if (ExecutionEngine.GuiUpdateInterval <= 0)
                     {
-                        GuiLogMessage("GuiUpdateInterval can not be <=0; Use GuiUpdateInterval = 1", NotificationLevel.Warning);
+                        GuiLogMessage(Resources.WorkspaceManagerClass_Execute_, NotificationLevel.Warning);
                         ExecutionEngine.GuiUpdateInterval = 1;
                     }
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Could not set GuiUpdateInterval: " + ex.Message, NotificationLevel.Warning);
+                    GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_, ex.Message), NotificationLevel.Warning);
                     ExecutionEngine.GuiUpdateInterval = 100;
                 }
 
@@ -626,13 +627,13 @@ namespace WorkspaceManager
                     ExecutionEngine.SleepTime = int.Parse(((WorkspaceManagerSettings)this.Settings).SleepTime);
                     if (ExecutionEngine.SleepTime < 0)
                     {
-                        GuiLogMessage("SleepTime can not be <=0; Use SleepTime = 0", NotificationLevel.Warning);
+                        GuiLogMessage(Resources.WorkspaceManagerClass_Execute_SleepTime, NotificationLevel.Warning);
                         ExecutionEngine.SleepTime = 0;
                     }
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Could not set SleepTime: " + ex.Message, NotificationLevel.Warning);
+                    GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_, ex.Message), NotificationLevel.Warning);
                     ExecutionEngine.GuiUpdateInterval = 0;
                 }
 
@@ -646,7 +647,7 @@ namespace WorkspaceManager
             }
             catch (Exception ex)
             {
-                GuiLogMessage("Exception during the execution: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Execute_Exception_during_the_execution___0_, ex.Message), NotificationLevel.Error);
                 executing = false;
                 executeEvent(this, EventArgs.Empty);
                 if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
@@ -703,12 +704,12 @@ namespace WorkspaceManager
                 }
                 try
                 {
-                    GuiLogMessage("Stopping execution.", NotificationLevel.Info);
+                    GuiLogMessage(Resources.WorkspaceManagerClass_waitingStop_Stopping_execution_, NotificationLevel.Info);
                     ExecutionEngine.Stop();
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Exception during the stopping of the execution: " + ex.Message, NotificationLevel.Error);
+                    GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution___0_,ex.Message), NotificationLevel.Error);
                 }
                 this.ExecutionEngine = null;
                 GC.Collect();
@@ -738,7 +739,7 @@ namespace WorkspaceManager
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(string.Format("Exception during stopping of the ExecutionEngine: {0}", ex), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.WorkspaceManagerClass_Dispose_Exception_during_stopping_of_the_ExecutionEngine___0_, ex), NotificationLevel.Error);
                 }
             }
 
@@ -753,7 +754,7 @@ namespace WorkspaceManager
             }
             catch (Exception ex)
             {
-                GuiLogMessage(string.Format("Exception during disposing of the Model: {0}", ex), NotificationLevel.Error);
+                GuiLogMessage(string.Format(Resources.WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_, ex), NotificationLevel.Error);
             }
         }
 

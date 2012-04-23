@@ -450,4 +450,61 @@
   <data name="ComponentConnection_Delay_Tooltip" xml:space="preserve">
     <value>Wie lange soll die Maus gehalten werden damit das Vorschlagsfenster hochkommt?</value>
   </data>
+  <data name="WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_" xml:space="preserve">
+    <value>Fehler während des Disposens des Models: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Dispose_Exception_during_stopping_of_the_ExecutionEngine___0_" xml:space="preserve">
+    <value>Fehler während des Stoppens der Ausführungsmaschine: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_" xml:space="preserve">
+    <value>GuiUpdateInterval kann nicht &lt;=0 sein; Benutzen Sie GuiUpdateInterval &gt;= 1</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_" xml:space="preserve">
+    <value>Konnte GuiUpdateInterval nicht setzten: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_" xml:space="preserve">
+    <value>Konnte SleepTime nicht setzten: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Exception_during_the_execution___0_" xml:space="preserve">
+    <value>Fehler während der Ausführung: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Execute_Model_now_" xml:space="preserve">
+    <value>Führe das Model jetzt aus!</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_SleepTime" xml:space="preserve">
+    <value>SleepTime kann nicht &lt;=0 sein; Benutzen sie SleepTime &gt;= 0</value>
+  </data>
+  <data name="WorkspaceManagerClass_Open_Could_not_load_Model___0_" xml:space="preserve">
+    <value>Konnte Model nicht laden: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Open_Loading_Model___0_" xml:space="preserve">
+    <value>Lade Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Exception_while_printing___0_" xml:space="preserve">
+    <value>Fehler während des Druckvorgangs: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Printed__0__pages_of_document___1__" xml:space="preserve">
+    <value>Es wurden {0} Seiten des Dokuments '{1}' gedruckt</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Printing_document___0___now" xml:space="preserve">
+    <value>Drucke Dokument '{0}' jetzt</value>
+  </data>
+  <data name="WorkspaceManagerClass_Redo_Can_not_redo___0_" xml:space="preserve">
+    <value>Redo nicht möglich: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Save_Could_not_save_Model___0_" xml:space="preserve">
+    <value>Konnte Model nicht speichern: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Save_Saving_Model___0_" xml:space="preserve">
+    <value>Speichere Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Undo_Can_not_undo___0_" xml:space="preserve">
+    <value>Undo nicht möglich: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution___0_" xml:space="preserve">
+    <value>Es trat ein Fehler während des Stoppens der Ausführung auf: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_waitingStop_Stopping_execution_" xml:space="preserve">
+    <value>Stoppe Ausführung</value>
+  </data>
 </root>

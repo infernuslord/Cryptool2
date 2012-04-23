@@ -450,4 +450,61 @@
   <data name="ComponentConnection_Delay_Tooltip" xml:space="preserve">
     <value>How long to hold the mouse before suggestion popup appears?</value>
   </data>
+  <data name="WorkspaceManagerClass_Open_Loading_Model___0_">
+    <value xml:space="preserve">Loading Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Open_Could_not_load_Model___0_">
+    <value xml:space="preserve">Could not load Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Save_Saving_Model___0_">
+    <value xml:space="preserve">Saving Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Save_Could_not_save_Model___0_">
+    <value xml:space="preserve">Could not save Model: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Undo_Can_not_undo___0_">
+    <value xml:space="preserve">Can not undo: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Redo_Can_not_redo___0_">
+    <value xml:space="preserve">Can not redo: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Printing_document___0___now">
+    <value xml:space="preserve">Printing document '{0}' now</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Printed__0__pages_of_document___1__">
+    <value xml:space="preserve">Printed {0} pages of document '{1}'</value>
+  </data>
+  <data name="WorkspaceManagerClass_Print_Exception_while_printing___0_">
+    <value xml:space="preserve">Exception while printing: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Execute_Model_now_">
+    <value xml:space="preserve">Execute Model now!</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_">
+    <value xml:space="preserve">GuiUpdateInterval can not be &lt;=0; Use GuiUpdateInterval = 1</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_">
+    <value xml:space="preserve">Could not set GuiUpdateInterval: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_SleepTime">
+    <value xml:space="preserve">SleepTime can not be &lt;=0; Use SleepTime = 0</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_">
+    <value xml:space="preserve">Could not set SleepTime: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Execute_Exception_during_the_execution___0_">
+    <value xml:space="preserve">Exception during the execution: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_waitingStop_Stopping_execution_">
+    <value xml:space="preserve">Stopping execution.</value>
+  </data>
+  <data name="WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution___0_">
+    <value xml:space="preserve">Exception during the stopping of the execution: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Dispose_Exception_during_stopping_of_the_ExecutionEngine___0_">
+    <value xml:space="preserve">Exception during stopping of the ExecutionEngine: {0}</value>
+  </data>
+  <data name="WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_">
+    <value xml:space="preserve">Exception during disposing of the Model: {0}</value>
+  </data>
 </root>
