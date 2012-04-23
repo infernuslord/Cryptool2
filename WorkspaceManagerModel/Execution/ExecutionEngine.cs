@@ -21,6 +21,7 @@ using System.Threading;
 using Cryptool.PluginBase;
 using System.Windows.Threading;
 using Cryptool.PluginBase.Editor;
+using WorkspaceManagerModel.Properties;
 
 
 namespace WorkspaceManager.Execution
@@ -122,7 +123,7 @@ namespace WorkspaceManager.Execution
             }
             catch(Exception ex)
             {
-                GuiLogMessage("Exception occured during startup of Workspace: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.ExecutionEngine_Execute_Exception_occured_during_startup_of_Workspace___0_, ex.Message), NotificationLevel.Error);
             }
         }
 
@@ -135,7 +136,7 @@ namespace WorkspaceManager.Execution
         {
             if(BenchmarkPlugins)
             {
-                GuiLogMessage(string.Format("Executing at {0:0,0} Plugins\\sec.",ExecutionCounter),NotificationLevel.Debug);
+                GuiLogMessage(string.Format(Resources.ExecutionEngine_BenchmarkTimeout_Executing_at__0_0_0__Plugins_sec_,ExecutionCounter),NotificationLevel.Debug);
             }
             ExecutionCounter = 0;
             benchmarkTimer.Start();
@@ -205,7 +206,7 @@ namespace WorkspaceManager.Execution
             }
             catch (Exception ex)
             {
-                GuiLogMessage("Exception occured during update of GUI of Workspace: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.ExecutionEngine_CheckGui_Exception_occured_during_update_of_GUI_of_Workspace___0__, ex.Message), NotificationLevel.Error);
             }
         }
 
@@ -216,7 +217,7 @@ namespace WorkspaceManager.Execution
         {
             try
             {
-                GuiLogMessage("Start stopping ExecutionEngine", NotificationLevel.Info);
+                GuiLogMessage(Resources.ExecutionEngine_Stop_Start_stopping_ExecutionEngine, NotificationLevel.Info);
                 Stopped = true;
                 foreach (var pluginModel in workspaceModel.AllPluginModels)
                 {
@@ -227,7 +228,7 @@ namespace WorkspaceManager.Execution
                 benchmarkTimer.Enabled = false;
                 workspaceModel.IsBeingExecuted = false;
 
-                GuiLogMessage("Waiting for all threads to stop", NotificationLevel.Debug);
+                GuiLogMessage(Resources.ExecutionEngine_Stop_Waiting_for_all_threads_to_stop, NotificationLevel.Debug);
                 foreach(var t in threads)
                 {
                     try
@@ -235,29 +236,29 @@ namespace WorkspaceManager.Execution
                         t.Join(MaxStopWaitingTime);
                         if(t.IsAlive)
                         {
-                            GuiLogMessage(string.Format("Thread {0} did not stop in {1} miliseconds and will be aborted now.", t.Name, MaxStopWaitingTime), NotificationLevel.Warning);
+                            GuiLogMessage(string.Format(Resources.ExecutionEngine_Stop_Thread__0__did_not_stop_in__1__miliseconds_and_will_be_aborted_now_, t.Name, MaxStopWaitingTime), NotificationLevel.Warning);
                             t.Abort();
                         }
                     }
                     catch(Exception ex)
                     {
-                        GuiLogMessage(string.Format("Exception during waiting for thread '{0}' to stop: {1}",t.Name,ex.Message),NotificationLevel.Error);
-                        GuiLogMessage(string.Format("Aborting '{0}' now", t.Name), NotificationLevel.Debug);
+                        GuiLogMessage(string.Format(Resources.ExecutionEngine_Stop_Exception_during_waiting_for_thread___0___to_stop___1_,t.Name,ex.Message),NotificationLevel.Error);
+                        GuiLogMessage(string.Format(Resources.ExecutionEngine_Stop_Aborting___0___now, t.Name), NotificationLevel.Debug);
                         t.Abort();
                     }
                 }
                                 
-                GuiLogMessage("All threads stopped", NotificationLevel.Debug);
+                GuiLogMessage(Resources.ExecutionEngine_Stop_All_threads_stopped, NotificationLevel.Debug);
 
                 workspaceModel.resetStates();
 
-                GuiLogMessage("WorkspaceModel states resetted",NotificationLevel.Debug);
+                GuiLogMessage(Resources.ExecutionEngine_Stop_WorkspaceModel_states_resetted,NotificationLevel.Debug);
 
-                GuiLogMessage("ExecutionEngine successfully stopped", NotificationLevel.Info);
+                GuiLogMessage(Resources.ExecutionEngine_Stop_ExecutionEngine_successfully_stopped, NotificationLevel.Info);
             }
             catch(Exception ex)
             {
-                GuiLogMessage("Exception occured during stopping of Workspace: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(String.Format(Resources.ExecutionEngine_Stop_Exception_occured_during_stopping_of_Workspace___0__, ex.Message), NotificationLevel.Error);
             }
         }
 

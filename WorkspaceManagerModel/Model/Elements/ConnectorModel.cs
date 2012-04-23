@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using System.Reflection;
+using WorkspaceManagerModel.Properties;
 
 namespace WorkspaceManager.Model
 {
@@ -244,16 +245,11 @@ namespace WorkspaceManager.Model
             {
                 if(WorkspaceModel.ExecutionEngine != null)
                 {
-                    WorkspaceModel.ExecutionEngine.GuiLogMessage("Error occured during propagating of new value of " + 
-                        PluginModel.Name + " of Output " + Name + ":" + ex.Message,NotificationLevel.Error);
+                    WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format(Resources.ConnectorModel_PropertyChangedOnPlugin_Error_occured_during_propagating_of_new_value_of___0___of_Output___1_____2_,PluginModel.Name,Name, ex.Message),NotificationLevel.Error);
                 }            
             }
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
         #endregion                
     }
 

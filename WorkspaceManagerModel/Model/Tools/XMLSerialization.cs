@@ -28,7 +28,8 @@ using WorkspaceManager;
 using System.Windows;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Windows.Media; 
+using System.Windows.Media;
+using WorkspaceManagerModel.Properties;
 
 namespace XMLSerialization
 {
@@ -464,7 +465,7 @@ namespace XMLSerialization
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Could not create instance of:" + type.InnerText,ex);
+                    throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Could_not_create_instance_of___0_, type.InnerText),ex);
                 }
                 createdObjects.Add(id.InnerText, newObject);
 
@@ -545,7 +546,7 @@ namespace XMLSerialization
 
                                 if(values.Length != 2)
                                 {
-                                    throw new Exception("Can not create a Point with " + values.Length + " Coordinates!");
+                                    throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Can_not_create_a_Point_with__0__Coordinates_,values.Length));
                                 }
 
                                 double x = 0;
@@ -571,7 +572,7 @@ namespace XMLSerialization
 
                                 if (values.Length != 4)
                                 {
-                                    throw new Exception("Can not create a Color with " + values.Length + " Channels!");
+                                    throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Can_not_create_a_Color_with__0__Channels_, values.Length));
                                 }
                                 byte r = 0;
                                 byte g = 0;
@@ -678,7 +679,7 @@ namespace XMLSerialization
                             }
                             else
                             {
-                                throw new Exception("Expected 1 or 2 types for list; But found:" + types.Length);
+                                throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Expected_1_or_2_types_for_list__But_found___0_, types.Length));
                             }
 
                             foreach (XmlNode entry in member.ChildNodes[2].ChildNodes)
@@ -754,7 +755,7 @@ namespace XMLSerialization
 
                                         if(values.Length != 2)
                                         {
-                                            throw new Exception("Can not create a Point with " + values.Length + " Coordinates!");
+                                            throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Can_not_create_a_Point_with__0__Coordinates_,  values.Length));
                                         }
 
                                         double x = 0;
@@ -777,7 +778,7 @@ namespace XMLSerialization
                     }
                     catch(Exception ex)
                     {
-                        throw new Exception("Could not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" .", ex);
+                        throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Could_not_deserialize_model_element___0___of_type___1__,membername.InnerText, membertype.InnerText), ex);
                     }
                 }
             }
@@ -804,7 +805,7 @@ namespace XMLSerialization
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception("Can not find list field \"" + membername + "\" of \"" + obj.GetType().FullName + "\".", ex);
+                            throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Can_not_find_list_field___0___of___1__, membername, obj.GetType().FullName), ex);
                         }
                     }
                     else
@@ -822,7 +823,7 @@ namespace XMLSerialization
                             }
                             catch (Exception ex)
                             {
-                                throw new Exception("Can not find field \"" + membername + "\" of \"" + obj.GetType().FullName + "\".", ex);
+                                throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Can_not_find_field___0___of___1__, membername,obj.GetType().FullName), ex);
                             }
                             
                         }
@@ -830,7 +831,7 @@ namespace XMLSerialization
                 }
                 catch(Exception ex)
                 {
-                   throw new Exception("Could not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\".", ex);
+                    throw new Exception(String.Format(Resources.XMLSerialization_Deserialize_Could_not_restore_reference_beteen_model_element___0___and_its_reference_with_id___1__, membername ,reference), ex);
                 }
             }
 

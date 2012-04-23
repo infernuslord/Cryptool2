@@ -28,6 +28,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Text;
+using WorkspaceManagerModel.Properties;
 
 namespace WorkspaceManager.Model
 {
@@ -420,7 +421,7 @@ namespace WorkspaceManager.Model
                         catch (Exception ex)
                         {
                             executionEngine.GuiLogMessage(
-                                "An error occured while executing  \"" + Name + "\": " + ex.Message,
+                                String.Format(Resources.PluginModel_Execute_An_error_occured_while_executing___0______1_, Name, ex.Message),
                                 NotificationLevel.Error);
                             State = PluginModelState.Error;
                             GuiNeedsUpdate = true;
@@ -526,7 +527,7 @@ namespace WorkspaceManager.Model
                                 catch (OverflowException)
                                 {
                                     State = PluginModelState.Error;
-                                    WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format("Number of {0} too big for {1}: {2}", connectorModel.Name, Name, data), NotificationLevel.Error);
+                                    WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format(Resources.PluginModel_Execute_Number_of__0__too_big_for__1____2_, connectorModel.Name, Name, data), NotificationLevel.Error);
                                 }
                             }
                             //Cast from Integer -> BigInteger
@@ -592,8 +593,7 @@ namespace WorkspaceManager.Model
                         catch (Exception ex)
                         {
                             executionEngine.GuiLogMessage(
-                                "An error occured while setting value of connector \"" + connectorModel.Name +
-                                "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                                String.Format(Resources.PluginModel_Execute_An_error_occured_while_setting_value_of_connector___0___of___1_____2_, connectorModel.Name, Name, ex.Message), NotificationLevel.Error);
                             State = PluginModelState.Error;
                             GuiNeedsUpdate = true;
                         }
@@ -622,7 +622,7 @@ namespace WorkspaceManager.Model
                     catch (Exception ex)
                     {
                         executionEngine.GuiLogMessage(
-                            "An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                            String.Format(Resources.PluginModel_Execute_An_error_occured_while_executing____0______1__, Name, ex.Message), NotificationLevel.Error);
                         State = PluginModelState.Error;
                         GuiNeedsUpdate = true;
                     }                    
@@ -655,7 +655,7 @@ namespace WorkspaceManager.Model
             catch (Exception ex)
             {
                 executionEngine.GuiLogMessage(
-                               "An error occured while executing  \"" + Name + "\": " + ex.Message,
+                               String.Format(Resources.PluginModel_Execute_An_error_occured_while_executing___0______1_, Name, ex.Message),
                                NotificationLevel.Error);
                 State = PluginModelState.Error;
             }
