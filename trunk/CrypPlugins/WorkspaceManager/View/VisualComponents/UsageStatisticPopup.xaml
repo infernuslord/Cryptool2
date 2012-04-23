@@ -7,7 +7,7 @@
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
              AllowsTransparency="True" Panel.ZIndex="9000" Placement="Mouse"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade" StaysOpen="False" VerticalOffset="-20" HorizontalOffset="10"
-             Width="250" MaxHeight="350">
+             Width="250" MaxHeight="350" PreviewMouseLeftButtonUp="SelectedItem">
     <Popup.Resources>
 
         <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
@@ -31,6 +31,13 @@
 
         <Style x:Key="ComponentListStyle" TargetType="{x:Type ListView}">
             <Style.Resources>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="IsSelected" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
             </Style.Resources>
@@ -98,7 +105,7 @@
                 </Grid>-->
             <ListView x:Name="TopUsages" Grid.Row="0" ItemsSource="{Binding Path=Suggestions}" 
                           Style="{StaticResource ResourceKey=ComponentListStyle}" 
-                          SelectionMode="Single" SelectionChanged="SelectedItem">
+                          SelectionMode="Single">
 
             </ListView>
         </Grid>

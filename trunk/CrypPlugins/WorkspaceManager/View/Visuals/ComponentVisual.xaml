@@ -834,7 +834,7 @@
             <!--##########/Window##########-->
         </Grid>
 
-        <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="25" Width="25" Margin="0,37,25,0"
+        <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="25" Width="25" Margin="0,37,25,0" IsHitTestVisible="False"
                                VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Images/ComponentIcons/presIcon.png"></Image>
 
 

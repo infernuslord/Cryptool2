@@ -355,19 +355,11 @@ namespace Cryptool.CrypWin
 
         private void Cut_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-            {
-                e.CanExecute = false;
-                e.Handled = true;
-                return;
-            }
-            e.CanExecute = ActiveEditor != null && ActiveEditor.CanCut;
+            e.CanExecute = ActiveEditor != null;
         }
 
         private void Cut_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (Settings.Default.FixedWorkspace)
-                return;
             if (ActiveEditor != null) ActiveEditor.Cut();
         }
 

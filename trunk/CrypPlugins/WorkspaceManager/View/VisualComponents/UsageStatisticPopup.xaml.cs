@@ -115,13 +115,13 @@ namespace WorkspaceManager.View.VisualComponents
                                       timer.Stop();
                                       timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
                                       _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
+                                      win.Add(_currentAdorner);
                                       timer2.Tick += delegate(object o2, EventArgs args2)
                                       {
                                           timer2.Stop();
                                           win.Remove(_currentAdorner);
                                           IsOpen = true;
                                       };
-                                      win.Add(_currentAdorner);
                                       timer2.Start();
                                   };
                 timer.Start();
@@ -139,7 +139,7 @@ namespace WorkspaceManager.View.VisualComponents
             IsOpen = false;
         }
 
-        void SelectedItem(object sender, SelectionChangedEventArgs e)
+        void SelectedItem(object sender, MouseEventArgs e)
         {
             if (TopUsages.SelectedItem != null)
             {
@@ -180,6 +180,7 @@ namespace WorkspaceManager.View.VisualComponents
                     return;
                 }
             }
+            this.IsOpen = false;
         }
     }
 

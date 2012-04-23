@@ -780,28 +780,28 @@ namespace WorkspaceManager.View.Visuals
 
             if (ScrollViewer.ScrollableWidth > 0 || ScrollViewer.ScrollableHeight > 0)
             {
-                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
+                while (ZoomLevel
                     > Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale
                     && (ScrollViewer.ScrollableHeight > 0
                     || ScrollViewer.ScrollableWidth > 0))
                 {
-                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
+                    ZoomLevel -= 0.02;
                     ScrollViewer.UpdateLayout();
                 }
             }
             else
             {
-                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
+                while (ZoomLevel
                     < Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale
                     && ScrollViewer.ScrollableHeight == 0
                     && ScrollViewer.ScrollableWidth == 0)
                 {
-                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.02;
+                    ZoomLevel += 0.02;
                     ScrollViewer.UpdateLayout();
                 }
                 if (ScrollViewer.ScrollableHeight > 0
                     || ScrollViewer.ScrollableWidth > 0)
-                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
+                    ZoomLevel -= 0.02;
             }
         }
 
@@ -1401,6 +1401,13 @@ namespace WorkspaceManager.View.Visuals
 
                     if (e.OldItems[0] is CryptoLineView)
                         PathCollection.Remove(e.OldItems[0] as CryptoLineView);
+
+                    var x = SelectedItems.ToList();
+                    foreach (var uiElement in e.OldItems)
+                    {
+                        x.Remove(uiElement as UIElement);
+                    }
+                    SelectedItems = x.ToArray();
 
                     break;
             }

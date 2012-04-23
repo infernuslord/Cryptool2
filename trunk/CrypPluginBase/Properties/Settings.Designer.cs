@@ -307,5 +307,17 @@ namespace Cryptool.PluginBase.Properties {
                 this["WorkspaceManager_BlingDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WorkspaceManager_ToggleFullscreenPluginList {
+            get {
+                return ((bool)(this["WorkspaceManager_ToggleFullscreenPluginList"]));
+            }
+            set {
+                this["WorkspaceManager_ToggleFullscreenPluginList"] = value;
+            }
+        }
     }
 }
