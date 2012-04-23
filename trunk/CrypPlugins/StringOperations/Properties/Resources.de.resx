@@ -153,6 +153,15 @@
   <data name="String2Tooltip" xml:space="preserve">
     <value>Eingabe der zweiten Zeichenkette</value>
   </data>
+  <data name="String3Caption" xml:space="preserve">
+    <value>dritte Zeichenkette</value>
+  </data>
+  <data name="String3Tooltip" xml:space="preserve">
+    <value>Eingabe der dritten Zeichenkette</value>
+  </data>
+  <data name="StringOperations_Execute_Could_not_execute_operation___0______1_" xml:space="preserve">
+    <value>Konnte Operation '{0}' nicht ausführen: {1}</value>
+  </data>
   <data name="Value1Caption" xml:space="preserve">
     <value>erster Funktionsparameter</value>
   </data>

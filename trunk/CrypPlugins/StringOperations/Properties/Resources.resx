@@ -165,4 +165,13 @@
   <data name="Value2Tooltip" xml:space="preserve">
     <value>Second operation parameter</value>
   </data>
+  <data name="StringOperations_Execute_Could_not_execute_operation___0______1_" xml:space="preserve">
+    <value>Could not execute operation '{0}' : {1}</value>
+  </data>
+  <data name="String3Caption" xml:space="preserve">
+    <value>String-Three</value>
+  </data>
+  <data name="String3Tooltip" xml:space="preserve">
+    <value>Third input string</value>
+  </data>
 </root>
