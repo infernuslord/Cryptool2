@@ -1051,6 +1051,179 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception during disposing of the Model: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception during stopping of the ExecutionEngine: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Dispose_Exception_during_stopping_of_the_ExecutionEngine___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Dispose_Exception_during_stopping_of_the_ExecutionEngine___" +
+                        "0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GuiUpdateInterval can not be &lt;=0; Use GuiUpdateInterval = 1.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not set GuiUpdateInterval: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not set SleepTime: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception during the execution: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_Exception_during_the_execution___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_Exception_during_the_execution___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execute Model now!.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_Execute_Model_now_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_Execute_Model_now_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SleepTime can not be &lt;=0; Use SleepTime = 0.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Execute_SleepTime {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Execute_SleepTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not load Model: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Open_Could_not_load_Model___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Open_Could_not_load_Model___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading Model: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Open_Loading_Model___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Open_Loading_Model___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception while printing: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Print_Exception_while_printing___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Print_Exception_while_printing___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printed {0} pages of document &apos;{1}&apos;.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Print_Printed__0__pages_of_document___1__ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Print_Printed__0__pages_of_document___1__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Printing document &apos;{0}&apos; now.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Print_Printing_document___0___now {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Print_Printing_document___0___now", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not redo: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Redo_Can_not_redo___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Redo_Can_not_redo___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not save Model: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Save_Could_not_save_Model___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Save_Could_not_save_Model___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving Model: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Save_Saving_Model___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Save_Saving_Model___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not undo: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_Undo_Can_not_undo___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_Undo_Can_not_undo___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception during the stopping of the execution: {0}.
+        /// </summary>
+        internal static string WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution___0_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution_" +
+                        "__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopping execution..
+        /// </summary>
+        internal static string WorkspaceManagerClass_waitingStop_Stopping_execution_ {
+            get {
+                return ResourceManager.GetString("WorkspaceManagerClass_waitingStop_Stopping_execution_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Workspace.
         /// </summary>
         internal static string WorkspaceManagerSettings {
