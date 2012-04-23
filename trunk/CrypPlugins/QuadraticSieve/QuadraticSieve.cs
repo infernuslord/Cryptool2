@@ -586,8 +586,11 @@ namespace Cryptool.Plugins.QuadraticSieve
                     }
                 }
 
-                num_relations = (int)getNumRelations.Invoke(null, new object[] { conf });
-                showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
+                if (!userStopped)
+                {
+                    num_relations = (int) getNumRelations.Invoke(null, new object[] {conf});
+                    showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
+                }
 
                 if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //another peer already finished sieving
                 {

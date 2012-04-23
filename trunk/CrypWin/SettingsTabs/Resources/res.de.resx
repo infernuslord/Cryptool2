@@ -196,7 +196,7 @@
     <value>Markieren Sie dies, um die letzte offene Datei beim CrypTool 2 Start wieder zu öffnen.</value>
   </data>
   <data name="PluginSettings" xml:space="preserve">
-    <value>Plug-Ins</value>
+    <value>Komponenten</value>
   </data>
   <data name="BackgroundingContent" xml:space="preserve">
     <value>Im Hintergrund verstecken, wenn beim Schließen Projekte ausgeführt werden</value>
