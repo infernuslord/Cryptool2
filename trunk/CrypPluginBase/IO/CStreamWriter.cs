@@ -99,7 +99,7 @@ namespace Cryptool.PluginBase.IO
         /// Stream is auto-closed after initialization (can't write any data).
         /// </summary>
         /// <param name="filePath">Path to existing file, already filled with data</param>
-        public CStreamWriter(string filePath)
+        public CStreamWriter(string filePath, bool allowAltering = false)
             : this(0)
         {
             if (!File.Exists(filePath))
@@ -110,7 +110,12 @@ namespace Cryptool.PluginBase.IO
             // attempt to get shared read lock
             // (this was a write lock previously but was changed due to #283)
             _filePath = filePath;
-            _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var share = FileShare.Read;
+            if (allowAltering)
+            {
+                share = FileShare.ReadWrite;
+            }
+            _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, share);
             _writeStream.Seek(_writeStream.Length, SeekOrigin.Begin);
             Close();
 

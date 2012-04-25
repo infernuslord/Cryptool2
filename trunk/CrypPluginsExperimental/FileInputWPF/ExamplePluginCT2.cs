@@ -145,7 +145,7 @@ namespace Cryptool.Plugins.FileInputWPF
                 return;
             }
 
-            cstreamWriter = new CStreamWriter(settings.OpenFilename);
+            cstreamWriter = new CStreamWriter(settings.OpenFilename, true);
 
             NotifyPropertyChange();
 
