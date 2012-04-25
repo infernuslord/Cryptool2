@@ -45,11 +45,11 @@ namespace WorkspaceManager.View.Visuals
         #region IZOrdering
         public int ZIndex
         {
-            get 
-            { 
-                return Model.ZIndex; 
+            get
+            {
+                return Model.ZIndex;
             }
-            set 
+            set
             {
                 Model.ZIndex = value;
             }
@@ -77,7 +77,7 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
-        #endregion 
+        #endregion
 
         #region Model
 
@@ -88,7 +88,59 @@ namespace WorkspaceManager.View.Visuals
             private set 
             { 
                 model = value;
-                State = (BinComponentState)Enum.Parse(typeof(BinComponentState), Model.ViewState.ToString());
+                Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
+                Presentations.Add(BinComponentState.Min, Model.getImage());
+                Presentations.Add(BinComponentState.Default, Model.getImage());
+                Presentations.Add(BinComponentState.Data, new DataVisual(ConnectorCollection));
+                Presentations.Add(BinComponentState.Log, new LogVisual(this));
+                SettingsVisual bsv = new SettingsVisual(Model.Plugin, this, true, false);
+                if (!bsv.noSettings)
+                    Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
+
+                LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
+                var s = State = (BinComponentState)Enum.Parse(typeof(BinComponentState), Model.ViewState.ToString());
+                if (s == BinComponentState.Default)
+                {
+                    if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ComponentAppearance == 1)
+                    {
+                        State = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Min;
+                        return;
+                    }
+                    if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ComponentAppearance == 2)
+                    {
+                        State = BinComponentState.Min;
+                        return;
+                    }
+                    if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ComponentAppearance == 0)
+                    {
+                        var x = Model.PluginType.GetCustomAttributes(typeof(Cryptool.PluginBase.Attributes.ComponentVisualAppearance), false);
+
+                        if (x != null)
+                        {
+                            if (x.Count() != 0)
+                            {
+                                var y = (Cryptool.PluginBase.Attributes.ComponentVisualAppearance)x[0];
+                                if (y.DefaultVisualAppearance == Cryptool.PluginBase.Attributes.ComponentVisualAppearance.VisualAppearanceEnum.Opened)
+                                {
+                                    State = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Min;
+                                    return;
+                                }
+                                if (y.DefaultVisualAppearance == Cryptool.PluginBase.Attributes.ComponentVisualAppearance.VisualAppearanceEnum.Closed)
+                                {
+                                    State = BinComponentState.Min;
+                                    return;
+                                }
+
+                            }
+                        }
+
+                    }
+                    State = BinComponentState.Min;
+                    return;
+                }
+                State = s;
+
+                    
             }
         }
         #endregion
@@ -97,7 +149,7 @@ namespace WorkspaceManager.View.Visuals
 
         #endregion
 
-         #region Properties
+        #region Properties
         public Queue<Log> ErrorsTillReset { private set; get; }
         public ThumHack HackThumb = new ThumHack();
         public EditorVisual EditorVisual { private set; get; }
@@ -123,7 +175,7 @@ namespace WorkspaceManager.View.Visuals
                 Presentations.TryGetValue(BinComponentState.Setting, out e);
                 return e == null ? false : true;
 
-                
+
             }
         }
 
@@ -512,19 +564,10 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             Model.UpdateableView = this;
             Editor = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
-            SideBarSetting = new SettingsVisual(Model.Plugin, this, true,true);
+            SideBarSetting = new SettingsVisual(Model.Plugin, this, true, true);
             EditorVisual = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
-            Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
-            Presentations.Add(BinComponentState.Min, Model.getImage());
-            Presentations.Add(BinComponentState.Data, new DataVisual(ConnectorCollection));
-            Presentations.Add(BinComponentState.Log, new LogVisual(this));
-            SettingsVisual bsv = new SettingsVisual(Model.Plugin, this, true,false);
-            if(!bsv.noSettings)
-            Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
-            
-            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
 
-           
+
             InitializeComponent();
         }
         #endregion
@@ -599,7 +642,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
         void SouthConnectorCollectionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if(PropertyChanged != null)
+            if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs("SouthConnectorCollection.Count"));
         }
 
@@ -655,7 +698,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             switch (model.Orientation)
             {
                 case ConnectorOrientation.Unset:
-                    if(model.Outgoing)
+                    if (model.Outgoing)
                         EastConnectorCollection.Add(bin);
                     else
                         WestConnectorCollection.Add(bin);
@@ -726,7 +769,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                             break;
                     }
 
-                    IList itemsSource = (IList) items.ItemsSource;
+                    IList itemsSource = (IList)items.ItemsSource;
                     itemsSource.Add(connector);
                 }
                 catch (Exception ex)
@@ -794,7 +837,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
             if (b.Content is BinComponentAction && ((BinComponentAction)b.Content) == BinComponentAction.LastState)
             {
-                State = (BinComponentState) LastState;
+                State = (BinComponentState)LastState;
                 return;
             }
 
@@ -870,8 +913,8 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         {
             ComponentVisual bin = (ComponentVisual)d;
             if (bin.IsDraggingChanged != null)
-                bin.IsDraggingChanged.Invoke(bin, new IsDraggingChangedArgs() { IsDragging= bin.IsDragging });
-            
+                bin.IsDraggingChanged.Invoke(bin, new IsDraggingChangedArgs() { IsDragging = bin.IsDragging });
+
         }
 
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -913,7 +956,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         private void RepeatHandler(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            if(b == null)
+            if (b == null)
                 return;
 
             Repeat = (bool)b.Content;
@@ -1081,7 +1124,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             var baseElement = values[0] as FrameworkElement;
             var element = (double)values[1];
 
-            return Math.Abs(element -baseElement.ActualWidth);
+            return Math.Abs(element - baseElement.ActualWidth);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
@@ -1095,13 +1138,13 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
     public class ThumHack : Thumb
     {
-        public bool HackDrag 
-        { 
-            get 
-            { 
+        public bool HackDrag
+        {
+            get
+            {
                 return IsDragging;
             }
-            set 
+            set
             {
                 IsDragging = value;
             }
@@ -1339,18 +1382,18 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         public event EventHandler PluginModelChanged;
 
         private PluginModel pluginModel;
-        public PluginModel PluginModel 
-        { 
-            get 
+        public PluginModel PluginModel
+        {
+            get
             {
                 return pluginModel;
-            } 
-            set 
+            }
+            set
             {
                 pluginModel = value;
                 if (PluginModelChanged != null)
                     PluginModelChanged.Invoke(this, null);
-            } 
+            }
         }
         public ConnectorModel ConnectorModel { get; private set; }
 

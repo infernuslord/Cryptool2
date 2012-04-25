@@ -674,6 +674,7 @@ namespace WorkspaceManager.Model
 
     public enum BinComponentState
     {
+        Default,
         Min,
         Presentation,
         Data,
@@ -684,6 +685,7 @@ namespace WorkspaceManager.Model
 
     public enum PluginViewState
     {
+        Default,
         Min,
         Presentation,
         Data,
