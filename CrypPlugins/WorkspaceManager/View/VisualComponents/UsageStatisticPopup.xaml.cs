@@ -83,6 +83,9 @@ namespace WorkspaceManager.View.VisualComponents
 
         void _editorSelectedConnectorChanged(object sender, EventArgs e)
         {
+            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
+                return;
+
             var window = Window.GetWindow(this);
             if (window != null)
             {
