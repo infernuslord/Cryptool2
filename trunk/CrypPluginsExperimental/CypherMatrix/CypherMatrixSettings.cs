@@ -24,8 +24,7 @@ namespace Cryptool.Plugins.CypherMatrix
     public class CypherMatrixSettings : ISettings
     {
         public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1 , Hash = 2};
-        //public enum Permutation { A = 0, B = 1, C = 2, D = 3 }; // Variante A ist nicht für die Implementierung vorgesehen; bei Aktivierung die Funktion Perm ändern!
-        public enum Permutation { B = 0, C = 1, D = 2 };
+        public enum Permutation { B = 0, D = 1 };
         public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 , Mini = 3};
 
         #region Private variables and public constructor
@@ -42,7 +41,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
         public CypherMatrixSettings()
         {
-            Initialize();
+            
         }
 
         public void Initialize()
@@ -54,7 +53,7 @@ namespace Cryptool.Plugins.CypherMatrix
 
         #region TaskPane Settings
 
-        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "CypherMatrixMode0", "CypherMatrixMode1", "CypherMatrixMode2" })]
+        [TaskPane("ActionCaption", "ActionTooltip", "GeneralOptionsGroup", 1, false, ControlType.ComboBox, new string[] { "CypherMatrixMode0", "CypherMatrixMode1", "CypherMatrixMode2" })]
         public CypherMatrixMode Action
         {
             get
@@ -73,7 +72,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("UserCodeCaption", "UserCodeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
+        [TaskPane("UserCodeCaption", "UserCodeTooltip", "GeneralOptionsGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
         public int Code
         {
             get
@@ -90,7 +89,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("ExpansionBaseCaption", "ExpansionBaseTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        [TaskPane("ExpansionBaseCaption", "ExpansionBaseTooltip", "GeneralOptionsGroup", 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
         public int Basis
         {
             get
@@ -107,7 +106,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("PermCaption", "PermTooltip", null, 4, false, ControlType.ComboBox, new string[] { "PermOption1", "PermOption2", "PermOption3" })]
+        [TaskPane("PermCaption", "PermTooltip", "GeneralOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "PermOptionB", "PermOptionD" })]
         public Permutation Perm
         {
             get
@@ -125,7 +124,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", null, 5, false, ControlType.CheckBox)]
+        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", "GeneralOptionsGroup", 5, false, ControlType.CheckBox)]
         public bool Debug
         {
             get

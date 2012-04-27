@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">CypherMatrix binary input</title>
+  <description lang="en">This template shows how to input binary data to the CypherMatrix plugin.</description>
+  <keywords>CypherMatrix, Schnoor, binary</keywords>
+  <title lang="de">CypherMatrix Binäreingabe</title>
+  <description lang="de">Diese Vorlage zeigt, wie dem CypherMatrix-Plugin Binärdaten übergeben werden können.</description>
+  <keywords lang="de">CypherMatrix, Schnoor, Binär</keywords>
+  <icon file="CypherMatrix.png" />
+  <relevantPlugins>
+    <plugin name="CypherMatrix" />
+  </relevantPlugins>
+</sample>

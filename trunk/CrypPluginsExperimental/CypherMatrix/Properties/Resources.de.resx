@@ -172,7 +172,7 @@
     <value>Geben Sie die Matrix-Schlüssellänge ein</value>
   </data>
   <data name="CipherOptionsGroup" xml:space="preserve">
-    <value>Chiffrierungsoptionen</value>
+    <value>Chiffreoptionen</value>
   </data>
   <data name="BlockSizeCaption" xml:space="preserve">
     <value>Blocklänge</value>
@@ -201,15 +201,6 @@
   <data name="PermCaption" xml:space="preserve">
     <value>Permutation</value>
   </data>
-  <data name="PermOption0" xml:space="preserve">
-    <value>A</value>
-  </data>
-  <data name="PermOption1" xml:space="preserve">
-    <value>B</value>
-  </data>
-  <data name="PermOption2" xml:space="preserve">
-    <value>C</value>
-  </data>
   <data name="PermTooltip" xml:space="preserve">
     <value>Wählen Sie die Permutationsfunktion</value>
   </data>
@@ -225,9 +216,6 @@
   <data name="HashModeTooltip" xml:space="preserve">
     <value>Wählen Sie den Betriebsmodus des Hashes</value>
   </data>
-  <data name="PermOption3" xml:space="preserve">
-    <value>D</value>
-  </data>
   <data name="HashModeFMX" xml:space="preserve">
     <value>Final</value>
   </data>
@@ -239,5 +227,20 @@
   </data>
   <data name="HashModeSMX" xml:space="preserve">
     <value>Seriell</value>
+  </data>
+  <data name="GeneralOptionsGroup" xml:space="preserve">
+    <value>Allgemeine Einstellungen</value>
+  </data>
+  <data name="PermOptionA" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="PermOptionB" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="PermOptionC" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="PermOptionD" xml:space="preserve">
+    <value>D</value>
   </data>
 </root>
