@@ -151,7 +151,7 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Expansion Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Expansion base ähnelt.
         /// </summary>
         internal static string ExpansionBaseCaption {
             get {
@@ -169,6 +169,15 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Global Options ähnelt.
+        /// </summary>
+        internal static string GeneralOptionsGroup {
+            get {
+                return ResourceManager.GetString("GeneralOptionsGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Hash block size ähnelt.
         /// </summary>
         internal static string HashBlockSizeCaption {
@@ -178,7 +187,7 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the hash block size ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the block size of the hash value ähnelt.
         /// </summary>
         internal static string HashBlockSizeTooltip {
             get {
@@ -241,7 +250,7 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash options ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hash Options ähnelt.
         /// </summary>
         internal static string HashOptionsGroup {
             get {
@@ -286,7 +295,7 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Matrix Key size ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Matrix key size ähnelt.
         /// </summary>
         internal static string MatrixKeySizeCaption {
             get {
@@ -333,36 +342,36 @@ namespace CypherMatrix.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A ähnelt.
         /// </summary>
-        internal static string PermOption0 {
+        internal static string PermOptionA {
             get {
-                return ResourceManager.GetString("PermOption0", resourceCulture);
+                return ResourceManager.GetString("PermOptionA", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die B ähnelt.
         /// </summary>
-        internal static string PermOption1 {
+        internal static string PermOptionB {
             get {
-                return ResourceManager.GetString("PermOption1", resourceCulture);
+                return ResourceManager.GetString("PermOptionB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die C ähnelt.
         /// </summary>
-        internal static string PermOption2 {
+        internal static string PermOptionC {
             get {
-                return ResourceManager.GetString("PermOption2", resourceCulture);
+                return ResourceManager.GetString("PermOptionC", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die D ähnelt.
         /// </summary>
-        internal static string PermOption3 {
+        internal static string PermOptionD {
             get {
-                return ResourceManager.GetString("PermOption3", resourceCulture);
+                return ResourceManager.GetString("PermOptionD", resourceCulture);
             }
         }
         

@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Numerics;
 
 namespace Cryptool.Plugins.CypherMatrix
 {
@@ -107,6 +108,15 @@ namespace Cryptool.Plugins.CypherMatrix
         /// </summary>
         /// <param name="value">the value that should be written</param>
         private void WriteOutput(ulong value)
+        {
+            outputStreamWriter.Write(encoding.GetBytes(value.ToString()));
+        }
+
+        /// <summary>
+        /// Function to write data to the OutputStream.
+        /// </summary>
+        /// <param name="value">the value that should be written</param>
+        private void WriteOutput(BigInteger value)
         {
             outputStreamWriter.Write(encoding.GetBytes(value.ToString()));
         }
@@ -217,6 +227,11 @@ namespace Cryptool.Plugins.CypherMatrix
             catch (Exception exception)
             {
                 GuiLogMessage(exception.Message + "\r\n" + exception.StackTrace, NotificationLevel.Error);
+                if (settings.Debug)
+                {
+                    WriteDebug("\r\nThe following error occurred during execution:\r\n");
+                    WriteDebug(exception.Message + "\r\n" + exception.StackTrace + "\r\n");
+                }
             }
             finally
             {
@@ -244,7 +259,6 @@ namespace Cryptool.Plugins.CypherMatrix
             }
 
             ProgressChanged(1, 1);
-            PostExecution();
         }
 
         /// <summary>
@@ -628,50 +642,6 @@ namespace Cryptool.Plugins.CypherMatrix
                         }
                         break;
                     }
-                case CypherMatrixSettings.Permutation.C:
-                    {
-                        throw new NotImplementedException("NYI! Please use permutation function B!");
-                        int x = Delta - 1, a = 0;
-                        for (k = 0; k < 16; k++)
-                        {
-                            x++;
-                            if (x > 256)
-                                x -= 256;
-                            a = (cm1[x] + Theta) % 16;
-                            perm[k] = a;
-
-                            //Logik um doppelte Werte zu vermeiden
-                            for (i = 0; i < k; i++)
-                            {
-                                if (perm[i] == a)
-                                {
-                                    a++;
-                                    if (a >= 16)
-                                        a = a - 16;    // Reduziere e falls es zu groß wird
-                                    perm[k] = a;
-                                    i = -1;     // das Array soll von Null an abgesucht werden; i wird als nächstes direkt um 1 erhöht
-                                }
-                            }
-                        }
-
-                        i = 1; k = 0; l = 0;
-                        for (int pos = Alpha - 1; i <= 16; i++)
-                        {
-                            for (j = 1; j <= 16; j++)
-                            {
-                                k = i - j;
-                                if (k <= 0)
-                                    k += 16;
-                                l = perm[j - 1];    // l ist ein Wert mod 16
-                                cm3[(k - 1) * 16 + l] = cm1[pos];   // l ist ein Wert mod 16, weshalb er nicht um 1 reduziert werden muss
-                                pos++;
-                                if (pos > 255)
-                                    pos = 0;
-                            }
-                        }
-
-                        break;
-                    }
                 case CypherMatrixSettings.Permutation.D:
                     {
                         //VarFolge(K)=DatFolge(K)-Theta //VarFolge(K) == cm1[k]
@@ -757,16 +727,6 @@ namespace Cryptool.Plugins.CypherMatrix
                 }
                 switch (settings.Perm)
                 {
-                    case CypherMatrixSettings.Permutation.C:
-                        {
-                            WriteDebug("\r\nperm: \r\n");
-                            for (j = 0; j < 16; j++)
-                            {
-                                WriteDebug(String.Format(" {0}", perm[j]));
-                            }
-                            WriteDebug("\r\n");
-                            break;
-                        }
                     case CypherMatrixSettings.Permutation.D:
                         {
                             WriteDebug("\r\nrndX: \r\n");
@@ -797,34 +757,39 @@ namespace Cryptool.Plugins.CypherMatrix
                 }
             }
 
-            // Entnahme Chiffre-Alphabet
-            cipherChars.AddRange(cm3);
-            cipherChars.AddRange(cm3);
-            cipherChars.RemoveRange(0, Alpha - 1);
-            cipherChars.RemoveAll(CharFilter);
-            if (cipherChars.Count > 128)
-                cipherChars.RemoveRange(128, cipherChars.Count - 128);
-            // Block-Schlüssel
-            for (i = 0; i < settings.BlockKeyLen; i++)
-                blockKey.Add((byte)cm3[Beta - 1 + i]);
-
-            // Matrix-Schlüssel
-            matrixKey = new byte[settings.MatrixKeyLen];
-            for (i = 0; i < settings.MatrixKeyLen; i++)
-                matrixKey[i] = cm3[Gamma - 1 + i];
-
-            // Debugdaten schreiben, Teil 2
-            if (settings.Debug)
+            //die folgenden Berechnungen werden nur für die Ver-/Entschlüsselung benötigt
+            if (settings.Action != CypherMatrixSettings.CypherMatrixMode.Hash)
             {
-                WriteDebug("\r\ncipherChars (hex): \r\n ");
-                foreach (byte b in cipherChars)
-                    WriteDebug(String.Format(" {0:X2}", b));
-                WriteDebug("\r\n\r\nblockKey (hex): \r\n ");
-                foreach (byte b in blockKey)
-                    WriteDebug(String.Format(" {0:X2}", b));
-                WriteDebug("\r\n\r\nmatrixKey (hex): \r\n ");
-                foreach (byte b in matrixKey)
-                    WriteDebug(String.Format(" {0:X2}", b));
+                // Entnahme Chiffre-Alphabet
+                cipherChars.AddRange(cm3);
+                cipherChars.AddRange(cm3);
+                cipherChars.RemoveRange(0, Alpha - 1);
+                cipherChars.RemoveAll(CharFilter);
+                if (cipherChars.Count > 128)
+                    cipherChars.RemoveRange(128, cipherChars.Count - 128);
+
+                // Block-Schlüssel
+                for (i = 0; i < settings.BlockKeyLen; i++)
+                    blockKey.Add((byte)cm3[Beta - 1 + i]);
+
+                // Matrix-Schlüssel
+                matrixKey = new byte[settings.MatrixKeyLen];
+                for (i = 0; i < settings.MatrixKeyLen; i++)
+                    matrixKey[i] = cm3[Gamma - 1 + i];
+
+                // Debugdaten schreiben, Teil 2
+                if (settings.Debug)
+                {
+                    WriteDebug("\r\ncipherChars (hex): \r\n ");
+                    foreach (byte b in cipherChars)
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    WriteDebug("\r\n\r\nblockKey (hex): \r\n ");
+                    foreach (byte b in blockKey)
+                        WriteDebug(String.Format(" {0:X2}", b));
+                    WriteDebug("\r\n\r\nmatrixKey (hex): \r\n ");
+                    foreach (byte b in matrixKey)
+                        WriteDebug(String.Format(" {0:X2}", b));
+                }
             }
         }
 
@@ -851,9 +816,10 @@ namespace Cryptool.Plugins.CypherMatrix
             return H_p;
         }
 
-        private ulong Hash_SMX()
+        private BigInteger Hash_SMX()
         {
-            ulong hashPart = 0, hashSum = 0;
+            ulong hashPart = 0;
+            BigInteger hashSum = new BigInteger();
             int round = 1, bytesRead = 0, roundMax = 0;
 
             byte[] dataBlock = new byte[settings.HashBlockLen];
@@ -884,9 +850,10 @@ namespace Cryptool.Plugins.CypherMatrix
             return hashSum;
         }
 
-        private ulong Hash_FMX()
+        private BigInteger Hash_FMX()
         {
-            ulong hashPart = 0, hashSum = 0;
+            ulong hashPart = 0;
+            BigInteger hashSum = new BigInteger();
             int round = 1, bytesRead = 0, roundMax = 0;
 
             byte[] dataBlock = new byte[settings.HashBlockLen];
@@ -943,14 +910,15 @@ namespace Cryptool.Plugins.CypherMatrix
                 WriteDebug(string.Format("hashPart last cycle: {0}\r\n", hashFinal));
             }
 
-            hashFinal += hashSum;
+            hashSum += hashFinal;
 
-            return hashFinal;
+            return hashSum;
         }
 
-        private ulong Hash_Mini()
+        private BigInteger Hash_Mini()
         {
-            ulong hashPart = 0, hashSum = 0;
+            ulong hashPart = 0;
+            BigInteger hashSum = new BigInteger();
             int round = 1, bytesRead = 0, roundMax = 0, C_k = 0;
 
             byte[] dataBlock = new byte[settings.HashBlockLen];
@@ -1019,15 +987,14 @@ namespace Cryptool.Plugins.CypherMatrix
             {
                 WriteDebug(String.Format("hashPart last cycle: {0}\r\n", hashFinal));
             }
+            hashSum += hashFinal;
 
-            hashFinal += hashSum;
-
-            return hashFinal;
+            return hashSum;
         }
 
         private void Hash()
         {
-            ulong hash = 0;
+            BigInteger hash = 0;
             switch (settings.HashMode)
             {
                 case CypherMatrixSettings.CypherMatrixHashMode.SMX:
@@ -1165,12 +1132,12 @@ namespace Cryptool.Plugins.CypherMatrix
         /// <param name="basis">gehähltes Zahlensystem</param>
         /// <param name="zahl">umzuwandelnte Zahl</param>
         /// <returns>umgewandelte Zahl (als StringBuilder)</returns>
-        private StringBuilder DezNachSystem(uint basis, ulong zahl)
+        private StringBuilder DezNachSystem(uint basis, BigInteger zahl)
         {
             if (basis > 128)
                 throw new ArgumentException("The maximum for conversion supported base is 128.", "basis");
             StringBuilder output = new StringBuilder();
-            ulong number = zahl;
+            BigInteger number = zahl;
             uint tmp = 0;
             char[] charTmp = { (char)0x00 };
             byte[] byteTmp = { 0x00 };

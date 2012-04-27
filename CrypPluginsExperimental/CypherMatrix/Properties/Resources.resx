@@ -154,7 +154,7 @@
     <value>Choose a number to customize the calculations</value>
   </data>
   <data name="ExpansionBaseCaption" xml:space="preserve">
-    <value>Expansion Base</value>
+    <value>Expansion base</value>
   </data>
   <data name="ExpansionBaseTooltip" xml:space="preserve">
     <value>Choose a number to customize the expansion function</value>
@@ -166,7 +166,7 @@
     <value>Choose whether the internal parameters should be written to a logfile or not</value>
   </data>
   <data name="MatrixKeySizeCaption" xml:space="preserve">
-    <value>Matrix Key size</value>
+    <value>Matrix key size</value>
   </data>
   <data name="MatrixKeySizeTooltip" xml:space="preserve">
     <value>Choose the matrix key size</value>
@@ -184,10 +184,10 @@
     <value>Hash block size</value>
   </data>
   <data name="HashBlockSizeTooltip" xml:space="preserve">
-    <value>Choose the hash block size</value>
+    <value>Choose the block size of the hash value</value>
   </data>
   <data name="HashOptionsGroup" xml:space="preserve">
-    <value>Hash options</value>
+    <value>Hash Options</value>
   </data>
   <data name="CypherMatrixMode0" xml:space="preserve">
     <value>Encrypt</value>
@@ -201,13 +201,13 @@
   <data name="PermCaption" xml:space="preserve">
     <value>Permutation</value>
   </data>
-  <data name="PermOption0" xml:space="preserve">
+  <data name="PermOptionA" xml:space="preserve">
     <value>A</value>
   </data>
-  <data name="PermOption1" xml:space="preserve">
+  <data name="PermOptionB" xml:space="preserve">
     <value>B</value>
   </data>
-  <data name="PermOption2" xml:space="preserve">
+  <data name="PermOptionC" xml:space="preserve">
     <value>C</value>
   </data>
   <data name="PermTooltip" xml:space="preserve">
@@ -234,10 +234,13 @@
   <data name="HashModeTooltip" xml:space="preserve">
     <value>Select the hash mode</value>
   </data>
-  <data name="PermOption3" xml:space="preserve">
+  <data name="PermOptionD" xml:space="preserve">
     <value>D</value>
   </data>
   <data name="HashModeMini" xml:space="preserve">
     <value>mini</value>
+  </data>
+  <data name="GeneralOptionsGroup" xml:space="preserve">
+    <value>Global Options</value>
   </data>
 </root>
