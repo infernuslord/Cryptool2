@@ -130,6 +130,9 @@ namespace Startcenter
 
         private void OpenSelectedTemplate()
         {
+            if (RecentFileListBox.SelectedItem == null)
+                return;
+
             var selectedItem = (RecentFileInfo) RecentFileListBox.SelectedItem;
             IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
 
