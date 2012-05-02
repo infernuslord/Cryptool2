@@ -638,7 +638,7 @@ namespace Primes.WpfControls.Components
           {
             from = null;
             to = null;
-            InfoFree("Der Wert im Feld \"von\" muss kleiner sein, als der im Feld \"bis\"", new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
+            InfoFree(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
           }
         }
         else
@@ -648,7 +648,7 @@ namespace Primes.WpfControls.Components
           {
             from = null;
             to = null;
-            InfoFree("Der Wert im Feld \"von\" muss kleiner sein, als der im Feld \"bis\"", new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
+            InfoFree(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
           }
         }
       }
@@ -716,7 +716,7 @@ namespace Primes.WpfControls.Components
           {
             from = null;
             to = null;
-            InfoCalc("Der Wert im Feld \"von\" muss kleiner sein, als der im Feld \"bis\"", new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
+            InfoCalc(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
           }
         }
         else
@@ -725,7 +725,8 @@ namespace Primes.WpfControls.Components
           {
             from = null;
             to = null;
-            InfoCalc("Der Wert im Feld \"von\" muss kleiner sein, als der im Feld \"bis\"", new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
+
+            InfoCalc(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
           }
         }
       }

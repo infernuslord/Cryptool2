@@ -124,25 +124,25 @@
     <value>Encrypted</value>
   </data>
   <data name="generatedSig" xml:space="preserve">
-    <value>Generated Signature</value>
+    <value>Generated signature</value>
   </data>
   <data name="genFakeSig" xml:space="preserve">
-    <value>Generate Fakesignature</value>
+    <value>Generate fake signature</value>
   </data>
   <data name="genSig" xml:space="preserve">
-    <value>Generate Signature</value>
+    <value>Generate signature</value>
   </data>
   <data name="genSigErrorMaxIter" xml:space="preserve">
     <value>Signature could not be generated. Maximum amount of iterations reached.</value>
   </data>
   <data name="maxIterations" xml:space="preserve">
-    <value>Max. Amount of Iterations:</value>
+    <value>Max. number of iterations:</value>
   </data>
   <data name="pubKey" xml:space="preserve">
-    <value>Public Key:</value>
+    <value>Public key:</value>
   </data>
   <data name="rsaKeySize" xml:space="preserve">
-    <value>RSA-Keysize (in bit):</value>
+    <value>RSA key size (in bits):</value>
   </data>
   <data name="structure" xml:space="preserve">
     <value>Structure</value>

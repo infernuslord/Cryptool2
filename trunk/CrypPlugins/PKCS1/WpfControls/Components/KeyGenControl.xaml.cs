@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PKCS1.Library;
 using PKCS1.WpfResources;
+using PKCS1.Resources.lang.Gui;
 
 namespace PKCS1.WpfControls.Components
 {
@@ -57,12 +58,12 @@ namespace PKCS1.WpfControls.Components
 
         private void tbResultPrivKey_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblPrivKeyLength.Content = "(Länge: " + this.tbResultPrivKey.Text.Length * 4 + " bit)";
+            this.lblPrivKeyLength.Content = String.Format(Common.length, this.tbResultPrivKey.Text.Length * 4);
         }
 
         private void tbResultModulus_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblModulusLength.Content = "(Länge: " + this.tbResultModulus.Text.Length * 4 + " bit)";
+            this.lblModulusLength.Content = String.Format(Common.length, this.tbResultModulus.Text.Length * 4);
         }
 
         private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

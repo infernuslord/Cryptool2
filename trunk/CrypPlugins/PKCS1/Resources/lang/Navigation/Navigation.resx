@@ -121,7 +121,7 @@
     <value>Bleichenbacher Angriff</value>
   </data>
   <data name="attackvariant" xml:space="preserve">
-    <value>Varianten mit kürzeren Schlüsseln</value>
+    <value>Angriff mit kürzeren Schlüsseln (Kühn)</value>
   </data>
   <data name="keygen" xml:space="preserve">
     <value>RSA-Schlüssel erzeugen</value>

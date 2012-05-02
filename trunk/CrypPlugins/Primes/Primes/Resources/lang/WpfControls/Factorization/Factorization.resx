@@ -136,7 +136,7 @@
     <value>Zu faktorisierende Zahl</value>
   </data>
   <data name="fac_qs" xml:space="preserve">
-    <value>Das quadratische Sieb</value>
+    <value>Quadratisches Sieb</value>
   </data>
   <data name="fac_result" xml:space="preserve">
     <value>Faktorisierungsergebnis</value>

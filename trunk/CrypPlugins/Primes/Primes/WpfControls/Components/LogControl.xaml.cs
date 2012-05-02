@@ -489,75 +489,81 @@ namespace Primes.WpfControls.Components
       return m_CurrentRow;
     }
     #endregion
-    
+
     private void MenuItem_Click(object sender, RoutedEventArgs e)
     {
-      if (sender != null && sender.GetType() == typeof(MenuItem))
-      {
-        MenuItem mi = sender as MenuItem;
-        if (mi == miCopySelection)
+        try
         {
-          StringBuilder result = new StringBuilder();
-          string[] msg = new string[m_Columns];
-          foreach (TextBlock tb in this.m_Selected)
-          {
-            int column = Grid.GetColumn(tb);
-            if (column > -1) msg[column] = tb.Text;
-            //result.Append(tb.Text);
-            //result.Append("\t");
-          }
-          foreach (string s in msg)
-          {
-            if (!string.IsNullOrEmpty(s))
+            if (sender != null && sender.GetType() == typeof(MenuItem))
             {
-              result.Append(s);
-              result.Append("\t");
-            }
-          }
-          Clipboard.SetText(result.ToString(),TextDataFormat.Text);
-        }
-        else if (mi == miCopyAll)
-        {
-          int row = -1;
-          StringBuilder result = new StringBuilder();
-          string[] msg = new string[m_Columns];
-          foreach (UIElement element in gridMessages.Children)
-          {
-            if (element.GetType() == typeof(TextBlock))
-            {
-              if (row != Grid.GetRow(element))
-              {
-                if (row > -1)
+                MenuItem mi = sender as MenuItem;
+                if (mi == miCopySelection)
                 {
-                  foreach (string s in msg)
-                  {
-                    if (!string.IsNullOrEmpty(s))
+                    StringBuilder result = new StringBuilder();
+                    string[] msg = new string[m_Columns];
+                    foreach (TextBlock tb in this.m_Selected)
                     {
-                      result.Append(s);
-                      result.Append("\t");
+                        int column = Grid.GetColumn(tb);
+                        if (column > -1) msg[column] = tb.Text;
+                        //result.Append(tb.Text);
+                        //result.Append("\t");
                     }
-                  }
-                  result.Remove(result.Length - 1, 1);
-                  result.Append("\r\n");
+                    foreach (string s in msg)
+                    {
+                        if (!string.IsNullOrEmpty(s))
+                        {
+                            result.Append(s);
+                            result.Append("\t");
+                        }
+                    }
+                    Clipboard.SetText(result.ToString(), TextDataFormat.Text);
                 }
-                row = Grid.GetRow(element);
-              }
-              int column = Grid.GetColumn(element);
-              if (column > -1&&column<msg.Length)
-                msg[column] = (element as TextBlock).Text;
-            }
-          }
-          Clipboard.SetText(result.ToString(), TextDataFormat.Text);
-          
+                else if (mi == miCopyAll)
+                {
+                    int row = -1;
+                    StringBuilder result = new StringBuilder();
+                    string[] msg = new string[m_Columns];
+                    foreach (UIElement element in gridMessages.Children)
+                    {
+                        if (element.GetType() == typeof(TextBlock))
+                        {
+                            if (row != Grid.GetRow(element))
+                            {
+                                if (row > -1)
+                                {
+                                    foreach (string s in msg)
+                                    {
+                                        if (!string.IsNullOrEmpty(s))
+                                        {
+                                            result.Append(s);
+                                            result.Append("\t");
+                                        }
+                                    }
+                                    result.Remove(result.Length - 1, 1);
+                                    result.Append("\r\n");
+                                }
+                                row = Grid.GetRow(element);
+                            }
+                            int column = Grid.GetColumn(element);
+                            if (column > -1 && column < msg.Length)
+                                msg[column] = (element as TextBlock).Text;
+                        }
+                    }
+                    Clipboard.SetText(result.ToString(), TextDataFormat.Text);
 
+
+                }
+            }
+            gridMessages.ContextMenu.IsOpen = false;
+            if (m_Selected.Count > 0 && m_TextStyle != null)
+            {
+                RemoveEdit();
+                MarkRow(m_Selected[0], m_TextStyle.Background, m_TextStyle.Foreground);
+            }
         }
-      }
-      gridMessages.ContextMenu.IsOpen = false;
-      if (m_Selected.Count > 0&&m_TextStyle!=null)
-      {
-        RemoveEdit();
-        MarkRow(m_Selected[0], m_TextStyle.Background, m_TextStyle.Foreground);
-      }
+        catch(Exception ex)
+        {
+        }
     }
 
 

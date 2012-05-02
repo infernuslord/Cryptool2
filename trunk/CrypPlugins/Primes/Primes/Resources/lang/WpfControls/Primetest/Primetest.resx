@@ -214,7 +214,7 @@
     <value>Zu testende Zahl</value>
   </data>
   <data name="test_millerrabin" xml:space="preserve">
-    <value>Der Miller/Rabin-Test</value>
+    <value>Miller/Rabin-Test</value>
   </data>
   <data name="test_soa" xml:space="preserve">
     <value>Sieb des Atkin</value>

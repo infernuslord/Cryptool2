@@ -136,10 +136,7 @@
     <value>Hashwert (HD)</value>
   </data>
   <data name="hi" xml:space="preserve">
-    <value>Hashfunktion Identifier (HI)</value>
-  </data>
-  <data name="length" xml:space="preserve">
-    <value>Länge: </value>
+    <value>Hashfunktion-Identifier (HI)</value>
   </data>
   <data name="textDefault" xml:space="preserve">
     <value>Hier bitte den zu signierenden Text eingeben.</value>

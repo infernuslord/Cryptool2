@@ -151,13 +151,13 @@
     <value>Erzeugung von Primzahlen</value>
   </data>
   <data name="title_primespiral" xml:space="preserve">
-    <value>Die Ulam-Spirale</value>
+    <value>Ulam-Spirale</value>
   </data>
   <data name="title_primetest" xml:space="preserve">
     <value>Primzahltests</value>
   </data>
   <data name="title_primitivroot" xml:space="preserve">
-    <value>Primitivwurzeln von Primzahlen</value>
+    <value>Primitivwurzeln</value>
   </data>
   <data name="title_start" xml:space="preserve">
     <value>Die Welt der Primzahlen</value>
@@ -169,6 +169,6 @@
     <value>Vorwärts</value>
   </data>
   <data name="title_soa" xml:space="preserve">
-    <value>Das Sieb des Atkin</value>
+    <value>Sieb des Atkin</value>
   </data>
 </root>

@@ -127,7 +127,7 @@
     <value>PKCS#1-Signatur</value>
   </data>
   <data name="kuehnSig" xml:space="preserve">
-    <value>Kühn Signatur</value>
+    <value>Kühn-Signatur</value>
   </data>
   <data name="implCorrect" xml:space="preserve">
     <value>Korrekt (PKCS#1 Version 2.1)</value>
@@ -151,7 +151,7 @@
     <value>Verschlüsselte Signatur</value>
   </data>
   <data name="plsGenSigFirst" xml:space="preserve">
-    <value>keine Signatur erzeugt. Bitte erzeugen Sie zuerst eine Signatur.</value>
+    <value>Keine Signatur erzeugt. Bitte erzeugen Sie zuerst eine Signatur.</value>
   </data>
   <data name="resHashNotReadable" xml:space="preserve">
     <value>Hashalgorithmus: nicht auslesbar</value>

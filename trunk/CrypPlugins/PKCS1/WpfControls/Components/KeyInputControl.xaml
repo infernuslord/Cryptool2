@@ -34,7 +34,7 @@
                 </Grid.RowDefinitions>
                 
                 <DockPanel Grid.Row="0">
-                    <Label Margin="0,5,5,0" Width="120" >
+                    <Label Margin="0,5,5,0" Width="125" >
                         <x:Static Member="lang:RsaKeyInputCtrl.pubKey"></x:Static>
                     </Label>
                     <Image Name="btnHelpPubKey" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="Left" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
@@ -55,7 +55,7 @@
 
 
                 <DockPanel Grid.Row="3">
-                    <Label Margin="0,5,5,0" Width="120">
+                    <Label Margin="0,5,5,0" Width="125">
                         <x:Static Member="lang:RsaKeyInputCtrl.keyLength"></x:Static>
                     </Label>
                     <Image Name="btnHelpBitSizeModulus" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" HorizontalAlignment="left" MouseLeftButtonDown="btn_Help_MouseLeftButtonDown" />
@@ -76,7 +76,7 @@
 
 
                 <DockPanel Grid.Row="6">
-                    <Label HorizontalAlignment="left" Width="100" Margin="0,5,5,0">
+                    <Label HorizontalAlignment="left" Width="102" Margin="0,5,5,0">
                         <x:Static Member="lang:RsaKeyInputCtrl.privKey"></x:Static>
                     </Label>
                     <DockPanel HorizontalAlignment="Right">
@@ -93,7 +93,7 @@
                 <Label  Grid.Row="8" Name="lblErrorPrivKey" Margin="5,0,5,5" Foreground="Red" FontWeight="Bold" FontSize="10"></Label>
 
                 <DockPanel  Grid.Row="9">
-                    <Label HorizontalAlignment="Left" Width="100"  Margin="0,5,5,0">
+                    <Label HorizontalAlignment="Left" Width="102"  Margin="0,5,5,0">
                         <x:Static Member="lang:RsaKeyInputCtrl.mod"></x:Static>
                     </Label>
                     <DockPanel HorizontalAlignment="Right">

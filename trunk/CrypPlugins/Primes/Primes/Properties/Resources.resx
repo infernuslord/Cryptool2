@@ -191,7 +191,7 @@
     <value>World of Primes</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Properties and methods of prime numbers.</value>
+    <value>Properties and methods of prime numbers</value>
   </data>
   <data name="PrimesSettings" xml:space="preserve">
     <value>World of Primes</value>

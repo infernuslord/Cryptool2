@@ -121,7 +121,7 @@
     <value>DEZ</value>
   </data>
   <data name="errorBitLengthShorter" xml:space="preserve">
-    <value>Die Bitlänge des eingegebenen Wertes muss kürzer als oder gleich der Schlussellänge sein!</value>
+    <value>Die Bitlänge des eingegebenen Wertes muss kleiner oder gleich der Schlüssellänge sein!</value>
   </data>
   <data name="errorInsertNumber" xml:space="preserve">
     <value>Bitte eine Zahl eingeben!</value>

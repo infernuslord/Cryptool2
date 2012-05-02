@@ -195,9 +195,6 @@ namespace Primes.WpfVisualization
       imghelp.Visibility = Visibility.Visible;
       switch(type)
       {
-        case NavigationCommandType.Graph:
-          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primecount;
-          break;
         case NavigationCommandType.Factor_QS:
         case NavigationCommandType.Factor_Bf:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_factorize;
@@ -209,6 +206,10 @@ namespace Primes.WpfVisualization
         case NavigationCommandType.Primetest_Miller:
         case NavigationCommandType.Primetest_Sieve:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primetest;
+          break;
+        case NavigationCommandType.SieveOfAtkin:
+          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primetest;
+          //lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_soa;
           break;
         case NavigationCommandType.Primespirals:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primespiral;
@@ -222,14 +223,15 @@ namespace Primes.WpfVisualization
         case NavigationCommandType.PrimeDistrib_Goldbach:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_distribution;
           break;
+        case NavigationCommandType.Graph:
+          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_distribution;
+          //lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primecount;
+          break;
         case NavigationCommandType.NumberTheoryFunctions:
         case NavigationCommandType.PrimitivRoot:
         case NavigationCommandType.PowerMod:           
           
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_Numbertheory;
-          break;
-        case NavigationCommandType.SieveOfAtkin:
-          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_soa;
           break;
 
       }

@@ -124,21 +124,21 @@
     <value>Encrypted</value>
   </data>
   <data name="generatedSig" xml:space="preserve">
-    <value>Generated Signature</value>
+    <value>Generated signature</value>
   </data>
   <data name="genSig" xml:space="preserve">
-    <value>Generate Signature</value>
+    <value>Generate signature</value>
   </data>
   <data name="pubKey" xml:space="preserve">
-    <value>Public Key:</value>
+    <value>Public key:</value>
   </data>
   <data name="rsaKeySize" xml:space="preserve">
-    <value>RSA-Keysize (in bit):</value>
+    <value>RSA key size (in bits):</value>
   </data>
   <data name="structure" xml:space="preserve">
     <value>Structure</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Generate Secure PKCS#1-Signature</value>
+    <value>Generate secure PKCS#1 signature</value>
   </data>
 </root>
