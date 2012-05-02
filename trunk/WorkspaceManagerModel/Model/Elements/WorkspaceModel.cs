@@ -243,7 +243,8 @@ namespace WorkspaceManager.Model
                     this.AllConnectionModels.Add(connection);
                 }
                 this.AllConnectorModels.Add(connectorModel);
-            }            
+            }
+            pluginModel.Plugin.Initialize();
         }
        
         /// <summary>
