@@ -133,7 +133,7 @@
     <value>Warte auf das Stoppen aller Threads</value>
   </data>
   <data name="ExecutionEngine_Stop_Thread__0__did_not_stop_in__1__miliseconds_and_will_be_aborted_now_" xml:space="preserve">
-    <value>Thread {0} beendete sich nicht innerhalb {1} Millisekunden  selbstständing und wird nun hart beendet</value>
+    <value>Thread {0} beendete sich nicht selbstständig innerhalb {1} Millisekunden und wird nun hart beendet</value>
   </data>
   <data name="ExecutionEngine_Stop_Exception_during_waiting_for_thread___0___to_stop___1_" xml:space="preserve">
     <value>Es trat ein Fehler während des Wartens auf die Beendigung von  '{0}' auf: {1}</value>
