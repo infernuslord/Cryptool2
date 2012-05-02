@@ -10,16 +10,16 @@
 
     <StackPanel  Name="mainPanel" Orientation="Vertical" >
         <ToolBarPanel Orientation="Horizontal">
-            <Button Click="Button_Click">
+            <Button Name ="openFileButton" Click="Button_Click">
                 Open File
             </Button>
-            <Button Click="Button_Click_2">
+            <Button Name ="saveAs" Click="Button_Click_2">
                 Save as...
             </Button>
-            <Button Click="Button_Click_1">
+            <Button Name="save" Click="Button_Click_1">
                 Save
             </Button>
-            <Button Click="Button_Click_3">
+            <Button Name ="newFile" Click="Button_Click_3">
                 New File
             </Button>
 

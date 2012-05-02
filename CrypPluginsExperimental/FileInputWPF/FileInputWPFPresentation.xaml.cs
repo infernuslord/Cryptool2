@@ -43,14 +43,18 @@ namespace FileInputWPF
 
         }
 
+        
+
 
         public void CloseFileToGetFileStreamForExecution()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate {
             
+            hexBox.saveData(true,false);
+
             hexBox.closeFile();
             hexBox.openFile((exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, true);
-            }, null);
+
+            hexBox.IsEnabled = false;
             //hexBox.openFile(exp.settings.OpenFilename);
         }
 
@@ -63,18 +67,11 @@ namespace FileInputWPF
                 // tbFileClosedWhileRunning.Visibility = Visibility.Collapsed;
                 // windowsFormsHost.Visibility = Visibility.Visible;
                 hexBox.closeFile();
-                try
-                {
-
-                    hexBox.openFile(
+                hexBox.openFile(
                         (exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, false);
-                }
-                catch(Exception e)
-                {
-                    hexBox.openFile(
-                        (exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, true);
-                }
+               
             }
+            hexBox.IsEnabled = true;
         }
 
 
@@ -97,12 +94,12 @@ namespace FileInputWPF
 
         private void sizeChanged(Object sender, EventArgs eventArgs)
         {
-
-            this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth,
-                                                            this.ActualHeight / this.MainMain.ActualHeight);
-            
+            if (this.ActualWidth / 2.25 < this.ActualHeight)
+                this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth, this.ActualWidth / this.MainMain.ActualWidth);
+            else
+                this.MainMain.RenderTransform = new ScaleTransform(this.ActualHeight / this.MainMain.ActualHeight, this.ActualHeight / this.MainMain.ActualHeight);
         }
-
+        
         internal void CloseFile()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate

@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.FileInputWPF
     [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Example Plugin", "Subtract one number from another", "FileInputWPF/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("FileInputWPF", "Subtract one number from another", "FileInputWPF/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class FileInputWPF : ICrypComponent
@@ -191,6 +191,7 @@ namespace Cryptool.Plugins.FileInputWPF
         public void Dispose()
         {
             fwpfp.dispose();
+            if(cstreamWriter != null)
             cstreamWriter.Dispose();
         }
 
