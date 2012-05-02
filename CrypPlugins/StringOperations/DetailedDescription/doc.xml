@@ -8,7 +8,7 @@
     The StringOperations offer the possibility to manipulate strings.
     By using the StringOperations a string may be converted to a lower-case or to an upper-case one. The user can separate substrings from
     a string or merge (concatenate) different strings. StringOperations may also be used to calculate the length of a given string.
-    The position of a substring may be calculated. Parts of a string may be replaced by another string (Using a regex is supported).
+    The position of a substring may be calculated. Parts of a string may be replaced by another string (using a regex is supported).
     The user can check if two strings are equal using the StringOperations.
   </introduction>
 
@@ -18,8 +18,7 @@
     einzelne Teile entnommen werden oder mehrere Zeichenkette als eine zusammengefasst werden (Konkatenation). Außerdem
     ermöglichen die Zeichenketten-Operationen die Bestimmung der Länge einer übergebenen Zeichenkette. Es kann der Index, also
     die Position, einer Zeichenkette innerhalb einer anderen bestimmt werden. Teile einer Zeichenkette können durch eine weitere
-    Zeichenkette ersetzt werden (Auch mittels regulären Ausdruck). Zu guter Letzt kann überprüft werden,
-    ob zwei übergebene Zeichenketten identisch sind.    
+    Zeichenkette ersetzt werden (auch mittels regulären Ausdruck). Außerdem kann man überprüfen, ob zwei übergebene Zeichenketten identisch sind.    
   </introduction>
 
   <usage lang="en">
@@ -53,8 +52,8 @@
       <item>Trimmen: Entfernt sogenannte Whitespaces vom Anfang und Ende (tab, Leerzeichen) aus dem Text, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
       <item>IndexVon: Gibt den ersten Index des Vorkommens vom Text des Texteingangs zwei des Texteingangs eins am Zahlenausgang aus</item>
       <item>Vergleich: Gibt 1 aus, wenn beide Texte identisch sind. Gibt ansonsten 0 aus</item>
-      <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
-      <item>RegexErsetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
+      <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
+      <item>RegexErsetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
     </enum>    
   </usage>
   

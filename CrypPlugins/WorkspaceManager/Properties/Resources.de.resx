@@ -448,7 +448,7 @@
     <value>Verzögerung des Komponentenverbindungsvorschlags</value>
   </data>
   <data name="ComponentConnection_Delay_Tooltip" xml:space="preserve">
-    <value>Wie lange soll die Maus gehalten werden damit das Vorschlagsfenster hochkommt?</value>
+    <value>Wie lange soll die Maus gehalten werden, damit das Vorschlagsfenster hochkommt?</value>
   </data>
   <data name="WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_" xml:space="preserve">
     <value>Fehler während des Disposens des Models: {0}</value>
@@ -460,10 +460,10 @@
     <value>GuiUpdateInterval kann nicht &lt;=0 sein; Benutzen Sie GuiUpdateInterval &gt;= 1</value>
   </data>
   <data name="WorkspaceManagerClass_Execute_Could_not_set_GuiUpdateInterval___0_" xml:space="preserve">
-    <value>Konnte GuiUpdateInterval nicht setzten: {0}</value>
+    <value>Konnte GuiUpdateInterval nicht setzen: {0}</value>
   </data>
   <data name="WorkspaceManagerClass_Execute_Could_not_set_SleepTime___0_" xml:space="preserve">
-    <value>Konnte SleepTime nicht setzten: {0}</value>
+    <value>Konnte SleepTime nicht setzen: {0}</value>
   </data>
   <data name="WorkspaceManagerClass_Execute_Exception_during_the_execution___0_" xml:space="preserve">
     <value>Fehler während der Ausführung: {0}</value>
@@ -472,7 +472,7 @@
     <value>Führe das Model jetzt aus!</value>
   </data>
   <data name="WorkspaceManagerClass_Execute_SleepTime" xml:space="preserve">
-    <value>SleepTime kann nicht &lt;=0 sein; Benutzen sie SleepTime &gt;= 0</value>
+    <value>SleepTime kann nicht &lt;=0 sein; Bitte benutzen sie SleepTime &gt;= 0</value>
   </data>
   <data name="WorkspaceManagerClass_Open_Could_not_load_Model___0_" xml:space="preserve">
     <value>Konnte Model nicht laden: {0}</value>
