@@ -49,7 +49,7 @@ namespace FileOutputWPF
             
             //hexBox.saveData(true,false);
 
-            hexBox.closeFile();
+            hexBox.closeFile(false);
             //hexBox.openFile((exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, true);
 
             //hexBox.IsEnabled = false;
@@ -64,7 +64,7 @@ namespace FileOutputWPF
             {
                 // tbFileClosedWhileRunning.Visibility = Visibility.Collapsed;
                 // windowsFormsHost.Visibility = Visibility.Visible;
-                hexBox.closeFile();
+                hexBox.closeFile(false);
                 hexBox.openFile(
                         (exp.Settings as Cryptool.Plugins.FileOutputWPF.ExamplePluginCT2Settings).TargetFilename, false);
                 hexBox.collapseControl(false);

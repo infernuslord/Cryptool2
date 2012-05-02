@@ -101,6 +101,9 @@
       <DependentUpon>FileInputPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileInputSettings.cs" />
+    <Compile Include="FileInputWPFPresentation.xaml.cs">
+      <DependentUpon>FileInputWPFPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helper\DispatcherHelper.cs" />
     <Compile Include="Helper\StreamHelper.cs" />
     <Compile Include="Helper\Util.cs" />
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="FileInputWPFPresentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
@@ -205,6 +212,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LibSource\HexBox\HexBox.csproj">
+      <Project>{229CD5E9-AA72-4109-8DD9-C0ABFA3D6721}</Project>
+      <Name>HexBox</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

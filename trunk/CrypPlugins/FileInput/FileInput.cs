@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
 
+
 namespace FileInput
 {
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
@@ -36,7 +37,7 @@ namespace FileInput
     {
         #region Private variables
         private const int MAX_BYTE_ARRAY_SIZE = 10485760; // 20MB
-        private FileInputPresentation fileInputPresentation;
+        private FileInputWPFPresentation fileInputPresentation;
         private FileInputSettings settings;
         private CStreamWriter cstreamWriter;
         #endregion
@@ -45,14 +46,17 @@ namespace FileInput
         {
             settings = new FileInputSettings();
             settings.PropertyChanged += settings_PropertyChanged;
-            fileInputPresentation = new FileInputPresentation(this);
+            fileInputPresentation = new FileInputWPFPresentation(this);
 
             Presentation = fileInputPresentation;
-            fileInputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
-            fileInputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
+
+            
+
+           // fileInputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
+           // fileInputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
         }
 
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+       /* void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
 
             if (e.PropertyName == "OpenFilename")
@@ -72,6 +76,36 @@ namespace FileInput
                     FileSize = 0;
                 }
                 NotifyPropertyChange();
+            }
+        }*/
+
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+
+            if (e.PropertyName == "OpenFilename")
+            {
+                string fileName = settings.OpenFilename;
+
+                if (File.Exists(fileName))
+                {
+                    fileInputPresentation.CloseFile();
+                    fileInputPresentation.OpenFile(settings.OpenFilename);
+                    FileSize = (int)new FileInfo(fileName).Length;
+                    GuiLogMessage("Opened file: " + settings.OpenFilename, NotificationLevel.Info);
+                }
+                else if (e.PropertyName == "OpenFilename" && fileName == null)
+                {
+
+                    fileInputPresentation.CloseFile();
+                    FileSize = 0;
+                }
+                NotifyPropertyChange();
+            }
+
+            if (e.PropertyName == "CloseFile")
+            {
+                fileInputPresentation.CloseFile();
+                fileInputPresentation.dispose();
             }
         }
 
@@ -151,6 +185,7 @@ namespace FileInput
 
         public void PostExecution()
         {
+            
             DispatcherHelper.ExecuteMethod(fileInputPresentation.Dispatcher,
               fileInputPresentation, "ReopenClosedFile", null);
         }
@@ -197,7 +232,7 @@ namespace FileInput
                 return;
             }
             
-            cstreamWriter = new CStreamWriter(settings.OpenFilename);
+            cstreamWriter = new CStreamWriter(settings.OpenFilename,true);
             NotifyPropertyChange();
         }
 
