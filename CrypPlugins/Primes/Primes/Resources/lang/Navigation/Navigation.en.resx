@@ -118,52 +118,52 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="bruteforce" xml:space="preserve">
-    <value>Brute-Force</value>
+    <value>Brute-force</value>
   </data>
   <data name="countprimes" xml:space="preserve">
-    <value>How many primes are there</value>
+    <value>Number of primes</value>
   </data>
   <data name="distribution" xml:space="preserve">
-    <value>Distribution of Primes</value>
+    <value>Distribution of primes</value>
   </data>
   <data name="distributiongoldbach" xml:space="preserve">
-    <value>Goldbach conjecture</value>
+    <value>Goldbach's conjecture</value>
   </data>
   <data name="distributionnumbergrid" xml:space="preserve">
-    <value>Number Grid</value>
+    <value>Number grid</value>
   </data>
   <data name="distributionnumberline" xml:space="preserve">
-    <value>Number Line</value>
+    <value>Number line</value>
   </data>
   <data name="distributionulam" xml:space="preserve">
-    <value>Ulam´s Spiral</value>
+    <value>Ulam´s spiral</value>
   </data>
   <data name="factorization" xml:space="preserve">
     <value>Factorization</value>
   </data>
   <data name="genprimes" xml:space="preserve">
-    <value>Generation of Primes</value>
+    <value>Generation of primes</value>
   </data>
   <data name="millerrabin" xml:space="preserve">
     <value>Miller/Rabin-Test</value>
   </data>
   <data name="ntfunctions" xml:space="preserve">
-    <value>Number theoretic Functions</value>
+    <value>Number theoretic functions</value>
   </data>
   <data name="numbertheory" xml:space="preserve">
-    <value>Number Theory</value>
+    <value>Number theory</value>
   </data>
   <data name="powermod" xml:space="preserve">
-    <value>Powermod</value>
+    <value>Powering</value>
   </data>
   <data name="primetest" xml:space="preserve">
-    <value>Primality Test</value>
+    <value>Primality test</value>
   </data>
   <data name="proots" xml:space="preserve">
-    <value>Primitive Roots</value>
+    <value>Primitive roots</value>
   </data>
   <data name="qs" xml:space="preserve">
-    <value>Quadratic Sieve</value>
+    <value>Quadratic sieve</value>
   </data>
   <data name="sieveofatkin" xml:space="preserve">
     <value>Sieve of Atkin</value>

@@ -124,7 +124,7 @@
     <value>Error!</value>
   </data>
   <data name="length" xml:space="preserve">
-    <value>Length</value>
+    <value>(length: {0} bits)</value>
   </data>
   <data name="startTitle" xml:space="preserve">
     <value>Startpage</value>

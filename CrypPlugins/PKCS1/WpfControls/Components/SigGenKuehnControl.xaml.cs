@@ -61,12 +61,12 @@ namespace PKCS1.WpfControls.Components
 
         private void tbResultEncrypted_TextChanged(object sender, TextChangedEventArgs e)
         {            
-            this.lblEncryptedSignatureLength.Content = "(" + Common.length + ": " + this.tbResultEncrypted.Text.Length * 4 + " " + Common.bit +")";
+            this.lblEncryptedSignatureLength.Content = String.Format( Common.length, this.tbResultEncrypted.Text.Length * 4  );
         }
 
         private void rtbResult_TextChanged(object sender, TextChangedEventArgs e)
         {
-            this.lblSignatureLength.Content = "(" + Common.length + ": " + UserControlHelper.GetRtbTextLength(this.rtbResult) * 4 + " " + Common.bit + ")";
+            this.lblSignatureLength.Content = String.Format(Common.length, UserControlHelper.GetRtbTextLength(this.rtbResult) * 4);
         }
 
         private void btn_Help_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

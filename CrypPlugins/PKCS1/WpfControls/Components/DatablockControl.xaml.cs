@@ -117,7 +117,7 @@ namespace PKCS1.WpfControls.Components
         {
             if(this.tbHashIdent.Text != String.Empty )
             {
-                this.lblHashIdentLength.Content = "(" + DatablockCtrl.length +" "+ this.tbHashIdent.Text.Length*4 + " " + Common.bit + ")";
+                this.lblHashIdentLength.Content = String.Format(Common.length, this.tbHashIdent.Text.Length * 4);
             }
         }
 
@@ -125,7 +125,7 @@ namespace PKCS1.WpfControls.Components
         {
             if (this.tbHashDigest.Text != String.Empty)
             {
-                this.lblHashDigestLength.Content = "(" + DatablockCtrl.length + " " + this.tbHashDigest.Text.Length * 4 + " " + Common.bit + ")";
+                this.lblHashDigestLength.Content = String.Format(Common.length, this.tbHashDigest.Text.Length * 4);
             }
         }
 

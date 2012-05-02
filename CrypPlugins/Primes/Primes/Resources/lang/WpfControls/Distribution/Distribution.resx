@@ -136,7 +136,7 @@
     <value>Primzahlsatz</value>
   </data>
   <data name="graph_groupboxheader" xml:space="preserve">
-    <value>Verfügbare Funktionen zum Berechnen der Anzahl der Primzahlen Y in einem gegebenen Bereich X</value>
+    <value>Verfügbare Funktionen zur Berechnung der Anzahl der Primzahlen Y in einem gegebenen Bereich X</value>
   </data>
   <data name="graph_lincountinfo" xml:space="preserve">
     <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral beträgt:</value>
@@ -257,7 +257,7 @@
   </data>
   <data name="numberline_header" xml:space="preserve">
     <value>Hier erhalten Sie zahlentheoretische Aussagen zu den auf der Zahlengeraden angezeigten Zahlen.
-Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen angezeigt werden. Die Intervallbreite wird mit dem Slider festgelegt, indem die Obergrenze angepasst wird.</value>
+Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen angezeigt werden. Die Intervallbreite wird mit dem Schieberegler festgelegt, indem die Obergrenze angepasst wird.</value>
   </data>
   <data name="numberline_headercoutprimes" xml:space="preserve">
     <value> Anzahl der Primzahlen im ausgewählten Bereich</value>
@@ -335,16 +335,16 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value> Primzahlzwillinge</value>
   </data>
   <data name="tabitemgoldbach" xml:space="preserve">
-    <value>Die Goldbach-Vermutung</value>
+    <value>Goldbachsche Vermutung</value>
   </data>
   <data name="tabitemnumbergrid" xml:space="preserve">
     <value>Zahlengitter</value>
   </data>
   <data name="tabitemnumberline" xml:space="preserve">
-    <value>Zahlenstrahl</value>
+    <value>Zahlengerade</value>
   </data>
   <data name="tabitemulam" xml:space="preserve">
-    <value>Die Ulam-Spirale</value>
+    <value>Ulam-Spirale</value>
   </data>
   <data name="ulam_btnCancel" xml:space="preserve">
     <value>Abbrechen</value>

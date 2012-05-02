@@ -124,40 +124,40 @@
     <value>Implementation:</value>
   </data>
   <data name="rsaSig" xml:space="preserve">
-    <value>PKCS#1-Signature</value>
+    <value>PKCS#1 signature</value>
   </data>
   <data name="kuehnSig" xml:space="preserve">
-    <value>Kühn Signature</value>
+    <value>Kuehn signature</value>
   </data>
   <data name="implCorrect" xml:space="preserve">
     <value>Correct (PKCS#1 Version 2.1)</value>
   </data>
   <data name="implFlaw" xml:space="preserve">
-    <value>With Flaw (PKCS#1 Version 1.5)</value>
+    <value>With flaw (PKCS#1 Version 1.5)</value>
   </data>
   <data name="result" xml:space="preserve">
     <value>Result:</value>
   </data>
   <data name="verifySig" xml:space="preserve">
-    <value>Verify Signatur</value>
+    <value>Validate signature</value>
   </data>
   <data name="bleichenbSig" xml:space="preserve">
-    <value>Bleichenbacher Signature</value>
+    <value>Bleichenbacher signature</value>
   </data>
   <data name="decSig" xml:space="preserve">
-    <value>Decrypted Signature</value>
+    <value>Decrypted signature</value>
   </data>
   <data name="encSig" xml:space="preserve">
-    <value>Encrypted Signature</value>
+    <value>Encrypted signature</value>
   </data>
   <data name="plsGenSigFirst" xml:space="preserve">
     <value>No signature generated. Please generate a signature first.</value>
   </data>
   <data name="resHashNotReadable" xml:space="preserve">
-    <value>Hashalgorithm: not readable</value>
+    <value>Hash algorithm: not readable</value>
   </data>
   <data name="resIdentifiedHash" xml:space="preserve">
-    <value>Identified Hashalgorithm:</value>
+    <value>Identified hash algorithm:</value>
   </data>
   <data name="resSigNotValid" xml:space="preserve">
     <value>Signature not valid</value>
@@ -169,9 +169,9 @@
     <value>Signature</value>
   </data>
   <data name="sigNotGeneratedYet" xml:space="preserve">
-    <value>(not generated)</value>
+    <value>(not yet generated)</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Verify PKCS#1-Signature</value>
+    <value>Validate PKCS#1 signature</value>
   </data>
 </root>

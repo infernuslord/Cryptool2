@@ -133,7 +133,7 @@
     <value>Show Navigation</value>
   </data>
   <data name="title_distribution" xml:space="preserve">
-    <value>Distribution of Primes</value>
+    <value>Distribution of primes</value>
   </data>
   <data name="title_factorize" xml:space="preserve">
     <value>Factorization</value>
@@ -142,22 +142,22 @@
     <value>Distribution</value>
   </data>
   <data name="title_Numbertheory" xml:space="preserve">
-    <value>Numer Theory</value>
+    <value>Number theory</value>
   </data>
   <data name="title_primecount" xml:space="preserve">
-    <value>How many primes are there</value>
+    <value>Number of primes</value>
   </data>
   <data name="title_primesgeneration" xml:space="preserve">
-    <value>Generation of Primes</value>
+    <value>Generation of primes</value>
   </data>
   <data name="title_primespiral" xml:space="preserve">
-    <value>Ulam´s Spiral</value>
+    <value>Ulam´s spiral</value>
   </data>
   <data name="title_primetest" xml:space="preserve">
-    <value>Primality Test</value>
+    <value>Primality test</value>
   </data>
   <data name="title_primitivroot" xml:space="preserve">
-    <value>Primitive Roots</value>
+    <value>Primitive roots</value>
   </data>
   <data name="title_start" xml:space="preserve">
     <value>The World of Prime Numbers</value>

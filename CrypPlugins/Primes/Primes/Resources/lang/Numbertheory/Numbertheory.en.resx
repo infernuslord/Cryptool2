@@ -127,7 +127,7 @@
     <value>List of coprimes</value>
   </data>
   <data name="groupbox_choosefunctions" xml:space="preserve">
-    <value>Choose Functions</value>
+    <value>Choose functions</value>
   </data>
   <data name="groupbox_input" xml:space="preserve">
     <value>Input</value>
@@ -145,7 +145,7 @@
     <value>Execute</value>
   </data>
   <data name="powermod_btnnextstep" xml:space="preserve">
-    <value>Next Step</value>
+    <value>Next step</value>
   </data>
   <data name="powermod_btnresume" xml:space="preserve">
     <value>Resume</value>
@@ -196,7 +196,7 @@
     <value>Skip current calculation</value>
   </data>
   <data name="proot_genprimes" xml:space="preserve">
-    <value>Generate Primes</value>
+    <value>Generate primes</value>
   </data>
   <data name="proot_input" xml:space="preserve">
     <value>Input</value>
@@ -226,7 +226,7 @@
     <value>{0} Primitive root for prime {1} found:</value>
   </data>
   <data name="proot_skipcalc" xml:space="preserve">
-    <value>The Calculation was skipped. {0} Primitive roots for prime {1} found:</value>
+    <value>The calculation was skipped. {0} Primitive roots for prime {1} found:</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
     <value>The first number of the interval {0} has to be smaller than the second</value>
@@ -235,13 +235,13 @@
     <value>Rho</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
-    <value>Functions in Number theory</value>
+    <value>Number theoretic functions</value>
   </data>
   <data name="tabitemheader_power" xml:space="preserve">
     <value>Powering</value>
   </data>
   <data name="tabitemheader_proots" xml:space="preserve">
-    <value>Primitive Roots</value>
+    <value>Primitive roots</value>
   </data>
   <data name="tau" xml:space="preserve">
     <value>Number of divisors</value>

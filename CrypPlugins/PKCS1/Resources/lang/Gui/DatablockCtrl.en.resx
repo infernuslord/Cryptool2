@@ -118,33 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="chooseHashfunction" xml:space="preserve">
-    <value>Choose Hashfunction</value>
+    <value>Choose hash function</value>
   </data>
   <data name="fileLoad" xml:space="preserve">
-    <value>Load File</value>
+    <value>Load file</value>
   </data>
   <data name="fileOpen" xml:space="preserve">
-    <value>Open File</value>
+    <value>Open file</value>
   </data>
   <data name="genDatablock" xml:space="preserve">
-    <value>Generate Datablock</value>
+    <value>Generate data block</value>
   </data>
   <data name="generatedDatablock" xml:space="preserve">
-    <value>generated Dateblock</value>
+    <value>Generated data block</value>
   </data>
   <data name="hd" xml:space="preserve">
-    <value>Hashdigest (HD)</value>
+    <value>Hash digest (HD)</value>
   </data>
   <data name="hi" xml:space="preserve">
-    <value>Hashfunction Identifier (HI)</value>
-  </data>
-  <data name="length" xml:space="preserve">
-    <value>Length:</value>
+    <value>Hash function identifier (HI)</value>
   </data>
   <data name="textDefault" xml:space="preserve">
     <value>Please insert text here!</value>
   </data>
   <data name="textInput" xml:space="preserve">
-    <value>Insert Text</value>
+    <value>Insert text</value>
   </data>
 </root>

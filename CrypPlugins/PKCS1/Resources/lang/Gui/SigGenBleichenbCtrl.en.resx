@@ -124,30 +124,30 @@
     <value>Encrypted</value>
   </data>
   <data name="generatedSig" xml:space="preserve">
-    <value>Generated Signature</value>
+    <value>Generated signature</value>
   </data>
   <data name="genSig" xml:space="preserve">
-    <value>Generate Signature</value>
+    <value>Generate signature</value>
   </data>
   <data name="pubKey" xml:space="preserve">
-    <value>Public Key:</value>
+    <value>Public key:</value>
   </data>
   <data name="rsaKeySize" xml:space="preserve">
-    <value>RSA-Keysize (in bit):</value>
+    <value>RSA key size (in bits):</value>
   </data>
   <data name="structure" xml:space="preserve">
     <value>Structure</value>
   </data>
   <data name="bitPos" xml:space="preserve">
-    <value>Bitposition of the Datablock:</value>
+    <value>Bit position of the data block:</value>
   </data>
   <data name="genFakeSig" xml:space="preserve">
-    <value>Generate Fakesignature</value>
+    <value>Generate fake signature</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Bleichenbacher Attack</value>
+    <value>Bleichenbacher attack</value>
   </data>
   <data name="changeSign" xml:space="preserve">
-    <value>Modify Message with Sign:</value>
+    <value>Modify message with sign:</value>
   </data>
 </root>

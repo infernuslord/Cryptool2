@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BigIntegerMinValueMaxValueValidator" xml:space="preserve">
     <value>Es wird eine ganze Zahl größer oder gleich {0} und kleiner oder gleich {1} erwartet.</value>
   </data>
   <data name="BigIntegerMinValueValidator" xml:space="preserve">
-    <value>Es wird eine ganze positive Zahl größer oder gleich {0} erwartet.</value>
+    <value>Es wird eine positive ganze Zahl größer oder gleich {0} erwartet.</value>
   </data>
   <data name="BigIntegerValidator" xml:space="preserve">
     <value>Es wird eine ganze Zahl erwartet.</value>
@@ -131,5 +131,8 @@
   </data>
   <data name="PositiveMaxValueBigIntegerValidator" xml:space="preserve">
     <value>Es wird eine ganze positive Zahl größer als 0 aber kleiner als {0} erwartet.</value>
+  </data>
+  <data name="IllegalRangeValidator" xml:space="preserve">
+    <value>Der Wert im Feld "von" muss kleiner sein als der Wert im Feld "bis".</value>
   </data>
 </root>

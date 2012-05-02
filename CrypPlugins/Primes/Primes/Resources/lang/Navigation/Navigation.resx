@@ -127,16 +127,16 @@
     <value>Verteilung der Primzahlen</value>
   </data>
   <data name="distributiongoldbach" xml:space="preserve">
-    <value>Goldbach-Vermutung</value>
+    <value>Goldbachsche Vermutung</value>
   </data>
   <data name="distributionnumbergrid" xml:space="preserve">
-    <value>Im Zahlengitter</value>
+    <value>Zahlengitter</value>
   </data>
   <data name="distributionnumberline" xml:space="preserve">
-    <value>Auf der Zahlengraden</value>
+    <value>Zahlengerade</value>
   </data>
   <data name="distributionulam" xml:space="preserve">
-    <value>Die Ulam-Spirale</value>
+    <value>Ulam-Spirale</value>
   </data>
   <data name="factorization" xml:space="preserve">
     <value>Faktorisierung</value>
@@ -145,7 +145,7 @@
     <value>Erzeugung von Primzahlen</value>
   </data>
   <data name="millerrabin" xml:space="preserve">
-    <value>Der Miller/Rabin-Test</value>
+    <value>Miller/Rabin-Test</value>
   </data>
   <data name="ntfunctions" xml:space="preserve">
     <value>Zahlentheoretische Funktionen</value>
@@ -154,23 +154,22 @@
     <value>Zahlentheorie</value>
   </data>
   <data name="powermod" xml:space="preserve">
-    <value>Potenzieren modulo 
-einer Zahl im Kreis</value>
+    <value>Potenzieren</value>
   </data>
   <data name="primetest" xml:space="preserve">
-    <value>Primzahltest</value>
+    <value>Primzahltests</value>
   </data>
   <data name="proots" xml:space="preserve">
-    <value>Primitivwurzeln von Primzahlen</value>
+    <value>Primitivwurzeln</value>
   </data>
   <data name="qs" xml:space="preserve">
-    <value>Das quadratische Sieb</value>
+    <value>Quadratisches Sieb</value>
   </data>
   <data name="sieveofatkin" xml:space="preserve">
-    <value>Das Sieb des Atkin</value>
+    <value>Sieb des Atkin</value>
   </data>
   <data name="soe" xml:space="preserve">
-    <value>Das Sieb des Eratosthenes</value>
+    <value>Sieb des Eratosthenes</value>
   </data>
   <data name="startpage" xml:space="preserve">
     <value>Startseite</value>

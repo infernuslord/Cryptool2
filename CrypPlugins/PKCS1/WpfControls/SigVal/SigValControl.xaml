@@ -34,7 +34,9 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" >Zu testende Signatur:</Label>
+                            <Label Grid.Row="0" >
+                                <x:Static Member="lang:SigValCtrl.sigToTest"></x:Static>
+                            </Label>
                             <RadioButton Grid.Row="1" Name="rbSigPkcs" Margin="5,5,5,5" Checked="rbSigPkcs_Checked">
                                 <x:Static Member="lang:SigValCtrl.rsaSig"></x:Static></RadioButton>
                             <RadioButton Grid.Row="2" Name="rbSigBlei" Margin="5,5,5,5" Checked="rbSigBlei_Checked">

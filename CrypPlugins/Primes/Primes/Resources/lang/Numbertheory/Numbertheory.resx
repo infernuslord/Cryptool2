@@ -229,7 +229,7 @@
     <value>Die Berechnung wurde abgebrochen. Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden: </value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
-    <value>Die erste Zahl des Intervalls {0} muss kleiner sein, als die zweite.</value>
+    <value>Die erste Zahl des Intervalls {0} muss kleiner sein als die zweite.</value>
   </data>
   <data name="rho" xml:space="preserve">
     <value>Teilersummenfunktion</value>
