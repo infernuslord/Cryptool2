@@ -288,10 +288,7 @@ namespace WorkspaceManager
                 var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
                 var elementsToCopy = CopyOperation.SelectConnections(list);
                 copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy });
-                foreach (var plugin in filter)
-                {
-                    WorkspaceModel.ModifyModel(new DeletePluginModelOperation(plugin.Model));
-                }
+                Remove();
             }
         }
 
@@ -320,17 +317,58 @@ namespace WorkspaceManager
 
         public void Remove()
         {
-            EditorVisual editor = (EditorVisual)Presentation;
+            var editor = (EditorVisual)Presentation;
             if (editor.Model != null && !isExecuting() && editor.SelectedItems != null)
             {
+                var deleteOperationsList = new List<Operation>();
+                var connections = new List<ConnectionModel>();
                 foreach (var item in editor.SelectedItems)
                 {
                     if (item is ComponentVisual)
-                        editor.Model.ModifyModel(new DeletePluginModelOperation(((ComponentVisual)item).Model));
+                    {
+                        foreach (var connector in ((PluginModel)((ComponentVisual) item).Model).GetOutputConnectors())
+                        {
+                            foreach (var connectionModel in connector.GetOutputConnections())
+                            {
+                                connections.Add(connectionModel);
+                            }
+                        }
+                        foreach (var connector in ((PluginModel)((ComponentVisual)item).Model).GetInputConnectors())
+                        {
+                            foreach (var connectionModel in connector.GetInputConnections())
+                            {
+                                connections.Add(connectionModel);
+                            }
+                        }
+                        
+                    }
+                }
+
+                foreach (var item in editor.SelectedItems)
+                {
 
                     if (item is CryptoLineView)
-                        editor.Model.ModifyModel(new DeleteConnectionModelOperation(((CryptoLineView)item).Model));
+                    {
+                        if (!connections.Contains(((CryptoLineView)item).Model))
+                        {
+                            connections.Add(((CryptoLineView)item).Model);
+                        }
+                    }
                 }
+
+                foreach(var connection in connections)
+                {
+                    deleteOperationsList.Add(new DeleteConnectionModelOperation(connection));
+                }
+
+                foreach (var item in editor.SelectedItems)
+                {
+                    var componentVisual = item as ComponentVisual;
+                    if (componentVisual != null)
+                        deleteOperationsList.Add(new DeletePluginModelOperation((componentVisual).Model));
+                }
+
+                WorkspaceModel.ModifyModel(new MultiOperation(deleteOperationsList));
             }
         }
 
