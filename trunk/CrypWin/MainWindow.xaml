@@ -390,21 +390,21 @@
                             <DockPanel.Width>
                                 <Binding ElementName="AppRibbon" Path="ActualWidth" Mode="OneWay" Converter="{StaticResource PanelWidthConverter}"/>
                             </DockPanel.Width>
-                            <dc:RibbonBar Header="{Loc CrypTool_workspace_}" DockPanel.Dock="Left" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" x:Name="ribbonMainControls" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
-                                <dc:ButtonDropDown Height="65" VerticalContentAlignment="Center" ImagePosition="Left" Style="{DynamicResource AppMenuCommandButton}" Name="buttonDropDownNew" StaysOpenOnClick="True" dc:Ribbon.KeyTip="N" Command="ApplicationCommands.New" Header="{Loc New}">
+                            <dc:RibbonBar Header="{Loc RBHeader_File}" DockPanel.Dock="Left" ToolTip="{Loc RBTooltip_File}" x:Name="ribbonMainControls" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
+                                <dc:ButtonDropDown Height="65" VerticalContentAlignment="Center" ImagePosition="Left" Style="{DynamicResource AppMenuCommandButton}" Name="buttonDropDownNew" StaysOpenOnClick="True" dc:Ribbon.KeyTip="N" Command="ApplicationCommands.New" Header="{Loc New}" ToolTip="{Loc RBTooltip_New}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/File32.png"/>
                                     </dc:ButtonDropDown.Image>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown ImagePosition="Left" Height="65" VerticalContentAlignment="Center" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="O" Command="ApplicationCommands.Open" Name="buttonDropDownOpen" StaysOpenOnClick="True" Header="{Loc Open}">
+                                <dc:ButtonDropDown ImagePosition="Left" Height="65" VerticalContentAlignment="Center" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="O" Command="ApplicationCommands.Open" Name="buttonDropDownOpen" StaysOpenOnClick="True" Header="{Loc Open}" ToolTip="{Loc RBTooltip_Load}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/Open32.png"/>
                                     </dc:ButtonDropDown.Image>
                                 </dc:ButtonDropDown>
 
                                 <dc:ButtonDropDown ImagePosition="Left" VerticalContentAlignment="Center" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="S" Header="{Loc Save}"
-                               BorderBrush="Black" Height="65" BorderThickness="1" Command="ApplicationCommands.Save">
+                               BorderBrush="Black" Height="65" BorderThickness="1" Command="ApplicationCommands.Save" ToolTip="{Loc RBTooltip_Save}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/Save32.png"/>
                                     </dc:ButtonDropDown.Image>
@@ -421,7 +421,7 @@
                                 </dc:ButtonDropDown>
 
                                 <dc:ButtonDropDown ImagePosition="Left" Height="65" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="P" VerticalContentAlignment="Center" VerticalAlignment="Center" Command="ApplicationCommands.Print" Header="{Loc Print}"
-                               BorderBrush="Black" BorderThickness="1">
+                               BorderBrush="Black" BorderThickness="1" ToolTip="{Loc RBTooltip_Print}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/Print32.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -429,7 +429,7 @@
 
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc Process_the_workflow_}" DockPanel.Dock="Left" ToolTip="{Loc Main_controls_of_the_current_plugin_editor_}" Name="ribbonEditorProcess" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="EP">
+                            <dc:RibbonBar Header="{Loc RBHeader_Execute}" DockPanel.Dock="Left" ToolTip="{Loc RBTooltip_Execute}" Name="ribbonEditorProcess" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="EP">
 
                                 <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PL" Command="cw:CrypWinCommands.Play" ToolTip="{Loc Start_the_encrypt_decrypt_process_}">
                                     <dc:ButtonDropDown.Image>
@@ -451,7 +451,7 @@
 
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc View}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6">
+                            <dc:RibbonBar Header="{Loc RBHeader_View}" ToolTip="{Loc RBTooltip_View}" Padding="7" ResizeOrderIndex="6">
                                 <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Components}" Visibility="Collapsed">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/comp.png" Height="32" Width="32"/>
@@ -461,7 +461,7 @@
                                     </dc:ButtonDropDown.ImageSmall>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}">
+                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}"  ToolTip="{Loc RBTooltip_Log}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/log.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -487,7 +487,7 @@
             -->
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc Demo_mode_}" ToolTip="{Loc In_demo_mode_a_selected_set_of_samples_is_repeatedly_executed_}" Name="ribbonDemoMode" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="DM" Visibility="Collapsed">
+                            <dc:RibbonBar Header="{Loc RBHeader_Demo}" ToolTip="{Loc In_demo_mode_a_selected_set_of_samples_is_repeatedly_executed_}" Name="ribbonDemoMode" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="DM" Visibility="Collapsed">
                                 <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PD" Command="cw:CrypWinCommands.PlayDemo" ToolTip="{Loc Select_samples_and_start_demo_mode_}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/test/play.png" Height="32" Width="32"/>
@@ -515,7 +515,7 @@
                             <dc:RibbonBar Visibility="Hidden">
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc Extras_}" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" Name="ribbonManagement" HorizontalAlignment="Right" >
+                            <dc:RibbonBar Header="{Loc RBHeader_Extras}" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" Name="ribbonManagement" HorizontalAlignment="Right" >
 
                                 <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="HO" Command="cw:CrypWinCommands.Startcenter" ToolTip="{Loc Startcenter_Tooltip}">
                                     <dc:ButtonDropDown.Image>
@@ -587,7 +587,7 @@
 
                     <dc:RibbonBarPanel Height="89">
 
-                        <dc:RibbonBar Header="{Loc Redo_Undo_}" ToolTip="{Loc Redo_or_Undo_your_last_changes_}" Name="ribbonEditorRU" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
+                        <dc:RibbonBar Header="{Loc RBHeader_RedoUndo}" ToolTip="{Loc Redo_or_Undo_your_last_changes_}" Name="ribbonEditorRU" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
 
                             <dc:ButtonDropDown dc:Ribbon.KeyTip="UD" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Undo" ToolTip="{Loc Undo}">
                                 <dc:ButtonDropDown.Image>
@@ -609,7 +609,7 @@
 
                         </dc:RibbonBar>
 
-                        <dc:RibbonBar Header="{Loc Editing}" ToolTip="{Loc Editing_functions_}" Name="ribbonEditorEditing" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
+                        <dc:RibbonBar Header="{Loc RBHeader_Editing}" ToolTip="{Loc RBTooltip_Editing}" Name="ribbonEditorEditing" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
 
                             <dc:ButtonDropDown dc:Ribbon.KeyTip="CT" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Cut" ToolTip="{Loc Cut}">
                                 <dc:ButtonDropDown.Image>
@@ -647,9 +647,9 @@
                                 </dc:ButtonDropDown.ImageSmall>
                             </dc:ButtonDropDown>
                         </dc:RibbonBar>
-                        <dc:RibbonBar Header="{Loc Add}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
+                        <dc:RibbonBar Header="{Loc RBHeader_Add}" ToolTip="{Loc RBTooltip_Add}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
 
-                            <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddImage" ImagePosition="Top">
+                            <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddImage" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddImg}">
                                 <dc:ButtonDropDown.Image>
                                     <Image Source="images/addimg-big.png" Height="32" Width="32"/>
                                 </dc:ButtonDropDown.Image>
@@ -658,7 +658,7 @@
                                 </dc:ButtonDropDown.ImageSmall>
                             </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddText" ImagePosition="Top">
+                            <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddText" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddText}">
                                 <dc:ButtonDropDown.Image>
                                     <Image Source="images/addtxt-big.png" Height="32" Width="32"/>
                                 </dc:ButtonDropDown.Image>
@@ -675,7 +675,7 @@
                 <!-- RibbonTab CrypTutorials -->
                 <dc:RibbonTab Header="{Loc CrypTutorial}" Name="ribbonTabView" dc:Ribbon.KeyTip="T" Visibility="Collapsed">
                     <dc:RibbonBarPanel Height="89" >
-                        <dc:RibbonBar Name="ribbonBarTutorial" Header="{Loc CrypTutorial}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
+                        <dc:RibbonBar Name="ribbonBarTutorial" Header="{Loc RBHeader_CrypTutorial}" ToolTip="{Loc RBTooltip_CrypTutorial}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
                             <!-- filled automatically by InitCrypTutorials(...) -->
                         </dc:RibbonBar>
                     </dc:RibbonBarPanel>
