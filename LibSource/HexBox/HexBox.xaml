@@ -9,9 +9,13 @@
 
 
     <StackPanel  Name="mainPanel" Orientation="Vertical" >
-        <ToolBarPanel Orientation="Horizontal">
-            <Button Name ="openFileButton" Click="Button_Click">
-                Open File
+        
+            
+        
+        <ToolBar Background="Transparent" >
+            
+            <Button Name ="openFileButton" Click="Button_Click" >
+                Open
             </Button>
             <Button Name ="saveAs" Click="Button_Click_2">
                 Save as...
@@ -23,8 +27,8 @@
                 New File
             </Button>
 
-        </ToolBarPanel>
-
+        </ToolBar>
+        
 
         <StackPanel Orientation="Horizontal" Name="blupp" >
 

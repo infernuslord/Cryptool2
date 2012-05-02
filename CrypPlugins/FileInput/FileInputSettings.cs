@@ -58,6 +58,7 @@ namespace FileInput
     public void CloseFile()
     {
       OpenFilename = null;
+      OnPropertyChanged("CloseFile");
     }
 
     #region INotifyPropertyChanged Members

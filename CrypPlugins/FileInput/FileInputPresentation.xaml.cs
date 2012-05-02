@@ -35,6 +35,7 @@ using Cryptool.PluginBase;
 using System.Windows.Threading;
 using System.IO;
 
+
 namespace FileInput
 {
   /// <summary>

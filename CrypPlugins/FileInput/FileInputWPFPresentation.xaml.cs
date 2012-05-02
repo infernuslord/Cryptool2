@@ -15,8 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.ComponentModel;
+using FileInput;
 
-namespace FileInputWPF
+namespace FileInput
 {
     /// <summary>
     /// Interaction logic for FileInputWPFPresentation.xaml
@@ -25,9 +26,9 @@ namespace FileInputWPF
     {
         public HexBox.HexBox hexBox;
 
-        private Cryptool.Plugins.FileInputWPF.FileInputWPF exp;
+        private FileInputClass  exp;
 
-        public FileInputWPFPresentation(HexBox.HexBox hexbox,Cryptool.Plugins.FileInputWPF.FileInputWPF exp )
+        public FileInputWPFPresentation(FileInputClass exp )
         {
             InitializeComponent();
 
@@ -37,9 +38,9 @@ namespace FileInputWPF
             
 
             SizeChanged += sizeChanged;
-            this.hexBox = hexbox;
+            hexBox = new HexBox.HexBox();
             this.hexBox.OnFileChanged += fileChanged; 
-            MainMain.Children.Add(hexbox);
+            MainMain.Children.Add(hexBox);
 
         }
 
@@ -49,26 +50,28 @@ namespace FileInputWPF
         public void CloseFileToGetFileStreamForExecution()
         {
             
-            hexBox.saveData(true,false);
 
+            hexBox.saveData(true, false);
+              
             hexBox.closeFile(false);
-            hexBox.openFile((exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, true);
+            hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, true);
 
             hexBox.IsEnabled = false;
             //hexBox.openFile(exp.settings.OpenFilename);
+            
         }
 
         public void ReopenClosedFile()
         {
             //closedForExecution = false;
 
-            if (File.Exists((exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename) )
+            if (File.Exists((exp.Settings as FileInputSettings).OpenFilename))
             {
                 // tbFileClosedWhileRunning.Visibility = Visibility.Collapsed;
                 // windowsFormsHost.Visibility = Visibility.Visible;
                 hexBox.closeFile(false);
                 hexBox.openFile(
-                        (exp.Settings as Cryptool.Plugins.FileInputWPF.ExamplePluginCT2Settings).OpenFilename, false);
+                        (exp.Settings as FileInputSettings).OpenFilename, false);
                
             }
             hexBox.IsEnabled = true;
@@ -89,7 +92,7 @@ namespace FileInputWPF
 
         private void fileChanged(Object sender, EventArgs eventArgs)
         {
-            exp.settings.OpenFilename = hexBox.Pfad;
+            (exp.Settings as FileInput.FileInputSettings).OpenFilename = hexBox.Pfad;
         }
 
         private void sizeChanged(Object sender, EventArgs eventArgs)
