@@ -313,7 +313,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How long to hold the mouse before suggestion popup appears?.
+        ///   Looks up a localized string similar to Time to keep the mouse pointer in the same position before a popup with a component suggestion appears.
         /// </summary>
         internal static string ComponentConnection_Delay_Tooltip {
             get {
@@ -1051,7 +1051,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exception during disposing of the Model: {0}.
+        ///   Looks up a localized string similar to Exception during disposing of the model: {0}.
         /// </summary>
         internal static string WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_ {
             get {
@@ -1106,7 +1106,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Execute Model now!.
+        ///   Looks up a localized string similar to Execute model now!.
         /// </summary>
         internal static string WorkspaceManagerClass_Execute_Execute_Model_now_ {
             get {
@@ -1124,7 +1124,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not load Model: {0}.
+        ///   Looks up a localized string similar to Could not load model: {0}.
         /// </summary>
         internal static string WorkspaceManagerClass_Open_Could_not_load_Model___0_ {
             get {
@@ -1133,7 +1133,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading Model: {0}.
+        ///   Looks up a localized string similar to Loading model: {0}.
         /// </summary>
         internal static string WorkspaceManagerClass_Open_Loading_Model___0_ {
             get {
@@ -1178,7 +1178,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not save Model: {0}.
+        ///   Looks up a localized string similar to Could not save model: {0}.
         /// </summary>
         internal static string WorkspaceManagerClass_Save_Could_not_save_Model___0_ {
             get {
@@ -1187,7 +1187,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saving Model: {0}.
+        ///   Looks up a localized string similar to Saving model: {0}.
         /// </summary>
         internal static string WorkspaceManagerClass_Save_Saving_Model___0_ {
             get {
