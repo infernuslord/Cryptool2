@@ -25,7 +25,9 @@ namespace HexBox
     {
         private FileStream fs;
         private DynamicFileByteProvider dyfipro;
-        
+
+        public Boolean inReadOnlyMode = false;
+
         private TextBox tb3 = new TextBox();
         public string Pfad = string.Empty;
 
@@ -38,7 +40,8 @@ namespace HexBox
         {
             InitializeComponent();
 
-            
+            this.MouseWheel += new MouseWheelEventHandler(MainWindow_MouseWheel);
+        
 
             mark = new long[2];
 
@@ -249,6 +252,17 @@ namespace HexBox
             Line.Text = Grid.GetRow(tb) + "";
 
             fill((long) fileSlider.Value);
+            
+            if (mark[0] > dyfipro.Length)
+            {
+
+                Canvas.SetLeft(cursor, Grid.GetColumn(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+                Canvas.SetLeft(cursor2, Grid.GetColumn(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 10);
+
+
+                Canvas.SetTop(cursor, Grid.GetRow(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+                Canvas.SetTop(cursor2, Grid.GetRow(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+            }
 
         }
 
@@ -268,10 +282,16 @@ namespace HexBox
 
             mark[0] = cell + (long) fileSlider.Value*16;
 
+
+            
+
+
             Column.Text = Grid.GetColumn(tb) + "";
             Line.Text = Grid.GetRow(tb) + "";
 
             cursor2.Focus();
+
+
         }
 
         private void tb2_MouseUp(object sender, MouseButtonEventArgs e)
@@ -305,6 +325,17 @@ namespace HexBox
             Line.Text = Grid.GetRow(tb) + "";
 
             fill((long) fileSlider.Value);
+
+            if (mark[0] > dyfipro.Length)
+            {
+
+                Canvas.SetLeft(cursor, Grid.GetColumn(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+                Canvas.SetLeft(cursor2, Grid.GetColumn(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 10);
+
+
+                Canvas.SetTop(cursor, Grid.GetRow(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+                Canvas.SetTop(cursor2, Grid.GetRow(grid2.Children[(int)(cell / 2 - (cell / 2 + (long)fileSlider.Value * 16 - dyfipro.Length))]) * 20);
+            }
 
         }
 
@@ -393,7 +424,10 @@ namespace HexBox
                 TextBlock tb = grid2.Children[i] as TextBlock;
                 if (i <= max)
                 {
-                    tb.Text = (char) dyfipro.ReadByte(i + position*16) + "";
+                    if (31 < dyfipro.ReadByte(i + position * 16) && 128 > dyfipro.ReadByte(i + position * 16))
+                        tb.Text = (char) dyfipro.ReadByte(i + position*16) + "";
+                    else
+                        tb.Text = ".";
 
 
 
@@ -613,7 +647,9 @@ namespace HexBox
             string s = k.ToString();
             if (e.Key == Key.Right)
             {
-
+                int cell = (int)(Canvas.GetTop(cursor) / 20 * 32 + Canvas.GetLeft(cursor) / 10);
+                if (cell / 2 + (long)fileSlider.Value * 16 < dyfipro.Length)
+                {
                 Boolean b = true;
                 if (Canvas.GetLeft(cursor) < 310)
                 {
@@ -648,7 +684,8 @@ namespace HexBox
                     Canvas.SetLeft(cursor2, 0);
                     fileSlider.Value += 1;
                 }
-                e.Handled = true;
+            }
+            e.Handled = true;
             }
 
             else if (e.Key == Key.Left)
@@ -692,12 +729,16 @@ namespace HexBox
 
             else if (e.Key == Key.Down)
             {
-                if (Canvas.GetTop(cursor2) > 290)
-                    fileSlider.Value += 1;
-                if (Canvas.GetTop(cursor) < 300)
-                    Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
-                if (Canvas.GetTop(cursor2) < 300)
-                    Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+                int cell = (int)(Canvas.GetTop(cursor) / 20 * 32  + Canvas.GetLeft(cursor) / 10);
+                if (cell / 2 + (long)fileSlider.Value * 16 +15 < dyfipro.Length)
+                {
+                    if (Canvas.GetTop(cursor2) > 290)
+                        fileSlider.Value += 1;
+                    if (Canvas.GetTop(cursor) < 300)
+                        Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
+                    if (Canvas.GetTop(cursor2) < 300)
+                        Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+                }
                 e.Handled = true;
             }
 
@@ -813,8 +854,8 @@ namespace HexBox
             }
 
 
-            else if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C || e.Key == Key.D || e.Key == Key.E ||
-                     e.Key == Key.F)
+            else if (e.Key == Key.A || e.Key == Key.B || e.Key == Key.C && !Keyboard.IsKeyDown(Key.LeftCtrl) || e.Key == Key.D || e.Key == Key.E ||
+                     e.Key == Key.F )
             {
                 int cell = (int) (Canvas.GetTop(cursor)/20*32 + Canvas.GetLeft(cursor)/10);
                 if (cell/2 + (long) fileSlider.Value*16 < dyfipro.Length)
@@ -1027,20 +1068,40 @@ namespace HexBox
                 fill((long) fileSlider.Value);
             }
 
+            
+
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
             {
 
                 StringBuilder clipBoardString = new StringBuilder();
+                
+
                 for (long i = mark[0]; i < mark[1]; i++)
                 {
                     clipBoardString.Append(String.Format("{0:X2}", dyfipro.ReadByte(i)));
-
+                    
                 }
-
+                
                 System.Console.WriteLine(mark[0] + "     " + mark[1] + " " + clipBoardString.Length);
                 System.Console.WriteLine(clipBoardString.ToString());
-                Clipboard.SetData(DataFormats.UnicodeText, clipBoardString.ToString());
+                Clipboard.SetText(clipBoardString.ToString());
+                
+            }
 
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
+            {
+                //under construction
+               /* String clipString = (String)Clipboard.GetText();
+
+
+                int cell = (int)(Canvas.GetTop(cursor) / 20 * 32 + Canvas.GetLeft(cursor) / 10);
+                for (int i = 0; i < clipString.Length; i++)
+                {
+                    dyfipro.WriteByte(i + cell / 2 + (long)fileSlider.Value * 16, (byte)Convert.ToInt32(clipString[i] + "" , 16));
+                }
+                fill((long)fileSlider.Value);*/
+
+                
             }
 
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.S)
@@ -1070,40 +1131,44 @@ namespace HexBox
             string s = k.ToString();
             if (e.Key == Key.Right)
             {
-                Boolean b = true;
-                if (Canvas.GetLeft(cursor) < 300)
+                int cell = (int)(Canvas.GetTop(cursor) / 20 * 32 + Canvas.GetLeft(cursor) / 10);
+                if (cell / 2 + (long)fileSlider.Value * 16 < dyfipro.Length)
                 {
-                    Canvas.SetLeft(cursor, Canvas.GetLeft(cursor2)*2 + 20);
+                    Boolean b = true;
+                    if (Canvas.GetLeft(cursor) < 300)
+                    {
+                        Canvas.SetLeft(cursor, Canvas.GetLeft(cursor2)*2 + 20);
 
-                }
-                else if (Canvas.GetTop(cursor) < 300)
-                {
-                    Canvas.SetTop(cursor, Canvas.GetTop(cursor2) + 20);
-                    Canvas.SetLeft(cursor, 0);
+                    }
+                    else if (Canvas.GetTop(cursor) < 300)
+                    {
+                        Canvas.SetTop(cursor, Canvas.GetTop(cursor2) + 20);
+                        Canvas.SetLeft(cursor, 0);
 
-                }
-
-
-                if (Canvas.GetLeft(cursor2) < 150)
-                {
-                    Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) + 10);
-                    b = false;
-                }
+                    }
 
 
-                else if (Canvas.GetTop(cursor2) < 300)
-                {
-                    Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
-                    Canvas.SetLeft(cursor2, 0);
-                }
+                    if (Canvas.GetLeft(cursor2) < 150)
+                    {
+                        Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) + 10);
+                        b = false;
+                    }
 
 
-                if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor2) == 150 &&
-                    Canvas.GetTop(cursor2) == 300 && b)
-                {
-                    Canvas.SetLeft(cursor, 0);
-                    Canvas.SetLeft(cursor2, 0);
-                    fileSlider.Value += 1;
+                    else if (Canvas.GetTop(cursor2) < 300)
+                    {
+                        Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+                        Canvas.SetLeft(cursor2, 0);
+                    }
+
+
+                    if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor2) == 150 &&
+                        Canvas.GetTop(cursor2) == 300 && b)
+                    {
+                        Canvas.SetLeft(cursor, 0);
+                        Canvas.SetLeft(cursor2, 0);
+                        fileSlider.Value += 1;
+                    }
                 }
                 e.Handled = true;
             }
@@ -1147,12 +1212,16 @@ namespace HexBox
 
             else if (e.Key == Key.Down)
             {
-                if (Canvas.GetTop(cursor2) > 290)
-                    fileSlider.Value += 1;
-                if (Canvas.GetTop(cursor) < 300)
-                    Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
-                if (Canvas.GetTop(cursor2) < 300)
-                    Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+                int cell = (int)(Canvas.GetTop(cursor) / 20 * 32-1 + Canvas.GetLeft(cursor) / 10);
+                if (cell / 2 + (long)fileSlider.Value * 16 + 15 < dyfipro.Length)
+                {
+                    if (Canvas.GetTop(cursor2) > 290)
+                        fileSlider.Value += 1;
+                    if (Canvas.GetTop(cursor) < 300)
+                        Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
+                    if (Canvas.GetTop(cursor2) < 300)
+                        Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+                }
                 e.Handled = true;
             }
 
@@ -1415,7 +1484,12 @@ namespace HexBox
 
                 System.Console.WriteLine(mark[0] + "     " + mark[1] + " " + clipBoardString.Length);
                 System.Console.WriteLine(clipBoardString.ToString());
-                Clipboard.SetData(DataFormats.OemText, clipBoardString);
+                Clipboard.SetText(clipBoardString.ToString());
+
+            }
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
+            {
 
             }
 
@@ -1555,13 +1629,21 @@ namespace HexBox
         {
             
             dyfipro.Dispose();
-            try
-            {
-                if (fileName != "")
+            
+                if (fileName != "" )
                 {
                     FileName.Text = fileName;
-
-                    dyfipro = new DynamicFileByteProvider(fileName, canRead);
+                    Pfad = fileName;
+                    try
+                    {
+                        dyfipro = new DynamicFileByteProvider(Pfad, false);
+                        makeUnAccesable(true);
+                    }
+                    catch (IOException ioe)
+                    {
+                        dyfipro = new DynamicFileByteProvider(Pfad, true);
+                        makeUnAccesable(false);
+                    }
 
 
                     dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
@@ -1586,17 +1668,93 @@ namespace HexBox
 
 
                     fill(0);
-                }
+                
             }
-            finally
-            {
-            }
+            
         }
 
         public void closeFile()
         {
             dyfipro.Dispose();
             //fillempty();
+        }
+
+        public Boolean saveData(Boolean ask,Boolean saveas )
+        {
+            if (dyfipro.HasChanges()||saveas)
+            {
+                MessageBoxResult result;
+                if (ask)
+                {
+                    string messageBoxText = "Do you want to save changes?";
+                    string caption = "Word Processor";
+                    MessageBoxButton button = MessageBoxButton.YesNoCancel;
+                    MessageBoxImage icon = MessageBoxImage.Warning;
+
+
+
+                    result = MessageBox.Show(messageBoxText, caption, button, icon);
+                }
+                else
+                {
+                    result = MessageBoxResult.Yes;
+                }
+                // Process message box results
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        // User pressed Yes button
+                        // ...
+               
+                    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                    saveFileDialog1.Title = "Save Data";
+                    saveFileDialog1.FileName = Pfad;
+                    saveFileDialog1.ShowDialog();
+
+
+
+                    // If the file name is not an empty string open it for saving.
+                    if (saveFileDialog1.FileName != "")
+                    {
+                        // Saves the Image via a FileStream created by the OpenFile method.
+
+                        if (saveFileDialog1.FileName != Pfad)
+                        {
+
+
+                            System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
+                            
+
+                            for (long i = 0; i < dyfipro.Length; i++)
+                            {
+                                fs.WriteByte(dyfipro.ReadByte(i));
+                            }
+                            FileName.Text = saveFileDialog1.FileName;
+                            Pfad = saveFileDialog1.FileName;
+                            fs.Close();
+
+                        }
+                        else
+                        {
+                            dyfipro.ApplyChanges();
+
+                        }
+                    }
+                    OnFileChanged(this, EventArgs.Empty);
+                    break;
+                    case MessageBoxResult.No:
+                    // User pressed No button
+                    // ...
+                    break;
+                    case MessageBoxResult.Cancel:
+                    // User pressed Cancel button
+                    // ...
+                    break;
+                }
+
+            }
+            
+            return true;
         }
 
         public void fillempty()
@@ -1637,11 +1795,57 @@ namespace HexBox
             }
         }
 
+        public void collapseControl(Boolean b)
+        {
+            grid1.IsEnabled = b;
+            grid2.IsEnabled = b;
+            
+            if (b)
+            {
+                cursor.Visibility = Visibility.Visible;
+                cursor2.Visibility = Visibility.Visible;
+                saveAs.Visibility = Visibility.Visible;
+                save.Visibility = Visibility.Visible;
+                newFile.Visibility = Visibility.Visible;
+                openFileButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cursor.Visibility = Visibility.Collapsed;
+                cursor2.Visibility = Visibility.Collapsed;
+                saveAs.Visibility = Visibility.Collapsed;
+                save.Visibility = Visibility.Collapsed;
+                newFile.Visibility = Visibility.Collapsed;
+                openFileButton.Visibility = Visibility.Collapsed;
+
+            }
+
+        }
+
+        public void makeUnAccesable(Boolean b)
+        {
+            
+            grid1.IsEnabled = b;
+            grid2.IsEnabled = b;
+            saveAs.IsEnabled = b;
+            save.IsEnabled = b;
+            if (b)
+            {
+                cursor.Visibility = Visibility.Visible;
+                cursor2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cursor.Visibility = Visibility.Collapsed;
+                cursor2.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             dyfipro.Dispose();
-            try
-            {
+            
 
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 //openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -1652,9 +1856,17 @@ namespace HexBox
                 if (Pfad != "" && File.Exists(Pfad))
                 {
                     FileName.Text = Pfad;
-
-                    dyfipro = new DynamicFileByteProvider(Pfad, false);
-
+                    try
+                        {
+                            dyfipro = new DynamicFileByteProvider(Pfad, false);
+                            makeUnAccesable(true);
+                            
+                        }
+                    catch(IOException ioe)
+                        {
+                            dyfipro = new DynamicFileByteProvider(Pfad, true);
+                            makeUnAccesable(false);
+                        }
 
                     dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
 
@@ -1681,11 +1893,8 @@ namespace HexBox
 
                     OnFileChanged(this, EventArgs.Empty);
                 }
-            }
-            finally
-            {
-                
-            }
+            
+            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -1695,39 +1904,15 @@ namespace HexBox
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Title = "Save Data";
-            saveFileDialog1.ShowDialog();
-
-            
-
-            // If the file name is not an empty string open it for saving.
-            if (saveFileDialog1.FileName != "")
-            {
-                // Saves the Image via a FileStream created by the OpenFile method.
-
-                if (saveFileDialog1.FileName != Pfad)
-                {
-                    System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
-
-                    for (long i = 0; i < dyfipro.Length; i++)
-                    {
-                        fs.WriteByte(dyfipro.ReadByte(i));
-                    }
-                    FileName.Text = saveFileDialog1.FileName;
-                    fs.Close();
-                }
-                else
-                {
-                    dyfipro.ApplyChanges();
-                }
-            }
+            saveData(false,true);
         }
 
         public event EventHandler OnFileChanged;
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            
+            dyfipro.Dispose();
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
             saveFileDialog1.Title = "Save Data";
@@ -1769,11 +1954,20 @@ namespace HexBox
 
 
 
-
+                OnFileChanged(this, EventArgs.Empty);
 
                 fill(0);
             }
 
+        }
+
+
+        void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            fileSlider.Value -=  e.Delta/10;
+            
+            
         }
     }
 }
