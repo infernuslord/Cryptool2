@@ -806,7 +806,7 @@
     <value>Text in den aktuellen  Arbeitsbereich einfügen</value>
   </data>
   <data name="RBTooltip_CrypTutorial" xml:space="preserve">
-    <value>verfügbare Kryptotutorien</value>
+    <value>Verfügbare Kryptotutorien</value>
   </data>
   <data name="RBTooltip_Load" xml:space="preserve">
     <value>Arbeitsbereich laden</value>
@@ -818,10 +818,10 @@
     <value>Neuen Arbeitsbereich oder Wizard öffnen</value>
   </data>
   <data name="RBTooltip_Print" xml:space="preserve">
-    <value>aktuellen Arbeitsbereich drucken</value>
+    <value>Aktuellen Arbeitsbereich drucken</value>
   </data>
   <data name="RBTooltip_Save" xml:space="preserve">
-    <value>aktuellen Arbeitsbereich speichern</value>
+    <value>Aktuellen Arbeitsbereich speichern</value>
   </data>
   <data name="RBTooltip_View" xml:space="preserve">
     <value>Fenster ein- und ausblenden</value>
