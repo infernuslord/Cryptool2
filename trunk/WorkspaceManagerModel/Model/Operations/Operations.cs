@@ -479,7 +479,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
-            foreach (Operation op in _operations)
+            var reversedOperations = new List<Operation>(_operations);
+            reversedOperations.Reverse();
+
+            foreach (Operation op in reversedOperations)
             {
                 op.Undo(workspaceModel);
             }

@@ -293,7 +293,7 @@ namespace WorkspaceManager.Model
             ConnectorModel to = connectionModel.To;
             from.OutputConnections.Add(connectionModel);
             to.InputConnections.Add(connectionModel);
-           
+
             //If we connect two IControls we have to set data directly:
             if (from.IControl && to.IControl)
             {
@@ -392,13 +392,13 @@ namespace WorkspaceManager.Model
                 // remove all InputConnectors belonging to this pluginModel from our WorkspaceModel
                 foreach (ConnectorModel inputConnector in new List<ConnectorModel>(pluginModel.InputConnectors))
                 {
-                    deleteConnectorModel(inputConnector);
+                    AllConnectorModels.Remove(inputConnector);
                 }
 
                 // remove all OutputConnectors belonging to this pluginModel from our WorkspaceModel
                 foreach (ConnectorModel outputConnector in new List<ConnectorModel>(pluginModel.OutputConnectors))
                 {
-                    deleteConnectorModel(outputConnector);
+                    AllConnectorModels.Remove(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();                
                 OnDeletedChildElement(pluginModel);
@@ -406,6 +406,7 @@ namespace WorkspaceManager.Model
             }            
             return false;
         }
+
 
         /// <summary>
         /// Deletes the connectorModel and the connected Connections
