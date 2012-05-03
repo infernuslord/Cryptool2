@@ -43,6 +43,7 @@ namespace WorkspaceManager.Model
 
         internal PluginModel()
         {
+            ViewState = PluginViewState.Default;
             this.InputConnectors = new List<ConnectorModel>();
             this.OutputConnectors = new List<ConnectorModel>();
 
