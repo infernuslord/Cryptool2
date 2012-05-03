@@ -20,35 +20,41 @@ namespace Tests.TemplateAndPluginTests
 
         public bool Test(object[] inputValues, object[] expectedOutputValues)
         {
-            Initialize();
-
-            if (inputValues.Length != _inputProperties.Length)
-            {
-                throw new ArgumentException("input vector doesn't match scenario.");
-            }
             if (expectedOutputValues.Length != _outputProperties.Length)
-            {
                 throw new ArgumentException("output vector doesn't match scenario.");
-            }
 
-            for (int i = 0; i < _inputProperties.Length; i++)
-            {
-                _inputProperties[i].SetValue(_inputObjects[i], inputValues[i], null);
-            }
-            
-            Execute();
+            object[] outputValues = GetOutputs(inputValues);
 
             for (int i = 0; i < _outputProperties.Length; i++)
-            {
-                if (!_outputProperties[i].GetValue(_outputObjects[i], null).Equals(expectedOutputValues[i]))
-                {
+                if (!outputValues[i].Equals(expectedOutputValues[i]))
                     return false;
-                }
-            }
+
             return true;
         }
 
-        protected abstract void Execute();
+        public object[] GetOutputs(object[] inputValues)
+        {
+            Initialize();
+            PreExecution();
+
+            if (inputValues.Length != _inputProperties.Length)
+                throw new ArgumentException("input vector doesn't match scenario.");
+
+            for (int i = 0; i < _inputProperties.Length; i++)
+                _inputProperties[i].SetValue(_inputObjects[i], inputValues[i], null);
+
+            Execute();
+
+            object[] outputValues = new object[_outputProperties.Length];
+
+            for (int i = 0; i < _outputProperties.Length; i++)
+                outputValues[i] = _outputProperties[i].GetValue(_outputObjects[i], null);
+
+            return outputValues;
+        }
+
         protected abstract void Initialize();
+        protected abstract void PreExecution();
+        protected abstract void Execute();
     }
 }
