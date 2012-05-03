@@ -137,10 +137,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                                                                    source.Model.GetName(),
                                                                    target.Model.PluginModel.PluginType,
                                                                    target.Model.GetName());
-            ComponentConnectionStatistics.IncrementConnectionUsage(target.Model.PluginModel.PluginType,
-                                                                   target.Model.GetName(),
-                                                                   source.Model.PluginModel.PluginType,
-                                                                   source.Model.GetName());
 
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
@@ -334,12 +330,18 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         #endregion
         #region Dependency Properties
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint",
-           typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),
-               FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+           typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),new PropertyChangedCallback(OnIsPositionChanged)));
 
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint",
-            typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),
-                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure)); 
+            typeof(Point), typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0),new PropertyChangedCallback(OnIsPositionChanged)));
+
+
+        private static void OnIsPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            InternalCryptoLineView l = (InternalCryptoLineView)d;
+            l.HasComputed = false;
+            l.InvalidateVisual();
+        }
 
         public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged", typeof(bool),
             typeof(InternalCryptoLineView), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedValueChanged)));
