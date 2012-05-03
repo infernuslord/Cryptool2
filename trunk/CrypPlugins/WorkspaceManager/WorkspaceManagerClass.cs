@@ -249,7 +249,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Undo()
         {
-            if (WorkspaceModel.UndoRedoManager != null)
+            if (WorkspaceModel.UndoRedoManager != null && WorkspaceModel.UndoRedoManager.CanUndo())
             {
                 try
                 {
@@ -267,7 +267,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Redo()
         {
-            if (WorkspaceModel.UndoRedoManager != null)
+            if (WorkspaceModel.UndoRedoManager != null && WorkspaceModel.UndoRedoManager.CanRedo())
             {
                 try
                 {
