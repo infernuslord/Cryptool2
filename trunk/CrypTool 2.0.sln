@@ -288,10 +288,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileInputWPF", "CrypPlugins
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileOutputWPF", "CrypPluginsExperimental\FileOutputWPF\FileOutputWPF.csproj", "{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{737CA34E-7C53-46B0-AACB-E80BDCA4230B}"
+	ProjectSection(SolutionItems) = preProject
+		CrypTool 2.0.vsmdi = CrypTool 2.0.vsmdi
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = CrypTool 2.0.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -985,3 +993,4 @@ Global
 		{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 	EndGlobalSection
 EndGlobal
+
