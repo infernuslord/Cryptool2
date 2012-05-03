@@ -68,11 +68,11 @@
             <Border x:Name="Border" ToolTip="{TemplateBinding ToolTip}" BorderThickness="1" Background="{StaticResource ResourceKey=BackgroundNormal}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="18" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="30" 
+                    <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="16" 
                                SnapsToDevicePixels="True" Margin="1" HorizontalAlignment="Center" Grid.Column="0"/>
                     <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Count}" Margin="4,0,4,0" 
                                VerticalAlignment="Center" Grid.Column="1"></TextBlock>
@@ -99,7 +99,7 @@
                 </Trigger>
             </Style.Triggers>
             <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=CheckedFalseToolTip, Mode=OneWay}"></Setter>
-            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="Height" Value="20"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -196,7 +196,7 @@
             <RowDefinition Height="45" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ToolBar Name="toolBarListViewFilter" BorderBrush="#999" BorderThickness="1" Grid.Row="0" Height="45" VerticalAlignment="Top">
+        <ToolBar Name="toolBarListViewFilter" BorderBrush="#999" BorderThickness="1" Grid.Row="0" Height="30" VerticalAlignment="Top">
             <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc ErrorCheckedFalseTooltip}" CheckedTrueToolTip="{Loc ErrorCheckedTrueTooltip}"
                                       IsChecked="True" Text="{Loc Error}" ClickMode="Press" Count="{Binding Path=ErrorCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
