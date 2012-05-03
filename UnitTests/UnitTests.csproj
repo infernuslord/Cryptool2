@@ -85,19 +85,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AESTest.cs" />
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
+    <Compile Include="DESTest.cs" />
+    <Compile Include="EnigmaTest.cs" />
+    <Compile Include="HMACTest.cs" />
+    <Compile Include="M209Test.cs" />
+    <Compile Include="MD5Test.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
+    <Compile Include="NihilistTest.cs" />
+    <Compile Include="PlayfairTest.cs" />
+    <Compile Include="PRESENTTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
+    <Compile Include="PurpleTest.cs" />
+    <Compile Include="RC2Test.cs" />
+    <Compile Include="RC4Test.cs" />
+    <Compile Include="RIPEMD160Test.cs" />
+    <Compile Include="ScytaleTest.cs" />
+    <Compile Include="SHATest.cs" />
     <Compile Include="TemplateAndPluginTests\PluginTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateAndPluginTests.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TestScenario.cs" />
+    <Compile Include="TestHelpers.cs" />
     <Compile Include="TigerTest.cs" />
     <Compile Include="TranspositionTest.cs" />
+    <Compile Include="TriviumTest.cs" />
     <Compile Include="TwofishTest.cs" />
+    <Compile Include="VigenereTest.cs" />
     <Compile Include="WhirlpoolTest.cs" />
     <Compile Include="WizardConfigTest.cs" />
   </ItemGroup>
@@ -112,30 +130,109 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\AES\AES.csproj">
+      <Project>{2A81A3B2-ABC0-4850-9C89-3830AD07FD6B}</Project>
+      <Name>AES</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Caesar\Caesar.csproj">
+      <Project>{AFBEAA94-3998-4C4A-805F-670ECF12029E}</Project>
+      <Name>Caesar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\CostFunction\CostFunction.csproj">
       <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
       <Name>CostFunction</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\DES\DES.csproj">
+      <Project>{E3D15A1E-65D0-457A-9894-7F4E36369163}</Project>
+      <Name>DES</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Enigma\Enigma.csproj">
+      <Project>{AF5B966D-76A8-43A1-B6D2-3831FD4EF1C7}</Project>
+      <Name>Enigma</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\HMAC\HMAC.csproj">
+      <Project>{9DC8FE92-6839-4837-8AAA-D7456F2B288F}</Project>
+      <Name>HMAC</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\M209\M209.csproj">
+      <Project>{9113F40E-5A6D-445A-9625-B38DF3BA918F}</Project>
+      <Name>M209</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
       <Name>MD5</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Nihilist\Nihilist.csproj">
+      <Project>{FB8BAD02-DDE2-411E-A495-071232CFDE58}</Project>
+      <Name>Nihilist</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PKCS5\PKCS5.csproj">
       <Project>{80200C92-77FC-4508-B520-D51530BE2608}</Project>
       <Name>PKCS5</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Playfair\Playfair.csproj">
+      <Project>{5DA3E5DB-62B9-4621-AA69-56512BDECE7B}</Project>
+      <Name>Playfair</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\PRESENT\PRESENT.csproj">
+      <Project>{55E20598-2415-474B-BDD7-4BE042C0CCA8}</Project>
+      <Name>PRESENT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Purple\Purple.csproj">
+      <Project>{3010F13F-4664-4231-9D98-99E85EBB82AE}</Project>
+      <Name>Purple</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\RC2\RC2.csproj">
+      <Project>{A2A7E7E6-05E6-46AD-B8AE-862D9DA78A1E}</Project>
+      <Name>RC2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\RC4\RC4.csproj">
+      <Project>{C7172DBE-1650-4329-9906-FD1F780A59EC}</Project>
+      <Name>RC4</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\RIPEMD160\RIPEMD160.csproj">
+      <Project>{77EE0460-29E8-4227-A874-DECA9985BC64}</Project>
+      <Name>RIPEMD160</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Scytale\Scytale.csproj">
+      <Project>{56617BC2-3504-410C-AB98-E551EFCE4E3D}</Project>
+      <Name>Scytale</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\SHA\SHA.csproj">
+      <Project>{D0693215-9A47-414B-BD99-1BE37C42EABB}</Project>
+      <Name>SHA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Tiger\Tiger.csproj">
+      <Project>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</Project>
+      <Name>Tiger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Transposition\Transposition.csproj">
       <Project>{37D80203-C651-4396-8F5B-D67B7EC62763}</Project>
       <Name>Transposition</Name>
-      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Trivium\Trivium.csproj">
+      <Project>{118668D4-613C-4D27-973B-092D5B25A692}</Project>
+      <Name>Trivium</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Twofish\Twofish.csproj">
+      <Project>{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}</Project>
+      <Name>Twofish</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Vigenere\Vigenere.csproj">
+      <Project>{6F44863A-B9EE-4371-90BD-7FDF849DD2C4}</Project>
+      <Name>Vigenere</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Whirlpool\Whirlpool.csproj">
+      <Project>{3A68ECB5-6074-4A8D-A6BD-2413C5A4B243}</Project>
+      <Name>Whirlpool</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Wizard\Wizard.csproj">
       <Project>{FF247A82-21AD-4010-B2FB-D93EE2B02677}</Project>
@@ -182,6 +279,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

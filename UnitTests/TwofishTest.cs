@@ -1,148 +1,72 @@
-﻿//////////////////////////////////////////////////////////////////////////////////////////////////
-// CrypTool V2
-// © 2008 - Gerhard Junker
-// Apache License see http://www.apache.org/licenses/
-//
-// $HeadURL$
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// $Revision::                                                                                $://
-// $Author::                                                                                  $://
-// $Date::                                                                                    $://
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-using System;
+﻿using System;
 using System.Text;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Collections.Generic;
-
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Cryptool.PluginBase.IO;
+using Cryptool.Plugins.Cryptography.Encryption;
 
-namespace Tests
+namespace Tests.TemplateAndPluginTests
 {
-  /// <summary>
-  /// Testclass for Twofish cypher
-  /// </summary>
-  [TestClass]
-  public class TwofishTest
-  {
-    public TwofishTest()
+    [TestClass]
+    public class TwofishTest
     {
-      // nothing to do
+        public TwofishTest()
+        {
+        }
+
+        [TestMethod]
+        public void TwofishTestMethod()
+        {
+            var pluginInstance = TestHelpers.GetPluginInstance("Twofish");
+            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", "KeyData", ".Action", ".Mode", ".KeySize" }, new[] { "OutputStream" });
+            object[] output;
+
+            foreach (TestVector vector in testvectors)
+            {
+                output = scenario.GetOutputs(new object[] { vector.input.HexToStream(), vector.key.HexToByteArray(), 0, 0, vector.keysize });
+                Assert.AreEqual(vector.output.ToUpper(), output[0].ToHex(), "Unexpected value in test #" + vector.n + ".");
+            }
+
+            foreach (TestVector vector in testvectors_loop)
+            {
+                string input, key, cipher;
+                input = cipher = key = "00000000000000000000000000000000";
+
+                for (int i = 0; i < 49; i++)
+                {
+                    key = (input + key).Substring(0, (128 + vector.keysize * 64) / 4);
+                    input = cipher;
+                    output = scenario.GetOutputs(new object[] { input.HexToStream(), key.HexToByteArray(), 0, 0, vector.keysize });
+                    cipher = output[0].ToHex();
+                }
+                Assert.AreEqual(vector.output.ToUpper(), cipher, "Unexpected value in test loop #" + vector.n + ".");
+            }
+        }
+
+        struct TestVector
+        {
+            public string input, key, output;
+            public int n, mode, action, keysize;
+        }
+
+        //
+        // Source of the test vectors: http://www.schneier.com/code/ecb_ival.txt
+        //
+        TestVector[] testvectors = new TestVector[] {
+            new TestVector () { n=0, action=0, mode=0, keysize=0, key="00000000000000000000000000000000", input="00000000000000000000000000000000", output="9f589f5cf6122c32b6bfec2f2ae8c35a" },
+            new TestVector () { n=1, action=0, mode=0, keysize=0, key="BCA724A54533C6987E14AA827952F921", input="6B459286F3FFD28D49F15B1581B08E42", output="5D9D4EEFFA9151575524F115815A12E0" },
+            new TestVector () { n=3, action=0, mode=0, keysize=1, key="0123456789ABCDEFFEDCBA98765432100011223344556677", input="00000000000000000000000000000000", output="cfd1d2e5a9be9cdf501f13b892bd2248" },
+            new TestVector () { n=4, action=0, mode=0, keysize=1, key="FB66522C332FCC4C042ABE32FA9E902FDEA4F3DA75EC7A8E", input="F0AB73301125FA21EF70BE5385FB76B6", output="E75449212BEEF9F4A390BD860A640941" },
+            new TestVector () { n=5, action=0, mode=0, keysize=2, key="0123456789ABCDEFFEDCBA987654321000112233445566778899AABBCCDDEEFF", input="00000000000000000000000000000000", output="37527be0052334b89f0cfccae87cfa20" },
+            new TestVector () { n=6, action=0, mode=0, keysize=2, key="248A7F3528B168ACFDD1386E3F51E30C2E2158BC3E5FC714C1EEECA0EA696D48", input="431058F4DBC7F734DA4F02F04CC4F459", output="37FE26FF1CF66175F5DDF4C33B97A205" },
+        };
+
+        TestVector[] testvectors_loop = new TestVector[] {
+            new TestVector () { n=0, action=0, mode=0, keysize=0, output="5D9D4EEFFA9151575524F115815A12E0" },
+            new TestVector () { n=1, action=0, mode=0, keysize=1, output="E75449212BEEF9F4A390BD860A640941" },
+            new TestVector () { n=2, action=0, mode=0, keysize=2, output="37FE26FF1CF66175F5DDF4C33B97A205" },
+       };
+
     }
-
-    private TestContext testContextInstance;
-    public TestContext TestContext
-    {
-      get
-      {
-        return testContextInstance;
-      }
-      set
-      {
-        testContextInstance = value;
-      }
-    }
-
-    /// <summary>
-    /// Converts the hex to byte.
-    /// </summary>
-    /// <param name="str">The STR.</param>
-    /// <returns></returns>
-    private byte[] ConvertHexToByte(string str)
-    {
-      int len = str.Length / 2;
-      byte[] hex = new byte[len];
-      for (int j = 0; j < len; j++)
-      {
-        hex[j] = byte.Parse(str.Substring(0, 2), System.Globalization.NumberStyles.AllowHexSpecifier);
-        str = str.Substring(2);
-      }
-
-      return hex;
-    }
-
-    /// <summary>
-    /// Converts the byte to hex.
-    /// </summary>
-    /// <param name="bytes">The bytes.</param>
-    /// <returns></returns>
-    private string ConvertByteToHex(byte[] bytes)
-    {
-      string tmp = "";
-      foreach (byte b in bytes)
-      {
-        if (b < 0x10)
-          tmp += "0";
-        tmp += b.ToString("X");
-      }
-      return tmp;
-    }
-
-    [TestMethod]
-    public void TwofishTestMethod()
-    {
-      // test vectors from 
-      // http://www.schneier.com/plain/ecb_ival.txt
-      //
-      string[] source = 
-      { 
-        "00000000000000000000000000000000",
-        "00000000000000000000000000000000",
-        "00000000000000000000000000000000"
-      };
-      
-      string[] result = 
-      { 
-        "9F589F5CF6122C32B6BFEC2F2AE8C35A",
-        "CFD1D2E5A9BE9CDF501F13B892BD2248",
-        "37527BE0052334B89F0CFCCAE87CFA20"
-      };
-
-      string[] key = 
-      {
-        "00000000000000000000000000000000",
-        "0123456789ABCDEFFEDCBA98765432100011223344556677",
-        "0123456789ABCDEFFEDCBA987654321000112233445566778899AABBCCDDEEFF",
-      };
-
-
-      ASCIIEncoding enc = new ASCIIEncoding();
-
-      for (int i = 0; i < source.Length; i++)
-      {
-        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        
-        testContextInstance.WriteLine(" Test " + i.ToString());
-        testContextInstance.WriteLine(" data = " + source[i]);
-
-        TwofishManaged tf = TwofishManaged.Create();
-
-        testContextInstance.WriteLine(" key  = " + key[i]);
-
-        byte[] myKey = ConvertHexToByte(key[i]);
-        ICryptoTransform encrypt =  tf.CreateEncryptor(myKey, iv);
-
-        byte[] plain = ConvertHexToByte(source[i]);
-        
-        byte[] code = encrypt.TransformFinalBlock(plain, 0, plain.Length);
-
-        string tmp = ConvertByteToHex(code);
-        testContextInstance.WriteLine(" expected   = " + result[i]);
-        testContextInstance.WriteLine(" calculated = " + tmp);
-
-        Assert.AreEqual(tmp, result[i]);
-
-        ICryptoTransform decrypt =  tf.CreateDecryptor(myKey, iv);
-
-        byte[] plain2 = decrypt.TransformFinalBlock(code, 0, code.Length);
-        string source2 = ConvertByteToHex(plain2);
-        testContextInstance.WriteLine(" expected   = " + source[i]);
-        testContextInstance.WriteLine(" calculated = " + source2);
-
-        Assert.AreEqual(source[i], source2);
-      }
-    }
-
-  }
 }
