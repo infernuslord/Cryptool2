@@ -54,14 +54,19 @@ namespace Tests.TemplateAndPluginTests
             return res.ToArray();
         }
 
-        protected override void Execute()
+        protected override void Initialize()
         {
-            _plugin.Execute();
+            _plugin.Initialize();
         }
 
-        protected override void Initialize()
+        protected override void PreExecution()
         {
             _plugin.PreExecution();
         }
+ 
+        protected override void Execute()
+        {
+            _plugin.Execute();
+        }  
     }
 }

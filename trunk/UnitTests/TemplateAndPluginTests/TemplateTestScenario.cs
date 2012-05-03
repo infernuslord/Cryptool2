@@ -62,15 +62,19 @@ namespace Tests.TemplateAndPluginTests
             return res;
         }
 
+        protected override void Initialize()
+        {
+        }
+
+        protected override void PreExecution()
+        {
+        }
+
         protected override void Execute()
         {
             var ee = new ExecutionEngine();
             ee.Execute(_templateModel, false);
             Thread.Sleep(10000);
-        }
-
-        protected override void Initialize()
-        {
         }
     }
 }
