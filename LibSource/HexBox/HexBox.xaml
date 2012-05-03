@@ -7,91 +7,34 @@
              d:DesignHeight="360" d:DesignWidth="810" >
     
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ToolBarTray>
+            <ToolBar Background="Transparent" >
+                <Button Name ="newFile" Click="Button_Click_3">
+                    <Image Source="/HexBox;component/Icons/NewDocument_32x32.png" Width="16" Height="16" />
+                </Button>
+                <Button Name ="openFileButton" Click="Button_Click" >
+                    <Image Source="/HexBox;component/Icons/OpenHH.png"  Width="16" Height="16" />
+                </Button>
+                <Button Name ="saveAs" Click="Button_Click_2">
+                    <Image Source="/HexBox;component/Icons/SaveAsHH.png" Width="16" Height="16" />
+                </Button>
+                <Button Name="save" Click="Button_Click_1">
+                    <Image Source="/HexBox;component/Icons/SaveHH.png" Width="16" Height="16" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+    
+        <StackPanel  Name="mainPanel" Orientation="Vertical" Grid.Row="1" >
 
-    <StackPanel  Name="mainPanel" Orientation="Vertical" >
-        
-            
-        
-        <ToolBar Background="Transparent" >
-            
-            <Button Name ="openFileButton" Click="Button_Click" >
-                Open
-            </Button>
-            <Button Name ="saveAs" Click="Button_Click_2">
-                Save as...
-            </Button>
-            <Button Name="save" Click="Button_Click_1">
-                Save
-            </Button>
-            <Button Name ="newFile" Click="Button_Click_3">
-                New File
-            </Button>
-
-        </ToolBar>
-        
-
-        <StackPanel Orientation="Horizontal" Name="blupp" >
+            <StackPanel Orientation="Horizontal" Name="blupp" >
 
 
-            <Grid Width="150" Name="gridid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="30" />
-                </Grid.ColumnDefinitions>
-            </Grid>
-            <Canvas Name="canvas1"  Width="320" Background="Transparent">
-
-                <Rectangle Name="cursor" Width="10" Height="20" Fill="GreenYellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
-                    <Rectangle.CommandBindings>
-                        <CommandBinding Command="Help" Executed="HelpExecuted" />
-                    </Rectangle.CommandBindings>
-                    <Rectangle.InputBindings>
-                        <KeyBinding Command="Help" Key="A" Modifiers="Ctrl"></KeyBinding>
-                    </Rectangle.InputBindings>
-                    <Rectangle.Style>
-                        <Style TargetType="{x:Type Rectangle}">
-                            <Style.Resources>
-                                <Storyboard x:Key="FadeBlack" RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="0.0" To="1.0"  Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="1.0" To="0.0"  Duration="0:0:0.2" BeginTime="0:0:0.2"/>
-                                </Storyboard>
-                                <Storyboard x:Key="FadeRed">
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="0.0" To="1.0"  Duration="0:0:1"/>
-                                </Storyboard>
-                            </Style.Resources>
-                            <Style.Triggers>
-                                <EventTrigger RoutedEvent="LostFocus">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeRed}"/>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="GotFocus">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeBlack}"/>
-                                </EventTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Rectangle.Style>
-                </Rectangle>
-                <Grid Name="grid1">
+                <Grid Width="150" Name="gridid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
@@ -109,129 +52,188 @@
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
-
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
                 </Grid>
-            </Canvas>
-            <Canvas  Width="100"/>
+                <Canvas Name="canvas1"  Width="320" Background="Transparent">
 
-            <Canvas Name="canvas2"  Width="220" Background="Transparent">
+                    <Rectangle Name="cursor" Width="10" Height="20" Fill="GreenYellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
+                        <Rectangle.CommandBindings>
+                            <CommandBinding Command="Help" Executed="HelpExecuted" />
+                        </Rectangle.CommandBindings>
+                        <Rectangle.InputBindings>
+                            <KeyBinding Command="Help" Key="A" Modifiers="Ctrl"></KeyBinding>
+                        </Rectangle.InputBindings>
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Resources>
+                                    <Storyboard x:Key="FadeBlack" RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="0.0" To="1.0"  Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="1.0" To="0.0"  Duration="0:0:0.2" BeginTime="0:0:0.2"/>
+                                    </Storyboard>
+                                    <Storyboard x:Key="FadeRed">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="0.0" To="1.0"  Duration="0:0:1"/>
+                                    </Storyboard>
+                                </Style.Resources>
+                                <Style.Triggers>
+                                    <EventTrigger RoutedEvent="LostFocus">
+                                        <BeginStoryboard Storyboard="{StaticResource FadeRed}"/>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="GotFocus">
+                                        <BeginStoryboard Storyboard="{StaticResource FadeBlack}"/>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                    <Grid Name="grid1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
 
-                <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
-                    <Rectangle.Style>
-                        <Style TargetType="{x:Type Rectangle}">
-                            <Style.Resources>
-                                <Storyboard x:Key="FadeBlack" RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="0.0" To="1.0"  Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="1.0" To="0.0"  Duration="0:0:0.2" BeginTime="0:0:0.2"/>
-                                </Storyboard>
-                                <Storyboard x:Key="FadeRed">
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" 
-                                       From="0.0" To="1.0"  Duration="0:0:1"/>
-                                </Storyboard>
-                            </Style.Resources>
-                            <Style.Triggers>
-                                <EventTrigger RoutedEvent="LostFocus">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeRed}"/>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="GotFocus">
-                                    <BeginStoryboard Storyboard="{StaticResource FadeBlack}"/>
-                                </EventTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Rectangle.Style>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Canvas>
+                <Canvas  Width="100"/>
 
-                </Rectangle>
-                <Grid Name="grid2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
+                <Canvas Name="canvas2"  Width="220" Background="Transparent">
 
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="10" />
-                    </Grid.ColumnDefinitions>
-                </Grid>
-            </Canvas>
-            <ScrollBar  Name="fileSlider" Orientation="Vertical"  Height="320" VerticalAlignment="Top"></ScrollBar>
+                    <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Resources>
+                                    <Storyboard x:Key="FadeBlack" RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="0.0" To="1.0"  Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="1.0" To="0.0"  Duration="0:0:0.2" BeginTime="0:0:0.2"/>
+                                    </Storyboard>
+                                    <Storyboard x:Key="FadeRed">
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" 
+                                           From="0.0" To="1.0"  Duration="0:0:1"/>
+                                    </Storyboard>
+                                </Style.Resources>
+                                <Style.Triggers>
+                                    <EventTrigger RoutedEvent="LostFocus">
+                                        <BeginStoryboard Storyboard="{StaticResource FadeRed}"/>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="GotFocus">
+                                        <BeginStoryboard Storyboard="{StaticResource FadeBlack}"/>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
 
+                    </Rectangle>
+                    <Grid Name="grid2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="20" />
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="10" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Canvas>
+                <ScrollBar  Name="fileSlider" Orientation="Vertical"  Height="320" VerticalAlignment="Top"></ScrollBar>
+
+            </StackPanel>
+            <ToolBarPanel Orientation="Horizontal">
+                <TextBlock >
+                    Line:
+                </TextBlock>
+                <Border  Width="5"  />
+                <TextBlock Name="Line">
+
+                </TextBlock>
+
+                <Border  Name="separator1" Width="5"  />
+
+                <TextBlock >
+                    Column:
+                </TextBlock>
+                <Border  Width="5"  />
+                <TextBlock Name="Column">
+
+                </TextBlock>
+                <Border  Width="5"  />
+                <TextBlock >
+                    File:
+                </TextBlock>
+                <Border  Width="5"  />
+                <TextBlock Name="FileName">
+
+                </TextBlock>
+
+            </ToolBarPanel>
         </StackPanel>
-        <ToolBarPanel Orientation="Horizontal">
-            <TextBlock >
-                Line:
-            </TextBlock>
-            <Border  Width="5"  />
-            <TextBlock Name="Line">
-
-            </TextBlock>
-
-            <Border  Name="separator1" Width="5"  />
-
-            <TextBlock >
-                Column:
-            </TextBlock>
-            <Border  Width="5"  />
-            <TextBlock Name="Column">
-
-            </TextBlock>
-            <Border  Width="5"  />
-            <TextBlock >
-                File:
-            </TextBlock>
-            <Border  Width="5"  />
-            <TextBlock Name="FileName">
-
-            </TextBlock>
-
-        </ToolBarPanel>
-    </StackPanel>
+    </Grid>
 </UserControl>
