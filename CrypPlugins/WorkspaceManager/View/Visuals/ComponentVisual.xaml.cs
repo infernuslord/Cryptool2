@@ -949,7 +949,26 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             // process only if workspace is not running
             if (Model != null && !((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).isExecuting())
             {
-                Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
+                var list = new List<Operation>();
+                //first delete all connections of this PluginModel
+                foreach (var connector in Model.GetOutputConnectors())
+                {
+                    foreach (var connectionModel in connector.GetOutputConnections())
+                    {
+                        list.Add(new DeleteConnectionModelOperation(connectionModel));
+                    }
+                }
+                foreach (var connector in Model.GetInputConnectors())
+                {
+                    foreach (var connectionModel in connector.GetInputConnections())
+                    {
+                        list.Add(new DeleteConnectionModelOperation(connectionModel));
+                    }
+                }
+                //then delete the PluginModel
+                var deletePluginModelOperation = new DeletePluginModelOperation(Model);
+                list.Add(deletePluginModelOperation);
+                Model.WorkspaceModel.ModifyModel(new MultiOperation(list));
             }
         }
 
