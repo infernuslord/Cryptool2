@@ -432,6 +432,11 @@ namespace Wizard
 
         private void FillInputStack(IEnumerable<XElement> inputs, string type, bool isInput)
         {
+            if (inputs == null || inputs.Any())
+            {
+                
+            }
+
             var inputFieldStyle = (Style)FindResource("InputFieldStyle");
 
             var groups = from input in inputs where input.Attribute("group") != null select input.Attribute("group").Value;
@@ -455,7 +460,11 @@ namespace Wizard
                     var stack = new StackPanel();
 
                     var description = new Label();
-                    description.Content = FindElementsInElement(input, "description").First().Value.Trim();
+                    var descEle = FindElementsInElement(input, "description");
+                    if (descEle != null && descEle.Any())
+                    {
+                        description.Content = descEle.First().Value.Trim();
+                    }
                     description.HorizontalAlignment = HorizontalAlignment.Left;
                     description.FontWeight = FontWeights.Bold;
                     stack.Children.Add(description);
@@ -516,8 +525,11 @@ namespace Wizard
                     if (input.Attribute("group") != null && inputGroups.Any())
                     {
                         var sp = from g in inputGroups where (string)g.Tag == input.Attribute("group").Value select g;
-                        var group = sp.First();
-                        group.Children.Add(stack);
+                        if (sp.Any())
+                        {
+                            var group = sp.First();
+                            group.Children.Add(stack);
+                        }
                     }
                     else
                     {
@@ -537,15 +549,21 @@ namespace Wizard
                 if (input.Attribute("group") != null && inputGroups.Any())
                 {
                     var sp = from g in inputGroups where (string)g.Tag == input.Attribute("group").Value select g;
-                    var group = sp.First();
-                    if (!inputStack.Children.Contains(group))
-                        inputStack.Children.Add(group);
+                    if (sp.Any())
+                    {
+                        var group = sp.First();
+                        if (!inputStack.Children.Contains(group))
+                            inputStack.Children.Add(group);
+                    }
                 }
                 else
                 {
                     var p = from g in otherInputs where (XElement)g.Tag == input select g;
-                    var put = p.First();
-                    inputStack.Children.Add(put);
+                    if (p.Any())
+                    {
+                        var put = p.First();
+                        inputStack.Children.Add(put);
+                    }
                 }
             }
 
