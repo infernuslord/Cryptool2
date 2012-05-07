@@ -137,6 +137,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                                                                    source.Model.GetName(),
                                                                    target.Model.PluginModel.PluginType,
                                                                    target.Model.GetName());
+            ComponentConnectionStatistics.IncrementConnectionUsage(target.Model.PluginModel.PluginType,
+                                                                   target.Model.GetName(),
+                                                                   source.Model.PluginModel.PluginType,
+                                                                   source.Model.GetName());
 
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();

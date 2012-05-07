@@ -153,8 +153,8 @@ namespace Cryptool.PluginBase.Editor
                             if (!Statistics.ContainsKey(componentConnector))
                             {
                                 Statistics.Add(componentConnector, new ConnectorStatistics());
-                                Statistics[componentConnector].IncrementConnectorUsage(otherComponentConnector, count);
                             }
+                            Statistics[componentConnector].IncrementConnectorUsage(otherComponentConnector, count);
                         }
                     }
                 }

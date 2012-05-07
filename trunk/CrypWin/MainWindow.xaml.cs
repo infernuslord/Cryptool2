@@ -1224,11 +1224,6 @@ namespace Cryptool.CrypWin
                 AsyncCallback asyncCallback = new AsyncCallback(TypeInitFinished);
                 InitTypesDelegate initTypesDelegate = new InitTypesDelegate(this.InitTypes);
                 initTypesDelegate.BeginInvoke(loadedTypes, asyncCallback, null);
-
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
-                {
-                    LoadIndividualComponentConnectionStatistics();
-                }, null);
             }
             catch (Exception ex)
             {
@@ -1267,6 +1262,8 @@ namespace Cryptool.CrypWin
                     #endregion Gui-Stuff
 
                     InitDebug();
+
+                    LoadIndividualComponentConnectionStatistics();
 
                     // open projects at startup if necessary, return whether any project has been opened
                     bool hasOpenedProject = CheckCommandOpenProject();
