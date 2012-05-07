@@ -188,7 +188,7 @@
             <Setter Property="TextAlignment" Value="Center"></Setter>
         </Style>
 
-        <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" 
+        <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5"
                 CornerRadius="3" Margin="2" Background="#edf5ff">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
@@ -243,7 +243,7 @@
                         </StackPanel>
                         <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
                     </Grid>
-                    <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" 
+                    <TextBlock Height="100" Background="#CCFFFFFF" Text="{Binding Path=Data}" 
                                TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
 
                     </TextBlock>

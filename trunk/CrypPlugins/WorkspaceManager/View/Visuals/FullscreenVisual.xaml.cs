@@ -42,7 +42,7 @@ namespace WorkspaceManager.View.Visuals
                 UIElement o = null;
 
                 if (ActiveComponent.State == BinComponentState.Min &&
-                    ActiveComponent.LastState == null &&
+                    ActiveComponent.LastState == BinComponentState.Default &&
                     ActiveComponent.HasComponentPresentation)
                 {
                     ActiveComponent.Presentations.TryGetValue(BinComponentState.Presentation, out o);
@@ -50,7 +50,7 @@ namespace WorkspaceManager.View.Visuals
                 }
 
                 if (ActiveComponent.State == BinComponentState.Min &&
-                    ActiveComponent.LastState == null &&
+                    ActiveComponent.LastState == BinComponentState.Default &&
                     !ActiveComponent.HasComponentPresentation)
                 {
                     ActiveComponent.Presentations.TryGetValue(BinComponentState.Log, out o);
@@ -141,21 +141,6 @@ namespace WorkspaceManager.View.Visuals
                 base.SetValue(ActiveComponentProperty, value);
             }
         }
-
-        //public static readonly DependencyProperty IsOverviewOpenProperty = DependencyProperty.Register("IsOverviewOpen",
-        //    typeof(bool), typeof(BinFullscreenVisual), new FrameworkPropertyMetadata(false, null));
-
-        //public bool IsOverviewOpen
-        //{
-        //    get
-        //    {
-        //        return (bool)base.GetValue(IsOverviewOpenProperty);
-        //    }
-        //    set
-        //    {
-        //        base.SetValue(IsOverviewOpenProperty, value);
-        //    }
-        //}
 
         public static readonly DependencyProperty IsFullscreenOpenProperty = DependencyProperty.Register("IsFullscreenOpen",
             typeof(bool), typeof(FullscreenVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenOpenChanged)));
