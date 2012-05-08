@@ -97,7 +97,8 @@ namespace WorkspaceManager.View.Visuals
                 if (!bsv.noSettings)
                     Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
 
-                LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
+                FullScreenState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
+
                 var s = State = (BinComponentState)Enum.Parse(typeof(BinComponentState), Model.ViewState.ToString());
                 if (s == BinComponentState.Default)
                 {
@@ -139,8 +140,6 @@ namespace WorkspaceManager.View.Visuals
                     return;
                 }
                 State = s;
-
-                    
             }
         }
         #endregion
@@ -562,6 +561,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         {
             Model = model;
             Model.UpdateableView = this;
+            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;  
             Editor = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
             SideBarSetting = new SettingsVisual(Model.Plugin, this, true, true);
@@ -896,7 +896,8 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ComponentVisual bin = (ComponentVisual)d;
-            bin.LastState = (BinComponentState)e.OldValue;
+            if ((BinComponentState)e.OldValue != BinComponentState.Default)
+                bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
             bin.OnPropertyChanged("ActivePresentation");
             bin.OnPropertyChanged("HasComponentSetting");
@@ -922,9 +923,9 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             ComponentVisual bin = (ComponentVisual)d;
 
             if (bin.IsFullscreen)
-                bin.FullScreenState = bin.State;
-            else
-                bin.State = bin.FullScreenState;
+                bin.FullScreenState = bin.State != BinComponentState.Min ? bin.State : bin.FullScreenState;
+            //else
+            //    bin.State = bin.FullScreenState;
 
             bin.OnPropertyChanged("ActivePresentation");
         }
