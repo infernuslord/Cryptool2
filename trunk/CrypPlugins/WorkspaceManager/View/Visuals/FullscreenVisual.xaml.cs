@@ -37,33 +37,9 @@ namespace WorkspaceManager.View.Visuals
             {
                 if (ActiveComponent == null)
                     return null;
-
-
                 UIElement o = null;
 
-                if (ActiveComponent.State == BinComponentState.Min &&
-                    ActiveComponent.LastState == BinComponentState.Default &&
-                    ActiveComponent.HasComponentPresentation)
-                {
-                    ActiveComponent.Presentations.TryGetValue(BinComponentState.Presentation, out o);
-                    return o;
-                }
-
-                if (ActiveComponent.State == BinComponentState.Min &&
-                    ActiveComponent.LastState == BinComponentState.Default &&
-                    !ActiveComponent.HasComponentPresentation)
-                {
-                    ActiveComponent.Presentations.TryGetValue(BinComponentState.Log, out o);
-                    return o;
-                }
-
-                if (ActiveComponent.State == BinComponentState.Min)
-                {
-                    ActiveComponent.Presentations.TryGetValue((BinComponentState)ActiveComponent.LastState, out o);
-                    return o;
-                }
-
-                ActiveComponent.Presentations.TryGetValue(ActiveComponent.State, out o);
+                ActiveComponent.Presentations.TryGetValue(ActiveComponent.FullScreenState, out o);
                 return o;
             }
         }
@@ -192,7 +168,7 @@ namespace WorkspaceManager.View.Visuals
 
             if (b.Content is BinComponentState && ActiveComponent != null)
             {
-                ActiveComponent.State = (BinComponentState)b.Content;
+                ActiveComponent.FullScreenState = (BinComponentState)b.Content;
                 OnPropertyChanged("ActivePresentation");
                 return;
             }
