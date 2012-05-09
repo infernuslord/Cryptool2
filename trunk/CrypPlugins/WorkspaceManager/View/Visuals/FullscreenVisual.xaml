@@ -147,7 +147,7 @@
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=IsFullscreen}" Value="True">
+                            <DataTrigger Binding="{Binding Path=IsActive}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#cea57d"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsFullscreen}"></Setter>
                             </DataTrigger>

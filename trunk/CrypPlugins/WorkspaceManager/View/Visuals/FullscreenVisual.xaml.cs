@@ -27,6 +27,7 @@ namespace WorkspaceManager.View.Visuals
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Close;
+        public event EventHandler Open;
         #endregion
 
         #region Properties
@@ -183,14 +184,18 @@ namespace WorkspaceManager.View.Visuals
             ComponentVisual oldBin = (ComponentVisual)e.OldValue;
             if (newBin != null)
             {
+                newBin.IsActive = true; 
                 newBin.IsFullscreen = true;
             }
 
             if (oldBin != null)
             {
                 f.LastActiveComponent = oldBin;
-                if(oldBin != newBin)
+                if (oldBin != newBin)
+                {
                     oldBin.IsFullscreen = false;
+                    oldBin.IsActive = false; 
+                }
             }
 
             f.OnPropertyChanged("HasComponentPresentation");
@@ -212,6 +217,9 @@ namespace WorkspaceManager.View.Visuals
                     f.LastActiveComponent.IsFullscreen = false;
                 f.ActiveComponent = null;
             }
+
+            if (f.Open != null)
+                f.Open.Invoke(f, new EventArgs());
             f.OnPropertyChanged("ActivePresentation");
         }
         #endregion
