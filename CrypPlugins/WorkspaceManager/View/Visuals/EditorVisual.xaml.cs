@@ -944,7 +944,7 @@ namespace WorkspaceManager.View.Visuals
         internal void SetFullscreen(ComponentVisual bin, BinComponentState state)
         {
             FullscreenVisual.ActiveComponent = bin;
-            bin.State = state;
+            bin.FullScreenState = state;
             IsFullscreenOpen = true;
         }
 
@@ -1579,8 +1579,7 @@ namespace WorkspaceManager.View.Visuals
                             break;
                         }
 
-                        IsFullscreenOpen = true;
-                        FullscreenVisual.ActiveComponent = c;
+                        SetFullscreen(c, c.State != BinComponentState.Min ? c.State : c.FullScreenState);
                         e.Handled = true;
                         startedSelection = true;
                     }

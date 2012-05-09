@@ -268,6 +268,23 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
+        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register("IsActive",
+            typeof(bool), typeof(ComponentVisual), new FrameworkPropertyMetadata(false, OnIsActiveChanged));
+
+        public bool IsActive
+        {
+            get { return (bool)base.GetValue(IsActiveProperty); }
+            set
+            {
+                base.SetValue(IsActiveProperty, value);
+            }
+        }
+
+        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ComponentVisual bin = (ComponentVisual)d;
+        }
+
         public static readonly DependencyProperty LogNotifierProperty = DependencyProperty.Register("LogNotifier", typeof(LogNotifierVisual),
             typeof(ComponentVisual), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
@@ -561,14 +578,21 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         {
             Model = model;
             Model.UpdateableView = this;
-            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;  
+            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
             Editor = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
+            Editor.FullscreenVisual.Open += new EventHandler(FullscreenVisual_Close);
             ErrorsTillReset = new Queue<Log>();
             SideBarSetting = new SettingsVisual(Model.Plugin, this, true, true);
             EditorVisual = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
 
 
             InitializeComponent();
+        }
+
+        void FullscreenVisual_Close(object sender, EventArgs e)
+        {
+
+            OnPropertyChanged("ActivePresentation");
         }
         #endregion
 
@@ -921,13 +945,6 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ComponentVisual bin = (ComponentVisual)d;
-
-            if (bin.IsFullscreen)
-                bin.FullScreenState = bin.State != BinComponentState.Min ? bin.State : bin.FullScreenState;
-            //else
-            //    bin.State = bin.FullScreenState;
-
-            bin.OnPropertyChanged("ActivePresentation");
         }
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1002,7 +1019,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
         private void OpenClickHandler(object sender, RoutedEventArgs e)
         {
-            Editor.SetFullscreen(this, this.State);
+            Editor.SetFullscreen(this, State != BinComponentState.Min ? State : FullScreenState);
         }
     }
 
