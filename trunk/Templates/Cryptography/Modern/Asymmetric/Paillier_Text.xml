@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
+  <title lang="en">Paillier Text</title>
   <description lang="en">-</description>
   <keywords>homomorphic, Paillier, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
-  <title lang="de"></title>
+  <title lang="de">Paillier Text</title>
   <description lang="de">-</description>
   <keywords lang="de">homomorph, asymmetrisch</keywords>
   <icon file="Pailler_Text.png" />

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">SDES Analyzing known plaintext</title>
+  <title lang="en">SDES Analyzing Known Plaintext</title>
   <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>SDES</i> and the <i>Costfunction</i> RegEx.</description>
   <keywords>Analysis, SDP, SRTP</keywords>
   <title lang="de">SDES Analyse "known plaintext"</title>

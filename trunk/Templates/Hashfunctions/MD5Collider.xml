@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">MD5 collider</title>
+  <title lang="en">MD5 Collider</title>
   <title lang="de">MD5 Kollidierer</title>
   <description lang="en">This template shows how to use the <i>MD5 collider</i>. component</description>
   <keywords>message, digest, Hash, Rivest, collision</keywords>

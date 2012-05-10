@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">RSA-KeyGenerator</title>
+  <title lang="en">RSA Key Generator</title>
   <description lang="en">This template shows how to use the <i>RSA-Keygenerator</i>.<newline /><newline />
 The RSA-KeyGenerator generates p * q = N and the public key e and the private key d.</description>
   <keywords>Adleman, Shamir, PKI, Rivest, public key, asymmetric</keywords>

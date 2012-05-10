@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Purple</title>
+  <title lang="en">Purple Cipher</title>
   <description lang="en">This template shows the use of the PURPLE cipher machine.</description>
   <keywords>japan, angooki, angoki, machine, War</keywords>
   <icon file="Purple.png" />
+  <title lang="de">Purple-Chiffre</title>
   <relevantPlugins>
     <plugin name="Purple" />
   </relevantPlugins>
