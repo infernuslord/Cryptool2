@@ -1869,8 +1869,10 @@ namespace HexBox
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             dyfipro.Dispose();
-            
 
+
+            try
+            {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 //openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 if (openFileDialog.ShowDialog().Value)
@@ -1881,28 +1883,28 @@ namespace HexBox
                 {
                     FileName.Text = Pfad;
                     try
-                        {
-                            dyfipro = new DynamicFileByteProvider(Pfad, false);
-                            makeUnAccesable(true);
-                            
-                        }
-                    catch(IOException ioe)
-                        {
-                            dyfipro = new DynamicFileByteProvider(Pfad, true);
-                            makeUnAccesable(false);
-                        }
+                    {
+                        dyfipro = new DynamicFileByteProvider(Pfad, false);
+                        makeUnAccesable(true);
+
+                    }
+                    catch (IOException ioe)
+                    {
+                        dyfipro = new DynamicFileByteProvider(Pfad, true);
+                        makeUnAccesable(false);
+                    }
 
                     dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
 
 
 
                     fileSlider.Minimum = 0;
-                    fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
+                    fileSlider.Maximum = (dyfipro.Length - 256) / 16 + 1;
                     fileSlider.ViewportSize = 16;
 
 
 
-                    tb3.Text = dyfipro.Length/256 + "";
+                    tb3.Text = dyfipro.Length / 256 + "";
 
 
                     fileSlider.ValueChanged += MyManipulationCompleteEvent;
@@ -1917,6 +1919,11 @@ namespace HexBox
 
                     OnFileChanged(this, EventArgs.Empty);
                 }
+            }
+            catch (Exception ex)
+            {
+                //TODO: GuiLogMessage here
+            }
             
             
         }

@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.ComponentModel;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using FileInput;
 
 namespace FileInput
@@ -49,16 +51,21 @@ namespace FileInput
 
         public void CloseFileToGetFileStreamForExecution()
         {
-            
+            try
+            {
+                hexBox.saveData(true, false);
 
-            hexBox.saveData(true, false);
-              
-            hexBox.closeFile(false);
-            hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, true);
+                hexBox.closeFile(false);
+                hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, true);
 
-            hexBox.IsEnabled = false;
-            //hexBox.openFile(exp.settings.OpenFilename);
-            
+                hexBox.IsEnabled = false;
+
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to reopen file: {0}", ex), NotificationLevel.Error);
+            }
+
         }
 
         public void ReopenClosedFile()
@@ -70,18 +77,31 @@ namespace FileInput
                 // tbFileClosedWhileRunning.Visibility = Visibility.Collapsed;
                 // windowsFormsHost.Visibility = Visibility.Visible;
                 hexBox.closeFile(false);
-                hexBox.openFile(
-                        (exp.Settings as FileInputSettings).OpenFilename, false);
+                hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, false);
                
             }
-            hexBox.IsEnabled = true;
+            hexBox.IsEnabled = true; try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to reopen file: {0}", ex), NotificationLevel.Error);
+            }
         }
 
 
         internal void OpenFile(String fileName)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate {
-                                                                                                hexBox.openFile(fileName,false);
+                try
+                {
+                    hexBox.openFile(fileName, false);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Error trying to open file: {0}", ex), NotificationLevel.Error);
+                }
             }, null);
         }
 
@@ -109,6 +129,13 @@ namespace FileInput
             {
                 hexBox.closeFile(true);
             }, null);
+        }
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, exp, new GuiLogEventArgs(message, exp, logLevel));
         }
     }
 }

@@ -47,6 +47,7 @@ namespace FileInput
             settings = new FileInputSettings();
             settings.PropertyChanged += settings_PropertyChanged;
             fileInputPresentation = new FileInputWPFPresentation(this);
+            fileInputPresentation.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
 
             Presentation = fileInputPresentation;
 
