@@ -26,15 +26,15 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
 using Cryptool.PluginBase.Control;
 
-namespace Cryptool.Plugins.Grain_v1
+namespace Cryptool.Plugins.HC128
 {
     [Author("Maxim Serebrianski", "ms_1990@gmx.de", "University of Mannheim", "http://www.uni-mannheim.de/1/startseite/index.html")]
-    [PluginInfo("Grain_v1.Properties.Resources", "PluginCaption", "PluginTooltip", "Grain v1/DetailedDescription/doc.xml", new[] { "Grain v1/Images/grain.jpg" })]
+    [PluginInfo("HC128.Properties.Resources", "PluginCaption", "PluginTooltip", "HC128/DetailedDescription/doc.xml", new[] { "HC128/Images/hc128.jpg" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
-    public class Grain : ICrypComponent
+    public class HC128 : ICrypComponent
     {
         #region Private Variables
-        private GrainSettings settings;
+        private HC128Settings settings;
         private string inputString;
         private string outputString;
         private string inputKey;
@@ -43,28 +43,26 @@ namespace Cryptool.Plugins.Grain_v1
         #endregion
 
         #region Public Variables
-        public uint[] lfsr;
-        public uint[] nfsr;
-        public const int STATE_SIZE = 5;
-        public byte[] workingKey;
-        public byte[] workingIV;
-        public byte[] outp;
+        public uint[] p = new uint[512];
+        public uint[] q = new uint[512];
+        public uint count = 0;
         public byte[] Out;
         public byte[] In;
         public string keyStream = "";
-        public uint output;
-        public uint index = 2;
+        public byte[] key, iv;
+        public byte[] buffer = new byte[4];
+        public int idx = 0;
         #endregion
 
-        public Grain()
+        public HC128()
         {
-            this.settings = new GrainSettings();
+            this.settings = new HC128Settings();
         }
 
         public ISettings Settings
         {
             get { return (ISettings)this.settings; }
-            set { this.settings = (GrainSettings)value; }
+            set { this.settings = (HC128Settings)value; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
@@ -170,16 +168,16 @@ namespace Cryptool.Plugins.Grain_v1
         /* Convert the IV string into a byte array */
         public byte[] IVstringToByteArray(string input)
         {
-            byte[] array = new byte[8];
+            byte[] array = new byte[16];
 
-            if (input.Length != 16)
+            if (input.Length != 32)
             {
                 stop = true;
-                GuiLogMessage("IV length must be 8 byte (64 bit)!", NotificationLevel.Error);
+                GuiLogMessage("IV length must be 16 byte (128 bit)!", NotificationLevel.Error);
             }
             else
             {
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16); 
+                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
             }
             return array;
         }
@@ -187,12 +185,12 @@ namespace Cryptool.Plugins.Grain_v1
         /* Convert the key string into a byte array */
         public byte[] KEYstringToByteArray(string input)
         {
-            byte[] array = new byte[10];
+            byte[] array = new byte[16];
 
-            if (input.Length != 20)
+            if (input.Length != 32)
             {
                 stop = true;
-                GuiLogMessage("Key length must be 10 byte (80 bit)!", NotificationLevel.Error);
+                GuiLogMessage("Key length must be 16 byte (128 bit)!", NotificationLevel.Error);
             }
             else
             {
@@ -206,137 +204,145 @@ namespace Cryptool.Plugins.Grain_v1
         {
             byte[] iv = IVstringToByteArray(inputIV);
             byte[] key = KEYstringToByteArray(inputKey);
-            workingIV = new byte[key.Length];
-            workingKey = new byte[key.Length];
-            lfsr = new uint[STATE_SIZE];
-            nfsr = new uint[STATE_SIZE];
-            outp = new byte[2];
+            count = 0;
 
-            Array.Copy(iv, 0, workingIV, 0, iv.Length);
-            Array.Copy(key, 0, workingKey, 0, key.Length);
+            uint[] w = new uint[1280];
 
-            setKey(workingKey, workingIV);
-            initGrain();
-        }
-
-        /* Clocking the cipher 160 times */
-        public void initGrain()
-        {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 16; i++)
             {
-                output = getOutput();
-                nfsr = shift(nfsr, getOutputNFSR() ^ lfsr[0] ^ output);
-                lfsr = shift(lfsr, getOutputLFSR() ^ output);
+                w[i >> 2] |= (uint)(key[i] & 0xff) << (8 * (i & 0x3));
             }
-        }
+            Array.Copy(w, 0, w, 4, 4);
 
-        /* Keysetup */
-        public void setKey(byte[] keyBytes, byte[] ivBytes)
-        {
-            ivBytes[8] = (byte)0xFF;
-            ivBytes[9] = (byte)0xFF;
-            workingKey = keyBytes;
-            workingIV = ivBytes;
-
-            int j = 0;
-            for (int i = 0; i < nfsr.Length; i++)
+            for (int i = 0; i < iv.Length && i < 16; i++)
             {
-                nfsr[i] = (uint)(workingKey[j + 1] << 8 | workingKey[j] & 0xFF) & 0x0000FFFF;
-                lfsr[i] = (uint)(workingIV[j + 1] << 8 | workingIV[j] & 0xFF) & 0x0000FFFF;
-                j += 2;
+                w[(i >> 2) + 8] |= (uint)(iv[i] & 0xff) << (8 * (i & 0x3));
             }
+            Array.Copy(w, 8, w, 12, 4);
+
+            for (int i = 16; i < 1280; i++)
+            {
+                w[i] = (uint)(f2(w[i - 2]) + w[i - 7] + f1(w[i - 15]) + w[i - 16] + i);
+            }
+
+            Array.Copy(w, 256, p, 0, 512);
+            Array.Copy(w, 768, q, 0, 512);
+
+            for (int i = 0; i < 512; i++)
+            {
+                p[i] = Round();
+            }
+            for (int i = 0; i < 512; i++)
+            {
+                q[i] = Round();
+            }
+
+            count = 0;
         }
 
-        /* Generate next NFSR bit */
-        public uint getOutputNFSR()
+        /* Computes x % 1024 */
+        public uint mod1024(uint x)
         {
-            uint b0 = nfsr[0];
-            uint b9 = nfsr[0] >> 9 | nfsr[1] << 7;
-            uint b14 = nfsr[0] >> 14 | nfsr[1] << 2;
-            uint b15 = nfsr[0] >> 15 | nfsr[1] << 1;
-            uint b21 = nfsr[1] >> 5 | nfsr[2] << 11;
-            uint b28 = nfsr[1] >> 12 | nfsr[2] << 4;
-            uint b33 = nfsr[2] >> 1 | nfsr[3] << 15;
-            uint b37 = nfsr[2] >> 5 | nfsr[3] << 11;
-            uint b45 = nfsr[2] >> 13 | nfsr[3] << 3;
-            uint b52 = nfsr[3] >> 4 | nfsr[4] << 12;
-            uint b60 = nfsr[3] >> 12 | nfsr[4] << 4;
-            uint b62 = nfsr[3] >> 14 | nfsr[4] << 2;
-            uint b63 = nfsr[3] >> 15 | nfsr[4] << 1;
-
-            return (b62 ^ b60 ^ b52 ^ b45 ^ b37 ^ b33 ^ b28 ^ b21 ^ b14 ^ b9 ^ b0 ^ b63 & b60 ^ b37 & b33 
-                ^ b15 & b9 ^ b60 & b52 & b45 ^ b33 & b28 & b21 ^ b63 & b45 & b28 & b9 ^ b60 & b52 & b37 & b33 
-                ^ b63 & b60 & b21 & b15 ^ b63 & b60 & b52 & b45 & b37 ^ b33 & b28 & b21 & b15 & b9 
-                ^ b52 & b45 & b37 & b33 & b28 & b21) & 0x0000FFFF;
+            return x & 0x3FF;
         }
 
-        /* Generate next LFSR bit */
-        public uint getOutputLFSR()
+        /* Computes x % 512 */
+        public uint mod512(uint x)
         {
-            uint s0 = lfsr[0];
-            uint s13 = lfsr[0] >> 13 | lfsr[1] << 3;
-            uint s23 = lfsr[1] >> 7 | lfsr[2] << 9;
-            uint s38 = lfsr[2] >> 6 | lfsr[3] << 10;
-            uint s51 = lfsr[3] >> 3 | lfsr[4] << 13;
-            uint s62 = lfsr[3] >> 14 | lfsr[4] << 2;
-
-            return (s0 ^ s13 ^ s23 ^ s38 ^ s51 ^ s62) & 0x0000FFFF;
+            return x & 0x1FF;
         }
 
-        /* Generate update function output */
-        public uint getOutput()
+        /* (x - y) % 512 */
+        public uint minus(uint x, uint y)
         {
-            uint b1 = nfsr[0] >> 1 | nfsr[1] << 15;
-            uint b2 = nfsr[0] >> 2 | nfsr[1] << 14;
-            uint b4 = nfsr[0] >> 4 | nfsr[1] << 12;
-            uint b10 = nfsr[0] >> 10 | nfsr[1] << 6;
-            uint b31 = nfsr[1] >> 15 | nfsr[2] << 1;
-            uint b43 = nfsr[2] >> 11 | nfsr[3] << 5;
-            uint b56 = nfsr[3] >> 8 | nfsr[4] << 8;
-            uint b63 = nfsr[3] >> 15 | nfsr[4] << 1;
-            uint s3 = lfsr[0] >> 3 | lfsr[1] << 13;
-            uint s25 = lfsr[1] >> 9 | lfsr[2] << 7;
-            uint s46 = lfsr[2] >> 14 | lfsr[3] << 2;
-            uint s64 = lfsr[4];
-
-            return (s25 ^ b63 ^ s3 & s64 ^ s46 & s64 ^ s64 & b63 ^ s3 & s25 & s46 ^ s3 & s46 & s64 ^ s3 & s46 & b63 
-                ^ s25 & s46 & b63 ^ s46 & s64 & b63 ^ b1 ^ b2 ^ b4 ^ b10 ^ b31 ^ b43 ^ b56) & 0x0000FFFF;
+            return mod512(x - y);
         }
 
-        /* Shifting the registers */
-        public uint[] shift(uint[] array, uint val)
+        /* Left rotation function */
+        public uint leftRotation(uint x, int bits)
         {
-            array[0] = array[1];
-            array[1] = array[2];
-            array[2] = array[3];
-            array[3] = array[4];
-            array[4] = val;
+            return (x << bits) | (x >> -bits);
+        }
 
-            return array;
+        /* Right rotation function */
+        public uint rightRotation(uint x, int bits)
+        {
+            return (x >> bits) | (x << -bits);
+        }
+
+        /* f1 function */
+        public uint f1(uint x)
+        {
+            return rightRotation(x, 7) ^ rightRotation(x, 18) ^ (x >> 3);
+        }
+
+        /* f2 function */
+        public uint f2(uint x)
+        {
+            return rightRotation(x, 17) ^ rightRotation(x, 19) ^ (x >> 10);
+        }
+
+        /* g1 function */
+        public uint g1(uint x, uint y, uint z)
+        {
+            return (rightRotation(x, 10) ^ rightRotation(z, 23)) + rightRotation(y, 8);
+        }
+
+        /* g2 function */
+        public uint g2(uint x, uint y, uint z)
+        {
+            return (leftRotation(x, 10) ^ leftRotation(z, 23)) + leftRotation(y, 8);
+        }
+
+        /* h1 function */
+        public uint h1(uint x)
+        {
+            return q[x & 0xFF] + q[((x >> 16) & 0xFF) + 256];
+        }
+
+        /* h2 function */
+        public uint h2(uint x)
+        {
+            return p[x & 0xFF] + p[((x >> 16) & 0xFF) + 256];
         }
 
         /* One cipher round */
-        public void Round()
+        public uint Round()
         {
-            output = getOutput();
-            outp[0] = (byte)output;
-            outp[1] = (byte)(output >> 8);
-
-            nfsr = shift(nfsr, getOutputNFSR() ^ lfsr[0]);
-            lfsr = shift(lfsr, getOutputLFSR());
+            uint j = mod512(count);
+            uint result;
+            if (count < 512)
+            {
+                p[j] += g1(p[minus(j, 3)], p[minus(j, 10)], p[minus(j, 511)]);
+                result = h1(p[minus(j, 12)]) ^ p[j];
+            }
+            else
+            {
+                q[j] += g2(q[minus(j, 3)], q[minus(j, 10)], q[minus(j, 511)]);
+                result = h2(q[minus(j, 12)]) ^ q[j];
+            }
+            count = mod1024(count + 1);
+            return result;
         }
 
         /* Generate key stream */
         public byte generateKeyStream()
         {
-            if (index > 1)
+            if (idx == 0)
             {
-                Round();
-                index = 0;
+                uint step = Round();
+                buffer[0] = (byte)(step & 0xFF);
+                step >>= 8;
+                buffer[1] = (byte)(step & 0xFF);
+                step >>= 8;
+                buffer[2] = (byte)(step & 0xFF);
+                step >>= 8;
+                buffer[3] = (byte)(step & 0xFF);
             }
-            byte b = outp[index++];
-            keyStream += String.Format("{0:X2}", b);
-            return b;
+            byte result = buffer[idx];
+            idx = idx + 1 & 0x3;
+            keyStream += String.Format("{0:X2}", result);
+            return result;
         }
 
         /* Generate ciphertext */
