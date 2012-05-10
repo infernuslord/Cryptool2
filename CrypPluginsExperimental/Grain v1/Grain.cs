@@ -112,15 +112,7 @@ namespace Cryptool.Plugins.Grain_v1
             }
         }
 
-        public void Dispose()
-        {
-            stop = false;
-            inputKey = null;
-            outputString = null;
-            inputString = null;
-            keyStream = null;
-        }
-
+        /* Main method for launching the cipher */
         public void Execute()
         {
             StringBuilder builder = new StringBuilder();
@@ -130,8 +122,12 @@ namespace Cryptool.Plugins.Grain_v1
             {
                 DateTime startTime = DateTime.Now;
                 GuiLogMessage("Starting encryption...", NotificationLevel.Info);
+
+                /* Initialize the algorithm */
                 init();
-                processBytes(In, 0, In.Length, Out, 0);
+
+                /* Generate ciphertext bytes */
+                generateOutBytes(In, 0, In.Length, Out, 0);
                 foreach (byte b in Out) builder.Append(String.Format("{0:X2}", b));
                 TimeSpan duration = DateTime.Now - startTime;
                 OutputString = builder.ToString();
@@ -152,6 +148,18 @@ namespace Cryptool.Plugins.Grain_v1
             }
         }
 
+        /* Reset method */
+        public void Dispose()
+        {
+            stop = false;
+            inputKey = null;
+            outputString = null;
+            inputString = null;
+            keyStream = null;
+        }
+
+        /* Convert the input string into a byte array
+         * If the string length is not a multiple of 2 a '0' is added at the end */
         public byte[] stringToByteArray(string input)
         {
             if (input.Length % 2 == 1) input += '0';
@@ -160,6 +168,7 @@ namespace Cryptool.Plugins.Grain_v1
             return array;
         }
 
+        /* Convert the IV string into a byte array */
         public byte[] IVstringToByteArray(string input)
         {
             byte[] array = new byte[8];
@@ -176,6 +185,7 @@ namespace Cryptool.Plugins.Grain_v1
             return array;
         }
 
+        /* Convert the key string into a byte array */
         public byte[] KEYstringToByteArray(string input)
         {
             byte[] array = new byte[10];
@@ -192,6 +202,7 @@ namespace Cryptool.Plugins.Grain_v1
             return array;
         }
 
+        /* Main initialization method */
         public void init()
         {
             byte[] iv = IVstringToByteArray(inputIV);
@@ -209,6 +220,7 @@ namespace Cryptool.Plugins.Grain_v1
             initGrain();
         }
 
+        /* Clocking the cipher 160 times */
         public void initGrain()
         {
             for (int i = 0; i < 10; i++)
@@ -219,6 +231,24 @@ namespace Cryptool.Plugins.Grain_v1
             }
         }
 
+        /* Keysetup */
+        public void setKey(byte[] keyBytes, byte[] ivBytes)
+        {
+            ivBytes[8] = (byte)0xFF;
+            ivBytes[9] = (byte)0xFF;
+            workingKey = keyBytes;
+            workingIV = ivBytes;
+
+            int j = 0;
+            for (int i = 0; i < nfsr.Length; i++)
+            {
+                nfsr[i] = (uint)(workingKey[j + 1] << 8 | workingKey[j] & 0xFF) & 0x0000FFFF;
+                lfsr[i] = (uint)(workingIV[j + 1] << 8 | workingIV[j] & 0xFF) & 0x0000FFFF;
+                j += 2;
+            }
+        }
+
+        /* Generate next NFSR bit */
         public uint getOutputNFSR()
         {
             uint b0 = nfsr[0];
@@ -241,6 +271,7 @@ namespace Cryptool.Plugins.Grain_v1
                 ^ b52 & b45 & b37 & b33 & b28 & b21) & 0x0000FFFF;
         }
 
+        /* Generate next LFSR bit */
         public uint getOutputLFSR()
         {
             uint s0 = lfsr[0];
@@ -253,6 +284,7 @@ namespace Cryptool.Plugins.Grain_v1
             return (s0 ^ s13 ^ s23 ^ s38 ^ s51 ^ s62) & 0x0000FFFF;
         }
 
+        /* Generate update function output */
         public uint getOutput()
         {
             uint b1 = nfsr[0] >> 1 | nfsr[1] << 15;
@@ -272,6 +304,7 @@ namespace Cryptool.Plugins.Grain_v1
                 ^ s25 & s46 & b63 ^ s46 & s64 & b63 ^ b1 ^ b2 ^ b4 ^ b10 ^ b31 ^ b43 ^ b56) & 0x0000FFFF;
         }
 
+        /* Shifting the registers */
         public uint[] shift(uint[] array, uint val)
         {
             array[0] = array[1];
@@ -283,41 +316,8 @@ namespace Cryptool.Plugins.Grain_v1
             return array;
         }
 
-        public void setKey(byte[] keyBytes, byte[] ivBytes)
-        {
-            ivBytes[8] = (byte)0xFF;
-            ivBytes[9] = (byte)0xFF;
-            workingKey = keyBytes;
-            workingIV = ivBytes;
-
-            int j = 0;
-            for (int i = 0; i < nfsr.Length; i++)
-            {
-                nfsr[i] = (uint)(workingKey[j + 1] << 8 | workingKey[j] & 0xFF) & 0x0000FFFF;
-                lfsr[i] = (uint)(workingIV[j + 1] << 8 | workingIV[j] & 0xFF) & 0x0000FFFF;
-                j += 2;
-            }
-        }
-
-        public void processBytes(byte[] input, int inOff, int len, byte[] output, int outOff)
-        {
-            if ((inOff + len) > input.Length)
-            {
-                GuiLogMessage("Input buffer too short!", NotificationLevel.Error);
-            }
-
-            if ((outOff + len) > output.Length)
-            {
-                GuiLogMessage("Output buffer too short!", NotificationLevel.Error);
-            }
-
-            for (int i = 0; i < len; i++)
-            {
-                output[outOff + i] = (byte)(input[inOff + i] ^ getKeyStream());
-            }
-        }
-
-        public void oneRound()
+        /* One cipher round */
+        public void Round()
         {
             output = getOutput();
             outp[0] = (byte)output;
@@ -327,16 +327,36 @@ namespace Cryptool.Plugins.Grain_v1
             lfsr = shift(lfsr, getOutputLFSR());
         }
 
-        public byte getKeyStream()
+        /* Generate key stream */
+        public byte generateKeyStream()
         {
             if (index > 1)
             {
-                oneRound();
+                Round();
                 index = 0;
             }
             byte b = outp[index++];
             keyStream += String.Format("{0:X2}", b);
             return b;
+        }
+
+        /* Generate ciphertext */
+        public void generateOutBytes(byte[] input, int inOffset, int length, byte[] output, int outOffset)
+        {
+            if ((inOffset + length) > input.Length)
+            {
+                GuiLogMessage("Input buffer too short!", NotificationLevel.Error);
+            }
+
+            if ((outOffset + length) > output.Length)
+            {
+                GuiLogMessage("Output buffer too short!", NotificationLevel.Error);
+            }
+
+            for (int i = 0; i < length; i++)
+            {
+                output[outOffset + i] = (byte)(input[inOffset + i] ^ generateKeyStream());
+            }
         }
 
         public void Initialize()
