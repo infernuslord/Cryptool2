@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Grain v1 Cipher</title>
+  <description lang="en">This template shows how to use the <i>Grain v1 Cipher</i>.</description>
+  <keywords>grain, symmetric</keywords>
+  <title lang="de">Grain v1-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Grain v1-Chiffre</i>.</description>
+  <keywords lang="de">grain, symmetrisch</keywords>
+  <icon file="grain.png" />
+  <relevantPlugins>
+    <plugin name="Grain" />
+  </relevantPlugins>
+</sample>
