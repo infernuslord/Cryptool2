@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
+  <title lang="en">Big Number RSA</title>
   <description lang="en">-</description>
   <keywords>precision, arbitrary, bignumber</keywords>
-  <title lang="de"></title>
+  <title lang="de">Großzahliges RSA</title>
   <description lang="de">-</description>
   <keywords lang="de">beliebige, Präzision, Stellen</keywords>
   <icon file="math.png" />

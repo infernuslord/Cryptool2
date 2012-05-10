@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">DES Analyzing known plaintext</title>
+  <title lang="en">DES Analyzing Known Plaintext</title>
   <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>DES</i> and the <i>Costfunction</i> RegEx.</description>
   <keywords>Data Encryption Standard, symmetric, 56, NSA, standard</keywords>
   <title lang="de">DES Analyse "known plaintext"</title>
