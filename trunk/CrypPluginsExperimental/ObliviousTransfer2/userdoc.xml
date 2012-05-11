@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+
+
+  <introduction lang="en">
+    There are two people Bob and Alice. Alice has n messages and Bob wanted message b. Alice doesn´t want to send him all of her messages and Bob don´t want to tell her b. And the problem how to get exactly one message without revealing which one solves protocol Oblivious transfer 1-n
+  </introduction>
+
+
+
+  <usage lang="en">
+    This plugin represents Alice. You need to specify six outputs. First input are messages. Messages will be sent by sequel. Second input is number represents ammount of messages. Plugin must know, how many messages will be sent to him. Third input are random messages x, fourth input is v, encrypted k, sent from Bob. Rest inputs are private keys from RSA. This plugin partialy decrypt k and encrypt messages, which can be decrypted only by right k. Those messages are sent to Bob by output.
+  </usage>
+
+
+  <presentation lang="en">
+  </presentation>
+
+
+
+  <references>
+    <linkReference>
+      <link url="http://bezadis.ics.upjs.sk/old/CryptoSymposium/files/paper9.pdf" lang="en" />
+      <caption lang="en">Oblivious transfer 1-n</caption>
+    </linkReference>
+  </references>
+</documentation>
