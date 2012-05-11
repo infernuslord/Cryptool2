@@ -243,4 +243,7 @@
   <data name="GeneralOptionsGroup" xml:space="preserve">
     <value>Global Options</value>
   </data>
+  <data name="PermOptionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>
