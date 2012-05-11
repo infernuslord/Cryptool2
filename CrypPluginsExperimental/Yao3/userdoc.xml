@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+
+
+  <introduction lang="en">
+   There are two millionaires, Alice and Bob. They want to know who is richer, but they don´t want to tell to other millionaire how much money they have. 
+   This problem solves Yao´s millionaire protocol.
+  </introduction>
+
+
+
+  <usage lang="en">
+    
+	This plugin represents Bob.
+     For this plugin you need to specify list of numbers Z, random numbers p and x and ammmount of money of Bob. This plugin determines who from millionairs is richer
+	
+  </usage>
+
+  
+  <presentation lang="en">
+  </presentation>
+  
+
+  
+  <references>
+    <linkReference>
+      <link url="http://www.proproco.co.uk/million.pdf" lang="en" />
+      <caption lang="en">Yao´s millionaire problem</caption>
+
+    </linkReference>
+  </references>
+</documentation>

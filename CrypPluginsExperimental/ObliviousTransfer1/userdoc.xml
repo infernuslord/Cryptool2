@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+
+
+  <introduction lang="en">
+    There are two people Bob and Alice. Alice has n messages and Bob wanted message b. Alice doesn´t want to send him all of her messages and Bob don´t want to tell her b. And the problem how to get exactly one message without revealing which one solves protocol Oblivious transfer 1-n
+  </introduction>
+
+
+
+  <usage lang="en">
+    This plugin represents Bob. 
+	Bob have random messages x from Alice, he will choose random message x with index b(b is index of wanted message) and then he will add to that message random number k. Result will be encrypted by RSA cryptosystem and sended to Alice. You need to specify messages x, b and RSA public keys. 
+  </usage>
+
+  
+  <presentation lang="en">
+  </presentation>
+  
+
+  
+  <references>
+    <linkReference>
+      <link url="http://bezadis.ics.upjs.sk/old/CryptoSymposium/files/paper9.pdf" lang="en" />
+      <caption lang="en">Oblivious transfer 1 out of n </caption>
+    </linkReference>
+  </references>
+</documentation>

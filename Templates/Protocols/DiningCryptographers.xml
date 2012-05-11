@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Dining Cryptographers</title>
+  <title lang="de">Dining Cryptographers </title>
+  <description lang="en">Dining Cryptographers</description>
+  <keywords>dining cryptographers</keywords>
+  <description lang="de">Dining Cryptographers</description>
+  <icon file="DiningCryptographers.png" />
+</sample>

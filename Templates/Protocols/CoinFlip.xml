@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Coin flipping protocol</title>
+  <title lang="de">Coin flipping protocol</title>
+  <description lang="en">-</description>
+  <keywords>coin flipping </keywords>
+  <description lang="de">-</description>
+  <icon file="CoinFlip.png" />
+</sample>

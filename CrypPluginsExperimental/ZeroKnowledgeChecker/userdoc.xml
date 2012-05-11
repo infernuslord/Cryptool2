@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+
+
+  <introduction lang="en">
+    There are two people, Alice and Bob. Alice knows secret magic password, which opens a door in magic cave. Bob doesn´t believe Alice that she knows this secret.
+    Alice don´t want to tell her secret to Bob, she just want to proof him, that she knows it. So they make a deal, Alice will go to the cave, with one of n entrances. Entrances are connected, but there is a magic door between them. Bob doesn´t know the entrance, which Alice entered the cave. Bob just shout the name of entrace and Alice must go out by named entrance. If she know magic password, she can go through the door a leave the cave with named entrace. If she doesn´t know magic password, she must be lucky, she can bluff that she know the secret only if Bob name her entrance. They repeat this until Bob is convinced that Alice knows the secret. 
+    And this problem solves Zero-Knowledge protocol. This plugin represent Bob. Bob want for Alice to prove him, that she knows the secret. So she send her number, if Alice knows the secret, she can send him that number easily back. But if she doesn´t know the secret, she must be lucky a guess that number from ammount of options. Bob will make certain ammount of attempts. If Alice send him wrong number, it means that she doesn´t know the secret. If Alice send him right number for every time, she convince Bob that she knows the secret. 
+  </introduction>
+
+
+
+  <usage lang="en">
+    
+    After dragging the Zero Knowledge Checker component onto the workspace, you need to specify one input. Input must be output from plugin Zero Knowledge Checked. In settings you must set up ammount of options and ammmount of attempts. Ammount of attempts represent ammount of attempts, that Bob will do, to proof that Alice know secret. Ammount of options is ammount options, that Alice have to choose from. With higher ammount of attempts and ammount of options Alice have smaller chance to succeded t secret that she doesn´t know. Two first outputs need to be plugged in plugin Zero Knowledge Checked. After completing all attempts, third output 'Success' represent if Alice pass tests.
+	
+  </usage>
+
+  
+  <presentation lang="en">
+  </presentation>
+  
+
+  
+  <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Zero-knowledge_proof" lang="en" />
+      <caption lang="en">Zero-Knowledge</caption>
+    </linkReference>
+  </references>
+</documentation>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+
+  <introduction lang="en">
+  This is plugin, that generates list of random messages. Messages are here represented as list.
+  </introduction>
+
+
+
+  <usage lang="en">
+  </usage>
+	For this plugin you need to specify one input. In the input belongs ammount of messages you wish to generate. You can set up upper limit of generated message. Output of this plugin is list of random BigIngetegers. 
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <references>
+  </references>
+</documentation>
