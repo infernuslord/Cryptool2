@@ -13,23 +13,23 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
 using System;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Security.Cryptography;
 
-namespace Cryptool.Plugins.Grain_v1
+namespace Cryptool.Plugins.Salsa20
 {
     [Author("Maxim Serebrianski", "ms_1990@gmx.de", "University of Mannheim", "http://www.uni-mannheim.de/1/startseite/index.html")]
-    [PluginInfo("Grain_v1.Properties.Resources", "PluginCaption", "PluginTooltip", "Grain v1/DetailedDescription/doc.xml", new[] { "Grain v1/Images/grain.jpg" })]
+    [PluginInfo("Salsa20.Properties.Resources", "PluginCaption", "PluginTooltip", "Salsa20/DetailedDescription/doc.xml", new[] { "Salsa20/Images/salsa20.jpg" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
-    public class Grain : ICrypComponent
+    public class Salsa20 : ICrypComponent
     {
         #region Private Variables
-        private GrainSettings settings;
+        private Salsa20Settings settings;
         private string inputString;
         private string outputString;
         private string inputKey;
@@ -38,28 +38,28 @@ namespace Cryptool.Plugins.Grain_v1
         #endregion
 
         #region Public Variables
-        public uint[] lfsr;
-        public uint[] nfsr;
-        public const int STATE_SIZE = 5;
-        public byte[] workingKey;
+        public static int stateSize = 16; // 16, 32 bit ints = 64 bytes
+        public byte[] sigma, tau;
+        public int index = 0;
+        public uint[] engineState = new uint[stateSize]; // state
+        public uint[] x = new uint[stateSize]; // internal buffer
+        public byte[] keyStream = new byte[stateSize * 4];
+        public byte[] workingKey; 
         public byte[] workingIV;
-        public byte[] outp;
-        public byte[] Out;
-        public byte[] In;
-        public string keyStream = "";
-        public uint output;
-        public uint index = 2;
+        public int cW0, cW1, cW2;
+        public byte[] In, Out;
+        public string KeyStream = "";
         #endregion
 
-        public Grain()
+        public Salsa20()
         {
-            this.settings = new GrainSettings();
+            this.settings = new Salsa20Settings();
         }
 
         public ISettings Settings
         {
             get { return (ISettings)this.settings; }
-            set { this.settings = (GrainSettings)value; }
+            set { this.settings = (Salsa20Settings)value; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
@@ -112,6 +112,8 @@ namespace Cryptool.Plugins.Grain_v1
             StringBuilder builder = new StringBuilder();
             In = stringToByteArray(inputString);
             Out = new byte[In.Length];
+            sigma = Encoding.ASCII.GetBytes("expand 32-byte k");
+            tau = Encoding.ASCII.GetBytes("expand 16-byte k");
             try
             {
                 DateTime startTime = DateTime.Now;
@@ -129,7 +131,7 @@ namespace Cryptool.Plugins.Grain_v1
                 else
                 {
                     GuiLogMessage("Encryption complete in " + duration + "!", NotificationLevel.Info);
-                    GuiLogMessage("Key Stream: " + keyStream, NotificationLevel.Info);
+                    GuiLogMessage("Key Stream: " + KeyStream, NotificationLevel.Info);
                 }
             }
             catch (Exception exception)
@@ -149,7 +151,7 @@ namespace Cryptool.Plugins.Grain_v1
             inputKey = null;
             outputString = null;
             inputString = null;
-            keyStream = null;
+            KeyStream = null;
         }
 
         /* Convert the input string into a byte array
@@ -174,7 +176,7 @@ namespace Cryptool.Plugins.Grain_v1
             }
             else
             {
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16); 
+                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
             }
             return array;
         }
@@ -182,16 +184,16 @@ namespace Cryptool.Plugins.Grain_v1
         /* Convert the key string into a byte array */
         public byte[] KEYstringToByteArray(string input)
         {
-            byte[] array = new byte[10];
+            byte[] array = new byte[input.Length / 2];
 
-            if (input.Length != 20)
+            if (input.Length == 32 || input.Length == 64)
             {
-                stop = true;
-                GuiLogMessage("Key length must be 10 byte (80 bit)!", NotificationLevel.Error);
+                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
             }
             else
             {
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+                stop = true;
+                GuiLogMessage("Key length must be 16 byte (128 bit) or 32 byte (256 bit)!", NotificationLevel.Error);
             }
             return array;
         }
@@ -201,137 +203,157 @@ namespace Cryptool.Plugins.Grain_v1
         {
             byte[] iv = IVstringToByteArray(inputIV);
             byte[] key = KEYstringToByteArray(inputKey);
-            workingIV = new byte[key.Length];
-            workingKey = new byte[key.Length];
-            lfsr = new uint[STATE_SIZE];
-            nfsr = new uint[STATE_SIZE];
-            outp = new byte[2];
-
-            Array.Copy(iv, 0, workingIV, 0, iv.Length);
-            Array.Copy(key, 0, workingKey, 0, key.Length);
-
-            setKey(workingKey, workingIV);
-            initGrain();
+            setKey(key, iv);
         }
 
         /* Keysetup */
         public void setKey(byte[] keyBytes, byte[] ivBytes)
         {
-            ivBytes[8] = (byte)0xFF;
-            ivBytes[9] = (byte)0xFF;
             workingKey = keyBytes;
             workingIV = ivBytes;
 
-            int j = 0;
-            for (int i = 0; i < nfsr.Length; i++)
+            index = 0;
+            resetCounter();
+            int offset = 0;
+            byte[] constants;
+
+            // Key
+            engineState[1] = byteToIntLE(workingKey, 0);
+            engineState[2] = byteToIntLE(workingKey, 4);
+            engineState[3] = byteToIntLE(workingKey, 8);
+            engineState[4] = byteToIntLE(workingKey, 12);
+
+            if (workingKey.Length == 32)
             {
-                nfsr[i] = (uint)(workingKey[j + 1] << 8 | workingKey[j] & 0xFF) & 0x0000FFFF;
-                lfsr[i] = (uint)(workingIV[j + 1] << 8 | workingIV[j] & 0xFF) & 0x0000FFFF;
-                j += 2;
+                constants = sigma;
+                offset = 16;
             }
-        }
-
-        /* Clocking the cipher 160 times */
-        public void initGrain()
-        {
-            for (int i = 0; i < 10; i++)
+            else
             {
-                output = getOutput();
-                nfsr = shift(nfsr, getOutputNFSR() ^ lfsr[0] ^ output);
-                lfsr = shift(lfsr, getOutputLFSR() ^ output);
+                constants = tau;
             }
+
+            engineState[11] = byteToIntLE(workingKey, offset);
+            engineState[12] = byteToIntLE(workingKey, offset + 4);
+            engineState[13] = byteToIntLE(workingKey, offset + 8);
+            engineState[14] = byteToIntLE(workingKey, offset + 12);
+            engineState[0] = byteToIntLE(constants, 0);
+            engineState[5] = byteToIntLE(constants, 4);
+            engineState[10] = byteToIntLE(constants, 8);
+            engineState[15] = byteToIntLE(constants, 12);
+
+            // IV
+            engineState[6] = byteToIntLE(workingIV, 0);
+            engineState[7] = byteToIntLE(workingIV, 4);
+            engineState[8] = engineState[9] = 0;
         }
 
-        /* Generate next NFSR bit */
-        public uint getOutputNFSR()
+        /* Left rotation */
+        public uint rotateLeft(uint x, int y)
         {
-            uint b0 = nfsr[0];
-            uint b9 = nfsr[0] >> 9 | nfsr[1] << 7;
-            uint b14 = nfsr[0] >> 14 | nfsr[1] << 2;
-            uint b15 = nfsr[0] >> 15 | nfsr[1] << 1;
-            uint b21 = nfsr[1] >> 5 | nfsr[2] << 11;
-            uint b28 = nfsr[1] >> 12 | nfsr[2] << 4;
-            uint b33 = nfsr[2] >> 1 | nfsr[3] << 15;
-            uint b37 = nfsr[2] >> 5 | nfsr[3] << 11;
-            uint b45 = nfsr[2] >> 13 | nfsr[3] << 3;
-            uint b52 = nfsr[3] >> 4 | nfsr[4] << 12;
-            uint b60 = nfsr[3] >> 12 | nfsr[4] << 4;
-            uint b62 = nfsr[3] >> 14 | nfsr[4] << 2;
-            uint b63 = nfsr[3] >> 15 | nfsr[4] << 1;
-
-            return (b62 ^ b60 ^ b52 ^ b45 ^ b37 ^ b33 ^ b28 ^ b21 ^ b14 ^ b9 ^ b0 ^ b63 & b60 ^ b37 & b33 
-                ^ b15 & b9 ^ b60 & b52 & b45 ^ b33 & b28 & b21 ^ b63 & b45 & b28 & b9 ^ b60 & b52 & b37 & b33 
-                ^ b63 & b60 & b21 & b15 ^ b63 & b60 & b52 & b45 & b37 ^ b33 & b28 & b21 & b15 & b9 
-                ^ b52 & b45 & b37 & b33 & b28 & b21) & 0x0000FFFF;
+            return (x << y) | (x >> -y);
         }
 
-        /* Generate next LFSR bit */
-        public uint getOutputLFSR()
+        /* Convert Integer to little endian byte array */
+        public byte[] intToByteLE(uint x, byte[] output, int off)
         {
-            uint s0 = lfsr[0];
-            uint s13 = lfsr[0] >> 13 | lfsr[1] << 3;
-            uint s23 = lfsr[1] >> 7 | lfsr[2] << 9;
-            uint s38 = lfsr[2] >> 6 | lfsr[3] << 10;
-            uint s51 = lfsr[3] >> 3 | lfsr[4] << 13;
-            uint s62 = lfsr[3] >> 14 | lfsr[4] << 2;
-
-            return (s0 ^ s13 ^ s23 ^ s38 ^ s51 ^ s62) & 0x0000FFFF;
+            output[off] = (byte)x;
+            output[off + 1] = (byte)(x >> 8);
+            output[off + 2] = (byte)(x >> 16);
+            output[off + 3] = (byte)(x >> 24);
+            return output;
         }
 
-        /* Generate update function output */
-        public uint getOutput()
+        /* Convert little endian byte array to Integer */
+        public uint byteToIntLE(byte[] x, int offset)
         {
-            uint b1 = nfsr[0] >> 1 | nfsr[1] << 15;
-            uint b2 = nfsr[0] >> 2 | nfsr[1] << 14;
-            uint b4 = nfsr[0] >> 4 | nfsr[1] << 12;
-            uint b10 = nfsr[0] >> 10 | nfsr[1] << 6;
-            uint b31 = nfsr[1] >> 15 | nfsr[2] << 1;
-            uint b43 = nfsr[2] >> 11 | nfsr[3] << 5;
-            uint b56 = nfsr[3] >> 8 | nfsr[4] << 8;
-            uint b63 = nfsr[3] >> 15 | nfsr[4] << 1;
-            uint s3 = lfsr[0] >> 3 | lfsr[1] << 13;
-            uint s25 = lfsr[1] >> 9 | lfsr[2] << 7;
-            uint s46 = lfsr[2] >> 14 | lfsr[3] << 2;
-            uint s64 = lfsr[4];
-
-            return (s25 ^ b63 ^ s3 & s64 ^ s46 & s64 ^ s64 & b63 ^ s3 & s25 & s46 ^ s3 & s46 & s64 ^ s3 & s46 & b63 
-                ^ s25 & s46 & b63 ^ s46 & s64 & b63 ^ b1 ^ b2 ^ b4 ^ b10 ^ b31 ^ b43 ^ b56) & 0x0000FFFF;
+            return (uint)(((x[offset] & 255)) | ((x[offset + 1] & 255) << 8) | ((x[offset + 2] & 255) << 16) | (x[offset + 3] << 24));
         }
 
-        /* Shifting the registers */
-        public uint[] shift(uint[] array, uint val)
+        /* Reset the counter */
+        public void resetCounter()
         {
-            array[0] = array[1];
-            array[1] = array[2];
-            array[2] = array[3];
-            array[3] = array[4];
-            array[4] = val;
-
-            return array;
+            cW0 = 0;
+            cW1 = 0;
+            cW2 = 0;
         }
 
-        /* One cipher round */
-        public void Round()
+        /* Check the limit of 2^70 bytes */
+        public bool limitExceeded(int length)
         {
-            output = getOutput();
-            outp[0] = (byte)output;
-            outp[1] = (byte)(output >> 8);
+            if (cW0 >= 0)
+            {
+                cW0 += length;
+            }
+            else
+            {
+                cW0 += length;
+                if (cW0 >= 0)
+                {
+                    cW1++;
+                    if (cW1 == 0)
+                    {
+                        cW2++;
+                        return (cW2 & 0x20) != 0;   // 2^(32 + 32 + 6)
+                    }
+                }
 
-            nfsr = shift(nfsr, getOutputNFSR() ^ lfsr[0]);
-            lfsr = shift(lfsr, getOutputLFSR());
+            }
+            return false;
         }
 
         /* Generate key stream */
-        public byte generateKeyStream()
+        public void generateKeyStream(uint[] input, byte[] output)
         {
-            if (index > 1)
+            int offset = 0;
+
+            Array.Copy(input, 0, x, 0, input.Length);
+
+            for (int i = 0; i < 10; i++)
             {
-                Round();
-                index = 0;
+                x[4] ^= rotateLeft((x[0] + x[12]), 7);
+                x[8] ^= rotateLeft((x[4] + x[0]), 9);
+                x[12] ^= rotateLeft((x[8] + x[4]), 13);
+                x[0] ^= rotateLeft((x[12] + x[8]), 18);
+                x[9] ^= rotateLeft((x[5] + x[1]), 7);
+                x[13] ^= rotateLeft((x[9] + x[5]), 9);
+                x[1] ^= rotateLeft((x[13] + x[9]), 13);
+                x[5] ^= rotateLeft((x[1] + x[13]), 18);
+                x[14] ^= rotateLeft((x[10] + x[6]), 7);
+                x[2] ^= rotateLeft((x[14] + x[10]), 9);
+                x[6] ^= rotateLeft((x[2] + x[14]), 13);
+                x[10] ^= rotateLeft((x[6] + x[2]), 18);
+                x[3] ^= rotateLeft((x[15] + x[11]), 7);
+                x[7] ^= rotateLeft((x[3] + x[15]), 9);
+                x[11] ^= rotateLeft((x[7] + x[3]), 13);
+                x[15] ^= rotateLeft((x[11] + x[7]), 18);
+                x[1] ^= rotateLeft((x[0] + x[3]), 7);
+                x[2] ^= rotateLeft((x[1] + x[0]), 9);
+                x[3] ^= rotateLeft((x[2] + x[1]), 13);
+                x[0] ^= rotateLeft((x[3] + x[2]), 18);
+                x[6] ^= rotateLeft((x[5] + x[4]), 7);
+                x[7] ^= rotateLeft((x[6] + x[5]), 9);
+                x[4] ^= rotateLeft((x[7] + x[6]), 13);
+                x[5] ^= rotateLeft((x[4] + x[7]), 18);
+                x[11] ^= rotateLeft((x[10] + x[9]), 7);
+                x[8] ^= rotateLeft((x[11] + x[10]), 9);
+                x[9] ^= rotateLeft((x[8] + x[11]), 13);
+                x[10] ^= rotateLeft((x[9] + x[8]), 18);
+                x[12] ^= rotateLeft((x[15] + x[14]), 7);
+                x[13] ^= rotateLeft((x[12] + x[15]), 9);
+                x[14] ^= rotateLeft((x[13] + x[12]), 13);
+                x[15] ^= rotateLeft((x[14] + x[13]), 18);
             }
-            byte b = outp[index++];
-            keyStream += String.Format("{0:X2}", b);
-            return b;
+            for (int i = 0; i < stateSize; i++)
+            {
+                intToByteLE(x[i] + input[i], output, offset);
+                offset += 4;
+            }
+            for (int i = stateSize; i < x.Length; i++)
+            {
+                intToByteLE(x[i], output, offset);
+                offset += 4;
+            }
         }
 
         /* Generate ciphertext */
@@ -347,9 +369,25 @@ namespace Cryptool.Plugins.Grain_v1
                 GuiLogMessage("Output buffer too short!", NotificationLevel.Error);
             }
 
+            if (limitExceeded(length))
+            {
+                GuiLogMessage("2^70 byte limit per IV would be exceeded; Change IV", NotificationLevel.Error);
+            }
+
             for (int i = 0; i < length; i++)
             {
-                output[outOffset + i] = (byte)(input[inOffset + i] ^ generateKeyStream());
+                if (index == 0)
+                {
+                    generateKeyStream(engineState, keyStream);
+                    engineState[8]++;
+                    if (engineState[8] == 0)
+                    {
+                        engineState[9]++;
+                    }
+                }
+                KeyStream += String.Format("{0:X2}", keyStream[index]);
+                output[i + outOffset] = (byte)(keyStream[index] ^ input[i + inOffset]);
+                index = (index + 1) & 63;
             }
         }
 
@@ -409,3 +447,4 @@ namespace Cryptool.Plugins.Grain_v1
 
     }
 }
+

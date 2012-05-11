@@ -18,19 +18,17 @@ using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.HC128
+namespace Cryptool.Plugins.Salsa20
 {
-    public class HC128Settings : ISettings
+    public class Salsa20Settings : ISettings
     {
         #region Events
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
         }
-
         #endregion
     }
 }

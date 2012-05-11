@@ -6,7 +6,7 @@
   <title lang="de">HC128-Chiffre</title>
   <description lang="de">Diese Vorlage zeigt die Verwendung der <i>HC128-Chiffre</i>.</description>
   <keywords lang="de">hc128, symmetrisch</keywords>
-  <icon file="hc128.png" />
+  <icon file="HC128.png" />
   <relevantPlugins>
     <plugin name="HC128" />
   </relevantPlugins>

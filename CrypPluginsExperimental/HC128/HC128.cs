@@ -13,18 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
-using System.Security.Cryptography;
-using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.HC128
 {
