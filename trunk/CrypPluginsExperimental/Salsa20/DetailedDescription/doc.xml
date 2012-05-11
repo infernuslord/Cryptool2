@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<documentation>
+  <language culture="en" />
+  <introduction lang="en">Salsa20 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project. It requires a 64 bits initialization vector and either a 128 or 256 bits secret key. The cipher is based on a strong cryptographic hash function and the byte limit for the generated key stream from every IV is 2^70. No attack faster than brute-force has been identified so far.
+  </introduction>
+  <usage lang="en">After dragging the Salsa20 component onto your workspace you will have to connect three text input fields to the connectors on the left side as well as a text output field to the right connector. You will then have to input the key and initialization vector as well as your plaintext (as hex values) in the associated text input fields.
+</usage>
+  <presentation lang="en">
+</presentation>
+  <language culture="de" />
+  <introduction lang="de">Salsa20 ist eine von sieben symmetrischen Stromchiffren, die für das finale eSTREAM Portfolio des ECRYPT Stream Cipher Project gewählt wurden. Sie benötigt einen 64 Bits Initialisierungsvektor und entweder einen 128 oder 256 Bits Schlüssel. Die Chiffre basiert auf einer starken kryptographischen Hashfunktion und das Bytelimit für den generierten Schlüsselstrom aus jedem IV beträgt 2^70. Es wurde bisher kein Angriff gefunden, der schneller als Brute-Force ist.
+  </introduction>
+  <usage lang="de">Nachdem Sie die Salsa20 Komponente auf Ihre Arbeitsfläche gezogen haben, müssen Sie drei Texteingabefelder an die Konnektoren auf der linken Seite und ein Textausgabefeld an den Konnektor auf der rechten Seite anbringen. Anschließend müssen Sie den Schlüssel und Initialisierungsvektor, sowie Ihren Klartext (als Hex-Werte) in die dazugehörigen Felder eingeben.
+  </usage>
+  <presentation lang="de">
+  </presentation>
+</documentation>
