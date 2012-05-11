@@ -376,6 +376,15 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die None ähnelt.
+        /// </summary>
+        internal static string PermOptionNone {
+            get {
+                return ResourceManager.GetString("PermOptionNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the permutation function ähnelt.
         /// </summary>
         internal static string PermTooltip {

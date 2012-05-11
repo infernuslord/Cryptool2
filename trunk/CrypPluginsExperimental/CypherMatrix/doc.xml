@@ -6,13 +6,15 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    CypherMatrix is a method to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
+    CypherMatrix is a system to encrypt and decrypt as well as hash and digitally sign data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
     <newline/>
     The name CypherMatrix refers to the fact that the result of the cryptographic operation has a matrix structure. The author wrote CypherMatrix with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - still uses bytes as symbols.
     <newline/>
+    <newline/>
     It is implemented in CrypTool 2 as experimental method for training purposes.
     <newline/>
-    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The ciphertext is computed in one iteration from the plaintext using an XOR and a substitution table. Additionally the cipher has its own operation mode which ensures that the encryption parameters change for each block.
+    <newline/>
+    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The ciphertext is computed in one iteration from the plaintext using an XOR and a substitution table. Additionally the cipher has it's own operation mode which ensures that the encryption parameters change for each block.
     <newline/>
     <newline/>
     Note: The capability for signing data is not yet implemented in this plugin.
@@ -23,7 +25,9 @@
     <newline/>
     Der Name CypherMatrix beruht darauf, dass das Verfahren eine Matrix als Ergebnis erzeugt. Der Urheber schrieb CypherMatrix mit "y", weil das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - nur Bytes verwendet und so an die Kryptographie vergangener Jahrhunderte erinnern soll.
     <newline/>
+    <newline/>
     In CrypTool 2 ist es zu Lernzwecken als experimentelles Verfahren implementiert.
+    <newline/>
     <newline/>
     Die CypherMatrix-Chiffre ist eine symmetrische Blockchiffre, deren Blocklänge variabel zwischen 35 und 96 Bytes einstellbar ist. Für die Berechnung der beiden für die Verschlüsselung benötigten Parameter, gibt es eine separate Schlüsselableitungsfunktion, die diese aus der Passphrase ableitet. Der Chiffretext wird dann mittels XOR und Substitutionstabelle in einer Iteration aus dem Klartext gewonnen. Zusätzlich besitzt diese Chiffre einen eigenen Betriebsmodus für die Blockverschlüsselung, welcher dafür sorgt, dass sich die Parameter der Verschlüsselungsfunktion mit jedem Block ändern.
     <newline/>
@@ -32,15 +36,27 @@
   </introduction>
 
   <usage lang="en">
-    After dragging the CypherMatrix component onto the workspace you need to specify a data source that represents the text to be encrypted or decrypted. The author of the algorithm recommends a passphrase of 42 characters. A passphrase as well as a data source are neccessary to execute this algorithm.
+    After dragging the CypherMatrix component onto the workspace you need to specify a data source that provides the data to be encrypted, decrypted or hashed. Additionally the encryption mode needs a passphrase. The algorithm's author recommends one with a lenght of 42 characters. Notice that the hash doesn't need it and discards it if provided.
     <newline/>
+	<newline/>
     In the component settings you can choose the operation mode and change parameters.
+	<newline/>
+	<newline/>
+	The component expects binary inputs. In case of text a UTF-8 decoding is recommended.
+	<newline/>
+	The outputs are always binary. Text is UTF-8 decoded before output such that a UTF-8 encoding is needed to display it.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Zusätzlich wird noch eine Passphrase benötigt. Der Urheber empfiehlt dafür eine Länge von 42 Zeichen. Sowohl Datenquelle als auch die Passphrase sind notwendig, um den Algorithmus auszuführen.
+    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die Daten für Ver-/Entschlüsselung oder Hash liefert. Zusätzlich wird im Chiffremodus noch eine Passphrase benötigt. Der Urheber empfiehlt für diese eine Länge von 42 Zeichen. Der Hash benötigt im Gegensatz dazu kein Passwort und wird dieses verwerfen, wenn es gesetzt wurde.
     <newline/>
-    In den Einstellungen für die Komponente können Sie den Betriebsmodus einstellen sowie verschiedene Parameter anpassen.
+	<newline/>
+    In den Einstellungen für die Komponente können Sie den Betriebsmodus einstellen, sowie verschiedene Parameter anpassen.
+	<newline/>
+	<newline/>
+	Die Komponente erwartet binäre Eingabedaten, eine Dekodierung mittels UTF-8 wird daher bei Text angeraten.
+	<newline/>
+	Die Ausgaben erfolgen immer als Binärdaten. Text wird vor der Ausgabe UTF-8 dekodiert, weshalb zur Darstellung eine UTF-8 Kodierung notwendig ist.
   </usage>
 
   <presentation lang="en">

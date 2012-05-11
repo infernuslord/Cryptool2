@@ -24,7 +24,7 @@ namespace Cryptool.Plugins.CypherMatrix
     public class CypherMatrixSettings : ISettings
     {
         public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1 , Hash = 2};
-        public enum Permutation { B = 0, D = 1 };
+        public enum Permutation {None = 0, B = 1, D = 2 };
         public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 , Mini = 3};
 
         #region Private variables and public constructor
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("PermCaption", "PermTooltip", "GeneralOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "PermOptionB", "PermOptionD" })]
+        [TaskPane("PermCaption", "PermTooltip", "GeneralOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "PermOptionNone", "PermOptionB", "PermOptionD" })]
         public Permutation Perm
         {
             get

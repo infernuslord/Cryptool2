@@ -623,6 +623,11 @@ namespace Cryptool.Plugins.CypherMatrix
             // 3-fach Permutation der Basis-Variation
             switch (settings.Perm)
             {
+                case CypherMatrixSettings.Permutation.None:
+                    {
+                        cm3 = cm1;
+                        break;
+                    }
                 case CypherMatrixSettings.Permutation.B:
                     {
                         i = 1; k = 0; l = 0;
