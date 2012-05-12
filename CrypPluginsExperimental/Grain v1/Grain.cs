@@ -20,6 +20,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Text.RegularExpressions;
 
 namespace Cryptool.Plugins.Grain_v1
 {
@@ -35,6 +36,7 @@ namespace Cryptool.Plugins.Grain_v1
         private string inputKey;
         private string inputIV;
         private bool stop = false;
+        private bool inputValid = false;
         #endregion
 
         #region Public Variables
@@ -114,22 +116,30 @@ namespace Cryptool.Plugins.Grain_v1
             Out = new byte[In.Length];
             try
             {
-                DateTime startTime = DateTime.Now;
-                GuiLogMessage("Starting encryption...", NotificationLevel.Info);
-
-                /* Initialize the algorithm */
-                init();
-
-                /* Generate ciphertext bytes */
-                generateOutBytes(In, 0, In.Length, Out, 0);
-                foreach (byte b in Out) builder.Append(String.Format("{0:X2}", b));
-                TimeSpan duration = DateTime.Now - startTime;
-                OutputString = builder.ToString();
                 if (stop) GuiLogMessage("Aborted!", NotificationLevel.Info);
                 else
                 {
-                    GuiLogMessage("Encryption complete in " + duration + "!", NotificationLevel.Info);
-                    GuiLogMessage("Key Stream: " + keyStream, NotificationLevel.Info);
+                    DateTime startTime = DateTime.Now;
+
+                    /* Initialize the algorithm */
+                    init();
+                    if (stop)
+                    {
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
+                    }
+                    else
+                    {
+                        GuiLogMessage("Starting encryption...", NotificationLevel.Info);
+
+                        /* Generate ciphertext bytes */
+                        generateOutBytes(In, 0, In.Length, Out, 0);
+                        foreach (byte b in Out) builder.Append(String.Format("{0:X2}", b));
+                        TimeSpan duration = DateTime.Now - startTime;
+                        OutputString = builder.ToString();
+
+                        GuiLogMessage("Encryption complete in " + duration + "!", NotificationLevel.Info);
+                        GuiLogMessage("Key Stream: " + keyStream, NotificationLevel.Info);
+                    }
                 }
             }
             catch (Exception exception)
@@ -152,13 +162,37 @@ namespace Cryptool.Plugins.Grain_v1
             keyStream = null;
         }
 
+        /* Check string for hex characters only */
+        public bool hexInput(string str)
+        {
+            Regex myRegex = new Regex("^[0-9A-Fa-f]*$");
+            inputValid = myRegex.IsMatch(str);
+            return inputValid;
+        }
+
         /* Convert the input string into a byte array
          * If the string length is not a multiple of 2 a '0' is added at the end */
         public byte[] stringToByteArray(string input)
         {
-            if (input.Length % 2 == 1) input += '0';
-            byte[] array = new byte[input.Length / 2];
-            for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+            byte[] array = null;
+
+            if (input.Length % 2 == 1) array = new byte[(input.Length / 2) + 1];
+            else array = new byte[input.Length / 2];
+
+            if (hexInput(input))
+            {
+                if (input.Length % 2 == 1)
+                {
+                    GuiLogMessage("Odd number of digits in the plaintext, adding 0 to last position.", NotificationLevel.Info);
+                    input += '0';
+                }
+                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+            }
+            else
+            {
+                GuiLogMessage("Invalid character(s) in the plaintext detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
+                stop = true;
+            }
             return array;
         }
 
@@ -167,14 +201,22 @@ namespace Cryptool.Plugins.Grain_v1
         {
             byte[] array = new byte[8];
 
-            if (input.Length != 16)
+            if (hexInput(input))
             {
-                stop = true;
-                GuiLogMessage("IV length must be 8 byte (64 bit)!", NotificationLevel.Error);
+                if (input.Length != 16)
+                {
+                    stop = true;
+                    GuiLogMessage("IV length must be 8 byte (64 bit)!", NotificationLevel.Error);
+                }
+                else
+                {
+                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+                }
             }
             else
             {
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16); 
+                GuiLogMessage("Invalid character(s) in the IV detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
+                stop = true;
             }
             return array;
         }
@@ -184,14 +226,22 @@ namespace Cryptool.Plugins.Grain_v1
         {
             byte[] array = new byte[10];
 
-            if (input.Length != 20)
+            if (hexInput(input))
             {
-                stop = true;
-                GuiLogMessage("Key length must be 10 byte (80 bit)!", NotificationLevel.Error);
+                if (input.Length != 20)
+                {
+                    stop = true;
+                    GuiLogMessage("Key length must be 10 byte (80 bit)!", NotificationLevel.Error);
+                }
+                else
+                {
+                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+                }
             }
             else
             {
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
+                GuiLogMessage("Invalid character(s) in the key detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
+                stop = true;
             }
             return array;
         }
