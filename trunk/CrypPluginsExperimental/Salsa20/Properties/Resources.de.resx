@@ -147,4 +147,10 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Salsa20 Algorithmus aus dem eSTREAM Portfolio.</value>
   </data>
+  <data name="RoundCaption" xml:space="preserve">
+    <value>Runden</value>
+  </data>
+  <data name="RoundTooltip" xml:space="preserve">
+    <value>Sie können zwischen 20, 12 oder 8 Runden wählen.</value>
+  </data>
 </root>

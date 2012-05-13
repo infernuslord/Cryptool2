@@ -22,6 +22,18 @@ namespace Cryptool.Plugins.Salsa20
 {
     public class Salsa20Settings : ISettings
     {
+        public int rounds = 20;
+        [TaskPane("RoundCaption", "RoundTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 8, 20)]
+        public int Rounds
+        {
+            get { return rounds; }
+            set
+            {
+                    rounds = value;
+                    OnPropertyChanged("Rounds");
+            }
+        }
+
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
 
