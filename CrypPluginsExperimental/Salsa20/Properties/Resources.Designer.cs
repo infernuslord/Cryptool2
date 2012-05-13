@@ -149,5 +149,23 @@ namespace Salsa20.Properties {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rounds.
+        /// </summary>
+        internal static string RoundCaption {
+            get {
+                return ResourceManager.GetString("RoundCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can choose between 20, 12 or 8 rounds..
+        /// </summary>
+        internal static string RoundTooltip {
+            get {
+                return ResourceManager.GetString("RoundTooltip", resourceCulture);
+            }
+        }
     }
 }

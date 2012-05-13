@@ -37,6 +37,7 @@ namespace Cryptool.Plugins.Salsa20
         private string inputIV;
         private bool stop = false;
         private bool inputValid = false;
+        private int rounds;
         #endregion
 
         #region Public Variables
@@ -121,6 +122,13 @@ namespace Cryptool.Plugins.Salsa20
                 if (stop) GuiLogMessage("Aborted!", NotificationLevel.Info);
                 else
                 {
+                    if (settings.Rounds == 20 || settings.Rounds == 12 || settings.Rounds == 8) rounds = settings.Rounds / 2;
+                    else
+                    {
+                        stop = true;
+                        GuiLogMessage("Only 8, 12 or 20 rounds can be chosen!", NotificationLevel.Error);
+                    }
+
                     DateTime startTime = DateTime.Now;
 
                     /* Initialize the algorithm */
@@ -362,7 +370,7 @@ namespace Cryptool.Plugins.Salsa20
 
             Array.Copy(input, 0, x, 0, input.Length);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < rounds; i++)
             {
                 x[4] ^= rotateLeft((x[0] + x[12]), 7);
                 x[8] ^= rotateLeft((x[4] + x[0]), 9);
