@@ -14,7 +14,7 @@
     It is implemented in CrypTool 2 as experimental method for training purposes.
     <newline/>
     <newline/>
-    The CypherMatrix cipher is a symmetric block cipher whose block size can be set variable between 35 and 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The ciphertext is computed in one iteration from the plaintext using an XOR and a substitution table. Additionally the cipher has it's own operation mode which ensures that the encryption parameters change for each block.
+    The CypherMatrix cipher is a symmetric block cipher. Its block size can range from 35 to 96 bytes. A separate key derivation function creates two encryption parameters from the passphrase. The ciphertext is computed in one iteration from the plaintext using XOR and a substitution table. Additionally, the cipher has it's own operation mode to change the encryption parameters for each block.
     <newline/>
     <newline/>
     Note: The capability for signing data is not yet implemented in this plugin.
@@ -36,27 +36,27 @@
   </introduction>
 
   <usage lang="en">
-    After dragging the CypherMatrix component onto the workspace you need to specify a data source that provides the data to be encrypted, decrypted or hashed. Additionally the encryption mode needs a passphrase. The algorithm's author recommends one with a lenght of 42 characters. Notice that the hash doesn't need it and discards it if provided.
+    After dragging the CypherMatrix component onto the workspace you need to specify a data source that provides the data to be encrypted, decrypted or hashed. Only the encryption mode needs an additional passphrase (the algorithm's author recommends one with a length of 42 characters). Notice that hashing doesn't need a passphrase and discards it if provided.
     <newline/>
-	<newline/>
+	  <newline/>
     In the component settings you can choose the operation mode and change parameters.
-	<newline/>
-	<newline/>
-	The component expects binary inputs. In case of text a UTF-8 decoding is recommended.
-	<newline/>
-	The outputs are always binary. Text is UTF-8 decoded before output such that a UTF-8 encoding is needed to display it.
+	  <newline/>
+	  <newline/>
+	  The component expects binary inputs. In case of text a UTF-8 decoding is recommended.
+	  <newline/>
+	  The outputs are always binary. Text is UTF-8 decoded before output such that a UTF-8 encoding is needed to display it.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die Daten für Ver-/Entschlüsselung oder Hash liefert. Zusätzlich wird im Chiffremodus noch eine Passphrase benötigt. Der Urheber empfiehlt für diese eine Länge von 42 Zeichen. Der Hash benötigt im Gegensatz dazu kein Passwort und wird dieses verwerfen, wenn es gesetzt wurde.
+    Nachdem Sie die CypherMatrix-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die Daten zum Verschlüsseln oder Hashen liefert. Nur zum Verschlüsseln wird zusätzlich eine Passphrase benötigt (der Urheber empfiehlt für diese eine Länge von 42 Zeichen). Zum Hashen wird im Gegensatz dazu kein Passwort benötigt (es wird ignoriert, wenn es gesetzt wurde).
     <newline/>
-	<newline/>
+	  <newline/>
     In den Einstellungen für die Komponente können Sie den Betriebsmodus einstellen, sowie verschiedene Parameter anpassen.
-	<newline/>
-	<newline/>
-	Die Komponente erwartet binäre Eingabedaten, eine Dekodierung mittels UTF-8 wird daher bei Text angeraten.
-	<newline/>
-	Die Ausgaben erfolgen immer als Binärdaten. Text wird vor der Ausgabe UTF-8 dekodiert, weshalb zur Darstellung eine UTF-8 Kodierung notwendig ist.
+	  <newline/>
+	  <newline/>
+	  Die Komponente erwartet binäre Eingabedaten, eine Dekodierung mittels UTF-8 wird daher bei Text angeraten.
+	  <newline/>
+    Die Ausgabe erfolgt immer in Binärform. Text wird vor der Ausgabe UTF-8 dekodiert, weshalb zur Darstellung eine UTF-8 Kodierung notwendig ist.
   </usage>
 
   <presentation lang="en">
