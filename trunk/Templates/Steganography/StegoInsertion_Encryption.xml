@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Steganography Insertion Encryption</title>
+  <title lang="de">Steganographie Einsetzung Verschlüsselung</title>
+  <description lang="en">Steganography Insertion Encryption</description>
+  <description lang="de">Steganographie Einsetzung Verschlüsselung</description>
+  <keywords>Steganography, Insertion, hidden</keywords>
+  <keywords lang="de">Steganographie, verstecken</keywords>
+  <icon file="Steganography.png" />
+</sample>
