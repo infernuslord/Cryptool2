@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <description lang="en">-</description>
-  <description lang="de">-</description>
+  <title lang="en">Multiple Loops 3</title>
+  <title lang="de">Mehrere Schleifen 3</title>
+  <description lang="en">Multiple Loops 3</description>
+  <description lang="de">Mehrere Schleife 3</description>
   <icon file="math.png" />
 </sample>

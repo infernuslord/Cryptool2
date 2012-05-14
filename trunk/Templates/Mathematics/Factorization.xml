@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Factorization</title>
+  <description lang="en">Factorization</description>
+  <title lang="de">Faktorisierung</title>
+  <description lang="de">Faktorisierung</description>
+  <icon file="math.png" />
+</sample>

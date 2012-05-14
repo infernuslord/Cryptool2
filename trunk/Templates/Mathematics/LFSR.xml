@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Linear feedback shift register</title>
+  <description lang="en">Linear feedback shift register</description>
+  <keywords>shift, register, feedback</keywords>
+  <title lang="de">Linear Rückgekoppeltes Schieberegister</title>
+  <description lang="de">Linear Rückgekoppeltes Schieberegister</description>
+  <icon file="math.png" />
+</sample>

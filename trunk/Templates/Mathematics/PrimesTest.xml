@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
-  <description lang="en">-</description>
+  <title lang="en">Primes Test</title>
+  <description lang="en">Primes Test</description>
   <keywords>prime, composite, primality</keywords>
-  <title lang="de"></title>
-  <description lang="de">-</description>
+  <title lang="de">Primzahltest</title>
+  <description lang="de">Primzahltest</description>
   <keywords lang="de">Primzahl, zusammengesetzt</keywords>
   <icon file="math.png" />
 </sample>

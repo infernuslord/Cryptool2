@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Discrete Logarithm</title>
-  <description lang="en">-</description>
+  <description lang="en">Discrete Logarithm</description>
   <keywords>discrete, logarithm, base, exponent</keywords>
   <title lang="de">Diskreter Logarithmus</title>
-  <description lang="de">-</description>
+  <description lang="de">Diskreter Logarithmus</description>
   <keywords lang="de">diskret, Basis, Logarithmus, Exponent</keywords>
   <icon file="math.png" />
 </sample>

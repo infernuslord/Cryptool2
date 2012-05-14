@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
-  <description lang="en">-</description>
+  <title lang="en">ISAP Bit Commitment Scheme</title>
+  <description lang="en">ISAP Bit Commitment Scheme</description>
   <keywords>commitment, binding, hidden, ISAP, diophantine</keywords>
-  <title lang="de"></title>
-  <description lang="de">-</description>
+  <title lang="de">ISAP Bit Commitment Scheme</title>
+  <description lang="de">ISAP Bit Commitment Scheme</description>
   <keywords lang="de">verbindlich, versteckt</keywords>
   <icon file="math.png" />
 </sample>

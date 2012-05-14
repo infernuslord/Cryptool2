@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Decimalization</title>
+  <description lang="en">Decimalization</description>
+  <title lang="de">Dezimalisierung</title>
+  <description lang="de">Dezimalisierung</description>
+  <icon file="math.png" />
+</sample>

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en"></title>
-  <description lang="en">-</description>
-  <description lang="de">-</description>
+  <title lang="en">Loop</title>
+  <title lang="de">Schleife</title>
+  <description lang="en">Loop</description>
+  <description lang="de">Schleife</description>
   <icon file="math.png" />
 </sample>
