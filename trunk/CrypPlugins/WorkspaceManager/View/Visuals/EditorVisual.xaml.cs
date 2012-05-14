@@ -1384,31 +1384,33 @@ namespace WorkspaceManager.View.Visuals
                 case NotifyCollectionChangedAction.Add:
                     if (e.NewItems == null)
                         return;
-                    if (e.NewItems[0] is ComponentVisual)
+                    if (e.NewItems[0] is ComponentVisual && ComponentCollection != null)
                         ComponentCollection.Add(e.NewItems[0] as ComponentVisual);
 
-                    if (e.NewItems[0] is CryptoLineView)
+                    if (e.NewItems[0] is CryptoLineView && PathCollection != null)
                         PathCollection.Add(e.NewItems[0] as CryptoLineView);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     if (e.OldItems == null)
                         return;
-                    if (e.OldItems[0] is ComponentVisual)
+                    if (e.OldItems[0] is ComponentVisual && ComponentCollection != null)
                         ComponentCollection.Remove(e.OldItems[0] as ComponentVisual);
 
                     if (e.OldItems[0] is TextVisual)
-                        this.SelectedText = null;
+                        SelectedText = null;
 
-                    if (e.OldItems[0] is CryptoLineView)
+                    if (e.OldItems[0] is CryptoLineView && PathCollection != null)
                         PathCollection.Remove(e.OldItems[0] as CryptoLineView);
 
-                    var x = SelectedItems.ToList();
-                    foreach (var uiElement in e.OldItems)
+                    if (SelectedItems != null && SelectedItems.Length > 0)
                     {
-                        x.Remove(uiElement as UIElement);
+                        var x = SelectedItems.ToList();
+                        foreach (var uiElement in e.OldItems)
+                        {
+                            x.Remove(uiElement as UIElement);
+                        }
+                        SelectedItems = x.ToArray();
                     }
-                    SelectedItems = x.ToArray();
-
                     break;
             }
         }
