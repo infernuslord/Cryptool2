@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Steganography Permutation Decryption</title>
+  <title lang="de">Steganographie Permutation Verschlüsselung</title>
+  <description lang="en">Steganography Permutation Decryption</description>
+  <description lang="de">Steganographie Permutation Verschlüsselung</description>
+  <keywords>Steganography, hidden, Permutation</keywords>
+  <keywords lang="de">Steganographie, verstecken</keywords>
+  <icon file="Steganography.png" />
+</sample>
