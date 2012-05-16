@@ -136,7 +136,7 @@
     <value>Signatur konnte nicht erstellt werden. Es ist das Limit an Iterationen erreicht worden.</value>
   </data>
   <data name="maxIterations" xml:space="preserve">
-    <value>Max. Anzahl an Iterationen:</value>
+    <value>Maximale Anzahl an Iterationen:</value>
   </data>
   <data name="pubKey" xml:space="preserve">
     <value>Öffentlicher Schlüssel:</value>

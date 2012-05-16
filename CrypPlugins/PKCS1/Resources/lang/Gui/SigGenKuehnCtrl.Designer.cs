@@ -115,7 +115,7 @@ namespace PKCS1.Resources.lang.Gui {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Max. Anzahl an Iterationen: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximale Anzahl an Iterationen: ähnelt.
         /// </summary>
         public static string maxIterations {
             get {

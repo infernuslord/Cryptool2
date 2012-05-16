@@ -97,7 +97,7 @@
                                 Text="{Binding ElementName=tbInputMod,
                                 Path=(Validation.Errors),
                                 Converter={StaticResource eToMConverter}}" />
-                        <Button Grid.Column="2" Name="btnGenRsaKey" Click="btnGenRsaKey_Click" Height="25" MinWidth="100" VerticalAlignment="Bottom" HorizontalContentAlignment="Right">
+                        <Button Grid.Column="2" Name="btnGenRsaKey" Click="btnGenRsaKey_Click" Height="25" MinWidth="100" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">
                             <x:Static Member="lang:RsaKeyGenCtrl.genKey"></x:Static>
                         </Button>
                     </Grid>
