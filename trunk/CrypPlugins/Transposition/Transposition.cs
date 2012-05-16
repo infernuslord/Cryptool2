@@ -60,7 +60,8 @@ namespace Transposition
            
             Output = output;
             ProgressChanged(1, 1);
-            ars.Set(); 
+            ars.Set();
+            running = false;
         }
 
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
@@ -177,10 +178,23 @@ namespace Transposition
 
         }
 
+        private bool running = false;
+        private bool stopped = false;
+
         public void Execute()
         {
             
+            while(running)
+            {
+                myPresentation.my_Stop(this, EventArgs.Empty);
+                if (stopped)
+                    return;
+            }
+
+            running = true;
             
+
+
             ProcessTransposition();
             if (controlSlave is object && Input is object)
             {
@@ -190,7 +204,7 @@ namespace Transposition
             
             if (Presentation.IsVisible)
             {
-                    
+                    Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
                     Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
                        myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed    );
@@ -226,7 +240,8 @@ namespace Transposition
 
         public void PreExecution()
         {
-            
+            running = false;
+            stopped = false;
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -238,6 +253,7 @@ namespace Transposition
         public void Stop()
         {
             ars.Set();
+            stopped = true;
 
             myPresentation.my_Stop(this, EventArgs.Empty);
         }
