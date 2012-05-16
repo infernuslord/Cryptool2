@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Threading;
 using Cryptool.PluginBase.Miscellaneous;
+using FileOutputWPF;
 
 namespace FileOutput
 {
@@ -47,18 +48,18 @@ namespace FileOutput
     }
     #endregion
 
-    private FileOutputPresentation fileOutputPresentation;    
+    private FileOutputWPFPresentation fileOutputPresentation;    
 
     public string InputFile { get; set; }
 
     public FileOutputClass()
     {
       settings = new FileOutputSettings();
-      fileOutputPresentation = new FileOutputPresentation(this);
-
+      //fileOutputPresentation = new FileOutputPresentation(this);
+      fileOutputPresentation = new FileOutputWPFPresentation(this);
       Presentation = fileOutputPresentation;
-      fileOutputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
-      fileOutputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
+      //fileOutputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
+      //fileOutputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
     }
 
     void UscHexBoc_OnInformationOccured(object sender, Exception e)
@@ -93,7 +94,7 @@ namespace FileOutput
       if (settings.SaveAndRestoreState != string.Empty && File.Exists(settings.SaveAndRestoreState))
       {
         this.InputFile = settings.SaveAndRestoreState;
-        fileOutputPresentation.OpenPresentationFile();
+        fileOutputPresentation.OpenFile(settings.TargetFilename);
       }
     }
 
@@ -157,77 +158,80 @@ namespace FileOutput
 
     public void Execute()
     {
-            Progress(0.5, 1.0);
-            if (StreamInput == null)
-            {
-                GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
-                return;
-            }
-      
-            using (CStreamReader reader = StreamInput.CreateReader())
-            {
-                // If target file was selected we have to copy the input to target. 
-                # region copyToTarget
-                if (settings.TargetFilename != null)
-                {
-                    InputFile = settings.TargetFilename;
-                    try
-                    {
-                        fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            fileOutputPresentation.ClosePresentationFile();
-                        }, null);
-
-                        FileStream fs;
-                        if (!settings.Append)
-                        {
-                            fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
-                        }
-                        else
-                        {
-                            fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Append);
-                            for (int i = 0; i < settings.AppendBreaks; i++)
-                            {
-                                const string nl = "\n";
-                                fs.Write(Encoding.ASCII.GetBytes(nl), 0, Encoding.ASCII.GetByteCount(nl));
-                            }
-                        }
-
-                        byte[] byteValues = new byte[1024];
-                        int byteRead;
-
-                        long position = fs.Position;
-                        GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
-                        while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
-                        {
-                            fs.Write(byteValues, 0, byteRead);
-                            if (OnPluginProgressChanged != null && reader.Length > 0 &&
-                                (int)(reader.Position * 100 / reader.Length) > position)
-                            {
-                                position = (int)(reader.Position * 100 / reader.Length);
-                                Progress(reader.Position, reader.Length);
-                            }
-                        }
-                        fs.Flush();
-                        fs.Close();
-
-                        GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage(ex.Message, NotificationLevel.Error);
-                        settings.TargetFilename = null;
-                    }
-                }
-                # endregion copyToTarget
-
-                fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    fileOutputPresentation.OpenPresentationFile();
-                }, null);
-                Progress(1.0, 1.0);
-            }
+        Progress(0.5, 1.0);
+        
+        
+        if (StreamInput == null)
+        {
+            GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
+            return;
         }
+
+        using (CStreamReader reader = StreamInput.CreateReader())
+        {
+            // If target file was selected we have to copy the input to target. 
+
+            # region copyToTarget
+            if (settings.TargetFilename != null)
+            {
+                InputFile = settings.TargetFilename;
+                try
+                {
+                    fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        fileOutputPresentation.CloseFileToGetFileStreamForExecution();
+                    }, null);
+
+                    FileStream fs;
+                    if (!settings.Append)
+                    {
+                        fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
+                    }
+                    else
+                    {
+                        fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Append);
+                        for (int i = 0; i < settings.AppendBreaks; i++)
+                        {
+                            const string nl = "\n";
+                            fs.Write(Encoding.ASCII.GetBytes(nl), 0, Encoding.ASCII.GetByteCount(nl));
+                        }
+                    }
+
+                    byte[] byteValues = new byte[1024];
+                    int byteRead;
+
+                    long position = fs.Position;
+                    GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
+                    while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
+                    {
+                        fs.Write(byteValues, 0, byteRead);
+                        if (OnPluginProgressChanged != null && reader.Length > 0 &&
+                            (int)(reader.Position * 100 / reader.Length) > position)
+                        {
+                            position = (int)(reader.Position * 100 / reader.Length);
+                            Progress(reader.Position, reader.Length);
+                        }
+                    }
+                    fs.Flush();
+                    fs.Close();
+
+                    GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(ex.Message, NotificationLevel.Error);
+                    settings.TargetFilename = null;
+                }
+            }
+            # endregion copyToTarget
+
+            fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                fileOutputPresentation.ReopenClosedFile();
+            }, null);
+            Progress(1.0, 1.0);
+        }
+    }
 
       #endregion
   }
