@@ -92,11 +92,89 @@
         </Style>
 
 
+        <DataTemplate x:Key="SelectedTemplate" DataType="{x:Type local:ComponentVisual}">
+            <Grid x:Name="Root">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" Background="#edf5ff" CornerRadius="2">
+                    <Grid x:Name="Background">
+                        <Expander x:Name="ContentExpander" Grid.Row="0" Style="{StaticResource ResourceKey=ExpanderStyle}">
+                            <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
+                        </Expander>
+                    </Grid>
+                </Border>
+                <Separator Height="1" Background="White" Grid.Row="1"></Separator>
+            </Grid>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="False">
+                    <Setter TargetName="Root" Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter TargetName="ContentExpander" Property="IsExpanded" Value="True"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                    <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ContentExpander, Path=IsExpanded}" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                    <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                </DataTrigger>
+
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ActiveTemplate" DataType="{x:Type local:ComponentVisual}">
+            <Grid x:Name="Root">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" Background="#edf5ff" CornerRadius="2">
+                    <Grid x:Name="Background">
+                        <Expander x:Name="ContentExpander" Grid.Row="0" Style="{StaticResource ResourceKey=ExpanderStyle}">
+                            <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
+                        </Expander>
+                    </Grid>
+                </Border>
+                <Separator Height="1" Background="White" Grid.Row="1"></Separator>
+            </Grid>
+
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive}" Value="False">
+                    <Setter TargetName="Root" Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsActive}" Value="True">
+                    <Setter TargetName="ContentExpander" Property="IsExpanded" Value="True"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                    <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ContentExpander, Path=IsExpanded}" Value="True">
+                    <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                    <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                </DataTrigger>
+
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
         <Style x:Key="SelectedComponentListStyle" TargetType="{x:Type ListView}">
            <!-- <Style.Resources>               Do not overide SystemColors!
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
             </Style.Resources> -->
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="True">
+                    <Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=ActiveTemplate}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="False">
+                    <Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=SelectedTemplate}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Background" Value="#d1dced"/>
@@ -109,44 +187,6 @@
                             </ScrollViewer>
                         </Grid>
                     </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate DataType="{x:Type local:ComponentVisual}">
-                        <Grid x:Name="Root">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="1"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" Background="#edf5ff" CornerRadius="2">
-                                <Grid x:Name="Background">
-                                    <Expander x:Name="ContentExpander" Grid.Row="0" Style="{StaticResource ResourceKey=ExpanderStyle}">
-                                        <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
-                                    </Expander>
-                                </Grid>
-                            </Border>
-                            <Separator Height="1" Background="White" Grid.Row="1"></Separator>
-                        </Grid>
-
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="False">
-                                <Setter TargetName="Root" Property="Visibility" Value="Collapsed"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                <Setter TargetName="ContentExpander" Property="IsExpanded" Value="True"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
-                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementName=ContentExpander, Path=IsExpanded}" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
-                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
-                            </DataTrigger>
-
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
