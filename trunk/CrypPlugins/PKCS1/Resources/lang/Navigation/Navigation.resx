@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="attackbleichenbacher" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+    <value>Bleichenbacher-Angriff</value>
   </data>
   <data name="attackvariant" xml:space="preserve">
     <value>Angriff mit kürzeren Schlüsseln (Kühn)</value>

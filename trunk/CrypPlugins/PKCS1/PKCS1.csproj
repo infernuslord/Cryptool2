@@ -103,6 +103,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Help.resx</DependentUpon>
     </Compile>
+    <Compile Include="OnlineHelp\HelpFiles\Help.en.Designer.cs">
+      <DependentUpon>Help.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="OnlineHelp\OnlineHelpAccess.cs" />
     <Compile Include="OnlineHelp\OnlineHelpActions.cs" />
     <Compile Include="OnlineHelp\WindowOnlineHelp.xaml.cs">
@@ -384,8 +389,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="OnlineHelp\HelpFiles\Help.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Help.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OnlineHelp\HelpFiles\Help.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Help.en.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.de.resx">
@@ -539,7 +549,28 @@
     <Content Include="OnlineHelp\HelpFiles\de\SigVal.html">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="OnlineHelp\HelpFiles\template.en.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Bleichenb_BitPos.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Bleichenb_ChangeSign.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Bleichenb_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Datablock_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Kuehn_Iterations.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_Kuehn_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Gen_PKCS1_Sig_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\KeyGen.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\KeyGen_ModulusSize.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\KeyGen_PubExponent.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\KeyGen_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\KeyInput_Tab.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\SigGen.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\SigGenFakeBleichenbacher.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\SigGenFakeKuehn.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\SigVal.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\StartControl.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\template.htm" />
+    <None Include="WpfControls\Start.en.htm" />
     <Content Include="WpfControls\Start.htm">
       <SubType>Designer</SubType>
     </Content>

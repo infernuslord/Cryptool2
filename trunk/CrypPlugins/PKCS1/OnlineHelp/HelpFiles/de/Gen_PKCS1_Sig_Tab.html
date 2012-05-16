@@ -14,9 +14,9 @@ Da bei Signaturerzeugung der private Schlüssel benutzt wird, ist dieser Wert '0
 </li>
 <li>
 <strong>PS</strong>
-Paddingstring. Der Paddingstring besteht aus einer Mehrzahl von Blöcken mit dem Wert 0xFF (hexadezimale Darstellung). 
-Die Länge ergibt sich aus der Länge des <a href="help://KeyGen_ModulusSize">RSA-Moduls</a> subtrahiert 
-der drei Blöcke '00', '01', '00' und der Länge des <a href="help://Gen_Datablock_Tab">Datenblocks</a>
+Paddingstring. Der Paddingstring besteht aus einer Anzahl von Blöcken mit dem Wert 0xFF (hexadezimale Darstellung). 
+Die Länge ergibt sich, indem man von der Länge des <a href="help://KeyGen_ModulusSize">RSA-Moduls</a> 
+die Länge des <a href="help://Gen_Datablock_Tab">Datenblocks</a> und der drei Blöcke '00', '01', '00' subtrahiert.
 </li>
 <li>
 <strong>'00'</strong>

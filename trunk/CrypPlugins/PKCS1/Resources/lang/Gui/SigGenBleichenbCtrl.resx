@@ -145,7 +145,7 @@
     <value>Gefälschte Signatur erzeugen</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Bleichenbacher Angriff</value>
+    <value>Bleichenbacher-Angriff</value>
   </data>
   <data name="changeSign" xml:space="preserve">
     <value>Zeichen zur Nachrichtenänderung:</value>

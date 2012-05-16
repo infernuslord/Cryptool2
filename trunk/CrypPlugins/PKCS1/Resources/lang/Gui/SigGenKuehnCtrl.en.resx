@@ -136,7 +136,7 @@
     <value>Signature could not be generated. Maximum amount of iterations reached.</value>
   </data>
   <data name="maxIterations" xml:space="preserve">
-    <value>Max. number of iterations:</value>
+    <value>Maximum number of iterations:</value>
   </data>
   <data name="pubKey" xml:space="preserve">
     <value>Public key:</value>

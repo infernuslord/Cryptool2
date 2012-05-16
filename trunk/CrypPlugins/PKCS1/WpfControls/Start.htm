@@ -11,20 +11,19 @@
 		</style>
 	</head>
 	<body>
-	<h2>PKCS#1-Signaturen / Bleichenbacher Angriff</h2>
+	<h2>PKCS#1-Signaturen / Bleichenbacher-Angriff</h2>
 	<p align="justify">
 	PKCS#1-Signaturen basieren auf dem RSA-Verschlüsselungsverfahren. Der Angriff von Daniel Bleichenbacher zielt nicht
 	auf das Verschlüsselungsverfahren selbst, sondern auf Implementierungsfehler, die in mehreren RSA-Klassenbibliotheken
-	zu finden waren. Der Angriff wurde 2006 publiziert und seitdem wurde die Spezifikation für die Signaturen verändert
-    und die betroffenen Klassenbibliotheken ausgebessert.
+	zu finden waren. Der Angriff wurde 2006 publiziert. Inzwischen wurde die Spezifikation für die Signaturen verändert
+   und die betroffenen Klassenbibliotheken ausgebessert.
 	</p>
 	<p align="justify">
 	<strong>Digitale Signaturen</strong></br>
-	Digitale Signaturen werden benutzt um die Authentizität von Daten nachzuweisen. Zum Beispiel kann einer Nachricht
-	ein Sender zugeordnet werden. </br>
-	Die Signaturen basieren auf asymmetrischen Verschlüsselungsverfahren (in diesem Fall das RSA Verfahren). Diese Verfahren
-	verwenden einen öffentlichen (public) und einen privaten (private) Schlüssel, sowie einen sog. Modulus, welcher bei 
-	beiden Schlüsseln gleich ist.
+	Digitale Signaturen werden benutzt, um die Authentizität von Daten nachzuweisen. Zum Beispiel kann einer Nachricht
+	ein Sender zugeordnet werden.</br>
+	Signaturen basieren auf asymmetrischen Verschlüsselungsverfahren (in diesem Fall dem RSA-Verfahren), die 
+	verwenden einen öffentlichen und einen privaten Schlüssel.
 	</br></br>
 	Bei der Generierung der Signatur werden nicht die kompletten zu signierenden Daten mit dem privaten Schlüssel 
 	verschlüsselt. Es wird zunächst ein Hashwert der Daten gebildet. Dieser Hashwert wird dann mit anderen Daten
@@ -37,16 +36,16 @@
 	Nachricht als authentisch.
 	</p>
 	<p align="justify">
-	<strong>Bleichenbacher Angriff</strong></br>
-	Der Bleichenbacher Angriff ermöglicht es, unter bestimmten Voraussetzungen, Signaturen zu fälschen. Diese gefälschten
+	<strong>Bleichenbacher-Angriff</strong></br>
+	Der Bleichenbacher-Angriff ermöglicht es, unter bestimmten Voraussetzungen, Signaturen zu fälschen. Diese gefälschten
 	Signaturen werden bei fehlerhafter Implementierung, wie in PKCS#1 Version 1.5 beschrieben, als valide anerkannt. 
 	Wie bereits oben erwähnt, ist die Spezifikation bearbeitet (aktuell PKCS#1 Version 2.1) und die produktiv eingesetzten
 	Implementierungen sollten diese fehlerhafte Validierung nicht mehr beinhalten. </br>
 	</p>
   <p align="justify">
   <strong>Angriff mit kürzeren Schlüsseln (Kühn Angriff)</strong></br>
-  Im Gegensatz zum Bleichenbacher Angriff (3072 Bit lange Schlüssel) zielt der Angriff von Kühn auf kürzere Schlüssel (1024 Bit Länge). Dieser Angriff
-  macht sich die Rechenkraft von Computer zunutze. Hier wird nicht berechnet wie eine gefälschte Signatur aussehen muss, sondern
+  Im Gegensatz zum Bleichenbacher-Angriff (3072 Bits lange Schlüssel) zielt der Angriff von Kühn auf kürzere Schlüssel (1024 Bits). Dieser Angriff
+  macht sich die Rechenkraft von Computern zunutze. Hier wird nicht berechnet wie eine gefälschte Signatur aussehen muss, sondern
   es wird ein Algorithmus durchlaufen, bis das entsprechende Ergebnis generiert ist.</br>
   </p>
 	</body>

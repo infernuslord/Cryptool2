@@ -130,10 +130,10 @@
     <value>Kuehn signature</value>
   </data>
   <data name="implCorrect" xml:space="preserve">
-    <value>Correct (PKCS#1 Version 2.1)</value>
+    <value>Correct (PKCS#1 version 2.1)</value>
   </data>
   <data name="implFlaw" xml:space="preserve">
-    <value>With flaw (PKCS#1 Version 1.5)</value>
+    <value>With flaw (PKCS#1 version 1.5)</value>
   </data>
   <data name="result" xml:space="preserve">
     <value>Result:</value>

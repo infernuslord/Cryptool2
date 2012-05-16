@@ -148,6 +148,6 @@
     <value>Bleichenbacher attack</value>
   </data>
   <data name="changeSign" xml:space="preserve">
-    <value>Modify message with sign:</value>
+    <value>Modify message with character:</value>
   </data>
 </root>
