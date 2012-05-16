@@ -122,20 +122,7 @@ namespace Transposition
         public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
         {
 
-            dispo.Stop();
-            dispo = new DispatcherTimer();
-            dispo.Tick += delegate(System.Object o, System.EventArgs e)
-            { dispo.Stop(); t1_Tick(read_in_matrix, permuted_matrix,key, keyword,input,output, per, rein, reout, act, number,speed2); }; // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-            dispo.Interval = new TimeSpan(0, 0, 0, 0, 20);
-            dispo.Start();
-           
-
-        }
-
-        private void t1_Tick(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
-        {
-         
-            this.my_Stop(this, EventArgs.Empty);
+            
             if (keyword != null && input != null)
             {
                 init(read_in_matrix, permuted_matrix, keyword, per, rein, reout, act, key, number);
@@ -149,8 +136,16 @@ namespace Transposition
                 }
                 create(read_in_matrix, permuted_matrix, key, keyword, input, output);
                 sizeChanged(this, EventArgs.Empty);
-                
+
             }
+
+        }
+
+        private void t1_Tick(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
+        {
+         
+            this.my_Stop(this, EventArgs.Empty);
+            
         }
 
         public void setinput(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
@@ -464,6 +459,7 @@ namespace Transposition
                         if (31 < Convert.ToInt64(input[i]) && Convert.ToInt64(input[i]) != 127)
                         {
                             txt.Text = Convert.ToChar(input[i]).ToString();
+
                         }
                         else
                         {
@@ -1232,7 +1228,9 @@ namespace Transposition
                 outcount = 0;
                 textBox2.Clear();
                 Stop = true;
-            }, null);
+                feuerEnde(this, EventArgs.Empty);
+
+                                                                                 }, null);
         }
         #region eventhandler
 
