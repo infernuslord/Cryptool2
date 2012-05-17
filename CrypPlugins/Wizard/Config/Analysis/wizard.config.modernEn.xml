@@ -72,7 +72,7 @@ Klicken Sie auf 'Weiter', um eine große Zahl in ihre Faktoren zu zerlegen.
         </defaultvalue>
       </inputBox>
 
-      <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
+      <file resource="Wizard.Config.Math.wizard.config.factorization.xml"/>
     </input>
   </category>
 

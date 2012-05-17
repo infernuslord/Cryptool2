@@ -196,16 +196,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Indiv\wizard.config.hash.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Config\Indiv\wizard.config.prime.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Calc.png" />
     <Resource Include="Images\EnDeCrypt.png" />
     <Resource Include="Images\Indiv.png" />
@@ -258,11 +248,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Indiv\wizard.config.factorization.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\createProject.png" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +255,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\header_wizard5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Math\wizard.config.math.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Hash\wizard.config.hash.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Math\wizard.config.factorization.xml" />
+    <EmbeddedResource Include="Config\Math\wizard.config.prime.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Math.png" />
+    <Resource Include="Images\QS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

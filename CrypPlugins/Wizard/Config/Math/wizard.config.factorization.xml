@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE input SYSTEM "..\wizard.dtd">
 
-<input image="Primes" >
+<input image="QS" >
   <name lang="en" >Prime Factorization</name>
   <name lang="de" >Primfaktorzerlegung</name>
   <description lang="en" >Select this to factorize a number into prime numbers.</description>

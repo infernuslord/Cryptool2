@@ -47,6 +47,20 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
+        //Workarround for AES-PKCS5-Base64-Template - should be removed
+        public int Action
+        {
+            get { return this.bool_value; }
+            set
+            {
+                if ((value) != bool_value)
+                {
+                    this.bool_value = value;
+                    OnPropertyChanged("Value");
+                }
+            }
+        }
+
         #endregion
 
         #region INotifyPropertyChanged Members
