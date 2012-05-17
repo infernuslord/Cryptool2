@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.Progress
 {
@@ -26,6 +27,7 @@ namespace Cryptool.Progress
     [PluginInfo("Cryptool.Progress.Properties.Resources", "PluginCaption", "PluginTooltip", "Progress/DetailedDescription/doc.xml",
       "Progress/Images/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
+    [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class Progress : ICrypComponent
     {
         private int _value;
