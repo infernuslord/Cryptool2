@@ -14,12 +14,12 @@
   </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en" >Prime Number Operation Selection</headline>
-  <headline lang="de" >Primzahl-Operation: Auswahl</headline>
+  <headline lang="en" >Mathematical Function Selection</headline>
+  <headline lang="de" >Auswahl der mathematischen Funktion</headline>
 
   <!-- This is the step's description. -->
-  <task lang="en" >Select a prime number operation.</task>
-  <task lang="de" >Wählen Sie eine Primzahl-Operation.</task>
+  <task lang="en" >Select a mathematical function.</task>
+  <task lang="de" >Wählen Sie eine mathematische Funktion.</task>
 
   <!-- Factorization input -->
   <file resource="Wizard.Config.Math.wizard.config.factorization.xml"/>

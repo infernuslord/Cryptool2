@@ -28,12 +28,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.Plugins.Numbers
 {
     [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginInputCaption", "PluginInputTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/inputIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     class NumberInput : ICrypComponent
     {
         private NumberInputPresentation _presentation = new NumberInputPresentation();
