@@ -56,6 +56,17 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
+        private string _currentValue;
+        public string CurrentValue
+        {
+            get { return _currentValue; }
+            private set
+            {
+                _currentValue = value;
+                OnPropertyChange("CurrentValue");
+            }
+        }
+
         #region IPlugin Member
 
         public void Dispose()
@@ -67,10 +78,12 @@ namespace Cryptool.Plugins.BooleanOperators
             if(this.Input)
             {
                 settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
+                CurrentValue = "True";
             }
             else
             {
                 settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+                CurrentValue = "False";
             }
             ProgressChanged(1, 1);
         }

@@ -23,8 +23,14 @@
   <!-- Cryptanalysis Category -->
   <file resource="Wizard.Config.Analysis.wizard.config.analysis.xml" />
 
-  <!-- Individual Procedures Category -->
-  <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />  
+  <!-- Hashfunctions Category -->
+  <file resource="Wizard.Config.Hash.wizard.config.hash.xml" />
+
+  <!-- Mathematical Category -->
+  <file resource="Wizard.Config.Math.wizard.config.math.xml" />
+  
+  <!-- Individual Procedures/Tools Category -->
+  <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
   
 </category>
 

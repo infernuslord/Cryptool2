@@ -2,25 +2,20 @@
 <!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the prime number operations a user can select from. -->
-
 <category image="Primes">
-  <name lang="en" >Prime Number Operations</name>
-  <name lang="de" >Primzahl-Operationen</name>  
+  <name lang="en" >Prime Operations</name>
+  <name lang="de" >Primzahl-Operationen</name>
   <description lang="en" >
-  Here you can run several operations corresponding to prime numbers, i.e.:
-  
-- generate primes,
-- test if a given number is a prime,
-- factorize a number into its prime factors, or
-- visualize these operations and much more about primes in the tutorial "the world of primes".
-  </description>  
+    Here you can run several operations corresponding to prime numbers, i.e.:
+
+    - generate primes,
+    - test if a given number is a prime
+  </description>
   <description lang="de-DE" >
-  Hier können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen, z.B.:
-  
-- Primzahlen erzeugen,
-- testen, ob eine gegebene Zahl eine Primzahl ist,
-- eine Zahl in ihre Primfaktoren zerlegen (faktorisieren), oder
-- in dem Tutorial "Die Welt der Primzahlen" dies und vieles mehr zu Primzahlen auch visualisiert bekommen.
+    Hier können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen, z.B.:
+
+    - Primzahlen erzeugen,
+    - testen, ob eine gegebene Zahl eine Primzahl ist.
   </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
@@ -30,10 +25,6 @@
   <!-- This is the step's description. -->
   <task lang="en" >Select a prime number operation.</task>
   <task lang="de" >Wählen Sie eine Primzahl-Operation.</task>
-
-  <!-- Factorization input -->
-  <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
-
   <!-- Generation input -->
   <input image="Primes" >
     <name lang="en" >Prime Number Generation</name>
@@ -62,7 +53,7 @@
       <headline lang="de">Primzahl-Erzeugung: Ausgabe</headline>
       <task lang="en">The generated prime number.</task>
       <task lang="de">Die erzeugte Primzahl.</task>
-      
+
       <outputBox plugin="PrimeNumber" property="CurrentValue">
         <description lang="en">Generated Prime Number:</description>
         <description lang="de">Generierte Primzahl:</description>
@@ -82,7 +73,7 @@
     <task lang="en">Input the number you want to test.</task>
     <task lang="de">Geben Sie die Zahl ein, die Sie testen wollen.</task>
 
-    <inputBox plugin="Number" property="Text" alignment="Stretch">
+    <inputBox plugin="Number" property="Number" alignment="Stretch">
       <description lang="en">Number (can be a mathematical expression):</description>
       <description lang="de">Zahl (kann ein mathematischer Ausdruck sein):</description>
       <defaultvalue>358985028000324617802198861844522163047755799681138412255630375745509906768216239732389768930571941971276048934551187949</defaultvalue>
@@ -93,23 +84,5 @@
       <description lang="de">Ist Primzahl?</description>
     </outputBox>
   </sampleViewer>
-
-  <!-- wander 2011-12-15: World of primes is now activated by CrypTutorial ribbon bar -->
-  <!--<sampleViewer image="Primes" file="Mathematics\.PrimesDummy.cwm" showCreateButton="false">
-    <name lang="en" >World of Primes</name>
-    <name lang="de" >Die Welt der Primzahlen</name>
-    <description lang="en" >Select this to expirement with several prime operations.</description>
-    <description lang="de" >Wählen Sie diesen Punkt, um mit verschiedenen Primzahl-Operationen zu experimentieren.</description>
-
-    <headline lang="en">World of Primes</headline>
-    <headline lang="de">Die Welt der Primzahlen</headline>
-    <task lang="en">Please choose a category!</task>
-    <task lang="de">Bitte wählen Sie eine Kategorie!</task>
-
-    <presentation plugin="PrimesPlugin" alignment="Stretch" height="90%">
-      <description lang="en">World of Primes:</description>
-      <description lang="de">Die Welt der Primzahlen:</description>
-    </presentation>
-  </sampleViewer>-->
 
 </category>

@@ -363,6 +363,8 @@ namespace Wizard
                                 i.Source = ims;
                                 sp.Children.Add(i);
                             }
+                            else
+                                GuiLogMessage(string.Format("Could not find ressource image {0}!",image), NotificationLevel.Warning);
                         }
 
                         sp.VerticalAlignment = VerticalAlignment.Stretch;
@@ -1036,8 +1038,10 @@ namespace Wizard
                             var plugins = ppv.PluginName.Split(';');
                             foreach (var plugin in model.GetAllPluginModels().Where(x => plugins.Contains(x.GetName())))
                             {
-                                SetPluginProperty(ppv, plugin);
-                                plugin.Plugin.Initialize();
+                                if (SetPluginProperty(ppv, plugin))    
+                                    plugin.Plugin.Initialize();
+                                else
+                                    GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", plugin.GetName(), ppv.PropertyName, ppv.Value), NotificationLevel.Error);
                             }
                         }
                         catch (Exception)
@@ -1078,10 +1082,10 @@ namespace Wizard
             }
             else
             {
-                if (ppv.Value is object)
-                {
-                    return true;
-                }
+                //if (ppv.Value is object)
+                //{
+                //    return true;
+                //}
                 return false;
             }
         }
