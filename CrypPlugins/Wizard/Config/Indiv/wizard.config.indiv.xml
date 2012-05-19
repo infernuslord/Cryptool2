@@ -6,8 +6,8 @@
 <category image="Indiv">
   <name lang="en" >Tools</name>
   <name lang="de" >Werkzeuge</name>
-  <description lang="en" >Select this to use quick tools for performing specific tasks, e.g. quick encryption of message with a password.</description>
-  <description lang="de" >Wählen Sie diesen Punkt, um Hilfsfunktionen für eine spezifische Aufgabe (z.B. Verschlüsseln eines Textes mit einem Passwort) zu benutzen.</description>
+  <description lang="en" >Here you can quickly perform specific tasks, e.g. encryption of a message with a password or encode a text to base64.</description>
+  <description lang="de" >Hier können Sie schnell spezifische Aufgabe (z.B. Verschlüsseln eines Textes mit einem Passwort oder Base64-Kodierungen) ausführen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Tools Selection</headline>
@@ -24,7 +24,7 @@
     <name lang="en" >Encrypt with password</name>
     <name lang="de" >Verschlüsseln mit Passwort</name>
     <description lang="en" >Select this to quickly encrypt or decrypt some plaintext with AES by using a simple password. The encrypted result is base64-encoded for easy copy and paste e.g. to an email.</description>
-    <description lang="de" >Mit dieser Auswahl ist es möglich einen Eingabetext mit Hilfe eines Passwortes zu verschlüsseln (AES). Das verschlüsselte Ergebnis wird in textueller Form als Base-64-Kodierung ausgegeben - dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
+    <description lang="de" >Hier können Sie einen Eingabetext mit Hilfe eines Passwortes verschlüsseln (AES). Das verschlüsselte Ergebnis wird in textueller Form als Base-64-Kodierung ausgegeben - dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
     <task lang="en">Here, you can input your message and the password to use. The entered password is converted to an 256-bit AES-key by using PKCS5. The entered text is then encrypted or decrypted using AES-256.</task>
@@ -68,10 +68,116 @@
         <description lang="en"></description>
         <description lang="de"></description>
       </outputBox>
-    </sampleViewer>
+    </sampleViewer>   
   </input>
 
 
+  <!-- Crosscoding input -->
+  <input image="Enc" >
+    <name lang="en" >Encoding</name>
+    <name lang="de" >Kodierung</name>
+    <description lang="en" >Select this encode/decode texts to/from Base-64, hexadecimal, octal, decimal or binary.</description>
+    <description lang="de" >Hier können Sie einen Text von/zu Base-64, hexadezimaler, octaler, dezimaler oder binärer Darstellung dekodieren/kodieren.</description>
+    <headline lang="en" >Text Input</headline>
+    <headline lang="de" >Texteingabe</headline>
+    <task lang="en">Here, you can input the text to encode and the desired encoding format.
+Following the choosen input encoding the input is initially decoded to bytes. These bytes are then encoded according to the choosen output encoding. The selected character-encoding is used whenever "Text" is selected, either for input or output and controls how characters are encoded as bytes. 
+    </task>
+    <task lang="de">Hier können Sie den zu kodierenden Text und das gewünschte Ausgabeformat angeben.
+Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes dekodiert. Aus diesen Bytes wird danach die Ausgabe in dem eingestellen Ausagebeformat kodiert. Die eingestellte Zeichenkodierung wird immer verwendet wenn als Ein- oder Ausgabe "Text" gewählt wurde. Diese Einstellung steuert wie die einzelnen Zeichen in Bytes kodiert werden.</task>
+
+
+
+    <comboBox plugin="Decoder;Encoder" property="Encoding" alignment="Left" width="30%" group="1" defaultValue="4">
+      <description lang="en">Used characterencoding:</description>
+      <description lang="de">Verwendete Zeichenkodierung:</description>
+      <item content="UTF-8"/>
+      <item content="UTF-7"/>
+      <item content="UTF-16"/>
+      <item content="UTF-32"/>
+      <item content="ASCII"/>
+      <item content="ISO8859-15"/>
+      <item content="Windows-1525"/>
+    </comboBox>
+
+
+
+    <comboBox plugin="Decoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="0">
+      <description lang="en">Input should be decoded as:</description>
+      <description lang="de">In welcher Kodierung liegt die Eingabe vor?</description>
+      <item lang="en" content="Text"/>
+      <item lang="de" content="Text"/>
+      <item lang="en" content="Binary"/>
+      <item lang="de" content="Binär"/>
+      <item lang="en" content="Octal"/>
+      <item lang="de" content="Oktal"/>
+      <item lang="en" content="Decimal"/>
+      <item lang="de" content="Dezimal"/>
+      <item lang="en" content="Hexadecimal"/>
+      <item lang="de" content="Hexadezimal"/>
+      <item lang="en" content="Base64"/>
+      <item lang="de" content="Base64"/>
+    </comboBox>
+
+
+    <comboBox plugin="Encoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="5">
+      <description lang="en">The output should be encoding as:</description>
+      <description lang="de">Wie soll die Ausgabe kodiert werden?</description>
+      <item lang="en" content="Text"/>
+      <item lang="de" content="Text"/>
+      <item lang="en" content="Binary"/>
+      <item lang="de" content="Binär"/>
+      <item lang="en" content="Octal"/>
+      <item lang="de" content="Oktal"/>
+      <item lang="en" content="Decimal"/>
+      <item lang="de" content="Dezimal"/>
+      <item lang="en" content="Hexadecimal"/>
+      <item lang="de" content="Hexadezimal"/>
+      <item lang="en" content="Base64"/>
+      <item lang="de" content="Base64"/>
+    </comboBox>
+
+
+
+    <inputBox plugin="Input" property="Text" alignment="Stretch" width="100%" visibleLines="15">
+      <description lang="en">Input</description>
+      <description lang="de">Eingabe</description>
+      <defaultvalue>The quick brown fox jumps over the lazy dog.</defaultvalue>
+    </inputBox>
+
+
+    <sampleViewer image="Dec" file="Tools\Base64enc.cwm">
+      <name lang="en" >Result</name>
+      <name lang="de" >Ergebnis</name>
+      <description lang="en" >-</description>
+      <description lang="de" >-</description>
+
+      <headline lang="en" >Coding result</headline>
+      <headline lang="de" >Kodierungsergebnis</headline>
+      <task lang="en">Here you see again your input, the used bytes in hexadecimal representation and the resulting representation in the choosen encoding. You still can change your input while observing the direct effects on the used bytes and the choosen encoding.</task>
+      <task lang="de">Hier sehen sie nochmal Ihre Eingabe, die dafür verwendeten Bytes in hexadezimaler Darstellung und die resultierende Darstellung in der gewählten Kodierung. Sie können dabei die Eingabe weiterhin verändern und die direkten Auswirkungen auf die verwendeten Bytes und die gewählte Kodierung beobachten.</task>
+
+
+      <inputBox plugin="Input" property="Text" alignment="Stretch" width="100%">
+        <description lang="en">Input:</description>
+        <description lang="de">Eingabe:</description>
+        <defaultvalue>The quick brown fox jumps over the lazy dog.</defaultvalue>
+      </inputBox>
+
+
+      <outputBox plugin="HEX" property="CurrentValue" alignment="Stretch">
+        <description lang="en">Hexadecimal representation of the used bytes:</description>
+        <description lang="de">Hexadezimale Darstellung der verwendeten Bytes:</description>
+      </outputBox>
+
+      <outputBox plugin="Output" property="CurrentValue" alignment="Stretch">
+        <description lang="en">Output:</description>
+        <description lang="de">Ergebnis:</description>
+      </outputBox>
+
+    </sampleViewer>
+  </input>
+  
 
 
   <!-- Key Exchange Category -->

@@ -45,6 +45,8 @@
         <BitmapImage x:Key="Asym" UriSource="Images/Asym.png"/>
         <BitmapImage x:Key="QS" UriSource="Images/QS.png"/>
         <BitmapImage x:Key="Math" UriSource="Images/Math.png"/>
+        <BitmapImage x:Key="Enc" UriSource="Images/Enc.png"/>
+        <BitmapImage x:Key="Dec" UriSource="Images/Dec.png"/>
         <BitmapImage x:Key="Wizard" UriSource="wizard.png"/>
 
         <Storyboard x:Key="NextButtonAttentionAnimation">
