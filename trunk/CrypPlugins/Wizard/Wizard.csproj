@@ -262,7 +262,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Hash\wizard.config.hash.xml" />
+    <EmbeddedResource Include="Config\Hash\wizard.config.hash.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Math\wizard.config.factorization.xml" />
@@ -271,6 +273,10 @@
   <ItemGroup>
     <Resource Include="Images\Math.png" />
     <Resource Include="Images\QS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Dec.png" />
+    <Resource Include="Images\Enc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
