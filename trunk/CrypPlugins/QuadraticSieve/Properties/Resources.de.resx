@@ -216,14 +216,11 @@
   <data name="Information_" xml:space="preserve">
     <value>Status:</value>
   </data>
-  <data name="left" xml:space="preserve">
-    <value>verbleiben</value>
-  </data>
   <data name="Local_Sieving_" xml:space="preserve">
     <value>Lokales Sieben (nicht verbunden)</value>
   </data>
   <data name="minutes" xml:space="preserve">
-    <value>Minutes</value>
+    <value>Minuten</value>
   </data>
   <data name="Needed_Relations_" xml:space="preserve">
     <value>Benötigte Relationen:</value>
@@ -265,7 +262,7 @@
     <value>Jetzt wird gesiebt!</value>
   </data>
   <data name="Starting_quadratic_sieve" xml:space="preserve">
-    <value>Quadratisches Sieb wird gestartet, bitte warten!</value>
+    <value>Startvorgang, bitte warten!</value>
   </data>
   <data name="Start_" xml:space="preserve">
     <value>Beginn:</value>
@@ -287,5 +284,17 @@
   </data>
   <data name="Digits" xml:space="preserve">
     <value>Dezimalstellen</value>
+  </data>
+  <data name="day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="hour" xml:space="preserve">
+    <value>Stunde</value>
+  </data>
+  <data name="minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="second" xml:space="preserve">
+    <value>Sekunde</value>
   </data>
 </root>

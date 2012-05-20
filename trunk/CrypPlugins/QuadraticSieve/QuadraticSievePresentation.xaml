@@ -19,8 +19,8 @@
                 <Grid Background="#AFFFD4C1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26" />
-                        <ColumnDefinition Width="265*" />
-                        <ColumnDefinition Width="351*" />
+                        <ColumnDefinition Width="300*" />
+                        <ColumnDefinition Width="300*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26" />
@@ -30,13 +30,13 @@
                         <Label Content="{Loc Time}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="45" HorizontalContentAlignment="Center" />
                     </Border>
                     <Label Content="{Loc Start_}" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,308,0" />
-                    <Label Name="startTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Content="-" Grid.ColumnSpan="2" Margin="80,0,308,0" />
+                    <Label Name="startTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Content="-" Margin="100,0,0,0" />
                     <Label Content="{Loc End_}" HorizontalAlignment="Left" Grid.Column="2" Margin="1,-2,0,2" />
-                    <Label Name="endTime" Style="{StaticResource ValueRow2}" Grid.Column="2" Content="-" Margin="123,0,0,0" />
+                    <Label Name="endTime" Style="{StaticResource ValueRow2}" Grid.Column="2" Content="-" Margin="100,0,0,0" />
                     <Label Content="{Loc Elapsed_}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,308,0" />
-                    <Label Name="elapsedTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" Grid.ColumnSpan="2" Margin="80,0,308,0" />
+                    <Label Name="elapsedTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" Margin="100,0,0,0" />
                     <Label Content="{Loc Remaining_}" Grid.Column="2" Margin="0,25,43,1" Grid.RowSpan="2" />
-                    <Label Name="timeLeft" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" Margin="123,0,0,0" />
+                    <Label Name="timeLeft" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" Margin="100,0,0,0" />
                 </Grid>
             </Border>
 
@@ -67,8 +67,8 @@
                 <Grid Background="#AFE2E2E2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26" />
-                        <ColumnDefinition Width="269*" />
-                        <ColumnDefinition Width="347*" />
+                        <ColumnDefinition Width="300*" />
+                        <ColumnDefinition Width="300*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26" />
@@ -78,14 +78,14 @@
                         <Label Content="{Loc Progress}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="65" HorizontalContentAlignment="Center" />
                     </Border>
 
-                    <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,0,125,0" />
-                    <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="140,0,4,0" />
+                    <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,-3,125,3" />
+                    <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="140,-3,4,3" HorizontalAlignment="Left"/>
                     <Label Content="{Loc Needed_Relations_}" HorizontalAlignment="Left" Grid.Column="2" Margin="0,-3,0,3" />
-                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="144,0,0,0" />
-                    <Label Content="{Loc Cores_used_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
-                    <Label Name="coresUsed" Margin="140,0,3,0" Grid.Column="1" Content="-" Grid.Row="1" />
-                    <Label Content="{Loc Information_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Margin="268,0,0,0" Grid.ColumnSpan="2" />
-                    <Label Name="information" Grid.Column="2" Content="-" Margin="144,0,0,0" Grid.Row="1"/>
+                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="140,-3,0,3"  HorizontalAlignment="Left"/>
+                    <Label Content="{Loc Cores_used_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Margin="0,-3,0,3" />
+                    <Label Name="coresUsed" Margin="140,-3,3,3" Grid.Column="1" Content="-" Grid.Row="1" HorizontalAlignment="Left" />
+                    <Label Content="{Loc Information_}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Margin="0,-3,0,3" Grid.ColumnSpan="2" />
+                    <Label Name="information" Grid.Column="2" Content="-" Margin="70,-3,0,3" Grid.Row="1" HorizontalAlignment="Left"/>
                 </Grid>
             </Border>
 
