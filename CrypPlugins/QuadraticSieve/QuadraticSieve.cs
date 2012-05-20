@@ -446,14 +446,27 @@ namespace Cryptool.Plugins.QuadraticSieve
         private String timeSpanString(TimeSpan ts)
         {
             String res = "";
-            if (ts.Days != 0)
+            if (ts.Days > 1)
                 res = ts.Days + " " + typeof(QuadraticSieve).GetPluginStringResource("days") + " ";
-            if (ts.Hours != 0 || res.Length != 0)
+            if (ts.Days == 1)
+                res = ts.Days + " " + typeof(QuadraticSieve).GetPluginStringResource("day") + " ";
+
+            if (ts.Hours > 1 || res.Length != 0)
                 res += ts.Hours + " " + typeof(QuadraticSieve).GetPluginStringResource("hours") + " ";
-            if (ts.Minutes != 0)
+            if (ts.Hours == 1)
+                res += ts.Hours + " " + typeof(QuadraticSieve).GetPluginStringResource("hour") + " ";
+
+            if (ts.Minutes > 1)
                 res += ts.Minutes + " " + typeof(QuadraticSieve).GetPluginStringResource("minutes") + " ";
-            if (res.Length == 0)
+            if (ts.Minutes == 1)
+                res += ts.Minutes + " " + typeof(QuadraticSieve).GetPluginStringResource("minute") + " ";
+
+            if (res.Length == 0 && ts.Seconds > 1)
                 res += ts.Seconds + " " + typeof(QuadraticSieve).GetPluginStringResource("seconds");
+            if (res.Length == 0 && ts.Seconds == 1)
+                res += ts.Seconds + " " + typeof(QuadraticSieve).GetPluginStringResource("second");
+
+
             return res;
         }
 
@@ -631,7 +644,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan((long)(msleft * TimeSpan.TicksPerMillisecond));
-                timeLeft_message = timeSpanString(ts) + " " + typeof(QuadraticSieve).GetPluginStringResource("left");
+                timeLeft_message = timeSpanString(ts);
                 endtime_message = "" + now.AddMilliseconds((long)msleft);
             }
 
