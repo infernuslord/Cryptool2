@@ -53,7 +53,7 @@
     </inputBox>
 
 
-    <sampleViewer image="AES" file="Cryptography\Modern\Symmetric\AES-PKCS5-Base64.cwm">
+    <sampleViewer image="AES" file="Cryptography\Modern\Symmetric\AES-CBC-IV-PKCS5-Base64.cwm">
       <name lang="en" >Result</name>
       <name lang="de" >Ergebnis</name>
       <description lang="en" >-</description>
