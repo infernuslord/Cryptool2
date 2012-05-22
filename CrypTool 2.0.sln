@@ -293,11 +293,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CrypTool 2.0.vsmdi = CrypTool 2.0.vsmdi
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CypherMatrixHash", "CrypPluginsExperimental\CypherMatrixHash\CypherMatrixHash.csproj", "{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CrypTool 2.0.vsmdi
 	EndGlobalSection
@@ -858,6 +856,10 @@ Global
 		{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E}.Debug|x86.Build.0 = Debug|x86
 		{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E}.Release|x86.ActiveCfg = Release|x86
 		{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E}.Release|x86.Build.0 = Release|x86
+		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537}.Debug|x86.ActiveCfg = Debug|x86
+		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537}.Debug|x86.Build.0 = Debug|x86
+		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537}.Release|x86.ActiveCfg = Release|x86
+		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -991,6 +993,10 @@ Global
 		{F182C351-6646-42BF-BD8C-96DFE53D217E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{E3F66631-E6FF-45DE-B986-D35397CF04AA} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{2E5D013E-9B45-46BC-8B8A-94CFADD20D8E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
-
