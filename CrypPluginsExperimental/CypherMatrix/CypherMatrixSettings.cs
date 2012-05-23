@@ -23,20 +23,17 @@ namespace Cryptool.Plugins.CypherMatrix
 {
     public class CypherMatrixSettings : ISettings
     {
-        public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1 , Hash = 2};
+        public enum CypherMatrixMode { Encrypt = 0, Decrypt = 1};
         public enum Permutation {None = 0, B = 1, D = 2 };
-        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2 , Mini = 3};
 
         #region Private variables and public constructor
 
         private CypherMatrixMode selectedAction = CypherMatrixMode.Encrypt;
         private Permutation selectedPerm = Permutation.B;
-        private CypherMatrixHashMode selectedHash = CypherMatrixHashMode.FMX;
         private int code = 1;   // 1 bis 99, Standardwert: 1, individueller Anwender-Code
         private int basis = 77; // 35 bis 96, Standardwert: 77?, Zahlensystem für Expansionsfunktion
         private int matrixKeyLen = 42;  // 36 bis 64 Bytes, Standardwert: 44, Länge des Matrix-Schlüssels
         private int blockKeyLen = 63;   //35 bis 96 Bytes, Standardwert: 63, Länge des Block-Schlüssels
-        private int hashBlockLen = 64;  //32-96 Bytes, Standardwert: 64?, Länge der >Hash-Sequenz<
         private bool debug = false;
 
         public CypherMatrixSettings()
@@ -46,14 +43,14 @@ namespace Cryptool.Plugins.CypherMatrix
 
         public void Initialize()
         {
-            setSettingsVisibility();
+            
         }
 
         #endregion
 
         #region TaskPane Settings
 
-        [TaskPane("ActionCaption", "ActionTooltip", "GeneralOptionsGroup", 1, false, ControlType.ComboBox, new string[] { "CypherMatrixMode0", "CypherMatrixMode1", "CypherMatrixMode2" })]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "CypherMatrixMode0", "CypherMatrixMode1" })]
         public CypherMatrixMode Action
         {
             get
@@ -67,12 +64,11 @@ namespace Cryptool.Plugins.CypherMatrix
                     
                     this.selectedAction = value;
                     OnPropertyChanged("Action");
-                    setSettingsVisibility();
                 }
             }
         }
 
-        [TaskPane("UserCodeCaption", "UserCodeTooltip", "GeneralOptionsGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
+        [TaskPane("UserCodeCaption", "UserCodeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 99)]
         public int Code
         {
             get
@@ -89,7 +85,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("ExpansionBaseCaption", "ExpansionBaseTooltip", "GeneralOptionsGroup", 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        [TaskPane("ExpansionBaseCaption", "ExpansionBaseTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
         public int Basis
         {
             get
@@ -106,7 +102,41 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("PermCaption", "PermTooltip", "GeneralOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "PermOptionNone", "PermOptionB", "PermOptionD" })]
+        [TaskPane("MatrixKeySizeCaption", "MatrixKeySizeTooltip", null, 4, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
+        public int MatrixKeyLen
+        {
+            get
+            {
+                return matrixKeyLen;
+            }
+            set
+            {
+                if (matrixKeyLen != value)
+                {
+                    matrixKeyLen = value;
+                    OnPropertyChanged("MatrixKeyLen");
+                }
+            }
+        }
+
+        [TaskPane("BlockSizeCaption", "BlockSizeTooltip", null, 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
+        public int BlockKeyLen
+        {
+            get
+            {
+                return blockKeyLen;
+            }
+            set
+            {
+                if (blockKeyLen != value)
+                {
+                    blockKeyLen = value;
+                    OnPropertyChanged("BlockKeyLen");
+                }
+            }
+        }
+
+        [TaskPane("PermCaption", "PermTooltip", null, 6, false, ControlType.ComboBox, new string[] { "PermOptionNone", "PermOptionB", "PermOptionD" })]
         public Permutation Perm
         {
             get
@@ -124,7 +154,7 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", "GeneralOptionsGroup", 5, false, ControlType.CheckBox)]
+        [TaskPane("WriteDebugLogCaption", "WriteDebugLogTooltip", null, 7, false, ControlType.CheckBox)]
         public bool Debug
         {
             get
@@ -141,106 +171,9 @@ namespace Cryptool.Plugins.CypherMatrix
             }
         }
 
-        [TaskPane("MatrixKeySizeCaption", "MatrixKeySizeTooltip", "CipherOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 36, 64)]
-        public int MatrixKeyLen
-        {
-            get
-            {
-                return matrixKeyLen;
-            }
-            set
-            {
-                if (matrixKeyLen != value)
-                {
-                    matrixKeyLen = value;
-                    OnPropertyChanged("MatrixKeyLen");
-                }
-            }
-        }
-
-        [TaskPane("BlockSizeCaption", "BlockSizeTooltip", "CipherOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 35, 96)]
-        public int BlockKeyLen
-        {
-            get
-            {
-                return blockKeyLen;
-            }
-            set
-            {
-                if (blockKeyLen != value)
-                {
-                    blockKeyLen = value;
-                    OnPropertyChanged("BlockKeyLen");
-                }
-            }
-        }
-
-        [TaskPane("HashBlockSizeCaption", "HashBlockSizeTooltip", "HashOptionsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 32, 96)]
-        public int HashBlockLen
-        {
-            get
-            {
-                return hashBlockLen;
-            }
-            set
-            {
-                if (hashBlockLen != value)
-                {
-                    hashBlockLen = value;
-                    OnPropertyChanged("HashBlockLen");
-                }
-            }
-        }
-
-        [TaskPane("HashModeCaption", "HashModeTooltip", "HashOptionsGroup", 2, false, ControlType.ComboBox, new string[] { "HashModeSMX", "HashModeFMX", "HashModeLCX", "HashModeMini" })]
-        public CypherMatrixHashMode HashMode
-        {
-            get
-            {
-                return this.selectedHash;
-            }
-            set
-            {
-                if (value != selectedHash)
-                {
-
-                    this.selectedHash = value;
-                    OnPropertyChanged("HashMode");
-                }
-            }
-        }
-
         #endregion
 
         #region private Methods
-
-        private void setSettingsVisibility()
-        {
-            switch (selectedAction)
-            {
-                case CypherMatrixMode.Encrypt:
-                case CypherMatrixMode.Decrypt:
-                    {
-                        showSettingsElement("MatrixKeyLen");
-                        showSettingsElement("BlockKeyLen");
-                        hideSettingsElement("HashBlockLen");
-                        hideSettingsElement("HashMode");
-                        break;
-                    }
-                case CypherMatrixMode.Hash:
-                    {
-                        showSettingsElement("HashBlockLen");
-                        showSettingsElement("HashMode");
-                        hideSettingsElement("MatrixKeyLen");
-                        hideSettingsElement("BlockKeyLen");
-                        break;
-                    }
-                default:
-                    {
-                        goto case CypherMatrixMode.Decrypt;
-                    }
-            }
-        }
 
         private void showSettingsElement(string element)
         {
