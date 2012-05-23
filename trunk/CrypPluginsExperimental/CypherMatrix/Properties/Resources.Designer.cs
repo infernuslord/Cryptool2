@@ -97,15 +97,6 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cipher Options ähnelt.
-        /// </summary>
-        internal static string CipherOptionsGroup {
-            get {
-                return ResourceManager.GetString("CipherOptionsGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Encrypt ähnelt.
         /// </summary>
         internal static string CypherMatrixMode0 {
@@ -120,15 +111,6 @@ namespace CypherMatrix.Properties {
         internal static string CypherMatrixMode1 {
             get {
                 return ResourceManager.GetString("CypherMatrixMode1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash ähnelt.
-        /// </summary>
-        internal static string CypherMatrixMode2 {
-            get {
-                return ResourceManager.GetString("CypherMatrixMode2", resourceCulture);
             }
         }
         
@@ -165,96 +147,6 @@ namespace CypherMatrix.Properties {
         internal static string ExpansionBaseTooltip {
             get {
                 return ResourceManager.GetString("ExpansionBaseTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Global Options ähnelt.
-        /// </summary>
-        internal static string GeneralOptionsGroup {
-            get {
-                return ResourceManager.GetString("GeneralOptionsGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash block size ähnelt.
-        /// </summary>
-        internal static string HashBlockSizeCaption {
-            get {
-                return ResourceManager.GetString("HashBlockSizeCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the block size of the hash value ähnelt.
-        /// </summary>
-        internal static string HashBlockSizeTooltip {
-            get {
-                return ResourceManager.GetString("HashBlockSizeTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash mode ähnelt.
-        /// </summary>
-        internal static string HashModeCaption {
-            get {
-                return ResourceManager.GetString("HashModeCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die final ähnelt.
-        /// </summary>
-        internal static string HashModeFMX {
-            get {
-                return ResourceManager.GetString("HashModeFMX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die last cycle ähnelt.
-        /// </summary>
-        internal static string HashModeLCX {
-            get {
-                return ResourceManager.GetString("HashModeLCX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die mini ähnelt.
-        /// </summary>
-        internal static string HashModeMini {
-            get {
-                return ResourceManager.GetString("HashModeMini", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die serial ähnelt.
-        /// </summary>
-        internal static string HashModeSMX {
-            get {
-                return ResourceManager.GetString("HashModeSMX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select the hash mode ähnelt.
-        /// </summary>
-        internal static string HashModeTooltip {
-            get {
-                return ResourceManager.GetString("HashModeTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash Options ähnelt.
-        /// </summary>
-        internal static string HashOptionsGroup {
-            get {
-                return ResourceManager.GetString("HashOptionsGroup", resourceCulture);
             }
         }
         
@@ -340,29 +232,11 @@ namespace CypherMatrix.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A ähnelt.
-        /// </summary>
-        internal static string PermOptionA {
-            get {
-                return ResourceManager.GetString("PermOptionA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die B ähnelt.
         /// </summary>
         internal static string PermOptionB {
             get {
                 return ResourceManager.GetString("PermOptionB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die C ähnelt.
-        /// </summary>
-        internal static string PermOptionC {
-            get {
-                return ResourceManager.GetString("PermOptionC", resourceCulture);
             }
         }
         

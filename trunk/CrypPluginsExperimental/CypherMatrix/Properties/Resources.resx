@@ -171,23 +171,11 @@
   <data name="MatrixKeySizeTooltip" xml:space="preserve">
     <value>Choose the matrix key size</value>
   </data>
-  <data name="CipherOptionsGroup" xml:space="preserve">
-    <value>Cipher Options</value>
-  </data>
   <data name="BlockSizeCaption" xml:space="preserve">
     <value>Block size</value>
   </data>
   <data name="BlockSizeTooltip" xml:space="preserve">
     <value>Choose the block size of the input data</value>
-  </data>
-  <data name="HashBlockSizeCaption" xml:space="preserve">
-    <value>Hash block size</value>
-  </data>
-  <data name="HashBlockSizeTooltip" xml:space="preserve">
-    <value>Choose the block size of the hash value</value>
-  </data>
-  <data name="HashOptionsGroup" xml:space="preserve">
-    <value>Hash Options</value>
   </data>
   <data name="CypherMatrixMode0" xml:space="preserve">
     <value>Encrypt</value>
@@ -195,20 +183,11 @@
   <data name="CypherMatrixMode1" xml:space="preserve">
     <value>Decrypt</value>
   </data>
-  <data name="CypherMatrixMode2" xml:space="preserve">
-    <value>Hash</value>
-  </data>
   <data name="PermCaption" xml:space="preserve">
     <value>Permutation</value>
   </data>
-  <data name="PermOptionA" xml:space="preserve">
-    <value>A</value>
-  </data>
   <data name="PermOptionB" xml:space="preserve">
     <value>B</value>
-  </data>
-  <data name="PermOptionC" xml:space="preserve">
-    <value>C</value>
   </data>
   <data name="PermTooltip" xml:space="preserve">
     <value>Select the permutation function</value>
@@ -219,29 +198,8 @@
   <data name="DebugDataTooltip" xml:space="preserve">
     <value>Log of CypherMatrix's internal variables</value>
   </data>
-  <data name="HashModeSMX" xml:space="preserve">
-    <value>serial</value>
-  </data>
-  <data name="HashModeFMX" xml:space="preserve">
-    <value>final</value>
-  </data>
-  <data name="HashModeLCX" xml:space="preserve">
-    <value>last cycle</value>
-  </data>
-  <data name="HashModeCaption" xml:space="preserve">
-    <value>Hash mode</value>
-  </data>
-  <data name="HashModeTooltip" xml:space="preserve">
-    <value>Select the hash mode</value>
-  </data>
   <data name="PermOptionD" xml:space="preserve">
     <value>D</value>
-  </data>
-  <data name="HashModeMini" xml:space="preserve">
-    <value>mini</value>
-  </data>
-  <data name="GeneralOptionsGroup" xml:space="preserve">
-    <value>Global Options</value>
   </data>
   <data name="PermOptionNone" xml:space="preserve">
     <value>None</value>
