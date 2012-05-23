@@ -43,8 +43,8 @@ namespace Cryptool.Plugins.CypherMatrixHash
         private byte[] cm3;
         private bool stop = false;                                  //soll das Plugin unterbrochen werden?
         private Encoding encoding = Encoding.UTF8;                  //Standardausgabecodierung
-        private Encoding schnoor = Encoding.GetEncoding("437");     //DOS-US, wird von Herr Schnoors Programm genutzt
-        private byte[] DigitSet;                                    //von Herr Schnoor gewählte Zeichen für Zahlen in größeren Zahlensystemen
+        private Encoding schnoor = Encoding.GetEncoding("437");     //DOS-US, wird von Schnoor's Programm genutzt
+        private byte[] DigitSet;                                    //von Schnoor gewählte Zeichen für Zahlen in größeren Zahlensystemen
 
         public CypherMatrixHash()
         {
@@ -141,7 +141,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
                 //inputStreamReader.WaitEof();
                 if (!ValidateInputs())
                     return;     // beende die Ausführung bei Problemen mit den Eingabedaten
-                //debugDataWriter = new StreamWriter("CypherMatrixDebug.log", false);  // sollte die Datei schon vorhanden sein, wird sie überschrieben
                 debugDataWriter = new CStreamWriter();
 
                 if (settings.Debug)
@@ -186,7 +185,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
                 if (settings.Debug)
                 {
                     WriteDebug("\r\n>>>>>>>>>> END OF OPERATION <<<<<<<<<<");
-                    //GuiLogMessage(String.Format("Debug data has been written to {0}\\CypherMatrixDebug.log.", Environment.CurrentDirectory), NotificationLevel.Info);
                 }
                 else
                 {
@@ -278,7 +276,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
             int[] perm = new int[16];   // Permutationsarray bei Permutation mit Variate C
             byte[] rndX = null, rndY = null;     // Permutationsarrays bei Permutation mit Variate D
 
-            //int n = matrixKey.Length;
             int C_k = matrixKey.Length * (matrixKey.Length - 2) + settings.Code;
 
             for (i = 1; i <= matrixKey.Length; i++)
@@ -354,7 +351,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
                     }
                 case CypherMatrixHashSettings.Permutation.D:
                     {
-                        //VarFolge(K)=DatFolge(K)-Theta //VarFolge(K) == cm1[k]
                         rndX = new byte[16];
                         rndY = new byte[16];
                         i = 0;
@@ -398,10 +394,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
             // Debugdaten schreiben, Teil 1
             if (settings.Debug)
             {
-                //WriteDebug(String.Format("\r\nInputByteArray (hex): \r\n "));
-                //foreach (byte b in InputByteArray)
-                //    WriteDebug(String.Format(" {0:X2}", b));
-                //WriteDebug("\r\n");
                 WriteDebug(String.Format("Data of round {0}\r\n\r\n", r));
                 WriteDebug(String.Format("code = {0}\r\n", settings.Code));
                 WriteDebug(String.Format("basis = {0}\r\n", settings.Basis));
