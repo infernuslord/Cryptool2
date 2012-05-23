@@ -6,8 +6,8 @@
 <category image="Indiv">
   <name lang="en" >Tools</name>
   <name lang="de" >Werkzeuge</name>
-  <description lang="en" >Here you can quickly perform specific tasks, e.g. encryption of a message with a password or encode a text to base64.</description>
-  <description lang="de" >Hier können Sie schnell spezifische Aufgabe (z.B. Verschlüsseln eines Textes mit einem Passwort oder Base64-Kodierungen) ausführen.</description>
+  <description lang="en" >Here you can quickly perform specific tasks, e.g. encryption of a message with a password or encoding text to base64.</description>
+  <description lang="de" >Hier können Sie schnell spezifische Aufgaben ausführen (z.B. Verschlüsseln eines Textes mit einem Passwort oder Base64-Kodierungen).</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Tools Selection</headline>
@@ -15,7 +15,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select a tool.</task>
-  <task lang="de" >Wählen Sie eine Hilfsfunktion.</task>
+  <task lang="de" >Wählen Sie eine Aufgabe.</task>
 
 
 
@@ -23,12 +23,12 @@
   <input image="EnDeCrypt" >
     <name lang="en" >Encrypt with password</name>
     <name lang="de" >Verschlüsseln mit Passwort</name>
-    <description lang="en" >Select this to quickly encrypt or decrypt some plaintext with AES by using a simple password. The encrypted result is base64-encoded for easy copy and paste e.g. to an email.</description>
-    <description lang="de" >Hier können Sie einen Eingabetext mit Hilfe eines Passwortes verschlüsseln (AES). Das verschlüsselte Ergebnis wird in textueller Form als Base-64-Kodierung ausgegeben - dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
+    <description lang="en" >Select this to quickly encrypt or decrypt some plaintext with AES by using a simple password. The encrypted result is base64-encoded text (e.g. for easy copy and paste to an email).</description>
+    <description lang="de" >Hier können Sie einen Text mit Hilfe eines Passwortes verschlüsseln (AES). Das verschlüsselte Ergebnis wird als Base-64-codierter Text ausgegeben - dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <task lang="en">Here, you can input your message and the password to use. The entered password is converted to an 256-bit AES-key by using PKCS5. The entered text is then encrypted or decrypted using AES-256.</task>
-    <task lang="de">Hier können Sie Ihre Nachricht und das Passwort eingeben. Das eingegebene Passwort wird mittels PKCS5 zu einem 256-Bit AES-Schlüssel umgewandelt. Ihr Text wird danach mit AES-256 ver- oder entschlüsselt.</task>
+    <task lang="en">Here, you can enter your message and the password to use. The password is converted to a 256-bit AES key by using PKCS5. The entered message is then encrypted or decrypted using AES-256.</task>
+    <task lang="de">Hier können Sie Ihre Nachricht und das Passwort eingeben. Das Passwort wird mittels PKCS5 zu einem 256-Bit AES-Schlüssel umgewandelt. Ihre Nachricht wird danach mit AES-256 ver- oder entschlüsselt.</task>
 
     <comboBox plugin="AES;Switch" property="Action" alignment="Left" width="20%" group="1">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -61,8 +61,8 @@
 
       <headline lang="en" >Your message</headline>
       <headline lang="de" >Ihre Nachricht</headline>
-      <task lang="en">Your encrypted or decrypted message. In case you encrypted a message, the result is base-64-encoded, which is convenient when copied e.g. to an email. The receiver can then use the same pocedure (and clearly also the same password) to get the original message.</task>
-      <task lang="de">Hier sehen sie Ihre ver- oder entschlüsselte Nachricht. Wenn Sie eine Nachricht verschlüsselt haben, so ist das Ergebnis zusätzlich in Base64 kodiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.</task>
+      <task lang="en">Your encrypted or decrypted message. In case you encrypted a message, the result is base-64-encoded, which is convenient when copied e.g. to an email. The receiver can then use the same procedure (and clearly the same password) to get back the original message.</task>
+      <task lang="de">Hier sehen Sie Ihre ver- oder entschlüsselte Nachricht. Wenn Sie eine Nachricht verschlüsselten, so ist das Ergebnis zusätzlich in Base64 kodiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.</task>
 
       <outputBox plugin="Output" property="CurrentValue" alignment="Stretch" visibleLines="20">
         <description lang="en"></description>
@@ -76,20 +76,20 @@
   <input image="Enc" >
     <name lang="en" >Encoding</name>
     <name lang="de" >Kodierung</name>
-    <description lang="en" >Select this encode/decode texts to/from Base-64, hexadecimal, octal, decimal or binary.</description>
-    <description lang="de" >Hier können Sie einen Text von/zu Base-64, hexadezimaler, octaler, dezimaler oder binärer Darstellung dekodieren/kodieren.</description>
+    <description lang="en" >Select this to encode/decode texts to/from base-64, hexadecimal, octal, decimal or binary.</description>
+    <description lang="de" >Hier können Sie einen Text von/zu Base-64, hexadezimaler, oktaler, dezimaler oder binärer Darstellung dekodieren/kodieren.</description>
     <headline lang="en" >Text Input</headline>
     <headline lang="de" >Texteingabe</headline>
-    <task lang="en">Here, you can input the text to encode and the desired encoding format.
-Following the choosen input encoding the input is initially decoded to bytes. These bytes are then encoded according to the choosen output encoding. The selected character-encoding is used whenever "Text" is selected, either for input or output and controls how characters are encoded as bytes. 
+    <task lang="en">Here, you can enter the text to encode and the desired encoding format.
+According the chosen input encoding the text is initially decoded to bytes. These bytes are then encoded according to the chosen output encoding. The selected character encoding is always used when "Text" is selected either as input or as output. It controls how characters are encoded as bytes. 
     </task>
     <task lang="de">Hier können Sie den zu kodierenden Text und das gewünschte Ausgabeformat angeben.
-Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes dekodiert. Aus diesen Bytes wird danach die Ausgabe in dem eingestellen Ausagebeformat kodiert. Die eingestellte Zeichenkodierung wird immer verwendet wenn als Ein- oder Ausgabe "Text" gewählt wurde. Diese Einstellung steuert wie die einzelnen Zeichen in Bytes kodiert werden.</task>
+Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes dekodiert. Aus diesen Bytes wird danach die Ausgabe in dem eingestellen Ausagebeformat kodiert. Die eingestellte Zeichenkodierung wird immer verwendet, wenn als Ein- oder Ausgabe "Text" gewählt wurde. Diese Einstellung steuert, wie die einzelnen Zeichen in Bytes kodiert werden.</task>
 
 
 
     <comboBox plugin="Decoder;Encoder" property="Encoding" alignment="Left" width="30%" group="1" defaultValue="4">
-      <description lang="en">Used characterencoding:</description>
+      <description lang="en">Used character encoding:</description>
       <description lang="de">Verwendete Zeichenkodierung:</description>
       <item content="UTF-8"/>
       <item content="UTF-7"/>
@@ -103,7 +103,7 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
 
 
     <comboBox plugin="Decoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="0">
-      <description lang="en">Input should be decoded as:</description>
+      <description lang="en">What encoding does the input text have?</description>
       <description lang="de">In welcher Kodierung liegt die Eingabe vor?</description>
       <item lang="en" content="Text"/>
       <item lang="de" content="Text"/>
@@ -121,7 +121,7 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
 
 
     <comboBox plugin="Encoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="5">
-      <description lang="en">The output should be encoding as:</description>
+      <description lang="en">The output should be encoded as:</description>
       <description lang="de">Wie soll die Ausgabe kodiert werden?</description>
       <item lang="en" content="Text"/>
       <item lang="de" content="Text"/>
@@ -154,8 +154,8 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
 
       <headline lang="en" >Coding result</headline>
       <headline lang="de" >Kodierungsergebnis</headline>
-      <task lang="en">Here you see again your input, the used bytes in hexadecimal representation and the resulting representation in the choosen encoding. You still can change your input while observing the direct effects on the used bytes and the choosen encoding.</task>
-      <task lang="de">Hier sehen sie nochmal Ihre Eingabe, die dafür verwendeten Bytes in hexadezimaler Darstellung und die resultierende Darstellung in der gewählten Kodierung. Sie können dabei die Eingabe weiterhin verändern und die direkten Auswirkungen auf die verwendeten Bytes und die gewählte Kodierung beobachten.</task>
+      <task lang="en">Here you see again your input, the used bytes in hexadecimal representation and the resulting representation in the chosen encoding. You still can change your input while observing the direct effects on the used bytes and the chosen encoding.</task>
+      <task lang="de">Hier sehen Sie nochmal Ihre Eingabe, die dafür verwendeten Bytes in hexadezimaler Darstellung und die resultierende Darstellung in der gewählten Kodierung. Sie können dabei die Eingabe weiterhin verändern und die direkten Auswirkungen auf die verwendeten Bytes und die gewählte Kodierung beobachten.</task>
 
 
       <inputBox plugin="Input" property="Text" alignment="Stretch" width="100%">
