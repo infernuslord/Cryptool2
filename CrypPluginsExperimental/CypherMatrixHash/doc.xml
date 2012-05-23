@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    CypherMatrix is a system to encrypt and decrypt as well as hash data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
+    CypherMatrix is a system to encrypt as well as hash data. It was patented 1998 by E.E. Schnoor. He has given his approval for using it within the CrypTool project.
     <newline/>
     The name CypherMatrix refers to the fact that the result of the cryptographic operation has a matrix structure. The author wrote CypherMatrix with "y" to recall the passed centuries of cryptography, because this method - regardless of modern engineering - still uses bytes as symbols.
     <newline/>
@@ -18,7 +18,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    CypherMatrix ist ein Verfahren, das sowohl die Ver- und Entschlüsselung als auch das Hashen Daten ermöglicht. Es wurde 1998 von E.E. Schnoor patentiert. Er hat die seine Zustimmung zur Nutzung im CrypTool-Projekt gegeben.
+    CypherMatrix ist ein Verfahren, das sowohl die Verschlüsselung als auch das Hashen Daten ermöglicht. Es wurde 1998 von E.E. Schnoor patentiert. Er hat die seine Zustimmung zur Nutzung im CrypTool-Projekt gegeben.
     <newline/>
     Der Name CypherMatrix beruht darauf, dass das Verfahren eine Matrix als Ergebnis erzeugt. Der Urheber schrieb CypherMatrix mit "y", weil das hier vorgestellte Verfahren als Zeichen - ungeachtet moderner Techniken - nur Bytes verwendet und so an die Kryptographie vergangener Jahrhunderte erinnern soll.
     <newline/>
