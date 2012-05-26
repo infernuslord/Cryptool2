@@ -28,7 +28,8 @@ namespace RandomInput
   public class RandomInputSettings : ISettings
   {
     private int bytes = 1;
-    private int keepRND = 0; //0 = each stream / array will be filled with fresh random numbers
+    private int keepRND = 0; //0 = each stream / array will be filled with fresh random NumNumbers
+    private int _numNumbers = 1;
 
     [TaskPane( "BytesCaption", "BytesTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
     public int Bytes
@@ -39,6 +40,17 @@ namespace RandomInput
         this.bytes = value;
         OnPropertyChanged("Bytes");
       }
+    }
+
+    [TaskPane("NumNumbersCaption", "NumNumbersTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
+    public int NumNumbers
+    {
+        get { return this._numNumbers; }
+        set
+        {
+            this._numNumbers = value;
+            OnPropertyChanged("NumNumbers");
+        }
     }
 
     [ContextMenu( "KeepRNDCaption", "KeepRNDTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "KeepRNDList1", "KeepRNDList2" })]
