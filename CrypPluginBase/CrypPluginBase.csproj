@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AssemblyAttributes.cs" />
+    <Compile Include="Attributes\AutoAssumeFullEndProgressAttribute.cs" />
     <Compile Include="Attributes\ComponentCategoryAttribute.cs" />
     <Compile Include="Attributes\ComponentVisualAppearance.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />

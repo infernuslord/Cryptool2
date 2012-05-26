@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.IO;
 using System.Globalization;
 using System.Diagnostics;
@@ -26,6 +27,7 @@ namespace Cryptool.WEPAttacks
         "WEPAttacks/DetailedDescription/doc.xml",
         "WEPAttacks/Mallory.jpg")]
     [ComponentCategory(ComponentCategory.Protocols)]
+    [AutoAssumeFullEndProgress(false)]
     public class WEPAttacks : ICrypComponent
     {
         #region Private variables

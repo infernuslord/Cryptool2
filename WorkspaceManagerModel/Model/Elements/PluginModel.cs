@@ -617,8 +617,11 @@ namespace WorkspaceManager.Model
                         Plugin.Execute();
                         executionEngine.ExecutionCounter++;
 
-                        PercentageFinished = 1;
-                        GuiNeedsUpdate = true;
+                        if (plugin.GetAutoAssumeFullEndProgressAttribute())
+                        {
+                            PercentageFinished = 1;
+                            GuiNeedsUpdate = true;
+                        }
                     }
                     catch (Exception ex)
                     {

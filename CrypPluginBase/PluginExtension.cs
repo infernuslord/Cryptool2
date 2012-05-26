@@ -147,6 +147,20 @@ namespace Cryptool.PluginBase
             return null;
         }
 
+        public static bool GetAutoAssumeFullEndProgressAttribute(this IPlugin plugin)
+        {
+            if (plugin != null)
+            {
+                var attributes = (AutoAssumeFullEndProgressAttribute[])
+                                 plugin.GetType().GetCustomAttributes(typeof (AutoAssumeFullEndProgressAttribute), false);
+                if(attributes.Length == 1)
+                {
+                    return attributes[0].AutoProgressChanged;
+                }
+            }
+            return true;
+        }
+
         public static AuthorAttribute GetPluginAuthorAttribute(this Type type)
         {
             if (type == null)
