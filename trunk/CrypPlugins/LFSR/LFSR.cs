@@ -630,6 +630,7 @@ namespace Cryptool.LFSR
 
         private void processLFSR()
         {
+            settings.PluginIsRunning = true;
             // check if event was from the boolean clock input
             // if so, check if boolean clock should be used
             // if not, do not process LFSR
@@ -855,6 +856,7 @@ namespace Cryptool.LFSR
             finally
             {
                 ProgressChanged(1, 1);
+                settings.PluginIsRunning = false;
             }
         }
 
@@ -898,11 +900,19 @@ namespace Cryptool.LFSR
 
         public void PostExecution()
         {
-            if (settings.SaveCurrentState)
-                settings.CurrentState = seedbuffer;
-            else
-                settings.CurrentState = null;
-            Dispose();
+            settings.PluginIsRunning = true;
+            try
+            {
+                if (settings.SaveCurrentState)
+                    settings.CurrentState = seedbuffer;
+                else
+                    settings.CurrentState = null;
+                Dispose();
+            }
+            finally
+            {
+                settings.PluginIsRunning = false;
+            }
         }
 
         public void PreExecution()

@@ -204,6 +204,8 @@ namespace Cryptool.LFSR
             }
         }
 
+        public bool PluginIsRunning { get; set; }
+
         internal void UpdateTaskPaneVisibility()
         {
             if (TaskPaneAttributeChanged == null)
@@ -231,7 +233,7 @@ namespace Cryptool.LFSR
 
         public void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            if (PropertyChanged != null && PluginIsRunning == false)
             {
                 EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
             }
