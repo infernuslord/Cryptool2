@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
@@ -29,6 +30,7 @@ namespace Splitter
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Splitter.Properties.Resources", "PluginCaption", "PluginTooltip", "Splitter/DetailedDescription/doc.xml", "Splitter/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataflow)]
+  [AutoAssumeFullEndProgress(false)]
   public class Splitter : ICrypComponent
   {
     # region private variables
