@@ -208,6 +208,8 @@ namespace Cryptool.NLFSR
             }
         }
 
+        public bool PluginIsRunning { get; set; }
+
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -219,7 +221,7 @@ namespace Cryptool.NLFSR
 
         public void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            if (PropertyChanged != null && PluginIsRunning == false)
             {
                 EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
             }

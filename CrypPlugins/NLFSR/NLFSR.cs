@@ -584,6 +584,7 @@ namespace Cryptool.NLFSR
 
         private void processNLFSR()
         {
+            settings.PluginIsRunning = true;
             // check if event was from the boolean clock input
             // if so, check if boolean clock should be used
             // if not, do not process NLFSR
@@ -813,6 +814,7 @@ namespace Cryptool.NLFSR
             finally
             {
                 ProgressChanged(1, 1);
+                settings.PluginIsRunning = false;
             }
         }
 
@@ -839,11 +841,20 @@ namespace Cryptool.NLFSR
 
         public void PostExecution()
         {
-            if (settings.SaveCurrentState)
-                settings.CurrentState = seedbuffer;
-            else
-                settings.CurrentState = null;
-            Dispose();
+            settings.PluginIsRunning = true;
+            try
+            {
+                if (settings.SaveCurrentState)
+                    settings.CurrentState = seedbuffer;
+                else
+                    settings.CurrentState = null;
+                Dispose();
+            }
+            finally
+            {
+                settings.PluginIsRunning = false;
+            }
+            
         }
 
         public void PreExecution()
