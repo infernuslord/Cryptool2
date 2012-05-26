@@ -153,4 +153,22 @@
   <data name="KeepRNDList2" xml:space="preserve">
     <value>yes</value>
   </data>
+  <data name="NumberListOutputCaption" xml:space="preserve">
+    <value>Number List Output</value>
+  </data>
+  <data name="NumberListOutputTooltip" xml:space="preserve">
+    <value>A list of random numbers</value>
+  </data>
+  <data name="NumberOutputCaption" xml:space="preserve">
+    <value>Number Output</value>
+  </data>
+  <data name="NumberOutputTooltip" xml:space="preserve">
+    <value>A random number</value>
+  </data>
+  <data name="NumNumbersCaption" xml:space="preserve">
+    <value>Length of Numberlist</value>
+  </data>
+  <data name="NumNumbersTooltip" xml:space="preserve">
+    <value>How many numbers should the number list contain</value>
+  </data>
 </root>

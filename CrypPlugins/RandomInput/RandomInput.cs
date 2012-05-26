@@ -75,6 +75,9 @@ namespace RandomInput
         // executed.
         OnPropertyChanged("ByteArrayOutput");
         OnPropertyChanged("StreamOutput");
+        OnPropertyChanged("BooleanOutput");
+        OnPropertyChanged("NumberOutput");
+        OnPropertyChanged("NumberListOutput");
       }
       catch
       {
@@ -120,6 +123,59 @@ namespace RandomInput
         return rndArray;
       }
       set { } // readonly
+    }
+
+    [PropertyInfo(Direction.OutputData, "BooleanOutputCaption", "BooleanOutputTooltip", false)]
+    public Boolean BooleanOutput
+    {
+        get
+        {
+            var byt = new byte[1];
+            sRandom.GetBytes(byt);
+            Progress(1.0, 1.0);
+            if (byt[0] < 128)
+            {
+                return true;
+            }
+            return false;     
+        }
+        set { } // readonly
+    }
+
+    [PropertyInfo(Direction.OutputData, "NumberOutputCaption", "NumberOutputTooltip", false)]
+    public int NumberOutput
+    {
+        get
+        {
+            var byt = new byte[4];
+            sRandom.GetBytes(byt);
+            Progress(1.0, 1.0);
+            var number = BitConverter.ToInt32(byt, 0);
+            if (number < 0)
+                number *= -1;
+            return number;
+        }
+        set { } // readonly
+    }
+
+    [PropertyInfo(Direction.OutputData, "NumberListOutputCaption", "NumberListOutputTooltip", false)]
+    public int[] NumberListOutput
+    {
+        get
+        {
+            int[] numbers = new int[settings.NumNumbers];
+            for (int i = 0; i < settings.NumNumbers; i++)
+            {
+                var byt = new byte[4];
+                sRandom.GetBytes(byt);
+                numbers[i] = BitConverter.ToInt32(byt, 0);
+                if (numbers[i] < 0)
+                    numbers[i] *= -1;
+            }
+            Progress(1.0, 1.0);
+            return numbers;
+        }
+        set { } // readonly
     }
 
     #region IInput Member

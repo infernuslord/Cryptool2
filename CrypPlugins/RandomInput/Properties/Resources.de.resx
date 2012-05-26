@@ -153,4 +153,22 @@
   <data name="KeepRNDList2" xml:space="preserve">
     <value>ja</value>
   </data>
+  <data name="NumberListOutputCaption" xml:space="preserve">
+    <value>Zahlenlisteausgabe</value>
+  </data>
+  <data name="NumberListOutputTooltip" xml:space="preserve">
+    <value>Eine Liste von zufällig generierten Zahlen</value>
+  </data>
+  <data name="NumberOutputCaption" xml:space="preserve">
+    <value>Zahlausgabe</value>
+  </data>
+  <data name="NumberOutputTooltip" xml:space="preserve">
+    <value>Eine zufällig generierte Zahl</value>
+  </data>
+  <data name="NumNumbersCaption" xml:space="preserve">
+    <value>Länge der Zahlenliste</value>
+  </data>
+  <data name="NumNumbersTooltip" xml:space="preserve">
+    <value>Wie viele Zahlen soll die Zahlenliste beinhalten</value>
+  </data>
 </root>
