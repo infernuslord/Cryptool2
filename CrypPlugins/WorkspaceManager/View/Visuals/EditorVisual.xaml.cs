@@ -42,6 +42,7 @@ namespace WorkspaceManager.View.Visuals
         public QuadTreeLib.QuadTree<FakeNode> PluginTree { get; set; }
         public QuadTreeLib.QuadTree<FakeNode> FromToTree { get; set; }
         public CryptoLineView CurrentLine { get; set; }
+        public CryptoLineView LastLine { get; set; }
 
         private FromTo selectedPart;
         public FromTo SelectedPart
@@ -80,24 +81,17 @@ namespace WorkspaceManager.View.Visuals
             this.Editor = editor;
             PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
-            part.PreviewMouseRightButtonDown += new MouseButtonEventHandler(part_PreviewMouseRightButtonDown);
 
             Visuals = Editor.VisualCollection;
             Visuals.CollectionChanged += new NotifyCollectionChangedEventHandler(VisualsCollectionChanged);
             Visuals.Add(part);
         }
 
-        void part_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //var u = (UIElement)sender;
-            //u.IsHitTestVisible = false;
-        }
 
         internal void panelPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             reset();
         }
-
 
         internal void panelMouseLeave(object sender, MouseEventArgs e)
         {
@@ -115,7 +109,10 @@ namespace WorkspaceManager.View.Visuals
         void reset()
         {
             if (CurrentLine != null)
+            {
                 CurrentLine.Line.IsEditingPoint = false;
+                LastLine = CurrentLine;
+            }
 
             CurrentLine = null;
             SelectedPart = null;
@@ -133,9 +130,8 @@ namespace WorkspaceManager.View.Visuals
                 if (l.IsSelected)
                 {
                     Point p = Mouse.GetPosition(sender as FrameworkElement);
-                    Console.Out.WriteLine(p);
                     var list = FromToTree.Query(new System.Drawing.RectangleF(
-                        (float)p.X - (float)10, (float)p.Y - (float)10, (float)10, (float)10));
+                        (float)p.X - (float)3, (float)p.Y - (float)3, (float)3, (float)3));
 
                     if (list.Count != 0)
                     {
@@ -307,7 +303,8 @@ namespace WorkspaceManager.View.Visuals
         private void renewFromToTree()
         {
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
-            foreach (var element in Visuals.OfType<CryptoLineView>())
+            var temp = Visuals.OfType<CryptoLineView>();
+            foreach (var element in temp.OrderByDescending(x => Panel.GetZIndex(x)))
             {
                 foreach (var fromTo in element.Line.PointList)
                 {
@@ -1457,6 +1454,14 @@ namespace WorkspaceManager.View.Visuals
                 ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset + delta.X);
                 ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + delta.Y);
                 return;
+            }
+        }
+
+        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        {
+            if (VisualsHelper.LastLine != null)
+            {
+                VisualsHelper.LastLine.Model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(VisualsHelper.LastLine.Model));
             }
         }
 

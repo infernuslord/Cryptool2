@@ -9,10 +9,13 @@
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:CTLine="clr-namespace:WorkspaceManager.View.VisualComponents.CryptoLineView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" ToolTip="{Loc NewWorkspaceTooltip}" >
     <UserControl.Resources>
+
+        <CTLine:NegateBindingConverter x:Key="NegateBindingConverter"></CTLine:NegateBindingConverter>
         <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
 
         <LinearGradientBrush x:Key="LinearColorBackground" StartPoint="0,0" EndPoint="0,1">
@@ -92,6 +95,15 @@
             <Setter Property="Visibility" Value="Collapsed"></Setter>
         </Style>
 
+        <ContextMenu  x:Key="ContextMenu">
+            <MenuItem Click="ContextMenuClick" Header="Delete Line" 
+                IsEnabled="{Binding Path=IsExecuting,Converter={StaticResource ResourceKey=NegateBindingConverter}}">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Images/ComponentIcons/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+
         <Style x:Key="FromToLine" TargetType="Line">
             <Setter Property="X1" Value="{Binding Path=VisualsHelper.SelectedPart.From.X}"></Setter>
             <Setter Property="Y1" Value="{Binding Path=VisualsHelper.SelectedPart.From.Y}"></Setter>
@@ -102,6 +114,7 @@
             <Setter Property="Stroke" Value="#aaffffff"></Setter>
             <Setter Property="Grid.Row" Value="1"></Setter>
             <Setter Property="Grid.Column" Value="0"></Setter>
+            <Setter Property="ContextMenu" Value="{StaticResource ResourceKey=ContextMenu}"></Setter>
         </Style>
        
     </UserControl.Resources>

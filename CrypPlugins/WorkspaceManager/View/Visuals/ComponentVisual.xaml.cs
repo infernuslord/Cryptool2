@@ -61,7 +61,7 @@ namespace WorkspaceManager.View.Visuals
         {
             get
             {
-                return new ObjectSize(this.Window.ActualWidth, this.Window.ActualHeight);
+                return new ObjectSize(this.ActualWidth, this.ActualHeight - NameTextBox.ActualHeight);
             }
         }
 

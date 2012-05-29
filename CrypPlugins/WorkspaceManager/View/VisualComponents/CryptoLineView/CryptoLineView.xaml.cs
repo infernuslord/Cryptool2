@@ -172,7 +172,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private void assembleGeo()
         {
-            if (Model.PointList.Count == 0)
+            if (Model == null)
+                return;
+
+            if(Model.PointList.Count == 0 || Line.isSubstituteLine)
                 return;
 
             PathGeometry geo = new PathGeometry();
@@ -270,7 +273,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private Brush ActiveColorBrush;
         private Brush NonActiveColorBrush;
-        private bool isSubstituteLine = false; 
+        internal bool isSubstituteLine = false; 
 	    #endregion
         #region Properties
         private ConnectorVisual endPointSource;
