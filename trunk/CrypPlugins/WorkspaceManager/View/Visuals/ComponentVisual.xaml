@@ -839,7 +839,7 @@
 
 
         <!--##########Name##########-->
-        <local:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
+        <local:CustomTextBox x:Name="NameTextBox" Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}" IsSelected="{Binding Path=IsSelected}"
                              Grid.Row="2"></local:CustomTextBox>
         <!--##########/Name##########-->

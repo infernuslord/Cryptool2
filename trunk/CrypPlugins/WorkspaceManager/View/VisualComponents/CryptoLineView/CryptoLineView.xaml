@@ -66,8 +66,5 @@
         <ContentPresenter Content="{Binding Path=Line}">
 
         </ContentPresenter>
-
-        <Path Data="{Binding Path=PathGeo, Converter={StaticResource ResourceKey=GeoTrimBindingConverter}}" 
-              Style="{StaticResource ResourceKey=SubPath}"></Path>
     </Canvas>
 </UserControl>
