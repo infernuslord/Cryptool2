@@ -13,10 +13,10 @@ namespace Cryptool.PrimesGenerator
 
     #region Properties
 
-    private int m_SelectedMode;
+    private int m_SelectedMode = 0;
     [PropertySaveOrder(1)]
-    [ContextMenu( "ModeCaption", "ModeTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2" })]
-    [TaskPane( "ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2" })]
+    [ContextMenu("ModeCaption", "ModeTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
+    [TaskPane("ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
     public int Mode
     {
       get { return this.m_SelectedMode; }
@@ -30,12 +30,12 @@ namespace Cryptool.PrimesGenerator
       }
     }
 
-    private string m_Input;
+    private string m_Input = "100";
     [PropertySaveOrder(2)]
     [TaskPane( "InputCaption", "InputTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
     public string Input
     {
-      get { if(string.IsNullOrEmpty(this.m_Input)) return "100"; else return m_Input; }
+      get { return m_Input; }
       set
       {
         if (value != m_Input)

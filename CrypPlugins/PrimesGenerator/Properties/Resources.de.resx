@@ -142,9 +142,18 @@
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="ModeList1" xml:space="preserve">
-    <value>Primzahl mit n Bits</value>
+    <value>Primzahl mit höchstens n Bits</value>
   </data>
   <data name="ModeList2" xml:space="preserve">
+    <value>Primzahl mit genau n Bits</value>
+  </data>
+  <data name="ModeList3" xml:space="preserve">
     <value>Primzahl kleiner oder gleich n</value>
+  </data>
+  <data name="nCaption" xml:space="preserve">
+    <value>n</value>
+  </data>
+  <data name="nTooltip" xml:space="preserve">
+    <value>Größe der zu erzeugenden Primzahl</value>
   </data>
 </root>

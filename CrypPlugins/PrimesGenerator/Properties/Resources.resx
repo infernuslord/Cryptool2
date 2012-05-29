@@ -139,12 +139,21 @@
     <value>Mode</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Select </value>
+    <value>Select the mode of the plugin.</value>
   </data>
   <data name="ModeList1" xml:space="preserve">
-    <value>A prime number with n bits</value>
+    <value>A prime number with at most n bits</value>
   </data>
   <data name="ModeList2" xml:space="preserve">
+    <value>A prime number with exactly n bits</value>
+  </data>
+  <data name="ModeList3" xml:space="preserve">
     <value>A prime number less than or equal to n</value>
+  </data>
+  <data name="nCaption" xml:space="preserve">
+    <value>n</value>
+  </data>
+  <data name="nTooltip" xml:space="preserve">
+    <value>Size of the prime number</value>
   </data>
 </root>
