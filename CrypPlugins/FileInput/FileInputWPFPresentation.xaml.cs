@@ -105,7 +105,7 @@ namespace FileInput
             }, null);
         }
 
-        internal void dispose()
+        public void dispose()
         {
             hexBox.dispose();
         }
