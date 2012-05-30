@@ -171,6 +171,8 @@ namespace FileInput
             }
 
             fileInputPresentation.CloseFileToGetFileStreamForExecution();
+            
+            fileInputPresentation.dispose();
         }
 
         public void Stop()
