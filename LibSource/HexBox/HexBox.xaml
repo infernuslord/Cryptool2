@@ -27,6 +27,34 @@
                     <Image Source="/HexBox;component/Icons/SaveHH.png" Width="16" Height="16" />
                 </Button>
             </ToolBar>
+            <ToolBar>
+                <Button Name="Copy" Click="Copy_Click_1">
+                    Copy
+                </Button>
+                <Button Name="Paste" Click="Paste_Click_1">
+                    Paste
+                </Button>
+                <Button Name="extract" Click="Cut_Click_1">
+                    Cut
+                </Button>
+            </ToolBar>
+            
+            <ToolBar>
+                <Button Name="Copy2" Click="Copy_Click_2">
+                    Copy
+                </Button>
+                <Button Name="Paste2" Click="Paste_Click_2">
+                    Paste
+                </Button>
+                <Button Name="Extract2" Click="Cut_Click_2">
+                    Cut
+                </Button>
+            </ToolBar>
+            <ToolBar>
+                <CheckBox Name="insertCheck"> 
+                    Insert
+                </CheckBox>
+            </ToolBar>
         </ToolBarTray>
     
         <StackPanel  Name="mainPanel" Orientation="Vertical" Grid.Row="1" >
