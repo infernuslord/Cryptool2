@@ -333,9 +333,9 @@ namespace Cryptool.Enigma
             this.settings.PropertyChanged += enigmaPresentationFrame.EnigmaPresentation.settings_OnPropertyChange;
             this.settings.PropertyChanged += settings_OnPropertyChange;
             this.enigmaPresentationFrame.EnigmaPresentation.fireLetters += fireLetters;
-            
-            
-            }
+            this.enigmaPresentationFrame.EnigmaPresentation.newInput += newInput;
+
+        }
 
         #endregion
 
@@ -347,6 +347,12 @@ namespace Cryptool.Enigma
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
+        private void newInput(object sender, EventArgs args)
+        {
+                running = false;
+            
+        }
+
         private void fireLetters(object sender, EventArgs args)  
         {
             Object[] carrier = sender as Object[];
@@ -354,7 +360,9 @@ namespace Cryptool.Enigma
             OutputString = (String)carrier[0] ;
             int x = (int)carrier[1];
             int y = (int)carrier[2];
+            
             ShowProgress(x,y);
+
             
         }
 
@@ -435,6 +443,9 @@ namespace Cryptool.Enigma
         {
             isrunning = true;
 
+            running = false;
+            stopped = false;
+
             if (enigmaPresentationFrame.EnigmaPresentation.checkReady())
                 enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
@@ -453,6 +464,9 @@ namespace Cryptool.Enigma
                         settings.Reflector, settings.Ring1, settings.Ring2, settings.Ring3, settings.Ring4,
                         settings.PlugBoard);
         }
+
+        private bool running = false;
+        private bool stopped = false;
 
         public void Execute()
         {
@@ -473,6 +487,14 @@ namespace Cryptool.Enigma
             switch (settings.Action)
             {
                 case 0:
+                    while(running)
+                    {
+                        enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
+                        if (stopped)
+                        return;
+                    }
+
+                    running = true;
                     LogMessage("Enigma encryption/decryption started...", NotificationLevel.Info);
 
                     // re-set the key, in case we get executed again during single run
@@ -524,6 +546,7 @@ namespace Cryptool.Enigma
                 settings.Key = savedKey; // re-set the key
             }
 
+            running = false;
             isrunning = false;
             enigmaPresentationFrame.ChangeStatus(isrunning, enigmaPresentationFrame.EnigmaPresentation.IsVisible);
             
@@ -531,6 +554,8 @@ namespace Cryptool.Enigma
 
         public void Stop()
         {
+            
+            stopped = true;
             LogMessage("Enigma stopped", NotificationLevel.Info);
             enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
             analyzer.StopAnalysis();
