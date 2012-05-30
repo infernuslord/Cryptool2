@@ -597,6 +597,15 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         #endregion
 
         #region public
+
+        /*
+         * 1________3
+         * |        |   
+         * |        |
+         * |________|
+         * 2        4
+         * 
+         * */
         public Point GetRoutingPoint(int routPoint)
         {
             switch (routPoint)

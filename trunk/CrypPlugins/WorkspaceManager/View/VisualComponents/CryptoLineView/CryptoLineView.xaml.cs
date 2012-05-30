@@ -175,6 +175,9 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (Model == null)
                 return;
 
+            if (Model.PointList == null)
+                return;
+
             if(Model.PointList.Count == 0 || Line.isSubstituteLine)
                 return;
 
@@ -583,29 +586,22 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                                 IRouting p1 = element as IRouting;
                                 nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
                             }
-
-                            if (routPoint != 0)
-                                continue;
                         }
-                    }
+                    } 
 
                     // connect points
                     int loopCount = nodeList.Count;
-                    const int performanceTradeoffAt = 20;
+                    const int performanceTradeoffAt = 2;
 
                     LinkedList<Node> path = null;
 
                     for (int i = 0; i < loopCount; ++i)
                     {
-                        if (performanceTradeoffAt != 0 &&
-                               i == performanceTradeoffAt)
+                        StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
+                        path = dijkstra.findPath(nodeList, startNode, endNode);
+                        if (path != null)
                         {
-                            StackFrameDijkstra.Dijkstra<Node> dijkstra = new StackFrameDijkstra.Dijkstra<Node>();
-                            path = dijkstra.findPath(nodeList, startNode, endNode);
-                            if (path != null)
-                            {
-                                break;
-                            }
+                            break;
                         }
 
                         var p1 = nodeList[i];
@@ -882,13 +878,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                 queryRect = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), (float)1);
             }
-            return !quadTree.QueryAny(queryRect);
+            var b = !quadTree.QueryAny(queryRect);
+            return b;
         }
 
         public static bool PerformOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<WorkspaceManager.View.VisualComponents.CryptoLineView.FakeNode> quadTreePlugins)
         {
 
-            if (LineUtil.IsConnectionPossible(n1.Point, p2, quadTreePlugins))
+            if (LineUtil.IsConnectionPossible(n1.Point, p2, quadTreePlugins) && LineUtil.IsConnectionPossible(n3.Point, p2, quadTreePlugins))
             {
                 Node n2 = new Node() { Point = p2 };
                 n1.Vertices.Add(n2);
