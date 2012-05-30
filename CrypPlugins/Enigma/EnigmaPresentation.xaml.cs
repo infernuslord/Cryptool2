@@ -40,6 +40,7 @@ namespace Cryptool.Enigma
 
         public String output;
         public event EventHandler fireLetters;
+        public event EventHandler newInput;
 
         private String newinput = "";
         private int merken = -1;
@@ -1003,11 +1004,7 @@ namespace Cryptool.Enigma
             this.IsEnabled = true;
             input = "";
 
-            dispo = new DispatcherTimer();
-            dispo.Interval = new TimeSpan(0, 0, 0, 0, 200); // Intervall festlegen, hier 100 ms
-            dispo.Tick += delegate(System.Object o, System.EventArgs e)
-            { dispo.Stop(); t1_Tick(); }; // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-
+            
 
             bList[0].Focus();
 
@@ -1247,11 +1244,11 @@ namespace Cryptool.Enigma
 
         public void setinput(String input)
         {
-            dispo.Stop();
-            dispo.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            
             this.newinput = input;
-            dispo.Start();
+            
 
+            t1_Tick();
         }
 
         #endregion
@@ -2237,7 +2234,7 @@ namespace Cryptool.Enigma
             {
                 storyboard1.Stop();
                 storyboard.Stop();
-                dispo.Stop();
+                
                 //mainmainmain.Children.Remove(dummycanvas);
                //this.IsEnabled = true;
                 resetkey();
@@ -2253,6 +2250,7 @@ namespace Cryptool.Enigma
                 blupp = true;
                 input = "";
                 playbool = false;
+                newInput(this, EventArgs.Empty);
             }, null);
         }
 
