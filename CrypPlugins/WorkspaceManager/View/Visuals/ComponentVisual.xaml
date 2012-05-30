@@ -837,7 +837,6 @@
         <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="25" Width="25" Margin="0,37,25,0" IsHitTestVisible="False"
                                VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Images/ComponentIcons/presIcon.png"></Image>
 
-
         <!--##########Name##########-->
         <local:CustomTextBox x:Name="NameTextBox" Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}" IsSelected="{Binding Path=IsSelected}"
@@ -845,8 +844,5 @@
         <!--##########/Name##########-->
         <ic:IControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 
                               PlacementTarget="{Binding ElementName=OperationsItemsControl}" Placement="Top"></ic:IControlVisual>
-        
-        <!-- <local:BinLogPopup PlacementTarget="{Binding ElementName=Window}" 
-                           Placement="Center" IsOpen="{Binding Path=IsLogPopupOpen, Mode= TwoWay}"></local:BinLogPopup>-->
     </Grid>
 </UserControl>
