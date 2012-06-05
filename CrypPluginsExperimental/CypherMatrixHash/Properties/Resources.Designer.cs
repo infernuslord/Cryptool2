@@ -151,15 +151,6 @@ namespace CypherMatrixHash.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die last cycle ähnelt.
-        /// </summary>
-        internal static string HashModeLCX {
-            get {
-                return ResourceManager.GetString("HashModeLCX", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die mini ähnelt.
         /// </summary>
         internal static string HashModeMini {
