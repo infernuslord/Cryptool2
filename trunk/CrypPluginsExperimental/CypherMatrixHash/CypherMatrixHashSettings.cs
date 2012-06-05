@@ -23,7 +23,7 @@ namespace Cryptool.Plugins.CypherMatrixHash
     public class CypherMatrixHashSettings : ISettings
     {
         public enum Permutation { None = 0, B = 1, D = 2 };
-        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, LCX = 2, Mini = 3 };
+        public enum CypherMatrixHashMode { SMX = 0, FMX = 1, Mini = 2 };
 
         #region Private variables and public constructor
 
@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.CypherMatrixHash
 
         #region TaskPane Settings
 
-        [TaskPane("HashModeCaption", "HashModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "HashModeSMX", "HashModeFMX", "HashModeLCX", "HashModeMini" })]
+        [TaskPane("HashModeCaption", "HashModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "HashModeSMX", "HashModeFMX", "HashModeMini" })]
         public CypherMatrixHashMode HashMode
         {
             get

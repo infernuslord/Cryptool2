@@ -147,9 +147,6 @@
   <data name="HashModeFMX" xml:space="preserve">
     <value>final</value>
   </data>
-  <data name="HashModeLCX" xml:space="preserve">
-    <value>last cycle</value>
-  </data>
   <data name="HashModeMini" xml:space="preserve">
     <value>mini</value>
   </data>

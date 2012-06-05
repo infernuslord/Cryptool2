@@ -672,11 +672,6 @@ namespace Cryptool.Plugins.CypherMatrixHash
                         hash = Hash_FMX();
                         break;
                     }
-                case CypherMatrixHashSettings.CypherMatrixHashMode.LCX:
-                    {
-                        throw new NotImplementedException("NYI! Please choose an other hash mode.");
-                        //break;
-                    }
                 case CypherMatrixHashSettings.CypherMatrixHashMode.Mini:
                     {
                         hash = Hash_Mini();
