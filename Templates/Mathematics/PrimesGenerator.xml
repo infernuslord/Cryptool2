@@ -3,8 +3,8 @@
   <title lang="en">Primes Generator</title>
   <description lang="en">Primes Generator</description>
   <keywords>Prime, Generator</keywords>
-  <title lang="de">Primzahlengenerator</title>
-  <description lang="de">Primzahlengenerator</description>
+  <title lang="de">Primzahlgenerator</title>
+  <description lang="de">Primzahlgenerator</description>
   <keywords lang="de">Primzahl</keywords>
   <icon file="math.png" />
 </sample>

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Factorization</title>
+  <title lang="en">Factorization with Trial Division (Brute-Force)</title>
   <description lang="en">Factorization</description>
-  <title lang="de">Faktorisierung</title>
-  <description lang="de">Faktorisierung</description>
+  <title lang="de">Faktorisierung mit Probedivision (Brute-Force)</title>
+  <description lang="de">Faktorisierung mit Probedivision (Brute-Force)</description>
   <icon file="math.png" />
 </sample>
