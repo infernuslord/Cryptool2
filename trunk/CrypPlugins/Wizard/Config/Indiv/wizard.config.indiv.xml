@@ -177,8 +177,49 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
 
     </sampleViewer>
   </input>
-  
 
+  <!-- Password Strength input -->
+  <input image="PasswordStrength" >
+    
+    <name lang="en" >Password Strength</name>
+    <name lang="de" >Passwort-Stärke</name>
+    <description lang="en" >Select this to test the strength of your password.</description>
+    <description lang="de" >Hier können Sie die Stärke ihres Passworts testen</description>
+    <headline lang="en" >Password Input</headline>
+    <headline lang="de" >Passwort Eingabe</headline>
+    <task lang="en">Here, you can enter your password to test its strength. Warning! Password is entered as cleartext.</task>
+    <task lang="de">Hier können Sie Ihr Passwort eingeben um dessen Stärke zu ermitteln. Warnung! Passwort wird als Klartext eingeben.</task>
+
+    <inputBox plugin="Password" property="Text" alignment="Right" width="78%" visibleLines="1" group="1">
+      <description lang="en">Password (cleartext!) :</description>
+      <description lang="de">Passwort (Klartext!) :</description>
+      <defaultvalue>test105!A</defaultvalue>
+    </inputBox>
+
+    <sampleViewer image="PasswordStrength" file="Tools\PasswordStrength.cwm">
+      <name lang="en" >Result</name>
+      <name lang="de" >Ergebnis</name>
+      <description lang="en" >-</description>
+      <description lang="de" >-</description>
+
+      <headline lang="en" >Password Strength</headline>
+      <headline lang="de" >Passwort-Stärke</headline>
+      <task lang="en">The detailed result of your passwords strength analyisis.</task>
+      <task lang="de">Das detaillierte Ergebnis Ihrer Passwort-Stärke-Analyse.</task>
+
+      <inputBox plugin="Password" property="Text" alignment="Right" width="50%" visibleLines="1" group="1">
+        <description lang="en">Password (cleartext!) :</description>
+        <description lang="de">Passwort (Klartext!) :</description>
+        <defaultvalue>test105!A</defaultvalue>
+      </inputBox>
+
+      <presentation plugin="PasswordStrength" width="50%" alignment="Center" group="2">
+        <description lang="en">Password Strength:</description>
+        <description lang="de">Passwort-Stärke:</description>
+      </presentation>
+
+    </sampleViewer>
+  </input>
 
   <!-- Key Exchange Category -->
   <!--<category image="Key">
