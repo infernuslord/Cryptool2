@@ -3,8 +3,8 @@
   <title lang="en">Linear Congurential Generator</title>
   <description lang="en">Linear Congurential Generator</description>
   <keywords>pseudorandom, PRNG, LCG, congruence, recurrence</keywords>
-  <title lang="de">Linearer Kongruenzen Generator</title>
-  <description lang="de">Linearer Kongruenzen Generator</description>
+  <title lang="de">Linearer Kongruenzen-Generator</title>
+  <description lang="de">Linearer Kongruenzen-Generator</description>
   <keywords lang="de">pseudozufall, PRNG, LCG, Kongruenz, Rekurrenz</keywords>
   <icon file="math.png" />
 </sample>

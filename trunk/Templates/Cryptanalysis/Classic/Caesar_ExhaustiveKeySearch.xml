@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Caesar Exhaustive Key-Search</title>
+  <title lang="en">Caesar Brute-Force</title>
   <description lang="en">This template shows crypt analysis of the <i>Caesar cipher</i>.<newline /><newline />
 Since there are only a limited number of possible shifts (26 in English) using the caesar chipher, they can each be tested in turn in a brute force attack. One way to do this is to write 
 out a snippet of the ciphertext in a table of all possible shifts — a technique sometimes known as "completing the plain component". The example given is for 
@@ -9,7 +9,7 @@ of the ciphertext, the entire alphabet is written out in reverse starting at tha
 written down them in reverse order. The strips are then aligned to form the ciphertext along one row, and the plaintext should appear in one of the other rows.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></description>
   <keywords>Caesar, Julius, Analysis, Substitution, monoalphabetic</keywords>
-  <title lang="de">Caesar vollständige Schlüsselsuche</title>
+  <title lang="de">Caesar Brute-Force</title>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Caesar-Ver-/Entschlüsselung</i>.<newline /><newline />
 Wie alle monoalphabetischen Verschlüsselungsverfahren bietet auch die Verschiebechiffre keine hinreichende Sicherheit gegen unbefugte Entzifferung und 
 kann sehr leicht „geknackt“ werden. Die in der natürlichen Sprache ungleiche Verteilung der Buchstaben wird durch diese Art der Verschlüsselung nicht verborgen, 
@@ -20,7 +20,7 @@ Computer oder Rechenmaschine mit geringem Aufwand möglich ist, bestand die Sich
 Geheimhaltung des Schlüssels, sondern im Wesentlichen auf der Geheimhaltung des Verfahrens, und entspricht damit nicht dem im 19. Jahrhundert postulierten 
 Prinzip von Auguste Kerckhoffs.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /></description>
-  <keywords lang="de">Analyse, Cäsar, monoalphabetisch, brute force, exhaustive</keywords>
+  <keywords lang="de">Analyse, Cäsar, Caesar, monoalphabetisch, brute-force, exhaustive</keywords>
   <icon file="Caesar_Analysis.png" />
   <relevantPlugins>
     <plugin name="Caesar" />

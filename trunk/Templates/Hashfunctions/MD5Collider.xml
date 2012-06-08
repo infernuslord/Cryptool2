@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">MD5 Collider</title>
-  <title lang="de">MD5 Kollidierer</title>
+  <title lang="en">MD5 Collision Finder</title>
+  <title lang="de">MD5-Kollisionsfinder</title>
   <description lang="en">This template shows how to use the <i>MD5 collider</i>. component</description>
   <keywords>message, digest, Hash, Rivest, collision</keywords>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>MD5 Kollidierer</i> Komponente.</description>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>MD5-Kollisionsfinder</i>-Komponente.</description>
   <keywords lang="de">hash</keywords>
   <icon file="MD5.png" />
   <relevantPlugins>
