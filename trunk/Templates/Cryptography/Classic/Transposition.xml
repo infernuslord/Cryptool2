@@ -6,7 +6,7 @@ In cryptography, a transposition cipher is a method of encryption by which the p
 Source: <external ref="http://en.wikipedia.org/wiki/Transposition_cipher" /></description>
   <keywords>Transposition</keywords>
   <title lang="de">Transposition-Chiffre</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Transposition-Ver-/Entschlüsselung</i>.<newline /><newline />
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Transpositions-Verschlüsselung</i>.<newline /><newline />
 In der Kryptographie ist die Transposition eine der beiden grundlegenden Verschlüsselungsklassen. Dabei werden die Zeichen einer Botschaft (des Klartextes) umsortiert. Jedes Zeichen bleibt zwar unverändert erhalten, jedoch wird die Stelle, an der es steht, geändert. Dies steht im Gegensatz zu der Klasse der (monoalphabetischen oder polyalphabetischen) Substitution, bei der jedes Zeichen des Klartextes zwar seinen Platz behält, jedoch durch ein anderes Zeichen ersetzt („substituiert“) wird.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Transposition_(Kryptographie)" /></description>
   <icon file="Transposition.png" />
