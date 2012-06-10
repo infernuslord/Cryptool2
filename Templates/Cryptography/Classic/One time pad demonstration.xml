@@ -4,7 +4,7 @@
   <description lang="en">This template shows how to use a <i>One time pad</i> in CrypTool 2.0.</description>
   <keywords>One time pad, XOR, perfect security</keywords>
   <title lang="de">One-Time-Pad-Demo</title>
-  <description lang="de">Diese Vorlage zeigt, wie man ein <i>One time pad</i> in CrypTool 2.0 erstellt.</description>
+  <description lang="de">Diese Vorlage zeigt, wie man ein <i>One-Time-Pad</i> in CrypTool 2.0 erstellt.</description>
   <keywords lang="de">One time pad, perfekte Sicherheit, XOR</keywords>
   <icon file="One time pad demonstration.png" />
   <relevantPlugins>
