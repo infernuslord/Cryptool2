@@ -83,7 +83,9 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             foreach (var template in query.Distinct())
             {
-                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",template.Path, template.Title.Value,template.Description));
+                string description = _objectConverter.Convert(template.Description, list[0]);
+                description = description.Replace("../", ""); //correct relative paths in images
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",template.Path, template.Title.Value,description));
             }
             stringBuilder.AppendLine("</table>");
             stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
