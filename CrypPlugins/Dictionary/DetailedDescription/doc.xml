@@ -2,11 +2,18 @@
 <documentation>
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en">The dictionary component passes a flat list of words to the subsequent component for further processing.
-
-</introduction>
-  <introduction lang="de-DE">Die Wörterbuch-Komponente gibt eine flache Liste von Wörtern an die nachfolgende Komponente zur Weiterverarbeitung weiter.
-</introduction>
+  <introduction lang="en">
+    The dictionary component passes a flat list of words to the subsequent component for further processing.
+    <newline/><newline/>
+    Wordlists obtained from http://invokeit.wordpress.com/frequency-word-lists/<newline/>
+    License: http://creativecommons.org/licenses/by-sa/3.0/
+  </introduction>
+  <introduction lang="de-DE">
+    Die Wörterbuch-Komponente gibt eine flache Liste von Wörtern an die nachfolgende Komponente zur Weiterverarbeitung weiter.
+    <newline/><newline/>
+    Wörterliste von http://invokeit.wordpress.com/frequency-word-lists/<newline/>
+    Lizenz: http://creativecommons.org/licenses/by-sa/3.0/
+  </introduction>
   <usage lang="en">The dictionary to be used can be selected in the component's parameters.
 
 </usage>
