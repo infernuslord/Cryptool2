@@ -170,6 +170,7 @@ namespace Cryptool.CrypWin
                 switch (newStatus)
                 {
                     case State.Idle:
+                        presentation.button1.Visibility = Visibility.Visible;
                         presentation.button1.IsEnabled = true;
                         presentation.button1.Content = Properties.Resources.Check_for_updates_now;
                         presentation.label1.Content = serverAvailable ?
@@ -178,6 +179,7 @@ namespace Cryptool.CrypWin
                         presentation.smallRightImage.Visibility = Visibility.Collapsed;
                         break;
                     case State.Checking:
+                        presentation.button1.Visibility = Visibility.Collapsed;
                         presentation.button1.IsEnabled = false;
                         presentation.label1.Content = Properties.Resources.Checking_for_updates___;
                         break;
