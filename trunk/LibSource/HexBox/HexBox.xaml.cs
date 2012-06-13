@@ -1104,8 +1104,8 @@ namespace HexBox
 
                 Boolean releasemark = true;
 
-                if (e.Key == Key.Right || e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left ||
-                    e.Key == Key.RightShift || e.Key == Key.LeftShift)
+                if (e.Key == Key.Right || e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.PageDown || e.Key == Key.PageUp ||
+                    e.Key == Key.End || e.Key == Key.Home || e.Key == Key.RightShift || e.Key == Key.LeftShift)
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
                         int cell = (int)(Canvas.GetTop(cursor) / 20 * 32 + Canvas.GetLeft(cursor) / 10);
