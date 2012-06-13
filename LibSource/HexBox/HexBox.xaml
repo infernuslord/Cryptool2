@@ -9,49 +9,49 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <ToolBarTray>
             <ToolBar Background="Transparent" >
-                <Button Name ="newFile" Click="Button_Click_3">
+                <Button Name ="newFile" Click="New_Button_Click">
                     <Image Source="/HexBox;component/Icons/NewDocument_32x32.png" Width="16" Height="16" />
                 </Button>
-                <Button Name ="openFileButton" Click="Button_Click" >
+                <Button Name ="openFileButton" Click="Open_Button_Click" >
                     <Image Source="/HexBox;component/Icons/OpenHH.png"  Width="16" Height="16" />
                 </Button>
-                <Button Name ="saveAs" Click="Button_Click_2">
+                <Button Name ="saveAs" Click="Save_As_Button_Click">
                     <Image Source="/HexBox;component/Icons/SaveAsHH.png" Width="16" Height="16" />
                 </Button>
-                <Button Name="save" Click="Button_Click_1">
+                <Button Name="save" Click="Save_Button_Click">
                     <Image Source="/HexBox;component/Icons/SaveHH.png" Width="16" Height="16" />
                 </Button>
             </ToolBar>
-            <ToolBar>
-                <Button Name="Copy" Click="Copy_Click_1">
+            <!--<ToolBar>
+                <Button Name="Copy" Click="Copy_Click_HexBoxField">
                     Copy
                 </Button>
-                <Button Name="Paste" Click="Paste_Click_1">
+                <Button Name="Paste" Click="Paste_Click_HexBoxField">
                     Paste
                 </Button>
-                <Button Name="extract" Click="Cut_Click_1">
+                <Button Name="extract" Click="Cut_Click_HexBoxField">
                     Cut
                 </Button>
             </ToolBar>
             
             <ToolBar>
-                <Button Name="Copy2" Click="Copy_Click_2">
+                <Button Name="Copy2" Click="Copy_Click_ASCIIFild">
                     Copy
                 </Button>
-                <Button Name="Paste2" Click="Paste_Click_2">
+                <Button Name="Paste2" Click="Paste_Click_ASCIIFild">
                     Paste
                 </Button>
-                <Button Name="Extract2" Click="Cut_Click_2">
+                <Button Name="Extract2" Click="Cut_Click_ASCIIFild">
                     Cut
                 </Button>
-            </ToolBar>
+            </ToolBar>-->
             <ToolBar>
-                <CheckBox Name="insertCheck"> 
+                <CheckBox Name="insertCheck" >
                     Insert
                 </CheckBox>
             </ToolBar>
@@ -121,6 +121,26 @@
                         </Rectangle.Style>
                     </Rectangle>
                     <Grid Name="grid1">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Cut" Click="Cut_Click_HexBoxField">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Cut_16x16.png"  />
+                                        
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Copy" Click="Copy_Click_HexBoxField">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Copy_16x16.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem  Header="Paste" Click="Paste_Click_HexBoxField">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Paste_16x16.png"  />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
                             <RowDefinition Height="20" />
@@ -192,6 +212,26 @@
 
                     </Rectangle>
                     <Grid Name="grid2">
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Cut" Click="Cut_Click_ASCIIFild">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Cut_16x16.png"  />
+
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Copy" Click="Copy_Click_ASCIIFild">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Copy_16x16.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem  Header="Paste" Click="Paste_Click_ASCIIFild">
+                                    <MenuItem.Icon>
+                                        <Image Source="/HexBox;component/Icons/Paste_16x16.png"  />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
                             <RowDefinition Height="20" />
@@ -257,11 +297,12 @@
                     File:
                 </TextBlock>
                 <Border  Width="5"  />
-                <TextBlock Name="FileName">
-
+                <TextBlock Name="FileName" Width="500">
+                    
                 </TextBlock>
 
             </ToolBarPanel>
         </StackPanel>
+        
     </Grid>
 </UserControl>
