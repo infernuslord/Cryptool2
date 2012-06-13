@@ -143,6 +143,24 @@
     <Resource Include="Icons\SaveAsHH.png" />
     <Resource Include="Icons\SaveHH.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Copy-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Paste-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Cut_256x256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Cut_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Copy_16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Paste_16x16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
