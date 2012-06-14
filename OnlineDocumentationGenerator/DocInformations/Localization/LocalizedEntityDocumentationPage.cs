@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
-namespace OnlineDocumentationGenerator.DocInformations
+namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
     public abstract class LocalizedEntityDocumentationPage
     {

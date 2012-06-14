@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OnlineDocumentationGenerator.DocInformations.Localization;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 
-namespace OnlineDocumentationGenerator.DocInformations
+namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
     public abstract class LocalizedPluginDocumentationPage : LocalizedEntityDocumentationPage
     {

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
-namespace OnlineDocumentationGenerator.DocInformations
+namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
     public class LocalizedEditorDocumentationPage : LocalizedPluginDocumentationPage
     {
