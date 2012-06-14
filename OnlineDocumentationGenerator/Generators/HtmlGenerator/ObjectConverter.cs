@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 using OnlineDocumentationGenerator.Properties;
 using WorkspaceManager.Model;
 
@@ -19,11 +20,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     /// </summary>
     class ObjectConverter
     {
-        private readonly List<PluginDocumentationPage> _docPages;
+        private readonly List<EntityDocumentationPage> _docPages;
         private readonly string _outputDir;
         private readonly HashSet<string> _createdImages = new HashSet<string>();
 
-        public ObjectConverter(List<PluginDocumentationPage> docPages, string outputDir)
+        public ObjectConverter(List<EntityDocumentationPage> docPages, string outputDir)
         {
             _docPages = docPages;
             _outputDir = outputDir;
@@ -186,10 +187,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             foreach (var template in componentTemplateList.Templates)
             {
-                var link = Path.Combine(Path.Combine("..\\..", DocGenerator.TemplateDirectory), template.Path);
-                var file = Path.GetFileName(template.Path);
-                codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"{0}\">{1}</a></td> <td>{2}</td> </tr>",
-                    link, file, ConvertXElement(template.Description, entityDocumentationPage)));
+                //var link = Path.Combine(Path.Combine("..\\..", DocGenerator.TemplateDirectory), template.TemplateFile);
+                var link = template.CurrentLocalization.FilePath;
+                codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"..\\{0}\">{1}</a></td> <td>{2}</td> </tr>",
+                    link, template.CurrentLocalization.Name, ConvertXElement(template.CurrentLocalization.Description, entityDocumentationPage)));
             }
 
             codeBuilder.AppendLine("</table>");
@@ -209,7 +210,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             filename = filename + ".png";
             if (!_createdImages.Contains(filename))
             {
-                var dir = Path.Combine(Path.Combine(_outputDir, OnlineHelp.HelpDirectory), entityDocumentationPage.DocPath);
+                var dir = Path.Combine(Path.Combine(_outputDir, OnlineHelp.HelpDirectory), entityDocumentationPage.DocDirPath);
                 //create image file:
                 if (!Directory.Exists(dir))
                 {
@@ -321,7 +322,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                     linkText = itemAttribute.Value;
                                 }
                                 
-                                int dirLevel = entityDocumentationPage.DocPath.Split(Path.PathSeparator).Length - 1;
+                                int dirLevel = entityDocumentationPage.DocDirPath.Split(Path.PathSeparator).Length - 1;
                                 var d = "";
                                 for (int i = 0; i < dirLevel; i++)
                                 {
@@ -349,18 +350,18 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private string GetEntityLink(string entity)
         {
-            foreach(var p in _docPages)
+            foreach(var docPage in _docPages)
             {
-                if (p.Localizations["en"].Name == entity)
+                if (docPage.Name == entity)
                 {
                     var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-                    if (p.AvailableLanguages.Contains(lang))
+                    if (docPage.AvailableLanguages.Contains(lang))
                     {
-                        return OnlineHelp.GetDocFilename(p.PluginType, lang);
+                        return docPage.Localizations[lang].FilePath;
                     }
                     else
                     {
-                        return OnlineHelp.GetDocFilename(p.PluginType, "en");
+                        return docPage.Localizations["en"].FilePath;
                     }
                 }
             }

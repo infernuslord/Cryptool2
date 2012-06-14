@@ -20,7 +20,7 @@ namespace OnlineDocumentationGenerator
     public class DocGenerator
     {
         public static string TemplateDirectory = "Templates";
-        public static Dictionary<string, List<string>> RelevantComponentToTemplatesMap = new Dictionary<string, List<string>>();
+        public static Dictionary<string, List<TemplateDocumentationPage>> RelevantComponentToTemplatesMap = new Dictionary<string, List<TemplateDocumentationPage>>();
         
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
@@ -31,7 +31,6 @@ namespace OnlineDocumentationGenerator
 
             try
             {
-                ReadTemplates(baseDirectory);
                 GenerateHTML(baseDirectory);
             }
             finally
@@ -65,40 +64,38 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        private void ReadTemplates(string dir)
+        private void ReadTemplates(string outputDir, string subdir, HtmlGenerator generator)
         {
-            var directory = new DirectoryInfo(Path.Combine(TemplateDirectory, dir));
-            foreach(var subdir in directory.GetDirectories())
+            var directory = new DirectoryInfo(Path.Combine(outputDir, Path.Combine(TemplateDirectory, subdir)));
+            foreach(var childdir in directory.GetDirectories())
             {
-                ReadTemplates(Path.Combine(dir, subdir.Name));
+                ReadTemplates(outputDir, Path.Combine(subdir, childdir.Name), generator);
             }
 
             foreach (var file in directory.GetFiles().Where(x => (x.Extension.ToLower() == ".cwm")))
             {
-                string xmlFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".xml");
-                if (File.Exists(xmlFile))
+                try
                 {
-                    XElement xml = XElement.Load(xmlFile);
-                    var relevantPlugins = xml.Element("relevantPlugins");
-                    if (relevantPlugins != null)
+                    var templatePage = new TemplateDocumentationPage(file.FullName, subdir);
+                    if (templatePage.RelevantPlugins != null)
                     {
-                        foreach (var plugin in relevantPlugins.Elements("plugin"))
+                        foreach (var relevantPlugin in templatePage.RelevantPlugins)
                         {
-                            var name = plugin.Attribute("name");
-                            if (name != null)
+                            if (RelevantComponentToTemplatesMap.ContainsKey(relevantPlugin))
                             {
-                                var template = Path.Combine(dir, file.Name);
-                                if (RelevantComponentToTemplatesMap.ContainsKey(name.Value))
-                                {
-                                    RelevantComponentToTemplatesMap[name.Value].Add(template);
-                                }
-                                else
-                                {
-                                    RelevantComponentToTemplatesMap.Add(name.Value, new List<string>() {template});
-                                }
+                                RelevantComponentToTemplatesMap[relevantPlugin].Add(templatePage);
+                            }
+                            else
+                            {
+                                RelevantComponentToTemplatesMap.Add(relevantPlugin, new List<TemplateDocumentationPage>() { templatePage });
                             }
                         }
                     }
+                    generator.AddDocumentationPage(templatePage);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Error while trying to read templates for Online Help generation: {0}", ex.Message), NotificationLevel.Warning);
                 }
             }
         }
@@ -108,6 +105,22 @@ namespace OnlineDocumentationGenerator
             var generator = new HtmlGenerator();
             generator.OutputDir = outputDir;
 
+            ReadTemplates(outputDir, "", generator);
+            ReadPlugins(generator);
+
+            try
+            {
+                generator.Generate();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
+                MessageBox.Show("Error trying to open documentation! Please read the log for details.");
+            }
+        }
+
+        private void ReadPlugins(HtmlGenerator generator)
+        {
             var pluginManager = new PluginManager(null);
             foreach (Type type in pluginManager.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies).Values)
             {
@@ -123,19 +136,10 @@ namespace OnlineDocumentationGenerator
                     }
                     catch (Exception ex)
                     {
-                        GuiLogMessage(string.Format("{0} error: {1}", type.GetPluginInfoAttribute().Caption, ex.Message), NotificationLevel.Error);
+                        GuiLogMessage(string.Format("{0} error: {1}", type.GetPluginInfoAttribute().Caption, ex.Message),
+                                      NotificationLevel.Error);
                     }
                 }
-            }
-
-            try
-            {
-                generator.Generate();
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
-                MessageBox.Show("Error trying to open documentation! Please read the log for details.");
             }
         }
 

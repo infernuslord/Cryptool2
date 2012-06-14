@@ -3,6 +3,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Localization;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
@@ -10,9 +11,21 @@ namespace OnlineDocumentationGenerator.DocInformations
     {
         public PropertyInfoAttribute[] Connectors { get; private set; }
 
+        public ComponentTemplateList RelevantTemplates { get; private set; }
+
         public ComponentDocumentationPage(Type componentType) : base(componentType)
         {
             Connectors = PluginExtension.GetProperties(componentType);
+            
+            RelevantTemplates = new ComponentTemplateList();
+            if (DocGenerator.RelevantComponentToTemplatesMap.ContainsKey(componentType.Name))
+            {
+                var templates = DocGenerator.RelevantComponentToTemplatesMap[componentType.Name];
+                foreach (var templateDocumentationPage in templates)
+                {
+                    RelevantTemplates.Add(templateDocumentationPage);
+                }
+            }
         }
 
         protected override LocalizedPluginDocumentationPage CreateLocalizedEntityDocumentationPage(PluginDocumentationPage pluginDocumentationPage, Type componentType, XElement xml, string lang, BitmapFrame componentImage)

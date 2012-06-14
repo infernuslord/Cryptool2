@@ -1,17 +1,35 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using OnlineDocumentationGenerator.DocInformations.Localization;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
     public abstract class EntityDocumentationPage
     {
-        public string AuthorName { get; protected set; }
         public Dictionary<string, LocalizedEntityDocumentationPage> Localizations { get; protected set; }
 
         public abstract string Name { get; }
+        public abstract string DocDirPath { get; }
+        
+        public List<string> AvailableLanguages
+        {
+            get { return Localizations.Keys.ToList(); }
+        }
 
-        public abstract string DocPath { get; }
+        public LocalizedEntityDocumentationPage CurrentLocalization
+        {
+            get
+            {
+                var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+                if (Localizations.ContainsKey(lang))
+                {
+                    return Localizations[lang];
+                }
+                return Localizations["en"];
+            }
+        }
 
         protected EntityDocumentationPage()
         {

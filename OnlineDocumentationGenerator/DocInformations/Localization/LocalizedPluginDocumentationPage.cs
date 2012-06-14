@@ -18,7 +18,12 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
             get { return DocumentationPage.References; }
         }
 
-        public Type Type { get; private set; }
+        public override string FilePath
+        {
+            get { return OnlineHelp.GetDocFilename(PluginType, Lang); }
+        }
+
+        public Type PluginType { get; private set; }
         public string ToolTip { get; private set; }
 
         public TaskPaneAttribute[] Settings
@@ -41,10 +46,15 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
             get { return DocumentationPage.AuthorEmail; }
         }
 
+        public string AuthorName
+        {
+            get { return DocumentationPage.AuthorName; }
+        }
+
         protected LocalizedPluginDocumentationPage(PluginDocumentationPage editorDocumentationPage, Type pluginType, XElement xml, string lang, BitmapFrame icon)
         {
             base.DocumentationPage = editorDocumentationPage;
-            Type = pluginType;
+            PluginType = pluginType;
             _xml = xml;
             Lang = lang;
             Icon = icon;

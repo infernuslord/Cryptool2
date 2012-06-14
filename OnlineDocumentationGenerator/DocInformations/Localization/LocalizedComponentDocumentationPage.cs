@@ -3,20 +3,23 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 
 namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
     public class LocalizedComponentDocumentationPage : LocalizedPluginDocumentationPage
     {
         private readonly ComponentTemplateList _templates = new ComponentTemplateList();
-
-        public ComponentTemplateList Templates
-        {
-            get { return _templates; }
-        }
-
+        
         public PropertyInfoAttribute[] Connectors {
             get { return DocumentationPage.Connectors; }
+        }
+        
+        public ComponentTemplateList Templates { 
+            get
+            {
+                return DocumentationPage.RelevantTemplates;
+            }
         }
 
         public new ComponentDocumentationPage DocumentationPage
@@ -34,35 +37,15 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
         public LocalizedComponentDocumentationPage(ComponentDocumentationPage componentDocumentationPage, Type pluginType, XElement xml, string lang, BitmapFrame icon)
             : base(componentDocumentationPage, pluginType, xml, lang, icon)
         {
-            var name = Type.Name;
-            if (DocGenerator.RelevantComponentToTemplatesMap.ContainsKey(name))
-            {
-                var templates = DocGenerator.RelevantComponentToTemplatesMap[name];
-                foreach (var template in templates)
-                {
-                    string templateXMLFile = Path.Combine(DocGenerator.TemplateDirectory, template.Substring(0, template.Length - 4) + ".xml");
-                    if (File.Exists(templateXMLFile))
-                    {
-                        XElement templateXml = XElement.Load(templateXMLFile);
-                        var title = FindLocalizedChildElement(templateXml, "title");
-                        var description = FindLocalizedChildElement(templateXml, "description");
-                        if (description != null)
-                        {
-                            Templates.Add(title, template, description);
-                        }
-                    }
-                }
-            }
-
             if (_xml != null)
                 ReadInformationsFromXML();
         }
 
         private void ReadInformationsFromXML()
         {
-            Introduction = FindLocalizedChildElement(_xml, "introduction");
-            Manual = FindLocalizedChildElement(_xml, "usage");
-            Presentation = FindLocalizedChildElement(_xml, "presentation");
+            Introduction = XMLHelper.FindLocalizedChildElement(_xml, "introduction");
+            Manual = XMLHelper.FindLocalizedChildElement(_xml, "usage");
+            Presentation = XMLHelper.FindLocalizedChildElement(_xml, "presentation");
         }
     }
 }
