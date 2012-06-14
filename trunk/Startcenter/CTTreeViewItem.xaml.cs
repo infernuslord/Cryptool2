@@ -65,23 +65,42 @@ namespace Startcenter
         public FileInfo File { get; set; }
         public string Title { get; set; }
 
-        public CTTreeViewItem(FileInfo file, string title, Inline description, ImageSource image)
+        /// <summary>
+        /// Constructor only for files
+        /// </summary>
+        public CTTreeViewItem(FileInfo file, string title, Inline tooltip, ImageSource image)
         {
             this.File = file;
             this.Title = title;
             this.Icon = image;
+            this.IsDirectory = false;
             this.Tag = new KeyValuePair<string, string>(file.FullName, title);
-            var tooltipBlock = new TextBlock(description) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
+            var tooltipBlock = new TextBlock(tooltip) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
             this.ToolTip = tooltipBlock;
 
             InitializeComponent();
         }
 
-        public CTTreeViewItem(string title, bool isDirectory)
+        /// <summary>
+        /// Constructor only for directories
+        /// </summary>
+        public CTTreeViewItem(string title, Inline tooltip = null, ImageSource image = null)
         {
             this.Title = title;
-            this.IsDirectory = isDirectory;
-            this.Icon = new BitmapImage(new Uri("pack://application:,,,/CrypWin;component/images/Open32.png"));
+            this.IsDirectory = true;
+            if (tooltip != null)
+            {
+                this.ToolTip = new TextBlock(tooltip) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
+            }
+
+            if (image != null)
+            {
+                this.Icon = image;
+            }
+            else
+            {
+                this.Icon = new BitmapImage(new Uri("pack://application:,,,/CrypWin;component/images/Open32.png"));
+            }
             InitializeComponent();
         }
     }
