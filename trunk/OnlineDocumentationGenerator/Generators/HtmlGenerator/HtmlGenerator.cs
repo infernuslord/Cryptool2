@@ -10,6 +10,7 @@ using System.Linq;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
 using OnlineDocumentationGenerator.DocInformations;
+using OnlineDocumentationGenerator.DocInformations.Localization;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {

@@ -61,10 +61,10 @@ namespace Startcenter
                 MakeTemplateInformation(templateDir, item);
             }
 
-            for (int i = item.Items.Count - 1; i >= 0; i--)
+            while (item.Items.Count > 0)
             {
-                var it = item.Items[i];
-                item.Items.RemoveAt(i);
+                var it = item.Items[0];
+                item.Items.RemoveAt(0);
                 treeView.Items.Add(it);
             }
             item.IsExpanded = true;

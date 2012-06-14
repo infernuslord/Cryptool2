@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using OnlineDocumentationGenerator.DocInformations;
+using OnlineDocumentationGenerator.DocInformations.Localization;
 using OnlineDocumentationGenerator.Properties;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
