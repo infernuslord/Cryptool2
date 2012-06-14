@@ -22,14 +22,26 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
         public XElement Summary { get; private set; }
         public XElement Description { get; private set; }
 
-        public LocalizedTemplateDocumentationPage(TemplateDocumentationPage templateDocumentationPage, string lang, BitmapFrame icon)
+        public XElement SummaryOrDescription
         {
+            get
+            {
+                if (Summary != null)
+                    return Summary;
+                if (Description != null)
+                    return Description;
+                return null;
+            }
+        }
+
+        public LocalizedTemplateDocumentationPage(TemplateDocumentationPage templateDocumentationPage, string lang, BitmapFrame icon, string author)
+        {
+            Author = author;
             DocumentationPage = templateDocumentationPage;
             Lang = lang;
             Icon = icon;
             _xml = templateDocumentationPage.TemplateXML;
-            _filePath = OnlineHelp.GetTemplateDocFilename(Path.Combine(templateDocumentationPage.DocDirPath, Path.GetFileName(templateDocumentationPage.TemplateFile)), lang);
-            //_filePath = Path.Combine(templateDocumentationPage.DocDirPath, string.Format("{0}_{1}.html", templateDocumentationPage.Name, lang));
+            _filePath = OnlineHelp.GetTemplateDocFilename(Path.Combine(templateDocumentationPage.RelativeTemplateDirectory, Path.GetFileName(templateDocumentationPage.TemplateFile)), lang);
 
             var cultureInfo = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = cultureInfo;

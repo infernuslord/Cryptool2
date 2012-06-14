@@ -5,24 +5,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using OnlineDocumentationGenerator.DocInformations.Localization;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
     public class TemplateDocumentationPage : EntityDocumentationPage
     {
-        private readonly string _templateDirectory;
+        private readonly string _relativeTemplateDirectory;
+
+        public string RelativeTemplateDirectory
+        {
+            get { return _relativeTemplateDirectory; }
+        }
+
         public string TemplateFile { get; private set; }
         public XElement TemplateXML { get; private set; }
         public List<string> RelevantPlugins { get; private set; }
 
         public override string Name
         {
-            get { return Path.GetFileNameWithoutExtension(TemplateFile); }
+            get { return Path.GetFileNameWithoutExtension(Localizations["en"].FilePath); }
         }
 
         public override string DocDirPath
         {
-            get { return Path.Combine(DocGenerator.TemplateDirectory, _templateDirectory); }
+            get { return DocGenerator.TemplateDirectory; }
         }
 
         public new LocalizedTemplateDocumentationPage CurrentLocalization
@@ -30,9 +37,9 @@ namespace OnlineDocumentationGenerator.DocInformations
             get { return (LocalizedTemplateDocumentationPage) base.CurrentLocalization; }
         }
 
-        public TemplateDocumentationPage(string templateFile, string templateDirectory)
+        public TemplateDocumentationPage(string templateFile, string relativeTemplateDirectory)
         {
-            _templateDirectory = templateDirectory;
+            _relativeTemplateDirectory = relativeTemplateDirectory;
             TemplateFile = templateFile;
             
             string templateXMLFile = Path.Combine(Path.GetDirectoryName(templateFile), Path.GetFileNameWithoutExtension(templateFile) + ".xml");
@@ -62,6 +69,13 @@ namespace OnlineDocumentationGenerator.DocInformations
                 }
             }
 
+            string author = null;
+            var authorElement = XMLHelper.FindLocalizedChildElement(TemplateXML, "author");
+            if (authorElement != null)
+            {
+                author = authorElement.Value;
+            }
+
             var relevantPlugins = TemplateXML.Element("relevantPlugins");
             if (relevantPlugins != null)
             {
@@ -81,7 +95,7 @@ namespace OnlineDocumentationGenerator.DocInformations
                 var langAtt = title.Attribute("lang");
                 if (langAtt != null && !AvailableLanguages.Contains(langAtt.Value))
                 {
-                    Localizations.Add(langAtt.Value, new LocalizedTemplateDocumentationPage(this, langAtt.Value, icon));
+                    Localizations.Add(langAtt.Value, new LocalizedTemplateDocumentationPage(this, langAtt.Value, icon, author));
                 }
             }
             if (!Localizations.ContainsKey("en"))

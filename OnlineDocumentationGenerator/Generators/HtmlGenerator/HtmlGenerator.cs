@@ -77,20 +77,12 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
 
-            try
+            foreach (var templateDocumentationPage in templateDocumentationPages)
             {
-                foreach (var templateDocumentationPage in templateDocumentationPages)
-                {
-                    var locTemplate = templateDocumentationPage.CurrentLocalization;
-                    string description = _objectConverter.Convert(locTemplate.Description, templateDocumentationPage);
-                    description = description.Replace("../", ""); //correct relative paths in images
-                    stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>", locTemplate.FilePath, locTemplate.Name, description));
-                }
-            }
-            catch (Exception ex)
-            {
-                
-                throw;
+                var locTemplate = templateDocumentationPage.CurrentLocalization;
+                string description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
+                description = description.Replace("../", ""); //correct relative paths in images
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>", locTemplate.FilePath, locTemplate.Name, description));
             }
 
             stringBuilder.AppendLine("</table>");
