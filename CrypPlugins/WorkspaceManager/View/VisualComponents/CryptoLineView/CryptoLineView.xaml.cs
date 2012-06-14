@@ -204,7 +204,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         #region Public
         public void update()
         {
-            //throw new NotImplementedException();
+            Line.update();
         } 
         #endregion
         #region EventHandler

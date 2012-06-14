@@ -179,7 +179,7 @@ namespace WorkspaceManager.Execution
                             //in the current version line updates are not possible
                             //so i out commented the code
                             //nils kopal
-                            /*foreach (var connectionModel in workspaceModel.AllConnectionModels)
+                            foreach (var connectionModel in workspaceModel.AllConnectionModels)
                             {
                                 if (connectionModel.GuiNeedsUpdate)
                                 {
@@ -197,7 +197,7 @@ namespace WorkspaceManager.Execution
                                         connectorModel.UpdateableView.update();
                                     connectorModel.GuiNeedsUpdate = false;
                                 }
-                            }*/
+                            }
                         }
                         , null);
                     }
