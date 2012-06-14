@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Symmetric</name>
+  <name lang="de">Symmetrisch</name>
+  <summary lang="en">This folder contains templates which show modern symmetric cryptographical algorithms</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche moderne symmetrische kryptographische Verfahren zeigen</summary>
+  <!--<icon file="dir.png" />-->
+</directory>

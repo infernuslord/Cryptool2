@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Experimental</name>
+  <name lang="de">Experimentell</name>  
+  <summary lang="en">This folder contains templates which show components in experimental state</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche Komponenten im experimentellen Stadium zeigen</summary>
+  <icon file="dir.png" />
+</directory>
