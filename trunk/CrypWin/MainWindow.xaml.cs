@@ -2319,19 +2319,57 @@ namespace Cryptool.CrypWin
         //            break;
         //    }
         //}
-        
-        private void ShowHelpPage(Type type)
+
+        private void ShowHelpPage(object docEntity)
         {
             OnlineHelpTab onlineHelpTab = OnlineHelpTab.GetSingleton(this);
-
             onlineHelpTab.OnOpenEditor += OpenEditor;
             onlineHelpTab.OnOpenTab += OpenTab;
 
             //Find out which page to show:
             var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+
+            if (docEntity is Type)
+            {
+                if (!ShowPluginHelpPage((Type) docEntity, onlineHelpTab, lang))
+                    return;
+            }
+            else if (docEntity is OnlineHelp.TemplateType)
+            {
+                var rel = ((OnlineHelp.TemplateType) docEntity).RelativeTemplateFilePath;
+                try
+                {
+                    onlineHelpTab.ShowHTMLFile(OnlineHelp.GetTemplateDocFilename(rel, lang));
+                }
+                catch (Exception ex)
+                {
+                    //Try opening index page in english:
+                    try
+                    {
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetTemplateDocFilename(rel, "en"));
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            //show tab:
+            TabItem tab = OpenTab(onlineHelpTab, Properties.Resources.Online_Help, null);
+            if (tab != null)
+                tab.IsSelected = true;
+        }
+
+        private bool ShowPluginHelpPage(Type docType, OnlineHelpTab onlineHelpTab, string lang)
+        {
             try
             {
-                if ((type == typeof(MainWindow)) || (type == null))     //The doc page of MainWindow is the index page.
+                if ((docType == typeof (MainWindow)) || (docType == null)) //The doc page of MainWindow is the index page.
                 {
                     try
                     {
@@ -2343,16 +2381,16 @@ namespace Cryptool.CrypWin
                         onlineHelpTab.ShowHTMLFile(OnlineHelp.GetIndexFilename("en"));
                     }
                 }
-                else if (type.GetPluginInfoAttribute() != null)
+                else if (docType.GetPluginInfoAttribute() != null)
                 {
-                    var pdp = OnlineDocumentationGenerator.DocGenerator.CreateDocumentationPage(type);
+                    var pdp = OnlineDocumentationGenerator.DocGenerator.CreatePluginDocumentationPage(docType);
                     if (pdp.AvailableLanguages.Contains(lang))
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(type, lang));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(docType, lang));
                     }
                     else
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(type, "en"));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(docType, "en"));
                     }
                 }
                 else
@@ -2361,23 +2399,21 @@ namespace Cryptool.CrypWin
             catch (FileNotFoundException)
             {
                 //if file was not found, simply try to open the index page:
-                GuiLogMessage(string.Format(Properties.Resources.MainWindow_ShowHelpPage_No_special_help_file_found_for__0__, type), NotificationLevel.Warning);
-                if (type != typeof(MainWindow))
+                GuiLogMessage(string.Format(Properties.Resources.MainWindow_ShowHelpPage_No_special_help_file_found_for__0__, docType),
+                    NotificationLevel.Warning);
+                if (docType != typeof (MainWindow))
                 {
-                    ShowHelpPage(typeof(MainWindow));
+                    ShowHelpPage(typeof (MainWindow));
                 }
-                return;
+                return false;
             }
             catch (Exception ex)
             {
-                GuiLogMessage(string.Format(Resource.MainWindow_ShowHelpPage_Error_trying_to_open_documentation___0__, ex.Message), NotificationLevel.Error);
-                return;
+                GuiLogMessage(string.Format(Resource.MainWindow_ShowHelpPage_Error_trying_to_open_documentation___0__, ex.Message),
+                    NotificationLevel.Error);
+                return false;
             }
-
-            //show tab:
-            TabItem tab = OpenTab(onlineHelpTab, Properties.Resources.Online_Help, null);
-            if (tab != null)
-                tab.IsSelected = true;
+            return true;
         }
 
         private void addimg_Click(object sender, RoutedEventArgs e)

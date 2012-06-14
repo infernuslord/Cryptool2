@@ -130,7 +130,7 @@ namespace Cryptool.P2PEditor
             throw new NotImplementedException();
         }
 
-        public void ShowSelectedPluginDescription()
+        public void ShowSelectedEntityHelp()
         {
         }
 

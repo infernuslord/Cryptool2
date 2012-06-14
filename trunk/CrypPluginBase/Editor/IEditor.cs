@@ -48,7 +48,7 @@ namespace Cryptool.PluginBase.Editor
         /// <summary>
         /// Used to display a plugin specific description button in settings pane. 
         /// </summary>
-        void ShowSelectedPluginDescription();
+        void ShowSelectedEntityHelp();
 
         bool CanUndo { get; }
         bool CanRedo { get; }

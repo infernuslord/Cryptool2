@@ -13,13 +13,22 @@ namespace Cryptool.PluginBase
         public static readonly string RelativeComponentDocDirectory = "ComponentsDocs";
         public static readonly string ComponentDocDirectory = Path.Combine(HelpDirectory, RelativeComponentDocDirectory);
 
-        public delegate void ShowDocPageHandler(Type entityType);
-        public static event ShowDocPageHandler ShowDocPage;
-
-        public static void InvokeShowPluginDocPage(Type plugin)
+        public struct TemplateType
         {
-            if (ShowDocPage != null) 
-                ShowDocPage(plugin);
+            public string RelativeTemplateFilePath;
+            public TemplateType(string relativeTemplateFilePath)
+            {
+                RelativeTemplateFilePath = relativeTemplateFilePath;
+            }
+        }
+
+        public delegate void ShowDocPageHandler(object docEntity);
+        public static event ShowDocPageHandler ShowDocPage;
+        
+        public static void InvokeShowDocPage(object docEntity)
+        {
+            if (ShowDocPage != null)
+                ShowDocPage(docEntity);
         }
 
         public static string GetDocFilename(Type plugin, string lang)

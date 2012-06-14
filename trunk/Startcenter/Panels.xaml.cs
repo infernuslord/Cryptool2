@@ -21,6 +21,8 @@ namespace Startcenter
     [Cryptool.PluginBase.Attributes.Localization("Startcenter.Properties.Resources")]
     public partial class Panels : UserControl
     {
+        private Templates _templatesObj;
+
         public string TemplatesDir
         {
             set
@@ -37,8 +39,14 @@ namespace Startcenter
             InitializeComponent();
             ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
             ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
-            ((Templates)templates.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
-            ((Templates)templates.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+            _templatesObj = ((Templates) templates.Child);
+            _templatesObj.OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            _templatesObj.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+        }
+
+        public void ShowHelp()
+        {
+            _templatesObj.ShowHelp();
         }
     }
 }

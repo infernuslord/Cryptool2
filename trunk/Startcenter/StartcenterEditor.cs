@@ -133,8 +133,9 @@ namespace StartCenter
         {
         }
 
-        public void ShowSelectedPluginDescription()
+        public void ShowSelectedEntityHelp()
         {
+            _startcenter.ShowHelp();
         }
 
         public bool CanUndo

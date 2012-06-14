@@ -40,7 +40,7 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        public static PluginDocumentationPage CreateDocumentationPage(Type type)
+        public static PluginDocumentationPage CreatePluginDocumentationPage(Type type)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
             var currentUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -128,7 +128,7 @@ namespace OnlineDocumentationGenerator
                 {
                     try
                     {
-                        var p = CreateDocumentationPage(type);
+                        var p = CreatePluginDocumentationPage(type);
                         if (p != null)
                         {
                             generator.AddDocumentationPage(p);

@@ -449,23 +449,23 @@ namespace WorkspaceManager
             if (((EditorVisual)Presentation).SelectedItems != null && ((EditorVisual)Presentation).SelectedItems[0] is ComponentVisual)
             {
                 var element = (ComponentVisual)((EditorVisual)Presentation).SelectedItems[0];
-                OnlineHelp.InvokeShowPluginDocPage(element.Model.PluginType);
+                OnlineHelp.InvokeShowDocPage(element.Model.PluginType);
             }
             else
             {
-                OnlineHelp.InvokeShowPluginDocPage(typeof(WorkspaceManagerClass));
+                OnlineHelp.InvokeShowDocPage(typeof(WorkspaceManagerClass));
             }
         }
 
         /// <summary>
         /// Show the Description of the selected plugin
         /// </summary>
-        public void ShowSelectedPluginDescription()
+        public void ShowSelectedEntityHelp()
         {
             if (selectedPluginsList.Count > 0)      //This doesn't work!
             {
                 var plugin = selectedPluginsList[0];
-                //OnlineHelp.InvokeShowPluginDocPage(plugin.cont);
+                //OnlineHelp.InvokeShowDocPage(plugin.cont);
             }
             else
             {

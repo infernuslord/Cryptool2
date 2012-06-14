@@ -29,6 +29,7 @@ namespace Startcenter
     public partial class Templates : UserControl
     {
         private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
+        private string _templatesDir;
 
         public string TemplatesDir
         {
@@ -36,6 +37,7 @@ namespace Startcenter
             {
                 if (value != null)
                 {
+                    _templatesDir = value;
                     DirectoryInfo templateDir = new DirectoryInfo(value);
                     FillTemplatesNavigationPane(templateDir, TemplatesTreeView);
                 }
@@ -56,7 +58,7 @@ namespace Startcenter
             if (templateDir.Exists)
             {
                 foreach (var subDirectory in templateDir.GetDirectories())
-                    handleTemplateDirectories(subDirectory, item);
+                    HandleTemplateDirectories(subDirectory, item);
 
                 MakeTemplateInformation(templateDir, item);
             }
@@ -70,7 +72,7 @@ namespace Startcenter
             item.IsExpanded = true;
         }
 
-        private void handleTemplateDirectories(DirectoryInfo directory, CTTreeViewItem parent)
+        private void HandleTemplateDirectories(DirectoryInfo directory, CTTreeViewItem parent)
         {
             if (directory == null)
                 return;
@@ -109,7 +111,7 @@ namespace Startcenter
             parent.Items.Add(item);
 
             foreach (var subDirectory in directory.GetDirectories())
-                handleTemplateDirectories(subDirectory, item);
+                HandleTemplateDirectories(subDirectory, item);
 
             MakeTemplateInformation(directory, item);
         }
@@ -461,6 +463,45 @@ namespace Startcenter
             {
                 SearchTextBox.Text = "";
             }
+        }
+
+        private string GetRelativePathBySubtracting(string path1, string path2)
+        {
+            var rel = path2.Substring(path1.Length);
+            if (rel[0] == Path.DirectorySeparatorChar)
+            {
+                return rel.Substring(1);
+            }
+            return rel;
+        }
+
+        public void ShowHelp()
+        {
+            FrameworkElement item = null;
+            if (TemplatesTreeView.Visibility == Visibility.Visible)
+            {
+                if (TemplatesTreeView.SelectedItem != null)
+                {
+                    item = (CTTreeViewItem) TemplatesTreeView.SelectedItem;
+                }
+            }
+            else
+            {
+                if (TemplatesListBox.SelectedItem != null)
+                {
+                    item = (FrameworkElement) TemplatesListBox.SelectedItem;
+                }
+            }
+
+            if (item == null)
+            {
+                return;
+            }
+
+            var infos = ((KeyValuePair<string, string>)item.Tag);
+            var t = new DirectoryInfo(_templatesDir);
+            var rel = Path.Combine(t.Name, GetRelativePathBySubtracting(_templatesDir, infos.Key));
+            OnlineHelp.InvokeShowDocPage(new OnlineHelp.TemplateType(rel));
         }
     }
 }
