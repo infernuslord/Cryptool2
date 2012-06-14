@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of a <i>Linear Feedback Shift Register</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung eines <i>Linear rückgekoppeltes Schieberegister</i></summary>
   <title lang="en">Linear Feedback Shift Register</title>
-  <description lang="en">Linear feedback shift register</description>
+  <description lang="en">-</description>
   <keywords>shift, register, feedback</keywords>
   <title lang="de">Linear rückgekoppeltes Schieberegister</title>
-  <description lang="de">Linear rückgekoppeltes Schieberegister</description>
+  <description lang="de">-</description>
   <icon file="math.png" />
 </sample>

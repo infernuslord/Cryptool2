@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of the <i>Steganography Permutation</i> for encryption</summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Steganographie Permutation</i> für die Verschlüsselung</summary>
   <title lang="en">Steganography Permutation Encryption</title>
   <title lang="de">Steganographie Permutation Verschlüsselung</title>
-  <description lang="en">Steganography Permutation Encryption</description>
-  <description lang="de">Steganographie Permutation Verschlüsselung</description>
+  <description lang="en">-</description>
+  <description lang="de">-</description>
   <keywords>Steganography, hidden, Permutation</keywords>
   <keywords lang="de">Steganographie, verstecken</keywords>
   <icon file="Steganography.png" />

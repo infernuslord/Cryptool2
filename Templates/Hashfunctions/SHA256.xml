@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">SHA256</title>
-  <description lang="en">This template shows how to use the <i>SHA256</i>. component</description>
+  <summary lang="en">This template shows the usage of a <i>SHA256 Hashfunction</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>SHA256-Hashfunktion</i></summary>
+  <description lang="en">-</description>
   <keywords>Hash, nist, secure, 256</keywords>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>SHA256</i> Komponente.</description>
+  <description lang="de">-</description>
   <keywords lang="de">hash</keywords>
   <icon file="SHA256.png" />
   <relevantPlugins>

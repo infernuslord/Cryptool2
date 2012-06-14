@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">TripleDES Cipher</title>
-  <description lang="en">This template shows how to use the <i>TripleDES Cipher</i>.</description>
+  <summary lang="en">This template shows the usage of a <i>DES Cipher</i> for TripleDES</summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>DES-Chiffre</i> für TripleDES</summary>
+  <description lang="en">-</description>
   <keywords>symmetric, standard, 56, NSA</keywords>
   <title lang="de">TripleDES-Chiffre</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>TripleDES-Ver-/Entschlüsselung</i>.</description>
+  <description lang="de">-</description>
   <keywords lang="de">symmetrisch</keywords>
   <icon file="TripleDES.png" />
   <relevantPlugins>

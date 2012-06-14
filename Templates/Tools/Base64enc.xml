@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of the <i>Text coding</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Textkodierung</i></summary>
   <title lang="en">Text coding (e.g. Base-64)</title>
   <title lang="de">Textkodierung (z.B. Base-64)</title>
   <description lang="en">With this template different encoding techniques can be demonstrated. With the current parameters, the inputed text (ASCII) is encoded to base64 [1]. To do so, the inputed text is first encoded to bytes according to the ASCII character encoding [2]. These bytes are then encoded with base64 (and outputed as text).<newline />

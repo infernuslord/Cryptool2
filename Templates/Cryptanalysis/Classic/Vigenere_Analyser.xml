@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Vigenère Analysis</title>
-  <description lang="en">This template shows the analysis of the <i>Vigenère cipher</i>.</description>
+  <summary lang="en">This template shows the usage of a <i>Vigenère Analysis</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Vigenère-Analyse</i></summary>
+  <description lang="en">-</description>
   <keywords>Caesar, polyalphabetic, Substitution</keywords>
   <title lang="de">Vigenère-Analyse</title>
-  <description lang="de">Diese Vorlage zeigt die Kryptanalyse der <i>Vigenère-Ver-/Entschlüsselung</i>.</description>
-  <keywords lang="de">polyalphabetisch</keywords>
+  <description lang="de">-</description>
+  <keywords lang="de">Caesar, polyalphabetisch, Substitution</keywords>
   <icon file="Vigenere_Analyser.png" />
   <relevantPlugins>
     <plugin name="Vigenere" />

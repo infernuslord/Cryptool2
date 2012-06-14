@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">SDES Analyzing Known Plaintext</title>
-  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>SDES</i> and the <i>Costfunction</i> RegEx.</description>
+  <summary lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using a keysearcher and a known plaintext</summary>
+  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>SDES-Algorithmus</i> mittels Keysearchers und eines bekannten Klartextes</summary>
+  <description lang="en">-</description>
   <keywords>Analysis, SDP, SRTP</keywords>
-  <title lang="de">SDES-Analyse Known-Plaintext</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>SDES</i> und der <i>Kostenfunktion</i> RegEx.</description>
-  <keywords lang="de">Analyse, symmetrisch</keywords>
+  <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, regex</keywords>
+  <description lang="de">-</description>
+  <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard,regex, regulärer ausdruck</keywords>
   <icon file="SDES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />

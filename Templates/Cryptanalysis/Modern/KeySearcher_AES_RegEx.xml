@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">KeySearcher AES RegEx</title>
-  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfuntion</i> RegEx.</description>
+  <summary lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using a keysearcher and a RegEx</summary>
+  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>AES-Algorithmus</i> mittels Keysearchers und eines RegEx</summary>
+  <description lang="en">-</description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, asymmetric, nist, regex, regular expression</keywords>
   <title lang="de">KeySearcher AES RegEx</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> RegEx.</description>
-  <keywords lang="de">asymmetrisch, regulärer Ausdruck</keywords>
+  <description lang="de">-</description>
+  <keywords lang="de">asymmetrisch, Rijmen, Rijndael, nist, regex, regulärer Ausdruck</keywords>
   <icon file="KeySearcher.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />

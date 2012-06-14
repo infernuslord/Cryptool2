@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of a <i>AES Cipher</i> to create a ciphertext encoded as base64</summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>AES-Chiffre</i> um einen Geheimtext welcher in Base64 codiert ist zu erstellen</summary>
   <title lang="en">Use a password (PKCS5) to encrypt/decrypt (AES) some text (2)</title>
   <description lang="en">In this template we provide a quick way to encrypt plaintext with AES [1] by using a simple password (which is converted to an AES-key by using PKCS5 [2]). The result is base64-encoded for easy copy and paste e.g. to an email. Decryption is also possible with this template: The encrypted base64-encoded text needs to be copied to the <b>Input</b>-component. Then the AES-<b>component</b> needs to be switched to "Decrypt" and the <b>Switch</b>-component must be set to <i>True</i>. With the help of the <b>Switch</b>-component, the data takes a different path, i.e. for decryption we first need to base64-decode it, while when encrypting we encode it in base64 after encryption.<newline />
 In this template additionally a random initialization vector (IV) is used to strengthen the security of the message. The IV is also encoded in base64 and prepended to the encrypted message. On the receiving side, the received IV is decoded and used to decrypt the message. Using a random IV for every message yields always different ciphertexts even when sending the same plaintext.

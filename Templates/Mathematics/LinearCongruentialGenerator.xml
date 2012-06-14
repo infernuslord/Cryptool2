@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of a <i>Linear Congurential Generator</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung eines <i>Linearer Kongruenzen-Generator</i></summary>
   <title lang="en">Linear Congurential Generator</title>
-  <description lang="en">Linear Congurential Generator</description>
+  <description lang="en">-</description>
   <keywords>pseudorandom, PRNG, LCG, congruence, recurrence</keywords>
   <title lang="de">Linearer Kongruenzen-Generator</title>
-  <description lang="de">Linearer Kongruenzen-Generator</description>
+  <description lang="de">-</description>
   <keywords lang="de">pseudozufall, PRNG, LCG, Kongruenz, Rekurrenz</keywords>
   <icon file="math.png" />
 </sample>
