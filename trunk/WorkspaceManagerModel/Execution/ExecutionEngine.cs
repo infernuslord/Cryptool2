@@ -164,7 +164,7 @@ namespace WorkspaceManager.Execution
                     if (Editor != null && Editor.Presentation != null && Editor.Presentation.IsVisible)
                     {
 
-                        Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Editor.Presentation.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, (SendOrPostCallback)delegate
                         {
                             foreach (var pluginModel in workspaceModel.AllPluginModels)
                             {
