@@ -499,8 +499,7 @@ namespace Startcenter
             }
 
             var infos = ((KeyValuePair<string, string>)item.Tag);
-            var t = new DirectoryInfo(_templatesDir);
-            var rel = Path.Combine(t.Name, GetRelativePathBySubtracting(_templatesDir, infos.Key));
+            var rel = GetRelativePathBySubtracting(_templatesDir, infos.Key);
             OnlineHelp.InvokeShowDocPage(new OnlineHelp.TemplateType(rel));
         }
     }

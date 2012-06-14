@@ -12,6 +12,7 @@ namespace Cryptool.PluginBase
         public static readonly string HelpDirectory = "OnlineDocumentation";
         public static readonly string RelativeComponentDocDirectory = "ComponentsDocs";
         public static readonly string ComponentDocDirectory = Path.Combine(HelpDirectory, RelativeComponentDocDirectory);
+        public static readonly string RelativeTemplateDocDirectory = "Templates";
 
         public struct TemplateType
         {
@@ -46,7 +47,9 @@ namespace Cryptool.PluginBase
 
         public static string GetTemplateDocFilename(string relativTemplateFilePath, string lang)
         {
-            return Path.Combine(Path.GetDirectoryName(relativTemplateFilePath), string.Format("{0}_{1}.html", Path.GetFileNameWithoutExtension(relativTemplateFilePath), lang));
+            var flattenedPath = Path.GetDirectoryName(relativTemplateFilePath).Replace(Path.DirectorySeparatorChar, '.');
+            var filename = string.Format("{0}.{1}_{2}.html", flattenedPath, Path.GetFileNameWithoutExtension(relativTemplateFilePath), lang);
+            return Path.Combine(RelativeTemplateDocDirectory, filename);
         }
 
         public static string GetIndexFilename(string lang)
