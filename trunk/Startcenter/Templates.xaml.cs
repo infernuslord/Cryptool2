@@ -53,7 +53,6 @@ namespace Startcenter
         private void FillTemplatesNavigationPane(DirectoryInfo templateDir, TreeView treeView)
         {
             CTTreeViewItem item = new CTTreeViewItem(templateDir.Name);
-            treeView.Items.Add(item);
             if (templateDir.Exists)
             {
                 foreach (var subDirectory in templateDir.GetDirectories())
@@ -62,6 +61,12 @@ namespace Startcenter
                 MakeTemplateInformation(templateDir, item);
             }
 
+            for (int i = item.Items.Count - 1; i >= 0; i--)
+            {
+                var it = item.Items[i];
+                item.Items.RemoveAt(i);
+                treeView.Items.Add(it);
+            }
             item.IsExpanded = true;
         }
 
@@ -140,6 +145,16 @@ namespace Startcenter
                         {
                             summary1 = Helper.ConvertFormattedXElement(summaryElement);
                             summary2 = Helper.ConvertFormattedXElement(summaryElement);
+                        }
+                        else
+                        {
+                            //backup: use description if summary is not available
+                            var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
+                            if (descriptionElement != null)
+                            {
+                                summary1 = Helper.ConvertFormattedXElement(descriptionElement);
+                                summary2 = Helper.ConvertFormattedXElement(descriptionElement);
+                            }
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
