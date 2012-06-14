@@ -41,7 +41,7 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        public static EntityDocumentationPage CreateDocumentationPage(Type type)
+        public static PluginDocumentationPage CreateDocumentationPage(Type type)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
             var currentUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -73,7 +73,7 @@ namespace OnlineDocumentationGenerator
                 ReadTemplates(Path.Combine(dir, subdir.Name));
             }
 
-            foreach (var file in directory.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") || (x.Extension.ToLower() == ".cwm"))))
+            foreach (var file in directory.GetFiles().Where(x => (x.Extension.ToLower() == ".cwm")))
             {
                 string xmlFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".xml");
                 if (File.Exists(xmlFile))

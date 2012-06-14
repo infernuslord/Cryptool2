@@ -19,37 +19,37 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     /// </summary>
     class ObjectConverter
     {
-        private readonly List<EntityDocumentationPage> _docPages;
+        private readonly List<PluginDocumentationPage> _docPages;
         private readonly string _outputDir;
         private readonly HashSet<string> _createdImages = new HashSet<string>();
 
-        public ObjectConverter(List<EntityDocumentationPage> docPages, string outputDir)
+        public ObjectConverter(List<PluginDocumentationPage> docPages, string outputDir)
         {
             _docPages = docPages;
             _outputDir = outputDir;
         }
 
-        public string Convert(object theObject, EntityDocumentationPage componentDocumentationPage)
+        public string Convert(object theObject, EntityDocumentationPage docPage)
         {
             if (theObject == null)
                 return Resources.Not_available;
 
             if (theObject is XElement)
             {
-                var elementString = ConvertXElement((XElement)theObject, componentDocumentationPage);
+                var elementString = ConvertXElement((XElement)theObject, docPage);
                 if (string.IsNullOrWhiteSpace(elementString))
                 {
-                    return Convert(null, componentDocumentationPage);
+                    return Convert(null, docPage);
                 }
                 return elementString;
             }
             if (theObject is BitmapFrame)
             {
-                return ConvertImageSource((BitmapFrame)theObject, componentDocumentationPage.EntityType.FullName, componentDocumentationPage.EntityType);
+                return ConvertImageSource((BitmapFrame)theObject, docPage.Name, docPage);
             }
             if (theObject is ComponentTemplateList)
             {
-                return ConvertTemplateList((ComponentTemplateList)theObject, componentDocumentationPage);
+                return ConvertTemplateList((ComponentTemplateList)theObject, docPage);
             }
             if (theObject is Reference.ReferenceList)
             {
@@ -204,12 +204,12 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         /// <param name="filename">The wished filename (withouth the extension)</param>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        private string ConvertImageSource(BitmapFrame imageSource, string filename, Type entityType)
+        private string ConvertImageSource(BitmapFrame imageSource, string filename, EntityDocumentationPage entityDocumentationPage)
         {
             filename = filename + ".png";
             if (!_createdImages.Contains(filename))
             {
-                var dir = Path.Combine(Path.Combine(_outputDir, OnlineHelp.HelpDirectory), Path.GetDirectoryName(OnlineHelp.GetDocFilename(entityType, "en")));
+                var dir = Path.Combine(Path.Combine(_outputDir, OnlineHelp.HelpDirectory), entityDocumentationPage.DocPath);
                 //create image file:
                 if (!Directory.Exists(dir))
                 {
@@ -257,10 +257,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             var idAtt = ((XElement)node).Attribute("id");
                             if (idAtt != null)
                             {
-                                var htmlLinkToRef = entityDocumentationPage.References.GetHTMLinkToRef(idAtt.Value);
-                                if (htmlLinkToRef != null)
+                                if (entityDocumentationPage is PluginDocumentationPage)
                                 {
-                                    result.Append(htmlLinkToRef);
+                                    var htmlLinkToRef = ((PluginDocumentationPage)entityDocumentationPage).References.GetHTMLinkToRef(idAtt.Value);
+                                    if (htmlLinkToRef != null)
+                                    {
+                                        result.Append(htmlLinkToRef);
+                                    }
                                 }
                             }
                             break;
@@ -271,8 +274,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                 int sIndex = srcAtt.Value.IndexOf('/');
                                 var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
                                     srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
-                                var filename = string.Format("{0}_{1}", entityDocumentationPage.EntityType.FullName, Path.GetFileNameWithoutExtension(srcAtt.Value));
-                                result.Append(ConvertImageSource(image, filename, entityDocumentationPage.EntityType));
+                                var filename = string.Format("{0}_{1}", entityDocumentationPage.Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
+                                result.Append(ConvertImageSource(image, filename, entityDocumentationPage));
                             }
                             break;
                         case "newline":
@@ -318,7 +321,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                     linkText = itemAttribute.Value;
                                 }
                                 
-                                int dirLevel = OnlineHelp.GetDocFilename(entityDocumentationPage.EntityType, "en").Split(Path.PathSeparator).Length;
+                                int dirLevel = entityDocumentationPage.DocPath.Split(Path.PathSeparator).Length - 1;
                                 var d = "";
                                 for (int i = 0; i < dirLevel; i++)
                                 {
@@ -353,11 +356,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
                     if (p.AvailableLanguages.Contains(lang))
                     {
-                        return OnlineHelp.GetDocFilename(p.EntityType, lang);
+                        return OnlineHelp.GetDocFilename(p.PluginType, lang);
                     }
                     else
                     {
-                        return OnlineHelp.GetDocFilename(p.EntityType, "en");
+                        return OnlineHelp.GetDocFilename(p.PluginType, "en");
                     }
                 }
             }

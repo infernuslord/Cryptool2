@@ -8,7 +8,7 @@ namespace OnlineDocumentationGenerator.Generators
 {
     public abstract class Generator
     {
-        protected List<EntityDocumentationPage> DocPages = new List<EntityDocumentationPage>();
+        protected List<PluginDocumentationPage> DocPages = new List<PluginDocumentationPage>();
         protected HashSet<string> AvailableLanguages = new HashSet<string>();
 
         public string OutputDir
@@ -19,12 +19,12 @@ namespace OnlineDocumentationGenerator.Generators
         /// <summary>
         /// Adds a documentation page for the given entity to generate in all available localizations.
         /// </summary>
-        /// <param name="entityDocumentationPage">The class with all informations about the entity</param>
-        public void AddDocumentationPage(EntityDocumentationPage entityDocumentationPage)
+        /// <param name="pluginDocumentationPage">The class with all informations about the entity</param>
+        public void AddDocumentationPage(PluginDocumentationPage pluginDocumentationPage)
         {
-            DocPages.Add(entityDocumentationPage);
+            DocPages.Add(pluginDocumentationPage);
 
-            foreach (var lang in entityDocumentationPage.AvailableLanguages)
+            foreach (var lang in pluginDocumentationPage.AvailableLanguages)
             {
                 AvailableLanguages.Add(lang);
             }

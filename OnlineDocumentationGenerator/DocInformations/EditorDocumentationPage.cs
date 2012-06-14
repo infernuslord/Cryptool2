@@ -7,17 +7,17 @@ using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
-    public class EditorDocumentationPage : EntityDocumentationPage
+    public class EditorDocumentationPage : PluginDocumentationPage
     {
-        public EditorDocumentationPage(Type editorType) : base(editorType)
+        public EditorDocumentationPage(Type pluginType) : base(pluginType)
         {
         }
 
-        protected override LocalizedEntityDocumentationPage CreateLocalizedEntityDocumentationPage(EntityDocumentationPage editorDocumentationPage, Type editorType, XElement xml, string lang, BitmapFrame editorImage)
+        protected override LocalizedPluginDocumentationPage CreateLocalizedEntityDocumentationPage(PluginDocumentationPage pluginDocumentationPage, Type editorType, XElement xml, string lang, BitmapFrame editorImage)
         {
-            if (editorDocumentationPage is EditorDocumentationPage)
+            if (pluginDocumentationPage is EditorDocumentationPage)
             {
-                return new LocalizedEditorDocumentationPage((EditorDocumentationPage)editorDocumentationPage,
+                return new LocalizedEditorDocumentationPage((EditorDocumentationPage)pluginDocumentationPage,
                                                                editorType, xml, lang, editorImage);
             }
             return null;

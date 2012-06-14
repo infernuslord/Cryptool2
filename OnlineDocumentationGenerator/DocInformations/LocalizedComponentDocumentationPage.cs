@@ -9,7 +9,7 @@ using Cryptool.PluginBase;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
-    public class LocalizedComponentDocumentationPage : LocalizedEntityDocumentationPage
+    public class LocalizedComponentDocumentationPage : LocalizedPluginDocumentationPage
     {
         private readonly ComponentTemplateList _templates = new ComponentTemplateList();
 
@@ -34,8 +34,8 @@ namespace OnlineDocumentationGenerator.DocInformations
         public XElement Manual { get; private set; }
         public XElement Presentation { get; private set; }
 
-        public LocalizedComponentDocumentationPage(ComponentDocumentationPage componentDocumentationPage, Type entityType, XElement xml, string lang, BitmapFrame icon)
-            : base(componentDocumentationPage, entityType, xml, lang, icon)
+        public LocalizedComponentDocumentationPage(ComponentDocumentationPage componentDocumentationPage, Type pluginType, XElement xml, string lang, BitmapFrame icon)
+            : base(componentDocumentationPage, pluginType, xml, lang, icon)
         {
             var name = Type.Name;
             if (DocGenerator.RelevantComponentToTemplatesMap.ContainsKey(name))
