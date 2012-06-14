@@ -214,5 +214,11 @@ namespace Wizard
         {
             throw new NotImplementedException();
         }
+
+
+        public void ShowSelectedEntityHelp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
