@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of the <i>Non-Linear Feedback Shift Register</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Nichtlinear rückgekoppeltes Schieberegister</i></summary>
   <title lang="en">Non-Linear Feedback Shift Register</title>
-  <description lang="en">Non-Linear Feedback Shift Register</description>
+  <description lang="en">-</description>
   <keywords>shift, register, feedback</keywords>
   <title lang="de">Nichtlinear rückgekoppeltes Schieberegister</title>
-  <description lang="de">Nichtlinear rückgekoppeltes Schieberegister</description>
+  <description lang="de">-</description>
   <icon file="math.png" />
 </sample>

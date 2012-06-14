@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Paillier Text</title>
+  <summary lang="en">This template shows the usage of a <i>Pailler Cipher</i> for text</summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung eines <i>RSA-Chiffre</i> für Text</summary>
   <description lang="en">-</description>
   <keywords>homomorphic, Paillier, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
   <title lang="de">Paillier Text</title>

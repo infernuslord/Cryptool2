@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Transposition Genetic Analysis</title>
-  <description lang="en">This template shows genetic analysis of the <i>Transposition cipher</i>.</description>
+  <summary lang="en">This template shows the usage of a <i>Transposition Analyser</i> using a genetic algorithm</summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Transpositions Anlyse</i> mit einem genetischen Algorithmus</summary>
+  <description lang="en">-</description>
   <keywords>Analysis, Transposition, Permutation, genetic</keywords>
   <title lang="de">Transposition Genetische Analyse</title>
-  <description lang="de">Diese Vorlage zeigt die genetische Analyse der <i>Transpositions-Ver-/Entschlüsselung</i>.</description>
-  <keywords lang="de">genetisch, Analyse</keywords>
+  <description lang="de">-</description>
+  <keywords lang="de">genetisch, Analyse, Transposition, Permutation</keywords>
   <icon file="Transposition.png" />
   <relevantPlugins>
     <plugin name="Transposition" />

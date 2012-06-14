@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">DES Analyzing Using Entropy</title>
-  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>DES</i> and the <i>Costfuntion</i> Entropy.</description>
+  <summary lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using a keysearcher and an entropy function</summary>
+  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>DES-Algorithmus</i> mittels Keysearchers und einer Entropie-Funktion</summary>
+  <description lang="en">-</description>
   <keywords>symmetric, Data Encryption Standard, standard, NSA, 56</keywords>
   <title lang="de">DES-Analyse mittels Entropie</title>
-  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>DES</i> und der <i>Kostenfunktion</i> Entropie.</description>
-  <keywords lang="de">symmetrisch</keywords>
+  <description lang="de">-</description>
+  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56</keywords>
   <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />

@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+  <summary lang="en">This template shows the usage of the <i>Big Number RSA</i></summary>
+  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Großzahliges RSA</i></summary>
   <title lang="en">Big Number RSA</title>
-  <description lang="en">Big Number RSA</description>
+  <description lang="en">-</description>
   <keywords>precision, arbitrary, bignumber</keywords>
   <title lang="de">RSA mit großen Zahlen</title>
-  <description lang="de">Großzahliges RSA</description>
+  <description lang="de">-</description>
   <keywords lang="de">beliebige, Präzision, Stellen</keywords>
   <icon file="math.png" />
 </sample>
