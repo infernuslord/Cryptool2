@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Classical</name>
+  <name lang="de">Klassisch</name>  
+  <summary lang="en">This folder contains templates which show the cryptanalyis of classical cryptographical algorithms</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche die Kryptoanalyse von klassischen kryptographischen Verfahren zeigen</summary>
+  <icon file="dir.png" />
+</directory>

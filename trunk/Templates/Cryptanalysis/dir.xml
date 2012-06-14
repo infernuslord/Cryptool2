@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <directory>
   <name lang="en">Cryptanalysis</name>
-  <name lang="de">Kryptoanalyse</name>
-  
-  <summary lang="en">Add text here</summary>
-  <summary lang="de">Fuege hier Text ein und ersetze das Icon</summary>
+  <name lang="de">Kryptoanalyse</name>  
+  <summary lang="en">This folder contains templates which show the cryptanalyis of classical and modern cryptographical algorithms</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche die Kryptoanalyse von klassischen und modernen kryptographischen Verfahren zeigen</summary>
   <icon file="dir.png" />
 </directory>

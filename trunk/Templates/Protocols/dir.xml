@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Protocols</name>
+  <name lang="de">Protokolle</name>  
+  <summary lang="en">This folder contains templates which show cryptographical protocols</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche kryptographische Protokolle zeigen</summary>
+  <icon file="dir.png" />
+</directory>

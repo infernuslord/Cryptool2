@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Asymmetric</name>
+  <name lang="de">Asymmetrisch</name>
+  <summary lang="en">This folder contains templates which show modern asymmetric cryptographical algorithms</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche moderne asymmetrische kryptographische Verfahren zeigen</summary>
+  <!--<icon file="dir.png" />-->
+</directory>
