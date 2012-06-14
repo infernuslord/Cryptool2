@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<directory>
+  <name lang="en">Cryptanalysis</name>
+  <name lang="de">Kryptoanalyse</name>
+  
+  <summary lang="en">Add text here</summary>
+  <summary lang="de">Füge hier Text ein (und ersetze das Icon)</summary>
+  <icon file="dir.png" />
+</directory>

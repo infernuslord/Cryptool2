@@ -52,7 +52,7 @@ namespace Startcenter
 
         private void FillTemplatesNavigationPane(DirectoryInfo templateDir, TreeView treeView)
         {
-            CTTreeViewItem item = new CTTreeViewItem(templateDir.Name, true);
+            CTTreeViewItem item = new CTTreeViewItem(templateDir.Name);
             treeView.Items.Add(item);
             if (templateDir.Exists)
             {
@@ -70,7 +70,37 @@ namespace Startcenter
             if (directory == null)
                 return;
 
-            CTTreeViewItem item = new CTTreeViewItem(directory.Name, true);
+            //Read directory metainfos:
+            var dirName = directory.Name;
+            Inline tooltip = null;
+            ImageSource dirImage = null;
+            var metainfo = directory.GetFiles("dir.xml");
+            if (metainfo.Length > 0)
+            {
+                XElement metaXML = XElement.Load(metainfo[0].FullName);
+                var dirNameEl = Helper.GetGlobalizedElementFromXML(metaXML, "name");
+                if (dirNameEl.Value != null)
+                {
+                    dirName = dirNameEl.Value;
+                }
+
+                if (metaXML.Element("icon") != null && metaXML.Element("icon").Attribute("file") != null)
+                {
+                    var iconFile = Path.Combine(directory.FullName, metaXML.Element("icon").Attribute("file").Value);
+                    if (File.Exists(iconFile))
+                    {
+                        dirImage = ImageLoader.LoadImage(new Uri(iconFile));
+                    }
+                }
+
+                var summaryElement = Helper.GetGlobalizedElementFromXML(metaXML, "summary");
+                if (summaryElement != null)
+                {
+                    tooltip = Helper.ConvertFormattedXElement(summaryElement);
+                }
+            }
+
+            CTTreeViewItem item = new CTTreeViewItem(dirName, tooltip, dirImage);
             parent.Items.Add(item);
 
             foreach (var subDirectory in directory.GetDirectories())
@@ -83,19 +113,16 @@ namespace Startcenter
         {
             SolidColorBrush bg = Brushes.Transparent;
 
-            foreach (var file in info.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") 
-                || (x.Extension.ToLower() == ".cwm") 
-                || (x.Extension.ToLower() == ".component"))))
+            foreach (var file in info.GetFiles().Where(x => (x.Extension.ToLower() == ".cwm") || (x.Extension.ToLower() == ".component")))
             {
                 if (file.Name.StartsWith("."))
                 {
                     continue;
                 }
                 bool component = (file.Extension.ToLower() == ".component");
-                bool cte = (file.Extension.ToLower() == ".cte");
                 string title = null;
-                Inline description1 = null;
-                Inline description2 = null;
+                Inline summary1 = null;
+                Inline summary2 = null;
                 string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                 string iconFile = null;
                 Dictionary<string, List<string>> internationalizedKeywords = new Dictionary<string, List<string>>();
@@ -108,11 +135,11 @@ namespace Startcenter
                         if (titleElement != null)
                             title = titleElement.Value;
 
-                        var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
-                        if (descriptionElement != null)
+                        var summaryElement = Helper.GetGlobalizedElementFromXML(xml, "summary");
+                        if (summaryElement != null)
                         {
-                            description1 = Helper.ConvertFormattedXElement(descriptionElement);
-                            description2 = Helper.ConvertFormattedXElement(descriptionElement);
+                            summary1 = Helper.ConvertFormattedXElement(summaryElement);
+                            summary2 = Helper.ConvertFormattedXElement(summaryElement);
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
@@ -147,29 +174,23 @@ namespace Startcenter
                         //we do nothing if the loading of an description xml fails => this is not a hard error
                     }
                 }
+                
                 if ((title == null) || (title.Trim() == ""))
                 {
-                    string desc = null;
-                    if (component)
-                    {
-                        title = file.Name;
-                        desc = Properties.Resources.This_is_a_standalone_component_;
-                    }
-                    else
-                    {
-                        title = Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
-                        if (cte)
-                            desc = Properties.Resources.This_is_an_AnotherEditor_file_;
-                        else
-                            desc = Properties.Resources.This_is_a_WorkspaceManager_file_;
-                    }
+                    title = component ? file.Name : Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
+                }
 
-                    description1 = new Run(desc);
-                    description2 = new Run(desc);
+                if (summary1 == null)
+                {
+                    string desc = component ? Properties.Resources.This_is_a_standalone_component_ : Properties.Resources.This_is_a_WorkspaceManager_file_;
+                    summary1 = new Run(desc);
+                    summary2 = new Run(desc);
                 }
 
                 if (iconFile == null || !File.Exists(iconFile))
+                {
                     iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
+                }
                 ImageSource image = null;
                 if (File.Exists(iconFile))
                 {
@@ -192,14 +213,14 @@ namespace Startcenter
                     }
                 }
 
-                ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description1, image);
+                ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, summary1, image);
                 if (internationalizedKeywords.Count > 0)
                 {
                     ((StackPanel)searchItem.Content).Tag = internationalizedKeywords;
                 }
                 TemplatesListBox.Items.Add(searchItem);
 
-                CTTreeViewItem item = new CTTreeViewItem(file, title, description2, image) { Background = bg };
+                CTTreeViewItem item = new CTTreeViewItem(file, title, summary2, image) { Background = bg };
                 ToolTipService.SetShowDuration(item, Int32.MaxValue);
                 item.MouseDoubleClick += TemplateItemDoubleClick;
                 parent.Items.Add(item);
