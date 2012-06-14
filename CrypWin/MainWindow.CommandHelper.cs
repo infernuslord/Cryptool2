@@ -193,7 +193,7 @@ namespace Cryptool.CrypWin
             try
             {
                 if (ActiveEditor != null)
-                    ActiveEditor.ShowSelectedPluginDescription();
+                    ActiveEditor.ShowSelectedEntityHelp();
             }
             catch (Exception ex)
             {

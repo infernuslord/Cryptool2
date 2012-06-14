@@ -836,7 +836,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                     break;
 
                 case "help":
-                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
+                    OnlineHelp.InvokeShowDocPage(model.PluginType);
                     return;
 
                 case "up":
@@ -879,7 +879,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                 string s = (string)b.Content;
 
                 if (s == "Info")
-                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
+                    OnlineHelp.InvokeShowDocPage(model.PluginType);
             }
 
             e.Handled = true;

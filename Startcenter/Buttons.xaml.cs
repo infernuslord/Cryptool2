@@ -43,7 +43,7 @@ namespace Startcenter
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
-            OnlineHelp.InvokeShowPluginDocPage(null);
+            OnlineHelp.InvokeShowDocPage(null);
         }
 
         private void WorkspaceButton_Click(object sender, RoutedEventArgs e)
