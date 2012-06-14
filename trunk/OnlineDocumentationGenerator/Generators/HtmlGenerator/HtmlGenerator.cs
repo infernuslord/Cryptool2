@@ -68,7 +68,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private string GenerateTemplatesList(List<EntityDocumentationPage> list, string lang)
+        private string GenerateTemplatesList(List<PluginDocumentationPage> list, string lang)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" >");
@@ -96,7 +96,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         }
 
 
-        private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
+        private static string GenerateComponentListCode(IEnumerable<PluginDocumentationPage> componentDocumentationPages, string lang)
         {
             var stringBuilder = new StringBuilder();            
             stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" class=\"filterable\">");
@@ -113,7 +113,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {        
                 
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
-                var pp = page.Localizations[linkedLang];
+                var pp = (LocalizedComponentDocumentationPage)page.Localizations[linkedLang];
                 if (actualIndexCharacter != pp.Name[0])
                 {
                     actualIndexCharacter = pp.Name.ToUpper()[0];
@@ -131,7 +131,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return anchorBuilder.ToString();
         }
 
-        private static string GenerateComponentTreeCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)        
+        private static string GenerateComponentTreeCode(IEnumerable<PluginDocumentationPage> componentDocumentationPages, string lang)        
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
@@ -148,7 +148,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
 
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
-                var pp = page.Localizations[linkedLang];
+                var pp = (LocalizedComponentDocumentationPage)page.Localizations[linkedLang];
 
                 
                 if (actualCategory != page.Category)
@@ -212,7 +212,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return anchorBuilder.ToString();
         }
 
-        private static string GenerateEditorListCode(IEnumerable<EntityDocumentationPage> editorDocumentationPages, string lang)
+        private static string GenerateEditorListCode(IEnumerable<PluginDocumentationPage> editorDocumentationPages, string lang)
         {
             var stringBuilderListCode = new StringBuilder();
             stringBuilderListCode.AppendLine("<table width=\"100%\"  border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
@@ -224,7 +224,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             foreach (var page in query)
             {
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
-                var pp = page.Localizations[linkedLang];
+                var pp = (LocalizedEditorDocumentationPage)page.Localizations[linkedLang];
                 stringBuilderListCode.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
                     OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
@@ -257,12 +257,12 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     Thread.CurrentThread.CurrentCulture = cultureInfo;
                     Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-                    var html = TagReplacer.ReplaceLanguageSwitchs(GetDocumentationTemplate(documentationPage.EntityType), lang);
+                    var html = TagReplacer.ReplaceLanguageSwitchs(GetDocumentationTemplate(documentationPage.PluginType), lang);
                     html = TagReplacer.ReplaceDocItemTags(html, localizedEntityDocumentationPage, _objectConverter);
-                    var languageSelectionCode = GenerateLanguageSelectionCode(documentationPage.EntityType, documentationPage.AvailableLanguages, lang);
+                    var languageSelectionCode = GenerateLanguageSelectionCode(documentationPage.PluginType, documentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
 
-                    var filename = OnlineHelp.GetDocFilename(documentationPage.EntityType, lang);
+                    var filename = OnlineHelp.GetDocFilename(documentationPage.PluginType, lang);
                     StoreDocPage(html, filename);
                 }
             }

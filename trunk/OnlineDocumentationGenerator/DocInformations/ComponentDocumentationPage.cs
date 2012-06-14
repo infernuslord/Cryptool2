@@ -5,7 +5,7 @@ using Cryptool.PluginBase;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
-    public class ComponentDocumentationPage : EntityDocumentationPage
+    public class ComponentDocumentationPage : PluginDocumentationPage
     {
         public PropertyInfoAttribute[] Connectors { get; private set; }
 
@@ -14,11 +14,11 @@ namespace OnlineDocumentationGenerator.DocInformations
             Connectors = PluginExtension.GetProperties(componentType);
         }
 
-        protected override LocalizedEntityDocumentationPage CreateLocalizedEntityDocumentationPage(EntityDocumentationPage componentDocumentationPage, Type componentType, XElement xml, string lang, BitmapFrame componentImage)
+        protected override LocalizedPluginDocumentationPage CreateLocalizedEntityDocumentationPage(PluginDocumentationPage pluginDocumentationPage, Type componentType, XElement xml, string lang, BitmapFrame componentImage)
         {
-            if (componentDocumentationPage is ComponentDocumentationPage)
+            if (pluginDocumentationPage is ComponentDocumentationPage)
             {
-                return new LocalizedComponentDocumentationPage((ComponentDocumentationPage) componentDocumentationPage,
+                return new LocalizedComponentDocumentationPage((ComponentDocumentationPage) pluginDocumentationPage,
                                                                componentType, xml, lang, componentImage);
             }
             return null;

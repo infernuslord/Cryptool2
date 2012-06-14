@@ -7,12 +7,12 @@ using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
-    public class LocalizedEditorDocumentationPage : LocalizedEntityDocumentationPage
+    public class LocalizedEditorDocumentationPage : LocalizedPluginDocumentationPage
     {
         public XElement Manual { get; private set; }
 
-        public LocalizedEditorDocumentationPage(EditorDocumentationPage editorDocumentationPage, Type entityType, XElement xml, string lang, BitmapFrame icon) 
-            : base(editorDocumentationPage, entityType, xml, lang, icon)
+        public LocalizedEditorDocumentationPage(EditorDocumentationPage editorDocumentationPage, Type pluginType, XElement xml, string lang, BitmapFrame icon) 
+            : base(editorDocumentationPage, pluginType, xml, lang, icon)
         {
             if (_xml != null)
                 ReadInformationsFromXML();
