@@ -77,7 +77,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
 
-            foreach (var templateDocumentationPage in templateDocumentationPages)
+            var query = from template in templateDocumentationPages
+                        orderby template.CurrentLocalization.Name
+                        select template;
+
+            foreach (var templateDocumentationPage in query)
             {
                 var locTemplate = templateDocumentationPage.CurrentLocalization;
                 string description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
