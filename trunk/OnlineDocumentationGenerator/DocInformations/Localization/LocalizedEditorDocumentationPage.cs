@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 
 namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
@@ -17,7 +18,7 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
 
         private void ReadInformationsFromXML()
         {
-            Manual = FindLocalizedChildElement(_xml, "usage");
+            Manual = XMLHelper.FindLocalizedChildElement(_xml, "usage");
         }
     }
 }

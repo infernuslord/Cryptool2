@@ -28,7 +28,7 @@ namespace OnlineDocumentationGenerator.DocInformations
             get { return PluginType.FullName; }
         }
 
-        public override string DocPath
+        public override string DocDirPath
         {
             get { return Path.GetDirectoryName(OnlineHelp.GetDocFilename(PluginType, "en")); }
         }
@@ -98,10 +98,7 @@ namespace OnlineDocumentationGenerator.DocInformations
             return null;
         }
 
-        public List<string> AvailableLanguages
-        {
-            get { return Localizations.Keys.ToList(); }
-        }
+        public string AuthorName { get; protected set; }
 
         protected void ReadReferences()
         {

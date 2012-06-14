@@ -35,12 +35,17 @@ namespace Cryptool.PluginBase
             }
         }
 
+        public static string GetTemplateDocFilename(string relativTemplateFilePath, string lang)
+        {
+            return Path.Combine(Path.GetDirectoryName(relativTemplateFilePath), string.Format("{0}_{1}.html", Path.GetFileNameWithoutExtension(relativTemplateFilePath), lang));
+        }
+
         public static string GetIndexFilename(string lang)
         {
             return string.Format("index_{0}.html", lang);
         }
 
-        public static string GetTemplatesPageFilename(string lang)
+        public static string GetTemplatesIndexFilename(string lang)
         {
             return string.Format("templates_{0}.html", lang);
         }

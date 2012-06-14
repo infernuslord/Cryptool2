@@ -259,7 +259,10 @@
   <data name="TemplateTemplatesPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templatetemplatespage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Key_text_box">
-    <value xml:space="preserve">Key text box</value>
+  <data name="Key_text_box" xml:space="preserve">
+    <value>Key text box</value>
+  </data>
+  <data name="TemplateTemplateDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\htmlgenerator\templatetemplatedocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
