@@ -88,6 +88,7 @@
     <Compile Include="Reference\LinkReference.cs" />
     <Compile Include="Reference\Reference.cs" />
     <Compile Include="Reference\ReferenceList.cs" />
+    <Compile Include="TemplateDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">

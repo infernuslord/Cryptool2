@@ -33,6 +33,6 @@ namespace OnlineDocumentationGenerator.Generators
         /// <summary>
         /// Generates all specified pages and an index page.
         /// </summary>
-        public abstract void Generate();
+        public abstract void Generate(TemplateDirectory templatesDir);
     }
 }

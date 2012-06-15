@@ -17,9 +17,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     public class HtmlGenerator : Generator
     {
         private ObjectConverter _objectConverter;
+        private TemplateDirectory _templatesDir;
 
-        public override void Generate()
+        public override void Generate(TemplateDirectory templatesDir)
         {
+            _templatesDir = templatesDir;
             _objectConverter = new ObjectConverter(DocPages, OutputDir);
             GenerateDocPages();
             GenerateComponentIndexPages();
