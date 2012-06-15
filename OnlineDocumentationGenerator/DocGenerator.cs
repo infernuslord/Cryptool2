@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
 using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
@@ -12,6 +14,7 @@ using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using OnlineDocumentationGenerator.DocInformations;
+using OnlineDocumentationGenerator.DocInformations.Utils;
 using OnlineDocumentationGenerator.Generators;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
@@ -64,12 +67,16 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        private void ReadTemplates(string outputDir, string subdir, HtmlGenerator generator)
+        private TemplateDirectory ReadTemplates(string outputDir, string subdir, HtmlGenerator generator)
         {
             var directory = new DirectoryInfo(Path.Combine(outputDir, Path.Combine(TemplateDirectory, subdir)));
+            var templateDir = new TemplateDirectory(directory);
+
+            //recursively analyze subdirs:
             foreach(var childdir in directory.GetDirectories())
             {
-                ReadTemplates(outputDir, Path.Combine(subdir, childdir.Name), generator);
+                var subDir = ReadTemplates(outputDir, Path.Combine(subdir, childdir.Name), generator);
+                templateDir.SubDirectories.Add(subDir);
             }
 
             foreach (var file in directory.GetFiles().Where(x => (x.Extension.ToLower() == ".cwm")))
@@ -92,12 +99,15 @@ namespace OnlineDocumentationGenerator
                         }
                     }
                     generator.AddDocumentationPage(templatePage);
+                    templateDir.ContainingTemplateDocPages.Add(templatePage);
                 }
                 catch (Exception ex)
                 {
                     GuiLogMessage(string.Format("Error while trying to read templates for Online Help generation: {0}", ex.Message), NotificationLevel.Warning);
                 }
             }
+
+            return templateDir;
         }
 
         private void GenerateHTML(string outputDir)
@@ -105,12 +115,12 @@ namespace OnlineDocumentationGenerator
             var generator = new HtmlGenerator();
             generator.OutputDir = outputDir;
 
-            ReadTemplates(outputDir, "", generator);
+            var templatesDir = ReadTemplates(outputDir, "", generator);
             ReadPlugins(generator);
 
             try
             {
-                generator.Generate();
+                generator.Generate(templatesDir);
             }
             catch (Exception ex)
             {
