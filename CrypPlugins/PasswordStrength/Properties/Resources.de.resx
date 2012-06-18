@@ -228,4 +228,10 @@
   <data name="PasswordTooltip" xml:space="preserve">
     <value>Das zu testende Passwort</value>
   </data>
+  <data name="StrengthCaption" xml:space="preserve">
+    <value>Stärke</value>
+  </data>
+  <data name="StrengthTooltip" xml:space="preserve">
+    <value>Die Stärke des eingegebenen Passworts.</value>
+  </data>
 </root>
