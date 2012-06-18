@@ -392,5 +392,23 @@ namespace Cryptool.Plugins.Tools.Properties {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strength.
+        /// </summary>
+        internal static string StrengthCaption {
+            get {
+                return ResourceManager.GetString("StrengthCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The strength of the entered password..
+        /// </summary>
+        internal static string StrengthTooltip {
+            get {
+                return ResourceManager.GetString("StrengthTooltip", resourceCulture);
+            }
+        }
     }
 }

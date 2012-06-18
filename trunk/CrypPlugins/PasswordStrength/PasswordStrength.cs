@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows.Controls;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Tools
 {
@@ -38,6 +39,7 @@ namespace Cryptool.Plugins.Tools
     {
         private readonly PasswordStrengthPresentation _presentation = new PasswordStrengthPresentation();
         private byte[] _password;
+        private double _strength;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,6 +53,16 @@ namespace Cryptool.Plugins.Tools
             }
         }
 
+        [PropertyInfo(Direction.OutputData, "StrengthCaption", "StrengthTooltip", false)]
+        public double Strength
+        {
+            get { return _strength; }
+            set
+            {
+                _strength = value;
+                OnPropertyChanged("Strength");
+            }
+        }
 
         public void Dispose()
         {
@@ -74,8 +86,8 @@ namespace Cryptool.Plugins.Tools
             if(_password==null)
                 return;
 
-            var password = Encoding.UTF8.GetString(_password);           
-            int numberOfCharacters = _password.Length;
+            var password = Encoding.UTF8.GetString(_password);
+            int numberOfCharacters = password.Length;
             int numberOfLowercaseLetters = 0;
             int numberOfUppercaseLetters = 0;
             int numberOfNumbers = 0;
@@ -94,60 +106,60 @@ namespace Cryptool.Plugins.Tools
             double repeatedCharsBonus = 0;
 
             int position = 0;
-            byte lastByte = 0;
+            char lastChar = (char)0;
 
-            foreach (byte b in _password)
+            foreach (char c in password)
             {
                 //Number of lowercase letters
-                if(b >= 'a' && b <= 'z')
+                if(c >= 'a' && c <= 'z')
                 {
                     numberOfLowercaseLetters++;
                 }               
                 //Number of uppercase letters
-                if (b >= 'A' && b <= 'Z')
+                if (c >= 'A' && c <= 'Z')
                 {
                     numberOfUppercaseLetters++;
                 }
                 //Number of numbers
-                if (b >= '0' && b <= '9')
+                if (c >= '0' && c <= '9')
                 {
                     numberOfNumbers++;
                 }
                 //Number or symbols
-                if(!(b >= 'a' && b <= 'z') && 
-                   !(b >= 'A' && b <= 'Z') &&
-                   !(b >= '0' && b <= '9') &&
-                   !(b >= '0' && b <= '9') &&
-                   b != ' ')
+                if(!(c >= 'a' && c <= 'z') && 
+                   !(c >= 'A' && c <= 'Z') &&
+                   !(c >= '0' && c <= '9') &&
+                   !(c >= '0' && c <= '9') &&
+                   c != ' ')
                 {
                     numberOfSymbols++;
                 }
                 //middle number of symbols
                 if (position > 0 && position < numberOfCharacters-1 &&
-                   !(b >= 'a' && b <= 'z') &&
-                   !(b >= 'A' && b <= 'Z') &&
-                   b != ' ')
+                   !(c >= 'a' && c <= 'z') &&
+                   !(c >= 'A' && c <= 'Z') &&
+                   c != ' ')
                 {
                     middleNumberOfSymbols++;
                 }
 
                 //Consecutive Uppercase Letters
-                if ((b >= 'A' && b <= 'Z') &&
-                   (lastByte >= 'A' && lastByte <= 'Z'))
+                if ((c >= 'A' && c <= 'Z') &&
+                   (lastChar >= 'A' && lastChar <= 'Z'))
                 {
                     consecutiveUppercaseLetters++;
                 }
 
                 //Consecutive Lowercase Letters
-                if ((b >= 'a' && b <= 'z') &&
-                   (lastByte >= 'a' && lastByte <= 'z'))
+                if ((c >= 'a' && c <= 'z') &&
+                   (lastChar >= 'a' && lastChar <= 'z'))
                 {
                     consecutiveLowercaseLetters++;
                 }
 
                 //Consecutive Numbers
-                if ((b >= '0' && b <= '9') &&
-                   (lastByte >= '0' && lastByte <= '9'))
+                if ((c >= '0' && c <= '9') &&
+                   (lastChar >= '0' && lastChar <= '9'))
                 {
                     consecutiveNumbers++;
                 }
@@ -175,7 +187,7 @@ namespace Cryptool.Plugins.Tools
                 }
 
                 position++;
-                lastByte = b;
+                lastChar = c;
             }//foreach (byte b in _password)
 
             const string alphas = "abcdefghijklmnopqrstuvwxyz";
@@ -540,6 +552,7 @@ namespace Cryptool.Plugins.Tools
                     else if (totalValue >= 60 && totalValue < 80) { complexity = Properties.Resources._Strong; }
                     else if (totalValue >= 80 && totalValue <= 100) { complexity = Properties.Resources._VeryStrong; }
                     _presentation.ComplexityTextBlock.Text = complexity;
+                    Strength = ((double)(totalValue)) / 100.0;
                 }
                 catch(Exception ex)
                 {
@@ -587,5 +600,10 @@ namespace Cryptool.Plugins.Tools
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void OnPropertyChanged(string p)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(p));
+        }
     }
 }
