@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    SOSEMANUK is a software-efficient, synchronous stream cipher. SOSEMANUK is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project. The cipher has a variable key length, ranging from 64 to 256 bits, and takes an initial value (IV) ranging from 32 to 128 bits in length. SOSEMANUK uses similar design principles to the stream cipher SNOW 2.0 and block cipher SERPENT. The design of SOSEMANUK aims to fix some potential structural weaknesses of SNOW 2.0, while providing better performance by decreasing the size of the internal state.
+  </introduction>
+
+  <introduction lang="de-DE">
+    SOSEMANUK ist eine softwareeffiziente, synchrone Stromchiffre. SOSEMANUK ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine variable Schlüssellänge, die von 64 bis 256 Bits reicht und benötigt eine Initialsierungsvariable (IV), welche zwischen 32 und 128 Bits lang sein muss. Die Grundprinzipien der Chiffre wurden aus zwei verschiedenen Ansätzen entnommen. Zum einem aus der Stromchiffre SNOW 2.0 und zum anderen aus der Blockchiffre SERPENT. Das Design von SOSEMANUK zielt darauf einige potenzielle strukturelle Schwachstellen von SNOW 2.0 zu beheben und gleichzeitig eine bessere Leistung zu bekommen, durch eine Reduzierung der Größe des internen Zustandes.
+
+
+  </introduction>
+
+  <usage lang="en">
+    After dragging the SOSEMANUK component onto your workspace, you will
+    have to connect at least two text input fields to the connectors Key
+    and IV. You can also connect a thrid text input field to the
+    connector Input. However, this is not necessarily.
+
+    Additionally you have to connect a text output field to the right
+    connector Output.
+
+    All of the inputs have to be hex values of the form xx yy zz.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die SOSEMANUK-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie mindestens zwei Texteingabefelder an die
+    Andockstellen Key und IV anbringen. Zusätzlich können Sie ein drittes
+    Texteingabefeld an den Andockstelle Input anbringen, jedoch ist dies nicht
+    zwingend notwendig.
+    Zusätzlich muss eine Feld Textausgabe rechts an der Andockstelle Output angebracht werden.
+
+    Danach können Sie ihren Initialisierungsvektor, Schlüssel und Klartext
+    in die Texteingabefelder eingeben. Diese Eingabe muss als Hex-Werte in
+    der Form xx yy zz erfolgen.
+  </usage>
+</documentation>
