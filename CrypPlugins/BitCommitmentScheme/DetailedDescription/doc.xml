@@ -22,30 +22,28 @@
     <i>inhomogeneous simultaneous diophantine
     approximation problem</i> (ISAP):
     <newline/><newline/>
-    Find <i>p_i (i=1,...,n)</i> and <i>q</i> satisfying
-    <newline/>
-    <i>| alpha_i - p_i/q - eta_i | &lt; epsilon</i>
-    <newline/>
-    for given <i>alpha_i, eta_i (i=1,...,n)</i> and <i>epsilon</i>.
+    Find $p_i (i=1,...,n)$ and $q$ satisfying
+    <![CDATA[$$| \alpha_i - p_i/q - \eta_i | < \epsilon $$]]>
+    for given $\alpha_i$, $\eta_i$ with $(i=1,...,n)$ and $\epsilon$.
     <newline/>
     <newline/>
     Roughly speaking, the basic idea is as follows: If one wants to commit to
-    a single bit <i>m</i>, the algorithm creates an instance 
-    of ISAP having the unique solution <i>(p_1,...,p_n,q)</i> incorporating the bit <i>m</i>
-    as the LSB of <i>q</i>. The generated ISAP instance gets published as the
+    a single bit $m$, the algorithm creates an instance 
+    of ISAP having the unique solution $(p_1,...,p_n,q)$ incorporating the bit $m$
+    as the LSB of $q$. The generated ISAP instance gets published as the
     commitment information whereby the solution is kept secret and later is
     used as the opening information. The problem instance is generated in a
     way such that an attacker has to solve ISAP to break the hiding
     property. Thus, the instances are generated such that they are not
     efficiently solvable by current algorithmic approaches to ISAP. The
-    binding property follows from the fact that <i>(p_1,...,p_n,q)</i> is the unique
+    binding property follows from the fact that $(p_1,...,p_n,q)$ is the unique
     solution to the generated instance.
   </introduction>
 
   <usage lang="en">
     Simply drag the BitCommitmentScheme component to your workspace and connect a component, that outputs a boolean 
     (for instance the <docRef item="Boolean Input"/> component), to the <i>InputBit</i> input connector.
-    A value of <i>true</i> means <i>m=1</i> and <i>false</i> means <i>m=0</i>. <newline/>
+    A value of <i>true</i> means $m=1$ and <i>false</i> means $m=0$. <newline/>
     Optionally, you can connect to the <i>Dimension</i> and the <i>S</i> input connectors to define these integer 
     values (By default, <i>Dimension</i> is 7 and <i>S</i> is 128).
     <newline/>
