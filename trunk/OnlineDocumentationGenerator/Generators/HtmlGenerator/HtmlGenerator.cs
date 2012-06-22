@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Linq;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using Ionic.Zip;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.DocInformations.Localization;
 
@@ -430,6 +431,28 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 catch (Exception ex)
                 {
                     throw new Exception(string.Format("Error trying to copy additional resource: {0}", ex.Message));
+                }
+            }
+
+            foreach (var r in additionalResources.Elements("archive"))
+            {
+                try
+                {
+                    var path = r.Attribute("path").Value;
+                    int sIndex = path.IndexOf('/');
+                    var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
+                                                       path.Substring(0, sIndex), path.Substring(sIndex + 1)));
+
+                    //Extract archive:
+                    using (var resStream = Application.GetResourceStream(resUri).Stream)
+                    using (var zipPackage = ZipFile.Read(resStream))
+                    {
+                        zipPackage.ExtractAll(OnlineHelp.HelpDirectory);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(string.Format("Error trying to copy additional resource archive: {0}", ex.Message));
                 }
             }
         }
