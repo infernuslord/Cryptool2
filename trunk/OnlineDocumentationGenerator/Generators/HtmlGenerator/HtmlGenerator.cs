@@ -64,7 +64,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 var templatesHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateTemplatesPage, lang);
                 var languageSelectionCode = GenerateTemplatesPageLanguageSelectionCode(AvailableLanguages, lang);
                 templatesHtml = TagReplacer.ReplaceLanguageSelectionTag(templatesHtml, languageSelectionCode);
-                var templatesListCode = GenerateTemplatesList(DocPages.FindAll(x => x is TemplateDocumentationPage).Select(x => (TemplateDocumentationPage)x), lang);
+                var templatesListCode = GenerateTemplatesTree(lang);
                 templatesHtml = TagReplacer.ReplaceTemplatesList(templatesHtml, templatesListCode);
 
                 var filename = OnlineHelp.GetTemplatesIndexFilename(lang);
@@ -72,34 +72,47 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private string GenerateTemplatesList(IEnumerable<TemplateDocumentationPage> templateDocumentationPages, string lang)
-        {
+        private string GenerateTemplatesTree(string lang)
+        {            
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" >");
-
+           
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
 
-            var query = from template in templateDocumentationPages
-                        orderby template.CurrentLocalization.Name
-                        select template;
-
-            foreach (var templateDocumentationPage in query)
+            foreach (var dir in _templatesDir.SubDirectories)
             {
-                var locTemplate = templateDocumentationPage.CurrentLocalization;
-                string description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
-                description = description.Replace("../", ""); //correct relative paths in images
-                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>", locTemplate.FilePath, locTemplate.Name, description));
+                WalkTemplateDirectory(dir, stringBuilder, 0, lang);
             }
 
             stringBuilder.AppendLine("</table>");
-            stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
-
             anchorBuilder.Append("</p>");
             anchorBuilder.Append(stringBuilder);
             return anchorBuilder.ToString();
         }
 
+        private void WalkTemplateDirectory(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
+        {
+            var spacesStringBuilder = new StringBuilder();
+            for(int i=0;i<depth*2;i++)
+            {
+                spacesStringBuilder.Append("&nbsp;");
+            }
+            var spaces = spacesStringBuilder.ToString();
+            stringBuilder.AppendLine(string.Format("<tr><td colspan=\"4\">{0}{1}</td></tr>", spaces,templatesDir.GetName(lang)));
+
+            foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
+            {
+                var locTemplate = templateDocumentationPage.CurrentLocalization;
+                var description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
+                description = description.Replace("../", ""); //correct relative paths in images                
+                stringBuilder.AppendLine(string.Format("<tr><td>{0}&nbsp;</td><td><div class=\"boximage\"><img src=\"{1}\"></div></td><td><a href=\"{2}\">{3}</a></td><td>{4}</td></tr>", spaces, templateDocumentationPage.Icon, locTemplate.FilePath, locTemplate.Name, description));
+            }
+            foreach (var dir in templatesDir.SubDirectories)
+            {
+                WalkTemplateDirectory(dir, stringBuilder, depth + 1,lang);
+            }
+        }
 
         private static string GenerateComponentListCode(IEnumerable<ComponentDocumentationPage> componentDocumentationPages, string lang)
         {
