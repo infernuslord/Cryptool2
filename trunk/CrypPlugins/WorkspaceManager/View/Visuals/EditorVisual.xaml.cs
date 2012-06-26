@@ -114,6 +114,9 @@ namespace WorkspaceManager.View.Visuals
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             timer.Tick += delegate(object o, EventArgs args)
                 {
+                    if (editor.IsExecuting || !editor.IsVisible)
+                        return;
+
                     foreach (var element in Visuals.OfType<CryptoLineView>())
                     {
                         element.Line.ClearInterSect();
@@ -1266,6 +1269,8 @@ namespace WorkspaceManager.View.Visuals
 
         private void ComponentPositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
         {
+            if (MyEditor.isExecuting())
+                return;
             var b = (ComponentVisual)sender;
             if (SelectedItems != null)
             {
