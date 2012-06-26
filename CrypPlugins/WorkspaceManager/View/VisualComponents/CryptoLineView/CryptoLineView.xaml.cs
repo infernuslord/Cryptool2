@@ -149,9 +149,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.Source = source;
             this.Target = target;
 
-            Target.WindowParent.PositionDeltaChanged += PositionDeltaChangedHandler;
-            Source.WindowParent.PositionDeltaChanged += PositionDeltaChangedHandler;
-
             Line = new InternalCryptoLineView(model, source, target, Editor.VisualCollection, Editor.VisualsHelper);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(target, this));
@@ -234,12 +231,21 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         {
             oldItems = newItems;
             newItems = e.Items;
+
             if (newItems != null)
             {
                 selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
+                foreach (var x in selected)
+                {
+                    x.PositionDeltaChanged += PositionDeltaChangedHandler;
+                }
             }
             if (oldItems != null)
             {
+                foreach (var x in oldItems.OfType<ComponentVisual>())
+                {
+                    x.PositionDeltaChanged -= PositionDeltaChangedHandler;
+                }
             }
 
         }
@@ -249,21 +255,28 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (selected == null || Line.IsDragged == true)
                 return;
 
+            if (((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
+                return;
+
             bool b = selected.Any(x => x == Target.WindowParent || x == Source.WindowParent);
             Line.IsDragged = b;
 
             if (!b)
                 return;
 
-            Target.WindowParent.IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
-            Source.WindowParent.IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            foreach (var x in selected)
+            {
+                x.IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            }
         }
 
         void WindowParent_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
         {
             Line.IsDragged = false;
-            Target.WindowParent.IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
-            Source.WindowParent.IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            foreach (var x in selected)
+            {
+                x.IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            }
         }
 
 
