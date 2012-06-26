@@ -55,6 +55,10 @@ namespace WorkspaceManager.View.VisualComponents
         void PositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
         {
             this.InvalidateMeasure();
+            foreach (CryptoLineView.CryptoLineView element in base.InternalChildren.OfType<CryptoLineView.CryptoLineView>())
+            {
+                element.Line.InvalidateVisual();
+            }
         }
 
         public static void RequestZIndexModification(ModifiedCanvas panel,IZOrdering obj, ZPaneRequest req)

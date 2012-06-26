@@ -81,6 +81,15 @@ namespace WorkspaceManager.View.VisualComponents
 
         }
 
+        public void Open()
+        {
+            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
+                return;
+
+            if (_editor.SelectedConnector != null)
+                IsOpen = true;
+        }
+
         void _editorSelectedConnectorChanged(object sender, EventArgs e)
         {
             if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
@@ -112,22 +121,22 @@ namespace WorkspaceManager.View.VisualComponents
                     Suggestions.Add(new SuggestionContainer(name, t));
                 }
 
-                timer.Interval = TimeSpan.FromSeconds(3);
-                timer.Tick += delegate(object o, EventArgs args)
-                                  {
-                                      timer.Stop();
-                                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
-                                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
-                                      win.Add(_currentAdorner);
-                                      timer2.Tick += delegate(object o2, EventArgs args2)
-                                      {
-                                          timer2.Stop();
-                                          win.Remove(_currentAdorner);
-                                          IsOpen = true;
-                                      };
-                                      timer2.Start();
-                                  };
-                timer.Start();
+                //timer.Interval = TimeSpan.FromSeconds(3);
+                //timer.Tick += delegate(object o, EventArgs args)
+                //                  {
+                //                      timer.Stop();
+                //                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
+                //                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
+                //                      win.Add(_currentAdorner);
+                //                      timer2.Tick += delegate(object o2, EventArgs args2)
+                //                      {
+                //                          timer2.Stop();
+                //                          win.Remove(_currentAdorner);
+                //                          IsOpen = true;
+                //                      };
+                //                      timer2.Start();
+                //                  };
+                //timer.Start();
             }
 
         }
@@ -139,7 +148,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         void ComponentConnectionStatisticsPopUpMouseLeave(object sender, MouseEventArgs e)
         {
-            IsOpen = false;
+            //IsOpen = false;
         }
 
         void SelectedItem(object sender, MouseEventArgs e)

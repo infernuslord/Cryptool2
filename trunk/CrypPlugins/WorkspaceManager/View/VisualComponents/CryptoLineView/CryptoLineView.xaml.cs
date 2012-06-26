@@ -148,6 +148,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.Model = model;
             this.Source = source;
             this.Target = target;
+
+            Target.WindowParent.PositionDeltaChanged += PositionDeltaChangedHandler;
+            Source.WindowParent.PositionDeltaChanged += PositionDeltaChangedHandler;
+
             Line = new InternalCryptoLineView(model, source, target, Editor.VisualCollection, Editor.VisualsHelper);
             Line.SetBinding(InternalCryptoLineView.StartPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(source, this));
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(target, this));
@@ -233,25 +237,33 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (newItems != null)
             {
                 selected = (IEnumerable<ComponentVisual>)newItems.OfType<ComponentVisual>();
-                foreach (var x in selected)
-                {
-                    x.IsDraggingChanged += x_IsDraggingChanged;
-                }
             }
             if (oldItems != null)
             {
-                foreach (var x in oldItems.OfType<ComponentVisual>())
-                {
-                    x.IsDraggingChanged -= x_IsDraggingChanged;
-                }
             }
 
         }
 
-        void x_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
+        void PositionDeltaChangedHandler(object sender, PositionDeltaChangedArgs e)
         {
-            bool b = selected.Any(x => x.IsDragging == true);
+            if (selected == null || Line.IsDragged == true)
+                return;
+
+            bool b = selected.Any(x => x == Target.WindowParent || x == Source.WindowParent);
             Line.IsDragged = b;
+
+            if (!b)
+                return;
+
+            Target.WindowParent.IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            Source.WindowParent.IsDraggingChanged += new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+        }
+
+        void WindowParent_IsDraggingChanged(object sender, IsDraggingChangedArgs e)
+        {
+            Line.IsDragged = false;
+            Target.WindowParent.IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
+            Source.WindowParent.IsDraggingChanged -= new EventHandler<IsDraggingChangedArgs>(WindowParent_IsDraggingChanged);
         }
 
 
@@ -486,31 +498,48 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
 		#endregion
 		#region Private
-		private void internalGeometryDraw(StreamGeometryContext context)
-		{
-            makeOrthogonalPoints();
-            foreach (var element in Visuals)
+
+        public bool HasDecoration;
+
+        public void ClearInterSect()
+        {
+            foreach (FromTo fromTo in PointList)
+                fromTo.Intersection.Clear();
+        }
+
+        public void DrawDecoration()
+        {
+            if (HasComputed)
             {
-                if (element is CryptoLineView)
+                foreach (var element in Visuals)
                 {
-                    CryptoLineView result = element as CryptoLineView;
-
-                    if (result.Line.Equals(this))
-                        continue;
-
-                    foreach (FromTo fromTo in PointList)
+                    if (element is CryptoLineView)
                     {
-                        fromTo.Intersection.Clear();
-                        foreach (FromTo resultFromTo in result.Line.PointList)
+                        CryptoLineView result = element as CryptoLineView;
+
+                        if (result.Line.Equals(this))
+                            continue;
+
+                        foreach (FromTo fromTo in PointList)
                         {
-                            if (LineUtil.FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
+                            foreach (FromTo resultFromTo in result.Line.PointList)
                             {
-                                fromTo.Intersection.Add(intersectPoint);
+                                if (LineUtil.FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
+                                {
+                                    fromTo.Intersection.Add(intersectPoint);
+                                    //resultFromTo.Intersection.Add(intersectPoint);
+                                }
                             }
                         }
                     }
                 }
+                HasDecoration = true;
             }
+        }
+       
+		private void internalGeometryDraw(StreamGeometryContext context)
+		{
+            makeOrthogonalPoints();
 
             context.BeginFigure(StartPoint, true, false);
 
@@ -566,6 +595,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 if (!isSubstituteLine && !IsDragged && !HasComputed)
                 {
+                    HasDecoration = false;
                     List<Node> nodeList = new List<Node>();
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
 

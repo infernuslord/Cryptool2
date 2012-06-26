@@ -809,7 +809,7 @@
                                     <TextBlock Text="{Binding Path=FunctionName}" FontFamily="Consolas" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis" TextAlignment="Center" Foreground="#666"></TextBlock>
 
                                     <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyleSecond}" Grid.Column="0" Grid.Row="1"
-                                    DragDelta="PositionDragDeltaHandler"></Thumb>
+                                    DragDelta="PositionDragDeltaHandler" DragCompleted="DragCompletedHandler"></Thumb>
                                 </Grid>
 
                             </DockPanel>
