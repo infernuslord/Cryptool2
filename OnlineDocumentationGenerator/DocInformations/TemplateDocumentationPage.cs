@@ -21,6 +21,7 @@ namespace OnlineDocumentationGenerator.DocInformations
         public string TemplateFile { get; private set; }
         public XElement TemplateXML { get; private set; }
         public List<string> RelevantPlugins { get; private set; }
+        public string Icon { get; private set; }
 
         public override string Name
         {
@@ -61,10 +62,12 @@ namespace OnlineDocumentationGenerator.DocInformations
                     try
                     {
                         icon = BitmapFrame.Create(new BitmapImage(new Uri(iconFile)));
+                        Icon = iconFile;
                     }
                     catch (Exception)
                     {
                         icon = null;
+                        Icon = "";
                     }
                 }
             }
