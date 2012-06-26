@@ -42,7 +42,37 @@ namespace WorkspaceManager.View.Visuals
         public QuadTreeLib.QuadTree<FakeNode> PluginTree { get; set; }
         public QuadTreeLib.QuadTree<FakeNode> FromToTree { get; set; }
         public CryptoLineView CurrentLine { get; set; }
-        public CryptoLineView LastLine { get; set; }
+        public CryptoLineView LastLine { get; set; }  
+        public  int LineCount { get; set; }
+
+        //private uint _computationDone = 0;
+        //public uint ComputationDone
+        //{
+        //    get
+        //    {
+        //        return _computationDone;
+        //    }
+        //    set 
+        //    {
+        //        _computationDone = value;
+        //        if (_computationDone >= LineCount)
+        //        {
+        //            foreach (var element in Visuals.OfType<CryptoLineView>())
+        //            {
+        //                element.Line.ClearIntersections();
+        //            }
+        //            foreach (var element in Visuals.OfType<CryptoLineView>())
+        //            {
+        //                element.Line.DrawDecoration();
+        //            }
+        //            foreach (var element in Visuals.OfType<CryptoLineView>())
+        //            {
+        //                element.Line.InvalidateVisual();
+        //            }
+        //            _computationDone = 0;
+        //        }
+        //    }
+        //}
 
         private FromTo selectedPart;
         public FromTo SelectedPart
@@ -75,12 +105,31 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
+        private DispatcherTimer timer = new DispatcherTimer(){Interval = TimeSpan.FromMilliseconds(100)};
         public VisualsHelper(WorkspaceModel model, EditorVisual editor)
         {
             this.Model = model;
             this.Editor = editor;
             PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
+            timer.Tick += delegate(object o, EventArgs args)
+                {
+                    foreach (var element in Visuals.OfType<CryptoLineView>())
+                    {
+                        element.Line.ClearInterSect();
+                    }
+
+                    foreach (var element in Visuals.OfType<CryptoLineView>())
+                    {
+                        element.Line.DrawDecoration();
+                    }
+
+                    foreach (var element in Visuals.OfType<CryptoLineView>())
+                    {
+                        element.Line.InvalidateVisual();
+                    }
+                };
+            timer.Start();
 
             Visuals = Editor.VisualCollection;
             Visuals.CollectionChanged += new NotifyCollectionChangedEventHandler(VisualsCollectionChanged);
@@ -210,12 +259,12 @@ namespace WorkspaceManager.View.Visuals
                 }
                 CurrentLine.Line.InvalidateAllLines();
 
-
                 foreach (var fromTo in CurrentLine.Line.PointList)
                 {
                     fromTo.Update();
                 }
             }
+
         }
 
         #region Protected
@@ -265,6 +314,8 @@ namespace WorkspaceManager.View.Visuals
 
                     break;
             }
+
+            LineCount = Visuals.OfType<CryptoLineView>().Count();
         }
 
         void Line_ComputationDone(object sender, EventArgs e)
@@ -353,7 +404,6 @@ namespace WorkspaceManager.View.Visuals
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
     }
 
     /// <summary>
@@ -1692,14 +1742,19 @@ namespace WorkspaceManager.View.Visuals
                                     AddConnection(SelectedConnector, b, connectionModel);
                                     e.Handled = true;
                                 }
+                                reset();
+                                startedSelection = false;
+                                return;
                             }
                         }
                     }
                 }
             }
+
+            _usagePopup.Open();
+
             reset();
             startedSelection = false;
-
         }
 
         #region DragDropHandler

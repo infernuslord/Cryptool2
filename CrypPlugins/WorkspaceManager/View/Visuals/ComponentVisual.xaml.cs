@@ -924,6 +924,12 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             Delta = new Vector(e.HorizontalChange, e.VerticalChange);
             if (PositionDeltaChanged != null)
                 PositionDeltaChanged.Invoke(this, new PositionDeltaChangedArgs() { PosDelta = Delta });
+
+        }
+
+        private void DragCompletedHandler(object sender, DragCompletedEventArgs e)
+        {
+            Delta = new Vector(0, 0);
         }
 
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -1030,6 +1036,13 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         {
             Editor.SetFullscreen(this, State != BinComponentState.Min ? State : FullScreenState);
         }
+
+        private void TitleThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+
+        }
+
+
     }
 
     #region Events
@@ -1125,22 +1138,9 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             if (value == null)
                 return false;
 
-            if (value.Count() == 7)
-            {
-                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2], b4 = (bool)value[3], b5 = (bool)value[4], b6 = (bool)value[5], b7 = (bool)value[6];
-                if (b1 || b2 || b3 || b4 || b5 || b6 || b7)
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                bool b1 = (bool)value[0], b2 = (bool)value[1];
-                if (b1 || b2)
-                    return true;
-                else
-                    return false;
-            }
+            var x = value.OfType<bool>();
+
+            return x.Any(y => y == true);
         }
 
 
