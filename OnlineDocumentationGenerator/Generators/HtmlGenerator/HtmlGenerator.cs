@@ -460,7 +460,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     using (var resStream = Application.GetResourceStream(resUri).Stream)
                     using (var zipPackage = ZipFile.Read(resStream))
                     {
-                        zipPackage.ExtractAll(OnlineHelp.HelpDirectory);
+                        zipPackage.ExtractAll(OnlineHelp.HelpDirectory, ExtractExistingFileAction.OverwriteSilently);
                     }
                 }
                 catch (Exception ex)
