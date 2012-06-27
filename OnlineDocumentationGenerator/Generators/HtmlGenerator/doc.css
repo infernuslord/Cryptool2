@@ -69,3 +69,27 @@ a:focus {
 }
 
 .highlighted { background: yellow; }
+
+a.button3d{
+	color: blue;	
+	background: white;
+	width: 205px;
+	padding: 10px 10px;
+	text-align: center;
+	border-top: blue 2px solid;
+	border-left: blue 2px solid;
+	border-bottom: #3399FF 2px solid;
+	border-right: #3399FF 2px solid; 
+	font-family: Tahoma;
+	font-size: 0.7em;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a.button3d:hover{
+	border-bottom: blue 2px solid;
+	border-right: blue 2px solid;
+	border-top: #3399FF 2px solid;
+	border-left: #3399FF 2px solid;
+	padding: 11px 14px 9px 16px;
+}

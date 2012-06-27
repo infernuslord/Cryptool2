@@ -15,5 +15,7 @@
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/filterTable.js" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/de.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/en.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/components.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/templates.png" />
   <archive path="OnlineDocumentationGenerator/Generators/HtmlGenerator/MathJax.zip" />
 </AdditionalResources>
