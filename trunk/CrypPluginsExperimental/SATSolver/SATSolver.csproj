@@ -128,9 +128,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\sat-race-logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\sat-race-logo.gif" />
   </ItemGroup>
   <ItemGroup>
