@@ -117,6 +117,19 @@
     </section>
     In the <b>Templates</b> section, there are two templates that show the usage. One for the text input method and one for the file input method. To use the file input template, a cnf-File has to be created on your local disk or downloaded from the internet, which can be opened with the File Input plugin. The text input template can be directly used, since an example DIMACS CNF is included.<newline />
     <newline />
+    <newline />
+    
+    <section headline="Finding further solutions">
+    In general, a SAT solver returns the first valid variable assignment it finds. However, there could be more than one solution to the problem. The user has to follow a few steps in order to obtain a different solution:
+    <enum>
+      <item>Append the variable assignment from the result output at the end of the input CNF.</item>
+	  <item>Add a "0" at the end of the new line.</item>
+      <item>Invert every variable assignment of this new clause.</item>
+      <item>Increment the number of clauses in the line starting with "p" in the input CNF by 1.</item>
+      <item>Run the SAT Solver to obtain a new solution.</item>
+    </enum>
+    Due to this new clause the new solution must have at least one different assigned variable. These steps can be repeated until all solutions are found.      
+    </section>
     
     <section headline="Progress bar">
     Since it is hard to determine the runtime of a SAT solver, the plugin only provides a few fixed progress levels:<newline />
@@ -153,6 +166,19 @@
     </section>
     Unter <b>Vorlagen</b>, gibt es zwei Templates, welche die Nutzung des SAT Solver Plugins demonstrieren. Ein Template benutzt das Dateieingabe Plugin, das andere das Texteingabe Plugin zur Eingabe. Um das Dateieingabe Template benutzen zu können, muss zuvor noch eine cnf-Datei lokal erzeugt werden oder heruntergeladen werden, damit diese im Dateieingabe Plugin geöffnet werden kann. Im Texteingabe Plugin ist bereits eine Beispiel DIMACS CNF enthalten.<newline />
     <newline />
+    <newline />
+
+    <section headline="Alternative Lösungen finden">
+    Ein SAT Solver gibt eine gültige Variablenbelegung an, sobald sie gefunden wurde. Trotzdem können mehrere Lösungen für das Problem existieren. Um weitere Lösungen zu erhalten, muss der Benutzer lediglich folgende Schritte durchführen:
+    <enum>
+      <item>Hinzufügen der Variablenzuweisung der Ergebnisausgabe am Ende der eingegebenen CNF.</item>
+	    <item>Hinzufügen einer "0" am Ende dieser Zeile.</item>
+      <item>Invertierung aller Variablenzuweisungen dieser neuen Klausel.</item>
+      <item>Erhöhung der Klauselanzahl in der "p"-Zeile der CNF um 1.</item>
+      <item>Starten des SAT Solvers um eine neue Lösung zu erhalten.</item>
+    </enum>
+    Wegen der hinzugefügten Klausel muss die neue Lösung mindestens eine andere Variablenzuweisung haben. Diese Schritte können solange wiederholt werden, bis keine Lösung mehr gefunden wird.
+    </section>
     
     <section headline="Fortschrittsanzeige">
     Da es schwierig ist, die benötigte Laufzeit eines SAT Solvers zu bestimmen, zeigt das Plugin nur einige festgelegte Fortschrittslevel an:<newline />
