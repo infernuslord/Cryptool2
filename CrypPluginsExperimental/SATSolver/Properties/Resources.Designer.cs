@@ -358,7 +358,7 @@ namespace SATSolver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SAT Solver MiniSat ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die SAT Solver Plugin ähnelt.
         /// </summary>
         internal static string PluginDescription {
             get {

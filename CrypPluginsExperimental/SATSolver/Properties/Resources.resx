@@ -214,7 +214,7 @@
     <value>SAT Solver</value>
   </data>
   <data name="PluginDescription" xml:space="preserve">
-    <value>SAT Solver MiniSat</value>
+    <value>SAT Solver Plugin</value>
   </data>
   <data name="PreprocessCaption" xml:space="preserve">
     <value>Preprocessor</value>
