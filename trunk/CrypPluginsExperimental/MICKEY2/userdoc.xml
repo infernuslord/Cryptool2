@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">MICKEY 2.0 is a hardware-efficient , synchronous stream cipher. MICKEY 2.0 is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project. The cipher has a  key length of 80 bits, and takes an initial value (IV) ranging from 0 to 80 bits in length.
+  </introduction>
+
+  <introduction lang="de-DE">MICKEY 2.0  ist eine hardwareeffiziente, synchrone Stromchiffre. MICKEY 2.0  ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt eine Initialsierungsvariable (IV), welche zwischen 0 und 80 Bits lang sein muss.
+  </introduction>
+
+  <usage lang="en">After dragging the MICKEY 2.0 component onto your workspace, you will
+    have to connect at least two text input fields to the connectors Key
+    and IV. You can also connect a thrid text input field to the
+    connector Input. However, this is not necessarily.
+
+    Additionally you have to connect a text output field to the right
+    connector Output.
+
+    All of the inputs have to be hex values.
+  </usage>
+
+  <usage lang="de-DE">Nachdem Sie die MICKEY 2.0 Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie mindestens zwei Texteingabefelder an die
+    Andockstellen Key und IV anbringen. Zusätzlich können Sie ein drittes
+    Texteingabefeld an den Andockstelle Input anbringen, jedoch ist dies nicht
+    zwingend notwendig.
+    Zusätzlich muss eine Feld Textausgabe rechts an der Andockstelle Output angebracht werden.
+
+    Danach können Sie ihren Initialisierungsvektor, Schlüssel und Klartext
+    in die Texteingabefelder eingeben. Diese Eingabe muss als Hex-Werte erfolgen.
+  </usage>
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de-DE">
+  </presentation>
+  
+  <references>
+  </references>
+</documentation>
