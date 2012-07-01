@@ -88,7 +88,7 @@ namespace MICKEY2 {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 8 to 32 bytes (64 to 256 bits) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 10 bytes (80 bits) in Hex. ähnelt.
         /// </summary>
         internal static string InputKeyTooltip {
             get {

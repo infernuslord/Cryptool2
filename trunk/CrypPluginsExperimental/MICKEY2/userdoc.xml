@@ -8,7 +8,7 @@
   <introduction lang="en">MICKEY 2.0 is a hardware-efficient , synchronous stream cipher. MICKEY 2.0 is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project. The cipher has a  key length of 80 bits, and takes an initial value (IV) ranging from 0 to 80 bits in length.
   </introduction>
 
-  <introduction lang="de-DE">MICKEY 2.0  ist eine hardwareeffiziente, synchrone Stromchiffre. MICKEY 2.0  ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt eine Initialsierungsvariable (IV), welche zwischen 0 und 80 Bits lang sein muss.
+  <introduction lang="de-DE">MICKEY 2.0  ist eine hardwareeffiziente, synchrone Stromchiffre. MICKEY 2.0  ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt einen Initialsierungsvektor (IV), welche zwischen 0 und 80 Bits lang sein muss.
   </introduction>
 
   <usage lang="en">After dragging the MICKEY 2.0 component onto your workspace, you will
@@ -29,8 +29,8 @@
     zwingend notwendig.
     Zusätzlich muss eine Feld Textausgabe rechts an der Andockstelle Output angebracht werden.
 
-    Danach können Sie ihren Initialisierungsvektor, Schlüssel und Klartext
-    in die Texteingabefelder eingeben. Diese Eingabe muss als Hex-Werte erfolgen.
+    Danach können Sie Ihren Initialisierungsvektor, Schlüssel und Klartext
+    in die Texteingabefelder eingeben. Diese Eingaben müssen als Hex-Werte erfolgen.
   </usage>
   
   <presentation lang="en">

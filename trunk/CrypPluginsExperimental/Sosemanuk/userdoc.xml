@@ -9,7 +9,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    SOSEMANUK ist eine softwareeffiziente, synchrone Stromchiffre. SOSEMANUK ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine variable Schlüssellänge, die von 64 bis 256 Bits reicht und benötigt eine Initialsierungsvariable (IV), welche zwischen 32 und 128 Bits lang sein muss. Die Grundprinzipien der Chiffre wurden aus zwei verschiedenen Ansätzen entnommen. Zum einem aus der Stromchiffre SNOW 2.0 und zum anderen aus der Blockchiffre SERPENT. Das Design von SOSEMANUK zielt darauf einige potenzielle strukturelle Schwachstellen von SNOW 2.0 zu beheben und gleichzeitig eine bessere Leistung zu bekommen, durch eine Reduzierung der Größe des internen Zustandes.
+    SOSEMANUK ist eine softwareeffiziente, synchrone Stromchiffre. SOSEMANUK ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes. Die Chiffre hat eine variable Schlüssellänge, die von 64 bis 256 Bits reicht und benötigt einen Initialisierungsvektor (IV), der zwischen 32 und 128 Bits lang sein muss. Die Grundprinzipien der Chiffre wurden aus zwei verschiedenen Ansätzen entnommen. Zum einem aus der Stromchiffre SNOW 2.0 und zum anderen aus der Blockchiffre SERPENT. Das Design von SOSEMANUK zielt darauf ab, einige potenzielle strukturelle Schwachstellen von SNOW 2.0 zu beheben und gleichzeitig eine bessere Leistung durch eine Reduzierung der Größe des internen Zustandes zu bekommen.
 
 
   </introduction>
@@ -30,12 +30,12 @@
     Nachdem Sie die SOSEMANUK-Komponente auf den Arbeitsbereich gezogen
     haben, müssen Sie mindestens zwei Texteingabefelder an die
     Andockstellen Key und IV anbringen. Zusätzlich können Sie ein drittes
-    Texteingabefeld an den Andockstelle Input anbringen, jedoch ist dies nicht
+    Texteingabefeld an der Andockstelle Input anbringen, jedoch ist dies nicht
     zwingend notwendig.
     Zusätzlich muss eine Feld Textausgabe rechts an der Andockstelle Output angebracht werden.
 
-    Danach können Sie ihren Initialisierungsvektor, Schlüssel und Klartext
-    in die Texteingabefelder eingeben. Diese Eingabe muss als Hex-Werte in
+    Danach können Sie Ihren Initialisierungsvektor, Schlüssel und Klartext
+    in die Texteingabefelder eingeben. Diese Eingaben müssen als Hex-Werte in
     der Form xx yy zz erfolgen.
   </usage>
 </documentation>

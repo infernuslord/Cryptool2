@@ -7,11 +7,11 @@
 
        http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+   Unless required by applicable law or agreed to in writing, 
+   software distributed under the License is distributed on an 
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+   either express or implied. See the License for the specific 
+   language governing permissions and limitations under the License.
 */
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -21,18 +21,22 @@ using System;
 
 namespace Cryptool.Plugins.Sosemanuk
 {
-    [Author("Robin Nelle", "rnelle@mail.uni-mannheim.de", "Uni Mannheim - Lehrstuhl Prof. Dr. Armknecht", "http://www.uni-mannheim.de")]
-    [PluginInfo("Sosemanuk.Properties.Resources", "PluginCaption", "PluginTooltip", "Sosemanuk/userdoc.xml", new[] { "Sosemanuk/icon.jpg" })]
+    [Author("Robin Nelle", "rnelle@mail.uni-mannheim.de",
+        "Uni Mannheim - Lehrstuhl Prof. Dr. Armknecht",
+        "http://ls.wim.uni-mannheim.de/")]
+    [PluginInfo("Sosemanuk.Properties.Resources", "PluginCaption",
+        "PluginTooltip", "Sosemanuk/userdoc.xml",
+        new[] { "Sosemanuk/icon.jpg" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
 
     public class Sosemanuk : ICrypComponent
     {
         #region Private Variables
-        private readonly SosemanukSettings settings = new SosemanukSettings();
+        private readonly SosemanukSettings settings
+            = new SosemanukSettings();
 
         // Subkeys for Serpent24: 100 32-bit words
         private int[] serpent24SubKeys = new int[100];
-
 
         //Internal cipher state
         private int[] lfsr = new int[10];
@@ -53,11 +57,11 @@ namespace Cryptool.Plugins.Sosemanuk
         private string outputString;
 
         /*
-         * mulAlpha[] is used to multiply a word by alpha; mulAlpha[x]
-         * is equal to x * alpha^4.
+         * mulAlpha[] is used to multiply a word by alpha; 
+         *mulAlpha[x] is equal to x * alpha^4.
          *
-         * divAlpha[] is used to divide a word by alpha; divAlpha[x]
-         * is equal to x / alpha.
+         * divAlpha[] is used to divide a word by alpha; 
+         * divAlpha[x] is equal to x / alpha.
          */
         private static readonly int[] mulAlpha = new int[256];
         private static readonly int[] divAlpha = new int[256];
@@ -65,7 +69,8 @@ namespace Cryptool.Plugins.Sosemanuk
         #endregion
 
         #region Data Properties
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption",
+            "InputStringTooltip", false)]
         public string InputString
         {
             get { return this.inputString; }
@@ -76,19 +81,20 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption",
+            "InputKeyTooltip", true)]
         public string InputKey
         {
             get { return this.inputKey; }
             set
             {
-
                 this.inputKey = value;
                 OnPropertyChanged("InputKey");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", 
+            "InputIVTooltip", true)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -99,7 +105,8 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", 
+            "OutputStringTooltip", true)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -115,21 +122,18 @@ namespace Cryptool.Plugins.Sosemanuk
         public ISettings Settings
         { get { return settings; } }
 
-
-        // Provide custom presentation to visualize the execution or return null.
         public UserControl Presentation
         {
             get { return null; }
         }
 
-
         static Sosemanuk()
         {
             /*
              * We first build exponential and logarithm tables
-             * relatively to beta in F_{2^8}. We set log(0x00) = 0xFF
-             * conventionaly, but this is actually not used in our
-             * computations.
+             * relatively to beta in F_{2^8}. We set 
+             * log(0x00) = 0xFF conventionaly, but this is 
+             * actually not used in our computations.
              */
             int[] expb = new int[256];
             for (int i = 0, x = 0x01; i < 0xFF; i++)
@@ -173,7 +177,6 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-
         /**
 	    * Decode a 32-bit value from a buffer (little-endian).
 	    *
@@ -182,7 +185,7 @@ namespace Cryptool.Plugins.Sosemanuk
 	    * @return  the decoded value
 	    */
         private static int decode32le(byte[] buf, int off)
-        { 
+        {
             return (buf[off] & 0xFF)
                 | ((buf[off + 1] & 0xFF) << 8)
                 | ((buf[off + 2] & 0xFF) << 16)
@@ -196,7 +199,7 @@ namespace Cryptool.Plugins.Sosemanuk
 	    * @param buf   the output buffer
 	    * @param off   the output offset
 	    */
-        private static void encode32le(int val, byte[] buf, int off)
+        private static void encode32le(int val, byte[] buf,int off)
         {
             buf[off] = (byte)val;
             buf[off + 1] = (byte)(val >> 8);
@@ -212,10 +215,11 @@ namespace Cryptool.Plugins.Sosemanuk
            */
         private static int rotateLeft(int val, int n)
         {
-            int changeBitRotateLeft =  (val >> (32 - n));
+            int changeBitRotateLeft = (val >> (32 - n));
             if (val < 0)
             {
-                changeBitRotateLeft = (int)(((uint)val) >> (32 - n));
+                changeBitRotateLeft = (int)(((uint)val) >> 
+                    (32 - n));
             }
             return (val << n) | changeBitRotateLeft;
         }
@@ -238,8 +242,12 @@ namespace Cryptool.Plugins.Sosemanuk
                 lkey = new byte[32];
                 System.Array.Copy(key, 0, lkey, 0, key.Length);
                 lkey[key.Length] = 0x01;
-                for (int i1 = key.Length + 1; i1 < lkey.Length; i1++)
+             
+                for (int i1 = key.Length + 1; i1 <
+                    lkey.Length; i1++)
+                {
                     lkey[i1] = 0x00;
+                }
             }
 
             int w0, w1, w2, w3, w4, w5, w6, w7;
@@ -254,13 +262,17 @@ namespace Cryptool.Plugins.Sosemanuk
             w5 = decode32le(lkey, 20);
             w6 = decode32le(lkey, 24);
             w7 = decode32le(lkey, 28);
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (0));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (0));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (0 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (0+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (0 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (0+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (0 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (0+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -289,13 +301,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (4));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (4));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (4 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (4+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (4 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (4+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (4 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (4+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -321,13 +337,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (8));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (8));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (8 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (8+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (8 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (8+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (8 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (8+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -355,13 +375,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (12));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (12));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (12 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (12+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (12 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (12+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (12 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (12+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -389,13 +413,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (16));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (16));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (16 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (16+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (16 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (16+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (16 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (16+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -425,13 +453,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (20));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (20));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (20 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (20+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (20 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (20+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (20 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (20+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -459,13 +491,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (24));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (24));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (24 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (24+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (24 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (24+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (24 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (24+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -494,13 +530,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (28));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (28));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (28 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (28+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (28 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (28+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (28 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (28+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -530,13 +570,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (32));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (32));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (32 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (32+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (32 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (32+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (32 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (32+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -565,13 +609,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (36));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (36));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (36 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (36+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (36 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (36+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (36 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (36+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -597,13 +645,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (40));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (40));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (40 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (40+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (40 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (40+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (40 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (40+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -631,13 +683,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (44));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (44));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (44 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (44+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (44 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (44+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (44 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (44+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -665,13 +721,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (48));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (48));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (48 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (48+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (48 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (48+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (48 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (48+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -701,13 +761,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (52));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (52));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (52 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (52+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (52 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (52+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (52 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (52+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -735,13 +799,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (56));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (56));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (56 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (56+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (56 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (56+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (56 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (56+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -770,13 +838,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (60));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (60));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (60 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (60+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (60 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (60+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (60 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (60+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -806,13 +878,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (64));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (64));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (64 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (64+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (64 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (64+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (64 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (64+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -841,13 +917,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (68));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (68));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (68 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (68+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (68 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (68+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (68 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (68+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -873,13 +953,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (72));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (72));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (72 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (72+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (72 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (72+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (72 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (72+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -907,13 +991,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (76));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (76));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (76 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (76+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (76 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (76+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (76 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (76+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -941,13 +1029,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
             serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (80));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (80));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (80 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (80+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (80 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (80+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (80 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (80+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -977,13 +1069,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (84));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (84));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (84 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (84+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (84 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (84+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (84 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (84+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -1011,13 +1107,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r1;
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (88));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (88));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (88 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (88+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (88 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (88+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (88 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (88+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -1046,13 +1146,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ (unchecked((int)0x9E3779B9) ^ (92));
+            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
+                (unchecked((int)0x9E3779B9) ^ (92));
             w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ (unchecked((int)0x9E3779B9) ^ (92 + 1));
+            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
+                (unchecked((int)0x9E3779B9) ^ (92+1));
             w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ (unchecked((int)0x9E3779B9) ^ (92 + 2));
+            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
+                (unchecked((int)0x9E3779B9) ^ (92+2));
             w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ (unchecked((int)0x9E3779B9) ^ (92 + 3));
+            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
+                (unchecked((int)0x9E3779B9) ^ (92+3));
             w7 = rotateLeft(tt, 11);
             r0 = w4;
             r1 = w5;
@@ -1082,13 +1186,17 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r4;
             serpent24SubKeys[i++] = r0;
             serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ (unchecked((int)0x9E3779B9) ^ (96));
+            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
+                (unchecked((int)0x9E3779B9) ^ (96));
             w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ (unchecked((int)0x9E3779B9) ^ (96 + 1));
+            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
+                (unchecked((int)0x9E3779B9) ^ (96+1));
             w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ (unchecked((int)0x9E3779B9) ^ (96 + 2));
+            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
+                (unchecked((int)0x9E3779B9) ^ (96+2));
             w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ (unchecked((int)0x9E3779B9) ^ (96 + 3));
+            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
+                (unchecked((int)0x9E3779B9) ^ (96+3));
             w3 = rotateLeft(tt, 11);
             r0 = w0;
             r1 = w1;
@@ -1118,7 +1226,6 @@ namespace Cryptool.Plugins.Sosemanuk
             serpent24SubKeys[i++] = r3;
             serpent24SubKeys[i++] = r4;
         }
-
 
         /**
          * Set the IV. 
@@ -1945,15 +2052,14 @@ namespace Cryptool.Plugins.Sosemanuk
             lfsr[0] = r3;
         }
 
-
-
         /**
         * FSM update.
         */
         private void updateFSM()
         {
             int oldR1 = fsmR1;
-            fsmR1 = fsmR2 + (lfsr[1] ^ ((fsmR1 & 0x01) != 0 ? lfsr[8] : 0));
+            fsmR1 = fsmR2 + (lfsr[1] ^ 
+                ((fsmR1 & 0x01) != 0 ? lfsr[8] : 0));
             fsmR2 = rotateLeft(oldR1 * 0x54655307, 7);
         }
 
@@ -1987,10 +2093,9 @@ namespace Cryptool.Plugins.Sosemanuk
             return dropped;
         }
 
-
         /**
-        * Intermediate value computation. Note: this method is called
-        * before the LFSR update, and hence uses lfsr[9].
+        * Intermediate value computation. Note: this method is 
+        * called before the LFSR update, and hence uses lfsr[9].
         *
         * @return  f_t
         */
@@ -2000,7 +2105,8 @@ namespace Cryptool.Plugins.Sosemanuk
         }
 
         /**
-         * Produce 16 bytes of output stream into the provided buffer.
+         * Produce 16 bytes of output stream into the provided 
+         * buffer.
          *
          * @param buf   the output buffer
          * @param off   the output offset
@@ -2053,8 +2159,9 @@ namespace Cryptool.Plugins.Sosemanuk
         }
 
         /*
-         * Internal buffer for partial blocks. "streamPtr" points to the
-         * first stream byte which has been computed but not output.
+         * Internal buffer for partial blocks. "streamPtr" points 
+         * to the first stream byte which has been computed but 
+         * not output.
          */
         private static readonly int BUFFERLEN = 16;
         private readonly byte[] streamBuf = new byte[BUFFERLEN];
@@ -2097,29 +2204,38 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-
         /**
          * Transform String to Byte Array 
          */
-        private byte[] HexStringToByteArray(string hexString, string inputType)
+        private byte[] HexStringToByteArray(string hexString, 
+            string inputType)
         {
-
             string[] hexValuesSplit = hexString.Split(' ');
 
             if (inputType.Equals("key"))
             {
-                if (hexValuesSplit.Length < 8 | hexValuesSplit.Length > 32)
+                if (hexValuesSplit.Length < 8 | 
+                    hexValuesSplit.Length > 32)
                 {
-                    GuiLogMessage("Invalid key length (" + hexValuesSplit.Length * 8 + " bits). It must be between 64 and 256 bits long. In hexadecimal representation: xx yy zz ..", NotificationLevel.Error);
+                    GuiLogMessage("Invalid key length (" + 
+                        hexValuesSplit.Length * 8 +  " bits). It "+
+                        "must be between 64 and 256 bits long. In "
+                        +"hexadecimal representation: xx yy zz .."
+                        , NotificationLevel.Error);
                     return null;
                 }
             }
 
             if (inputType.Equals("iv"))
             {
-                if (hexValuesSplit.Length < 4 | hexValuesSplit.Length > 16)
+                if (hexValuesSplit.Length < 4 
+                    | hexValuesSplit.Length > 16)
                 {
-                    GuiLogMessage("Invalid iv length (" + hexValuesSplit.Length * 8 + " bits). It must be between 32 and 128 bits long. In hexadecimal representation: xx yy zz ..", NotificationLevel.Error);
+                    GuiLogMessage("Invalid iv length (" + 
+                        hexValuesSplit.Length * 8 + " bits). It "+
+                        "must be between 32 and 128 bits long. In"+
+                        " hexadecimal representation: xx yy zz .."
+                        , NotificationLevel.Error);
                     return null;
                 }
             }
@@ -2127,15 +2243,15 @@ namespace Cryptool.Plugins.Sosemanuk
             byte[] hexArray = new byte[hexValuesSplit.Length];
             for (int i = 0; i < hexValuesSplit.Length; i++)
             {
-                hexArray[i] = Byte.Parse(hexValuesSplit[i], System.Globalization.NumberStyles.HexNumber);
+                hexArray[i] = Byte.Parse(hexValuesSplit[i],
+                    System.Globalization.NumberStyles.HexNumber);
             }
             return hexArray;
         }
 
-
         public void generateOutput(byte[] tmp)
         {
-            GuiLogMessage("tmp.Length " + tmp.Length, NotificationLevel.Info);
+            keyStream = "";
             char[] hexnum = {
 		        '0', '1', '2', '3', '4', '5', '6', '7',
 		        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
@@ -2170,7 +2286,6 @@ namespace Cryptool.Plugins.Sosemanuk
             setKey(key);
             ProgressChanged(3, 6);
 
-            
             setIV(IV);
             ProgressChanged(4, 6);
 
@@ -2179,35 +2294,29 @@ namespace Cryptool.Plugins.Sosemanuk
             makeStream(tmp, 0, tmp.Length);
             ProgressChanged(5, 6);
 
-
-
             try
             {
                 //encoding of the plaintext
-                plainText = HexStringToByteArray(InputString, "plain");
+                plainText = HexStringToByteArray(InputString, 
+                    "plain");
 
                 for (byte i = 0; i < plainText.Length; i++)
                 {
-                    plainText[i] = (byte)(((tmp[i] + plainText[i])) % 256);
-
+                    plainText[i] = (byte)(((tmp[i] + plainText[i])) 
+                        % 256);
                 }
-
                 generateOutput(plainText);
-
             }
             catch (Exception exception)
             {
-                GuiLogMessage("No valid input of plaintext", NotificationLevel.Info);
-                GuiLogMessage("Generating 512 bit of keystream", NotificationLevel.Info);
+                GuiLogMessage("No valid input of plaintext", 
+                    NotificationLevel.Info);
+                GuiLogMessage("Generating 512 bit of keystream",
+                    NotificationLevel.Info);
                 generateOutput(tmp);
             }
-
             ProgressChanged(6, 6);
-
-
         }
-
-
 
         public void PostExecution()
         {
@@ -2224,7 +2333,7 @@ namespace Cryptool.Plugins.Sosemanuk
             outputString = null;
             OutputString = null;
             inputString = null;
-            keyStream = null;
+            keyStream = "";
         }
 
         public void Stop()
@@ -2233,27 +2342,34 @@ namespace Cryptool.Plugins.Sosemanuk
 
         #region Event Handling
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event StatusChangedEventHandler 
+            OnPluginStatusChanged;
 
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event GuiLogNotificationEventHandler 
+            OnGuiLogNotificationOccured;
 
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event PluginProgressChangedEventHandler 
+            OnPluginProgressChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        private void GuiLogMessage(string message, 
+            NotificationLevel logLevel)
         {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, 
+                this, new GuiLogEventArgs(message, this, logLevel));
         }
 
         private void OnPropertyChanged(string name)
         {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            EventsHelper.PropertyChanged(PropertyChanged, this, 
+                new PropertyChangedEventArgs(name));
         }
 
         private void ProgressChanged(double value, double max)
         {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, 
+                this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion

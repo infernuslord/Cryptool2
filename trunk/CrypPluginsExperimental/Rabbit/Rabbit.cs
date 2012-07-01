@@ -7,11 +7,11 @@
 
        http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+   Unless required by applicable law or agreed to in writing, 
+   software distributed under the License is distributed on an 
+   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+   either express or implied. See the License for the specific 
+   language governing permissions and limitations under the License.
 */
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -21,8 +21,12 @@ using System;
 
 namespace Cryptool.Plugins.Rabbit
 {
-    [Author("Robin", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("Rabbit.Resources", "PluginCaption", "PluginTooltip", "Rabbit/userdoc.xml", new[] { "Rabbit/icon.jpg" })]
+    [Author("Robin Nelle", "rnelle@mail.uni-mannheim.de",
+         "Uni Mannheim - Lehrstuhl Prof. Dr. Armknecht",
+         "http://ls.wim.uni-mannheim.de/")]
+    [PluginInfo("Rabbit.Resources", "PluginCaption", 
+        "PluginTooltip", "Rabbit/userdoc.xml", 
+        new[] { "Rabbit/icon.jpg" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Rabbit5 : ICrypComponent
     {
@@ -35,7 +39,7 @@ namespace Cryptool.Plugins.Rabbit
         private string inputKey;
         private string inputIV;
         private string outputString;
-        private readonly RabbitSettings settings = new RabbitSettings();
+        private RabbitSettings settings = new RabbitSettings();
 
         #endregion
 
@@ -129,7 +133,9 @@ namespace Cryptool.Plugins.Rabbit
             // Stop when wrong Input key length
             if ((key.Length == 16) == false)
             {
-                GuiLogMessage("Wrong input Key Length " + key.Length + ". Key Length must be 16 Bytes", NotificationLevel.Error);
+                GuiLogMessage("Wrong input Key Length " + key.Length 
+                    + ". Key Length must be 16 Bytes", 
+                    NotificationLevel.Error);
                 return;
             }
 
@@ -137,7 +143,9 @@ namespace Cryptool.Plugins.Rabbit
             // Stop when wrong Input message length
             if ((message.Length == 16) == false)
             {
-                GuiLogMessage("Wrong message Length " + message.Length + ". Message length must be 16 Bytes", NotificationLevel.Error);
+                GuiLogMessage("Wrong message Length " + 
+                    message.Length + ". Message length"+
+                    " must be 16 Bytes", NotificationLevel.Error);
                 return;
             }
 
@@ -154,7 +162,7 @@ namespace Cryptool.Plugins.Rabbit
                     k++;
                 }
             }
-            #endregion
+        #endregion
 
             keySetup(mixedKey);
             //check for valid input
@@ -165,7 +173,9 @@ namespace Cryptool.Plugins.Rabbit
                 //check for right iv length
                 if ((iv.Length == 8) == false)
                 {
-                    GuiLogMessage("Wrong input iv length " + iv.Length + ". IV length must be 8 Bytes", NotificationLevel.Error);
+                    GuiLogMessage("Wrong input iv length " + 
+                        iv.Length + ". IV length must be 8 Bytes", 
+                        NotificationLevel.Error);
                     return;
                 }
                 else
@@ -183,7 +193,7 @@ namespace Cryptool.Plugins.Rabbit
 
                     //start iv setup
                     iv_setup(mixedIV);
-                    }
+                }
             }
 
             //start encoding
@@ -192,9 +202,10 @@ namespace Cryptool.Plugins.Rabbit
             outputString = "";
             for (int i = 0; i < 16; i++)
             {
-                outputString += string.Format("{0:x}", ciphertext[i]) + " ";
+                outputString += string.Format("{0:x}", ciphertext[i])
+                    + " ";
             }
-             OutputString = outputString;
+            OutputString = outputString;
         }
 
         private int rshift(int x, int y)
@@ -208,8 +219,9 @@ namespace Cryptool.Plugins.Rabbit
             return shift;
         }
 
-        // Square a 32-bit unsigned integer to obtain the 64-bit result and return */
-        // the upper 32 bits XOR the lower 32 bits 
+        // Square a 32-bit unsigned integer to obtain the 64-bit 
+        //result 
+        //and return the upper 32 bits XOR the lower 32 bits 
         private int g_func(int x)
         {
             // Temporary variables
@@ -220,7 +232,8 @@ namespace Cryptool.Plugins.Rabbit
             b = rshift(x, 16);
 
             // Calculate high and low result of squaring
-            h = (rshift((rshift((a * a), 17) + (a * b)), 15)) + (b * b);
+            h = (rshift((rshift((a * a), 17) + (a * b)), 15)) 
+                + (b * b);
             l = x * x;
 
             // Return high XOR low
@@ -259,13 +272,20 @@ namespace Cryptool.Plugins.Rabbit
 
             //Calculate new counter values
             c[0] += 0x4d34d34d + carry;
-            c[1] += (unchecked((int)0xd34d34d3)) + compare(c[0], c_old[0]);
-            c[2] += (unchecked((int)0x34d34d34)) + compare(c[1], c_old[1]);
-            c[3] += (unchecked((int)0x4d34d34d)) + compare(c[2], c_old[2]);
-            c[4] += (unchecked((int)0xd34d34d3)) + compare(c[3], c_old[3]);
-            c[5] += (unchecked((int)0x34d34d34)) + compare(c[4], c_old[4]);
-            c[6] += (unchecked((int)0x4d34d34d)) + compare(c[5], c_old[5]);
-            c[7] += (unchecked((int)0xd34d34d3)) + compare(c[6], c_old[6]);
+            c[1] += (unchecked((int)0xd34d34d3)) + 
+                compare(c[0], c_old[0]);
+            c[2] += (unchecked((int)0x34d34d34)) + 
+                compare(c[1], c_old[1]);
+            c[3] += (unchecked((int)0x4d34d34d)) + 
+                compare(c[2], c_old[2]);
+            c[4] += (unchecked((int)0xd34d34d3)) + 
+                compare(c[3], c_old[3]);
+            c[5] += (unchecked((int)0x34d34d34)) + 
+                compare(c[4], c_old[4]);
+            c[6] += (unchecked((int)0x4d34d34d)) + 
+                compare(c[5], c_old[5]);
+            c[7] += (unchecked((int)0xd34d34d3)) + 
+                compare(c[6], c_old[6]);
             carry = compare(c[7], c_old[7]);
 
             // Calculate the g-functions
@@ -300,19 +320,11 @@ namespace Cryptool.Plugins.Rabbit
         public byte[] i2osp(int x)
         {
             byte[] s = new byte[4];
-            //crazy
+
             s[0] = (byte)(x & 0x000000ff);
             s[1] = (byte)rshift((x & 0x0000ff00), 8);
             s[2] = (byte)rshift((x & 0x00ff0000), 16);
             s[3] = (byte)rshift((int)(x & 0xff000000), 24);
-
-
-            //normal
-            /* s[3] = (byte)(x & 0x000000ff);
-             s[2] = (byte)rshift((x & 0x0000ff00), 8);
-             s[1] = (byte)rshift((x & 0x00ff0000), 16);
-             s[0] = (byte)rshift((int)(x & 0xff000000), 24);
-             */
             return s;
         }
 
@@ -325,19 +337,11 @@ namespace Cryptool.Plugins.Rabbit
             int k0, k1, k2, k3, i;
 
             // Generate four subkeys
-            //richtige reihenfolge?
+
             k0 = os2ip(p_key, 0);
             k1 = os2ip(p_key, 4);
             k2 = os2ip(p_key, 8);
             k3 = os2ip(p_key, 12);
-
-
-            //falsch?
-            /* k0 = os2ip(p_key, 12);
-             k1 = os2ip(p_key, 8);
-             k2 = os2ip(p_key, 4);
-             k3 = os2ip(p_key, 0);
-             */
 
             // Generate initial state variables
             x[0] = k0;
@@ -354,10 +358,14 @@ namespace Cryptool.Plugins.Rabbit
             c[2] = rotL(k3, 16);
             c[4] = rotL(k0, 16);
             c[6] = rotL(k1, 16);
-            c[1] = (k0 & (unchecked((int)0xffff0000))) | (k1 & (unchecked((int)0x0000ffff)));
-            c[3] = (k1 & (unchecked((int)0xffff0000))) | (k2 & (unchecked((int)0x0000ffff)));
-            c[5] = (k2 & (unchecked((int)0xffff0000))) | (k3 & (unchecked((int)0x0000ffff)));
-            c[7] = (k3 & (unchecked((int)0xffff0000))) | (k0 & (unchecked((int)0x0000ffff)));
+            c[1] = (k0 & (unchecked((int)0xffff0000))) | 
+                (k1 & (unchecked((int)0x0000ffff)));
+            c[3] = (k1 & (unchecked((int)0xffff0000))) | 
+                (k2 & (unchecked((int)0x0000ffff)));
+            c[5] = (k2 & (unchecked((int)0xffff0000))) | 
+                (k3 & (unchecked((int)0x0000ffff)));
+            c[7] = (k3 & (unchecked((int)0xffff0000))) | 
+                (k0 & (unchecked((int)0x0000ffff)));
 
             // Clear carry bit 
             carry = 0;
@@ -371,12 +379,7 @@ namespace Cryptool.Plugins.Rabbit
             // Modify the counters
             for (i = 0; i < 8; i++)
             {
-                //  GuiLogMessage("c[(" + i + " + 4) & 7] ^= x[" + i + "] = " + x[i], NotificationLevel.Info);
-                //java
                 c[(i + 4) & 0x7] ^= x[i];
-
-                // c ??
-                // c[i] ^= x[(i + 4) & 0x7];
             }
         }
 
@@ -385,13 +388,6 @@ namespace Cryptool.Plugins.Rabbit
         // IV (p_iv) 
         void iv_setup(byte[] p_iv)
         {
-            /*  masterc = c;
-              masterx = x;
-              mastercarry = carry;
-              */
-
-            //   int iv_size = p_iv.Length;
-
             // Temporary variables 
             int i0, i1, i2, i3, i;
 
@@ -400,8 +396,6 @@ namespace Cryptool.Plugins.Rabbit
             i2 = os2ip(p_iv, 4);
             i1 = (i0 >> 16) | (int)(i2 & 0xFFFF0000);
             i3 = (i2 << 16) | (int)(i0 & 0x0000FFFF);
-
-
 
             // Modify counter values 
             c[0] = c[0] ^ i0;
@@ -413,50 +407,15 @@ namespace Cryptool.Plugins.Rabbit
             c[6] = c[6] ^ i2;
             c[7] = c[7] ^ i3;
 
-            // Copy internal state values 
-            /*          for (i = 0; i < 8; i++)
-                          x[i] = masterx[i];
-                      carry = mastercarry;
-                      */
-
             //Iterate the system four times 
             for (i = 0; i < 4; i++)
                 next_state();
         }
         #endregion
 
-        //???
-        /*    public void getS(byte[] p_dest, long data_size)
-            {
-                int i, j, m;
-                int[] k = new int[4];
-                byte[] t = new byte[4];
-
-                for (i = 0; i < data_size; i += 16)
-                {
-                    next_state();
-                    k[0] = x[0] ^ rshift(x[5], 16) ^ (x[3] << 16);
-                    k[1] = x[2] ^ rshift(x[7], 16) ^ (x[5] << 16);
-                    k[2] = x[4] ^ rshift(x[1], 16) ^ (x[7] << 16);
-                    k[3] = x[6] ^ rshift(x[3], 16) ^ (x[1] << 16);
-                    for (j = 0; j < 4; j++)
-                    {
-                        t = i2osp(k[j]);
-                        for (m = 0; m < 4; m++)
-                        {
-                            //normal
-                            //p_dest[j * 4 + (3 - m)] = t[m];
-
-                            //crazy
-                            p_dest[j * 4 + (3 - m)] = t[m];
-                        }
-                    }
-                }
-            }
-            */
-
         // Encrypt or decrypt data 
-        public void cipher(byte[] p_src, byte[] p_dest, long data_size)
+        public void cipher(byte[] p_src, byte[] p_dest, 
+            long data_size)
         {
 
             // Temporary variables
@@ -469,10 +428,14 @@ namespace Cryptool.Plugins.Rabbit
                 // Iterate the system
                 next_state();
 
-                k[0] = os2ip(p_src, i * 16 + 0) ^ x[0] ^ rshift(x[5], 16) ^ (x[3] << 16);
-                k[1] = os2ip(p_src, i * 16 + 4) ^ x[2] ^ rshift(x[7], 16) ^ (x[5] << 16);
-                k[2] = os2ip(p_src, i * 16 + 8) ^ x[4] ^ rshift(x[1], 16) ^ (x[7] << 16);
-                k[3] = os2ip(p_src, i * 16 + 12) ^ x[6] ^ rshift(x[3], 16) ^ (x[1] << 16);
+                k[0] = os2ip(p_src, i * 16 + 0) ^ x[0] ^ 
+                    rshift(x[5], 16) ^ (x[3] << 16);
+                k[1] = os2ip(p_src, i * 16 + 4) ^ x[2] ^ 
+                    rshift(x[7], 16) ^ (x[5] << 16);
+                k[2] = os2ip(p_src, i * 16 + 8) ^ x[4] ^ 
+                    rshift(x[1], 16) ^ (x[7] << 16);
+                k[3] = os2ip(p_src, i * 16 + 12) ^ x[6] ^ 
+                    rshift(x[3], 16) ^ (x[1] << 16);
 
                 //Encrypt 16 bytes of data
                 for (j = 0; j < 4; j++)
@@ -493,26 +456,32 @@ namespace Cryptool.Plugins.Rabbit
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event GuiLogNotificationEventHandler 
+            OnGuiLogNotificationOccured;
 
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event PluginProgressChangedEventHandler 
+            OnPluginProgressChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        private void GuiLogMessage(string message, NotificationLevel 
+            logLevel)
         {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, 
+                this, new GuiLogEventArgs(message, this, logLevel));
         }
 
         private void OnPropertyChanged(string name)
         {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            EventsHelper.PropertyChanged(PropertyChanged, this, 
+                new PropertyChangedEventArgs(name));
         }
 
         private void ProgressChanged(double value, double max)
         {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, 
+                this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion
