@@ -29,12 +29,12 @@ namespace WorkspaceManager.View.VisualComponents
             if (visualAdded is IRouting)
             {
                 var bin = (IRouting)visualAdded;
-                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+                //bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
             }
             if (visualRemoved is IRouting)
             {
                 var bin = (IRouting)visualRemoved;
-                bin.PositionDeltaChanged -= new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+                //bin.PositionDeltaChanged -= new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
             }
 
             if (visualAdded is IZOrdering)
@@ -55,10 +55,10 @@ namespace WorkspaceManager.View.VisualComponents
         void PositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
         {
             this.InvalidateMeasure();
-            foreach (CryptoLineView.CryptoLineView element in base.InternalChildren.OfType<CryptoLineView.CryptoLineView>())
-            {
-                element.Line.InvalidateVisual();
-            }
+            //foreach (CryptoLineView.CryptoLineView element in base.InternalChildren.OfType<CryptoLineView.CryptoLineView>())
+            //{
+            //    element.Line.InvalidateVisual();
+            //}
         }
 
         public static void RequestZIndexModification(ModifiedCanvas panel,IZOrdering obj, ZPaneRequest req)
@@ -133,7 +133,7 @@ namespace WorkspaceManager.View.VisualComponents
                         maxWidth = maxWidth < left ? left : maxWidth;
                         maxHeight = maxHeight < top ? top : maxHeight;
                     }
-                    element.InvalidateArrange();
+                    //element.InvalidateArrange();
                 }
             }
 
