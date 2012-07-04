@@ -95,6 +95,7 @@ namespace Cryptool.CrypWin
         private string personalDir;
         private IEditor lastEditor = null;
         private SystemInfos systemInfos = new SystemInfos();
+        private LicensesTab licenses = new LicensesTab();
         private System.Windows.Forms.MenuItem playStopMenuItem;
         private EditorTypePanelManager editorTypePanelManager = new EditorTypePanelManager();
         private System.Windows.Forms.Timer hasChangesCheckTimer;
@@ -2138,6 +2139,13 @@ namespace Cryptool.CrypWin
         {
             e.Handled = true;
             System.Diagnostics.Process.Start("http://www.cryptool2.vs.uni-due.de");
+        }
+
+        private void buttonLicenses_Click(object sender, RoutedEventArgs e)
+        {
+            e.Handled = true;
+            OpenTab(licenses, Properties.Resources.Licenses, null);
+            
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

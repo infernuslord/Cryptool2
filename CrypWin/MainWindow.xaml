@@ -689,6 +689,7 @@
                     <dc:ButtonDropDown Click="buttonContactUs_Click" ImagePosition="Right" Header="{Loc Contact_Us_}" HorizontalAlignment="Left" dc:RibbonTabPanel.PanelAlignment="Right"/>
                     <dc:ButtonDropDown Click="buttonReportBug_Click" ImagePosition="Right" Header="{Loc Report_Bug_}" HorizontalAlignment="Left" dc:RibbonTabPanel.PanelAlignment="Right"/>
                     <dc:ButtonDropDown Click="buttonWebsite_Click" ImagePosition="Right" Header="{Loc Visit_Homepage}" HorizontalAlignment="Left" dc:RibbonTabPanel.PanelAlignment="Right"/>
+                    <dc:ButtonDropDown Click="buttonLicenses_Click"  ImagePosition="Right" Header="{Loc View_Licenses}" HorizontalAlignment="Left" dc:RibbonTabPanel.PanelAlignment="Right"/>
                 </dc:ButtonDropDown>
             </dc:Ribbon>
 

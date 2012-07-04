@@ -121,6 +121,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LicensesTab.xaml.cs">
+      <DependentUpon>LicensesTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TemplatesAnalyzer.cs" />
     <Compile Include="GeneratingDocWindow.xaml.cs">
       <DependentUpon>GeneratingDocWindow.xaml</DependentUpon>
@@ -209,6 +212,10 @@
     <Compile Include="UpdaterPresentation.xaml.cs">
       <DependentUpon>UpdaterPresentation.xaml</DependentUpon>
     </Compile>
+    <Page Include="LicensesTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="GeneratingDocWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -671,6 +678,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Ntfs\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ApacheLicense2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\licenses.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
