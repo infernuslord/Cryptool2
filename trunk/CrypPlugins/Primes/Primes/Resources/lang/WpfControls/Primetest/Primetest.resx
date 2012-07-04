@@ -142,7 +142,7 @@
     <value>{0} hat den Fermat-Test mit {1}^{2} mod {3} nicht bestanden und kann daher keine Primzahl sein.</value>
   </data>
   <data name="mr_isprime" xml:space="preserve">
-    <value>Runde {0} mit Basis {1} beendet. {2} ist wahrscheinlich ein Primzahl.</value>
+    <value>Runde {0} mit Basis {1} beendet. {2} ist wahrscheinlich eine Primzahl.</value>
   </data>
   <data name="mr_options" xml:space="preserve">
     <value>Optionen</value>
@@ -157,13 +157,13 @@
     <value>Runde {0} mit Basis {1}</value>
   </data>
   <data name="mr_shiftedright" xml:space="preserve">
-    <value>Es wurde {0} - mal nach rechts geschoben</value>
+    <value>Es wurde {0} mal nach rechts geschoben</value>
   </data>
   <data name="mr_shiftright" xml:space="preserve">
-    <value>{0} ist gerade und wird um um 1-Bit nach rechts geschoben = {1}</value>
+    <value>{0} ist gerade und wird um ein Bit nach rechts geschoben = {1}</value>
   </data>
   <data name="soe_btnresume" xml:space="preserve">
-    <value>Weiter mit automatische Ausführung</value>
+    <value>Weiter mit automatischer Ausführung</value>
   </data>
   <data name="soe_done" xml:space="preserve">
     <value>fertig</value>
@@ -214,7 +214,7 @@
     <value>Zu testende Zahl</value>
   </data>
   <data name="test_millerrabin" xml:space="preserve">
-    <value>Miller/Rabin-Test</value>
+    <value>Miller-Rabin-Test</value>
   </data>
   <data name="test_soa" xml:space="preserve">
     <value>Sieb des Atkin</value>

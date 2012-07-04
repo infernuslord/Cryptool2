@@ -214,7 +214,7 @@
     <value>Prime candidate</value>
   </data>
   <data name="test_millerrabin" xml:space="preserve">
-    <value>Miller/Rabin-Test</value>
+    <value>Miller-Rabin test</value>
   </data>
   <data name="test_soa" xml:space="preserve">
     <value>Sieve of Atkin</value>

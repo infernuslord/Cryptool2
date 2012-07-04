@@ -42,7 +42,14 @@ namespace Primes.Library
 
     public static string FormatDoubleToIntString(double value)
     {
-        return Convert.ToInt32(value).ToString();
+        try
+        {
+            return Convert.ToInt32(value).ToString();
+        }
+        catch (Exception ex)
+        {
+            return "";
+        }
     }
   }
 }

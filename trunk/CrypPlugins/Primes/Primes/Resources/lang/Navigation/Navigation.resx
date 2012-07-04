@@ -127,7 +127,7 @@
     <value>Verteilung der Primzahlen</value>
   </data>
   <data name="distributiongoldbach" xml:space="preserve">
-    <value>Goldbachsche Vermutung</value>
+    <value>Goldbach-Vermutung</value>
   </data>
   <data name="distributionnumbergrid" xml:space="preserve">
     <value>Zahlengitter</value>
@@ -145,7 +145,7 @@
     <value>Erzeugung von Primzahlen</value>
   </data>
   <data name="millerrabin" xml:space="preserve">
-    <value>Miller/Rabin-Test</value>
+    <value>Miller-Rabin-Test</value>
   </data>
   <data name="ntfunctions" xml:space="preserve">
     <value>Zahlentheoretische Funktionen</value>

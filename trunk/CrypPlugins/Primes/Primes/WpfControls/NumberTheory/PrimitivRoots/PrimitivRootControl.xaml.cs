@@ -181,7 +181,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       Primes.WpfControls.Validation.ValidationResult res = validator.Validate(ref ipt);
       if (res != Primes.WpfControls.Validation.ValidationResult.OK)
       {
-        log.Info(s + " ist keine Zahl zwischen 5 und " + MAX.ToString() + ". Sie wird daher nicht weiter ausgewertet.");
+        log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.invalidnumber, new object[] { s, MAX.ToString() }));
         log.Info(" ");
       }
       return ipt;

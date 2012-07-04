@@ -82,7 +82,7 @@ namespace Primes.WpfControls.Factorization
       ContextMenu tbFactorizationCopyContextMenu = new ContextMenu();
       MenuItem tbFactorizationCopyContextMenuCopy = new MenuItem();
       tbFactorizationCopyContextMenuCopy.Click += new RoutedEventHandler(tbFactorizationCopyContextMenuCopy_Click);
-      tbFactorizationCopyContextMenuCopy.Header = "kopieren";
+      tbFactorizationCopyContextMenuCopy.Header = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_copytoclipboard;
       tbFactorizationCopyContextMenu.Items.Add(tbFactorizationCopyContextMenuCopy);
       m_TbFactorizationCopy.ContextMenu = tbFactorizationCopyContextMenu;
       //inputnumbermanager.Execute += new ExecuteBigIntegerDelegate(InputSingleNumberControl_Execute);
@@ -94,7 +94,7 @@ namespace Primes.WpfControls.Factorization
     private void SetInputValidators()
     {
       InputValidator<PrimesBigInteger> ivExp = new InputValidator<PrimesBigInteger>();
-      ivExp.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One, PrimesBigInteger.OneHundret);
+      ivExp.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One, PrimesBigInteger.OneHundred);
       inputnumbermanager.AddInputValidator(InputSingleControl.CalcExp, ivExp);
 
       //inputnumbermanager.SetValueValidator(InputSingleControl.Value, new BigIntegerMinValueValidator(null, PrimesBigInteger.Two));
@@ -126,8 +126,8 @@ namespace Primes.WpfControls.Factorization
 
     public void OnFactorizationStart()
     {
-      string tmp = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning;
       ControlHandler.SetPropertyValue(gbFactorizationInfo,"Header",Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning);
+
       inputnumbermanager.LockControls();
 
     }
@@ -355,7 +355,13 @@ namespace Primes.WpfControls.Factorization
 
     private void MenuItem_Click(object sender, RoutedEventArgs e)
     {
-      Clipboard.SetText(lblFactors.Content.ToString());
+        try
+        {
+            Clipboard.SetText(lblFactors.Content.ToString());
+        }
+        catch( Exception ex ) 
+        {
+        }
     }
 
 

@@ -620,5 +620,10 @@ namespace Primes.WpfControls.Primegeneration
     }
 
     #endregion
+
+    private void gnentimesm_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
   }
 }

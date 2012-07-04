@@ -121,7 +121,7 @@ namespace Primes.Bignum
         public static readonly PrimesBigInteger Eight = createUValueOf(8);
         public static readonly PrimesBigInteger Nine = createUValueOf(9);
         public static readonly PrimesBigInteger Ten = createUValueOf(10);
-        public static readonly PrimesBigInteger OneHundret = createUValueOf(100);
+        public static readonly PrimesBigInteger OneHundred = createUValueOf(100);
         public static readonly PrimesBigInteger NaN = ValueOf(long.MaxValue * -1);
 
         private static readonly int chunk2 = 1; // TODO Parse 64 bits at a time

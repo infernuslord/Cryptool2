@@ -127,6 +127,10 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     //}
     private bool Witness(PrimesBigInteger a)
     {
+        // a mustn't be a multiple of n
+        if (a.Mod(m_Value).CompareTo(PrimesBigInteger.Zero) == 0)
+            return false;
+
       PrimesBigInteger n_1 = m_Value.Subtract(PrimesBigInteger.One);
       log.Info("n-1 = " + n_1.ToString());
 
@@ -213,22 +217,20 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       while (i.CompareTo(m_Rounds) <= 0)
       {
         PrimesBigInteger k = PrimesBigInteger.RandomM(m_RandomBaseTo);
+        k = k.Mod(m_RandomBaseTo.Add(PrimesBigInteger.One));
         k = PrimesBigInteger.Max(k, PrimesBigInteger.Two);
-        if(ExecuteWitness(i,k))
-          i = m_Rounds;
+        if (ExecuteWitness(i, k)) break;
         i = i.Add(PrimesBigInteger.One);
       }
       FireEventCancelTest();
-
     }
 
     private bool ExecuteWitness(PrimesBigInteger round, PrimesBigInteger a)
     {
-      bool result = false;
       log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_round, new object[] { round.ToString(), a.ToString() }));
-      result = Witness(a);
+      bool result = Witness(a);
       if(!result)
-        log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_round, new object[] { round.ToString(), a.ToString(),m_Value.ToString("D") }));
+        log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.mr_isprime, new object[] { round.ToString(), a.ToString(), m_Value.ToString("D") }));
       log.Info("");
       return result;
     }
@@ -239,7 +241,6 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       {
         m_TestThread = new Thread(new ThreadStart(new VoidDelegate(ExecuteSystematicThread)));
         m_TestThread.Start();
-
       }
       else
       {
@@ -253,8 +254,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       PrimesBigInteger i = PrimesBigInteger.One;
       while (m_SystematicBaseFrom.CompareTo(m_SystematicBaseTo) <= 0)
       {
-        if (ExecuteWitness(i, m_SystematicBaseFrom))
-          m_SystematicBaseFrom = m_SystematicBaseTo;
+        if (ExecuteWitness(i, m_SystematicBaseFrom)) break;
         m_SystematicBaseFrom = m_SystematicBaseFrom.Add(PrimesBigInteger.One);
         i = i.Add(PrimesBigInteger.One);
       }

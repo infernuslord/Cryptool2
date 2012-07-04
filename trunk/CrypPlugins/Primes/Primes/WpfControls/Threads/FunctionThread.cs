@@ -66,7 +66,7 @@ namespace Primes.WpfControls.Threads
           double x1 = m_XStart;
           PrimesBigInteger incX = PrimesBigInteger.One;
           PrimesBigInteger inci = PrimesBigInteger.One;
-          PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundret;
+          PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundred;
           if (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
           {
             inci = fe.Range.RangeAmount.Divide(div);
@@ -141,7 +141,7 @@ namespace Primes.WpfControls.Threads
         double x1 = m_XStart;
         PrimesBigInteger incX = PrimesBigInteger.One;
         PrimesBigInteger inci = PrimesBigInteger.One;
-        PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundret;
+        PrimesBigInteger div = (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0) ? PrimesBigInteger.Ten : PrimesBigInteger.OneHundred;
         if (fe.Range.RangeAmount.CompareTo(PrimesBigInteger.ValueOf(1000)) > 0 && fe.Function.CanEstimate)
         {
           inci = fe.Range.RangeAmount.Divide(div);

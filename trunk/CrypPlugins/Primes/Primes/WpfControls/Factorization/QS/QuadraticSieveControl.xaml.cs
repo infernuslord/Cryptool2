@@ -193,8 +193,8 @@ namespace Primes.WpfControls.Factorization.QS
       long sqrt = (long)Math.Floor(Math.Sqrt(m_Value))+1;
       ControlHandler.SetPropertyValue(
         lblInfoStep1, 
-        "Text", 
-        "Die Quadratwurzel aus " + m_Value.ToString("D") + " ist " + Math.Sqrt(m_Value).ToString("N")+" ≈ "+sqrt);
+        "Text",
+        string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step1_squareroot, new object[] { m_Value.ToString("D"), Math.Sqrt(m_Value).ToString("N"), sqrt }));
       int counter = 0;
 
       ControlHandler.ExecuteMethod(this, "PrepareStep1");

@@ -78,7 +78,8 @@ namespace Primes.WpfControls.Primegeneration
         }
         else
         {
-          if (Execute != null) Execute(n, digits.Subtract(PrimesBigInteger.One));
+            if (Execute != null) Execute(n, digits);
+            //if (Execute != null) Execute(n, digits.Subtract(PrimesBigInteger.One));
         }
       }
     }
@@ -88,8 +89,8 @@ namespace Primes.WpfControls.Primegeneration
       PrimesBigInteger result = PrimesBigInteger.One;
       try
       {
-        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, PrimesBigInteger.ValueOf(2));
-        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbN, "2");
+        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, PrimesBigInteger.ValueOf(1));
+        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbN, "1");
         tbValidator.Validate(ref result);
       }
       catch (ControlValidationException cvex)
