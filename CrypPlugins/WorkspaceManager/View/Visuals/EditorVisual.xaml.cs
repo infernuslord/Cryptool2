@@ -55,20 +55,23 @@ namespace WorkspaceManager.View.Visuals
         //    set 
         //    {
         //        _computationDone = value;
-        //        if (_computationDone >= LineCount)
+        //        if (_computationDone >= LineCount && !editor.IsExecuting && editor.IsVisible)
         //        {
         //            foreach (var element in Visuals.OfType<CryptoLineView>())
         //            {
-        //                element.Line.ClearIntersections();
+        //                element.Line.ClearIntersect();
         //            }
+ 
         //            foreach (var element in Visuals.OfType<CryptoLineView>())
         //            {
         //                element.Line.DrawDecoration();
         //            }
+
         //            foreach (var element in Visuals.OfType<CryptoLineView>())
         //            {
-        //                element.Line.InvalidateVisual();
+        //                element.Line.InvalidateOnce();
         //            }
+
         //            _computationDone = 0;
         //        }
         //    }
@@ -105,7 +108,7 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
-        private DispatcherTimer timer = new DispatcherTimer(){Interval = TimeSpan.FromMilliseconds(100)};
+        private DispatcherTimer timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1000) };
         public VisualsHelper(WorkspaceModel model, EditorVisual editor)
         {
             this.Model = model;
@@ -113,32 +116,41 @@ namespace WorkspaceManager.View.Visuals
             PluginTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             timer.Tick += delegate(object o, EventArgs args)
+            {
+                if (editor.IsExecuting || !editor.IsVisible)
+                    return;
+
+                var filter = Visuals.OfType<CryptoLineView>();
+
+                foreach (var element in filter)
                 {
-                    if (editor.IsExecuting || !editor.IsVisible)
-                        return;
+                    element.Line.ClearIntersect();
+                }
 
-                    foreach (var element in Visuals.OfType<CryptoLineView>())
-                    {
-                        element.Line.ClearInterSect();
-                    }
+                foreach (var element in filter)
+                {
+                    element.Line.DrawDecoration();
+                }
 
-                    foreach (var element in Visuals.OfType<CryptoLineView>())
-                    {
-                        element.Line.DrawDecoration();
-                    }
+                foreach (var element in filter)
+                {
+                    element.Line.InvalidateVisual();
+                }
 
-                    foreach (var element in Visuals.OfType<CryptoLineView>())
-                    {
-                        element.Line.InvalidateVisual();
-                    }
-                };
-            timer.Start();
+                timer.Stop();
+            };
 
             Visuals = Editor.VisualCollection;
             Visuals.CollectionChanged += new NotifyCollectionChangedEventHandler(VisualsCollectionChanged);
             Visuals.Add(part);
         }
 
+
+        internal void DrawDecoration()
+        {
+            if(!timer.IsEnabled)
+                timer.Start();
+        }
 
         internal void panelPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -164,6 +176,7 @@ namespace WorkspaceManager.View.Visuals
             {
                 CurrentLine.Line.IsEditingPoint = false;
                 LastLine = CurrentLine;
+                DrawDecoration();
             }
 
             CurrentLine = null;
@@ -183,14 +196,18 @@ namespace WorkspaceManager.View.Visuals
                 {
                     Point p = Mouse.GetPosition(sender as FrameworkElement);
                     var list = FromToTree.Query(new System.Drawing.RectangleF(
-                        (float)p.X - (float)3, (float)p.Y - (float)3, (float)3, (float)3));
+                        (float)p.X - (float)1.5, (float)p.Y - (float)1.5, (float)3, (float)3));
 
                     if (list.Count != 0)
                     {
                         if (CurrentLine == null)
                             CurrentLine = l;
 
-                        SelectedPart = list[0].FromTo;
+                        foreach (var x in list)
+                        {
+                            if (x.LogicalParent == CurrentLine.Line)
+                                SelectedPart = x.FromTo;
+                        }      
                     }
                 }
             }
@@ -241,6 +258,8 @@ namespace WorkspaceManager.View.Visuals
                     draggedTo = new Point(data.To.X, data.To.Y);
                 }
 
+                CurrentLine.Line.ClearIntersect();
+
                 switch (data.DirSort)
                 {
                     case DirSort.X_ASC:
@@ -260,12 +279,14 @@ namespace WorkspaceManager.View.Visuals
                         data.To = nextData.Value.From = new Point(((Point)draggedTo).X + delta.X, ((Point)draggedTo).Y);
                         break;
                 }
-                CurrentLine.Line.InvalidateAllLines();
+                CurrentLine.Line.InvalidateVisual();
 
                 foreach (var fromTo in CurrentLine.Line.PointList)
                 {
                     fromTo.Update();
                 }
+
+                CurrentLine.Line.Save();
             }
 
         }
@@ -296,7 +317,8 @@ namespace WorkspaceManager.View.Visuals
 
                     if (e.NewItems[0] is CryptoLineView)
                     {
-                        (e.NewItems[0] as CryptoLineView).Line.ComputationDone += new EventHandler(Line_ComputationDone);
+                        (e.NewItems[0] as CryptoLineView).Line.ComputationDone += new EventHandler<ComputationDoneEventArgs>(Line_ComputationDone);
+                        //(e.NewItems[0] as CryptoLineView).IsSelectedChanged += new EventHandler(VisualsHelper_IsSelectedChanged);
                     }
 
                     break;
@@ -312,18 +334,25 @@ namespace WorkspaceManager.View.Visuals
 
                     if (e.OldItems[0] is CryptoLineView)
                     {
-                        (e.OldItems[0] as CryptoLineView).Line.ComputationDone -= new EventHandler(Line_ComputationDone);
+                        (e.OldItems[0] as CryptoLineView).Line.ComputationDone -= new EventHandler<ComputationDoneEventArgs>(Line_ComputationDone);
+                        //(e.OldItems[0] as CryptoLineView).IsSelectedChanged -= new EventHandler(VisualsHelper_IsSelectedChanged);
                     }
 
                     break;
             }
 
-            LineCount = Visuals.OfType<CryptoLineView>().Count();
+            //LineCount = Visuals.OfType<CryptoLineView>().Count();
         }
 
-        void Line_ComputationDone(object sender, EventArgs e)
+        //void VisualsHelper_IsSelectedChanged(object sender, EventArgs e)
+        //{
+        //    var line = (CryptoLineView)sender;
+        //}
+
+        void Line_ComputationDone(object sender, ComputationDoneEventArgs e)
         {
-            renewFromToTree();
+            if(e.IsPathComputationDone)
+                renewFromToTree();
         }
 
         void VisualsHelper_Loaded(object sender, RoutedEventArgs e)
@@ -358,7 +387,7 @@ namespace WorkspaceManager.View.Visuals
         {
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             var temp = Visuals.OfType<CryptoLineView>();
-            foreach (var element in temp.OrderByDescending(x => Panel.GetZIndex(x)))
+            foreach (var element in temp)
             {
                 foreach (var fromTo in element.Line.PointList)
                 {
@@ -400,13 +429,15 @@ namespace WorkspaceManager.View.Visuals
                                                                    y,
                                                                    sizeX,
                                                                    sizeY),
-                        FromTo = fromTo
+                        FromTo = fromTo,
+                        LogicalParent = element.Line
                     });
                 }
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
     }
 
     /// <summary>

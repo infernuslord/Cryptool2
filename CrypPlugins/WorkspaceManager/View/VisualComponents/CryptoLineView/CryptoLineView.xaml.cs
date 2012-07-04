@@ -38,6 +38,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
     public partial class CryptoLineView : UserControl, INotifyPropertyChanged, IUpdateableView
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler IsSelectedChanged;
 
         #region Fields
 
@@ -110,8 +111,16 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool),
-            typeof(CryptoLineView), new FrameworkPropertyMetadata(null));
+            typeof(CryptoLineView), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnIsSelectedChanged)));
 
+
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CryptoLineView l = (CryptoLineView)d;
+            if(l.IsSelectedChanged != null)
+                l.IsSelectedChanged.Invoke(l, null);
+            
+        }
         public bool IsSelected
         {
             get { return (bool)base.GetValue(IsSelectedProperty); }
@@ -154,7 +163,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Line.SetBinding(InternalCryptoLineView.EndPointProperty, WorkspaceManager.View.Base.Util.CreateConnectorBinding(target, this));
 
             Editor.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(itemsSelected);
-            Line.ComputationDone += new EventHandler(LineComputationDone);
+            Line.ComputationDone += new EventHandler<ComputationDoneEventArgs>(LineComputationDone);
             Source.Update += new EventHandler(Update);
             Target.Update += new EventHandler(Update);
 
@@ -290,10 +299,15 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         #endregion
     }
 
+    public class ComputationDoneEventArgs : EventArgs
+    {
+        public bool IsPathComputationDone {get;set;}
+    }
+
     public sealed class InternalCryptoLineView : Shape, IUpdateableView
     {
         #region Events
-        public event EventHandler ComputationDone; 
+        public event EventHandler<ComputationDoneEventArgs> ComputationDone;
         #endregion
         #region Fields
 		private IntersectPoint intersectPoint;
@@ -376,6 +390,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InternalCryptoLineView l = (InternalCryptoLineView)d;
             l.HasComputed = false;
             l.InvalidateVisual();
+            l.helper.DrawDecoration();
         }
 
         public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged", typeof(bool),
@@ -421,7 +436,24 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             l.HasComputed = false;
             l.IsEditingPoint = false;
             if (l.IsDragged == false)
+            {
                 l.InvalidateVisual();
+            }
+        }
+
+        public bool HasDecoration { get; set; }
+
+        internal void Save()
+        {
+            if (model == null || PointList.Count > 0)
+                return;
+
+            Model.PointList = new List<Point>();
+            foreach (var p in PointList)
+            {
+                Model.PointList.Add(p.From);
+            }
+            Model.PointList.Add(PointList[PointList.Count - 1].To);
         }
 
         private static void OnHasComputedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -432,12 +464,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
             if (l.HasComputed == true && l.PointList.Count > 0)
             {
-                l.Model.PointList = new List<Point>();
-                foreach (var p in l.PointList)
-                {
-                    l.Model.PointList.Add(p.From);
-                }
-                l.Model.PointList.Add(l.PointList[l.PointList.Count - 1].To);
+                l.Save();
             }
         }
 
@@ -512,9 +539,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 		#endregion
 		#region Private
 
-        public bool HasDecoration;
-
-        public void ClearInterSect()
+        public void ClearIntersect()
         {
             foreach (FromTo fromTo in PointList)
                 fromTo.Intersection.Clear();
@@ -522,31 +547,27 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         public void DrawDecoration()
         {
-            if (HasComputed)
+            foreach (var element in Visuals)
             {
-                foreach (var element in Visuals)
+                if (element is CryptoLineView)
                 {
-                    if (element is CryptoLineView)
+                    CryptoLineView result = element as CryptoLineView;
+
+                    if (result.Line.Equals(this))
+                        continue;
+
+                    foreach (FromTo fromTo in PointList)
                     {
-                        CryptoLineView result = element as CryptoLineView;
-
-                        if (result.Line.Equals(this))
-                            continue;
-
-                        foreach (FromTo fromTo in PointList)
+                        foreach (FromTo resultFromTo in result.Line.PointList)
                         {
-                            foreach (FromTo resultFromTo in result.Line.PointList)
+                            if (LineUtil.FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
                             {
-                                if (LineUtil.FindIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To, out intersectPoint))
-                                {
-                                    fromTo.Intersection.Add(intersectPoint);
-                                    //resultFromTo.Intersection.Add(intersectPoint);
-                                }
+                                fromTo.Intersection.Add(intersectPoint);
+                                //resultFromTo.Intersection.Add(intersectPoint);
                             }
                         }
                     }
                 }
-                HasDecoration = true;
             }
         }
        
@@ -555,6 +576,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             makeOrthogonalPoints();
 
             context.BeginFigure(StartPoint, true, false);
+
 
             foreach (FromTo fromTo in PointList)
             {
@@ -608,7 +630,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             {
                 if (!isSubstituteLine && !IsDragged && !HasComputed)
                 {
-                    HasDecoration = false;
                     List<Node> nodeList = new List<Node>();
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
 
@@ -721,7 +742,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         }
                         this.PointList.Add(new FromTo(startPoint, EndPoint, FromToMeta.HasEndpoint));
                         HasComputed = true;
-                        raiseComputationDone();
+                        raiseComputationDone(true);
                         return;
                     }
                     failed = true;     
@@ -747,15 +768,15 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         }
                     }
                 }
-                raiseComputationDone();
+                raiseComputationDone(false);
             }
-            raiseComputationDone();
+            raiseComputationDone(true);
         }
 
-        private void raiseComputationDone()
+        private void raiseComputationDone(bool b)
         {
             if (this.ComputationDone != null)
-                ComputationDone.Invoke(this, null);
+                ComputationDone.Invoke(this, new ComputationDoneEventArgs() { IsPathComputationDone = b });
         }
 
         internal void reset()
@@ -807,6 +828,13 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         #endregion
+
+        private bool once = false;
+        internal void InvalidateOnce()
+        {
+            once = true;
+            InvalidateVisual();
+        }
     }
 
     #region Custom Class
@@ -815,6 +843,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public System.Drawing.RectangleF Rectangle { get; set; }
         public ConnectorVisual Source { get; set; }
         public ConnectorVisual Target { get; set; }
+        public InternalCryptoLineView LogicalParent { get; set; }
         public FromTo FromTo { get; set; }
     }
 
