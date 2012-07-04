@@ -84,7 +84,7 @@ namespace Primes.WpfControls.Factorization.QS
         sbInfo.Append(" b = ");
         sbInfo.Append(productB.SquareRoot().ToString("D"));
         sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong);
-        sbInfo.Append("a² ≡ b² (mod n), a !≡ b (mod n)");
+        sbInfo.Append("a² ≡ b² (mod n), a ≢ b (mod n)");
         ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
 
         result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N)))?QSResult.Ok:QSResult.Failed;

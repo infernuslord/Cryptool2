@@ -247,7 +247,7 @@
     <value>von</value>
   </data>
   <data name="numberline_goldbach" xml:space="preserve">
-    <value> Goldbachsche Vermutung</value>
+    <value>Goldbach-Vermutung</value>
   </data>
   <data name="numberline_goldbachfoundsums" xml:space="preserve">
     <value>({0} Primzahlsumme(n) gefunden)</value>
@@ -335,7 +335,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value> Primzahlzwillinge</value>
   </data>
   <data name="tabitemgoldbach" xml:space="preserve">
-    <value>Goldbachsche Vermutung</value>
+    <value>Goldbach-Vermutung</value>
   </data>
   <data name="tabitemnumbergrid" xml:space="preserve">
     <value>Zahlengitter</value>
@@ -363,5 +363,11 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
   </data>
   <data name="tabitemgraph" xml:space="preserve">
     <value>Anzahl der Primzahlen</value>
+  </data>
+  <data name="ulam_calculating" xml:space="preserve">
+    <value>Spirale wird berechnet</value>
+  </data>
+  <data name="ulam_validatorrangemessage" xml:space="preserve">
+    <value>Der Abstand zwischen "von" und "bis" muss mindestens {0} und höchstens {1} sein.</value>
   </data>
 </root>

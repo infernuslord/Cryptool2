@@ -30,6 +30,8 @@ namespace Primes.WpfControls.Primegeneration.Function
     private PrimesBigInteger m_LastPrime;
     private PrimesBigInteger m_Length;
     public event VoidDelegate NonFurtherPrimeFound;
+    Random rnd = new Random();
+
     public GenerateMDigitPrimes()
     {
       m_GeneratedPrimes = new List<PrimesBigInteger>();
@@ -38,53 +40,45 @@ namespace Primes.WpfControls.Primegeneration.Function
 
     public PrimesBigInteger Execute(PrimesBigInteger input)
     {
-      m_LastPrime = GetStartBigInteger();
-      int counter = 0;
-      while (m_GeneratedPrimes.Contains(m_LastPrime))
-      {
-        m_LastPrime = m_LastPrime.NextProbablePrime();
-        while (m_LastPrime.ToString().Length != this.m_Length.IntValue+1)
-        {
-          
-          m_LastPrime = GetStartBigInteger();
-          if (counter == 1000)
-          {
-            bool found = false;
-            char[] sn = new char[this.m_Length.IntValue + 1];
-            sn[0] = '1';
-            for (int i = 1; i < this.m_Length.IntValue + 1; i++)
-            {
-              sn[i] = '0';
-            }
-            PrimesBigInteger x = new PrimesBigInteger(new string(sn)).NextProbablePrime();
-            for (int i = 0; i < 100000; i++)
-            {
-              if (!m_GeneratedPrimes.Contains(x))
-              {
-                m_LastPrime = x;
-                found = m_LastPrime.ToString().Length == this.m_Length.IntValue + 1;
-                counter = 0;
-                break;
-              }
-              x = x.NextProbablePrime();
-            }
-            if (NonFurtherPrimeFound != null&&!found) NonFurtherPrimeFound();
-          }
-          counter++;
+        int l = m_Length.IntValue;
 
+        // try to find a random prime in the range
+        for(int i=0;i<2;i++) {
+            m_LastPrime = GetStartBigInteger();
+            if (m_LastPrime.ToString().Length != l) continue;
+            if( !m_GeneratedPrimes.Contains(m_LastPrime) ) {
+                m_GeneratedPrimes.Add(m_LastPrime);
+                return m_LastPrime;
+            }
         }
-      }
-      m_GeneratedPrimes.Add(m_LastPrime);
-      return m_LastPrime;
+
+        // if that fails, try to find a prime systematically from the start of the range
+        StringBuilder r = new StringBuilder("1");
+        for (int i = 1; i < l; i++) r.Append("0");
+        m_LastPrime = new PrimesBigInteger(r.ToString());
+
+       for(int i=0;i<1000;i++) {
+            m_LastPrime = m_LastPrime.NextProbablePrime();
+            if (m_LastPrime.ToString().Length != l) break;
+            if( !m_GeneratedPrimes.Contains(m_LastPrime) ) {
+                m_GeneratedPrimes.Add(m_LastPrime);
+                return m_LastPrime;
+            }
+        }
+        
+        if (NonFurtherPrimeFound != null) NonFurtherPrimeFound();
+        
+        return m_LastPrime;
     }
+
     private PrimesBigInteger GetStartBigInteger()
     {
-      PrimesBigInteger _len = m_Length.Add(PrimesBigInteger.One);
-      PrimesBigInteger result = PrimesBigInteger.Random(_len).NextProbablePrime();
-      while (result.ToString().Length != this.m_Length.IntValue+1)
-        result = PrimesBigInteger.Random(_len).NextProbablePrime();
-      return result;
+        StringBuilder r = new StringBuilder("");
+        r.Append(1 + rnd.Next(9));
+        for (int j = 1; j < m_Length.IntValue; j++) r.Append(rnd.Next(10));
+        return new PrimesBigInteger(r.ToString()).NextProbablePrime();
     }
+
     public void SetParameter(string name, PrimesBigInteger value)
     {
       if (name.Equals(LEN))

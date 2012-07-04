@@ -33,16 +33,16 @@
         </DockPanel>
       </Border>
       <StackPanel Name="spRandom">
-      <Button Height="23" Content="{x:Static lang:PrimesGeneration.rnd1020}" Name="btnGeneratePrimes10Times20" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,7"></Button>
-      <Button Height="23" Content="{x:Static lang:PrimesGeneration.rnd1050}" Name="btnGeneratePrimes10Times50" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,7"></Button>
-      <Button Height="23" Content="{x:Static lang:PrimesGeneration.rnd10100}" Name="btnGeneratePrimes10Times100" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,7"></Button>
+      <Button Height="26" Content="{x:Static lang:PrimesGeneration.rnd1020}" Name="btnGeneratePrimes10Times20" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,4"></Button>
+      <Button Height="26" Content="{x:Static lang:PrimesGeneration.rnd1050}" Name="btnGeneratePrimes10Times50" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,4"></Button>
+      <Button Height="26" Content="{x:Static lang:PrimesGeneration.rnd10100}" Name="btnGeneratePrimes10Times100" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Click="Generate10Times_Click" Margin="0,0,0,4"></Button>
       <Button Height="30" Name="btnGeneratePrimesNTimesM" HorizontalAlignment="Stretch" Template="{StaticResource ButtonTemplate}" Margin="0,0,0,7">
         <DockPanel>
           <TextBlock Text="{x:Static lang:PrimesGeneration.rndntimesm}"></TextBlock>
             <Image Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGenerateNTimesM" HorizontalAlignment="Right" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" />
         </DockPanel>
       </Button>
-        <this:InputControlNTimesM x:Name="gnentimesm"/>
+        <this:InputControlNTimesM x:Name="gnentimesm" Loaded="gnentimesm_Loaded" />
         </StackPanel>
       <!--<Label BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Stretch">Primzahlen in Bereichen</Label>-->
       <Border BorderBrush="Gray" BorderThickness="1.0" HorizontalAlignment="Stretch" Background="WhiteSmoke" Height="30" Margin="0,0,0,7">

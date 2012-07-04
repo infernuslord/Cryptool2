@@ -145,10 +145,10 @@
     <value>Generation of primes</value>
   </data>
   <data name="millerrabin" xml:space="preserve">
-    <value>Miller/Rabin-Test</value>
+    <value>Miller-Rabin test</value>
   </data>
   <data name="ntfunctions" xml:space="preserve">
-    <value>Number theoretic functions</value>
+    <value>Number-theoretic functions</value>
   </data>
   <data name="numbertheory" xml:space="preserve">
     <value>Number theory</value>

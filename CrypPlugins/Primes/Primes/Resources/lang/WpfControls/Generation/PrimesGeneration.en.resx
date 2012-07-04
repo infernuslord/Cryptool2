@@ -130,7 +130,7 @@
     <value>Execute</value>
   </data>
   <data name="ntimesm_digits" xml:space="preserve">
-    <value>Digits</value>
+    <value>digits</value>
   </data>
   <data name="ntimesm_errordigits" xml:space="preserve">
     <value>More than {0} digits are not allowed.</value>
@@ -139,7 +139,7 @@
     <value>Input</value>
   </data>
   <data name="ntimesm_numbers" xml:space="preserve">
-    <value>Numbers with</value>
+    <value>numbers with</value>
   </data>
   <data name="polynomrange_btnCancel" xml:space="preserve">
     <value>Cancel</value>
@@ -196,7 +196,7 @@
     <value>Generate all primes to</value>
   </data>
   <data name="statAvgCountPrimes" xml:space="preserve">
-    <value>The average number of primes is {0} ( = {1}%)</value>
+    <value>The average number of primes is {0} ({1}%).</value>
   </data>
   <data name="statFunctionsLeast" xml:space="preserve">
     <value>Functions that generated the least number of primes:</value>
@@ -217,10 +217,10 @@
     <value>Functions that generated the most number of different primes in the interval:</value>
   </data>
   <data name="statGenerated" xml:space="preserve">
-    <value>{0} different primes were generated. {2} total. ({1} %)</value>
+    <value>{0} different primes were generated, {2} total ({1} %).</value>
   </data>
   <data name="statGeneratedAbsolut" xml:space="preserve">
-    <value>{1} out of {0} numbers are prime numbers. ({2}%)</value>
+    <value>{1} out of {0} numbers are prime numbers ({2}%).</value>
   </data>
   <data name="statNonPrimes" xml:space="preserve">
     <value>No more prime numbers found</value>
@@ -235,40 +235,40 @@
     <value>Consider the number {0}.</value>
   </data>
   <data name="soa_firstifmatch" xml:space="preserve">
-    <value>{0} = {1} mod 60. Search every solution of 4 * x² + y² = {2}.</value>
+    <value>{0} mod 60 = {1}. Search all solutions of 4 * x² + y² = {2}.</value>
   </data>
   <data name="soa_firstsolutionfound" xml:space="preserve">
     <value>Found a solution. 4 * {0}² + {1}² = {2}. Mark {3} as {4}.</value>
   </data>
   <data name="soa_fithsolutionfound" xml:space="preserve">
-    <value>{0} is a multiple of {1} and thus not a prime</value>
+    <value>{0} is a multiple of {1} and thus not a prime.</value>
   </data>
   <data name="soa_fourthsolutionfound" xml:space="preserve">
-    <value>{0} was identified as a prime. Remove multiples of {1}</value>
+    <value>{0} was identified as a prime. Remove multiples of {1}.</value>
   </data>
   <data name="soa_initvsieve" xml:space="preserve">
     <value>All numbers from 1 to {0} are marked as non-primes.</value>
   </data>
   <data name="soa_isnotprime" xml:space="preserve">
-    <value>"is not prime"</value>
+    <value>"is not a prime number"</value>
   </data>
   <data name="soa_isprime" xml:space="preserve">
-    <value>"is prime"</value>
+    <value>"is a prime number"</value>
   </data>
   <data name="soa_secondifmatch" xml:space="preserve">
-    <value>{0} = {1} mod 60. Search every solution of  3 * x² + y² = {2}</value>
+    <value>{0} mod 60 = {1}. Search all solutions of 3 * x² + y² = {2}.</value>
   </data>
   <data name="soa_secondsolutionfound" xml:space="preserve">
-    <value>Found a solution. 3 * {0}² + {1}² = {2}. Let {3} = {4}.</value>
+    <value>Found a solution. 3 * {0}² + {1}² = {2}. Mark {3} as {4}.</value>
   </data>
   <data name="soa_startsieve" xml:space="preserve">
     <value>Start sieving. Consider numbers mod 60.</value>
   </data>
   <data name="soa_thirdifmatch" xml:space="preserve">
-    <value>{0} = {1} mod 60. Search every solution of  3 * x² - y² = {2}.</value>
+    <value>{0} mod 60 = {1}. Search all solutions of 3 * x² - y² = {2}.</value>
   </data>
   <data name="soa_thirdsolutionfound" xml:space="preserve">
-    <value>Found a solution. 3 * {0}² - {1}² = {2}. Let {3} = {4}.</value>
+    <value>Found a solution. 3 * {0}² - {1}² = {2}. Mark {3} as {4}.</value>
   </data>
   <data name="polynomname_polynom" xml:space="preserve">
     <value>Enter coefficients of a particular polynomial</value>

@@ -159,6 +159,9 @@
   <data name="qs_btnrestart" xml:space="preserve">
     <value>Neustart</value>
   </data>
+  <data name="qs_copytoclipboard" xml:space="preserve">
+    <value>In die Zwischenablage kopieren</value>
+  </data>
   <data name="qs_step1" xml:space="preserve">
     <value>Schritt 1 (Ermittlung geeigneter Werte)</value>
   </data>

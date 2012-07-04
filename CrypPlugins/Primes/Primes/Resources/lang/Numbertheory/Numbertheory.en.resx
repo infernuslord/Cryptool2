@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="copy_savetable" xml:space="preserve">
+    <value>Save whole table to file</value>
+  </data>
+  <data name="copy_selectedrow" xml:space="preserve">
+    <value>Copy selected row to clipboard</value>
+  </data>
+  <data name="copy_table" xml:space="preserve">
+    <value>Copy whole table to clipboard</value>
+  </data>
   <data name="eulerphi" xml:space="preserve">
     <value>Euler's totient function</value>
   </data>
   <data name="eulerphisum" xml:space="preserve">
-    <value>Sum-of-Divisors function</value>
+    <value>Sum-of-divisors function</value>
   </data>
   <data name="eulerphivalues" xml:space="preserve">
     <value>List of coprimes</value>
@@ -131,6 +140,9 @@
   </data>
   <data name="groupbox_input" xml:space="preserve">
     <value>Input</value>
+  </data>
+  <data name="invalidnumber" xml:space="preserve">
+    <value>{0} does not lie between 5 und {1} and is not evaluated further.</value>
   </data>
   <data name="pix" xml:space="preserve">
     <value>Number of primes</value>
@@ -223,10 +235,10 @@
     <value>Result</value>
   </data>
   <data name="proot_resultcalc" xml:space="preserve">
-    <value>{0} Primitive root for prime {1} found:</value>
+    <value>{0} primitive roots for prime {1} found:</value>
   </data>
   <data name="proot_skipcalc" xml:space="preserve">
-    <value>The calculation was skipped. {0} Primitive roots for prime {1} found:</value>
+    <value>The calculation was skipped. {0} primitive roots for prime {1} found:</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
     <value>The first number of the interval {0} has to be smaller than the second</value>
@@ -235,7 +247,7 @@
     <value>Rho</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
-    <value>Number theoretic functions</value>
+    <value>Number-theoretic functions</value>
   </data>
   <data name="tabitemheader_power" xml:space="preserve">
     <value>Powering</value>

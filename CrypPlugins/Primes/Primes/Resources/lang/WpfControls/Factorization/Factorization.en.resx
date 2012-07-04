@@ -151,13 +151,16 @@
     <value>Factorization result (finished)</value>
   </data>
   <data name="fac_resultfinishedtime" xml:space="preserve">
-    <value>Factorization result (The brute-force division was finished in {0} hours, {1} minutes, {2} seconds, {3} milliseconds)</value>
+    <value>Factorization result (The brute-force division finished in {0} hours, {1} minutes, {2} seconds, {3} milliseconds)</value>
   </data>
   <data name="fac_resultrunning" xml:space="preserve">
     <value>Factorization result (running)</value>
   </data>
   <data name="qs_btnrestart" xml:space="preserve">
     <value>Restart</value>
+  </data>
+  <data name="qs_copytoclipboard" xml:space="preserve">
+    <value>Copy to clipboard</value>
   </data>
   <data name="qs_step1" xml:space="preserve">
     <value>Step 1 (Determine suitable values)</value>

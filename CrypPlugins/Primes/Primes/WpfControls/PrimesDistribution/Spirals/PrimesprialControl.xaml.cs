@@ -46,7 +46,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       spiral.StopDrawing += new VoidDelegate(spiral_StopDrawing);
       irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
       irc.RangeValueValidator = new BigIntegerMinValueMaxValueValidator(null,PrimesBigInteger.Ten,PrimesBigInteger.ValueOf(100000));
-      irc.RangeValueValidator.Message = "Der Abstand zwischen \"von\" und \"bis\" muss mindestens {0} und darf höchstens {1} betragen.";
+      irc.RangeValueValidator.Message = Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_validatorrangemessage;
       irc.SetText(InputRangeControl.FreeFrom, "1");
       irc.SetText(InputRangeControl.FreeTo, "2000");
     }
@@ -62,7 +62,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
 
     void spiral_StartDrawing()
     {
-      ControlHandler.SetPropertyValue(lblInfo,"Text","Spirale wird berechnet");
+      ControlHandler.SetPropertyValue(lblInfo, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_calculating);
       ControlHandler.SetButtonEnabled(btnExecute, false);
       ControlHandler.SetButtonEnabled(btnCancel, true);
       irc.LockControls();

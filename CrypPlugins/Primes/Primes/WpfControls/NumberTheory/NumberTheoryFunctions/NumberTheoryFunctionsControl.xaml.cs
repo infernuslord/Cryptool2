@@ -82,9 +82,9 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     {
       System.Windows.Forms.ContextMenuStrip menu = new System.Windows.Forms.ContextMenuStrip();
       m_DgvFunctions.ContextMenuStrip = menu;
-      menu.Items.Add("Markierte Zeile in die Zwischenablage kopieren", null, new EventHandler(MenuItemClick_CopySelectionToClipboard));
-      menu.Items.Add("Gesamte Tabelle in die Zwischenablage kopieren", null, new EventHandler(MenuItemClick_CopyAllToClipboard));
-      menu.Items.Add("Gesamte Tabelle in Datei speichern", null, new EventHandler(MenuItemClick_CopyAllToFile));
+      menu.Items.Add(Primes.Resources.lang.Numbertheory.Numbertheory.copy_selectedrow, null, new EventHandler(MenuItemClick_CopySelectionToClipboard));
+      menu.Items.Add(Primes.Resources.lang.Numbertheory.Numbertheory.copy_table, null, new EventHandler(MenuItemClick_CopyAllToClipboard));
+      menu.Items.Add(Primes.Resources.lang.Numbertheory.Numbertheory.copy_savetable, null, new EventHandler(MenuItemClick_CopyAllToFile));
     }
 
     private void MenuItemClick_CopySelectionToClipboard(object sender, EventArgs e)
