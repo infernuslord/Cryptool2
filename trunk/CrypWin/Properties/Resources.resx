@@ -859,4 +859,16 @@
   <data name="RBTooltip_View" xml:space="preserve">
     <value>Toggle visibility of windows</value>
   </data>
+  <data name="ApacheLicense2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\apachelicense2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Licenses" xml:space="preserve">
+    <value>Licenses</value>
+  </data>
+  <data name="View_Licenses" xml:space="preserve">
+    <value>View licenses</value>
+  </data>
+  <data name="CrypToolLicenses" xml:space="preserve">
+    <value>Cryptool 2.0 and all its components are based on the Apache license 2.0 if not marked otherwise</value>
+  </data>
 </root>

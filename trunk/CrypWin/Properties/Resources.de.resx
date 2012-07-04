@@ -826,4 +826,13 @@
   <data name="RBTooltip_View" xml:space="preserve">
     <value>Fenster ein- und ausblenden</value>
   </data>
+  <data name="Licenses" xml:space="preserve">
+    <value>Lizenzen</value>
+  </data>
+  <data name="View_Licenses" xml:space="preserve">
+    <value>Lizenzen anschauen</value>
+  </data>
+  <data name="CrypToolLicenses" xml:space="preserve">
+    <value>Cryptool 2.0 und alle seine Komponenten unterliegen der Apache Lizenz 2.0, wenn nicht anders angegeben</value>
+  </data>
 </root>
