@@ -390,7 +390,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InternalCryptoLineView l = (InternalCryptoLineView)d;
             l.HasComputed = false;
             l.InvalidateVisual();
-            l.helper.DrawDecoration();
+            if(l.helper != null)
+                l.helper.DrawDecoration();
         }
 
         public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged", typeof(bool),
