@@ -128,8 +128,8 @@ namespace Startcenter
                 }
                 bool component = (file.Extension.ToLower() == ".component");
                 string title = null;
-                Inline summary1 = null;
-                Inline summary2 = null;
+                Span summary1 = new Span();
+                Span summary2 = new Span();
                 string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                 string iconFile = null;
                 Dictionary<string, List<string>> internationalizedKeywords = new Dictionary<string, List<string>>();
@@ -143,20 +143,20 @@ namespace Startcenter
                             title = titleElement.Value;
 
                         var summaryElement = Helper.GetGlobalizedElementFromXML(xml, "summary");
+                        var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
                         if (summaryElement != null)
                         {
-                            summary1 = Helper.ConvertFormattedXElement(summaryElement);
-                            summary2 = Helper.ConvertFormattedXElement(summaryElement);
+                            summary1.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));
+                            summary2.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));  
                         }
-                        else
+                        if (descriptionElement != null && descriptionElement.Value.Length > 1) 
                         {
-                            //backup: use description if summary is not available
-                            var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
-                            if (descriptionElement != null)
-                            {
-                                summary1 = Helper.ConvertFormattedXElement(descriptionElement);
-                                summary2 = Helper.ConvertFormattedXElement(descriptionElement);
-                            }
+                            summary1.Inlines.Add(new LineBreak());
+                            summary1.Inlines.Add(new LineBreak());
+                            summary1.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));
+                            summary2.Inlines.Add(new LineBreak());
+                            summary2.Inlines.Add(new LineBreak());
+                            summary2.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));  
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
@@ -197,11 +197,11 @@ namespace Startcenter
                     title = component ? file.Name : Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
                 }
 
-                if (summary1 == null)
+                if (summary1.Inlines.Count == 0)
                 {
                     string desc = component ? Properties.Resources.This_is_a_standalone_component_ : Properties.Resources.This_is_a_WorkspaceManager_file_;
-                    summary1 = new Run(desc);
-                    summary2 = new Run(desc);
+                    summary1.Inlines.Add(new Run(desc));
+                    summary2.Inlines.Add(new Run(desc));
                 }
 
                 if (iconFile == null || !File.Exists(iconFile))

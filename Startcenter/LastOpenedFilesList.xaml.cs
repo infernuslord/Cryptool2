@@ -65,7 +65,7 @@ namespace Startcenter
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
                     string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                     string iconFile = null;
-                    Inline description = null;
+                    Span description = new Span();
                     string title = null;
 
                     if (File.Exists(xmlFile))
@@ -77,10 +77,18 @@ namespace Startcenter
                             if (titleElement != null)
                                 title = titleElement.Value;
 
+                            var summaryElement = Helper.GetGlobalizedElementFromXML(xml, "summary");
                             var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
-                            if (descriptionElement != null)
+                            if (summaryElement != null)
                             {
-                                description = Helper.ConvertFormattedXElement(descriptionElement);
+                                description.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));
+ 
+                            }
+                            if (descriptionElement != null && descriptionElement.Value.Length > 1)
+                            {
+                                description.Inlines.Add(new LineBreak());
+                                description.Inlines.Add(new LineBreak());
+                                description.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));
                             }
 
                             if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
@@ -96,14 +104,14 @@ namespace Startcenter
                     {
                         title = Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
                     }
-                    if (description == null)
+                    if (description.Inlines.Count == 0)
                     {
                         string desc;
                         if (cte)
                             desc = Properties.Resources.This_is_an_AnotherEditor_file_;
                         else
                             desc = Properties.Resources.This_is_a_WorkspaceManager_file_;
-                        description = new Run(desc);
+                        description.Inlines.Add(new Run(desc));
                     }
 
                     if (iconFile == null || !File.Exists(iconFile))
