@@ -459,7 +459,6 @@ namespace Transposition
                         if (31 < Convert.ToInt64(input[i]) && Convert.ToInt64(input[i]) != 127)
                         {
                             txt.Text = Convert.ToChar(input[i]).ToString();
-
                         }
                         else
                         {

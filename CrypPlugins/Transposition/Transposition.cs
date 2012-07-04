@@ -23,7 +23,7 @@ namespace Transposition
         # region Private variables
 
         private String keyword = "";
-        private byte[] input;
+        private ICryptoolStream input;
         private byte[] output;
         private TranspositionSettings settings;
         private TranspositionPresentation myPresentation;
@@ -116,7 +116,7 @@ namespace Transposition
         # region Properties
 
         [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false)]
-        public Byte[] Input
+        public ICryptoolStream Input 
         {
             get
             {
@@ -128,6 +128,48 @@ namespace Transposition
                 this.input = value;
                 OnPropertyChange("Input");
             }
+        }
+
+        public Byte[] InputToBytes
+        {
+            get
+            {
+                byte[] streamData = null;
+                
+                streamData = ICryptoolStreamToByteArray((ICryptoolStream)Input);
+                switch (settings.Number)
+                {
+                    case 0: String s = System.Text.Encoding.UTF8.GetString(streamData);
+
+                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                        return enc.GetBytes(s);
+                        break;
+                    case 1:
+                        return streamData;
+                        break;
+                    default:
+                        return null;
+                }
+                
+
+                
+
+            }
+            
+        }
+
+        private byte[] CStreamReaderToByteArray(CStreamReader stream)
+        {
+            stream.WaitEof();
+            byte[] buffer = new byte[stream.Length];
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
+            stream.ReadFully(buffer);
+            return buffer;
+        }
+
+        private byte[] ICryptoolStreamToByteArray(ICryptoolStream stream)
+        {
+            return CStreamReaderToByteArray(stream.CreateReader());
         }
 
         [PropertyInfo(Direction.InputData, "KeywordCaption", "KeywordTooltip", false)]
@@ -181,6 +223,8 @@ namespace Transposition
         private bool running = false;
         private bool stopped = false;
 
+        
+
         public void Execute()
         {
             
@@ -207,7 +251,7 @@ namespace Transposition
                     Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
                     Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
-                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed    );
+                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, InputToBytes, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
                    }
                    , null);
 
@@ -285,10 +329,10 @@ namespace Transposition
                 switch (settings.Action)
                 {
                     case 0:
-                        output = encrypt(input, key);
+                        output = encrypt(InputToBytes, key);
                         break;
                     case 1:
-                        output = decrypt(input, key);
+                        output = decrypt(InputToBytes, key);
                         break;
                     default:
                         break;
@@ -1120,9 +1164,9 @@ namespace Transposition
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
-            if (plugin.Input != ciphertext)
+            if (plugin.InputToBytes != ciphertext)
             {
-                plugin.Input = ciphertext;
+                //plugin.InputToBytes = ciphertext;
             }
 
             int[] k = new int[key.Length];
@@ -1132,7 +1176,7 @@ namespace Transposition
             }
 
             //plugin.Transposition_LogMessage("hier decrypt von control: " + k[0] + " / " +plugin.Input[0], NotificationLevel.Debug);
-            return plugin.decrypt(plugin.Input, k);
+            return plugin.decrypt(plugin.InputToBytes, k);
         }
 
         public void onStatusChanged()
