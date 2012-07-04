@@ -75,11 +75,13 @@
     <Compile Include="DataMap.cs" />
     <Compile Include="DynamicFileByteProvider.cs" />
     <Compile Include="FileDataBlock.cs" />
+    <Compile Include="HexText.cs" />
     <Compile Include="IByteProvider.cs" />
     <Compile Include="MemoryDataBlock.cs" />
     <Compile Include="HexBox.xaml.cs">
       <DependentUpon>HexBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StretchText.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

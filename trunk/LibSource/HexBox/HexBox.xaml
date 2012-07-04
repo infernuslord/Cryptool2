@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="360" d:DesignWidth="810" >
-    
 
-    <Grid>
+    
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -88,7 +88,7 @@
                 </Grid>
                 <Canvas Name="canvas1"  Width="320" Background="Transparent">
 
-                    <Rectangle Name="cursor" Width="10" Height="20" Fill="GreenYellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
+                    <Rectangle Name="cursor" Width="10" Height="20" Fill="Yellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
                         <Rectangle.CommandBindings>
                             <CommandBinding Command="Help" Executed="HelpExecuted" />
                         </Rectangle.CommandBindings>
@@ -182,7 +182,7 @@
                 </Canvas>
                 <Canvas  Width="100"/>
 
-                <Canvas Name="canvas2"  Width="220" Background="Transparent">
+                <Canvas Name="canvas2"  Width="160" Background="Transparent">
 
                     <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
                         <Rectangle.Style>
@@ -305,4 +305,5 @@
         </StackPanel>
         
     </Grid>
+    
 </UserControl>
