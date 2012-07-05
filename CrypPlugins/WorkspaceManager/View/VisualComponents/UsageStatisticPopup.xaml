@@ -97,14 +97,8 @@
             <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
         </Border.Effect>
         <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2" HorizontalAlignment="Stretch">
-            <!--<Grid HorizontalAlignment="Center">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock TextAlignment="Center" FontWeight="Bold" FontSize="12" Foreground="#555" Text="Most Used" TextTrimming="CharacterEllipsis"></TextBlock>
-                        <TextBlock TextAlignment="Center" FontSize="11" Text="Test" TextTrimming="CharacterEllipsis"></TextBlock>
-                    </StackPanel>
-                </Grid>-->
             <ListView x:Name="TopUsages" Grid.Row="0" ItemsSource="{Binding Path=Suggestions}" 
-                          Style="{StaticResource ResourceKey=ComponentListStyle}" 
+                          Style="{StaticResource ResourceKey=ComponentListStyle}"
                           SelectionMode="Single">
 
             </ListView>

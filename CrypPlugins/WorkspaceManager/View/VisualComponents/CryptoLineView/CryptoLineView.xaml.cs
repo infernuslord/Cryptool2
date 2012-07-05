@@ -111,7 +111,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool),
-            typeof(CryptoLineView), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnIsSelectedChanged)));
+            typeof(CryptoLineView), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsSelectedChanged)));
 
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -119,7 +119,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             CryptoLineView l = (CryptoLineView)d;
             if(l.IsSelectedChanged != null)
                 l.IsSelectedChanged.Invoke(l, null);
-            
         }
         public bool IsSelected
         {
@@ -146,10 +145,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                                                                    source.Model.GetName(),
                                                                    target.Model.PluginModel.PluginType,
                                                                    target.Model.GetName());
-            ComponentConnectionStatistics.IncrementConnectionUsage(target.Model.PluginModel.PluginType,
-                                                                   target.Model.GetName(),
-                                                                   source.Model.PluginModel.PluginType,
-                                                                   source.Model.GetName());
 
             Editor = (EditorVisual)model.WorkspaceModel.MyEditor.Presentation;
             InitializeComponent();
@@ -315,7 +310,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private Brush ActiveColorBrush;
         private Brush NonActiveColorBrush;
-        internal bool isSubstituteLine = false; 
+        internal bool isSubstituteLine = false;
+        internal bool loaded = false;
 	    #endregion
         #region Properties
         private ConnectorVisual endPointSource;
@@ -362,9 +358,17 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     PointList.Clear();
                     for (int i = 0; i <= model.PointList.Count() - 2; i++)
                     {
-                        PointList.Add(new FromTo(model.PointList[i], model.PointList[i + 1]));
+                        var from = model.PointList[i];
+                        var to = model.PointList[i + 1];
+
+                        if (i == model.PointList.Count() - 2)
+                            PointList.Add(new FromTo(from, to, FromToMeta.HasEndpoint));
+                        else if (i == 0)
+                            PointList.Add(new FromTo(from, to, FromToMeta.HasStartPoint));
+                        else
+                            PointList.Add(new FromTo(from, to));
                     }
-                    HasComputed = true;
+                    loaded = true;
                 }
             }
         }
@@ -388,6 +392,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         private static void OnIsPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             InternalCryptoLineView l = (InternalCryptoLineView)d;
+
             l.HasComputed = false;
             l.InvalidateVisual();
             if(l.helper != null)
@@ -436,6 +441,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InternalCryptoLineView l = (InternalCryptoLineView)d;
             l.HasComputed = false;
             l.IsEditingPoint = false;
+            l.loaded = false;
             if (l.IsDragged == false)
             {
                 l.InvalidateVisual();
@@ -446,7 +452,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         internal void Save()
         {
-            if (model == null || PointList.Count > 0)
+            if (model == null || !(PointList.Count > 0))
                 return;
 
             Model.PointList = new List<Point>();
@@ -463,7 +469,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (l.model == null)
                 return;
 
-            if (l.HasComputed == true && l.PointList.Count > 0)
+            if (l.HasComputed == true)
             {
                 l.Save();
             }
@@ -629,7 +635,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             bool failed = false;
             if (!IsEditingPoint)
             {
-                if (!isSubstituteLine && !IsDragged && !HasComputed)
+                if (!isSubstituteLine && !IsDragged && !HasComputed && !loaded)
                 {
                     List<Node> nodeList = new List<Node>();
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
@@ -829,13 +835,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         }
 
         #endregion
-
-        private bool once = false;
-        internal void InvalidateOnce()
-        {
-            once = true;
-            InvalidateVisual();
-        }
     }
 
     #region Custom Class

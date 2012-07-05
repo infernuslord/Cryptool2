@@ -194,6 +194,14 @@ namespace WorkspaceManager.View.VisualComponents
             }
             this.IsOpen = false;
         }
+
+        private void TopUsages_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //var f = (FrameworkElement)e.OriginalSource;
+            //var element = (FrameworkElement)Util.TryFindParent<Thumb>(f);
+            //if (element != null)
+            //    StaysOpen = true;
+        }
     }
 
     public class SuggestionContainer
