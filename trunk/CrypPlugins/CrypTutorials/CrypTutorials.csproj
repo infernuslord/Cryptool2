@@ -60,7 +60,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="YouTubeInfo.cs" />
+    <Compile Include="VideoPlayer.xaml.cs">
+      <DependentUpon>VideoPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VideoInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrypTutorialsPresentation.xaml.cs">
@@ -96,6 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="CrypTutorialsPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VideoPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -223,5 +223,11 @@ namespace Cryptool.CrypTutorials
         {
             
         }
+
+
+        public void ShowSelectedEntityHelp()
+        {
+            
+        }
     }
 }
