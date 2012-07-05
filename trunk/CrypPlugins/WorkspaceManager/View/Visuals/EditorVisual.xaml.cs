@@ -108,6 +108,7 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
+        private bool callback  = true;
         private DispatcherTimer timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(1000) };
         public VisualsHelper(WorkspaceModel model, EditorVisual editor)
         {
@@ -117,25 +118,27 @@ namespace WorkspaceManager.View.Visuals
             FromToTree = new QuadTreeLib.QuadTree<FakeNode>(rect);
             timer.Tick += delegate(object o, EventArgs args)
             {
-                if (editor.IsExecuting || !editor.IsVisible)
-                    return;
+                callback = false;
+                
+                var op = editor.Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
+                    {
+                        var filter = Visuals.OfType<CryptoLineView>();
 
-                var filter = Visuals.OfType<CryptoLineView>();
+                        foreach (var element in filter)
+                            element.Line.ClearIntersect();
 
-                foreach (var element in filter)
-                {
-                    element.Line.ClearIntersect();
-                }
+                        foreach (var element in filter)
+                            element.Line.DrawDecoration();
 
-                foreach (var element in filter)
-                {
-                    element.Line.DrawDecoration();
-                }
+                        foreach (var element in filter)
+                            element.Line.InvalidateVisual();
 
-                foreach (var element in filter)
-                {
-                    element.Line.InvalidateVisual();
-                }
+                    },null);
+
+                op.Completed += delegate
+                    {
+                        callback = true;
+                    };
 
                 timer.Stop();
             };
@@ -148,7 +151,7 @@ namespace WorkspaceManager.View.Visuals
 
         internal void DrawDecoration()
         {
-            if(!timer.IsEnabled)
+            if(!timer.IsEnabled && callback)
                 timer.Start();
         }
 
@@ -785,7 +788,12 @@ namespace WorkspaceManager.View.Visuals
             if (!isPaste)
             {
                 Model = model;
-                return internalLoad(model);
+                var op = internalLoad(model);
+                op.Completed += delegate
+                {
+                    IsLoading = false;
+                };
+                return op;
             }
             else
             {
@@ -985,8 +993,6 @@ namespace WorkspaceManager.View.Visuals
                         MyEditor.GuiLogMessage(string.Format("Could not load Text to Workspace: {0}", e.Message), NotificationLevel.Error);
                     }
                 }
-
-                IsLoading = false;
             }
             , null);
         }
