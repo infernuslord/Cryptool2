@@ -81,7 +81,7 @@
       <AdditionalOptions>/STACK:2097152 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ProjectDir)win\zlib1.dll $(ProjectDir)..\..\..\CrypBuild\Debug\CrypPlugins\Data\SATSolver</Command>
+      <Command>copy "$(ProjectDir)win\zlib1.dll" "$(ProjectDir)..\..\..\CrypBuild\Debug\CrypPlugins\Data\SATSolver"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|Win32'">
