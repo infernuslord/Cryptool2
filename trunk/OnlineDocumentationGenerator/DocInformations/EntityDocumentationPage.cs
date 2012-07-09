@@ -12,7 +12,9 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         public abstract string Name { get; }
         public abstract string DocDirPath { get; }
-        
+
+        public Reference.ReferenceList References { get; protected set; }
+
         public List<string> AvailableLanguages
         {
             get { return Localizations.Keys.ToList(); }
@@ -30,7 +32,7 @@ namespace OnlineDocumentationGenerator.DocInformations
                 return Localizations["en"];
             }
         }
-
+        
         protected EntityDocumentationPage()
         {
             Localizations = new Dictionary<string, LocalizedEntityDocumentationPage>();

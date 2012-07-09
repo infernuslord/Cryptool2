@@ -260,7 +260,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             {
                                 if (entityDocumentationPage is PluginDocumentationPage)
                                 {
-                                    var htmlLinkToRef = ((PluginDocumentationPage)entityDocumentationPage).References.GetHTMLinkToRef(idAtt.Value);
+                                    var htmlLinkToRef = entityDocumentationPage.References.GetHTMLinkToRef(idAtt.Value);
                                     if (htmlLinkToRef != null)
                                     {
                                         result.Append(htmlLinkToRef);

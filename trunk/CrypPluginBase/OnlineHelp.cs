@@ -13,6 +13,7 @@ namespace Cryptool.PluginBase
         public static readonly string RelativeComponentDocDirectory = "ComponentsDocs";
         public static readonly string ComponentDocDirectory = Path.Combine(HelpDirectory, RelativeComponentDocDirectory);
         public static readonly string RelativeTemplateDocDirectory = "Templates";
+        public static readonly string RelativeCommonDocDirectory = "Common";
 
         public struct TemplateType
         {
@@ -62,5 +63,10 @@ namespace Cryptool.PluginBase
             return string.Format("templates_{0}.html", lang);
         }
         
+        public static string GetCommonDocFilename(string name, string lang)
+        {
+            var file = string.Format("{0}_{1}.html", name, lang);
+            return Path.Combine(RelativeCommonDocDirectory, file);
+        }
     }
 }

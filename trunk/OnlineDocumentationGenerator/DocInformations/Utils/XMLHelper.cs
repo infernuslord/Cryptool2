@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
+using OnlineDocumentationGenerator.Reference;
 
 namespace OnlineDocumentationGenerator.DocInformations.Utils
 {
@@ -40,6 +41,36 @@ namespace OnlineDocumentationGenerator.DocInformations.Utils
             }
 
             return foundElements.First();
+        }
+
+        public static ReferenceList ReadReferences(XElement xml)
+        {
+            if (xml.Element("references") != null)
+            {
+                var references = new ReferenceList();
+
+                foreach (var refs in xml.Element("references").Elements())
+                {
+                    switch (refs.Name.ToString())
+                    {
+                        case "linkReference":
+                            references.Add(new LinkReference(refs));
+                            break;
+                        case "bookReference":
+                            references.Add(new BookReference(refs));
+                            break;
+                    }
+                }
+
+                return references;
+            }
+            return null;
+        }
+
+        public static IEnumerable<string> GetAvailableLanguagesFromXML(IEnumerable<string> xml)
+        {
+            var langs = xml;
+            return langs.Select(lang => new CultureInfo(lang)).Select(cult => cult.TwoLetterISOLanguageName);
         }
     }
 }
