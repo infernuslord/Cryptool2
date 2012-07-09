@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Localization;
+using OnlineDocumentationGenerator.DocInformations.Utils;
+using OnlineDocumentationGenerator.Reference;
 
 namespace OnlineDocumentationGenerator.DocInformations
 {
@@ -21,7 +23,6 @@ namespace OnlineDocumentationGenerator.DocInformations
         public string AuthorEmail { get; protected set; }
         public TaskPaneAttribute[] Settings { get; protected set; }
         public ComponentCategory Category { get; protected set; }
-        public Reference.ReferenceList References { get; protected set; }
 
         public override string Name
         {
@@ -66,14 +67,14 @@ namespace OnlineDocumentationGenerator.DocInformations
             }
             else
             {
-                foreach (var lang in GetAvailableLanguagesFromXML())
+                foreach (var lang in XMLHelper.GetAvailableLanguagesFromXML(_xml.Elements("language").Select(langElement => langElement.Attribute("culture").Value)))
                 {
                     Localizations.Add(lang, CreateLocalizedEntityDocumentationPage(this, pluginType, _xml, lang, image as BitmapFrame));
                 }
                 if (!Localizations.ContainsKey("en"))
                     throw new Exception("Documentation should at least support english language!");
 
-                ReadReferences();
+                References = XMLHelper.ReadReferences(_xml);
             }
         }
 
@@ -99,33 +100,6 @@ namespace OnlineDocumentationGenerator.DocInformations
         }
 
         public string AuthorName { get; protected set; }
-
-        protected void ReadReferences()
-        {
-            if (_xml.Element("references") != null)
-            {
-                References = new Reference.ReferenceList();
-
-                foreach (var refs in _xml.Element("references").Elements())
-                {
-                    switch (refs.Name.ToString())
-                    {
-                        case "linkReference":
-                            References.Add(new Reference.LinkReference(refs));
-                            break;
-                        case "bookReference":
-                            References.Add(new Reference.BookReference(refs));
-                            break;
-                    }
-                }
-            }
-        }
-
-        protected IEnumerable<string> GetAvailableLanguagesFromXML()
-        {
-            var langs = _xml.Elements("language").Select(langElement => langElement.Attribute("culture").Value);
-            return langs.Select(lang => new CultureInfo(lang)).Select(cult => cult.TwoLetterISOLanguageName);
-        }
 
         protected static XElement GetXML(Type type)
         {

@@ -13,11 +13,6 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
 
         public new PluginDocumentationPage DocumentationPage { get { return base.DocumentationPage as PluginDocumentationPage; }}
 
-        public Reference.ReferenceList References
-        {
-            get { return DocumentationPage.References; }
-        }
-
         public override string FilePath
         {
             get { return OnlineHelp.GetDocFilename(PluginType, Lang); }

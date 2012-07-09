@@ -383,6 +383,26 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
+        ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;
+        ///		&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
+        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TemplateCommonDocumentationPage {
+            get {
+                return ResourceManager.GetString("TemplateCommonDocumentationPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;
         ///		&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
@@ -480,6 +500,31 @@ namespace OnlineDocumentationGenerator.Properties {
         public static string TemplateTemplatesPage {
             get {
                 return ResourceManager.GetString("TemplateTemplatesPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;documentation&gt;
+        ///  &lt;language culture=&quot;en&quot; /&gt;
+        ///  &lt;language culture=&quot;de-DE&quot; /&gt;
+        ///
+        ///  &lt;name lang=&quot;de-DE&quot;&gt;Test Seite&lt;/name&gt;
+        ///  &lt;name lang=&quot;en&quot;&gt;Test site&lt;/name&gt;
+        ///  
+        ///  &lt;description lang=&quot;en&quot;&gt;
+        ///    test
+        ///  &lt;/description&gt;
+        ///
+        ///  &lt;references&gt;
+        ///    &lt;linkReference id=&quot;wikipedia&quot;&gt;
+        ///      &lt;link url=&quot;http://en.wikipedia.org/wiki/Advanced_Encryption_Standard&quot; lang=&quot;en&quot; /&gt;
+        ///      &lt;caption lang=&quot;en&quot;&gt;AES (Wikipedia)&lt;/caption&gt;
+        ///	    &lt;link url=&quot;http://de.wikipedia.org/wiki/Advanced_Encrypt [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string test1 {
+            get {
+                return ResourceManager.GetString("test1", resourceCulture);
             }
         }
         

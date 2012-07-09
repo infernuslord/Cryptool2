@@ -23,6 +23,7 @@ namespace OnlineDocumentationGenerator
     public class DocGenerator
     {
         public static string TemplateDirectory = "Templates";
+        public static string CommonDirectory = "Common";
         public static Dictionary<string, List<TemplateDocumentationPage>> RelevantComponentToTemplatesMap = new Dictionary<string, List<TemplateDocumentationPage>>();
         
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -117,6 +118,7 @@ namespace OnlineDocumentationGenerator
 
             var templatesDir = ReadTemplates(outputDir, "", generator);
             ReadPlugins(generator);
+            ReadCommonDocPages(generator);
 
             try
             {
@@ -150,6 +152,18 @@ namespace OnlineDocumentationGenerator
                                       NotificationLevel.Error);
                     }
                 }
+            }
+        }
+
+        private void ReadCommonDocPages(HtmlGenerator generator)
+        {
+            try
+            {
+                generator.AddDocumentationPage(new CommonDocumentationPage(XElement.Parse(Properties.Resources.test1)));
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error while trying to read common doc page: {0}", ex.Message), NotificationLevel.Error);
             }
         }
 

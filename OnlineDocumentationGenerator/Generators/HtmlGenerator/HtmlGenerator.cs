@@ -265,6 +265,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 return Properties.Resources.TemplateTemplateDocumentationPage;
             }
+            if (entityDocPage is CommonDocumentationPage)
+            {
+                return Properties.Resources.TemplateCommonDocumentationPage;
+            }
             throw new Exception(string.Format("Unknown documentation page type {0}!", entityDocPage.GetType()));
         }
 

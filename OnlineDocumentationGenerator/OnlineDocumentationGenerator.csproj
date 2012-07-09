@@ -61,8 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocGenerator.cs" />
+    <Compile Include="DocInformations\CommonDocumentationPage.cs" />
     <Compile Include="DocInformations\EditorDocumentationPage.cs" />
     <Compile Include="DocInformations\EntityDocumentationPage.cs" />
+    <Compile Include="DocInformations\Localization\LocalizedCommonDocumentationPage.cs" />
     <Compile Include="DocInformations\Localization\LocalizedEntityDocumentationPage.cs" />
     <Compile Include="DocInformations\Localization\LocalizedTemplateDocumentationPage.cs" />
     <Compile Include="DocInformations\PluginDocumentationPage.cs" />
@@ -111,6 +113,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="StaticDocs\test1.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="Generators\HtmlGenerator\doc.css" />
     <Content Include="Generators\HtmlGenerator\AdditionalResources.xml">
       <SubType>Designer</SubType>
@@ -130,6 +135,7 @@
     <Resource Include="Generators\HtmlGenerator\print.css" />
     <Resource Include="Generators\HtmlGenerator\components.png" />
     <Resource Include="Generators\HtmlGenerator\templates.png" />
+    <Content Include="Generators\HtmlGenerator\TemplateCommonDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateTemplateDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateTemplatesPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateEditorDocumentationPage.html" />
