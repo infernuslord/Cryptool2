@@ -127,7 +127,7 @@
     <value>Texteingabe</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
-    <value>Geben sie den zu verarbeitenden Text ein.</value>
+    <value>Geben Sie den zu verarbeitenden Text ein.</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
     <value>Passwort-Eingabe</value>
@@ -186,14 +186,14 @@
     <value>Karten</value>
   </data>
   <data name="NumberOfCardsTooltip" xml:space="preserve">
-    <value>Geben Sie die Anzahl der zu verwendeten Karten an.
+    <value>Geben Sie die Anzahl der zu verwendenden Karten an.
 Die Grundeinstellung ist 54 Karten (52 normale Karten und 2 Joker). Dies ist die maximale Anzahl. Es müssen mindestens 3 Karten verwendet werden (1 normale Karte und 2 Joker).</value>
   </data>
   <data name="StreamTypeCaption" xml:space="preserve">
     <value>Schlüsselstrom-Erzeugung</value>
   </data>
   <data name="StreamTypeTooltip" xml:space="preserve">
-    <value>Wählen sie die Art der Schlüsselstrom-Erzeugung:
+    <value>Wählen Sie die Art der Schlüsselstrom-Erzeugung:
 - Automatisch: der Schlüsselstrom wird automatisch erzeugt und das Ergebnis wird angezeigt.
 - Manuell: Darstellung der 5 Einzelschritte. Die veränderten Karten werden fett angezeigt.</value>
   </data>

@@ -133,13 +133,13 @@
     <value>Klartext-Wörterbuch</value>
   </data>
   <data name="WordDictionaryTooltip" xml:space="preserve">
-    <value>Geben sie das zu verwendende Wörterbuch für die Klartextsuche an.</value>
+    <value>Geben Sie das zu verwendende Wörterbuch für die Klartextsuche an.</value>
   </data>
   <data name="PassDictionaryCaption" xml:space="preserve">
     <value>Passwort-Wörterbuch</value>
   </data>
   <data name="PassDictionaryTooltip" xml:space="preserve">
-    <value>Geben sie das für die Brute-Force-Suche zu verwendende Wörterbuch an.</value>
+    <value>Geben Sie das für die Brute-Force-Suche zu verwendende Wörterbuch an.</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Klartext</value>
