@@ -44,7 +44,7 @@ namespace Solitaire
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
         [PropertySaveOrder(0)]
-        [TaskPane( "ActionTypeCaption", "ActionTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("ActionTypeCaption", "ActionTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionTypeList1", "ActionTypeList2" })]
         public int ActionType
         {
             get
@@ -80,7 +80,7 @@ namespace Solitaire
         }
 
         [PropertySaveOrder(2)]
-        [TaskPane( "GenerationTypeCaption", "GenerationTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Ascending", "Descending", "Given State", "Password", "Random" })]
+        [TaskPane("GenerationTypeCaption", "GenerationTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "GenerationTypeList1", "GenerationTypeList2", "GenerationTypeList3", "GenerationTypeList4", "GenerationTypeList5" })]
         public int GenerationType
         {
             get
@@ -98,7 +98,7 @@ namespace Solitaire
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane( "StreamTypeCaption", "StreamTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Automatic", "Manual" })]
+        [TaskPane("StreamTypeCaption", "StreamTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "StreamTypeList1", "StreamTypeList2" })]
         public int StreamType
         {
             get

@@ -137,7 +137,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="solbreak.jpg" />
+    <Resource Include="solitaireanalyser.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml">
