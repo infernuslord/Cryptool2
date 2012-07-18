@@ -19,19 +19,28 @@ namespace Solitaire
     /// <summary>
     /// Interaktionslogik für SolitaireQuickWatchPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Solitaire.Properties.Resources")]
     public partial class SolitaireQuickWatchPresentation : System.Windows.Controls.UserControl
     {
         private Boolean enabled = false;
         private Solitaire plugin;
         private int numberOfCards, i, j;
-        private enum CipherMode { encrypt, decrypt };
-        private CipherMode mode;
+        //private enum CipherMode { encrypt, decrypt };
+        //private CipherMode mode;
+        private Solitaire.CipherMode mode;
         private System.Windows.Controls.RichTextBox rtb;
         private int[] oldDeck, newDeck;
         private System.Drawing.Font textFont;
         private System.Drawing.Font symbolFont;
         private Color black = System.Windows.Media.Color.FromRgb((byte)0, (byte)0, (byte)0);
         private Color red = System.Windows.Media.Color.FromRgb((byte)255, (byte)0, (byte)0);
+
+        private const char SPADE = '\u2660';
+        private const char HEART = '\u2665';
+        private const char DIAMOND = '\u2666';
+        private const char CLUB = '\u2663';
+        private char[] SUITS = new char[] { CLUB, DIAMOND, HEART, SPADE };
+        private string[] RANKS = new string[] { "A","2","3","4","5","6","7","8","9","10","J","Q","K" };
 
         public SolitaireQuickWatchPresentation(Solitaire plugin)
         {
@@ -41,21 +50,14 @@ namespace Solitaire
             
             //this.SizeChanged += new EventHandler(this.resetFontSize);
             this.rtb = richBox;
-            textFont = new System.Drawing.Font(
-                "Arial",
-                9F               
-            );
+            textFont = new System.Drawing.Font( "Arial", 9F );
             //rtb.Font = textFont;
-            symbolFont = new System.Drawing.Font(
-                "Arial",
-                11F
-            );
+            symbolFont = new System.Drawing.Font( "Arial", 11F );
         }
 
         public void enable(int numberOfCards, int mode)
         {
-            if (mode == 0) this.mode = CipherMode.encrypt;
-            else this.mode = CipherMode.decrypt;
+            this.mode = (mode == 0) ? Solitaire.CipherMode.encrypt : Solitaire.CipherMode.decrypt;
             this.numberOfCards = numberOfCards;
             enabled = true;
         }
@@ -86,105 +88,19 @@ namespace Solitaire
             string symbolDeck = "";
             for (int i = 0; i < tempDeck.Length; i++)
             {
-                if (tempDeck[i] <= numberOfCards - 2)
-                {
-                    if (tempDeck[i] <= 9) symbolDeck = symbolDeck + "\u2660" + (tempDeck[i] + 1);
-                    else if (tempDeck[i] == 10) symbolDeck = symbolDeck + "\u2660" + "J";
-                    else if (tempDeck[i] == 11) symbolDeck = symbolDeck + "\u2660" + "Q";
-                    else if (tempDeck[i] == 12) symbolDeck = symbolDeck + "\u2660" + "K";
-                    else if (tempDeck[i] == 13) symbolDeck = symbolDeck + "\u2660" + "A";
-
-                    else if (tempDeck[i] > 13 && tempDeck[i] <= 22) symbolDeck = symbolDeck + "\u2665" + (tempDeck[i] - 12);
-                    else if (tempDeck[i] == 23) symbolDeck = symbolDeck + "\u2665" + "J";
-                    else if (tempDeck[i] == 24) symbolDeck = symbolDeck + "\u2665" + "Q";
-                    else if (tempDeck[i] == 25) symbolDeck = symbolDeck + "\u2665" + "K";
-                    else if (tempDeck[i] == 26) symbolDeck = symbolDeck + "\u2665" + "A";
-
-                    else if (tempDeck[i] > 26 && tempDeck[i] <= 35) symbolDeck = symbolDeck + "\u2666" + (tempDeck[i] - 25);
-                    else if (tempDeck[i] == 36) symbolDeck = symbolDeck + "\u2666" + "J";
-                    else if (tempDeck[i] == 37) symbolDeck = symbolDeck + "\u2666" + "Q";
-                    else if (tempDeck[i] == 38) symbolDeck = symbolDeck + "\u2666" + "K";
-                    else if (tempDeck[i] == 39) symbolDeck = symbolDeck + "\u2666" + "A";
-
-                    else if (tempDeck[i] > 39 && tempDeck[i] <= 48) symbolDeck = symbolDeck + "\u2663" + (tempDeck[i] - 38);
-                    else if (tempDeck[i] == 49) symbolDeck = symbolDeck + "\u2663" + "J";
-                    else if (tempDeck[i] == 50) symbolDeck = symbolDeck + "\u2663" + "Q";
-                    else if (tempDeck[i] == 51) symbolDeck = symbolDeck + "\u2663" + "K";
-                    else if (tempDeck[i] == 52) symbolDeck = symbolDeck + "\u2663" + "A";
-                }
-                else
-                {
-                    if (tempDeck[i] == numberOfCards - 1) symbolDeck = symbolDeck + "A";
-                    else if (tempDeck[i] == numberOfCards) symbolDeck = symbolDeck + "B";
-                }
-
-                if (i != tempDeck.Length - 1) symbolDeck = symbolDeck + ",";
+                symbolDeck += convertCardNumberToSymbol(tempDeck[i]);
+                if (i != tempDeck.Length - 1) symbolDeck += ",";
             }
             return symbolDeck;
         }
 
-        private string convertCardNumberToSymbol(string card)
+        private string convertCardNumberToSymbol(int card)
         {
-            string symbol = card;
-            if (!(symbol.Equals(numberOfCards.ToString()) || symbol.Equals((numberOfCards - 1).ToString())))
-            {
-                switch (card)
-                {
-                    case "52": symbol = "\u2663" + "A"; break;
-                    case "51": symbol = "\u2663" + "K"; break;
-                    case "50": symbol = "\u2663" + "Q"; break;
-                    case "49": symbol = "\u2663" + "J"; break;
-                    case "48": symbol = "\u2663" + "10"; break;
-                    case "47": symbol = "\u2663" + "9"; break;
-                    case "46": symbol = "\u2663" + "8"; break;
-                    case "45": symbol = "\u2663" + "7"; break;
-                    case "44": symbol = "\u2663" + "6"; break;
-                    case "43": symbol = "\u2663" + "5"; break;
-                    case "42": symbol = "\u2663" + "4"; break;
-                    case "41": symbol = "\u2663" + "3"; break;
-                    case "40": symbol = "\u2663" + "2"; break;
-                    case "39": symbol = "\u2666" + "A"; break;
-                    case "38": symbol = "\u2666" + "K"; break;
-                    case "37": symbol = "\u2666" + "Q"; break;
-                    case "36": symbol = "\u2666" + "J"; break;
-                    case "35": symbol = "\u2666" + "10"; break;
-                    case "34": symbol = "\u2666" + "9"; break;
-                    case "33": symbol = "\u2666" + "8"; break;
-                    case "32": symbol = "\u2666" + "7"; break;
-                    case "31": symbol = "\u2666" + "6"; break;
-                    case "30": symbol = "\u2666" + "5"; break;
-                    case "29": symbol = "\u2666" + "4"; break;
-                    case "28": symbol = "\u2666" + "3"; break;
-                    case "27": symbol = "\u2666" + "2"; break;
-                    case "26": symbol = "\u2665" + "A"; break;
-                    case "25": symbol = "\u2665" + "K"; break;
-                    case "24": symbol = "\u2665" + "Q"; break;
-                    case "23": symbol = "\u2665" + "J"; break;
-                    case "22": symbol = "\u2665" + "10"; break;
-                    case "21": symbol = "\u2665" + "9"; break;
-                    case "20": symbol = "\u2665" + "8"; break;
-                    case "19": symbol = "\u2665" + "7"; break;
-                    case "18": symbol = "\u2665" + "6"; break;
-                    case "17": symbol = "\u2665" + "5"; break;
-                    case "16": symbol = "\u2665" + "4"; break;
-                    case "15": symbol = "\u2665" + "3"; break;
-                    case "14": symbol = "\u2665" + "2"; break;
-                    case "13": symbol = "\u2660" + "A"; break;
-                    case "12": symbol = "\u2660" + "K"; break;
-                    case "11": symbol = "\u2660" + "Q"; break;
-                    case "10": symbol = "\u2660" + "J"; break;
-                    case "9": symbol = "\u2660" + "10"; break;
-                    case "8": symbol = "\u2660" + "9"; break;
-                    case "7": symbol = "\u2660" + "8"; break;
-                    case "6": symbol = "\u2660" + "7"; break;
-                    case "5": symbol = "\u2660" + "6"; break;
-                    case "4": symbol = "\u2660" + "5"; break;
-                    case "3": symbol = "\u2660" + "4"; break;
-                    case "2": symbol = "\u2660" + "3"; break;
-                    case "1": symbol = "\u2660" + "2"; break;
-                }
-            }
-            return symbol;
+            if (card>=1 && card < numberOfCards - 1)
+                return SUITS[(card - 1) / 13]  + RANKS[(card - 1) % 13];
+            if (card == numberOfCards - 1) return "A";
+            if (card == numberOfCards) return "B";
+            return "?";
         }
 
         private void showDeck(string deck)
@@ -197,11 +113,11 @@ namespace Solitaire
             string text;
             for (int i = 0; i < numberOfCards; i++)
             {
-                text = convertCardNumberToSymbol((newDeck[i] == numberOfCards - 1) ? "A" : ((newDeck[i] == numberOfCards) ? "B" : newDeck[i].ToString()));
+                text = convertCardNumberToSymbol( newDeck[i] );
                 tp = rtb.Document.ContentEnd;
                 tr = new TextRange(tp, tp);
                 tr.Text = text.Substring(0, 1);
-                if (text.Contains("\u2666") || text.Contains("\u2665"))
+                if (text.Contains(DIAMOND) || text.Contains(HEART))
                 {
                     tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
                 }
@@ -313,42 +229,12 @@ namespace Solitaire
         {
             if (enabled)
             {
-                int curKey, curChar;
-                curKey = plugin.GetDeck()[0];
                 if (i < textBox2.Text.Length)
                 {
-                    curChar = ((int)textBox2.Text[i] - 64);
-                    while (i < textBox2.Text.Length & curChar == -32)
-                    {
-                        i++;
-                        curChar = ((int)textBox2.Text[i] - 64);
-                    }
+                    encrypt(i++);
 
-                    if (curKey == numberOfCards)
-                        curKey = plugin.GetDeck()[numberOfCards - 1];
-                    else
-                        curKey = plugin.GetDeck()[curKey];
-
-                    if (mode == CipherMode.encrypt)
-                        curChar = (curChar + curKey);
-                    else
-                    {
-                        if (curChar < curKey) curChar += 26;
-                        curChar = (curChar - curKey);
-                    }
-                    if (curKey < numberOfCards - 1)
-                    {
-                        if (curChar > 26) curChar %= 26;
-                        if (curChar < 1) curChar += 26;
-                        j++;
-                        textBox4.Text = textBox4.Text + (char)(curChar + 64);
-                        textBox3.Text = textBox3.Text + Convert.ToString(curKey);
-                        if (i != textBox2.Text.Length - 1) textBox3.Text = textBox3.Text + ",";
-                        if (j % 5 == 0) textBox4.Text = textBox4.Text + " ";
-                        i++;
-                        plugin.OutputString = textBox4.Text;
-                        plugin.OutputStream = textBox3.Text;
-                    }
+                    plugin.OutputString = textBox4.Text;
+                    plugin.OutputStream = textBox3.Text;
 
                     button2.IsEnabled = true;
                     button6.IsEnabled = false;
@@ -364,7 +250,6 @@ namespace Solitaire
 
         private void button7_Click(object sender, RoutedEventArgs e)
         {
-            int curKey, curChar;
             if (enabled)
             {
                 button2.IsEnabled = false;
@@ -373,52 +258,31 @@ namespace Solitaire
                 button5.IsEnabled = false;
                 button6.IsEnabled = false;
                 button7.IsEnabled = false;
+
                 for (; i < textBox2.Text.Length; i++)
                 {
-                    plugin.MoveCardDown(numberOfCards - 1, numberOfCards);
-                    plugin.MoveCardDown(numberOfCards, numberOfCards);
-                    plugin.MoveCardDown(numberOfCards, numberOfCards);
-                    plugin.TripleCut(numberOfCards);
-                    plugin.CountCut(numberOfCards);
-                    curKey = plugin.GetDeck()[0];
-                    curChar = ((int)textBox2.Text[i] - 64);
-                    while (i < textBox2.Text.Length & curChar == -32)
-                    {
-                        i++;
-                        curChar = ((int)textBox2.Text[i] - 64);
-                    }
-
-                    
-
-                    if (curKey == numberOfCards)
-                        curKey = plugin.GetDeck()[numberOfCards - 1];
-                    else
-                        curKey = plugin.GetDeck()[curKey];
-
-                    if (mode == CipherMode.encrypt)
-                        curChar = (curChar + curKey);
-                    else
-                    {
-                        if (curChar < curKey) curChar += 26;
-                        curChar = (curChar - curKey);
-                    }
-                    if (curKey < numberOfCards - 1)
-                    {
-                        if (curChar > 26) curChar %= 26;
-                        if (curChar < 1) curChar += 26;
-                        j++;
-                        textBox4.Text = textBox4.Text + (char)(curChar + 64);
-                        textBox3.Text = textBox3.Text + Convert.ToString(curKey);
-                        if (i != textBox2.Text.Length - 1) textBox3.Text = textBox3.Text + ",";
-                        if (j != 0 & j % 5 == 0) textBox4.Text = textBox4.Text + " ";
-                    }
-                    else i--;
+                    plugin.PushAndCut(numberOfCards);
+                    encrypt(i);
                 }
+
                 showDeck(plugin.GetDeck(numberOfCards));
                 plugin.FinalDeck = plugin.GetDeck(numberOfCards);
                 plugin.OutputStream = textBox3.Text;
                 plugin.OutputString = textBox4.Text;
             }
         }
+
+        private void encrypt(int i)
+        {
+            int curKey = plugin.GetKey(numberOfCards);
+            char curChar = plugin.EncryptChar(mode, textBox2.Text[i], curKey, numberOfCards);
+
+            textBox4.Text += curChar;
+            textBox3.Text += curKey;
+
+            if (i != textBox2.Text.Length - 1) textBox3.Text += ",";
+            if (i % 5 == 4) textBox4.Text += " ";
+        }
+
     }
 }

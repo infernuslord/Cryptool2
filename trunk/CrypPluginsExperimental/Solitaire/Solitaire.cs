@@ -31,7 +31,7 @@ namespace Solitaire
     public delegate void DelegateFunction();
 
     [Author("Coen Ramaekers", "cfwramaekers@gmail.com", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "Solitaire/DetailedDescription/doc.xml", "Solitaire/sol.jpg")]
+    [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "Solitaire/DetailedDescription/doc.xml", "Solitaire/solitaire.jpg")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Solitaire : ICrypComponent
     {
@@ -51,7 +51,7 @@ namespace Solitaire
         
         private int[] deck, newDeck;
 
-        private enum CipherMode { encrypt, decrypt };
+        internal enum CipherMode { encrypt, decrypt };
 
         #endregion
 
@@ -199,6 +199,8 @@ namespace Solitaire
 
         public void Execute()
         {
+            if (inputString == null) return;
+
             isPlayMode = true;
             if (settings.ActionType == 0)
             {
@@ -208,6 +210,7 @@ namespace Solitaire
             }
             else
             {
+                GuiLogMessage("Decrypting", NotificationLevel.Debug);
                 if (settings.StreamType == 0) SolitaireCipher(CipherMode.decrypt, true);
                 if (settings.StreamType == 1) SolitaireManual(1);
             }
@@ -262,135 +265,112 @@ namespace Solitaire
 
         #region Private Methods
 
+        private void generateDeck(int type)
+        {
+            switch (type)
+            {
+                case 0: //Ascending
+                    KeyTheDeckAsc(settings.NumberOfCards);
+                    break;
+
+                case 1: //Descending
+                    KeyTheDeckDesc(settings.NumberOfCards);
+                    break;
+
+                case 2: //Given state
+                    if (deckstate != null) KeyTheDeckSequence(deckstate);
+                    else GuiLogMessage("Given deckstate missing!", NotificationLevel.Error);
+                    break;
+
+                case 3: //Password
+                    if (password != null) KeyTheDeckPassword(password, settings.NumberOfCards);
+                    else GuiLogMessage("Password missing!", NotificationLevel.Error);
+                    break;
+
+                case 4: //Random
+                    KeyTheDeckRandom(settings.NumberOfCards);
+                    break;
+            }
+
+            numberOfCards = deck.Length;
+        }
+
         private void SolitaireManual(int mode)
         {
-            numberOfCards = settings.NumberOfCards;
-            if (inputString != null)
-            {
-                GuiLogMessage("Input: " + inputString, NotificationLevel.Debug);
-                switch (settings.GenerationType)
-                {
-                    case 0: //Ascending
-                        KeyTheDeckAsc(numberOfCards);
-                        break;
+            GuiLogMessage("Input: " + inputString, NotificationLevel.Debug);
+            generateDeck(settings.GenerationType);
 
-                    case 1: //Descending
-                        KeyTheDeckDesc(numberOfCards);
-                        break;
-
-                    case 2: //Given state
-                        if (deckstate != null) KeyTheDeckSequence(deckstate);
-                        else GuiLogMessage("Given deckstate missing!", NotificationLevel.Error);
-                        break;
-
-                    case 3: //Password
-                        if (password != null) KeyTheDeckPassword(password, numberOfCards);
-                        else GuiLogMessage("Password missing!", NotificationLevel.Error);
-                        break;
-
-                    case 4: //Random
-                        KeyTheDeckRandom(numberOfCards);
-                        break;
-                }
-            }
             if (deck != null)
             {
                 myPresentation.enable(numberOfCards, mode);
             }
         }
 
-        public void SolitaireCipher(int mode, bool seperator)
+        public void SolitaireCipher(int mode, bool separator)
         {
-            if (mode == 0) SolitaireCipher(CipherMode.encrypt, seperator);
-            else SolitaireCipher(CipherMode.decrypt, seperator);
+            if (mode == 0) SolitaireCipher(CipherMode.encrypt, separator);
+            else SolitaireCipher(CipherMode.decrypt, separator);
         }
 
-        private void SolitaireCipher(CipherMode mode, bool seperator)
+        private void SolitaireCipher(CipherMode mode, bool separator)
         {
             output.Clear();
             stream.Clear();
-            numberOfCards = settings.NumberOfCards;
 
+            FormatText(ref inputString);
+            generateDeck(settings.GenerationType);
 
-            if (inputString != null)
+            if (deck != null)
             {
-                FormatText(ref inputString);
-                switch (settings.GenerationType)
+                for (int i = 0; i < inputString.Length; i++)
                 {
-                    case 0: //Ascending
-                        KeyTheDeckAsc(numberOfCards);
-                        break;
+                    PushAndCut(numberOfCards);
+                    int curKey = GetKey(numberOfCards);
+                    char curChar = EncryptChar(mode, inputString[i], curKey, numberOfCards);
 
-                    case 1: //Descending
-                        KeyTheDeckDesc(numberOfCards);
-                        break;
+                    stream.Append(Convert.ToString(curKey));
+                    output.Append( curChar );
 
-                    case 2: //Given state
-                        if (deckstate != null) KeyTheDeckSequence(deckstate);
-                        else GuiLogMessage("Given deckstate missing!", NotificationLevel.Error);
-                        break;
+                    if (i != inputString.Length - 1) stream.Append(",");
+                    if (i % 5 == 4 & separator) output.Append(" ");
 
-                    case 3: //Password
-                        if (password != null) KeyTheDeckPassword(password, numberOfCards);
-                        else GuiLogMessage("Password missing!", NotificationLevel.Error);
-                        break;
-
-                    case 4: //Random
-                        KeyTheDeckRandom(numberOfCards);
-                        break;
+                    if (separator) ProgressChanged(i, inputString.Length - 1);
                 }
-
-                if (deck != null)
-                {
-                    numberOfCards = deck.Length;
-                    int curKey, curChar, j = 1;
-                    for (int i = 0; i < inputString.Length; i++)
-                    {
-                        PushAndCut(numberOfCards);
-                        curKey = deck[0];
-                        curChar = ((int)inputString[i] - 64);
-                        while (curChar == -32 & i < inputString.Length)
-                        {
-                            i++;
-                            curChar = ((int)inputString[i] - 64);
-                        }
-                        
-
-                        if (curKey == numberOfCards)
-                            curKey = deck[numberOfCards-1];
-                        else
-                            curKey = deck[curKey];
-
-                        if (mode == CipherMode.encrypt)
-                            curChar = (curChar + curKey);
-                        else
-                        {
-                            if (curChar < curKey) curChar += 26;
-                            curChar = (curChar - curKey);
-                        }
-                        if (curKey < numberOfCards - 1)
-                        {
-                            if (curChar > 26) curChar %= 26;
-                            if (curChar < 1) curChar += 26;
-                            output.Append((char)(curChar + 64));
-                            stream.Append(Convert.ToString(curKey));
-                            if (i != inputString.Length - 1) stream.Append(",");
-                            if (j % 5 == 0 & seperator) output.Append(" ");
-                            j++;
-                        }
-                        else i--;
-
-                        if (seperator) ProgressChanged(i, inputString.Length - 1);
-                    }
-                    outputString = output.ToString();
-                    outputStream = stream.ToString();
-                    finalDeck = GetDeck(numberOfCards);
-                    OnPropertyChanged("FinalDeck");
-                    OnPropertyChanged("OutputString");
-                    OnPropertyChanged("OutputStream");
-                    OnPropertyChanged("OutputData");
-                }
+                
+                outputString = output.ToString();
+                outputStream = stream.ToString();
+                finalDeck = GetDeck(numberOfCards);
+                OnPropertyChanged("FinalDeck");
+                OnPropertyChanged("OutputString");
+                OnPropertyChanged("OutputStream");
+                OnPropertyChanged("OutputData");
             }
+
+        }
+
+        int GetNextKey(int numberOfCards)
+        {
+            int key = deck[0];
+            if (key == numberOfCards) key--;
+            return deck[key];
+        }
+
+        internal int GetKey(int numberOfCards)
+        {
+            while (true)
+            {
+                int key = GetNextKey(numberOfCards);
+                if (key < numberOfCards - 1) return key;
+                PushAndCut(numberOfCards);
+            }
+        }
+
+        internal char EncryptChar(CipherMode mode, char c, int key, int numberOfCards)
+        {
+            key = (key - 1) % 26 + 1;
+            key = (mode == CipherMode.encrypt) ? key : (26 - key);
+
+            return (char)((c - 'A' + key) % 26 + 'A');
         }
 
         public String GetDeck(int numberOfCards)
@@ -443,47 +423,51 @@ namespace Solitaire
 
         private void KeyTheDeckSequence(string seq)
         {
-            seq = seq.ToUpper();
-            if (Regex.IsMatch(seq, "^([1-5]?[0-9]{1})|[AB]{1}(,([1-5]?[0-9]{1})|[AB]{1})*$") & !Regex.IsMatch(seq, "[5]{1}[5-9]{1}"))
+            try
             {
-                bool test = true;
-                if (seq.Contains("A")) if (!seq.Contains("B")) test = false;
-                if (seq.Contains("B")) if (!seq.Contains("A")) test = false;
-                if (test)
+                //  sanity check of input
+                seq = seq.ToUpper();
+                seq = new Regex("\\s+").Replace(seq, "");
+
+                string[] sequence = seq.Split(',');
+                int numberOfCards = sequence.Length;
+
+                HashSet<string> set = new HashSet<string>(sequence);
+                if (numberOfCards > 54) throw new Exception("Too many cards (>54)");
+                if (numberOfCards < 3) throw new Exception("Too few cards (<3)");
+                if (set.Contains("")) throw new Exception("Sequence contains empty values");
+                if (set.Contains("A") ^ set.Contains("B")) throw new Exception("Sequence contains only one of A and B");
+                if (set.Contains("A"))  // replace A and B by their numerical values
                 {
-                    string[] sequence = seq.Split(new char[] { Convert.ToChar(",") });
-                    HashSet<string> set = new HashSet<string>(sequence);
-                    if (set.Count < sequence.Length)
+                    for (int i = 0; i < numberOfCards; i++)
                     {
-                        GuiLogMessage("Sequence contained duplicates! These have been removed.", NotificationLevel.Warning);
-                        sequence = new string[set.Count];
-                        set.CopyTo(sequence);
-                    }
-                    int numberOfCards = sequence.Length;
-                    if (numberOfCards <= 54)
-                    {
-                        deck = new int[numberOfCards];
-                        for (int i = 0; i < numberOfCards; i++)
-                        {
-                            if (sequence[i].Equals("A")) deck[i] = numberOfCards - 1;
-                            else if (sequence[i].Equals("B")) deck[i] = numberOfCards;
-                            else deck[i] = int.Parse(sequence[i]);
-                        }
-                    }
-                    else GuiLogMessage("Too many cards (>54)", NotificationLevel.Error);
+                        if (sequence[i].Equals("A")) sequence[i] = (numberOfCards - 1).ToString();
+                        else if (sequence[i].Equals("B")) sequence[i] = numberOfCards.ToString();
+                    } 
+                    set = new HashSet<string>(sequence);
                 }
-                else GuiLogMessage("Sequence contains only one of A and B", NotificationLevel.Error);
+                if (set.Count < numberOfCards) throw new Exception("Sequence contains duplicates");
+
+                deck = new int[numberOfCards];
+                for (int i = 0; i < numberOfCards; i++)
+                {
+                    deck[i] = int.Parse(sequence[i]);
+                    if (deck[i] > numberOfCards) throw new Exception("Sequence value too big: " + deck[i]);
+                    if (deck[i] < 1) throw new Exception("Sequence value too small: " + deck[i]);
+                }
+
+                // check if all values from 1 to numberOfCards are present
+                HashSet<int> set2 = new HashSet<int>(deck);
+                for (int i = 1; i <= numberOfCards; i++)
+                    if (!set2.Contains(i)) throw new Exception("Missing value in sequence: " + i);
+
+                initialDeck = GetDeck(deck.Length);
+                OnPropertyChanged("InitialDeck");
             }
-            else
+            catch (Exception ex)
             {
-                string reason = "";
-                if (Regex.IsMatch(seq, ",{1},{1}")) reason = " Consecutive commas";
-                if (Regex.IsMatch(seq, "[5]{1}[5-9]{1}")) reason = reason + (reason.Length > 0 ? ", t" : " T") + "oo large value";
-                if (!Regex.IsMatch(seq, "^[,0-9AB]*$")) reason = reason + (reason.Length > 0 ? ", s" : " S") + "trange characters (other than numbers, commas, A, B)"; 
-                GuiLogMessage("Error in inserted sequence!" + reason + (reason.Length > 0 ? "." : ""), NotificationLevel.Error);
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
-            initialDeck = GetDeck(deck.Length);
-            OnPropertyChanged("InitialDeck");
         }
 
         private void KeyTheDeckAsc(int numberOfCards)

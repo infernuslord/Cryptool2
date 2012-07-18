@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SolitaireAnalyser"
              mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40*" />
-            <ColumnDefinition Width="80*" />
-            <ColumnDefinition Width="200*" />
+            <ColumnDefinition Width="90*" />
+            <ColumnDefinition Width="190*" />
             <ColumnDefinition Width="75*" />
             <ColumnDefinition Width="205*" />
         </Grid.ColumnDefinitions>
@@ -29,14 +30,14 @@
         </Grid.RowDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="5" Grid.RowSpan="2" Name="border1" Background="#FFB1FC9B" />
         <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="5" Grid.Row="2" Grid.RowSpan="11" Name="border2" Background="#FFF27373" />
-        <Label Content="Dictionary Size" Name="label1" Grid.ColumnSpan="2" />
-        <Label Content="Remaining Time" Grid.Row="1" Name="label2" Grid.ColumnSpan="2" />
-        <Label Content="" Grid.Column="2" Name="dicSize" Target="{Binding}" />
-        <Label Content="" Grid.Column="2" Grid.Row="1" Name="remTime" />
-        <Label Content="Nr." Grid.Row="2" Name="label5" />
-        <Label Content="Score" Grid.Column="1" Grid.Row="2" Name="label6" Margin="0,0,10,0" />
-        <Label Content="Password" Grid.Column="2" Grid.Row="2" Name="label7" />
-        <Label Content="Start of Plaintext" Grid.Column="3" Grid.Row="2" Name="label8" Grid.ColumnSpan="2" />
+        <Label Content="{Loc labelDictionarySize}" Name="label1" Grid.ColumnSpan="3" />
+        <Label Content="{Loc labelRemainingTime}" Grid.Row="1" Name="label2" Grid.ColumnSpan="3" />
+        <Label Content="" Grid.Column="1" Name="dicSize" Target="{Binding}" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="1" Name="remTime" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="{Loc labelNr}" Grid.Row="2" Name="label5" />
+        <Label Content="{Loc labelScore}" Grid.Column="1" Grid.Row="2" Name="label6" Margin="0,0,20,0" />
+        <Label Content="{Loc labelPassword}" Grid.Column="1" Grid.Row="2" Name="label7" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="{Loc labelStartofPlaintext}" Grid.Column="3" Grid.Row="2" Name="label8" Grid.ColumnSpan="2" />
         <Label Content="1." Grid.Row="3" Name="label9" />
         <Label Content="2." Grid.Row="4" Name="label10" />
         <Label Content="3." Grid.Row="5" Name="label11" />
@@ -47,26 +48,26 @@
         <Label Content="8." Grid.Row="10" Name="label16" />
         <Label Content="9." Grid.Row="11" Name="label17" />
         <Label Content="10." Grid.Row="12" Name="label18" />
-        <Label Content="" Grid.Column="1" Grid.Row="3" Name="score1" />
-        <Label Content="" Grid.Column="1" Grid.Row="4" Name="score2" />
-        <Label Content="" Grid.Column="1" Grid.Row="5" Name="score3" />
-        <Label Content="" Grid.Column="1" Grid.Row="6" Name="score4" />
-        <Label Content="" Grid.Column="1" Grid.Row="7" Name="score5" />
-        <Label Content="" Grid.Column="1" Grid.Row="8" Name="score6" />
-        <Label Content="" Grid.Column="1" Grid.Row="9" Name="score7" />
-        <Label Content="" Grid.Column="1" Grid.Row="10" Name="score8" />
-        <Label Content="" Grid.Column="1" Grid.Row="11" Name="score9" />
-        <Label Content="" Grid.Column="1" Grid.Row="12" Name="score10" />
-        <Label Content="" Grid.Column="2" Grid.Row="3" Name="pass1" />
-        <Label Content="" Grid.Column="2" Grid.Row="4" Name="pass2" />
-        <Label Content="" Grid.Column="2" Grid.Row="5" Name="pass3" />
-        <Label Content="" Grid.Column="2" Grid.Row="6" Name="pass4" />
-        <Label Content="" Grid.Column="2" Grid.Row="7" Name="pass5" />
-        <Label Content="" Grid.Column="2" Grid.Row="8" Name="pass6" />
-        <Label Content="" Grid.Column="2" Grid.Row="9" Name="pass7" />
-        <Label Content="" Grid.Column="2" Grid.Row="10" Name="pass8" />
-        <Label Content="" Grid.Column="2" Grid.Row="11" Name="pass9" />
-        <Label Content="" Grid.Column="2" Grid.Row="12" Name="pass10" />
+        <Label Content="" Grid.Column="1" Grid.Row="3" Name="score1" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="4" Name="score2" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="5" Name="score3" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="6" Name="score4" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="7" Name="score5" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="8" Name="score6" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="9" Name="score7" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="10" Name="score8" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="11" Name="score9" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="12" Name="score10" Margin="0,0,10,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="3" Name="pass1" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="4" Name="pass2" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="5" Name="pass3" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="6" Name="pass4" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="7" Name="pass5" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="8" Name="pass6" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="9" Name="pass7" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="10" Name="pass8" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="11" Name="pass9" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        <Label Content="" Grid.Column="1" Grid.Row="12" Name="pass10" Grid.ColumnSpan="2" Margin="80,0,0,0" />
         <Label Content="" Grid.Column="3" Grid.Row="3" Name="text1" Grid.ColumnSpan="2" />
         <Label Content="" Grid.Column="3" Grid.Row="4" Name="text2" Grid.ColumnSpan="2" />
         <Label Content="" Grid.Column="3" Grid.Row="5" Name="text3" Grid.ColumnSpan="2" />
@@ -77,8 +78,8 @@
         <Label Content="" Grid.Column="3" Grid.Row="10" Name="text8" Grid.ColumnSpan="2" />
         <Label Content="" Grid.Column="3" Grid.Row="11" Name="text9" Grid.ColumnSpan="2" />
         <Label Content="" Grid.Column="3" Grid.Row="12" Name="text10" Grid.ColumnSpan="2" />
-        <Label Content="Dic. Pos.:" Grid.Column="3" Name="label3" />
-        <Label Content="Pass./Sec." Grid.Column="3" Grid.Row="1"  Name="label4" />
+        <Label Content="{Loc labelDicPos}" Grid.Column="3" Name="label3" />
+        <Label Content="{Loc labelPassSec}" Grid.Column="3" Grid.Row="1"  Name="label4" />
         <Label Grid.Column="4" Name="dicPos" />
         <Label Grid.Column="4" Grid.Row="1" Name="passSec" />
     </Grid>

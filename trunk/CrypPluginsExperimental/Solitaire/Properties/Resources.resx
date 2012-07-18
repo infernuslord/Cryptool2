@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Try the Solitaire Cipher</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
   </data>
@@ -202,5 +199,65 @@ The minimum setting is 3 cards, a single card and 2 jokers.</value>
     <value>Choose the stream generation:
 - Automatic: the cipherstream is automatically generated and the final result is shown.
 - Manual: one can manually go through the five different steps. The cards that change after each step will be printed bold.</value>
+  </data>
+  <data name="ActionTypeList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionTypeList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="GenerationTypeList1" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="GenerationTypeList2" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="GenerationTypeList3" xml:space="preserve">
+    <value>Given State</value>
+  </data>
+  <data name="GenerationTypeList4" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="GenerationTypeList5" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="StreamTypeList1" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="StreamTypeList2" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="labelAutomatic" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="labelCipherStream" xml:space="preserve">
+    <value>Cipher Stream</value>
+  </data>
+  <data name="labelDeck" xml:space="preserve">
+    <value>Deck</value>
+  </data>
+  <data name="labelInitialize" xml:space="preserve">
+    <value>Initialize</value>
+  </data>
+  <data name="labelInputText" xml:space="preserve">
+    <value>Input Text</value>
+  </data>
+  <data name="labelOutputText" xml:space="preserve">
+    <value>Cipher Text</value>
+  </data>
+  <data name="labelStep1" xml:space="preserve">
+    <value>Step 1</value>
+  </data>
+  <data name="labelStep2" xml:space="preserve">
+    <value>Step 2</value>
+  </data>
+  <data name="labelStep3" xml:space="preserve">
+    <value>Step 3</value>
+  </data>
+  <data name="labelStep4" xml:space="preserve">
+    <value>Step 4</value>
+  </data>
+  <data name="labelStep5" xml:space="preserve">
+    <value>Step 5</value>
   </data>
 </root>

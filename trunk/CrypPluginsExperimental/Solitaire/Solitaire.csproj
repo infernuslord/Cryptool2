@@ -140,7 +140,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="sol.jpg" />
+    <Resource Include="solitaire.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml">
