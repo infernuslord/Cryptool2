@@ -140,12 +140,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="solitaire.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml">
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="solitaire.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -65,7 +65,7 @@ namespace Solitaire
         public void stop()
         {
             enabled = false;
-            button1.IsEnabled = true;
+            button1.IsEnabled = false;
             button2.IsEnabled = false;
             button3.IsEnabled = false;
             button4.IsEnabled = false;
@@ -80,6 +80,8 @@ namespace Solitaire
             textBox2.Text = "";
             textBox3.Text = "";
             textBox4.Text = "";
+
+            button1.IsEnabled = (((SolitaireSettings)(plugin.Settings)).StreamType==1);
         }
 
         private string convertDeckToSymbolDeck(string deck)

@@ -14,8 +14,8 @@ You can choose how the initial deck is generated:<newline />
 -Given state<newline />
 -Password<newline />
 -Random<newline /><newline />
-Ascending, descending and random speak for themselves, where ascending order of colors is Spades - Hearts - Diamonds - Clovers, ascending order of cards is 2 through 10, Jack, Queen, King, Ace.<newline /> 
-For Given state, it is required to input the order of cards as numbers separated by commas, e.g. 1,2,3,4 will become 2 and 3 of spades followed by joker 1 and joker 2. <newline />
+    Ascending, descending and random speak for themselves, where ascending order of colors is Clubs - Diamonds - Hearts - Spades, ascending order of cards is Ace, 2 through 10, Jack, Queen, King.<newline /> 
+For Given state, it is required to input the order of cards as numbers separated by commas, e.g. 1,2,3,4 will become Ace and 2 of spades followed by joker 1 and joker 2. <newline />
 The initial deck can also be created by using a password. See Schneier's website (http://www.schneier.com/solitaire.html) for details on how this is done. <newline />
 The input text is padded with X until the length is a multiple of 5. Then a cipher stream is created with the same length as the padded input text, which is ultimately 'added' to the input text (modulo 26).<newline />
 Generation of the cipher stream can be done automatically for speed and manually to see exactly what happens.
