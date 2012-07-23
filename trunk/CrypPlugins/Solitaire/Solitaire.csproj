@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EDAB9E2E-3320-4C8B-AC6F-013513854786}</ProjectGuid>
+    <ProjectGuid>{A6C292B1-62D7-4798-AF90-AFE3ED578938}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Solitaire</RootNamespace>
