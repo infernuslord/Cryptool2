@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">SAT Solver Text Input</title>
+  <description lang="en">This template shows how to use the <i>SAT Solver</i> with Text Input.</description>
+  <keywords>satsolver, sat, solver</keywords>
+  <title lang="de">SAT-Solver Texteingabe</title>
+  <description lang="de">Diese Vorlage zeigt, wie der <i>SAT-Solver</i> mit Texteingabe verwendet wird.</description>
+  <keywords lang="de">satsolver, sat, solver, erfüllbarkeit</keywords>
+  <icon file="SATSolver.png" />
+  <relevantPlugins>
+    <plugin name="SATSolver" />
+  </relevantPlugins>
+</sample>

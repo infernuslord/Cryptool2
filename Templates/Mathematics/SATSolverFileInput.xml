@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">SAT Solver File Input</title>
+  <description lang="en">This template shows how to use the <i>SAT Solver</i> with File Input.</description>
+  <keywords>satsolver, sat, solver, satisfiability</keywords>
+  <title lang="de">SAT-Solver Dateieingabe</title>
+  <description lang="de">Diese Vorlage zeigt, wie der <i>SAT-Solver</i> mit Dateieingabe verwendet wird.</description>
+  <keywords lang="de">satsolver, sat, solver, erfüllbarkeit</keywords>
+  <icon file="SATSolver.png" />
+  <relevantPlugins>
+    <plugin name="SATSolver" />
+  </relevantPlugins>
+</sample>
