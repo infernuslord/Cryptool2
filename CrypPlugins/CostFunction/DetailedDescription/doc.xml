@@ -17,7 +17,7 @@
     (Koinzidenzindex, Entropie, Bigramm (log2), Bigramm (Sinkov), Bigramm (Prozentual), Reguläre Ausdrücke,
     Gewichtete Bigramme/Trigramme) kann durch den Benutzer mittels Einstellung verändert werden. Mit Hilfe
     des zugewiesenen numerischen Wert kann z.B. festgestellt werden, ob ein gegebener Textkörper natürliche
-    Sprache beinhaltet. So werden Kostenfunktionen bei der Kryptanalyse genutzt, um die Ergebnisse der
+    Sprache beinhaltet. So werden Kostenfunktionen bei der Kryptoanalyse genutzt, um die Ergebnisse der
     Entschlüsselungen miteinander zu vergleichen um so den ursprünglichen Klartext in millionen von entschlüsselten
     Texten herauszufinden.
   </introduction>
