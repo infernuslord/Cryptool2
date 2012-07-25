@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Frequency Analysis</title>
-  <summary lang="en">This template shows the usage of a <i>Frequency Analysis</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Frequenzanalys</i></summary>
-  <description lang="en">-</description>
-  <keywords>frequency, letters, language</keywords>
   <title lang="de">Frequenzanalyse</title>
-  <description lang="de">-</description>
+  <summary lang="en">Usage of the <i>Frequency Analysis</i> component</summary>
+  <summary lang="de">Benutzung der <i>Frequenzanalyse</i></summary>
+  <description lang="en">This template shows the usage of the <i>Frequency Analysis</i> component.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Frequenzanalyse.</description>
+  <keywords>frequency, letters, language</keywords>
   <keywords lang="de">Frequenz, Buchstaben, Sprache</keywords>
   <icon file="Frequency Analysis.png" />
   <relevantPlugins>
