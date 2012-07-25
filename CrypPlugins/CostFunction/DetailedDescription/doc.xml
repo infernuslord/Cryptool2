@@ -18,7 +18,7 @@
     Gewichtete Bigramme/Trigramme) kann durch den Benutzer mittels Einstellung verändert werden. Mit Hilfe
     des zugewiesenen numerischen Wert kann z.B. festgestellt werden, ob ein gegebener Textkörper natürliche
     Sprache beinhaltet. So werden Kostenfunktionen bei der Kryptoanalyse genutzt, um die Ergebnisse der
-    Entschlüsselungen miteinander zu vergleichen um so den ursprünglichen Klartext in millionen von entschlüsselten
+    Entschlüsselungen miteinander zu vergleichen und so den ursprünglichen Klartext in Millionen von entschlüsselten
     Texten herauszufinden.
   </introduction>
 
@@ -33,7 +33,7 @@
   <usage lang="de-DE">
     Die Kostenfunktion kann entweder für sich oder als Erweiterung des <docRef item="Key Searcher"/> genutzt werden.
     Der Benutzer muss einstellen, um welche Art der Kostenfunktion es sich handelt.
-    In den Einstellungen können auch weitere Parameter, je nach Art der Kostenfunktion, vorgenommen werden.
+    In den Einstellungen können auch weitere Parameter, abhängig von der gewählten Kostenfunktion, angepasst werden.
     Außerdem kann die Länge des Textausschnitts eingestellt werden, die genutzt werden soll, um die Berechnung
     der Kostenfunktion durchzuführen. Die Kostenfunktion liefert einen numerischen Wert (je nach Art und Weise
     der Funktion eine Ganzzahl oder einen Kommazahl) als Ausgabe.
