@@ -151,7 +151,7 @@
     <value>Dimacs</value>
   </data>
   <data name="DimacsTooltip" xml:space="preserve">
-    <value>CNF nur vereinfachen anstatt  zu lösen</value>
+    <value>CNF nur vereinfachen anstatt zu lösen</value>
   </data>
   <data name="ElimCaption" xml:space="preserve">
     <value>Eliminiere Variablen</value>
