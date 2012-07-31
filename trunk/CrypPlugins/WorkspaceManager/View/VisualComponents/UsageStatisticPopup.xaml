@@ -1,14 +1,14 @@
-﻿<Popup x:Class="WorkspaceManager.View.VisualComponents.UsageStatisticPopup"
+﻿<UserControl x:Class="WorkspaceManager.View.VisualComponents.UsageStatisticPopup"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:misc="clr-namespace:WorkspaceManager.View.VisualComponents"
-             AllowsTransparency="True" Panel.ZIndex="9000" Placement="Mouse"
-             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" PopupAnimation="Fade" StaysOpen="False" VerticalOffset="-20" HorizontalOffset="10"
-             Width="250" MaxHeight="350" PreviewMouseLeftButtonUp="SelectedItem">
-    <Popup.Resources>
+             Panel.ZIndex="9000"
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" 
+             Width="250" MaxHeight="250">
+    <UserControl.Resources>
 
         <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -89,15 +89,15 @@
             </Setter>
         </Style>
 
-    </Popup.Resources>
+        </UserControl.Resources>
 
     <Border BorderBrush="White" BorderThickness="1.5" Opacity="0.8"
                 CornerRadius="3" Margin="2" Background="#edf5ff">
         <Border.Effect>
             <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
         </Border.Effect>
-        <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2" HorizontalAlignment="Stretch">
-            <ListView x:Name="TopUsages" Grid.Row="0" ItemsSource="{Binding Path=Suggestions}" 
+        <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Stretch">
+            <ListView x:Name="TopUsages" ItemsSource="{Binding Path=Suggestions}" 
                           Style="{StaticResource ResourceKey=ComponentListStyle}"
                           SelectionMode="Single">
 
@@ -105,4 +105,4 @@
         </Grid>
     </Border>
 
-</Popup>
+</UserControl>
