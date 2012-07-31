@@ -732,22 +732,21 @@ namespace WorkspaceManager.View.Visuals
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
             InitializeComponent();
             _usagePopup = new UsageStatisticPopup(this);
-            this.Root.Children.Add(_usagePopup);
-            _usagePopup.Closed += new EventHandler(_usagePopup_Closed);
-            _usagePopup.Opened += new EventHandler(_usagePopup_Closed);
+            //_usagePopup.Closed += new EventHandler(_usagePopup_Closed);
+            //_usagePopup.Opened += new EventHandler(_usagePopup_Closed);
         }
 
-        void _usagePopup_Closed(object sender, EventArgs e)
-        {
-            if (_usagePopup.IsOpen)
-            {
-                reset();
-            }
-            else
-            {
-                reset();
-            }
-        }
+        //void _usagePopup_Closed(object sender, EventArgs e)
+        //{
+        //    if (_usagePopup.IsOpen)
+        //    {
+        //        reset();
+        //    }
+        //    else
+        //    {
+        //        reset();
+        //    }
+        //}
 
         #endregion
 

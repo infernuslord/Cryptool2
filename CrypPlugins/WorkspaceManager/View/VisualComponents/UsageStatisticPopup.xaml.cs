@@ -27,10 +27,12 @@ namespace WorkspaceManager.View.VisualComponents
     /// <summary>
     /// Interaction logic for UsageStatisticPopup.xaml
     /// </summary>
-    public partial class UsageStatisticPopup : Popup
+    public partial class UsageStatisticPopup : UserControl
     {
         private Adorner _currentAdorner;
-
+        private ControlAdorner adorner;
+        private AdornerLayer currentAdornerlayer;
+        private Window window;
         public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
             typeof(ConnectorVisual),
             typeof(UsageStatisticPopup),
@@ -44,6 +46,9 @@ namespace WorkspaceManager.View.VisualComponents
                 SetValue(SelectedConnectorProperty, value);
             }
         }
+
+        public bool IsOpen = false;
+
         DispatcherTimer timer= new DispatcherTimer();
         DispatcherTimer timer2 = new DispatcherTimer();
 
@@ -69,89 +74,12 @@ namespace WorkspaceManager.View.VisualComponents
         {
             InitializeComponent();
             _editor = editor;
-            this.MouseLeave += new MouseEventHandler(ComponentConnectionStatisticsPopUpMouseLeave);
-            this.Opened += new EventHandler(ComponentConnectionStatisticsPopUpOpened);
-            this.Closed += new EventHandler(ComponentConnectionStatisticsPopUpClosed);
             _editor.SelectedConnectorChanged += new EventHandler(_editorSelectedConnectorChanged);
             Suggestions = new ObservableCollection<SuggestionContainer>();
+            this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(UsageStatisticPopup_MouseLeftButtonDown);
         }
 
-        void ComponentConnectionStatisticsPopUpClosed(object sender, EventArgs e)
-        {
-
-        }
-
-        public void Open()
-        {
-            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
-                return;
-
-            if (_editor.SelectedConnector != null)
-                IsOpen = true;
-        }
-
-        void _editorSelectedConnectorChanged(object sender, EventArgs e)
-        {
-            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
-                return;
-
-            var window = Window.GetWindow(this);
-            if (window != null)
-            {
-                var win = AdornerLayer.GetAdornerLayer((FrameworkElement)window.Content);
-
-                if (this._editor.SelectedConnector == null)
-                {
-                    timer.Stop();
-                    timer2.Stop();
-                    if(_currentAdorner != null)
-                        win.Remove(_currentAdorner);
-                    return;
-                }
-                SelectedConnector = this._editor.SelectedConnector;
-
-                var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
-                if (list == null)
-                    return;
-                Suggestions = new ObservableCollection<SuggestionContainer>();
-                foreach (var componentConnector in list)
-                {
-                    Type t = componentConnector.Component;
-                    string name = componentConnector.ConnectorName;
-                    Suggestions.Add(new SuggestionContainer(name, t));
-                }
-
-                //timer.Interval = TimeSpan.FromSeconds(3);
-                //timer.Tick += delegate(object o, EventArgs args)
-                //                  {
-                //                      timer.Stop();
-                //                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
-                //                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
-                //                      win.Add(_currentAdorner);
-                //                      timer2.Tick += delegate(object o2, EventArgs args2)
-                //                      {
-                //                          timer2.Stop();
-                //                          win.Remove(_currentAdorner);
-                //                          IsOpen = true;
-                //                      };
-                //                      timer2.Start();
-                //                  };
-                //timer.Start();
-            }
-
-        }
-
-        void ComponentConnectionStatisticsPopUpOpened(object sender, EventArgs e)
-        {
-            position = Util.MouseUtilities.CorrectGetPosition(_editor.panel);
-        }
-
-        void ComponentConnectionStatisticsPopUpMouseLeave(object sender, MouseEventArgs e)
-        {
-            //IsOpen = false;
-        }
-
-        void SelectedItem(object sender, MouseEventArgs e)
+        void UsageStatisticPopup_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (TopUsages.SelectedItem != null)
             {
@@ -191,16 +119,101 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     return;
                 }
+                Close();
             }
-            this.IsOpen = false;
+            //e.Handled = true;
         }
 
-        private void TopUsages_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        public void Open()
         {
-            //var f = (FrameworkElement)e.OriginalSource;
-            //var element = (FrameworkElement)Util.TryFindParent<Thumb>(f);
-            //if (element != null)
-            //    StaysOpen = true;
+            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
+                return;
+
+            if (_editor.SelectedConnector != null && currentAdornerlayer == null)
+            {
+                window = Window.GetWindow(_editor);
+                currentAdornerlayer = AdornerLayer.GetAdornerLayer((FrameworkElement)window.Content);
+                if (adorner != null)
+                    adorner.RemoveRef();
+                adorner = new ControlAdorner((FrameworkElement)window.Content, this);
+                window.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(window_MouseLeftButtonUp);
+                position = Util.MouseUtilities.CorrectGetPosition(_editor.panel);
+
+                var p = Mouse.GetPosition(window);
+                currentAdornerlayer.Add(adorner);
+                this.RenderTransform = new TranslateTransform(p.X-620, p.Y-350);
+                IsOpen = true;
+            }
+        }
+
+        void window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var result = Util.TryFindParent<UsageStatisticPopup>(e.OriginalSource as UIElement);
+            if (TopUsages.SelectedItem != null || result == null)
+                Close();
+        }
+
+        void _editorSelectedConnectorChanged(object sender, EventArgs e)
+        {
+            if (!Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_ShowComponentConnectionProposition)
+                return;
+
+            window = Window.GetWindow(_editor);
+            if (window != null)
+            {
+                //var win = AdornerLayer.GetAdornerLayer((FrameworkElement)window.Content);
+
+                if (this._editor.SelectedConnector == null)
+                {
+                    //timer.Stop();
+                    //timer2.Stop();
+                    //if (_currentAdorner != null)
+                    //    win.Remove(_currentAdorner);
+                    return;
+                }
+                SelectedConnector = this._editor.SelectedConnector;
+
+                var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
+                if (list == null)
+                    return;
+                Suggestions = new ObservableCollection<SuggestionContainer>();
+                foreach (var componentConnector in list)
+                {
+                    Type t = componentConnector.Component;
+                    string name = componentConnector.ConnectorName;
+                    Suggestions.Add(new SuggestionContainer(name, t));
+                }
+
+                //timer.Interval = TimeSpan.FromSeconds(3);
+                //timer.Tick += delegate(object o, EventArgs args)
+                //                  {
+                //                      timer.Stop();
+                //                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
+                //                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
+                //                      win.Add(_currentAdorner);
+                //                      timer2.Tick += delegate(object o2, EventArgs args2)
+                //                      {
+                //                          timer2.Stop();
+                //                          win.Remove(_currentAdorner);
+                //                          IsOpen = true;
+                //                      };
+                //                      timer2.Start();
+                //                  };
+                //timer.Start();
+            }
+
+        }
+
+        private void Close()
+        {
+            if (currentAdornerlayer == null)
+                return;
+
+            currentAdornerlayer.Remove(adorner);
+            window.PreviewMouseLeftButtonDown -= new MouseButtonEventHandler(window_MouseLeftButtonUp);
+            currentAdornerlayer = null;
+            IsOpen = false;
         }
     }
 
@@ -236,6 +249,60 @@ namespace WorkspaceManager.View.VisualComponents
         public Type ComponentType { get; set; }
 
         public string Test { get; set; }
+    }
+
+    class ControlAdorner : Adorner
+    {
+        private UserControl _child;
+        private UIElement _adornedElement;
+
+        public ControlAdorner(UIElement adornedElement, UserControl ctrl)
+            : base(adornedElement)
+        {
+            _child = ctrl;
+            _adornedElement = adornedElement;
+            AddLogicalChild(_child);
+            AddVisualChild(_child);
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            // ... add custom rendering code here ...
+        }
+
+        protected override int VisualChildrenCount
+        {
+            get { return 1; }
+        }
+
+        protected override Size MeasureOverride(Size constraint)
+        {
+            this._child.Measure(constraint);
+            if (double.IsInfinity(constraint.Height))
+            {
+                constraint.Height = this._adornedElement.DesiredSize.Height;
+            }
+            return constraint;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            this._child.Arrange(new Rect(finalSize));
+            return finalSize;
+        }
+
+        protected override Visual GetVisualChild(int index)
+        {
+            return this._child;
+        }
+
+        internal void RemoveRef()
+        {
+            RemoveLogicalChild(_child);
+            RemoveVisualChild(_child);
+        }
     }
 
     public sealed class CricularLineProgress : Shape
