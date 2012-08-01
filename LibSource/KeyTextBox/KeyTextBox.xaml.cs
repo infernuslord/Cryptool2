@@ -148,6 +148,10 @@ namespace KeyTextBox
                     {
                         caretIndex = (caretIndex == 0) ? 0 : (caretIndex - 1);
                     }
+                    else if (e.Key == Key.Delete && caretIndex == key.Length)
+                    {
+                        break;
+                    }
                     ReplaceCharInKey(key, GetPossibleCharactersAtKeyEnd(key.Substring(0, caretIndex)), '*', caretIndex);
                     SetKeyOffset(caretIndex);
                     break;
