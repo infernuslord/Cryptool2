@@ -119,7 +119,6 @@ namespace Cryptool.CrypWin
             }
         }
 
-        private TaskPaneCtrl taskpaneCtrl;
         private bool dragStarted;
         private Splash splashWindow;
         private bool startUpRunning = true;
@@ -795,11 +794,6 @@ namespace Cryptool.CrypWin
             }
 
             # region GUI stuff without plugin access
-            this.taskpaneCtrl = new TaskPaneCtrl(this);
-            this.taskpaneCtrl.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
-            this.taskpaneCtrl.OnShowPluginDescription += OnShowPluginDescription;
-            this.dockWindowAlgorithmSettings.AutoHideOpen = false;
-            this.dockWindowAlgorithmSettings.Content = taskpaneCtrl;
 
             naviPane.SystemText.CollapsedPaneText = Properties.Resources.Classic_Ciphers;
             this.RibbonControl.SystemText.QatPlaceBelowRibbonText = Resource.show_quick_access_toolbar_below_the_ribbon;
@@ -1252,10 +1246,6 @@ namespace Cryptool.CrypWin
                     Version version = AssemblyHelper.GetVersion(assembly);
                     OnGuiLogNotificationOccuredTS(this, new GuiLogEventArgs(Resource.crypTool + " " + version.ToString() + Resource.started_and_ready, null, NotificationLevel.Info));
 
-                    if (ActiveEditor != null)
-                    {
-                        taskpaneCtrl.DisplayPluginSettings(ActiveEditor, ActiveEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
-                    }
                     this.IsEnabled = true;
                     AppRibbon.Items.Refresh();
                     splashWindow.Close();
@@ -1696,22 +1686,7 @@ namespace Cryptool.CrypWin
                 }, null);
             }
         }
-
-        private void setEditorRibbonElementsState(bool state)
-        {
-            if (ribbonBarEditor != null && ribbonBarEditor.Items.Count == 1 && ribbonBarEditor.Items[0] is StackPanel)
-            {
-                foreach (StackPanel stackPanel in (ribbonBarEditor.Items[0] as StackPanel).Children)
-                {
-                    foreach (FrameworkElement fwElement in stackPanel.Children)
-                    {
-                        if (fwElement.Tag is BindingInfoRibbon)
-                            fwElement.IsEnabled = (((BindingInfoRibbon)fwElement.Tag).RibbonBarAttribute.ChangeableWhileExecuting || state);
-                    }
-                }
-            }
-        }
-
+        
         private void ProjectTitleChanged(string newProjectTitle = null)
         {
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -1726,7 +1701,6 @@ namespace Cryptool.CrypWin
 
         private void SelectedPluginChanged(object sender, PluginChangedEventArgs pce)
         {
-            taskpaneCtrl.DisplayPluginSettings(pce.SelectedPlugin, pce.Title, pce.DisplayPluginMode);
             if (!listPluginsAlreadyInitialized.Contains(pce.SelectedPlugin))
             {
                 listPluginsAlreadyInitialized.Add(pce.SelectedPlugin);
@@ -1986,12 +1960,9 @@ namespace Cryptool.CrypWin
             {
                 if (contentToTabMap.ContainsKey(ActivePlugin))
                     ProjectTitleChanged((string)contentToTabMap[ActivePlugin].Header);
-
-                taskpaneCtrl.DisplayPluginSettings(ActivePlugin, ActivePlugin.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
             }
             else
             {
-                taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
                 ProjectTitleChanged();
             }
 

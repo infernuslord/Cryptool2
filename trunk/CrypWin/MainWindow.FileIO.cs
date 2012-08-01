@@ -46,12 +46,6 @@ namespace Cryptool.CrypWin
                 ActiveEditor.New();
 
                 //ActiveEditor.Presentation.ToolTip = Properties.Resources.Unsaved_workspace;
-
-                if (ActiveEditor != null)
-                    taskpaneCtrl.DisplayPluginSettings(ActiveEditor, ActiveEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
-                else
-                    taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
-
                 SetCurrentEditorAsDefaultEditor();
             }
             catch (Exception ex)
@@ -77,7 +71,6 @@ namespace Cryptool.CrypWin
             if (File.Exists(fileName))
             {
                 this.listPluginsAlreadyInitialized.Clear();
-                taskpaneCtrl.ClearCache();
 
                 var ext = new FileInfo(fileName).Extension;
                 if (ext.Length < 2)
@@ -102,12 +95,6 @@ namespace Cryptool.CrypWin
 
                     SetCurrentEditorAsDefaultEditor();
                     this.ProjectFileName = fileName;
-
-                    if (ActiveEditor != null)
-                        taskpaneCtrl.DisplayPluginSettings(ActiveEditor, ActiveEditor.GetPluginInfoAttribute().Caption,
-                                                           DisplayPluginMode.Normal);
-                    else
-                        taskpaneCtrl.DisplayPluginSettings(null, null, DisplayPluginMode.Normal);
 
                     recentFileList.AddRecentFile(fileName);
                 }
