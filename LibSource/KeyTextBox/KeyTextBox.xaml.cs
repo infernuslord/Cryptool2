@@ -146,7 +146,11 @@ namespace KeyTextBox
                     var caretIndex = GetKeyOffset(KeyBox.CaretPosition);
                     if (e.Key == Key.Back)
                     {
-                        caretIndex = (caretIndex == 0) ? 0 : (caretIndex - 1);
+                        if (caretIndex == 0)
+                        {
+                            break;
+                        }
+                        caretIndex--;
                     }
                     else if (e.Key == Key.Delete && caretIndex == key.Length)
                     {
@@ -167,6 +171,11 @@ namespace KeyTextBox
 
         private bool ReplaceCharInKey(string key, List<char> possibleChars, char inChar, int caretIndex)
         {
+            if (string.IsNullOrEmpty(key) || caretIndex >= key.Length)
+            {
+                return true;
+            }
+
             int startPosition;
             int endPosition;
             var elType = GetElementType(key, caretIndex, out startPosition, out endPosition);

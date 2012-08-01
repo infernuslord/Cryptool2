@@ -250,8 +250,6 @@ namespace Cryptool.CrypWin
             {
                 if (editor != null)
                 {
-                    taskpaneCtrl.IsChangeable = false;
-                    setEditorRibbonElementsState(false);
                     ExecuteDelegate executeEditor = editor.Execute;
                     AsyncCallback executeCallback = new AsyncCallback(this.ExecuteCallBack);
                     executeEditor.BeginInvoke(executeCallback, null);
@@ -310,8 +308,6 @@ namespace Cryptool.CrypWin
         {
             if (editor != null)
             {
-                taskpaneCtrl.IsChangeable = true;
-                setEditorRibbonElementsState(true);
                 editor.Stop();
             }
         }

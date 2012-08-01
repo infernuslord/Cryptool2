@@ -274,12 +274,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TaskPaneCtrl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\BlackTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -343,9 +337,6 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Helper\Reveal.cs" />
-    <Compile Include="TaskPaneCtrl.xaml.cs">
-      <DependentUpon>TaskPaneCtrl.xaml</DependentUpon>
-    </Compile>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
