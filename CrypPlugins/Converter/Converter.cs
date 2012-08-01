@@ -184,7 +184,7 @@ namespace Cryptool.Plugins.Converter
             {
                 for (int i = 0; i < buffer.Length; i++)
                 {
-                    temp[buffer.Length - i] = buffer[i];
+                    temp[buffer.Length - 1 - i] = buffer[i];
                 }
             }
             else
