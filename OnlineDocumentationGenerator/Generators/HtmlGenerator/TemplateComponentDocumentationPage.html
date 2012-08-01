@@ -17,13 +17,22 @@
             font-family: Verdana, sans-serif, Helvetica,  Arial ;
         }
     </style>
-    
+
     <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
     </script>
-    <script type="text/javascript"
-      src="../MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
+
+    <installVersionSwitch version="Developer">
+        <script type="text/javascript"
+          src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+    </installVersionSwitch>
+    <installVersionSwitch version="~Developer">
+        <script type="text/javascript"
+                src="../MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+    </installVersionSwitch>
+
 </head>
 <body topmargin="0" oncontextmenu="return false;">
 <center>

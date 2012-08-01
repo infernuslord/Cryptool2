@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cryptool.PluginBase.Attributes;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.DocInformations.Localization;
 using OnlineDocumentationGenerator.Properties;
@@ -15,6 +16,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex FindLanguageSelectionTagRegex = new Regex("<languageSelection.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindBeginningLanguageSwitchTagRegex = new Regex("<languageSwitch.*?lang=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEndingLanguageSwitchTagRegex = new Regex("</.*?languageSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindBeginningInstallationVersionSwitchTagRegex = new Regex("<installationVersionSwitch.*?version=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindEndingInstallationVersionSwitchTagRegex = new Regex("</.*?installationVersionSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindComponentListTagRegex = new Regex("<componentList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindComponentTreeTagRegex = new Regex("<componentTree.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEditorListTagRegex = new Regex("<editorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -110,6 +113,59 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
 
             return htmlBuilder.ToString();
+        }
+
+        public static string ReplaceInstallVersionSwitchs(string html, Ct2InstallationType installationType)
+        {
+            var htmlBuilder = new StringBuilder(html);
+            Match match = FindBeginningInstallationVersionSwitchTagRegex.Match(htmlBuilder.ToString());
+            while (match.Success)
+            {
+                var pos = match.Index;
+                var len = match.Length;
+
+                var match2 = FindEndingInstallationVersionSwitchTagRegex.Match(htmlBuilder.ToString(), pos + len);
+                if (!match2.Success)
+                    throw new Exception("Error trying to replace installation version switch!");
+                var pos2 = match2.Index;
+                var len2 = match2.Length;
+
+                if (MatchesInstallationType(match.Groups[1].Value, installationType))
+                {
+                    htmlBuilder.Remove(pos2, len2);
+                    htmlBuilder.Remove(pos, len);
+                }
+                else
+                {
+                    htmlBuilder.Remove(pos, (pos2 - pos) + len2);
+                }
+
+                match = FindBeginningInstallationVersionSwitchTagRegex.Match(htmlBuilder.ToString());
+            }
+
+            return htmlBuilder.ToString();
+        }
+
+        private static bool MatchesInstallationType(string typeText, Ct2InstallationType installationType)
+        {
+            bool neg = false;
+            if (typeText[0] == '~')
+            {
+                neg = true;
+                typeText = typeText.Substring(1);
+            }
+
+            switch (typeText)
+            {
+                case "Developer":
+                    return (neg ^ (installationType == Ct2InstallationType.Developer));
+                case "ZIP":
+                    return (neg ^ (installationType == Ct2InstallationType.ZIP));
+                case "MSI":
+                    return (neg ^ (installationType == Ct2InstallationType.MSI));
+                default:
+                    return false;
+            }
         }
 
         public static string ReplaceComponentList(string html, string componentListCode)
