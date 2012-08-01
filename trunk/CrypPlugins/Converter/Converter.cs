@@ -176,20 +176,26 @@ namespace Cryptool.Plugins.Converter
             return CStreamReaderToByteArray(stream.CreateReader());
         }
 
-        private BigInteger ByteArrayToBigInteger(byte[] buffer, bool msb=false)
+        private BigInteger ByteArrayToBigInteger(byte[] buffer, bool msb)
         {
+            byte[] temp = new byte[buffer.Length + 1];
+
             if (msb)
             {
-                byte[] temp = new byte[buffer.Length];
-                buffer.CopyTo(temp, 0);
-                Array.Reverse(temp);
-
-                return new BigInteger(temp);
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    temp[buffer.Length - i] = buffer[i];
+                }
             }
             else
             {
-                return new BigInteger(buffer);
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    temp[i] = buffer[i];
+                }
             }
+            
+            return new BigInteger(temp);
         }
 
         private byte[] HexstringToByteArray(String hex)
@@ -335,7 +341,7 @@ namespace Cryptool.Plugins.Converter
                     case OutputTypes.BigIntegerType:
                         {
                             byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)input);
-                            Output = ByteArrayToBigInteger(buffer);
+                            Output = ByteArrayToBigInteger(buffer, settings.Endianness);
                             break;
                         }
 
@@ -363,8 +369,7 @@ namespace Cryptool.Plugins.Converter
                     case OutputTypes.BigIntegerType: // byte[] to BigInteger
                         {
                             byte[] temp = (byte[])input;
-                            if (settings.Endianness) Array.Reverse(temp);
-                            Output = ByteArrayToBigInteger(temp);
+                            Output = ByteArrayToBigInteger(temp, settings.Endianness);
                             return true;
                         }
                     case OutputTypes.IntType: // byte[] to int
