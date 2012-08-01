@@ -8,7 +8,9 @@ using System.Windows;
 using System.Xml.Linq;
 using System.Linq;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.Miscellaneous;
 using Ionic.Zip;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.DocInformations.Localization;
@@ -39,6 +41,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
                 var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateIndex, lang);
+                indexHtml = TagReplacer.ReplaceInstallVersionSwitchs(indexHtml, AssemblyHelper.InstallationType);
                 var languageSelectionCode = GenerateIndexLanguageSelectionCode(AvailableLanguages, lang);
                 indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
                 var componentListCode = GenerateComponentListCode(DocPages.FindAll(x => x is ComponentDocumentationPage).Select(x => (ComponentDocumentationPage)x), lang);
@@ -428,6 +431,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private void CopyAdditionalResources()
         {
+            bool developer = AssemblyHelper.InstallationType == Ct2InstallationType.Developer;
+
             var additionalResources = XElement.Parse(Properties.Resources.AdditionalResources);
             foreach (var r in additionalResources.Elements("file"))
             {
@@ -453,23 +458,27 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             foreach (var r in additionalResources.Elements("archive"))
             {
-                try
+                var excl = r.Attribute("excludeDeveloper");
+                if (!developer || excl == null || excl.Value.ToLower() == "false")
                 {
-                    var path = r.Attribute("path").Value;
-                    int sIndex = path.IndexOf('/');
-                    var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
-                                                       path.Substring(0, sIndex), path.Substring(sIndex + 1)));
-
-                    //Extract archive:
-                    using (var resStream = Application.GetResourceStream(resUri).Stream)
-                    using (var zipPackage = ZipFile.Read(resStream))
+                    try
                     {
-                        zipPackage.ExtractAll(OnlineHelp.HelpDirectory, ExtractExistingFileAction.OverwriteSilently);
+                        var path = r.Attribute("path").Value;
+                        int sIndex = path.IndexOf('/');
+                        var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
+                                                           path.Substring(0, sIndex), path.Substring(sIndex + 1)));
+
+                        //Extract archive:
+                        using (var resStream = Application.GetResourceStream(resUri).Stream)
+                        using (var zipPackage = ZipFile.Read(resStream))
+                        {
+                            zipPackage.ExtractAll(OnlineHelp.HelpDirectory, ExtractExistingFileAction.OverwriteSilently);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(string.Format("Error trying to copy additional resource archive: {0}", ex.Message));
+                    catch (Exception ex)
+                    {
+                        throw new Exception(string.Format("Error trying to copy additional resource archive: {0}", ex.Message));
+                    }
                 }
             }
         }
