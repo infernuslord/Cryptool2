@@ -1187,6 +1187,10 @@ namespace Cryptool.CrypWin
                     }
                 }
             }
+            foreach (var pluginType in pluginTypes)
+            {
+                pluginType.Value.Sort((x, y) => x.GetPluginInfoAttribute().Caption.CompareTo(y.GetPluginInfoAttribute().Caption));
+            }
             loadedTypes = pluginTypes;
         }
 
