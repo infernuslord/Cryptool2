@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             Height="Auto" Width="Auto">
+             Height="Auto" Width="Auto" MinWidth="75" MinHeight="50">
     <UserControl.Resources>
 
         <!-- Data Island 

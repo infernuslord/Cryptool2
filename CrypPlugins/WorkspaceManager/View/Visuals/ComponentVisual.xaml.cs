@@ -94,8 +94,7 @@ namespace WorkspaceManager.View.Visuals
                 Presentations.Add(BinComponentState.Data, new DataVisual(ConnectorCollection));
                 Presentations.Add(BinComponentState.Log, new LogVisual(this));
                 SettingsVisual bsv = new SettingsVisual(Model.Plugin, this, true, false);
-                if (!bsv.noSettings)
-                    Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
+                Presentations.Add(BinComponentState.Setting, bsv);
 
                 FullScreenState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
 
