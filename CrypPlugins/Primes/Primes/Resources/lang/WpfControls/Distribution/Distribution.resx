@@ -272,7 +272,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>({0}, {1}, {2}, {3}) ist ein Primzahlvierling.</value>
   </data>
   <data name="numberline_issixtupletprime" xml:space="preserve">
-    <value>({0}, {1}, {2}, {3},{4},{5}) ist ein Primzahlsechsling.</value>
+    <value>({0}, {1}, {2}, {3}, {4}, {5}) ist ein Primzahlsechsling.</value>
   </data>
   <data name="numberline_istwinprime" xml:space="preserve">
     <value>({0}, {1}) ist ein Primzahlzwilling.</value>

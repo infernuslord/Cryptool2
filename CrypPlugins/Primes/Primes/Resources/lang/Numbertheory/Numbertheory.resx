@@ -243,8 +243,8 @@
   <data name="proot_wronginterval" xml:space="preserve">
     <value>Die erste Zahl des Intervalls {0} muss kleiner sein als die zweite.</value>
   </data>
-  <data name="rho" xml:space="preserve">
-    <value>Teilersummenfunktion</value>
+  <data name="sigma" xml:space="preserve">
+    <value>Summe der Teiler</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
     <value>Zahlentheoretische Funktionen</value>

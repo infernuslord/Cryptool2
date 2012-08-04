@@ -37,7 +37,7 @@ namespace Primes.OnlineHelp
     Distribution_QuadrupletPrimes,
     Distribution_SixTupletPrimes,
     Distribution_EulerPhi,
-    Distribution_Rho,
+    Distribution_Sigma,
     Distribution_Tau,
     Distribution_EulerPhiSum,
     Distribution_Distribution,

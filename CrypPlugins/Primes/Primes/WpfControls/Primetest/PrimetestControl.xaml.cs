@@ -50,7 +50,7 @@ namespace Primes.WpfControls.Primetest
       millerrabin.Stop += new VoidDelegate(millerrabin_CancelTest);
       sieveoferatosthenes.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
       millerrabin.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
-      fermat.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
+      fermat.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);                        
       iscNumber.SetText(InputSingleControl.Free, "100");
       iscNumber.SetText(InputSingleControl.CalcFactor, "1");
       iscNumber.SetText(InputSingleControl.CalcBase, ((new Random().Next() % 5)+1).ToString());

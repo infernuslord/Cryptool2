@@ -58,6 +58,7 @@ namespace Primes.WpfControls.Factorization.QS
           break;
         }
       }
+
       if (productAQuad == null && productA == null && productB == null)
       {
         foreach (QuadraticPair pair in pairs)
@@ -75,19 +76,16 @@ namespace Primes.WpfControls.Factorization.QS
           }
         }
       }
-      result = (productA != null && productB != null)?QSResult.Ok:QSResult.Failed;
+
+      result = (productA != null && productB != null) ? QSResult.Ok : QSResult.Failed;
       if (result == QSResult.Ok)
       {
         StringBuilder sbInfo = new StringBuilder();
-        sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated);
-        sbInfo.Append(productA.ToString("D"));
-        sbInfo.Append(" b = ");
-        sbInfo.Append(productB.SquareRoot().ToString("D"));
-        sbInfo.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong);
-        sbInfo.Append("a² ≡ b² (mod n), a ≢ b (mod n)");
+        sbInfo.Append( string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated, productA.ToString("D"), productB.SquareRoot().ToString("D") ) );
+        sbInfo.Append( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong );
         ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
 
-        result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N)))?QSResult.Ok:QSResult.Failed;
+        result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N))) ? QSResult.Ok : QSResult.Failed;
         if (result == QSResult.Ok)
         {
           if (productAQuad != null && productA != null && productB != null)
@@ -117,8 +115,9 @@ namespace Primes.WpfControls.Factorization.QS
                 "AddToGrid",
                 new object[] { 
                   Grid, 
-                  string.Format("Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf Neustart starten Sie Faktorisierung neu. Die ungültigen Werte werden ab sofort ignoriert.",new object[]{ productA.ToString("D"), productB.SquareRoot().ToString("D")}), counter, 0, 0, 0 });
-
+                  string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_reset, productA.ToString("D"), productB.SquareRoot().ToString("D") ),
+                  counter, 0, 0, 0
+                });
             }
             else
             {
@@ -126,15 +125,8 @@ namespace Primes.WpfControls.Factorization.QS
               counter++;
               ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
               StringBuilder sbfactor1 = new StringBuilder();
-              sbfactor1.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_firstfactor);
-              sbfactor1.Append(" = GCD(");
-              sbfactor1.Append(productA.ToString("D"));
-              sbfactor1.Append(" + ");
-              sbfactor1.Append(productB.SquareRoot().ToString("D"));
-              sbfactor1.Append(", ");
-              sbfactor1.Append(_n.ToString("D"));
-              sbfactor1.Append(") = ");
-              sbfactor1.Append(factor1.ToString("D"));
+              sbfactor1.Append( string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_firstfactor, 
+                  productA.ToString("D"), productB.SquareRoot().ToString("D"), _n.ToString("D"), factor1.ToString("D") ) );
 
               ControlHandler.ExecuteMethod(
                 this,
@@ -144,20 +136,14 @@ namespace Primes.WpfControls.Factorization.QS
               counter++;
               ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
               StringBuilder sbfactor2 = new StringBuilder();
-              sbfactor2.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_secondfactor);
-              sbfactor2.Append(" = GCD(");
-              sbfactor2.Append(productA.ToString("D"));
-              sbfactor2.Append(" - ");
-              sbfactor2.Append(productB.SquareRoot().ToString("D"));
-              sbfactor2.Append(", ");
-              sbfactor2.Append(_n.ToString("D"));
-              sbfactor2.Append(") = ");
-              sbfactor2.Append(factor2.ToString("D"));
+              sbfactor1.Append(string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_secondfactor,
+                  productA.ToString("D"), productB.SquareRoot().ToString("D"), _n.ToString("D"), factor2.ToString("D")));
 
               ControlHandler.ExecuteMethod(
                 this,
                 "AddToGrid",
                 new object[] { Grid, sbfactor2.ToString(), counter, 0, 0, 0 });
+
               PrimesBigInteger notPrime = null;
               if (!factor1.IsPrime(10)) notPrime = factor1;
               else if (!factor2.IsPrime(10)) notPrime = factor2;

@@ -174,6 +174,12 @@
   <data name="qs_step2_B" xml:space="preserve">
     <value>The upper bound is {0}. Start sieving step.</value>
   </data>
+  <data name="qs_step2_bsmooth" xml:space="preserve">
+    <value>Is b-smooth</value>
+  </data>
+  <data name="qs_step2_factorization" xml:space="preserve">
+    <value>Factorization</value>
+  </data>
   <data name="qs_step2_no" xml:space="preserve">
     <value>no</value>
   </data>
@@ -208,19 +214,22 @@
     <value>Step 4 (Calculate congruences and factorization)</value>
   </data>
   <data name="qs_step4_abcalculated" xml:space="preserve">
-    <value>a und b were calculated with a = </value>
+    <value>a und b were calculated with a = {0}, b = {1}.</value>
   </data>
   <data name="qs_step4_checkcong" xml:space="preserve">
-    <value>. Check the congruence</value>
+    <value>Check the congruence a² ≡ b² (mod n), a ≢ b (mod n)</value>
   </data>
   <data name="qs_step4_firstfactor" xml:space="preserve">
-    <value>first factor</value>
+    <value>first factor = GCD({0} + {1}, {2}) = {3}</value>
   </data>
   <data name="qs_step4_notprofed" xml:space="preserve">
     <value>not proofed</value>
   </data>
   <data name="qs_step4_refactorize" xml:space="preserve">
     <value>{0} is not a prime. Click Restart to factorize {1}.</value>
+  </data>
+  <data name="qs_step4_reset" xml:space="preserve">
+    <value>The factorization with a = {0} and b = {1} was not successful. Click Restart to start a new factorization round. The unsuccessful values will be ignored.</value>
   </data>
   <data name="qs_step4_secondfactor" xml:space="preserve">
     <value>second factor</value>
