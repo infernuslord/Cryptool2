@@ -24,6 +24,9 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool;
 using Cryptool.PluginBase.Miscellaneous;
+using BooleanOperators;
+using System.Windows.Threading;
+using System.Threading;
 
 
 namespace Cryptool.Plugins.BooleanOperators
@@ -35,11 +38,17 @@ namespace Cryptool.Plugins.BooleanOperators
     {
         private BooleanOutputSettings settings;
         private Boolean input = false;
+        private ButtonOutputPresentation pres;
 
         public BooleanOutput()
         {
             this.settings = new BooleanOutputSettings();
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
+            pres = new ButtonOutputPresentation();
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                pres.myimg.Source = this.GetImage(0).Source;
+            }, null);
         }
 
         [PropertyInfo(Direction.InputData, "BO_InputCaption", "BO_InputTooltip")]
@@ -79,11 +88,20 @@ namespace Cryptool.Plugins.BooleanOperators
             {
                 settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
                 CurrentValue = "True";
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.myimg.Source = this.GetImage(1).Source;
+                }, null);
             }
             else
             {
                 settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
                 CurrentValue = "False";
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.myimg.Source = this.GetImage(0).Source;
+                }, null);
+
             }
             ProgressChanged(1, 1);
         }
@@ -102,7 +120,7 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public System.Windows.Controls.UserControl Presentation
         {
-            get { return null; }
+            get { return pres; }
         }
 
         public ISettings Settings
