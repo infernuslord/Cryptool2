@@ -169,10 +169,16 @@
     <value>Die Quadratwurzel aus {0} ist {1} ≈ {2}</value>
   </data>
   <data name="qs_step2" xml:space="preserve">
-    <value>Schritt 2 (Ermittlung der glatten Wert)</value>
+    <value>Schritt 2 (Ermittlung der glatten Werte)</value>
   </data>
   <data name="qs_step2_B" xml:space="preserve">
     <value>Die Wert der oberen Schranke beträgt {0}. Siebschritt wird gestartet.</value>
+  </data>
+  <data name="qs_step2_bsmooth" xml:space="preserve">
+    <value>Ist B-Glatt</value>
+  </data>
+  <data name="qs_step2_factorization" xml:space="preserve">
+    <value>Faktorisierung</value>
   </data>
   <data name="qs_step2_no" xml:space="preserve">
     <value>nein</value>
@@ -208,19 +214,22 @@
     <value>Schritt 4 (Berechnung der Kongruenzen und Faktorisierung)</value>
   </data>
   <data name="qs_step4_abcalculated" xml:space="preserve">
-    <value>a und b wurden ermittelt mit a = </value>
+    <value>a und b wurden ermittelt mit a = {0}, b = {1}.</value>
   </data>
   <data name="qs_step4_checkcong" xml:space="preserve">
-    <value>. Überprüfe die Kongruenz </value>
+    <value>Überprüfe die Kongruenz a² ≡ b² (mod n), a ≢ b (mod n)</value>
   </data>
   <data name="qs_step4_firstfactor" xml:space="preserve">
-    <value>Erster Faktor </value>
+    <value>Erster Faktor  = GCD({0} + {1}, {2}) = {3}</value>
   </data>
   <data name="qs_step4_notprofed" xml:space="preserve">
     <value>nicht bestanden </value>
   </data>
   <data name="qs_step4_refactorize" xml:space="preserve">
     <value>{0} ist keine Primzahl. Mit Klick auf Neustart wird {1} faktorisiert.</value>
+  </data>
+  <data name="qs_step4_reset" xml:space="preserve">
+    <value>Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf Neustart starten Sie Faktorisierung neu. Die ungültigen Werte werden ab sofort ignoriert.</value>
   </data>
   <data name="qs_step4_secondfactor" xml:space="preserve">
     <value>Zweiter Faktor </value>

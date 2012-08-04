@@ -688,7 +688,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="WpfControls\Themes\Generic.xaml">
+    <Page Include="WpfControls\Threads\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -739,6 +739,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
+    <None Include="OnlineHelp\HelpFiles\de\Distribution_Sigma.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Generation_SieveOfAtkin.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_Distribution.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhi.htm" />
@@ -785,6 +786,7 @@
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_NumberGrid.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Numberline.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_QuadrupletPrimes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Sigma.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_SixTupletPrimes.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Tau.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_TwinPrimes.htm" />
@@ -792,13 +794,35 @@
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Factorization.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Generate.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Generate_BigInteger.html" />
-    <None Include="OnlineHelp\HelpFiles\en\Generation_GenerateEuler1.htm" />
-    <None Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticRandom.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Factorization_QS.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Factorization_Rho.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateEuler1.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadratic.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticRandom.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticSystematic.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Generation.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Quadratic.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Random.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_RandomNTimesM.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_SieveOfAtkin.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Graph_GaussPi.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Graph_LargeNumbers.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Graph_LiN.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Graph_PiX.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Graph_PrimesCount.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Pari_Lin.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Primetest_MillerRabin.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Primetest_Primetest.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Primetest_SieveOfEratosthenes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_Input.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_PrimitivRoot.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Spiral_Ulam.htm" />
     <Content Include="OnlineHelp\HelpFiles\template.en.htm" />
     <Content Include="OnlineHelp\HelpFiles\template.htm" />
     <Resource Include="PrimesPlugin.png" />
+    <None Include="OnlineHelp\Resources\sigma.jpg" />
     <Content Include="WpfControls\Start.de.html" />
     <Content Include="WpfControls\Start.html" />
     <Resource Include="Resources\icons\application_edit.png" />

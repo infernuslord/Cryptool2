@@ -843,6 +843,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         else if (sender_ == btnHelpPiX)
           Primes.OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PiX);
       }
+      e.Handled = true;
     }
 
 

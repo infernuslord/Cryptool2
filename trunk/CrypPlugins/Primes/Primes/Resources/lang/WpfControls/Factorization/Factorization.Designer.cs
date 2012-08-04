@@ -214,7 +214,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Schritt 2 (Ermittlung der glatten Wert) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Schritt 2 (Ermittlung der glatten Werte) ähnelt.
         /// </summary>
         public static string qs_step2 {
             get {
@@ -228,6 +228,24 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         public static string qs_step2_B {
             get {
                 return ResourceManager.GetString("qs_step2_B", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ist B-Glatt ähnelt.
+        /// </summary>
+        public static string qs_step2_bsmooth {
+            get {
+                return ResourceManager.GetString("qs_step2_bsmooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Faktorisierung ähnelt.
+        /// </summary>
+        public static string qs_step2_factorization {
+            get {
+                return ResourceManager.GetString("qs_step2_factorization", resourceCulture);
             }
         }
         
@@ -331,7 +349,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die a und b wurden ermittelt mit a =  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die a und b wurden ermittelt mit a = {0}, b = {1}. ähnelt.
         /// </summary>
         public static string qs_step4_abcalculated {
             get {
@@ -340,7 +358,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die . Überprüfe die Kongruenz  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Überprüfe die Kongruenz a² ≡ b² (mod n), a ≢ b (mod n) ähnelt.
         /// </summary>
         public static string qs_step4_checkcong {
             get {
@@ -349,7 +367,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Erster Faktor  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Erster Faktor  = GCD({0} + {1}, {2}) = {3} ähnelt.
         /// </summary>
         public static string qs_step4_firstfactor {
             get {
@@ -372,6 +390,15 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         public static string qs_step4_refactorize {
             get {
                 return ResourceManager.GetString("qs_step4_refactorize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf Neustart starten Sie Faktorisierung neu. Die ungültigen Werte werden ab sofort ignoriert. ähnelt.
+        /// </summary>
+        public static string qs_step4_reset {
+            get {
+                return ResourceManager.GetString("qs_step4_reset", resourceCulture);
             }
         }
         

@@ -439,11 +439,11 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Teilersummenfunktion ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summe der Teiler ähnelt.
         /// </summary>
-        public static string rho {
+        public static string sigma {
             get {
-                return ResourceManager.GetString("rho", resourceCulture);
+                return ResourceManager.GetString("sigma", resourceCulture);
             }
         }
         

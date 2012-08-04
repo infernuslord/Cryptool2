@@ -521,7 +521,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ({0}, {1}, {2}, {3},{4},{5}) ist ein Primzahlsechsling. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ({0}, {1}, {2}, {3}, {4}, {5}) ist ein Primzahlsechsling. ähnelt.
         /// </summary>
         public static string numberline_issixtupletprime {
             get {

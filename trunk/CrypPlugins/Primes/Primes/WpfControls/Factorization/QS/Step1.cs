@@ -75,7 +75,7 @@ namespace Primes.WpfControls.Factorization.QS
       ControlHandler.SetPropertyValue(
         m_lblInfo,
         "Text",
-        string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step1_squareroot, new object[] { m_QSData.N.ToString("D"), Math.Sqrt(m_QSData.N).ToString("N") , sqrt}));
+        string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step1_squareroot, m_QSData.N.ToString("D"), Math.Sqrt(m_QSData.N).ToString("N") , sqrt ));
       int counter = 0;
 
       for (long i = data.From; i <= data.To; i++)

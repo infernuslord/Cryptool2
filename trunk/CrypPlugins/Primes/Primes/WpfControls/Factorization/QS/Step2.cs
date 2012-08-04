@@ -40,7 +40,6 @@ namespace Primes.WpfControls.Factorization.QS
     public override void PreStep()
     {
       ControlHandler.ExecuteMethod(this, "_PreStep");
-
     }
 
     public void _PreStep()
@@ -57,11 +56,11 @@ namespace Primes.WpfControls.Factorization.QS
       tbB.Margin = new Thickness(5);
 
       TextBlock tbFactors = new TextBlock();
-      tbFactors.Text = "Faktorisierung";
+      tbFactors.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_factorization;
       tbFactors.Margin = new Thickness(5);
 
       TextBlock tbIsBSmooth = new TextBlock();
-      tbIsBSmooth.Text = "Ist B-Glatt";
+      tbIsBSmooth.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_bsmooth;
       tbIsBSmooth.Margin = new Thickness(5);
 
       Grid.SetColumn(tbB, 0);
@@ -89,7 +88,7 @@ namespace Primes.WpfControls.Factorization.QS
         "Text",
         string.Format(
           Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_B,
-          new object[] { StringFormat.FormatDoubleToIntString(data.B), m_Factors.ToString() }));
+          StringFormat.FormatDoubleToIntString(data.B), m_Factors.ToString() ));
       IList<long> list = new List<long>();
       int counter = 1;
       foreach (QuadraticPair pair in data)
@@ -99,7 +98,7 @@ namespace Primes.WpfControls.Factorization.QS
         long b = pair.B;
         if (b < 0)
         {
-          b *= -1;
+          b = -b;
           pair.AddExponent(-1, 1);
         }
         else
@@ -115,15 +114,13 @@ namespace Primes.WpfControls.Factorization.QS
           int exp = 0;
           while (b % f == 0)
           {
-            b = b / f;
+            b /= f;
             exp++;
           }
           if (exp > 0)
           {
             if (sb.Length>0) sb.Append(" * ");
-            sb.Append(f.ToString());
-            sb.Append("^");
-            sb.Append(exp.ToString());
+            sb.Append(f.ToString() + "^" + exp.ToString());
 
             ControlHandler.SetPropertyValue(tb, "Text", sb.ToString());
           }

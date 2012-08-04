@@ -130,7 +130,7 @@
     <value>Euler's totient function</value>
   </data>
   <data name="eulerphisum" xml:space="preserve">
-    <value>Sum-of-divisors function</value>
+    <value>Sum of divisor totients</value>
   </data>
   <data name="eulerphivalues" xml:space="preserve">
     <value>List of coprimes</value>
@@ -243,8 +243,8 @@
   <data name="proot_wronginterval" xml:space="preserve">
     <value>The first number of the interval {0} has to be smaller than the second</value>
   </data>
-  <data name="rho" xml:space="preserve">
-    <value>Rho</value>
+  <data name="sigma" xml:space="preserve">
+    <value>Sum of divisors</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
     <value>Number-theoretic functions</value>

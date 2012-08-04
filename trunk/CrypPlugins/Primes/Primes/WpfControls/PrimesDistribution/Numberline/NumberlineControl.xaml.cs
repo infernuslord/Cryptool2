@@ -1215,7 +1215,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       }
       else if (sender == btnHelpRho)
       {
-        action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Rho;
+        action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Sigma;
       }
       else if (sender == btnHelpDivSum)
       {

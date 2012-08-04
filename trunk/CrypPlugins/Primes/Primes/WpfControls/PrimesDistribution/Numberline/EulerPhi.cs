@@ -48,7 +48,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       else
       {
         PrimesBigInteger d = PrimesBigInteger.One;
-        PrimesBigInteger counter = PrimesBigInteger.One;
+        PrimesBigInteger counter = PrimesBigInteger.Zero;
         while (d.CompareTo(m_Value) < 0)
         {
           if (PrimesBigInteger.GCD(d, m_Value).Equals(PrimesBigInteger.One))

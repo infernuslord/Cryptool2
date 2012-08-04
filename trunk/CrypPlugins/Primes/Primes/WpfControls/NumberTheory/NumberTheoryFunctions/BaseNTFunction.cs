@@ -37,7 +37,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     protected const string eulerphisum = "eulerphisum";
     protected const string eulerphivalues = "eulerphivalues";
     protected const string pix = "pix";
-    protected const string rho = "rho";
+    protected const string rho = "sigma";
     protected const string tau = "tau";
     protected const string tauvalues = "tauvalues";
 
