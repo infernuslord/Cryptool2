@@ -15,7 +15,7 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
 
         public override string FilePath
         {
-            get { return OnlineHelp.GetDocFilename(PluginType, Lang); }
+            get { return OnlineHelp.GetComponentDocFilename(PluginType, Lang); }
         }
 
         public Type PluginType { get; private set; }

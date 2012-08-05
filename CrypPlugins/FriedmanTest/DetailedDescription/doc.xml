@@ -21,7 +21,7 @@
   </introduction>
 
   <usage lang="en">
-  The frequencies are supplied by the <docRef item="FrequencyTest"/> component. A typical usage scenario looks like this:<newline/>
+  The frequencies are supplied by the <docRef item="Cryptool.FrequencyTest.FrequencyTest"/> component. A typical usage scenario looks like this:<newline/>
   <newline/>
   <img src="FriedmanTest/DetailedDescription/Images/usage.png" />
   </usage>

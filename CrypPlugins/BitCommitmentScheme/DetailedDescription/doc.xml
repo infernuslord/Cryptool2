@@ -42,7 +42,7 @@
 
   <usage lang="en">
     Simply drag the BitCommitmentScheme component to your workspace and connect a component, that outputs a boolean 
-    (for instance the <docRef item="Boolean Input"/> component), to the <i>InputBit</i> input connector.
+    (for instance the <docRef item="Cryptool.Plugins.BooleanOperators.BooleanInput"/> component), to the <i>InputBit</i> input connector.
     A value of <i>true</i> means $m=1$ and <i>false</i> means $m=0$. <newline/>
     Optionally, you can connect to the <i>Dimension</i> and the <i>S</i> input connectors to define these integer 
     values (By default, <i>Dimension</i> is 7 and <i>S</i> is 128).

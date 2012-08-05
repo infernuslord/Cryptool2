@@ -2369,11 +2369,11 @@ namespace Cryptool.CrypWin
                     var pdp = OnlineDocumentationGenerator.DocGenerator.CreatePluginDocumentationPage(docType);
                     if (pdp.AvailableLanguages.Contains(lang))
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(docType, lang));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentDocFilename(docType, lang));
                     }
                     else
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetDocFilename(docType, "en"));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentDocFilename(docType, "en"));
                     }
                 }
                 else

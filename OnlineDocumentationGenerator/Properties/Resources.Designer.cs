@@ -399,6 +399,26 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        ///	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TemplateCommonIndex {
+            get {
+                return ResourceManager.GetString("TemplateCommonIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
@@ -419,6 +439,26 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot; media=&quot;screen&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        ///	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string TemplateComponentsIndex {
+            get {
+                return ResourceManager.GetString("TemplateComponentsIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot; media=&quot;screen&quot; /&gt;
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
@@ -431,26 +471,6 @@ namespace OnlineDocumentationGenerator.Properties {
         public static string TemplateEditorDocumentationPage {
             get {
                 return ResourceManager.GetString("TemplateEditorDocumentationPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot; media=&quot;screen&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
-        ///	&lt;title&gt;
-        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///	 [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string TemplateIndex {
-            get {
-                return ResourceManager.GetString("TemplateIndex", resourceCulture);
             }
         }
         
@@ -497,9 +517,9 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
         ///	 [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string TemplateTemplatesPage {
+        public static string TemplateTemplatesIndex {
             get {
-                return ResourceManager.GetString("TemplateTemplatesPage", resourceCulture);
+                return ResourceManager.GetString("TemplateTemplatesIndex", resourceCulture);
             }
         }
         

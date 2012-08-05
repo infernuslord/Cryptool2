@@ -9,10 +9,10 @@
     Die Bildausgabe ermöglicht die Anzeige eines binär gespeicherten Bildes innerhalb von CrypTool 2. Das Bild kann in verschiedenen Datenformaten (bmp, jpg, png, gif) gespeichert sein.
   </introduction>
   <usage lang="en">
-    At first the image file has to be loaded in CrypTool 2 during the execution. To do so a <docRef item="File Input"/> is a good choice. This may be connected to the Pictureoutput either using the bytearray output or the cryptoolstream output.
+    At first the image file has to be loaded in CrypTool 2 during the execution. To do so a <docRef item="FileInput.FileInputClass"/> is a good choice. This may be connected to the Pictureoutput either using the bytearray output or the cryptoolstream output.
   </usage>
   <usage lang="de-DE">
-    Zunächst muss eine Bilddatei innerhalb von CrypTool 2 während der Ausführung geladen werden. Dazu bietet sich eine <docRef item="File Input"/> an. Diese kann entweder mittels des Bytearray- oder des Cryptoolstream-Ausgangs mit der Bildausgabe verbunden werden.
+    Zunächst muss eine Bilddatei innerhalb von CrypTool 2 während der Ausführung geladen werden. Dazu bietet sich eine <docRef item="FileInput.FileInputClass"/> an. Diese kann entweder mittels des Bytearray- oder des Cryptoolstream-Ausgangs mit der Bildausgabe verbunden werden.
   </usage>
   <presentation lang="en">
     The Picture Output shows the image to display in its presentation. If the presentation is resized the picture will be scaled automatically.

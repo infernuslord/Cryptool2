@@ -31,7 +31,7 @@
     <newline/><newline/>
     The factorization algorithm that is implemented in this plugin should only be applied to relatively small numbers (up to
     about 10^12). For the factorization of bigger numbers there exist algorithms that are much more efficient,
-    e.g. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Quadratic Sieve"/>.
+    e.g. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Cryptool.Plugins.QuadraticSieve.QuadraticSieve"/>.
   </usage>
 
   <usage lang="de-DE">
@@ -53,7 +53,7 @@
     <newline/><newline/>
     Der in diesem Plugin implementierte Faktorisierungsalgorithmus sollte nur auf kleine Zahlen angewendet werden (etwa bis 10^12). 
     Für die Faktorisierung größerer Zahlen existieren sehr viel effizientere Methoden, wie z.B. das quadratische Sieb, welches
-    im Plugin <docRef item="Quadratic Sieve"/> realisiert ist und für größere Zahlen diesem Plugin vorgezogen werden sollte.
+    im Plugin <docRef item="Cryptool.Plugins.QuadraticSieve.QuadraticSieve"/> realisiert ist und für größere Zahlen diesem Plugin vorgezogen werden sollte.
   </usage>
 
   <references>
