@@ -322,7 +322,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                     linkText = itemAttribute.Value;
                                 }
                                 
-                                int dirLevel = entityDocumentationPage.DocDirPath.Split(Path.PathSeparator).Length - 1;
+                                int dirLevel = entityDocumentationPage.DocDirPath.Split(Path.PathSeparator).Length;
                                 var d = "";
                                 for (int i = 0; i < dirLevel; i++)
                                 {

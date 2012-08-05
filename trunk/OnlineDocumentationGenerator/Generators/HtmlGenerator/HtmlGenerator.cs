@@ -29,6 +29,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             GenerateDocPages();
             GenerateComponentIndexPages();
             GenerateTemplateIndexPages();
+            GenerateCommonIndexPages();
             CopyAdditionalResources();
         }
        
@@ -40,7 +41,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-                var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateIndex, lang);
+                var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateComponentsIndex, lang);
                 indexHtml = TagReplacer.ReplaceInstallVersionSwitchs(indexHtml, AssemblyHelper.InstallationType);
                 var languageSelectionCode = GenerateIndexLanguageSelectionCode(AvailableLanguages, lang);
                 indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
@@ -64,14 +65,35 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-                var templatesHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateTemplatesPage, lang);
+                var templatesHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateTemplatesIndex, lang);
                 var languageSelectionCode = GenerateTemplatesPageLanguageSelectionCode(AvailableLanguages, lang);
                 templatesHtml = TagReplacer.ReplaceLanguageSelectionTag(templatesHtml, languageSelectionCode);
                 var templatesListCode = GenerateTemplatesTree(lang);
                 templatesHtml = TagReplacer.ReplaceTemplatesList(templatesHtml, templatesListCode);
 
                 var filename = OnlineHelp.GetTemplatesIndexFilename(lang);
-                StoreTemplatePage(templatesHtml, filename);
+                StoreIndexPage(templatesHtml, filename);
+            }
+        }
+
+        private void GenerateCommonIndexPages()
+        {
+            foreach (var lang in AvailableLanguages)
+            {
+                var cultureInfo = new CultureInfo(lang);
+                Thread.CurrentThread.CurrentCulture = cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+                var commonHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateCommonIndex, lang);
+                var languageSelectionCode = GenerateTemplatesPageLanguageSelectionCode(AvailableLanguages, lang);
+                commonHtml = TagReplacer.ReplaceLanguageSelectionTag(commonHtml, languageSelectionCode);
+                var commonListCode = GenerateCommonListCode(DocPages.FindAll(x => x is CommonDocumentationPage).Select(x => (CommonDocumentationPage)x), lang);
+                commonHtml = TagReplacer.ReplaceCommonList(commonHtml, commonListCode);
+                //var templatesListCode = GenerateTemplatesTree(lang);
+                //templatesHtml = TagReplacer.ReplaceTemplatesList(templatesHtml, templatesListCode);
+
+                var filename = OnlineHelp.GetCommonIndexFilename(lang);
+                StoreIndexPage(commonHtml, filename);
             }
         }
 
@@ -142,7 +164,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", actualIndexCharacter));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
             stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
@@ -225,7 +247,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", categoryName));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
             anchorBuilder.Append("</p>");
@@ -247,11 +269,46 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
                 var pp = (LocalizedEditorDocumentationPage)page.Localizations[linkedLang];
                 stringBuilderListCode.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilderListCode.AppendLine("</table>");
 
             return stringBuilderListCode.ToString();
+        }
+
+        private static string GenerateCommonListCode(IEnumerable<CommonDocumentationPage> commonDocumentationPages, string lang)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+
+            var anchorBuilder = new StringBuilder();
+            anchorBuilder.Append("<p>");
+
+            var query = from pages in commonDocumentationPages
+                        orderby pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"].Name
+                        select pages;
+
+            char actualIndexCharacter = ' ';
+            foreach (var page in query)
+            {
+
+                var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
+                var pp = (LocalizedCommonDocumentationPage)page.Localizations[linkedLang];
+                //if (actualIndexCharacter != pp.Name[0])
+                //{
+                //    actualIndexCharacter = pp.Name.ToUpper()[0];
+                //    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h1></td><td></td></tr>", actualIndexCharacter));
+                //    anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", actualIndexCharacter));
+                //}
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td></tr>",
+                    OnlineHelp.GetCommonDocFilename(page.Name, linkedLang), pp.Name));
+            }
+            stringBuilder.AppendLine("</table>");
+            //stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
+
+            anchorBuilder.Append("</p>");
+            anchorBuilder.Append(stringBuilder);
+            return anchorBuilder.ToString();
         }
 
         private static string GetDocumentationTemplate(EntityDocumentationPage entityDocPage)
@@ -319,26 +376,6 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         }
 
         private void StoreIndexPage(string html, string filename)
-        {
-            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, filename));
-            try
-            {
-                if (!Directory.Exists(Path.Combine(OutputDir, OnlineHelp.HelpDirectory)))
-                {
-                    Directory.CreateDirectory(Path.Combine(OutputDir, OnlineHelp.HelpDirectory));
-                }
-
-                var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
-                streamWriter.Write(html);
-                streamWriter.Close();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
-            }
-        }
-
-        private void StoreTemplatePage(string html, string filename)
         {
             var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, filename));
             try

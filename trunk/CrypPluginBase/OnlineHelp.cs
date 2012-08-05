@@ -33,7 +33,7 @@ namespace Cryptool.PluginBase
                 ShowDocPage(docEntity);
         }
 
-        public static string GetDocFilename(Type plugin, string lang)
+        public static string GetComponentDocFilename(Type plugin, string lang)
         {
             var filename = string.Format("{0}_{1}.html", plugin.FullName, lang);
             if (plugin.GetInterfaces().Contains(typeof(IEditor)))
@@ -62,7 +62,12 @@ namespace Cryptool.PluginBase
         {
             return string.Format("templates_{0}.html", lang);
         }
-        
+
+        public static string GetCommonIndexFilename(string lang)
+        {
+            return string.Format("common_{0}.html", lang);
+        }
+
         public static string GetCommonDocFilename(string name, string lang)
         {
             var file = string.Format("{0}_{1}.html", name, lang);

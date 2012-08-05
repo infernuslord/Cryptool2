@@ -31,7 +31,7 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         public override string DocDirPath
         {
-            get { return Path.GetDirectoryName(OnlineHelp.GetDocFilename(PluginType, "en")); }
+            get { return Path.GetDirectoryName(OnlineHelp.GetComponentDocFilename(PluginType, "en")); }
         }
 
         public PluginDocumentationPage(Type pluginType)

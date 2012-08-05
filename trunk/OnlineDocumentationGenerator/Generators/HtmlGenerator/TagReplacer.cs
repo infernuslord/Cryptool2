@@ -22,6 +22,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex FindComponentTreeTagRegex = new Regex("<componentTree.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEditorListTagRegex = new Regex("<editorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindTemplateListTagRegex = new Regex("<templatesList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindCommonListTagRegex = new Regex("<commonList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ReplaceDocItemTags(string html, LocalizedEntityDocumentationPage localizedDocumentationPage, ObjectConverter objectConverter)
         {
@@ -198,6 +199,21 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return htmlBuilder.ToString();
         }
 
+        public static string ReplaceCommonList(string html, string commonListCode)
+        {
+            int pos;
+            int len;
+            var htmlBuilder = new StringBuilder(html);
+
+            while (FindCommonListTag(htmlBuilder.ToString(), out pos, out len))
+            {
+                htmlBuilder.Remove(pos, len);
+                htmlBuilder.Insert(pos, commonListCode);
+            }
+
+            return htmlBuilder.ToString();
+        }
+
         public static string ReplaceTemplatesList(string html, string templatesListCode)
         {
             int pos;
@@ -224,6 +240,14 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         internal static bool FindTemplatesListTag(string html, out int pos, out int len)
         {
             var match = FindTemplateListTagRegex.Match(html);
+            pos = match.Index;
+            len = match.Length;
+            return match.Success;
+        }
+
+        internal static bool FindCommonListTag(string html, out int pos, out int len)
+        {
+            var match = FindCommonListTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;

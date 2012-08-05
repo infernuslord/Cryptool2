@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The Vigenère Autokey Analyzer is used for a ciphertext-only attack on <docRef item="Vigenère"/> or autokey ciphers.
+    The Vigenère Autokey Analyzer is used for a ciphertext-only attack on <docRef item="Cryptool.Vigenere.Vigenere"/> or autokey ciphers.
     For more information on the autokey cipher have a look at <ref id="autokey"/>    
   </introduction>
 
@@ -31,7 +31,7 @@
       <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic1.JPG"/>
       <newline/>
       The quickwatch as seen above will now represent all calculated keys if there was no key length given. If the third input was set, there will only one possible key be seen in here. You can now select one of the keys by double clicking them. The grey key is the most probable one as it gains the highest index of coincidence for all possible plaintexts. If your cipher wasn't encoded correctly, try to use the frequency of another language, or use your own text corpus to help with the analysis.<newline/>
-      This component tries all possible key lengths up until 1/40 of your ciphertext's length if there is no key length set at the third input. To find a most probable key length, use the <docRef item="Autocorrelation"/> component on your ciphertext and connect its output with the third input of this component.
+      This component tries all possible key lengths up until 1/40 of your ciphertext's length if there is no key length set at the third input. To find a most probable key length, use the <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/> component on your ciphertext and connect its output with the third input of this component.
     </section>
   </usage>
 

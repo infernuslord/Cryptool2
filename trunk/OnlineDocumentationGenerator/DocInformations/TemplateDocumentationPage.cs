@@ -25,7 +25,11 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         public override string Name
         {
-            get { return Path.GetFileNameWithoutExtension(Localizations["en"].FilePath); }
+            get
+            {
+                var flattenedPath = RelativeTemplateDirectory.Replace(Path.DirectorySeparatorChar, '.');
+                return string.Format("{0}.{1}", flattenedPath, Path.GetFileNameWithoutExtension(TemplateFile));
+            }
         }
 
         public override string DocDirPath
