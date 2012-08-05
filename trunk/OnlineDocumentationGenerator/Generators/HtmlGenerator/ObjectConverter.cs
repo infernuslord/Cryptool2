@@ -286,7 +286,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             var headline = ((XElement) node).Attribute("headline");
                             if (headline != null)
                             {
-                                result.AppendLine(string.Format("<h3>{0}</h3>", headline.Value));
+                                result.AppendLine(string.Format("<h2>{0}</h2>", headline.Value));
                                 result.AppendLine(ConvertXElement((XElement) node, entityDocumentationPage));
                             }
                             break;

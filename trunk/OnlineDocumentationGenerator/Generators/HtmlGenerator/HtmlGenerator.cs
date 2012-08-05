@@ -138,7 +138,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 if (actualIndexCharacter != pp.Name[0])
                 {
                     actualIndexCharacter = pp.Name.ToUpper()[0];
-                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h2></td><td></td></tr>", actualIndexCharacter));
+                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h1></td><td></td></tr>", actualIndexCharacter));
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", actualIndexCharacter));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
@@ -221,7 +221,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             categoryName = Properties.Resources.Unknown_Category;
                             break;
                     }
-                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h2></td><td></td></tr>", categoryName));
+                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h1></td><td></td></tr>", categoryName));
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", categoryName));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
