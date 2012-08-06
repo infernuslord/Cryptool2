@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Windows;
 
 namespace FileInput
 {
@@ -71,6 +72,16 @@ namespace FileInput
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
+    }
+
+    public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+    public void SettingChanged(string setting, Visibility vis)
+    {
+        if (TaskPaneAttributeChanged != null)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+        }
     }
 
     #endregion
