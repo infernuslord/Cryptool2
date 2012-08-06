@@ -26,6 +26,7 @@ using Cryptool.PluginBase.IO;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Windows;
 
 
 namespace FileInput
@@ -50,8 +51,6 @@ namespace FileInput
             fileInputPresentation.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
 
             Presentation = fileInputPresentation;
-
-            
 
            // fileInputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
            // fileInputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
@@ -93,12 +92,13 @@ namespace FileInput
                     fileInputPresentation.OpenFile(settings.OpenFilename);
                     FileSize = (int)new FileInfo(fileName).Length;
                     GuiLogMessage("Opened file: " + settings.OpenFilename, NotificationLevel.Info);
+                    settings.SettingChanged("CloseFile", Visibility.Visible);
                 }
                 else if (e.PropertyName == "OpenFilename" && fileName == null)
                 {
-
                     fileInputPresentation.CloseFile();
                     FileSize = 0;
+                    settings.SettingChanged("CloseFile", Visibility.Collapsed);
                 }
                 NotifyPropertyChange();
             }
@@ -152,10 +152,12 @@ namespace FileInput
         public void Initialize()
         {
             fileInputPresentation.CloseFile();
+            settings.SettingChanged("CloseFile", Visibility.Hidden);
             if (File.Exists(settings.OpenFilename))
             {
                 fileInputPresentation.OpenFile(settings.OpenFilename);
                 NotifyPropertyChange();
+                settings.SettingChanged("CloseFile", Visibility.Visible);
             }
         }
 

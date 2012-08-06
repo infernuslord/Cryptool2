@@ -248,10 +248,10 @@
     <value>Art des Plugins: </value>
   </data>
   <data name="Save_file" xml:space="preserve">
-    <value>Speichere Datei</value>
+    <value>Datei speichern</value>
   </data>
   <data name="Open_file" xml:space="preserve">
-    <value>Öffne Datei</value>
+    <value>Datei öffnen</value>
   </data>
   <data name="Error_loading_file" xml:space="preserve">
     <value>Fehler beim Laden von Datei</value>

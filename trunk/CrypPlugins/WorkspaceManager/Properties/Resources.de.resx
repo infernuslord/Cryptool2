@@ -412,10 +412,10 @@
     <value>Öffne/schließe Fenster mit Komponentenparametern</value>
   </data>
   <data name="Save_File" xml:space="preserve">
-    <value>Speichere Datei</value>
+    <value>Datei speichern</value>
   </data>
   <data name="Open_File" xml:space="preserve">
-    <value>Öffne Datei</value>
+    <value>Datei öffnen</value>
   </data>
   <data name="Show_ComponentConnection_Proposition" xml:space="preserve">
     <value>Zeige Komponenten-Verbindungsvorschläge</value>
