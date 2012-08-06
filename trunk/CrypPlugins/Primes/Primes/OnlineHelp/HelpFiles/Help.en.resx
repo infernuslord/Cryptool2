@@ -130,7 +130,7 @@
   <data name="Distribution_Goldbach" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\distribution_goldbach.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Distribution_NumberGrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="Distribution_Numbergrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\distribution_numbergrid.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Numberline" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -228,6 +228,9 @@
   </data>
   <data name="PrimitivRoot_PrimitivRoot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\primitivroot_primitivroot.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Simpson_Lin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\simpson_lin.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Spiral_Ulam" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\spiral_ulam.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

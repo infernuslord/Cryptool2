@@ -748,7 +748,6 @@
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numbergrid.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numberline.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_QuadrupletPrimes.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Rho.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_SixTupletPrimes.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_Tau.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_TwinPrimes.htm" />
@@ -783,7 +782,9 @@
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhi.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhiSum.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Goldbach.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_NumberGrid.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_NumberGrid.htm">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Numberline.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_QuadrupletPrimes.htm" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Sigma.htm" />
@@ -817,7 +818,6 @@
     <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_Input.html" />
     <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_PrimitivRoot.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Spiral_Ulam.htm" />
     <Content Include="OnlineHelp\HelpFiles\template.en.htm" />
     <Content Include="OnlineHelp\HelpFiles\template.htm" />

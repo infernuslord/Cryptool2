@@ -226,10 +226,10 @@
     <value>nicht bestanden </value>
   </data>
   <data name="qs_step4_refactorize" xml:space="preserve">
-    <value>{0} ist keine Primzahl. Mit Klick auf Neustart wird {1} faktorisiert.</value>
+    <value>{0} ist keine Primzahl. Mit Klick auf "Neustart" wird {1} faktorisiert.</value>
   </data>
   <data name="qs_step4_reset" xml:space="preserve">
-    <value>Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf Neustart starten Sie Faktorisierung neu. Die ungültigen Werte werden ab sofort ignoriert.</value>
+    <value>Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf "Neustart" starten Sie Faktorisierung neu. Die ungültigen Werte werden ab dann ignoriert.</value>
   </data>
   <data name="qs_step4_secondfactor" xml:space="preserve">
     <value>Zweiter Faktor </value>
