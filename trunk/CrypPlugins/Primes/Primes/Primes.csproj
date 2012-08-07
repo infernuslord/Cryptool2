@@ -100,6 +100,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SettingsTab\PrimesSettingsTab.xaml.cs">
       <DependentUpon>PrimesSettingsTab.xaml</DependentUpon>
     </Compile>
@@ -382,11 +387,6 @@
       <DependentUpon>Numbertheory.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -739,90 +739,86 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
-    <None Include="OnlineHelp\HelpFiles\de\Distribution_Sigma.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_SieveOfAtkin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Distribution.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhi.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhiSum.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Goldbach.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numbergrid.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numberline.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_QuadrupletPrimes.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_SixTupletPrimes.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Tau.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Distribution_TwinPrimes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Distribution.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhi.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhiSum.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Goldbach.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numbergrid.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Numberline.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_QuadrupletPrimes.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Sigma.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_SixTupletPrimes.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_Tau.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Distribution_TwinPrimes.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Factorization_BruteForce.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Factorization_Factorization.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Factorization_Generate.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Factorization_Generate_BigInteger.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Factorization_QS.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\Factorization_Rho.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateEuler1.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadratic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadraticRandom.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadraticSystematic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_Generation.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_Quadratic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_Random.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Generation_RandomNTimesM.htm" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateEuler1.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadratic.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadraticRandom.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_GenerateQuadraticSystematic.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_Generation.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_Quadratic.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_Random.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_RandomNTimesM.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Generation_SieveOfAtkin.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_GaussPi.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_LargeNumbers.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_LiN.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_PiX.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_PrimesCount.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\Pari_Lin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Primetest_MillerRabin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Primetest_Primetest.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Primetest_SieveOfEratosthenes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\de\Pari_Lin.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Primetest_MillerRabin.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Primetest_Primetest.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Primetest_SieveOfEratosthenes.html" />
     <Content Include="OnlineHelp\HelpFiles\de\PrimitivRoot_Input.html" />
     <Content Include="OnlineHelp\HelpFiles\de\PrimitivRoot_PrimitivRoot.html" />
-    <Content Include="OnlineHelp\HelpFiles\de\Simpson_Lin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\de\Spiral_Ulam.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Distribution.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhi.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhiSum.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Goldbach.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_NumberGrid.htm">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Numberline.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_QuadrupletPrimes.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Sigma.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_SixTupletPrimes.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Tau.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Distribution_TwinPrimes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\de\Simpson_Lin.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Spiral_Ulam.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Distribution.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhi.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhiSum.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Goldbach.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Numbergrid.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Numberline.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_QuadrupletPrimes.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Sigma.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_SixTupletPrimes.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_Tau.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Distribution_TwinPrimes.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_BruteForce.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Factorization.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Generate.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_Generate_BigInteger.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Factorization_QS.html" />
-    <Content Include="OnlineHelp\HelpFiles\en\Factorization_Rho.html" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateEuler1.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadratic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticRandom.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticSystematic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_Generation.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_Quadratic.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_Random.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_RandomNTimesM.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Generation_SieveOfAtkin.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateEuler1.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadratic.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticRandom.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_GenerateQuadraticSystematic.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Generation.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Quadratic.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_Random.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_RandomNTimesM.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Generation_SieveOfAtkin.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_GaussPi.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_LargeNumbers.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_LiN.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_PiX.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_PrimesCount.html" />
-    <Content Include="OnlineHelp\HelpFiles\en\Pari_Lin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Primetest_MillerRabin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Primetest_Primetest.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Primetest_SieveOfEratosthenes.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Pari_Lin.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Primetest_MillerRabin.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Primetest_Primetest.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Primetest_SieveOfEratosthenes.html" />
     <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_Input.html" />
     <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_PrimitivRoot.html" />
-    <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.htm" />
-    <Content Include="OnlineHelp\HelpFiles\en\Spiral_Ulam.htm" />
-    <Content Include="OnlineHelp\HelpFiles\template.en.htm" />
-    <Content Include="OnlineHelp\HelpFiles\template.htm" />
+    <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Spiral_Ulam.html" />
+    <Content Include="OnlineHelp\HelpFiles\template.en.html" />
     <Resource Include="PrimesPlugin.png" />
     <None Include="OnlineHelp\Resources\sigma.jpg" />
+    <Content Include="OnlineHelp\HelpFiles\template.html" />
     <Content Include="WpfControls\Start.de.html" />
     <Content Include="WpfControls\Start.html" />
     <Resource Include="Resources\icons\application_edit.png" />
@@ -871,8 +867,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\lang\Navigation\Navigation.en.resx">
       <SubType>Designer</SubType>
