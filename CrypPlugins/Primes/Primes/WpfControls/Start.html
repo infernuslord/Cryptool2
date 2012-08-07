@@ -18,7 +18,8 @@
 	</tr>
 	</table>
 
- <p align="justify">
+  <p align="justify">
+
   This component gives an overview over the properties and applications of prime numbers.<br />
   A prime number is a natural number >= 2, which is divisible only by 1 and itself.
   So prime numbers are a special subset of the natural numbers and what makes them especially interesting is the fact,
@@ -40,40 +41,49 @@
   The number 6 for example is uniquely factored into 6 = 2 * 3.<br />
   The two prime numbers 2 and 3 are the building blocks of the number 6. The factorization is unique, there is no other possibility to write 6 as
   the product of prime numbers. The result of breaking up a number into its prime factors is called the "prime factorization".
-<br />
-  <br />
+  <br /><br />
+
   <ul>
+
   <li>
   The first method is the <a href="exec://Factor_Bf">brute-force factorization</a>. It is the easiest method, but it
   is also very ineffective for big numbers. The factors of a number are found by sequentially trying all possible factors.
   The found factors are displayed in a factor tree.<br /><br />
-</li>
-<li>
-	The <a href="exec://Factor_QS">quadratic sieve</a> is one of the fastest methods for factoring a number.
-	It makes use of mathematical principles that date back on the french mathematician Pierre de Fermat. The method is more complex and mathematically more sophisticated than trial division. Therefore an example is presented in the online help for the quadratic sieve.<br /><br />
-</li>
-</ul>
+  </li>
+
+  <li>
+  The <a href="exec://Factor_QS">quadratic sieve</a> is one of the fastest methods for factoring a number.
+  It makes use of mathematical principles that date back on the french mathematician Pierre de Fermat. The method is more complex and mathematically more sophisticated than trial division. Therefore an example is presented in the online help for the quadratic sieve.<br /><br />
+  </li>
+
+  </ul>
 
   <hr /><br />
 
   In the section <strong>Primality test</strong> you can find three methods which allow you to test if a given number is a prime number.
   The RSA cryptosystem requires two prime numbers with more than 150 digits each. Primality tests are used for
   finding such big prime numbers.
+
   <ul>
+
   <li>
   <a href="exec://Primetest_Sieve">The sieve of Eratosthenes</a> was invented by the greek mathematician Eratosthenes around 200 BC.
   It not only tests whether a number is prime, it also generates a list of all prime numbers up to the tested number.
   <br /><br />
   </li>
+
   <li>
   The <a href="exec://Primetest_Miller">Miller-Rabin primality test</a> is the test that is most often used.
 	It is also based on <a href="http://de.wikipedia.org/wiki/Kleiner_fermatscher_Satz" target="_blank">Fermat's Little Theorem</a>.
 	Because of the nature of this test, mistakes are possible; for example the method may produce a result which is supposedly prime, but is in fact composite.
+  <br /><br />
   </li>
+
   <li>
   <a href="exec://Primetest_Sieve">The Sieve of Atkin</a> was developed by the mathematician Atkin and is an optimization of the sieve of Eratosthenes.
   <br /><br />
   </li>
+
   </ul>
 
   <hr /><br />
@@ -81,22 +91,24 @@
   In the section <a href="exec://Primesgeneration">Generation of primes</a> you can experiment with quadratic formulas.
   Some quadratic formulas generate more prime numbers than others, but no quadratic formula generates prime numbers for all input values.
   Eulers famous quadratic polynomial – x<sup>2</sup> + x + 41 – generates prime numbers for x = 0 ... 39.
+  <br /><br />
+
   <hr /><br />
 
   In the section <strong>Distribution of primes</strong> you can experiment with some visualizations of the distribution of the prime numbers.
   <br />The following functions are available:
+
   <ul>
 
   <li>
-
   On the <a href="exec://PrimeDistrib_Numberline">Number line</a> the natural numbers are represented as points. The prime numbers are displayed as blue dots, all other numbers as black dots. When you move the mouse pointer over a number, some properties of that number are displayed and different number theoretical functions are evaluated.
-    <br /><br />
+  <br /><br />
   </li>
 
   <li>
   On the <a href="exec://PrimeDistrib_Numberrec">Number grid</a> the natural numbers are displayed in a two dimensional grid. The prime numbers are displayed as red squares.
   You can adapt the number of rows and columns of the grid (up to 100 rows/columns), so that you can examine different patterns.
-    <br /><br />
+  <br /><br />
   </li>
 
   <li>
@@ -104,16 +116,16 @@
   Two of the functions are approximations that were found by Carl Friedrich Gauss. They don't give the exact number but estimates that are very good.
   The third function counts the exact number of primes and the resulting graph looks therefore like a series of steps. The calculation of this 'step function' is
   very time consuming.
-    <br /><br />
+  <br /><br />
   </li>
 
   <li>
   During a boring presentation, the mathematician Stanisław Ulam started writing the natural numbers on a graphed paper in the shape of a spiral. He then marked all the prime numbers and to his surprise he found, that many of the prime numbers lay on diagonals. You can recreate the spiral in this dialog with various adjustable parameters. The spiral is called <a href="exec://PrimeDistrib_Ulam">Ulam's sprial</a> after its inventor.
-    <br /><br />
+  <br /><br />
   </li>
 
   </ul>
-  <br /><br />
+
   <hr /><br />
 
   <a href="exec://PrimitivRoot">Primitive roots</a> are of great importance for cryptography.
@@ -122,6 +134,8 @@
   over an open channel, precautions must be taken that no third person can intercept the key. This can
   be ensured if the two communication partners use the <a href="http://en.wikipedia.org/wiki/Diffie-Hellman_key_exchange" target="_blank">Diffie-Hellman key exchange</a>,
   which makes use of the properties of primitive roots.
-  	</p>
-	</body>
+
+  </p>
+
+  </body>
 </html>

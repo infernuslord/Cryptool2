@@ -119,120 +119,117 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Distribution_Distribution" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_distribution.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_distribution.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_EulerPhi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_eulerphi.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_eulerphi.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_EulerPhiSum" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_eulerphisum.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_eulerphisum.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Goldbach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_goldbach.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_goldbach.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Numbergrid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_numbergrid.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_numbergrid.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Numberline" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_numberline.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_numberline.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_QuadrupletPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_quadrupletprimes.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_quadrupletprimes.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Sigma" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\Distribution_Sigma.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_sigma.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_SixTupletPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_sixtupletprimes.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_sixtupletprimes.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_Tau" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_tau.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_tau.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Distribution_TwinPrimes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\distribution_twinprimes.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\distribution_twinprimes.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Factorization_BruteForce" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_bruteforce.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\factorization_bruteforce.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Factorization_Factorization" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_factorization.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\factorization_factorization.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Factorization_Generate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_generate.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\factorization_generate.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Factorization_Generate_BigInteger" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_generate_biginteger.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\factorization_generate_biginteger.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Factorization_QS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_qs.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="Factorization_Rho" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\factorization_rho.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\factorization_qs.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="Generation_GenerateEuler1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_generateeuler1.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_generateeuler1.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_GenerateQuadratic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_generatequadratic.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_generatequadratic.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_GenerateQuadraticRandom" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_generatequadraticrandom.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_generatequadraticrandom.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_GenerateQuadraticSystematic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_generatequadraticsystematic.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_generatequadraticsystematic.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_Generation" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_generation.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_generation.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_Quadratic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_quadratic.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_quadratic.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_Random" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_random.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_random.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_RandomNTimesM" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_randomntimesm.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_randomntimesm.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Generation_SieveOfAtkin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\generation_sieveofatkin.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\generation_sieveofatkin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Graph_GaussPi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\graph_gausspi.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\graph_gausspi.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Graph_LargeNumbers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\graph_largenumbers.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>de\graph_largenumbers.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="Graph_LiN" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\graph_lin.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\graph_lin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Graph_PiX" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\graph_pix.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\graph_pix.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Graph_PrimesCount" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\graph_primescount.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\graph_primescount.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Pari_Lin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\pari_lin.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\pari_lin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Primetest_MillerRabin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\primetest_millerrabin.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\primetest_millerrabin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Primetest_Primetest" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\primetest_primetest.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\primetest_primetest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Primetest_SieveOfEratosthenes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\primetest_sieveoferatosthenes.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\primetest_sieveoferatosthenes.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="PrimitivRoot_Input" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\primitivroot_input.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>de\primitivroot_input.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="PrimitivRoot_PrimitivRoot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\primitivroot_primitivroot.html;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>de\primitivroot_primitivroot.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="Simpson_Lin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\simpson_lin.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\simpson_lin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Spiral_Ulam" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>de\spiral_ulam.htm;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>de\spiral_ulam.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

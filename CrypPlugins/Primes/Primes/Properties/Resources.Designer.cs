@@ -226,12 +226,13 @@ namespace Primes.Properties {
         ///	&lt;table&gt;
         ///	&lt;tr&gt;
         ///	  &lt;td width=&quot;100%&quot;&gt;&lt;h2&gt;Welcome to the World of Primes&lt;/h2&gt;&lt;/td&gt;
-        ///	  &lt;td nowrap&gt;  &lt;a href=&quot;javascript:window.print()&quot;&gt;Die Startseite ausdrucken.&lt;/a&gt;&lt;/td&gt;
+        ///	  &lt;td nowrap&gt;&lt;a href=&quot;javascript:window.print()&quot;&gt;Print this page.&lt;/a&gt;&lt;/td&gt;
         ///	&lt;/tr&gt;
         ///	&lt;/table&gt;
-        /// 
-        /// &lt;p align=&quot;justify&quot;&gt;
-        ///  Diese Anwendung gibt einen Überblick über die  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///
+        ///  &lt;p align=&quot;justify&quot;&gt;
+        ///
+        ///  This component gives an overview over the properties and [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Start {
             get {
