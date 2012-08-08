@@ -52,6 +52,28 @@ namespace HexBox
                 f = 16;
             }
 
+
+            if (mark[0] < 0)
+            {
+                mark[0] = 0;
+            }
+
+            if (mark[1] < 0)
+            {
+                mark[1] = 0;
+            }
+
+            if (mark[0] > 512)
+            {
+                mark[0] = 512;
+            }
+
+            if (mark[1] > 512)
+            {
+                mark[1] = 512;
+            }
+
+
             if (!removemarks)
             {
 
@@ -60,9 +82,9 @@ namespace HexBox
 
                     double y = (int)(mark[0] / 16) * 20;
                     double x = mark[0] % 16 * charwidth;
-                    double z = mark[1] % 16 * charwidth - x + 2 * charwidth;
+                    double z = mark[1] % 16 * charwidth - x ;
 
-                    double z2 = 16 * charwidth - x - charwidth;
+                    double z2 = 16 * charwidth - x ;
 
                     if (z < 0)
                     {
@@ -71,7 +93,7 @@ namespace HexBox
 
                     double y1 = (int)(mark[1] / 16) * 20;
                     double x1 = 0;
-                    double z1 = mark[1] % 16 * charwidth + 2 * charwidth;
+                    double z1 = mark[1] % 16 * charwidth ;
 
                     if (z1 < 0)
                     {
@@ -111,9 +133,9 @@ namespace HexBox
                 {
                     double y = (int)(mark[0] / 16) * 20;
                     double x = mark[1] % 16 * charwidth;
-                    double z = mark[0] % 16 * charwidth - x + 2 * charwidth;
+                    double z = mark[0] % 16 * charwidth - x ;
 
-                    double z2 = mark[0] % 16 * charwidth + 2 * charwidth;
+                    double z2 = mark[0] % 16 * charwidth ;
 
                     if (z < 0)
                     {
@@ -121,8 +143,10 @@ namespace HexBox
                     }
 
                     double y1 = (int)(mark[1] / 16) * 20;
-                    double x1 = 0;
-                    double z1 = mark[1] % 16 * charwidth + 2 * charwidth;
+                    
+                    double z1 = mark[1] % 16 * charwidth ;
+
+                    double x1 = 16 * charwidth-z1;
 
                     if (z1 < 0)
                     {
@@ -142,14 +166,14 @@ namespace HexBox
                         drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
                                                      new Rect(0, y, z2, 20));
                         drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
-                                                     new Rect(x1, y1, z1, 20));
+                                                     new Rect(z1, y1, x1, 20));
                         int v = (int)mark[0] / 16 - (int)mark[1] / 16;
 
                         for (int ix = 1; ix < v; ix++)
                         {
                             double y3 = y1 + ix * 20;
                             drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
-                                                         new Rect(0, y3, 47 * charwidth, 20));
+                                                         new Rect(0, y3, 16 * charwidth, 20));
                         }
 
                     }

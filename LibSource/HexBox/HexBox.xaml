@@ -59,10 +59,10 @@
     
         <StackPanel  Name="mainPanel" Orientation="Vertical" Grid.Row="1" >
 
-            <StackPanel Orientation="Horizontal" Name="blupp" >
+            <StackPanel Orientation="Horizontal" Name="blupp"  >
 
 
-                <Grid Width="150" Name="gridid">
+                <Grid Width="150" Name="gridid" Height="313">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />

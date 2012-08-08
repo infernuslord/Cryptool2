@@ -73,7 +73,26 @@ namespace HexBox
 
             charwidth = formattedText.WidthIncludingTrailingWhitespace/f;
 
-            
+            if (mark[0] < 0)
+            {
+                mark[0] = 0;
+            }
+
+            if (mark[1] < 0)
+            {
+                mark[1] = 0;
+            }
+
+            if (mark[0] > 512)
+            {
+                mark[0] = 512;
+            }
+
+            if (mark[1] > 512)
+            {
+                mark[1] = 512;
+            }
+
 
             if (!removemarks)
             {
@@ -144,8 +163,10 @@ namespace HexBox
                     }
 
                     double y1 = (int) (mark[1]/32)*20;
-                    double x1 = 0;
-                    double z1 = mark[1]%32*charwidth*3/2 + 2*charwidth;
+                    
+                    double z1 = mark[1]%32*charwidth*3/2 ;
+                    double x1 = 47*charwidth-z1;
+
 
                     if (z1 < 0)
                     {
@@ -165,7 +186,7 @@ namespace HexBox
                         drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
                                                      new Rect(0, y, z2, 20));
                         drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
-                                                     new Rect(x1, y1, z1, 20));
+                                                     new Rect(z1, y1, x1, 20));
                         int v = (int) mark[0]/32 - (int) mark[1]/32;
 
                         for (int i = 1; i < v; i++)
