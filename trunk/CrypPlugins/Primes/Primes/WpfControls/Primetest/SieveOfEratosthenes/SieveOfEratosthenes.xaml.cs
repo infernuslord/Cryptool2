@@ -151,6 +151,8 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
       else
       {
         m_ThreadAutomatic = new Thread(new ThreadStart(StepAutomatic));
+        m_ThreadAutomatic.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_ThreadAutomatic.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         FireOnExecute();
         sievegrid.SetButtonStatus(false, false);
         m_ThreadAutomatic.Start();
@@ -182,6 +184,8 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     {
       ControlHandler.DisableButton(btnForceAutomatic);
       m_ThreadAutomatic = new Thread(new ThreadStart(StepAutomatic));
+      m_ThreadAutomatic.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_ThreadAutomatic.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       FireOnExecute();
       sievegrid.SetButtonStatus(false, false);
       m_ThreadAutomatic.Start();

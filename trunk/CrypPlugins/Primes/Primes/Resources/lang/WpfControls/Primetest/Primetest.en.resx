@@ -169,7 +169,7 @@
     <value>done</value>
   </data>
   <data name="soe_doneautomatic" xml:space="preserve">
-    <value>execution done: </value>
+    <value>Execution done: </value>
   </data>
   <data name="soe_infostepwise1" xml:space="preserve">
     <value>List all numbers from 2 to {0}!</value>

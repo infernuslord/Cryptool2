@@ -537,6 +537,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             {
 
                 m_Thread = new Thread(new ThreadStart(DoExecuteGraphic));
+                m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+                m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
                 m_Thread.Start();
                 //rteDoExecuteGraphic();
             }

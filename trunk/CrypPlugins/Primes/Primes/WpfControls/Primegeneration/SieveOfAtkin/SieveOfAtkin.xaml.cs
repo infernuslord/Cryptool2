@@ -30,6 +30,7 @@ using System.Windows.Shapes;
 using Primes.Bignum;
 using System.Threading;
 using Primes.Library;
+using System.Globalization;
 
 namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 {
@@ -49,6 +50,9 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     public void startThread()
     {
       m_SieveThread = new Thread(new ThreadStart(Sieve));
+      m_SieveThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_SieveThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+        
       m_SieveThread.Start();
     }
 

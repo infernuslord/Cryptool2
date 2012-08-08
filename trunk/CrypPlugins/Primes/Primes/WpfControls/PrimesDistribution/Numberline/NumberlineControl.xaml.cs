@@ -415,6 +415,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       //DoAtomicScroll(PrimesBigInteger.ValueOf(1));
       m_ScrollThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(ScrollRight)));
+      m_ScrollThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_ScrollThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_ScrollThread.Start(value);
     }
     private void btnScrollRight_MouseLeave(object sender, MouseEventArgs e)
@@ -841,6 +843,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       //DoFactorize(value);
       CancelFactorization();
       m_FactorizeThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(DoFactorize)));
+      m_FactorizeThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_FactorizeThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_FactorizeThread.Priority = ThreadPriority.Normal;
       m_FactorizeThread.Start(value);
     }
@@ -938,6 +942,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       logGoldbach.Clear();
       logGoldbach.Columns = 1;
       m_GoldbachThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(DoCalculateGoldbach)));
+      m_GoldbachThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_GoldbachThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_GoldbachThread.Priority = ThreadPriority.Normal;
       m_GoldbachThread.Start(value);
       //DoCalculateGoldbach(value);
@@ -1013,6 +1019,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       CancelCountPrimes();
       m_CountPrimesThread = new Thread(new ParameterizedThreadStart(new ObjectParameterDelegate(DoCountPrimes)));
+      m_CountPrimesThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_CountPrimesThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_CountPrimesThread.Priority = ThreadPriority.Normal;
       m_CountPrimesThread.Start(value);
     }

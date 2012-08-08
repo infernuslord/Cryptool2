@@ -339,6 +339,8 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       if (ircSystematic.GetValue(ref m_SystematicFrom, ref m_SystematicTo))
       {
         m_Thread = new Thread(new ThreadStart(ExecuteTestSystematic_Log));
+        m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_Thread.Start();
 
       }
@@ -386,6 +388,8 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       {
 
         m_Thread = new Thread(new ThreadStart(ExecuteTestSingle_Graphic));
+        m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_Thread.Start();
       }
     }
@@ -402,6 +406,8 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       if (ircSystematic.GetValue(ref m_SystematicFrom, ref m_SystematicTo))
       {
         m_Thread = new Thread(new ThreadStart(ExecuteTestSystematic_Graphic));
+        m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_Thread.Start();
       }
     }

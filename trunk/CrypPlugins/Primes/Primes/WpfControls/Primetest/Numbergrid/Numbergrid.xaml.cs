@@ -341,6 +341,8 @@ namespace Primes.WpfControls.Primetest.Numbergrid
       if (AsThread)
       {
         Thread t = new Thread(new ParameterizedThreadStart(new ParameterDelegate(ScrollGrid)));
+        t.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        t.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         t.Start(amount);
       }
       else

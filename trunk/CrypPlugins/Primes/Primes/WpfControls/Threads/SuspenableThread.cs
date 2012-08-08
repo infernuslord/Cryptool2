@@ -122,6 +122,8 @@ namespace Primes.WpfControls.Threads
     {
 
       thread = new Thread(new ThreadStart(ThreadEntry));
+      thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       thread.Priority = m_Priority;
 
 

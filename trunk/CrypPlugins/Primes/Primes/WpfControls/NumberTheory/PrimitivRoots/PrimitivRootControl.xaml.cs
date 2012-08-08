@@ -239,9 +239,11 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
     private void StartThread()
     {
       m_ThreadCalculatePrimitiveRoots = new Thread(new ThreadStart(DoCalculatePrimitiveRoots));
+      m_ThreadCalculatePrimitiveRoots.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_ThreadCalculatePrimitiveRoots.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_ThreadCalculatePrimitiveRoots.Start();
-
     }
+
     private void StopThread()
     {
       FireOnStop();

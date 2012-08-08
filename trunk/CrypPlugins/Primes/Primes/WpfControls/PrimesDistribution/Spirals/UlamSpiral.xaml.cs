@@ -59,6 +59,8 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       m_To = to;
 
       m_DrawThread = new Thread(new ThreadStart(DrawThread));
+      m_DrawThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_DrawThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_DrawThread.Start();
     }
 
