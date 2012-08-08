@@ -82,11 +82,13 @@ namespace Primes.Library.FactorTree
     #endregion
     public void Factorize(PrimesBigInteger value)
     {
-			m_Factors = new Dictionary<string, PrimesBigInteger>();
-			m_FactorThread = new Thread(new ParameterizedThreadStart(DoFactorize));
-      this.m_Root = new GmpFactorTreeNode(value);
-      if (OnStart != null) OnStart();
-			m_FactorThread.Start(FactorizingMethod.TrialDivision);
+        m_Factors = new Dictionary<string, PrimesBigInteger>();
+        m_FactorThread = new Thread(new ParameterizedThreadStart(DoFactorize));
+        m_FactorThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_FactorThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+        this.m_Root = new GmpFactorTreeNode(value);
+        if (OnStart != null) OnStart();
+        m_FactorThread.Start(FactorizingMethod.TrialDivision);
     }
 
     public void CancelFactorize()

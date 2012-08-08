@@ -74,6 +74,8 @@ namespace Primes.WpfControls.Primegeneration.Function
     {
       Cancel();
       m_Thread = new Thread(new ThreadStart(DoExecute));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
 
     }
@@ -160,6 +162,8 @@ namespace Primes.WpfControls.Primegeneration.Function
     {
       Cancel();
       m_Thread = new Thread(new ThreadStart(DoExecute));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
 
     }

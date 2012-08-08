@@ -125,6 +125,8 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     private void StartThread()
     {
       m_Thread = new Thread(new ThreadStart(DoExecute));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
     }
 

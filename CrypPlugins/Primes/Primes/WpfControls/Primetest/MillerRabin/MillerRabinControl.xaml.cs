@@ -201,6 +201,8 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       if (m_Rounds != null && m_RandomBaseTo != null)
       {
         m_TestThread = new Thread(new ThreadStart(new VoidDelegate(ExecuteRandomThread)));
+        m_TestThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_TestThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_TestThread.Start();
       }
       else
@@ -240,6 +242,8 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       if (ircSystematic.GetValue(ref m_SystematicBaseFrom, ref m_SystematicBaseTo))
       {
         m_TestThread = new Thread(new ThreadStart(new VoidDelegate(ExecuteSystematicThread)));
+        m_TestThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_TestThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_TestThread.Start();
       }
       else

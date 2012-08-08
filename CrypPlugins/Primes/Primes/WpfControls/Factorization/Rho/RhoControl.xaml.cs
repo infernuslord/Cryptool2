@@ -98,6 +98,8 @@ namespace Primes.WpfControls.Factorization.Rho
         log.Clear();
         log.Columns = 1;
         m_Thread = new Thread(new ThreadStart(new VoidDelegate(Factorize)));
+        m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+        m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         m_Thread.Start();
       }
       

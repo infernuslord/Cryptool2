@@ -66,6 +66,8 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       m_From = from;
       m_To = to;
       m_Thread = new Thread(new ThreadStart(DoExecute));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
       m_IsRunning = true;
 

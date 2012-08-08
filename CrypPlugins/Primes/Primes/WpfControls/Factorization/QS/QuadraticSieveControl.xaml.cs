@@ -106,6 +106,8 @@ namespace Primes.WpfControls.Factorization.QS
     private void StartThread(VoidDelegate _del)
     {
       m_Thread = new Thread(new ThreadStart(_del));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
     }
 

@@ -58,6 +58,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       m_Log.Clear();
       m_Log.Columns = 1;
       m_Thread = new Thread(new ThreadStart(DoExecute));
+      m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+      m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
       m_Thread.Start();
     }
 
