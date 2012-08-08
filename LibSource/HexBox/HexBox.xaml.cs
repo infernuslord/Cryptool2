@@ -821,7 +821,6 @@ namespace HexBox
 
                     
                 }
-                
 
                 else if (e.Key == Key.Back)
                 {
@@ -833,9 +832,9 @@ namespace HexBox
 
                         if (cellText > 0)
                         {
-                            
+
                             cellText--;
-                            
+
                         }
                         else
                         {
@@ -848,7 +847,10 @@ namespace HexBox
                         }
                     }
 
-
+                    else 
+                    { 
+                    
+                    }
 
                     e.Handled = true;
                 }
@@ -1888,9 +1890,14 @@ namespace HexBox
             StringBuilder clipBoardString = new StringBuilder();
             for (long i = mark[0]; i < mark[1]; i++)
             {
-                
-                clipBoardString.Append((char)dyfipro.ReadByte(i));
-                
+                if (dyfipro.ReadByte(i) > 34 && dyfipro.ReadByte(i) < 128)
+                {
+                    clipBoardString.Append((char)dyfipro.ReadByte(i));
+                }
+                else
+                {
+                    clipBoardString.Append('.');
+                }
             }
 
             try
@@ -2013,8 +2020,14 @@ namespace HexBox
             StringBuilder clipBoardString = new StringBuilder();
             for (long i = mark[0]; i < mark[1]; i++)
             {
-                clipBoardString.Append((char)dyfipro.ReadByte(i));
-
+                if (dyfipro.ReadByte(i) > 34 && dyfipro.ReadByte(i) < 128)
+                {
+                    clipBoardString.Append((char)dyfipro.ReadByte(i));
+                }
+                else 
+                {
+                    clipBoardString.Append('.');
+                }
             }
 
             try
@@ -2026,21 +2039,13 @@ namespace HexBox
 
             }
 
-
-
-            int cell = (int)(Canvas.GetTop(cursor) / 20 * 32 + Canvas.GetLeft(cursor) / 10);
-            if (cell / 2 + (int)fileSlider.Value * 16 - 2 < dyfipro.Length)
+            if (cellText + (int)fileSlider.Value * 16 - 2 < dyfipro.Length)
             {
-                TextBlock tb = grid1.Children[cell / 2] as TextBlock;
-                TextBlock tb2 = grid2.Children[cell / 2] as TextBlock;
-
-
-
                 if (mark[1] - mark[0] == 0)
                 {
-                    if (cell / 2 + (int)fileSlider.Value * 16 - 1 > -1)
+                    if (cellText + (int)fileSlider.Value * 16 - 1 > -1)
                     {
-                        dyfipro.DeleteBytes(cell / 2 + (long)fileSlider.Value * 16 - 1, 1);
+                        dyfipro.DeleteBytes(cellText + (long)fileSlider.Value * 16 - 1, 1);
                         backASCIIField();
                     }
 
@@ -2056,7 +2061,7 @@ namespace HexBox
                     {
                         // if (cell / 2 + (int)fileSlider.Value * 16 - 1 > -1)
                         dyfipro.DeleteBytes(mark[0], mark[1] - mark[0]);
-                        if (mark[1] - mark[0] > cell)
+                        if (mark[1] - mark[0] > cellText)
                         {
                             fileSlider.Value = mark[0] / 16;
 
