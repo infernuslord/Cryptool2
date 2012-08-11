@@ -49,6 +49,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using CrypWin.Helper;
 using DevComponents.WpfRibbon;
 using Microsoft.Win32;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using Application = System.Windows.Application;
 using Binding = System.Windows.Data.Binding;
 using Button = System.Windows.Controls.Button;
@@ -2356,12 +2357,12 @@ namespace Cryptool.CrypWin
                 {
                     try
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetIndexFilename(lang));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentIndexFilename(lang));
                     }
                     catch (Exception ex)
                     {
                         //Try opening index page in english:
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetIndexFilename("en"));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentIndexFilename("en"));
                     }
                 }
                 else if (docType.GetPluginInfoAttribute() != null)
@@ -2369,11 +2370,11 @@ namespace Cryptool.CrypWin
                     var pdp = OnlineDocumentationGenerator.DocGenerator.CreatePluginDocumentationPage(docType);
                     if (pdp.AvailableLanguages.Contains(lang))
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentDocFilename(docType, lang));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetPluginDocFilename(docType, lang));
                     }
                     else
                     {
-                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetComponentDocFilename(docType, "en"));
+                        onlineHelpTab.ShowHTMLFile(OnlineHelp.GetPluginDocFilename(docType, "en"));
                     }
                 }
                 else

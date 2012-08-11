@@ -126,7 +126,6 @@
     <Compile Include="Miscellaneous\LocExtension.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
-    <Compile Include="OnlineHelp.cs" />
     <Compile Include="PluginExtension.cs" />
     <Compile Include="Attributes\PluginInfoAttribute.cs">
       <SubType>Code</SubType>

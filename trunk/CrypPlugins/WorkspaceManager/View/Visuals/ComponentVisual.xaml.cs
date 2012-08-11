@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using WorkspaceManager.View.Base;
 using WorkspaceManager.Model;
 using WorkspaceManager.View.Base.Interfaces;

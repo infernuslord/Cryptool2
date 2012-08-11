@@ -74,6 +74,7 @@
     <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\HtmlGenerator\HtmlGenerator.cs" />
     <Compile Include="Generators\HtmlGenerator\ObjectConverter.cs" />
+    <Compile Include="Generators\HtmlGenerator\OnlineHelp.cs" />
     <Compile Include="Generators\HtmlGenerator\TagReplacer.cs" />
     <Compile Include="DocInformations\Localization\LocalizedPluginDocumentationPage.cs" />
     <Compile Include="DocInformations\Localization\LocalizedComponentDocumentationPage.cs" />
@@ -113,6 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Generators\HtmlGenerator\editors.png" />
     <Resource Include="StaticDocs\test1.xml">
       <SubType>Designer</SubType>
     </Resource>
@@ -136,6 +138,7 @@
     <Resource Include="Generators\HtmlGenerator\components.png" />
     <Resource Include="Generators\HtmlGenerator\templates.png" />
     <Resource Include="Generators\HtmlGenerator\common.png" />
+    <Content Include="Generators\HtmlGenerator\TemplateEditorIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateCommonIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateCommonDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateTemplateDocumentationPage.html" />

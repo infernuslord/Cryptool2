@@ -9,6 +9,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Attributes;
 using System.Diagnostics;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
 namespace Cryptool.CrypWin
 {
@@ -181,7 +182,7 @@ namespace Cryptool.CrypWin
             var lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             try
             {
-                ShowHTMLFile(OnlineHelp.GetIndexFilename(lang));
+                ShowHTMLFile(OnlineHelp.GetComponentIndexFilename(lang));
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
 namespace OnlineDocumentationGenerator.DocInformations.Localization
 {
@@ -15,7 +16,7 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
 
         public override string FilePath
         {
-            get { return OnlineHelp.GetComponentDocFilename(PluginType, Lang); }
+            get { return OnlineHelp.GetPluginDocFilename(PluginType, Lang); }
         }
 
         public Type PluginType { get; private set; }

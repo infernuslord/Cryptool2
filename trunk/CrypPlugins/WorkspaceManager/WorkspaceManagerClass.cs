@@ -22,7 +22,7 @@ using Cryptool.Core;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase;
-
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using WorkspaceManager.Model;
 using WorkspaceManager.Execution;
 using System.Windows;

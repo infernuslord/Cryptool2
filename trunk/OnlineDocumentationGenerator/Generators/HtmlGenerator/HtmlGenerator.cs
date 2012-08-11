@@ -29,6 +29,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             GenerateDocPages();
             GenerateComponentIndexPages();
             GenerateTemplateIndexPages();
+            GenerateEditorIndexPages();
             GenerateCommonIndexPages();
             CopyAdditionalResources();
         }
@@ -49,10 +50,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 indexHtml = TagReplacer.ReplaceComponentList(indexHtml, componentListCode);
                 var componentTreeCode = GenerateComponentTreeCode(DocPages.FindAll(x => x is ComponentDocumentationPage).Select(x => (ComponentDocumentationPage)x), lang);
                 indexHtml = TagReplacer.ReplaceComponentTree(indexHtml, componentTreeCode);
-                var editorListCode = GenerateEditorListCode(DocPages.FindAll(x => x is EditorDocumentationPage).Select(x => (EditorDocumentationPage)x), lang);
-                indexHtml = TagReplacer.ReplaceEditorList(indexHtml, editorListCode);
 
-                var filename = OnlineHelp.GetIndexFilename(lang);
+                var filename = OnlineHelp.GetComponentIndexFilename(lang);
                 StoreIndexPage(indexHtml, filename);
             }
         }
@@ -73,6 +72,26 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
                 var filename = OnlineHelp.GetTemplatesIndexFilename(lang);
                 StoreIndexPage(templatesHtml, filename);
+            }
+        }
+
+        private void GenerateEditorIndexPages()
+        {
+            foreach (var lang in AvailableLanguages)
+            {
+                var cultureInfo = new CultureInfo(lang);
+                Thread.CurrentThread.CurrentCulture = cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+                var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateEditorIndex, lang);
+                indexHtml = TagReplacer.ReplaceInstallVersionSwitchs(indexHtml, AssemblyHelper.InstallationType);
+                var languageSelectionCode = GenerateIndexLanguageSelectionCode(AvailableLanguages, lang);
+                indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
+                var editorListCode = GenerateEditorListCode(DocPages.FindAll(x => x is EditorDocumentationPage).Select(x => (EditorDocumentationPage)x), lang);
+                indexHtml = TagReplacer.ReplaceEditorList(indexHtml, editorListCode);
+
+                var filename = OnlineHelp.GetEditorIndexFilename(lang);
+                StoreIndexPage(indexHtml, filename);
             }
         }
 
@@ -164,7 +183,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", actualIndexCharacter));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetPluginDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
             stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
@@ -247,7 +266,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", categoryName));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetPluginDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
             anchorBuilder.Append("</p>");
@@ -269,7 +288,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
                 var pp = (LocalizedEditorDocumentationPage)page.Localizations[linkedLang];
                 stringBuilderListCode.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
-                    OnlineHelp.GetComponentDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                    OnlineHelp.GetPluginDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilderListCode.AppendLine("</table>");
 
@@ -438,7 +457,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 }
                 else
                 {
-                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", OnlineHelp.GetIndexFilename(availableLanguage), _languagePresentationString[availableLanguage], _languagePresentationIcon[availableLanguage]));
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", OnlineHelp.GetComponentIndexFilename(availableLanguage), _languagePresentationString[availableLanguage], _languagePresentationIcon[availableLanguage]));
                 }
                 codeBuilder.AppendLine("|");
             }

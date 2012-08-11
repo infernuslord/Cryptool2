@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Cryptool.P2P;
 using Cryptool.P2PEditor;
 using Cryptool.PluginBase;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
 namespace Startcenter
 {
