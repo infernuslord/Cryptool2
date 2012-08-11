@@ -17,6 +17,7 @@
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/en.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/components.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/templates.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/editors.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/common.png" />
   <archive path="OnlineDocumentationGenerator/Generators/HtmlGenerator/MathJax.zip" excludeDeveloper="true" />
 </AdditionalResources>

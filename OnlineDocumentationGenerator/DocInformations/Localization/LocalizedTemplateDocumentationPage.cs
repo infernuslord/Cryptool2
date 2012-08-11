@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Utils;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
 namespace OnlineDocumentationGenerator.DocInformations.Localization
 {

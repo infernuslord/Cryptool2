@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Localization;
 using OnlineDocumentationGenerator.DocInformations.Utils;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using OnlineDocumentationGenerator.Reference;
 
 namespace OnlineDocumentationGenerator.DocInformations
@@ -31,7 +32,7 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         public override string DocDirPath
         {
-            get { return Path.GetDirectoryName(OnlineHelp.GetComponentDocFilename(PluginType, "en")); }
+            get { return Path.GetDirectoryName(OnlineHelp.GetPluginDocFilename(PluginType, "en")); }
         }
 
         public PluginDocumentationPage(Type pluginType)

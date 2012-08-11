@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Cryptool.PluginBase.Editor;
 
-namespace Cryptool.PluginBase
+namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
     public class OnlineHelp
     {
         public static readonly string HelpDirectory = "OnlineDocumentation";
-        public static readonly string RelativeComponentDocDirectory = "ComponentsDocs";
-        public static readonly string ComponentDocDirectory = Path.Combine(HelpDirectory, RelativeComponentDocDirectory);
+        public static readonly string RelativeComponentDocDirectory = "Components";
+        public static readonly string RelativeEditorDocDirectory = "Editors";
         public static readonly string RelativeTemplateDocDirectory = "Templates";
         public static readonly string RelativeCommonDocDirectory = "Common";
 
@@ -33,12 +31,12 @@ namespace Cryptool.PluginBase
                 ShowDocPage(docEntity);
         }
 
-        public static string GetComponentDocFilename(Type plugin, string lang)
+        public static string GetPluginDocFilename(Type plugin, string lang)
         {
             var filename = string.Format("{0}_{1}.html", plugin.FullName, lang);
             if (plugin.GetInterfaces().Contains(typeof(IEditor)))
             {
-                return filename;
+                return Path.Combine(RelativeEditorDocDirectory, filename);
             }
             else
             {
@@ -53,9 +51,20 @@ namespace Cryptool.PluginBase
             return Path.Combine(RelativeTemplateDocDirectory, filename);
         }
 
-        public static string GetIndexFilename(string lang)
+        public static string GetCommonDocFilename(string name, string lang)
+        {
+            var file = string.Format("{0}_{1}.html", name, lang);
+            return Path.Combine(RelativeCommonDocDirectory, file);
+        }
+
+        public static string GetComponentIndexFilename(string lang)
         {
             return string.Format("index_{0}.html", lang);
+        }
+
+        public static string GetEditorIndexFilename(string lang)
+        {
+            return string.Format("editors_{0}.html", lang);
         }
 
         public static string GetTemplatesIndexFilename(string lang)
@@ -66,12 +75,6 @@ namespace Cryptool.PluginBase
         public static string GetCommonIndexFilename(string lang)
         {
             return string.Format("common_{0}.html", lang);
-        }
-
-        public static string GetCommonDocFilename(string name, string lang)
-        {
-            var file = string.Format("{0}_{1}.html", name, lang);
-            return Path.Combine(RelativeCommonDocDirectory, file);
         }
     }
 }

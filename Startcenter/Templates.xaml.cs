@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using Path = System.IO.Path;
 
 namespace Startcenter
