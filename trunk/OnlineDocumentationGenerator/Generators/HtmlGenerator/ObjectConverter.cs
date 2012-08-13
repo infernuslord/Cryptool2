@@ -317,9 +317,17 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             if (itemAttribute != null)
                             {
                                 var linkText = ConvertXElement((XElement)node, entityDocumentationPage);
+                                var docPage = GetEntityDocPage(itemAttribute.Value);
                                 if (string.IsNullOrEmpty(linkText))
                                 {
-                                    linkText = itemAttribute.Value;
+                                    if (docPage != null)
+                                    {
+                                        linkText = GetEntityName(docPage);
+                                    }
+                                    else
+                                    {
+                                        linkText = itemAttribute.Value;
+                                    }
                                 }
                                 
                                 int dirLevel = entityDocumentationPage.DocDirPath.Split(Path.PathSeparator).Length;
@@ -328,7 +336,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                 {
                                     d += Path.Combine(d, "..");
                                 }
-                                var entityLink = GetEntityLink(itemAttribute.Value);
+                                var entityLink = GetEntityLink(docPage);
                                 if (entityLink != null)
                                 {
                                     result.Append(string.Format("<a href=\"{0}\">{1}</a>", Path.Combine(d, entityLink), linkText));
@@ -348,22 +356,42 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return result.ToString();
         }
 
-        private string GetEntityLink(string entity)
+        private EntityDocumentationPage GetEntityDocPage(string entity)
         {
-            foreach(var docPage in _docPages)
+            foreach (var docPage in _docPages)
             {
                 if (docPage.Name == entity)
                 {
-                    var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-                    if (docPage.AvailableLanguages.Contains(lang))
-                    {
-                        return docPage.Localizations[lang].FilePath;
-                    }
-                    else
-                    {
-                        return docPage.Localizations["en"].FilePath;
-                    }
+                    return docPage;
                 }
+            }
+            return null;
+        }
+
+        private string GetEntityLink(EntityDocumentationPage docPage)
+        {
+            var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            if (docPage.AvailableLanguages.Contains(lang))
+            {
+                return docPage.Localizations[lang].FilePath;
+            }
+            else
+            {
+                return docPage.Localizations["en"].FilePath;
+            }
+            return null;
+        }
+
+        private string GetEntityName(EntityDocumentationPage docPage)
+        {
+            var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+            if (docPage.AvailableLanguages.Contains(lang))
+            {
+                return docPage.Localizations[lang].Name;
+            }
+            else
+            {
+                return docPage.Localizations["en"].Name;
             }
             return null;
         }
