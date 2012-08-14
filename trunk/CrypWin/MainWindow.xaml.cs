@@ -2340,7 +2340,7 @@ namespace Cryptool.CrypWin
             }
             else
             {
-                return;
+                ShowPluginHelpPage(null, onlineHelpTab, lang);
             }
 
             //show tab:
