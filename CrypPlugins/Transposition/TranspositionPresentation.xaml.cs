@@ -80,7 +80,7 @@ namespace Transposition
         private int outcount5;          // counter
         private int countup;            // counter, counts up reverse then the outcounter
         private int countup1;           // counter, i tried to reuse the privious but it fails
-        private bool Stop = false;      // boolean to stop animations from being executed
+        public bool Stop = false;      // boolean to stop animations from being executed
         private int per;                // permutation mode
         private int act;                // permutation action
         private int rein;               // read in mode
