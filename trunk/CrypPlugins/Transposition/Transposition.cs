@@ -30,7 +30,9 @@ namespace Transposition
         private byte[,] read_in_matrix;
         private byte[,] permuted_matrix;
         private int[] key;
-        private AutoResetEvent ars;
+        
+        private bool running = false;
+        private bool stopped = false;
 
         # endregion
 
@@ -42,7 +44,7 @@ namespace Transposition
             this.settings = new TranspositionSettings();
             myPresentation = new TranspositionPresentation();
             Presentation = myPresentation;
-            ars =new AutoResetEvent(false);
+            
             myPresentation.feuerEnde += new EventHandler(presentation_finished);
             myPresentation.updateProgress += new EventHandler(update_progress);
             this.settings.PropertyChanged += settings_OnPropertyChange;
@@ -57,10 +59,10 @@ namespace Transposition
 
         private void presentation_finished(object sender, EventArgs e)
         {
-           
-            Output = output;
+            if(!myPresentation.Stop)
+            Output = ByteArrayToCStream(this.output);
             ProgressChanged(1, 1);
-            ars.Set();
+            
             running = false;
         }
 
@@ -167,6 +169,14 @@ namespace Transposition
             return buffer;
         }
 
+        private ICryptoolStream ByteArrayToCStream(byte[] b)
+        {
+            CStreamWriter csw = new CStreamWriter();
+            csw.Write(b);
+            csw.Close();
+            return csw;
+        }
+
         private byte[] ICryptoolStreamToByteArray(ICryptoolStream stream)
         {
             return CStreamReaderToByteArray(stream.CreateReader());
@@ -188,15 +198,36 @@ namespace Transposition
         }
 
         [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip")]
-        public byte[] Output
+        public ICryptoolStream Output
         {
             get
             {
-                return this.output;
+                CStreamWriter cs = new CStreamWriter();
+               
+                cs.Write(this.output);
+                cs.Close(); 
+                
+                return cs;
             }
+            
             set
             {
-                this.output = value;
+                
+                
+                byte[] streamData = null;
+
+                streamData = ICryptoolStreamToByteArray((ICryptoolStream)value);
+                switch (settings.Number)
+                {
+                    case 0: String s = System.Text.Encoding.UTF8.GetString(streamData);
+
+                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                        this.output = enc.GetBytes(s);
+                        break;
+                    case 1:
+                        this.output = streamData;
+                        break;
+                }
                 OnPropertyChange("Output");
             }
         }
@@ -220,8 +251,7 @@ namespace Transposition
 
         }
 
-        private bool running = false;
-        private bool stopped = false;
+        
 
         
 
@@ -251,7 +281,7 @@ namespace Transposition
                     Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
                     Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
-                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, InputToBytes, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
+                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, InputToBytes, this.output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
                    }
                    , null);
 
@@ -261,7 +291,7 @@ namespace Transposition
             }
             else
             {
-                Output = output;
+                Output = ByteArrayToCStream(this.output);
                 ProgressChanged(1, 1);
             }
             
@@ -286,6 +316,7 @@ namespace Transposition
         {
             running = false;
             stopped = false;
+            
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -296,7 +327,7 @@ namespace Transposition
 
         public void Stop()
         {
-            ars.Set();
+            
             stopped = true;
 
             myPresentation.my_Stop(this, EventArgs.Empty);
@@ -329,10 +360,10 @@ namespace Transposition
                 switch (settings.Action)
                 {
                     case 0:
-                        output = encrypt(InputToBytes, key);
+                        this.output = encrypt(InputToBytes, key);
                         break;
                     case 1:
-                        output = decrypt(InputToBytes, key);
+                        this.output = decrypt(InputToBytes, key);
                         break;
                     default:
                         break;
