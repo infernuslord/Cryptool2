@@ -121,7 +121,8 @@ namespace Transposition
         /// <param name="number"></param>
         public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
         {
-
+            outPut.Visibility = Visibility.Hidden;
+            Stack.Visibility = Visibility.Visible;
             
             if (keyword != null && input != null)
             {
