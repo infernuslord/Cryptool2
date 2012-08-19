@@ -25,17 +25,31 @@ namespace OnlineDocumentationGenerator
         public static string TemplateDirectory = "Templates";
         public static string CommonDirectory = "Common";
         public static Dictionary<string, List<TemplateDocumentationPage>> RelevantComponentToTemplatesMap = new Dictionary<string, List<TemplateDocumentationPage>>();
-        
+
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-        public void Generate(string baseDirectory)
+        public void Generate(string baseDir, Generator generator)
         {
             var currentCulture = Thread.CurrentThread.CurrentCulture;
             var currentUICulture = Thread.CurrentThread.CurrentUICulture;
 
             try
             {
-                GenerateHTML(baseDirectory);
+                generator.OutputDir = baseDir;
+
+                var templatesDir = ReadTemplates(baseDir, "", generator);
+                ReadPlugins(generator);
+                ReadCommonDocPages(generator);
+
+                try
+                {
+                    generator.Generate(templatesDir);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
+                    MessageBox.Show("Error trying to open documentation! Please read the log for details.");
+                }
             }
             finally
             {
@@ -68,15 +82,15 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        private TemplateDirectory ReadTemplates(string outputDir, string subdir, HtmlGenerator generator)
+        private TemplateDirectory ReadTemplates(string baseDir, string subdir, Generator generator)
         {
-            var directory = new DirectoryInfo(Path.Combine(outputDir, Path.Combine(TemplateDirectory, subdir)));
+            var directory = new DirectoryInfo(Path.Combine(baseDir, Path.Combine(TemplateDirectory, subdir)));
             var templateDir = new TemplateDirectory(directory);
 
             //recursively analyze subdirs:
             foreach(var childdir in directory.GetDirectories())
             {
-                var subDir = ReadTemplates(outputDir, Path.Combine(subdir, childdir.Name), generator);
+                var subDir = ReadTemplates(baseDir, Path.Combine(subdir, childdir.Name), generator);
                 templateDir.SubDirectories.Add(subDir);
             }
 
@@ -111,27 +125,7 @@ namespace OnlineDocumentationGenerator
             return templateDir;
         }
 
-        private void GenerateHTML(string outputDir)
-        {
-            var generator = new HtmlGenerator();
-            generator.OutputDir = outputDir;
-
-            var templatesDir = ReadTemplates(outputDir, "", generator);
-            ReadPlugins(generator);
-            ReadCommonDocPages(generator);
-
-            try
-            {
-                generator.Generate(templatesDir);
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
-                MessageBox.Show("Error trying to open documentation! Please read the log for details.");
-            }
-        }
-
-        private void ReadPlugins(HtmlGenerator generator)
+        private void ReadPlugins(Generator generator)
         {
             var pluginManager = new PluginManager(null);
             foreach (Type type in pluginManager.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies).Values)
@@ -155,7 +149,7 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        private void ReadCommonDocPages(HtmlGenerator generator)
+        private void ReadCommonDocPages(Generator generator)
         {
             try
             {

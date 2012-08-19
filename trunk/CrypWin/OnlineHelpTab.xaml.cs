@@ -123,7 +123,7 @@ namespace Cryptool.CrypWin
                                                   if (!init)
                                                   {
                                                       init = true;
-                                                      docGenerator.Generate(_docDirectory);
+                                                      docGenerator.Generate(_docDirectory, new HtmlGenerator());
                                                       generatingDocWindow.Close();
                                                   }
                                               };
