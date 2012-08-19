@@ -50,6 +50,7 @@ using CrypWin.Helper;
 using DevComponents.WpfRibbon;
 using Microsoft.Win32;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
+using OnlineDocumentationGenerator.Generators.LaTeXGenerator;
 using Application = System.Windows.Application;
 using Binding = System.Windows.Data.Binding;
 using Button = System.Windows.Controls.Button;
@@ -274,7 +275,14 @@ namespace Cryptool.CrypWin
             if (IsCommandParameterGiven("-GenerateDoc"))
             {
                 var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                docGenerator.Generate(DirectoryHelper.BaseDirectory);
+                docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
+                Application.Current.Shutdown();
+                return;
+            }
+            if (IsCommandParameterGiven("-GenerateDocLaTeX"))
+            {
+                var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de"));
                 Application.Current.Shutdown();
                 return;
             }
