@@ -52,25 +52,30 @@ namespace HexBox
                 f = 16;
             }
 
+            Boolean outOfScreen = false;
 
             if (mark[0] < 0)
             {
                 mark[0] = 0;
+                outOfScreen = false;
             }
 
             if (mark[1] < 0)
             {
                 mark[1] = 0;
+                outOfScreen = true;
             }
 
-            if (mark[0] > 512)
+            if (mark[0] > 256)
             {
-                mark[0] = 512;
+                mark[0] = 256;
+                outOfScreen = true;
             }
 
-            if (mark[1] > 512)
+            if (mark[1] > 256)
             {
-                mark[1] = 512;
+                mark[1] = 256;
+                outOfScreen = false;
             }
 
 
@@ -80,20 +85,20 @@ namespace HexBox
                 if (mark[0] < mark[1])
                 {
 
-                    double y = (int)(mark[0] / 16) * 20;
-                    double x = mark[0] % 16 * charwidth;
-                    double z = mark[1] % 16 * charwidth - x ;
+                    double y = (int)(mark[0] / 16) * 20;        // height
+                    double x = mark[0] % 16 * charwidth;        //length first row
+                    double z = mark[1] % 16 * charwidth - x;   //rest
 
-                    double z2 = 16 * charwidth - x ;
+                    double z2 = 16 * charwidth - x ;            //length last row
 
                     if (z < 0)
                     {
                         z = 0;
                     }
 
-                    double y1 = (int)(mark[1] / 16) * 20;
+                    double y1 = (int)(mark[1] / 16) * 20;   //height
                     double x1 = 0;
-                    double z1 = mark[1] % 16 * charwidth ;
+                    double z1 = mark[1] % 16 * charwidth;  //length last row
 
                     if (z1 < 0)
                     {
@@ -105,25 +110,25 @@ namespace HexBox
                         z2 = 0;
                     }
 
-                    if (mark[0] % 16 > mark[1] % 16 || mark[1] - mark[0] > 16)
+                    if (mark[0] % 16 > mark[1] % 16 || mark[1] - mark[0] >= 16)
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x1, y1, z1, 20));
                         int v = (int)mark[1] / 16 - (int)mark[0] / 16;
 
                         for (int ix = 1; ix < v; ix++)
                         {
                             double y3 = y + ix * 20;
-                            drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
 
@@ -131,22 +136,22 @@ namespace HexBox
 
                 else
                 {
-                    double y = (int)(mark[0] / 16) * 20;
-                    double x = mark[1] % 16 * charwidth;
-                    double z = mark[0] % 16 * charwidth - x ;
+                    double y = (int)(mark[0] / 16) * 20;        //height coordinates
+                    double x = mark[1] % 16 * charwidth ;        //length last row
+                    double z = mark[0] % 16 * charwidth - x ;   //restlength
 
-                    double z2 = mark[0] % 16 * charwidth ;
+                    double z2 = mark[0] % 16 * charwidth;      // length first row
 
                     if (z < 0)
                     {
                         z = 0;
                     }
 
-                    double y1 = (int)(mark[1] / 16) * 20;
+                    double y1 = (int)(mark[1] / 16) * 20;   //height coordinates
                     
-                    double z1 = mark[1] % 16 * charwidth ;
+                    double z1 = mark[1] % 16 * charwidth ;  //length last row
 
-                    double x1 = 16 * charwidth-z1;
+                    double x1 = 16 * charwidth-z1;          //length lastrow
 
                     if (z1 < 0)
                     {
@@ -161,25 +166,25 @@ namespace HexBox
 
 
 
-                    if (mark[0] % 32 < mark[1] % 16 || mark[0] - mark[1] > 16)
+                    if (mark[0] % 32 < mark[1] % 16 || mark[0] - mark[1] >= 16)
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(0, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(z1, y1, x1, 20));
                         int v = (int)mark[0] / 16 - (int)mark[1] / 16;
 
                         for (int ix = 1; ix < v; ix++)
                         {
                             double y3 = y1 + ix * 20;
-                            drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
                 }
