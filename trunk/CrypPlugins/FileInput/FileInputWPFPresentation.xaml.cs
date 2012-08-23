@@ -37,11 +37,14 @@ namespace FileInput
             
 
             this.exp = exp;
-            
 
+            
             SizeChanged += sizeChanged;
             hexBox = new HexBox.HexBox();
             this.hexBox.OnFileChanged += fileChanged; 
+
+
+
             MainMain.Children.Add(hexBox);
 
         }
@@ -117,10 +120,15 @@ namespace FileInput
 
         private void sizeChanged(Object sender, EventArgs eventArgs)
         {
-            if (this.ActualWidth / 2.25 < this.ActualHeight)
-                this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth, this.ActualWidth / this.MainMain.ActualWidth);
-            else
-                this.MainMain.RenderTransform = new ScaleTransform(this.ActualHeight / this.MainMain.ActualHeight, this.ActualHeight / this.MainMain.ActualHeight);
+
+            //if (this.ActualWidth / 1.8 < this.ActualHeight)
+            //    this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth, this.ActualWidth / this.MainMain.ActualWidth);
+            //else
+            //    this.MainMain.RenderTransform = new ScaleTransform(this.ActualHeight / this.MainMain.ActualHeight, this.ActualHeight / this.MainMain.ActualHeight);
+
+            hexBox.Width = this.ActualWidth;
+            hexBox.Height = this.ActualHeight;
+
         }
         
         internal void CloseFile()

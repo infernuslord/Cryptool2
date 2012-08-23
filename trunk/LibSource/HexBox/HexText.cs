@@ -54,7 +54,7 @@ namespace HexBox
 
             formattedText.MaxTextWidth = 340;
             formattedText.LineHeight = 20;
-
+            
             formattedText.Trimming = TextTrimming.None;
 
             Point p = new Point();
@@ -62,6 +62,7 @@ namespace HexBox
             p = new Point(0, 0);
 
            //Console.WriteLine("" + formattedText.WidthIncludingTrailingWhitespace);
+           
 
             int f = ByteContent.Count()*3;
 
@@ -73,28 +74,34 @@ namespace HexBox
 
             charwidth = formattedText.WidthIncludingTrailingWhitespace/f;
 
+            Boolean outOfScreen = false;
+
             if (mark[0] < 0)
             {
                 mark[0] = 0;
+                outOfScreen = false;
             }
 
             if (mark[1] < 0)
             {
                 mark[1] = 0;
+                outOfScreen = true;
             }
 
             if (mark[0] > 512)
             {
                 mark[0] = 512;
+                outOfScreen = true;
             }
 
             if (mark[1] > 512)
             {
                 mark[1] = 512;
+                outOfScreen = false;
             }
 
 
-            if (!removemarks)
+            if (!removemarks && !outOfScreen)
             {
 
                 if (mark[0] < mark[1])
@@ -102,7 +109,7 @@ namespace HexBox
 
                     double y = (int) (mark[0]/32)*20;
                     double x = mark[0]%32*charwidth*3/2;
-                    double z = mark[1]%32*charwidth*3/2 - x + 2*charwidth;
+                    double z = mark[1]%32*charwidth*3/2 - x ;
 
                     double z2 = 48*charwidth - x - charwidth;
 
@@ -113,7 +120,7 @@ namespace HexBox
 
                     double y1 = (int) (mark[1]/32)*20;
                     double x1 = 0;
-                    double z1 = mark[1]%32*charwidth*3/2 + 2*charwidth;
+                    double z1 = mark[1]%32*charwidth*3/2 ;
 
                     if (z1 < 0)
                     {
@@ -125,25 +132,25 @@ namespace HexBox
                         z2 = 0;
                     }
 
-                    if (mark[0]%32 > mark[1]%32 || mark[1] - mark[0] > 32)
+                    if (mark[0]%32 > mark[1]%32 || mark[1] - mark[0] >= 32)
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x1, y1, z1, 20));
                         int v = (int) mark[1]/32 - (int) mark[0]/32;
 
                         for (int i = 1; i < v; i++)
                         {
                             double y3 = y + i*20;
-                            drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 47*charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
 
@@ -153,9 +160,9 @@ namespace HexBox
                 {
                     double y = (int) (mark[0]/32)*20;
                     double x = mark[1]%32*charwidth*3/2;
-                    double z = mark[0]%32*charwidth*3/2 - x + 2*charwidth;
+                    double z = mark[0]%32*charwidth*3/2 - x ;
 
-                    double z2 = mark[0]%32*charwidth*3/2 + 2*charwidth;
+                    double z2 = mark[0]%32*charwidth*3/2 ;
 
                     if (z < 0)
                     {
@@ -181,25 +188,25 @@ namespace HexBox
 
 
 
-                    if (mark[0]%32 < mark[1]%32 || mark[0] - mark[1] > 32)
+                    if (mark[0]%32 < mark[1]%32 || mark[0] - mark[1] >= 32)
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(0, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(z1, y1, x1, 20));
                         int v = (int) mark[0]/32 - (int) mark[1]/32;
 
                         for (int i = 1; i < v; i++)
                         {
                             double y3 = y1 + i*20;
-                            drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 47*charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.LightBlue, new Pen(Brushes.LightBlue, 1.0),
+                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
                 }
