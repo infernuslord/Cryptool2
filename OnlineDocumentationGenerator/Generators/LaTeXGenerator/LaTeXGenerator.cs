@@ -68,10 +68,12 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 var locTemplate = templateDocumentationPage.CurrentLocalization;
                 //var description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
                 var description = _objectConverter.Convert(locTemplate.Description, templateDocumentationPage);
+                var icon = _objectConverter.Convert(locTemplate.Icon, templateDocumentationPage);
 
                 var templateName = Helper.EscapeLaTeX(templateDocumentationPage.CurrentLocalization.Name);
                 stringBuilder.AppendLine(string.Format("{0}{1}", templateSection, "{" + templateName + "}"));
                 stringBuilder.AppendLine(description);
+                stringBuilder.AppendLine(icon);
             }
             foreach (var dir in templatesDir.SubDirectories)
             {

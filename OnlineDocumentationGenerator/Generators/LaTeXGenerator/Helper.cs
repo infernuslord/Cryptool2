@@ -10,16 +10,39 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
     {
         public static string EscapeLaTeX(string value)
         {
-            var res = value.Replace("\\", "\\textbackslash").Replace("&", "\\&").Replace("%", "\\%")
+            var sb = new StringBuilder(value);
+
+            sb.Replace("\\", "\\textbackslash").Replace("&", "\\&").Replace("%", "\\%")
                 .Replace("#", "\\#").Replace("_", "\\_").Replace("{", "\\{")
                 .Replace("}", "\\}").Replace("~", "\\textasciitilde").Replace("^", "\\textasciicircum")
                 .Replace("`", "\\glq ").Replace("´", "\\grq ")
                 .Replace("\"", "\\\"").Replace("“", "\"'").Replace("„", "\"`");
-            return res;
-            //foreach (var ch in res)
-            //{
-            //    if (CultureInfo.CurrentCulture.TextInfo.)
-            //}
+
+            var greekLetters = new Dictionary<char, string>() {{'ά', " \\'{$\\alpha$} "}
+                , {'α', " $\\alpha$ "}, {'β', " $\\beta$ "}, {'γ', " $\\gamma$ "}
+                , {'δ', " $\\delta$ "}, {'ε', " $\\epsilon$ "}, {'ζ', " $\\zeta$ "}
+                , {'η', " $\\eta$ "}, {'θ', " $\\theta$ "}, {'ί', " $\\iota$ "}, {'ι', " $\\iota$ "}
+                , {'κ', " $\\kappa$ "}, {'λ', " $\\lambda$ "}, {'μ', " $\\mu$ "}
+                , {'ν', " $\\nu$ "}, {'ξ', " $\\xi$ "}, {'ο', "o"}, {'ό', "\\'{o} "}
+                , {'π', " $\\pi$ "}, {'ρ', " $\\rho$ "}, {'σ', " $\\sigma$ "}
+                , {'τ', " $\\tau$ "}, {'υ', " $\\upsilon$ "}, {'φ', " $\\phi$ "}
+                , {'χ', " $\\chi$ "}, {'ψ', " $\\psi$ "}, {'ω', " $\\omega$ "}
+                , {'ə', " $\\textschwa$ "}};
+
+            
+
+            int c = sb.Length - 1;
+            foreach (var letter in sb.ToString().ToLower().Reverse())
+            {
+                if (greekLetters.ContainsKey(letter))
+                {
+                    sb.Remove(c, 1);
+                    sb.Insert(c, greekLetters[letter]);
+                }
+                c--;
+            }
+
+            return sb.ToString();
         }
     }
 }
