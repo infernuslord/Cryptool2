@@ -20,6 +20,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
     /// </summary>
     class ObjectConverter
     {
+        private const string TemplateImagesDir = "TemplateImages";
         private readonly List<EntityDocumentationPage> _docPages;
         private readonly string _outputDir;
         private readonly HashSet<string> _createdImages = new HashSet<string>();
@@ -46,7 +47,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             }
             if (theObject is BitmapFrame)
             {
-                return ConvertImageSource((BitmapFrame)theObject, docPage.Name, docPage);
+                return ConvertImageSource((BitmapFrame)theObject, docPage.Name, docPage.CurrentLocalization.Name, docPage);
             }
             if (theObject is ComponentTemplateList)
             {
@@ -205,12 +206,13 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         /// <param name="filename">The wished filename (withouth the extension)</param>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        private string ConvertImageSource(BitmapFrame imageSource, string filename, EntityDocumentationPage entityDocumentationPage)
+        private string ConvertImageSource(BitmapFrame imageSource, string filename, string caption, EntityDocumentationPage entityDocumentationPage)
         {
+            filename = filename.Replace(".", "-").Replace(" ", "_");
             filename = filename + ".png";
             if (!_createdImages.Contains(filename))
             {
-                var dir = Path.Combine(Path.Combine(_outputDir, OnlineHelp.HelpDirectory), entityDocumentationPage.DocDirPath);
+                var dir = Path.Combine(Path.Combine(_outputDir, LaTeXGenerator.HelpDirectory), TemplateImagesDir);
                 //create image file:
                 if (!Directory.Exists(dir))
                 {
@@ -227,8 +229,10 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             _createdImages.Add(filename);
             var sb = new StringBuilder();
             sb.AppendLine("\\begin{figure}");
-            sb.AppendLine("\\epsfig{file=" + filename + "}");
-            sb.AppendLine("\\caption{" + filename + "}");
+            sb.AppendLine("\\begin{center}");
+            sb.AppendLine("\\includegraphics[width=64pt, height=64pt]{" + TemplateImagesDir + "/" + filename + "}");
+            sb.AppendLine("\\end{center}");
+            sb.AppendLine("\\caption{" + caption + "}");
             sb.AppendLine("\\end{figure}");
             return sb.ToString();
 
@@ -285,7 +289,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                                 var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
                                     srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
                                 var filename = string.Format("{0}_{1}", entityDocumentationPage.Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
-                                result.Append(ConvertImageSource(image, filename, entityDocumentationPage));
+                                result.Append(ConvertImageSource(image, filename, Path.GetFileNameWithoutExtension(srcAtt.Value), entityDocumentationPage));
                             }
                             break;
                         case "newline":
