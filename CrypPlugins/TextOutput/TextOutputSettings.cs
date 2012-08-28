@@ -28,6 +28,7 @@ namespace TextOutput
   {
     #region Private variables
 
+    const int maxmaxLength = 10000000;
     private int maxLength = 65536; //64kB
     private TextOutput myTextOutput;
 
@@ -44,7 +45,7 @@ namespace TextOutput
     /// <summary>
     /// Maximum size property used in the settings pane.
     /// </summary>
-    [TaskPane( "MaxLengthCaption", "MaxLengthTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
+    [TaskPane( "MaxLengthCaption", "MaxLengthTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, maxmaxLength)]
     public int MaxLength
     {
       get
@@ -61,8 +62,40 @@ namespace TextOutput
       }
     }
 
+    private bool showChars = true;
+    [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 1, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "", 1, false, ControlType.CheckBox, "", null)]
+    public bool ShowChars
+    {
+        get { return showChars; }
+        set
+        {
+            if (value != showChars)
+            {
+                showChars = value;
+                OnPropertyChanged("ShowChars");
+            }
+        }
+    }
+
+    private bool showLines = false;
+    [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 2, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "", 2, false, ControlType.CheckBox, "", null)]
+    public bool ShowLines
+    {
+        get { return showLines; }
+        set
+        {
+            if (value != showLines)
+            {
+                showLines = value;
+                OnPropertyChanged("ShowLines");
+            }
+        }
+    }
+
     private bool append = false;
-    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "AppendList1" })]
+    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null)]
     [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 0, false, ControlType.CheckBox, "", null)]
     public bool Append
     {
@@ -78,7 +111,7 @@ namespace TextOutput
     }
 
     private int appendBreaks = 1;
-    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
       get { return this.appendBreaks; }

@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -235,10 +236,33 @@ namespace TextOutput
                     textOutputPresentation.textBox.Text = textOutputPresentation.textBox.Text.Substring(0, settings.MaxLength);
                 }
                 
-                int chars = textOutputPresentation.textBox.Text.Length;
-                int bytes = Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text).Length;
-                string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
-                textOutputPresentation.labelBytes.Content = string.Format(" {0:#,0} "+entity, chars);
+                // create status line string
+                string label = "";
+
+                if (settings.ShowChars)
+                {
+                    int chars = textOutputPresentation.textBox.Text.Length;
+                    //int bytes = Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text).Length;
+                    string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
+                    label += string.Format(" {0:#,0} " + entity, chars);
+                }
+
+                if (settings.ShowLines)
+                {
+                    int lines = 0;
+                    string s = textOutputPresentation.textBox.Text;
+                    if (s.Length > 0)
+                    {
+                        Regex r = new Regex("\n", RegexOptions.Multiline);
+                        lines = r.Matches(s).Count;
+                        if (s[s.Length - 1] != '\n') lines++;
+                    }
+                    string entity = (lines == 1) ? Properties.Resources.Line : Properties.Resources.Lines;
+                    if (label != "") label += ", ";
+                    label += string.Format(" {0:#,0} " + entity, lines);
+                }
+
+                textOutputPresentation.labelBytes.Content = label;
 
                 CurrentValue = textOutputPresentation.textBox.Text;
             }, fillValue);
