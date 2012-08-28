@@ -153,4 +153,10 @@
   <data name="CaseSelectionList2" xml:space="preserve">
     <value>nicht beachten</value>
   </data>
+  <data name="SeparatorsSettingCaption" xml:space="preserve">
+    <value>Menge der Trennzeichen</value>
+  </data>
+  <data name="SeparatorsSettingTooltip" xml:space="preserve">
+    <value>Die Trennzeichen werden aus dem Eingabewort gelöscht und tragen somit nicht zum Wortmuster bei.</value>
+  </data>
 </root>
