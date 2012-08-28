@@ -17,6 +17,7 @@ namespace WordPatterns
     public class WordPatternsSettings : ISettings
     {
         private Case caseSelection = Case.Insensitive;
+        private string separators = "";
 
         [TaskPane("CaseSelectionCaption", "CaseSelectionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "CaseSelectionList1", "CaseSelectionList2" })]
         public Case CaseSelection
@@ -28,6 +29,26 @@ namespace WordPatterns
                 {
                     caseSelection = value;
                     OnPropertyChanged("CaseSelection");
+                }
+            }
+        }        
+        
+        /// <summary>
+        /// Separator characters used to split the input
+        /// </summary>
+        [TaskPane("SeparatorsSettingCaption", "SeparatorsSettingTooltip", null, 4, false, ControlType.TextBox)]
+        public string Separators
+        {
+            get
+            {
+                return this.separators;
+            }
+            set
+            {
+                if (this.separators != value)
+                {
+                    this.separators = value;
+                    OnPropertyChanged("Separators");
                 }
             }
         }

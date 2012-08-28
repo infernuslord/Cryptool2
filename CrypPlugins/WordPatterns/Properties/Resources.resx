@@ -153,4 +153,10 @@
   <data name="CaseSelectionList2" xml:space="preserve">
     <value>Insensitive</value>
   </data>
+  <data name="SeparatorsSettingCaption" xml:space="preserve">
+    <value>Set of separators</value>
+  </data>
+  <data name="SeparatorsSettingTooltip" xml:space="preserve">
+    <value>The separator characters are deleted from the input word and do not contribute to the resulting pattern.</value>
+  </data>
 </root>

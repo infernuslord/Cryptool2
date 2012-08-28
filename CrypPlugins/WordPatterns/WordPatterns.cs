@@ -131,8 +131,13 @@ namespace WordPatterns
                 return;
             }
 
+            // remove separator characters from inputText
+            string s = inputText;
+            foreach( char c in settings.Separators )
+                s = s.Replace(c.ToString(), "");
+
             // calculate input word pattern
-            Pattern inputPattern = new Pattern(inputText, CaseSensitive);
+            Pattern inputPattern = new Pattern(s, CaseSensitive);
 
             if (inputDict == null)
                 return;
