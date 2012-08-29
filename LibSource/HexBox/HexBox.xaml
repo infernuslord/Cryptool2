@@ -67,8 +67,10 @@
         </ToolBarTray>
     
         <DockPanel  Name="mainPanel" Grid.Row="1"  >
-            <Border Style="{StaticResource border2}" DockPanel.Dock="Left" Margin="5">
-                <Grid MinWidth="150" Name="gridid" Height="Auto" >
+            <ScrollBar DockPanel.Dock="Right"  Name="fileSlider" Orientation="Vertical"  VerticalAlignment="Stretch" ></ScrollBar>
+            
+            <Border Style="{StaticResource border2}" DockPanel.Dock="Left" Height="333" Margin="5" VerticalAlignment="Top">
+                <Grid MinWidth="70" Name="gridid" Height="Auto" Width="70" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
@@ -88,14 +90,14 @@
                         <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="60" />
                     </Grid.ColumnDefinitions>
                 </Grid>
                 </Border>
-            <ScrollBar DockPanel.Dock="Right"  Name="fileSlider" Orientation="Vertical"  VerticalAlignment="Stretch" ></ScrollBar>
-            <Border DockPanel.Dock="Right"  Style="{StaticResource border2}" Margin="5">
-                <Canvas Name="canvas2"  MinWidth="140" Background="Transparent">
+
+
+            <Border Style="{StaticResource border2}" Height="333" DockPanel.Dock="Right" Margin="5" VerticalAlignment="Top">
+                <Canvas Name="canvas2"  MinWidth="120" Background="Transparent" Margin="5">
 
                     <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
                         <Rectangle.Style>
@@ -127,8 +129,9 @@
 
                 </Canvas>
             </Border>
-            <Border Style="{StaticResource border2}" MinHeight="333" DockPanel.Dock="Top">
-                <Canvas Name="canvas1" HorizontalAlignment="Center" MinWidth="340" Background="Transparent">
+            <Border Style="{StaticResource border2}" MinWidth="340" Height="333"   DockPanel.Dock="Top" Margin="5">
+                
+                <Canvas Name="canvas1" HorizontalAlignment="Center" Width="340" Height="333" Background="Transparent" >
 
                     <Rectangle Name="cursor" Width="10" Height="20" Fill="Yellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
                         <Rectangle.InputBindings>
@@ -161,8 +164,9 @@
                     </Rectangle>
                     
                 </Canvas>
-                </Border>
-            <Border Style="{StaticResource border2}" DockPanel.Dock="Bottom" MinHeight="20" MinWidth="382" Margin="5">
+                
+            </Border>
+            <Border Style="{StaticResource border2}" DockPanel.Dock="Bottom" Height="20"  MinWidth="382" Margin="5">
             <ToolBarPanel Orientation="Horizontal" MinWidth="672">
                 <TextBlock >
                     Line:
