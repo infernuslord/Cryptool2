@@ -47,6 +47,42 @@ namespace Cryptool.TextInput
       }
     }
 
+    #region settings
+
+    private bool showChars = true;
+    [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 1, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 1, false, ControlType.CheckBox, "", null)]
+    public bool ShowChars
+    {
+        get { return showChars; }
+        set
+        {
+            if (value != showChars)
+            {
+                showChars = value;
+                OnPropertyChanged("ShowChars");
+            }
+        }
+    }
+
+    private bool showLines = true;
+    [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 2, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 2, false, ControlType.CheckBox, "", null)]
+    public bool ShowLines
+    {
+        get { return showLines; }
+        set
+        {
+            if (value != showLines)
+            {
+                showLines = value;
+                OnPropertyChanged("ShowLines");
+            }
+        }
+    }
+
+    #endregion settings
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;

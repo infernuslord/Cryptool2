@@ -134,9 +134,24 @@ namespace TextOutput
 
         public TextOutput()
         {
-            textOutputPresentation = new TextOutputPresentation();
             settings = new TextOutputSettings(this);
             settings.PropertyChanged += settings_PropertyChanged;
+            settings.PropertyChanged += settings_OnPropertyChanged;
+
+            textOutputPresentation = new TextOutputPresentation();
+            setStatusBar();
+        }
+
+        private void settings_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowChars" || e.PropertyName == "ShowLines")
+            {
+                textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    setStatusBar();
+                }, null);
+                
+            }
         }
 
         private byte[] ConvertStreamToByteArray( ICryptoolStream stream )
@@ -235,37 +250,42 @@ namespace TextOutput
                     GuiLogMessage("Text exceeds size limit. Truncating text...", NotificationLevel.Warning);
                     textOutputPresentation.textBox.Text = textOutputPresentation.textBox.Text.Substring(0, settings.MaxLength);
                 }
-                
-                // create status line string
-                string label = "";
-
-                if (settings.ShowChars)
-                {
-                    int chars = textOutputPresentation.textBox.Text.Length;
-                    //int bytes = Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text).Length;
-                    string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
-                    label += string.Format(" {0:#,0} " + entity, chars);
-                }
-
-                if (settings.ShowLines)
-                {
-                    int lines = 0;
-                    string s = textOutputPresentation.textBox.Text;
-                    if (s.Length > 0)
-                    {
-                        Regex r = new Regex("\n", RegexOptions.Multiline);
-                        lines = r.Matches(s).Count;
-                        if (s[s.Length - 1] != '\n') lines++;
-                    }
-                    string entity = (lines == 1) ? Properties.Resources.Line : Properties.Resources.Lines;
-                    if (label != "") label += ", ";
-                    label += string.Format(" {0:#,0} " + entity, lines);
-                }
-
-                textOutputPresentation.labelBytes.Content = label;
 
                 CurrentValue = textOutputPresentation.textBox.Text;
+                setStatusBar();
+
             }, fillValue);
+        }
+
+        void setStatusBar()
+        {
+            // create status line string
+
+            string s = textOutputPresentation.textBox.Text;
+            string label = "";
+
+            if (settings.ShowChars)
+            {
+                int chars = (s == null) ? 0 : s.Length;
+                //int bytes = Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text).Length;
+                string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
+                label += string.Format(" {0:#,0} " + entity, chars);
+            }
+
+            if (settings.ShowLines)
+            {
+                int lines = 0;
+                if (s != null && s.Length > 0)
+                {
+                    lines = new Regex("\n", RegexOptions.Multiline).Matches(s).Count;
+                    if (s[s.Length - 1] != '\n') lines++;
+                }
+                string entity = (lines == 1) ? Properties.Resources.Line : Properties.Resources.Lines;
+                if (label != "") label += ", ";
+                label += string.Format(" {0:#,0} " + entity, lines);
+            }
+
+            textOutputPresentation.labelBytes.Content = label;
         }
 
         private void AddMessage(string message, NotificationLevel level)
