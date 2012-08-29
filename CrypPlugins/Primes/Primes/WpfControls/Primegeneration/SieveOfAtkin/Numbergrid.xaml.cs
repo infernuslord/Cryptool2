@@ -272,22 +272,29 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     
     public void MarkNumber(PrimesBigInteger number, Brush color)
     {
-      if (!m_MarkedNumbers.ContainsKey(number))
-        m_MarkedNumbers.Add(number, color);
-      else
-        m_MarkedNumbers[number] = color;
+        try
+        {
+            if (!m_MarkedNumbers.ContainsKey(number))
+                m_MarkedNumbers.Add(number, color);
+            else
+                m_MarkedNumbers[number] = color;
 
-      UIElementCollection buttons =
-        ControlHandler.GetPropertyValue(numbergrid, "Children") as UIElementCollection;
-      int i = (int)ControlHandler.GetPropertyValue(buttons, "Count");
+            UIElementCollection buttons =
+              ControlHandler.GetPropertyValue(numbergrid, "Children") as UIElementCollection;
+            int i = (int)ControlHandler.GetPropertyValue(buttons, "Count");
 
-      NumberButton first = (buttons[Columns+Rows-2] as NumberButton);
-      if (first.BINumber.Add(number).CompareTo(PrimesBigInteger.ValueOf(Columns * Rows)) < 0)
-      {
-        int index = number.Subtract(first.BINumber).IntValue + Columns + Rows - 2;
-        NumberButton btn = buttons[index] as NumberButton;
-        ControlHandler.SetPropertyValue(btn, "Background", color);
-      }
+            NumberButton first = (buttons[Columns + Rows - 2] as NumberButton);
+            if (first.BINumber.Add(number).CompareTo(PrimesBigInteger.ValueOf(Columns * Rows)) < 0)
+            {
+                int index = number.Subtract(first.BINumber).IntValue + Columns + Rows - 2;
+                NumberButton btn = buttons[index] as NumberButton;
+                ControlHandler.SetPropertyValue(btn, "Background", color);
+            }
+        }
+        catch (Exception e)
+        {
+            
+        }
     }
 
     #endregion 
