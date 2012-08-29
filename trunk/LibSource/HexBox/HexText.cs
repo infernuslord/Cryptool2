@@ -213,6 +213,9 @@ namespace HexBox
             }
             drawingContext.DrawText(formattedText, p);
 
+            this.MinWidth = charwidth * 48;
+            this.MinHeight = 320;
+
             //Console.WriteLine(this.RenderSize);
         }
 

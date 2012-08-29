@@ -57,8 +57,6 @@ namespace HexBox
             st = new StretchText();
             ht = new HexText();
 
-            
-
             ht.mark[0] = -1;
             ht.mark[1] = -1;
             st.mark[1] = -1;

@@ -21,8 +21,6 @@ namespace HexBox
         public double CharWidth
         {
             get { return charwidth; }
-
-
         }
 
         private double textWidth;
@@ -30,9 +28,8 @@ namespace HexBox
         public double TextWidth
         {
             get { return textWidth; }
-
-
         }
+
 
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -163,9 +160,6 @@ namespace HexBox
                         z2 = 0;
                     }
 
-
-
-
                     if (mark[0] % 32 < mark[1] % 16 || mark[0] - mark[1] >= 16)
                     {
                         drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
@@ -225,10 +219,10 @@ namespace HexBox
 
                 drawingContext.DrawText(formattedText, p);
 
-                
-
-
             }
+
+            this.MinWidth = charwidth * 16;
+            this.MinHeight = 320;
 
         }
 
