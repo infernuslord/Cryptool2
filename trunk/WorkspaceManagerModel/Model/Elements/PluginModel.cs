@@ -441,7 +441,7 @@ namespace WorkspaceManager.Model
                     foreach (ConnectorModel connectorModel in InputConnectors)
                     {                        
                         if (!connectorModel.IControl &&
-                            (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0))
+                            (connectorModel.InputConnections.Count > 0))
                         {
                             if(connectorModel.DataQueue.Count == 0 && connectorModel.LastData == null)
                             {
