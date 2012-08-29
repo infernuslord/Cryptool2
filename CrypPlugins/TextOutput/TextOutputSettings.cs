@@ -62,41 +62,9 @@ namespace TextOutput
       }
     }
 
-    private bool showChars = true;
-    [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 1, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "", 1, false, ControlType.CheckBox, "", null)]
-    public bool ShowChars
-    {
-        get { return showChars; }
-        set
-        {
-            if (value != showChars)
-            {
-                showChars = value;
-                OnPropertyChanged("ShowChars");
-            }
-        }
-    }
-
-    private bool showLines = false;
-    [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 2, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "", 2, false, ControlType.CheckBox, "", null)]
-    public bool ShowLines
-    {
-        get { return showLines; }
-        set
-        {
-            if (value != showLines)
-            {
-                showLines = value;
-                OnPropertyChanged("ShowLines");
-            }
-        }
-    }
-
     private bool append = false;
-    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 0, false, ControlType.CheckBox, "", null)]
+    [ContextMenu( "AppendCaption", "AppendTooltip", 1, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 1, false, ControlType.CheckBox, "", null)]
     public bool Append
     {
       get { return append; }
@@ -123,6 +91,38 @@ namespace TextOutput
           OnPropertyChanged("AppendBreaks");
         }
       }
+    }
+
+    private bool showChars = true;
+    [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 3, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 3, false, ControlType.CheckBox, "", null)]
+    public bool ShowChars
+    {
+        get { return showChars; }
+        set
+        {
+            if (value != showChars)
+            {
+                showChars = value;
+                OnPropertyChanged("ShowChars");
+            }
+        }
+    }
+
+    private bool showLines = true;
+    [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 4, ContextMenuControlType.CheckBox, null)]
+    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 4, false, ControlType.CheckBox, "", null)]
+    public bool ShowLines
+    {
+        get { return showLines; }
+        set
+        {
+            if (value != showLines)
+            {
+                showLines = value;
+                OnPropertyChanged("ShowLines");
+            }
+        }
     }
 
     # endregion settings

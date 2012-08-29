@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.Windows;
@@ -47,9 +48,19 @@ namespace Cryptool.TextInput
     {
       settings = new TextInputSettings();
       settings.OnLogMessage += settings_OnLogMessage;
+      settings.PropertyChanged += settings_OnPropertyChanged;
 
       textInputPresentation = new TextInputPresentation();
       Presentation = textInputPresentation;
+      setStatusBar();
+    }
+      
+    private void settings_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "ShowChars" || e.PropertyName == "ShowLines")
+        {
+            setStatusBar();
+        }
     }
 
     void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
@@ -58,9 +69,37 @@ namespace Cryptool.TextInput
 
         // No dispatcher necessary, handler is being called from GUI component
         settings.Text = textInputPresentation.textBoxInputText.Text;
-        int chars = settings.Text.Length;
-        string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
-        textInputPresentation.labelBytesCount.Content = string.Format(" {0:#,0} "+entity, chars );
+        setStatusBar();
+    }
+
+      void setStatusBar()
+      {
+        // create status line string
+
+        string s = textInputPresentation.textBoxInputText.Text;
+        string label = "";
+
+        if (settings.ShowChars)
+        {
+            int chars = (s == null) ? 0 : s.Length;
+            string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
+            label += string.Format(" {0:#,0} " + entity, chars);
+        }
+
+        if (settings.ShowLines)
+        {
+            int lines = 0;
+            if ( s != null && s.Length > 0 )
+            {
+                lines = new Regex("\n", RegexOptions.Multiline).Matches(s).Count;
+                if (s[s.Length - 1] != '\n') lines++;
+            }
+            string entity = (lines == 1) ? Properties.Resources.Line : Properties.Resources.Lines;
+            if (label != "") label += ", ";
+            label += string.Format(" {0:#,0} " + entity, lines);
+        }
+
+        textInputPresentation.labelBytesCount.Content = label;
     }
 
     public void NotifyUpdate()

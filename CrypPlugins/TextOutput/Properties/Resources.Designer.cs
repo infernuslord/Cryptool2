@@ -232,6 +232,15 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Status bar ähnelt.
+        /// </summary>
+        internal static string ShowCharsGroup {
+            get {
+                return ResourceManager.GetString("ShowCharsGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, the number of characters in the text is displayed in the status line of the component. ähnelt.
         /// </summary>
         internal static string ShowCharsTooltip {

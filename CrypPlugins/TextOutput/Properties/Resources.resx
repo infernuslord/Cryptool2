@@ -183,4 +183,7 @@
   <data name="ShowLinesTooltip" xml:space="preserve">
     <value>With this checkbox enabled, the number of lines in the text is displayed in the status line of the component.</value>
   </data>
+  <data name="ShowCharsGroup" xml:space="preserve">
+    <value>Status bar</value>
+  </data>
 </root>

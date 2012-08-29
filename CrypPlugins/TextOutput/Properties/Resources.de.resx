@@ -180,4 +180,7 @@
   <data name="ShowLinesTooltip" xml:space="preserve">
     <value>Wenn dieses Kontrollkästchen aktiviert ist, wird die Anzahl der Zeilen des Textes in der Statuszeile der Komponente angezeigt.</value>
   </data>
+  <data name="ShowCharsGroup" xml:space="preserve">
+    <value>Statuszeile</value>
+  </data>
 </root>

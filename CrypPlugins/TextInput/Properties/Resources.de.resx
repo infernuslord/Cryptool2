@@ -135,4 +135,25 @@
   <data name="Char" xml:space="preserve">
     <value>Zeichen</value>
   </data>
+  <data name="Line" xml:space="preserve">
+    <value>Zeile</value>
+  </data>
+  <data name="Lines" xml:space="preserve">
+    <value>Zeilen</value>
+  </data>
+  <data name="ShowCharsCaption" xml:space="preserve">
+    <value>Anzahl der Zeichen</value>
+  </data>
+  <data name="ShowCharsGroup" xml:space="preserve">
+    <value>Statuszeile</value>
+  </data>
+  <data name="ShowCharsTooltip" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird die Anzahl der Zeichen des Textes in der Statuszeile der Komponente angezeigt.</value>
+  </data>
+  <data name="ShowLinesCaption" xml:space="preserve">
+    <value>Anzahl der Zeilen</value>
+  </data>
+  <data name="ShowLinesTooltip" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird die Anzahl der Zeilen des Textes in der Statuszeile der Komponente angezeigt.</value>
+  </data>
 </root>

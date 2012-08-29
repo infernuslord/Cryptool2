@@ -135,4 +135,25 @@
   <data name="Chars" xml:space="preserve">
     <value>characters</value>
   </data>
+  <data name="Line" xml:space="preserve">
+    <value>line</value>
+  </data>
+  <data name="Lines" xml:space="preserve">
+    <value>lines</value>
+  </data>
+  <data name="ShowCharsCaption" xml:space="preserve">
+    <value>Number of characters</value>
+  </data>
+  <data name="ShowCharsGroup" xml:space="preserve">
+    <value>Status bar</value>
+  </data>
+  <data name="ShowCharsTooltip" xml:space="preserve">
+    <value>With this checkbox enabled, the number of characters in the text is displayed in the status line of the component.</value>
+  </data>
+  <data name="ShowLinesCaption" xml:space="preserve">
+    <value>Number of lines</value>
+  </data>
+  <data name="ShowLinesTooltip" xml:space="preserve">
+    <value>With this checkbox enabled, the number of lines in the text is displayed in the status line of the component.</value>
+  </data>
 </root>
