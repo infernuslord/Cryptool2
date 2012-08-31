@@ -64,12 +64,12 @@
     Geben Sie das Wort, dessen Muster für die Wörterbuch-Suche nach passenden Worten verwendet werden soll, als Zeichenfolge am Eingang "Eingabe des Suchmusters" an (z.B. mittels der TextInput-Komponente).
     Geben Sie die Wortliste, die nach passenden Worten durchsucht werden soll, als String-Array am Eingang "Eingabe des Wörterbuchs" an (z.B. mittels der Wörterbuch-Komponente).
     Die Vorverarbeitung der Wortliste kann, abhängig von deren Größe, ein paar Sekunden dauern.
-    Die Ausgabe der Komponente ist eine Zeichenkette bestehend aus den durch einen Zeilenumbruch getrennten Worten mit übereinstimmendem Wortmuster.
+    Die Ausgabe der Komponente ist eine Liste von zum Wortmuster passenden Worten (sie besteht aus einer Zeichenkette mit durch einen Zeilenumbruch getrennten Worten).
     <newline />
     <newline />
     In den Einstellungen der Komponente kann angegeben werden, ob für die Bestimmung des Wortmusters zwischen Groß- und Kleinbuchstaben unterschieden werden soll oder nicht.
     <newline />
-    Ausserdem kann man für das Eingabewort Trennzeichen spezifizieren, die, sollten sie im Eingabewort vorkommen, bei der Wortmustergenerierung ignoriert werden. Diese kann man im Textfeld "Menge der Trennzeichen" angeben.
+    Außerdem kann man für das Eingabewort Trennzeichen spezifizieren, die, sollten sie im Eingabewort vorkommen, bei der Wortmustergenerierung ignoriert werden. Diese kann man im Textfeld "Menge der Trennzeichen" angeben.
     Gibt man hier z.B. "-" als Trennzeichen an, so kann das Eingabewort ANNA auch in der Form A-N-N-A angegeben werden.
   </usage>
   
