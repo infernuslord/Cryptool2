@@ -286,23 +286,39 @@ namespace WorkspaceManager.View.Visuals
                         if (((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).isExecuting())
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
-                                ce.element.IsEnabled = false;
-                            if (ce.element is IntegerUpDown)
                             {
-                                IntegerUpDown nud =  ce.element as IntegerUpDown;
-                                nud.Opacity = 0.80;
-                                nud.Foreground = Brushes.Gray;
+                                ce.element.IsEnabled = false;
+                                if (ce.element is IntegerUpDown)
+                                {
+                                    IntegerUpDown nud = ce.element as IntegerUpDown;
+                                    nud.Opacity = 0.80;
+                                    nud.Foreground = Brushes.Gray;
+                                }
+                                if (ce.caption != null)
+                                {
+                                    TextBlock cap = ce.caption as TextBlock;
+                                    cap.Opacity = 0.80;
+                                    cap.Foreground = Brushes.Gray;
+                                }
                             }
                         }
                         else 
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
-                                ce.element.IsEnabled = true;
-                            if (ce.element is IntegerUpDown)
                             {
-                                IntegerUpDown nud = ce.element as IntegerUpDown;
-                                nud.Opacity = 1;
-                                nud.Foreground = Brushes.Black;
+                                ce.element.IsEnabled = true;
+                                if (ce.element is IntegerUpDown)
+                                {
+                                    IntegerUpDown nud = ce.element as IntegerUpDown;
+                                    nud.Opacity = 1;
+                                    nud.Foreground = Brushes.Black;
+                                }
+                                if (ce.caption != null)
+                                {
+                                    TextBlock cap = ce.caption as TextBlock;
+                                    cap.Opacity = 1;
+                                    cap.Foreground = Brushes.Black;
+                                }
                             }
                         }
                     }
