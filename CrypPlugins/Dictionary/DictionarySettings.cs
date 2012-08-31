@@ -45,9 +45,25 @@ namespace Dictionary
         if (value != currentDictionary)
         {
             this.currentDictionary = value;
-          OnPropertyChanged("Dictionary");
+            OnPropertyChanged("Dictionary");
         }
       }
+    }
+      
+    private string numberEntries = string.Empty;
+
+    [TaskPane("NumberEntriesCaption", "NumberEntriesTooltip", null, 1, true, ControlType.TextBoxReadOnly)]
+    public string NumberEntries
+    {
+        get { return numberEntries; }
+        set
+        {
+            if (value != numberEntries)
+            {
+                numberEntries = value;
+                OnPropertyChanged("NumberEntries");
+            }
+        }
     }
 
     // CrypWin requires this to be a collection of strings
