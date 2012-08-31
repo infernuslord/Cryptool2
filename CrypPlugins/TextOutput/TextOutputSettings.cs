@@ -64,7 +64,7 @@ namespace TextOutput
 
     private bool append = false;
     [ContextMenu( "AppendCaption", "AppendTooltip", 1, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 1, false, ControlType.CheckBox, "", null)]
+    [TaskPane("AppendCaption", "AppendTooltip", "", 1, false, ControlType.CheckBox, "", null)]
     public bool Append
     {
       get { return append; }
@@ -73,13 +73,13 @@ namespace TextOutput
         if (value != append)
         {
           append = value;
-          OnPropertyChanged("Append");
+          //OnPropertyChanged("Append");
         }
       }
     }
 
     private int appendBreaks = 1;
-    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
       get { return this.appendBreaks; }
@@ -88,14 +88,14 @@ namespace TextOutput
         if (value != this.appendBreaks)
         {
           this.appendBreaks = value;
-          OnPropertyChanged("AppendBreaks");
+          //OnPropertyChanged("AppendBreaks");
         }
       }
     }
 
     private bool showChars = true;
     [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 3, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 3, false, ControlType.CheckBox, "", null)]
+    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 3, true, ControlType.CheckBox, "", null)]
     public bool ShowChars
     {
         get { return showChars; }
@@ -111,7 +111,7 @@ namespace TextOutput
 
     private bool showLines = true;
     [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 4, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 4, false, ControlType.CheckBox, "", null)]
+    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 4, true, ControlType.CheckBox, "", null)]
     public bool ShowLines
     {
         get { return showLines; }
