@@ -162,4 +162,10 @@
   <data name="WordPatterns_German" xml:space="preserve">
     <value>Deutsche Wortmuster</value>
   </data>
+  <data name="NumberEntriesCaption" xml:space="preserve">
+    <value>Einträge:</value>
+  </data>
+  <data name="NumberEntriesTooltip" xml:space="preserve">
+    <value>Anzahl der Einträge im aktuellen Wörterbuch</value>
+  </data>
 </root>

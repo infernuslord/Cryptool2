@@ -162,4 +162,10 @@
   <data name="WordPatterns_German" xml:space="preserve">
     <value>WordPatterns German</value>
   </data>
+  <data name="NumberEntriesCaption" xml:space="preserve">
+    <value>Entries:</value>
+  </data>
+  <data name="NumberEntriesTooltip" xml:space="preserve">
+    <value>Number of entries in the current dictionary</value>
+  </data>
 </root>

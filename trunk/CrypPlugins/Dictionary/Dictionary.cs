@@ -223,13 +223,29 @@ namespace Dictionary
             return false;
         }
 
+        private void setNumberOfEntires()
+        {
+            if (dicValues.ContainsKey(CurrentDicSelection) || LoadDictionary(CurrentDicSelection))
+            {
+                int n = dicValues[CurrentDicSelection].Length;
+                settings.NumberEntries = (n > 0) ? n.ToString("#,#") : n.ToString();
+            }
+            else
+            {
+                settings.NumberEntries = "?";
+            }
+        }
+
         public void Initialize()
-        {            
+        {
             settings.PropertyChanged += SettingsPropertyChanged; // catch settings changes
+            setNumberOfEntires();
         }
 
         private void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            setNumberOfEntires();
+
             // if user chooses another dictionary, force re-execution
             if (allowReexecution && e.PropertyName == "Dictionary")
             {
