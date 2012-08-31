@@ -4,16 +4,73 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component searches for words which share the same character pattern. A pattern
+    is a sequence of numbers; each character of the word maps to a consecutive number, while same characters map to the same number.
+    The resulting number sequence represents the character repetitions and equalities of a word, preserving the positions of the repetitions.
+    The pattern does not represent the word content. The character values are lost and thus the word can not be retrieved solely by its pattern.
+    
+    <section headline="Example">
+      The word ANNA has a length of four characters and consists of two different characters (A and N).
+      Therefore the corresponding sequence has a length of four numbers, while two consecutive numbers are being used, namely 1 and 2.
+      A is found first in the word and maps to 1. N is the next different character and maps to 2. Therefore the resulting pattern is 1221.
+      <newline />
+      Different words may have the same word pattern. As another example the word NOON also results in the pattern 1221.
+    </section>
+
+    <section headline="Area of Application">
+      The word pattern search aids in the cryptanalysis of monoalphabetical substitution ciphers. For this purpose a dictionary is required, from which the pattern of each word is precomputed once.
+      Then, the pattern of a given ciphertext word can be used to search for possible plaintext candidates from the chosen dictionary.
+    </section>
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente sucht nach Worten mit demselben Wortmuster.
+    Ein Wortmuster ist eine Folge von Zahlen. Jedem Buchstaben des zugrundeliegenden Wortes wird hierbei eine fortlaufende Zahl zugeordnet, wobei
+    gleichen Buchstaben immer dieselbe Zahl zugewiesen wird. Die sich hieraus ergebende Zahlenfolge repräsentiert ein Wort mit seinen Buchstabenwiederholungen
+    und deren Positionen. Das ursprüngliche Wort kann aus dem Wortmuster nicht rekonstruiert werden, da die Buchstabenwerte im Wortmuster verloren gehen.
+
+    <section headline="Beispiel">
+      Das Wort ANNA hat vier Buchstaben und besteht aus zwei unterschiedlichen Buchstaben (A und N).
+      Daher ist das zugehörige Wortmuster eine Folge von vier Zahlen, wobei zwei fortlaufende Zahlen verwendet werden, nämlich 1 und 2.
+      A kommt in dem Wort zuerst vor und erhält deshalb den Wert 1. N ist der nächste verschiedene Buchstabe und erhält den Wert 2.
+      Das resultierende Wortmuster ist also 1221.
+      <newline />
+      Verschiedene Wörter können dasselbe Wortmuster haben. Zum Beispiel hat das Wort EBBE ebenfalls das Wortmuster 1221.
+    </section>
+
+    <section headline="Anwendungsbereich">
+      Die Wortmuster-Suche kann bei der Kryptoanalyse von monoalphabetischen Substitutionen angewendet werden.
+      Man benötigt hierzu ein Wörterbuch und bestimmt für jedes seiner Worte das Wortmuster.
+      Die Liste der Wortmuster wird dann mit dem Wortmuster des Geheimtextes verglichen.
+      Die Wörter des Wörterbuches, bei denen das Wortmuster übereinstimmt, sind dann mögliche Klartext-Kandidaten.
+    </section>
   </introduction>
 
-  <usage lang="en">
+  <usage lang="en">  
+    Enter the input word, whose pattern is used to retrieve matching words from the dictionary, as string (for example via the TextInput component) on the input labeled "Input word".
+    Enter the list of words to be searched for as string array (for example via the Dictionary component) on the input labeled "Input dictionary".
+    Depending on the size of the dictionary the precomputation may take some seconds.
+    The output is a list of matching words as single string, separated by newlines.
+    <newline />
+    <newline />
+    In the settings of the component you can adjust whether an uppercase letter and its correspondig lowercase letter in the input word should be treated as the same or as different.
+    <newline />
+    If you want to use separator characters in the input word, you can enter them in the text field labeled "Set of separators". For example, if you enter the character "-" here, you can enter
+    the input word ANNA as A-N-N-A. It is possible to specify more than one separator character.
   </usage>
 
   <usage lang="de-DE">
+    Geben Sie das Wort, dessen Muster für die Wörterbuch-Suche nach passenden Worten verwendet werden soll, als Zeichenfolge am Eingang "Eingabe des Suchmusters" an (z.B. mittels der TextInput-Komponente).
+    Geben Sie die Wortliste, die nach passenden Worten durchsucht werden soll, als String-Array am Eingang "Eingabe des Wörterbuchs" an (z.B. mittels der Wörterbuch-Komponente).
+    Die Vorverarbeitung der Wortliste kann, abhängig von deren Größe, ein paar Sekunden dauern.
+    Die Ausgabe der Komponente ist eine Zeichenkette bestehend aus den durch einen Zeilenumbruch getrennten Worten mit übereinstimmendem Wortmuster.
+    <newline />
+    <newline />
+    In den Einstellungen der Komponente kann angegeben werden, ob für die Bestimmung des Wortmusters zwischen Groß- und Kleinbuchstaben unterschieden werden soll oder nicht.
+    <newline />
+    Ausserdem kann man für das Eingabewort Trennzeichen spezifizieren, die, sollten sie im Eingabewort vorkommen, bei der Wortmustergenerierung ignoriert werden. Diese kann man im Textfeld "Menge der Trennzeichen" angeben.
+    Gibt man hier z.B. "-" als Trennzeichen an, so kann das Eingabewort ANNA auch in der Form A-N-N-A angegeben werden.
   </usage>
   
   <presentation lang="en">
