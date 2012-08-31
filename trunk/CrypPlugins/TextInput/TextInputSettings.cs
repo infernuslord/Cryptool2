@@ -51,7 +51,7 @@ namespace Cryptool.TextInput
 
     private bool showChars = true;
     [ContextMenu("ShowCharsCaption", "ShowCharsTooltip", 1, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 1, false, ControlType.CheckBox, "", null)]
+    [TaskPane("ShowCharsCaption", "ShowCharsTooltip", "ShowCharsGroup", 1, true, ControlType.CheckBox, "", null)]
     public bool ShowChars
     {
         get { return showChars; }
@@ -67,7 +67,7 @@ namespace Cryptool.TextInput
 
     private bool showLines = true;
     [ContextMenu("ShowLinesCaption", "ShowLinesTooltip", 2, ContextMenuControlType.CheckBox, null)]
-    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 2, false, ControlType.CheckBox, "", null)]
+    [TaskPane("ShowLinesCaption", "ShowLinesTooltip", "ShowCharsGroup", 2, true, ControlType.CheckBox, "", null)]
     public bool ShowLines
     {
         get { return showLines; }

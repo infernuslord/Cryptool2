@@ -141,9 +141,6 @@
   <data name="MaxLengthTooltip" xml:space="preserve">
     <value>Wie viele Zeichen sollen maximal eingelesen werden?</value>
   </data>
-  <data name="AppendGroup" xml:space="preserve">
-    <value>Anfügen</value>
-  </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabedaten</value>
   </data>

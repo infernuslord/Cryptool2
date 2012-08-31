@@ -88,15 +88,6 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Append ähnelt.
-        /// </summary>
-        internal static string AppendGroup {
-            get {
-                return ResourceManager.GetString("AppendGroup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, incoming text will be appended to the current text. ähnelt.
         /// </summary>
         internal static string AppendTooltip {
