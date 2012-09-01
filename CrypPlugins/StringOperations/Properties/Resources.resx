@@ -174,4 +174,10 @@
   <data name="String3Tooltip" xml:space="preserve">
     <value>Third input string</value>
   </data>
+  <data name="OutputStringArrayCaption" xml:space="preserve">
+    <value>OutputStringArray</value>
+  </data>
+  <data name="OutputStringArrayTooltip" xml:space="preserve">
+    <value>The output strings created by this operation in an array of strings</value>
+  </data>
 </root>

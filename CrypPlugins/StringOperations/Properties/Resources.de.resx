@@ -123,6 +123,12 @@
   <data name="OperationCaptionToolTip" xml:space="preserve">
     <value>Wählen Sie die Funktion, die auf die Zeichenketten angewendet werden soll.</value>
   </data>
+  <data name="OutputStringArrayCaption" xml:space="preserve">
+    <value>Ausgabe des Zeichenketten-Arrays</value>
+  </data>
+  <data name="OutputStringArrayTooltip" xml:space="preserve">
+    <value>Ausgabe der resultierenden Zeichenketten als Array</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabe der Zeichenkette</value>
   </data>

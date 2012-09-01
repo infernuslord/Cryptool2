@@ -36,6 +36,7 @@ namespace StringOperations
         private int _value2;
         private string _outputString;
         private int _outputValue;
+        private string[] _outputStringArray;
 
         public StringOperations()
         {
@@ -114,6 +115,10 @@ namespace StringOperations
                     case StringOperationType.RegexReplace:
                         _outputString = Regex.Replace(_string1, _string2, _string3);
                         OnPropertyChanged("OutputString");
+                        break;
+                    case StringOperationType.Split:
+                        _outputStringArray = _string1.Split((_string2 == null) ? null : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        OnPropertyChanged("OutputStringArray");
                         break;
                 }
                 ProgressChanged(1, 1);
@@ -198,6 +203,12 @@ namespace StringOperations
         public int OutputValue
         {
             get { return _outputValue; }
+        }
+
+        [PropertyInfo(Direction.OutputData, "OutputStringArrayCaption", "OutputStringArrayTooltip", false)]
+        public String[] OutputStringArray
+        {
+            get { return _outputStringArray; }
         }
 
         public void OnPropertyChanged(string name)
