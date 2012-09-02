@@ -47,7 +47,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             }
             if (theObject is BitmapFrame)
             {
-                return ConvertImageSource((BitmapFrame)theObject, docPage.Name, docPage.CurrentLocalization.Name, docPage);
+                return ConvertImageSource((BitmapFrame)theObject, docPage.Name, docPage.CurrentLocalization.Name);
             }
             if (theObject is ComponentTemplateList)
             {
@@ -206,7 +206,22 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         /// <param name="filename">The wished filename (withouth the extension)</param>
         /// <param name="entityType"></param>
         /// <returns></returns>
-        private string ConvertImageSource(BitmapFrame imageSource, string filename, string caption, EntityDocumentationPage entityDocumentationPage)
+        private string ConvertImageSource(BitmapFrame imageSource, string filename, string caption)
+        {
+            var imagePath = GetImagePath(imageSource, filename);
+            var sb = new StringBuilder();
+            sb.AppendLine("\\begin{figure}[!ht]");
+            sb.AppendLine("\\begin{center}");
+            sb.AppendLine("\\includegraphics[width=32pt, height=32pt]{" + imagePath + "}");
+            sb.AppendLine("\\end{center}");
+            sb.AppendLine("\\caption{" + caption + "}");
+            sb.AppendLine("\\end{figure}");
+            return sb.ToString();
+
+
+        }
+
+        internal string GetImagePath(BitmapFrame imageSource, string filename)
         {
             filename = filename.Replace(".", "-").Replace(" ", "_");
             filename = filename + ".png";
@@ -226,17 +241,9 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                     encoder.Save(fileStream);
                 }
             }
+            var imagePath = TemplateImagesDir + "/" + filename;
             _createdImages.Add(filename);
-            var sb = new StringBuilder();
-            sb.AppendLine("\\begin{figure}");
-            sb.AppendLine("\\begin{center}");
-            sb.AppendLine("\\includegraphics[width=64pt, height=64pt]{" + TemplateImagesDir + "/" + filename + "}");
-            sb.AppendLine("\\end{center}");
-            sb.AppendLine("\\caption{" + caption + "}");
-            sb.AppendLine("\\end{figure}");
-            return sb.ToString();
-
-
+            return imagePath;
         }
 
         /// <summary>
@@ -289,7 +296,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                                 var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
                                     srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
                                 var filename = string.Format("{0}_{1}", entityDocumentationPage.Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
-                                result.Append(ConvertImageSource(image, filename, Path.GetFileNameWithoutExtension(srcAtt.Value), entityDocumentationPage));
+                                result.Append(ConvertImageSource(image, filename, Path.GetFileNameWithoutExtension(srcAtt.Value)));
                             }
                             break;
                         case "newline":

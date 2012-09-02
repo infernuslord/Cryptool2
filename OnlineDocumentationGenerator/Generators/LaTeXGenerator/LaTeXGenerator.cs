@@ -31,15 +31,70 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
 
         public override void Generate(TemplateDirectory templatesDir)
         {
+            var cultureInfo = new CultureInfo(_lang);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo; 
+
             _templatesDir = templatesDir;
             _objectConverter = new ObjectConverter(DocPages, OutputDir);
-            var code = GenerateTemplateCode(_lang);
-            StoreLaTeX(code, "templates.tex");
+            var tableCode = GenerateTemplateOverviewTableCode(_lang);
+            var descriptionCode = GenerateTemplateDescriptionCode(_lang);
+
+            var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", 
+                string.Format("{0}{1}", tableCode, descriptionCode));
+            StoreLaTeX(latexCode, "templates.tex");
             
             //CopyAdditionalResources();
         }
 
-        private void WalkTemplateDirectory(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
+        private string GenerateTemplateOverviewTableCode(string lang)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("\\section{Übersicht über die Vorlagen}");
+            stringBuilder.AppendLine("\\begin{longtable}{lp{0.6\\textwidth}}");
+            foreach (var dir in _templatesDir.SubDirectories)
+            {
+                GenerateTemplateOverviewTableSection(dir, stringBuilder, 0, lang);
+            }
+            stringBuilder.AppendLine("\\end{longtable}");
+            return stringBuilder.ToString();
+        }
+
+        private void GenerateTemplateOverviewTableSection(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
+        {
+            const string hspace = "\\hspace{3mm} ";
+            var spacesStringBuilder = new StringBuilder();
+            for (int i = 0; i < depth * 2; i++)
+            {
+                spacesStringBuilder.Append(hspace);
+            }
+            var spaces = spacesStringBuilder.ToString();
+
+            stringBuilder.AppendLine("\\multicolumn{2}{l}{" + spaces + " " + Helper.EscapeLaTeX(templatesDir.GetName(lang)) + "} \\\\");
+            //stringBuilder.AppendLine(string.Format("{0} {1} & & \\\\", spaces, Helper.EscapeLaTeX(templatesDir.GetName(lang))));
+
+            foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
+            {
+                var locTemplate = templateDocumentationPage.CurrentLocalization;
+                var summary = _objectConverter.Convert(locTemplate.Summary, templateDocumentationPage);
+                string includeIcon = "";
+                if (locTemplate.Icon != null)
+                {
+                    var icon = _objectConverter.GetImagePath(locTemplate.Icon, templateDocumentationPage.Name);
+                    includeIcon = "\\includegraphics[width=16pt, height=16pt]{" + icon + "}";
+                }
+
+                var templateName = Helper.EscapeLaTeX(templateDocumentationPage.CurrentLocalization.Name);
+                var templateNameMiniPage = "\\begin{minipage}[c]{0.3\\textwidth}" + templateName + "\\end{minipage}";
+                stringBuilder.AppendLine(string.Format("{0} {1} {2} & {3} \\\\", spaces + hspace, includeIcon, templateNameMiniPage, summary));
+            }
+            foreach (var dir in templatesDir.SubDirectories)
+            {
+                GenerateTemplateOverviewTableSection(dir, stringBuilder, depth + 1, lang);
+            }
+        }
+
+        private void GenerateTemplateDescriptionSection(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
         {
             var sectionBuilder = new StringBuilder("\\");
             for(int i=0;i<depth;i++)
@@ -77,20 +132,16 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             }
             foreach (var dir in templatesDir.SubDirectories)
             {
-                WalkTemplateDirectory(dir, stringBuilder, depth + 1,lang);
+                GenerateTemplateDescriptionSection(dir, stringBuilder, depth + 1,lang);
             }
         }
 
-        private string GenerateTemplateCode(string lang)
+        private string GenerateTemplateDescriptionCode(string lang)
         {
-            var cultureInfo = new CultureInfo(lang);
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
-            
             var stringBuilder = new StringBuilder();
             foreach (var dir in _templatesDir.SubDirectories)
             {
-                WalkTemplateDirectory(dir, stringBuilder, 0, lang);
+                GenerateTemplateDescriptionSection(dir, stringBuilder, 0, lang);
             }
             return stringBuilder.ToString();
         }
@@ -106,7 +157,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                     Directory.CreateDirectory(outDir);
                 }
 
-                var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
+                var streamWriter = new StreamWriter(filePath, false, Encoding.UTF8);
                 streamWriter.Write(content);
                 streamWriter.Close();
             }
