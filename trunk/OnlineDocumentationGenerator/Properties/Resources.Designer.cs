@@ -267,6 +267,33 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to \documentclass[10pt,a4paper]{article}
+        ///\usepackage[utf8]{inputenc}
+        ///\usepackage{amsmath}
+        ///\usepackage{tipa}
+        ///\usepackage{amsfonts}
+        ///\usepackage{german}
+        ///\usepackage{graphicx}
+        ///\usepackage{amssymb}
+        ///\usepackage{parskip}
+        ///\usepackage{german,longtable}
+        ///\setcounter{tocdepth}{4}
+        ///\setcounter{secnumdepth}{4}
+        ///\title{CrypTool 2.0 Templates}
+        ///\begin{document}
+        ///\tableofcontents
+        ///
+        ///$CONTENT$
+        ///
+        ///\end{document}.
+        /// </summary>
+        public static string LaTeXTemplate {
+            get {
+                return ResourceManager.GetString("LaTeXTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         public static string NoContent {

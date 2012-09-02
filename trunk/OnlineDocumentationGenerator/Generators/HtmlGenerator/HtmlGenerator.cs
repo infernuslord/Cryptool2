@@ -143,7 +143,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 spacesStringBuilder.Append("&nbsp;");
             }
             var spaces = spacesStringBuilder.ToString();
-            stringBuilder.AppendLine(string.Format("<tr><td colspan=\"4\">{0}{1}</td></tr>", spaces,templatesDir.GetName(lang)));
+            stringBuilder.AppendLine(string.Format("<tr><td colspan=\"4\">{0}{1}</td></tr>", spaces, templatesDir.GetName(lang)));
 
             foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
             {
