@@ -38,7 +38,7 @@ namespace OnlineDocumentationGenerator.Reference
 
             var builder = new StringBuilder();
             builder.AppendLine(string.Format("<p>{0}</p>", Resources.References_description));
-            builder.AppendLine("<p><ol>");
+            builder.AppendLine("<p><ol class=\"references\">");
 
             foreach (var reference in _references)
             {

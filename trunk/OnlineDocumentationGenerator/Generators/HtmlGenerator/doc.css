@@ -93,3 +93,12 @@ a.button3d:hover{
 	border-left: #3399FF 2px solid;
 	padding: 11px 14px 9px 16px;
 }
+
+ol.references {
+    counter-reset:ref;
+    list-style-type:none;
+}
+ol.references li:before {
+    content: "["counter(ref)"]";
+    counter-increment:ref;
+}

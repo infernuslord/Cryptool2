@@ -3,7 +3,7 @@
   <title lang="en">Factorization with Quadratic Sieve</title>
   <summary lang="en">This template shows the usage of the <i>Quadratic Sieve</i></summary>
   <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Quadratischen Siebs</i></summary>
-  <description lang="en">The quadratic sieve algorithm (QS) is a modern integer factorization algorithm and, in practice, the second fastest method known (after the general number field sieve). It is still the fastest for integers under 100 decimal digits or so, and is considerably simpler than the number field sieve. It is a general-purpose factorization algorithm, meaning that its running time depends solely on the size of the integer to be factored, and not on special structure or properties. It was invented by Carl Pomerance in 1981 as an improvement to Schroeppel's linear sieve.<newline /><newline />
+  <description lang="en">The quadratic sieve algorithm (QS) is a modern integer factorization algorithm and, in practice, the second fastest method known for number longer than ca. 100 decimal digits (after the general number field sieve). It is still the fastest for integers under ca. 100 decimal digits, and is considerably simpler than the number field sieve. It is a general-purpose factorization algorithm, meaning that its running time depends solely on the size of the integer to be factored, and not on special structure or properties. It was invented by Carl Pomerance in 1981 as an improvement to Schroeppel's linear sieve.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Quadratic_sieve" /></description>
   <keywords>Prime, sieve, Factorization</keywords>
   <title lang="de">Faktorisierung mit Quadratischem Sieb</title>
