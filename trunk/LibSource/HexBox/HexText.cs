@@ -66,7 +66,7 @@ namespace HexBox
 
             int f = ByteContent.Count()*3;
 
-            if(f>48)
+            if(f>48 || f<=0)
             {
                 f = 48;
             }
