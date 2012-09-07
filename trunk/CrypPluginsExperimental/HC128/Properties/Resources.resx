@@ -117,34 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input Stream</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Input</value>
   </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the plaintext.</value>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Data to be encrypted or decrypted</value>
   </data>
-  <data name="IVCaption" xml:space="preserve">
-    <value>Initialization Vector</value>
+  <data name="InputIVCaption" xml:space="preserve">
+    <value>IV</value>
   </data>
-  <data name="IVTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the 128 bit IV.</value>
+  <data name="InputIVTooltip" xml:space="preserve">
+    <value>The initialization vector must be 128 bits (16 bytes) long.</value>
   </data>
-  <data name="KeyDataCaption" xml:space="preserve">
+  <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
-  <data name="KeyDataTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the 128 bit key.</value>
+  <data name="InputKeyTooltip" xml:space="preserve">
+    <value>The key must be 128 bits (16 bytes) long.</value>
   </data>
-  <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output Stream</value>
+  <data name="OutputDataCaption" xml:space="preserve">
+    <value>Output</value>
   </data>
-  <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the ciphertext.</value>
+  <data name="OutputDataTooltip" xml:space="preserve">
+    <value>Encrypted or decrypted data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>HC128</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>HC128 algorithm from the eSTREAM portfolio.</value>
+    <value>HC128 algorithm from the eSTREAM portfolio</value>
   </data>
 </root>
