@@ -20,18 +20,12 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Rabbit
 {
-    // HOWTO: rename class (click name, press F2)
     public class RabbitSettings : ISettings
     {
         #region Private Variables
-
-      
-
         #endregion
 
         #region TaskPane Settings
-
-
         #endregion
 
         #region Events

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Rabbit {
+namespace Rabbit.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Rabbit {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Rabbit.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Rabbit.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,6 +61,24 @@ namespace Rabbit {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        internal static string InputDataCaption {
+            get {
+                return ResourceManager.GetString("InputDataCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data to be encrypted or decrypted ähnelt.
+        /// </summary>
+        internal static string InputDataTooltip {
+            get {
+                return ResourceManager.GetString("InputDataTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die IV ähnelt.
         /// </summary>
         internal static string InputIVCaption {
@@ -70,7 +88,7 @@ namespace Rabbit {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 8 bytes (64 bits) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The initialization vector must be 64 bits (8 bytes) long. ähnelt.
         /// </summary>
         internal static string InputIVTooltip {
             get {
@@ -88,7 +106,7 @@ namespace Rabbit {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 16 bytes (128 bits) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The key must be 128 bits (16 bytes) long. ähnelt.
         /// </summary>
         internal static string InputKeyTooltip {
             get {
@@ -97,38 +115,20 @@ namespace Rabbit {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
-        /// </summary>
-        internal static string InputStringCaption {
-            get {
-                return ResourceManager.GetString("InputStringCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 16 bytes (128 bits) in Hex. ähnelt.
-        /// </summary>
-        internal static string InputStringTooltip {
-            get {
-                return ResourceManager.GetString("InputStringTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
-        internal static string OutputStringCaption {
+        internal static string OutputDataCaption {
             get {
-                return ResourceManager.GetString("OutputStringCaption", resourceCulture);
+                return ResourceManager.GetString("OutputDataCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted or decrypted data ähnelt.
         /// </summary>
-        internal static string OutputStringTooltip {
+        internal static string OutputDataTooltip {
             get {
-                return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
+                return ResourceManager.GetString("OutputDataTooltip", resourceCulture);
             }
         }
         
@@ -142,7 +142,7 @@ namespace Rabbit {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A chiper of the software portfolio from eSTREAM ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rabbit algorithm from the eSTREAM portfolio ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
