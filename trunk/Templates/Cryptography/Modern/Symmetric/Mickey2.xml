@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Mickey2 Cipher</title>
+  <summary lang="en">Usage of the <i>Mickey2 Cipher</i></summary>
+  <summary lang="de">Benutzung der <i>Mickey2-Chiffre</i></summary>
+  <description lang="en">-</description>
+  <keywords>estream, stream, symmetric</keywords>
+  <title lang="de">Mickey2-Chiffre</title>
+  <description lang="de">-</description>
+  <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+  <icon file="Mickey2.png" />
+  <relevantPlugins>
+    <plugin name="Mickey2" />
+  </relevantPlugins>
+</sample>

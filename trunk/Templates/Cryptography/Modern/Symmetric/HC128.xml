@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">HC128 Cipher</title>
+  <summary lang="en">Usage of the <i>HC128 Cipher</i></summary>
+  <summary lang="de">Benutzung der <i>HC128-Chiffre</i></summary>
+  <description lang="en">-</description>
+  <keywords>estream, stream, symmetric</keywords>
+  <title lang="de">HC128-Chiffre</title>
+  <description lang="de">-</description>
+  <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+  <icon file="HC128.png" />
+  <relevantPlugins>
+    <plugin name="HC128" />
+  </relevantPlugins>
+</sample>

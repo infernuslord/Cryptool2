@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Sosemanuk Cipher</title>
+  <summary lang="en">Usage of the <i>Sosemanuk Cipher</i></summary>
+  <summary lang="de">Benutzung der <i>Sosemanuk-Chiffre</i></summary>
+  <description lang="en">-</description>
+  <keywords>estream, stream, symmetric</keywords>
+  <title lang="de">Sosemanuk-Chiffre</title>
+  <description lang="de">-</description>
+  <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+  <icon file="Sosemanuk.jpg" />
+  <relevantPlugins>
+    <plugin name="Sosemanuk" />
+  </relevantPlugins>
+</sample>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Salsa20 Cipher</title>
+  <summary lang="en">Usage of the <i>Salsa20 Cipher</i></summary>
+  <summary lang="de">Benutzung der <i>Salsa20-Chiffre</i></summary>
+  <description lang="en">-</description>
+  <keywords>estream, stream, symmetric</keywords>
+  <title lang="de">Salsa20-Chiffre</title>
+  <description lang="de">-</description>
+  <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+  <icon file="Salsa20.png" />
+  <relevantPlugins>
+    <plugin name="Salsa20" />
+  </relevantPlugins>
+</sample>
