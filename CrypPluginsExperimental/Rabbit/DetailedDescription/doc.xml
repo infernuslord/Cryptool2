@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    Rabbit is a software-efficient, synchronous stream cipher. Rabbit is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project.
+    The cipher has a key length of 128 bit, and takes an initial value (IV) ranging of 64 bit in length.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Rabbit ist eine softwareeffiziente, synchrone Stromchiffre. Rabbit ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes.
+    Die Chiffre hat eine Schlüssellänge von 128 Bit und benötigt einen Initialisierungsvektor (IV), der 64 Bit lang sein muss.
+    Ein Satz von acht 32-Bit-Zustandsregister und acht 32-Bit-Zähler wird verwendet, um effiziente Verschlüsselungsmechanismen
+    durch einfache arithmetische und andere grundlegende Funktionen wie der Rotation bereitzustellen.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the Rabbit component onto your workspace, you will
+    have to attach the three input connectors 'Input', 'Key' and 'IV' to data sources.
+
+    Additionally you have to connect a text output component to the 'Output' connector.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die Rabbit-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
+
+    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+  </usage>
+  
+  <references>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/rabbitpf.html" lang="en" />
+      <caption lang="en">Rabbit at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/rabbitpf.html" lang="de-DE" />
+      <caption lang="de-DE">Rabbit beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Rabbit_(cipher)" lang="en" />
+      <caption lang="en">Rabbit at Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Rabbit_(Algorithmus)" lang="de-DE" />
+      <caption lang="de-DE">Rabbit bei Wikipedia</caption>
+    </linkReference>
+  </references>
+  
+</documentation>

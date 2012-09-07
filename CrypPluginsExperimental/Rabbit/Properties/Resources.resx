@@ -117,37 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Must be between 8 bytes (64 bits) in Hex.</value>
-    <comment>It has to be in the form xx yy zz</comment>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Data to be encrypted or decrypted</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Must be 16 bytes (128 bits) in Hex.</value>
-    <comment>It has to be in the form xx yy zz</comment>
+  <data name="InputIVTooltip" xml:space="preserve">
+    <value>The initialization vector must be 64 bits (8 bytes) long.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Must be 16 bytes (128 bits) in Hex.</value>
-    <comment>It has to be in the form xx yy zz</comment>
+  <data name="InputKeyTooltip" xml:space="preserve">
+    <value>The key must be 128 bits (16 bytes) long.</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Input</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
+  <data name="OutputDataCaption" xml:space="preserve">
     <value>Output</value>
   </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Output</value>
+  <data name="OutputDataTooltip" xml:space="preserve">
+    <value>Encrypted or decrypted data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Rabbit</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>A chiper of the software portfolio from eSTREAM</value>
+    <value>Rabbit algorithm from the eSTREAM portfolio</value>
   </data>
 </root>
