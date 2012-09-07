@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    SOSEMANUK is a software-efficient, synchronous stream cipher. SOSEMANUK is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project.
+    The cipher has a variable key length, ranging from 64 to 256 bits, and takes an initial value (IV) ranging from 32 to 128 bits in length.
+    SOSEMANUK uses design principles similar to the stream cipher SNOW 2.0 and block cipher SERPENT. The design of SOSEMANUK aims to fix some potential
+    structural weaknesses of SNOW 2.0, while providing better performance by decreasing the size of the internal state.
+  </introduction>
+
+  <introduction lang="de-DE">
+    SOSEMANUK ist eine softwareeffiziente, synchrone Stromchiffre. SOSEMANUK ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes.
+    Die Chiffre hat eine variable Schlüssellänge, die von 64 bis 256 Bits reicht und benötigt einen Initialisierungsvektor (IV), der zwischen 32 und 128 Bits lang sein muss.
+    Die Grundprinzipien der Chiffre wurden aus zwei verschiedenen Ansätzen entnommen. Zum einem aus der Stromchiffre SNOW 2.0 und zum anderen aus der Blockchiffre SERPENT.
+    Das Design von SOSEMANUK zielt darauf ab, einige potenzielle strukturelle Schwachstellen von SNOW 2.0 zu beheben und gleichzeitig eine
+    bessere Leistung durch eine Reduzierung der Größe des internen Zustandes zu bekommen.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the SOSEMANUK component onto your workspace, you will
+    have to attach the three input connectors 'Input', 'Key' and 'IV' to data sources.
+
+    Additionally you have to connect a text output component to the 'Output' connector.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die SOSEMANUK-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
+    
+    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+  </usage>
+  
+  <references>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/sosemanukpf.html" lang="en" />
+      <caption lang="en">SOSEMANUK at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/sosemanukpf.html" lang="de-DE" />
+      <caption lang="de-DE">SOSEMANUK beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/SOSEMANUK" lang="en" />
+      <caption lang="en">SOSEMANUK at Wikipedia</caption>
+      <link url="http://en.wikipedia.org/wiki/SOSEMANUK" lang="de-DE" />
+      <caption lang="de-DE">SOSEMANUK bei Wikipedia (englisch)</caption>
+    </linkReference>
+  </references>
+  
+</documentation>

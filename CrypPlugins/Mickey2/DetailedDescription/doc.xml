@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    Mickey 2.0 is a hardware-efficient , synchronous stream cipher. Mickey 2.0 is a part of the eSTREAM portfolio from the ECRYPT Stream Cipher Project.
+    The cipher has a  key length of 80 bits, and takes an initial value (IV) ranging from 0 to 80 bits in length.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Mickey 2.0  ist eine hardwareeffiziente, synchrone Stromchiffre. Mickey 2.0  ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes.
+    Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt einen Initialsierungsvektor (IV), welche zwischen 0 und 80 Bits lang sein muss.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the Mickey 2.0 component onto your workspace, you will
+    have to attach the three input connectors 'Input', 'Key' and 'IV' to data sources.
+
+    Additionally you have to connect a text output component to the 'Output' connector.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die Mickey 2.0-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
+
+    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+  </usage>
+
+  <references>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/mickeypf.html" lang="en" />
+      <caption lang="en">Mickey 2.0 at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/mickeypf.html" lang="de-DE" />
+      <caption lang="de-DE">Mickey 2.0 beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/MICKEY" lang="en" />
+      <caption lang="en">Mickey 2.0 at Wikipedia</caption>
+      <link url="http://en.wikipedia.org/wiki/MICKEY" lang="de-DE" />
+      <caption lang="de-DE">Mickey 2.0 bei Wikipedia (englisch)</caption>
+    </linkReference>
+  </references>
+  
+</documentation>
