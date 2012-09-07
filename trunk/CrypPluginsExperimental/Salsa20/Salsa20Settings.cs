@@ -22,8 +22,8 @@ namespace Cryptool.Plugins.Salsa20
 {
     public class Salsa20Settings : ISettings
     {
-        public int rounds = 20;
-        [TaskPane("RoundCaption", "RoundTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 8, 20)]
+        public int rounds = 2;
+        [TaskPane("RoundCaption", "RoundTooltip", null, 0, false, ControlType.ComboBox, new string[] { "8", "12", "20" })]
         public int Rounds
         {
             get { return rounds; }

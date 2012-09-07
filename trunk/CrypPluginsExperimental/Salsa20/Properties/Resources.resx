@@ -117,40 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input Stream</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Input</value>
   </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the plaintext.</value>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Data to be encrypted or decrypted</value>
   </data>
-  <data name="IVCaption" xml:space="preserve">
-    <value>Initialization Vector</value>
+  <data name="InputIVCaption" xml:space="preserve">
+    <value>IV</value>
   </data>
-  <data name="IVTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the 64 bit IV.</value>
+  <data name="InputIVTooltip" xml:space="preserve">
+    <value>The initialization vector must be 64 bits (8 bytes) long.</value>
   </data>
-  <data name="KeyDataCaption" xml:space="preserve">
+  <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
-  <data name="KeyDataTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the 128 or 256 bit key.</value>
+  <data name="InputKeyTooltip" xml:space="preserve">
+    <value>The key must be 128 or 256 bits (16 oder 32 bytes) long.</value>
   </data>
-  <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output Stream</value>
+  <data name="OutputDataCaption" xml:space="preserve">
+    <value>Output</value>
   </data>
-  <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Hexadecimal representation of the ciphertext.</value>
+  <data name="OutputDataTooltip" xml:space="preserve">
+    <value>Encrypted or decrypted data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Salsa20</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Salsa20 algorithm from the eSTREAM portfolio.</value>
+    <value>Salsa20 algorithm from the eSTREAM portfolio</value>
   </data>
   <data name="RoundCaption" xml:space="preserve">
     <value>Rounds</value>
   </data>
   <data name="RoundTooltip" xml:space="preserve">
-    <value>You can choose between 20, 12 or 8 rounds.</value>
+    <value>You can choose 8, 12 or 20 rounds.</value>
   </data>
 </root>
