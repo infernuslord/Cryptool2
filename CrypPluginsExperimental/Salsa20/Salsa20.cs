@@ -30,28 +30,31 @@ namespace Cryptool.Plugins.Salsa20
     public class Salsa20 : ICrypComponent
     {
         #region Private Variables
+
         private Salsa20Settings settings;
-        private string inputString;
-        private string outputString;
-        private string inputKey;
-        private string inputIV;
-        private bool stop = false;
-        private bool inputValid = false;
+
+        private byte[] inputData;
+        private byte[] outputData;
+        private byte[] inputKey;
+        private byte[] inputIV;
+
         private int rounds;
+
         #endregion
 
         #region Public Variables
+
+        public static byte[] sigma = Encoding.ASCII.GetBytes("expand 32-byte k");
+        public static byte[] tau = Encoding.ASCII.GetBytes("expand 16-byte k");
+        public static int[] Rounds = new int[] { 8, 12, 20 };
+
         public static int stateSize = 16; // 16, 32 bit ints = 64 bytes
-        public byte[] sigma, tau;
         public int index = 0;
         public uint[] engineState = new uint[stateSize]; // state
         public uint[] x = new uint[stateSize]; // internal buffer
         public byte[] keyStream = new byte[stateSize * 4];
-        public byte[] workingKey; 
-        public byte[] workingIV;
         public int cW0, cW1, cW2;
-        public byte[] In, Out;
-        public string KeyStream = "";
+
         #endregion
 
         public Salsa20()
@@ -65,19 +68,21 @@ namespace Cryptool.Plugins.Salsa20
             set { this.settings = (Salsa20Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
-        public string InputString
+        #region Data Properties
+
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
+        public byte[] InputData
         {
-            get { return this.inputString; }
+            get { return this.inputData; }
             set
             {
-                this.inputString = value;
-                OnPropertyChanged("InputString");
+                this.inputData = value;
+                OnPropertyChanged("InputData");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", true)]
-        public string InputKey
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
+        public byte[] InputKey
         {
             get { return this.inputKey; }
             set
@@ -87,8 +92,8 @@ namespace Cryptool.Plugins.Salsa20
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", true)]
-        public string InputIV
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true)]
+        public byte[] InputIV
         {
             get { return this.inputIV; }
             set
@@ -98,193 +103,99 @@ namespace Cryptool.Plugins.Salsa20
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
-        public string OutputString
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
+        public byte[] OutputData
         {
-            get { return this.outputString; }
+            get { return this.outputData; }
             set
             {
-                this.outputString = value;
-                OnPropertyChanged("OutputString");
+                this.outputData = value;
+                OnPropertyChanged("OutputData");
             }
+        }
+
+        #endregion
+
+        private bool checkParameters()
+        {
+            if (inputData == null)
+            {
+                GuiLogMessage("No input given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputKey == null)
+            {
+                GuiLogMessage("No key given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputIV == null)
+            {
+                GuiLogMessage("No IV given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputIV.Length != 8)
+            {
+                GuiLogMessage("Wrong IV length " + inputIV.Length + " bytes. IV length must be 8 bytes.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputKey.Length != 16 && inputKey.Length != 32)
+            {
+                GuiLogMessage("Wrong key length " + inputKey.Length + " bytes. Key length must be 16 or 32 bytes.", NotificationLevel.Error);
+                return false;
+            }
+
+            return true;
         }
 
         /* Main method for launching the cipher */
         public void Execute()
         {
-            StringBuilder builder = new StringBuilder();
-            In = stringToByteArray(inputString);
-            Out = new byte[In.Length];
-            sigma = Encoding.ASCII.GetBytes("expand 32-byte k");
-            tau = Encoding.ASCII.GetBytes("expand 16-byte k");
-            try
-            {
-                if (stop) GuiLogMessage("Aborted!", NotificationLevel.Info);
-                else
-                {
-                    if (settings.Rounds == 20 || settings.Rounds == 12 || settings.Rounds == 8) rounds = settings.Rounds / 2;
-                    else
-                    {
-                        stop = true;
-                        GuiLogMessage("Only 8, 12 or 20 rounds can be chosen!", NotificationLevel.Error);
-                    }
+            ProgressChanged(0, 1);
 
-                    DateTime startTime = DateTime.Now;
+            if (!checkParameters()) return;
 
-                    /* Initialize the algorithm */
-                    init();
-                    if (stop)
-                    {
-                        GuiLogMessage("Aborted!", NotificationLevel.Info);
-                    }
-                    else
-                    {
-                        GuiLogMessage("Starting encryption...", NotificationLevel.Info);
+            init();
 
-                        /* Generate ciphertext bytes */
-                        generateOutBytes(In, 0, In.Length, Out, 0);
-                        foreach (byte b in Out) builder.Append(String.Format("{0:X2}", b));
-                        TimeSpan duration = DateTime.Now - startTime;
-                        OutputString = builder.ToString();
+            OutputData = encrypt(inputData);
 
-                        GuiLogMessage("Encryption complete in " + duration + "!", NotificationLevel.Info);
-                        GuiLogMessage("Key Stream: " + KeyStream, NotificationLevel.Info);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-            }
-            finally
-            {
-                ProgressChanged(1, 1);
-            }
+            ProgressChanged(1, 1);
         }
 
         /* Reset method */
         public void Dispose()
         {
-            stop = false;
+            inputData = null;
             inputKey = null;
-            outputString = null;
-            inputString = null;
-            KeyStream = null;
-        }
-
-        /* Check string for hex characters only */
-        public bool hexInput(string str)
-        {
-            Regex myRegex = new Regex("^[0-9A-Fa-f]*$");
-            inputValid = myRegex.IsMatch(str);
-            return inputValid;
-        }
-
-        /* Convert the input string into a byte array
-         * If the string length is not a multiple of 2 a '0' is added at the end */
-        public byte[] stringToByteArray(string input)
-        {
-            byte[] array = null;
-
-            if (input.Length % 2 == 1) array = new byte[(input.Length / 2) + 1];
-            else array = new byte[input.Length / 2];
-
-            if (hexInput(input))
-            {
-                if (input.Length % 2 == 1)
-                {
-                    GuiLogMessage("Odd number of digits in the plaintext, adding 0 to last position.", NotificationLevel.Info);
-                    input += '0';
-                }
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the plaintext detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
-        }
-
-        /* Convert the IV string into a byte array */
-        public byte[] IVstringToByteArray(string input)
-        {
-            byte[] array = new byte[8];
-
-            if (hexInput(input))
-            {
-                if (input.Length != 16)
-                {
-                    stop = true;
-                    GuiLogMessage("IV length must be 8 byte (64 bit)!", NotificationLevel.Error);
-                }
-                else
-                {
-                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-                }
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the IV detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
-        }
-
-        /* Convert the key string into a byte array */
-        public byte[] KEYstringToByteArray(string input)
-        {
-            byte[] array = null;
-
-            if (input.Length % 2 == 1) array = new byte[(input.Length / 2) + 1];
-            else array = new byte[input.Length / 2];
-
-            if (hexInput(input))
-            {
-                if (input.Length == 32 || input.Length == 64)
-                {
-                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-                }
-                else
-                {
-                    stop = true;
-                    GuiLogMessage("Key length must be 16 byte (128 bit) or 32 byte (256 bit)!", NotificationLevel.Error);
-                }
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the key detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
+            inputIV = null;
+            outputData = null;
         }
 
         /* Main initialization method */
         public void init()
         {
-            byte[] iv = IVstringToByteArray(inputIV);
-            byte[] key = KEYstringToByteArray(inputKey);
-            setKey(key, iv);
+            rounds = Rounds[settings.Rounds] / 2;
+            setKey(inputKey, inputIV);
         }
 
         /* Keysetup */
         public void setKey(byte[] keyBytes, byte[] ivBytes)
         {
-            workingKey = keyBytes;
-            workingIV = ivBytes;
-
             index = 0;
             resetCounter();
             int offset = 0;
             byte[] constants;
 
             // Key
-            engineState[1] = byteToIntLE(workingKey, 0);
-            engineState[2] = byteToIntLE(workingKey, 4);
-            engineState[3] = byteToIntLE(workingKey, 8);
-            engineState[4] = byteToIntLE(workingKey, 12);
+            engineState[1] = byteToIntLE(keyBytes, 0);
+            engineState[2] = byteToIntLE(keyBytes, 4);
+            engineState[3] = byteToIntLE(keyBytes, 8);
+            engineState[4] = byteToIntLE(keyBytes, 12);
 
-            if (workingKey.Length == 32)
+            if (keyBytes.Length == 32)
             {
                 constants = sigma;
                 offset = 16;
@@ -294,18 +205,18 @@ namespace Cryptool.Plugins.Salsa20
                 constants = tau;
             }
 
-            engineState[11] = byteToIntLE(workingKey, offset);
-            engineState[12] = byteToIntLE(workingKey, offset + 4);
-            engineState[13] = byteToIntLE(workingKey, offset + 8);
-            engineState[14] = byteToIntLE(workingKey, offset + 12);
+            engineState[11] = byteToIntLE(keyBytes, offset);
+            engineState[12] = byteToIntLE(keyBytes, offset + 4);
+            engineState[13] = byteToIntLE(keyBytes, offset + 8);
+            engineState[14] = byteToIntLE(keyBytes, offset + 12);
             engineState[0] = byteToIntLE(constants, 0);
             engineState[5] = byteToIntLE(constants, 4);
             engineState[10] = byteToIntLE(constants, 8);
             engineState[15] = byteToIntLE(constants, 12);
 
             // IV
-            engineState[6] = byteToIntLE(workingIV, 0);
-            engineState[7] = byteToIntLE(workingIV, 4);
+            engineState[6] = byteToIntLE(ivBytes, 0);
+            engineState[7] = byteToIntLE(ivBytes, 4);
             engineState[8] = engineState[9] = 0;
         }
 
@@ -417,39 +328,31 @@ namespace Cryptool.Plugins.Salsa20
             }
         }
 
-        /* Generate ciphertext */
-        public void generateOutBytes(byte[] input, int inOffset, int length, byte[] output, int outOffset)
+        /* Generate key stream byte */
+        public byte getKeyStreamByte()
         {
-            if ((inOffset + length) > input.Length)
+            if (index == 0)
             {
-                GuiLogMessage("Input buffer too short!", NotificationLevel.Error);
+                generateKeyStream(engineState, keyStream);
+                engineState[8]++;
+                if (engineState[8] == 0) engineState[9]++;
             }
 
-            if ((outOffset + length) > output.Length)
-            {
-                GuiLogMessage("Output buffer too short!", NotificationLevel.Error);
-            }
+            byte result = keyStream[index];
+            index = (index + 1) & 63;
 
-            if (limitExceeded(length))
-            {
-                GuiLogMessage("2^70 byte limit per IV would be exceeded; Change IV", NotificationLevel.Error);
-            }
+            return result;
+        }
 
-            for (int i = 0; i < length; i++)
-            {
-                if (index == 0)
-                {
-                    generateKeyStream(engineState, keyStream);
-                    engineState[8]++;
-                    if (engineState[8] == 0)
-                    {
-                        engineState[9]++;
-                    }
-                }
-                KeyStream += String.Format("{0:X2}", keyStream[index]);
-                output[i + outOffset] = (byte)(keyStream[index] ^ input[i + inOffset]);
-                index = (index + 1) & 63;
-            }
+        /* Generate ciphertext */
+        public byte[] encrypt(byte[] src)
+        {
+            byte[] dst = new byte[src.Length];
+
+            for (int i = 0; i < src.Length; i++)
+                dst[i] = (byte)(src[i] ^ getKeyStreamByte());
+
+            return dst;
         }
 
         public void Initialize()
@@ -487,7 +390,6 @@ namespace Cryptool.Plugins.Salsa20
 
         public void Stop()
         {
-            this.stop = true;
         }
 
         #region INotifyPropertyChanged Members
