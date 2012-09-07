@@ -117,34 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>The initialization vector must be 128 bits (16 bytes) long.</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Eingabe</value>
+  </data>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>zu ver-/entschlüsselnde Daten</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The key must be between 128 and 256 bits (16 and 32 bytes) long.</value>
+  <data name="InputIVTooltip" xml:space="preserve">
+    <value>Der Initialisierungsvektor muss 128 Bits (16 Bytes) lang sein.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
-    <value>Key</value>
+    <value>Schlüssel</value>
   </data>
-  <data name="InputDataTooltip" xml:space="preserve">
-    <value>Data to be encrypted or decrypted</value>
-  </data>
-  <data name="InputDataCaption" xml:space="preserve">
-    <value>Input</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Encrypted or decrypted data</value>
+  <data name="InputKeyTooltip" xml:space="preserve">
+    <value>Der Schlüssel muss zwischen 128 und 256 Bits (16 und 32 Bytes) lang sein.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
+  </data>
+  <data name="OutputDataTooltip" xml:space="preserve">
+    <value>ver-/entschlüsselte Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Sosemanuk</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Sosemanuk algorithm from the eSTREAM portfolio</value>
+    <value>Sosemanuk-Algorithmus aus dem eSTREAM Portfolio</value>
   </data>
 </root>
