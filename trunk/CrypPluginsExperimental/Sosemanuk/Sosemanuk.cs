@@ -21,12 +21,8 @@ using System;
 
 namespace Cryptool.Plugins.Sosemanuk
 {
-    [Author("Robin Nelle", "rnelle@mail.uni-mannheim.de",
-        "Uni Mannheim - Lehrstuhl Prof. Dr. Armknecht",
-        "http://ls.wim.uni-mannheim.de/")]
-    [PluginInfo("Sosemanuk.Properties.Resources", "PluginCaption",
-        "PluginTooltip", "Sosemanuk/userdoc.xml",
-        new[] { "Sosemanuk/icon.jpg" })]
+    [Author("Robin Nelle", "rnelle@mail.uni-mannheim.de", "Uni Mannheim - Lehrstuhl Prof. Dr. Armknecht", "http://ls.wim.uni-mannheim.de/")]
+    [PluginInfo("Sosemanuk.Properties.Resources", "PluginCaption", "PluginTooltip", "Sosemanuk/DetailedDescription/doc.xml", "Sosemanuk/Images/icon.jpg")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
 
     public class Sosemanuk : ICrypComponent
@@ -36,54 +32,47 @@ namespace Cryptool.Plugins.Sosemanuk
             = new SosemanukSettings();
 
         // Subkeys for Serpent24: 100 32-bit words
-        private int[] serpent24SubKeys = new int[100];
+        private uint[] serpent24SubKeys = new uint[100];
 
         //Internal cipher state
-        private int[] lfsr = new int[10];
-        private int fsmR1, fsmR2;
+        private uint[] lfsr = new uint[10];
+        private uint fsmR1, fsmR2;
 
         //Input
-        private string inputKey;
-        private string inputIV;
-        private string inputString;
-
-        //Keystream
-        string keyStream = "";
-
-        //Plaintext
-        byte[] plainText = new byte[0];
+        private byte[] inputKey;
+        private byte[] inputIV;
+        private byte[] inputData;
 
         //Output
-        private string outputString;
+        private byte[] outputData;
 
         /*
          * mulAlpha[] is used to multiply a word by alpha; 
-         *mulAlpha[x] is equal to x * alpha^4.
+         * mulAlpha[x] is equal to x * alpha^4.
          *
          * divAlpha[] is used to divide a word by alpha; 
          * divAlpha[x] is equal to x / alpha.
          */
-        private static readonly int[] mulAlpha = new int[256];
-        private static readonly int[] divAlpha = new int[256];
+        private static readonly uint[] mulAlpha = new uint[256];
+        private static readonly uint[] divAlpha = new uint[256];
 
         #endregion
 
         #region Data Properties
-        [PropertyInfo(Direction.InputData, "InputStringCaption",
-            "InputStringTooltip", false)]
-        public string InputString
+
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
+        public byte[] InputData
         {
-            get { return this.inputString; }
+            get { return this.inputData; }
             set
             {
-                this.inputString = value;
+                this.inputData = value;
                 OnPropertyChanged("InputString");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption",
-            "InputKeyTooltip", true)]
-        public string InputKey
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
+        public byte[] InputKey
         {
             get { return this.inputKey; }
             set
@@ -93,9 +82,8 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", 
-            "InputIVTooltip", true)]
-        public string InputIV
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true)]
+        public byte[] InputIV
         {
             get { return this.inputIV; }
             set
@@ -105,29 +93,30 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", 
-            "OutputStringTooltip", true)]
-        public string OutputString
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
+        public byte[] OutputData
         {
-            get { return this.outputString; }
+            get { return this.outputData; }
             set
             {
-                this.outputString = value;
-                OnPropertyChanged("OutputString");
+                this.outputData = value;
+                OnPropertyChanged("OutputData");
             }
         }
 
         #endregion
 
         public ISettings Settings
-        { get { return settings; } }
+        {
+            get { return settings; } 
+        }
 
         public UserControl Presentation
         {
             get { return null; }
         }
 
-        static Sosemanuk()
+        public Sosemanuk()
         {
             /*
              * We first build exponential and logarithm tables
@@ -135,8 +124,8 @@ namespace Cryptool.Plugins.Sosemanuk
              * log(0x00) = 0xFF conventionaly, but this is 
              * actually not used in our computations.
              */
-            int[] expb = new int[256];
-            for (int i = 0, x = 0x01; i < 0xFF; i++)
+            uint[] expb = new uint[256];
+            for (uint i = 0, x = 0x01; i < 0xFF; i++)
             {
                 expb[i] = x;
                 x <<= 1;
@@ -144,8 +133,8 @@ namespace Cryptool.Plugins.Sosemanuk
                     x ^= 0x1A9;
             }
             expb[0xFF] = 0x00;
-            int[] logb = new int[256];
-            for (int i = 0; i < 0x100; i++)
+            uint[] logb = new uint[256];
+            for (uint i = 0; i < 0x100; i++)
                 logb[expb[i]] = i;
 
             /*
@@ -165,7 +154,7 @@ namespace Cryptool.Plugins.Sosemanuk
             divAlpha[0x00] = 0x00000000;
             for (int x = 1; x < 0x100; x++)
             {
-                int ex = logb[x];
+                uint ex = logb[x];
                 mulAlpha[x] = (expb[(ex + 23) % 255] << 24)
                     | (expb[(ex + 245) % 255] << 16)
                     | (expb[(ex + 48) % 255] << 8)
@@ -184,12 +173,9 @@ namespace Cryptool.Plugins.Sosemanuk
 	    * @param off   the input offset
 	    * @return  the decoded value
 	    */
-        private static int decode32le(byte[] buf, int off)
+        private static uint decode32le(byte[] buf, int off)
         {
-            return (buf[off] & 0xFF)
-                | ((buf[off + 1] & 0xFF) << 8)
-                | ((buf[off + 2] & 0xFF) << 16)
-                | ((buf[off + 3] & 0xFF) << 24);
+            return (uint)(buf[off] | (buf[off + 1] << 8) | (buf[off + 2] << 16) | (buf[off + 3] << 24));
         }
 
         /**
@@ -199,7 +185,7 @@ namespace Cryptool.Plugins.Sosemanuk
 	    * @param buf   the output buffer
 	    * @param off   the output offset
 	    */
-        private static void encode32le(int val, byte[] buf,int off)
+        private static void encode32le(uint val, byte[] buf, int off)
         {
             buf[off] = (byte)val;
             buf[off + 1] = (byte)(val >> 8);
@@ -213,1825 +199,75 @@ namespace Cryptool.Plugins.Sosemanuk
         * @param val   the value to rotate
         * @param n     the rotation count (between 1 and 31)
            */
-        private static int rotateLeft(int val, int n)
+        private static uint rotateLeft(uint val, int n)
         {
-            int changeBitRotateLeft = (val >> (32 - n));
-            if (val < 0)
-            {
-                changeBitRotateLeft = (int)(((uint)val) >> 
-                    (32 - n));
-            }
-            return (val << n) | changeBitRotateLeft;
+            return ((val << n) | (val >> (32 - n)));
         }
 
-        /**
-        * Set the private key. The key length must be between 1
-        * and 32 bytes.
-         *
-         * @param key   the private key
+        /*
+         * Definition of SBoxes
          */
-        public void setKey(byte[] key)
+         
+        private delegate void SBox(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4);
+
+        private void S0(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
         {
-            byte[] lkey;
-            if (key.Length == 32)
-            {
-                lkey = key;
-            }
-            else
-            {
-                lkey = new byte[32];
-                System.Array.Copy(key, 0, lkey, 0, key.Length);
-                lkey[key.Length] = 0x01;
-             
-                for (int i1 = key.Length + 1; i1 <
-                    lkey.Length; i1++)
-                {
-                    lkey[i1] = 0x00;
-                }
-            }
-
-            int w0, w1, w2, w3, w4, w5, w6, w7;
-            int r0, r1, r2, r3, r4, tt;
-            int i = 0;
-
-            w0 = decode32le(lkey, 0);
-            w1 = decode32le(lkey, 4);
-            w2 = decode32le(lkey, 8);
-            w3 = decode32le(lkey, 12);
-            w4 = decode32le(lkey, 16);
-            w5 = decode32le(lkey, 20);
-            w6 = decode32le(lkey, 24);
-            w7 = decode32le(lkey, 28);
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (0));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (0+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (0+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (0+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r0;
-            r0 |= r3;
-            r3 ^= r1;
-            r1 &= r4;
-            r4 ^= r2;
-            r2 ^= r3;
-            r3 &= r0;
-            r4 |= r1;
-            r3 ^= r4;
-            r0 ^= r1;
-            r4 &= r0;
-            r1 ^= r3;
-            r4 ^= r2;
-            r1 |= r0;
-            r1 ^= r2;
-            r0 ^= r3;
-            r2 = r1;
-            r1 |= r3;
-            r1 ^= r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (4));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (4+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (4+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (4+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r4 = r0;
-            r0 &= r2;
-            r0 ^= r3;
-            r2 ^= r1;
-            r2 ^= r0;
-            r3 |= r4;
-            r3 ^= r1;
-            r4 ^= r2;
-            r1 = r3;
-            r3 |= r4;
-            r3 ^= r0;
-            r0 &= r1;
-            r4 ^= r0;
-            r1 ^= r3;
-            r1 ^= r4;
-            r4 = ~r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (8));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (8+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (8+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (8+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 = ~r0;
-            r2 = ~r2;
-            r4 = r0;
-            r0 &= r1;
-            r2 ^= r0;
-            r0 |= r3;
-            r3 ^= r2;
-            r1 ^= r0;
-            r0 ^= r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r2 |= r0;
-            r2 &= r4;
-            r0 ^= r1;
-            r1 &= r2;
-            r1 ^= r0;
-            r0 &= r2;
-            r0 ^= r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (12));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (12+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (12+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (12+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r4 ^= r2;
-            r1 ^= r0;
-            r0 |= r3;
-            r0 ^= r4;
-            r4 ^= r3;
-            r3 ^= r2;
-            r2 |= r1;
-            r2 ^= r4;
-            r4 = ~r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r1 ^= r4;
-            r3 |= r0;
-            r1 ^= r3;
-            r4 ^= r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (16));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (16+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (16+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (16+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r1;
-            r1 |= r2;
-            r1 ^= r3;
-            r4 ^= r2;
-            r2 ^= r1;
-            r3 |= r4;
-            r3 &= r0;
-            r4 ^= r2;
-            r3 ^= r1;
-            r1 |= r4;
-            r1 ^= r0;
-            r0 |= r4;
-            r0 ^= r2;
-            r1 ^= r4;
-            r2 ^= r1;
-            r1 &= r0;
-            r1 ^= r4;
-            r2 = ~r2;
-            r2 |= r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (20));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (20+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (20+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (20+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r2 = ~r2;
-            r4 = r3;
-            r3 &= r0;
-            r0 ^= r4;
-            r3 ^= r2;
-            r2 |= r4;
-            r1 ^= r3;
-            r2 ^= r0;
-            r0 |= r1;
-            r2 ^= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r4 ^= r3;
-            r4 ^= r0;
-            r3 = ~r3;
-            r2 &= r4;
-            r2 ^= r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (24));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (24+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (24+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (24+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 ^= r1;
-            r1 ^= r3;
-            r3 = ~r3;
-            r4 = r1;
-            r1 &= r0;
-            r2 ^= r3;
-            r1 ^= r2;
-            r2 |= r4;
-            r4 ^= r3;
-            r3 &= r1;
-            r3 ^= r0;
-            r4 ^= r1;
-            r4 ^= r2;
-            r2 ^= r0;
-            r0 &= r3;
-            r2 = ~r2;
-            r0 ^= r4;
-            r4 |= r3;
-            r2 ^= r4;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (28));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (28+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (28+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (28+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r1 ^= r3;
-            r3 = ~r3;
-            r2 ^= r3;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r1 ^= r2;
-            r4 ^= r3;
-            r0 ^= r4;
-            r2 &= r4;
-            r2 ^= r0;
-            r0 &= r1;
-            r3 ^= r0;
-            r4 |= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r2 &= r3;
-            r0 = ~r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (32));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (32+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (32+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (32+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r0;
-            r0 |= r3;
-            r3 ^= r1;
-            r1 &= r4;
-            r4 ^= r2;
-            r2 ^= r3;
-            r3 &= r0;
-            r4 |= r1;
-            r3 ^= r4;
-            r0 ^= r1;
-            r4 &= r0;
-            r1 ^= r3;
-            r4 ^= r2;
-            r1 |= r0;
-            r1 ^= r2;
-            r0 ^= r3;
-            r2 = r1;
-            r1 |= r3;
-            r1 ^= r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (36));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (36+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (36+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (36+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r4 = r0;
-            r0 &= r2;
-            r0 ^= r3;
-            r2 ^= r1;
-            r2 ^= r0;
-            r3 |= r4;
-            r3 ^= r1;
-            r4 ^= r2;
-            r1 = r3;
-            r3 |= r4;
-            r3 ^= r0;
-            r0 &= r1;
-            r4 ^= r0;
-            r1 ^= r3;
-            r1 ^= r4;
-            r4 = ~r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (40));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (40+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (40+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (40+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 = ~r0;
-            r2 = ~r2;
-            r4 = r0;
-            r0 &= r1;
-            r2 ^= r0;
-            r0 |= r3;
-            r3 ^= r2;
-            r1 ^= r0;
-            r0 ^= r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r2 |= r0;
-            r2 &= r4;
-            r0 ^= r1;
-            r1 &= r2;
-            r1 ^= r0;
-            r0 &= r2;
-            r0 ^= r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (44));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (44+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (44+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (44+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r4 ^= r2;
-            r1 ^= r0;
-            r0 |= r3;
-            r0 ^= r4;
-            r4 ^= r3;
-            r3 ^= r2;
-            r2 |= r1;
-            r2 ^= r4;
-            r4 = ~r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r1 ^= r4;
-            r3 |= r0;
-            r1 ^= r3;
-            r4 ^= r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (48));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (48+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (48+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (48+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r1;
-            r1 |= r2;
-            r1 ^= r3;
-            r4 ^= r2;
-            r2 ^= r1;
-            r3 |= r4;
-            r3 &= r0;
-            r4 ^= r2;
-            r3 ^= r1;
-            r1 |= r4;
-            r1 ^= r0;
-            r0 |= r4;
-            r0 ^= r2;
-            r1 ^= r4;
-            r2 ^= r1;
-            r1 &= r0;
-            r1 ^= r4;
-            r2 = ~r2;
-            r2 |= r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (52));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (52+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (52+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (52+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r2 = ~r2;
-            r4 = r3;
-            r3 &= r0;
-            r0 ^= r4;
-            r3 ^= r2;
-            r2 |= r4;
-            r1 ^= r3;
-            r2 ^= r0;
-            r0 |= r1;
-            r2 ^= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r4 ^= r3;
-            r4 ^= r0;
-            r3 = ~r3;
-            r2 &= r4;
-            r2 ^= r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (56));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (56+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (56+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (56+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 ^= r1;
-            r1 ^= r3;
-            r3 = ~r3;
-            r4 = r1;
-            r1 &= r0;
-            r2 ^= r3;
-            r1 ^= r2;
-            r2 |= r4;
-            r4 ^= r3;
-            r3 &= r1;
-            r3 ^= r0;
-            r4 ^= r1;
-            r4 ^= r2;
-            r2 ^= r0;
-            r0 &= r3;
-            r2 = ~r2;
-            r0 ^= r4;
-            r4 |= r3;
-            r2 ^= r4;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (60));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (60+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (60+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (60+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r1 ^= r3;
-            r3 = ~r3;
-            r2 ^= r3;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r1 ^= r2;
-            r4 ^= r3;
-            r0 ^= r4;
-            r2 &= r4;
-            r2 ^= r0;
-            r0 &= r1;
-            r3 ^= r0;
-            r4 |= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r2 &= r3;
-            r0 = ~r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (64));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (64+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (64+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (64+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r0;
-            r0 |= r3;
-            r3 ^= r1;
-            r1 &= r4;
-            r4 ^= r2;
-            r2 ^= r3;
-            r3 &= r0;
-            r4 |= r1;
-            r3 ^= r4;
-            r0 ^= r1;
-            r4 &= r0;
-            r1 ^= r3;
-            r4 ^= r2;
-            r1 |= r0;
-            r1 ^= r2;
-            r0 ^= r3;
-            r2 = r1;
-            r1 |= r3;
-            r1 ^= r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r4;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (68));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (68+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (68+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (68+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r4 = r0;
-            r0 &= r2;
-            r0 ^= r3;
-            r2 ^= r1;
-            r2 ^= r0;
-            r3 |= r4;
-            r3 ^= r1;
-            r4 ^= r2;
-            r1 = r3;
-            r3 |= r4;
-            r3 ^= r0;
-            r0 &= r1;
-            r4 ^= r0;
-            r1 ^= r3;
-            r1 ^= r4;
-            r4 = ~r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (72));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (72+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (72+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (72+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 = ~r0;
-            r2 = ~r2;
-            r4 = r0;
-            r0 &= r1;
-            r2 ^= r0;
-            r0 |= r3;
-            r3 ^= r2;
-            r1 ^= r0;
-            r0 ^= r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r2 |= r0;
-            r2 &= r4;
-            r0 ^= r1;
-            r1 &= r2;
-            r1 ^= r0;
-            r0 &= r2;
-            r0 ^= r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (76));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (76+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (76+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (76+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r4 ^= r2;
-            r1 ^= r0;
-            r0 |= r3;
-            r0 ^= r4;
-            r4 ^= r3;
-            r3 ^= r2;
-            r2 |= r1;
-            r2 ^= r4;
-            r4 = ~r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r1 ^= r4;
-            r3 |= r0;
-            r1 ^= r3;
-            r4 ^= r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r0;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (80));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (80+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (80+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (80+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r1;
-            r1 |= r2;
-            r1 ^= r3;
-            r4 ^= r2;
-            r2 ^= r1;
-            r3 |= r4;
-            r3 &= r0;
-            r4 ^= r2;
-            r3 ^= r1;
-            r1 |= r4;
-            r1 ^= r0;
-            r0 |= r4;
-            r0 ^= r2;
-            r1 ^= r4;
-            r2 ^= r1;
-            r1 &= r0;
-            r1 ^= r4;
-            r2 = ~r2;
-            r2 |= r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r0;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (84));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (84+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (84+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (84+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r2 = ~r2;
-            r4 = r3;
-            r3 &= r0;
-            r0 ^= r4;
-            r3 ^= r2;
-            r2 |= r4;
-            r1 ^= r3;
-            r2 ^= r0;
-            r0 |= r1;
-            r2 ^= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r4 ^= r3;
-            r4 ^= r0;
-            r3 = ~r3;
-            r2 &= r4;
-            r2 ^= r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r2;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (88));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (88+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (88+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (88+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r0 ^= r1;
-            r1 ^= r3;
-            r3 = ~r3;
-            r4 = r1;
-            r1 &= r0;
-            r2 ^= r3;
-            r1 ^= r2;
-            r2 |= r4;
-            r4 ^= r3;
-            r3 &= r1;
-            r3 ^= r0;
-            r4 ^= r1;
-            r4 ^= r2;
-            r2 ^= r0;
-            r0 &= r3;
-            r2 = ~r2;
-            r0 ^= r4;
-            r4 |= r3;
-            r2 ^= r4;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r2;
-            tt = w4 ^ w7 ^ w1 ^ w3 ^ 
-                (unchecked((int)0x9E3779B9) ^ (92));
-            w4 = rotateLeft(tt, 11);
-            tt = w5 ^ w0 ^ w2 ^ w4 ^ 
-                (unchecked((int)0x9E3779B9) ^ (92+1));
-            w5 = rotateLeft(tt, 11);
-            tt = w6 ^ w1 ^ w3 ^ w5 ^ 
-                (unchecked((int)0x9E3779B9) ^ (92+2));
-            w6 = rotateLeft(tt, 11);
-            tt = w7 ^ w2 ^ w4 ^ w6 ^ 
-                (unchecked((int)0x9E3779B9) ^ (92+3));
-            w7 = rotateLeft(tt, 11);
-            r0 = w4;
-            r1 = w5;
-            r2 = w6;
-            r3 = w7;
-            r1 ^= r3;
-            r3 = ~r3;
-            r2 ^= r3;
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r1 ^= r2;
-            r4 ^= r3;
-            r0 ^= r4;
-            r2 &= r4;
-            r2 ^= r0;
-            r0 &= r1;
-            r3 ^= r0;
-            r4 |= r1;
-            r4 ^= r0;
-            r0 |= r3;
-            r0 ^= r2;
-            r2 &= r3;
-            r0 = ~r0;
-            r4 ^= r2;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r4;
-            serpent24SubKeys[i++] = r0;
-            serpent24SubKeys[i++] = r3;
-            tt = w0 ^ w3 ^ w5 ^ w7 ^ 
-                (unchecked((int)0x9E3779B9) ^ (96));
-            w0 = rotateLeft(tt, 11);
-            tt = w1 ^ w4 ^ w6 ^ w0 ^ 
-                (unchecked((int)0x9E3779B9) ^ (96+1));
-            w1 = rotateLeft(tt, 11);
-            tt = w2 ^ w5 ^ w7 ^ w1 ^ 
-                (unchecked((int)0x9E3779B9) ^ (96+2));
-            w2 = rotateLeft(tt, 11);
-            tt = w3 ^ w6 ^ w0 ^ w2 ^ 
-                (unchecked((int)0x9E3779B9) ^ (96+3));
-            w3 = rotateLeft(tt, 11);
-            r0 = w0;
-            r1 = w1;
-            r2 = w2;
-            r3 = w3;
-            r4 = r0;
-            r0 |= r3;
-            r3 ^= r1;
-            r1 &= r4;
-            r4 ^= r2;
-            r2 ^= r3;
-            r3 &= r0;
-            r4 |= r1;
-            r3 ^= r4;
-            r0 ^= r1;
-            r4 &= r0;
-            r1 ^= r3;
-            r4 ^= r2;
-            r1 |= r0;
-            r1 ^= r2;
-            r0 ^= r3;
-            r2 = r1;
-            r1 |= r3;
-            r1 ^= r0;
-            serpent24SubKeys[i++] = r1;
-            serpent24SubKeys[i++] = r2;
-            serpent24SubKeys[i++] = r3;
-            serpent24SubKeys[i++] = r4;
+            r3 ^= r0; r4 = r1; r1 &= r3; r4 ^= r2; r1 ^= r0; r0 |= r3; r0 ^= r4; r4 ^= r3; r3 ^= r2;
+            r2 |= r1; r2 ^= r4; r4 = ~r4; r4 |= r1; r1 ^= r3; r1 ^= r4; r3 |= r0; r1 ^= r3; r4 ^= r3;
         }
 
-        /**
-         * Set the IV. 
-         *
-         * @param iv   the IV 
-         */
-        public void setIV(byte[] iv)
+        private void S1(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
         {
-            byte[] piv;
-            if (iv.Length == 16)
-            {
-                piv = iv;
-            }
-            else
-            {
-                piv = new byte[16];
-                System.Array.Copy(iv, 0, piv, 0, iv.Length);
-                for (int i = iv.Length; i < piv.Length; i++)
-                    piv[i] = 0x00;
-            }
+            r0 = ~r0; r2 = ~r2; r4 = r0; r0 &= r1; r2 ^= r0; r0 |= r3; r3 ^= r2; r1 ^= r0; r0 ^= r4;
+            r4 |= r1; r1 ^= r3; r2 |= r0; r2 &= r4; r0 ^= r1; r1 &= r2; r1 ^= r0; r0 &= r2; r0 ^= r4;
+        }
 
-            int r0, r1, r2, r3, r4;
+        private void S2(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r4 = r0; r0 &= r2; r0 ^= r3; r2 ^= r1; r2 ^= r0; r3 |= r4; r3 ^= r1; r4 ^= r2; r1 = r3;
+            r3 |= r4; r3 ^= r0; r0 &= r1; r4 ^= r0; r1 ^= r3; r1 ^= r4; r4 = ~r4;
+        }
 
-            r0 = decode32le(piv, 0);
-            r1 = decode32le(piv, 4);
-            r2 = decode32le(piv, 8);
-            r3 = decode32le(piv, 12);
+        private void S3(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r4 = r0; r0 |= r3; r3 ^= r1; r1 &= r4; r4 ^= r2; r2 ^= r3; r3 &= r0; r4 |= r1; r3 ^= r4;
+            r0 ^= r1; r4 &= r0; r1 ^= r3; r4 ^= r2; r1 |= r0; r1 ^= r2; r0 ^= r3; r2 = r1; r1 |= r3; r1 ^= r0;
+        }
 
-            r0 ^= serpent24SubKeys[0];
-            r1 ^= serpent24SubKeys[0 + 1];
-            r2 ^= serpent24SubKeys[0 + 2];
-            r3 ^= serpent24SubKeys[0 + 3];
-            r3 ^= r0;
-            r4 = r1;
-            r1 &= r3;
-            r4 ^= r2;
-            r1 ^= r0;
-            r0 |= r3;
-            r0 ^= r4;
-            r4 ^= r3;
-            r3 ^= r2;
-            r2 |= r1;
-            r2 ^= r4;
-            r4 = ~r4;
-            r4 |= r1;
-            r1 ^= r3;
-            r1 ^= r4;
-            r3 |= r0;
-            r1 ^= r3;
-            r4 ^= r3;
-            r1 = rotateLeft(r1, 13);
-            r2 = rotateLeft(r2, 3);
-            r4 = r4 ^ r1 ^ r2;
-            r0 = r0 ^ r2 ^ (r1 << 3);
-            r4 = rotateLeft(r4, 1);
-            r0 = rotateLeft(r0, 7);
-            r1 = r1 ^ r4 ^ r0;
-            r2 = r2 ^ r0 ^ (r4 << 7);
-            r1 = rotateLeft(r1, 5);
-            r2 = rotateLeft(r2, 22);
-            r1 ^= serpent24SubKeys[4];
-            r4 ^= serpent24SubKeys[4 + 1];
-            r2 ^= serpent24SubKeys[4 + 2];
-            r0 ^= serpent24SubKeys[4 + 3];
-            r1 = ~r1;
-            r2 = ~r2;
-            r3 = r1;
-            r1 &= r4;
-            r2 ^= r1;
-            r1 |= r0;
-            r0 ^= r2;
-            r4 ^= r1;
-            r1 ^= r3;
-            r3 |= r4;
-            r4 ^= r0;
-            r2 |= r1;
-            r2 &= r3;
-            r1 ^= r4;
-            r4 &= r2;
-            r4 ^= r1;
-            r1 &= r2;
-            r1 ^= r3;
-            r2 = rotateLeft(r2, 13);
-            r0 = rotateLeft(r0, 3);
-            r1 = r1 ^ r2 ^ r0;
-            r4 = r4 ^ r0 ^ (r2 << 3);
-            r1 = rotateLeft(r1, 1);
-            r4 = rotateLeft(r4, 7);
-            r2 = r2 ^ r1 ^ r4;
-            r0 = r0 ^ r4 ^ (r1 << 7);
-            r2 = rotateLeft(r2, 5);
-            r0 = rotateLeft(r0, 22);
-            r2 ^= serpent24SubKeys[8];
-            r1 ^= serpent24SubKeys[8 + 1];
-            r0 ^= serpent24SubKeys[8 + 2];
-            r4 ^= serpent24SubKeys[8 + 3];
-            r3 = r2;
-            r2 &= r0;
-            r2 ^= r4;
-            r0 ^= r1;
-            r0 ^= r2;
-            r4 |= r3;
-            r4 ^= r1;
-            r3 ^= r0;
-            r1 = r4;
-            r4 |= r3;
-            r4 ^= r2;
-            r2 &= r1;
-            r3 ^= r2;
-            r1 ^= r4;
-            r1 ^= r3;
-            r3 = ~r3;
-            r0 = rotateLeft(r0, 13);
-            r1 = rotateLeft(r1, 3);
-            r4 = r4 ^ r0 ^ r1;
-            r3 = r3 ^ r1 ^ (r0 << 3);
-            r4 = rotateLeft(r4, 1);
-            r3 = rotateLeft(r3, 7);
-            r0 = r0 ^ r4 ^ r3;
-            r1 = r1 ^ r3 ^ (r4 << 7);
-            r0 = rotateLeft(r0, 5);
-            r1 = rotateLeft(r1, 22);
-            r0 ^= serpent24SubKeys[12];
-            r4 ^= serpent24SubKeys[12 + 1];
-            r1 ^= serpent24SubKeys[12 + 2];
-            r3 ^= serpent24SubKeys[12 + 3];
-            r2 = r0;
-            r0 |= r3;
-            r3 ^= r4;
-            r4 &= r2;
-            r2 ^= r1;
-            r1 ^= r3;
-            r3 &= r0;
-            r2 |= r4;
-            r3 ^= r2;
-            r0 ^= r4;
-            r2 &= r0;
-            r4 ^= r3;
-            r2 ^= r1;
-            r4 |= r0;
-            r4 ^= r1;
-            r0 ^= r3;
-            r1 = r4;
-            r4 |= r3;
-            r4 ^= r0;
-            r4 = rotateLeft(r4, 13);
-            r3 = rotateLeft(r3, 3);
-            r1 = r1 ^ r4 ^ r3;
-            r2 = r2 ^ r3 ^ (r4 << 3);
-            r1 = rotateLeft(r1, 1);
-            r2 = rotateLeft(r2, 7);
-            r4 = r4 ^ r1 ^ r2;
-            r3 = r3 ^ r2 ^ (r1 << 7);
-            r4 = rotateLeft(r4, 5);
-            r3 = rotateLeft(r3, 22);
-            r4 ^= serpent24SubKeys[16];
-            r1 ^= serpent24SubKeys[16 + 1];
-            r3 ^= serpent24SubKeys[16 + 2];
-            r2 ^= serpent24SubKeys[16 + 3];
-            r1 ^= r2;
-            r2 = ~r2;
-            r3 ^= r2;
-            r2 ^= r4;
-            r0 = r1;
-            r1 &= r2;
-            r1 ^= r3;
-            r0 ^= r2;
-            r4 ^= r0;
-            r3 &= r0;
-            r3 ^= r4;
-            r4 &= r1;
-            r2 ^= r4;
-            r0 |= r1;
-            r0 ^= r4;
-            r4 |= r2;
-            r4 ^= r3;
-            r3 &= r2;
-            r4 = ~r4;
-            r0 ^= r3;
-            r1 = rotateLeft(r1, 13);
-            r4 = rotateLeft(r4, 3);
-            r0 = r0 ^ r1 ^ r4;
-            r2 = r2 ^ r4 ^ (r1 << 3);
-            r0 = rotateLeft(r0, 1);
-            r2 = rotateLeft(r2, 7);
-            r1 = r1 ^ r0 ^ r2;
-            r4 = r4 ^ r2 ^ (r0 << 7);
-            r1 = rotateLeft(r1, 5);
-            r4 = rotateLeft(r4, 22);
-            r1 ^= serpent24SubKeys[20];
-            r0 ^= serpent24SubKeys[20 + 1];
-            r4 ^= serpent24SubKeys[20 + 2];
-            r2 ^= serpent24SubKeys[20 + 3];
-            r1 ^= r0;
-            r0 ^= r2;
-            r2 = ~r2;
-            r3 = r0;
-            r0 &= r1;
-            r4 ^= r2;
-            r0 ^= r4;
-            r4 |= r3;
-            r3 ^= r2;
-            r2 &= r0;
-            r2 ^= r1;
-            r3 ^= r0;
-            r3 ^= r4;
-            r4 ^= r1;
-            r1 &= r2;
-            r4 = ~r4;
-            r1 ^= r3;
-            r3 |= r2;
-            r4 ^= r3;
-            r0 = rotateLeft(r0, 13);
-            r1 = rotateLeft(r1, 3);
-            r2 = r2 ^ r0 ^ r1;
-            r4 = r4 ^ r1 ^ (r0 << 3);
-            r2 = rotateLeft(r2, 1);
-            r4 = rotateLeft(r4, 7);
-            r0 = r0 ^ r2 ^ r4;
-            r1 = r1 ^ r4 ^ (r2 << 7);
-            r0 = rotateLeft(r0, 5);
-            r1 = rotateLeft(r1, 22);
-            r0 ^= serpent24SubKeys[24];
-            r2 ^= serpent24SubKeys[24 + 1];
-            r1 ^= serpent24SubKeys[24 + 2];
-            r4 ^= serpent24SubKeys[24 + 3];
-            r1 = ~r1;
-            r3 = r4;
-            r4 &= r0;
-            r0 ^= r3;
-            r4 ^= r1;
-            r1 |= r3;
-            r2 ^= r4;
-            r1 ^= r0;
-            r0 |= r2;
-            r1 ^= r2;
-            r3 ^= r0;
-            r0 |= r4;
-            r0 ^= r1;
-            r3 ^= r4;
-            r3 ^= r0;
-            r4 = ~r4;
-            r1 &= r3;
-            r1 ^= r4;
-            r0 = rotateLeft(r0, 13);
-            r3 = rotateLeft(r3, 3);
-            r2 = r2 ^ r0 ^ r3;
-            r1 = r1 ^ r3 ^ (r0 << 3);
-            r2 = rotateLeft(r2, 1);
-            r1 = rotateLeft(r1, 7);
-            r0 = r0 ^ r2 ^ r1;
-            r3 = r3 ^ r1 ^ (r2 << 7);
-            r0 = rotateLeft(r0, 5);
-            r3 = rotateLeft(r3, 22);
-            r0 ^= serpent24SubKeys[28];
-            r2 ^= serpent24SubKeys[28 + 1];
-            r3 ^= serpent24SubKeys[28 + 2];
-            r1 ^= serpent24SubKeys[28 + 3];
-            r4 = r2;
-            r2 |= r3;
-            r2 ^= r1;
-            r4 ^= r3;
-            r3 ^= r2;
-            r1 |= r4;
-            r1 &= r0;
-            r4 ^= r3;
-            r1 ^= r2;
-            r2 |= r4;
-            r2 ^= r0;
-            r0 |= r4;
-            r0 ^= r3;
-            r2 ^= r4;
-            r3 ^= r2;
-            r2 &= r0;
-            r2 ^= r4;
-            r3 = ~r3;
-            r3 |= r0;
-            r4 ^= r3;
-            r4 = rotateLeft(r4, 13);
-            r2 = rotateLeft(r2, 3);
-            r1 = r1 ^ r4 ^ r2;
-            r0 = r0 ^ r2 ^ (r4 << 3);
-            r1 = rotateLeft(r1, 1);
-            r0 = rotateLeft(r0, 7);
-            r4 = r4 ^ r1 ^ r0;
-            r2 = r2 ^ r0 ^ (r1 << 7);
-            r4 = rotateLeft(r4, 5);
-            r2 = rotateLeft(r2, 22);
-            r4 ^= serpent24SubKeys[32];
-            r1 ^= serpent24SubKeys[32 + 1];
-            r2 ^= serpent24SubKeys[32 + 2];
-            r0 ^= serpent24SubKeys[32 + 3];
-            r0 ^= r4;
-            r3 = r1;
-            r1 &= r0;
-            r3 ^= r2;
-            r1 ^= r4;
-            r4 |= r0;
-            r4 ^= r3;
-            r3 ^= r0;
-            r0 ^= r2;
-            r2 |= r1;
-            r2 ^= r3;
-            r3 = ~r3;
-            r3 |= r1;
-            r1 ^= r0;
-            r1 ^= r3;
-            r0 |= r4;
-            r1 ^= r0;
-            r3 ^= r0;
-            r1 = rotateLeft(r1, 13);
-            r2 = rotateLeft(r2, 3);
-            r3 = r3 ^ r1 ^ r2;
-            r4 = r4 ^ r2 ^ (r1 << 3);
-            r3 = rotateLeft(r3, 1);
-            r4 = rotateLeft(r4, 7);
-            r1 = r1 ^ r3 ^ r4;
-            r2 = r2 ^ r4 ^ (r3 << 7);
-            r1 = rotateLeft(r1, 5);
-            r2 = rotateLeft(r2, 22);
-            r1 ^= serpent24SubKeys[36];
-            r3 ^= serpent24SubKeys[36 + 1];
-            r2 ^= serpent24SubKeys[36 + 2];
-            r4 ^= serpent24SubKeys[36 + 3];
-            r1 = ~r1;
-            r2 = ~r2;
-            r0 = r1;
-            r1 &= r3;
-            r2 ^= r1;
-            r1 |= r4;
-            r4 ^= r2;
-            r3 ^= r1;
-            r1 ^= r0;
-            r0 |= r3;
-            r3 ^= r4;
-            r2 |= r1;
-            r2 &= r0;
-            r1 ^= r3;
-            r3 &= r2;
-            r3 ^= r1;
-            r1 &= r2;
-            r1 ^= r0;
-            r2 = rotateLeft(r2, 13);
-            r4 = rotateLeft(r4, 3);
-            r1 = r1 ^ r2 ^ r4;
-            r3 = r3 ^ r4 ^ (r2 << 3);
-            r1 = rotateLeft(r1, 1);
-            r3 = rotateLeft(r3, 7);
-            r2 = r2 ^ r1 ^ r3;
-            r4 = r4 ^ r3 ^ (r1 << 7);
-            r2 = rotateLeft(r2, 5);
-            r4 = rotateLeft(r4, 22);
-            r2 ^= serpent24SubKeys[40];
-            r1 ^= serpent24SubKeys[40 + 1];
-            r4 ^= serpent24SubKeys[40 + 2];
-            r3 ^= serpent24SubKeys[40 + 3];
-            r0 = r2;
-            r2 &= r4;
-            r2 ^= r3;
-            r4 ^= r1;
-            r4 ^= r2;
-            r3 |= r0;
-            r3 ^= r1;
-            r0 ^= r4;
-            r1 = r3;
-            r3 |= r0;
-            r3 ^= r2;
-            r2 &= r1;
-            r0 ^= r2;
-            r1 ^= r3;
-            r1 ^= r0;
-            r0 = ~r0;
-            r4 = rotateLeft(r4, 13);
-            r1 = rotateLeft(r1, 3);
-            r3 = r3 ^ r4 ^ r1;
-            r0 = r0 ^ r1 ^ (r4 << 3);
-            r3 = rotateLeft(r3, 1);
-            r0 = rotateLeft(r0, 7);
-            r4 = r4 ^ r3 ^ r0;
-            r1 = r1 ^ r0 ^ (r3 << 7);
-            r4 = rotateLeft(r4, 5);
-            r1 = rotateLeft(r1, 22);
-            r4 ^= serpent24SubKeys[44];
-            r3 ^= serpent24SubKeys[44 + 1];
-            r1 ^= serpent24SubKeys[44 + 2];
-            r0 ^= serpent24SubKeys[44 + 3];
-            r2 = r4;
-            r4 |= r0;
-            r0 ^= r3;
-            r3 &= r2;
-            r2 ^= r1;
-            r1 ^= r0;
-            r0 &= r4;
-            r2 |= r3;
-            r0 ^= r2;
-            r4 ^= r3;
-            r2 &= r4;
-            r3 ^= r0;
-            r2 ^= r1;
-            r3 |= r4;
-            r3 ^= r1;
-            r4 ^= r0;
-            r1 = r3;
-            r3 |= r0;
-            r3 ^= r4;
-            r3 = rotateLeft(r3, 13);
-            r0 = rotateLeft(r0, 3);
-            r1 = r1 ^ r3 ^ r0;
-            r2 = r2 ^ r0 ^ (r3 << 3);
-            r1 = rotateLeft(r1, 1);
-            r2 = rotateLeft(r2, 7);
-            r3 = r3 ^ r1 ^ r2;
-            r0 = r0 ^ r2 ^ (r1 << 7);
-            r3 = rotateLeft(r3, 5);
-            r0 = rotateLeft(r0, 22);
-            lfsr[9] = r3;
-            lfsr[8] = r1;
-            lfsr[7] = r0;
-            lfsr[6] = r2;
-            r3 ^= serpent24SubKeys[48];
-            r1 ^= serpent24SubKeys[48 + 1];
-            r0 ^= serpent24SubKeys[48 + 2];
-            r2 ^= serpent24SubKeys[48 + 3];
-            r1 ^= r2;
-            r2 = ~r2;
-            r0 ^= r2;
-            r2 ^= r3;
-            r4 = r1;
-            r1 &= r2;
-            r1 ^= r0;
-            r4 ^= r2;
-            r3 ^= r4;
-            r0 &= r4;
-            r0 ^= r3;
-            r3 &= r1;
-            r2 ^= r3;
-            r4 |= r1;
-            r4 ^= r3;
-            r3 |= r2;
-            r3 ^= r0;
-            r0 &= r2;
-            r3 = ~r3;
-            r4 ^= r0;
-            r1 = rotateLeft(r1, 13);
-            r3 = rotateLeft(r3, 3);
-            r4 = r4 ^ r1 ^ r3;
-            r2 = r2 ^ r3 ^ (r1 << 3);
-            r4 = rotateLeft(r4, 1);
-            r2 = rotateLeft(r2, 7);
-            r1 = r1 ^ r4 ^ r2;
-            r3 = r3 ^ r2 ^ (r4 << 7);
-            r1 = rotateLeft(r1, 5);
-            r3 = rotateLeft(r3, 22);
-            r1 ^= serpent24SubKeys[52];
-            r4 ^= serpent24SubKeys[52 + 1];
-            r3 ^= serpent24SubKeys[52 + 2];
-            r2 ^= serpent24SubKeys[52 + 3];
-            r1 ^= r4;
-            r4 ^= r2;
-            r2 = ~r2;
-            r0 = r4;
-            r4 &= r1;
-            r3 ^= r2;
-            r4 ^= r3;
-            r3 |= r0;
-            r0 ^= r2;
-            r2 &= r4;
-            r2 ^= r1;
-            r0 ^= r4;
-            r0 ^= r3;
-            r3 ^= r1;
-            r1 &= r2;
-            r3 = ~r3;
-            r1 ^= r0;
-            r0 |= r2;
-            r3 ^= r0;
-            r4 = rotateLeft(r4, 13);
-            r1 = rotateLeft(r1, 3);
-            r2 = r2 ^ r4 ^ r1;
-            r3 = r3 ^ r1 ^ (r4 << 3);
-            r2 = rotateLeft(r2, 1);
-            r3 = rotateLeft(r3, 7);
-            r4 = r4 ^ r2 ^ r3;
-            r1 = r1 ^ r3 ^ (r2 << 7);
-            r4 = rotateLeft(r4, 5);
-            r1 = rotateLeft(r1, 22);
-            r4 ^= serpent24SubKeys[56];
-            r2 ^= serpent24SubKeys[56 + 1];
-            r1 ^= serpent24SubKeys[56 + 2];
-            r3 ^= serpent24SubKeys[56 + 3];
-            r1 = ~r1;
-            r0 = r3;
-            r3 &= r4;
-            r4 ^= r0;
-            r3 ^= r1;
-            r1 |= r0;
-            r2 ^= r3;
-            r1 ^= r4;
-            r4 |= r2;
-            r1 ^= r2;
-            r0 ^= r4;
-            r4 |= r3;
-            r4 ^= r1;
-            r0 ^= r3;
-            r0 ^= r4;
-            r3 = ~r3;
-            r1 &= r0;
-            r1 ^= r3;
-            r4 = rotateLeft(r4, 13);
-            r0 = rotateLeft(r0, 3);
-            r2 = r2 ^ r4 ^ r0;
-            r1 = r1 ^ r0 ^ (r4 << 3);
-            r2 = rotateLeft(r2, 1);
-            r1 = rotateLeft(r1, 7);
-            r4 = r4 ^ r2 ^ r1;
-            r0 = r0 ^ r1 ^ (r2 << 7);
-            r4 = rotateLeft(r4, 5);
-            r0 = rotateLeft(r0, 22);
-            r4 ^= serpent24SubKeys[60];
-            r2 ^= serpent24SubKeys[60 + 1];
-            r0 ^= serpent24SubKeys[60 + 2];
-            r1 ^= serpent24SubKeys[60 + 3];
-            r3 = r2;
-            r2 |= r0;
-            r2 ^= r1;
-            r3 ^= r0;
-            r0 ^= r2;
-            r1 |= r3;
-            r1 &= r4;
-            r3 ^= r0;
-            r1 ^= r2;
-            r2 |= r3;
-            r2 ^= r4;
-            r4 |= r3;
-            r4 ^= r0;
-            r2 ^= r3;
-            r0 ^= r2;
-            r2 &= r4;
-            r2 ^= r3;
-            r0 = ~r0;
-            r0 |= r4;
-            r3 ^= r0;
-            r3 = rotateLeft(r3, 13);
-            r2 = rotateLeft(r2, 3);
-            r1 = r1 ^ r3 ^ r2;
-            r4 = r4 ^ r2 ^ (r3 << 3);
-            r1 = rotateLeft(r1, 1);
-            r4 = rotateLeft(r4, 7);
-            r3 = r3 ^ r1 ^ r4;
-            r2 = r2 ^ r4 ^ (r1 << 7);
-            r3 = rotateLeft(r3, 5);
-            r2 = rotateLeft(r2, 22);
-            r3 ^= serpent24SubKeys[64];
-            r1 ^= serpent24SubKeys[64 + 1];
-            r2 ^= serpent24SubKeys[64 + 2];
-            r4 ^= serpent24SubKeys[64 + 3];
-            r4 ^= r3;
-            r0 = r1;
-            r1 &= r4;
-            r0 ^= r2;
-            r1 ^= r3;
-            r3 |= r4;
-            r3 ^= r0;
-            r0 ^= r4;
-            r4 ^= r2;
-            r2 |= r1;
-            r2 ^= r0;
-            r0 = ~r0;
-            r0 |= r1;
-            r1 ^= r4;
-            r1 ^= r0;
-            r4 |= r3;
-            r1 ^= r4;
-            r0 ^= r4;
-            r1 = rotateLeft(r1, 13);
-            r2 = rotateLeft(r2, 3);
-            r0 = r0 ^ r1 ^ r2;
-            r3 = r3 ^ r2 ^ (r1 << 3);
-            r0 = rotateLeft(r0, 1);
-            r3 = rotateLeft(r3, 7);
-            r1 = r1 ^ r0 ^ r3;
-            r2 = r2 ^ r3 ^ (r0 << 7);
-            r1 = rotateLeft(r1, 5);
-            r2 = rotateLeft(r2, 22);
-            r1 ^= serpent24SubKeys[68];
-            r0 ^= serpent24SubKeys[68 + 1];
-            r2 ^= serpent24SubKeys[68 + 2];
-            r3 ^= serpent24SubKeys[68 + 3];
-            r1 = ~r1;
-            r2 = ~r2;
-            r4 = r1;
-            r1 &= r0;
-            r2 ^= r1;
-            r1 |= r3;
-            r3 ^= r2;
-            r0 ^= r1;
-            r1 ^= r4;
-            r4 |= r0;
-            r0 ^= r3;
-            r2 |= r1;
-            r2 &= r4;
-            r1 ^= r0;
-            r0 &= r2;
-            r0 ^= r1;
-            r1 &= r2;
-            r1 ^= r4;
-            r2 = rotateLeft(r2, 13);
-            r3 = rotateLeft(r3, 3);
-            r1 = r1 ^ r2 ^ r3;
-            r0 = r0 ^ r3 ^ (r2 << 3);
-            r1 = rotateLeft(r1, 1);
-            r0 = rotateLeft(r0, 7);
-            r2 = r2 ^ r1 ^ r0;
-            r3 = r3 ^ r0 ^ (r1 << 7);
-            r2 = rotateLeft(r2, 5);
-            r3 = rotateLeft(r3, 22);
-            fsmR1 = r2;
-            lfsr[4] = r1;
-            fsmR2 = r3;
-            lfsr[5] = r0;
-            r2 ^= serpent24SubKeys[72];
-            r1 ^= serpent24SubKeys[72 + 1];
-            r3 ^= serpent24SubKeys[72 + 2];
-            r0 ^= serpent24SubKeys[72 + 3];
-            r4 = r2;
-            r2 &= r3;
-            r2 ^= r0;
-            r3 ^= r1;
-            r3 ^= r2;
-            r0 |= r4;
-            r0 ^= r1;
-            r4 ^= r3;
-            r1 = r0;
-            r0 |= r4;
-            r0 ^= r2;
-            r2 &= r1;
-            r4 ^= r2;
-            r1 ^= r0;
-            r1 ^= r4;
-            r4 = ~r4;
-            r3 = rotateLeft(r3, 13);
-            r1 = rotateLeft(r1, 3);
-            r0 = r0 ^ r3 ^ r1;
-            r4 = r4 ^ r1 ^ (r3 << 3);
-            r0 = rotateLeft(r0, 1);
-            r4 = rotateLeft(r4, 7);
-            r3 = r3 ^ r0 ^ r4;
-            r1 = r1 ^ r4 ^ (r0 << 7);
-            r3 = rotateLeft(r3, 5);
-            r1 = rotateLeft(r1, 22);
-            r3 ^= serpent24SubKeys[76];
-            r0 ^= serpent24SubKeys[76 + 1];
-            r1 ^= serpent24SubKeys[76 + 2];
-            r4 ^= serpent24SubKeys[76 + 3];
-            r2 = r3;
-            r3 |= r4;
-            r4 ^= r0;
-            r0 &= r2;
-            r2 ^= r1;
-            r1 ^= r4;
-            r4 &= r3;
-            r2 |= r0;
-            r4 ^= r2;
-            r3 ^= r0;
-            r2 &= r3;
-            r0 ^= r4;
-            r2 ^= r1;
-            r0 |= r3;
-            r0 ^= r1;
-            r3 ^= r4;
-            r1 = r0;
-            r0 |= r4;
-            r0 ^= r3;
-            r0 = rotateLeft(r0, 13);
-            r4 = rotateLeft(r4, 3);
-            r1 = r1 ^ r0 ^ r4;
-            r2 = r2 ^ r4 ^ (r0 << 3);
-            r1 = rotateLeft(r1, 1);
-            r2 = rotateLeft(r2, 7);
-            r0 = r0 ^ r1 ^ r2;
-            r4 = r4 ^ r2 ^ (r1 << 7);
-            r0 = rotateLeft(r0, 5);
-            r4 = rotateLeft(r4, 22);
-            r0 ^= serpent24SubKeys[80];
-            r1 ^= serpent24SubKeys[80 + 1];
-            r4 ^= serpent24SubKeys[80 + 2];
-            r2 ^= serpent24SubKeys[80 + 3];
-            r1 ^= r2;
-            r2 = ~r2;
-            r4 ^= r2;
-            r2 ^= r0;
-            r3 = r1;
-            r1 &= r2;
-            r1 ^= r4;
-            r3 ^= r2;
-            r0 ^= r3;
-            r4 &= r3;
-            r4 ^= r0;
-            r0 &= r1;
-            r2 ^= r0;
-            r3 |= r1;
-            r3 ^= r0;
-            r0 |= r2;
-            r0 ^= r4;
-            r4 &= r2;
-            r0 = ~r0;
-            r3 ^= r4;
-            r1 = rotateLeft(r1, 13);
-            r0 = rotateLeft(r0, 3);
-            r3 = r3 ^ r1 ^ r0;
-            r2 = r2 ^ r0 ^ (r1 << 3);
-            r3 = rotateLeft(r3, 1);
-            r2 = rotateLeft(r2, 7);
-            r1 = r1 ^ r3 ^ r2;
-            r0 = r0 ^ r2 ^ (r3 << 7);
-            r1 = rotateLeft(r1, 5);
-            r0 = rotateLeft(r0, 22);
-            r1 ^= serpent24SubKeys[84];
-            r3 ^= serpent24SubKeys[84 + 1];
-            r0 ^= serpent24SubKeys[84 + 2];
-            r2 ^= serpent24SubKeys[84 + 3];
-            r1 ^= r3;
-            r3 ^= r2;
-            r2 = ~r2;
-            r4 = r3;
-            r3 &= r1;
-            r0 ^= r2;
-            r3 ^= r0;
-            r0 |= r4;
-            r4 ^= r2;
-            r2 &= r3;
-            r2 ^= r1;
-            r4 ^= r3;
-            r4 ^= r0;
-            r0 ^= r1;
-            r1 &= r2;
-            r0 = ~r0;
-            r1 ^= r4;
-            r4 |= r2;
-            r0 ^= r4;
-            r3 = rotateLeft(r3, 13);
-            r1 = rotateLeft(r1, 3);
-            r2 = r2 ^ r3 ^ r1;
-            r0 = r0 ^ r1 ^ (r3 << 3);
-            r2 = rotateLeft(r2, 1);
-            r0 = rotateLeft(r0, 7);
-            r3 = r3 ^ r2 ^ r0;
-            r1 = r1 ^ r0 ^ (r2 << 7);
-            r3 = rotateLeft(r3, 5);
-            r1 = rotateLeft(r1, 22);
-            r3 ^= serpent24SubKeys[88];
-            r2 ^= serpent24SubKeys[88 + 1];
-            r1 ^= serpent24SubKeys[88 + 2];
-            r0 ^= serpent24SubKeys[88 + 3];
-            r1 = ~r1;
-            r4 = r0;
-            r0 &= r3;
-            r3 ^= r4;
-            r0 ^= r1;
-            r1 |= r4;
-            r2 ^= r0;
-            r1 ^= r3;
-            r3 |= r2;
-            r1 ^= r2;
-            r4 ^= r3;
-            r3 |= r0;
-            r3 ^= r1;
-            r4 ^= r0;
-            r4 ^= r3;
-            r0 = ~r0;
-            r1 &= r4;
-            r1 ^= r0;
-            r3 = rotateLeft(r3, 13);
-            r4 = rotateLeft(r4, 3);
-            r2 = r2 ^ r3 ^ r4;
-            r1 = r1 ^ r4 ^ (r3 << 3);
-            r2 = rotateLeft(r2, 1);
-            r1 = rotateLeft(r1, 7);
-            r3 = r3 ^ r2 ^ r1;
-            r4 = r4 ^ r1 ^ (r2 << 7);
-            r3 = rotateLeft(r3, 5);
-            r4 = rotateLeft(r4, 22);
-            r3 ^= serpent24SubKeys[92];
-            r2 ^= serpent24SubKeys[92 + 1];
-            r4 ^= serpent24SubKeys[92 + 2];
-            r1 ^= serpent24SubKeys[92 + 3];
-            r0 = r2;
-            r2 |= r4;
-            r2 ^= r1;
-            r0 ^= r4;
-            r4 ^= r2;
-            r1 |= r0;
-            r1 &= r3;
-            r0 ^= r4;
-            r1 ^= r2;
-            r2 |= r0;
-            r2 ^= r3;
-            r3 |= r0;
-            r3 ^= r4;
-            r2 ^= r0;
-            r4 ^= r2;
-            r2 &= r3;
-            r2 ^= r0;
-            r4 = ~r4;
-            r4 |= r3;
-            r0 ^= r4;
+        private void S4(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r1 ^= r3; r3 = ~r3; r2 ^= r3; r3 ^= r0; r4 = r1; r1 &= r3; r1 ^= r2; r4 ^= r3; r0 ^= r4; r2 &= r4;
+            r2 ^= r0; r0 &= r1; r3 ^= r0; r4 |= r1; r4 ^= r0; r0 |= r3; r0 ^= r2; r2 &= r3; r0 = ~r0; r4 ^= r2;
+        }
+
+        private void S5(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r0 ^= r1; r1 ^= r3; r3 = ~r3; r4 = r1; r1 &= r0; r2 ^= r3; r1 ^= r2; r2 |= r4; r4 ^= r3; r3 &= r1;
+            r3 ^= r0; r4 ^= r1; r4 ^= r2; r2 ^= r0; r0 &= r3; r2 = ~r2; r0 ^= r4; r4 |= r3; r2 ^= r4;
+        }
+
+        private void S6(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r2 = ~r2; r4 = r3; r3 &= r0; r0 ^= r4; r3 ^= r2; r2 |= r4; r1 ^= r3; r2 ^= r0; r0 |= r1; r2 ^= r1;
+            r4 ^= r0; r0 |= r3; r0 ^= r2; r4 ^= r3; r4 ^= r0; r3 = ~r3; r2 &= r4; r2 ^= r3;
+        }
+
+        private void S7(ref uint r0, ref uint r1, ref uint r2, ref uint r3, ref uint r4)
+        {
+            r4 = r1; r1 |= r2; r1 ^= r3; r4 ^= r2; r2 ^= r1; r3 |= r4; r3 &= r0; r4 ^= r2; r3 ^= r1; r1 |= r4;
+            r1 ^= r0; r0 |= r4; r0 ^= r2; r1 ^= r4; r2 ^= r1; r1 &= r0; r1 ^= r4; r2 = ~r2; r2 |= r0; r4 ^= r2;
+        }
+
+        private void KeyAddition(ref uint r0, ref uint r1, ref uint r2, ref uint r3, int ofs)
+        {
+            r0 ^= serpent24SubKeys[ofs];
+            r1 ^= serpent24SubKeys[ofs + 1];
+            r2 ^= serpent24SubKeys[ofs + 2];
+            r3 ^= serpent24SubKeys[ofs + 3];
+        }
+
+        private void Serpent_LinearTransform(ref uint r0, ref uint r1, ref uint r2, ref uint r3)
+        {
             r0 = rotateLeft(r0, 13);
             r2 = rotateLeft(r2, 3);
             r1 = r1 ^ r0 ^ r2;
@@ -2042,14 +278,192 @@ namespace Cryptool.Plugins.Sosemanuk
             r2 = r2 ^ r3 ^ (r1 << 7);
             r0 = rotateLeft(r0, 5);
             r2 = rotateLeft(r2, 22);
-            r0 ^= serpent24SubKeys[96];
-            r1 ^= serpent24SubKeys[96 + 1];
-            r2 ^= serpent24SubKeys[96 + 2];
-            r3 ^= serpent24SubKeys[96 + 3];
-            lfsr[3] = r0;
-            lfsr[2] = r1;
-            lfsr[1] = r2;
-            lfsr[0] = r3;
+        }
+
+        /*
+         * One Serpent round.
+         *   ofs = current subkey counter
+         *   S = S-box for this round
+         *   i0 to i4 = input register numbers (the fifth is a scratch register)
+         *   o0 to o3 = output register numbers
+         */
+        private void Serpent_Round(int ofs, SBox S, uint[] r, int i0, int i1, int i2, int i3, int i4, int o0, int o1, int o2, int o3)
+        {
+            KeyAddition(ref r[i0], ref r[i1], ref r[i2], ref r[i3], ofs);
+            S(ref r[i0], ref r[i1], ref r[i2], ref r[i3], ref r[i4]);
+            Serpent_LinearTransform(ref r[o0], ref r[o1], ref r[o2], ref r[o3]);
+        }
+
+        private uint WUP(uint w0, uint w1, uint w2, uint w3, int cc)
+        {
+            return rotateLeft( w0 ^ w1 ^ w2 ^ w3 ^ (0x9E3779B9 ^ (uint)cc), 11 );
+	    }
+
+        private delegate void WUPfunc(uint[] w, int cc);
+
+        private void WUP0(uint[] w, int cc)
+        {
+		    w[0] = WUP(w[0], w[3], w[5], w[7], cc);
+		    w[1] = WUP(w[1], w[4], w[6], w[0], cc + 1);
+		    w[2] = WUP(w[2], w[5], w[7], w[1], cc + 2);
+		    w[3] = WUP(w[3], w[6], w[0], w[2], cc + 3);
+	    }
+
+        private void WUP1(uint[] w, int cc)
+        {
+            w[4] = WUP(w[4], w[7], w[1], w[3], cc);
+            w[5] = WUP(w[5], w[0], w[2], w[4], cc + 1);
+            w[6] = WUP(w[6], w[1], w[3], w[5], cc + 2);
+            w[7] = WUP(w[7], w[2], w[4], w[6], cc + 3);
+	    }
+        
+        private void SKS(WUPfunc wup, SBox S, uint[] w, uint w0, uint w1, uint w2, uint w3, int i0, int i1, int i2, int i3, int ofs)
+        {
+            wup(w, ofs);
+
+            uint[] r = new uint[5];
+
+            r[0] = w[w0];
+            r[1] = w[w1];
+            r[2] = w[w2];
+            r[3] = w[w3];
+            r[4] = 0;
+
+            S(ref r[0], ref r[1], ref r[2], ref r[3], ref r[4]);
+
+            serpent24SubKeys[ofs] = r[i0];
+            serpent24SubKeys[ofs + 1] = r[i1];
+            serpent24SubKeys[ofs + 2] = r[i2];
+            serpent24SubKeys[ofs + 3] = r[i3];
+        }
+
+        /**
+        * Set the private key. The key length must be between 1
+        * and 32 bytes.
+         *
+         * @param key   the private key
+         */
+        public void setKey(byte[] key)
+        {
+            if (key.Length < 16)
+            {
+                GuiLogMessage("The provided key is too short. It must be between 128 and 256 bits (16 and 32 bytes) long. Padding it with zero bytes...", NotificationLevel.Warning);
+            } 
+            if (key.Length > 32)
+            {
+                GuiLogMessage("The provided key is too long. It must be between 128 and 256 bits (16 and 32 bytes) long. Exceeding bytes will be ignored...", NotificationLevel.Warning);
+            }
+
+            byte[] lkey = new byte[32];
+            System.Array.Copy(key, 0, lkey, 0, Math.Min(key.Length,lkey.Length));
+
+            if (key.Length < lkey.Length)
+            {
+                lkey[key.Length] = 0x01;
+
+                for (int j = key.Length + 1; j < lkey.Length; j++)
+                    lkey[j] = 0x00;
+            }
+
+            uint[] w = new uint[8];
+            for(int i=0;i<8;i++) w[i] = decode32le(lkey, 4*i);
+
+            SKS(WUP0, S3, w, 0, 1, 2, 3, 1, 2, 3, 4,  0); 
+            SKS(WUP1, S2, w, 4, 5, 6, 7, 2, 3, 1, 4,  4); 
+            SKS(WUP0, S1, w, 0, 1, 2, 3, 2, 0, 3, 1,  8); 
+            SKS(WUP1, S0, w, 4, 5, 6, 7, 1, 4, 2, 0, 12); 
+            SKS(WUP0, S7, w, 0, 1, 2, 3, 4, 3, 1, 0, 16); 
+            SKS(WUP1, S6, w, 4, 5, 6, 7, 0, 1, 4, 2, 20); 
+            SKS(WUP0, S5, w, 0, 1, 2, 3, 1, 3, 0, 2, 24); 
+            SKS(WUP1, S4, w, 4, 5, 6, 7, 1, 4, 0, 3, 28); 
+            SKS(WUP0, S3, w, 0, 1, 2, 3, 1, 2, 3, 4, 32); 
+            SKS(WUP1, S2, w, 4, 5, 6, 7, 2, 3, 1, 4, 36); 
+            SKS(WUP0, S1, w, 0, 1, 2, 3, 2, 0, 3, 1, 40); 
+            SKS(WUP1, S0, w, 4, 5, 6, 7, 1, 4, 2, 0, 44); 
+            SKS(WUP0, S7, w, 0, 1, 2, 3, 4, 3, 1, 0, 48); 
+            SKS(WUP1, S6, w, 4, 5, 6, 7, 0, 1, 4, 2, 52); 
+            SKS(WUP0, S5, w, 0, 1, 2, 3, 1, 3, 0, 2, 56); 
+            SKS(WUP1, S4, w, 4, 5, 6, 7, 1, 4, 0, 3, 60); 
+            SKS(WUP0, S3, w, 0, 1, 2, 3, 1, 2, 3, 4, 64); 
+            SKS(WUP1, S2, w, 4, 5, 6, 7, 2, 3, 1, 4, 68); 
+            SKS(WUP0, S1, w, 0, 1, 2, 3, 2, 0, 3, 1, 72); 
+            SKS(WUP1, S0, w, 4, 5, 6, 7, 1, 4, 2, 0, 76); 
+            SKS(WUP0, S7, w, 0, 1, 2, 3, 4, 3, 1, 0, 80); 
+            SKS(WUP1, S6, w, 4, 5, 6, 7, 0, 1, 4, 2, 84); 
+            SKS(WUP0, S5, w, 0, 1, 2, 3, 1, 3, 0, 2, 88); 
+            SKS(WUP1, S4, w, 4, 5, 6, 7, 1, 4, 0, 3, 92); 
+            SKS(WUP0, S3, w, 0, 1, 2, 3, 1, 2, 3, 4, 96);
+        }
+
+        /**
+         * Set the IV. 
+         *
+         * @param iv   the IV 
+         */
+        public void setIV(byte[] iv)
+        {
+            if (iv.Length < 16)
+            {
+                GuiLogMessage("The provided IV is too short. It must be 128 bits (16 bytes) long. Padding it with zero bytes...", NotificationLevel.Warning);
+            }
+            else if (iv.Length > 16)
+            {
+                GuiLogMessage("The provided IV is too long. It must be 128 bits (16 bytes) long. Exceeding bytes will be ignored...", NotificationLevel.Warning);
+            }
+
+            byte[] piv = new byte[16];
+            System.Array.Copy(iv, 0, piv, 0, Math.Min(iv.Length,piv.Length) );
+            for (int i = iv.Length; i < piv.Length; i++)
+                piv[i] = 0x00;
+
+            uint[] r = new uint[5];
+
+            for(int i=0;i<4;i++)
+                r[i] = decode32le(piv, 4*i);
+
+            Serpent_Round(  0, S0, r, 0, 1, 2, 3, 4, 1, 4, 2, 0 );
+            Serpent_Round(  4, S1, r, 1, 4, 2, 0, 3, 2, 1, 0, 4 );
+            Serpent_Round(  8, S2, r, 2, 1, 0, 4, 3, 0, 4, 1, 3 );
+            Serpent_Round( 12, S3, r, 0, 4, 1, 3, 2, 4, 1, 3, 2 );
+            Serpent_Round( 16, S4, r, 4, 1, 3, 2, 0, 1, 0, 4, 2 );
+            Serpent_Round( 20, S5, r, 1, 0, 4, 2, 3, 0, 2, 1, 4 );
+            Serpent_Round( 24, S6, r, 0, 2, 1, 4, 3, 0, 2, 3, 1 );
+            Serpent_Round( 28, S7, r, 0, 2, 3, 1, 4, 4, 1, 2, 0 );
+            Serpent_Round( 32, S0, r, 4, 1, 2, 0, 3, 1, 3, 2, 4 );
+            Serpent_Round( 36, S1, r, 1, 3, 2, 4, 0, 2, 1, 4, 3 );
+            Serpent_Round( 40, S2, r, 2, 1, 4, 3, 0, 4, 3, 1, 0 );
+            Serpent_Round( 44, S3, r, 4, 3, 1, 0, 2, 3, 1, 0, 2 );
+
+            lfsr[9] = r[3];
+            lfsr[8] = r[1];
+            lfsr[7] = r[0];
+            lfsr[6] = r[2];
+
+            Serpent_Round( 48, S4, r, 3, 1, 0, 2, 4, 1, 4, 3, 2 );
+            Serpent_Round( 52, S5, r, 1, 4, 3, 2, 0, 4, 2, 1, 3 );
+            Serpent_Round( 56, S6, r, 4, 2, 1, 3, 0, 4, 2, 0, 1 );
+            Serpent_Round( 60, S7, r, 4, 2, 0, 1, 3, 3, 1, 2, 4 );
+            Serpent_Round( 64, S0, r, 3, 1, 2, 4, 0, 1, 0, 2, 3 );
+            Serpent_Round( 68, S1, r, 1, 0, 2, 3, 4, 2, 1, 3, 0 );
+
+            fsmR1 = r[2];
+            lfsr[4] = r[1];
+            fsmR2 = r[3];
+            lfsr[5] = r[0];
+
+            Serpent_Round( 72, S2, r, 2, 1, 3, 0, 4, 3, 0, 1, 4 );
+            Serpent_Round( 76, S3, r, 3, 0, 1, 4, 2, 0, 1, 4, 2 );
+            Serpent_Round( 80, S4, r, 0, 1, 4, 2, 3, 1, 3, 0, 2 );
+            Serpent_Round( 84, S5, r, 1, 3, 0, 2, 4, 3, 2, 1, 0 );
+            Serpent_Round( 88, S6, r, 3, 2, 1, 0, 4, 3, 2, 4, 1 );
+            Serpent_Round( 92, S7, r, 3, 2, 4, 1, 0, 0, 1, 2, 3 );
+
+            KeyAddition(ref r[0], ref r[1], ref r[2], ref r[3], 96);
+
+            lfsr[3] = r[0];
+            lfsr[2] = r[1];
+            lfsr[1] = r[2];
+            lfsr[0] = r[3];
         }
 
         /**
@@ -2057,9 +471,8 @@ namespace Cryptool.Plugins.Sosemanuk
         */
         private void updateFSM()
         {
-            int oldR1 = fsmR1;
-            fsmR1 = fsmR2 + (lfsr[1] ^ 
-                ((fsmR1 & 0x01) != 0 ? lfsr[8] : 0));
+            uint oldR1 = fsmR1;
+            fsmR1 = fsmR2 + (lfsr[1] ^ ((fsmR1 & 0x01) != 0 ? lfsr[8] : 0));
             fsmR2 = rotateLeft(oldR1 * 0x54655307, 7);
         }
 
@@ -2068,24 +481,24 @@ namespace Cryptool.Plugins.Sosemanuk
 	     *
 	     * @return  s_t
 	     */
-        private int updateLFSR()
+        private uint updateLFSR()
         {
-            int v1 = lfsr[9];
+            uint v1 = lfsr[9];
 
-            int changeBitLFSR = (lfsr[3] >> 8);
+            uint changeBitLFSR = (lfsr[3] >> 8);
             if (lfsr[3] < 0)
             {
-                changeBitLFSR = (int)(((uint)lfsr[3]) >> 8);
+                changeBitLFSR = lfsr[3] >> 8;
             }
-            int v2 = changeBitLFSR ^ divAlpha[lfsr[3] & 0xFF];
+            uint v2 = changeBitLFSR ^ divAlpha[lfsr[3] & 0xFF];
 
-            int changeBitMulAlpha = (lfsr[0] >> 24);
+            uint changeBitMulAlpha = (lfsr[0] >> 24);
             if (lfsr[0] < 0)
             {
-                changeBitMulAlpha = (int)(((uint)lfsr[0]) >> 24);
+                changeBitMulAlpha = lfsr[0] >> 24;
             }
-            int v3 = (lfsr[0] << 8) ^ mulAlpha[changeBitMulAlpha];
-            int dropped = lfsr[0];
+            uint v3 = (lfsr[0] << 8) ^ mulAlpha[changeBitMulAlpha];
+            uint dropped = lfsr[0];
 
             for (int i = 0; i < 9; i++)
                 lfsr[i] = lfsr[i + 1];
@@ -2099,7 +512,7 @@ namespace Cryptool.Plugins.Sosemanuk
         *
         * @return  f_t
         */
-        private int computeIntermediate()
+        private uint computeIntermediate()
         {
             return (lfsr[9] + fsmR1) ^ fsmR2;
         }
@@ -2114,40 +527,26 @@ namespace Cryptool.Plugins.Sosemanuk
         private void makeStreamBlock(byte[] buf, int off)
         {
             updateFSM();
-            int f0 = computeIntermediate();
-            int s0 = updateLFSR();
+            uint f0 = computeIntermediate();
+            uint s0 = updateLFSR();
 
             updateFSM();
-            int f1 = computeIntermediate();
-            int s1 = updateLFSR();
+            uint f1 = computeIntermediate();
+            uint s1 = updateLFSR();
 
             updateFSM();
-            int f2 = computeIntermediate();
-            int s2 = updateLFSR();
+            uint f2 = computeIntermediate();
+            uint s2 = updateLFSR();
 
             updateFSM();
-            int f3 = computeIntermediate();
-            int s3 = updateLFSR();
+            uint f3 = computeIntermediate();
+            uint s3 = updateLFSR();
 
             /*
             * Apply the third S-box (number 2) on (f3, f2, f1, f0).
             */
-            int f4 = f0;
-            f0 &= f2;
-            f0 ^= f3;
-            f2 ^= f1;
-            f2 ^= f0;
-            f3 |= f4;
-            f3 ^= f1;
-            f4 ^= f2;
-            f1 = f3;
-            f3 |= f4;
-            f3 ^= f0;
-            f0 &= f1;
-            f4 ^= f0;
-            f1 ^= f3;
-            f1 ^= f4;
-            f4 = ~f4;
+            uint f4 = f0;
+            S2(ref f0, ref f1, ref f2, ref f3, ref f4);
 
             /*
              * S-box result is in (f2, f3, f1, f4).
@@ -2204,66 +603,35 @@ namespace Cryptool.Plugins.Sosemanuk
             }
         }
 
-        /**
-         * Transform String to Byte Array 
-         */
-        private byte[] HexStringToByteArray(string hexString, 
-            string inputType)
+        /* Generate key stream byte */
+        public byte getKeyStreamByte()
         {
-            string[] hexValuesSplit = hexString.Split(' ');
-
-            if (inputType.Equals("key"))
+            if (streamPtr == BUFFERLEN)
             {
-                if (hexValuesSplit.Length < 8 | 
-                    hexValuesSplit.Length > 32)
-                {
-                    GuiLogMessage("Invalid key length (" + 
-                        hexValuesSplit.Length * 8 +  " bits). It "+
-                        "must be between 64 and 256 bits long. In "
-                        +"hexadecimal representation: xx yy zz .."
-                        , NotificationLevel.Error);
-                    return null;
-                }
+                makeStreamBlock(streamBuf, 0);
+                streamPtr = 0;
             }
 
-            if (inputType.Equals("iv"))
-            {
-                if (hexValuesSplit.Length < 4 
-                    | hexValuesSplit.Length > 16)
-                {
-                    GuiLogMessage("Invalid iv length (" + 
-                        hexValuesSplit.Length * 8 + " bits). It "+
-                        "must be between 32 and 128 bits long. In"+
-                        " hexadecimal representation: xx yy zz .."
-                        , NotificationLevel.Error);
-                    return null;
-                }
-            }
-
-            byte[] hexArray = new byte[hexValuesSplit.Length];
-            for (int i = 0; i < hexValuesSplit.Length; i++)
-            {
-                hexArray[i] = Byte.Parse(hexValuesSplit[i],
-                    System.Globalization.NumberStyles.HexNumber);
-            }
-            return hexArray;
+            return streamBuf[streamPtr++];
         }
 
-        public void generateOutput(byte[] tmp)
+        /* Generate ciphertext */
+        public byte[] encrypt(byte[] src)
         {
-            keyStream = "";
-            char[] hexnum = {
-		        '0', '1', '2', '3', '4', '5', '6', '7',
-		        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-	        };
+            byte[] dst = new byte[src.Length];
 
-            for (int j = 0; j < tmp.Length; j++)
-            {
-                int v = tmp[j] & 0xFF;
-                keyStream += ("" + hexnum[v >> 4])
-                    + hexnum[v & 0x0F] + " ";
-            }
-            this.OutputString = keyStream;
+            for (int i = 0; i < src.Length; i++)
+                dst[i] = (byte)(src[i] ^ getKeyStreamByte());
+
+            return dst;
+        }
+
+        public void init()
+        {
+            streamPtr = BUFFERLEN;
+
+            setKey(InputKey);
+            setIV(InputIV);
         }
 
         public void PreExecution()
@@ -2271,51 +639,40 @@ namespace Cryptool.Plugins.Sosemanuk
             Dispose();
         }
 
+        private bool checkParameters()
+        {
+            if (inputData == null)
+            {
+                GuiLogMessage("No input given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputKey == null)
+            {
+                GuiLogMessage("No key given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputIV == null)
+            {
+                GuiLogMessage("No IV given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            return true;
+        }
+
         public void Execute()
         {
-            ProgressChanged(0, 6);
+            ProgressChanged(0, 1);
 
-            //Convert Input IV String into Byte Array
-            byte[] IV = HexStringToByteArray(InputIV, "iv");
-            ProgressChanged(1, 6);
+            if (!checkParameters()) return;
 
-            //Convert Input Key String into Byte Array
-            byte[] key = HexStringToByteArray(InputKey, "key");
-            ProgressChanged(2, 6);
+            init();
 
-            setKey(key);
-            ProgressChanged(3, 6);
+            OutputData = encrypt(inputData);
 
-            setIV(IV);
-            ProgressChanged(4, 6);
-
-            //generation of the key stream
-            byte[] tmp = new byte[512];
-            makeStream(tmp, 0, tmp.Length);
-            ProgressChanged(5, 6);
-
-            try
-            {
-                //encoding of the plaintext
-                plainText = HexStringToByteArray(InputString, 
-                    "plain");
-
-                for (byte i = 0; i < plainText.Length; i++)
-                {
-                    plainText[i] = (byte)(((tmp[i] + plainText[i])) 
-                        % 256);
-                }
-                generateOutput(plainText);
-            }
-            catch (Exception exception)
-            {
-                GuiLogMessage("No valid input of plaintext", 
-                    NotificationLevel.Info);
-                GuiLogMessage("Generating 512 bit of keystream",
-                    NotificationLevel.Info);
-                generateOutput(tmp);
-            }
-            ProgressChanged(6, 6);
+            ProgressChanged(1, 1);
         }
 
         public void PostExecution()
@@ -2329,11 +686,10 @@ namespace Cryptool.Plugins.Sosemanuk
 
         public void Dispose()
         {
+            inputData = null;
             inputKey = null;
-            outputString = null;
-            OutputString = null;
-            inputString = null;
-            keyStream = "";
+            inputIV = null;
+            outputData = null;
         }
 
         public void Stop()

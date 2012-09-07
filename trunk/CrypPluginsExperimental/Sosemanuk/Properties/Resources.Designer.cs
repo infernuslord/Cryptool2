@@ -61,6 +61,24 @@ namespace Sosemanuk.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        internal static string InputDataCaption {
+            get {
+                return ResourceManager.GetString("InputDataCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data to be encrypted or decrypted ähnelt.
+        /// </summary>
+        internal static string InputDataTooltip {
+            get {
+                return ResourceManager.GetString("InputDataTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die IV ähnelt.
         /// </summary>
         internal static string InputIVCaption {
@@ -70,7 +88,7 @@ namespace Sosemanuk.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 4 to 16 bytes (32 to 128 bits) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The initialization vector must be 128 bits (16 bytes) long. ähnelt.
         /// </summary>
         internal static string InputIVTooltip {
             get {
@@ -88,7 +106,7 @@ namespace Sosemanuk.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be between 8 to 32 bytes (64 to 256 bits) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The key must be between 128 and 256 bits (16 and 32 bytes) long. ähnelt.
         /// </summary>
         internal static string InputKeyTooltip {
             get {
@@ -97,38 +115,20 @@ namespace Sosemanuk.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
-        /// </summary>
-        internal static string InputStringCaption {
-            get {
-                return ResourceManager.GetString("InputStringCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Data to be encrypted or decrypted. ähnelt.
-        /// </summary>
-        internal static string InputStringTooltip {
-            get {
-                return ResourceManager.GetString("InputStringTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
-        internal static string OutputStringCaption {
+        internal static string OutputDataCaption {
             get {
-                return ResourceManager.GetString("OutputStringCaption", resourceCulture);
+                return ResourceManager.GetString("OutputDataCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted or decrypted data ähnelt.
         /// </summary>
-        internal static string OutputStringTooltip {
+        internal static string OutputDataTooltip {
             get {
-                return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
+                return ResourceManager.GetString("OutputDataTooltip", resourceCulture);
             }
         }
         
@@ -142,7 +142,7 @@ namespace Sosemanuk.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die A chiper of the software portfolio from eSTREAM ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sosemanuk algorithm from the eSTREAM portfolio ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
