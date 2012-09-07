@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<documentation>
+  
+  <language culture="en" />
+  
+  <introduction lang="en">
+    Salsa20 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project.
+    It requires a 64 bits initialization vector (IV) and either a 128 or 256 bits secret key. The cipher is based on a strong cryptographic hash function that
+    generates hash values consisting of 64 bytes.
+    For each IV Salsa20 produces a sequence of at most 2^64 hash values. Thus the maximum length of the key stream that Salsa20 can generate per IV is 64 * 2^64 = 2^70 bytes (2^560 bits) long.
+    No attack faster than brute-force has been identified so far.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the Salsa20 component onto your workspace, you will
+    have to attach the three input connectors 'Input', 'Key' and 'IV' to data sources.
+
+    Additionally you have to connect a text output component to the 'Output' connector.
+  </usage>
+  
+  <language culture="de-DE" />
+  
+  <introduction lang="de-DE">
+    Salsa20 ist eine von sieben symmetrischen Stromchiffren, die für das finale eSTREAM Portfolio des ECRYPT Stream Cipher Project gewählt wurden.
+    Sie benötigt einen 64 Bits Initialisierungsvektor (IV) und entweder einen 128 oder 256 Bits Schlüssel.
+    Die Chiffre basiert auf einer starken kryptographischen Hashfunktion, die Hashwerte von 64 Bytes Länge erzeugt.
+    Für jeden IV generiert Salsa20 eine Folge von maximal 2^64 dieser Hashwerte. Daher ist der Schlüsselstrom, der aus einem IV erzeugt werden kann, maximal 64 * 2^64 = 2^70 Bytes (2^560 Bits) lang. 
+    Es wurde bisher kein Angriff gefunden, der schneller als Brute-Force ist.
+  </introduction>
+
+  <usage lang="de-DE">
+    Nachdem Sie die Salsa20-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
+
+    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+  </usage>
+
+  <references>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/salsa20pf.html" lang="en" />
+      <caption lang="en">Salsa20 at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/salsa20pf.html" lang="de-DE" />
+      <caption lang="de-DE">Salsa20 beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Salsa20" lang="en" />
+      <caption lang="en">Salsa20 at Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/RC4" lang="de-DE" />
+      <caption lang="de-DE">Salsa20 bei Wikipedia (englisch)</caption>
+    </linkReference>
+  </references>
+  
+</documentation>
