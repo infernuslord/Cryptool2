@@ -90,22 +90,28 @@
     <Compile Include="CrypPluginBase\CStream.cs" />
     <Compile Include="DESTest.cs" />
     <Compile Include="EnigmaTest.cs" />
+    <Compile Include="GrainV1Test.cs" />
+    <Compile Include="HC128Test.cs" />
     <Compile Include="HMACTest.cs" />
     <Compile Include="M209Test.cs" />
     <Compile Include="MD5Test.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
+    <Compile Include="Mickey2Test.cs" />
     <Compile Include="NihilistTest.cs" />
     <Compile Include="PlayfairTest.cs" />
     <Compile Include="PRESENTTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
     <Compile Include="PurpleTest.cs" />
+    <Compile Include="RabbitTest.cs" />
     <Compile Include="RC2Test.cs" />
     <Compile Include="RC4Test.cs" />
     <Compile Include="RIPEMD160Test.cs" />
+    <Compile Include="Salsa20Test.cs" />
     <Compile Include="ScytaleTest.cs" />
     <Compile Include="SHATest.cs" />
+    <Compile Include="SosemanukTest.cs" />
     <Compile Include="TemplateAndPluginTests\PluginTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateAndPluginTests.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateTestScenario.cs" />
@@ -151,6 +157,14 @@
       <Project>{AF5B966D-76A8-43A1-B6D2-3831FD4EF1C7}</Project>
       <Name>Enigma</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\GrainV1\GrainV1.csproj">
+      <Project>{76BF9E04-F403-44AE-BFAB-D907425EA6A7}</Project>
+      <Name>GrainV1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\HC128\HC128.csproj">
+      <Project>{93268220-78CA-4979-9168-19E8D3CE7274}</Project>
+      <Name>HC128</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\HMAC\HMAC.csproj">
       <Project>{9DC8FE92-6839-4837-8AAA-D7456F2B288F}</Project>
       <Name>HMAC</Name>
@@ -168,6 +182,10 @@
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
       <Name>MD5</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Mickey2\MICKEY2.csproj">
+      <Project>{2662A086-A30C-44B9-B11E-E14A565BB7E4}</Project>
+      <Name>MICKEY2</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Nihilist\Nihilist.csproj">
       <Project>{FB8BAD02-DDE2-411E-A495-071232CFDE58}</Project>
@@ -190,6 +208,10 @@
       <Project>{3010F13F-4664-4231-9D98-99E85EBB82AE}</Project>
       <Name>Purple</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Rabbit\Rabbit.csproj">
+      <Project>{7465421C-3BB2-47BB-B140-5BAC3BFC6B91}</Project>
+      <Name>Rabbit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\RC2\RC2.csproj">
       <Project>{A2A7E7E6-05E6-46AD-B8AE-862D9DA78A1E}</Project>
       <Name>RC2</Name>
@@ -202,6 +224,10 @@
       <Project>{77EE0460-29E8-4227-A874-DECA9985BC64}</Project>
       <Name>RIPEMD160</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Salsa20\Salsa20.csproj">
+      <Project>{2CEB068D-B613-4A42-96CE-D6E6CF74AD33}</Project>
+      <Name>Salsa20</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Scytale\Scytale.csproj">
       <Project>{56617BC2-3504-410C-AB98-E551EFCE4E3D}</Project>
       <Name>Scytale</Name>
@@ -209,6 +235,10 @@
     <ProjectReference Include="..\CrypPlugins\SHA\SHA.csproj">
       <Project>{D0693215-9A47-414B-BD99-1BE37C42EABB}</Project>
       <Name>SHA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Sosemanuk\Sosemanuk.csproj">
+      <Project>{00135C5E-F976-42DC-9BB3-CD6053341E20}</Project>
+      <Name>Sosemanuk</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Tiger\Tiger.csproj">
       <Project>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</Project>
