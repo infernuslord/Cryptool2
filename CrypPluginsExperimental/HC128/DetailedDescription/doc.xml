@@ -1,17 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <documentation>
+  
   <language culture="en" />
-  <introduction lang="en">HC128 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project. HC128 is the simplified version of the HC256 stream cipher with a key and initialization vector length of 128 bits. The cipher is based on two secret tables each consisting of 512 32-bit elements and a non-linear feedback function. Each key/IV pair produces up to 2^64 key stream bits though in practice there is no need to restrict the length as the effect of a longer stream is negligible for the security of the message. No attack faster than brute-force has been identified so far.
+  
+  <introduction lang="en">
+    HC128 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project.
+    HC128 is the simplified version of the HC256 stream cipher with a key and initialization vector length of 128 bits.
+    The cipher is based on two secret tables each consisting of 512 32-bit elements and a non-linear feedback function.
+    Each key/IV pair produces up to 2^64 key stream bits though in practice there is no need to restrict the length as the effect of
+    a longer stream is negligible for the security of the message. No attack faster than brute-force has been identified so far.
   </introduction>
-  <usage lang="en">After dragging the HC128 component onto your workspace you will have to connect three text input fields to the connectors on the left side as well as a text output field to the right connector. You will then have to input the key and initialization vector as well as your plaintext (as hex values) in the associated text input fields.
-</usage>
-  <presentation lang="en">
-</presentation>
-  <language culture="de" />
-  <introduction lang="de">HC128 ist eine von sieben symmetrischen Stromchiffren, die für das finale eSTREAM Portfolio des ECRYPT Stream Cipher Project gewählt wurden. HC128 ist eine vereinfachte Ausführung der HC256 Stromchiffre mit einem Schlüssel und Initialisierungsvektor der Länge 128 Bits. Die Chiffre basiert auf zwei geheimen Tabellen mit je 512 32-Bit Elementen und einer nicht-linearen Feedback Function. Jedes Schlüssel/IV-Paar produziert bis zu 2^64 Schlüsselstrombits, aber in der Praxis ist es nicht notwendig die Länge zu begrenzen, da die Auswirkungen eines längeren Schlüsselstroms für die Sicherheit der Nachricht vernachlässigbar sind. Es wurde bisher kein Angriff gefunden, der schneller als Brute-Force ist.
-  </introduction>
-  <usage lang="de">Nachdem Sie die HC128 Komponente auf Ihre Arbeitsfläche gezogen haben, müssen Sie drei Texteingabefelder an die Konnektoren auf der linken Seite und ein Textausgabefeld an den Konnektor auf der rechten Seite anbringen. Anschließend müssen Sie den Schlüssel und Initialisierungsvektor, sowie Ihren Klartext (als Hex-Werte) in die dazugehörigen Felder eingeben.
+
+  <usage lang="en">
+    After dragging the HC128 component onto your workspace, you will
+    have to attach the three input connectors 'Input', 'Key' and 'IV' to data sources.
+
+    Additionally you have to connect a text output component to the 'Output' connector.
   </usage>
-  <presentation lang="de">
-  </presentation>
+
+  <language culture="de" />
+  
+  <introduction lang="de">
+    HC128 ist eine von sieben symmetrischen Stromchiffren, die für das finale eSTREAM Portfolio des
+    ECRYPT Stream Cipher Project gewählt wurden. HC128 ist eine vereinfachte Ausführung der HC256 Stromchiffre mit einem Schlüssel und
+    Initialisierungsvektor der Länge 128 Bits. Die Chiffre basiert auf zwei geheimen Tabellen mit je 512 32-Bit Elementen und einer
+    nicht-linearen Feedback Function. Jedes Schlüssel/IV-Paar produziert bis zu 2^64 Schlüsselstrombits, aber in der Praxis ist es nicht
+    notwendig die Länge zu begrenzen, da die Auswirkungen eines längeren Schlüsselstroms für die Sicherheit der Nachricht vernachlässigbar sind.
+    Es wurde bisher kein Angriff gefunden, der schneller als Brute-Force ist.
+  </introduction>
+
+  <usage lang="de-DE">
+    Nachdem Sie die HC128-Komponente auf den Arbeitsbereich gezogen
+    haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
+
+    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+  </usage>
+
+  <references>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/hcpf.html" lang="en" />
+      <caption lang="en">HC128 at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/hcpf.html" lang="de-DE" />
+      <caption lang="de-DE">HC128 beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/HC-256" lang="en" />
+      <caption lang="en">HC256 at Wikipedia</caption>
+      <link url="http://en.wikipedia.org/wiki/HC-256" lang="de-DE" />
+      <caption lang="de-DE">HC256 bei Wikipedia (englisch)</caption>
+    </linkReference>
+  </references>
+  
 </documentation>

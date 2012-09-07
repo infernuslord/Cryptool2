@@ -30,25 +30,24 @@ namespace Cryptool.Plugins.HC128
     public class HC128 : ICrypComponent
     {
         #region Private Variables
+
         private HC128Settings settings;
-        private string inputString;
-        private string outputString;
-        private string inputKey;
-        private string inputIV;
-        private bool stop = false;
-        private bool inputValid = false;
+
+        private byte[] inputData;
+        private byte[] outputData;
+        private byte[] inputKey;
+        private byte[] inputIV;
+
         #endregion
 
         #region Public Variables
+
         public uint[] p = new uint[512];
         public uint[] q = new uint[512];
         public uint count = 0;
-        public byte[] Out;
-        public byte[] In;
-        public string keyStream = "";
-        public byte[] key, iv;
         public byte[] buffer = new byte[4];
         public int idx = 0;
+
         #endregion
 
         public HC128()
@@ -62,19 +61,21 @@ namespace Cryptool.Plugins.HC128
             set { this.settings = (HC128Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
-        public string InputString
+        #region Data Properties
+
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
+        public byte[] InputData
         {
-            get { return this.inputString; }
+            get { return this.inputData; }
             set
             {
-                this.inputString = value;
-                OnPropertyChanged("InputString");
+                this.inputData = value;
+                OnPropertyChanged("InputData");
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", true)]
-        public string InputKey
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyDataTooltip", true)]
+        public byte[] InputKey
         {
             get { return this.inputKey; }
             set
@@ -84,8 +85,8 @@ namespace Cryptool.Plugins.HC128
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", true)]
-        public string InputIV
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true)]
+        public byte[] InputIV
         {
             get { return this.inputIV; }
             set
@@ -95,174 +96,93 @@ namespace Cryptool.Plugins.HC128
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
-        public string OutputString
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
+        public byte[] OutputData
         {
-            get { return this.outputString; }
+            get { return this.outputData; }
             set
             {
-                this.outputString = value;
-                OnPropertyChanged("OutputString");
+                this.outputData = value;
+                OnPropertyChanged("OutputData");
             }
+        }
+
+        #endregion
+
+        private bool checkParameters()
+        {
+            if (inputData == null)
+            {
+                GuiLogMessage("No input given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputKey == null)
+            {
+                GuiLogMessage("No key given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputIV == null)
+            {
+                GuiLogMessage("No IV given. Aborting.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputIV.Length != 16)
+            {
+                GuiLogMessage("Wrong IV length " + inputIV.Length + " bytes. IV length must be 16 bytes.", NotificationLevel.Error);
+                return false;
+            }
+
+            if (inputKey.Length != 16)
+            {
+                GuiLogMessage("Wrong key length " + inputKey.Length + " bytes. Key length must be 16 bytes.", NotificationLevel.Error);
+                return false;
+            }
+            return true;
         }
 
         /* Main method for launching the cipher */
         public void Execute()
         {
-            StringBuilder builder = new StringBuilder();
-            In = stringToByteArray(inputString);
-            Out = new byte[In.Length];
-            try
-            {
-                if (stop) GuiLogMessage("Aborted!", NotificationLevel.Info);
-                else
-                {
-                    DateTime startTime = DateTime.Now;
+            ProgressChanged(0, 1);
 
-                    /* Initialize the algorithm */
-                    init();
-                    if (stop)
-                    {
-                        GuiLogMessage("Aborted!", NotificationLevel.Info);
-                    }
-                    else
-                    {
+            if (!checkParameters()) return;
 
-                        GuiLogMessage("Starting encryption...", NotificationLevel.Info);
+            init();
 
-                        /* Generate ciphertext bytes */
-                        generateOutBytes(In, 0, In.Length, Out, 0);
-                        foreach (byte b in Out) builder.Append(String.Format("{0:X2}", b));
-                        TimeSpan duration = DateTime.Now - startTime;
-                        OutputString = builder.ToString();
+            OutputData = encrypt(inputData);
 
-                        GuiLogMessage("Encryption complete in " + duration + "!", NotificationLevel.Info);
-                        GuiLogMessage("Key Stream: " + keyStream, NotificationLevel.Info);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-            }
-            finally
-            {
-                ProgressChanged(1, 1);
-            }
+            ProgressChanged(1, 1);
         }
 
         /* Reset method */
         public void Dispose()
         {
-            stop = false;
+            inputData = null;
             inputKey = null;
-            outputString = null;
-            inputString = null;
-            keyStream = null;
+            inputIV = null;
+            outputData = null;
         }
-
-        /* Check string for hex characters only */
-        public bool hexInput(string str)
-        {
-            Regex myRegex = new Regex("^[0-9A-Fa-f]*$");
-            inputValid = myRegex.IsMatch(str);
-            return inputValid;
-        }
-
-        /* Convert the input string into a byte array
-         * If the string length is not a multiple of 2 a '0' is added at the end */
-        public byte[] stringToByteArray(string input)
-        {
-            byte[] array = null;
-
-            if (input.Length % 2 == 1) array = new byte[(input.Length / 2) + 1];
-            else array = new byte[input.Length / 2];
-
-            if (hexInput(input))
-            {
-                if (input.Length % 2 == 1)
-                {
-                    GuiLogMessage("Odd number of digits in the plaintext, adding 0 to last position.", NotificationLevel.Info);
-                    input += '0';
-                }
-                for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the plaintext detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
-        }
-
-        /* Convert the IV string into a byte array */
-        public byte[] IVstringToByteArray(string input)
-        {
-            byte[] array = new byte[16];
-
-            if (hexInput(input))
-            {
-                if (input.Length != 32)
-                {
-                    stop = true;
-                    GuiLogMessage("IV length must be 16 byte (128 bit)!", NotificationLevel.Error);
-                }
-                else
-                {
-                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-                }
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the IV detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
-        }
-
-        /* Convert the key string into a byte array */
-        public byte[] KEYstringToByteArray(string input)
-        {
-            byte[] array = new byte[16];
-
-            if (hexInput(input))
-            {
-                if (input.Length != 32)
-                {
-                    stop = true;
-                    GuiLogMessage("Key length must be 16 byte (128 bit)!", NotificationLevel.Error);
-                }
-                else
-                {
-                    for (int i = 0, j = 0; i < input.Length; i += 2, j++) array[j] = Convert.ToByte(input.Substring(i, 2), 16);
-                }
-            }
-            else
-            {
-                GuiLogMessage("Invalid character(s) in the key detected. Only '0' to '9' and 'A' to 'F' are allowed!", NotificationLevel.Error);
-                stop = true;
-            }
-            return array;
-        }
-
+        
         /* Main initialization method */
         public void init()
         {
-            byte[] iv = IVstringToByteArray(inputIV);
-            byte[] key = KEYstringToByteArray(inputKey);
+            idx = 0;
             count = 0;
 
             uint[] w = new uint[1280];
 
             for (int i = 0; i < 16; i++)
             {
-                w[i >> 2] |= (uint)(key[i] & 0xff) << (8 * (i & 0x3));
+                w[i >> 2] |= (uint)(inputKey[i] & 0xff) << (8 * (i & 0x3));
             }
             Array.Copy(w, 0, w, 4, 4);
 
-            for (int i = 0; i < iv.Length && i < 16; i++)
+            for (int i = 0; i < inputIV.Length && i < 16; i++)
             {
-                w[(i >> 2) + 8] |= (uint)(iv[i] & 0xff) << (8 * (i & 0x3));
+                w[(i >> 2) + 8] |= (uint)(inputIV[i] & 0xff) << (8 * (i & 0x3));
             }
             Array.Copy(w, 8, w, 12, 4);
 
@@ -286,22 +206,10 @@ namespace Cryptool.Plugins.HC128
             count = 0;
         }
 
-        /* Computes x % 1024 */
-        public uint mod1024(uint x)
-        {
-            return x & 0x3FF;
-        }
-
-        /* Computes x % 512 */
-        public uint mod512(uint x)
-        {
-            return x & 0x1FF;
-        }
-
         /* (x - y) % 512 */
         public uint minus(uint x, uint y)
         {
-            return mod512(x - y);
+            return (x - y) & 0x1FF;
         }
 
         /* Left rotation function */
@@ -355,7 +263,7 @@ namespace Cryptool.Plugins.HC128
         /* One cipher round */
         public uint Round()
         {
-            uint j = mod512(count);
+            uint j = count & 0x1FF;
             uint result;
             if (count < 512)
             {
@@ -367,47 +275,37 @@ namespace Cryptool.Plugins.HC128
                 q[j] += g2(q[minus(j, 3)], q[minus(j, 10)], q[minus(j, 511)]);
                 result = h2(q[minus(j, 12)]) ^ q[j];
             }
-            count = mod1024(count + 1);
+            count = (count + 1) & 0x3FF;
             return result;
         }
 
-        /* Generate key stream */
-        public byte generateKeyStream()
+        /* Generate key stream byte */
+        public byte getKeyStreamByte()
         {
             if (idx == 0)
             {
                 uint step = Round();
-                buffer[0] = (byte)(step & 0xFF);
-                step >>= 8;
-                buffer[1] = (byte)(step & 0xFF);
-                step >>= 8;
-                buffer[2] = (byte)(step & 0xFF);
-                step >>= 8;
-                buffer[3] = (byte)(step & 0xFF);
+                buffer[0] = (byte)step;
+                buffer[1] = (byte)(step >> 8);
+                buffer[2] = (byte)(step >> 16);
+                buffer[3] = (byte)(step >> 24);
             }
+
             byte result = buffer[idx];
-            idx = idx + 1 & 0x3;
-            keyStream += String.Format("{0:X2}", result);
+            idx = (idx + 1) & 0x3;
+
             return result;
         }
 
         /* Generate ciphertext */
-        public void generateOutBytes(byte[] input, int inOffset, int length, byte[] output, int outOffset)
+        public byte[] encrypt(byte[] src)
         {
-            if ((inOffset + length) > input.Length)
-            {
-                GuiLogMessage("Input buffer too short!", NotificationLevel.Error);
-            }
+            byte[] dst = new byte[src.Length];
 
-            if ((outOffset + length) > output.Length)
-            {
-                GuiLogMessage("Output buffer too short!", NotificationLevel.Error);
-            }
+            for (int i = 0; i < src.Length; i++)
+                dst[i] = (byte)(src[i] ^ getKeyStreamByte());
 
-            for (int i = 0; i < length; i++)
-            {
-                output[outOffset + i] = (byte)(input[inOffset + i] ^ generateKeyStream());
-            }
+            return dst;
         }
 
         public void Initialize()
@@ -445,7 +343,6 @@ namespace Cryptool.Plugins.HC128
 
         public void Stop()
         {
-            this.stop = true;
         }
 
         #region INotifyPropertyChanged Members
