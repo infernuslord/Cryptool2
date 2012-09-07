@@ -1,4 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestList name="Nelle und Serebrianski" id="7ec3cc50-c4b0-48b3-86c9-329eacd363f5" parentListId="8c43106b-9dc1-4907-a29f-aa66a61bf5b6">
+    <Description>Plugins der beiden Mannheimer Studenten</Description>
+    <TestLinks>
+      <TestLink id="689bf8ce-3e31-b816-ce71-995477d54d51" name="RabbitTestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="97e3fe6a-a6db-d148-046b-d67f3e4c4127" name="SosemanukTestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="6c9ab7bb-db68-f9fa-0c6e-71de0c87ee35" name="HC128TestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="53c7fa23-4bc0-b9ec-f235-4cb315d279cb" name="Salsa20TestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="5586830e-12b8-8829-d5e2-52e3ea18ff9b" name="Mickey2TestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="b86703fa-f887-2fc4-cc3d-2bb41b6f83fe" name="GrainV1TestMethod" storage="crypbuild\debug\unittests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    </TestLinks>
+  </TestList>
   <TestList name="Testlisten" id="8c43106b-9dc1-4907-a29f-aa66a61bf5b6" />
 </TestLists>
