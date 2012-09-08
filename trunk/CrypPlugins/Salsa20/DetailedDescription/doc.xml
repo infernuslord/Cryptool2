@@ -8,7 +8,7 @@
     Salsa20 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project.
     It requires a 64 bits initialization vector (IV) and either a 128 or 256 bits secret key. The cipher is based on a strong cryptographic hash function that
     generates hash values consisting of 64 bytes.
-    For each IV Salsa20 produces a sequence of at most 2^64 hash values. Thus the maximum length of the key stream that Salsa20 can generate per IV is 64 * 2^64 = 2^70 bytes (2^560 bits) long.
+    For each IV Salsa20 produces a sequence of at most 2^64 hash values. Thus the maximum length of the key stream that Salsa20 can generate per IV is 64 * 2^64 = 2^70 bytes long.
     No attack faster than brute-force has been identified so far.
   </introduction>
 
@@ -25,7 +25,7 @@
     Salsa20 ist eine von sieben symmetrischen Stromchiffren, die für das finale eSTREAM Portfolio des ECRYPT Stream Cipher Project gewählt wurden.
     Sie benötigt einen 64 Bits Initialisierungsvektor (IV) und entweder einen 128 oder 256 Bits Schlüssel.
     Die Chiffre basiert auf einer starken kryptographischen Hashfunktion, die Hashwerte von 64 Bytes Länge erzeugt.
-    Für jeden IV generiert Salsa20 eine Folge von maximal 2^64 dieser Hashwerte. Daher ist der Schlüsselstrom, der aus einem IV erzeugt werden kann, maximal 64 * 2^64 = 2^70 Bytes (2^560 Bits) lang. 
+    Für jeden IV generiert Salsa20 eine Folge von maximal 2^64 dieser Hashwerte. Daher ist der Schlüsselstrom, der aus einem IV erzeugt werden kann, maximal 64 * 2^64 = 2^70 Bytes lang. 
     Es wurde bisher kein Angriff gefunden, der schneller als Brute-Force ist.
   </introduction>
 
