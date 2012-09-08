@@ -135,11 +135,15 @@ namespace KeyTextBox
             }
         }
 
-        private void KeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void KeyBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var key = KeyManager.GetKey();
             switch (e.Key)
             {
+                case Key.Space:
+                    e.Handled = true;
+                    HandleInput(" ");
+                    break;
                 case Key.Back:
                 case Key.Delete:
                     e.Handled = true;
