@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
-using System.Windows;
-using System.Xml.Linq;
-using System.Linq;
-using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Miscellaneous;
-using Ionic.Zip;
-using OnlineDocumentationGenerator.DocInformations;
-using OnlineDocumentationGenerator.DocInformations.Localization;
 
 namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
 {
@@ -22,11 +14,15 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
 
         private ObjectConverter _objectConverter;
         private TemplateDirectory _templatesDir;
-        private string _lang;
+        private readonly string _lang;
+        private readonly bool _noIcons;
+        private readonly bool _showAuthors;
 
-        public LaTeXGenerator(string lang)
+        public LaTeXGenerator(string lang, bool noIcons, bool showAuthors)
         {
             _lang = lang;
+            _noIcons = noIcons;
+            _showAuthors = showAuthors;
         }
 
         public override void Generate(TemplateDirectory templatesDir)
@@ -40,17 +36,32 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             var tableCode = GenerateTemplateOverviewTableCode(_lang);
             var descriptionCode = GenerateTemplateDescriptionCode(_lang);
 
-            var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", 
-                string.Format("{0}{1}", tableCode, descriptionCode));
+            var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", string.Format("{0}\n{1}", tableCode, descriptionCode));
+            var versionString = GetVersion();
+            latexCode = latexCode.Replace("$VERSION$", versionString);
             StoreLaTeX(latexCode, "templates.tex");
-            
-            //CopyAdditionalResources();
+        }
+
+        private string GetVersion()
+        {
+            switch (AssemblyHelper.BuildType)
+            {
+                case Ct2BuildType.Developer:
+                    return "Developer " + AssemblyHelper.Version;
+                case Ct2BuildType.Nightly:
+                    return "Nightly Build " + AssemblyHelper.Version;
+                case Ct2BuildType.Beta:
+                    return "Beta " + AssemblyHelper.Version;
+                case Ct2BuildType.Stable:
+                    return "Stable " + AssemblyHelper.Version;
+            }
+            return AssemblyHelper.Version.ToString();
         }
 
         private string GenerateTemplateOverviewTableCode(string lang)
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\\section{Übersicht über die Vorlagen}");
+            stringBuilder.AppendLine("\\chapter{Übersicht über die Vorlagen}");
             stringBuilder.AppendLine("\\begin{longtable}{lp{0.6\\textwidth}}");
             foreach (var dir in _templatesDir.SubDirectories)
             {
@@ -121,14 +132,23 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
             {
                 var locTemplate = templateDocumentationPage.CurrentLocalization;
-                //var description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
                 var description = _objectConverter.Convert(locTemplate.Description, templateDocumentationPage);
-                var icon = _objectConverter.Convert(locTemplate.Icon, templateDocumentationPage);
-
+                
                 var templateName = Helper.EscapeLaTeX(templateDocumentationPage.CurrentLocalization.Name);
                 stringBuilder.AppendLine(string.Format("{0}{1}", templateSection, "{" + templateName + "}"));
                 stringBuilder.AppendLine(description);
-                stringBuilder.AppendLine(icon);
+                if (_showAuthors)
+                {
+                    var author = _objectConverter.Convert(locTemplate.AuthorName, templateDocumentationPage);
+                    stringBuilder.AppendLine("");
+                    stringBuilder.AppendLine("Author: " + author);
+                    stringBuilder.AppendLine("");
+                }
+                if (!_noIcons)
+                {
+                    var icon = _objectConverter.Convert(locTemplate.Icon, templateDocumentationPage);
+                    stringBuilder.AppendLine(icon);
+                }
             }
             foreach (var dir in templatesDir.SubDirectories)
             {
@@ -139,6 +159,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private string GenerateTemplateDescriptionCode(string lang)
         {
             var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("\\chapter{Die Vorlagen}");
             foreach (var dir in _templatesDir.SubDirectories)
             {
                 GenerateTemplateDescriptionSection(dir, stringBuilder, 0, lang);
@@ -166,59 +187,5 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
             }
         }
-        
-        //private void CopyAdditionalResources()
-        //{
-        //    bool developer = AssemblyHelper.InstallationType == Ct2InstallationType.Developer;
-
-        //    var additionalResources = XElement.Parse(Properties.Resources.AdditionalResources);
-        //    foreach (var r in additionalResources.Elements("file"))
-        //    {
-        //        try
-        //        {
-        //            var path = r.Attribute("path").Value;
-        //            int sIndex = path.IndexOf('/');
-        //            var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
-        //                                               path.Substring(0, sIndex), path.Substring(sIndex + 1)));
-        //            var fileName = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, Path.GetFileName(path)));
-                    
-        //            using (var resStream = Application.GetResourceStream(resUri).Stream)
-        //            using (var streamWriter = new System.IO.StreamWriter(fileName, false))
-        //            {
-        //                resStream.CopyTo(streamWriter.BaseStream);
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception(string.Format("Error trying to copy additional resource: {0}", ex.Message));
-        //        }
-        //    }
-
-        //    foreach (var r in additionalResources.Elements("archive"))
-        //    {
-        //        var excl = r.Attribute("excludeDeveloper");
-        //        if (!developer || excl == null || excl.Value.ToLower() == "false")
-        //        {
-        //            try
-        //            {
-        //                var path = r.Attribute("path").Value;
-        //                int sIndex = path.IndexOf('/');
-        //                var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
-        //                                                   path.Substring(0, sIndex), path.Substring(sIndex + 1)));
-
-        //                //Extract archive:
-        //                using (var resStream = Application.GetResourceStream(resUri).Stream)
-        //                using (var zipPackage = ZipFile.Read(resStream))
-        //                {
-        //                    zipPackage.ExtractAll(OnlineHelp.HelpDirectory, ExtractExistingFileAction.OverwriteSilently);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                throw new Exception(string.Format("Error trying to copy additional resource archive: {0}", ex.Message));
-        //            }
-        //        }
-        //    }
-        //}
     }
 }

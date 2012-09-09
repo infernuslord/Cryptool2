@@ -32,6 +32,8 @@ namespace OnlineDocumentationGenerator.DocInformations
             }
         }
 
+        public string AuthorName { get; protected set; }
+
         public override string DocDirPath
         {
             get { return DocGenerator.TemplateDirectory; }
@@ -76,11 +78,10 @@ namespace OnlineDocumentationGenerator.DocInformations
                 }
             }
 
-            string author = null;
             var authorElement = XMLHelper.FindLocalizedChildElement(TemplateXML, "author");
             if (authorElement != null)
             {
-                author = authorElement.Value;
+                AuthorName = authorElement.Value;
             }
 
             var relevantPlugins = TemplateXML.Element("relevantPlugins");
@@ -102,7 +103,7 @@ namespace OnlineDocumentationGenerator.DocInformations
                 var langAtt = title.Attribute("lang");
                 if (langAtt != null && !AvailableLanguages.Contains(langAtt.Value))
                 {
-                    Localizations.Add(langAtt.Value, new LocalizedTemplateDocumentationPage(this, langAtt.Value, icon, author));
+                    Localizations.Add(langAtt.Value, new LocalizedTemplateDocumentationPage(this, langAtt.Value, icon));
                 }
             }
             if (!Localizations.ContainsKey("en"))
