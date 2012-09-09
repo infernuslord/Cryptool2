@@ -14,14 +14,20 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
         private XElement _xml;
         private string _filePath;
 
+        public new TemplateDocumentationPage DocumentationPage { get { return base.DocumentationPage as TemplateDocumentationPage; } }
+
         public override string FilePath
         {
             get { return _filePath; }
         }
 
-        public string Author { get; private set; }
         public XElement Summary { get; private set; }
         public XElement Description { get; private set; }
+
+        public string AuthorName
+        {
+            get { return DocumentationPage.AuthorName; }
+        }
 
         public XElement SummaryOrDescription
         {
@@ -35,10 +41,9 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
             }
         }
 
-        public LocalizedTemplateDocumentationPage(TemplateDocumentationPage templateDocumentationPage, string lang, BitmapFrame icon, string author)
+        public LocalizedTemplateDocumentationPage(TemplateDocumentationPage templateDocumentationPage, string lang, BitmapFrame icon)
         {
-            Author = author;
-            DocumentationPage = templateDocumentationPage;
+            base.DocumentationPage = templateDocumentationPage;
             Lang = lang;
             Icon = icon;
             _xml = templateDocumentationPage.TemplateXML;
@@ -53,13 +58,7 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
             {
                 Name = titleElement.Value;
             }
-
-            var authorElement = XMLHelper.FindLocalizedChildElement(_xml, "author");
-            if (authorElement != null)
-            {
-                Author = authorElement.Value;
-            }
-
+            
             Summary = XMLHelper.FindLocalizedChildElement(_xml, "summary");
             Description = XMLHelper.FindLocalizedChildElement(_xml, "description");
         }

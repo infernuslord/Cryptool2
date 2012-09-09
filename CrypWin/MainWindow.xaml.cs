@@ -281,8 +281,10 @@ namespace Cryptool.CrypWin
             }
             if (IsCommandParameterGiven("-GenerateDocLaTeX"))
             {
+                var noIcons = IsCommandParameterGiven("-NoIcons");
+                var showAuthors = IsCommandParameterGiven("-ShowAuthors");
                 var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de"));
+                docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de", noIcons, showAuthors));
                 Application.Current.Shutdown();
                 return;
             }
