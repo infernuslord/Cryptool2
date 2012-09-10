@@ -204,6 +204,24 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;documentation&gt;
+        ///  &lt;language culture=&quot;en&quot; /&gt;
+        ///  &lt;language culture=&quot;de-DE&quot; /&gt;
+        ///
+        ///  &lt;name lang=&quot;de-DE&quot;&gt;Homomorphe Chiffren und ihre Bedeutung in der Kryptographie&lt;/name&gt;
+        ///  &lt;name lang=&quot;en&quot;&gt;A note on Homomorphic Ciphers&lt;/name&gt;
+        ///
+        ///  &lt;description lang=&quot;en&quot;&gt;
+        ///    Homomorphic ciphers are public-key cryptosystems with special properties. They allow performing certain arithmetic operations on encrypted ciphertexts, without knowing the corresponding plaintexts and without havin [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string HomomorphicChiffres {
+            get {
+                return ResourceManager.GetString("HomomorphicChiffres", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string HtmlGenerator_GenerateConnectorListCode_Description {
@@ -267,7 +285,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \documentclass[10pt,a4paper]{article}
+        ///   Looks up a localized string similar to \documentclass[10pt,a4paper]{report}
         ///\usepackage[utf8]{inputenc}
         ///\usepackage{amsmath}
         ///\usepackage{tipa}
@@ -279,13 +297,18 @@ namespace OnlineDocumentationGenerator.Properties {
         ///\usepackage{german,longtable}
         ///\setcounter{tocdepth}{4}
         ///\setcounter{secnumdepth}{4}
-        ///\title{CrypTool 2.0 Templates}
+        ///\title{Dokumentation zu den Templates in CrypTool v2 (CT2)}
+        ///\author{Das CrypTool 2 Team}
+        ///
+        ///\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+        ///
         ///\begin{document}
-        ///\tableofcontents
         ///
-        ///$CONTENT$
+        ///\begin{titlepage}
+        ///\begin{center}
+        ///\hspace{0pt}\\[2.5cm]
         ///
-        ///\end{document}.
+        ///\HRu [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LaTeXTemplate {
             get {
@@ -402,7 +425,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -412,8 +435,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateCommonDocumentationPage {
             get {
@@ -422,7 +444,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -430,10 +452,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///	 [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwi [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateCommonIndex {
             get {
@@ -442,7 +461,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -452,8 +471,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation der Komponente &lt;docItem property [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang= [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateComponentDocumentationPage {
             get {
@@ -462,7 +480,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -470,10 +488,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///	 [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwi [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateComponentsIndex {
             get {
@@ -482,7 +497,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -492,8 +507,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateEditorDocumentationPage {
             get {
@@ -502,7 +516,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -510,10 +524,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///	 [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwi [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateEditorIndex {
             get {
@@ -531,7 +542,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -541,8 +552,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
-        ///		    Dokumentation der Komponente &lt;docItem property [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang= [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateTemplateDocumentationPage {
             get {
@@ -551,7 +561,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
@@ -559,39 +569,11 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;print.css&quot; media=&quot;print&quot; /&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
-        ///	 [rest of string was truncated]&quot;;.
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwi [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TemplateTemplatesIndex {
             get {
                 return ResourceManager.GetString("TemplateTemplatesIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;documentation&gt;
-        ///  &lt;language culture=&quot;en&quot; /&gt;
-        ///  &lt;language culture=&quot;de-DE&quot; /&gt;
-        ///
-        ///  &lt;name lang=&quot;de-DE&quot;&gt;Test Seite&lt;/name&gt;
-        ///  &lt;name lang=&quot;en&quot;&gt;Test site&lt;/name&gt;
-        ///  
-        ///  &lt;description lang=&quot;en&quot;&gt;
-        ///    test
-        ///  &lt;/description&gt;
-        ///
-        ///  &lt;references&gt;
-        ///    &lt;linkReference id=&quot;wikipedia&quot;&gt;
-        ///      &lt;link url=&quot;http://en.wikipedia.org/wiki/Advanced_Encryption_Standard&quot; lang=&quot;en&quot; /&gt;
-        ///      &lt;caption lang=&quot;en&quot;&gt;AES (Wikipedia)&lt;/caption&gt;
-        ///	    &lt;link url=&quot;http://de.wikipedia.org/wiki/Advanced_Encrypt [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string test1 {
-            get {
-                return ResourceManager.GetString("test1", resourceCulture);
             }
         }
         

@@ -153,7 +153,7 @@ namespace OnlineDocumentationGenerator
         {
             try
             {
-                generator.AddDocumentationPage(new CommonDocumentationPage(XElement.Parse(Properties.Resources.test1)));
+                generator.AddDocumentationPage(new CommonDocumentationPage(XElement.Parse(Properties.Resources.HomomorphicChiffres)));
             }
             catch (Exception ex)
             {
