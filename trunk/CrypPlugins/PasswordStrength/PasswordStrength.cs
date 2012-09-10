@@ -40,6 +40,8 @@ namespace Cryptool.Plugins.Tools
         private readonly PasswordStrengthPresentation _presentation = new PasswordStrengthPresentation();
         private byte[] _password;
         private double _strength;
+        private double _entropy;
+        private int _keePass;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -53,6 +55,17 @@ namespace Cryptool.Plugins.Tools
             }
         }
 
+        [PropertyInfo(Direction.OutputData, "KeePassCaption", "KeePassTooltip", false)]
+        public int KeePass
+        {
+            get { return _keePass; }
+            set
+            {
+                _keePass = value;
+                OnPropertyChanged("KeePass");
+            }
+        }
+
         [PropertyInfo(Direction.OutputData, "StrengthCaption", "StrengthTooltip", false)]
         public double Strength
         {
@@ -61,6 +74,17 @@ namespace Cryptool.Plugins.Tools
             {
                 _strength = value;
                 OnPropertyChanged("Strength");
+            }
+        }
+
+        [PropertyInfo(Direction.OutputData, "EntropyCaption", "EntropyTooltip", false)]
+        public double Entropy
+        {
+            get { return _entropy; }
+            set
+            {
+                _entropy = value;
+                OnPropertyChanged("Entropy");
             }
         }
 
@@ -553,6 +577,12 @@ namespace Cryptool.Plugins.Tools
                     else if (totalValue >= 80 && totalValue <= 100) { complexity = Properties.Resources._VeryStrong; }
                     _presentation.ComplexityTextBlock.Text = complexity;
                     Strength = ((double)(totalValue)) / 100.0;
+                    double entropyValue = calculateEntropy(_password);
+                    _presentation.EntropyTextblock.Text = String.Format("{0}",Math.Round(entropyValue,3));
+                    Entropy = entropyValue;
+                    int keePassValue = KeePassQualityEstimation.EstimatePasswordBits(_password);
+                    _presentation.BitStrengthTextBlock.Text = String.Format("{0}", keePassValue, 3);
+                    KeePass = _keePass;
                 }
                 catch(Exception ex)
                 {
@@ -604,6 +634,37 @@ namespace Cryptool.Plugins.Tools
         private void OnPropertyChanged(string p)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(p));
+        }
+
+        /// <summary>
+        /// Calculates the Entropy of a given byte array 
+        /// for example a German text has about 4.0629
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <returns>Entropy</returns>
+        public double calculateEntropy(byte[] text)
+        {
+
+            float[] xlogx = new float[text.Length + 1];
+            //precomputations for fast entropy calculation	
+            xlogx[0] = 0.0f;
+            for (int i = 1; i <= text.Length; i++)
+                xlogx[i] = (float)(-1.0f * i * Math.Log(i / (double)text.Length) / Math.Log(2.0));
+
+            int[] n = new int[256];
+            //count all ASCII symbols
+            for (int counter = 0; counter < text.Length; counter++)
+            {
+                n[text[counter]]++;
+            }
+
+            float entropy = 0;
+            //calculate probabilities and sum entropy
+            for (int i = 0; i < 256; i++)
+            {
+                entropy += xlogx[n[i]];
+            }
+            return entropy / (double)text.Length;
         }
     }
 }
