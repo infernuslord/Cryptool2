@@ -70,6 +70,15 @@ namespace Cryptool.Plugins.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bitstrengh.
+        /// </summary>
+        internal static string _BitStrength {
+            get {
+                return ResourceManager.GetString("_BitStrength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bonus.
         /// </summary>
         internal static string _Bonus {
@@ -156,6 +165,15 @@ namespace Cryptool.Plugins.Tools.Properties {
         internal static string _Dedutcions {
             get {
                 return ResourceManager.GetString("_Dedutcions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entropy.
+        /// </summary>
+        internal static string _Entropy {
+            get {
+                return ResourceManager.GetString("_Entropy", resourceCulture);
             }
         }
         
@@ -354,6 +372,42 @@ namespace Cryptool.Plugins.Tools.Properties {
         internal static string _Weak {
             get {
                 return ResourceManager.GetString("_Weak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entropy.
+        /// </summary>
+        internal static string EntropyCaption {
+            get {
+                return ResourceManager.GetString("EntropyCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entropy of the entered password.
+        /// </summary>
+        internal static string EntropyTooltio {
+            get {
+                return ResourceManager.GetString("EntropyTooltio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KeePass Bit-Strength.
+        /// </summary>
+        internal static string KeePassCaption {
+            get {
+                return ResourceManager.GetString("KeePassCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The strength measured by KeePass Bit-Strength-Algorithm.
+        /// </summary>
+        internal static string KeePassTooltip {
+            get {
+                return ResourceManager.GetString("KeePassTooltip", resourceCulture);
             }
         }
         
