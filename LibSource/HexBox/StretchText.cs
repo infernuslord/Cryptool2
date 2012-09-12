@@ -213,7 +213,7 @@ namespace HexBox
 
                 Point p = new Point();
 
-                int yi = i * 20;
+                int yi = i * 20 ;
 
                 p = new Point(0, yi);
 
@@ -221,7 +221,7 @@ namespace HexBox
 
             }
 
-            this.MinWidth = charwidth * 16;
+            
             this.MinHeight = 320;
 
         }

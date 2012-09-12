@@ -24,7 +24,6 @@ namespace Cryptool.PluginBase.Control
     public interface IControlTranspoEncryption : IControl, IDisposable
     {
         byte[] Decrypt(byte[] ciphertext, byte[] key);
-
         void changeSettings(string setting, object value);
     }
 }

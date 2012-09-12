@@ -18,6 +18,7 @@ namespace Transposition
         private ReadOutMode selectedReadOut = ReadOutMode.byColumn;
         private int Presentation_Speed = 100;
         private NumberMode selectedNumberMode = NumberMode.asChar;
+        private InternalNumberMode selectedInternalNumberMode = InternalNumberMode.asChar;
         
         # endregion
 
@@ -27,6 +28,7 @@ namespace Transposition
         public enum PermutationMode { byRow = 0, byColumn = 1 };
         public enum ReadOutMode { byRow = 0, byColumn = 1 };
         public enum NumberMode {asChar = 0, asHex = 1};
+        public enum InternalNumberMode { asChar = 0, asHex = 1 };
 
         # endregion
 
@@ -128,6 +130,23 @@ namespace Transposition
                 }
             }
         }
+
+        [PropertySaveOrder(7)]
+        [ContextMenu("Art der Verarbeitung", "NumberTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "Buchstabenwiese", "Byteweise" })]
+        [TaskPane("Art der Verarbeitung", "NumberTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Buchstabenweise", "Byteweise" })]
+        public int InternalNumber
+        {
+            get { return (int)this.selectedInternalNumberMode; }
+            set
+            {
+                if ((InternalNumberMode)value != selectedInternalNumberMode)
+                {
+                    this.selectedInternalNumberMode = (InternalNumberMode)value;
+                    OnPropertyChanged("InternalNumberMode");
+                }
+            }
+        }
+
 
         #endregion
 

@@ -66,7 +66,7 @@ namespace HexBox
 
             int f = ByteContent.Count()*3;
 
-            if(f>48 || f<=0)
+            if(f>48)
             {
                 f = 48;
             }
@@ -213,8 +213,9 @@ namespace HexBox
             }
             drawingContext.DrawText(formattedText, p);
 
-            this.MinWidth = charwidth * 48;
-            this.MinHeight = 320;
+            
+            
+            
 
             //Console.WriteLine(this.RenderSize);
         }
