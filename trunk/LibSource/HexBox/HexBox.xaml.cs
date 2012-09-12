@@ -125,6 +125,8 @@ namespace HexBox
             cursor2.TextInput += ASCIIField_TextInput;
             cursor.TextInput += HexBox_TextInput;
 
+            
+
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
             Stream s = new MemoryStream();
@@ -142,22 +144,24 @@ namespace HexBox
         private void setcursor(Point p) 
         {
             p.X = cell / 2 % 16 * (ht.CharWidth * 3);
-            p.Y = cell / 2 / 16 * 20;
+            p.Y = cell / 2 / 16 * 20+2;
 
             Canvas.SetLeft(cursor, p.X);
 
             Canvas.SetTop(cursor, p.Y);
+            //cursor.Focus();
 
         }
 
         private void setcursor2(Point p)
         {
             p.X = cellText % 16 * (st.CharWidth);
-            p.Y = cellText / 16 * 20;
+            p.Y = cellText / 16 * 20 -2;
 
             Canvas.SetLeft(cursor2, p.X);
 
             Canvas.SetTop(cursor2, p.Y);
+            //cursor2.Focus();
         }
 
         private void st_MouseDown(object sender, MouseButtonEventArgs e)
@@ -183,6 +187,7 @@ namespace HexBox
 
             mark[0] = cellText + (long)fileSlider.Value * 16;
 
+            setPosition(cellText*2);
             setcursor2(p);
 
             cursor2.Focus();
@@ -217,7 +222,7 @@ namespace HexBox
 
             mark[0] = cell / 2 + (long)fileSlider.Value * 16;
 
-
+            setPositionText(cell / 2);
             setcursor(p);
 
             cursor.Focus();
@@ -329,6 +334,8 @@ namespace HexBox
                 cellText = 255;
             }
 
+            setPosition(cellText * 2);
+            
             setcursor2(p);
 
             if (mark[1] < mark[0])
@@ -358,6 +365,7 @@ namespace HexBox
                 cell = 510;
             }
 
+            setPositionText(cell/2);
             setcursor(p);
 
             if (mark[1] < mark[0])
@@ -399,15 +407,18 @@ namespace HexBox
             Point p = new Point();
 
             p.X = cellText % 16 * st.CharWidth ;
-            p.Y = cellText / 16 * 20;
+            p.Y = cellText / 16 * 20-2;
 
             
 
             Canvas.SetLeft(cursor2, p.X);
 
             Canvas.SetTop(cursor2, p.Y);
+            
+            this.cellText = cellText;
+      //      cursor2.Focus();
 
-            cursor2.Focus();
+            
         }
 
         private void setPosition(int cell)
@@ -420,7 +431,7 @@ namespace HexBox
             Point p = new Point();
 
             p.X = cell % 32 * (ht.CharWidth * 3) / 2;
-            p.Y = cell / 32 * 20;
+            p.Y = cell / 32 * 20+2;
 
             if(cell%2==1)
             {
@@ -431,7 +442,11 @@ namespace HexBox
 
             Canvas.SetTop(cursor, p.Y);
 
-            cursor.Focus();
+            this.cell = cell;
+
+//            cursor.Focus();
+
+            
         }
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
@@ -618,7 +633,8 @@ namespace HexBox
                 {
                     e.Handled = true;
                 }
-                
+
+                setPositionText(cell / 2);
                 setPosition(cell);
                 
                 
@@ -939,8 +955,8 @@ namespace HexBox
                     cursor.Focus();
                     e.Handled = true;
                 }
-                
 
+                setPosition(cellText*2);
                 setPositionText(cellText);
 
                 Boolean releasemark = true;
@@ -1256,7 +1272,9 @@ namespace HexBox
                 
             }
             
+            setPosition(cellText * 2);
             setPositionText(cellText);
+            
             updateUI((long)fileSlider.Value);
            
         }
@@ -1402,7 +1420,9 @@ namespace HexBox
                     
                 }
             }
+            setPositionText(cell / 2);
             setPosition(cell);
+            
             updateUI((long)fileSlider.Value);
             
             
@@ -1480,8 +1500,9 @@ namespace HexBox
 
             st.mark[0] = (int)(mark[0] - position * 16);
             st.mark[1] = (int)(mark[1] - position * 16);
-            
 
+            
+            
             lastUpdate = position;
         }
 
@@ -2126,6 +2147,7 @@ namespace HexBox
 
             Info.Text = (long)fileSlider.Value + "" + Math.Round(fileSlider.Value * 16, 0) + fileSlider.Value;
 
+            
         }
 
         #endregion

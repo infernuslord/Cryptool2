@@ -24,11 +24,12 @@ namespace Transposition
 
         private String keyword = "";
         private ICryptoolStream input;
-        private byte[] output;
+        private ICryptoolStream outputvalue;
+        private char[] output;
         private TranspositionSettings settings;
         private TranspositionPresentation myPresentation;
-        private byte[,] read_in_matrix;
-        private byte[,] permuted_matrix;
+        private char[,] read_in_matrix;
+        private char[,] permuted_matrix;
         private int[] key;
         
         private bool running = false;
@@ -84,7 +85,7 @@ namespace Transposition
         /// <summary>
         /// Get read in matrix.
         /// </summary>
-        public byte[,] Read_in_matrix
+        public char[,] Read_in_matrix
         {
             get
             {
@@ -95,7 +96,7 @@ namespace Transposition
         /// <summary>
         /// Get permuted matrix.
         /// </summary>
-        public byte[,] Permuted_matrix
+        public char[,] Permuted_matrix
         {
             get
             {
@@ -132,22 +133,26 @@ namespace Transposition
             }
         }
 
-        public Byte[] InputToBytes
+        public Char[] InputToBytes
         {
             get
             {
                 byte[] streamData = null;
                 
                 streamData = ICryptoolStreamToByteArray((ICryptoolStream)Input);
-                switch (settings.Number)
-                {
-                    case 0: String s = System.Text.Encoding.UTF8.GetString(streamData);
 
-                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                        return enc.GetBytes(s);
+                switch (settings.InternalNumber)
+                {
+                    case 0: String sUTF = System.Text.Encoding.UTF8.GetString(streamData);
+                        return sUTF.ToCharArray();
                         break;
-                    case 1:
-                        return streamData;
+                    case 1: String sASCII = System.Text.Encoding.ASCII.GetString(streamData);
+                        char[] chary = new char[streamData.Length];
+                        for(int i=0;i< streamData.Length;i++) 
+                        {
+                            chary[i] = (char)((int)streamData[i]);
+                        }
+                        return chary;
                         break;
                     default:
                         return null;
@@ -169,17 +174,33 @@ namespace Transposition
             return buffer;
         }
 
-        private ICryptoolStream ByteArrayToCStream(byte[] b)
+        private ICryptoolStream ByteArrayToCStream(char[] b)
         {
             CStreamWriter csw = new CStreamWriter();
-            csw.Write(b);
+            switch (settings.InternalNumber)
+                {
+                    case 0: byte[] bUTF = UnicodeEncoding.UTF8.GetBytes(b); 
+                        csw.Write(bUTF);            
+                        break;
+                    case 1: byte[] bASCII = UnicodeEncoding.ASCII.GetBytes(b);
+                        byte[] chary = new byte[b.Length];
+                        for(int i=0;i< b.Length;i++) 
+                        {
+                            chary[i] = (byte)((char)b[i]);
+                        }
+                        csw.Write(chary);   
+                        break;
+                    default:
+                        return null;
+                }
+            
             csw.Close();
             return csw;
         }
 
         private byte[] ICryptoolStreamToByteArray(ICryptoolStream stream)
         {
-            return CStreamReaderToByteArray(stream.CreateReader());
+            return  CStreamReaderToByteArray(stream.CreateReader());
         }
 
         [PropertyInfo(Direction.InputData, "KeywordCaption", "KeywordTooltip", false)]
@@ -202,32 +223,12 @@ namespace Transposition
         {
             get
             {
-                CStreamWriter cs = new CStreamWriter();
-               
-                cs.Write(this.output);
-                cs.Close(); 
-                
-                return cs;
+                return outputvalue;
             }
             
             set
             {
-                
-                
-                byte[] streamData = null;
-
-                streamData = ICryptoolStreamToByteArray((ICryptoolStream)value);
-                switch (settings.Number)
-                {
-                    case 0: String s = System.Text.Encoding.UTF8.GetString(streamData);
-
-                        System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-                        this.output = enc.GetBytes(s);
-                        break;
-                    case 1:
-                        this.output = streamData;
-                        break;
-                }
+                this.outputvalue = value;
                 OnPropertyChange("Output");
             }
         }
@@ -251,10 +252,6 @@ namespace Transposition
 
         }
 
-        
-
-        
-
         public void Execute()
         {
             
@@ -267,15 +264,12 @@ namespace Transposition
 
             running = true;
             
-
-
             ProcessTransposition();
             if (controlSlave is object && Input is object)
             {
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
-            
             if (Presentation.IsVisible)
             {
                     Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
@@ -286,8 +280,6 @@ namespace Transposition
                    , null);
 
                 //ars.WaitOne();
-                
-            
             }
             else
             {
@@ -378,13 +370,13 @@ namespace Transposition
             }
         }
 
-        private byte[] encrypt(byte[] input, int[] key)
+        private char[] encrypt(char[] input, int[] key)
         {
             if (key != null && input != null && key.Length > 0)
             {
                 if (is_Valid_Keyword(key))
                 {
-                    byte[] encrypted = null;
+                    char[] encrypted = null;
 
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
@@ -451,7 +443,7 @@ namespace Transposition
             }
         }
 
-        public byte[] decrypt(byte[] input, int[] new_key)
+        public char[] decrypt(char[] input, int[] new_key)
         {
             //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
 
@@ -459,7 +451,7 @@ namespace Transposition
             {
                 if (is_Valid_Keyword(new_key))
                 {
-                    byte[] decrypted = null;
+                    char[] decrypted = null;
                     if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
                     {
                         switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
@@ -525,7 +517,17 @@ namespace Transposition
             }
         }
 
-        private byte[,] enc_read_in_by_row(byte[] input, int keyword_length)
+        public byte[] byteDecrypt(char[] input, int[] new_key)
+        {
+            //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
+            
+            
+            byte[] sByteArray = System.Text.Encoding.GetEncoding(1252).GetBytes(decrypt(input, new_key));
+
+            return null;
+        }
+
+        private char[,] enc_read_in_by_row(char[] input, int keyword_length)
         {
             int size = input.Length / keyword_length;
 
@@ -535,7 +537,7 @@ namespace Transposition
             }
 
             int pos = 0;
-            byte[,] matrix = new byte[keyword_length, size];
+            char[,] matrix = new char[keyword_length, size];
 
             for (int i = 0; i < size; i++)
             {
@@ -551,7 +553,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] enc_read_in_by_column(byte[] input, int keyword_length)
+        private char[,] enc_read_in_by_column(char[] input, int keyword_length)
         {
             int size = input.Length / keyword_length;
             int offs = input.Length % keyword_length;
@@ -562,7 +564,7 @@ namespace Transposition
 
             int pos = 0;
 
-            byte[,] matrix = new byte[keyword_length, size];
+            char[,] matrix = new char[keyword_length, size];
             for (int i = 0; i < keyword_length; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -581,7 +583,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] enc_read_in_by_row_if_row_perm(byte[] input, int keyword_length)
+        private char[,] enc_read_in_by_row_if_row_perm(char[] input, int keyword_length)
         {
             int height = keyword_length;
             int length = input.Length / keyword_length;
@@ -591,7 +593,7 @@ namespace Transposition
                 length++;
             }
 
-            byte[,] matrix = new byte[length, height];
+            char[,] matrix = new char[length, height];
             int pos = 0;
 
             for (int i = 0; i < height; i++)
@@ -620,7 +622,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] enc_read_in_by_column_if_row_perm(byte[] input, int keyword_length)
+        private char[,] enc_read_in_by_column_if_row_perm(char[] input, int keyword_length)
         {
             int height = keyword_length;
             int length = input.Length / keyword_length;
@@ -630,7 +632,7 @@ namespace Transposition
                 length++;
             }
 
-            byte[,] matrix = new byte[length, height];
+            char[,] matrix = new char[length, height];
             int pos = 0;
 
             for (int i = 0; i < length; i++)
@@ -647,7 +649,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_read_in_by_column(byte[] input, int[] keyword)
+        private char[,] dec_read_in_by_column(char[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -656,7 +658,7 @@ namespace Transposition
                 size++;
             }
 
-            byte[,] matrix = new byte[keyword.Length, size];
+            char[,] matrix = new char[keyword.Length, size];
             int pos = 0;
 
             for (int i = 0; i < keyword.Length; i++)
@@ -695,7 +697,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_read_in_by_column_if_row_perm(byte[] input, int[] keyword)
+        private char[,] dec_read_in_by_column_if_row_perm(char[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -704,7 +706,7 @@ namespace Transposition
                 size++;
             }
 
-            byte[,] matrix = new byte[size, keyword.Length];
+            char[,] matrix = new char[size, keyword.Length];
             int pos = 0;
 
             for (int i = 0; i < size; i++)
@@ -743,7 +745,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_read_in_by_row(byte[] input, int[] keyword)
+        private char[,] dec_read_in_by_row(char[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -752,7 +754,7 @@ namespace Transposition
                 size++;
             }
 
-            byte[,] matrix = new byte[keyword.Length, size];
+            char[,] matrix = new char[keyword.Length, size];
             int pos = 0;
 
             for (int i = 0; i < size; i++)
@@ -791,7 +793,7 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_read_in_by_row_if_row_perm(byte[] input, int[] keyword)
+        private char[,] dec_read_in_by_row_if_row_perm(char[] input, int[] keyword)
         {
             int size = input.Length / keyword.Length;
             int offs = input.Length % keyword.Length;
@@ -800,7 +802,7 @@ namespace Transposition
                 size++;
             }
 
-            byte[,] matrix = new byte[size, keyword.Length];
+            char[,] matrix = new char[size, keyword.Length];
             int pos = 0;
 
             for (int i = 0; i < keyword.Length; i++)
@@ -839,11 +841,11 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] enc_permut_by_column(byte[,] readin_matrix, int[] keyword)
+        private char[,] enc_permut_by_column(char[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            byte[,] matrix = new byte[x, y];
+            char[,] matrix = new char[x, y];
             int pos = 0;
 
             for (int i = 1; i <= keyword.Length; i++)
@@ -864,11 +866,11 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] enc_permute_by_row(byte[,] readin_matrix, int[] keyword)
+        private char[,] enc_permute_by_row(char[,] readin_matrix, int[] keyword)
         {
             int y = keyword.Length;
             int x = readin_matrix.Length / keyword.Length;
-            byte[,] matrix = new byte[x, y];
+            char[,] matrix = new char[x, y];
             int pos = 0;
 
             for (int i = 1; i <= y; i++)
@@ -889,11 +891,11 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_permut_by_column(byte[,] readin_matrix, int[] keyword)
+        private char[,] dec_permut_by_column(char[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            byte[,] matrix = new byte[x, y];
+            char[,] matrix = new char[x, y];
 
             for (int i = 0; i < x; i++)
             {
@@ -905,11 +907,11 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[,] dec_permut_by_row(byte[,] readin_matrix, int[] keyword)
+        private char[,] dec_permut_by_row(char[,] readin_matrix, int[] keyword)
         {
             int x = keyword.Length;
             int y = readin_matrix.Length / keyword.Length;
-            byte[,] matrix = new byte[y, x];
+            char[,] matrix = new char[y, x];
 
             for (int i = 0; i < x; i++)
             {
@@ -921,32 +923,32 @@ namespace Transposition
             return matrix;
         }
 
-        private byte[] read_out_by_row(byte[,] matrix, int keyword_length)
+        private char[] read_out_by_row(char[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
-            byte empty_byte = new byte();
+            char empty_byte = new char();
             int count_empty = 0;
 
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    byte tmp = matrix[j, i];
+                    char tmp = matrix[j, i];
                     if (tmp.Equals(empty_byte))
                     {
                         count_empty++;
                     }
                 }
             }
-            byte[] enc = new byte[matrix.Length - count_empty];
+            char[] enc = new char[matrix.Length - count_empty];
 
             int pos = 0;
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    byte tmp = matrix[j, i];
+                    char tmp = matrix[j, i];
                     if (!tmp.Equals(empty_byte))
                     {
                         enc[pos] = tmp;
@@ -957,18 +959,18 @@ namespace Transposition
             return enc;
         }
 
-        private byte[] read_out_by_row_if_row_perm(byte[,] matrix, int keyword_length)
+        private char[] read_out_by_row_if_row_perm(char[,] matrix, int keyword_length)
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
 
-            byte empty_byte = new byte();
+            char empty_byte = new char();
             int empty_count = 0;
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    byte tmp = matrix[j, i];
+                    char tmp = matrix[j, i];
                     if (tmp.Equals(empty_byte))
                     {
                         empty_count++;
@@ -976,14 +978,14 @@ namespace Transposition
                 }
             }
 
-            byte[] enc = new byte[matrix.Length - empty_count];
+            char[] enc = new char[matrix.Length - empty_count];
             int pos = 0;
 
             for (int i = 0; i < y; i++)
             {
                 for (int j = 0; j < x; j++)
                 {
-                    byte tmp = matrix[j, i];
+                    char tmp = matrix[j, i];
                     if (!tmp.Equals(empty_byte))
                     {
                         enc[pos] = tmp;
@@ -994,19 +996,19 @@ namespace Transposition
             return enc;
         }
 
-        private byte[] read_out_by_column(byte[,] matrix, int keyword_length)
+        private char[] read_out_by_column(char[,] matrix, int keyword_length)
         {
             int x = keyword_length;
             int y = matrix.Length / keyword_length;
 
-            byte empty_byte = new byte();
+            char empty_byte = new char();
             int empty_count = 0;
 
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    byte tmp = matrix[i, j];
+                    char tmp = matrix[i, j];
                     if (tmp.Equals(empty_byte))
                     {
                         empty_count++;
@@ -1014,13 +1016,13 @@ namespace Transposition
                 }
             }
 
-            byte[] enc = new byte[matrix.Length - empty_count];
+            char[] enc = new char[matrix.Length - empty_count];
             int pos = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    byte tmp = matrix[i, j];
+                    char tmp = matrix[i, j];
                     if (!tmp.Equals(empty_byte) || tmp.Equals(null))
                     {
                         enc[pos] = tmp;
@@ -1031,18 +1033,18 @@ namespace Transposition
             return enc;
         }
 
-        private byte[] read_out_by_column_if_row_perm(byte[,] matrix, int keyword_length)
+        private char[] read_out_by_column_if_row_perm(char[,] matrix, int keyword_length)
         {
             int y = keyword_length;
             int x = matrix.Length / keyword_length;
             
-            byte empty_byte = new byte();
+            char empty_byte = new char();
             int empty_count = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    byte tmp = matrix[i, j];
+                    char tmp = matrix[i, j];
                     if (tmp.Equals(empty_byte))
                     {
                         empty_count++;
@@ -1050,13 +1052,13 @@ namespace Transposition
                 }
             }
 
-            byte[] enc = new byte[matrix.Length - empty_count];
+            char[] enc = new char[matrix.Length - empty_count];
             int pos = 0;
             for (int i = 0; i < x; i++)
             {
                 for (int j = 0; j < y; j++)
                 {
-                    byte tmp = matrix[i, j];
+                    char tmp = matrix[i, j];
                     if (!tmp.Equals(empty_byte))
                     {
                         enc[pos] = tmp;
@@ -1195,10 +1197,10 @@ namespace Transposition
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
-            if (plugin.InputToBytes != ciphertext)
-            {
-                //plugin.InputToBytes = ciphertext;
-            }
+            //if (plugin.InputToBytes != ciphertext)
+            //{
+            //    plugin.InputToBytes = ciphertext;
+            //}
 
             int[] k = new int[key.Length];
             for(int i=0; i<key.Length; i++)
@@ -1207,7 +1209,7 @@ namespace Transposition
             }
 
             //plugin.Transposition_LogMessage("hier decrypt von control: " + k[0] + " / " +plugin.Input[0], NotificationLevel.Debug);
-            return plugin.decrypt(plugin.InputToBytes, k);
+            return plugin.byteDecrypt(plugin.InputToBytes, k);
         }
 
         public void onStatusChanged()

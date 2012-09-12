@@ -91,8 +91,8 @@ namespace Transposition
         private int speed = 100;          // animation speed
         private int rowper;             // help variable to differnce between permute by row and column
         private int colper;             // help variable to differnce between permute by row and column
-        private byte[,] read_in_matrix; // read in matrix as byte array
-        private byte[,] permuted_matrix;    // permuted matrix as byte array
+        private char[,] read_in_matrix; // read in matrix as byte array
+        private char[,] permuted_matrix;    // permuted matrix as byte array
         private Brush[,] mat_back;          // backgrounds of the matrix saved seperatly
         private List<Clock> aniClock =  new List<Clock>();
         private int[,] changes;
@@ -119,7 +119,7 @@ namespace Transposition
         /// <param name="reout"></param>
         /// <param name="act"></param>
         /// <param name="number"></param>
-        public void main(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output, int per, int rein, int reout, int act, int number, int speed2)
+        public void main(char[,] read_in_matrix, char[,] permuted_matrix, int[] key, String keyword, char[] input, char[] output, int per, int rein, int reout, int act, int number, int speed2)
         {
             outPut.Visibility = Visibility.Hidden;
             Stack.Visibility = Visibility.Visible;
@@ -170,7 +170,7 @@ namespace Transposition
         /// <param name="per"></param>
         /// <param name="rein"></param>
         /// <param name="reout"></param>
-        private String init(byte[,] read_in_matrix, byte[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key, int number)
+        private String init(char[,] read_in_matrix, char[,] permuted_matrix, String keyword, int per, int rein, int reout, int act, int[] key, int number)
         {
             
             //background color being created
@@ -287,7 +287,7 @@ namespace Transposition
         /// <param name="keyword"></param>
         /// <param name="input"></param>
         /// <param name="output"></param>
-        private void create(byte[,] read_in_matrix, byte[,] permuted_matrix, int[] key, String keyword, byte[] input, byte[] output)
+        private void create(char[,] read_in_matrix, char[,] permuted_matrix, int[] key, String keyword, char[] input, char[] output)
         {
             
             aniClock.Clear();
@@ -364,7 +364,7 @@ namespace Transposition
                             txt.FontSize = 12;
                             txt.FontWeight = FontWeights.ExtraBold;
                             txt.TextAlignment = TextAlignment.Center;
-                            txt.Width = 17;
+                            txt.Width = 20;
 
                             if (per == 1)
                             {
@@ -423,12 +423,15 @@ namespace Transposition
                                 if (31 < Convert.ToInt64(read_in_matrix[ix, i]) && Convert.ToInt64(read_in_matrix[ix, i]) != 127)
                                 { txt.Text = Convert.ToChar(read_in_matrix[ix, i]).ToString(); }
                                 else
-                                { txt.Text = "/" + Convert.ToInt64(read_in_matrix[ix, i]).ToString("X"); }
+                                { 
+                                    txt.Text = "/" + Convert.ToInt64(read_in_matrix[ix, i]).ToString("X"); 
+                                    
+                                }
                             else
                                 txt.Text = "";
                         else
                             if (Convert.ToInt64(read_in_matrix[ix, i]) != 0)
-                                txt.Text = read_in_matrix[ix, i].ToString("X");
+                                txt.Text = "/" + ((int)read_in_matrix[ix, i]).ToString("X");
 
                         if (ix % 2 == x)
                             mat_back[ix, i] = Brushes.AliceBlue;
@@ -439,7 +442,7 @@ namespace Transposition
                         txt.Opacity = 1.0;
                         txt.FontWeight = FontWeights.ExtraBold;
                         txt.TextAlignment = TextAlignment.Center;
-                        txt.Width = 17;
+                        txt.Width = 20;
                         Grid.SetRow(txt, (i + colper));
                         Grid.SetColumn(txt, (ix + rowper));
                         myGrid.Children.Add(txt);
@@ -466,7 +469,7 @@ namespace Transposition
                             txt.Text = "/" + Convert.ToInt64(input[i]).ToString("X");
                         }
                     else
-                        txt.Text = input[i].ToString();
+                        txt.Text = "/" + ((int)input[i]).ToString("X");
                     reina[i] = txt;
                     reina[i].Background = Brushes.Transparent;
                     mywrap1.Children.Add(txt);
@@ -507,7 +510,8 @@ namespace Transposition
                      * you will get shown the whitespaces in hexcode in the READOUT of the Presentation*/
 
                     else
-                        txt.Text = output[i].ToString("X");
+                        txt.Text = "/" + ((int)output[i]).ToString("X");
+
                     reouta[i] = txt;
                     reouta[i].Background = Brushes.Orange;
                     reouta[i].Opacity = 0.0;
