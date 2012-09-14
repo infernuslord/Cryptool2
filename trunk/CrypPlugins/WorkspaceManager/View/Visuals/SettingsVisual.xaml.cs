@@ -900,7 +900,7 @@ namespace WorkspaceManager.View.Visuals
                             fileTextBox.Margin = new Thickness(0, 0, 0, 5);
                             fileTextBox.TextChanged += fileDialogTextBox_TextChanged;
                             fileTextBox.SetBinding(TextBox.TextProperty, dataBinding);
-                            fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
+                            //fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
                             
                             fileTextBox.Tag = tpa;
                             if (fileTextBox.ToolTip == null || fileTextBox.ToolTip == string.Empty)
