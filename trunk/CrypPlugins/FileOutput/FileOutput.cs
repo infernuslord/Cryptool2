@@ -118,10 +118,6 @@ namespace FileOutput
       InputFile = null;
       DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
         fileOutputPresentation, "ClosePresentationFile", null);
-            if (string.IsNullOrEmpty(settings.TargetFilename))
-      {
-        GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
-      }
     }
 
     public void PostExecution()
@@ -158,15 +154,22 @@ namespace FileOutput
 
     public void Execute()
     {
-        Progress(0.5, 1.0);
-        
-        
+        Progress(0.0, 1.0);
+
+        if (string.IsNullOrEmpty(settings.TargetFilename))
+        {
+            GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
+            return;
+        }
+
         if (StreamInput == null)
         {
             GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
             return;
         }
 
+        Progress(0.5, 1.0);
+        
         using (CStreamReader reader = StreamInput.CreateReader())
         {
             // If target file was selected we have to copy the input to target. 

@@ -236,9 +236,17 @@ namespace FileInput
                 GuiLogMessage("No input file selected, can't proceed", NotificationLevel.Error);
                 return;
             }
-            
-            cstreamWriter = new CStreamWriter(settings.OpenFilename,true);
-            NotifyPropertyChange();
+
+            try
+            {
+                cstreamWriter = new CStreamWriter(settings.OpenFilename, true);
+                NotifyPropertyChange();
+            }
+            catch (FileNotFoundException ex)
+            {
+                GuiLogMessage(string.Format("File not found: '{0}'", settings.OpenFilename), NotificationLevel.Error);
+                return;
+            }
         }
 
         #endregion
