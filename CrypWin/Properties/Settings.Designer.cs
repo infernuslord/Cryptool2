@@ -86,12 +86,12 @@ namespace Cryptool.CrypWin.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ReopenLastFiles {
+        public bool ReopenLastTabs {
             get {
-                return ((bool)(this["ReopenLastFiles"]));
+                return ((bool)(this["ReopenLastTabs"]));
             }
             set {
-                this["ReopenLastFiles"] = value;
+                this["ReopenLastTabs"] = value;
             }
         }
         
@@ -416,29 +416,6 @@ namespace Cryptool.CrypWin.Properties {
             }
             set {
                 this["useLastPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection LastOpenedFiles {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["LastOpenedFiles"]));
-            }
-            set {
-                this["LastOpenedFiles"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public string ReopenLastFile {
-            get {
-                return ((string)(this["ReopenLastFile"]));
-            }
-            set {
-                this["ReopenLastFile"] = value;
             }
         }
         

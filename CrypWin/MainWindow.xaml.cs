@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -1372,16 +1373,9 @@ namespace Cryptool.CrypWin
 
                 if (filesPath.Count == 0)
                 {
-                    if (Settings.Default.ReopenLastFiles && Settings.Default.LastOpenedFiles != null)
+                    if (Settings.Default.ReopenLastTabs && Settings.Default.LastOpenedTabs != null)
                     {
-                        foreach (var file in Settings.Default.LastOpenedFiles)
-                        {
-                            if (File.Exists(file))
-                            {
-                                this.OpenProject(file, null);
-                                hasOpenedProject = true;
-                            }
-                        }
+                        hasOpenedProject = ReopenLastTabs(Settings.Default.LastOpenedTabs);
                     }
                 }
                 else
@@ -1399,6 +1393,62 @@ namespace Cryptool.CrypWin
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
                 if (ex.InnerException != null)
                     GuiLogMessage(ex.InnerException.Message, NotificationLevel.Error);
+            }
+
+            return hasOpenedProject;
+        }
+
+        private bool ReopenLastTabs(List<StoredTab> lastOpenedTabs)
+        {
+            var hasOpenedProject = false;
+
+            foreach (var lastOpenedTab in lastOpenedTabs)
+            {
+                if (lastOpenedTab is EditorFileStoredTab)
+                {
+                    var file = ((EditorFileStoredTab) lastOpenedTab).Filename;
+                    if (File.Exists(file))
+                    {
+                        this.OpenProject(file, null);
+                        OpenTab(ActiveEditor, lastOpenedTab.Title, null);
+                        hasOpenedProject = true;
+                    }
+                    else
+                    {
+                        GuiLogMessage(string.Format(Properties.Resources.FileLost, file), NotificationLevel.Error);
+                    }
+                }
+                else if (lastOpenedTab is EditorTypeStoredTab)
+                {
+                    var editorType = ((EditorTypeStoredTab) lastOpenedTab).EditorType;
+                    var editor = AddEditorDispatched(editorType);
+                    OpenTab(editor, lastOpenedTab.Title, null);     //rename
+                }
+                else if (lastOpenedTab is CommonTypeStoredTab)
+                {
+                    object tabContent = null;
+                    var type = ((CommonTypeStoredTab) lastOpenedTab).Type;
+                    if (type == typeof(OnlineHelpTab))
+                    {
+                        tabContent = OnlineHelpTab.GetSingleton(this);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            tabContent = type.GetConstructor(new Type[0]).Invoke(new object[0]);
+                        }
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage(string.Format(Properties.Resources.Couldnt_create_tab_of_Type, type.Name, ex.Message), NotificationLevel.Error);
+                        }
+                    }
+
+                    if (tabContent != null)
+                    {
+                        OpenTab(tabContent, lastOpenedTab.Title, null);
+                    }
+                }
             }
 
             return hasOpenedProject;
@@ -1669,15 +1719,23 @@ namespace Cryptool.CrypWin
 
         private void SaveSession()
         {
-            var session = new StringCollection();
-            foreach (var c in tabToContentMap.Values)
+            var session = new List<StoredTab>();
+            foreach (var c in tabToContentMap)
             {
-                if (c is IEditor)
+                if (c.Value is IEditor && !string.IsNullOrEmpty(((IEditor)c.Value).CurrentFile))
                 {
-                    session.Add(((IEditor)c).CurrentFile);
+                    session.Add(new EditorFileStoredTab((string)c.Key.Header, ((IEditor)c.Value).CurrentFile));
+                }
+                else if (c.Value is IEditor)
+                {
+                    session.Add(new EditorTypeStoredTab((string)c.Key.Header, c.Value.GetType()));
+                }
+                else
+                {
+                    session.Add(new CommonTypeStoredTab((string)c.Key.Header, c.Value.GetType()));
                 }
             }
-            Properties.Settings.Default.LastOpenedFiles = session;
+            Settings.Default.LastOpenedTabs = session;
         }
 
         private void SetRibbonControlEnabled(bool enabled)
@@ -1861,6 +1919,7 @@ namespace Cryptool.CrypWin
         {
             try
             {
+                SaveSession();
                 SaveComponentConnectionStatistics();
 
                 if (demoController != null)

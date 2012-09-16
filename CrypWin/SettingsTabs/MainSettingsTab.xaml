@@ -26,7 +26,7 @@
                 <Button Visibility="{Binding ElementName=RestartLabel, Path=Visibility}" Content="{Loc Restart_Button_Content}" Click="Button_Click" Width="120" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=settingsStyle}"/>
 
                 <Label Content="{Loc Startup_Behaviour}" FontWeight="Bold" />
-                <CheckBox Content="{Loc Reopen_last_opened_file}" ToolTip="{Loc Reopen_last_opened_file_tooltip}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ReopenLastFiles, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}" />
+                <CheckBox Content="{Loc Reopen_last_opened_file}" ToolTip="{Loc Reopen_last_opened_file_tooltip}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ReopenLastTabs, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}" />
                 <Label Content="{Loc PowerModeLabelContent}" FontWeight="Bold" Margin="0,10,0,0" />
                 <CheckBox Content="{Loc SavePowerContent}" ToolTip="{Loc SavePowerToolTip}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=StopWorkspaces, Mode=TwoWay}" />
                 <Label Content="{Loc BackgroundingLabelContent}" FontWeight="Bold" Margin="0,10,0,0" />
