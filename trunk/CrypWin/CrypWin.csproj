@@ -121,6 +121,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\StoredTab.cs" />
     <Compile Include="LicensesTab.xaml.cs">
       <DependentUpon>LicensesTab.xaml</DependentUpon>
     </Compile>

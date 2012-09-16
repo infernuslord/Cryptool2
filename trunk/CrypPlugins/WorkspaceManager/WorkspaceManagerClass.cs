@@ -132,10 +132,10 @@ namespace WorkspaceManager
             //{
             //    WorkspaceModel.deletePluginModel(pluginModel);
             //}
-            CurrentFile = typeof(WorkspaceManagerClass).GetPluginStringResource("unnamed_project");
+            CurrentFile = null;
             if (this.OnProjectTitleChanged != null)
             {
-                this.OnProjectTitleChanged.Invoke(this, CurrentFile);
+                this.OnProjectTitleChanged.Invoke(this, typeof(WorkspaceManagerClass).GetPluginStringResource("unnamed_project"));
             }
             WorkspaceModel.UndoRedoManager.ClearStacks();
             WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;

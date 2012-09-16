@@ -17,7 +17,7 @@
     <Setting Name="LastPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ReopenLastFiles" Type="System.Boolean" Scope="User">
+    <Setting Name="ReopenLastTabs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="logWindowAutoHide" Type="System.Boolean" Scope="User">
@@ -99,12 +99,6 @@
       <Value Profile="(Default)">WorkspaceManager.WorkspaceManagerClass</Value>
     </Setting>
     <Setting Name="useLastPath" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LastOpenedFiles" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ReopenLastFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ShowStartcenter" Type="System.Boolean" Scope="User">
