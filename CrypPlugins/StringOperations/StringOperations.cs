@@ -117,8 +117,10 @@ namespace StringOperations
                         OnPropertyChanged("OutputString");
                         break;
                     case StringOperationType.Split:
-                        _outputStringArray = _string1.Split((_string2 == null) ? null : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        _outputStringArray = _string1.Split((_string2 == null) ? "\n".ToCharArray() : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         OnPropertyChanged("OutputStringArray");
+                        _outputValue = (_outputStringArray == null) ? 0 :_outputStringArray.Length;
+                        OnPropertyChanged("OutputValue");
                         break;
                 }
                 ProgressChanged(1, 1);
