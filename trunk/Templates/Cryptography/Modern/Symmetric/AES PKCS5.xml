@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+	<title lang="en"><i>AES</i> with <i>PKCS5</i></title>
+  <summary lang="en">Using <i>AES</i> with <i>PKCS5</i></summary>
+  <description lang="en">-</description>
+  <keywords>advanced, Daemen, Rijmen, Rijndael, symmetric, nist, password, standard</keywords>
+  <title lang="de"><i>AES</i> mit <i>PKCS5</i></title>
+  <summary lang="de">Benutzung von <i>AES</i> mit <i>PKCS5</i></summary>
+  <description lang="de">-</description>
+  <keywords lang="de">symmetrisch, passwort, standart</keywords>
+  <icon file="AES.png" />
+  <relevantPlugins>
+    <plugin name="AES" />
+    <plugin name="PKCS5" />
+  </relevantPlugins>
+</sample>

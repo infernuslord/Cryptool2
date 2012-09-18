@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Cube Attack on Trivium</title>
+  <summary lang="en">Cryptanalysis of the <i>Trivium</i> cipher using the Cube attack</summary>
+  <summary lang="de">Kryptoanalyse der <i>Trivium</i>-Verschlüsselung per Cube-Attacke</summary>
+  <description lang="en">-</description>
+  <keywords>stream, Preneel, Canniere, estream</keywords>
+  <title lang="de">Cube-Attacke auf Trivium</title>
+  <description lang="de">-</description>
+  <keywords lang="de">Stromchiffre, Preneel, Canniere, estream</keywords>
+  <icon file="Cube Attack Trivium.png" />
+  <relevantPlugins>
+    <plugin name="CubeAttack" />
+    <plugin name="Trivium" />
+  </relevantPlugins>
+</sample>
