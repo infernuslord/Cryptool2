@@ -11,6 +11,7 @@ using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.DocInformations.Utils;
 using OnlineDocumentationGenerator.Properties;
 using WorkspaceManager.Model;
+using OnlineDocumentationGenerator.DocInformations.Localization;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
@@ -346,7 +347,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                     result.Append(string.Format("<i>{0}</i>", linkText));
                                 }
                             }
-                            break;
+                            break;                        
                         default:
                             continue;
                     }

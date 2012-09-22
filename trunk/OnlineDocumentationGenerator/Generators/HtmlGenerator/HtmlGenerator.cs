@@ -367,7 +367,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     html = TagReplacer.ReplaceDocItemTags(html, localizedEntityDocumentationPage, _objectConverter);
                     var languageSelectionCode = GenerateLanguageSelectionCode(documentationPage, documentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
-
+                    var localizedComponentDocumentationPage = localizedEntityDocumentationPage as LocalizedComponentDocumentationPage;
+                    if(localizedComponentDocumentationPage != null)
+                    {
+                        html = TagReplacer.ReplaceSectionSwitchs(html, localizedComponentDocumentationPage);
+                    }
                     var filename = documentationPage.Localizations[lang].FilePath;
                     StoreDocPage(html, filename);
                 }
