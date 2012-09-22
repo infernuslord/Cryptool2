@@ -23,6 +23,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex FindEditorListTagRegex = new Regex("<editorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindTemplateListTagRegex = new Regex("<templatesList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindCommonListTagRegex = new Regex("<commonList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindBeginningSectionSwitchTagRegex = new Regex("<sectionSwitch.*?section=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindEndingSectionSwitchTagRegex = new Regex("</.*?sectionSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ReplaceDocItemTags(string html, LocalizedEntityDocumentationPage localizedDocumentationPage, ObjectConverter objectConverter)
         {
@@ -145,7 +147,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
 
             return htmlBuilder.ToString();
-        }
+        }       
 
         private static bool MatchesInstallationType(string typeText, Ct2InstallationType installationType)
         {
@@ -167,6 +169,70 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 default:
                     return false;
             }
+        }
+
+        public static string ReplaceSectionSwitchs(string html, LocalizedComponentDocumentationPage page)
+        {
+            var htmlBuilder = new StringBuilder(html);
+            Match match = FindBeginningSectionSwitchTagRegex.Match(htmlBuilder.ToString());
+            while (match.Success)
+            {
+                var pos = match.Index;
+                var len = match.Length;
+
+                var match2 = FindEndingSectionSwitchTagRegex.Match(htmlBuilder.ToString(), pos + len);
+                if (!match2.Success)
+                    throw new Exception("Error trying to replace section switch!");
+                var pos2 = match2.Index;
+                var len2 = match2.Length;
+
+                switch (match.Groups[1].Value)
+                {
+                    case "introduction":
+                        if (page.Introduction == null ||
+                            page.Introduction.Value == null ||
+                            page.Introduction.Value == String.Empty)
+                        {
+                            htmlBuilder.Remove(pos, (pos2 - pos) + len2);
+                        }
+                        else
+                        {
+                            htmlBuilder.Remove(pos2, len2);
+                            htmlBuilder.Remove(pos, len);
+                        }
+                        break;
+                    case "usage":
+                        if (page.Manual == null ||
+                            page.Manual.Value == null ||
+                            page.Manual.Value == String.Empty)
+                        {
+                            htmlBuilder.Remove(pos, (pos2 - pos) + len2);
+                        }
+                        else
+                        {
+                            htmlBuilder.Remove(pos2, len2);
+                            htmlBuilder.Remove(pos, len);
+                        }
+                        break;
+                    case "presentation":
+                        if (page.Presentation == null ||
+                            page.Presentation.Value == null ||
+                            page.Presentation.Value == String.Empty)
+                        {
+                            htmlBuilder.Remove(pos, (pos2 - pos) + len2);
+                        }
+                        else
+                        {
+                            htmlBuilder.Remove(pos2, len2);
+                            htmlBuilder.Remove(pos, len);
+                        }
+                        break;
+                }
+                
+                match = FindBeginningSectionSwitchTagRegex.Match(htmlBuilder.ToString());
+            }
+
+            return htmlBuilder.ToString();
         }
 
         public static string ReplaceComponentList(string html, string componentListCode)
