@@ -74,7 +74,6 @@
     <Compile Include="DataBlock.cs" />
     <Compile Include="DataMap.cs" />
     <Compile Include="DynamicFileByteProvider.cs" />
-    <Compile Include="ExtraScrollViewer.cs" />
     <Compile Include="FileDataBlock.cs" />
     <Compile Include="HexText.cs" />
     <Compile Include="IByteProvider.cs" />
