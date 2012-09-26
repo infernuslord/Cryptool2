@@ -38,12 +38,9 @@ namespace FileInput
 
             this.exp = exp;
 
-            
             SizeChanged += sizeChanged;
             hexBox = new HexBox.HexBox();
             this.hexBox.OnFileChanged += fileChanged; 
-
-
 
             MainMain.Children.Add(hexBox);
 

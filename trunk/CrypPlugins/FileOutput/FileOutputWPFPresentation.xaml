@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="360" d:DesignWidth="810">
+             mc:Ignorable="d">
     <Canvas Name="Main" >
-        <Canvas Name="MainMain" Height="360" Width="810">
+        <Canvas Name="MainMain"  MinWidth="695" HorizontalAlignment="Center">
 
         </Canvas>
     </Canvas>

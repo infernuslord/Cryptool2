@@ -143,7 +143,7 @@ namespace Transposition
 
                 switch (settings.InternalNumber)
                 {
-                    case 0: String sUTF = System.Text.Encoding.UTF8.GetString(streamData);
+                    case 0: String sUTF = System.Text.Encoding.UTF32.GetString(streamData);
                         return sUTF.ToCharArray();
                         break;
                     case 1: String sASCII = System.Text.Encoding.ASCII.GetString(streamData);
@@ -179,7 +179,7 @@ namespace Transposition
             CStreamWriter csw = new CStreamWriter();
             switch (settings.InternalNumber)
                 {
-                    case 0: byte[] bUTF = UnicodeEncoding.UTF8.GetBytes(b); 
+                    case 0: byte[] bUTF = UnicodeEncoding.UTF32.GetBytes(b); 
                         csw.Write(bUTF);            
                         break;
                     case 1: byte[] bASCII = UnicodeEncoding.ASCII.GetBytes(b);
@@ -517,14 +517,17 @@ namespace Transposition
             }
         }
 
-        public byte[] byteDecrypt(char[] input, int[] new_key)
+        public byte[] byteDecrypt(byte[] input, int[] new_key)
         {
             //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
-            
-            
-            byte[] sByteArray = System.Text.Encoding.GetEncoding(1252).GetBytes(decrypt(input, new_key));
 
-            return null;
+
+
+            char[] c =  decrypt(System.Text.Encoding.ASCII.GetString(input).ToCharArray(), new_key);
+
+            return ASCIIEncoding.ASCII.GetBytes(c);
+            
+
         }
 
         private char[,] enc_read_in_by_row(char[] input, int keyword_length)
@@ -1209,7 +1212,7 @@ namespace Transposition
             }
 
             //plugin.Transposition_LogMessage("hier decrypt von control: " + k[0] + " / " +plugin.Input[0], NotificationLevel.Debug);
-            return plugin.byteDecrypt(plugin.InputToBytes, k);
+            return plugin.byteDecrypt(ciphertext, k);
         }
 
         public void onStatusChanged()

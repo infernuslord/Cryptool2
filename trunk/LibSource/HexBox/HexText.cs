@@ -186,7 +186,7 @@ namespace HexBox
                     }
 
 
-
+                    
 
                     if (mark[0]%32 < mark[1]%32 || mark[0] - mark[1] >= 32)
                     {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -33,9 +34,12 @@ namespace HexBox
         private TextBlock Info = new TextBlock();
         private int cell;
         private int cellText;
+        private long cursorposition;
+        private long cursorpositionText;
         private Point falloff = new Point(0, 0);
         private StretchText st;
         private HexText ht;
+       
 
         #endregion
 
@@ -54,6 +58,7 @@ namespace HexBox
         {
             InitializeComponent();
 
+       
             st = new StretchText();
             ht = new HexText();
 
@@ -125,10 +130,11 @@ namespace HexBox
             cursor2.TextInput += ASCIIField_TextInput;
             cursor.TextInput += HexBox_TextInput;
 
+            scoview.ScrollChanged += new ScrollChangedEventHandler(scoview_ScrollChanged);
+
+            mainPanel.MouseWheel += new MouseWheelEventHandler(MainWindow_MouseWheel);
             
-
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-
             Stream s = new MemoryStream();
 
             dyfipro = new DynamicFileByteProvider(s);
@@ -136,6 +142,8 @@ namespace HexBox
             dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
 
         }
+
+       
 
         #endregion
 
@@ -188,6 +196,7 @@ namespace HexBox
             mark[0] = cellText + (long)fileSlider.Value * 16;
 
             setPosition(cellText*2);
+            setPositionText(cellText);
             setcursor2(p);
 
             cursor2.Focus();
@@ -222,7 +231,8 @@ namespace HexBox
 
             mark[0] = cell / 2 + (long)fileSlider.Value * 16;
 
-            setPositionText(cell / 2);
+            setPosition(cell);
+            setPositionText(cell/2);
             setcursor(p);
 
             cursor.Focus();
@@ -239,8 +249,6 @@ namespace HexBox
                     st.removemarks = false;
                     ht.removemarks = false;
                 }
-
-
 
                 Point p = e.GetPosition(canvas2);
 
@@ -270,8 +278,6 @@ namespace HexBox
                     st.mark[1] = (int)(mark[1] - fileSlider.Value * 16);
                     
                 }
-
-                
 
                 updateUI((long)fileSlider.Value);
             }
@@ -334,7 +340,8 @@ namespace HexBox
                 cellText = 255;
             }
 
-            setPosition(cellText * 2);
+            setPositionText(cellText );
+            setPosition(cellText*2 );
             
             setcursor2(p);
 
@@ -365,7 +372,8 @@ namespace HexBox
                 cell = 510;
             }
 
-            setPositionText(cell/2);
+            setPosition(cell);
+            setPositionText(cell / 2);
             setcursor(p);
 
             if (mark[1] < mark[0])
@@ -409,16 +417,34 @@ namespace HexBox
             p.X = cellText % 16 * st.CharWidth ;
             p.Y = cellText / 16 * 20-2;
 
-            
-
             Canvas.SetLeft(cursor2, p.X);
 
             Canvas.SetTop(cursor2, p.Y);
             
             this.cellText = cellText;
-      //      cursor2.Focus();
 
-            
+            cursorpositionText = (long)fileSlider.Value*16 + (long)cellText;
+
+            if(scoview.VerticalOffset > p.Y+20 )
+            {
+                scoview.ScrollToVerticalOffset(scoview.VerticalOffset-20);
+                //fileSlider.Value += scoview.VerticalOffset/20;
+                //scoview.ScrollToVerticalOffset(0);
+            }
+
+            if (scoview.VerticalOffset + mainPanel.ActualHeight - scoview.ScrollableHeight < p.Y +20)
+            {
+                //fileSlider.Value += scoview.VerticalOffset/20;
+                //scoview.ScrollToVerticalOffset(0);
+                scoview.ScrollToVerticalOffset(scoview.VerticalOffset + 20);
+            }
+
+            fileSlider.Maximum = (dyfipro.Length - 256) / 16 + 1 + (long)scoview.ScrollableHeight / 20;
+            //fileSlider.Value = fileSlider.Value + scoview.VerticalOffset / 20;
+
+            //      cursor2.Focus();
+
+
         }
 
         private void setPosition(int cell)
@@ -433,6 +459,8 @@ namespace HexBox
             p.X = cell % 32 * (ht.CharWidth * 3) / 2;
             p.Y = cell / 32 * 20+2;
 
+            
+
             if(cell%2==1)
             {
                 p.X = p.X - ht.CharWidth/2;
@@ -444,6 +472,8 @@ namespace HexBox
 
             this.cell = cell;
 
+            cursorposition = (long)fileSlider.Value * 32 + (long)cell;
+
 //            cursor.Focus();
 
             
@@ -451,6 +481,12 @@ namespace HexBox
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
         {
+            if (cursorposition> fileSlider.Value * 32 + 512 || cursorposition < fileSlider.Value * 32)
+            {
+                fileSlider.Value = cursorposition / 32 - 1;
+            }
+
+
             if (Pfad != "" && Pfad != " ")
             {
                 Key k = e.Key;
@@ -781,6 +817,11 @@ namespace HexBox
 
         private void KeyInputASCIIField(object sender, KeyEventArgs e)
         {
+            if (cursorpositionText > fileSlider.Value * 16 + 256 || cursorpositionText < fileSlider.Value * 16)
+            {
+                fileSlider.Value = cursorpositionText / 16 - 1;
+            }
+
             if (Pfad != "" && Pfad != " ")
             {
                 
@@ -1446,7 +1487,7 @@ namespace HexBox
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
-            Column.Text = (int)(cell % 32 + 1) / 2 + "";
+            Column.Text = (int)(cell % 32 + 2) / 2 + "";
             Line.Text = cell / 32 + 1 + (long)fileSlider.Value + "";
 
             long end = dyfipro.Length - position * 16;
@@ -1463,8 +1504,6 @@ namespace HexBox
             {
                 help2 = new byte[256];
             }
-
-            
 
             for (int i = 0; i < help2.Count(); i++)
             {
@@ -1492,17 +1531,30 @@ namespace HexBox
 
             }
 
-
-            
-
             ht.mark[0] = (int)(mark[0] - position * 16) * 2;            
             ht.mark[1] = (int)(mark[1] - position * 16) * 2;
 
             st.mark[0] = (int)(mark[0] - position * 16);
             st.mark[1] = (int)(mark[1] - position * 16);
 
-            
-            
+
+            if (cursorpositionText < fileSlider.Value * 16 + 256 && cursorpositionText > fileSlider.Value * 16)
+            {
+
+                //cursor.Visibility = Visibility.Visible;
+                //cursor2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //cursor.Visibility = Visibility.Hidden;
+                //cursor2.Visibility = Visibility.Hidden;
+            }
+
+            //setPosition((int)(cursorposition - fileSlider.Value * 32));
+
+            setPositionText((int)(cursorpositionText - fileSlider.Value * 16));
+            setPosition((int)(cursorposition - fileSlider.Value * 32));
+
             lastUpdate = position;
         }
 
@@ -1527,7 +1579,7 @@ namespace HexBox
                 cell -= 32;
             }
 
-
+            
 
         }
 
@@ -2133,7 +2185,11 @@ namespace HexBox
 
         private void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+           
             fileSlider.Value -=  e.Delta/10;
+            
+
+            e.Handled = true;
         }
 
         private void MyManipulationCompleteEvent(object sender, EventArgs e)
@@ -2142,17 +2198,45 @@ namespace HexBox
 
             if (lastUpdate != fileSlider.Value)
             {
-                updateUI((long)fileSlider.Value);
+                updateUI((long) fileSlider.Value);
             }
 
-            Info.Text = (long)fileSlider.Value + "" + Math.Round(fileSlider.Value * 16, 0) + fileSlider.Value;
-
+            Info.Text = (long) fileSlider.Value + "" + Math.Round(fileSlider.Value*16, 0) + fileSlider.Value;
             
+
+        }
+
+        private void scoview_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            canvas1.Focus();
+        }
+
+        private void scoview_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            
+            updateUI((long)fileSlider.Value);
+
         }
 
         #endregion
 
+   
+
         #region not needed anymore
+
+        //private void ScrollViewer_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Handled) return;
+        //    var temporaryEventArgs =
+        //      new KeyEventArgs(e.KeyboardDevice, e.InputSource, e.Timestamp, e.Key)
+        //      {
+        //          RoutedEvent = e.RoutedEvent
+        //      };
+        //    // This line avoids it from resulting in a stackoverflowexception
+        //    if (sender is ScrollViewer) return;
+        //    ((ScrollViewer)sender).RaiseEvent(temporaryEventArgs);
+        //    e.Handled = temporaryEventArgs.Handled;
+        //}
 
         ////public void fillempty() // clears data in HexBox
         //{
@@ -2348,8 +2432,30 @@ namespace HexBox
         //}
         #endregion
     }
+    public class ExtraScrollViewer : ScrollViewer
+    {
+        private ScrollBar verticalScrollbar;
 
+        public override void OnApplyTemplate()
+        {
+            // Call base class
+            base.OnApplyTemplate();
 
+            // Obtain the vertical scrollbar
+            this.verticalScrollbar = this.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            // Only handle this message if the vertical scrollbar is in use
+            if ((this.verticalScrollbar != null) && (this.verticalScrollbar.Visibility == Visibility.Visible) && this.verticalScrollbar.IsEnabled)
+            {
+                // Perform default handling
+                base.OnMouseWheel(e);
+            }
+        }
+    }
+   
 }
 
  

@@ -93,10 +93,13 @@ namespace FileOutputWPF
 
         private void sizeChanged(Object sender, EventArgs eventArgs)
         {
-            if (this.ActualWidth / 2.25 < this.ActualHeight)
-                this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth, this.ActualWidth / this.MainMain.ActualWidth);
-            else
-                this.MainMain.RenderTransform = new ScaleTransform(this.ActualHeight / this.MainMain.ActualHeight, this.ActualHeight / this.MainMain.ActualHeight);
+            //if (this.ActualWidth / 2.25 < this.ActualHeight)
+            //    this.MainMain.RenderTransform = new ScaleTransform(this.ActualWidth / this.MainMain.ActualWidth, this.ActualWidth / this.MainMain.ActualWidth);
+            //else
+            //    this.MainMain.RenderTransform = new ScaleTransform(this.ActualHeight / this.MainMain.ActualHeight, this.ActualHeight / this.MainMain.ActualHeight);
+
+            hexBox.Width = this.ActualWidth;
+            hexBox.Height = this.ActualHeight;
         }
         
         internal void CloseFile()
