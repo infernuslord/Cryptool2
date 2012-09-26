@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Input;
+using System.Globalization;
 
 namespace Cryptool.CrypTutorials
 {
@@ -16,24 +17,57 @@ namespace Cryptool.CrypTutorials
 
         public VideoPlayer()
         {
+            this.DataContext = this;
             InitializeComponent();
+            myMediaElement.Volume = (double)0.5;
+            myMediaElement.SpeedRatio = (double)1;
         }
 
-          public static readonly DependencyProperty UrlProperty =
-          DependencyProperty.Register("Url", typeof(string),
-          typeof(VideoPlayer),  new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUrlChanged));
+        public static readonly DependencyProperty UrlProperty =
+        DependencyProperty.Register("Url", typeof(string),
+        typeof(VideoPlayer), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUrlChanged));
 
-         public string Url
-         {
-          get { return (string)GetValue(UrlProperty); }
-          set { SetValue(UrlProperty, value); }
-         }
+        public string Url
+        {
+            get { return (string)GetValue(UrlProperty); }
+            set { SetValue(UrlProperty, value); }
+        }
 
-         private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
-         {
-              VideoPlayer player = (VideoPlayer)sender;
-              player.myMediaElement.Source = new Uri(eventArgs.NewValue.ToString());
-         }
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register("IsActive", typeof(bool),
+            typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsActive));
+
+        public bool IsActive
+        {
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsPlayingProperty =
+    DependencyProperty.Register("IsPlaying", typeof(bool),
+    typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsPlaying));
+
+        public bool IsPlaying
+        {
+            get { return (bool)GetValue(IsPlayingProperty); }
+            set { SetValue(IsPlayingProperty, value); }
+        }
+
+        private static void OnIsPlaying(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
+        {
+
+        }
+
+        private static void OnIsActive(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
+        {
+
+        }
+
+        private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            VideoPlayer player = (VideoPlayer)sender;
+            player.myMediaElement.Source = new Uri(eventArgs.NewValue.ToString());
+        }
 
 
         // Play the media.
@@ -42,10 +76,19 @@ namespace Cryptool.CrypTutorials
             // The Play method will begin the media if it is not currently active or 
             // resume media if it is paused. This has no effect if the media is
             // already running.
-            myMediaElement.Play();
+
+            if (IsPlaying)
+            {
+                myMediaElement.Pause();
+                IsPlaying = false;
+            }
+            else
+            {
+                myMediaElement.Play();
+                IsPlaying = true;
+            }
 
             // Initialize the MediaElement property values.
-            InitializePropertyValues();
 
         }
 
@@ -72,14 +115,14 @@ namespace Cryptool.CrypTutorials
         // Change the volume of the media.
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
         {
-            myMediaElement.Volume = (double)volumeSlider.Value;
+            //myMediaElement.Volume = (double)volumeSlider.Value;
         }
 
-        // Change the speed of the media.
-        private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
-        }
+        //// Change the speed of the media.
+        //private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
+        //{
+        //    myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
+        //}
 
         // When the media opens, initialize the "Seek To" slider maximum value
         // to the total number of miliseconds in the length of the media clip.
@@ -105,12 +148,36 @@ namespace Cryptool.CrypTutorials
             myMediaElement.Position = ts;
         }
 
-        void InitializePropertyValues()
+        private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Set the media's starting Volume and SpeedRatio to the current value of the
-            // their respective slider controls.
-            myMediaElement.Volume = (double)volumeSlider.Value;
-            myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
-        } 
+            var x = sender as FrameworkElement;
+            double value = double.Parse(x.Tag.ToString(), CultureInfo.InvariantCulture);
+
+            if (myMediaElement.Volume == value)
+                myMediaElement.Volume = 0;
+            else
+                myMediaElement.Volume = value;
+        }
     }
+
+    public class VolumeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var x = (double)value;
+
+            var y = Double.Parse(parameter.ToString(), CultureInfo.InvariantCulture);
+
+            if (x >= y)
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00a8ff"));
+            else
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ccc"));
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
