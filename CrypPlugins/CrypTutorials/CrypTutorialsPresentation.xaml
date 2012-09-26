@@ -4,18 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
-             d:DesignHeight="500" d:DesignWidth="1200" Background="Black">
+             xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
+             d:DesignHeight="500" d:DesignWidth="1200" Background="#ccc">
     <Grid>
         <Grid.Resources>
             <DataTemplate x:Key="ItemTemplate">                
-                <Border Background="Black" BorderBrush="White" Height="520" BorderThickness="1" Margin="10,10,10,10">       
+                <Border Background="#eee" CornerRadius="6" Padding="10" Margin="10">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="10"  Opacity="0.3" ShadowDepth="0"/>
+                    </Border.Effect>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Foreground="White" Grid.Column="0" Text="{Binding Title}" />
-                        <Controls:VideoPlayer Grid.Column="1" Url="{Binding Url}" />
+                        <Controls:VideoPlayer Height="300" Width="400" Grid.Column="1">
+                            <!---<Controls:VideoPlayer.Url>Url="C:/Code/CT2/CrypPlugins/CrypTutorials/sample_videos/CT2_Tutorium_Beispiel.wmv"</Controls:VideoPlayer.Url>-->
+                        </Controls:VideoPlayer>
                     </Grid>                                        
                 </Border>
             </DataTemplate>
@@ -26,24 +27,15 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Source="/CrypTutorials;component/cryptutorials_header.png" Grid.Row="0" />
-
-        <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center" Margin="21,0,12,0">
-            <Label.Content>
-                <TextBlock Foreground="White" TextWrapping="Wrap" Text="{Loc Welcome_Cryptutorials}" />
-            </Label.Content>
-        </Label>
-
-        <Grid Margin="21,0,12,0" Name="WebBrowserGrid" Visibility="Hidden"  Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <!--<WebBrowser VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Navigating="WebBrowserNavigating" PreviewKeyDown="WebBrowserOnPreviewKeyDown" Name="WebBrowser" Grid.Row="0" />
-            <Button Name="BackButton" Click="BackButtonClick" Content="{Loc Back_to_overview}" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,10,10,10"/>-->
-        </Grid>
-        <ScrollViewer Name="ScrollViewer" Grid.Row="2" CanContentScroll="false" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
-            <ItemsControl HorizontalContentAlignment="Stretch" Name="Videos" ItemsSource="{Binding}" ItemTemplate="{StaticResource ItemTemplate}" Margin="21,0,12,0" Background="Black"/>
+        
+        <ScrollViewer Name="ScrollViewer" CanContentScroll="false" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Background="#ccc" Width="1000"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>
