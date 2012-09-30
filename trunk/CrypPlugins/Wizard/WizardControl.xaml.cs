@@ -276,9 +276,9 @@ namespace Wizard
             {
                 categoryGrid.Visibility = Visibility.Hidden;
                 inputPanel.Visibility = Visibility.Visible;
-
+                
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "presentation"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "presentation" || el.Name == "pluginSetter"
                              select el;
 
                 inputStack.Children.Clear();
@@ -583,6 +583,14 @@ namespace Wizard
 
             switch (input.Name.ToString())
             {
+                case "pluginSetter":
+                    var pluginInputBox = new TextBox();
+                    pluginInputBox.Visibility = Visibility.Collapsed;
+                    pluginInputBox.Tag = input;
+                    pluginInputBox.Text = input.Value;
+                    element = pluginInputBox;
+                    break;
+
                 case "inputBox":
                     var inputBox = new TextBox();
                     inputBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
