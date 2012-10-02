@@ -60,10 +60,10 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="TutorialVideosManager.cs" />
     <Compile Include="VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VideoInfo.cs" />
     <Compile Include="Visuals\AnimWrapPanel.cs" />
   </ItemGroup>
   <ItemGroup>
