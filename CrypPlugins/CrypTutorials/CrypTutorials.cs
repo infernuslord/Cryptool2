@@ -1,4 +1,8 @@
-﻿
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Controls;
+using Cryptool.Core;
+using Cryptool.CrypTutorials.Properties;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
@@ -8,24 +12,18 @@ namespace Cryptool.CrypTutorials
     [TabColor("Black")]
     [EditorInfo("cryptutorials", true, false, false, false, true)]
     [Author("Nils Kopal", "kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.CrypTutorials.Properties.Resources", "PluginCaption", "PluginTooltip", null, "CrypTutorials/icon.png")]
+    [PluginInfo("Cryptool.CrypTutorials.Properties.Resources", "PluginCaption", "PluginTooltip", null,
+        "CrypTutorials/icon.png")]
     public class CrypTutorials : IEditor
     {
-
         private readonly CrypTutorialsPresentation _presentation;
 
         public CrypTutorials()
         {
-            _presentation = new CrypTutorialsPresentation(this);
+            _presentation = new CrypTutorialsPresentation();
         }
 
-        public void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
-            }
-        }
+        #region IEditor Members
 
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
@@ -36,72 +34,54 @@ namespace Cryptool.CrypTutorials
 
         public void New()
         {
-            
         }
 
         public void Open(string fileName)
         {
-            
         }
 
         public void Save(string fileName)
         {
-            
         }
 
-        public void Add(System.Type type)
+        public void Add(Type type)
         {
-            
         }
 
         public void Undo()
         {
-            
         }
 
         public void Redo()
         {
-            
         }
 
         public void Cut()
         {
-            
         }
 
         public void Copy()
         {
-            
         }
 
         public void Paste()
         {
-            
         }
 
         public void Remove()
         {
-            
         }
 
         public void Print()
         {
-            
         }
 
         public void AddText()
         {
-            
         }
 
         public void AddImage()
         {
-            
-        }
-
-        public void ShowSelectedPluginDescription()
-        {
-            
         }
 
         public bool CanUndo
@@ -166,28 +146,19 @@ namespace Cryptool.CrypTutorials
 
         public string SamplesDir
         {
-            set {  }
+            set { }
         }
 
         public bool ReadOnly
         {
-            get
-            {
-                return false;
-            }
-            set
-            {
-                
-            }
+            get { return false; }
+            set { }
         }
 
-        public Core.PluginManager PluginManager
+        public PluginManager PluginManager
         {
             get { return null; }
-            set
-            {
-                
-            }
+            set { }
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -197,37 +168,47 @@ namespace Cryptool.CrypTutorials
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl Presentation
+        public UserControl Presentation
         {
             get { return _presentation; }
         }
 
         public void Execute()
         {
-            
         }
 
         public void Stop()
         {
-            
         }
 
         public void Initialize()
         {
-            OnProjectTitleChanged(this, Properties.Resources.PluginCaption);
+            OnProjectTitleChanged(this, Resources.PluginCaption);
         }
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Dispose()
         {
-            
         }
 
 
         public void ShowSelectedEntityHelp()
         {
-            
+        }
+
+        #endregion
+
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
+
+        public void ShowSelectedPluginDescription()
+        {
         }
     }
 }
