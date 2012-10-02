@@ -214,7 +214,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             sb.AppendLine("\\begin{center}");
             sb.AppendLine("\\includegraphics[width=32pt, height=32pt]{" + imagePath + "}");
             sb.AppendLine("\\end{center}");
-            sb.AppendLine("\\caption{" + caption + "}");
+            sb.AppendLine("\\caption{" + Helper.EscapeLaTeX(caption) + "}");
             sb.AppendLine("\\end{figure}");
             return sb.ToString();
 
