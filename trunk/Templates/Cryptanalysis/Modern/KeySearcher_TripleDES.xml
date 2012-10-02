@@ -8,7 +8,7 @@
 
   <title lang="de">Triple-DES Brute-Force-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels KeySearcher</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels KeySearcher</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels KeySearcher.</description>
   <keywords lang="de">standard, advanced, DES, AES, symmetrisch, keysearcher</keywords>
 
   <icon file="KeySearcher.png" />

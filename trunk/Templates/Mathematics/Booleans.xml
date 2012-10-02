@@ -7,8 +7,8 @@
   <keywords>Boole, binary, and, or, nand, nor, xor, exor, nor</keywords>
 
   <title lang="de">Boole'sche Werte</title>
-  <summary lang="de">Benutzung der <i>Boolschen</i> Komponenten</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Boolschen</i> Komponenten.</description>
+  <summary lang="de">Benutzung der Komponente für <i>Boolsche Operationen</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Komponente für <i>Boolsche Operationen</i>.</description>
   <keywords lang="de">binär, und, oder, nicht</keywords>
 
   <icon file="math.png" />

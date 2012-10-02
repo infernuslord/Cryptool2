@@ -8,7 +8,7 @@
 
   <title lang="de">Transposition Crib-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib</summary>
-  <description lang="de">diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib.</description>
   <keywords lang="de">Transposition, Analyse, Crib, Permutation</keywords>
 
   <icon file="Transposition.png" />

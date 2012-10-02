@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Primes Generator</title>
-  <summary lang="en">Usage of the <i>Primes Generator</i></summary>
-  <description lang="en">This template shows the usage of the <i>Primes Generator</i>.</description>
+  <summary lang="en">Generating Prime Numbers</summary>
+  <description lang="en">This template shows the usage of the <i>Primes Generator</i> in order to generate prime numbers of any size.</description>
   <keywords>Prime, Generator</keywords>
 
   <title lang="de">Primzahlgenerator</title>
-  <summary lang="de">Benutzung des <i>Primzahlgenerators</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Primzahlgenerators</i>.</description>
+  <summary lang="de">Erzeugen von Primzahlen (beliebiger Größe)</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Primzahlgenerators</i> zur Erzeugung von Primzahlen beliebiger Größe..</description>
   <keywords lang="de">Primzahl</keywords>
 
   <icon file="math.png" />
