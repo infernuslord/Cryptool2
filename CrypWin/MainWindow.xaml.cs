@@ -1447,6 +1447,8 @@ namespace Cryptool.CrypWin
                     if (tabContent != null)
                     {
                         OpenTab(tabContent, lastOpenedTab.Title, null);
+                        if( tabContent is ICrypTutorial )
+                            ((ICrypTutorial)tabContent).Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
                     }
                 }
             }
