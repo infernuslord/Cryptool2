@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Wordpattern Analysis</title>
-   <summary lang="en">This template shows the usage of a <i>Wordpattern Analysis</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Wortmusteranalyse</i></summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Wordpattern Analysis</i></summary>
+  <description lang="en">This template shows the usage of the <i>Wordpattern Analysis</i>.</description>
   <keywords>WordPatterns</keywords>
+
   <title lang="de">Wortmusteranalyse</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Wortmusteranalyse</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Wortmusteranalyse</i>.</description>
   <keywords lang="de">Wortmuster</keywords>
+
   <icon file="WordPatterns.png" />
   <relevantPlugins>
     <plugin name="WordPatterns" />
   </relevantPlugins>
+
 </sample>

@@ -1,16 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Statistic Test Classic</title>
-  <summary lang="en">This template shows the usage of the <i>Statistic Test Classic</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>tastistiktests für klassische Chiffren</i></summary>
-  <description lang="en">-</description>
+
+  <title lang="en">Statistic Tests for classical Ciphers</title>
+  <summary lang="en">Usage of the <i>Statistic Test</i> for classical ciphers</summary>
+  <description lang="en">This template shows the usage of the <i>Statistic Test</i> for classical ciphers.</description>
   <keywords>Analysis, FrequencyTest, FriedmanTest</keywords>
+
   <title lang="de">Stastistiktests für klassische Chiffren</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Statistik-Tests</i> für klassische Chiffren</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Statistik-Tests</i> für klassische Chiffren.</description>
   <keywords lang="de">Analyse, Frequenztest, Friedmantest</keywords>
+
   <icon file="Statistic test classic.png" />
   <relevantPlugins>
     <plugin name="FrequencyTest" />
     <plugin name="FriedmanTest" />
   </relevantPlugins>
+
 </sample>

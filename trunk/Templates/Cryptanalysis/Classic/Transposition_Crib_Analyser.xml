@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Transposition Crib Analysis</title>
-  <summary lang="en">This template shows the usage of a <i>Transposition Analyser</i> using a Crib</summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Transpositions Anlyse</i> mit einem Crib</summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Transposition Analyser</i> using a Crib</summary>
+  <description lang="en">This template shows the usage of the <i>Transposition Analyser</i> using a Crib.</description>
   <keywords>Transposition, Analysis, Crib, Permutation</keywords>
+
   <title lang="de">Transposition Crib-Analyse</title>
-  <description lang="de">-</description>
+  <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib</summary>
+  <description lang="de">diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib.</description>
   <keywords lang="de">Transposition, Analyse, Crib, Permutation</keywords>
+
   <icon file="Transposition.png" />
   <relevantPlugins>
     <plugin name="Transposition" />
   </relevantPlugins>
+
 </sample>

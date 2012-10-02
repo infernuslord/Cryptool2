@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Yao's millionaire problem </title>
-  <title lang="de">Yao's millionaire problem </title>
-  <description lang="en">-</description>
+
+  <title lang="en">Yao's millionaire problem</title>
+  <summary lang="en">Yao's millionaire problem</summary>
+  <description lang="en">This template shows Yao's millionaire problem.</description>
   <keywords>yao's millionaire problem</keywords>
-  <description lang="de">Yao </description>
+
+  <title lang="de">Yaos Millionärproblem</title>
+  <summary lang="de">Yaos Millionärproblem</summary>
+  <description lang="de">Diese Vorlage zeigt Yaos Millionärproblem.</description>
+  <keywords lang="de">yaos, millionär, problem</keywords>
+
   <icon file="Yao.png" />
+
 </sample>

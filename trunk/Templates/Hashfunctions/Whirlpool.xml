@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Whirlpool</title>
-  <summary lang="en">This template shows the usage of a <i>Whirlpool Hashfunction</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>Whirlpool-Hashfunktion</i></summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Whirlpool Hashfunction</i></summary>
+  <description lang="en">This template shows the usage of the <i>Whirlpool Hashfunction</i>.</description>
   <keywords>Hash, Rijmen, patent, 512</keywords>
-  <description lang="de">-</description>
+
+  <title lang="de">Whirlpool</title>
+  <summary lang="de">Benutzung der <i>Whirlpool-Hashfunktion</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Whirlpool-Hashfunktion</i>.</description>
   <keywords lang="de">hash</keywords>
+
   <icon file="Whirlpool.png" />
   <relevantPlugins>
     <plugin name="Whirlpool" />
   </relevantPlugins>
+
 </sample>

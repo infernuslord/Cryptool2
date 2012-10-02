@@ -1,16 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Substitution Cipher</title>
-  <summary lang="en">This template shows the usage of a <i>Substitution Cipher</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Substitutions-Chiffre</i></summary>
+  <summary lang="en">Usage of the <i>Substitution Cipher</i></summary>
   <description lang="en">In cryptography, a substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution. Substitution ciphers can be compared with transposition ciphers. In a transposition cipher, the units of the plaintext are rearranged in a different and usually quite complex order, but the units themselves are left unchanged. By contrast, in a substitution cipher, the units of the plaintext are retained in the same sequence in the ciphertext, but the units themselves are altered.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Substitution_cipher" /></description>
   <keywords>Substitution</keywords>
-  <title lang="de">Substitution-Chiffre</title>
+
+  <title lang="de">Substitutions-Chiffre</title>
+  <summary lang="de">Benutzung der <i>Substitutions</i>-Chiffre</summary>
   <description lang="de">Als monoalphabetische Substitution (von griechisch: μόνο (mono) = „einzig“ und αλφάβητο (alphabeto) = „Alphabet“ sowie von lateinisch: substituere = „ersetzen“) bezeichnet man in der Kryptographie, also in dem Wissenschaftszweig der Kryptologie, der sich mit den Geheimschriften befasst, Verschlüsselungsverfahren, bei der nur ein einziges (festes) Alphabet zur Verschlüsselung, also zur Umwandlung des Klartextes in den Geheimtext, verwendet wird.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Monoalphabetische_Substitution" /></description>
+  <keywords lang="de">Substitution</keywords>
+
   <icon file="Substitution.png" />
   <relevantPlugins>
     <plugin name="Substitution" />
   </relevantPlugins>
+
 </sample>

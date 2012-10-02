@@ -1,16 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Enigma Analysis</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>Enigma cipher</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma-Verschlüsselung</i></summary>
-  <description lang="en">This template shows crypt analysis of the <i>Enigma cipher</i>.</description>
+  <summary lang="en">Cryptanalysis of the <i>Enigma cipher</i></summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>Enigma cipher</i>.</description>
   <keywords>Machine, Turing, War, Rotor</keywords>
-  <title lang="de">Enigma Kryptoanalyse</title>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma-Ver-/Entschlüsselung</i>.</description>
+
+  <title lang="de">Enigma Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Enigma</i>-Verschlüsselungsmaschine</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma-Verschlüsselung</i>.</description>
   <keywords lang="de">Maschine, Krieg, Weltkrieg</keywords>
+
   <icon file="Enigma_Analyzer.png" />
   <relevantPlugins>
     <plugin name="Enigma" />
-    <plugin name="xxx" />
   </relevantPlugins>
+
 </sample>

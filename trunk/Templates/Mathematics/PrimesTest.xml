@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Primes Test</title>
-  <summary lang="en">This template shows the usage of the <i>Primes Test</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Primzahltest</i></summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Primes Test</i></summary>
+  <description lang="en">This template shows the usage of the <i>Primes Test</i>.</description>
   <keywords>prime, composite, primality</keywords>
+
   <title lang="de">Primzahltest</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung des <i>Primzahltests</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Primzahltests</i>.</description>
   <keywords lang="de">Primzahl, zusammengesetzt</keywords>
+
   <icon file="math.png" />
+
 </sample>

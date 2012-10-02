@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">MD5 Collision Finder</title>
-  <title lang="de">MD5-Kollisionsfinder</title>
-  <summary lang="en">This template shows the usage of a <i>MD5 Collision Finder</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung eines <i>MD5-Kollisionsfinders</i></summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>MD5 Collision Finder</i></summary>
+  <description lang="en">This template shows the usage of the <i>MD5 Collision Finder</i>.</description>
   <keywords>message, digest, Hash, Rivest, collision</keywords>
-  <description lang="de">-</description>
+
+  <title lang="de">MD5-Kollisionsfinder</title>
+  <summary lang="de">Benutzung des <i>MD5-Kollisionsfinders</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>MD5-Kollisionsfinders</i>.</description>
   <keywords lang="de">hash</keywords>
+
   <icon file="MD5.png" />
   <relevantPlugins>
     <plugin name="MD5" />
   </relevantPlugins>
+
 </sample>

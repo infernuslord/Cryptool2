@@ -1,13 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Solitaire Analyser</title>
-  <description lang="en">This template shows how to analyse a cipher text encrypted with the Solitaire Cipher using a dictionary attack. Any dictionary can be used for both the passwords to try as well as for the word recognition.</description>
+
+  <title lang="en">Solitaire Brute-force Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>Solitaire Cipher</i> using Brute-force</summary>
+  <description lang="en">This template shows how to analyse a cipher text encrypted with the <i>Solitaire Cipher</i> using a dictionary attack. Any dictionary can be used for both the passwords to try as well as for the word recognition.</description>
   <keywords>solitaire, cipher, decryption, analysis, dictionary, attack</keywords>
-  <title lang="de">Solitaire Brute-Force</title>
-  <description lang="de">Diese Vorlage zeigt die Analyse der Solitaire-Verschlüsselung mittles Brute-Force</description>
+
+  <title lang="de">Solitaire Brute-Force-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Solitaire-Verschlüsselung</i> mit Brute-Force</summary>
+  <description lang="de">Diese Vorlage zeigt, wie ein mit der <i>Solitaire-Verschlüsselung</i> verschlüsselter Text mit einem Wörterbuch-Angriff analysiert werden kann. Die Wörterbücher für die zu testenden Passwörter und für die Texterkennung können frei gewählt werden.</description>
+  <keywords lang="de">solitaire, cipher, decryption, analysis, dictionary, attack</keywords>
+
   <icon file="solitaireanalyser.jpg" />
   <relevantPlugins>
     <plugin name="Solitaire Analyser" />
     <plugin name="Dictionary" />
   </relevantPlugins>
+
 </sample>

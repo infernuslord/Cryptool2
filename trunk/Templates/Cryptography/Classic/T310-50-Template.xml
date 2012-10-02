@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="de">T310/50-Chiffre</title>
-  <summary lang="en">This template shows the usage of a <i>T310/50 cipher machine</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>T310/50 Chiffriermaschine</i></summary>
-  <description lang="de">-</description>
-  <keywords lang="de">Maschine, DDR</keywords>
-  <title lang="en">T310/50 Cipher</title>
-  <description lang="en">-</description>
+
+  <title lang="en">T310/50 Cipher Machine</title>
+  <summary lang="en">Usage of the <i>T310/50</i> Cipher Machine</summary>
+  <description lang="en">This template shows the usage of the <i>T310/50</i> Cipher Machine.</description>
   <keywords>Machine, DDR, GDR</keywords>
+
+  <title lang="de">T310/50-Chiffre</title>
+  <summary lang="de">Benutzung der <i>T310/50</i>-Verschlüsselungsmaschine</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>T310/50</i>-Verschlüsselungsmaschine.</description>
+  <keywords lang="de">Maschine, DDR</keywords>
+
   <icon file="T310-50-Template.png" />
   <relevantPlugins>
     <plugin name="T310" />
   </relevantPlugins>
+
 </sample>

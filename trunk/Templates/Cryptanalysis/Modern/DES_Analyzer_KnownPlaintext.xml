@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">DES Analyzing Known Plaintext</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using a keysearcher and a known plaintext</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>DES-Algorithmus</i> mittels Keysearchers und eines bekannten Klartextes</summary>
-  <description lang="en">-</description>
-  <keywords>Data Encryption Standard, symmetric, 56, NSA, standard</keywords>
-  <title lang="de">DES-Analyse Known-Plaintext</title>
-  <description lang="de">-</description>
-    <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56</keywords>
+
+  <title lang="en">DES Known Plaintext Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>DES algorithm</i> using the KeySearcher and a known plaintext</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using the KeySearcher and a known plaintext.</description>
+  <keywords>Data Encryption Standard, symmetric, 56, NSA, standard, keysearcher</keywords>
+
+  <title lang="de">DES Known-Plaintext-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes.</description>
+  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
+
   <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />
     <plugin name="Costfunction" />
   </relevantPlugins>
+
 </sample>

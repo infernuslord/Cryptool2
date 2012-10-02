@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of a <i>Factorization with Trial Division (Brute-Force)</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>Faktorisierung mit Probedivision (Brute-Force)</i></summary>
+
   <title lang="en">Factorization with Trial Division (Brute-Force)</title>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Factorization with Trial Division (Brute-Force)</i></summary>
+  <description lang="en">This template shows the usage of the <i>Factorization with Trial Division (Brute-Force)</i>.</description>
+  <keywords>factorization, factorisation, factor</keywords>
+
   <title lang="de">Faktorisierung mit Probedivision (Brute-Force)</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Faktorisierung mit Probedivision (Brute-Force)</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Faktorisierung mit Probedivision (Brute-Force)</i>.</description>
+  <keywords lang="de">faktorisierung, faktor</keywords>
+
   <icon file="math.png" />
+
 </sample>

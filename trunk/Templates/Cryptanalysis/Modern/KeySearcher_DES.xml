@@ -1,16 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">KeySearcher DES</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using a keysearcher</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>DES-Algorithmus</i> mittels Keysearchers</summary>
-  <description lang="en">-</description>
-  <keywords>Data Encryption Standard, 56, standard, NSA, symmetric</keywords>
-  <title lang="de">KeySearcher DES</title>
-  <description lang="de">-</description>
-  <keywords lang="de">Data Encryption Standard, 56, standard, NSA, symmetrisch</keywords>
+  <summary lang="en">Cryptanalysis of the <i>DES algorithm</i> using the KeySearcher</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using the KeySearcher.</description>
+  <keywords>Data Encryption Standard, 56, standard, NSA, symmetric, keysearcher</keywords>
+
+  <title lang="de">DES Brute-Force-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher.</description>
+  <keywords lang="de">Data Encryption Standard, 56, standard, NSA, symmetrisch, keysearcher</keywords>
+
   <icon file="KeySearcher.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />
   </relevantPlugins>
+
 </sample>

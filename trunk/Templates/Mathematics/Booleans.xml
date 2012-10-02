@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of the <i>Boolean</i> components</summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Boolschen</i> Komponenten</summary>
+
   <title lang="en">Booleans</title>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Boolean</i> components</summary>
+  <description lang="en">This template shows the usage of the <i>Boolean</i> components.</description>
   <keywords>Boole, binary, and, or, nand, nor, xor, exor, nor</keywords>
+
   <title lang="de">Boole'sche Werte</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Boolschen</i> Komponenten</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Boolschen</i> Komponenten.</description>
   <keywords lang="de">binär, und, oder, nicht</keywords>
+
   <icon file="math.png" />
+
 </sample>

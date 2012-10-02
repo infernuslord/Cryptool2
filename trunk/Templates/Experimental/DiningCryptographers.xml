@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Dining Cryptographers</title>
-  <title lang="de">Dining Cryptographers </title>
-  <description lang="en">Dining Cryptographers</description>
+
+  <title lang="en">Dining Cryptographers protocol</title>
+  <summary lang="en">Dining Cryptographers protocol</summary>
+  <description lang="en">This template shows the Dining Cryptographers protocol.</description>
   <keywords>dining cryptographers</keywords>
-  <description lang="de">Dining Cryptographers</description>
+
+  <title lang="de">Dining Cryptographers-Protokoll</title>
+  <summary lang="de">Dining Cryptographers-Protokoll</summary>
+  <description lang="de">Diese Vorlage zeigt das Dining Cryptographers-Protokoll.</description>
+  <keywords lang="de">dining cryptographers</keywords>
+
   <icon file="DiningCryptographers.png" />
+
 </sample>

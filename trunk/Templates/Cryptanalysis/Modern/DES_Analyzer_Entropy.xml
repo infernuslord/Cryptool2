@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">DES Analyzing Using Entropy</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>DES algorithm</i> using a keysearcher and an entropy function</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>DES-Algorithmus</i> mittels Keysearchers und einer Entropie-Funktion</summary>
-  <description lang="en">-</description>
-  <keywords>symmetric, Data Encryption Standard, standard, NSA, 56</keywords>
-  <title lang="de">DES-Analyse mittels Entropie</title>
-  <description lang="de">-</description>
-  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56</keywords>
+
+  <title lang="en">DES Analysis using Entropy</title>
+  <summary lang="en">Cryptanalysis of <i>DES</i> using the KeySearcher and an entropy function</summary>
+  <description lang="en">This template shows the cryptanalysis of <i>DES</i> using the KeySearcher and an entropy function.</description>
+  <keywords>symmetric, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
+
+  <title lang="de">DES Analyse per Entropie</title>
+  <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion.</description>
+  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
+
   <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />
     <plugin name="Costfunction" />
   </relevantPlugins>
+
 </sample>

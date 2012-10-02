@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of an <i>ISAP Bit Commitment Scheme</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung eines <i>ISAP Bit Commitment Scheme</i></summary>
+
   <title lang="en">ISAP Bit Commitment Scheme</title>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>ISAP Bit Commitment Scheme</i></summary>
+  <description lang="en">This template shows the usage of the <i>ISAP Bit Commitment Scheme</i>.</description>
   <keywords>commitment, binding, hidden, ISAP, diophantine</keywords>
+
   <title lang="de">ISAP Bit Commitment Scheme</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung des <i>ISAP Bit Commitment Scheme</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>ISAP Bit Commitment Scheme</i>.</description>
   <keywords lang="de">verbindlich, versteckt</keywords>
+
   <icon file="math.png" />
+
 </sample>
