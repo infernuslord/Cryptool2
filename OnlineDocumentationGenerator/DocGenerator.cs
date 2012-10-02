@@ -118,7 +118,7 @@ namespace OnlineDocumentationGenerator
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(string.Format("Error while trying to read templates for Online Help generation: {0}", ex.Message), NotificationLevel.Warning);
+                    GuiLogMessage(string.Format("Error while trying to read templates for Online Help generation: {0} ({1})", ex.Message, file.FullName), NotificationLevel.Warning);
                 }
             }
 
