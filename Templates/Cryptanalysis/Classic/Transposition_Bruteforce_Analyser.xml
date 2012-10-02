@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Transposition Brute-Force</title>  
-  <summary lang="en">This template shows the cryptanalysis of the <i>Transposition</i> using brute-force</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transposition</i> mit Brute-Force</summary>
-  <description lang="en">-</description>
-  <keywords>Transposition, Permutation, Analysis, Bruteforce, Brute-force</keywords>  
-  <title lang="de">Transposition Brute-Force</title>
-  <description lang="de">-</description>
+
+  <title lang="en">Transposition Brute-force Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>Transposition</i> cipher using brute-force</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>Transposition</i> using brute-force</description>
+  <keywords>Transposition, Permutation, Analysis, Bruteforce, Brute-force</keywords>
+
+  <title lang="de">Transposition Brute-Force-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit Brute-Force</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit Brute-Force.</description>
   <keywords lang="de">Analyse</keywords>
+
   <icon file="Transposition.png" />
   <relevantPlugins>
     <plugin name="Transposition" />
   </relevantPlugins>
+
 </sample>

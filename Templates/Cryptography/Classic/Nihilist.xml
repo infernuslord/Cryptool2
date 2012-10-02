@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Nihilist Cipher</title>
-  <summary lang="en">This template shows the usage of a <i>Nihilist Cipher</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung einer <i>Nihilist-Chiffre</i></summary>
-  <description lang="en">-</description>
+  <summary lang="en">Usage of the <i>Nihilist Cipher</i></summary>
+  <description lang="en">This template shows the usage of the <i>Nihilist Cipher</i>.</description>
   <keywords>symmetric</keywords>
+
   <title lang="de">Nihilist-Chiffre</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Nihilist</i>-Chiffre</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Nihilist</i>-Chiffre</description>
   <keywords lang="de">symmetrisch</keywords>
+
   <icon file="Nihilist.png" />
   <relevantPlugins>
     <plugin name="Nihilist" />
   </relevantPlugins>
+
 </sample>

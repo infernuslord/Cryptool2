@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of the <i>Steganography Permutation</i> for decryption using the least significant bit</summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Steganographie Permutation</i> für die Entschlüsselung mit niedrigstwertigen Bit</summary>
+
   <title lang="en">Steganography Least Significant Bit Decryption</title>
-  <title lang="de">Steganographie Niedrigstwertiges Bit Entschlüsselung</title>
-  <description lang="en">-</description>
-  <description lang="de">-</description>
+  <summary lang="en">Usage of the <i>Steganography component "LSB"</i> for decryption</summary>
+  <description lang="en">This template shows the usage of the <i>Steganography component "LSB"</i> for decryption using the least significant bit.</description>
   <keywords>Steganography, LSB, hidden</keywords>
+
+  <title lang="de">Steganographie Niedrigstwertiges Bit Entschlüsselung</title>
+  <summary lang="de">Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Entschlüsselung</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Steganographie Permutation</i> für die Entschlüsselung mit niedrigstwertigen Bit.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
+
   <icon file="Steganography.png" />
+
 </sample>

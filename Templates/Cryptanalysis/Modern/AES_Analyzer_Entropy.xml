@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<sample> 
-  <title lang="en">AES Analyzing Using Entropy</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using a keysearcher and an entropy function</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>AES-Algorithmus</i> mittels Keysearchers und einer Entropie-Funktion</summary>
-  <description lang="en">-</description>
-  <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric</keywords>
-  <title lang="de">AES-Analyse mittels Entropie</title>
-  <description lang="de">-</description>
-  <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard</keywords>
+<sample>
+
+  <title lang="en">AES Analysis using Entropy</title>
+  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the KeySearcher and an entropy function</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the KeySearcher and an entropy function.</description>
+  <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
+
+  <title lang="de">AES Analyse per Entropie</title>
+  <summary lang="de">Kryptoanalyse der <i>AES-Verschlüsselung</i> mittels KeySearcher und einer Entropie-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES-Verschlüsselung</i> mittels KeySearcher und einer Entropie-Funktion.</description>
+  <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, keysearcher</keywords>
+
   <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="AES" />
     <plugin name="Costfunction" />
   </relevantPlugins>
+
 </sample>

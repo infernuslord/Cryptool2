@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">Rabbit Cipher</title>
   <summary lang="en">Usage of the <i>Rabbit Cipher</i></summary>
-  <summary lang="de">Benutzung der <i>Rabbit-Chiffre</i></summary>
-  <description lang="en">-</description>
+  <description lang="en">This template shows the usage of the <i>Rabbit Cipher</i>.</description>
   <keywords>estream, stream, symmetric</keywords>
+
   <title lang="de">Rabbit-Chiffre</title>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung der <i>Rabbit</i>-Chiffre</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Rabbit</i>-Chiffre.</description>
   <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+
   <icon file="Rabbit.jpg" />
   <relevantPlugins>
     <plugin name="Rabbit" />
   </relevantPlugins>
+
 </sample>

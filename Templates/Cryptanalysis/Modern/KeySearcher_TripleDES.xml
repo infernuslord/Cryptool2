@@ -1,16 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
+
   <title lang="en">KeySearcher Triple DES</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>Triple DES algorithm</i> using a keysearcher</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>Triple-DES-Algorithmus</i> mittels Keysearchers</summary>
-  <description lang="en">-</description>
-  <keywords>standard, advanced, DES, AES, symmetric</keywords>
-  <title lang="de">KeySearcher Triple-DES</title>
-  <description lang="de">-</description>
-  <keywords lang="de">standard, advanced, DES, AES, symmetrisch</keywords>
+  <summary lang="en">Cryptanalysis of the <i>Triple DES algorithm</i> using the KeySearcher</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>Triple DES algorithm</i> using the KeySearcher.</description>
+  <keywords>standard, advanced, DES, AES, symmetric, keysearcher</keywords>
+
+  <title lang="de">Triple-DES Brute-Force-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels KeySearcher</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels KeySearcher</description>
+  <keywords lang="de">standard, advanced, DES, AES, symmetrisch, keysearcher</keywords>
+
   <icon file="KeySearcher.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />
   </relevantPlugins>
+
 </sample>

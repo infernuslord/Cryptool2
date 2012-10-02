@@ -1,15 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Scytale Brute-Force</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>Scytale</i> using brute-force</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Skytale</i> mit Brute-Force</summary>
-  <description lang="en">-</description>
+
+  <title lang="en">Scytale Brute-force Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>Scytale</i> using brute-force</summary>
+  <description lang="en">This tempalte shows the cryptanalysis of the <i>Scytale</i> using brute-force.</description>
   <keywords>Sparta, Greek, Wood, Transposition, diameter, rod, Skytale</keywords>
-  <title lang="de">Skytale Brute-Force</title>
-  <description lang="de">-</description>
+
+  <title lang="de">Skytale Brute-Force-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Skytale</i> mit Brute-Force</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Skytale</i> mit Brute-Force.</description>
   <keywords lang="de">Griechenland, Holz, Stab, Durchmesser, Skytale</keywords>
+
   <icon file="Scytale_ExhaustiveKeySearch.png" />
   <relevantPlugins>
     <plugin name="Scytale" />
   </relevantPlugins>
+
 </sample>

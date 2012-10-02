@@ -1,18 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of the <i>Diffie–Hellman key exchange</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>Diffie-Hellman-Schlüsselaustauschs</i></summary>
+
   <title lang="en">Diffie-Hellman Key-Exchange</title>
-  <description lang="en">Diffie–Hellman key exchange is a specific method of exchanging cryptographic keys. 
-  It is one of the earliest practical examples of key exchange implemented within the field of cryptography. 
-  The Diffie–Hellman key exchange method allows two parties that have no prior knowledge of each other to jointly establish a shared secret key over an insecure communications channel. 
+  <summary lang="en">Usage of the <i>Diffie–Hellman key exchange</i></summary>
+  <description lang="en">Diffie–Hellman key exchange is a specific method of exchanging cryptographic keys.
+  It is one of the earliest practical examples of key exchange implemented within the field of cryptography.
+  The Diffie–Hellman key exchange method allows two parties that have no prior knowledge of each other to jointly establish a shared secret key over an insecure communications channel.
   This key can then be used to encrypt subsequent communications using a symmetric key cipher.<newline /><newline />
   Source: <external ref="http://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" /></description>
   <keywords>protocol, color, colour, alice, bob, eve</keywords>
+
   <title lang="de">Diffie-Hellman-Schlüsselaustausch</title>
-  <description lang="de">Der Diffie-Hellman-Schlüsselaustausch oder Diffie-Hellman-Merkle-Schlüsselaustausch ist ein Protokoll aus dem Bereich der Kryptografie. Mit ihm erzeugen zwei Kommunikationspartner einen geheimen Schlüssel, den nur diese beiden kennen. 
+  <summary lang="de">Anwenden des <i>Diffie-Hellman-Schlüsselaustauschs</i></summary>
+  <description lang="de">Der Diffie-Hellman-Schlüsselaustausch oder Diffie-Hellman-Merkle-Schlüsselaustausch ist ein Protokoll aus dem Bereich der Kryptografie. Mit ihm erzeugen zwei Kommunikationspartner einen geheimen Schlüssel, den nur diese beiden kennen.
   Dieser Schlüssel wird üblicherweise verwendet, um verschlüsselte Nachrichten mittels eines symmetrischen Kryptosystems zu übertragen.<newline /><newline />
   Quelle: <external ref="http://de.wikipedia.org/wiki/Diffie-Hellman-Schlüsselaustausch" /></description>
   <keywords lang="de">protokoll, schlüssel, alice, bob, eve</keywords>
+
   <icon file="Diffie-Hellman_Key-Exchange.png" />
+
 </sample>

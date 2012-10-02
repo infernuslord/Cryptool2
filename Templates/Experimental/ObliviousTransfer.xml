@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Oblivious transfer 1 out of n </title>
-  <title lang="de">Oblivious transfer 1 out of n </title>
-  <description lang="en">-</description>
+
+  <title lang="en">Oblivious transfer protocol (1 out of n)</title>
+  <summary lang="en">Oblivious transfer protocol (1 out of n)</summary>
+  <description lang="en">This template shows the Oblivious transfer protocol (1 out of n).</description>
   <keywords>oblivious transfer</keywords>
-  <description lang="de">-</description>
+
+  <title lang="de">Oblivious Transfer-Protokoll (1 aus n)</title>
+  <summary lang="de">Oblivious Transfer-Protokoll (1 aus n)</summary>
+  <description lang="de">Diese Vorlage zeigt das Oblivious Transfer-Protokoll (1 aus n).</description>
+  <keywords lang="de">oblivious transfer</keywords>
+
   <icon file="ObliviousTransfer.png" />
+
 </sample>

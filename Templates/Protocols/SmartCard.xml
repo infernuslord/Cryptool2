@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of the <i>Smartcard</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung der <i>Smartcard</i></summary>
-  <title lang="en">Smartcard</title>
-  <title lang="de">Smartcard</title>
-  <description lang="en">-</description>
+
+  <title lang="en">Communication with a SmartCard</title>
+  <summary lang="en">Communication with a <i>SmartCard</i></summary>
+  <description lang="en">This template shows how to communicate with a <i>SmartCard</i>.</description>
   <keywords>smart card</keywords>
-  <description lang="de">-</description>
+
+  <title lang="de">Kommunikation mit einer SmartCard</title>
+  <summary lang="de">Kommunikation mit einer <i>SmartCard</i></summary>
+  <description lang="de">Diese Vorlage demonstriert, wie man mit einer <i>SmartCard</i> kommunizieren kann.</description>
+  <keywords lang="de">smartcard</keywords>
+
   <icon file="SmartCard.png" />
+
 </sample>

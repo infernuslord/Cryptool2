@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <summary lang="en">This template shows the usage of the <i>WEP Attack</i></summary>
-  <summary lang="de">Diese Vorlage zeigt die Benutzung des <i>WEP Angriffs</i></summary>
+
   <title lang="en">WEP Attack</title>
-  <title lang="de">WEP Angriff</title>
-  <description lang="en">-</description>
+  <summary lang="en">Attacking the WiFi protocol <i>WEP</i></summary>
+  <description lang="en">This template shows how to attack the WiFi protocol <i>WEP</i>.</description>
   <keywords>wired, equivalent, privacy, WEP, wifi, wlan</keywords>
-  <description lang="de">-</description>
+
+  <title lang="de">WEP-Angriff</title>
+  <summary lang="de">Durchführen eines Angriffs gegen das WiFi-Protokoll <i>WEP</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Durchführung eines Angriffs gegen das WiFi-Protokoll <i>WEP</i>.</description>
+  <keywords lang="de">wired, equivalent, privacy, WEP, wifi, wlan</keywords>
+
   <icon file="WEP_Attack.png" />
+
 </sample>

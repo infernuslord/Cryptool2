@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">AES Analyzing Known Plaintext</title>
-  <summary lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using a keysearcher and a known plaintext</summary>
-  <summary lang="de">Diese Vorlage zeigt die Kryptoanalyse des <i>AES-Algorithmus</i> mittels Keysearchers und eines bekannten Klartextes</summary>
-  <description lang="en">-</description>
-  <keywords>advanced, Daemen, Rijmen, standard, Rijndael, symmetric</keywords>
-  <title lang="de">AES-Analyse Known-Plaintext</title>
-  <description lang="de">-</description>
-  <keywords lang="de">symmetrisch, Daemen, Rijmen, standard, Rijndael</keywords>
+
+  <title lang="en">AES Known Plaintext Analysis</title>
+  <summary lang="en">Cryptanalysis of <i>AES</i> using the KeySearcher and a known plaintext</summary>
+  <description lang="en">This template shows the cryptanalysis of <i>AES</i> using the KeySearcher and a known plaintext.</description>
+  <keywords>advanced, Daemen, Rijmen, standard, Rijndael, symmetric, keysearcher</keywords>
+
+  <title lang="de">AES Known-Plaintext-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes.</description>
+  <keywords lang="de">symmetrisch, Daemen, Rijmen, standard, Rijndael, keysearcher</keywords>
+
   <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="AES" />
     <plugin name="Costfunction" />
   </relevantPlugins>
+
 </sample>
