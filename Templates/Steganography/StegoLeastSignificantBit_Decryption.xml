@@ -8,7 +8,7 @@
 
   <title lang="de">Steganographie Niedrigstwertiges Bit Entschlüsselung</title>
   <summary lang="de">Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Entschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Steganographie Permutation</i> für die Entschlüsselung mit niedrigstwertigen Bit.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Entschlüsselung mit niedrigstwertigem Bit.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
 
   <icon file="Steganography.png" />

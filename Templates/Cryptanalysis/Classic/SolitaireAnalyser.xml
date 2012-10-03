@@ -7,7 +7,7 @@
   <keywords>solitaire, cipher, decryption, analysis, dictionary, attack</keywords>
 
   <title lang="de">Solitaire Brute-Force-Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>Solitaire-Verschlüsselung</i> mit Brute-Force</summary>
+  <summary lang="de">Kryptoanalyse der <i>Solitaire</i>-Verschlüsselung mit Brute-Force</summary>
   <description lang="de">Diese Vorlage zeigt, wie ein mit der <i>Solitaire-Verschlüsselung</i> verschlüsselter Text mit einem Wörterbuch-Angriff analysiert werden kann. Die Wörterbücher für die zu testenden Passwörter und für die Texterkennung können frei gewählt werden.</description>
   <keywords lang="de">solitaire, cipher, decryption, analysis, dictionary, attack</keywords>
 
