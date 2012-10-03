@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">HMAC</title>
-  <summary lang="en">Usage of the <i>HMAC Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>HMAC Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>HMAC</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>HMAC</i> hash function.</description>
   <keywords>hash</keywords>
 
   <title lang="de">HMAC</title>

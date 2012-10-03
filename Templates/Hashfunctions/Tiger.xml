@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Tiger</title>
-  <summary lang="en">Usage of the <i>Tiger Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>Tiger Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>Tiger</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>Tiger</i> hash function.</description>
   <keywords>Hash, Anderson, Biham, 192</keywords>
 
   <title lang="de">Tiger</title>
-  <summary lang="de">Benutzung der <i>Tiger-Hashfunktion</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Tiger-Hashfunktion</i>.</description>
+  <summary lang="de">Benutzung der <i>Tiger</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Tiger</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="Tiger.png" />

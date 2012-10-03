@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Paillier Voting</title>
-  <summary lang="en">Usage of the <i>Pailler Cipher</i> for voting</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler Cipher</i> for voting.</description>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher for voting</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher for voting.</description>
   <keywords>homomorphic, voting, E-Voting, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
 
   <title lang="de">Paillier Voting</title>

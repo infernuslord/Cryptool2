@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Steganography Least Significant Bit Decryption</title>
-  <summary lang="en">Usage of the <i>Steganography component "LSB"</i> for decryption</summary>
-  <description lang="en">This template shows the usage of the <i>Steganography component "LSB"</i> for decryption using the least significant bit.</description>
+  <summary lang="en">Decryption with the steganography component <i>StegoLSB</i></summary>
+  <description lang="en">This template shows the usage of the steganography component <i>StegoLSB</i> for decryption using the least significant bit.</description>
   <keywords>Steganography, LSB, hidden</keywords>
 
   <title lang="de">Steganographie Niedrigstwertiges Bit Entschlüsselung</title>
-  <summary lang="de">Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Entschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Entschlüsselung mit niedrigstwertigem Bit.</description>
+  <summary lang="de">Entschlüsselung mit der Steganographie-Komponente <i>StegoLSB</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Steganographie-Komponente <i>StegoLSB</i> zur Entschlüsselung mit niedrigstwertigem Bit.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
 
   <icon file="Steganography.png" />

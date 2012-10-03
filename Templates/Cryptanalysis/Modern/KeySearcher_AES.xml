@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">KeySearcher AES</title>
-  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the KeySearcher and an entropy function.</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the KeySearcher and an entropy function.</description>
+  <title lang="en">AES Analysis using Entropy</title>
+  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the <i>KeySeracher</i> and an entropy function.</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySeracher</i> and an entropy function.</description>
   <keywords>advanced, Daemen, symmetric, nist, Rijmen, Rijndael, keysearcher</keywords>
 
   <title lang="de">AES Analyse per Entropie (2)</title>
-  <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion.</description>
+  <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySeracher</i> und einer Entropie-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySeracher</i> und einer Entropie-Funktion.</description>
   <keywords lang="de">asymmetrisch, Daemen, nist, Rijmen, Rijndael, keysearcher</keywords>
 
   <icon file="KeySearcher.png" />

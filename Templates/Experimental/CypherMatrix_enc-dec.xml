@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">CypherMatrix cipher</title>
+  <title lang="en">CypherMatrix Cipher</title>
   <summary lang="en">CypherMatrix cipher</summary>
   <description lang="en">This template shows how to use <i>CypherMatrix en-/decryption</i>.</description>
   <keywords>CypherMatrix, Schnoor</keywords>

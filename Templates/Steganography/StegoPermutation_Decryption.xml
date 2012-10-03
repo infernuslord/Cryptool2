@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Steganography Permutation Decryption</title>
-  <summary lang="en">Usage of the <i>Steganography component "Permutation"</i> for decryption</summary>
-  <description lang="en">This template shows the usage of the <i>Steganography component "Permutation"</i> for decryption.</description>
+  <summary lang="en">Decryption with the steganography component <i>StegoPermutation</i></summary>
+  <description lang="en">This template shows the usage of the steganography component <i>StegoPermutation</i> for decryption.</description>
   <keywords>Steganography, hidden, Permutation</keywords>
 
   <title lang="de">Steganographie Permutation Entschlüsselung</title>
-  <summary lang="de">Benutzung der <i>Steganographie-Komponente "Permutation"</i> zur Entschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Steganographie-Komponente "Permutation"</i> zur Entschlüsselung.</description>
+  <summary lang="de">Entschlüsselung mit der Steganographie-Komponente <i>StegoPermutation</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Steganographie-Komponente <i>StegoPermutation</i> zur Entschlüsselung.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
 
   <icon file="Steganography.png" />

@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">SHA1</title>
-  <summary lang="en">Usage of the <i>SHA1 Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>SHA1 Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>SHA1</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>SHA1</i> hash function.</description>
   <keywords>Hash, nist, secure, 160</keywords>
 
   <title lang="de">SHA1</title>
-  <summary lang="de">Benutzung der <i>SHA1-Hashfunktion</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA1-Hashfunktion</i>.</description>
+  <summary lang="de">Benutzung der <i>SHA1</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA1</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="SHA1.png" />

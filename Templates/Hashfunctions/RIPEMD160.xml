@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">RIPEMD160</title>
-  <summary lang="en">Usage of the <i>RIPEMD160 Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>RIPEMD160 Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>RIPEMD160</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>RIPEMD160</i> hash function.</description>
   <keywords>Hash, RIPEMD, Dobbertin, TrueCrypt</keywords>
 
   <title lang="de">RIPEMD160</title>
-  <summary lang="de">Benutzung der <i>RIPEMD160-Hashfunktion</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>RIPEMD160-Hashfunktion</i>.</description>
+  <summary lang="de">Benutzung der <i>RIPEMD160</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>RIPEMD160</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="RIPEMD160.png" />

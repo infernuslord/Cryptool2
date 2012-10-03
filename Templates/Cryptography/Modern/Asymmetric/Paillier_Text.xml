@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Paillier Text</title>
-  <summary lang="en">Usage of the <i>Pailler Cipher</i> for text</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler Cipher</i> for text.</description>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher for text</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher for text.</description>
   <keywords>homomorphic, Paillier, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
 
   <title lang="de">Paillier Text</title>

@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Whirlpool</title>
-  <summary lang="en">Usage of the <i>Whirlpool Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>Whirlpool Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>Whirlpool</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>Whirlpool</i> hash function.</description>
   <keywords>Hash, Rijmen, patent, 512</keywords>
 
   <title lang="de">Whirlpool</title>
-  <summary lang="de">Benutzung der <i>Whirlpool-Hashfunktion</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Whirlpool-Hashfunktion</i>.</description>
+  <summary lang="de">Benutzung der <i>Whirlpool</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Whirlpool</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="Whirlpool.png" />

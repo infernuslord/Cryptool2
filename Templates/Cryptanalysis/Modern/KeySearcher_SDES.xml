@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">KeySearcher SDES</title>
-  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher.</description>
+  <title lang="en">SDES Brute-force Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i></summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i>.</description>
   <keywords>SDES, standard, advanced, DES, AES, education, example, symmetric, keysearcher</keywords>
 
   <title lang="de">SDES Brute-Force-Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher.</description>
+  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i>.</description>
   <keywords lang="de">SDES, standard, advanced, DES, AES, education, beispiel, symmetrisch, keysearcher</keywords>
 
   <icon file="KeySearcher.png" />

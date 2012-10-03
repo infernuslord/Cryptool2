@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">Caesar Cipher</title>
-  <summary lang="en">Usage of the <i>Caesar Cipher</i></summary>
+  <summary lang="en">Usage of the <i>Caesar</i> cipher</summary>
   <description lang="en">In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius Caesar, who used it to communicate with his generals. The encryption step performed by a Caesar cipher is often incorporated as part of more complex schemes, such as the Vigenère cipher, and still has modern application in the ROT13 system. As with all single alphabet substitution ciphers, the Caesar cipher is easily broken and in practice offers essentially no communication security.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></description>
   <keywords>Caesar, Julius, monoalphabetic, Substitution</keywords>

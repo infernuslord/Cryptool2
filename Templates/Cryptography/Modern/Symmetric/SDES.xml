@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">SDES Cipher</title>
-  <summary lang="en">Usage of the <i>SDES Cipher</i></summary>
-  <description lang="en">This template shows the usage of the <i>SDES Cipher</i>.</description>
+  <summary lang="en">Usage of the <i>SDES</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>SDES</i> cipher.</description>
   <keywords>SRTP, SDP, symmetric</keywords>
 
   <title lang="de">SDES-Chiffre</title>

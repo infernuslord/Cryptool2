@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">RSA Decryption</title>
-  <summary lang="en">Usage of the <i>RSA Cipher</i> for decryption</summary>
+  <summary lang="en">Usage of the <i>RSA</i> cipher for decryption</summary>
   <description lang="en">In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography. It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be sufficiently secure given sufficiently long keys and the use of up-to-date implementations.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/RSA" /></description>
   <keywords>Rivest, Shamir, Adleman, public key, PKI, asymmetric</keywords>

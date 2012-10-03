@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">RC4 Cipher</title>
-  <summary lang="en">Usage of the <i>RC4 Cipher</i></summary>
-  <description lang="en">This template shows the usage of the <i>RC4 Cipher</i>.</description>
+  <summary lang="en">Usage of the <i>RC4</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>RC4</i> cipher.</description>
   <keywords>Rivest, Ron, block, symmetric</keywords>
 
   <title lang="de">RC4-Chiffre</title>

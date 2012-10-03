@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">Wordpattern Analysis with self-defined dictionary</title>
-  <summary lang="en">Usage of the <i>Wordpattern Analysis</i> with a self-defined <i>Dictionary</i></summary>
+  <summary lang="en">Usage of the <i>Wordpattern Analysis</i> with a self-defined dictionary</summary>
   <description lang="en">This sample demonstrates how to use the WordPatterns component together with a self defined dictionary. The dictionary is provided as a text file where each line defines one entry of the dictionary.</description>
   <keywords>WordPatterns, pattern, analysis, search, match</keywords>
 
