@@ -4,9 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    mc:Ignorable="d" RenderTransformOrigin="0,0" HorizontalAlignment="Left" 
-    xmlns:visuals="clr-namespace:Cryptool.CrypTutorials"
-	VerticalAlignment="Top">
+    mc:Ignorable="d" RenderTransformOrigin="0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    xmlns:visuals="clr-namespace:Cryptool.CrypTutorials" d:DesignHeight="500" d:DesignWidth="500">
     <UserControl.RenderTransform>
         <TransformGroup>
             <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -16,6 +15,7 @@
         </TransformGroup>
     </UserControl.RenderTransform>
     <UserControl.Resources>
+        
         <ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -174,16 +174,16 @@
             <Setter Property="LayoutTransform" Value="{StaticResource FontStretchCondensed}" />
         </Style>
     </UserControl.Resources>
-    <Grid x:Name="Root" Background="#01ffffff">
+    <Grid x:Name="Root" Background="#01ffffff" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!-- To interactively stop, pause, and play the media, the LoadedBehavior 
            property of the MediaElement must be set to "Manual". -->
-        <Border CornerRadius="6">
+        <Border CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <MediaElement Name="myMediaElement" Source="{Binding Url}"
-                Width="450" Height="250" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
+                LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
                 MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
         </Border>
 
-        <Grid x:Name="Controls" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Bottom">
+        <Grid x:Name="Controls" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -198,8 +198,13 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
             <!-- Play button. -->
-            <Button FontStretch="Normal" FontFamily="Aparajita" Click="PlayClick" Margin="5" Padding="10">
+            <Button Grid.Row="1" FontStretch="Normal" FontFamily="Aparajita" Click="PlayClick" Margin="5" Padding="10">
 
             </Button>
 
@@ -210,7 +215,7 @@
             <Button FontFamily="Aharoni" Click="StopClick" Margin="5" Padding="10">
                 <TextBlock Text="█" TextAlignment="Center"></TextBlock>
             </Button> -->
-            <Border CornerRadius="6" VerticalAlignment="Bottom" Margin="5" Background="#993a5563" Grid.Column="1">
+            <Border Grid.Row="1" CornerRadius="6" VerticalAlignment="Bottom" Margin="5" Background="#993a5563" Grid.Column="1">
                 <Grid Height="30">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>

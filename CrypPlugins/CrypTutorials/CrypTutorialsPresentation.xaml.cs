@@ -1,9 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Cryptool.PluginBase.Attributes;
+using System;
+using System.Windows.Data;
 
 namespace Cryptool.CrypTutorials
 {
+
+    public class RandomMaxConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var x = value.ToString();
+            var seed = value.GetHashCode();
+            var rand = generateRandomNumber(seed);
+            return rand;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        private int generateRandomNumber(int seed)
+        {
+            Random random = new Random(seed);
+            return random.Next(300, 700);
+        }
+    } 
+
     [Localization("Cryptool.CrypTutorials.Properties.Resources")]
     public partial class CrypTutorialsPresentation
     {
