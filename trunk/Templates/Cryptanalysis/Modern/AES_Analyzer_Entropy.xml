@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">AES Analysis using Entropy</title>
-  <summary lang="en">Cryptanalysis of <i>AES</i> using the <i>KeySeracher</i> and an entropy function</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySeracher</i> and an entropy function.</description>
+  <summary lang="en">Cryptanalysis of <i>AES</i> using the <i>KeySearcher</i> and an entropy function</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySearcher</i> and an entropy function.</description>
   <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
 
   <title lang="de">AES Analyse per Entropie</title>
-  <summary lang="de">Kryptoanalyse des <i>AES</i> mittels <i>KeySeracher</i> und einer Entropie-Funktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES-Verschlüsselung</i> mittels <i>KeySeracher</i> und einer Entropie-Funktion.</description>
+  <summary lang="de">Kryptoanalyse des <i>AES</i> mittels <i>KeySearcher</i> und einer Entropie-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES-Verschlüsselung</i> mittels <i>KeySearcher</i> und einer Entropie-Funktion.</description>
   <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, keysearcher</keywords>
 
   <icon file="AES.png" />

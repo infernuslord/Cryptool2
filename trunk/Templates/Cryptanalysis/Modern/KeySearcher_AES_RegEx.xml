@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">AES Known Plaintext Analysis</title>
-  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the <i>KeySeracher</i> and a known plaintext</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySeracher</i> and a known plaintext.</description>
+  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the <i>KeySearcher</i> and a known plaintext</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySearcher</i> and a known plaintext.</description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, asymmetric, nist, regex, regular expression, keysearcher</keywords>
 
   <title lang="de">AES Known-Plaintext-Analyse (2)</title>
-  <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySeracher</i> und eines bekannten Klartextes</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySeracher</i> und eines bekannten Klartextes.</description>
+  <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes.</description>
   <keywords lang="de">asymmetrisch, Rijmen, Rijndael, nist, regex, regulärer Ausdruck, keysearcher</keywords>
 
   <icon file="KeySearcher.png" />
