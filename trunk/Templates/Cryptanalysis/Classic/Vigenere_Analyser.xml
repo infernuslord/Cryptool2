@@ -2,12 +2,12 @@
 <sample>
 
   <title lang="en">Vigenère Analysis</title>
-  <summary lang="en">Usage of the <i>Vigenère Analysis</i></summary>
+  <summary lang="en">Usage of the <i>Vigenère</i> Analysis</summary>
   <description lang="en">This template shows the usage of the <i>Vigenère Analysis</i>.</description>
   <keywords>Caesar, polyalphabetic, Substitution</keywords>
 
   <title lang="de">Vigenère Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>Vigenère-Verschlüsselung</i></summary>
+  <summary lang="de">Kryptoanalyse der <i>Vigenère</i>-Verschlüsselung</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Vigenère-Verschlüsselung</i>.</description>
   <keywords lang="de">Caesar, polyalphabetisch, Substitution</keywords>
 
