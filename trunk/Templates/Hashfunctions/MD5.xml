@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">MD5</title>
-  <summary lang="en">Usage of the <i>MD5 Hashfunction</i></summary>
-  <description lang="en">This template shows the usage of the <i>MD5 Hashfunction</i>.</description>
+  <summary lang="en">Usage of the <i>MD5</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>MD5</i> hash function.</description>
   <keywords>message, digest, Hash, Rivest</keywords>
 
   <title lang="de">MD5</title>
-  <summary lang="de">Benutzung der <i>MD5-Hashfunktion</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>MD5-Hashfunktion</i>.</description>
+  <summary lang="de">Benutzung der <i>MD5</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>MD5</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="MD5.png" />

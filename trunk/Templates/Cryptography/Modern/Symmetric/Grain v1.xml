@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Grain v1 Cipher</title>
-  <summary lang="en">Usage of the <i>Grain v1 Cipher</i></summary>
-  <description lang="en">This template shows the usage of the <i>Grain v1 Cipher</i>.</description>
+  <summary lang="en">Usage of the <i>Grain v1</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>Grain v1</i> cipher.</description>
   <keywords>estream, stream, symmetric</keywords>
 
   <title lang="de">Grain v1-Chiffre</title>

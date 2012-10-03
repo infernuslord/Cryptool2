@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Steganography Insertion Encryption</title>
-  <summary lang="en">Usage of the <i>Steganography component "Insertion"</i> for encryption</summary>
-  <description lang="en">This template shows the usage of the <i>Steganography component "Insertion"</i> for encryption.</description>
+  <summary lang="en">Encryption with the steganography component <i>StegoInsertion</i></summary>
+  <description lang="en">This template shows the usage of the steganography component <i>StegoInsertion</i> for encryption.</description>
   <keywords>Steganography, Insertion, hidden</keywords>
 
   <title lang="de">Steganographie Einsetzung Verschlüsselung</title>
-  <summary lang="de">Benutzung der <i>Steganographie-Komponente "Einsetzung"</i> zur Verschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Steganographie-Komponente "Einsetzung"</i> zur Verschlüsselung.</description>
+  <summary lang="de">Verschlüsselung mit der Steganographie-Komponente <i>StegoInsertion</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Steganographie-Komponente <i>StegoInsertion</i> zur Verschlüsselung.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
 
   <icon file="Steganography.png" />

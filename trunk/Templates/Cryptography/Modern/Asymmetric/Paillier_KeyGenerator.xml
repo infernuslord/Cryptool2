@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Paillier Key Generator</title>
-  <summary lang="en">Usage of the <i>Pailler Cipher</i> with key generation</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler Cipher</i> with key generation.</description>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher with key generation</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with key generation.</description>
   <keywords>homomorphic, Damgard, Eurocrypt, Jurik, Paillier, asymmetric</keywords>
 
   <title lang="de">Paillier Schlüsselgenerator</title>

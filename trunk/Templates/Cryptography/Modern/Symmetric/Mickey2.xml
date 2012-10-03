@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Mickey2 Cipher</title>
-  <summary lang="en">Usage of the <i>Mickey2 Cipher</i></summary>
-  <description lang="en">This template shows the usage of the <i>Mickey2 Cipher</i>.</description>
+  <summary lang="en">Usage of the <i>Mickey2</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>Mickey2</i> cipher.</description>
   <keywords>estream, stream, symmetric</keywords>
 
   <title lang="de">Mickey2-Chiffre</title>

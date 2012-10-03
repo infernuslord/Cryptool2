@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Paillier Blinding</title>
-  <summary lang="en">Usage of the <i>Pailler Cipher</i> with blinding</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler Cipher</i> with blinding.</description>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher with blinding</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with blinding.</description>
   <keywords>homomorphic, Blinding, Eurocrypt, Jurik, Damgard, Paillier, asymmetric</keywords>
 
   <title lang="de">Paillier Blinding</title>

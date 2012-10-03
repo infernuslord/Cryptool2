@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">TripleDES Cipher</title>
-  <summary lang="en">Usage of the <i>DES Cipher</i> for TripleDES</summary>
-  <description lang="en">This template shows the usage of the <i>DES Cipher</i> for TripleDES.</description>
+  <summary lang="en">Usage of the <i>DES</i> cipher for TripleDES</summary>
+  <description lang="en">This template shows the usage of the <i>DES</i> cipher for TripleDES.</description>
   <keywords>symmetric, standard, 56, NSA</keywords>
 
   <title lang="de">TripleDES-Chiffre</title>

@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Steganography Least Significant Bit Decryption</title>
-  <summary lang="en">Usage of the <i>Steganography component "LSB"</i> for encryption</summary>
-  <description lang="en">This template shows the usage of the <i>Steganography component "LSB"</i> for encryption using the least significant bit.</description>
+  <title lang="en">Steganography Least Significant Bit Encryption</title>
+  <summary lang="en">Encryption with the steganography component <i>StegoLSB</i></summary>
+  <description lang="en">This template shows the usage of the steganography component <i>StegoLSB</i> for encryption using the least significant bit.</description>
   <keywords>Steganography, LSB, hidden</keywords>
 
   <title lang="de">Steganographie Niedrigstwertiges Bit Verschlüsselung</title>
-  <summary lang="de">Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Verschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Steganographie-Komponente "LSB"</i> zur Verschlüsselung mit niedrigstwertigem Bit.</description>
+  <summary lang="de">Verschlüsselung mit der Steganographie-Komponente <i>StegoLSB</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Steganographie-Komponente <i>StegoLSB</i> zur Verschlüsselung mit niedrigstwertigem Bit.</description>
   <keywords lang="de">Steganographie, verstecken</keywords>
 
   <icon file="Steganography.png" />

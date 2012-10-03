@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">Paillier Addition</title>
-  <summary lang="en">Usage of the <i>Pailler Cipher</i> with addition</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler Cipher</i> with addition.</description>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher with addition</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with addition.</description>
   <keywords>homomorphic, Eurocrypt, Damgard, Jurik, asymmetric</keywords>
 
   <title lang="de">Paillier Addition</title>

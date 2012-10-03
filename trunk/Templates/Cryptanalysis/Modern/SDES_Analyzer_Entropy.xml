@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">SDES Analysis using Entropy</title>
-  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher and an entropy function</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher and an entropy function.</description>
+  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and an entropy function</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and an entropy function.</description>
   <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
 
   <title lang="de">SDES Analyse per Entropie</title>
-  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher und einer Entropie-Funktion.</description>
+  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i> und einer Entropie-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i> und einer Entropie-Funktion.</description>
   <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, keysearcher</keywords>
 
   <icon file="SDES.png" />

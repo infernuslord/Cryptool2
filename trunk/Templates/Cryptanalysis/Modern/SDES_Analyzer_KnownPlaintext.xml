@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">SDES Known Plaintext Analysis</title>
-  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher and a known plaintext</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the KeySearcher and a known plaintext.</description>
+  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and a known plaintext</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and a known plaintext.</description>
   <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
 
   <title lang="de">SDES Known-Plaintext-Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels KeySearcher und eines bekannten Klartextes.</description>
+  <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes.</description>
   <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, regex, regulärer ausdruck, keysearcher, keysearcher, bekannter klartext</keywords>
 
   <icon file="SDES.png" />

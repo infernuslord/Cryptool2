@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">Transposition Cipher</title>
-  <summary lang="en">Usage of the <i>Transposition Cipher</i></summary>
+  <summary lang="en">Usage of the <i>Transposition</i> cipher</summary>
   <description lang="en">In cryptography, a transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext. That is, the order of the units is changed. Mathematically a bijective function is used on the characters' positions to encrypt and an inverse function to decrypt.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Transposition_cipher" /></description>
   <keywords>Transposition</keywords>
