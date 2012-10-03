@@ -5,37 +5,85 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
              xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
+             xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
              d:DesignHeight="500" d:DesignWidth="1200" Background="#ccc">
-    <Grid>
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#eee" Offset="0.0"/>
+                    <GradientStop Color="#aaa" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <tut:RandomMaxConverter x:Key="RandomMaxConverter"></tut:RandomMaxConverter>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource ResourceKey=Background}">
         <Grid.Resources>
-            <DataTemplate x:Key="ItemTemplate">                
-                <Border Background="#eee" CornerRadius="6" Padding="10" Margin="10">
+            <DataTemplate x:Key="ItemTemplate">
+                <Border Background="#eee" HorizontalAlignment="Center" CornerRadius="6" Padding="5" Margin="10" MinHeight="200" MinWidth="300" MaxWidth="{Binding ElementName=Title,Converter={StaticResource ResourceKey=RandomMaxConverter}, Path=Text}">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="10"  Opacity="0.3" ShadowDepth="0"/>
                     </Border.Effect>
-                    <Grid>
-                        <Controls:VideoPlayer Height="300" Width="400" Grid.Column="1">
-                            <!---<Controls:VideoPlayer.Url>Url="C:/Code/CT2/CrypPlugins/CrypTutorials/sample_videos/CT2_Tutorium_Beispiel.wmv"</Controls:VideoPlayer.Url>-->
-                        </Controls:VideoPlayer>
-                    </Grid>                                        
+                    <Grid x:Name="Root">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="300"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Controls:VideoPlayer Url="{Binding Path=Url}">
+                            </Controls:VideoPlayer>
+                        </Grid>
+
+
+                        <Border Grid.Row="1" Background="#ddd" Padding="5" CornerRadius="5">
+                            <Grid  Background="#ddd">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="51"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="51"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Border Width="50" Height="50" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
+                                    <Image></Image>
+                                </Border>
+
+                                <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock FontSize="30" x:Name="Title" TextWrapping="Wrap" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Text="{Binding Path=Title}"></TextBlock>
+                                    <TextBlock Grid.Row="1" Foreground="#666" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                                </Grid>
+
+                                <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/YanoneKaffeesatz-ExtraLight.ttf#Yanone Kaffeesatz"
+                                       Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="10,20,0,0"  FontSize="16" 
+                                       Text="{Binding Path=Description}" LineHeight="25" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </Grid>     
                 </Border>
             </DataTemplate>
         </Grid.Resources>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
         
-        <ScrollViewer Name="ScrollViewer" CanContentScroll="false" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+        <ScrollViewer Name="ScrollViewer" VerticalScrollBarVisibility="auto" HorizontalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Background="#ccc" Width="1000"></WrapPanel>
+                        <visuals:AnimWrapPanel Margin="250,0,0,0" Background="Transparent"  Orientation="Vertical" Height="1200"></visuals:AnimWrapPanel>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
+
+        <Border Margin="20" Width="200" Height="400" CornerRadius="5" Background="#444" HorizontalAlignment="Left">
+
+        </Border>
     </Grid>
 </UserControl>
