@@ -208,10 +208,10 @@
     </None>
     <None Include="CT2_Key.snk" />
     <None Include="Miscellaneous\Florsn01.ttf" />
-    <Content Include="Miscellaneous\YanoneKaffeesatz-Bold.ttf" />
-    <Content Include="Miscellaneous\YanoneKaffeesatz-ExtraLight.ttf" />
-    <Content Include="Miscellaneous\YanoneKaffeesatz-Light.ttf" />
-    <Content Include="Miscellaneous\YanoneKaffeesatz-Regular.ttf" />
+    <Resource Include="Miscellaneous\YanoneKaffeesatz-Bold.ttf" />
+    <Resource Include="Miscellaneous\YanoneKaffeesatz-ExtraLight.ttf" />
+    <Resource Include="Miscellaneous\YanoneKaffeesatz-Light.ttf" />
+    <Resource Include="Miscellaneous\YanoneKaffeesatz-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

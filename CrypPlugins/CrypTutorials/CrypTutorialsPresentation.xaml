@@ -6,7 +6,7 @@
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
              xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
              xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
-             d:DesignHeight="500" d:DesignWidth="1200" Background="#ccc">
+             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -17,73 +17,124 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <VisualBrush x:Key="Background2" TileMode="None" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+            <VisualBrush.Visual>
+                <TextBlock  Margin="20,10,0,0" Text="c" FontSize="600" Foreground="#aaa"
+                    FontFamily="/CrypTutorials;component/#CrypTool2"></TextBlock>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <VisualBrush x:Key="VideoBackground" TileMode="None" Stretch="None" AlignmentX="Center" AlignmentY="Center">
+            <VisualBrush.Visual>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock  Margin="20,10,0,0" Text="c" FontSize="200" Foreground="#ddd" TextAlignment="Center"
+                    FontFamily="/CrypTutorials;component/#CrypTool2"></TextBlock>
+
+                    <TextBlock  Margin="20,10,0,0" Text="Video" FontSize="70" Foreground="#ccc" TextAlignment="Center"></TextBlock>
+                </StackPanel>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
         <tut:RandomMaxConverter x:Key="RandomMaxConverter"></tut:RandomMaxConverter>
     </UserControl.Resources>
     <Grid Background="{StaticResource ResourceKey=Background}">
-        <Grid.Resources>
-            <DataTemplate x:Key="ItemTemplate">
-                <Border Background="#eee" HorizontalAlignment="Center" CornerRadius="6" Padding="5" Margin="10" MinHeight="200" MinWidth="300" MaxWidth="{Binding ElementName=Title,Converter={StaticResource ResourceKey=RandomMaxConverter}, Path=Text}">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="10"  Opacity="0.3" ShadowDepth="0"/>
-                    </Border.Effect>
-                    <Grid x:Name="Root">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="300"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
-                        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.Resources>
+                <DataTemplate x:Key="ItemTemplate">
+                    <Border Background="#eee" HorizontalAlignment="Center" CornerRadius="6" Padding="5" Margin="10" MinHeight="200" MinWidth="300" MaxWidth="{Binding ElementName=Title,Converter={StaticResource ResourceKey=RandomMaxConverter}, Path=Text}">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10"  Opacity="0.3" ShadowDepth="0"/>
+                        </Border.Effect>
+                        <Grid x:Name="Root">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="300"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
-                            <Controls:VideoPlayer Url="{Binding Path=Url}">
-                            </Controls:VideoPlayer>
-                        </Grid>
-
-
-                        <Border Grid.Row="1" Background="#ddd" Padding="5" CornerRadius="5">
-                            <Grid  Background="#ddd">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="51"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="51"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Border Width="50" Height="50" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
-                                    <Image></Image>
-                                </Border>
-
-                                <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"></RowDefinition>
-                                        <RowDefinition Height="auto"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock FontSize="30" x:Name="Title" TextWrapping="Wrap" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Text="{Binding Path=Title}"></TextBlock>
-                                    <TextBlock Grid.Row="1" Foreground="#666" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
-                                </Grid>
-
-                                <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/YanoneKaffeesatz-ExtraLight.ttf#Yanone Kaffeesatz"
-                                       Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="10,20,0,0"  FontSize="16" 
-                                       Text="{Binding Path=Description}" LineHeight="25" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                            <Grid Grid.Row="0" Background="{StaticResource ResourceKey=VideoBackground}">
+                                <Controls:VideoPlayer Url="{Binding Path=Url}">
+                                </Controls:VideoPlayer>
                             </Grid>
-                        </Border>
-                    </Grid>     
-                </Border>
-            </DataTemplate>
-        </Grid.Resources>
+
+
+                            <Border Grid.Row="1" Background="#ddd" Padding="5" CornerRadius="5">
+                                <Grid  Background="#ddd">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="51"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="51"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Width="50" Height="50" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
+                                        <Image></Image>
+                                    </Border>
+
+                                    <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="30" x:Name="Title" TextWrapping="Wrap" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Text="{Binding Path=Title}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Foreground="#666" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                                    </Grid>
+
+                                    <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
+                                           Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="10,20,0,0" FontWeight="ExtraLight" FontSize="14"
+                                           Text="{Binding Path=Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                                </Grid>
+                            </Border>
+                        </Grid>     
+                    </Border>
+                </DataTemplate>
+            </Grid.Resources>
+            <StackPanel Margin="20,10,0,0" Width="220" HorizontalAlignment="Left">
+                <TextBlock   Text="Cryptool Tutorial Videos" FontSize="30" Foreground="#444"
+                        FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                    </TextBlock.Effect>
+                </TextBlock>
+                <TextBlock  Foreground="#999" FontWeight="ExtraLight" Text="Suche" FontSize="12" FontFamily="DejaVu Sans Mono">
+
+                </TextBlock>
+                <TextBox>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Border Background="#99FFFFFF" Padding="5" CornerRadius="6" BorderBrush="#aaa" BorderThickness="0.5">
+                                            <ScrollViewer Background="#11ffffff" x:Name="PART_ContentHost" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </StackPanel>
+
+            <ScrollViewer Name="ScrollViewer" VerticalScrollBarVisibility="auto" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+                <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <visuals:AnimWrapPanel Margin="250,0,0,0" Background="Transparent"  Orientation="Vertical" Height="1200"></visuals:AnimWrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
         
-        <ScrollViewer Name="ScrollViewer" VerticalScrollBarVisibility="auto" HorizontalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <visuals:AnimWrapPanel Margin="250,0,0,0" Background="Transparent"  Orientation="Vertical" Height="1200"></visuals:AnimWrapPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
-
-        <Border Margin="20" Width="200" Height="400" CornerRadius="5" Background="#444" HorizontalAlignment="Left">
-
-        </Border>
+            <Border Margin="20,20,0,20" Width="200" Height="400" CornerRadius="5" Background="#dd444444" HorizontalAlignment="Left">
+                <TextBlock   Text="Kategorien" FontSize="22" Foreground="#fff" TextAlignment="Center"
+                        FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>
