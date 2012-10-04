@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">SDES Analysis using Entropy</title>
-  <summary lang="en">Cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and an entropy function</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>SDES algorithm</i> using the <i>KeySearcher</i> and an entropy function.</description>
+  <summary lang="en">Cryptanalysis of the <i>SDES</i> algorithm using the <i>KeySearcher</i> and an entropy function</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>SDES</i> algorithm using the <i>KeySearcher</i> and an entropy function.</description>
   <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
 
   <title lang="de">SDES Analyse per Entropie</title>

@@ -12,7 +12,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></descripti
   <keywords>Caesar, Julius, Analysis, Substitution, monoalphabetic</keywords>
 
   <title lang="de">Caesar Brute-Force-Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>Caesar-Verschlüsselung</i> mit Brute-Force</summary>
+  <summary lang="de">Kryptoanalyse der <i>Caesar</i>-Verschlüsselung mit Brute-Force</summary>
   <description lang="de">Wie alle monoalphabetischen Verschlüsselungsverfahren bietet auch die Verschiebechiffre keine hinreichende Sicherheit gegen unbefugte Entzifferung und
 kann sehr leicht „geknackt“ werden. Die in der natürlichen Sprache ungleiche Verteilung der Buchstaben wird durch diese Art der Verschlüsselung nicht verborgen, so dass eine Häufigkeitsanalyse das Wirken einer einfachen monoalphabetischen Substitution enthüllt. Noch einfacher nutzt der Angreifer die sehr kleine Anzahl der
 möglichen Schlüssel. Da die Größe des Schlüsselraums nur 25 beträgt, was einer „Schlüssellänge“ von nicht einmal 5 bit entspricht, liegt nach Ausprobieren spätestens

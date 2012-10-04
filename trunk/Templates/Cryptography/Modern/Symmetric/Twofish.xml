@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">Twofish Cipher</title>
-  <summary lang="en">This template shows the usage of the <i>Twofish</i> cipher</summary>
+  <summary lang="en">Usage of the <i>Twofish</i> cipher</summary>
   <description lang="en">In cryptography, Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits. It was one of the five finalists of the Advanced Encryption Standard contest, but was not selected for standardisation. Twofish is related to the earlier block cipher Blowfish.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Twofish" /></description>
   <keywords>block, symmetric, Schneier, Finalist, AES, rounds, Feistel</keywords>
