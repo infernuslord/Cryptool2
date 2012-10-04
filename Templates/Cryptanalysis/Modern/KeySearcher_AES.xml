@@ -2,8 +2,8 @@
 <sample>
 
   <title lang="en">AES Analysis using Entropy</title>
-  <summary lang="en">Cryptanalysis of the <i>AES algorithm</i> using the <i>KeySearcher</i> and an entropy function.</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>AES algorithm</i> using the <i>KeySearcher</i> and an entropy function.</description>
+  <summary lang="en">Cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> and an entropy function.</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> and an entropy function.</description>
   <keywords>advanced, Daemen, symmetric, nist, Rijmen, Rijndael, keysearcher</keywords>
 
   <title lang="de">AES Analyse per Entropie (2)</title>

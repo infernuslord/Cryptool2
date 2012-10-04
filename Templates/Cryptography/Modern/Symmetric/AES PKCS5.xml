@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en"><i>AES</i> with <i>PKCS#5</i></title>
+  <title lang="en">AES with PKCS#5</title>
   <summary lang="en">Using <i>AES</i> with <i>PKCS#5</i></summary>
   <description lang="en">This template shows the usage of <i>AES</i> with <i>PKCS#5</i>.</description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, symmetric, nist, password, standard</keywords>
 
-  <title lang="de"><i>AES</i> mit <i>PKCS#5</i></title>
+  <title lang="de">AES mit PKCS#5</title>
   <summary lang="de">Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i></summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i>.</description>
   <keywords lang="de">symmetrisch, passwort, standart</keywords>

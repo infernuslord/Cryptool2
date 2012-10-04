@@ -3,11 +3,11 @@
 
   <title lang="en">Solitaire Cipher</title>
   <summary lang="en">Usage of the <i>Solitaire</i> cipher</summary>
-  <description lang="en">This template shows how to encrypt a text with the Solitaire cipher using a password. Using other options of the plugin, you can also encrypt or decrypt texts using a given deckstate, a random deckstate, ascending decks or descending decks.</description>
+  <description lang="en">This template shows how to encrypt a text with the Solitaire cipher using a password. Using other options of the component, you can also encrypt or decrypt texts using a given deckstate, a random deckstate, ascending decks or descending decks.</description>
   <keywords>solitaire, cipher, encryption, decryption, secret, cards, deck</keywords>
 
   <title lang="de">Solitaire-Chiffre</title>
-  <summary lang="de">Benutzung der <i>Solitaire-Verschlüsselung</i></summary>
+  <summary lang="de">Benutzung der <i>Solitaire</i>-Verschlüsselung</summary>
   <description lang="de">Diese Vorlage zeigt, wie man einen Klartext mit der Solitaire-Verschlüsselung und einem Passwort verschlüsseln kann. Unter Verwendung der weiteren Einstellungen der Solitaire-Komponente kann man Texte mittels eines gegebenen, eines zufälligen oder eines auf- oder absteigend sortierten Kartenstapels ver- oder entschlüsseln.</description>
   <keywords lang="de">solitaire, cipher, encryption, decryption, secret, cards, deck</keywords>
 

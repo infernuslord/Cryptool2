@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Text coding (e.g. Base-64)</title>
+  <title lang="en">Text Encoding (e.g. Base-64)</title>
   <summary lang="en"><i>Encoding text</i> in different formats (base64, ...)</summary>
   <description lang="en">With this template different encoding techniques can be demonstrated. With the current parameters, the inputed text (ASCII) is encoded to base64 [1]. To do so, the inputed text is first encoded to bytes according to the ASCII character encoding [2]. These bytes are then encoded with base64 (and outputed as text).<newline />
 For different encodings, the paramters of the <b>Decoder</b> and/or <b>Encoder</b> components need to be adjusted. Currently, the <b>Decoder</b> component supports input in the follwing formats: <i>text</i>, <i>binary</i> [3], <i>octal</i> [4], <i>decimal</i> [5], <i>hexadecimal</i> [6] and <i>base64</i> [1]. The <b>Encoder</b> component supports the same formats for the output. Whenever text is selected, a character encoding is additional required, i.e. how characters are encoded in bytes. Both components support the following character encodings: <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] and <i>Windows-1252</i> [12].<newline />

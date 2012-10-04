@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Oblivious transfer protocol (1 out of n)</title>
-  <summary lang="en">Oblivious transfer protocol (1 out of n)</summary>
-  <description lang="en">This template shows the Oblivious transfer protocol (1 out of n).</description>
+  <title lang="en">Oblivious Transfer Protocol (1 out of n)</title>
+  <summary lang="en">Usage of the <i>Oblivious transfer protocol (1 out of n)</i></summary>
+  <description lang="en">This template shows the <i>Oblivious transfer protocol (1 out of n)</i>.</description>
   <keywords>oblivious transfer</keywords>
 
   <title lang="de">Oblivious Transfer-Protokoll (1 aus n)</title>
-  <summary lang="de">Oblivious Transfer-Protokoll (1 aus n)</summary>
-  <description lang="de">Diese Vorlage zeigt das Oblivious Transfer-Protokoll (1 aus n).</description>
+  <summary lang="de">Benutzung des <i>Oblivious Transfer-Protokoll (1 aus n)</i></summary>
+  <description lang="de">Diese Vorlage zeigt das <i>Oblivious Transfer-Protokoll (1 aus n)</i>.</description>
   <keywords lang="de">oblivious transfer</keywords>
 
   <icon file="ObliviousTransfer.png" />

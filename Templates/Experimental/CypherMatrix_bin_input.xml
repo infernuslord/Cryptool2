@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">CypherMatrix cipher (binary input)</title>
-  <summary lang="en">CypherMatrix cipher (binary input)</summary>
-  <description lang="en">This template shows how to input binary data to the CypherMatrix plugin.</description>
+  <title lang="en">CypherMatrix Cipher (binary input)</title>
+  <summary lang="en">Usage of the <i>CypherMatrix</i> cipher (binary input)</summary>
+  <description lang="en">This template shows how to input binary data to the <i>CypherMatrix</i> component.</description>
   <keywords>CypherMatrix, Schnoor, binary</keywords>
 
   <title lang="de">CypherMatrix-Chiffre (Binäreingabe)</title>
-  <summary lang="de">CypherMatrix-Chiffre (Binäreingabe)</summary>
-  <description lang="de">Diese Vorlage zeigt, wie dem CypherMatrix-Plugin Binärdaten übergeben werden können.</description>
+  <summary lang="de">Benutzung der <i>CypherMatrix</i>-Chiffre (Binäreingabe)</summary>
+  <description lang="de">Diese Vorlage zeigt, wie der <i>CypherMatrix</i>-Komponente Binärdaten übergeben werden können.</description>
   <keywords lang="de">CypherMatrix, Schnoor, Binär</keywords>
 
   <icon file="CypherMatrix.png" />

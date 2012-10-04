@@ -8,7 +8,7 @@
 
   <title lang="de">Vigenère Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Vigenère</i>-Verschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Vigenère-Verschlüsselung</i>.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Vigenère</i>-Verschlüsselung.</description>
   <keywords lang="de">Caesar, polyalphabetisch, Substitution</keywords>
 
   <icon file="Vigenere_Analyser.png" />

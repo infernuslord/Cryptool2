@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">CypherMatrix Cipher</title>
-  <summary lang="en">CypherMatrix cipher</summary>
-  <description lang="en">This template shows how to use <i>CypherMatrix en-/decryption</i>.</description>
+  <summary lang="en">Usage of the <i>CypherMatrix</i> cipher</summary>
+  <description lang="en">This template shows how to use <i>CypherMatrix</i> en-/decryption.</description>
   <keywords>CypherMatrix, Schnoor</keywords>
 
   <title lang="de">CypherMatrix-Chiffre</title>
-  <summary lang="de">CypherMatrix-Chiffre</summary>
-  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>CypherMatrix-Ver-/Entschlüsselung</i>.</description>
+  <summary lang="de">Benutzung der <i>CypherMatrix</i>-Chiffre</summary>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>CypherMatrix</i>-Ver-/Entschlüsselung.</description>
   <keywords lang="de">CypherMatrix, Schnoor</keywords>
 
   <icon file="CypherMatrix.png" />

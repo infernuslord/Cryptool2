@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Coin flipping protocol</title>
-  <summary lang="en">Coin flipping protocol</summary>
-  <description lang="en">This template shows the usage of the Coin flipping protocol.</description>
+  <title lang="en">Coin Flipping Protocol</title>
+  <summary lang="en">Usage of the <i>Coin flipping protocol</i></summary>
+  <description lang="en">This template shows the usage of the <i>Coin flipping protocol</i>.</description>
   <keywords>coin flipping</keywords>
 
   <title lang="de">Coin-Flipping-Protokoll</title>
-  <summary lang="de">Coin-Flipping-Protokoll</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung des Coin-Flipping-Protokolls.</description>
+  <summary lang="de">Benutzung des <i>Coin-Flipping-Protokolls</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Coin-Flipping-Protokolls</i>.</description>
   <keywords lang="de">coin flipping</keywords>
 
   <icon file="CoinFlip.png" />

@@ -2,7 +2,7 @@
 <sample>
 
   <title lang="en">Enigma Cipher Machine</title>
-  <summary lang="en">Usage of the <i>Enigma</i> Cipher Machine</summary>
+  <summary lang="en">Usage of the <i>Enigma</i> cipher machine</summary>
   <description lang="en">An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages. The first Enigma was invented by German engineer Arthur Scherbius at the end of World War I. This model and its variants were used commercially from the early 1920s, and adopted by military and government services of several countries — most notably by Nazi Germany before and during World War II. Several different Enigma models were produced, but the German military models, the Wehrmacht Enigmas, are the ones most commonly discussed.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Enigma_machine" /></description>
   <keywords>Machine, Turing, War, Rotor</keywords>

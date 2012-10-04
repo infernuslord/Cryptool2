@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Zero Knowledge protocol</title>
-  <summary lang="en">Zero Knowledge protocol</summary>
-  <description lang="en">This template shows the Zero Knowledge protocol.</description>
+  <title lang="en">Zero Knowledge Protocol</title>
+  <summary lang="en">Usage of the <i>Zero Knowledge protocol</i></summary>
+  <description lang="en">This template shows the <i>Zero Knowledge protocol</i>.</description>
   <keywords>zero knowledge</keywords>
 
   <title lang="de">Zero Knowledge-Protokoll</title>
-  <summary lang="de">Zero Knowledge-Protokoll</summary>
-  <description lang="de">Diese Vorlage zeigt das Zero Knowledge-Protokoll.</description>
+  <summary lang="de">Benutzung des <i>Zero Knowledge-Protokoll</i></summary>
+  <description lang="de">Diese Vorlage zeigt das <i>Zero Knowledge-Protokoll</i>.</description>
   <keywords lang="de">zero knowledge</keywords>
 
   <icon file="Zeroknowledge.png" />

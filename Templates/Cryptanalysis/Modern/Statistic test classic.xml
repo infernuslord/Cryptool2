@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Statistic Tests for classical Ciphers</title>
+  <title lang="en">Statistic Tests for Classical Ciphers</title>
   <summary lang="en">Usage of the <i>Statistic Test</i> for classical ciphers</summary>
   <description lang="en">This template shows the usage of the <i>Statistic Test</i> for classical ciphers.</description>
   <keywords>Analysis, FrequencyTest, FriedmanTest</keywords>
