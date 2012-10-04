@@ -90,32 +90,12 @@
                     </Border>
                 </DataTemplate>
             </Grid.Resources>
-            <StackPanel Margin="20,10,0,0" Width="220" HorizontalAlignment="Left">
-                <TextBlock   Text="Cryptool Tutorial Videos" FontSize="30" Foreground="#444"
+            <TextBlock Margin="20,10,0,0" Width="220" HorizontalAlignment="Left"  Text="Cryptool Tutorial Videos" FontSize="30" Foreground="#444"
                         FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
                     <TextBlock.Effect>
                         <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                     </TextBlock.Effect>
-                </TextBlock>
-                <TextBlock  Foreground="#999" FontWeight="ExtraLight" Text="Suche" FontSize="12" FontFamily="DejaVu Sans Mono">
-
-                </TextBlock>
-                <TextBox>
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Border Background="#99FFFFFF" Padding="5" CornerRadius="6" BorderBrush="#aaa" BorderThickness="0.5">
-                                            <ScrollViewer Background="#11ffffff" x:Name="PART_ContentHost" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-            </StackPanel>
+            </TextBlock>
 
             <ScrollViewer Name="ScrollViewer" VerticalScrollBarVisibility="auto" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
                 <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
@@ -127,13 +107,30 @@
                 </ItemsControl>
             </ScrollViewer>
         
-            <Border Margin="20,20,0,20" Width="200" Height="400" CornerRadius="5" Background="#dd444444" HorizontalAlignment="Left">
-                <TextBlock   Text="Kategorien" FontSize="22" Foreground="#fff" TextAlignment="Center"
+            <Border Margin="20,20,0,20" ClipToBounds="True" Width="200" Height="400" CornerRadius="5" Background="#dd444444" HorizontalAlignment="Left">
+                <StackPanel >
+                    <TextBlock Background="#444"  Text="Kategorien" FontSize="22" Foreground="#fff" TextAlignment="Center"
                         FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
-                    <TextBlock.Effect>
-                        <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
-                    </TextBlock.Effect>
-                </TextBlock>
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBox Margin="10">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Border Background="#44FFFFFF" Padding="5" CornerRadius="6" BorderBrush="#aaa" BorderThickness="0.5">
+                                                <ScrollViewer Background="#11ffffff" x:Name="PART_ContentHost" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                </StackPanel>
             </Border>
         </Grid>
     </Grid>
