@@ -39,7 +39,9 @@ namespace HexBox
         private Point falloff = new Point(0, 0);
         private StretchText st;
         private HexText ht;
-       
+        private double offset;
+        private Boolean unicorn = true;
+        private int focusWho = 0;
 
         #endregion
 
@@ -48,6 +50,7 @@ namespace HexBox
         public Boolean inReadOnlyMode = false;
         public string Pfad = string.Empty;
         public event EventHandler OnFileChanged;
+        
 
 
         #endregion
@@ -131,6 +134,9 @@ namespace HexBox
             cursor.TextInput += HexBox_TextInput;
 
             scoview.ScrollChanged += new ScrollChangedEventHandler(scoview_ScrollChanged);
+            fileSlider.ValueChanged += MyManipulationCompleteEvent;
+            
+            fileSlider.Scroll += new ScrollEventHandler(fileSlider_Scroll);
 
             mainPanel.MouseWheel += new MouseWheelEventHandler(MainWindow_MouseWheel);
             
@@ -142,8 +148,6 @@ namespace HexBox
             dyfipro.LengthChanged += new EventHandler(dyfipro_LengthChanged);
 
         }
-
-       
 
         #endregion
 
@@ -211,8 +215,11 @@ namespace HexBox
         {
 
             Point p = e.GetPosition(canvas1);
+            
             falloff = p;
-            cell = (int)(((int)Math.Round((p.Y - 10) / 20.0)) * 16 + (int)Math.Round((p.X) / (ht.CharWidth * 3))) * 2;
+            cell  = (int)(((int)Math.Round((p.Y - 10) / 20.0)) * 16 + (int)Math.Round((p.X) / (ht.CharWidth * 3))) * 2;
+
+            
 
             if (cell / 2 + (long)fileSlider.Value * 16 > dyfipro.Length)
             {
@@ -230,6 +237,8 @@ namespace HexBox
             }
 
             mark[0] = cell / 2 + (long)fileSlider.Value * 16;
+
+           
 
             setPosition(cell);
             setPositionText(cell/2);
@@ -353,7 +362,8 @@ namespace HexBox
                 mark[0] = help;
 
             }
-
+            cursorpositionText = cellText + (long) fileSlider.Value*16;
+            cursorposition = cellText*2 + (long)fileSlider.Value * 32;
 
         }
 
@@ -372,9 +382,11 @@ namespace HexBox
                 cell = 510;
             }
 
-            setPosition(cell);
-            setPositionText(cell / 2);
-            setcursor(p);
+          
+
+            //setPosition(cell);
+            //setPositionText(cell / 2);
+            //setcursor(p);
 
             if (mark[1] < mark[0])
             {
@@ -385,6 +397,11 @@ namespace HexBox
 
             }
 
+            cursorpositionText = (int)cell/2 + (long)fileSlider.Value * 16;
+           
+            cursorposition = (int)cell + (long)fileSlider.Value * 32;
+            
+            updateUI((long) fileSlider.Value);
         }
 
         private void canvas1_MouseDown(object sender, MouseButtonEventArgs e)
@@ -405,7 +422,6 @@ namespace HexBox
 
         #region Keyinput
 
-
         private void setPositionText(int cellText)
         {
             if (cellText  + (long)fileSlider.Value * 16 > dyfipro.Length)
@@ -423,43 +439,19 @@ namespace HexBox
             
             this.cellText = cellText;
 
-            cursorpositionText = (long)fileSlider.Value*16 + (long)cellText;
-
-            if(scoview.VerticalOffset > p.Y+20 )
-            {
-                scoview.ScrollToVerticalOffset(scoview.VerticalOffset-20);
-                //fileSlider.Value += scoview.VerticalOffset/20;
-                //scoview.ScrollToVerticalOffset(0);
-            }
-
-            if (scoview.VerticalOffset + mainPanel.ActualHeight - scoview.ScrollableHeight < p.Y +20)
-            {
-                //fileSlider.Value += scoview.VerticalOffset/20;
-                //scoview.ScrollToVerticalOffset(0);
-                scoview.ScrollToVerticalOffset(scoview.VerticalOffset + 20);
-            }
-
-            fileSlider.Maximum = (dyfipro.Length - 256) / 16 + 1 + (long)scoview.ScrollableHeight / 20;
-            //fileSlider.Value = fileSlider.Value + scoview.VerticalOffset / 20;
-
-            //      cursor2.Focus();
-
-
         }
 
         private void setPosition(int cell)
         {
             if(cell / 2 + (long)fileSlider.Value * 16 >dyfipro.Length)
             {
-                cell = (int)(dyfipro.Length - (long)fileSlider.Value * 16)*2-2;
+                cell = (int)(dyfipro.Length - (long)fileSlider.Value * 16)*2;
             }
 
             Point p = new Point();
 
             p.X = cell % 32 * (ht.CharWidth * 3) / 2;
             p.Y = cell / 32 * 20+2;
-
-            
 
             if(cell%2==1)
             {
@@ -472,23 +464,22 @@ namespace HexBox
 
             this.cell = cell;
 
-            cursorposition = (long)fileSlider.Value * 32 + (long)cell;
-
-//            cursor.Focus();
-
-            
         }
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
         {
-            if (cursorposition> fileSlider.Value * 32 + 512 || cursorposition < fileSlider.Value * 32)
+            if (e.Key != Key.LeftCtrl)
             {
-                fileSlider.Value = cursorposition / 32 - 1;
+                if (cursorposition > fileSlider.Value*32 + 512 || cursorposition < fileSlider.Value*32)
+                {
+                    fileSlider.Value = cursorposition/32 - 1;
+                }
             }
 
 
             if (Pfad != "" && Pfad != " ")
             {
+                this.cell = cell;
                 Key k = e.Key;
                 
                 Boolean releasemark = true;
@@ -498,12 +489,12 @@ namespace HexBox
                 System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
                 string s = k.ToString();
 
-                if (e.Key == Key.Right)
+                if (e.Key == Key.Right )
                 {
                     
-                    if (cell / 2 + (long)fileSlider.Value * 16 < dyfipro.Length)
+                    if (cell / 2 + (long)fileSlider.Value * 16 < dyfipro.Length )
                     {
-                        if(cell<32*16-1)
+                        if (cell < 32 * 16 - 1 && (cell+1) / 32 < offset - 1)
                         {    
                             this.cell++;
                         }
@@ -512,8 +503,8 @@ namespace HexBox
                             if (fileSlider.Value < fileSlider.Maximum)
                             {
                                 fileSlider.Value += 1;
-
-                                this.cell = 32*16-32;
+                                this.cell++;
+                                //this.cell = 32*16-32;
                             }
                         }
 
@@ -532,10 +523,9 @@ namespace HexBox
                     {
                         if (fileSlider.Value > 0)
                         {
-                            this.cell = 31;
-                            fileSlider.Value -= 1;
-
                             
+                            fileSlider.Value -= 1;
+                            this.cell = 31;
                         }
                     }
                     controlKey = true;
@@ -544,23 +534,27 @@ namespace HexBox
 
                 else if (e.Key == Key.Down)
                 {
-                 
+
                     if (cell / 2 + (long)fileSlider.Value * 16 + 15 < dyfipro.Length)
                     {
-                        if(cell<32*16-32)
+                        
+                        if (cell < 32 * 16 - 32 && cell/32 < offset-2)
                         {
-                            this.cell +=  32;
+                            this.cell += 32;
                         }
                         else
                         {
-                            if(fileSlider.Value<fileSlider.Maximum)
+                            if (fileSlider.Value < fileSlider.Maximum)
                             {
                                 fileSlider.Value += 1;
+                                this.cell += 32;
                             }
                         }
 
 
                     } 
+
+                   
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -569,13 +563,14 @@ namespace HexBox
                 {
                     if(cell>31)
                     {
-                        cell -= 32;
+                        this.cell -= 32;
                     }
                     else
                     {
                         if (fileSlider.Value > 0)
                         {
                             fileSlider.Value -= 1;
+                            this.cell -= 32;
                         }
                     }
                     controlKey = true;
@@ -593,10 +588,10 @@ namespace HexBox
 
                             if (cell % 2 == 1)
                             {
-                                cell--;
+                                this.cell--;
                             }
-                            cell--;
-                            cell--;
+                            this.cell--;
+                            this.cell--;
                         }
                         else
                         {
@@ -604,7 +599,7 @@ namespace HexBox
                             {
                                 fileSlider.Value -= 1;
 
-                                this.cell = 30;
+                                this.cell--;
                             }
                         }
 
@@ -621,13 +616,16 @@ namespace HexBox
                  if (e.Key == Key.PageDown)
                 {
                     fileSlider.Value += 16;
+                    this.cell += 512;
                     controlKey = true;
                      e.Handled = true;
                 }
 
                 else if (e.Key == Key.PageUp)
                 {
-                    fileSlider.Value -= 16; 
+                    
+                    fileSlider.Value -= 16;
+                    this.cell -= 512;
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -644,12 +642,12 @@ namespace HexBox
 
                     if (fileSlider.Value != fileSlider.Maximum || cell < row )
                     {
-                        cell = ((int)(cell / 32) + 1) * 32 - 2;
+                        this.cell = ((int)(cell / 32) + 1) * 32 - 2;
                     }
                     else
                     {
                         
-                         cell = (int)(row + (int)(dyfipro.Length % 16)*2);
+                         this.cell = (int)(row + (int)(dyfipro.Length % 16)*2);
                     }
 
                     e.Handled = true;
@@ -658,7 +656,7 @@ namespace HexBox
 
                 else if (e.Key == Key.Home)
                 {
-                    cell = ((int)(cell / 32) ) * 32 ;
+                    this.cell = ((int)(this.cell / 32) ) * 32 ;
                     controlKey = true;
                     e.Handled = true;
 
@@ -670,10 +668,8 @@ namespace HexBox
                     e.Handled = true;
                 }
 
-                setPositionText(cell / 2);
-                setPosition(cell);
-                
-                
+                cursorposition = this.cell + (long)fileSlider.Value * 32;
+                cursorpositionText = cursorposition/2;
 
                 if (e.Key == Key.Tab)
                 {
@@ -833,7 +829,7 @@ namespace HexBox
                 {
                     if (cellText + (long)fileSlider.Value * 16 < dyfipro.Length)
                     {
-                        if (cellText < 255)
+                        if (cellText < 255 && (cellText + 1) / 16 < offset - 1)
                         {
                             this.cellText++;
                         }
@@ -842,8 +838,7 @@ namespace HexBox
                             if (fileSlider.Value < fileSlider.Maximum)
                             {
                                 fileSlider.Value += 1;
-
-                                this.cellText = 16 * 15 ;
+                                cellText++;
                             }
                         }
 
@@ -864,7 +859,6 @@ namespace HexBox
                         if (fileSlider.Value > 0)
                         {
                             fileSlider.Value -= 1;
-
                             this.cellText = 15;
                         }
                     }
@@ -877,7 +871,7 @@ namespace HexBox
                 {
                     if (cellText + (long)fileSlider.Value * 16 + 15 < dyfipro.Length)
                     {
-                        if (cellText < 16 * 15)
+                        if (cellText < 16 * 15 && cellText / 16 < offset - 2)
                         {
                             this.cellText += 16;
                         }
@@ -886,10 +880,11 @@ namespace HexBox
                             if (fileSlider.Value < fileSlider.Maximum)
                             {
                                 fileSlider.Value += 1;
+                                this.cellText += 16;
                             }
                         }
 
-
+                    
                     }
                     controlKey = true;
                     e.Handled = true;
@@ -898,12 +893,15 @@ namespace HexBox
                 else if (e.Key == Key.Up)
                 {
                     if (cellText > 15)
-                    { cellText -= 16; }
+                    {
+                        cellText -= 16;
+                    }
                     else
                     {
                         if (fileSlider.Value > 0)
                         {
                             fileSlider.Value -= 1;
+                            this.cellText -= 16;
                         }
                     }
                     controlKey = true;
@@ -945,6 +943,7 @@ namespace HexBox
                 if (e.Key == Key.PageDown)
                 {
                     fileSlider.Value += 16;
+                    cellText += 256;
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -952,6 +951,7 @@ namespace HexBox
                 else if (e.Key == Key.PageUp)
                 {
                     fileSlider.Value -= 16;
+                    cellText -= 256;
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -997,8 +997,11 @@ namespace HexBox
                     e.Handled = true;
                 }
 
-                setPosition(cellText*2);
-                setPositionText(cellText);
+                cursorpositionText = cellText + (long)fileSlider.Value * 16;
+                cursorposition = cursorpositionText * 2;
+
+                //setPosition(cellText*2);
+                //setPositionText(cellText);
 
                 Boolean releasemark = true;
 
@@ -1124,109 +1127,6 @@ namespace HexBox
 
         }
 
-        private void nextHexBoxField()
-        {
-            Boolean b = true;
-
-            if (Canvas.GetLeft(cursor) < 328.7)
-            {
-                Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) + ht.CharWidth);
-                if (Canvas.GetLeft(cursor) % (ht.CharWidth * 3) > ht.CharWidth * 3 / 2)
-                {
-                    Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) + ht.CharWidth);
-                }
-                b = false;
-                cell++;
-            }
-            else if (Canvas.GetTop(cursor) < 300)
-            {
-                Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
-                Canvas.SetLeft(cursor, 0);
-                cell++;
-            }
-
-            else if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor) > 320.7 && Canvas.GetTop(cursor) > 290 &&
-                b)
-            {
-                Canvas.SetLeft(cursor, 0);
-                Canvas.SetLeft(cursor2, 0);
-                cell=480;
-                fileSlider.Value += 1;
-            }
-             //working on endfile
-
-        }
-
-        private void nextASCIIField()
-        {
-            Boolean b = true;
-
-            if (Canvas.GetLeft(cursor2) < 107)
-            {   
-                Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) + ht.CharWidth);
-                cellText++;
-            }
-
-            else if (Canvas.GetTop(cursor2) < 300)
-            {
-                Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
-                Canvas.SetLeft(cursor2, 0);
-                cellText++;
-            }
-
-
-            else if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor2) >= 107 &&
-                Canvas.GetTop(cursor2) >= 300)
-            {
-                Canvas.SetLeft(cursor, 0);
-                Canvas.SetLeft(cursor2, 0);
-                cellText = 240;
-                fileSlider.Value += 1;
-            }
-
-        }
-
-        private void backHexBoxField()
-        {
-            Boolean b = true;
-
-            if (Canvas.GetLeft(cursor) > 10)
-            {
-                Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) - ht.CharWidth*3);
-                b = false;
-            }
-            else if (Canvas.GetTop(cursor) > 10)
-            {
-                Canvas.SetTop(cursor, Canvas.GetTop(cursor) - 20);
-                Canvas.SetLeft(cursor, 328.7 - ht.CharWidth);
-            }
-
-
-
-            if (Canvas.GetLeft(cursor2) > 0)
-                Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) - st.CharWidth);
-
-            else if (Canvas.GetTop(cursor2) > 0)
-            {
-                Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) - 20);
-                Canvas.SetLeft(cursor2, 150);
-            }
-
-
-
-            if (fileSlider.Value != fileSlider.Minimum && Canvas.GetLeft(cursor2) == 0 &&
-                Canvas.GetTop(cursor2) == 0 && b)
-            {
-                Canvas.SetLeft(cursor, 328.7 - ht.CharWidth );
-                Canvas.SetLeft(cursor2, 107);
-                fileSlider.Value -= 1;
-            }
-
-            cell--;
-            cell--;
-
-        }
-
         private void backASCIIField()
         {
             Boolean b = true;
@@ -1300,21 +1200,42 @@ namespace HexBox
 
                 //nextASCIIField();
 
+                cursorpositionText++;
                 cellText++;
-                
                 if (cellText == 16 * 16)
                 {
                     if (fileSlider.Value < fileSlider.Maximum)
                     {
                         fileSlider.Value += 1;
-                        this.cellText = 16 * 15;
+                        this.cursorpositionText++;
+                    }
+                }
+
+                if ((cellText ) / 16 > offset - 1 && cellText != 16 * 16 - 1)
+                {
+                    if (fileSlider.Value < fileSlider.Maximum)
+                    {
+
+                        fileSlider.Value += 1;
+                        //this.cursorposition++;
+                    }
+                }
+                if (cellText == 16 * 16 - 1)
+                {
+                    if (fileSlider.Value < fileSlider.Maximum)
+                    {
+
+                        fileSlider.Value += 1;
+                        //this.cursorposition++;
                     }
                 }
                 
             }
-            
-            setPosition(cellText * 2);
-            setPositionText(cellText);
+
+            cursorposition = cursorpositionText * 2;
+
+            //setPosition(cellText * 2);
+            //setPositionText(cellText);
             
             updateUI((long)fileSlider.Value);
            
@@ -1418,6 +1339,7 @@ namespace HexBox
 
                         if (cell % 2 == 0)
                         {
+                            
                             int i = e[0];
 
 
@@ -1431,7 +1353,7 @@ namespace HexBox
                         }
                         if (cell % 2 == 1)
                         {
-
+                            
                             if (e[0] > 96 && e[0] < 103 || e[0] > 47 && e[0] < 58)
                             {
                                 s = (char)s[0] + ""+ c ;
@@ -1444,25 +1366,33 @@ namespace HexBox
                         }
                     }
 
-
+                    cursorposition++;
                     cell++;
-                    if (cell == 32 * 16)
+                    if ((cell) / 32 > offset - 1 && cell != 32 * 16 - 1)
                     {
                         if (fileSlider.Value < fileSlider.Maximum)
                         {
+
                             fileSlider.Value += 1;
-                            this.cell = 32 * 15;
+                            //this.cursorposition++;
                         }
                     }
-
-
-                    
-
-                    
+                    if (cell == 32 * 16 - 1)
+                    {
+                        if (fileSlider.Value < fileSlider.Maximum )
+                        {
+                            
+                            fileSlider.Value += 1;
+                            //this.cursorposition++;
+                        }
+                    }
                 }
             }
-            setPositionText(cell / 2);
-            setPosition(cell);
+
+            cursorpositionText = cursorposition / 2;
+
+            //setPositionText(cell / 2);
+            //setPosition(cell);
             
             updateUI((long)fileSlider.Value);
             
@@ -1487,8 +1417,8 @@ namespace HexBox
         {
             System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
-            Column.Text = (int)(cell % 32 + 2) / 2 + "";
-            Line.Text = cell / 32 + 1 + (long)fileSlider.Value + "";
+            Column.Text = (int)(cursorpositionText % 16 + 1)  + "";
+            Line.Text = cursorpositionText/16 + "";
 
             long end = dyfipro.Length - position * 16;
             int max = 256;
@@ -1517,6 +1447,30 @@ namespace HexBox
             ht.ByteContent = help2;
 
             
+
+            if (cursorpositionText - fileSlider.Value*16 < 256 && cursorpositionText - fileSlider.Value*16 > 0)
+            {
+
+                cursor.Opacity = 1.0;
+                cursor.Width = 10;
+                cursor.Height = 20;
+                cursor2.Width = 10;
+                cursor2.Height = 20;
+                cursor2.Opacity = 1.0;
+            }
+
+            else
+            {
+                cursor.Width = 0;
+                cursor.Height = 0;
+                cursor2.Width = 0;
+                cursor2.Height = 0;
+                cursor.Opacity = 0.0;
+                cursor2.Opacity = 0.0;
+            }
+
+
+
             for (int j = 0; j < 16; j++)
             {
                 TextBlock id = gridid.Children[j] as TextBlock;
@@ -1537,25 +1491,11 @@ namespace HexBox
             st.mark[0] = (int)(mark[0] - position * 16);
             st.mark[1] = (int)(mark[1] - position * 16);
 
-
-            if (cursorpositionText < fileSlider.Value * 16 + 256 && cursorpositionText > fileSlider.Value * 16)
-            {
-
-                //cursor.Visibility = Visibility.Visible;
-                //cursor2.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //cursor.Visibility = Visibility.Hidden;
-                //cursor2.Visibility = Visibility.Hidden;
-            }
-
-            //setPosition((int)(cursorposition - fileSlider.Value * 32));
-
             setPositionText((int)(cursorpositionText - fileSlider.Value * 16));
             setPosition((int)(cursorposition - fileSlider.Value * 32));
 
             lastUpdate = position;
+            unicorn = true;
         }
 
         private void dyfipro_LengthChanged(object sender, EventArgs e) // occures when length of file changed 
@@ -1564,8 +1504,12 @@ namespace HexBox
             
             double old = fileSlider.Maximum;
 
-            fileSlider.Maximum = (dyfipro.Length - 256)/16 + 1;
-
+            if(offset<=16)
+            {fileSlider.Maximum = (dyfipro.Length - 256)/16 + 2 + 16-offset;}
+            else
+            {
+                fileSlider.Maximum = (dyfipro.Length - 256) / 16 + 1 ;
+            }
             
             if ((long) old > (long) fileSlider.Maximum && fileSlider.Value == fileSlider.Maximum)
             {
@@ -1612,7 +1556,10 @@ namespace HexBox
 
                     Info.Text = dyfipro.Length/256 + "";
 
-                    fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                    
+                    //fileSlider.Scroll += fileslider_ScrollChanged;
+                    //fileSlider.ManipulationCompleted += MyManipulationCompleteEvent;
+                    
                     fileSlider.SmallChange = 1;
                     fileSlider.LargeChange = 1;
 
@@ -1807,7 +1754,7 @@ namespace HexBox
 
                     Info.Text = dyfipro.Length / 256 + "";
 
-                    fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                    //fileSlider.ValueChanged += MyManipulationCompleteEvent;
                     fileSlider.SmallChange = 1;
                     fileSlider.LargeChange = 1;
 
@@ -1838,11 +1785,13 @@ namespace HexBox
             {
                 dyfipro.Dispose();
                 // Saves the Image via a FileStream created by the OpenFile method.
-                System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
-
+                try
+                {
+                System.IO.FileStream fs = (System.IO.FileStream) saveFileDialog1.OpenFile();
+                
                 fs.Dispose();
                 fs.Close();
-
+                
                 Pfad = saveFileDialog1.FileName;
 
                 FileName.Text = Pfad;
@@ -1856,7 +1805,7 @@ namespace HexBox
 
                 Info.Text = dyfipro.Length / 256 + "";
 
-                fileSlider.ValueChanged += MyManipulationCompleteEvent;
+                //fileSlider.ValueChanged += MyManipulationCompleteEvent;
                 fileSlider.SmallChange = 1;
                 fileSlider.LargeChange = 1;
 
@@ -1864,6 +1813,11 @@ namespace HexBox
 
                 reset();
                 updateUI(0);
+                }
+                catch (Exception exp)
+                {
+                    
+                }
             }
 
         }
@@ -1892,6 +1846,10 @@ namespace HexBox
         private void help_copy_Hexbox() 
         {
             StringBuilder clipBoardString = new StringBuilder();
+            if (mark[1] > dyfipro.Length)
+                mark[1] = dyfipro.Length;
+
+
 
             for (long i = mark[0]; i < mark[1]; i++)
             {
@@ -1965,6 +1923,11 @@ namespace HexBox
                         }
                     }
 
+                    
+                    cursorposition = mark[0]*2;
+                    cursorpositionText = mark[0] ;
+                    
+
                     mark[1] = -1;
                     mark[0] = -1;
 
@@ -2015,6 +1978,11 @@ namespace HexBox
 
                     ht.removemarks = true;
                     st.removemarks = true;
+
+                  
+                    cursorposition = mark[0] * 2;
+                    cursorpositionText = mark[0];
+                    
 
                     mark[1] = -1;
                     mark[0] = -1;
@@ -2145,6 +2113,9 @@ namespace HexBox
         private void help_copy_ASCIIField() 
         {
             StringBuilder clipBoardString = new StringBuilder();
+            if (mark[1] > dyfipro.Length)
+                mark[1] = dyfipro.Length;
+
             for (long i = mark[0]; i < mark[1]; i++)
             {
                 if (dyfipro.ReadByte(i) > 34 && dyfipro.ReadByte(i) < 128)
@@ -2192,13 +2163,29 @@ namespace HexBox
             e.Handled = true;
         }
 
+        private void fileSlider_Scroll(object sender, EventArgs e)
+        {
+            //if (lastUpdate != fileSlider.Value)
+            //{
+            //    updateUI((long)fileSlider.Value);
+            //}
+
+            //Info.Text = (long)fileSlider.Value + "" + Math.Round(fileSlider.Value * 16, 0) + fileSlider.Value;
+            
+        }
+
         private void MyManipulationCompleteEvent(object sender, EventArgs e)
         {
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
 
-            if (lastUpdate != fileSlider.Value)
+           
+            fileSlider.Value = Math.Round(fileSlider.Value);
+
+
+            if (lastUpdate != fileSlider.Value && unicorn)
             {
+                unicorn = false;
                 updateUI((long) fileSlider.Value);
+                    
             }
 
             Info.Text = (long) fileSlider.Value + "" + Math.Round(fileSlider.Value*16, 0) + fileSlider.Value;
@@ -2213,16 +2200,129 @@ namespace HexBox
 
         private void scoview_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            
-            updateUI((long)fileSlider.Value);
+            scoview.ScrollToTop();
+            offset = scoview.ViewportHeight/20;
 
+            if(offset<16)
+            fileSlider.Maximum = dyfipro.Length/16-15 + 2 + 16 - offset;
+            else
+            {
+                fileSlider.Maximum = dyfipro.Length / 16 - 15;
+            }
+
+
+            
         }
+
+        
 
         #endregion
 
-   
-
         #region not needed anymore
+
+        //private void nextHexBoxField()
+        //{
+        //    Boolean b = true;
+
+        //    if (Canvas.GetLeft(cursor) < 328.7)
+        //    {
+        //        Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) + ht.CharWidth);
+        //        if (Canvas.GetLeft(cursor) % (ht.CharWidth * 3) > ht.CharWidth * 3 / 2)
+        //        {
+        //            Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) + ht.CharWidth);
+        //        }
+        //        b = false;
+        //        cell++;
+        //    }
+        //    else if (Canvas.GetTop(cursor) < 300)
+        //    {
+        //        Canvas.SetTop(cursor, Canvas.GetTop(cursor) + 20);
+        //        Canvas.SetLeft(cursor, 0);
+        //        cell++;
+        //    }
+
+        //    else if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor) > 320.7 && Canvas.GetTop(cursor) > 290 &&
+        //        b)
+        //    {
+        //        Canvas.SetLeft(cursor, 0);
+        //        Canvas.SetLeft(cursor2, 0);
+        //        cell = 480;
+        //        fileSlider.Value += 1;
+        //    }
+        //    //working on endfile
+
+        //}
+
+        //private void nextASCIIField()
+        //{
+        //    Boolean b = true;
+
+        //    if (Canvas.GetLeft(cursor2) < 107)
+        //    {
+        //        Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) + ht.CharWidth);
+        //        cellText++;
+        //    }
+
+        //    else if (Canvas.GetTop(cursor2) < 300)
+        //    {
+        //        Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) + 20);
+        //        Canvas.SetLeft(cursor2, 0);
+        //        cellText++;
+        //    }
+
+
+        //    else if (fileSlider.Value != fileSlider.Maximum && Canvas.GetLeft(cursor2) >= 107 &&
+        //        Canvas.GetTop(cursor2) >= 300)
+        //    {
+        //        Canvas.SetLeft(cursor, 0);
+        //        Canvas.SetLeft(cursor2, 0);
+        //        cellText = 240;
+        //        fileSlider.Value += 1;
+        //    }
+
+        //}
+
+        //private void backHexBoxField()
+        //{
+        //    Boolean b = true;
+
+        //    if (Canvas.GetLeft(cursor) > 10)
+        //    {
+        //        Canvas.SetLeft(cursor, Canvas.GetLeft(cursor) - ht.CharWidth * 3);
+        //        b = false;
+        //    }
+        //    else if (Canvas.GetTop(cursor) > 10)
+        //    {
+        //        Canvas.SetTop(cursor, Canvas.GetTop(cursor) - 20);
+        //        Canvas.SetLeft(cursor, 328.7 - ht.CharWidth);
+        //    }
+
+
+
+        //    if (Canvas.GetLeft(cursor2) > 0)
+        //        Canvas.SetLeft(cursor2, Canvas.GetLeft(cursor2) - st.CharWidth);
+
+        //    else if (Canvas.GetTop(cursor2) > 0)
+        //    {
+        //        Canvas.SetTop(cursor2, Canvas.GetTop(cursor2) - 20);
+        //        Canvas.SetLeft(cursor2, 150);
+        //    }
+
+
+
+        //    if (fileSlider.Value != fileSlider.Minimum && Canvas.GetLeft(cursor2) == 0 &&
+        //        Canvas.GetTop(cursor2) == 0 && b)
+        //    {
+        //        Canvas.SetLeft(cursor, 328.7 - ht.CharWidth);
+        //        Canvas.SetLeft(cursor2, 107);
+        //        fileSlider.Value -= 1;
+        //    }
+
+        //    cell--;
+        //    cell--;
+
+        //}
+
 
         //private void ScrollViewer_KeyDown(object sender, KeyEventArgs e)
         //{
@@ -2431,30 +2531,10 @@ namespace HexBox
 
         //}
         #endregion
+
+        
     }
-    public class ExtraScrollViewer : ScrollViewer
-    {
-        private ScrollBar verticalScrollbar;
-
-        public override void OnApplyTemplate()
-        {
-            // Call base class
-            base.OnApplyTemplate();
-
-            // Obtain the vertical scrollbar
-            this.verticalScrollbar = this.GetTemplateChild("PART_VerticalScrollBar") as ScrollBar;
-        }
-
-        protected override void OnMouseWheel(MouseWheelEventArgs e)
-        {
-            // Only handle this message if the vertical scrollbar is in use
-            if ((this.verticalScrollbar != null) && (this.verticalScrollbar.Visibility == Visibility.Visible) && this.verticalScrollbar.IsEnabled)
-            {
-                // Perform default handling
-                base.OnMouseWheel(e);
-            }
-        }
-    }
+    
    
 }
 
