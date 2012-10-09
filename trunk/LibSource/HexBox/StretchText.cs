@@ -78,11 +78,11 @@ namespace HexBox
 
             if (!removemarks)
             {
-
+                double veroff = 4;
                 if (mark[0] < mark[1])
                 {
 
-                    double y = (int)(mark[0] / 16) * 20;        // height
+                    double y = (int)(mark[0] / 16) * 20 - veroff;        // height
                     double x = mark[0] % 16 * charwidth;        //length first row
                     double z = mark[1] % 16 * charwidth - x;   //rest
 
@@ -93,7 +93,7 @@ namespace HexBox
                         z = 0;
                     }
 
-                    double y1 = (int)(mark[1] / 16) * 20;   //height
+                    double y1 = (int)(mark[1] / 16) * 20 - veroff;   //height
                     double x1 = 0;
                     double z1 = mark[1] % 16 * charwidth;  //length last row
 
@@ -117,7 +117,7 @@ namespace HexBox
 
                         for (int ix = 1; ix < v; ix++)
                         {
-                            double y3 = y + ix * 20;
+                            double y3 = y + ix * 20 ;
                             drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
@@ -133,7 +133,7 @@ namespace HexBox
 
                 else
                 {
-                    double y = (int)(mark[0] / 16) * 20;        //height coordinates
+                    double y = (int)(mark[0] / 16) * 20 - veroff;        //height coordinates
                     double x = mark[1] % 16 * charwidth ;        //length last row
                     double z = mark[0] % 16 * charwidth - x ;   //restlength
 
@@ -144,7 +144,7 @@ namespace HexBox
                         z = 0;
                     }
 
-                    double y1 = (int)(mark[1] / 16) * 20;   //height coordinates
+                    double y1 = (int)(mark[1] / 16) * 20 - veroff;   //height coordinates
                     
                     double z1 = mark[1] % 16 * charwidth ;  //length last row
 
@@ -170,7 +170,7 @@ namespace HexBox
 
                         for (int ix = 1; ix < v; ix++)
                         {
-                            double y3 = y1 + ix * 20;
+                            double y3 = y1 + ix * 20 ;
                             drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
