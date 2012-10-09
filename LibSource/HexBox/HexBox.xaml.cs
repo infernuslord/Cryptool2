@@ -209,6 +209,7 @@ namespace HexBox
             ht.removemarks = true;
 
             updateUI((long)fileSlider.Value);
+            e.Handled = true;
         }
 
         private void ht_MouseDown(object sender, MouseButtonEventArgs e)
@@ -246,6 +247,7 @@ namespace HexBox
 
             cursor.Focus();
             updateUI((long)fileSlider.Value);
+            e.Handled = true;
         }
 
         private void st_MouseMove(object sender, MouseEventArgs e)
@@ -364,7 +366,9 @@ namespace HexBox
             }
             cursorpositionText = cellText + (long) fileSlider.Value*16;
             cursorposition = cellText*2 + (long)fileSlider.Value * 32;
-
+            
+            updateUI((long)fileSlider.Value);
+            e.Handled = true;
         }
 
         private void ht_MouseUp(object sender, MouseButtonEventArgs e)
@@ -402,6 +406,7 @@ namespace HexBox
             cursorposition = (int)cell + (long)fileSlider.Value * 32;
             
             updateUI((long) fileSlider.Value);
+            e.Handled = true;
         }
 
         private void canvas1_MouseDown(object sender, MouseButtonEventArgs e)
@@ -769,6 +774,7 @@ namespace HexBox
                     
                     st.removemarks = false;
                     ht.removemarks = false;
+                    e.Handled = true;
                 }
 
 
@@ -777,7 +783,7 @@ namespace HexBox
                 {
 
                     Copy_HexBoxField();
-
+                    e.Handled = true;
 
                 }
 
@@ -785,7 +791,7 @@ namespace HexBox
                 {
 
                     HexBox_TextInput_Help(Clipboard.GetText());
-                    
+                    e.Handled = true;
                 }
 
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X)
@@ -1099,16 +1105,19 @@ namespace HexBox
                 if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.C)
                 {
                     Copy_ASCIIFild();
+                    e.Handled = true;
                 }
 
                 if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) )&& e.Key == Key.V)
                 {
                     ASCIIField_TextInput_Help((String) Clipboard.GetData(DataFormats.Text));
+                    e.Handled = true;
                 }
 
                 if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.X)
                 {
                     Cut_ASCIIFild();
+                    e.Handled = true;
                 }
 
                 
