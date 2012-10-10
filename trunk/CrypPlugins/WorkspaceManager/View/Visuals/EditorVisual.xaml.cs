@@ -1600,6 +1600,7 @@ namespace WorkspaceManager.View.Visuals
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Arrow;
                 e.Handled = true;
+                Keyboard.ClearFocus();
             }
 
             switch (e.ClickCount)
