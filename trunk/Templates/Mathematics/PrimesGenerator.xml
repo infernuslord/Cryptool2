@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Primzahlgenerators</i> zur Erzeugung von Primzahlen beliebiger Größe..</description>
   <keywords lang="de">Primzahl</keywords>
 
-  <icon file="math.png" />
+  <icon file="Factorization.png" />
 
 </sample>

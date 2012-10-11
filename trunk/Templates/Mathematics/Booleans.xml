@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung der Komponente für <i>Boolsche Operationen</i>.</description>
   <keywords lang="de">binär, und, oder, nicht</keywords>
 
-  <icon file="math.png" />
+  <icon file="Booleans.png" />
 
 </sample>

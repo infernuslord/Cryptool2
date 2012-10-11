@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Nichtlinear rückgekoppelten Schieberegisters</i>.</description>
   <keywords lang="de">shift, register, rückkopplung</keywords>
 
-  <icon file="math.png" />
+  <icon file="NLFSR.png" />
 
 </sample>

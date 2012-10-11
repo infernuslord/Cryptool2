@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung der Komponente <i>Primzahltests</i>.</description>
   <keywords lang="de">Primzahl, zusammengesetzt</keywords>
 
-  <icon file="math.png" />
+  <icon file="Factorization.png" />
 
 </sample>

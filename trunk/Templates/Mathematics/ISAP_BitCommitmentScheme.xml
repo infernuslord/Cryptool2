@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>ISAP Bit Commitment Scheme</i>.</description>
   <keywords lang="de">verbindlich, versteckt</keywords>
 
-  <icon file="math.png" />
+  <icon file="ISAP_BitCommitmentScheme.png" />
 
 </sample>

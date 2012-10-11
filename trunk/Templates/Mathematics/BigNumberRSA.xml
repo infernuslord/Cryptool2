@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Implementierung von <i>RSA</i> mit mathematischen Komponenten.</description>
   <keywords lang="de">beliebige, Präzision, Stellen</keywords>
 
-  <icon file="math.png" />
+  <icon file="RSA.png" />
 
 </sample>

@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Linear rückgekoppelten Schieberegisters</i>.</description>
   <keywords lang="de">rückkopplung</keywords>
 
-  <icon file="math.png" />
+  <icon file="LFSR.png" />
 
 </sample>

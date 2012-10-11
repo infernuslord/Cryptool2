@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Diskreten Logarithmus</i>.</description>
   <keywords lang="de">diskret, Basis, Logarithmus, Exponent</keywords>
 
-  <icon file="math.png" />
+  <icon file="DiscreteLogarithm.png" />
 
 </sample>
