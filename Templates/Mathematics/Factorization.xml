@@ -11,6 +11,6 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Faktorisierung mit Probedivision (brute-force)</i>.</description>
   <keywords lang="de">faktorisierung, faktor</keywords>
 
-  <icon file="math.png" />
+  <icon file="Factorization.png" />
 
 </sample>
