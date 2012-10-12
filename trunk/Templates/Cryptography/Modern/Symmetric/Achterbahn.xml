@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Achterbahn Cipher</title>
+  <summary lang="en">Usage of the <i>Achterbahn</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>Achterbahn</i> cipher.</description>
+  <keywords>estream, stream, symmetric</keywords>
+
+  <title lang="de">Achterbahn-Chiffre</title>
+  <summary lang="de">Benutzung der <i>Achterbahn</i>-Chiffre</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Achterbahn</i>-Chiffre.</description>
+  <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
+
+  <icon file="Achterbahn.jpg" />
+  <relevantPlugins>
+    <plugin name="Achterbahn" />
+  </relevantPlugins>
+
+</sample>
