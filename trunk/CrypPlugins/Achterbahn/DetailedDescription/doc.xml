@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+  </introduction>
+
+  <introduction lang="de-DE">
+  </introduction>
+
+  <usage lang="en">
+  </usage>
+
+  <usage lang="de-DE">
+  </usage>
+
+  <references>
+    <linkReference>
+      <link url="http://www.matpack.de/achterbahn/Gammel_Goettfert_Kniffler_Achterbahn-128-80.pdf" lang="en" />
+      <caption lang="en">Specification of ACHTERBAHN-128/80 (PDF)</caption>
+      <link url="http://www.matpack.de/achterbahn/Gammel_Goettfert_Kniffler_Achterbahn-128-80.pdf" lang="de-DE" />
+      <caption lang="de-DE">Spezifikation von ACHTERBAHN-128/80 (PDF,englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://www.matpack.de/achterbahn/" lang="en" />
+      <caption lang="en">The Achterbahn Stream Cipher</caption>
+      <link url="http://www.matpack.de/achterbahn/" lang="de-DE" />
+      <caption lang="de-DE">The Achterbahn Stream Cipher (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://www.ecrypt.eu.org/stream/p2ciphers/achterbahn/" lang="en" />
+      <caption lang="en">Achterbahn at eCrypt</caption>
+      <link url="http://www.ecrypt.eu.org/stream/p2ciphers/achterbahn/" lang="de-DE" />
+      <caption lang="de-DE">Achterbahn bei eCrypt (englisch)</caption>
+    </linkReference>
+  </references>
+
+</documentation>
