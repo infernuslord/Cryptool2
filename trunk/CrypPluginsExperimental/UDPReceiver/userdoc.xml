@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    The User Datagram Protocol (UDP) is a simple protocol to send data over a IP network to a specific  Port.
+    It is a connectionless protocol, which means that it is quick and easy, but also unreliable.
+    For example, there is no guarantee that packets arrive in the correct order.
+    UDP was standardised 1980 and is used among others for VOIP.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Das User Datagram Protocol (UDP) ist ein einfaches Protokol zur versendung von Daten über ein IP Netzwerk an einen bestimmten Port.
+    Es ist ein Verbindungsloses Protokol, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
+    Zum Beispiel, gibt es keine Garantie dass Pakete in der richtigen Reihenfolge ankommen.
+    UDP wurde 1980 standardisiert und wird unter anderem für VOIP verwendet.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the UDP Receiver component onto your workspace,  you will
+    have to set a Port in the component's settings. Here you can also set a time limit or a package limit to stop the component.
+   </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die UDP Empfänger Komponente auf den Arbeitsbereich gezogen haben, müssen sie
+    einen Port in den Komtonenten Einstellungen festlegen. Hier können sie außerdem ein Zeitlimit oder ein Packetlimit setzen um die Komponente zu stoppen.
+  </usage>
+  
+  <presentation lang="en">
+    The Presentation shows you all received Packages plus the time of receiving.
+    You can also change the "Single Package" Output by simply clicking on the package of your choice.
+  </presentation>
+  
+  <presentation lang="de-DE">
+    Die Präsentation zeigt Ihnen alle empfangenen Pakete sowie den Zeitpunkt des Empfangs.
+    Sie können auch den "Einzelnes Packet" Ausgang ändern, indem Sie einfach auf das Paket Ihrer Wahl klicken.
+  </presentation>
+  
+  <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/User_Datagram_Protocol" lang="en" />
+      <caption lang="en">UDP at Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/User_Datagram_Protocol" lang="de-DE" />
+      <caption lang="de-DE">UDP bei Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://tools.ietf.org/html/rfc768" lang="en" />
+      <caption lang="en">RFC 768 STANDARD</caption>
+      <link url="http://tools.ietf.org/html/rfc768" lang="de-DE" />
+      <caption lang="de-DE">RFC 768 STANDARD</caption>
+    </linkReference>
+  </references>
+</documentation>
