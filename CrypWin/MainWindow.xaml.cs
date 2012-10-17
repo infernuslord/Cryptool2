@@ -1722,7 +1722,7 @@ namespace Cryptool.CrypWin
         private void SaveSession()
         {
             var session = new List<StoredTab>();
-            foreach (var c in tabToContentMap)
+            foreach (var c in tabToContentMap.Where(x => Attribute.GetCustomAttribute(x.Value.GetType(), typeof(NotStoredInSessionAttribute)) == null))
             {
                 if (c.Value is IEditor && !string.IsNullOrEmpty(((IEditor)c.Value).CurrentFile))
                 {

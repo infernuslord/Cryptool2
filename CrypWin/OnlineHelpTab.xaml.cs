@@ -18,6 +18,7 @@ namespace Cryptool.CrypWin
     /// </summary>
     [Localization("Cryptool.CrypWin.Properties.Resources")]
     [TabColor("White")]
+    [NotStoredInSessionAttribute]
     public partial class OnlineHelpTab : UserControl
     {
         private static OnlineHelpTab _singleton = null;
