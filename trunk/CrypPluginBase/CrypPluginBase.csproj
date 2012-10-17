@@ -88,6 +88,7 @@
     <Compile Include="Attributes\ComponentVisualAppearance.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />
     <Compile Include="Attributes\LocalizationAttribute.cs" />
+    <Compile Include="Attributes\NotStoredInSessionAttribute.cs" />
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
     <Compile Include="Attributes\ContextMenuAttribute.cs" />
     <Compile Include="Attributes\AuthorAttribute.cs" />
