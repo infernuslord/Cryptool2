@@ -17,11 +17,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using DimCodeEncoder.DimCodes;
+using ZXing;
+using ZXing.Common;
+using System;
+using System.Drawing.Imaging;
 
 namespace Cryptool.Plugins.DimCodeEncoder
 {
@@ -30,25 +35,28 @@ namespace Cryptool.Plugins.DimCodeEncoder
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class DimCodeEncoder : ICrypComponent
     {
-        #region Private Variables
+       
 
-        private Dictionary<DimCodeEncoderSettings.DimCodeType, IDimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, IDimCode>();
+        #region Const / Variables
+
+        private const int STREAM_BLOCK_SIZE = 8;
+        private Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode>();
         private readonly DimCodeEncoderSettings settings = new DimCodeEncoderSettings();
         
         #endregion
-
+        
         public DimCodeEncoder()
         {
-            //codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new);
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new EAN8());
         }
 
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "IncommingData", "IncommingDataTooltip")]
-        public ICryptoolStream IncommingData
+        public ICryptoolStream InputStream
         {
             get;
-            private set;
+            set;
         }
 
 
@@ -91,11 +99,19 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public void Execute()
         {
-            // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-
-         
-            // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
+            List<byte> allBytes = new List<byte>();
+            using (CStreamReader reader = InputStream.CreateReader())
+            {
+                int bytesRead;
+                var buffer = new byte[1]; //may be a bottleneck so consider bigger buffer if too slow or make it kinda dynamic
+                while ((bytesRead = reader.Read(buffer)) > 0)
+                {
+                   allBytes.Add(buffer[0]); // little hack to store all recieved bytes
+                   PictureBytes = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
+                   OnPropertyChanged("PictureBytes");
+                }
+            }
             ProgressChanged(1, 1);
         }
 
@@ -105,6 +121,8 @@ namespace Cryptool.Plugins.DimCodeEncoder
         public void PostExecution()
         {
         }
+
+      
 
         /// <summary>
         /// Triggered time when user clicks stop button.
