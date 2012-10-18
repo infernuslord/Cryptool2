@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Cryptool.Plugins.DimCodeEncoder;
 using DimCodeEncoder.model;
@@ -39,8 +40,8 @@ namespace DimCodeEncoder.DimCodes
             return new DimCodeReturnValue
                        {
                            Legend = GetLegend(input, settings),
-                           PureBitmap = pureBitmap,
-                           PresentationBitmap = GeneratePresentationBitmap(pureBitmap, settings)
+                           PureBitmap = imageToByteArray(pureBitmap),
+                           PresentationBitmap = imageToByteArray(GeneratePresentationBitmap(pureBitmap, settings))
                        };
         }
 
@@ -50,7 +51,7 @@ namespace DimCodeEncoder.DimCodes
         /// <param name="pureBitmap"></param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        protected virtual byte[] GeneratePresentationBitmap(byte[] pureBitmap, DimCodeEncoderSettings settings)
+        protected virtual Image GeneratePresentationBitmap(Image pureBitmap, DimCodeEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -72,8 +73,8 @@ namespace DimCodeEncoder.DimCodes
         /// </summary>
         /// <param name="input"></param>
         /// <param name="settings"></param>
-        /// <returns>returns the bytearray of the dim-Code</returns>
-        protected virtual byte[] GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
+        /// <returns>returns the image of the dim-Code</returns>
+        protected virtual Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -107,7 +108,7 @@ namespace DimCodeEncoder.DimCodes
         public byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
             MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
             return ms.ToArray();
         }
 
