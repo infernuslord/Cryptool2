@@ -64,6 +64,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -87,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DimCodeEncoder.cs" />
+    <Compile Include="DimCodeEncoderPresentation.xaml.cs">
+      <DependentUpon>DimCodeEncoderPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DimCodeEncoderSettings.cs" />
     <Compile Include="model\ColoredString.cs" />
     <Compile Include="DimCodes\DimCode.cs" />
@@ -130,7 +134,12 @@
     <Content Include="externalLibs\ZXing.net\zxing.XML" />
     <Content Include="how_to_add_new_DimCodes.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="DimCodeEncoderPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

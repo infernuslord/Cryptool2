@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using DimCodeEncoder;
 using DimCodeEncoder.DimCodes;
 using ZXing;
 using ZXing.Common;
@@ -37,8 +38,10 @@ namespace Cryptool.Plugins.DimCodeEncoder
     {
         #region Const / Variables
 
+
         private Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode>();
         private readonly DimCodeEncoderSettings settings = new DimCodeEncoderSettings();
+        private DimCodeEncoderPresentation presentation = new DimCodeEncoderPresentation();
         
         #endregion
         
@@ -81,7 +84,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return presentation; }
         }
 
         /// <summary>
@@ -106,7 +109,8 @@ namespace Cryptool.Plugins.DimCodeEncoder
                 {
                    allBytes.Add(buffer[0]); // little hack to store all recieved bytes
                    var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
-                   PictureBytes = dimCode.PureBitmap;
+                    presentation.SetImage(dimCode.PresentationBitmap);
+                    PictureBytes = dimCode.PureBitmap;
                    OnPropertyChanged("PictureBytes");
                 }
             }

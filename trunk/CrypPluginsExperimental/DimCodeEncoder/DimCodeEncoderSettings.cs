@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
           
         #region input Variables
 
-        private int integerInput;
+        private bool appendICV = true;
         private DimCodeType encodingType = DimCodeType.QRCode;
 
         #endregion
@@ -50,11 +50,12 @@ namespace Cryptool.Plugins.DimCodeEncoder
             }
 
             //add all inputs
-            inputList.Add("IntegerInput");
-            //add input for each codetype if it should be visible
-            inputVisibility[DimCodeType.QRCode].Add("IntegerInput");
+            inputList.Add("AppendICV");
 
-           
+            //add input for each codetype if it should be visible
+            inputVisibility[DimCodeType.EAN8].Add("AppendICV");
+
+            UpdateTaskPaneVisibility();
         }
 
 
@@ -79,17 +80,20 @@ namespace Cryptool.Plugins.DimCodeEncoder
             }
         }
 
-       
-        [TaskPane("IntegerInputCaption", "IntegerInputTooltip", "CodeTypeSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
-        public int IntegerInput
+
+        [TaskPane("AppendICVCaption", "AppendICVCaptionTooltip", "DimCodeSettingsCaption", 1, true, ControlType.CheckBox)]
+        public bool AppendICV
         {
-            get { return this.integerInput; }
+            get
+            {
+                return appendICV;
+            }
             set
             {
-                if (value != this.integerInput)
+                if (appendICV != value)
                 {
-                    this.integerInput = value;
-                    OnPropertyChanged("IntegerInput");
+                    appendICV = value;
+                    OnPropertyChanged("AppendICV");
                 }
             }
         }
