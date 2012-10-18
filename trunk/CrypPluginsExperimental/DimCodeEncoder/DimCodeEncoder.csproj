@@ -88,7 +88,9 @@
   <ItemGroup>
     <Compile Include="DimCodeEncoder.cs" />
     <Compile Include="DimCodeEncoderSettings.cs" />
+    <Compile Include="model\ColoredString.cs" />
     <Compile Include="DimCodes\DimCode.cs" />
+    <Compile Include="model\DimCodeReturnValue.cs" />
     <Compile Include="DimCodes\EAN8.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -126,6 +128,7 @@
     <Content Include="externalLibs\ZXing.net\zxing.presentation.pdb" />
     <Content Include="externalLibs\ZXing.net\zxing.presentation.XML" />
     <Content Include="externalLibs\ZXing.net\zxing.XML" />
+    <Content Include="how_to_add_new_DimCodes.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

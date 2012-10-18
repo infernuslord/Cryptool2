@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using Cryptool.Plugins.DimCodeEncoder;
+using DimCodeEncoder.model;
 using ZXing;
 using ZXing.Common;
 
@@ -11,7 +10,7 @@ namespace DimCodeEncoder.DimCodes
     class EAN8 : DimCode
     {
 
-        protected override byte[] EncodeInput(byte[] input, DimCodeEncoderSettings settings)
+        protected override byte[] GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
             {
@@ -57,5 +56,18 @@ namespace DimCodeEncoder.DimCodes
            
            return null;// todo ;)
         }
+
+
+        protected override List<ColoredString> GetLegend(byte[] input, DimCodeEncoderSettings settings)
+        {
+            return null;// todo ;)
+        }
+
+
+        protected override byte[] GeneratePresentationBitmap(byte[] input, DimCodeEncoderSettings settings)
+        {
+            return null;// todo ;)
+        }
+
     }
 }
