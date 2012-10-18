@@ -23,7 +23,6 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.DimCodeEncoder
 {
-    // HOWTO: rename class (click name, press F2)
     public class DimCodeEncoderSettings : ISettings
     {
         #region Variables
@@ -39,7 +38,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         #endregion
 
         public enum DimCodeType { QRCode, EAN8 };
-        
+
         #endregion
 
         public DimCodeEncoderSettings()
@@ -61,12 +60,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
 
         #region TaskPane Settings
-
-
-        // To add more codetypes you will have to add your codeType to the stringArray below and to the DimCodeType enum.
-        // if you want to have unique settings for your code type f.e. YourSettings:
-        // 1. add in constructor to inputlist : inputList.Add("YourSettings");
-        // 2. add your input to the inputVisibilitylist of your code type: inputVisibility[DimCodeType.QRCode].Add("YourSettings");
+      
         [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new string[] { "QRCode", "EAN8" })]
         public DimCodeType EncodingType
         {

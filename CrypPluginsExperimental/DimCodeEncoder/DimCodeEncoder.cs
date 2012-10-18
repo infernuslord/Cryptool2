@@ -30,16 +30,13 @@ using System.Drawing.Imaging;
 
 namespace Cryptool.Plugins.DimCodeEncoder
 {
-    [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("DimCodeEncoder", "Subtract one number from another", "DimCodeEncoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
+    [PluginInfo("DimCodeEncoderCaption", "DimCodeEncoderTooltip", "DimCodeEncoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class DimCodeEncoder : ICrypComponent
     {
-       
-
         #region Const / Variables
 
-        private const int STREAM_BLOCK_SIZE = 8;
         private Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode>();
         private readonly DimCodeEncoderSettings settings = new DimCodeEncoderSettings();
         
@@ -108,7 +105,8 @@ namespace Cryptool.Plugins.DimCodeEncoder
                 while ((bytesRead = reader.Read(buffer)) > 0)
                 {
                    allBytes.Add(buffer[0]); // little hack to store all recieved bytes
-                   PictureBytes = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
+                   var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
+                   PictureBytes = dimCode.PureBitmap;
                    OnPropertyChanged("PictureBytes");
                 }
             }
