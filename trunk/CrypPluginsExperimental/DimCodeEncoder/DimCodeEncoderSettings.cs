@@ -27,17 +27,17 @@ namespace Cryptool.Plugins.DimCodeEncoder
     {
         #region Variables
 
-        private List<string> inputList = new List<string>();  
-        private Dictionary<DimCodeType, List<string>> inputVisibility = new Dictionary<DimCodeType,List<string>>();
+        private readonly List<string> inputList = new List<string>();  
+        private readonly Dictionary<DimCodeType, List<string>> inputVisibility = new Dictionary<DimCodeType,List<string>>();
           
         #region input Variables
 
         private bool appendICV = true;
-        private DimCodeType encodingType = DimCodeType.QRCode;
+        private DimCodeType encodingType;
 
         #endregion
 
-        public enum DimCodeType { QRCode, EAN8 };
+        public enum DimCodeType { EAN13, EAN8 };
 
         #endregion
 
@@ -54,6 +54,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
             //add input for each codetype if it should be visible
             inputVisibility[DimCodeType.EAN8].Add("AppendICV");
+            inputVisibility[DimCodeType.EAN13].Add("AppendICV");
 
             UpdateTaskPaneVisibility();
         }
@@ -61,21 +62,19 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
 
         #region TaskPane Settings
-      
-        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new string[] { "QRCode", "EAN8" })]
+
+        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8" })]
         public DimCodeType EncodingType
         {
-            get { return this.encodingType; }
+            get { return encodingType; }
             set
             {
-                if (value != this.encodingType)
+                if (value != encodingType)
                 {
-                    this.encodingType = value;
-                    UpdateTaskPaneVisibility();
+                    encodingType = value;
                     OnPropertyChanged("EncodingType");
-
+                    UpdateTaskPaneVisibility();
                     
-                  //  UpdatePresentationTab(value);
                 }
             }
         }
@@ -126,7 +125,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
         }
-
+    
         #endregion
     }
 }

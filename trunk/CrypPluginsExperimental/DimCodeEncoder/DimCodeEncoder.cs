@@ -14,20 +14,14 @@
    limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.Plugins.DimCodeEncoder.DimCodes;
 using DimCodeEncoder;
-using DimCodeEncoder.DimCodes;
-using ZXing;
-using ZXing.Common;
-using System;
-using System.Drawing.Imaging;
 
 namespace Cryptool.Plugins.DimCodeEncoder
 {
@@ -47,7 +41,9 @@ namespace Cryptool.Plugins.DimCodeEncoder
         
         public DimCodeEncoder()
         {
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new EAN8());
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new EAN8(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new EAN13(this));
+
         }
 
         #region Data Properties
@@ -70,7 +66,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         #endregion
 
         #region IPlugin Members
-
+        #region std functions 
         /// <summary>
         /// Provide plugin-related parameters (per instance) or return null.
         /// </summary>
@@ -93,38 +89,44 @@ namespace Cryptool.Plugins.DimCodeEncoder
         public void PreExecution()
         {
         }
-
+        #endregion
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
         /// </summary>
         public void Execute()
         {
             ProgressChanged(0, 1);
-            List<byte> allBytes = new List<byte>();
+            var allBytes = new List<byte>();
             using (CStreamReader reader = InputStream.CreateReader())
             {
-                int bytesRead;
                 var buffer = new byte[1]; //may be a bottleneck so consider bigger buffer if too slow or make it kinda dynamic
-                while ((bytesRead = reader.Read(buffer)) > 0)
+                while (reader.Read(buffer) > 0)
                 {
-                   allBytes.Add(buffer[0]); // little hack to store all recieved bytes
-                   var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
-                    presentation.SetImage(dimCode.PresentationBitmap);
-                    PictureBytes = dimCode.PureBitmap;
-                   OnPropertyChanged("PictureBytes");
+                    allBytes.Add(buffer[0]); //store all recieved bytes
+
+                    //handle input
+                    var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
+                    if (dimCode != null) //input is valid
+                    {
+                        //update Presentation
+                        presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap);
+                        presentation.SetList(dimCode.Legend);
+
+                        //update output
+                        PictureBytes = dimCode.PureBitmap;
+                        OnPropertyChanged("PictureBytes");
+                    }
                 }
             }
             ProgressChanged(1, 1);
         }
-
+        #region std functions
         /// <summary>
         /// Called once after workflow execution has stopped.
         /// </summary>
         public void PostExecution()
         {
         }
-
-      
 
         /// <summary>
         /// Triggered time when user clicks stop button.
@@ -139,6 +141,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public void Initialize()
         {
+            settings.EncodingType = DimCodeEncoderSettings.DimCodeType.EAN13;
         }
 
         /// <summary>
@@ -149,18 +152,20 @@ namespace Cryptool.Plugins.DimCodeEncoder
         }
 
         #endregion
+        #endregion
 
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
+
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+       
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }

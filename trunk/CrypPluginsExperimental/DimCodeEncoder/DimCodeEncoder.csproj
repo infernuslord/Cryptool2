@@ -92,10 +92,11 @@
       <DependentUpon>DimCodeEncoderPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="DimCodeEncoderSettings.cs" />
-    <Compile Include="model\ColoredString.cs" />
+    <Compile Include="DimCodes\EAN8.cs" />
+    <Compile Include="model\LegendItem.cs" />
     <Compile Include="DimCodes\DimCode.cs" />
     <Compile Include="model\DimCodeReturnValue.cs" />
-    <Compile Include="DimCodes\EAN8.cs" />
+    <Compile Include="DimCodes\EAN13.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

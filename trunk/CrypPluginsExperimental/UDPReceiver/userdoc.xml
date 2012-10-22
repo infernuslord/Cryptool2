@@ -31,12 +31,12 @@
   
   <presentation lang="en">
     The Presentation shows you all received Packages plus the time of receiving.
-    You can also change the "Single Package" Output by simply clicking on the package of your choice.
+    You can also change the "Single Package" Output by simply double clicking on the package of your choice.
   </presentation>
   
   <presentation lang="de-DE">
     Die Präsentation zeigt Ihnen alle empfangenen Pakete sowie den Zeitpunkt des Empfangs.
-    Sie können auch den "Einzelnes Packet" Ausgang ändern, indem Sie einfach auf das Paket Ihrer Wahl klicken.
+    Sie können auch den "Einzelnes Packet" Ausgang ändern, indem Sie einfach auf das Paket Ihrer Wahl doppelt klicken.
   </presentation>
   
   <references>

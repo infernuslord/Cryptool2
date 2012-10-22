@@ -24,6 +24,7 @@ using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
 using UDPReceiver;
+using UDPReceiver.Model;
 
 namespace Cryptool.Plugins.UDPReceiver
 {
@@ -35,19 +36,26 @@ namespace Cryptool.Plugins.UDPReceiver
  
         #region Private variables
 
-        private readonly UDPReceiverSettings settings = new UDPReceiverSettings();
-        private readonly UDPReceiverPresentation presentation = new UDPReceiverPresentation();
+        private readonly UDPReceiverSettings settings;
+        private readonly UDPReceiverQuickWatchPresentation presentation= new UDPReceiverQuickWatchPresentation();
 
-        private IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);   
-        private List<byte[]> receivedPackages = new List<byte[]>(); 
-        private bool isRunning = false;
+        private IPEndPoint endPoint;
+
+        private HashSet<IPAddress> uniqueSrcIps;
+        private List<byte[]> receivedPackages;
+        private bool isRunning;
         private bool returnLastPackage = true;
+
         private DateTime startTime;
-        private int amountRecPackages;
         private UdpClient udpSocked;
         private CStreamWriter streamWriter = new CStreamWriter();
 
         #endregion
+
+        public UDPReceiver()
+        {
+           settings = new UDPReceiverSettings(this);
+        }
 
         #region Helper Functions
 
@@ -69,7 +77,7 @@ namespace Cryptool.Plugins.UDPReceiver
         // remember PackageLimit  = 0 means: dont limit the amount of packages
         private bool IsPackageLimitNotReached()
         {
-            return (settings.PackageLimit < amountRecPackages || settings.PackageLimit == 0);
+            return (settings.PackageLimit < receivedPackages.Count || settings.PackageLimit == 0);
         }
         
         #endregion
@@ -119,14 +127,20 @@ namespace Cryptool.Plugins.UDPReceiver
         public void PreExecution()
         {
             ProgressChanged(0, 1);
-            udpSocked = new UdpClient(settings.Port);
 
+            endPoint = new IPEndPoint(!settings.NetworkDevice? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, 0);
+            udpSocked = new UdpClient(settings.Port);
+  
             //init / reset
+            uniqueSrcIps = new HashSet<IPAddress>();
             isRunning = true;
             startTime = DateTime.Now;
-            amountRecPackages = 0;
             receivedPackages = new List<byte[]>();
+
+            // reset gui
             presentation.ClearList();
+            presentation.RefreshMetaData(0, 0);
+            presentation.SetStartTime(startTime.ToLongTimeString());
 
             //stream prepair
             streamWriter = new CStreamWriter();
@@ -144,13 +158,23 @@ namespace Cryptool.Plugins.UDPReceiver
             {
                 try
                 {
-                    //read
+                    // read
                     udpSocked.Client.ReceiveTimeout = TimeTillTimelimit();
                     byte[] data = udpSocked.Receive(ref endPoint);
 
-                    presentation.AddPackage(data);
+                    // package recieved. fill local storage
+                    uniqueSrcIps.Add(endPoint.Address);
                     receivedPackages.Add(data);
 
+                    // redirect to gui
+                    presentation.AddPresentationPackage(new PresentationPackage
+                    {
+                        IPFrom = endPoint.Address.ToString(),
+                        Payload = BitConverter.ToString(data)
+                    });
+                    presentation.RefreshMetaData(receivedPackages.Count, uniqueSrcIps.Count);
+
+                    // set outputs
                     streamWriter.Write(data);
                     if (returnLastPackage) //change single output if no item is selected
                     {
@@ -195,8 +219,8 @@ namespace Cryptool.Plugins.UDPReceiver
         /// </summary>
         public void Initialize()
         {
-            presentation.listBox.SelectionChanged -= SelectionChanged;
-            presentation.listBox.SelectionChanged += SelectionChanged;
+            presentation.ListView.MouseDoubleClick -= MouseDoubleClick;
+            presentation.ListView.MouseDoubleClick += MouseDoubleClick;
         }
 
         /// <summary>
@@ -204,7 +228,7 @@ namespace Cryptool.Plugins.UDPReceiver
         /// </summary>
         public void Dispose()
         {
-            presentation.listBox.SelectionChanged -= SelectionChanged;
+            presentation.ListView.MouseDoubleClick -= MouseDoubleClick;
         }
 
         #endregion
@@ -219,7 +243,7 @@ namespace Cryptool.Plugins.UDPReceiver
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }
@@ -234,13 +258,13 @@ namespace Cryptool.Plugins.UDPReceiver
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MouseDoubleClick(object sender, EventArgs e)
         {
-            if (-1 < presentation.listBox.SelectedIndex 
-                && presentation.listBox.SelectedIndex < receivedPackages.Capacity)
+            if (-1 < presentation.ListView.SelectedIndex
+                && presentation.ListView.SelectedIndex < receivedPackages.Capacity)
             {
                 returnLastPackage = false;
-                SingleOutput = receivedPackages[presentation.listBox.SelectedIndex];
+                SingleOutput = receivedPackages[presentation.ListView.SelectedIndex];
                 OnPropertyChanged("SingleOutput");
             } 
             else

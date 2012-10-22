@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\PresentationPackage.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -93,8 +94,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UDPReceiver.cs" />
-    <Compile Include="UDPReceiverPresentation.xaml.cs">
-      <DependentUpon>UDPReceiverPresentation.xaml</DependentUpon>
+    <Compile Include="UDPReceiverQuickWatchPresentation.xaml.cs">
+      <DependentUpon>UDPReceiverQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="UDPReceiverSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,9 +147,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UDPReceiverPresentation.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="UDPReceiverQuickWatchPresentation.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

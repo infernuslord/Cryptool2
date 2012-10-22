@@ -8,9 +8,8 @@ using ZXing.Common;
 
 namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 {
-    class EAN8 : DimCode
+    class EAN13 : DimCode
     {
-      
         #region legend Strings
 
         private readonly LegendItem present_ICV = new LegendItem
@@ -29,14 +28,14 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         };
 
         #endregion
-
-        public EAN8(DimCodeEncoder caller) : base(caller){/*empty*/}
+        
+        public EAN13(DimCodeEncoder caller) : base(caller){/*empty*/}
 
         protected override Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
             {
-                Format = BarcodeFormat.EAN_8,
+                Format = BarcodeFormat.EAN_13,
                 Options = new EncodingOptions
                 {
                     Height = 100,
@@ -47,15 +46,15 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             var payload = Encoding.ASCII.GetString(input);
 
             if (settings.AppendICV)
-                payload = payload.Substring(0, 7); // cut of last byte to let the lib calculate the ICV
+                payload = payload.Substring(0, 12); // cut of last byte to let the lib calculate the ICV
 
             return  barcodeWriter.Write(payload);
         }
 
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            var inp = new byte[8];
-            for (int i = 0; i < 8; i++)
+            var inp = new byte[13];
+            for (int i = 0; i < 13; i++)
             {
                 if (input.Length > i )
                 {
@@ -72,7 +71,6 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            //errors
             foreach (var b in input)
             {
                 if (b < Encoding.ASCII.GetBytes("0")[0] || b > Encoding.ASCII.GetBytes("9")[0])
@@ -109,11 +107,11 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                         barcount++;
                     isOnBlackBar = true;
 
-                    if (barcount <= 2 || barcount == 11 || barcount == 12  || barcount >= 21) 
+                    if (barcount <= 2 || barcount == 15 || barcount == 16  || barcount >= 29) 
                     {
                         bitmap = fillBarOnX(x, bitmap, present_opoints.ColorValue);
                     }
-                    else if ((barcount == 19 || barcount == 20) && settings.AppendICV)
+                    else if ((barcount == 27 || barcount == 28) && settings.AppendICV)
                     {
                         bitmap = fillBarOnX(x, bitmap, present_ICV.ColorValue);
                     }
@@ -122,9 +120,6 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                 {
                     isOnBlackBar = false;
                 }
-            
-
-
             }
             return bitmap;
         }

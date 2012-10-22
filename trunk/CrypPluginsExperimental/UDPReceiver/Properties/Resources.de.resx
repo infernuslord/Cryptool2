@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Date" xml:space="preserve">
-    <value>Zeit</value>
+  <data name="AmountLabel" xml:space="preserve">
+    <value>Empfangene Pakete:</value>
   </data>
-  <data name="Package" xml:space="preserve">
-    <value>Packet</value>
+  <data name="IPFromHeader" xml:space="preserve">
+    <value>Absender IP</value>
+  </data>
+  <data name="MetaLabel" xml:space="preserve">
+    <value>Info</value>
   </data>
   <data name="PackageLimit" xml:space="preserve">
     <value>Packetlimit</value>
@@ -129,8 +132,11 @@
   <data name="PackageLimitTooltip" xml:space="preserve">
     <value>Gibt an, nach wieviel Packeten die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
   </data>
+  <data name="PaylodHeader" xml:space="preserve">
+    <value>Empangende Daten</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>UDP Empfänger</value>
+    <value>Netzwerk Empfänger</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Komponente kann mehere UDP Packete empfangen.</value>
@@ -141,11 +147,17 @@
   <data name="PortTooltip" xml:space="preserve">
     <value>Port auf welchen die Komponente horchen soll</value>
   </data>
+  <data name="ReceivedPackagesLabel" xml:space="preserve">
+    <value>Empfangene Pakete</value>
+  </data>
   <data name="SingleOutput" xml:space="preserve">
     <value>Einzelnes Packet</value>
   </data>
   <data name="SingleOutputTooltip" xml:space="preserve">
     <value>Daten eines einzenen Packetes</value>
+  </data>
+  <data name="StartLabel" xml:space="preserve">
+    <value>Gestartet Um:</value>
   </data>
   <data name="StopConditions" xml:space="preserve">
     <value>Haltebedingungen</value>
@@ -161,5 +173,29 @@
   </data>
   <data name="TimeLimitTooltip" xml:space="preserve">
     <value>Gibt an, nach wievielen Sekunden die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+  </data>
+  <data name="TORHeader" xml:space="preserve">
+    <value>Empfangen um</value>
+  </data>
+  <data name="UniqueIPLabel" xml:space="preserve">
+    <value>Unterschiedliches Absender:</value>
+  </data>
+  <data name="DeviceIpCaption" xml:space="preserve">
+    <value>Netzwerkkarten IP:</value>
+  </data>
+  <data name="DeviceIpCaptionTooltip" xml:space="preserve">
+    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+  </data>
+  <data name="m" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NetworkConditions" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
+  <data name="NetworkDeviceCaption" xml:space="preserve">
+    <value>Alle Netzwerkgeräte benutzen</value>
+  </data>
+  <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
+    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
   </data>
 </root>

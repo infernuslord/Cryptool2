@@ -7,6 +7,6 @@ namespace DimCodeEncoder.model
     {
         public byte[] PureBitmap { get; set; }
         public byte[] PresentationBitmap{ get;  set; } 
-        public List<ColoredString> Legend { get; set; }
+        public List<LegendItem> Legend { get; set; }
     }
 }
