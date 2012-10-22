@@ -61,20 +61,83 @@ namespace UDPReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Time ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Received Packages: ähnelt.
         /// </summary>
-        internal static string Date {
+        internal static string AmountLabel {
             get {
-                return ResourceManager.GetString("Date", resourceCulture);
+                return ResourceManager.GetString("AmountLabel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Package ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Networkdevice IP: ähnelt.
         /// </summary>
-        internal static string Package {
+        internal static string DeviceIpCaption {
             get {
-                return ResourceManager.GetString("Package", resourceCulture);
+                return ResourceManager.GetString("DeviceIpCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Type in the Ip of your Networkdevice to only receive from this device. ähnelt.
+        /// </summary>
+        internal static string DeviceIpCaptionTooltip {
+            get {
+                return ResourceManager.GetString("DeviceIpCaptionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Source IP ähnelt.
+        /// </summary>
+        internal static string IPFromHeader {
+            get {
+                return ResourceManager.GetString("IPFromHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string m {
+            get {
+                return ResourceManager.GetString("m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Info ähnelt.
+        /// </summary>
+        internal static string MetaLabel {
+            get {
+                return ResourceManager.GetString("MetaLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Network ähnelt.
+        /// </summary>
+        internal static string NetworkConditions {
+            get {
+                return ResourceManager.GetString("NetworkConditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use all Networkinterfaces ähnelt.
+        /// </summary>
+        internal static string NetworkDeviceCaption {
+            get {
+                return ResourceManager.GetString("NetworkDeviceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Type in the Ip of your Networkinterfaces to only receive from this device. ähnelt.
+        /// </summary>
+        internal static string NetworkDeviceCaptionTooltip {
+            get {
+                return ResourceManager.GetString("NetworkDeviceCaptionTooltip", resourceCulture);
             }
         }
         
@@ -97,7 +160,16 @@ namespace UDPReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UDP Receiver ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Received Data ähnelt.
+        /// </summary>
+        internal static string PaylodHeader {
+            get {
+                return ResourceManager.GetString("PaylodHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Network Receiver ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -133,6 +205,15 @@ namespace UDPReceiver.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Received Packages ähnelt.
+        /// </summary>
+        internal static string ReceivedPackagesLabel {
+            get {
+                return ResourceManager.GetString("ReceivedPackagesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Single Packet ähnelt.
         /// </summary>
         internal static string SingleOutput {
@@ -147,6 +228,15 @@ namespace UDPReceiver.Properties {
         internal static string SingleOutputTooltip {
             get {
                 return ResourceManager.GetString("SingleOutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start Time: ähnelt.
+        /// </summary>
+        internal static string StartLabel {
+            get {
+                return ResourceManager.GetString("StartLabel", resourceCulture);
             }
         }
         
@@ -192,6 +282,24 @@ namespace UDPReceiver.Properties {
         internal static string TimeLimitTooltip {
             get {
                 return ResourceManager.GetString("TimeLimitTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Received at ähnelt.
+        /// </summary>
+        internal static string TORHeader {
+            get {
+                return ResourceManager.GetString("TORHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unique Consignor: ähnelt.
+        /// </summary>
+        internal static string UniqueIPLabel {
+            get {
+                return ResourceManager.GetString("UniqueIPLabel", resourceCulture);
             }
         }
     }

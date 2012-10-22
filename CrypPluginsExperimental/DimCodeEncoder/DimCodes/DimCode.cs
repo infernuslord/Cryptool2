@@ -18,13 +18,21 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using Cryptool.Plugins.DimCodeEncoder;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using DimCodeEncoder.model;
 
-namespace DimCodeEncoder.DimCodes
+namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 {
     class DimCode
     {
+        protected readonly DimCodeEncoder caller;
+
+        protected DimCode(DimCodeEncoder caller)
+        {
+            this.caller = caller;
+        }
+
         /// <summary>
         /// extern reachable encode methode
         /// </summary>
@@ -32,17 +40,19 @@ namespace DimCodeEncoder.DimCodes
         public DimCodeReturnValue Encode(byte[] input, DimCodeEncoderSettings settings)
         {
             input = EnrichInput(input, settings);
-            var error = VerifyInput(input, settings);
-            if( error != null)
-             throw new Exception(error);
 
-            var pureBitmap = GenerateBitmap(input, settings);
-            return new DimCodeReturnValue
-                       {
-                           Legend = GetLegend(input, settings),
-                           PureBitmap = imageToByteArray(pureBitmap),
-                           PresentationBitmap = imageToByteArray(GeneratePresentationBitmap(pureBitmap, settings))
-                       };
+            if (VerifyInput(input, settings))
+            {
+                var pureBitmap = GenerateBitmap(input, settings);
+
+                return new DimCodeReturnValue
+                           {
+                               Legend = GetLegend(input, settings),
+                               PureBitmap = imageToByteArray(pureBitmap),
+                               PresentationBitmap = imageToByteArray(GeneratePresentationBitmap(pureBitmap, settings))
+                           };
+            }
+            return null;
         }
 
         /// <summary>
@@ -62,7 +72,7 @@ namespace DimCodeEncoder.DimCodes
         /// <param name="input"></param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        protected virtual List<ColoredString> GetLegend(byte[] input, DimCodeEncoderSettings settings)
+        protected virtual List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -80,12 +90,12 @@ namespace DimCodeEncoder.DimCodes
         }
 
         /// <summary>
-        ///  each child should override this to avoid errors inside of the EncodeInput 
+        ///  each child should override this to tell the enduser what is wrong by using the caller.GuiLogMessage
         /// </summary>
         /// <param name="input"></param>
         /// <param name="settings"></param>
-        /// <returns> Internationalization error message or if valid null  </returns>
-        protected virtual string VerifyInput (byte[] input, DimCodeEncoderSettings settings)
+        /// <returns>has to return true if no error occurred</returns>
+        protected virtual bool VerifyInput (byte[] input, DimCodeEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -113,5 +123,7 @@ namespace DimCodeEncoder.DimCodes
         }
 
         #endregion helper
+     
+
     }
 }
