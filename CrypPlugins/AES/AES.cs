@@ -117,22 +117,22 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
 
             switch (settings.Padding)
-            { //0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126"
+            { //0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5="1-0-Padding"
                 case 1: alg.Padding = PaddingMode.None; break;
                 case 2: alg.Padding = PaddingMode.PKCS7; break;
                 case 3: alg.Padding = PaddingMode.ANSIX923; break;
                 case 4: alg.Padding = PaddingMode.ISO10126; break;
+                case 5: alg.Padding = PaddingMode.None; break;
                 default: alg.Padding = PaddingMode.Zeros; break;
             }
+
             if (settings.CryptoAlgorithm == 1)
             {
                 switch (settings.Blocksize)
                 {
                     case 1: alg.BlockSize = 192; break;
                     case 2: alg.BlockSize = 256; break;
-                    default:
-                        alg.BlockSize = 128;
-                        break;
+                    default: alg.BlockSize = 128; break;
                 }
             }
 
@@ -173,6 +173,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 inputIV = new byte[alg.BlockSize / 8];
                 GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
             }
+
             alg.IV = this.inputIV;
         }
 
@@ -193,101 +194,127 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public bool isStopped()
         {
-
             return this.stop;
         }
 
         private void process(int action)
         {
-          //Encrypt/Decrypt Stream
-          try
-          {
-            if (InputStream == null || InputStream.Length == 0)
+            //Encrypt/Decrypt Stream
+            try
             {
-              GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
-              return;
-            }
+                if (InputStream == null || InputStream.Length == 0)
+                {
+                    GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
+                    return;
+                }
 
-            SymmetricAlgorithm p_alg = null;
-            if (settings.CryptoAlgorithm == 1)
-            { p_alg = new RijndaelManaged(); }
-            else
-            { p_alg = new AesCryptoServiceProvider(); }
+                SymmetricAlgorithm p_alg = null;
+                if (settings.CryptoAlgorithm == 1)
+                { p_alg = new RijndaelManaged(); }
+                else
+                { p_alg = new AesCryptoServiceProvider(); }
 
-            ConfigureAlg(p_alg);
+                ConfigureAlg(p_alg);
 
-            ICryptoTransform p_encryptor = null;
-            switch (action)
-            {
-              case 0:
-                p_encryptor = p_alg.CreateEncryptor();
-                break;
-              case 1:
-                p_encryptor = p_alg.CreateDecryptor();
-                break;
-            }
+                ICryptoTransform p_encryptor = null;
+                switch (action)
+                {
+                    case 0:
+                        p_encryptor = p_alg.CreateEncryptor();
+                        break;
+                    case 1:
+                        p_encryptor = p_alg.CreateDecryptor();
+                        break;
+                }
 
                 outputStreamWriter = new CStreamWriter();
-                using (CStreamReader reader = InputStream.CreateReader())
+
+                ICryptoolStream inputdata = InputStream;
+
+                // append 1-0 padding (special handling, as it's not present in System.Security.Cryptography.PaddingMode)
+                if (action==0 && settings.Padding == 5)
+                {
+                    int bs = p_alg.BlockSize / 8; // blocksize in bytes
+                    long l = bs - (InputStream.Length % bs);
+                    CStreamReader stream = InputStream.CreateReader();
+                    stream.WaitEof();
+                    byte[] buf = new byte[InputStream.Length + l];
+                    stream.Seek(0, System.IO.SeekOrigin.Begin);
+                    stream.ReadFully(buf);
+                    buf[InputStream.Length] = 0x01;
+                    for (int i = 1; i < l; i++)
+                        buf[InputStream.Length + i] = 0x00;
+                    inputdata = new CStreamWriter(buf);
+                }
+
+                using (CStreamReader reader = inputdata.CreateReader())
                 {
                     p_crypto_stream = new CryptoStream(reader, p_encryptor, CryptoStreamMode.Read);
-            byte[] buffer = new byte[p_alg.BlockSize / 8];
-            int bytesRead;
-            int position = 0;
-            string mode = action == 0 ? "encryption" : "decryption";
-            GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
-            DateTime startTime = DateTime.Now;
-            while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
-            {
+                    byte[] buffer = new byte[p_alg.BlockSize / 8];
+                    int bytesRead;
+                    int position = 0;
+                    string mode = action == 0 ? "encryption" : "decryption";
+                    GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+                    DateTime startTime = DateTime.Now;
+                    while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
+                    {
+                        // remove 1-0 padding (special handling, as it's not present in System.Security.Cryptography.PaddingMode)
+                        if (action == 1 && settings.Padding == 5 && reader.Position==reader.Length)
+                        {
+                            if (bytesRead != buffer.Length) throw new Exception("Unexpected size of 1-0 padding");
+                            for (bytesRead--; bytesRead > 0; bytesRead--)
+                                if (buffer[bytesRead] != 0) break;
+                            if (bytesRead < 0 || buffer[bytesRead]!=0x01) throw new Exception("Unexpected byte in 1-0 padding");
+                        }
+
                         outputStreamWriter.Write(buffer, 0, bytesRead);
 
                         if ((int)(reader.Position * 100 / reader.Length) > position)
-              {
+                        {
                             position = (int)(reader.Position * 100 / reader.Length);
                             ProgressChanged(reader.Position, reader.Length);
-              }
-            }
-
+                        }
+                    }
 
                     long outbytes = outputStreamWriter.Length;
-            p_crypto_stream.Flush();            
-            // p_crypto_stream.Close();
-            DateTime stopTime = DateTime.Now;
-            TimeSpan duration = stopTime - startTime;
-            // (outputStream as CryptoolStream).FinishWrite();
+                    p_crypto_stream.Flush();            
+                    // p_crypto_stream.Close();
+                    DateTime stopTime = DateTime.Now;
+                    TimeSpan duration = stopTime - startTime;
+                    // (outputStream as CryptoolStream).FinishWrite();
 
-            if (!stop)
-            {
-                mode = action == 0 ? "Encryption" : "Decryption";
+                    if (!stop)
+                    {
+                        mode = action == 0 ? "Encryption" : "Decryption";
                         GuiLogMessage(mode + " complete! (in: " + reader.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                         outputStreamWriter.Close();
-                OnPropertyChanged("OutputStream");
+                        OnPropertyChanged("OutputStream");
+                    }
+                    if (stop)
+                    {
+                        outputStreamWriter.Close();
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
+                    }
+                }
             }
-            if (stop)
+            catch (CryptographicException cryptographicException)
             {
-                        outputStreamWriter.Close();
-                GuiLogMessage("Aborted!", NotificationLevel.Info);
+                // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
+                // Trying so makes p_crypto_stream throw the same exception again. So in Dispose 
+                // the error messages will be doubled. 
+                // As a workaround we set p_crypto_stream to null here.
+                p_crypto_stream = null;
+                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
             }
-          }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
-          catch (CryptographicException cryptographicException)
-          {
-            // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
-            // Trying so makes p_crypto_stream throw the same exception again. So in Dispose 
-            // the error messages will be doubled. 
-            // As a workaround we set p_crypto_stream to null here.
-            p_crypto_stream = null;
-            GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
-          finally
-          {
-              ProgressChanged(1, 1);
-          }
+            finally
+            {
+                ProgressChanged(1, 1);
+            }
         }
 
         public void Encrypt()

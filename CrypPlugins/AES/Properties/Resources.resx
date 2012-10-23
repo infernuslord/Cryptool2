@@ -247,4 +247,7 @@
   <data name="PaddingList5" xml:space="preserve">
     <value>ISO10126</value>
   </data>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0 padding</value>
+  </data>
 </root>
