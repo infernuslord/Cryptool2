@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
         #endregion
 
-        public enum DimCodeType { EAN13, EAN8 };
+        public enum DimCodeType { EAN13, EAN8, Code39, Code128, QRCode };
 
         #endregion
 
@@ -55,6 +55,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
             //add input for each codetype if it should be visible
             inputVisibility[DimCodeType.EAN8].Add("AppendICV");
             inputVisibility[DimCodeType.EAN13].Add("AppendICV");
+            inputVisibility[DimCodeType.Code39].Add("AppendICV");
 
             UpdateTaskPaneVisibility();
         }
@@ -63,7 +64,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
         #region TaskPane Settings
 
-        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8" })]
+        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8", "Code39", "Code128", "QRCode" })]
         public DimCodeType EncodingType
         {
             get { return encodingType; }

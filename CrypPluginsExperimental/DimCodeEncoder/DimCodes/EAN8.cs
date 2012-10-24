@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using DimCodeEncoder.model;
@@ -13,19 +14,19 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
       
         #region legend Strings
 
-        private readonly LegendItem present_ICV = new LegendItem
+        private readonly LegendItem icvLegend = new LegendItem
         {
             ColorValue = Color.Blue,
-            LableValue = "ICV_Lable",
-            DiscValue = "ICV_Disc"
+            LableValue = "EAN8_ICV_LABLE",
+            DiscValue = "EAN8_ICV_DISC"
             
         };
 
-        private readonly LegendItem present_opoints = new LegendItem
+        private readonly LegendItem fixedLegend = new LegendItem
         {
             ColorValue = Color.Green,
-            LableValue = "fix_points_Lable",
-            DiscValue = "fix_points_Disc"
+            LableValue = "EAN8_FIXED_LABLE",
+            DiscValue = "EAN8_FIXED_DISC"
         };
 
         #endregion
@@ -72,29 +73,23 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            //errors
-            foreach (var b in input)
+            if (input.Any(b => b < Encoding.ASCII.GetBytes("0")[0] || b > Encoding.ASCII.GetBytes("9")[0]))
             {
-                if (b < Encoding.ASCII.GetBytes("0")[0] || b > Encoding.ASCII.GetBytes("9")[0])
-                {
-                    caller.GuiLogMessage("OnlyDigits", NotificationLevel.Error);
-                    return false;
-                }
+                caller.GuiLogMessage("EAN8_INVALIDE_INPUT", NotificationLevel.Error);
+                return false;
             }
             return true;
         }
 
-
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
-            var legend = new List<LegendItem> {present_opoints};
+            var legend = new List<LegendItem> {fixedLegend};
 
             if (settings.AppendICV)
-                legend.Add(present_ICV);
+                legend.Add(icvLegend);
 
             return legend;
         }
-
 
         protected override Image GeneratePresentationBitmap(Image input, DimCodeEncoderSettings settings)
         {
@@ -111,11 +106,11 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
                     if (barcount <= 2 || barcount == 11 || barcount == 12  || barcount >= 21) 
                     {
-                        bitmap = fillBarOnX(x, bitmap, present_opoints.ColorValue);
+                        bitmap = fillBarOnX(x, bitmap, fixedLegend.ColorValue);
                     }
                     else if ((barcount == 19 || barcount == 20) && settings.AppendICV)
                     {
-                        bitmap = fillBarOnX(x, bitmap, present_ICV.ColorValue);
+                        bitmap = fillBarOnX(x, bitmap, icvLegend.ColorValue);
                     }
                 }
                 else
@@ -129,7 +124,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             return bitmap;
         }
 
-
+        #region helper
         private Bitmap fillBarOnX(int x, Bitmap bitmap, Color color)
         {
             for (int y = 0; y < bitmap.Height; y++)
@@ -141,5 +136,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             }
             return bitmap;
         }
+
+        #endregion
     }
 }

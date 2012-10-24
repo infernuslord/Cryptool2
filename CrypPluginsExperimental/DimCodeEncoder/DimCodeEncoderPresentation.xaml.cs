@@ -32,13 +32,7 @@ namespace DimCodeEncoder
                 try
                 {
                     ExplImage.Source = image_jar[0];
-                    ExplImage.Width = image_jar[0].Width;
-                    ExplImage.Height = image_jar[0].Height;
-
                     PureImage.Source = image_jar[1];
-                    PureImage.Width = image_jar[1].Width;
-                    PureImage.Height = image_jar[1].Height;
-
                    UpdateImage();
                 }
                 catch
