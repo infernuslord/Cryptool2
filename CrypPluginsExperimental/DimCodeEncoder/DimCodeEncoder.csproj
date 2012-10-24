@@ -53,6 +53,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataMatrix.net">
+      <HintPath>externalLibs\DataMatrix.net.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -81,10 +84,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>externalLibs\ZXing.net\zxing.dll</HintPath>
     </Reference>
-    <Reference Include="zxing.presentation, Version=0.9.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>externalLibs\ZXing.net\zxing.presentation.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DimCodeEncoder.cs" />
@@ -94,6 +93,7 @@
     <Compile Include="DimCodeEncoderSettings.cs" />
     <Compile Include="DimCodes\EAN8.cs" />
     <Compile Include="DimCodes\Code39.cs" />
+    <Compile Include="DimCodes\DataMatrix.cs" />
     <Compile Include="DimCodes\QRCode.cs" />
     <Compile Include="DimCodes\Code128.cs" />
     <Compile Include="model\LegendItem.cs" />

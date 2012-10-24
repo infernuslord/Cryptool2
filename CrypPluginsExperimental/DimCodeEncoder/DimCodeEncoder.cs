@@ -41,11 +41,12 @@ namespace Cryptool.Plugins.DimCodeEncoder
         
         public DimCodeEncoder()
         {
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new EAN8(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new EAN13(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code39, new Code39(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code128, new Code128(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new QRCode(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new DimCodes.EAN8(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new DimCodes.EAN13(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code39, new DimCodes.Code39(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code128, new DimCodes.Code128(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new DimCodes.QRCode(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.DataMatrix, new DimCodes.DataMatrix(this));
         }
 
         #region Data Properties
