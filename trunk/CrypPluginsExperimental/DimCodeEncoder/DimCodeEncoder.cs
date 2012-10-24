@@ -43,7 +43,9 @@ namespace Cryptool.Plugins.DimCodeEncoder
         {
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new EAN8(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new EAN13(this));
-
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code39, new Code39(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code128, new Code128(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new QRCode(this));
         }
 
         #region Data Properties
@@ -99,10 +101,10 @@ namespace Cryptool.Plugins.DimCodeEncoder
             var allBytes = new List<byte>();
             using (CStreamReader reader = InputStream.CreateReader())
             {
-                var buffer = new byte[1]; //may be a bottleneck so consider bigger buffer if too slow or make it kinda dynamic
+                var buffer = new byte[80];
                 while (reader.Read(buffer) > 0)
                 {
-                    allBytes.Add(buffer[0]); //store all recieved bytes
+                    allBytes.AddRange(new List<byte>(buffer)); //store all recieved bytes
 
                     //handle input
                     var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
