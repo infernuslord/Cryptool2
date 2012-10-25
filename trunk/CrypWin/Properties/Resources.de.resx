@@ -835,10 +835,28 @@
   <data name="CrypToolLicenses" xml:space="preserve">
     <value>Cryptool 2.0 und alle seine Komponenten unterliegen der Apache Lizenz 2.0, wenn nicht anders angegeben</value>
   </data>
-  <data name="FileLost">
-    <value xml:space="preserve">Konnte Tab für die Datei {0} nicht wiederherstellen, da die Datei verloren wurde!</value>
+  <data name="FileLost" xml:space="preserve">
+    <value>Konnte Tab für die Datei {0} nicht wiederherstellen, da die Datei verloren wurde!</value>
   </data>
-  <data name="Couldnt_create_tab_of_Type">
-    <value xml:space="preserve">Konnte den Tab vom Typ {0} nicht erstellen: {1}</value>
+  <data name="Couldnt_create_tab_of_Type" xml:space="preserve">
+    <value>Konnte den Tab vom Typ {0} nicht erstellen: {1}</value>
+  </data>
+  <data name="LicensesTooltip" xml:space="preserve">
+    <value>Lizenzen</value>
+  </data>
+  <data name="SI_no" xml:space="preserve">
+    <value>nein</value>
+  </data>
+  <data name="SI_Product_Name" xml:space="preserve">
+    <value>Produktname</value>
+  </data>
+  <data name="SI_System_Time" xml:space="preserve">
+    <value>Systemzeit</value>
+  </data>
+  <data name="SI_yes" xml:space="preserve">
+    <value>ja</value>
+  </data>
+  <data name="SysinfosTooltip" xml:space="preserve">
+    <value>Systeminformationen</value>
   </data>
 </root>
