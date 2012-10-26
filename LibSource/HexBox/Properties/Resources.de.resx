@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Column" xml:space="preserve">
-    <value>Column:</value>
+    <value>Spalte:</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>File:</value>
+    <value>Datei:</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value>Insert</value>
+    <value>Einfügen</value>
   </data>
   <data name="Line" xml:space="preserve">
-    <value>Line:</value>
+    <value>Zeile:</value>
   </data>
   <data name="New" xml:space="preserve">
-    <value>New</value>
+    <value>Neu</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Öffnen</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Speichern</value>
   </data>
   <data name="SaveAs" xml:space="preserve">
-    <value>SaveAs</value>
+    <value>Speichern als</value>
   </data>
 </root>
