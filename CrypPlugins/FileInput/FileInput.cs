@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright [2008] [Thomas Schmid, University of Siegen]
+   Copyright 2012 Julian Weyes, University Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,33 +14,28 @@
    limitations under the License.
 */
 
-using System;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
-using FileInput.Helper;
-using System.IO;
-using System.Windows.Controls;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
-using Cryptool.PluginBase.Miscellaneous;
+using System.IO;
 using System.Windows;
-
+using System.Windows.Controls;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace FileInput
 {
-    [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("FileInput.Properties.Resources", "PluginCaption", "PluginTooltip", "FileInput/DetailedDescription/doc.xml", "FileInput/Images/FileInput.png")]
+    [Author("Julian Weyers", "julian.weyers@stud.uni-duisburg-essen.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo("FileInput.Properties.Resources", "PluginCaption", "PluginTooltip",
+        "FileInput/DetailedDescription/doc.xml", "FileInput/FileInput.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class FileInputClass : ICrypComponent
     {
         #region Private variables
-        private const int MAX_BYTE_ARRAY_SIZE = 10485760; // 20MB
-        private FileInputWPFPresentation fileInputPresentation;
-        private FileInputSettings settings;
+
+        private readonly FileInputWPFPresentation fileInputPresentation;
         private CStreamWriter cstreamWriter;
+        private FileInputSettings settings;
+
         #endregion
 
         public FileInputClass()
@@ -51,98 +46,10 @@ namespace FileInput
             fileInputPresentation.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
 
             Presentation = fileInputPresentation;
-
-           // fileInputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
-           // fileInputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
         }
 
-       /* void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
+        #region ICrypComponent Members
 
-            if (e.PropertyName == "OpenFilename")
-            {
-                string fileName = settings.OpenFilename;
-
-                if (File.Exists(fileName))
-                {
-                    fileInputPresentation.OpenFile(settings.OpenFilename);
-                    FileSize = (int)new FileInfo(fileName).Length;
-                    GuiLogMessage("Opened file: " + settings.OpenFilename + " " + FileHelper.FilesizeReadable(settings.OpenFilename), NotificationLevel.Info);
-                }
-                else if (e.PropertyName == "OpenFilename" && fileName == null)
-                {
-
-                    fileInputPresentation.CloseFile();
-                    FileSize = 0;
-                }
-                NotifyPropertyChange();
-            }
-        }*/
-
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-
-            if (e.PropertyName == "OpenFilename")
-            {
-                string fileName = settings.OpenFilename;
-
-                if (File.Exists(fileName))
-                {
-                    fileInputPresentation.CloseFile();
-                    fileInputPresentation.OpenFile(settings.OpenFilename);
-                    FileSize = (int)new FileInfo(fileName).Length;
-                    GuiLogMessage("Opened file: " + settings.OpenFilename, NotificationLevel.Info);
-                    settings.SettingChanged("CloseFile", Visibility.Visible);
-                }
-                else if (e.PropertyName == "OpenFilename" && fileName == null)
-                {
-                    fileInputPresentation.CloseFile();
-                    FileSize = 0;
-                    settings.SettingChanged("CloseFile", Visibility.Collapsed);
-                }
-                NotifyPropertyChange();
-            }
-
-            if (e.PropertyName == "CloseFile")
-            {
-                fileInputPresentation.CloseFile();
-                fileInputPresentation.dispose();
-            }
-        }
-
-        #region Properties
-        public ISettings Settings
-        {
-            get { return (ISettings)settings; }
-            set { settings = (FileInputSettings)value; }
-        }
-
-        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true)]
-        public ICryptoolStream StreamOutput
-        {
-            get
-            {
-                return cstreamWriter;
-            }
-            set { } // readonly
-        }
-
-        [PropertyInfo(Direction.OutputData, "FileSizeCaption", "FileSizeTooltip")]
-        public int FileSize { get; private set; }
-
-        #endregion
-
-        void UscHexBoc_OnInformationOccured(object sender, Exception e)
-        {
-            GuiLogMessage(e.Message, NotificationLevel.Info);
-        }
-
-        void UscHexBoc_OnExceptionOccured(object sender, Exception e)
-        {
-            GuiLogMessage(e.Message, NotificationLevel.Error);
-        }
-
-        #region IPlugin Members
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
@@ -171,63 +78,23 @@ namespace FileInput
                 cstreamWriter.Dispose();
                 cstreamWriter = null;
             }
-
             fileInputPresentation.CloseFileToGetFileStreamForExecution();
-            
             fileInputPresentation.dispose();
         }
 
         public void Stop()
         {
-
         }
 
         public void PreExecution()
-        {
-            DispatcherHelper.ExecuteMethod(fileInputPresentation.Dispatcher,
-              fileInputPresentation, "CloseFileToGetFileStreamForExecution", null);
+        {        
         }
 
         public void PostExecution()
-        {
-            
-            DispatcherHelper.ExecuteMethod(fileInputPresentation.Dispatcher,
-              fileInputPresentation, "ReopenClosedFile", null);
+        {            
         }
 
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
-        #endregion
-
-        #region methods
-        public void NotifyPropertyChange()
-        {
-            OnPropertyChanged("StreamOutput");
-            OnPropertyChanged("FileSize");
-        }
-
-        private void Progress(double value, double max)
-        {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-        }
-
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-        }
-        #endregion
-
-        #region IPlugin Members
-
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public void Execute()
         {
@@ -245,8 +112,78 @@ namespace FileInput
             catch (FileNotFoundException ex)
             {
                 GuiLogMessage(string.Format("File not found: '{0}'", settings.OpenFilename), NotificationLevel.Error);
-                return;
             }
+        }
+
+        #endregion
+
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "OpenFilename")
+            {
+                string fileName = settings.OpenFilename;
+
+                if (File.Exists(fileName))
+                {
+                    fileInputPresentation.CloseFile();
+                    fileInputPresentation.OpenFile(settings.OpenFilename);
+                    FileSize = (int) new FileInfo(fileName).Length;
+                    GuiLogMessage("Opened file: " + settings.OpenFilename, NotificationLevel.Info);
+                    settings.SettingChanged("CloseFile", Visibility.Visible);
+                }
+                else if (e.PropertyName == "OpenFilename" && fileName == null)
+                {
+                    fileInputPresentation.CloseFile();
+                    FileSize = 0;
+                    settings.SettingChanged("CloseFile", Visibility.Collapsed);
+                }
+                NotifyPropertyChange();
+            }
+
+            if (e.PropertyName == "CloseFile")
+            {
+                fileInputPresentation.CloseFile();
+                fileInputPresentation.dispose();
+            }
+        }
+       
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        #region methods
+
+        public void NotifyPropertyChange()
+        {
+            OnPropertyChanged("StreamOutput");
+            OnPropertyChanged("FileSize");
+        }
+
+       
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        #endregion
+
+        #region Properties
+
+        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true)]
+        public ICryptoolStream StreamOutput
+        {
+            get { return cstreamWriter; }
+            set { } // readonly
+        }
+
+        [PropertyInfo(Direction.OutputData, "FileSizeCaption", "FileSizeTooltip")]
+        public int FileSize { get; private set; }
+
+        public ISettings Settings
+        {
+            get { return settings; }
+            set { settings = (FileInputSettings) value; }
         }
 
         #endregion
