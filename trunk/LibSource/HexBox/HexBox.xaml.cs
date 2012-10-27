@@ -19,10 +19,11 @@ namespace HexBox
     {
         #region Private variables
 
-        private readonly TextBlock _info = new TextBlock();
         private readonly HexText _ht;
+        private readonly TextBlock _info = new TextBlock();
         private readonly long[] _mark;
         private readonly StretchText _st;
+        private readonly Encoding enc = new ASCIIEncoding();
         private int _cell;
         private int _cellText;
         private long _cursorposition;
@@ -33,14 +34,13 @@ namespace HexBox
         private Boolean _markedBackwards;
         private double _offset;
         private Boolean _unicorn = true;
-        private Encoding enc = new ASCIIEncoding();
 
         #endregion
 
         #region Properties
 
-        public string Pfad = string.Empty;
         public Boolean InReadOnlyMode;
+        public string Pfad = string.Empty;
         public event EventHandler OnFileChanged;
 
         #endregion
@@ -420,7 +420,7 @@ namespace HexBox
 
             Canvas.SetTop(cursor2, p.Y);
 
-            this._cellText = cellText;
+            _cellText = cellText;
         }
 
         private void setPosition(int cell)
@@ -444,7 +444,7 @@ namespace HexBox
 
             Canvas.SetTop(cursor, p.Y);
 
-            this._cell = cell;
+            _cell = cell;
         }
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
@@ -675,13 +675,15 @@ namespace HexBox
                         _markedBackwards = false;
                     }
 
-                    if (_cell/2 + (long) fileSlider.Value*16 <= _mark[1] && _cell/2 + (long) fileSlider.Value*16 >= _mark[0] &&
+                    if (_cell/2 + (long) fileSlider.Value*16 <= _mark[1] &&
+                        _cell/2 + (long) fileSlider.Value*16 >= _mark[0] &&
                         !_markedBackwards)
                     {
                         _mark[1] = _cell/2 + (long) fileSlider.Value*16;
                     }
 
-                    if (_cell/2 + (long) fileSlider.Value*16 <= _mark[1] && _cell/2 + (long) fileSlider.Value*16 >= _mark[0] &&
+                    if (_cell/2 + (long) fileSlider.Value*16 <= _mark[1] &&
+                        _cell/2 + (long) fileSlider.Value*16 >= _mark[0] &&
                         _markedBackwards)
                     {
                         _mark[0] = _cell/2 + (long) fileSlider.Value*16;
@@ -1129,13 +1131,13 @@ namespace HexBox
                     if (_cellText + (long) fileSlider.Value*16 < _dyfipro.Length)
                     {
                         _dyfipro.WriteByte(_cellText + (long) fileSlider.Value*16,
-                                          Encoding.GetEncoding(1252).GetBytes(e[ix] + "")[0]);
+                                           Encoding.GetEncoding(1252).GetBytes(e[ix] + "")[0]);
                     }
                     else
                     {
                         Byte[] dummyArray = {Encoding.GetEncoding(1252).GetBytes(e[ix] + "")[0]};
                         _dyfipro.InsertBytes(_cellText + (long) fileSlider.Value*16,
-                                            dummyArray);
+                                             dummyArray);
                     }
                 }
                 else
@@ -1249,7 +1251,7 @@ namespace HexBox
                             if (_cell/2 + (long) fileSlider.Value*16 < _dyfipro.Length)
                             {
                                 _dyfipro.WriteByte(_cell/2 + (long) fileSlider.Value*16,
-                                                  (byte) Convert.ToInt32(s, 16));
+                                                   (byte) Convert.ToInt32(s, 16));
                             }
                             else
                             {
@@ -1273,7 +1275,7 @@ namespace HexBox
                             if (_cell/2 + (long) fileSlider.Value*16 < _dyfipro.Length)
                             {
                                 _dyfipro.WriteByte(_cell/2 + (long) fileSlider.Value*16,
-                                                  (byte) Convert.ToInt32(s, 16));
+                                                   (byte) Convert.ToInt32(s, 16));
                             }
                         }
                     }
@@ -1348,7 +1350,7 @@ namespace HexBox
         }
 
         private void updateUI(long position) // Updates UI
-        {            
+        {
             Column.Text = (int) (_cursorpositionText%16 + 1) + "";
             Line.Text = _cursorpositionText/16 + "";
 
@@ -1378,7 +1380,6 @@ namespace HexBox
 
             _ht.ByteContent = help2;
 
-
             if (_cursorpositionText - fileSlider.Value*16 < 256 && _cursorpositionText - fileSlider.Value*16 > 0)
             {
                 cursor.Opacity = 1.0;
@@ -1388,7 +1389,6 @@ namespace HexBox
                 cursor2.Height = 20;
                 cursor2.Opacity = 1.0;
             }
-
             else
             {
                 cursor.Width = 0;
@@ -1398,7 +1398,6 @@ namespace HexBox
                 cursor.Opacity = 0.0;
                 cursor2.Opacity = 0.0;
             }
-
 
             for (int j = 0; j < 16; j++)
             {
@@ -1728,7 +1727,7 @@ namespace HexBox
             _mark[0] = -1;
             _ht.removemarks = true;
             _st.removemarks = true;
-        }    
+        }
 
         private void help_copy_Hexbox()
         {
@@ -1768,7 +1767,7 @@ namespace HexBox
             if (_cell > 0)
             {
                 if (celltemp/2 + (long) fileSlider.Value*16 - 2 < _dyfipro.Length)
-                {                  
+                {
                     if (_mark[1] - _mark[0] == 0)
                     {
                         if (celltemp/2 + (int) fileSlider.Value*16 - 1 > -1)
@@ -2001,7 +2000,6 @@ namespace HexBox
 
         private void fileSlider_Scroll(object sender, EventArgs e)
         {
-          
         }
 
         private void MyManipulationCompleteEvent(object sender, EventArgs e)
@@ -2037,5 +2035,20 @@ namespace HexBox
         }
 
         #endregion
+
+        public void Clear()
+        {
+            fileSlider.Minimum = 0;
+            fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+            fileSlider.SmallChange = 1;
+            fileSlider.LargeChange = 1;            
+            closeFile(true);
+            Stream s = new MemoryStream();
+            _dyfipro = new DynamicFileByteProvider(s);
+            _dyfipro.LengthChanged += dyfipro_LengthChanged;
+            OnFileChanged(this, EventArgs.Empty);
+            reset();
+            updateUI(0);
+        }
     }
 }

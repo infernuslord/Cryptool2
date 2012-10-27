@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Thomas Schmid, University of Siegen
+   Copyright 2012 Julian Weyes, University Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,227 +15,221 @@
 */
 
 using System;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
-using FileOutput.Helper;
-using System.IO;
-using System.Windows.Controls;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
+using System.Windows.Controls;
 using System.Windows.Threading;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using FileOutputWPF;
+using HexBox = HexBox.HexBox;
 
 namespace FileOutput
 {
-  [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("FileOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "FileOutput/DetailedDescription/doc.xml", "FileOutput/icon.png")]
-  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
-  public class FileOutputClass : ICrypComponent
-  {
-    #region Private variables    
-    public FileOutputSettings settings = null;
-    #endregion Private variables
-
-    #region IInput Members
-    public ISettings Settings
+    [Author("Julian Weyers", "julian.weyers@uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo("FileOutput.Properties.Resources", "PluginCaption", "PluginTooltip",
+        "FileOutput/DetailedDescription/doc.xml", "FileOutput/icon.png")]
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class FileOutputClass : ICrypComponent
     {
-      get { return (ISettings)settings; }
-      set { settings = (FileOutputSettings)value; }
-    }
-    #endregion
+        #region Private variables    
 
-    private FileOutputWPFPresentation fileOutputPresentation;    
+        public FileOutputSettings settings;
 
-    public string InputFile { get; set; }
+        #endregion Private variables
 
-    public FileOutputClass()
-    {
-      settings = new FileOutputSettings();
-      //fileOutputPresentation = new FileOutputPresentation(this);
-      fileOutputPresentation = new FileOutputWPFPresentation(this);
-      Presentation = fileOutputPresentation;
-      //fileOutputPresentation.UscHexBoc.OnExceptionOccured += UscHexBoc_OnExceptionOccured;
-      //fileOutputPresentation.UscHexBoc.OnInformationOccured += UscHexBoc_OnInformationOccured;
-    }
+        private FileOutputWPFPresentation fileOutputPresentation;
 
-    void UscHexBoc_OnInformationOccured(object sender, Exception e)
-    {
-      if (OnGuiLogNotificationOccured != null) GuiLogMessage(e.Message, NotificationLevel.Info);
-    }
-
-    void UscHexBoc_OnExceptionOccured(object sender, Exception e)
-    {
-      GuiLogMessage(e.Message, NotificationLevel.Error);
-    }
-
-    # region Properties
-
-    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true)]
-        public ICryptoolStream StreamInput
-    {
-            get;
-            set;
-        }
-    #endregion
-
-    #region IPlugin Members
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-    public UserControl Presentation { get; private set; }
-
-      public void Initialize()
-    {
-      if (settings.SaveAndRestoreState != string.Empty && File.Exists(settings.SaveAndRestoreState))
-      {
-        this.InputFile = settings.SaveAndRestoreState;
-        fileOutputPresentation.OpenFile(settings.TargetFilename);
-      }
-    }
-
-    /// <summary>
-    /// Close open file and save open filename to settings. Will be called when saving
-    /// workspace or when deleting an element instance from workspace.
-    /// </summary>
-    public void Dispose()
-    {
-      DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
-        fileOutputPresentation, "OpenPresentationFile", null);
-    }
-
-    public void Stop()
-    {
-        Dispose();
-    }
-
-    public void PreExecution()
-    {
-      InputFile = null;
-      DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
-        fileOutputPresentation, "ClosePresentationFile", null);
-    }
-
-    public void PostExecution()
-    {
-    }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-    public void OnPropertyChanged(string name)
-    {
-      EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-    }
-    #endregion
-    public void UpdateQuickWatch()
-    {
-      OnPropertyChanged("StreamInput");
-    }
-
-    private void Progress(double value, double max)
-    {
-      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-    }
-
-    private void GuiLogMessage(string message, NotificationLevel logLevel)
-    {
-      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-    }
-
-    #region IPlugin Members
-
-    public void Execute()
-    {
-        Progress(0.0, 1.0);
-
-        if (string.IsNullOrEmpty(settings.TargetFilename))
+        public FileOutputClass()
         {
-            GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
-            return;
+            settings = new FileOutputSettings();
+            fileOutputPresentation = new FileOutputWPFPresentation(this);
+            Presentation = fileOutputPresentation;
         }
 
-        if (StreamInput == null)
+        public string InputFile { get; set; }
+
+        #region ICrypComponent Members
+
+        public ISettings Settings
         {
-            GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
-            return;
+            get { return settings; }
+            set { settings = (FileOutputSettings) value; }
         }
 
-        Progress(0.5, 1.0);
-        
-        using (CStreamReader reader = StreamInput.CreateReader())
-        {
-            // If target file was selected we have to copy the input to target. 
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-            # region copyToTarget
-            if (settings.TargetFilename != null)
+        public UserControl Presentation { get; private set; }
+
+        public void Initialize()
+        {
+            if (settings.SaveAndRestoreState != string.Empty && File.Exists(settings.SaveAndRestoreState))
             {
-                InputFile = settings.TargetFilename;
+                InputFile = settings.SaveAndRestoreState;
+                fileOutputPresentation.OpenFile(settings.TargetFilename);
+            }
+        }
+
+        /// <summary>
+        /// Close open file and save open filename to settings. Will be called when saving
+        /// workspace or when deleting an element instance from workspace.
+        /// </summary>
+        public void Dispose()
+        {            
+            fileOutputPresentation.CloseFileToGetFileStreamForExecution();
+            fileOutputPresentation.dispose();
+        }
+
+        public void Stop()
+        {
+
+            fileOutputPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
                 try
                 {
-                    fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        fileOutputPresentation.CloseFileToGetFileStreamForExecution();
-                    }, null);
-
-                    FileStream fs;
-                    if (!settings.Append)
-                    {
-                        fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
-                    }
-                    else
-                    {
-                        fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Append);
-                        for (int i = 0; i < settings.AppendBreaks; i++)
-                        {
-                            const string nl = "\n";
-                            fs.Write(Encoding.ASCII.GetBytes(nl), 0, Encoding.ASCII.GetByteCount(nl));
-                        }
-                    }
-
-                    byte[] byteValues = new byte[1024];
-                    int byteRead;
-
-                    long position = fs.Position;
-                    GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
-                    while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
-                    {
-                        fs.Write(byteValues, 0, byteRead);
-                        if (OnPluginProgressChanged != null && reader.Length > 0 &&
-                            (int)(reader.Position * 100 / reader.Length) > position)
-                        {
-                            position = (int)(reader.Position * 100 / reader.Length);
-                            Progress(reader.Position, reader.Length);
-                        }
-                    }
-                    fs.Flush();
-                    fs.Close();
-
-                    GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
+                    fileOutputPresentation.Clear();
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(ex.Message, NotificationLevel.Error);
-                    settings.TargetFilename = null;
+                    GuiLogMessage(String.Format("Exception during Clear of HexBox: {0}", ex.Message), NotificationLevel.Error);
                 }
-            }
-            # endregion copyToTarget
-
-            fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                fileOutputPresentation.ReopenClosedFile();
-            }, null);
-            Progress(1.0, 1.0);
+            }, DispatcherPriority.Normal);
         }
-    }
 
-      #endregion
-  }
+        public void PreExecution()
+        {
+            InputFile = null;
+        }
+
+        public void PostExecution()
+        {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void Execute()
+        {
+            Progress(0.0, 1.0);
+
+            if (string.IsNullOrEmpty(settings.TargetFilename))
+            {
+                GuiLogMessage("You have to select a target filename before using this plugin as output.",
+                              NotificationLevel.Error);
+                return;
+            }
+
+            if (StreamInput == null)
+            {
+                GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
+                return;
+            }
+
+            Progress(0.5, 1.0);
+
+            using (CStreamReader reader = StreamInput.CreateReader())
+            {
+                // If target file was selected we have to copy the input to target. 
+
+                # region copyToTarget
+
+                if (settings.TargetFilename != null)
+                {
+                    InputFile = settings.TargetFilename;
+                    try
+                    {
+                        fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal,
+                        (SendOrPostCallback)
+                        delegate
+                        {
+                            fileOutputPresentation.
+                                CloseFileToGetFileStreamForExecution();
+                        },
+                        null);
+
+                        FileStream fs;
+                        if (!settings.Append)
+                        {
+                            fs = new FileStream(settings.TargetFilename, FileMode.Create);
+                        }
+                        else
+                        {
+                            fs = new FileStream(settings.TargetFilename, FileMode.Append);
+                            for (int i = 0; i < settings.AppendBreaks; i++)
+                            {
+                                const string nl = "\n";
+                                fs.Write(Encoding.ASCII.GetBytes(nl), 0, Encoding.ASCII.GetByteCount(nl));
+                            }
+                        }
+
+                        var byteValues = new byte[1024];
+                        int byteRead;
+
+                        long position = fs.Position;
+                        GuiLogMessage("Start writing to target file now: " + settings.TargetFilename,
+                                      NotificationLevel.Debug);
+                        while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
+                        {
+                            fs.Write(byteValues, 0, byteRead);
+                            if (OnPluginProgressChanged != null && reader.Length > 0 &&
+                                (int) (reader.Position*100/reader.Length) > position)
+                            {
+                                position = (int) (reader.Position*100/reader.Length);
+                                Progress(reader.Position, reader.Length);
+                            }
+                        }
+                        fs.Flush();
+                        fs.Close();
+
+                        GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage(ex.Message, NotificationLevel.Error);
+                        settings.TargetFilename = null;
+                    }
+                }
+
+                # endregion copyToTarget
+
+                fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal,
+                                                         (SendOrPostCallback)
+                                                         delegate { fileOutputPresentation.ReopenClosedFile(); }, null);
+                Progress(1.0, 1.0);
+            }
+        }
+
+        #endregion
+
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        public void UpdateQuickWatch()
+        {
+            OnPropertyChanged("StreamInput");
+        }
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        # region Properties
+
+        [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true)]
+        public ICryptoolStream StreamInput { get; set; }
+
+        #endregion
+    }
 }
