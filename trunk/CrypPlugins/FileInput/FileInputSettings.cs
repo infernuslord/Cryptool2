@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Thomas Schmid, University of Siegen
+   Copyright 2012 Julian Weyes, University Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,76 +14,71 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Windows;
+using Cryptool.PluginBase;
 
 namespace FileInput
 {
-  public class FileInputSettings : ISettings
-  {
-    private string saveAndRestoreState;
-    public string SaveAndRestoreState
+    public class FileInputSettings : ISettings
     {
-      get { return saveAndRestoreState; }
-      set 
-      {
-        if (value != saveAndRestoreState) hasChanges = true;
-        saveAndRestoreState = value;
-        OnPropertyChanged("SaveAndRestoreState");
-      }
-    }
+        private string openFilename;
+        private string saveAndRestoreState;
 
-    private bool hasChanges;
-
-      private string openFilename;
-    [TaskPane( "OpenFilenameCaption", "OpenFilenameTooltip", null, 1, false, ControlType.OpenFileDialog, FileExtension="All Files (*.*)|*.*")]
-    public string OpenFilename
-    {
-      get { return openFilename; }
-      set
-      {
-        if (value != openFilename)
+        public string SaveAndRestoreState
         {
-          openFilename = value;
-            OnPropertyChanged("OpenFilename");
+            get { return saveAndRestoreState; }
+            set
+            {                
+                saveAndRestoreState = value;
+                OnPropertyChanged("SaveAndRestoreState");
+            }
         }
-      }
-    }
 
-    [TaskPane( "CloseFileCaption", "CloseFileTooltip", null, 2, false, ControlType.Button)]
-    public void CloseFile()
-    {
-      OpenFilename = null;
-      OnPropertyChanged("CloseFile");
-    }
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string name)
-    {
-      if (PropertyChanged != null)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
-      }
-    }
-
-    public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
-
-    public void SettingChanged(string setting, Visibility vis)
-    {
-        if (TaskPaneAttributeChanged != null)
+        [TaskPane("OpenFilenameCaption", "OpenFilenameTooltip", null, 1, false, ControlType.OpenFileDialog,
+            FileExtension = "All Files (*.*)|*.*")]
+        public string OpenFilename
         {
-            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+            get { return openFilename; }
+            set
+            {
+                if (value != openFilename)
+                {
+                    openFilename = value;
+                    OnPropertyChanged("OpenFilename");
+                }
+            }
+        }
+
+        #region ISettings Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        [TaskPane("CloseFileCaption", "CloseFileTooltip", null, 2, false, ControlType.Button)]
+        public void CloseFile()
+        {
+            OpenFilename = null;
+            OnPropertyChanged("CloseFile");
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        public void SettingChanged(string setting, Visibility vis)
+        {
+            if (TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this,new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting,vis)));
+            }
         }
     }
-
-    #endregion
-  }
 }

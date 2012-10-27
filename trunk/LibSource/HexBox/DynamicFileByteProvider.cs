@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using System.IO;
 
 namespace HexBox
@@ -13,13 +12,11 @@ namespace HexBox
     /// </remarks>
     public sealed class DynamicFileByteProvider : IByteProvider, IDisposable
     {
-        const int COPY_BLOCK_SIZE = 4096;
-
-        string _fileName;
-        Stream _stream;
-        DataMap _dataMap;
-        long _totalLength;
-        bool _readOnly;
+        private const int COPY_BLOCK_SIZE = 4096;
+        private Stream _stream;
+        private DataMap _dataMap;
+        private long _totalLength;
+        private bool _readOnly;
 
         /// <summary>
         /// Constructs a new <see cref="DynamicFileByteProvider" /> instance.
@@ -34,19 +31,16 @@ namespace HexBox
         /// <param name="readOnly">True, opens the file in read-only mode.</param>
         public DynamicFileByteProvider(string fileName, bool readOnly)
         {
-            _fileName = fileName;
-
-            if (!readOnly)
+            if (readOnly)
             {
-                _stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                _stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read);                
             }
             else
             {
-                _stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                _stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
             }
-
             _readOnly = readOnly;
-
+            
             ReInitialize();
         }
 
@@ -96,7 +90,7 @@ namespace HexBox
             {
                 MemoryDataBlock memoryBlock = (MemoryDataBlock)block;
                 return memoryBlock.Data[index - blockOffset];
-            }
+            }            
         }
 
         /// <summary>
@@ -380,6 +374,7 @@ namespace HexBox
                     for (int memoryOffset = 0; memoryOffset < memoryBlock.Length; memoryOffset += COPY_BLOCK_SIZE)
                     {
                         _stream.Write(memoryBlock.Data, memoryOffset, (int)Math.Min(COPY_BLOCK_SIZE, memoryBlock.Length - memoryOffset));
+                        _stream.Flush();
                     }
                 }
                 dataOffset += block.Length;
@@ -434,7 +429,6 @@ namespace HexBox
                 _stream.Close();
                 _stream = null;
             }
-            _fileName = null;
             _dataMap = null;
             GC.SuppressFinalize(this);
         }
@@ -536,6 +530,7 @@ namespace HexBox
                     long writeOffset = dataOffset + relativeOffset;
                     _stream.Position = writeOffset;
                     _stream.Write(buffer, 0, bytesToRead);
+                    _stream.Flush();
                 }
             }
             else
@@ -552,6 +547,7 @@ namespace HexBox
                     long writeOffset = dataOffset + fileBlock.Length - relativeOffset - bytesToRead;
                     _stream.Position = writeOffset;
                     _stream.Write(buffer, 0, bytesToRead);
+                    _stream.Flush();
                 }
             }
 
