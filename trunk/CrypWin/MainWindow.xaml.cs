@@ -1432,6 +1432,14 @@ namespace Cryptool.CrypWin
                     {
                         tabContent = OnlineHelpTab.GetSingleton(this);
                     }
+                    else if (type == typeof(SettingsPresentation))
+                    {
+                        tabContent = SettingsPresentation.GetSingleton();
+                    }
+                    else if (type == typeof(UpdaterPresentation))
+                    {
+                        tabContent = UpdaterPresentation.GetSingleton();
+                    }
                     else
                     {
                         try
