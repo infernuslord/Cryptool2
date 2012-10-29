@@ -1,4 +1,19 @@
-﻿using System.Collections.Generic;
+﻿/*
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using DataMatrix.net;
@@ -12,19 +27,21 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
       
         #region legend Strings
 
-        private readonly LegendItem icvLegend = new LegendItem
+        private readonly LegendItem alignmentLegend = new LegendItem
         {
-            ColorValue = Color.Blue,
-            LableValue = "EAN8_ICV_LABLE",
-            DiscValue = "EAN8_ICV_DISC"
+            ColorBlack = Color.Blue,
+            ColorWhite = Color.LightBlue, //has no white, just for debuging
+            LableValue = "DM_ALIG_LABLE",
+            DiscValue = "DM_ALIG_DISC"
             
         };
 
-        private readonly LegendItem fixedLegend = new LegendItem
+        private readonly LegendItem columnIDLegend = new LegendItem
         {
-            ColorValue = Color.Green,
-            LableValue = "EAN8_FIXED_LABLE",
-            DiscValue = "EAN8_FIXED_DISC"
+            ColorBlack = Color.Green,
+            ColorWhite = Color.LightGreen,
+            LableValue = "DM_COLUMNID_LABLE",
+            DiscValue = "DM_COLUMNID_DISC"
         };
 
         #endregion
@@ -33,7 +50,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
-            DmtxImageEncoder encoder = new DmtxImageEncoder();
+            var encoder = new DmtxImageEncoder();
             var payload = Encoding.ASCII.GetString(input);
             return encoder.EncodeImage(payload);
         }
@@ -59,29 +76,94 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
-            var legend = new List<LegendItem>();
-            return legend; //TODO
+            var legend = new List<LegendItem>{alignmentLegend, columnIDLegend};
+            return legend;
         }
 
         protected override Image GeneratePresentationBitmap(Image input, DimCodeEncoderSettings settings)
         {
-            var bitmap = new Bitmap(input); //TODO
-            return bitmap;
-        }
+            var bitmap = new Bitmap(input);
 
-        #region helper
-        private Bitmap fillBarOnX(int x, Bitmap bitmap, Color color)
-        {
-            for (int y = 0; y < bitmap.Height; y++)
+            #region find elements
+
+            //find the upper left corner
+            int x = 0;
+            int y = 0;
+
+            var lockBitmap = new LockBitmap(bitmap);
+            lockBitmap.LockBits();
+
+            while(lockBitmap.GetPixel(x, y).R != Color.Black.R)
             {
-                if (bitmap.GetPixel(x, y).R == Color.Black.R)
-                    bitmap.SetPixel(x, y, color);
-                else
-                    y = bitmap.Height;
+                if(x < lockBitmap.Width/2)
+                {
+                    x++;
+                } else if (y < lockBitmap.Height/2)
+                {
+                    x = 0;
+                    y++;
+                }
+                else //avoid endless search
+                {   //if we found no bar end, we stop here
+                    return bitmap;
+                }
             }
+            int leftX = x;
+            int upperY = y;
+
+            //calc barwidth
+            while (lockBitmap.GetPixel(x, y+1).R == Color.Black.R)
+            {
+                if(x < lockBitmap.Width/2)
+                {
+                    x++;
+                } 
+                else //avoid endless search
+                {   //if we found no bar end, we stop here
+                    return bitmap;
+                }
+            }
+            int barWidth = x - leftX - 1;
+
+            lockBitmap.UnlockBits();
+            int codeHight = CalcBarHight(bitmap, leftX) - upperY;
+            lockBitmap.LockBits();
+
+            //calc codeWidth
+            x = leftX;
+            y = upperY + codeHight;
+
+            while (lockBitmap.GetPixel(x, y).R == Color.Black.R)
+            {
+                if (x < lockBitmap.Width)
+                {
+                    x++;
+                }
+                else //avoid endless search
+                {   //if we found no bar end, we stop here
+                    return bitmap;
+                }
+            }
+            int codeWidth = x - leftX - 1;
+            lockBitmap.UnlockBits();
+            #endregion
+
+            //mark  alignment
+            bitmap = FillArea(leftX, leftX + barWidth, upperY, upperY + codeHight,
+                                bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
+
+            bitmap = FillArea(leftX + barWidth, leftX + codeWidth, upperY + codeHight - barWidth, upperY + codeHight,
+                               bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
+
+            // mark column identificator
+            bitmap = FillArea(leftX, leftX + codeWidth, upperY, upperY + barWidth,
+                                bitmap, columnIDLegend.ColorBlack, columnIDLegend.ColorWhite);
+
+            bitmap = FillArea(leftX + codeHight - barWidth, leftX + codeWidth, upperY, upperY + codeWidth,
+                                bitmap, columnIDLegend.ColorBlack, columnIDLegend.ColorWhite);
+
+            //TODO
             return bitmap;
         }
-
-        #endregion
     }
 }

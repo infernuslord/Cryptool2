@@ -96,6 +96,7 @@
     <Compile Include="DimCodes\DataMatrix.cs" />
     <Compile Include="DimCodes\QRCode.cs" />
     <Compile Include="DimCodes\Code128.cs" />
+    <Compile Include="LockBitmap.cs" />
     <Compile Include="model\LegendItem.cs" />
     <Compile Include="DimCodes\DimCode.cs" />
     <Compile Include="model\DimCodeReturnValue.cs" />
@@ -130,11 +131,9 @@
     <Resource Include="userdoc.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="externalLibs\DataMatrix.net\DataMatrix.net.dll" />
+    <Content Include="externalLibs\DataMatrix.net\gpl.txt" />
     <Content Include="externalLibs\ZXing.net\zxing.dll" />
-    <Content Include="externalLibs\ZXing.net\zxing.pdb" />
-    <Content Include="externalLibs\ZXing.net\zxing.presentation.dll" />
-    <Content Include="externalLibs\ZXing.net\zxing.presentation.pdb" />
-    <Content Include="externalLibs\ZXing.net\zxing.presentation.XML" />
     <Content Include="externalLibs\ZXing.net\zxing.XML" />
     <Content Include="how_to_add_new_DimCodes.txt" />
   </ItemGroup>
