@@ -205,7 +205,7 @@
     <value>Factorlist</value>
   </data>
   <data name="Found_enough_relations" xml:space="preserve">
-    <value>Found enough relations! Please wait...</value>
+    <value>Found enough relations. Please wait...</value>
   </data>
   <data name="Found_Relations_" xml:space="preserve">
     <value>Found Relations:</value>
@@ -226,10 +226,10 @@
     <value>Needed Relations:</value>
   </data>
   <data name="Now_sieving_first_composite_factor" xml:space="preserve">
-    <value>Now sieving first composite factor!</value>
+    <value>Now sieving first composite factor.</value>
   </data>
   <data name="Other_peer_finished_sieving" xml:space="preserve">
-    <value>Other peer finished sieving!</value>
+    <value>Other peer finished sieving.</value>
   </data>
   <data name="Peer2Peer" xml:space="preserve">
     <value>Peer2Peer</value>
@@ -247,7 +247,7 @@
     <value>Remaining:</value>
   </data>
   <data name="Searching_trivial_factors" xml:space="preserve">
-    <value>Searching trivial factors!</value>
+    <value>Searching trivial factors.</value>
   </data>
   <data name="seconds" xml:space="preserve">
     <value>seconds</value>
@@ -256,19 +256,19 @@
     <value>seconds left</value>
   </data>
   <data name="Sieving_finished" xml:space="preserve">
-    <value>Sieving finished!</value>
+    <value>Sieving finished. Found all {0} factors.</value>
   </data>
   <data name="Sieving_now" xml:space="preserve">
-    <value>Sieving now!</value>
+    <value>Sieving now.</value>
   </data>
   <data name="Starting_quadratic_sieve" xml:space="preserve">
-    <value>Starting, please wait!</value>
+    <value>Starting, please wait.</value>
   </data>
   <data name="Start_" xml:space="preserve">
     <value>Start:</value>
   </data>
   <data name="Stopped_by_user" xml:space="preserve">
-    <value>Stopped by user!</value>
+    <value>Stopped by user.</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Time</value>
@@ -296,5 +296,14 @@
   </data>
   <data name="second" xml:space="preserve">
     <value>Second</value>
+  </data>
+  <data name="NoneLeft" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="SievingFinished2" xml:space="preserve">
+    <value>Sieving finished.</value>
+  </data>
+  <data name="Input_too_big_">
+    <value xml:space="preserve">Input too big.</value>
   </data>
 </root>
