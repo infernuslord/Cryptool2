@@ -205,7 +205,7 @@
     <value>Faktorenliste</value>
   </data>
   <data name="Found_enough_relations" xml:space="preserve">
-    <value>Genügend Relationen gefunden! Bitte warten...</value>
+    <value>Genügend Relationen gefunden. Bitte warten...</value>
   </data>
   <data name="Found_Relations_" xml:space="preserve">
     <value>Gefundene Relationen:</value>
@@ -226,10 +226,10 @@
     <value>Benötigte Relationen:</value>
   </data>
   <data name="Now_sieving_first_composite_factor" xml:space="preserve">
-    <value>Sieben des ersten zusammengesetzten Faktors!</value>
+    <value>Sieben des ersten zusammengesetzten Faktors.</value>
   </data>
   <data name="Other_peer_finished_sieving" xml:space="preserve">
-    <value>Ein Peer hat das Sieben beendet!</value>
+    <value>Ein Peer hat das Sieben beendet.</value>
   </data>
   <data name="Peer2Peer" xml:space="preserve">
     <value>Peer2Peer</value>
@@ -247,28 +247,28 @@
     <value>Verbleibend:</value>
   </data>
   <data name="Searching_trivial_factors" xml:space="preserve">
-    <value>Suche triviale Faktoren!</value>
+    <value>Suche triviale Faktoren.</value>
   </data>
   <data name="seconds" xml:space="preserve">
     <value>Sekunden</value>
   </data>
   <data name="seconds_left" xml:space="preserve">
-    <value>Sekunden verbleiben</value>
+    <value>Sekunden verbleibend</value>
   </data>
   <data name="Sieving_finished" xml:space="preserve">
-    <value>Sieben beendet!</value>
+    <value>Sieben beendet. Alle {0} Faktoren gefunden.</value>
   </data>
   <data name="Sieving_now" xml:space="preserve">
-    <value>Jetzt wird gesiebt!</value>
+    <value>Es wird gesiebt.</value>
   </data>
   <data name="Starting_quadratic_sieve" xml:space="preserve">
-    <value>Startvorgang, bitte warten!</value>
+    <value>Startvorgang, bitte warten.</value>
   </data>
   <data name="Start_" xml:space="preserve">
     <value>Beginn:</value>
   </data>
   <data name="Stopped_by_user" xml:space="preserve">
-    <value>Vom Benutzer gestoppt!</value>
+    <value>Vom Benutzer gestoppt.</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Zeit</value>
@@ -277,7 +277,7 @@
     <value>Hochgeladen:</value>
   </data>
   <data name="very_soon" xml:space="preserve">
-    <value>sehr bald</value>
+    <value>Sehr bald</value>
   </data>
   <data name="Bits" xml:space="preserve">
     <value>Bits</value>
@@ -296,5 +296,14 @@
   </data>
   <data name="second" xml:space="preserve">
     <value>Sekunde</value>
+  </data>
+  <data name="NoneLeft" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="SievingFinished2" xml:space="preserve">
+    <value>Sieben beendet.</value>
+  </data>
+  <data name="Input_too_big_">
+    <value xml:space="preserve">Eingabe zu groß.</value>
   </data>
 </root>

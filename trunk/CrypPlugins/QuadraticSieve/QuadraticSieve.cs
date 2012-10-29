@@ -32,6 +32,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Cryptool.P2P;
+using QuadraticSieve.Properties;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -206,7 +207,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     if (InputNumber.ToString().Length >= 275)
                     {
-                        GuiLogMessage("Input too big.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.Input_too_big_, NotificationLevel.Error);
                         return;
                     }
 
@@ -222,7 +223,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         quadraticSieveQuickWatchPresentation.endTime.Content = "-";
                         quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
                         quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
-                        quadraticSieveQuickWatchPresentation.startTime.Content = ""+start_time;
+                        quadraticSieveQuickWatchPresentation.startTime.Content = "" + start_time;
                         quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
                         quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Searching_trivial_factors");
                         if (usePeer2Peer)
@@ -255,27 +256,26 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (!userStopped)
                     {
-                        String timeLeft_message = "0 " + typeof(QuadraticSieve).GetPluginStringResource("seconds_left");
-                        String endtime_message = "" + (DateTime.Now);
+                        Debug.Assert(factorManager.CalculateNumber() == InputNumber);
+                        OutputFactors = factorManager.getPrimeFactors();
 
-                        GuiLogMessage(info_message, NotificationLevel.Info);
+                        String timeLeft_message = Resources.NoneLeft;
+                        String endtime_message = DateTime.Now.ToString();
+
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            quadraticSieveQuickWatchPresentation.information.Content = typeof(QuadraticSieve).GetPluginStringResource("Sieving_finished");
+                            quadraticSieveQuickWatchPresentation.information.Content = string.Format(typeof(QuadraticSieve).GetPluginStringResource("Sieving_finished"), OutputFactors.Count());
                             quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
                             quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
                             quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                         }
                         , null);
-
-                        Debug.Assert(factorManager.CalculateNumber() == InputNumber);
-                        OutputFactors = factorManager.getPrimeFactors();
-
+                        
                         ProgressChanged(1, 1);
                     }
                     else
                     {                        
-                        info_message = "Stopped by user!";
+                        info_message = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
 
                         GuiLogMessage(info_message, NotificationLevel.Info);
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -521,7 +521,7 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 //sieving is finished now, so give some informations and stop threads:
                 ProgressChanged(0.9, 1.0);
-                GuiLogMessage("Sieving finished", NotificationLevel.Info);
+                GuiLogMessage(Resources.SievingFinished2, NotificationLevel.Info);
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
