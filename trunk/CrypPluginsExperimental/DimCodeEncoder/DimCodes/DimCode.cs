@@ -122,6 +122,51 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             return ms.ToArray();
         }
 
+        protected static int CalcBarHight(Bitmap bitmap, int x)
+        {
+            int barHight = 0;
+            var onBar = false;
+
+            LockBitmap lockBitmap = new LockBitmap(bitmap);
+            lockBitmap.LockBits();
+            for (int y = 0; y < bitmap.Height; y++)
+            {
+                var p = lockBitmap.GetPixel(x, y).R;
+                if (onBar && p != Color.Black.R)
+                {
+                    barHight = y - 1;
+                    y = lockBitmap.Height;
+                }
+                else
+                {
+                    onBar = lockBitmap.GetPixel(x, y).R == Color.Black.R;
+                }
+            }
+            lockBitmap.UnlockBits();
+            return barHight;
+        }
+
+
+        protected static Bitmap FillBitmapOnX(int x, int yFrom, int yTo, Bitmap bitmap, Color cBlack, Color cWhite)
+        {
+            LockBitmap lockBitmap = new LockBitmap(bitmap);
+            lockBitmap.LockBits();
+            for (; yFrom <= yTo; yFrom++)
+            {
+                lockBitmap.SetPixel(x, yFrom, lockBitmap.GetPixel(x, yFrom).R == Color.Black.R ? cBlack : cWhite);
+            }
+            lockBitmap.UnlockBits();
+            return bitmap;
+        }
+
+        protected static Bitmap FillArea(int xFrom, int xTo , int yFrom, int yTo, Bitmap bitmap, Color cBlack, Color cWhite)
+        {
+            for (; xFrom <= xTo ; xFrom++ )
+                FillBitmapOnX(xFrom, yFrom, yTo, bitmap, cBlack, cWhite);
+
+            return bitmap;
+        }
+
         #endregion helper
      
 

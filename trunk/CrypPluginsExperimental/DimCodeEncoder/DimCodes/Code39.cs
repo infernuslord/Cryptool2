@@ -1,4 +1,19 @@
-﻿using System;
+﻿/*
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,7 +31,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         private readonly LegendItem startEndLegend = new LegendItem
         {
-            ColorValue = Color.Green,
+            ColorBlack = Color.Green,
+            ColorWhite = Color.LightGreen,
             LableValue = "C38_STARTEND_LABLE", // TODO
             DiscValue = "C38_STARTEND_DISC" //TODO
             
@@ -24,7 +40,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         private readonly LegendItem ivcLegend = new LegendItem
         {
-            ColorValue = Color.Blue,
+            ColorBlack = Color.Blue,
+            ColorWhite = Color.LightBlue,
             LableValue = "C38_ICV_Lable", //TODO
             DiscValue = "some blahblah 'bout icv's calc" //TODO
         };
@@ -98,74 +115,89 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         protected override Image GeneratePresentationBitmap(Image input, DimCodeEncoderSettings settings)
         {
             var bitmap = new Bitmap(input);
-           
-            var barcount = 0;
-            bool isOnBlackBar = false;
+            var barSpaceCount = 0;
+            var isOnBlackBar = false;
+            var barHight = 0;
 
-            #region color startvalue
-
-            for (int x = 0; barcount <= 5; x++)
+            #region color start region
+            for (int x = 0; barSpaceCount < 6; x++)
             {
-              if (bitmap.GetPixel(x, bitmap.Height/2).R == Color.Black.R)
-              {
-                 if (!isOnBlackBar)
-                      barcount++;
-                  isOnBlackBar = true;
+                if (bitmap.GetPixel(x, bitmap.Height / 2).R == Color.Black.R)
+                {
+                    if (!isOnBlackBar)
+                    {
+                        barSpaceCount++;
+                        isOnBlackBar = true;
+                    }
 
-                  bitmap = fillBarOnX(x, bitmap, startEndLegend.ColorValue);
-                   
-              }
-              else
-              {
-                  isOnBlackBar = false;
-              }
+                    if (barHight == 0)
+                    {
+                        barHight = CalcBarHight(bitmap, x);
+                    }
+                }
+                else
+                {
+                    if (isOnBlackBar)
+                    {
+                        barSpaceCount++;
+                        isOnBlackBar = false;
+                    }
+
+                }
+
+                if (barSpaceCount > 0)
+                {
+                    bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite);
+                }
             }
 
             #endregion
            
             #region color endregion and checksum
 
-            barcount = 0;
+          
+            barSpaceCount = 0;
             isOnBlackBar = false;
+            barHight = 0;
 
-            for (int x = bitmap.Width-1 ; barcount <= 10; x--)
-            {
-                if (bitmap.GetPixel(x, bitmap.Height / 2).R == Color.Black.R)
+            for (int x = 0; barSpaceCount <= 6; x++)
+            { 
+                if (bitmap.GetPixel(x, bitmap.Height/2).R == Color.Black.R)
                 {
                     if (!isOnBlackBar)
-                        barcount++;
-
-                    isOnBlackBar = true;
-
-                    if (barcount <= 5)
-                        bitmap = fillBarOnX(x, bitmap, startEndLegend.ColorValue);
-
-                    else if (settings.AppendICV)
-                        bitmap = fillBarOnX(x, bitmap, ivcLegend.ColorValue);
+                    {
+                        barSpaceCount++;
+                        isOnBlackBar = true;
+                    }
+                   
+                    if(barHight == 0)
+                    {
+                        barHight = CalcBarHight(bitmap, x);
+                    }
                 }
                 else
                 {
-                    isOnBlackBar = false;
+                    if (isOnBlackBar)
+                    {
+                        barSpaceCount++;
+                        isOnBlackBar = false;
+                    }
+                   
                 }
+
+                  if (barSpaceCount <= 5)
+                        bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite); 
+
+                   else if (settings.AppendICV)
+                         bitmap = FillBitmapOnX(x, 0, barHight, bitmap, ivcLegend.ColorBlack, ivcLegend.ColorWhite);
+
             }
-            
             #endregion
-          
+
             return bitmap;
         }
 
-        #region helper 
-        private Bitmap fillBarOnX(int x, Bitmap bitmap, Color color)
-        {
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                if (bitmap.GetPixel(x, y).R == Color.Black.R)
-                    bitmap.SetPixel(x, y, color);
-                else
-                    y = bitmap.Height;
-            }
-            return bitmap;
-        }
+        #region helper
 
         /// <summary>
         /// calculation of icv: add all char with his corresponding Code39 value in module 43

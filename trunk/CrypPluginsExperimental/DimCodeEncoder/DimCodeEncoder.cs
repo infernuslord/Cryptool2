@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -98,6 +99,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public void Execute()
         {
+            Benchmark.Start();
             ProgressChanged(0, 1);
             var allBytes = new List<byte>();
             using (CStreamReader reader = InputStream.CreateReader())
@@ -119,8 +121,11 @@ namespace Cryptool.Plugins.DimCodeEncoder
                         PictureBytes = dimCode.PureBitmap;
                         OnPropertyChanged("PictureBytes");
                     }
+                  
                 }
             }
+            Benchmark.End();
+            Console.WriteLine(Benchmark.GetSeconds());
             ProgressChanged(1, 1);
         }
         #region std functions

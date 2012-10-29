@@ -1,7 +1,21 @@
-﻿using System.Collections.Generic;
+﻿/*
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using Cryptool.PluginBase;
 using DimCodeEncoder.model;
 using ZXing;
 using ZXing.Common;
@@ -14,7 +28,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         private readonly LegendItem present_ICV = new LegendItem
         {
-            ColorValue = Color.Blue,
+            ColorBlack = Color.Blue,
             LableValue = "ICV_Lable",
             DiscValue = "ICV_Disc"
             
@@ -22,7 +36,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         private readonly LegendItem present_opoints = new LegendItem
         {
-            ColorValue = Color.Green,
+            ColorBlack = Color.Green,
             LableValue = "fix_points_Lable",
             DiscValue = "fix_points_Disc"
         };
@@ -124,19 +138,6 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
               }
           }
 */            return bitmap;
-        }
-
-
-        private Bitmap fillBarOnX(int x, Bitmap bitmap, Color color)
-        {
-            for (int y = 0; y < bitmap.Height; y++)
-            {
-                if (bitmap.GetPixel(x, y).R == Color.Black.R)
-                    bitmap.SetPixel(x, y, color);
-                else
-                    y = bitmap.Height;
-            }
-            return bitmap;
         }
     }
 }
