@@ -32,6 +32,7 @@ namespace DimCodeEncoder
     /// <summary>
     /// Interaktionslogik für DimCodeEncoderPresentation.xaml
     /// </summary>
+     [Cryptool.PluginBase.Attributes.Localization("DimCodeEncoder.Properties.Resources")]
     public partial class DimCodeEncoderPresentation : UserControl
     {
         public DimCodeEncoderPresentation()

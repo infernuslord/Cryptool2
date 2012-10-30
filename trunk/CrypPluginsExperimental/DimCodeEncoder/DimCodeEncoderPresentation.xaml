@@ -29,7 +29,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FFE56B00" Grid.Column="0">
-                        <Label Content="{Loc DimCodeLabel}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                        <Label Content="{Loc DimCodeLabel}" FontSize="11" Margin="0,-1,0,0"  HorizontalAlignment="Center" Foreground="White" />
                     </Border>
                     <Border BorderThickness="1" Grid.Column="1" BorderBrush="Black"  Background="#AFFFD4C1">
                             <Image VerticalAlignment="Center" HorizontalAlignment="Center" Name="Image" />
@@ -37,7 +37,7 @@
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF479308" Grid.Column="2">
                         <Expander Name="Explain" HorizontalAlignment="Center"  VerticalAlignment="Center" IsExpanded="False" Collapsed="Explain_Collapsed" Expanded="Explain_Expanded">
                             <Expander.Header>
-                                <Label Content="{Loc ExplainLabel}" FontSize="11" Foreground="White" />
+                                <Label Content="{Loc ExplainLabel}" Margin="0,-2,0,0" FontSize="11" Foreground="White" />
                             </Expander.Header>
                         </Expander>
                     </Border>

@@ -27,7 +27,7 @@ using DimCodeEncoder;
 namespace Cryptool.Plugins.DimCodeEncoder
 {
     [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
-    [PluginInfo("DimCodeEncoderCaption", "DimCodeEncoderTooltip", "DimCodeEncoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("DimCodeEncoder.Properties.Resources", "DimCodeEncoderCaption", "DimCodeEncoderTooltip", "DimCodeEncoder/userdoc.xml", new[] { "DimCodeEncoder/Images/icon.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class DimCodeEncoder : ICrypComponent
     {

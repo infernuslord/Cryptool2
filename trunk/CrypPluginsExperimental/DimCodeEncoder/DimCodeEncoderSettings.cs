@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         }
 
 
-        [TaskPane("AppendICVCaption", "AppendICVCaptionTooltip", "DimCodeSettingsCaption", 1, true, ControlType.CheckBox)]
+        [TaskPane("AppendICVCaption", "AppendICVCaptionTooltip", "BarcodeSection", 2, true, ControlType.CheckBox)]
         public bool AppendICV
         {
             get
