@@ -306,4 +306,7 @@
   <data name="Input_too_big_">
     <value xml:space="preserve">Eingabe zu groß.</value>
   </data>
+  <data name="Digit" xml:space="preserve">
+    <value>Dezimalstelle</value>
+  </data>
 </root>
