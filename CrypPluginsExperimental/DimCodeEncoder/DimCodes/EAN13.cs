@@ -13,9 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Text;
 using Cryptool.PluginBase;
 using DimCodeEncoder.model;
@@ -27,6 +31,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
     class EAN13 : DimCode
     {
         #region legend Strings
+        
 
         private readonly LegendItem icvLegend = new LegendItem
         {
