@@ -303,7 +303,10 @@
   <data name="SievingFinished2" xml:space="preserve">
     <value>Sieving finished.</value>
   </data>
-  <data name="Input_too_big_">
-    <value xml:space="preserve">Input too big.</value>
+  <data name="Input_too_big_" xml:space="preserve">
+    <value>Input too big.</value>
+  </data>
+  <data name="Digit" xml:space="preserve">
+    <value>digit</value>
   </data>
 </root>

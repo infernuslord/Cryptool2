@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
@@ -77,6 +78,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static bool alreadyInUse = false;
         private static Mutex alreadyInUseMutex = new Mutex();
         private AutoResetEvent waitForConnection = new AutoResetEvent(false);
+        private CultureInfo _culture;
 
         #endregion
 
@@ -166,6 +168,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void Execute()
         {
+            _culture = Thread.CurrentThread.CurrentUICulture;
             if (checkInUse())
                 return;
             
@@ -481,6 +484,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <returns>true if enough relations found, false if not</returns>
         private bool prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
+            Thread.CurrentThread.CurrentUICulture = _culture;
             try
             {
                 int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount - 1);
@@ -639,7 +643,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }            
             
             String timeLeft_message = typeof(QuadraticSieve).GetPluginStringResource("very_soon");
-            String endtime_message = typeof(QuadraticSieve).GetPluginStringResource("very_soon");
+            String endtime_message = timeLeft_message;
             DateTime now = DateTime.Now;
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
@@ -866,17 +870,29 @@ namespace Cryptool.Plugins.QuadraticSieve
                     var spf = pf.ToString();
                     var bitcount = Math.Ceiling(BigInteger.Log(pf, 2));
                     quadraticSieveQuickWatchPresentation.factorList.Items.Add(
-                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + " " + count + " : " + spf + " (" + spf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + " " + count + " : " + spf + " (" + GetDigitNumber(spf.Length) + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
                 }
                 foreach (BigInteger cf in compositeFactors)
                 {
                     var scf = cf.ToString();
                     var bitcount = Math.Ceiling(BigInteger.Log(cf, 2));
                     quadraticSieveQuickWatchPresentation.factorList.Items.Add(
-                        typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + scf + " (" + scf.Length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digits") + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                        typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + scf + " (" + GetDigitNumber(scf.Length) + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
                 }
                 quadraticSieveQuickWatchPresentation.SelectFirstComposite();
             }, null);
+        }
+
+        private string GetDigitNumber(int length)
+        {
+            if (length != 1)
+            {
+                return length + " " + typeof (QuadraticSieve).GetPluginStringResource("Digits");
+            }
+            else
+            {
+                return length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digit");
+            }
         }
 
         /// <summary>
