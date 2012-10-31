@@ -18,7 +18,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
+using DimCodeEncoder.Properties;
 using ZXing;
 using ZXing.Common;
 
@@ -33,8 +34,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             ColorBlack = Color.Blue,
             ColorWhite = Color.LightBlue,
-            LableValue = "EAN8_ICV_LABLE",
-            DiscValue = "EAN8_ICV_DISC"
+            LableValue = Resources.EAN8_ICV_LABLE,
+            DiscValue = Resources.EAN8_ICV_DISC
             
         };
 
@@ -42,8 +43,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             ColorBlack = Color.Green,
             ColorWhite = Color.LightGreen,
-            LableValue = "EAN8_FIXED_LABLE",
-            DiscValue = "EAN8_FIXED_DISC"
+            LableValue = Resources.EAN8_FIXED_LABLE,
+            DiscValue = Resources.EAN8_FIXED_DISC
         };
 
         #endregion

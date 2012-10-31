@@ -15,7 +15,7 @@
 */
 using System.Drawing;
 
-namespace DimCodeEncoder.model
+namespace Cryptool.Plugins.DimCodeEncoder.Model
 {
     public class LegendItem
     {

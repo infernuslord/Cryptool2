@@ -18,9 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
+
 
 namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 {

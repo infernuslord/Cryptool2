@@ -23,11 +23,10 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Cryptool.Plugins.DimCodeEncoder;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
 using Color = System.Drawing.Color;
 
-namespace DimCodeEncoder
+namespace Cryptool.Plugins.DimCodeEncoder
 {
     /// <summary>
     /// Interaktionslogik für DimCodeEncoderPresentation.xaml

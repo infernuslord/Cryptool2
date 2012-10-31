@@ -16,7 +16,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
+using DimCodeEncoder.Properties;
 using ZXing;
 using ZXing.Common;
 
@@ -26,19 +27,12 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
     {
         #region legend Strings
 
-        private readonly LegendItem present_ICV = new LegendItem
+        private readonly LegendItem alignmentLegend = new LegendItem
         {
             ColorBlack = Color.Blue,
-            LableValue = "ICV_Lable",
-            DiscValue = "ICV_Disc"
+            LableValue = Resources.QR_ALIG_LABLE,
+            DiscValue = Resources.QR_ALIG_DISC,
             
-        };
-
-        private readonly LegendItem present_opoints = new LegendItem
-        {
-            ColorBlack = Color.Green,
-            LableValue = "fix_points_Lable",
-            DiscValue = "fix_points_Disc"
         };
 
         #endregion
@@ -100,11 +94,9 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
-            var legend = new List<LegendItem> {present_opoints};
+            var legend = new List<LegendItem> { alignmentLegend };
 
-            if (settings.AppendICV)
-                legend.Add(present_ICV);
-
+           
            return legend;
         }
 

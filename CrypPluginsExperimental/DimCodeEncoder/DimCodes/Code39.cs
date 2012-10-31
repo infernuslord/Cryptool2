@@ -19,7 +19,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
+using DimCodeEncoder.Properties;
 using ZXing;
 using ZXing.Common;
 
@@ -33,17 +34,16 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             ColorBlack = Color.Green,
             ColorWhite = Color.LightGreen,
-            LableValue = "C38_STARTEND_LABLE", // TODO
-            DiscValue = "C38_STARTEND_DISC" //TODO
-            
+            LableValue = Resources.C38_STARTEND_LABLE,
+            DiscValue = Resources.C38_STARTEND_DISC
         };
 
         private readonly LegendItem ivcLegend = new LegendItem
         {
             ColorBlack = Color.Blue,
             ColorWhite = Color.LightBlue,
-            LableValue = "C38_ICV_Lable", //TODO
-            DiscValue = "some blahblah 'bout icv's calc" //TODO
+            LableValue = Resources.C38_ICV_LABLE,
+            DiscValue = Resources.C38_ICV_DISC
         };
 
         #endregion
