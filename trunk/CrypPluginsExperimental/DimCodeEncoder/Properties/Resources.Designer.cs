@@ -88,6 +88,78 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string C128_ICV_DISC {
+            get {
+                return ResourceManager.GetString("C128_ICV_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Integrity Check Value ähnelt.
+        /// </summary>
+        internal static string C128_ICV_LABLE {
+            get {
+                return ResourceManager.GetString("C128_ICV_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string C128_STARTEND_DISC {
+            get {
+                return ResourceManager.GetString("C128_STARTEND_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start and End Symbol ähnelt.
+        /// </summary>
+        internal static string C128_STARTEND_LABLE {
+            get {
+                return ResourceManager.GetString("C128_STARTEND_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string C38_ICV_DISC {
+            get {
+                return ResourceManager.GetString("C38_ICV_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Integrity Check Value ähnelt.
+        /// </summary>
+        internal static string C38_ICV_LABLE {
+            get {
+                return ResourceManager.GetString("C38_ICV_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string C38_STARTEND_DISC {
+            get {
+                return ResourceManager.GetString("C38_STARTEND_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start and End Symbol ähnelt.
+        /// </summary>
+        internal static string C38_STARTEND_LABLE {
+            get {
+                return ResourceManager.GetString("C38_STARTEND_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Barcode Encoder ähnelt.
         /// </summary>
         internal static string DimCodeEncoderCaption {
@@ -111,6 +183,42 @@ namespace DimCodeEncoder.Properties {
         internal static string DimCodeLabel {
             get {
                 return ResourceManager.GetString("DimCodeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string DM_ALIG_DISC {
+            get {
+                return ResourceManager.GetString("DM_ALIG_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alignment Detection ähnelt.
+        /// </summary>
+        internal static string DM_ALIG_LABLE {
+            get {
+                return ResourceManager.GetString("DM_ALIG_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string DM_COLUMNID_DISC {
+            get {
+                return ResourceManager.GetString("DM_COLUMNID_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Colum Identificator ähnelt.
+        /// </summary>
+        internal static string DM_COLUMNID_LABLE {
+            get {
+                return ResourceManager.GetString("DM_COLUMNID_LABLE", resourceCulture);
             }
         }
         
@@ -147,6 +255,42 @@ namespace DimCodeEncoder.Properties {
         internal static string EAN13_ICV_LABLE {
             get {
                 return ResourceManager.GetString("EAN13_ICV_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string EAN8_FIXED_DISC {
+            get {
+                return ResourceManager.GetString("EAN8_FIXED_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fixed Reference Point ähnelt.
+        /// </summary>
+        internal static string EAN8_FIXED_LABLE {
+            get {
+                return ResourceManager.GetString("EAN8_FIXED_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string EAN8_ICV_DISC {
+            get {
+                return ResourceManager.GetString("EAN8_ICV_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Integrity Check Value ähnelt.
+        /// </summary>
+        internal static string EAN8_ICV_LABLE {
+            get {
+                return ResourceManager.GetString("EAN8_ICV_LABLE", resourceCulture);
             }
         }
         
@@ -210,6 +354,24 @@ namespace DimCodeEncoder.Properties {
         internal static string PictureBytesOutputTooltip {
             get {
                 return ResourceManager.GetString("PictureBytesOutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string QR_ALIG_DISC {
+            get {
+                return ResourceManager.GetString("QR_ALIG_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alignment Detection ähnelt.
+        /// </summary>
+        internal static string QR_ALIG_LABLE {
+            get {
+                return ResourceManager.GetString("QR_ALIG_LABLE", resourceCulture);
             }
         }
     }

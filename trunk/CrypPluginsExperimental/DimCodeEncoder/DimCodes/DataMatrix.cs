@@ -17,7 +17,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using DataMatrix.net;
-using DimCodeEncoder.model;
+using Cryptool.Plugins.DimCodeEncoder.Model;
+using DimCodeEncoder.Properties;
 
 
 namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
@@ -31,8 +32,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             ColorBlack = Color.Blue,
             ColorWhite = Color.LightBlue, //has no white, just for debuging
-            LableValue = "DM_ALIG_LABLE",
-            DiscValue = "DM_ALIG_DISC"
+            LableValue = Resources.DM_ALIG_LABLE,
+            DiscValue = Resources.DM_ALIG_DISC
             
         };
 
@@ -40,8 +41,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             ColorBlack = Color.Green,
             ColorWhite = Color.LightGreen,
-            LableValue = "DM_COLUMNID_LABLE",
-            DiscValue = "DM_COLUMNID_DISC"
+            LableValue = Resources.DM_COLUMNID_LABLE,
+            DiscValue = Resources.DM_COLUMNID_DISC
         };
 
         #endregion
@@ -51,8 +52,9 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         protected override Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
             var encoder = new DmtxImageEncoder();
+            var options = new DmtxImageEncoderOptions {ModuleSize = 10, MarginSize = 3};
             var payload = Encoding.ASCII.GetString(input);
-            return encoder.EncodeImage(payload);
+            return encoder.EncodeImage(payload, options);
         }
 
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)

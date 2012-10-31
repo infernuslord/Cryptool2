@@ -126,6 +126,30 @@
   <data name="BarcodeSection" xml:space="preserve">
     <value>properties of barcode</value>
   </data>
+  <data name="C128_ICV_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="C128_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
+  </data>
+  <data name="C128_STARTEND_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="C128_STARTEND_LABLE" xml:space="preserve">
+    <value>Start and End Symbol</value>
+  </data>
+  <data name="C38_ICV_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="C38_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
+  </data>
+  <data name="C38_STARTEND_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="C38_STARTEND_LABLE" xml:space="preserve">
+    <value>Start and End Symbol</value>
+  </data>
   <data name="DimCodeEncoderCaption" xml:space="preserve">
     <value>Barcode Encoder</value>
   </data>
@@ -134,6 +158,18 @@
   </data>
   <data name="DimCodeLabel" xml:space="preserve">
     <value>Barcode</value>
+  </data>
+  <data name="DM_ALIG_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="DM_ALIG_LABLE" xml:space="preserve">
+    <value>Alignment Detection</value>
+  </data>
+  <data name="DM_COLUMNID_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="DM_COLUMNID_LABLE" xml:space="preserve">
+    <value>Colum Identificator</value>
   </data>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
     <value> </value>
@@ -145,6 +181,18 @@
     <value> </value>
   </data>
   <data name="EAN13_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
+  </data>
+  <data name="EAN8_FIXED_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="EAN8_FIXED_LABLE" xml:space="preserve">
+    <value>Fixed Reference Point</value>
+  </data>
+  <data name="EAN8_ICV_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="EAN8_ICV_LABLE" xml:space="preserve">
     <value>Integrity Check Value</value>
   </data>
   <data name="EncodingCaption" xml:space="preserve">
@@ -167,5 +215,11 @@
   </data>
   <data name="PictureBytesOutputTooltip" xml:space="preserve">
     <value>Your Barcode as a picture.</value>
+  </data>
+  <data name="QR_ALIG_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="QR_ALIG_LABLE" xml:space="preserve">
+    <value>Alignment Detection</value>
   </data>
 </root>

@@ -22,7 +22,6 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.DimCodeEncoder.DimCodes;
-using DimCodeEncoder;
 
 namespace Cryptool.Plugins.DimCodeEncoder
 {
@@ -53,7 +52,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "IncommingData", "IncommingDataTooltip")]
-        public ICryptoolStream InputStream
+        public byte[] InputStream
         {
             get;
             set;
@@ -101,27 +100,18 @@ namespace Cryptool.Plugins.DimCodeEncoder
         {
             Benchmark.Start();
             ProgressChanged(0, 1);
-            var allBytes = new List<byte>();
-            using (CStreamReader reader = InputStream.CreateReader())
+            if (InputStream.Length >= 1)
             {
-                var buffer = new byte[80];
-                while (reader.Read(buffer) > 0)
+                var dimCode = codeTypeHandler[settings.EncodingType].Encode(InputStream, settings);
+                if (dimCode != null) //input is valid
                 {
-                    allBytes.AddRange(new List<byte>(buffer)); //store all recieved bytes
-
-                    //handle input
-                    var dimCode = codeTypeHandler[settings.EncodingType].Encode(allBytes.ToArray(), settings);
-                    if (dimCode != null) //input is valid
-                    {
-                        //update Presentation
-                        presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap);
-                        presentation.SetList(dimCode.Legend);
-
-                        //update output
-                        PictureBytes = dimCode.PureBitmap;
-                        OnPropertyChanged("PictureBytes");
-                    }
-                  
+                    //update Presentation
+                    presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap);
+                    presentation.SetList(dimCode.Legend);
+    
+                    //update output
+                    PictureBytes = dimCode.PureBitmap;
+                    OnPropertyChanged("PictureBytes");
                 }
             }
             Benchmark.End();

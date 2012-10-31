@@ -16,7 +16,7 @@
 using System.Collections.Generic;
 
 
-namespace DimCodeEncoder.model
+namespace Cryptool.Plugins.DimCodeEncoder.Model
 {
     class DimCodeReturnValue
     {

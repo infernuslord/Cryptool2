@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+
 // copied from http://www.codeproject.com/Tips/240428/Work-with-bitmap-faster-with-Csharp
 // halfs the encode time
 namespace Cryptool.Plugins.DimCodeEncoder
