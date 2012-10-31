@@ -174,21 +174,21 @@
             <ToolBarPanel Orientation="Horizontal" MinWidth="672">
                 <TextBlock Text="{x:Static HexBox:Properties.Resources.Line}" />
                 <Border  Width="5"  />
-                <TextBlock Name="Line">
+                <TextBox Name="Line" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" >
 
-                </TextBlock>
+                </TextBox>
                 <Border  Name="separator1" Width="5"  />
                 <TextBlock Text="{x:Static HexBox:Properties.Resources.Column}" />
                 <Border  Width="5"  />
-                <TextBlock Name="Column">
+                <TextBox Name="Column" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" >
 
-                </TextBlock>
+                </TextBox>
                 <Border  Width="5"  />
                 <TextBlock Text="{x:Static HexBox:Properties.Resources.File}" />
                 <Border  Width="5"  />
-                <TextBlock Name="FileName" MinWidth="500">
+                <TextBox Name="FileName" MinWidth="500" Background="Transparent" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" >
 
-                </TextBlock>
+                </TextBox>
             </ToolBarPanel>
         </Border>
     </Grid>
