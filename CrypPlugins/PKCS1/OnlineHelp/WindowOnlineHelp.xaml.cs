@@ -28,7 +28,7 @@ namespace PKCS1.OnlineHelp
         //private static readonly string IMGSRCREGEX = "src=\".+\" ";
 
         private int m_actualPage;
-        IList<string> m_History;
+        List<string> m_History;
         private System.Windows.Forms.WebBrowser m_Browser = null;
         public event Close OnClose;
 
@@ -38,10 +38,25 @@ namespace PKCS1.OnlineHelp
             InitializeComponent();
             m_Browser = new System.Windows.Forms.WebBrowser();
             //m_Browser.Dock = DockStyle.Fill;
-            m_Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(m_Browser_Navigating);
+            m_Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(m_Browser_Navigating); 
+            m_Browser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(m_Browser_SetScrollbar);
+            m_Browser.SizeChanged += new EventHandler(m_Browser_SetScrollbar);
             webbrowserhost.Child = m_Browser;
             m_actualPage = -1;
             m_History = new List<string>();
+        }
+        
+        void m_Browser_SetScrollbar(object sender, System.EventArgs e)
+        {
+            try
+            {
+                int i = m_Browser.Document.Body.ClientRectangle.Height;
+                int j = m_Browser.Document.Body.ScrollRectangle.Height;
+                m_Browser.ScrollBarsEnabled = (j > i);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         void m_Browser_Navigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
@@ -70,9 +85,8 @@ namespace PKCS1.OnlineHelp
                 {
                     ShowHelp(text);
                     m_actualPage++;
+                    m_History.RemoveRange(m_actualPage, m_History.Count - m_actualPage);
                     m_History.Insert(m_actualPage, action);
-                    for (int i = 2; i < m_History.Count; i++)
-                        m_History.RemoveAt(i);
                 }
                 catch { }
             }
@@ -91,7 +105,7 @@ namespace PKCS1.OnlineHelp
 
         private void btnHistoryBack_Click(object sender, RoutedEventArgs e)
         {
-            if (m_actualPage > -1)
+            if (m_actualPage > 0)
             {
                 string text = OnlineHelpAccess.HelpResourceManager.GetString(m_History[m_actualPage - 1]);
                 if (!string.IsNullOrEmpty(text))
@@ -120,7 +134,7 @@ namespace PKCS1.OnlineHelp
         private void SetEnableNavigationButtons()
         {
             btnHistoryBack.IsEnabled = m_History.Count > 0 && m_actualPage > 0;
-            btnHistoryForward.IsEnabled = m_History.Count == 2 && m_actualPage == 0;
+            btnHistoryForward.IsEnabled = m_History.Count > 0 && m_actualPage < m_History.Count-1;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

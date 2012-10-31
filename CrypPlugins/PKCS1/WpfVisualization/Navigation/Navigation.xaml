@@ -5,26 +5,26 @@
     HorizontalAlignment="Left" VerticalAlignment="Top" Background="White">
     <StackPanel Name="stackPanel1" Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0,0,10,0">
         <TreeView BorderThickness="0" FontSize="15">
-            <Hyperlink Name="link_Start" Click="link_Click">
+            <Hyperlink Name="link_Start" Click="link_Click" Focusable="False">
                 <x:Static Member="lang:Navigation.startpage"></x:Static>
             </Hyperlink>
             
             <TreeViewItem Header="{x:Static lang:Navigation.siggen}" IsExpanded="True">
-                <Hyperlink Name="link_RsaKeyGenerate" Click="link_Click">
+                <Hyperlink Name="link_RsaKeyGenerate" Click="link_Click" Focusable="False">
                     <x:Static Member="lang:Navigation.keygen"></x:Static></Hyperlink>
-                <Hyperlink Name="link_SignatureGenerate" Click="link_Click">
+                <Hyperlink Name="link_SignatureGenerate" Click="link_Click" Focusable="False">
                     <x:Static Member="lang:Navigation.pkcs1gen"></x:Static>
                 </Hyperlink>    
             </TreeViewItem>
             <TreeViewItem Header="{x:Static lang:Navigation.pkcs1attack}" IsExpanded="True">
-                <Hyperlink Name="link_AttackBleichenbacher" Click="link_Click">
+                <Hyperlink Name="link_AttackBleichenbacher" Click="link_Click" Focusable="False">
                     <x:Static Member="lang:Navigation.attackbleichenbacher"></x:Static>
                 </Hyperlink>
-                <Hyperlink Name="link_AttackShortKeysVariant" Click="link_Click">
+                <Hyperlink Name="link_AttackShortKeysVariant" Click="link_Click" Focusable="False">
                     <x:Static Member="lang:Navigation.attackvariant"></x:Static></Hyperlink>
             </TreeViewItem>
             <TreeViewItem Header="{x:Static lang:Navigation.sigval}" IsExpanded="True">
-                <Hyperlink Name="link_SignatureValidate" Click="link_Click">
+                <Hyperlink Name="link_SignatureValidate" Click="link_Click" Focusable="False">
                     <x:Static Member="lang:Navigation.pkcs1validate"></x:Static></Hyperlink>
             </TreeViewItem>
         </TreeView>
