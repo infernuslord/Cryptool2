@@ -67,7 +67,6 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     void iscBaseRandom_Execute(PrimesBigInteger value)
     {
       if (ForceGetInteger != null) ForceGetInteger(new ExecuteIntegerDelegate(Execute));
-
     }
 
     private void SetInputValidators()
@@ -90,7 +89,6 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       ivSysBaseTo.Validator = new BigIntegerMinValueValidator(null, PrimesBigInteger.Three);
       ircSystematic.AddInputValidator(InputRangeControl.FreeFrom, ivSysBaseFrom);
       ircSystematic.AddInputValidator(InputRangeControl.FreeTo, ivSysBaseTo);
-
     }
 
     private void SetDefaults()
@@ -125,6 +123,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     //  }
     //  return true;
     //}
+
     private bool Witness(PrimesBigInteger a)
     {
         // a mustn't be a multiple of n
@@ -171,7 +170,6 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
     public void Execute(PrimesBigInteger value)
     {
-
       CancelTestThread();
       log.Clear();
       m_Value = value;
@@ -198,6 +196,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     {
       m_Rounds = iscRounds.GetValue();
       m_RandomBaseTo = iscBaseRandom.GetValue();
+
       if (m_Rounds != null && m_RandomBaseTo != null)
       {
         m_TestThread = new Thread(new ThreadStart(new VoidDelegate(ExecuteRandomThread)));
@@ -270,6 +269,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       CancelTestThread();
       FireEventCancelTest();
     }
+
     private void CancelTestThread()
     {
       if (m_TestThread != null)
@@ -278,6 +278,12 @@ namespace Primes.WpfControls.Primetest.MillerRabin
         m_TestThread = null;
       }
     }
+
+    public bool IsRunning()
+    {
+        return (m_TestThread != null) && m_TestThread.IsAlive;
+    }
+
     public event VoidDelegate Start;
 
     public event VoidDelegate Stop;

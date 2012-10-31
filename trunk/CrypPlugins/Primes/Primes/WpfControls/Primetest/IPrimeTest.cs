@@ -26,6 +26,8 @@ namespace Primes.WpfControls.Primetest
 {
   public interface IPrimeTest:IPrimeVisualization
   {
-    IValidator<PrimesBigInteger> Validator { get; } 
+      IValidator<PrimesBigInteger> Validator { get; }
+
+      bool IsRunning();
   }
 }

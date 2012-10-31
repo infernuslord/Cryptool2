@@ -235,7 +235,7 @@
     <value>Ergebnis</value>
   </data>
   <data name="proot_resultcalc" xml:space="preserve">
-    <value>{0} Primitivwurzeln zur Primzahl {1} gefunden:</value>
+    <value>Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden:</value>
   </data>
   <data name="proot_skipcalc" xml:space="preserve">
     <value>Die Berechnung wurde abgebrochen. Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden: </value>

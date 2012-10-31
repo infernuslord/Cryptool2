@@ -44,16 +44,19 @@ namespace Primes.OnlineHelp
 
     private System.Text.RegularExpressions.Regex m_ImgRegEx;
     private System.Text.RegularExpressions.Regex m_ImgSrcRegEx;
-    private int m_actualPage;
     private System.Windows.Forms.WebBrowser m_Browser = null;
     public event Close OnClose;
-    IList<string> m_History;
+    List<string> m_History;
+    private int m_actualPage;
+
     public WindowOnlineHelp()
     {
       InitializeComponent();
       m_Browser = new System.Windows.Forms.WebBrowser();
       m_Browser.Dock = DockStyle.Fill;
       m_Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(m_Browser_Navigating);
+      m_Browser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(m_Browser_SetScrollbar);
+      m_Browser.SizeChanged += new EventHandler(m_Browser_SetScrollbar);
       webbrowserhost.Child = m_Browser;
       m_History = new List<string>();
       m_actualPage = -1;
@@ -64,19 +67,31 @@ namespace Primes.OnlineHelp
 
     void m_Browser_Navigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
     {
-      string url = e.Url.OriginalString;
-      if (!string.IsNullOrEmpty(url))
-      {
-        if (url.StartsWith(HELPPROTOCOL))
+        string url = e.Url.OriginalString;
+        if (!string.IsNullOrEmpty(url))
         {
-          url = url.Substring(HELPPROTOCOL.Length, url.Length - HELPPROTOCOL.Length);
-          if(url.EndsWith("/"))
-            url = url.Substring(0, url.Length-1);
-          NavigateTo(url);
-          e.Cancel = true;
+            if (url.StartsWith(HELPPROTOCOL))
+            {
+                url = url.Substring(HELPPROTOCOL.Length, url.Length - HELPPROTOCOL.Length);
+                if (url.EndsWith("/"))
+                    url = url.Substring(0, url.Length - 1);
+                NavigateTo(url);
+                e.Cancel = true;
+            }
         }
-        
-      }
+    }
+
+    void m_Browser_SetScrollbar(object sender, System.EventArgs e)
+    {
+        try
+        {
+            int i = m_Browser.Document.Body.ClientRectangle.Height;
+            int j = m_Browser.Document.Body.ScrollRectangle.Height;
+            m_Browser.ScrollBarsEnabled = (j > i);
+        }
+        catch (Exception ex)
+        {
+        }
     }
 
     public void NavigateTo(string action)
@@ -86,20 +101,20 @@ namespace Primes.OnlineHelp
       {
         try
         {
-          ShowHelp(text);
-          m_actualPage++;
-          m_History.Insert(m_actualPage, action);
-          for (int i = 2; i < m_History.Count; i++)
-            m_History.RemoveAt(i);
+            ShowHelp(text);
+            m_actualPage++;
+            m_History.RemoveRange(m_actualPage, m_History.Count - m_actualPage);
+            m_History.Insert(m_actualPage, action);
         }
-        catch { }
+        catch(Exception e) 
+        {
+        }
       }
       SetEnableNavigationButtons();
     }
 
     private void ShowHelp(string text)
     {
-
       string htmltemplate = Primes.Properties.Resources.template;
       text = htmltemplate.Replace("#content#", text);
       text = SetImages(text);
@@ -137,9 +152,10 @@ namespace Primes.OnlineHelp
       }
       return content;
     }
+
     protected override void  OnClosed(EventArgs e)
     {
- 	    base.OnClosed(e);
+ 	  base.OnClosed(e);
       if(OnClose!=null) OnClose();
     }
 
@@ -147,6 +163,7 @@ namespace Primes.OnlineHelp
     {
       Close();
     }
+
     protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
     {
       base.OnKeyDown(e);
@@ -155,7 +172,7 @@ namespace Primes.OnlineHelp
 
     private void btnHistoryBack_Click(object sender, RoutedEventArgs e)
     {
-      if (m_actualPage > -1)
+      if (m_actualPage > 0)
       {
         string text = OnlineHelpAccess.HelpResourceManager.GetString(m_History[m_actualPage-1]);
         if (!string.IsNullOrEmpty(text))
@@ -184,7 +201,8 @@ namespace Primes.OnlineHelp
     private void SetEnableNavigationButtons()
     {
       btnHistoryBack.IsEnabled = m_History.Count > 0 && m_actualPage > 0;
-      btnHistoryForward.IsEnabled = m_History.Count == 2 && m_actualPage == 0;
+      btnHistoryForward.IsEnabled = m_History.Count > 0 && m_actualPage < m_History.Count-1;
     }
+
   }
 }

@@ -412,7 +412,7 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primitivwurzeln zur Primzahl {1} gefunden: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden: ähnelt.
         /// </summary>
         public static string proot_resultcalc {
             get {

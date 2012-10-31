@@ -39,25 +39,32 @@ namespace Primes.WpfControls.Primetest
   /// </summary>
   public partial class PrimetestControl : UserControl, IPrimeMethodDivision
   {
+
     public PrimetestControl()
     {
       InitializeComponent();
-      sieveoferatosthenes.Start += new VoidDelegate(sieveofratosthenes_Execute);
-      sieveoferatosthenes.Stop += new VoidDelegate(sieveofratosthenes_Cancel);
+
+      sieveoferatosthenes.Start += new VoidDelegate(sieveoferatosthenes_Execute);
+      sieveoferatosthenes.Stop += new VoidDelegate(sieveoferatosthenes_Cancel);
+      sieveoferatosthenes.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
+
+      fermat.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);   
       fermat.ExecuteTest += new VoidDelegate(fermat_Start);
       fermat.CancelTest += new VoidDelegate(fermat_Stop);
+      //fermat.ForceGetValue += new Primes.Library.CallBackDelegate(PrimeTestForceGetValue);
+
       millerrabin.Start += new VoidDelegate(millerrabin_ExecuteTest);
       millerrabin.Stop += new VoidDelegate(millerrabin_CancelTest);
-      sieveoferatosthenes.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
       millerrabin.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);
-      fermat.ForceGetInteger += new CallbackDelegateGetInteger(sieveoferatosthenes_ForceGetInteger);                        
+
+      soa.Start += new VoidDelegate(millerrabin_ExecuteTest);
+      soa.Stop += new VoidDelegate(millerrabin_CancelTest);
+                  
       iscNumber.SetText(InputSingleControl.Free, "100");
       iscNumber.SetText(InputSingleControl.CalcFactor, "1");
       iscNumber.SetText(InputSingleControl.CalcBase, ((new Random().Next() % 5)+1).ToString());
       iscNumber.SetText(InputSingleControl.CalcExp, ((new Random().Next() % 5)+1).ToString());
       iscNumber.SetText(InputSingleControl.CalcSum, (new Random().Next() % 11).ToString());
-
-      //fermat.ForceGetValue += new Primes.Library.CallBackDelegate(PrimeTestForceGetValue);
     }
 
     void sieveoferatosthenes_ForceGetInteger(ExecuteIntegerDelegate ExecuteDelegate)
@@ -75,7 +82,6 @@ namespace Primes.WpfControls.Primetest
       iscNumber_Execute(value);
     }
 
-
     void millerrabin_CancelTest()
     {
       iscNumber.UnLockControls();
@@ -87,6 +93,7 @@ namespace Primes.WpfControls.Primetest
     }
 
     #region fermat
+
     void fermat_Stop()
     {
       iscNumber.UnLockControls();
@@ -96,18 +103,21 @@ namespace Primes.WpfControls.Primetest
     {
       iscNumber.LockControls();
     }
+
     #endregion
+
     #region Erathostenes
-    void sieveofratosthenes_Cancel()
+
+    void sieveoferatosthenes_Cancel()
     {
       iscNumber.UnLockControls();
-
     }
 
-    void sieveofratosthenes_Execute()
+    void sieveoferatosthenes_Execute()
     {
       iscNumber.LockControls();
     }
+
     #endregion
 
     #region IPrimeUserControl Members
@@ -126,7 +136,6 @@ namespace Primes.WpfControls.Primetest
 
     #endregion
     
-
     private void iscNumber_Execute(PrimesBigInteger value)
     {
       CurrentControl.Execute(value);
@@ -134,33 +143,39 @@ namespace Primes.WpfControls.Primetest
 
     private void iscNumber_Cancel()
     {
-      CurrentControl.CancelExecute();
-
+        CurrentControl.CancelExecute();
+        SetLocks();
     }
+
     private IPrimeTest CurrentControl
     {
       get 
       {
-        if (tbctrl.SelectedItem == tabItemSieveOfEratosthenes)
-          return sieveoferatosthenes;
-        else if (tbctrl.SelectedItem == tabItemTestOfFermat)
-          return fermat;
-        else if (tbctrl.SelectedItem == tabItemMillerRabin)
-          return millerrabin;
-        else if (tbctrl.SelectedItem == tabItemSoa)
-          return soa;
-        else return null;
+        if (tbctrl.SelectedItem == tabItemSieveOfEratosthenes) return sieveoferatosthenes;
+        if (tbctrl.SelectedItem == tabItemTestOfFermat) return fermat;
+        if (tbctrl.SelectedItem == tabItemMillerRabin) return millerrabin;
+        if (tbctrl.SelectedItem == tabItemSoa) return soa;
+
+        return null;
       }
     }
-
 
     private void tbctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       iscNumber.SetValueValidator(InputSingleControl.Value, CurrentControl.Validator);
+
+      SetLocks();
+    }
+
+    private void SetLocks()
+    {
+        if (CurrentControl.IsRunning())
+            iscNumber.LockControls();
+        else
+            iscNumber.UnLockControls();
     }
 
     #region IPrimeUserControl Members
-
 
     public void SetTab(int i)
     {
@@ -175,7 +190,6 @@ namespace Primes.WpfControls.Primetest
     #endregion
 
     #region IPrimeUserControl Members
-
 
     public event VoidDelegate Execute;
 
@@ -194,7 +208,6 @@ namespace Primes.WpfControls.Primetest
     #endregion
 
     #region IPrimeUserControl Members
-
 
     public void Init()
     {
@@ -217,7 +230,7 @@ namespace Primes.WpfControls.Primetest
       {
         OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Generation_SieveOfAtkin);
       }
-
     }
+
   }
 }

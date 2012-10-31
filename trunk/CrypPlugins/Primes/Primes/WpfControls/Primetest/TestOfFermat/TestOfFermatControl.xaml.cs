@@ -44,6 +44,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
     #region initializing
 
     private Thread m_Thread;
+
     public TestOfFermatControl()
     {
       InitializeComponent();
@@ -75,8 +76,13 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       if (ForceGetValue != null) ForceGetValue(new GmpBigIntegerParameterDelegate(Execute));
     }
 
+    public bool IsRunning()
+    {
+        return (m_Thread != null) && m_Thread.IsAlive;
+    }
 
     #endregion
+
     #region events
     public event VoidDelegate ExecuteTest;
     public event VoidDelegate CancelTest;
@@ -88,6 +94,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
     private PrimesBigInteger m_SystematicFrom;
     private PrimesBigInteger m_SystematicTo;
     private PrimesBigInteger m_A;
+
     private PrimesBigInteger A
     {
       set
@@ -113,6 +120,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
       }
       get { return m_A; }
     }
+
     private IDictionary<int, Point> m_Points;
 
     #endregion

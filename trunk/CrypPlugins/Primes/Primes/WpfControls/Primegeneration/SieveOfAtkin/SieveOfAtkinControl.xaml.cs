@@ -51,13 +51,11 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
 
     private void InitInputSingleControl()
     {
-
       //InputValidator<PrimesBigInteger> iv = new InputValidator<PrimesBigInteger>();
       //iv.Validator = new BigIntegerMinValueMaxValueValidator(null,PrimesBigInteger.Seven,PrimesBigInteger.ValueOf(10000));
 
       //isc.AddInputValidator(InputSingleControl.Free, iv);
     }
-
 
     #region IPrimeMethodDivision Members
 
@@ -83,6 +81,11 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Seven, PrimesBigInteger.ValueOf(10000)); }
     }
 
+    public bool IsRunning()
+    {
+        return soa.IsRunning();
+    }
+
     #endregion
 
     #region IPrimeVisualization Members
@@ -93,25 +96,30 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     {
       if (Start != null) Start();
     }
+
     public event Primes.Library.VoidDelegate Stop;
+
     private void FireStopEvent()
     {
       if (Stop != null) Stop();
     }
 
     public event Primes.Library.VoidDelegate Cancel;
+
     private void FireCancelEvent()
     {
       if (Cancel != null) Cancel();
     }
 
     public event Primes.Library.CallbackDelegateGetInteger ForceGetInteger;
+
     private void FireForceGetInteger()
     {
       if (ForceGetInteger != null) ForceGetInteger(new Primes.Library.ExecuteIntegerDelegate(Execute));
     }
 
     public event Primes.Library.CallbackDelegateGetInteger ForceGetIntegerInterval;
+
     private void FireForceGetIntegerInterval()
     {
       if (ForceGetIntegerInterval != null) ForceGetIntegerInterval(new Primes.Library.ExecuteIntegerDelegate(Execute));
@@ -125,12 +133,10 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
     public void CancelExecute()
     {
       soa.CancelSieve();
-      
     }
 
     public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {
-      
     }
 
     #endregion

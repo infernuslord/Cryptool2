@@ -45,22 +45,26 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     private enum Method { Manual, Automatic }
 
     #region Constructors
+
     private PrimesBigInteger m_Value;
     private Step s;
     private Method m_Method;
+
     public SieveOfEratosthenes()
     {
       InitializeComponent();
       sievegrid.NumberButtonClick += new Primes.WpfControls.Primetest.Numbergrid.NumberButtonClickDelegate(sievegrid_NumberButtonClick);
       m_PrimesThreadFinished = new ManualResetEvent(false);
     }
+
     public void Init(PrimesBigInteger value)
     {
-
     }
+
     #endregion
 
     #region Events
+
     public event VoidDelegate Start;
     public event VoidDelegate Stop;
 
@@ -68,18 +72,24 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     {
       if (Stop != null) Stop();
     }
+
     private void FireOnExecute()
     {
       if (Start != null) Start();
     }
+
     #endregion
+
     #region Properties
+
     Thread m_ThreadAutomatic;
     FindPrimesThread m_FPThread;
     EventWaitHandle m_PrimesThreadFinished;
+
     #endregion
 
     #region Steps
+
     void sievegrid_NumberButtonClick(Primes.WpfControls.Components.NumberButton value)
     {
       if (m_Method == Method.Manual)
@@ -105,7 +115,6 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
             break;
         }
       }
-
     }
 
     void StepAutomatic()
@@ -128,25 +137,37 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     #endregion
 
     #region Begin/Cancel
+
+    public bool IsRunning()
+    {
+        return (m_ThreadAutomatic != null) && m_ThreadAutomatic.IsAlive;
+    }
+
     public void Execute(PrimesBigInteger integer)
     {
+      if( IsRunning() ) return;
+
       try
       {
-        log.Info("Start!");
+          log.Info("Start!");
       }
-      catch (Exception ex) { MessageBox.Show(ex.Message + "\n" + ex.StackTrace); return; }
+      catch (Exception ex)
+      { 
+          MessageBox.Show(ex.Message + "\n" + ex.StackTrace); 
+          return;
+      }
+
       m_Value = integer;
       sievegrid.Limit = m_Value;
       this.Reset();
       ControlHandler.SetPropertyValue(gridpanel, "IsEnabled", true);
-      if (rbAutomatic.IsChecked.Value) m_Method = Method.Automatic;
-      else m_Method = Method.Manual;
+      m_Method = rbAutomatic.IsChecked.Value ? Method.Automatic : Method.Manual;
       s = new Step(this.sievegrid, m_Value);
+
       if (m_Method == Method.Manual)
       {
         log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_infostepwise1, m_Value.ToString()));
         log.Info(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_infostepwise2);
-
       }
       else
       {
@@ -156,8 +177,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
         FireOnExecute();
         sievegrid.SetButtonStatus(false, false);
         m_ThreadAutomatic.Start();
-      }
-      
+      } 
     }
 
     private void PrimesStatus()
@@ -177,9 +197,8 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
         sbResult.Append(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_isnotprime, m_Value.ToString()));
       }
       log.Info(sbResult.ToString());
-
-
     }
+
     private void btnForceAutomatic_Click(object sender, RoutedEventArgs e)
     {
       ControlHandler.DisableButton(btnForceAutomatic);
@@ -192,11 +211,13 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
 
     #region Resetting
+
     private void Reset()
     {
       ResetControl();
       //ResetSieve();
     }
+
     private void ResetControl()
     {
       if (m_FPThread != null) { m_FPThread.Terminate(); m_FPThread = null; }
@@ -221,7 +242,9 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     {
       Reset();
     }
+
     #endregion
+
     #endregion
 
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -229,17 +252,19 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
       base.OnRenderSizeChanged(sizeInfo);
       //log.Width = Math.Max(sizeInfo.NewSize.Width- 20,200);
       //log.Height = Math.Max(sizeInfo.NewSize.Height- 70,200);
-
     }
 
     #region Free Control
+
     public void CleanUp()
     {
       ResetControl();
     }
+
     #endregion
 
     private IValidator<PrimesBigInteger> m_Validator;
+
     public IValidator<PrimesBigInteger> Validator
     {
       get {
@@ -254,9 +279,6 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
 
     #region IPrimeTest Members
-
-
-
     #endregion
 
     private void rbModeClick(object sender, RoutedEventArgs e)
@@ -266,7 +288,6 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
 
     #region IPrimeVisualization Members
 
-
     public event VoidDelegate Cancel;
 
     private void FireCancelEvent()
@@ -275,16 +296,18 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
     }
 
     public event CallbackDelegateGetInteger ForceGetInteger;
+
     private void FireForceGetInteger()
     {
       ForceGetInteger(null);
     }
+
     public event CallbackDelegateGetInteger ForceGetIntegerInterval;
+
     private void FireForceGetIntegerInterval()
     {
       ForceGetIntegerInterval(null);
     }
-
 
     public void Execute(PrimesBigInteger from, PrimesBigInteger to)
     {

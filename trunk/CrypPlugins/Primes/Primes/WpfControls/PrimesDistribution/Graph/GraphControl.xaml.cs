@@ -65,18 +65,21 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       try
       {
         InitializeComponent();
+
         cgraph.OnFunctionStart = FunctionStart;
         cgraph.OnFunctionStop = FunctionStop;
         cgraph.ClearPaintArea();
+
         m_FunctionPix = new FunctionPiX();
         m_FunctionPix.Executed += new ObjectParameterDelegate(m_FunctionPix_Executed);
         m_FunctionLiN = new FunctionLiN();
         m_FunctionLiN.Executed += new ObjectParameterDelegate(m_FunctionLiN_Executed);
         m_FunctionPiGauss = new FunctionPiGauss();
         m_FunctionPiGauss.Executed += new ObjectParameterDelegate(m_FunctionPiGauss_Executed);
-        //m_BiMaxValueValidator = new PositiveMaxValueBigIntegerValidator(new PrimesBigInteger("5000000000"));
+
         m_From = PrimesBigInteger.Zero;
         m_To = PrimesBigInteger.Zero;
+
         ircCountPrimes.Execute += new Primes.WpfControls.Components.ExecuteDelegate(ircCountPrimes_Execute);
         ircCountPrimes.Cancel += new VoidDelegate(ircCountPrimes_Cancel);
         this.OnStopPiX += new VoidDelegate(GraphControl_OnStopPiX);
@@ -95,8 +98,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         ircCountPrimes.SetText(InputRangeControl.CalcToSum, "0");
 
         ircCountPrimes.AddValueValidator(InputRangeControl.From, new BigIntegerMinValueValidator(null, PrimesBigInteger.Two));
-        //ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueValidator(null, PrimesBigInteger.OneHundret));
-        ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Ten, PrimesBigInteger.ValueOf(500000000)));
+        ircCountPrimes.AddValueValidator(InputRangeControl.To, new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Ten, PrimesBigInteger.ValueOf(int.MaxValue)));
 
         IValidator<PrimesBigInteger> rangevalidator = new BigIntegerMinValueValidator(null, PrimesBigInteger.ValueOf(10));
         rangevalidator.Message = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_validatorrangemessage;
@@ -213,7 +215,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       cgraph.CancelFunction(m_FunctionPix);
       ircCountPrimes.UnLockControls();
       ControlHandler.SetPropertyValue(lblCalcInfoPiX,"Visibility", Visibility.Collapsed);
-      ControlHandler.SetPropertyValue(lblCalcInfoPiGuass,"Visibility", Visibility.Collapsed);
+      ControlHandler.SetPropertyValue(lblCalcInfoPiGauss,"Visibility", Visibility.Collapsed);
       ControlHandler.SetPropertyValue(lblCalcInfoLiN,"Visibility", Visibility.Collapsed);
       ControlHandler.SetPropertyValue(tbInfoLin, "Visibility", Visibility.Collapsed);
       ControlHandler.SetPropertyValue(tbInfoPiX, "Visibility", Visibility.Collapsed);
@@ -245,6 +247,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       //btnHelpLargeParamsFree.Visibility = Visibility.Hidden;
       //btnHelpLargeParamsFunction.Visibility = Visibility.Hidden;
     }
+
     private void ExecuteGraph(PrimesBigInteger from, PrimesBigInteger to)
     {
       CancelPiX();
@@ -314,14 +317,14 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         }
 
         ControlHandler.SetPropertyValue(lblCalcInfoPiX, "Visibility", Visibility.Visible);
-        ControlHandler.SetPropertyValue(lblCalcInfoPiGuass, "Visibility", Visibility.Visible);
+        ControlHandler.SetPropertyValue(lblCalcInfoPiGauss, "Visibility", Visibility.Visible);
         ControlHandler.SetPropertyValue(lblCalcInfoLiN, "Visibility", Visibility.Visible);
         ControlHandler.SetPropertyValue(tbInfoLin, "Visibility", Visibility.Visible);
         ControlHandler.SetPropertyValue(tbInfoPiX, "Visibility", Visibility.Visible);
         ControlHandler.SetPropertyValue(tbInfoGaußPrimeTheorem, "Visibility", Visibility.Visible);
         lblCalcInfoLiN.Text = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_lincountinfoCalculating;
-        lblCalcInfoPiGuass.Text = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_gausscountinfoCalculating;
-        lblCalcInfoPiX.Text = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_lincountinfoCalculating;
+        lblCalcInfoPiGauss.Text = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_gausscountinfoCalculating;
+        lblCalcInfoPiX.Text = Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_pincountinfoCalculating;
       //}
     }
 
@@ -338,10 +341,12 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       //  m_ThreadPix = null;
       //}
     }
+
     private void CalculatePiX()
     {
       long n = 2;
       long counter = 0;
+
       if (PrimesCountList.Initialzed)
       {
         n = PrimesCountList.MaxNumber;
@@ -626,14 +631,16 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
+      int padding = 50;
+
       base.OnRenderSizeChanged(sizeInfo);
-      double width = sizeInfo.NewSize.Width - 100;
+
+      double width = sizeInfo.NewSize.Width - 2 * padding;
       if (width < 0) width = sizeInfo.NewSize.Width;
 
-      double height = sizeInfo.NewSize.Height - ircCountPrimes.ActualHeight - gbFunctions.ActualHeight - 50 - sliderTest.ActualHeight;
+      double height = sizeInfo.NewSize.Height - ircCountPrimes.ActualHeight - gbFunctions.ActualHeight - padding - sliderTest.ActualHeight;
       height = Math.Max(0, height);
-
-
+        
       cgraph.Width = width;
       cgraph.Height = height;
       PaintArea.Width = width;
@@ -674,8 +681,8 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       if (function == this.m_FunctionPiGauss)
       {
-        btnStop = btnStopPiGuass;
-        btnResume = btnResumePiGuass;
+        btnStop = btnStopPiGauss;
+        btnResume = btnResumePiGauss;
       }
       else if (function == this.m_FunctionPix)
       {
@@ -696,7 +703,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       {
         switch ((sender as Button).Name)
         {
-          case "btnStopPiGuass":
+          case "btnStopPiGauss":
             function = this.m_FunctionPiGauss;
             break;
           case "btnStopPix":
@@ -732,7 +739,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       {
         switch ((sender as Button).Name)
         {
-          case "btnResumePiGuass":
+          case "btnResumePiGauss":
             function = this.m_FunctionPiGauss;
             break;
           case "btnResumePix":
@@ -815,7 +822,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         }
         else if (function == m_FunctionPiGauss)
         {
-          ControlHandler.SetPropertyValue(lblCalcInfoPiGuass, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_gausscountinfo);
+          ControlHandler.SetPropertyValue(lblCalcInfoPiGauss, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.graph_gausscountinfo);
         }
 
         if (btnStop != null)
@@ -838,7 +845,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         Image sender_ = sender as Image;
         if (sender_ == btnHelpLiN)
           Primes.OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_LiN);
-        else if (sender_ == btnHelpPiGuass)
+        else if (sender_ == btnHelpPiGauss)
           Primes.OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_GaussPi);
         else if (sender_ == btnHelpPiX)
           Primes.OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PiX);
@@ -893,8 +900,8 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       if(sender==lblCalcInfoLiN || sender==tbInfoLin)
         MarkTextblock(lblCalcInfoLiN, tbInfoLin, dpLin);
-      else if (sender == lblCalcInfoPiGuass || sender == tbInfoGaußPrimeTheorem)
-        MarkTextblock(lblCalcInfoPiGuass, tbInfoGaußPrimeTheorem, dpGauss);
+      else if (sender == lblCalcInfoPiGauss || sender == tbInfoGaußPrimeTheorem)
+        MarkTextblock(lblCalcInfoPiGauss, tbInfoGaußPrimeTheorem, dpGauss);
       else if (sender == lblCalcInfoPiX || sender == tbInfoPiX)
         MarkTextblock(lblCalcInfoPiX, tbInfoPiX, dpPiX);
 
@@ -906,8 +913,8 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       if (sender == lblCalcInfoLiN || sender == tbInfoLin)
         UnMarkTextblock(lblCalcInfoLiN, tbInfoLin, dpLin);
-      else if (sender == lblCalcInfoPiGuass || sender == tbInfoGaußPrimeTheorem)
-        UnMarkTextblock(lblCalcInfoPiGuass, tbInfoGaußPrimeTheorem, dpGauss);
+      else if (sender == lblCalcInfoPiGauss || sender == tbInfoGaußPrimeTheorem)
+        UnMarkTextblock(lblCalcInfoPiGauss, tbInfoGaußPrimeTheorem, dpGauss);
       else if (sender == lblCalcInfoPiX || sender == tbInfoPiX)
         UnMarkTextblock(lblCalcInfoPiX, tbInfoPiX, dpPiX);
 
@@ -920,7 +927,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       if (sender == ctxMenuDpLin)
         MarkTextblock(lblCalcInfoLiN, tbInfoLin, dpLin);
       else if (sender == ctxMenuDpGauss)
-        MarkTextblock(lblCalcInfoPiGuass, tbInfoGaußPrimeTheorem, dpGauss);
+        MarkTextblock(lblCalcInfoPiGauss, tbInfoGaußPrimeTheorem, dpGauss);
       else if (sender == ctxMenuDpPiX)
         MarkTextblock(lblCalcInfoPiX, tbInfoPiX, dpPiX);
     }
@@ -930,7 +937,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       if (sender == ctxMenuDpLin)
         UnMarkTextblock(lblCalcInfoLiN, tbInfoLin, dpLin);
       else if (sender == ctxMenuDpGauss)
-        UnMarkTextblock(lblCalcInfoPiGuass, tbInfoGaußPrimeTheorem, dpGauss);
+        UnMarkTextblock(lblCalcInfoPiGauss, tbInfoGaußPrimeTheorem, dpGauss);
       else if (sender == ctxMenuDpPiX)
         UnMarkTextblock(lblCalcInfoPiX, tbInfoPiX, dpPiX);
 
@@ -949,7 +956,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       }
       else if (sender == miCopyGauss)
       {
-        CopyInfo(lblCalcInfoPiGuass, tbInfoGaußPrimeTheorem);
+        CopyInfo(lblCalcInfoPiGauss, tbInfoGaußPrimeTheorem);
       }
 
     }

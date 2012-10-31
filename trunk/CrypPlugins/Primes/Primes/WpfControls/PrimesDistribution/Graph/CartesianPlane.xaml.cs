@@ -46,8 +46,10 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
   
   public partial class CartesianPlane : System.Windows.Controls.UserControl
   {
-    private int paddingleft = 50;
-    private int paddingbottom = 50;
+      //private int paddingleft = 50;
+      //private int paddingbottom = 50;
+      private int paddingleft = 0;
+      private int paddingbottom = 0;
     private int m_Padding = 0;
     double m_UnitSizeX = 0.0;
     double m_UnitSizeY = 0.0;
@@ -184,10 +186,12 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       while(this.PaintArea.Children.Count>0)
         this.PaintArea.Children.Clear();
+
       AddLabel(lblAbscissaText);
       AddLabel(lblOrdinateText);
       AddLine(Ordinate);
       AddLine(Abscissa);
+
       if (RangeX == null && RangeY == null)
       {
         lblAbscissaText.Visibility = Visibility.Hidden;
@@ -201,6 +205,7 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
     {
       this.m_FunctionExecutes.Clear();
     }
+
     public void AddFunctionExecute(IFunction func, PrimesBigInteger from, PrimesBigInteger to, FunctionType type, Brush color)
     {
       if (!ContainsFunction(func))
@@ -215,17 +220,17 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       }
     }
 
-
     private bool ContainsFunction(IFunction function)
     {
-
       foreach (FunctionExecute fe in this.m_FunctionExecutes)
       {
         if (fe.Function.GetType() == function.GetType())
           return true;
       }
+
       return false;
     }
+
     public void ExecuteFunctions()
     {
       paddingleft = StringFormat.FormatDoubleToIntString(RangeY.To.DoubleValue).Length*10;
@@ -250,7 +255,6 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
     private void ExecuteFunktion(object fe_)
     {
-      
     }
 
     private BoolWrapper DrawLine(LineParameters lineparams)
@@ -324,29 +328,22 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       }
     }
 
-    private double GetXStart(double from)
-    {
-      double rangexfrom = double.Parse(this.RangeX.From.ToString());
-      if (from < 0) from *= -1;
-      if (rangexfrom > 0) rangexfrom *= -1;
-        return rangexfrom  + from;
-    }
+    //private double GetXStart(double from)
+    //{
+    //  double rangexfrom = double.Parse(this.RangeX.From.ToString());
+    //  return Math.Abs(from) - Math.Abs(rangexfrom);
+    //}
 
     private double GetX()
     {
-      double unit =  double.Parse(RangeX.RangeAmount.ToString()) / 10.0;
+      double unit = RangeX.RangeAmount.DoubleValue / 10.0;
       double log = (int)Math.Log10(unit);
       double firstPower = Math.Pow(10, log);
-      if (firstPower + RangeX.From.DoubleValue >= RangeX.To.DoubleValue - firstPower)
-      {
-        if (log > 0)
-        {
-          log--;
-        }
-      }
+      if ( (5*unit <= firstPower) && (log > 0) ) log--;
       double first = double.Parse(unit.ToString().Substring(0, 1));
       return first * Math.Pow(10, log);
     }
+
     private double GetY()
     {
       double unit = RangeY.RangeAmount.DoubleValue / 10.0;
@@ -361,14 +358,13 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       if (RangeX != null && RangeY != null)
       {
         foreach (UIElement element in m_CooardinateAxisElements)
-        {
           PaintArea.Children.Remove(element);
-        }
+
         m_UnitSizeX = (this.ActualWidth - paddingleft) / RangeX.RangeAmount.DoubleValue;
         m_UnitSizeY = (this.ActualHeight - paddingbottom) / RangeY.RangeAmount.DoubleValue;
         
         // draw Ordinate
-        Ordinate.Y1 = (RangeY.RangeAmount.DoubleValue * m_UnitSizeY);
+        Ordinate.Y1 = this.ActualHeight - paddingbottom;
         Ordinate.Y2 = 0;
         Ordinate.X1 = Ordinate.X2 = paddingleft;
         Ordinate.Visibility = Visibility.Visible;
@@ -376,29 +372,30 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         // draw Abscissa
         Abscissa.Y1 = Abscissa.Y2 = Ordinate.Y1;
         Abscissa.X1 = paddingleft;
-        Abscissa.X2 = RangeX.RangeAmount.DoubleValue * m_UnitSizeX+paddingleft;
+        Abscissa.X2 = this.ActualWidth;
         Abscissa.Visibility = Visibility.Visible;
         
+        //// Name Y-Axis
+        //Canvas.SetTop(lblOrdinateText,0);
+        //Canvas.SetLeft(lblOrdinateText, Ordinate.X1+8);
+        //lblOrdinateText.Visibility = Visibility.Visible;
+
+        //// Name X-Axis
+        //Canvas.SetTop(lblAbscissaText, Abscissa.Y1-16);
+        //Canvas.SetLeft(lblAbscissaText, Abscissa.X2);
+        //lblAbscissaText.Visibility = Visibility.Visible;
+
+        // Arrows
+        //AddLine(CreateLine(Ordinate.X1, Ordinate.X1 - 5, Ordinate.Y2, Ordinate.Y2 + 5));
+        //AddLine(CreateLine(Ordinate.X1, Ordinate.X1 + 5, Ordinate.Y2, Ordinate.Y2 + 5));
+
+        //AddLine(CreateLine(Abscissa.X2, Abscissa.X2 - 5, Abscissa.Y1, Abscissa.Y1 - 5));
+        //AddLine(CreateLine(Abscissa.X2, Abscissa.X2 - 5, Abscissa.Y1, Abscissa.Y1 + 5));
+
         // Label Axis
         DrawAxisLabels();
 
-        // Name Y-Axis
-        Canvas.SetTop(lblOrdinateText,0);
-        Canvas.SetLeft(lblOrdinateText, Ordinate.X1+8);
-        lblOrdinateText.Visibility = Visibility.Visible;
-
-        // Name X-Axis
-        Canvas.SetTop(lblAbscissaText, Abscissa.Y1-16);
-        Canvas.SetLeft(lblAbscissaText, Abscissa.X2);
-        lblAbscissaText.Visibility = Visibility.Visible;
-
-
-        // Arrows
-        AddLine(CreateLine(Ordinate.X1, Ordinate.X1 - 6, Ordinate.Y2, Ordinate.Y2 + 7));
-        AddLine(CreateLine(Ordinate.X1, Ordinate.X1 + 6, Ordinate.Y2, Ordinate.Y2 + 7));
-
-        AddLine(CreateLine(Abscissa.X2, Abscissa.X2 - 7, Abscissa.Y1, Abscissa.Y1 - 7));
-        AddLine(CreateLine(Abscissa.X2, Abscissa.X2 - 7, Abscissa.Y1, Abscissa.Y1 + 7));
+        //AddLine(CreateLine(0, this.ActualWidth, 0, this.ActualHeight));
       }
 
     }
@@ -420,6 +417,10 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
           // Draw the Text
           TextBlock tb = CreateLabel(x,Ordinate.Y1 + 5,StringFormat.FormatDoubleToIntString(startX*i));
           AddLabel(tb);
+          tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+          Rect measureRect = new Rect(tb.DesiredSize);
+          tb.Arrange(measureRect);
+          Canvas.SetLeft(tb, Canvas.GetLeft(tb) - tb.ActualWidth/2);
         }
 
       }
@@ -440,7 +441,10 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
           // Draw the Text
           TextBlock tb = CreateLabel(0, y, StringFormat.FormatDoubleToIntString(startY * i));
           AddLabel(tb);
-
+          tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+          Rect measureRect = new Rect(tb.DesiredSize);
+          tb.Arrange(measureRect);
+          Canvas.SetTop(tb, Canvas.GetTop(tb) - tb.ActualHeight / 2);
         }
 
       }

@@ -63,7 +63,8 @@
               <ScrollViewer Grid.Row="1">
                 <Grid Name="gridSecondStep" Margin="5">
                   <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>

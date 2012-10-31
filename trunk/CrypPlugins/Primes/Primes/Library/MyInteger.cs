@@ -61,5 +61,16 @@ namespace Primes.Library
       long tmp = m_Value >> bit;
       return (tmp & 1) == 1;
     }
+
+    public int[] GetIndices()
+    {
+        int[] indices = new int[BitCount];
+        long n = m_Value;
+        
+        for (int i = 0, j = 0; n != 0; i++, n >>= 1)
+            if ((n & 1)==1) indices[j++] = i;
+
+        return indices;
+    }
   }
 }

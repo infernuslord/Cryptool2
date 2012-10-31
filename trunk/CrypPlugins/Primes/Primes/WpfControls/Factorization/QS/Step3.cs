@@ -41,134 +41,138 @@ namespace Primes.WpfControls.Factorization.QS
 
     public override QSResult Execute(ref QSData data)
     {
-      int counter = 1;
-      IList<QuadraticPair> pairs = data.BSmooth;
-      bool foundquadratic = false;
-      foreach (QuadraticPair pair in pairs)
-      {
-        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        int counter = 0;
+        IList<QuadraticPair> pairs = data.BSmooth;
+        bool foundquadratic = false;
 
-        StringBuilder msg = new StringBuilder();
-        msg.Append(pair.B);
-        if (data.IsIgnored(PrimesBigInteger.ValueOf(pair.B)))
-          pair.QuadraticStatus = QuadraticStatus.Ignore;
-        if (pair.QuadraticStatus == QuadraticStatus.Ignore)
-        {
-          msg.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_ignored);
-        }
-        else
-        {
-          double sqrt = Math.Sqrt(pair.B);
-          if (Math.Floor(sqrt) == sqrt)
-          {
-            foundquadratic = true;
-            pair.QuadraticStatus = QuadraticStatus.Quadratic;
-            msg.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_issquare);
-          }
-          else
-          {
-            msg.Append(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_isnotsquare);
-          }
-        }
-        ControlHandler.ExecuteMethod(
-          this,
-          "AddToGrid",
-          new object[] { Grid, msg.ToString(), counter, 0, 0, 0 });
-        counter++;
-        Thread.Sleep(100);
+        ControlHandler.SetPropertyValue(
+            m_lblInfo,
+            "Text",
+            string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_smooth, pairs.Count ));
 
-      }
-      if (!foundquadratic)
-      {
-        bool foundParts = false;
-        double pslen = Math.Pow(2, pairs.Count);
-        for (int i = 1; i < pslen; i++)
-        {
-          MyInteger mi = new MyInteger(i);
-          int bc = mi.BitCount;
-          if (bc > 1)
-          {
-            ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        //
+        // Suche nach glatten Werten, die selbst schon Quadrat sind
+        //
 
-            TextBlock tb = AddTextBlock(counter, 0);
-            StringBuilder msg = new StringBuilder();
-            int[] indices = new int[bc];
-            int lastindex = 0;
-            double erg = 0;
-            for (int j = 0; j < pairs.Count; j++)
+        foreach (QuadraticPair pair in pairs)
+        {
+            String msg;
+
+            if (data.IsIgnored(PrimesBigInteger.ValueOf(pair.B)))
+                pair.QuadraticStatus = QuadraticStatus.Ignore;
+
+            if (pair.QuadraticStatus == QuadraticStatus.Ignore)
             {
-              if (mi.TestBit(j))
-              {
-                if (msg.Length > 0) msg.Append(" * ");
-                msg.Append(pairs[j].B.ToString("n"));
-                indices[lastindex] = j + 1;
-                lastindex++;
-                if (erg == 0) erg = pairs[j].B;
-                else erg *= pairs[j].B;
-                ControlHandler.SetPropertyValue(tb, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombi+ msg.ToString());
-              }
+                msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_ignored, pair.B);
             }
-            if (erg != 0)
+            else
             {
-              if (data.IsIgnored(PrimesBigInteger.ValueOf((long)erg)))
-              {
-                ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiignore, new object[] { msg.ToString(), erg.ToString("N") }));
-              }
-              else
-              {
-                double sqrt = Math.Sqrt(erg);
-                if (Math.Floor(sqrt) == sqrt)
+                int sqrt = (int)Math.Sqrt(pair.B);
+                if (sqrt * sqrt == pair.B )
                 {
-                  ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiisquare, new object[] { msg.ToString(), erg.ToString("N"), erg.ToString("N"), sqrt.ToString("N") }));
-                  foundParts = true; ;
-                  foreach (int j in indices)
-                  {
-                    if (j > 0) pairs[j - 1].QuadraticStatus = QuadraticStatus.Part;
-                  }
+                    foundquadratic = true;
+                    pair.QuadraticStatus = QuadraticStatus.Quadratic;
+                    msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_issquare, pair.B, pair.B, sqrt );
                 }
                 else
                 {
-                  ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiisnotsquare, new object[] { msg.ToString(), erg.ToString("N") }));
+                    msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_isnotsquare, pair.B);
                 }
-              }
             }
-            counter++;
-          }
-          Thread.Sleep(m_Delay);
-          if (foundParts) break;
+
+            ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+            ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, msg.ToString(), counter++, 0, 0, 0 });
+
+            if (foundquadratic) return QSResult.Ok;
         }
-      }
-      return QSResult.Ok;
+
+        //
+        // Suche nach Produkten von glatten Werten, die ein Quarat ergeben
+        //
+
+        int pslen = (int)Math.Pow(2, pairs.Count); 
+
+        for (int i = 1; i < pslen; i++)
+        {
+            MyInteger mi = new MyInteger(i);
+            if (mi.BitCount <= 1) continue;
+                               
+            StringBuilder msg = new StringBuilder();
+            int[] indices = mi.GetIndices();
+            long erg = 1;
+
+            foreach (int j in indices)
+            {
+                if (msg.Length > 0) msg.Append(" * ");
+                msg.Append(pairs[j].B);
+                erg *= pairs[j].B; 
+            }
+
+            if (erg != 1)
+            {
+                if (data.IsIgnored(PrimesBigInteger.ValueOf(erg)))
+                {
+                    ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+                    TextBlock tb = AddTextBlock(counter++, 0);
+                    ControlHandler.SetPropertyValue(tb, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombi + msg.ToString());
+                    ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiignore, msg, erg));
+                }
+                else
+                {
+                    int sqrt = (int)Math.Sqrt(erg);
+                    if (sqrt * sqrt == erg)
+                    {
+                        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+                        TextBlock tb = AddTextBlock(counter++, 0);
+                        ControlHandler.SetPropertyValue(tb, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombi + msg.ToString());
+                        ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiisquare, msg, erg, erg, sqrt));
+                        foreach (int j in indices)
+                            pairs[j].QuadraticStatus = QuadraticStatus.Part;
+                        return QSResult.Ok;
+                    }
+                    else
+                    {
+                        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+                        TextBlock tb = AddTextBlock(counter++, 0);
+                        ControlHandler.SetPropertyValue(tb, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombi + msg.ToString());
+                        ControlHandler.SetPropertyValue(tb, "Text", string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step3_testcombiisnotsquare, msg, erg));
+                    }
+                }
+            }
+
+            //Thread.Sleep(m_Delay);
+        }
+
+        return QSResult.Failed; // keine Quadrate gefunden
     }
 
 
     public override void PreStep()
     {
-      ControlHandler.ExecuteMethod(this, "_PreStep");
-
+        ControlHandler.ExecuteMethod(this, "_PreStep");
     }
 
     public void _PreStep()
     {
-      Grid.RowDefinitions.Clear();
-      Grid.Children.Clear();
-      RowDefinition rd = new RowDefinition();
-      rd.Height = new GridLength(1, GridUnitType.Auto);
-      Grid.RowDefinitions.Add(rd);
+        Grid.RowDefinitions.Clear();
+        Grid.Children.Clear();
+        RowDefinition rd = new RowDefinition();
+        rd.Height = new GridLength(1, GridUnitType.Auto);
+        Grid.RowDefinitions.Add(rd);
 
-      TextBlock tbA = new TextBlock();
-      tbA.Text = "";
-      tbA.Margin = new Thickness(5);
+        TextBlock tbA = new TextBlock();
+        tbA.Text = "";
+        tbA.Margin = new Thickness(5);
 
-
-      Grid.SetColumn(tbA, 0);
-      Grid.SetRow(tbA, 0);
-      Grid.Children.Add(tbA);
+        Grid.SetColumn(tbA, 0);
+        Grid.SetRow(tbA, 0);
+        Grid.Children.Add(tbA);
     }
 
     public override void PostStep()
     {
     }
+
     #endregion
   }
 }
