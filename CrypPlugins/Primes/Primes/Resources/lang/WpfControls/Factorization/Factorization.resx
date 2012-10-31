@@ -166,19 +166,19 @@
     <value>Schritt 1 (Ermittlung geeigneter Werte)</value>
   </data>
   <data name="qs_step1_squareroot" xml:space="preserve">
-    <value>Die Quadratwurzel aus {0} ist {1} ≈ {2}</value>
+    <value>Die Quadratwurzel aus n={0} ist {1} ≈ {2}. Das Siebintervall ist [{3}, {4}].</value>
   </data>
   <data name="qs_step2" xml:space="preserve">
     <value>Schritt 2 (Ermittlung der glatten Werte)</value>
   </data>
   <data name="qs_step2_B" xml:space="preserve">
-    <value>Die Wert der oberen Schranke beträgt {0}. Siebschritt wird gestartet.</value>
+    <value>Der Wert der oberen Schranke beträgt {0}. Die Faktorbasis ist {{{1}}}. Siebschritt wird gestartet.</value>
   </data>
   <data name="qs_step2_bsmooth" xml:space="preserve">
-    <value>Ist B-Glatt</value>
+    <value>Ist B-Glatt?</value>
   </data>
   <data name="qs_step2_factorization" xml:space="preserve">
-    <value>Faktorisierung</value>
+    <value>Glatte Faktoren</value>
   </data>
   <data name="qs_step2_no" xml:space="preserve">
     <value>nein</value>
@@ -190,25 +190,31 @@
     <value>Schritt 3 (Suchen von Quadratzahlen)</value>
   </data>
   <data name="qs_step3_ignored" xml:space="preserve">
-    <value> wird ignoriert</value>
+    <value>{0} wird ignoriert.</value>
   </data>
   <data name="qs_step3_isnotsquare" xml:space="preserve">
-    <value> ist keine Quadratzahl</value>
+    <value>{0} ist keine Quadratzahl.</value>
   </data>
   <data name="qs_step3_issquare" xml:space="preserve">
-    <value> ist eine Quadratzahl</value>
+    <value>{0} ist eine Quadratzahl. Die Wurzel aus {1} ist {2}.</value>
+  </data>
+  <data name="qs_step3_smooth" xml:space="preserve">
+    <value>{0} glatte Werte gefunden.</value>
+  </data>
+  <data name="qs_step3_smoothvalues" xml:space="preserve">
+    <value>{0} glatte Werte gefunden.</value>
   </data>
   <data name="qs_step3_testcombi" xml:space="preserve">
     <value>Test der Kombination </value>
   </data>
   <data name="qs_step3_testcombiignore" xml:space="preserve">
-    <value>Die Kombination: {0} = {1} wurde ignoriert.</value>
+    <value>Die Kombination {0} = {1} wird ignoriert.</value>
   </data>
   <data name="qs_step3_testcombiisnotsquare" xml:space="preserve">
-    <value>Die Kombination: {0} = {1} ist keine Quadratzahl.</value>
+    <value>Die Kombination {0} = {1} ist keine Quadratzahl.</value>
   </data>
   <data name="qs_step3_testcombiisquare" xml:space="preserve">
-    <value>Die Kombination: {0} = {1} ist eine Quadratzahl. Die Wurzel aus {2} ist {3}</value>
+    <value>Die Kombination {0} = {1} ist eine Quadratzahl. Die Wurzel aus {2} ist {3}.</value>
   </data>
   <data name="qs_step4" xml:space="preserve">
     <value>Schritt 4 (Berechnung der Kongruenzen und Faktorisierung)</value>
@@ -217,21 +223,35 @@
     <value>a und b wurden ermittelt mit a = {0}, b = {1}.</value>
   </data>
   <data name="qs_step4_checkcong" xml:space="preserve">
-    <value>Überprüfe die Kongruenz a² ≡ b² (mod n), a ≢ b (mod n)</value>
+    <value>Überprüfe die Kongruenzen a² ≡ b² (mod n), a ≢ b (mod n):</value>
   </data>
-  <data name="qs_step4_firstfactor" xml:space="preserve">
-    <value>Erster Faktor  = GCD({0} + {1}, {2}) = {3}</value>
+  <data name="qs_step4_end" xml:space="preserve">
+    <value>Keine weiteren Kongruenzen gefunden.
+n={0} konnte mit dem quadratischen Sieb nicht faktorisiert werden.</value>
   </data>
-  <data name="qs_step4_notprofed" xml:space="preserve">
-    <value>nicht bestanden </value>
+  <data name="qs_step4_factor1" xml:space="preserve">
+    <value>   ggT({0} + {1}, {2}) = {3}</value>
+  </data>
+  <data name="qs_step4_factor2" xml:space="preserve">
+    <value>   ggT({0} - {1}, {2}) = {3}</value>
+  </data>
+  <data name="qs_step4_no" xml:space="preserve">
+    <value>nein</value>
+  </data>
+  <data name="qs_step4_notproofed" xml:space="preserve">
+    <value>Die Bedingungen sind nicht erfüllt. Klicken sie auf "Neustart", um eine neue Kombination zu suchen.</value>
+  </data>
+  <data name="qs_step4_proofed" xml:space="preserve">
+    <value>Beide Bedingungen sind erfüllt und wir erhalten folgende Faktoren von n={0}:</value>
   </data>
   <data name="qs_step4_refactorize" xml:space="preserve">
     <value>{0} ist keine Primzahl. Mit Klick auf "Neustart" wird {1} faktorisiert.</value>
   </data>
   <data name="qs_step4_reset" xml:space="preserve">
-    <value>Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf "Neustart" starten Sie Faktorisierung neu. Die ungültigen Werte werden ab dann ignoriert.</value>
+    <value>Die Faktorisierung mit den Werten a = {0} und b = {1} ergab nur triviale Faktoren.
+Mit Klick auf "Neustart" starten Sie Faktorisierung neu. Die bereits getesteten Werte werden ab dann ignoriert.</value>
   </data>
-  <data name="qs_step4_secondfactor" xml:space="preserve">
-    <value>Zweiter Faktor </value>
+  <data name="qs_step4_yes" xml:space="preserve">
+    <value>ja</value>
   </data>
 </root>

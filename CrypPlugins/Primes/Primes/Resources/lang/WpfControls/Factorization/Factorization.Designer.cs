@@ -205,7 +205,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Quadratwurzel aus {0} ist {1} ≈ {2} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Quadratwurzel aus n={0} ist {1} ≈ {2}. Das Siebintervall ist [{3}, {4}]. ähnelt.
         /// </summary>
         public static string qs_step1_squareroot {
             get {
@@ -223,7 +223,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Wert der oberen Schranke beträgt {0}. Siebschritt wird gestartet. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Wert der oberen Schranke beträgt {0}. Die Faktorbasis ist {{{1}}}. Siebschritt wird gestartet. ähnelt.
         /// </summary>
         public static string qs_step2_B {
             get {
@@ -232,7 +232,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ist B-Glatt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ist B-Glatt? ähnelt.
         /// </summary>
         public static string qs_step2_bsmooth {
             get {
@@ -241,7 +241,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Faktorisierung ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Glatte Faktoren ähnelt.
         /// </summary>
         public static string qs_step2_factorization {
             get {
@@ -277,7 +277,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  wird ignoriert ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} wird ignoriert. ähnelt.
         /// </summary>
         public static string qs_step3_ignored {
             get {
@@ -286,7 +286,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ist keine Quadratzahl ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Quadratzahl. ähnelt.
         /// </summary>
         public static string qs_step3_isnotsquare {
             get {
@@ -295,11 +295,29 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ist eine Quadratzahl ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist eine Quadratzahl. Die Wurzel aus {1} ist {2}. ähnelt.
         /// </summary>
         public static string qs_step3_issquare {
             get {
                 return ResourceManager.GetString("qs_step3_issquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} glatte Werte gefunden. ähnelt.
+        /// </summary>
+        public static string qs_step3_smooth {
+            get {
+                return ResourceManager.GetString("qs_step3_smooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} glatte Werte gefunden. ähnelt.
+        /// </summary>
+        public static string qs_step3_smoothvalues {
+            get {
+                return ResourceManager.GetString("qs_step3_smoothvalues", resourceCulture);
             }
         }
         
@@ -313,7 +331,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination: {0} = {1} wurde ignoriert. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination {0} = {1} wird ignoriert. ähnelt.
         /// </summary>
         public static string qs_step3_testcombiignore {
             get {
@@ -322,7 +340,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination: {0} = {1} ist keine Quadratzahl. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination {0} = {1} ist keine Quadratzahl. ähnelt.
         /// </summary>
         public static string qs_step3_testcombiisnotsquare {
             get {
@@ -331,7 +349,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination: {0} = {1} ist eine Quadratzahl. Die Wurzel aus {2} ist {3} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Kombination {0} = {1} ist eine Quadratzahl. Die Wurzel aus {2} ist {3}. ähnelt.
         /// </summary>
         public static string qs_step3_testcombiisquare {
             get {
@@ -358,7 +376,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Überprüfe die Kongruenz a² ≡ b² (mod n), a ≢ b (mod n) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Überprüfe die Kongruenzen a² ≡ b² (mod n), a ≢ b (mod n): ähnelt.
         /// </summary>
         public static string qs_step4_checkcong {
             get {
@@ -367,25 +385,62 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Erster Faktor  = GCD({0} + {1}, {2}) = {3} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keine weiteren Kongruenzen gefunden.
+        ///n={0} konnte mit dem quadratischen Sieb nicht faktorisiert werden. ähnelt.
         /// </summary>
-        public static string qs_step4_firstfactor {
+        public static string qs_step4_end {
             get {
-                return ResourceManager.GetString("qs_step4_firstfactor", resourceCulture);
+                return ResourceManager.GetString("qs_step4_end", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die nicht bestanden  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die    ggT({0} + {1}, {2}) = {3} ähnelt.
         /// </summary>
-        public static string qs_step4_notprofed {
+        public static string qs_step4_factor1 {
             get {
-                return ResourceManager.GetString("qs_step4_notprofed", resourceCulture);
+                return ResourceManager.GetString("qs_step4_factor1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Primzahl. Mit Klick auf Neustart wird {1} faktorisiert. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die    ggT({0} - {1}, {2}) = {3} ähnelt.
+        /// </summary>
+        public static string qs_step4_factor2 {
+            get {
+                return ResourceManager.GetString("qs_step4_factor2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die nein ähnelt.
+        /// </summary>
+        public static string qs_step4_no {
+            get {
+                return ResourceManager.GetString("qs_step4_no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Bedingungen sind nicht erfüllt. Klicken sie auf &quot;Neustart&quot;, um eine neue Kombination zu suchen. ähnelt.
+        /// </summary>
+        public static string qs_step4_notproofed {
+            get {
+                return ResourceManager.GetString("qs_step4_notproofed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beide Bedingungen sind erfüllt und wir erhalten folgende Faktoren von n={0}: ähnelt.
+        /// </summary>
+        public static string qs_step4_proofed {
+            get {
+                return ResourceManager.GetString("qs_step4_proofed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Primzahl. Mit Klick auf &quot;Neustart&quot; wird {1} faktorisiert. ähnelt.
         /// </summary>
         public static string qs_step4_refactorize {
             get {
@@ -394,7 +449,8 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Faktorisierung mit den Werten a = {0} und b = {1} war nicht erfolgreich. Mit Klick auf Neustart starten Sie Faktorisierung neu. Die ungültigen Werte werden ab sofort ignoriert. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Faktorisierung mit den Werten a = {0} und b = {1} ergab nur triviale Faktoren.
+        ///Mit Klick auf &quot;Neustart&quot; starten Sie Faktorisierung neu. Die bereits getesteten Werte werden ab dann ignoriert. ähnelt.
         /// </summary>
         public static string qs_step4_reset {
             get {
@@ -403,11 +459,11 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Zweiter Faktor  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ja ähnelt.
         /// </summary>
-        public static string qs_step4_secondfactor {
+        public static string qs_step4_yes {
             get {
-                return ResourceManager.GetString("qs_step4_secondfactor", resourceCulture);
+                return ResourceManager.GetString("qs_step4_yes", resourceCulture);
             }
         }
     }

@@ -25,133 +25,138 @@ using System.Threading;
 
 namespace Primes.WpfControls.Factorization.QS
 {
-  public class Step2 : BaseStep, IQSStep
-  {
-
-    private TextBlock m_lblInfo;
-    public Step2(Grid grid, TextBlock lblInfo)
-      : base(grid)
+    public class Step2 : BaseStep, IQSStep
     {
-      m_lblInfo = lblInfo;
-    }
+        private TextBlock m_lblInfo;
 
-    #region IQSStep Members
-
-    public override void PreStep()
-    {
-      ControlHandler.ExecuteMethod(this, "_PreStep");
-    }
-
-    public void _PreStep()
-    {
-      Grid.RowDefinitions.Clear();
-      Grid.Children.Clear();
-
-      RowDefinition rd = new RowDefinition();
-      rd.Height = new GridLength(1, GridUnitType.Auto);
-      Grid.RowDefinitions.Add(rd);
-
-      TextBlock tbB = new TextBlock();
-      tbB.Text = "b";
-      tbB.Margin = new Thickness(5);
-
-      TextBlock tbFactors = new TextBlock();
-      tbFactors.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_factorization;
-      tbFactors.Margin = new Thickness(5);
-
-      TextBlock tbIsBSmooth = new TextBlock();
-      tbIsBSmooth.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_bsmooth;
-      tbIsBSmooth.Margin = new Thickness(5);
-
-      Grid.SetColumn(tbB, 0);
-      Grid.SetRow(tbB, 0);
-      Grid.Children.Add(tbB);
-
-      Grid.SetColumn(tbFactors, 1);
-      Grid.SetRow(tbFactors, 0);
-      Grid.Children.Add(tbFactors);
-
-      Grid.SetColumn(tbIsBSmooth, 2);
-      Grid.SetRow(tbIsBSmooth, 0);
-      Grid.Children.Add(tbIsBSmooth);
-    }
-
-    public override void PostStep()
-    {
-    }
-
-    public override QSResult Execute(ref QSData data)
-    {
-      IList<int> m_Factors = data.CalculateFactorBase();
-      ControlHandler.SetPropertyValue(
-        m_lblInfo,
-        "Text",
-        string.Format(
-          Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_B,
-          StringFormat.FormatDoubleToIntString(data.B), m_Factors.ToString() ));
-      IList<long> list = new List<long>();
-      int counter = 1;
-      foreach (QuadraticPair pair in data)
-      {
-        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-
-        long b = pair.B;
-        if (b < 0)
+        public Step2(Grid grid, TextBlock lblInfo)
+            : base(grid)
         {
-          b = -b;
-          pair.AddExponent(-1, 1);
+            m_lblInfo = lblInfo;
         }
-        else
-        {
-          pair.AddExponent(-1, 2);
-        }
-        AddToGrid(Grid, b.ToString(), counter, 0, 0, 0);
-        TextBlock tb = AddTextBlock(counter, 1);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < m_Factors.Count;i++ )
-        {
-          int f = m_Factors[i];
-          int exp = 0;
-          while (b % f == 0)
-          {
-            b /= f;
-            exp++;
-          }
-          if (exp > 0)
-          {
-            if (sb.Length>0) sb.Append(" * ");
-            sb.Append(f.ToString() + "^" + exp.ToString());
 
-            ControlHandler.SetPropertyValue(tb, "Text", sb.ToString());
-          }
-          pair.AddExponent(f, exp);
+        #region IQSStep Members
 
-        }
-        if (b == 1)
+        public override void PreStep()
         {
-          pair.IsBSmooth = true;
-          ControlHandler.ExecuteMethod(
-            this,
-            "AddToGrid",
-            new object[] { Grid, Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_yes, counter, 2, 0, 0 });
-
+            ControlHandler.ExecuteMethod(this, "_PreStep");
         }
-        else
+
+        public void _PreStep()
         {
-          ControlHandler.ExecuteMethod(
-            this,
-            "AddToGrid",
-            new object[] { Grid, Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_no, counter, 2, 0, 0 });
-        }
-        counter++;
-        Thread.Sleep(m_Delay);
+            Grid.RowDefinitions.Clear();
+            Grid.Children.Clear();
 
-      }
-      return QSResult.Ok;
+            RowDefinition rd = new RowDefinition();
+            rd.Height = new GridLength(1, GridUnitType.Auto);
+            Grid.RowDefinitions.Add(rd);
+
+            TextBlock tbA = new TextBlock();
+            tbA.Text = "a";
+            tbA.Margin = new Thickness(5);
+
+            TextBlock tbB = new TextBlock();
+            tbB.Text = "b";
+            tbB.Margin = new Thickness(5);
+        
+            TextBlock tbFactors = new TextBlock();
+            tbFactors.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_factorization;
+            tbFactors.Margin = new Thickness(5);
+
+            TextBlock tbIsBSmooth = new TextBlock();
+            tbIsBSmooth.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_bsmooth;
+            tbIsBSmooth.Margin = new Thickness(5);
+
+            Grid.SetColumn(tbA, 0);
+            Grid.SetRow(tbA, 0);
+            Grid.Children.Add(tbA);
+        
+            Grid.SetColumn(tbB, 1);
+            Grid.SetRow(tbB, 0);
+            Grid.Children.Add(tbB);
+
+            Grid.SetColumn(tbFactors, 2);
+            Grid.SetRow(tbFactors, 0);
+            Grid.Children.Add(tbFactors);
+
+            Grid.SetColumn(tbIsBSmooth, 3);
+            Grid.SetRow(tbIsBSmooth, 0);
+            Grid.Children.Add(tbIsBSmooth);
+        }
+
+        public override void PostStep()
+        {
+        }
+
+        public override QSResult Execute(ref QSData data)
+        {
+            IList<int> m_Factors = data.CalculateFactorBase();
+            StringBuilder fb = new StringBuilder();
+
+            foreach (int i in m_Factors)
+            {
+                if (fb.Length > 0) fb.Append(",");
+                fb.Append(i);
+            }
+
+            ControlHandler.SetPropertyValue(
+                m_lblInfo,
+                "Text",
+                string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_B, data.B, fb.ToString() ) );
+
+            IList<long> list = new List<long>();
+            int counter = 1;
+
+            foreach (QuadraticPair pair in data)
+            {
+                ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+
+                AddToGrid(Grid, pair.A.ToString(), counter, 0, 0, 0);
+                AddToGrid(Grid, pair.B.ToString(), counter, 1, 0, 0);
+                TextBlock tb = AddTextBlock(counter, 2);
+                StringBuilder sb = new StringBuilder();
+
+                long b = pair.B;
+                if (b < 0)
+                {
+                    b = -b;
+                    pair.AddExponent(-1, 1);
+                    sb.Append("-1");
+                }
+
+                if(b!=0) 
+                    for (int i = 0; i < m_Factors.Count;i++ )
+                    {
+                        int f = m_Factors[i];
+                        int exp = 0;
+                        while (b % f == 0)
+                        {
+                            b /= f;
+                            exp++;
+                        }
+                        if (exp > 0)
+                        {
+                            if (sb.Length > 0) sb.Append(" * ");
+                            sb.Append(f);
+                            if( exp > 1 ) sb.Append("^" + exp);
+                        }
+                        pair.AddExponent(f, exp);
+                    }
+
+                if (b > 1 && sb.Length > 0) sb.Append(" * " + b);
+                ControlHandler.SetPropertyValue(tb, "Text", sb.ToString());
+
+                pair.IsBSmooth = (b == 1) || (b == 0);
+                string s = pair.IsBSmooth ? Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_yes : Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_no;
+                ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, s, counter++, 3, 0, 0 });
+
+                Thread.Sleep(m_Delay);
+            }
+
+            return QSResult.Ok;
+        }
+
+        #endregion
+
     }
-
-
-    #endregion
-
-  }
 }

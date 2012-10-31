@@ -22,6 +22,8 @@ using Primes.Library;
 using System.Windows.Controls;
 using System.Windows;
 using Primes.Bignum;
+using System.Numerics;
+using Cryptool.PluginBase.Miscellaneous;
 using System.Threading;
 
 namespace Primes.WpfControls.Factorization.QS
@@ -40,182 +42,140 @@ namespace Primes.WpfControls.Factorization.QS
 
     public override QSResult Execute(ref QSData data)
     {
-      QSResult result = QSResult.Ok;
-      PrimesBigInteger _n = PrimesBigInteger.ValueOf(data.N);
-      int counter = 0;
-      IList<QuadraticPair> pairs = data.BSmooth;
-      PrimesBigInteger productAQuad = null;
-      PrimesBigInteger productA = null;
-      PrimesBigInteger productB = null;
+        int counter = 0;
+        IList<QuadraticPair> smoothpair = data.BSmooth;
+        long productA = 1;
+        long productB = 1;
+        String msg;
 
-      foreach (QuadraticPair pair in pairs)
-      {
-        if (pair.QuadraticStatus == QuadraticStatus.Quadratic)
+        foreach (QuadraticPair pair in smoothpair)
         {
-          productAQuad = PrimesBigInteger.ValueOf(pair.A).Pow(2);
-          productA = PrimesBigInteger.ValueOf(pair.A);
-          productB = PrimesBigInteger.ValueOf(pair.B);
-          break;
+            if (pair.QuadraticStatus == QuadraticStatus.Quadratic)
+            {
+                productA = pair.A;
+                productB = pair.B;
+                break;
+            }
         }
-      }
 
-      if (productAQuad == null && productA == null && productB == null)
-      {
-        foreach (QuadraticPair pair in pairs)
+        if (productA == 1 && productB == 1)
         {
-          if (pair.QuadraticStatus == QuadraticStatus.Part)
-          {
-            if (productAQuad == null) productAQuad = PrimesBigInteger.ValueOf(pair.A).Pow(2).Mod(_n);
-            else productAQuad = productAQuad.Multiply(PrimesBigInteger.ValueOf(pair.A).Pow(2)).Mod(_n);
-
-            if (productA == null) productA = PrimesBigInteger.ValueOf(pair.A).Mod(_n);
-            else productA = productA.Multiply(PrimesBigInteger.ValueOf(pair.A)).Mod(_n);
-
-            if (productB == null) productB = PrimesBigInteger.ValueOf(pair.B).Mod(_n);
-            else productB = productB.Multiply(PrimesBigInteger.ValueOf(pair.B)).Mod(_n);
-          }
+            foreach (QuadraticPair pair in smoothpair)
+            {
+                if (pair.QuadraticStatus == QuadraticStatus.Part)
+                {
+                    productA = (productA * pair.A) % data.N;
+                    productB *= pair.B;
+                    pair.QuadraticStatus = QuadraticStatus.Nope;
+                }
+            }
         }
-      }
 
-      result = (productA != null && productB != null) ? QSResult.Ok : QSResult.Failed;
-      if (result == QSResult.Ok)
-      {
+        if (productA == 1 || productB == 1)
+        {
+            ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+            ControlHandler.ExecuteMethod(this, "AddToGrid", new object[] { Grid, String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_end, data.N), counter++, 0, 0, 0 });
+            return QSResult.Ok;
+        }
+
+        long sqb = (long)Math.Sqrt(productB);
+
         StringBuilder sbInfo = new StringBuilder();
-        sbInfo.Append( string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated, productA.ToString("D"), productB.SquareRoot().ToString("D") ) );
+        sbInfo.Append( string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_abcalculated, productA, sqb ) );
+        sbInfo.Append("\n");
         sbInfo.Append( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_checkcong );
         ControlHandler.SetPropertyValue(m_lblInfo, "Text", sbInfo.ToString());
 
-        result = (ModuloTest(productA.Mod(_n), productB.SquareRoot().Mod(_n), PrimesBigInteger.ValueOf(data.N))) ? QSResult.Ok : QSResult.Failed;
-        if (result == QSResult.Ok)
+        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        ControlHandler.ExecuteMethod(this, "AddToGrid", new object[] { Grid, BuildQuadMod(productA, sqb, data.N), counter++, 0, 0, 0 });
+        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        ControlHandler.ExecuteMethod(this, "AddToGrid", new object[] { Grid, BuildMod(productA, sqb, data.N), counter++, 0, 0, 0 });
+
+        if( !ModuloTest(productA, sqb, data.N) )    // Modulotest nicht bestanden
         {
-          if (productAQuad != null && productA != null && productB != null)
-          {
+            data.AddIgnoreQuadrat(PrimesBigInteger.ValueOf(productB));
+            msg = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_notproofed;
             ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-            ControlHandler.ExecuteMethod(
-              this,
-              "AddToGrid",
-              new object[] { Grid, BuildQuadMod(productA,productB.SquareRoot(),_n), counter, 0, 0, 0 });
-            counter++;
-            ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-            ControlHandler.ExecuteMethod(
-              this,
-              "AddToGrid",
-              new object[] { Grid, BuildMod(productA,productB.SquareRoot(),_n), counter, 0, 0, 0 });
-            PrimesBigInteger factor1 = PrimesBigInteger.GCD(productA.Add(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
-            PrimesBigInteger factor2 = PrimesBigInteger.GCD(productA.Subtract(productB.SquareRoot().Mod(_n)).Abs().Mod(_n), _n);
+            ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, msg, counter++, 0, 0, 0 });
 
-            if (factor1.Equals(PrimesBigInteger.One) || factor2.Equals(PrimesBigInteger.One))
-            {
-              data.AddIgnoreQuadrat(productB);
-              result = QSResult.Failed;
-              counter++;
-              ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-              ControlHandler.ExecuteMethod(
-                this,
-                "AddToGrid",
-                new object[] { 
-                  Grid, 
-                  string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_reset, productA.ToString("D"), productB.SquareRoot().ToString("D") ),
-                  counter, 0, 0, 0
-                });
-            }
-            else
-            {
-
-              counter++;
-              ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-              StringBuilder sbfactor1 = new StringBuilder();
-              sbfactor1.Append( string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_firstfactor, 
-                  productA.ToString("D"), productB.SquareRoot().ToString("D"), _n.ToString("D"), factor1.ToString("D") ) );
-
-              ControlHandler.ExecuteMethod(
-                this,
-                "AddToGrid",
-                new object[] { Grid, sbfactor1.ToString(), counter, 0, 0, 0 });
-
-              counter++;
-              ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-              StringBuilder sbfactor2 = new StringBuilder();
-              sbfactor1.Append(string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_secondfactor,
-                  productA.ToString("D"), productB.SquareRoot().ToString("D"), _n.ToString("D"), factor2.ToString("D")));
-
-              ControlHandler.ExecuteMethod(
-                this,
-                "AddToGrid",
-                new object[] { Grid, sbfactor2.ToString(), counter, 0, 0, 0 });
-
-              PrimesBigInteger notPrime = null;
-              if (!factor1.IsPrime(10)) notPrime = factor1;
-              else if (!factor2.IsPrime(10)) notPrime = factor2;
-
-              if (factor1.IsPrime(10)) FireFoundFactorEvent(factor1);
-              if (factor2.IsPrime(10)) FireFoundFactorEvent(factor2);
-
-              if(notPrime!=null)
-              {
-                counter++;
-                ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-                ControlHandler.ExecuteMethod(
-                  this,
-                  "AddToGrid",
-                  new object[] { Grid, string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_refactorize, new object[] { notPrime.ToString("D"), notPrime.ToString("D") }), counter, 0, 0, 0 });
-                result = QSResult.Restart;
-                data.N = notPrime.LongValue;
-              }
-            }
-
-
-          }
+            return QSResult.Failed;
         }
-        else
+
+        msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_proofed, data.N );
+        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        ControlHandler.ExecuteMethod(this, "AddToGrid", new object[] { Grid, msg, counter++, 0, 0, 0 });
+
+        long factor1 = (long)BigInteger.GreatestCommonDivisor(productA + sqb, data.N);
+        long factor2 = (long)BigInteger.GreatestCommonDivisor(productA - sqb, data.N);
+
+        bool trivialfactor1 = (factor1 == 1 || factor1 == data.N);
+        bool trivialfactor2 = (factor2 == 1 || factor2 == data.N);
+
+        String sbfactor1 = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_factor1, productA, sqb, data.N, factor1);
+        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, sbfactor1, counter++, 0, 0, 0 });
+
+        String sbfactor2 = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_factor2, productA, sqb, data.N, factor2);
+        ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, sbfactor2, counter++, 0, 0, 0 });
+
+        if ( trivialfactor1 && trivialfactor2 )
         {
-          data.AddIgnoreQuadrat(productB);
-          ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
-          ControlHandler.ExecuteMethod(
-            this,
-            "AddToGrid",
-            new object[] { Grid, Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_notprofed, counter, 0, 0, 0 });
-          result = QSResult.Failed;
+            data.AddIgnoreQuadrat( PrimesBigInteger.ValueOf(productB) );
+            msg = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_reset, productA, sqb);
+            ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+            ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, msg, counter++, 0, 0, 0});
 
+            return QSResult.Failed;
         }
-      }
 
-      return result;
-    }
-    private string BuildQuadMod(PrimesBigInteger producta, PrimesBigInteger productb, PrimesBigInteger mod)
-    {
-      StringBuilder sbQuadMod = new StringBuilder();
-      sbQuadMod.Append(producta.ToString("D"));
-      sbQuadMod.Append("² ≡ ");
-      sbQuadMod.Append(productb.ToString("D"));
-      sbQuadMod.Append("² (mod ");
-      sbQuadMod.Append(mod.ToString("D"));
-      sbQuadMod.Append(")");
-      return sbQuadMod.ToString();
+        long nontrivialfactor = trivialfactor1 ? factor2 : factor1;
+
+        FireFoundFactorEvent(PrimesBigInteger.ValueOf(nontrivialfactor));
+        FireFoundFactorEvent(PrimesBigInteger.ValueOf(data.N / nontrivialfactor));
+
+        //Boolean p1 = BigIntegerHelper.IsProbablePrime(factor1);
+        //Boolean p2 = BigIntegerHelper.IsProbablePrime(factor2);
+
+        //if (p1) FireFoundFactorEvent(PrimesBigInteger.ValueOf(factor1));
+        //if (p2) FireFoundFactorEvent(PrimesBigInteger.ValueOf(factor2));
+
+        //if( !(p1 && p2) ) // falls ein Faktor nicht prim ist
+        //{
+        //    long notPrime = p1 ? factor2 : factor1;
+        //    msg = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_refactorize, notPrime, notPrime);
+        //    ControlHandler.AddRowDefintion(Grid, 1, GridUnitType.Auto);
+        //    ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, msg, counter++, 0, 0, 0 });
+
+        //    data.N = notPrime;
+        //    return QSResult.Restart;
+        //}
+
+        return QSResult.Ok;
     }
 
-    private string BuildMod(PrimesBigInteger producta, PrimesBigInteger productb, PrimesBigInteger mod)
+    private string BuildQuadMod(long producta, long productb, long mod)
     {
-      StringBuilder sbQuadMod = new StringBuilder();
-      sbQuadMod.Append(producta.ToString("D"));
-      sbQuadMod.Append(" ≢  ");
-      sbQuadMod.Append(productb.ToString("D"));
-      sbQuadMod.Append(" (mod ");
-      sbQuadMod.Append(mod.ToString("D"));
-      sbQuadMod.Append(")");
-      return sbQuadMod.ToString();
+        string res = ((producta * producta - productb * productb) % mod == 0) ? Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_yes : Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_no;
+        return producta + "² ≡ " + productb + "² (mod " + mod + "): " + res;
+    }
+
+    private string BuildMod(long producta, long productb, long mod)
+    {
+        string res = ((producta - productb) % mod != 0) ? Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_yes : Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step4_no;
+        return producta + " ≢  " + productb + " (mod " + mod + "): " + res;
     }
 
     public override void PreStep()
     {
-      ControlHandler.ExecuteMethod(this, "_PreStep");
+        ControlHandler.ExecuteMethod(this, "_PreStep");
     }
 
     public void _PreStep()
     {
-      Grid.RowDefinitions.Clear();
-      Grid.Children.Clear();
-      m_lblInfo.Text = "";
+        Grid.RowDefinitions.Clear();
+        Grid.Children.Clear();
+        m_lblInfo.Text = "";
     }
 
     public override void PostStep()

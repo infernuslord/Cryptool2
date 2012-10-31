@@ -50,16 +50,16 @@
               </Grid.ColumnDefinitions>
           <Line X1="0" X2="10" Y1="14" Y2="14" Stroke="Blue" StrokeThickness="3" Grid.Row="0" Grid.Column="0" />
           <CheckBox Name="cbPiGauss" IsChecked="True" Margin="3,3,3,3" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Content="{x:Static lang:Distribution.graph_gaussname}"></CheckBox>
-          <Button Name="btnStopPiGuass" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="2" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
-          <Button Name="btnResumePiGuass" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="3" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
-          <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Grid.Row="0" Grid.Column="4" Name="btnHelpPiGuass" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick"/>
+          <Button Name="btnStopPiGauss" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="2" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
+          <Button Name="btnResumePiGauss" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="3" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
+          <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Grid.Row="0" Grid.Column="4" Name="btnHelpPiGauss" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick"/>
           <DockPanel Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="10,0,0,0" Name="dpGauss">
                 <DockPanel.ContextMenu>
                   <ContextMenu Opened="ctxMenu_Opened" Closed="ctxMenu_Closed" Name="ctxMenuDpGauss">
                     <MenuItem Header="{x:Static lang:Distribution.graph_contextmenucopy}" Name="miCopyGauss" Click="miCopy_Click"/>
                   </ContextMenu>
                 </DockPanel.ContextMenu>
-                <TextBlock Name="lblCalcInfoPiGuass" Visibility="Collapsed" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" Text="{x:Static lang:Distribution.graph_gausscountinfo}"></TextBlock>
+                <TextBlock Name="lblCalcInfoPiGauss" Visibility="Collapsed" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" Text="{x:Static lang:Distribution.graph_gausscountinfo}"></TextBlock>
             <TextBlock Name="tbInfoGaußPrimeTheorem" Margin="3,0,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave"/>
           </DockPanel>
         
@@ -121,7 +121,7 @@
     </GroupBox>
     <Grid Grid.Row="2">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-    <Viewbox Stretch="Uniform" Name="vb" VerticalAlignment="Top" HorizontalAlignment="Left">
+    <Viewbox Stretch="Uniform" Name="vb" VerticalAlignment="Center" HorizontalAlignment="Center">
       <Viewbox.LayoutTransform>
         <TransformGroup>
           <ScaleTransform ScaleX="{Binding ElementName=sliderTest, Path=Value}" ScaleY="{Binding ElementName=sliderTest, Path=Value}"/>

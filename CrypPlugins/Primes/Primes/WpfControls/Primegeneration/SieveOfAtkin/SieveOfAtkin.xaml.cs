@@ -41,12 +41,14 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
   {
     private Thread m_SieveThread;
     private PrimesBigInteger m_Value;
+
     public SieveOfAtkin()
     {
       InitializeComponent();
     }
 
     #region Thread
+
     public void startThread()
     {
       m_SieveThread = new Thread(new ThreadStart(Sieve));
@@ -54,6 +56,11 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       m_SieveThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
         
       m_SieveThread.Start();
+    }
+
+    public bool IsRunning()
+    {
+        return (m_SieveThread != null) && m_SieveThread.IsAlive;
     }
 
     public void CancelSieve()
@@ -90,8 +97,11 @@ namespace Primes.WpfControls.Primegeneration.SieveOfAtkin
       if (Cancel != null) Cancel();
     }
     #endregion
+
     public void Execute(PrimesBigInteger value)
     {
+      if (IsRunning()) return;
+
       m_Value = value;
       numbergrid.Limit = m_Value;
       startThread();

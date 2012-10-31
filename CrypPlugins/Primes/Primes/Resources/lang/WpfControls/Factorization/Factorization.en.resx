@@ -166,19 +166,19 @@
     <value>Step 1 (Determine suitable values)</value>
   </data>
   <data name="qs_step1_squareroot" xml:space="preserve">
-    <value>The square root of {0} is {1} ≈ {2}</value>
+    <value>The square root of n={0} is {1} ≈ {2}. The sieving interval is [{3}, {4}].</value>
   </data>
   <data name="qs_step2" xml:space="preserve">
     <value>Step 2 (Determine smooth values)</value>
   </data>
   <data name="qs_step2_B" xml:space="preserve">
-    <value>The upper bound is {0}. Start sieving step.</value>
+    <value>The upper bound is {0}. The factor base is {{{1}}}. Start sieving step.</value>
   </data>
   <data name="qs_step2_bsmooth" xml:space="preserve">
-    <value>Is b-smooth</value>
+    <value>Is b-smooth?</value>
   </data>
   <data name="qs_step2_factorization" xml:space="preserve">
-    <value>Factorization</value>
+    <value>Smooth factors</value>
   </data>
   <data name="qs_step2_no" xml:space="preserve">
     <value>no</value>
@@ -190,48 +190,67 @@
     <value>Step 3 (Search for squares)</value>
   </data>
   <data name="qs_step3_ignored" xml:space="preserve">
-    <value>is ignored</value>
+    <value>{0} is ignored.</value>
   </data>
   <data name="qs_step3_isnotsquare" xml:space="preserve">
-    <value> is not a square number</value>
+    <value>{0} is not a square number.</value>
   </data>
   <data name="qs_step3_issquare" xml:space="preserve">
-    <value> is a square number</value>
+    <value>{0} is a square number. The square root of {2} is {3}.</value>
+  </data>
+  <data name="qs_step3_smooth" xml:space="preserve">
+    <value>{0} smooth value(s) found.</value>
+  </data>
+  <data name="qs_step3_smoothvalues" xml:space="preserve">
+    <value>{0} smooth value(s) found.</value>
   </data>
   <data name="qs_step3_testcombi" xml:space="preserve">
     <value>Test combinations</value>
   </data>
   <data name="qs_step3_testcombiignore" xml:space="preserve">
-    <value>The combination: {0} = {1} was ignored.</value>
+    <value>The combination {0} = {1} is ignored.</value>
   </data>
   <data name="qs_step3_testcombiisnotsquare" xml:space="preserve">
-    <value>The combination: {0} = {1} is not a square.</value>
+    <value>The combination {0} = {1} is not a square.</value>
   </data>
   <data name="qs_step3_testcombiisquare" xml:space="preserve">
-    <value>The combination: {0} = {1} is a square. The square root of {2} is {3}</value>
+    <value>The combination {0} = {1} is a square. The square root of {2} is {3}.</value>
   </data>
   <data name="qs_step4" xml:space="preserve">
     <value>Step 4 (Calculate congruences and factorization)</value>
   </data>
   <data name="qs_step4_abcalculated" xml:space="preserve">
-    <value>a und b were calculated with a = {0}, b = {1}.</value>
+    <value>a and b were calculated with a = {0}, b = {1}.</value>
   </data>
   <data name="qs_step4_checkcong" xml:space="preserve">
-    <value>Check the congruence a² ≡ b² (mod n), a ≢ b (mod n)</value>
+    <value>Check the congruences a² ≡ b² (mod n), a ≢ b (mod n):</value>
   </data>
-  <data name="qs_step4_firstfactor" xml:space="preserve">
-    <value>first factor = GCD({0} + {1}, {2}) = {3}</value>
+  <data name="qs_step4_end" xml:space="preserve">
+    <value>No more congruences found. Could not factorize n={0} with the quadratic sieve.</value>
   </data>
-  <data name="qs_step4_notprofed" xml:space="preserve">
-    <value>not proofed</value>
+  <data name="qs_step4_factor1" xml:space="preserve">
+    <value>   gcd({0} + {1}, {2}) = {3}</value>
+  </data>
+  <data name="qs_step4_factor2" xml:space="preserve">
+    <value>   gcd({0} - {1}, {2}) = {3}</value>
+  </data>
+  <data name="qs_step4_no" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="qs_step4_notproofed" xml:space="preserve">
+    <value>The conditions are not fulfilled. Click 'Restart' to search for a new combination.</value>
+  </data>
+  <data name="qs_step4_proofed" xml:space="preserve">
+    <value>Both conditions are fulfilled. We get the following factors of n={0}:</value>
   </data>
   <data name="qs_step4_refactorize" xml:space="preserve">
-    <value>{0} is not a prime. Click Restart to factorize {1}.</value>
+    <value>{0} is not a prime. Click 'Restart' to factorize {1}.</value>
   </data>
   <data name="qs_step4_reset" xml:space="preserve">
-    <value>The factorization with a = {0} and b = {1} was not successful. Click Restart to start a new factorization round. The unsuccessful values will be ignored.</value>
+    <value>The factorization with a = {0} and b = {1} provided only trivial factors.
+Click 'Restart' for a new factorization round. The unsuccessful values will be ignored.</value>
   </data>
-  <data name="qs_step4_secondfactor" xml:space="preserve">
-    <value>second factor</value>
+  <data name="qs_step4_yes" xml:space="preserve">
+    <value>yes</value>
   </data>
 </root>

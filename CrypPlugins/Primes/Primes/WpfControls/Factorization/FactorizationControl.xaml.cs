@@ -234,7 +234,6 @@ namespace Primes.WpfControls.Factorization
       m_Integer = integer;
 
       Factorize(integer);
-
     }
 
     private void InputSingleNumberControl_Cancel()
@@ -252,42 +251,31 @@ namespace Primes.WpfControls.Factorization
         ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultaborted);
 
       }
-
-
-
     }
 
     void _bruteforce_Cancel()
     {
     }
 
-		private void lblInput_MouseLeftButtonDown(object sender, MouseEventArgs e)
-		{
+	private void lblInput_MouseLeftButtonDown(object sender, MouseEventArgs e)
+	{
+		if (lblInput.ContextMenu != null)
+			lblInput.ContextMenu.IsOpen = true;
+	}
 
-			if (lblInput.ContextMenu != null)
-			{
-				lblInput.ContextMenu.IsOpen = true;
-			}
-
-		}
-
-		private void MenuItemCopyInputClick(object sender, RoutedEventArgs e)
-		{
-      if(m_Integer!=null)
+	private void MenuItemCopyInputClick(object sender, RoutedEventArgs e)
+	{
+        if(m_Integer!=null)
         Clipboard.SetText(m_Integer.ToString(), TextDataFormat.Text);
-		}
+	}
 
-		private void lblInputMouseMove(object sender, MouseEventArgs e)
-		{
+	private void lblInputMouseMove(object sender, MouseEventArgs e)
+	{
+	}
 
-
-
-		}
-
-		private void lblInputMouseLeave(object sender, MouseEventArgs e)
-		{
-
-		}
+	private void lblInputMouseLeave(object sender, MouseEventArgs e)
+	{
+	}
 
     private KOF KindOfFactorization
     {

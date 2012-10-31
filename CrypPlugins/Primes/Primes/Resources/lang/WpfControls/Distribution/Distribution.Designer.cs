@@ -97,7 +97,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Anzahl der Primzahlen nach dem Primzahlsatz wird berechnet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Anzahl der Primzahlen nach dem Primzahlsatz wird berechnet: ähnelt.
         /// </summary>
         public static string graph_gausscountinfoCalculating {
             get {
@@ -133,7 +133,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Anzahl der Primzahlen nach dem logarithmischen Integral wird berechnet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Anzahl der Primzahlen nach dem logarithmischen Integral wird berechnet: ähnelt.
         /// </summary>
         public static string graph_lincountinfoCalculating {
             get {
@@ -160,7 +160,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die tatsächliche Anzahl der Primzahlen wird berechnet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die tatsächliche Anzahl der Primzahlen wird berechnet: ähnelt.
         /// </summary>
         public static string graph_pincountinfoCalculating {
             get {

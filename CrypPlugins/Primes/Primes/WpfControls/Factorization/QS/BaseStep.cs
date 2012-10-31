@@ -45,7 +45,7 @@ namespace Primes.WpfControls.Factorization.QS
     }
     #endregion
 
-    public void AddToGrid(Grid g, string text, int row, int col, int rowspan, int columnspan)
+    public void AddToGrid(Grid g, string text, int row, int col, int rowspan=0, int columnspan=0)
     {
       ControlHandler.ExecuteMethod(
         this,
@@ -99,20 +99,10 @@ namespace Primes.WpfControls.Factorization.QS
       set { m_Container = value; }
     }
 
-    protected bool ModuloTest(PrimesBigInteger a, PrimesBigInteger b, PrimesBigInteger mod)
+    protected bool ModuloTest(long a, long b, long mod)
     {
-      bool result = true;
-      PrimesBigInteger _a = a.Abs();
-      PrimesBigInteger _b = b.Abs();
-      result = !a.Subtract(b).Mod(mod).Equals(PrimesBigInteger.Zero);
-      if (result)
-      {
-        _a = _a.Multiply(PrimesBigInteger.NegativeOne);
-        _b = _b.Multiply(PrimesBigInteger.NegativeOne);
-        PrimesBigInteger res = _a.Add(_b);
-        result = !res.Abs().Mod(mod).Equals(PrimesBigInteger.Zero);
-      }
-      return result;
+      if((a-b) % mod == 0) return false;
+      return (((a*a - b*b) % mod) == 0);
     }
 
 

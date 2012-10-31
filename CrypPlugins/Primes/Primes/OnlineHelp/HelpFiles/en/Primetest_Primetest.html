@@ -4,8 +4,12 @@ A prime number test answers the question "Is the given number n a prime number?"
 
 Such tests are often required by cryptographic methods that use prime numbers.
 The RSA cryptosystem for example relies on the fact that the <a href="help://Factorization_Factorization">factorization</a> of a number into its prime factors is a very difficult mathematical problem and may take a very, very long time for big numbers.
-RSA takes two big prime numbers with at least 200 decimal places and builds a public and a secret key from them.
-For ensuring that RSA is safe, one has to make sure that the two numbers are indeed prime numbers. This is done by generating big random numbers and then using the prime number test to see if the random number happens to be a prime number. If not, the process is repeated until a prime number is found.<br /><br />
+
+In practise, RSA initially needs two randomly generated prime numbers with at least 300 decimal digits,
+and builds a public and a secret key from them.
+Therefore, one has to make sure that the two numbers are indeed prime numbers.
+This is done by generating big random numbers and then using the prime number test to see
+if the random number happens to be a prime number. If not, the process is repeated until a prime number is found.<br /><br />
 
 This component offers three different methods for testing the primality of a number:
 <ul>

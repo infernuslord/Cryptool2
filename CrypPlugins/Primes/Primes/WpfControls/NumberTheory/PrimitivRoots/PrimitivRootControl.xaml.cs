@@ -27,6 +27,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Linq;
 using Primes.WpfControls.Components;
 using Primes.Library;
 using Primes.Bignum;
@@ -48,7 +49,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       InitializeComponent();
       this.OnStart += new VoidDelegate(PrimitivRootControl_OnStart);
       this.OnStop += new VoidDelegate(PrimitivRootControl_OnStop);
-      validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Five,MAX);
+      validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One,MAX);
       primes = new List<PrimesBigInteger>();
       log.OverrideText = true;
       int mersenneexp = mersenneseed[new Random().Next(mersenneseed.Length - 1)];
@@ -262,84 +263,74 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
     private void DoCalculatePrimitiveRoots()
     {
       DateTime start = DateTime.Now;
+
       FireOnStart();
+
       foreach (PrimesBigInteger prime in primes)
       {
         int row1 = log.NewLine();
         int row2 = log.NewLine();
 
         StringBuilder sbResult = new StringBuilder();
-        PrimesBigInteger primeroot = PrimesBigInteger.One;
-        while(primeroot.CompareTo(prime)<0)
+
+        PrimesBigInteger primitiveroot = PrimesBigInteger.One;
+        while (primitiveroot.CompareTo(prime) < 0)
         {
-            if (IsPrimitiveRoot(primeroot, prime))
-            {
-              break;
-              
-            }
-          primeroot = primeroot.Add(PrimesBigInteger.One);
+            if (IsPrimitiveRoot(primitiveroot, prime)) break;
+            primitiveroot = primitiveroot.Add(PrimesBigInteger.One);
         }
+
+        List<PrimesBigInteger> roots = new List<PrimesBigInteger>();
+
         PrimesBigInteger i = PrimesBigInteger.One;
         PrimesBigInteger primeMinus1 = prime.Subtract(PrimesBigInteger.One);
-        PrimesBigInteger counter = PrimesBigInteger.Zero;
-        while (i.CompareTo(primeMinus1) <= 0)
+
+        while (i.CompareTo(prime) < 0)
         {
-          //lock (m_JumpLockObject)
-          //{
-          //  if (m_Jump)
-          //  {
-          //    m_Jump = false;
-          //    break;
-          //  }
-          //}
-          if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
-          {
             lock (m_JumpLockObject)
             {
-              if (m_Jump)
-              {
-                log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_skipcalc,new object[]{counter.ToString(),prime.ToString()}), 0, row1);
-                m_Jump = false;
-                break;
-              }
+                if (m_Jump)
+                {
+                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_skipcalc, roots.Count, prime.ToString()), 0, row1);
+                    m_Jump = false;
+                    break;
+                }
+            }     
+            if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
+            {
+                roots.Add( primitiveroot.ModPow(i, prime) );
+                log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_resultcalc, roots.Count, prime.ToString()), 0, row1);
             }
-            PrimesBigInteger proot = primeroot.ModPow(i, prime);
-            counter = counter.Add(PrimesBigInteger.One);
-            log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_skipcalc,new object[]{counter.ToString(), prime.ToString()}), 0, row1);
-            sbResult.Append(proot.ToString());
-            sbResult.Append(" ");
-            log.Info(sbResult.ToString(), 0, row2);
-          }
-          i = i.Add(PrimesBigInteger.One);
+            i = i.Add(PrimesBigInteger.One);
         }
-        int r3 = log.NewLine();
+
+        roots.Sort(PrimesBigInteger.Compare);
+        log.Info(string.Join(" ", roots.ToArray().Select(x => x.ToString())), 0, row2);
+
+        log.NewLine();
         log.Info(" ");
       }
 
       TimeSpan diff = DateTime.Now - start;
+
       StopThread();
     }
 
     private bool IsPrimitiveRoot(PrimesBigInteger root, PrimesBigInteger prime)
     {
-      bool result = true;      
-      if(PrimesBigInteger.GCD(root,prime).Equals(PrimesBigInteger.One)){
-          PrimesBigInteger k = PrimesBigInteger.One;
-          while (k.CompareTo(prime.Subtract(PrimesBigInteger.One)) < 0)
-          {            
-            if(root.ModPow(k,prime).Subtract(PrimesBigInteger.One).Equals(PrimesBigInteger.Zero)){
-              result = false;
-              break;
-            }
+        if (!PrimesBigInteger.GCD(root, prime).Equals(PrimesBigInteger.One)) return false;
+
+        PrimesBigInteger primeMinus1 = prime.Subtract(PrimesBigInteger.One);
+        PrimesBigInteger k = PrimesBigInteger.One;
+        while (k.CompareTo(primeMinus1) < 0)
+        {
+            if (root.ModPow(k, prime).Equals(PrimesBigInteger.One)) return false;
             k = k.Add(PrimesBigInteger.One);
-          }
-      }
-      else
-      {
-        result = false;
-      }
-      return result;
+        }
+
+        return true;
     }
+
     #endregion
 
     #region InfoError
@@ -373,7 +364,6 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
     private void tbInput_KeyDown(object sender, KeyEventArgs e)
     {
-
     }
 
     private void tbInput_KeyUp(object sender, KeyEventArgs e)
@@ -386,7 +376,6 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       else
       {
         Info(Primes.Resources.lang.Numbertheory.Numbertheory.proot_insert);
-
       }
     }
 
@@ -399,7 +388,6 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
       else
       {
         HideInfo();
-
       }
       tbInput.Text += prime.ToString();
       
@@ -419,17 +407,14 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
     #region IPrimeUserControl Members
 
-
     public void SetTab(int i)
     {
-      
     }
 
     #endregion
 
 
     #region IPrimeUserControl Members
-
 
     public void Init()
     {

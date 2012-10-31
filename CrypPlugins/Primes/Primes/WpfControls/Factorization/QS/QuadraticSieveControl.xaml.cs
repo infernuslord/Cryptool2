@@ -139,7 +139,10 @@ namespace Primes.WpfControls.Factorization.QS
     private void DoExecute()
     {
       m_Data.Reset();
+      m_Factors.Clear();
+      
       ResetExpandersAndResumeButtons();
+
       ControlHandler.SetPropertyValue(expFirst, "IsExpanded", true);
       m_Step1.PreStep();
       m_Step1.Execute(ref m_Data);
@@ -169,9 +172,13 @@ namespace Primes.WpfControls.Factorization.QS
       WaitStepWise();
 
       ControlHandler.SetPropertyValue(expFourth, "IsExpanded", true);
+      ControlHandler.SetPropertyValue(btnRestart_Step4, "Visibility", Visibility.Hidden);
+      ControlHandler.SetPropertyValue(btnRestart, "Visibility", Visibility.Hidden);
+
       m_Step4.PreStep();
       result = m_Step4.Execute(ref m_Data);
       m_Step4.PostStep();
+
       switch (result)
       {
         case QSResult.Ok:
@@ -185,11 +192,13 @@ namespace Primes.WpfControls.Factorization.QS
         default:
           break;
       }
+
       if (result == QSResult.Ok)
         FireOnStop();
-
     }
+
     #region Step1
+
     private void Step1()
     {
       long sqrt = (long)Math.Floor(Math.Sqrt(m_Value))+1;
@@ -374,7 +383,7 @@ namespace Primes.WpfControls.Factorization.QS
 
     public Primes.WpfControls.Validation.IValidator<PrimesBigInteger> Validator
     {
-      get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(10000)); }
+      get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Four, PrimesBigInteger.ValueOf(10000)); }
     }
 
     #endregion

@@ -130,7 +130,7 @@
     <value>Die Anzahl der Primzahlen nach dem Primzahlsatz beträgt:</value>
   </data>
   <data name="graph_gausscountinfoCalculating" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem Primzahlsatz wird berechnet</value>
+    <value>Die Anzahl der Primzahlen nach dem Primzahlsatz wird berechnet:</value>
   </data>
   <data name="graph_gaussname" xml:space="preserve">
     <value>Primzahlsatz</value>
@@ -142,7 +142,7 @@
     <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral beträgt:</value>
   </data>
   <data name="graph_lincountinfoCalculating" xml:space="preserve">
-    <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral wird berechnet</value>
+    <value>Die Anzahl der Primzahlen nach dem logarithmischen Integral wird berechnet:</value>
   </data>
   <data name="graph_linname" xml:space="preserve">
     <value>Das logarithmische Integral</value>
@@ -151,7 +151,7 @@
     <value>Die tatsächliche Anzahl der Primzahlen beträgt:</value>
   </data>
   <data name="graph_pincountinfoCalculating" xml:space="preserve">
-    <value>Die tatsächliche Anzahl der Primzahlen wird berechnet</value>
+    <value>Die tatsächliche Anzahl der Primzahlen wird berechnet:</value>
   </data>
   <data name="graph_pinlimitinfo" xml:space="preserve">
     <value>Die Exakte Treppenfunktion wird nur für Werte unter 10.000 gezeichnet. Alle Werte darüber werden lediglich berechnet und hier ausgegeben.</value>

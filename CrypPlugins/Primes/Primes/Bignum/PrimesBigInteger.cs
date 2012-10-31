@@ -986,6 +986,11 @@ namespace Primes.Bignum
                 : sign * CompareNoLeadingZeroes(0, magnitude, 0, value.magnitude);
         }
 
+        public static int Compare(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b);
+        }
+
         /**
          * return z = x / y - done in place (z value preserved, x contains the
          * remainder)

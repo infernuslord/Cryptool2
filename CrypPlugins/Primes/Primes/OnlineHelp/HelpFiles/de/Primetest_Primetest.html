@@ -1,14 +1,19 @@
 ﻿<h2>Primzahltests</h2>
 
 Primzahltests beantworten die Frage "Ist die gegebene Zahl n eine Primzahl?" mit Ja oder Nein.
-Solche Tests werden von Verfahren eingesetzt, die Primzahlen verwenden. Das Kryptosystem RSA beruht auf
-der Tatsache, das die Zerlegung einer Zahl in ihre Primfaktoren, die so genannte
+
+Solche Tests werden von Verfahren eingesetzt, die Primzahlen verwenden.
+Beispielsweise beruht die Sicherheit des RSA-Kryptosystems darauf,
+dass die Zerlegung einer Zahl in ihre Primfaktoren, die so genannte
 <a href="help://Factorization_Factorization">Faktorisierung</a>,
 ein sehr schwieriges Problem ist, dessen Lösung für große Zahlen extrem lange dauert.
-Man bildet das Produkt zweier Primzahlen mit mehr als 150 Dezimalstellen und erstellt daraus einen
-geheimen und einen öffentlichen Schlüssel. Bei Anwendung des Verfahrens muss sichergestellt sein, dass die beiden
-verwendeten Zahlen auch tatsächlich Primzahlen sind. Um dies zu garantieren werden große Zufallszahlen erzeugt und
-es wird getestet, ob es sich um eine Primzahl handelt.<br /><br />
+
+Initial benötigt das RSA-Verfahren in der Realität zwei zufällige Primzahlen mit mehr als 300 Dezimalstellen,
+und erstellt daraus einen geheimen und einen öffentlichen Schlüssel.
+Dazu muss sichergestellt sein, dass die beiden verwendeten Zahlen auch tatsächlich Primzahlen sind.
+Um dies zu garantieren werden große Zufallszahlen erzeugt und dann
+wird getestet, ob es sich dabei um eine Primzahl handelt. Wenn nicht, wird der Vorgang
+so lange wiedeholt, bis eine Primzahl gefunden wurde.<br /><br />
 
 Dieses Modul stellt drei verschiedene Primzahltests zur Verfügung:
 <ul>
@@ -16,3 +21,4 @@ Dieses Modul stellt drei verschiedene Primzahltests zur Verfügung:
 	<li><a href="help://Primetest_MillerRabin">Miller-Rabin-Test</a></li>
 	<li><a href="help://Generation_SieveOfAtkin">Sieb des Atkin</a></li>
 </ul>
+
