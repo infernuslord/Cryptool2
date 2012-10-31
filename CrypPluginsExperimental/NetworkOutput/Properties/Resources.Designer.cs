@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UDPReceiver.Properties {
+namespace NetworkOutput.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace UDPReceiver.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UDPReceiver.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NetworkOutput.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -97,11 +97,11 @@ namespace UDPReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Port: ähnelt.
         /// </summary>
-        internal static string m {
+        internal static string LisPort {
             get {
-                return ResourceManager.GetString("m", resourceCulture);
+                return ResourceManager.GetString("LisPort", resourceCulture);
             }
         }
         
@@ -169,7 +169,7 @@ namespace UDPReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Network Receiver ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Network Output ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

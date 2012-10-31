@@ -2,19 +2,18 @@
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
-using UDPReceiver.Model;
 
-namespace UDPReceiver
+namespace Cryptool.Plugins.NetworkOutput
 {
     /// <summary>
     /// Interaktionslogik für UDPReceiverQuickWatchPresentation.xaml
     /// </summary>
-    [Cryptool.PluginBase.Attributes.Localization("UDPReceiver.Properties.Resources")]
-    public partial class UDPReceiverQuickWatchPresentation : UserControl
+    [Cryptool.PluginBase.Attributes.Localization("NetworkOutput.Properties.Resources")]
+    public partial class NetworkOutputPresentation : UserControl
     {
-        private ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
+        private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
 
-        public UDPReceiverQuickWatchPresentation()
+        public NetworkOutputPresentation()
         {
             InitializeComponent();
             this.DataContext = entries;
@@ -32,15 +31,17 @@ namespace UDPReceiver
             }),jar);
         }
 
-        public void SetStartTime(string s)
+        public void SetStaticMetaData(string starttime, string port)
         {
+            string[] jar = { starttime, port};
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
                 {
                     try
                     {
-                        startTime.Content = s;
+                        startTime.Content = jar[0];
+                        lisPort.Content = jar[1];
                     } catch { } // dont throw an error in invoke threat
-                }), s);
+                }), jar);
         }
 
         public void AddPresentationPackage(PresentationPackage package)

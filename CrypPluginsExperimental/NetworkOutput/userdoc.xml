@@ -22,11 +22,15 @@
   <usage lang="en">
     After dragging the UDP Receiver component onto your workspace,  you will
     have to set a Port in the component's settings. Here you can also set a time limit or a package limit to stop the component.
-   </usage>
+
+    The component is now waiting on the port you specified for incoming packages.
+  </usage>
 
   <usage lang="de-DE">
     Nachdem Sie die UDP Empfänger Komponente auf den Arbeitsbereich gezogen haben, müssen sie
-    einen Port in den Komtonenten Einstellungen festlegen. Hier können sie außerdem ein Zeitlimit oder ein Packetlimit setzen um die Komponente zu stoppen.
+    einen Port in den Komponenten Einstellungen festlegen. Hier können sie außerdem ein Zeitlimit oder ein Packetlimit setzen um die Komponente zu stoppen.
+    
+    Die Komponente wird nun auf dem von Ihnen angegeben Port auf eingehende Pakete warten.
   </usage>
   
   <presentation lang="en">

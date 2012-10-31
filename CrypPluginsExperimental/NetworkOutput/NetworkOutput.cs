@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -23,21 +24,19 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
-using UDPReceiver;
-using UDPReceiver.Model;
 
-namespace Cryptool.Plugins.UDPReceiver
+namespace Cryptool.Plugins.NetworkOutput
 {
     [Author("Christopher Konze", "ckonze@uni.de", "University of Kassel", "")]
-    [PluginInfo("UDPReceiver.Properties.Resources", "PluginCaption", "PluginTooltip", "UDPReceiver/userdoc.xml", new[] { "UDPReceiver/Images/package.png" })]
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
-    public class UDPReceiver : ICrypComponent
+    [PluginInfo("NetworkOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkOutput/userdoc.xml", new[] { "NetworkOutput/Images/package.png" })]
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class NetworkOutput : ICrypComponent
     {
  
         #region Private variables
 
-        private readonly UDPReceiverSettings settings;
-        private readonly UDPReceiverQuickWatchPresentation presentation= new UDPReceiverQuickWatchPresentation();
+        private readonly NetworkOutputSettings settings;
+        private readonly NetworkOutputPresentation presentation = new NetworkOutputPresentation();
 
         private IPEndPoint endPoint;
 
@@ -52,9 +51,9 @@ namespace Cryptool.Plugins.UDPReceiver
 
         #endregion
 
-        public UDPReceiver()
+        public NetworkOutput()
         {
-           settings = new UDPReceiverSettings(this);
+            settings = new NetworkOutputSettings(this);
         }
 
         #region Helper Functions
@@ -134,13 +133,14 @@ namespace Cryptool.Plugins.UDPReceiver
             //init / reset
             uniqueSrcIps = new HashSet<IPAddress>();
             isRunning = true;
+            returnLastPackage = true;
             startTime = DateTime.Now;
             receivedPackages = new List<byte[]>();
 
             // reset gui
             presentation.ClearList();
             presentation.RefreshMetaData(0, 0);
-            presentation.SetStartTime(startTime.ToLongTimeString());
+            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));
 
             //stream prepair
             streamWriter = new CStreamWriter();

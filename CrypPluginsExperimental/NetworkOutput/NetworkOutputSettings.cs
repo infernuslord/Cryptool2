@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,9 +22,9 @@ using System.Net.Sockets;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.UDPReceiver
+namespace Cryptool.Plugins.NetworkOutput
 {
-    public class UDPReceiverSettings : ISettings
+    public class NetworkOutputSettings : ISettings
     {
         #region Private Variables
 
@@ -32,9 +33,9 @@ namespace Cryptool.Plugins.UDPReceiver
         private int packageLimit;
         private string deviceIp;
         private bool networkDevice = true;
-        private readonly UDPReceiver caller;
+        private readonly NetworkOutput caller;
 
-        public UDPReceiverSettings(UDPReceiver caller)
+        public NetworkOutputSettings(NetworkOutput caller)
         {
             this.caller = caller;
             NetworkDevice = true;
@@ -145,12 +146,12 @@ namespace Cryptool.Plugins.UDPReceiver
 
        private List<String> getInterfaceIps()
         {
-            List<String> interfaces = new List<string>();
+            var interfaces = new List<string>();
                             
-           foreach (NetworkInterface netInf in NetworkInterface.GetAllNetworkInterfaces())
+           foreach (var netInf in NetworkInterface.GetAllNetworkInterfaces())
            {
                var a = netInf.GetIPProperties().UnicastAddresses;
-               foreach (IPAddressInformation i in a)
+               foreach (var i in a)
                {
                    if (i.Address.AddressFamily == AddressFamily.InterNetwork)
                    {
