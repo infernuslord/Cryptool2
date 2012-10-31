@@ -118,84 +118,84 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AmountLabel" xml:space="preserve">
-    <value>Empfangene Pakete:</value>
+    <value>Received Packages:</value>
   </data>
   <data name="IPFromHeader" xml:space="preserve">
-    <value>Absender IP</value>
+    <value>Source IP</value>
   </data>
   <data name="MetaLabel" xml:space="preserve">
     <value>Info</value>
   </data>
   <data name="PackageLimit" xml:space="preserve">
-    <value>Packetlimit</value>
+    <value>Package Limit</value>
   </data>
   <data name="PackageLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wieviel Packeten die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+    <value>gives the amount of packages after that the component will stop. 0 means 'dont stop'</value>
   </data>
   <data name="PaylodHeader" xml:space="preserve">
-    <value>Empangende Daten</value>
+    <value>Received Data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerk Empfänger</value>
+    <value>Network Output</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Komponente kann mehere UDP Packete empfangen.</value>
+    <value>Component is able to receive muliple UDP packets</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
   <data name="PortTooltip" xml:space="preserve">
-    <value>Port auf welchen die Komponente horchen soll</value>
+    <value>Port on which the component will listen</value>
   </data>
   <data name="ReceivedPackagesLabel" xml:space="preserve">
-    <value>Empfangene Pakete</value>
+    <value>Received Packages</value>
   </data>
   <data name="SingleOutput" xml:space="preserve">
-    <value>Einzelnes Packet</value>
+    <value>Single Packet</value>
   </data>
   <data name="SingleOutputTooltip" xml:space="preserve">
-    <value>Daten eines einzenen Packetes</value>
+    <value>data of a singel packet</value>
   </data>
   <data name="StartLabel" xml:space="preserve">
-    <value>Gestartet Um:</value>
+    <value>Start Time:</value>
   </data>
   <data name="StopConditions" xml:space="preserve">
-    <value>Haltebedingungen</value>
+    <value>Stop Conditions</value>
   </data>
   <data name="StreamOutput" xml:space="preserve">
-    <value>Alle Packete</value>
+    <value>All Packets</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Leitet alle empfangenen Packete weiter</value>
+    <value>forward all received packets</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
-    <value>Zeitlimit</value>
+    <value>Time Limit</value>
   </data>
   <data name="TimeLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wievielen Sekunden die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+    <value>gives the second after the component will stop. 0 means 'dont stop'</value>
   </data>
   <data name="TORHeader" xml:space="preserve">
-    <value>Empfangen um</value>
+    <value>Received at</value>
   </data>
   <data name="UniqueIPLabel" xml:space="preserve">
-    <value>Unterschiedliches Absender:</value>
+    <value>Unique Consignor:</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
-    <value>Netzwerkkarten IP:</value>
+    <value>Networkdevice IP:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+    <value>Type in the Ip of your Networkdevice to only receive from this device.</value>
   </data>
-  <data name="m" xml:space="preserve">
-    <value />
+  <data name="LisPort" xml:space="preserve">
+    <value>Port:</value>
   </data>
   <data name="NetworkConditions" xml:space="preserve">
-    <value>Netzwerk</value>
+    <value>Network</value>
   </data>
   <data name="NetworkDeviceCaption" xml:space="preserve">
-    <value>Alle Netzwerkgeräte benutzen</value>
+    <value>Use all Networkinterfaces</value>
   </data>
   <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+    <value>Type in the Ip of your Networkinterfaces to only receive from this device.</value>
   </data>
 </root>

@@ -1,8 +1,6 @@
-﻿
+﻿using System;
 
-using System;
-
-namespace UDPReceiver.Model
+namespace Cryptool.Plugins.NetworkOutput
 {
     public class PresentationPackage
     {
