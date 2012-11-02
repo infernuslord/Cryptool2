@@ -250,20 +250,15 @@ namespace Cryptool.CrypWin
             {
                 if (editor != null)
                 {
-                    ExecuteDelegate executeEditor = editor.Execute;
-                    AsyncCallback executeCallback = new AsyncCallback(this.ExecuteCallBack);
-                    executeEditor.BeginInvoke(executeCallback, null);
+                    var editorThread = new Thread(editor.Execute);
+                    editorThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+                    editorThread.Start();
                 }
             }
             catch (Exception ex)
             {
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
-        }
-
-        private void ExecuteCallBack(IAsyncResult ar)
-        {
-
         }
 
         private void Stop_CanExecute(object sender, CanExecuteRoutedEventArgs e)

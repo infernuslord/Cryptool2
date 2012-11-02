@@ -78,7 +78,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         private static bool alreadyInUse = false;
         private static Mutex alreadyInUseMutex = new Mutex();
         private AutoResetEvent waitForConnection = new AutoResetEvent(false);
-        private CultureInfo _culture;
 
         #endregion
 
@@ -168,7 +167,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public void Execute()
         {
-            _culture = Thread.CurrentThread.CurrentUICulture;
             if (checkInUse())
                 return;
             
@@ -484,7 +482,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <returns>true if enough relations found, false if not</returns>
         private bool prepareSieving(IntPtr conf, int update, IntPtr core_sieve_fcn, int max_relations)
         {
-            Thread.CurrentThread.CurrentUICulture = _culture;
             try
             {
                 int threads = Math.Min(settings.CoresUsed, Environment.ProcessorCount - 1);
