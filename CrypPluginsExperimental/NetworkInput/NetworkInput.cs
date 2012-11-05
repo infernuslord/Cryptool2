@@ -30,9 +30,9 @@ using NetworkInput.Model;
 namespace Cryptool.Plugins.NetworkInput
 {
 
-    [Author("Mirko Sartorius", "mirkosartorius@web.de", "Uni Kassel", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("NetworkInput.Properties.Resources", "NetworkInput", "Subtract one number from another", "NetwokrInput/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    [Author("Mirko Sartorius", "mirkosartorius@web.de", "University of Kassel", "")]
+    [PluginInfo("NetworkInput.Properties.Resources", "PluginCaption", "PluginToolTip", "NetworkInput/userdoc.xml", new[] { "NetworkInput/Images/1352124662_ark.png" })]
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkInput : ICrypComponent
     {
         #region Private Variables
@@ -61,6 +61,7 @@ namespace Cryptool.Plugins.NetworkInput
 
         #region Helper Function
 
+        //check ip adress to be valid
         public bool IsValidIP(string addr)
         {
             this.addr = addr;
@@ -126,9 +127,12 @@ namespace Cryptool.Plugins.NetworkInput
         {
             ProgressChanged(0, 1);
 
+            //init
             isRunning = true;
             startTime = DateTime.Now;
 
+
+            //resets the presentation
             presentation.ClearList();
             presentation.RefreshMetaData(0);
             presentation.SetStaticMetaData(startTime.ToLongTimeString());
@@ -160,7 +164,7 @@ namespace Cryptool.Plugins.NetworkInput
                     while ((bytesRead = streamReader.Read(packetData)) > 0)
                     {
                         var input = new List<byte>();
-                        // Note: buffer can contain less data than buffer.Length, therefore consider bytesRead
+                        //cuts the zeros of the packet data   
                         foreach (var zero in packetData)
                         {
                             if (zero != 0)
@@ -173,6 +177,7 @@ namespace Cryptool.Plugins.NetworkInput
                             }
                         }
 
+                        //updates the presentation
                         presentation.AddPresentationPackage(new PresentationPackage
                         {
                             IPFrom = endPoint.Address.ToString(),
@@ -180,6 +185,7 @@ namespace Cryptool.Plugins.NetworkInput
                         });
                         presentation.RefreshMetaData(input.Count);
 
+                        //sends input data
                         clientSocket.SendTo(input.ToArray(), endPoint);
                     }
                 }
@@ -201,7 +207,6 @@ namespace Cryptool.Plugins.NetworkInput
         public void PostExecution()
         {
             clientSocket.Close();
-            //streamReader.Close();
         }
 
         /// <summary>

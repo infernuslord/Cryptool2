@@ -5,24 +5,54 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The User Datagram Protocol (UDP) is a simple protocol to send data over a IP network to a specific  Port.
+    It is a connectionless protocol, which means that it is quick and easy, but also unreliable.
+    For example, there is no guarantee that packets arrive in the correct order.
+    UDP was standardised 1980 and is used among others for VOIP.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Das User Datagram Protocol (UDP) ist ein einfaches Protokol zur versendung von Daten über ein IP Netzwerk an einen bestimmten Port.
+    Es ist ein Verbindungsloses Protokol, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
+    Zum Beispiel, gibt es keine Garantie dass Pakete in der richtigen Reihenfolge ankommen.
+    UDP wurde 1980 standardisiert und wird unter anderem für VOIP verwendet.
   </introduction>
 
   <usage lang="en">
+    After dragging the UDP Sender component onto your workspace,  you will
+    have to set a Port and an IP Address in the component's settings.
+    
+    The component is now sending the input data to the IP Adress and port you specified.
   </usage>
 
   <usage lang="de-DE">
+    Nachdem Sie die UDP Sender Komponente auf den Arbeitsbereich gezogen haben, müssen sie
+    einen Port und eine IP Adresse in den Komponenten Einstellungen festlegen.
+
+    Die Komponente sendet nun die Eingabedaten an die von ihnen eingegebene IP Adress und den Port.
   </usage>
-  
+
   <presentation lang="en">
+    The Presentation shows you all sended Packages plus the time of sending.
   </presentation>
-  
+
   <presentation lang="de-DE">
+    Die Präsentation zeigt Ihnen alle gesendeten Pakete sowie den Zeitpunkt des Sendens.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/User_Datagram_Protocol" lang="en" />
+      <caption lang="en">UDP at Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/User_Datagram_Protocol" lang="de-DE" />
+      <caption lang="de-DE">UDP bei Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://tools.ietf.org/html/rfc768" lang="en" />
+      <caption lang="en">RFC 768 STANDARD</caption>
+      <link url="http://tools.ietf.org/html/rfc768" lang="de-DE" />
+      <caption lang="de-DE">RFC 768 STANDARD</caption>
+    </linkReference>
   </references>
 </documentation>
