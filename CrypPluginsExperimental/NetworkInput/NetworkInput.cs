@@ -29,11 +29,9 @@ using NetworkInput.Model;
 
 namespace Cryptool.Plugins.NetworkInput
 {
-    // HOWTO: Change author name, email address, organization and URL.
+
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "Uni Kassel", "http://cryptool2.vs.uni-due.de")]
     [PluginInfo("NetworkInput.Properties.Resources", "NetworkInput", "Subtract one number from another", "NetwokrInput/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class NetworkInput : ICrypComponent
     {
