@@ -50,6 +50,9 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         public Code39(DimCodeEncoder caller) : base(caller) {/*empty*/}
 
+        /// <summary>
+        /// see superclass
+        /// </summary>
         protected override Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
@@ -57,9 +60,9 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                 Format = BarcodeFormat.CODE_39,
                 Options = new EncodingOptions
                 {
+                    Margin = 5,
                     Height = 100,
-                    Width = 300// it automaticly gets bigger 
-                    
+                    Width = 300// it automaticly gets bigger
                 }
             };
 
@@ -75,43 +78,45 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
             return  barcodeWriter.Write(payload);
         }
-     
+        /// <summary>
+        /// see superclass
+        /// </summary>
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)
         {
-
-            var inp = new List<byte>(); // we do not know the exact size now
-            for (int i = 0; i < 80; i++) // but 80 is the uppersize
+            if(input.Length > 80)//80 is the maximum for c39
             {
-                if (input.Length > i)
-                {
-                    if (input[i] != 0)
-                    {
-                        inp.Add(input[i]);
-                    }
-                    else
-                    {   //if it is 0, the cryptStream buffer was bigger than the user input, so we ignore the rest
-                        return inp.ToArray();
-                    }
-                }
+                var inp = new byte[80];
+                Array.Copy(input,inp, 80);
+                return inp;
             }
-            return inp.ToArray();
+            
+            return input;
         }
 
+        /// <summary>
+        /// see superclass
+        /// </summary>
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
         {
             if (Encoding.ASCII.GetChars(input).Any(c => Code39CharToInt(c)  == -1))
             {
-                caller.GuiLogMessage("CODE39_INVALIDE_INPUT", NotificationLevel.Error); // TODO
+                caller.GuiLogMessage(Resources.CODE39_INVALIDE_INPUT, NotificationLevel.Error);
                 return false;
             }
             return true;
         }
 
+        /// <summary>
+        /// see superclass
+        /// </summary>
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
             return new List<LegendItem> { startEndLegend, ivcLegend };
         }
 
+        /// <summary>
+        /// see superclass
+        /// </summary>s
         protected override Image GeneratePresentationBitmap(Image input, DimCodeEncoderSettings settings)
         {
             var bitmap = new Bitmap(input);
@@ -120,7 +125,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             var barHight = 0;
 
             #region color start region
-            for (int x = 0; barSpaceCount < 6; x++)
+            for (int x = 0; barSpaceCount < 10; x++)
             {
                 if (bitmap.GetPixel(x, bitmap.Height / 2).R == Color.Black.R)
                 {
@@ -146,33 +151,25 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                 }
 
                 if (barSpaceCount > 0)
-                {
                     bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite);
-                }
+                
             }
 
             #endregion
            
             #region color endregion and checksum
 
-          
             barSpaceCount = 0;
             isOnBlackBar = false;
-            barHight = 0;
 
-            for (int x = 0; barSpaceCount <= 6; x++)
-            { 
-                if (bitmap.GetPixel(x, bitmap.Height/2).R == Color.Black.R)
+            for (int x = bitmap.Width - 1; barSpaceCount <= 19; x--)
+            {
+                if (bitmap.GetPixel(x, bitmap.Height / 2).R == Color.Black.R)
                 {
                     if (!isOnBlackBar)
                     {
                         barSpaceCount++;
                         isOnBlackBar = true;
-                    }
-                   
-                    if(barHight == 0)
-                    {
-                        barHight = CalcBarHight(bitmap, x);
                     }
                 }
                 else
@@ -182,15 +179,11 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                         barSpaceCount++;
                         isOnBlackBar = false;
                     }
-                   
                 }
 
-                  if (barSpaceCount <= 5)
-                        bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite); 
-
-                   else if (settings.AppendICV)
-                         bitmap = FillBitmapOnX(x, 0, barHight, bitmap, ivcLegend.ColorBlack, ivcLegend.ColorWhite);
-
+                if (barSpaceCount > 0)
+                bitmap = barSpaceCount <= 9 ? FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite)
+                                            : FillBitmapOnX(x, 0, barHight, bitmap, ivcLegend.ColorBlack, ivcLegend.ColorWhite);
             }
             #endregion
 

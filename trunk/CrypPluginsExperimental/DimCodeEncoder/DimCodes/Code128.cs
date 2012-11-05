@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -55,6 +57,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                 Format = BarcodeFormat.CODE_128,
                 Options = new EncodingOptions
                 {
+                    Margin = 1,
                     Height = 100,
                     Width = 300
                 }
@@ -65,22 +68,14 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            var inp = new List<byte>(); // we do not know the exact size now
-            for (int i = 0; i < 80; i++) // but 80 is the uppersize
+            if (input.Length > 80)//80 is the maximum for c39
             {
-                if (input.Length > i)
-                {
-                    if (input[i] != 0)
-                    {
-                        inp.Add(input[i]);
-                    }
-                    else
-                    {   //if it is 0, the cryptStream buffer was bigger than the user input, so we ignore the rest
-                        return inp.ToArray();
-                    }
-                }
+                var inp = new byte[80];
+                Array.Copy(input, inp, 80);
+                return inp;
             }
-            return inp.ToArray();
+
+            return input;
         }
 
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
@@ -105,16 +100,16 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
             #region left 6 bars
             for (int x = 0; barSpaceCount <= 6; x++)
-            { 
-                if (bitmap.GetPixel(x, bitmap.Height/2).R == Color.Black.R)
+            {
+                if (bitmap.GetPixel(x, bitmap.Height / 2).R == Color.Black.R)
                 {
                     if (!isOnBlackBar)
                     {
                         barSpaceCount++;
                         isOnBlackBar = true;
                     }
-                   
-                    if(barHight == 0)
+
+                    if (barHight == 0)
                     {
                         barHight = CalcBarHight(bitmap, x);
                     }
@@ -126,13 +121,12 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                         barSpaceCount++;
                         isOnBlackBar = false;
                     }
-                   
                 }
 
+
                 if(barSpaceCount > 0)
-                {
                     bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite); 
-                }
+                
             }
             #endregion
             barSpaceCount = 0;
@@ -155,19 +149,13 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
                         barSpaceCount++;
                         isOnBlackBar = false;
                     }
-
                 }
 
-                if (barSpaceCount > 0 && barSpaceCount <=7)
-                {
-                    bitmap = FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite);
-                }
-                else if (barSpaceCount > 7)
-                {
-                    bitmap = FillBitmapOnX(x, 0, barHight, bitmap, ivcLegend.ColorBlack, ivcLegend.ColorWhite);
-                }
-            #endregion
+                if (barSpaceCount > 0)
+                bitmap = barSpaceCount <=6 ? FillBitmapOnX(x, 0, barHight, bitmap, startEndLegend.ColorBlack, startEndLegend.ColorWhite) 
+                                            : FillBitmapOnX(x, 0, barHight, bitmap, ivcLegend.ColorBlack, ivcLegend.ColorWhite);
             }
+            #endregion
             return bitmap;
         }
       

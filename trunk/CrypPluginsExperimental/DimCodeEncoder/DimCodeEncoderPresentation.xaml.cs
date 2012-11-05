@@ -41,15 +41,23 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
         #region secure setter
 
-        public void SetImages(byte[] explaindImg, byte[] pureImg  )
+        public void SetImages(byte[] explaindImg, byte[] pureImg , bool replaceBackground)
         {
-            var bgc = Color.FromArgb(0xAF,0xFF,0xD4,0xC1);
-
+            
             var imageJar = new ImageSource[2];
             var c = new ImageConverter();
-            imageJar[0] = (ImageSource) ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(explaindImg), Color.White, bgc));
-            imageJar[1] = (ImageSource) ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(pureImg), Color.White, bgc)); 
-            
+            if (replaceBackground)
+            {
+                var bgc = Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1);
+                imageJar[0] = (ImageSource)ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(explaindImg), Color.White, bgc));
+                imageJar[1] = (ImageSource)ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(pureImg), Color.White, bgc)); 
+            } 
+            else
+            {
+                imageJar[0] = (ImageSource)ConvertToBitmapSource((Bitmap)c.ConvertFrom(explaindImg));
+                imageJar[1] = (ImageSource)ConvertToBitmapSource((Bitmap)c.ConvertFrom(pureImg));  
+            }
+             
             imageJar[0].Freeze();
             imageJar[1].Freeze();
 
