@@ -94,6 +94,7 @@
     <Compile Include="DimCodes\EAN8.cs" />
     <Compile Include="DimCodes\Code39.cs" />
     <Compile Include="DimCodes\DataMatrix.cs" />
+    <Compile Include="DimCodes\PDF417.cs" />
     <Compile Include="DimCodes\QRCode.cs" />
     <Compile Include="DimCodes\Code128.cs" />
     <Compile Include="LockBitmap.cs" />

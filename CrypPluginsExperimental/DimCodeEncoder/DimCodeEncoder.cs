@@ -34,19 +34,23 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
 
         private Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode>();
-        private readonly DimCodeEncoderSettings settings = new DimCodeEncoderSettings();
+        private readonly DimCodeEncoderSettings settings;
         private DimCodeEncoderPresentation presentation = new DimCodeEncoderPresentation();
         
         #endregion
         
         public DimCodeEncoder()
         {
+            settings = new DimCodeEncoderSettings(this);
+
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new DimCodes.EAN8(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new DimCodes.EAN13(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code39, new DimCodes.Code39(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code128, new DimCodes.Code128(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new DimCodes.QRCode(this));
             codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.DataMatrix, new DimCodes.DataMatrix(this));
+            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.PDF417, new DimCodes.PDF417(this));
+
         }
 
         #region Data Properties
@@ -98,15 +102,16 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public void Execute()
         {
-            Benchmark.Start();
             ProgressChanged(0, 1);
-            if (InputStream.Length >= 1)
+            Benchmark.Start();
+
+            if (InputStream != null && InputStream.Length >= 1)
             {
                 var dimCode = codeTypeHandler[settings.EncodingType].Encode(InputStream, settings);
                 if (dimCode != null) //input is valid
                 {
                     //update Presentation
-                    presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap);
+                    presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap,false); 
                     presentation.SetList(dimCode.Legend);
     
                     //update output
@@ -114,10 +119,12 @@ namespace Cryptool.Plugins.DimCodeEncoder
                     OnPropertyChanged("PictureBytes");
                 }
             }
+
             Benchmark.End();
-            Console.WriteLine(Benchmark.GetSeconds());
+            Console.WriteLine("-GeneratePresentationBitmap:{0}", Benchmark.GetSeconds());
             ProgressChanged(1, 1);
         }
+
         #region std functions
         /// <summary>
         /// Called once after workflow execution has stopped.

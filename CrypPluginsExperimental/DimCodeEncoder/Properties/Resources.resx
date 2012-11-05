@@ -169,7 +169,7 @@
     <value> </value>
   </data>
   <data name="DM_COLUMNID_LABLE" xml:space="preserve">
-    <value>Colum Identificator</value>
+    <value>Column Identificator</value>
   </data>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
     <value> </value>
@@ -221,5 +221,20 @@
   </data>
   <data name="QR_ALIG_LABLE" xml:space="preserve">
     <value>Alignment Detection</value>
+  </data>
+  <data name="CODE39_INVALIDE_INPUT" xml:space="preserve">
+    <value>Invalide Input</value>
+  </data>
+  <data name="PDF417_ROWID_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="PDF417_ROWID_LABLE" xml:space="preserve">
+    <value>Row  Identificator</value>
+  </data>
+  <data name="PDF417_SEPAT_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="PDF417_SEPAT_LABLE" xml:space="preserve">
+    <value>Start and End Pattern</value>
   </data>
 </root>

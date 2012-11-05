@@ -160,6 +160,15 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Invalide Input ähnelt.
+        /// </summary>
+        internal static string CODE39_INVALIDE_INPUT {
+            get {
+                return ResourceManager.GetString("CODE39_INVALIDE_INPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Barcode Encoder ähnelt.
         /// </summary>
         internal static string DimCodeEncoderCaption {
@@ -214,7 +223,7 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Colum Identificator ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Column Identificator ähnelt.
         /// </summary>
         internal static string DM_COLUMNID_LABLE {
             get {
@@ -336,6 +345,42 @@ namespace DimCodeEncoder.Properties {
         internal static string IncommingDataTooltip {
             get {
                 return ResourceManager.GetString("IncommingDataTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string PDF417_ROWID_DISC {
+            get {
+                return ResourceManager.GetString("PDF417_ROWID_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Row  Identificator ähnelt.
+        /// </summary>
+        internal static string PDF417_ROWID_LABLE {
+            get {
+                return ResourceManager.GetString("PDF417_ROWID_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string PDF417_SEPAT_DISC {
+            get {
+                return ResourceManager.GetString("PDF417_SEPAT_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start and End Pattern ähnelt.
+        /// </summary>
+        internal static string PDF417_SEPAT_LABLE {
+            get {
+                return ResourceManager.GetString("PDF417_SEPAT_LABLE", resourceCulture);
             }
         }
         

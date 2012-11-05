@@ -29,20 +29,22 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
         private readonly List<string> inputList = new List<string>();  
         private readonly Dictionary<DimCodeType, List<string>> inputVisibility = new Dictionary<DimCodeType,List<string>>();
-          
+        private readonly DimCodeEncoder caller;
         #region input Variables
 
         private bool appendICV = true;
         private DimCodeType encodingType;
+        private bool pdf417CompactMode;
 
         #endregion
 
-        public enum DimCodeType { EAN13, EAN8, Code39, Code128, QRCode, DataMatrix };
+        public enum DimCodeType { EAN13, EAN8, Code39, Code128, QRCode, DataMatrix, PDF417 };
 
         #endregion
 
-        public DimCodeEncoderSettings()
+        public DimCodeEncoderSettings(DimCodeEncoder caller)
         {
+            this.caller = caller;
             //init for each enum inputVisibilityLists 
             foreach (DimCodeType name in Enum.GetValues(typeof(DimCodeType)))
             {
@@ -56,7 +58,6 @@ namespace Cryptool.Plugins.DimCodeEncoder
             inputVisibility[DimCodeType.EAN8].Add("AppendICV");
             inputVisibility[DimCodeType.EAN13].Add("AppendICV");
             inputVisibility[DimCodeType.Code39].Add("AppendICV");
-
             UpdateTaskPaneVisibility();
         }
 
@@ -64,7 +65,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
 
         #region TaskPane Settings
 
-        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8", "Code39", "Code128", "QRCode", "DataMatrix" })]
+        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8", "Code39", "Code128", "QRCode", "DataMatrix", "PDF417" })]
         public DimCodeType EncodingType
         {
             get { return encodingType; }
@@ -73,6 +74,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
                 if (value != encodingType)
                 {
                     encodingType = value;
+                    caller.Execute();
                     OnPropertyChanged("EncodingType");
                     UpdateTaskPaneVisibility();
                     
@@ -98,6 +100,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
             }
         }
 
+       
         #endregion
 
         #region Visualisation updates

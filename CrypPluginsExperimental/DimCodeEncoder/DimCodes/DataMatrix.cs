@@ -51,29 +51,33 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override Image GenerateBitmap(byte[] input, DimCodeEncoderSettings settings)
         {
+            // tradeof quality vs rendertime
+            int size = 2;
+            if (input.Length < 30)
+                size = 10;
+            else if (input.Length < 100)
+                size = 6;
+            else if (input.Length < 200)
+                size = 5;
+            else if (input.Length < 400)
+                size = 4;
+            else if (input.Length < 600)
+                size = 3;
+
             var encoder = new DmtxImageEncoder();
-            var options = new DmtxImageEncoderOptions {ModuleSize = 10, MarginSize = 3};
+            var options = new DmtxImageEncoderOptions {ModuleSize = size, MarginSize = 5 };
             var payload = Encoding.ASCII.GetString(input);
             return encoder.EncodeImage(payload, options);
         }
 
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)
         {
-
-            var inp = new List<byte>(); // we do not know the exact size now
-            foreach (byte t in input)
-            {
-                if (t != 0)
-                    inp.Add(t);
-                else //if it is 0, the cryptStream buffer was bigger than the user input, so we ignore the rest
-                    return inp.ToArray();
-            }
-            return inp.ToArray();
+            return input;
         }
 
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            return true; //TODO
+            return true;
         }
 
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
@@ -150,19 +154,19 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             lockBitmap.UnlockBits();
             #endregion
 
-            //mark  alignment
-            bitmap = FillArea(leftX, leftX + barWidth, upperY, upperY + codeHight,
-                                bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
-
-            bitmap = FillArea(leftX + barWidth, leftX + codeWidth, upperY + codeHight - barWidth, upperY + codeHight,
-                               bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
-
             // mark column identificator
             bitmap = FillArea(leftX, leftX + codeWidth, upperY, upperY + barWidth,
                                 bitmap, columnIDLegend.ColorBlack, columnIDLegend.ColorWhite);
 
             bitmap = FillArea(leftX + codeHight - barWidth, leftX + codeWidth, upperY, upperY + codeWidth,
                                 bitmap, columnIDLegend.ColorBlack, columnIDLegend.ColorWhite);
+
+             //mark  alignment
+            bitmap = FillArea(leftX, leftX + barWidth, upperY, upperY + codeHight,
+                                bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
+
+            bitmap = FillArea(leftX + barWidth, leftX + codeWidth, upperY + codeHight - barWidth, upperY + codeHight,
+                               bitmap, alignmentLegend.ColorBlack, alignmentLegend.ColorWhite);
 
             //TODO
             return bitmap;

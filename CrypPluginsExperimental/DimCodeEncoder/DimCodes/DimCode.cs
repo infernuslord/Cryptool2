@@ -43,12 +43,12 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             if (VerifyInput(input, settings))
             {
                 var pureBitmap = GenerateBitmap(input, settings);
-
+                var preBitmap = GeneratePresentationBitmap(pureBitmap, settings);
                 return new DimCodeReturnValue
                            {
                                Legend = GetLegend(input, settings),
                                PureBitmap = imageToByteArray(pureBitmap),
-                               PresentationBitmap = imageToByteArray(GeneratePresentationBitmap(pureBitmap, settings))
+                               PresentationBitmap = imageToByteArray(preBitmap)
                            };
             }
             return null;
@@ -150,6 +150,8 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             LockBitmap lockBitmap = new LockBitmap(bitmap);
             lockBitmap.LockBits();
+        
+
             for (; yFrom <= yTo; yFrom++)
             {
                 lockBitmap.SetPixel(x, yFrom, lockBitmap.GetPixel(x, yFrom).R == Color.Black.R ? cBlack : cWhite);
