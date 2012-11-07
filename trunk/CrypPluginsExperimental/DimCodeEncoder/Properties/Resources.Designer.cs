@@ -88,7 +88,8 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The ICV is calculated from a weighted
+        ///sum (modulo 103) of all the characters. ähnelt.
         /// </summary>
         internal static string C128_ICV_DISC {
             get {
@@ -106,7 +107,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There are three distinct start pattern 
+        ///that determine, in which way the
+        ///Code was encoded. However, the 
+        ///end pattern is always the same ähnelt.
         /// </summary>
         internal static string C128_STARTEND_DISC {
             get {
@@ -115,7 +119,7 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Start and End Symbol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start and End Pattern ähnelt.
         /// </summary>
         internal static string C128_STARTEND_LABLE {
             get {
@@ -124,7 +128,8 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The ICV is calculated from a weighted
+        ///sum (modulo 43) of all the characters. ähnelt.
         /// </summary>
         internal static string C38_ICV_DISC {
             get {
@@ -142,7 +147,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Start and End Symbol is a &apos;*&apos;. 
+        ///With the aid of the symbol, the
+        ///code can be read reliably, even if
+        ///it is read backwards. ähnelt.
         /// </summary>
         internal static string C38_STARTEND_DISC {
             get {
@@ -232,7 +240,11 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly Orientations
+        ///points for the reader. 
+        ///In Fact, the reader needs to know when 
+        ///its at the middle of the code,  because
+        ///the encoding changes at that point ähnelt.
         /// </summary>
         internal static string EAN13_FIXED_DISC {
             get {
@@ -250,7 +262,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The checksum is calculated taking a 
+        ///varying weight value times the value 
+        ///of each number in the barcode to 
+        ///make a sum (modulo 10). ähnelt.
         /// </summary>
         internal static string EAN13_ICV_DISC {
             get {
@@ -268,7 +283,11 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly Orientations
+        ///points for the reader. 
+        ///In Fact, the reader needs to know when 
+        ///its at the middle of the code,  because
+        ///the encoding changes at that point ähnelt.
         /// </summary>
         internal static string EAN8_FIXED_DISC {
             get {
@@ -286,7 +305,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The checksum is calculated taking a 
+        ///varying weight value times the value 
+        ///of each number in the barcode to 
+        ///make a sum (modulo 10). ähnelt.
         /// </summary>
         internal static string EAN8_ICV_DISC {
             get {
@@ -367,7 +389,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die With the aid of the Pattern, the
+        ///code can be read reliably, even if
+        ///it is read upside down or 
+        ///backwards. ähnelt.
         /// </summary>
         internal static string PDF417_SEPAT_DISC {
             get {
@@ -417,6 +442,60 @@ namespace DimCodeEncoder.Properties {
         internal static string QR_ALIG_LABLE {
             get {
                 return ResourceManager.GetString("QR_ALIG_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string QR_FORMAT_DISC {
+            get {
+                return ResourceManager.GetString("QR_FORMAT_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Format Informations ähnelt.
+        /// </summary>
+        internal static string QR_FORMAT_LABLE {
+            get {
+                return ResourceManager.GetString("QR_FORMAT_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string QR_NORMAL_DISC {
+            get {
+                return ResourceManager.GetString("QR_NORMAL_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string QR_NORMAL_LABLE {
+            get {
+                return ResourceManager.GetString("QR_NORMAL_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        /// </summary>
+        internal static string QR_VERSION_DISC {
+            get {
+                return ResourceManager.GetString("QR_VERSION_DISC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Version Informations ähnelt.
+        /// </summary>
+        internal static string QR_VERSION_LABLE {
+            get {
+                return ResourceManager.GetString("QR_VERSION_LABLE", resourceCulture);
             }
         }
     }

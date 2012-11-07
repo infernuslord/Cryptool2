@@ -87,47 +87,38 @@ namespace Cryptool.Plugins.DimCodeEncoder
                     legend2.Visibility = System.Windows.Visibility.Hidden;
                     legend3.Visibility = System.Windows.Visibility.Hidden;
                     legend4.Visibility = System.Windows.Visibility.Hidden;
-                    legend5.Visibility = System.Windows.Visibility.Hidden;
 
                     if (legend.Count >= 1)
                     {
                         legend1.Visibility = System.Windows.Visibility.Visible;
                         lable1.Content = legend[0].LableValue;
-                        disc1.Content = legend[0].DiscValue;
+                        disc1.Text = legend[0].DiscValue;
                         ellipse1.Fill = ContvertColorToBrush(legend[0].ColorBlack);
                     }
                    if (legend.Count >= 2) 
                     {
                         legend2.Visibility = System.Windows.Visibility.Visible;
                         lable2.Content = legend[1].LableValue;
-                        disc2.Content = legend[1].DiscValue;
+                        disc2.Text = legend[1].DiscValue;
                         ellipse2.Fill = ContvertColorToBrush(legend[1].ColorBlack);
                     }
                    if (legend.Count >= 3)
                    {
                        legend3.Visibility = System.Windows.Visibility.Visible;
                        lable3.Content = legend[2].LableValue;
-                       disc3.Content = legend[2].DiscValue;
+                       disc3.Text = legend[2].DiscValue;
                        ellipse3.Fill = ContvertColorToBrush(legend[2].ColorBlack);
                    }
                    if (legend.Count >= 4)
                    {
                        legend4.Visibility = System.Windows.Visibility.Visible;
                        lable4.Content = legend[3].LableValue;
-                       disc4.Content = legend[3].DiscValue;
+                       disc4.Text = legend[3].DiscValue;
                        ellipse4.Fill = ContvertColorToBrush(legend[3].ColorBlack);
-                   }
-                   if (legend.Count >= 5)
-                   {
-                       legend5.Visibility = System.Windows.Visibility.Visible;
-                       lable5.Content = legend[4].LableValue;
-                       disc5.Content = legend[4].DiscValue;
-                       ellipse5.Fill = ContvertColorToBrush(legend[4].ColorBlack);
                    }
                  }
                 catch
                 {
-                    throw; //TODO REMOVE 
                 }
             }), legend);
         }
