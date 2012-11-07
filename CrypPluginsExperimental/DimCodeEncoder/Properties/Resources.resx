@@ -127,25 +127,33 @@
     <value>properties of barcode</value>
   </data>
   <data name="C128_ICV_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The ICV is calculated from a weighted
+sum (modulo 103) of all the characters.</value>
   </data>
   <data name="C128_ICV_LABLE" xml:space="preserve">
     <value>Integrity Check Value</value>
   </data>
   <data name="C128_STARTEND_DISC" xml:space="preserve">
-    <value> </value>
+    <value>There are three distinct start pattern 
+that determine, in which way the
+Code was encoded. However, the 
+end pattern is always the same</value>
   </data>
   <data name="C128_STARTEND_LABLE" xml:space="preserve">
-    <value>Start and End Symbol</value>
+    <value>Start and End Pattern</value>
   </data>
   <data name="C38_ICV_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The ICV is calculated from a weighted
+sum (modulo 43) of all the characters.</value>
   </data>
   <data name="C38_ICV_LABLE" xml:space="preserve">
     <value>Integrity Check Value</value>
   </data>
   <data name="C38_STARTEND_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The Start and End Symbol is a '*'. 
+With the aid of the symbol, the
+code can be read reliably, even if
+it is read backwards.</value>
   </data>
   <data name="C38_STARTEND_LABLE" xml:space="preserve">
     <value>Start and End Symbol</value>
@@ -172,25 +180,39 @@
     <value>Column Identificator</value>
   </data>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The fixed Bars are mainly Orientations
+points for the reader. 
+In Fact, the reader needs to know when 
+its at the middle of the code,  because
+the encoding changes at that point</value>
   </data>
   <data name="EAN13_FIXED_LABLE" xml:space="preserve">
     <value>Fixed reference point</value>
   </data>
   <data name="EAN13_ICV_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The checksum is calculated taking a 
+varying weight value times the value 
+of each number in the barcode to 
+make a sum (modulo 10).</value>
   </data>
   <data name="EAN13_ICV_LABLE" xml:space="preserve">
     <value>Integrity Check Value</value>
   </data>
   <data name="EAN8_FIXED_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The fixed Bars are mainly Orientations
+points for the reader. 
+In Fact, the reader needs to know when 
+its at the middle of the code,  because
+the encoding changes at that point</value>
   </data>
   <data name="EAN8_FIXED_LABLE" xml:space="preserve">
     <value>Fixed Reference Point</value>
   </data>
   <data name="EAN8_ICV_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The checksum is calculated taking a 
+varying weight value times the value 
+of each number in the barcode to 
+make a sum (modulo 10).</value>
   </data>
   <data name="EAN8_ICV_LABLE" xml:space="preserve">
     <value>Integrity Check Value</value>
@@ -232,9 +254,30 @@
     <value>Row  Identificator</value>
   </data>
   <data name="PDF417_SEPAT_DISC" xml:space="preserve">
-    <value> </value>
+    <value>With the aid of the Pattern, the
+code can be read reliably, even if
+it is read upside down or 
+backwards.</value>
   </data>
   <data name="PDF417_SEPAT_LABLE" xml:space="preserve">
     <value>Start and End Pattern</value>
+  </data>
+  <data name="QR_FORMAT_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="QR_FORMAT_LABLE" xml:space="preserve">
+    <value>Format Informations</value>
+  </data>
+  <data name="QR_VERSION_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="QR_VERSION_LABLE" xml:space="preserve">
+    <value>Version Informations</value>
+  </data>
+  <data name="QR_NORMAL_DISC" xml:space="preserve">
+    <value />
+  </data>
+  <data name="QR_NORMAL_LABLE" xml:space="preserve">
+    <value />
   </data>
 </root>
