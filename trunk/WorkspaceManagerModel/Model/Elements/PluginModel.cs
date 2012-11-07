@@ -568,18 +568,20 @@ namespace WorkspaceManager.Model
                             else if (connectorModel.ConnectorType.FullName == "System.String" && data.GetType().FullName == "Cryptool.PluginBase.IO.CStreamWriter")
                             {
                                 var writer = (CStreamWriter)data;
-                                var reader = writer.CreateReader();
-                                var buffer = new byte[MaxStrStreamConversionLength];
-                                var readamount = reader.ReadFully(buffer, 0, MaxStrStreamConversionLength);
-                                if (readamount > 0)
+                                using(var reader = writer.CreateReader())
                                 {
-                                    var encoding = new UTF8Encoding();
-                                    var str = encoding.GetString(buffer, 0, readamount);
-                                    data = str;
-                                }
-                                else
-                                {
-                                    data = String.Empty;
+                                    var buffer = new byte[MaxStrStreamConversionLength];
+                                    var readamount = reader.Read(buffer, 0, MaxStrStreamConversionLength);
+                                    if (readamount > 0)
+                                    {
+                                        var encoding = new UTF8Encoding();
+                                        var str = encoding.GetString(buffer, 0, readamount);
+                                        data = str;
+                                    }
+                                    else
+                                    {
+                                        data = String.Empty;
+                                    }
                                 }
                             }
 
