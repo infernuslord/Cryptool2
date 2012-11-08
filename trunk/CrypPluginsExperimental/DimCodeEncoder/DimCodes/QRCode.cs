@@ -50,7 +50,13 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
             LableValue = Resources.QR_VERSION_LABLE,
             DiscValue = Resources.QR_VERSION_DISC,
         };
-       
+        private readonly LegendItem dataLegend = new LegendItem
+        {
+            ColorBlack = Color.Black,
+            ColorWhite = Color.White,
+            LableValue = Resources.QR_NORMAL_LABLE,
+            DiscValue = Resources.QR_NORMAL_DISC,
+        };
 
         #endregion
 
@@ -85,7 +91,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
-            var legend = new List<LegendItem> { alignmentLegend, versionAreaLegend, formatAreaLegend };
+            var legend = new List<LegendItem> { alignmentLegend, dataLegend, versionAreaLegend, formatAreaLegend };
 
            
            return legend;
