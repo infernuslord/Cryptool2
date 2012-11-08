@@ -124,12 +124,12 @@
     <value>Kryptutoriale</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Kryptuoriale</value>
+    <value>Kryptutoriale</value>
   </data>
   <data name="Show_Video" xml:space="preserve">
     <value>Zeige Video</value>
   </data>
   <data name="Welcome_Cryptutorials" xml:space="preserve">
-    <value>Willkommen bei den Kryptutorialen. Hier können Sie sich YouTube videos (Tutoriale) anschauen, die Ihnen die Arbeit mit CrypTool 2.0 erläutern.</value>
+    <value>Willkommen bei den Kryptutorialen. Hier können Sie sich YouTube-Videos (Tutoriale) anschauen, die Ihnen die Arbeit mit CrypTool 2 erläutern.</value>
   </data>
 </root>

@@ -6,7 +6,7 @@
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
              xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
              xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
-             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc">
+             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
