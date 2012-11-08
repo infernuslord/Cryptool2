@@ -168,21 +168,24 @@ it is read backwards.</value>
     <value>Barcode</value>
   </data>
   <data name="DM_ALIG_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The alignment pattern is static.  
+ It gives ability to read the code at  
+every alignment.</value>
   </data>
   <data name="DM_ALIG_LABLE" xml:space="preserve">
     <value>Alignment Detection</value>
   </data>
   <data name="DM_COLUMNID_DISC" xml:space="preserve">
-    <value> </value>
+    <value>This pattern helps the reader to easily  
+find the differend data column in the Code.</value>
   </data>
   <data name="DM_COLUMNID_LABLE" xml:space="preserve">
     <value>Column Identificator</value>
   </data>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
-    <value>The fixed Bars are mainly Orientations
+    <value>The fixed Bars are mainly orientations
 points for the reader. 
-In Fact, the reader needs to know when 
+In fact, the reader needs to know when 
 its at the middle of the code,  because
 the encoding changes at that point</value>
   </data>
@@ -199,9 +202,9 @@ make a sum (modulo 10).</value>
     <value>Integrity Check Value</value>
   </data>
   <data name="EAN8_FIXED_DISC" xml:space="preserve">
-    <value>The fixed Bars are mainly Orientations
+    <value>The fixed Bars are mainly orientations
 points for the reader. 
-In Fact, the reader needs to know when 
+In fact, the reader needs to know when 
 its at the middle of the code,  because
 the encoding changes at that point</value>
   </data>
@@ -239,7 +242,9 @@ make a sum (modulo 10).</value>
     <value>Your Barcode as a picture.</value>
   </data>
   <data name="QR_ALIG_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The alignment pattern is static.  
+ It gives ability to read the code at  
+every alignment.</value>
   </data>
   <data name="QR_ALIG_LABLE" xml:space="preserve">
     <value>Alignment Detection</value>
@@ -248,13 +253,14 @@ make a sum (modulo 10).</value>
     <value>Invalide Input</value>
   </data>
   <data name="PDF417_ROWID_DISC" xml:space="preserve">
-    <value> </value>
+    <value>This pattern helps the reader to easily  
+find the differend data rows in the Code.</value>
   </data>
   <data name="PDF417_ROWID_LABLE" xml:space="preserve">
     <value>Row  Identificator</value>
   </data>
   <data name="PDF417_SEPAT_DISC" xml:space="preserve">
-    <value>With the aid of the Pattern, the
+    <value>With the aid of the pattern, the
 code can be read reliably, even if
 it is read upside down or 
 backwards.</value>
@@ -275,9 +281,12 @@ backwards.</value>
     <value>Version Informations</value>
   </data>
   <data name="QR_NORMAL_DISC" xml:space="preserve">
-    <value />
+    <value>In this area, the data are shown  
+redundant, so that it can be read 
+reliably even if  pieces of code  
+are covered</value>
   </data>
   <data name="QR_NORMAL_LABLE" xml:space="preserve">
-    <value />
+    <value>Data</value>
   </data>
 </root>

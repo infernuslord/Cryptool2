@@ -204,7 +204,9 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The alignment pattern is static.  
+        /// It gives ability to read the code at  
+        ///every alignment. ähnelt.
         /// </summary>
         internal static string DM_ALIG_DISC {
             get {
@@ -222,7 +224,8 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This pattern helps the reader to easily  
+        ///find the differend data column in the Code. ähnelt.
         /// </summary>
         internal static string DM_COLUMNID_DISC {
             get {
@@ -240,9 +243,9 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly Orientations
+        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
-        ///In Fact, the reader needs to know when 
+        ///In fact, the reader needs to know when 
         ///its at the middle of the code,  because
         ///the encoding changes at that point ähnelt.
         /// </summary>
@@ -283,9 +286,9 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly Orientations
+        ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
-        ///In Fact, the reader needs to know when 
+        ///In fact, the reader needs to know when 
         ///its at the middle of the code,  because
         ///the encoding changes at that point ähnelt.
         /// </summary>
@@ -371,7 +374,8 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This pattern helps the reader to easily  
+        ///find the differend data rows in the Code. ähnelt.
         /// </summary>
         internal static string PDF417_ROWID_DISC {
             get {
@@ -389,7 +393,7 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die With the aid of the Pattern, the
+        ///   Sucht eine lokalisierte Zeichenfolge, die With the aid of the pattern, the
         ///code can be read reliably, even if
         ///it is read upside down or 
         ///backwards. ähnelt.
@@ -428,7 +432,9 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The alignment pattern is static.  
+        /// It gives ability to read the code at  
+        ///every alignment. ähnelt.
         /// </summary>
         internal static string QR_ALIG_DISC {
             get {
@@ -464,7 +470,10 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die In this area, the data are shown  
+        ///redundant, so that it can be read 
+        ///reliably even if  pieces of code  
+        ///are covered ähnelt.
         /// </summary>
         internal static string QR_NORMAL_DISC {
             get {
@@ -473,7 +482,7 @@ namespace DimCodeEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data ähnelt.
         /// </summary>
         internal static string QR_NORMAL_LABLE {
             get {

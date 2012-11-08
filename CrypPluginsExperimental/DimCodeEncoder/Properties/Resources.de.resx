@@ -170,13 +170,16 @@ er falsch herum gelesen wird.</value>
     <value>Barcode</value>
   </data>
   <data name="DM_ALIG_DISC" xml:space="preserve">
-    <value> </value>
+    <value>Die Ausrichtung Muster ist immer gleich. 
+Es ermöglicht das Auslesen des Codes 
+unabhängig von seiner  Ausrichtung.</value>
   </data>
   <data name="DM_ALIG_LABLE" xml:space="preserve">
     <value>Ausrichtung Erkennung</value>
   </data>
   <data name="DM_COLUMNID_DISC" xml:space="preserve">
-    <value> </value>
+    <value>Dieses Muster hilft dem Reader die 
+verschiedenen Datenspalten zu finden.</value>
   </data>
   <data name="DM_COLUMNID_LABLE" xml:space="preserve">
     <value>Spalten Identifizierer</value>
@@ -243,7 +246,9 @@ Summe (modulo 10) addiert werden.</value>
     <value>Ihr Barcode als Bild</value>
   </data>
   <data name="QR_ALIG_DISC" xml:space="preserve">
-    <value> </value>
+    <value>Die Ausrichtung Muster ist immer gleich. 
+Es ermöglicht das Auslesen des Codes 
+unabhängig von seiner  Ausrichtung.</value>
   </data>
   <data name="QR_ALIG_LABLE" xml:space="preserve">
     <value>Ausrichtung Erkennung</value>
@@ -252,7 +257,8 @@ Summe (modulo 10) addiert werden.</value>
     <value>Ungültige Eingabe</value>
   </data>
   <data name="PDF417_ROWID_DISC" xml:space="preserve">
-    <value> </value>
+    <value>Dieses Muster hilft dem Reader die 
+verschiedenen Datenzeilen zu finden.</value>
   </data>
   <data name="PDF417_ROWID_LABLE" xml:space="preserve">
     <value>Zeilen Identifizierer</value>
@@ -266,7 +272,7 @@ er falsch herum gelesen wird.</value>
     <value>Start- und Endemuster</value>
   </data>
   <data name="QR_FORMAT_DISC" xml:space="preserve">
-    <value> </value>
+    <value />
   </data>
   <data name="QR_FORMAT_LABLE" xml:space="preserve">
     <value>Format-Informationen</value>
@@ -278,9 +284,12 @@ er falsch herum gelesen wird.</value>
     <value>Versions-Informationen</value>
   </data>
   <data name="QR_NORMAL_DISC" xml:space="preserve">
-    <value />
+    <value>In diesem Bereich werden die Daten  
+redundant dargestellt, so dass auch 
+zuverlässig ausgelesen werden kann,
+wenn Teile des Codes verdeckt sind</value>
   </data>
   <data name="QR_NORMAL_LABLE" xml:space="preserve">
-    <value />
+    <value>Daten</value>
   </data>
 </root>
