@@ -34,6 +34,7 @@ namespace Cryptool.Plugins.NetworkOutput
         private string deviceIp;
         private bool networkDevice = true;
         private readonly NetworkOutput caller;
+        private bool byteAsciiSwitch;
 
         public NetworkOutputSettings(NetworkOutput caller)
         {
@@ -55,7 +56,7 @@ namespace Cryptool.Plugins.NetworkOutput
         }
      
         #region TaskPane Settings
-        [TaskPane("NetworkDeviceCaption", "NetworkDeviceCaptionTooltip", "NetworkConditions", 1, true, ControlType.CheckBox)]
+        [TaskPane("NetworkDeviceCaption", "NetworkDeviceCaptionTooltip", "NetworkConditions", 1, false, ControlType.CheckBox)]
         public bool NetworkDevice
         {
             get { return networkDevice; }
@@ -89,7 +90,19 @@ namespace Cryptool.Plugins.NetworkOutput
             }
         }
 
-  
+        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings" , 3, false, ControlType.CheckBox)]
+        public bool ByteAsciiSwitch
+        {
+            get { return byteAsciiSwitch; }
+            set
+            {
+                if (value != byteAsciiSwitch)
+                {
+                    byteAsciiSwitch = value;
+                    OnPropertyChanged("ByteAsciiSwitch");
+                }
+            }
+        }
 
 
         [TaskPane("Port", "PortTooltip", "NetworkConditions", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]

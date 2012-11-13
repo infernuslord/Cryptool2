@@ -30,11 +30,11 @@ namespace Cryptool.Plugins.DimCodeEncoder
         private readonly List<string> inputList = new List<string>();  
         private readonly Dictionary<DimCodeType, List<string>> inputVisibility = new Dictionary<DimCodeType,List<string>>();
         private readonly DimCodeEncoder caller;
+
         #region input Variables
 
         private bool appendICV = true;
         private DimCodeType encodingType;
-        private bool pdf417CompactMode;
 
         #endregion
 
