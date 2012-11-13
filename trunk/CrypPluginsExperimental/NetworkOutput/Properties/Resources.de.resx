@@ -198,4 +198,13 @@
   <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
     <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
   </data>
+  <data name="ByteAsciiSwitchCaption" xml:space="preserve">
+    <value>Bytes als ASCII anzeigen  </value>
+  </data>
+  <data name="ByteAsciiSwitchCaptionTooltip" xml:space="preserve">
+    <value>Bytes als ASCII anzeigen</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>Präsentation</value>
+  </data>
 </root>

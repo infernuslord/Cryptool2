@@ -12,7 +12,6 @@ namespace Cryptool.Plugins.NetworkOutput
         public string TimeOfReceiving { get; set; }
         public string IPFrom { get; set; }
         public string Payload { get; set; }
-
     }
 
 }

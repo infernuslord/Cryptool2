@@ -17,7 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using Cryptool.PluginBase;
 using Cryptool.Plugins.DimCodeEncoder.Model;
 using DimCodeEncoder.Properties;
 using ZXing;
@@ -68,7 +70,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override byte[] EnrichInput(byte[] input, DimCodeEncoderSettings settings)
         {
-            if (input.Length > 80)//80 is the maximum for c39
+            if (input.Length > 80)//80 is the maximum for c128
             {
                 var inp = new byte[80];
                 Array.Copy(input, inp, 80);
@@ -80,11 +82,19 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
 
         protected override bool VerifyInput(byte[] input, DimCodeEncoderSettings settings)
         {
-          
+            if (Encoding.ASCII.GetChars(input).Any(InvalidC128Char)) //if one char  is invalid
+            {
+                caller.GuiLogMessage(Resources.CODE39_INVALIDE_INPUT, NotificationLevel.Error);
+                return false;
+            }
             return true;
         }
 
-
+        private bool InvalidC128Char(char c)
+        {
+            caller.GuiLogMessage(""+c, NotificationLevel.Warning);
+            return !((c >= 32 && c <= 126) || (c >= 200 && c <= 211));
+        }
         protected override List<LegendItem> GetLegend(byte[] input, DimCodeEncoderSettings settings)
         {
             return new List<LegendItem> {startEndLegend, ivcLegend};

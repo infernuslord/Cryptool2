@@ -70,6 +70,24 @@ namespace NetworkOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die show bytes as ASCII ähnelt.
+        /// </summary>
+        internal static string ByteAsciiSwitchCaption {
+            get {
+                return ResourceManager.GetString("ByteAsciiSwitchCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die show bytes as ASCII ähnelt.
+        /// </summary>
+        internal static string ByteAsciiSwitchCaptionTooltip {
+            get {
+                return ResourceManager.GetString("ByteAsciiSwitchCaptionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Networkdevice IP: ähnelt.
         /// </summary>
         internal static string DeviceIpCaption {
@@ -201,6 +219,15 @@ namespace NetworkOutput.Properties {
         internal static string PortTooltip {
             get {
                 return ResourceManager.GetString("PortTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation Settings ähnelt.
+        /// </summary>
+        internal static string PresentationSettings {
+            get {
+                return ResourceManager.GetString("PresentationSettings", resourceCulture);
             }
         }
         

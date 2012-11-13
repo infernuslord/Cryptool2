@@ -78,6 +78,11 @@ namespace Cryptool.Plugins.NetworkOutput
         {
             return (settings.PackageLimit < receivedPackages.Count || settings.PackageLimit == 0);
         }
+
+        private string ConvertToACII(byte[] data)
+        {
+            return System.Text.Encoding.ASCII.GetString(data);
+        }
         
         #endregion
        
@@ -170,7 +175,7 @@ namespace Cryptool.Plugins.NetworkOutput
                     presentation.AddPresentationPackage(new PresentationPackage
                     {
                         IPFrom = endPoint.Address.ToString(),
-                        Payload = BitConverter.ToString(data)
+                        Payload = (settings.ByteAsciiSwitch ? ConvertToACII(data) : BitConverter.ToString(data))
                     });
                     presentation.RefreshMetaData(receivedPackages.Count, uniqueSrcIps.Count);
 

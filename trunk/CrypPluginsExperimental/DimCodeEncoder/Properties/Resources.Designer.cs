@@ -109,7 +109,7 @@ namespace DimCodeEncoder.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There are three distinct start pattern 
         ///that determine, in which way the
-        ///Code was encoded. However, the 
+        ///code was encoded. However, the 
         ///end pattern is always the same ähnelt.
         /// </summary>
         internal static string C128_STARTEND_DISC {
@@ -225,7 +225,7 @@ namespace DimCodeEncoder.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die This pattern helps the reader to easily  
-        ///find the different data column in the Code. ähnelt.
+        ///find the different data column in the code. ähnelt.
         /// </summary>
         internal static string DM_COLUMNID_DISC {
             get {
@@ -239,6 +239,15 @@ namespace DimCodeEncoder.Properties {
         internal static string DM_COLUMNID_LABLE {
             get {
                 return ResourceManager.GetString("DM_COLUMNID_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The input contains invalid characters. Only Digits are allowed. ähnelt.
+        /// </summary>
+        internal static string EAN_INVALIDE_INPUT {
+            get {
+                return ResourceManager.GetString("EAN_INVALIDE_INPUT", resourceCulture);
             }
         }
         
@@ -375,7 +384,7 @@ namespace DimCodeEncoder.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die This pattern helps the reader to easily  
-        ///find the different data rows in the Code. ähnelt.
+        ///find the different data rows in the code. ähnelt.
         /// </summary>
         internal static string PDF417_ROWID_DISC {
             get {

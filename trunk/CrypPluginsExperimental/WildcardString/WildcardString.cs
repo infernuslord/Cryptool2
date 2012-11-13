@@ -13,67 +13,83 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.Plugins.DimCodeEncoder.DimCodes;
 
-namespace Cryptool.Plugins.DimCodeEncoder
-{
-    [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
-    [PluginInfo("DimCodeEncoder.Properties.Resources", "DimCodeEncoderCaption", "DimCodeEncoderTooltip", "DimCodeEncoder/userdoc.xml", new[] { "DimCodeEncoder/Images/icon.png" })]
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
-    public class DimCodeEncoder : ICrypComponent
+namespace Cryptool.Plugins.WildcardString{
+
+   [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
+   [PluginInfo("WildcardString.Properties.Resources", "StringInsertCaption", "StringInsertTooltip", "StringInsert/userdoc.xml", new[] { "StringInsert/Images/default.png" })]
+   [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class WildcardString : ICrypComponent
     {
-        #region Const / Variables
+        #region Private Variables
 
+       private readonly WildcardStringSettings settings = new WildcardStringSettings();
 
-        private Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode> codeTypeHandler = new Dictionary<DimCodeEncoderSettings.DimCodeType, DimCode>();
-        private readonly DimCodeEncoderSettings settings;
-        private DimCodeEncoderPresentation presentation = new DimCodeEncoderPresentation();
-        
         #endregion
-        
-        public DimCodeEncoder()
-        {
-            settings = new DimCodeEncoderSettings(this);
-
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN8, new DimCodes.EAN8(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.EAN13, new DimCodes.EAN13(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code39, new DimCodes.Code39(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.Code128, new DimCodes.Code128(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.QRCode, new DimCodes.QRCode(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.DataMatrix, new DimCodes.DataMatrix(this));
-            codeTypeHandler.Add(DimCodeEncoderSettings.DimCodeType.PDF417, new DimCodes.PDF417(this));
-
-        }
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "IncommingData", "IncommingDataTooltip")]
-        public byte[] InputStream
+        /// <summary>
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "InsertString", "InsertStringTooltip")]
+        public string InsertString
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "PictureBytesOutput", "PictureBytesOutputTooltip")]
-        public byte[] PictureBytes
+        [PropertyInfo(Direction.InputData, "String1", "StringTooltip", false)]
+        public string String1
         {
             get;
-            private set;
+            set;
+        }
+        [PropertyInfo(Direction.InputData, "String2", "StringTooltip", false)]
+        public string String2
+        {
+            get;
+            set;
+        }
+        [PropertyInfo(Direction.InputData, "String3", "StringTooltip", false)]
+        public string String3
+        {
+            get;
+            set;
+        }
+        [PropertyInfo(Direction.InputData, "String4", "StringTooltip", false)]
+        public string String4
+        {
+            get;
+            set;
+        }
+        [PropertyInfo(Direction.InputData, "String5", "StringTooltip", false)]
+        public string String5
+        {
+            get;
+            set;
+        }
+        [PropertyInfo(Direction.InputData, "String6", "StringTooltip", false)]
+        public string String6
+        {
+            get;
+            set;
+        }
+
+        [PropertyInfo(Direction.OutputData, "OutputString", "OutputStringTooltip")]
+        public string OutputString
+        {
+            get;
+            set;
         }
 
         #endregion
 
         #region IPlugin Members
-        #region std functions 
+
         /// <summary>
         /// Provide plugin-related parameters (per instance) or return null.
         /// </summary>
@@ -87,7 +103,7 @@ namespace Cryptool.Plugins.DimCodeEncoder
         /// </summary>
         public UserControl Presentation
         {
-            get { return presentation; }
+            get { return null; }
         }
 
         /// <summary>
@@ -96,36 +112,26 @@ namespace Cryptool.Plugins.DimCodeEncoder
         public void PreExecution()
         {
         }
-        #endregion
+
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
         /// </summary>
         public void Execute()
         {
             ProgressChanged(0, 1);
-            Benchmark.Start();
-
-            if (InputStream != null && InputStream.Length >= 1)
-            {
-                var dimCode = codeTypeHandler[settings.EncodingType].Encode(InputStream, settings);
-                if (dimCode != null) //input is valid
-                {
-                    //update Presentation
-                    presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap,false); 
-                    presentation.SetList(dimCode.Legend);
-    
-                    //update output
-                    PictureBytes = dimCode.PureBitmap;
-                    OnPropertyChanged("PictureBytes");
-                }
-            }
-
-            Benchmark.End();
-            Console.WriteLine("-GeneratePresentationBitmap:{0}", Benchmark.GetSeconds());
+            InsertString = InsertString.Replace("%1%", String1);
+            InsertString = InsertString.Replace("%2%", String2);
+            InsertString = InsertString.Replace("%3%", String3);
+            InsertString = InsertString.Replace("%4%", String4);
+            InsertString = InsertString.Replace("%5%", String5);
+            InsertString = InsertString.Replace("%6%", String6);
+          
+            OutputString = InsertString;
+            OnPropertyChanged("OutputString");
+          
             ProgressChanged(1, 1);
         }
 
-        #region std functions
         /// <summary>
         /// Called once after workflow execution has stopped.
         /// </summary>
@@ -156,20 +162,18 @@ namespace Cryptool.Plugins.DimCodeEncoder
         }
 
         #endregion
-        #endregion
 
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
-
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
-       
-        public void GuiLogMessage(string message, NotificationLevel logLevel)
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }

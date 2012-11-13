@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
@@ -46,14 +47,12 @@ namespace Cryptool.Plugins.NetworkOutput
 
         public void AddPresentationPackage(PresentationPackage package)
         {
-            if (package.Payload.Length > 85) // cut payload if it is too long
-                package.Payload = package.Payload.Substring(0, 86) + " ... ";
-
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
-                   entries.Add(package);    
+                   entries.Add(package);
+                   ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
                 } catch { } // dont throw an error in invoke threat
             }), package);
             
@@ -61,7 +60,6 @@ namespace Cryptool.Plugins.NetworkOutput
 
         public void ClearList()
         {
-           
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try

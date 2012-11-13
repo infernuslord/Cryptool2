@@ -95,7 +95,7 @@ namespace Cryptool.Plugins.DimCodeEncoder.DimCodes
         {
             if (input.Any(b => b < Encoding.ASCII.GetBytes("0")[0] || b > Encoding.ASCII.GetBytes("9")[0]))
             {
-                caller.GuiLogMessage("EAN13_INVALIDE_INPUT", NotificationLevel.Error);
+                caller.GuiLogMessage(Resources.EAN_INVALIDE_INPUT, NotificationLevel.Error);
                 return false;
             }
             return true;
