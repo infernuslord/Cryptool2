@@ -145,12 +145,7 @@ namespace Cryptool.Plugins.NetworkOutput
             // reset gui
             presentation.ClearList();
             presentation.RefreshMetaData(0, 0);
-            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));
-
-            //stream prepair
-            streamWriter = new CStreamWriter();
-            PackageStream = streamWriter;
-            OnPropertyChanged("PackageStream");
+            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));        
         }
 
         /// <summary>
@@ -179,8 +174,11 @@ namespace Cryptool.Plugins.NetworkOutput
                     });
                     presentation.RefreshMetaData(receivedPackages.Count, uniqueSrcIps.Count);
 
-                    // set outputs
+                    streamWriter = new CStreamWriter();
+                    PackageStream = streamWriter;    
                     streamWriter.Write(data);
+                    streamWriter.Close();
+                    OnPropertyChanged("PackageStream");
                     if (returnLastPackage) //change single output if no item is selected
                     {
                         SingleOutput = data;
