@@ -44,7 +44,15 @@
 			
 		</td>
 		<td width="950" height="27" background="../download_bar.png" align="right">
-			
+		    <p class="noprint">
+		        <languageSwitch lang="en">
+		            Available languages:
+		        </languageSwitch>
+		        <languageSwitch lang="de">
+		            Verfügbare Sprachen:
+		        </languageSwitch>
+		        <languageSelection />
+		    </p>			
 		</td>
 		<td width="9" background="../shadow_r.png">
 		
@@ -85,7 +93,9 @@
 						    <table border="1" style="width:200">
 							<tr>
 							    <th>
-								<div class="boximage"><docItem property="Icon" /></div>
+							        <div class="boximage">
+							            <a href="<docItem property="TemplateFile"/>"><docItem property="Icon" /></a>							            
+							        </div>
 							    </th>
 							    <th>
 								<docItem property="Name" />
@@ -152,18 +162,8 @@
 							<docItem property="Description" />
 						    </div>
 						</p>
-
-						<hr />
-                        
-						<p class="noprint">
-						    <languageSwitch lang="en">
-							Available languages:
-						    </languageSwitch>
-						    <languageSwitch lang="de">
-							Verfügbare Sprachen:
-						    </languageSwitch> <br/>
-						    <languageSelection />
-						</p>				
+                        <br/>
+						<hr />			
 					</td>
 				</tr>
 			</table>

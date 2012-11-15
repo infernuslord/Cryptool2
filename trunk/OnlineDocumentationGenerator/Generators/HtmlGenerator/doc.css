@@ -5,7 +5,7 @@
 	font-size: 12px;
 }
 
-h1,h2,h3 {
+h2,h3 {
 	font-family: Verdana, sans-serif, Helvetica,  Arial ;
 	color: black;
 	text-decoration:underline;
@@ -13,9 +13,11 @@ h1,h2,h3 {
 	margin-bottom: 5px;
 }
 
+
 h1 {
-	font-size: 17px;
+	font-size: 21px;
 }
+
 
 h2 {
 	font-size: 16px;
@@ -40,8 +42,8 @@ hr {
 
 .boximage img
 {
-	width:32;
-	height:32;
+	width:48;
+	height:48;
 }
 
 a:link {
@@ -68,29 +70,73 @@ a:focus {
 
 .highlighted { background: yellow; }
 
+a.button3d:visited
+{
+	color:RoyalBlue;
+}
+
+a.button3d:active
+{
+	color:RoyalBlue;
+}
+
+a.button3d:link
+{
+	color:RoyalBlue;
+}
+
 a.button3d{
+	color: RoyalBlue;
+	background: lightgrey;
+	width: 180px;
+	padding: 5px 5px;
+	text-align: center;
+	border-top: #A0A0A0 2px solid;
+	border-left: #A0A0A0 2px solid;
+	border-bottom: #A0A0A0 2px solid;
+	border-right: #A0A0A0 2px solid; 
+	font-family: Tahoma;
+	font-size: 0.95em;
+	text-decoration: none;
+	font-weight: bold;
+	line-height: 1.5;
+}
+
+
+a.button3d_active{
 	color: blue;	
 	background: white;
 	width: 180px;
-	padding: 10px 10px;
+	padding: 5px 5px;
 	text-align: center;
 	border-top: blue 2px solid;
 	border-left: blue 2px solid;
 	border-bottom: #3399FF 2px solid;
 	border-right: #3399FF 2px solid; 
 	font-family: Tahoma;
-	font-size: 0.7em;
+	font-size: 0.95em;
 	text-decoration: none;
 	font-weight: bold;
+	line-height: 1.5;
 }
+
 
 a.button3d:hover{
 	border-bottom: blue 2px solid;
 	border-right: blue 2px solid;
 	border-top: #3399FF 2px solid;
 	border-left: #3399FF 2px solid;
-	padding: 11px 14px 9px 16px;
+	padding: 5px 5px;
 }
+
+a.button3d_active:hover{
+	border-bottom: blue 2px solid;
+	border-right: blue 2px solid;
+	border-top: #3399FF 2px solid;
+	border-left: #3399FF 2px solid;
+	padding: 5px 5px;
+}
+
 
 ol.references {
     counter-reset:ref;
