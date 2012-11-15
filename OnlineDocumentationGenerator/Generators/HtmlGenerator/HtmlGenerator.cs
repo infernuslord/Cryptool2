@@ -119,21 +119,31 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private string GenerateTemplatesTree(string lang)
         {            
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" >");
-           
+
+            stringBuilder.AppendLine(@"
+                                <script type='text/javascript'>
+			                    <!--  
+                                function ShowHideDiv(divName) {
+                                if (document.getElementById(divName)) {
+                                    document.getElementById(divName).style.display = (document.getElementById(divName).style.display == 'none') ? 'inline' : 'none';
+                                    }
+                                }
+                                </script>");            
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
-
             foreach (var dir in _templatesDir.SubDirectories)
             {
                 WalkTemplateDirectory(dir, stringBuilder, 0, lang);
             }
-
-            stringBuilder.AppendLine("</table>");
             anchorBuilder.Append("</p>");
             anchorBuilder.Append(stringBuilder);
             return anchorBuilder.ToString();
         }
+
+        /// <summary>
+        /// Unique id for div of template tables
+        /// </summary>
+        private int _uid;
 
         private void WalkTemplateDirectory(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
         {
@@ -142,20 +152,29 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 spacesStringBuilder.Append("&nbsp;");
             }
-            var spaces = spacesStringBuilder.ToString();
-            stringBuilder.AppendLine(string.Format("<tr><td colspan=\"4\">{0}{1}</td></tr>", spaces, templatesDir.GetName(lang)));
-
+            _uid++;
+            var id = "ID_" + _uid;
+            var spaces = spacesStringBuilder.ToString();            
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" >");
+            stringBuilder.AppendLine(string.Format("<tr><td colspan=\"4\">{0}<a href=\"#\" onclick=\"ShowHideDiv('{1}'); return false;\">{2}</a></td></tr>", spaces, id, templatesDir.GetName()));
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine(string.Format("<div style=\"display:none;\" id=\"{0}\">", id));
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");         
             foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
             {
                 var locTemplate = templateDocumentationPage.CurrentLocalization;
                 var description = _objectConverter.Convert(locTemplate.SummaryOrDescription, templateDocumentationPage);
                 description = description.Replace("../", ""); //correct relative paths in images                
-                stringBuilder.AppendLine(string.Format("<tr><td>{0}&nbsp;</td><td><div class=\"boximage\"><img src=\"{1}\"></div></td><td><a href=\"{2}\">{3}</a></td><td>{4}</td></tr>", spaces, templateDocumentationPage.Icon, locTemplate.FilePath, locTemplate.Name, description));
-            }
+                stringBuilder.AppendLine(string.Format("<tr><td>{0}&nbsp;</td><td><div class=\"boximage\"><img src=\"{1}\"></div></td><td><a href=\"{2}\">{3}</a></td><td>{4}</td></tr>", spaces, templateDocumentationPage.Icon, locTemplate.FilePath, locTemplate.Name, description));                
+            }            
             foreach (var dir in templatesDir.SubDirectories)
             {
+                stringBuilder.AppendLine("<tr><td colspan=\"4\">");
                 WalkTemplateDirectory(dir, stringBuilder, depth + 1,lang);
+                stringBuilder.AppendLine("</td></tr>");
             }
+            stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("</div>");
         }
 
         private static string GenerateComponentListCode(IEnumerable<ComponentDocumentationPage> componentDocumentationPages, string lang)

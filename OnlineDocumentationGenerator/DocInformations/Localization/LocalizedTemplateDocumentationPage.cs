@@ -21,6 +21,13 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
             get { return _filePath; }
         }
 
+        public string TemplateFile
+        {
+            get
+            { 
+                return DocumentationPage.TemplateFile;
+            }
+        }
         public XElement Summary { get; private set; }
         public XElement Description { get; private set; }
 
