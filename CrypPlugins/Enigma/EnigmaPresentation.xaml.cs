@@ -34,6 +34,9 @@ namespace Cryptool.Enigma
 
         private EnigmaSettings settings;
 
+        private TextBlock tb;
+        public DisabledBool PresentationDisabled;
+
         private Storyboard storyboard1;
         private Storyboard storyboard;
 
@@ -1026,9 +1029,6 @@ namespace Cryptool.Enigma
             return b;
         }
 
-        private TextBlock tb;
-        public DisabledBool PresentationDisabled;
-
         public void giveFeedbackAndDie()
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
@@ -1094,7 +1094,7 @@ namespace Cryptool.Enigma
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
-                if (this.input.Length + 1 != newinput.Length && !playbool && newinput != "")
+                if ((this.input.Length + 1 != newinput.Length && !playbool && newinput != "")||newinput.Length==1)
                 {
                     stopclick(this, EventArgs.Empty);
                     this.input = newinput;
@@ -1102,16 +1102,6 @@ namespace Cryptool.Enigma
 
                     for (int i = 0; i < newinput.Length; i++)
                     {
-                        /*
-                        if (i % 5 == 0 && i != 0)
-                        {
-                            TextBlock t1 = new TextBlock();
-                            t1.Text = " ";
-                            t1.FontSize = 40;
-                            inputPanel.Children.Add(t1);
-
-                        }
-                        */
                         TextBlock t = new TextBlock();
                         t.FontFamily = new FontFamily("Courier New");
                         t.Text = newinput[i] + "";
@@ -1186,8 +1176,8 @@ namespace Cryptool.Enigma
                     }
                     else
                     {
-                        stopclick(null, EventArgs.Empty);
-                        setinput(newinput);
+                        //stopclick(null, EventArgs.Empty);
+                        //setinput(newinput);
                     }
                 }
 
@@ -1234,7 +1224,7 @@ namespace Cryptool.Enigma
                     else
                     {
                         stopclick(null, EventArgs.Empty);
-                        setinput(newinput);
+                        //setinput(newinput);
                     }
                 }
 
@@ -1247,7 +1237,6 @@ namespace Cryptool.Enigma
             
             this.newinput = input;
             
-
             t1_Tick();
         }
 
@@ -3230,7 +3219,7 @@ namespace Cryptool.Enigma
             int timecounterint = 0;
 
             Debug.Text = "" + outputchar;
-            inputcounter++;
+            
             if (inputtebo.Count > inputcounter && !stop)
             {
 
@@ -3242,12 +3231,12 @@ namespace Cryptool.Enigma
                 colorani0.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
                 timecounterint += 1000;
 
-                Storyboard.SetTarget(colorani0, inputtebo[inputcounter - 1]);
+                Storyboard.SetTarget(colorani0, inputtebo[inputcounter ]);
                 Storyboard.SetTargetProperty(colorani0, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
 
                 sbret.Children.Add(colorani0);
 
-                if ((inputcounter - 1) % 5 == 0 && inputcounter != 0)
+                if ((inputcounter ) % 5 == 0 && inputcounter  != 0)
                 {
                     TextBlock t1 = new TextBlock();
                     t1.Text = " ";
@@ -3307,26 +3296,26 @@ namespace Cryptool.Enigma
                 timecounterint += 1000;
                 //inputtebo[inputcounter - 1].BeginAnimation(OpacityProperty, fadeOut2);
 
-                Storyboard.SetTarget(fadeOut2, inputtebo[inputcounter - 1]);
+                Storyboard.SetTarget(fadeOut2, inputtebo[inputcounter ]);
                 Storyboard.SetTargetProperty(fadeOut2, new PropertyPath("(Opacity)"));
 
                 sbret.Children.Add(fadeOut2);
-                if (inputtebo.Count > inputcounter && !stop)
+                if (inputtebo.Count > inputcounter+1 && !stop)
                 {
-                    inputtebo[inputcounter].Background = Brushes.Transparent;
+                    inputtebo[inputcounter+1].Background = Brushes.Transparent;
                     ColorAnimation colorani2 = new ColorAnimation();
                     colorani2.From = Colors.Transparent;
                     colorani2.To = Colors.Orange;
                     colorani2.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
                     timecounterint += 1000;
 
-                    Storyboard.SetTarget(colorani2, inputtebo[inputcounter]);
+                    Storyboard.SetTarget(colorani2, inputtebo[inputcounter+1]);
                     Storyboard.SetTargetProperty(colorani2, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
 
                     sbret.Children.Add(colorani2);
                 }
 
-
+                inputcounter++;
 
                 //colorani.Completed += nextPlease1;
                 //brush.BeginAnimation(SolidColorBrush.ColorProperty, colorani);
