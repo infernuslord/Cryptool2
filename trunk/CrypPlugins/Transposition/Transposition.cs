@@ -61,7 +61,7 @@ namespace Transposition
         private void presentation_finished(object sender, EventArgs e)
         {
             if(!myPresentation.Stop)
-            Output = ByteArrayToCStream(this.output);
+            Output = CharacterArrayToCStream(this.output);
             ProgressChanged(1, 1);
             
             running = false;
@@ -133,36 +133,27 @@ namespace Transposition
             }
         }
 
-        public Char[] InputToBytes
+        public Char[] InputToCharacterArray
         {
             get
             {
-                byte[] streamData = null;
-                
-                streamData = ICryptoolStreamToByteArray((ICryptoolStream)Input);
-
+                byte[] streamData = ICryptoolStreamToByteArray(Input);
                 switch (settings.InternalNumber)
                 {
-                    case 0: String sUTF = System.Text.Encoding.UTF32.GetString(streamData);
-                        return sUTF.ToCharArray();
-                        break;
-                    case 1: String sASCII = System.Text.Encoding.ASCII.GetString(streamData);
-                        char[] chary = new char[streamData.Length];
-                        for(int i=0;i< streamData.Length;i++) 
+                    case 0:
+                        var sUtf = Encoding.UTF8.GetString(streamData);
+                        return sUtf.ToCharArray();
+                    case 1:
+                        var chary = new char[streamData.Length];
+                        for (int i = 0; i < streamData.Length; i++)
                         {
-                            chary[i] = (char)((int)streamData[i]);
+                            chary[i] = (char)(streamData[i]);
                         }
                         return chary;
-                        break;
                     default:
                         return null;
                 }
-                
-
-                
-
             }
-            
         }
 
         private byte[] CStreamReaderToByteArray(CStreamReader stream)
@@ -174,26 +165,26 @@ namespace Transposition
             return buffer;
         }
 
-        private ICryptoolStream ByteArrayToCStream(char[] b)
+        private ICryptoolStream CharacterArrayToCStream(char[] b)
         {
-            CStreamWriter csw = new CStreamWriter();
+            var csw = new CStreamWriter();
             switch (settings.InternalNumber)
                 {
-                    case 0: byte[] bUTF = UnicodeEncoding.UTF32.GetBytes(b); 
-                        csw.Write(bUTF);            
+                    case 0: 
+                        var bUtf = UnicodeEncoding.UTF8.GetBytes(b); 
+                        csw.Write(bUtf);            
                         break;
-                    case 1: byte[] bASCII = UnicodeEncoding.ASCII.GetBytes(b);
-                        byte[] chary = new byte[b.Length];
+                    case 1:
+                        var chary = new byte[b.Length];
                         for(int i=0;i< b.Length;i++) 
                         {
-                            chary[i] = (byte)((char)b[i]);
+                            chary[i] = (byte)(b[i]);
                         }
                         csw.Write(chary);   
                         break;
                     default:
                         return null;
-                }
-            
+                }            
             csw.Close();
             return csw;
         }
@@ -275,7 +266,7 @@ namespace Transposition
                     Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
                     Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
-                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, InputToBytes, this.output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
+                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, InputToCharacterArray, this.output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
                    }
                    , null);
 
@@ -283,7 +274,7 @@ namespace Transposition
             }
             else
             {
-                Output = ByteArrayToCStream(this.output);
+                Output = CharacterArrayToCStream(this.output);
                 ProgressChanged(1, 1);
             }
             
@@ -352,10 +343,10 @@ namespace Transposition
                 switch (settings.Action)
                 {
                     case 0:
-                        this.output = encrypt(InputToBytes, key);
+                        this.output = encrypt(InputToCharacterArray, key);
                         break;
                     case 1:
-                        this.output = decrypt(InputToBytes, key);
+                        this.output = decrypt(InputToCharacterArray, key);
                         break;
                     default:
                         break;
@@ -1200,9 +1191,9 @@ namespace Transposition
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key)
         {
-            //if (plugin.InputToBytes != ciphertext)
+            //if (plugin.InputToCharacterArray != ciphertext)
             //{
-            //    plugin.InputToBytes = ciphertext;
+            //    plugin.InputToCharacterArray = ciphertext;
             //}
 
             int[] k = new int[key.Length];
