@@ -1517,13 +1517,13 @@ namespace WorkspaceManager.View.Visuals
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale + 0.05 < Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale &&
+                if (ZoomLevel + 0.05 < Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale &&
                     e.Delta >= 0)
-                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.05;
+                    ZoomLevel += 0.05;
 
-                if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale - 0.05 > Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale &&
+                if (ZoomLevel - 0.05 > Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale &&
                     e.Delta <= 0)
-                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += -0.05;
+                    ZoomLevel += -0.05;
 
                 e.Handled = true;
             }
