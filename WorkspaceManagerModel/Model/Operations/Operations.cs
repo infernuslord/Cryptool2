@@ -580,6 +580,7 @@ namespace WorkspaceManagerModel.Model.Operations
                             if (connectionModel.From.IControl && !elements.Contains(connectionModel.From.PluginModel))
                             {
                                 elements.Add(connectionModel.From.PluginModel);
+                                
                             }
                         }
                     }
@@ -635,6 +636,7 @@ namespace WorkspaceManagerModel.Model.Operations
                 }
                 if (connectionModel != null)
                 {
+                    connectionModel.IsCopy = true;
                     connectionModel.WorkspaceModel = workspaceModel;
                     workspaceModel.AllConnectionModels.Add(connectionModel);
                 }
