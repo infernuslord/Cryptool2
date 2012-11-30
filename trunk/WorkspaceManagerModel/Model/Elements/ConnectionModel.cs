@@ -121,5 +121,7 @@ namespace WorkspaceManager.Model
 
         #endregion
 
+
+        public bool IsCopy { get; set; }
     }
 }

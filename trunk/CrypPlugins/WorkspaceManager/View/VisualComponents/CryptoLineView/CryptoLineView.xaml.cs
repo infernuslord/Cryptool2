@@ -394,6 +394,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             InternalCryptoLineView l = (InternalCryptoLineView)d;
 
             l.HasComputed = false;
+            if (l.model != null &&l.model.IsCopy) {
+                l.model.IsCopy = false;
+                l.loaded = false;
+            }
+
             l.InvalidateVisual();
             if(l.helper != null)
                 l.helper.DrawDecoration();
@@ -802,7 +807,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (!((EditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
                 HasComputed = false;
         }
-
 
         void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
         {

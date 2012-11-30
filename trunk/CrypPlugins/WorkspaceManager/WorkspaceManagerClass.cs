@@ -280,14 +280,19 @@ namespace WorkspaceManager
             }
         }
 
+        private void doCopy()
+        {
+            var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
+            var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
+            var elementsToCopy = CopyOperation.SelectConnections(list);
+            copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy });
+        }
+
         public void Cut()
         {
             if (WorkspaceSpaceEditorView.SelectedItems != null)
             {
-                var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
-                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
-                var elementsToCopy = CopyOperation.SelectConnections(list);
-                copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy });
+                doCopy();
                 Remove();
             }
         }
@@ -296,11 +301,7 @@ namespace WorkspaceManager
         {
             if (WorkspaceSpaceEditorView.SelectedItems != null)
             {
-                var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
-                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
-                var elementsToCopy = CopyOperation.SelectConnections(list);
-                copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy});
-
+                doCopy();
                 //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
         }
