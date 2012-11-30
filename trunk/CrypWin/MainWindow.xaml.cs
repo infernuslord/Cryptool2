@@ -275,9 +275,16 @@ namespace Cryptool.CrypWin
             // will exit application after doc has been generated
             if (IsCommandParameterGiven("-GenerateDoc"))
             {
-                var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
-                Application.Current.Shutdown();
+                var generatingDocWindow = new GeneratingDocWindow();
+
+                generatingDocWindow.ContentRendered += delegate
+                {
+                    var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
+                    generatingDocWindow.Close();
+                    Application.Current.Shutdown();
+                };
+                generatingDocWindow.ShowDialog();
                 return;
             }
             if (IsCommandParameterGiven("-GenerateDocLaTeX"))
