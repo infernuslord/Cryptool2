@@ -311,6 +311,10 @@ namespace WorkspaceManager.View.Visuals
         {
             ConnectorVisual bin = (ConnectorVisual)d;
 
+
+            if (bin.WindowParent == null || bin.WindowParent.EditorVisual == null || bin.WindowParent.EditorVisual.SelectedConnector == null)
+                return;
+
             if (bin.IsLinking == false)
             {
                 bin.Marked = false;
