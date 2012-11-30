@@ -144,7 +144,7 @@
         <!--##########/Definitions##########-->
 
         <!--##########Content Space##########-->
-        <visuals:ZoomScrollViewer x:Name="ScrollViewer" Grid.Row="1" Grid.Column="0" MouseWheel="MouseWheelHandler">
+        <visuals:ZoomScrollViewer x:Name="ScrollViewer" Grid.Row="1" Grid.Column="0">
             <ItemsControl ItemsSource="{Binding Path=VisualCollection, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
