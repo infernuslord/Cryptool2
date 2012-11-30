@@ -29,12 +29,12 @@ namespace WorkspaceManager.View.VisualComponents
             if (visualAdded is IRouting)
             {
                 var bin = (IRouting)visualAdded;
-                //bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
             }
             if (visualRemoved is IRouting)
             {
                 var bin = (IRouting)visualRemoved;
-                //bin.PositionDeltaChanged -= new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+                bin.PositionDeltaChanged -= new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
             }
 
             if (visualAdded is IZOrdering)
