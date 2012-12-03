@@ -606,35 +606,45 @@ namespace Cryptool.CrypWin
 
         private bool EstablishSingleInstance()
         {
-            bool createdNew;
-            MD5 md5 = new MD5CryptoServiceProvider();
-            var id = BitConverter.ToInt32(md5.ComputeHash(Encoding.ASCII.GetBytes(Environment.GetCommandLineArgs()[0])), 0);
-            var identifyingString = string.Format("Local\\CrypTool 2.0 ID {0}", id);
-            _singletonMutex = new Mutex(true, identifyingString, out createdNew);
+            try
+            {
+                bool createdNew;
+                MD5 md5 = new MD5CryptoServiceProvider();
+                var id =
+                    BitConverter.ToInt32(md5.ComputeHash(Encoding.ASCII.GetBytes(Environment.GetCommandLineArgs()[0])),
+                                         0);
+                var identifyingString = string.Format("Local\\CrypTool 2.0 ID {0}", id);
+                _singletonMutex = new Mutex(true, identifyingString, out createdNew);
 
-            if (createdNew)
-            {
-                var queueThread = new Thread(QueueThread);
-                queueThread.IsBackground = true;
-                queueThread.Start(identifyingString);
-            }
-            else
-            {
-                //CT2 instance already exists... send files to it and shutdown
-                using (var pipeClient = new NamedPipeClientStream(".", identifyingString, PipeDirection.Out))
+                if (createdNew)
                 {
-                    pipeClient.Connect();
-                    using (var sw = new StreamWriter(pipeClient))
+                    var queueThread = new Thread(QueueThread);
+                    queueThread.IsBackground = true;
+                    queueThread.Start(identifyingString);
+                }
+                else
+                {
+                    //CT2 instance already exists... send files to it and shutdown
+                    using (var pipeClient = new NamedPipeClientStream(".", identifyingString, PipeDirection.Out))
                     {
-                        foreach (var file in CheckCommandProjectFileGiven())
+                        pipeClient.Connect();
+                        using (var sw = new StreamWriter(pipeClient))
                         {
-                            sw.WriteLine(file);
+                            foreach (var file in CheckCommandProjectFileGiven())
+                            {
+                                sw.WriteLine(file);
+                            }
                         }
                     }
+                    return false;
                 }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                GuiLogMessage(String.Format("Error during EstablishSingleInstance: {0}",ex.Message),NotificationLevel.Warning);
                 return false;
             }
-            return true;
         }
 
         private void QueueThread(object identifyingString)
