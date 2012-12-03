@@ -117,97 +117,179 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AmountLabel" xml:space="preserve">
-    <value>Empfangene Pakete:</value>
+  <data name="AppendICVCaption" xml:space="preserve">
+    <value>Append Checksum</value>
   </data>
-  <data name="IPFromHeader" xml:space="preserve">
-    <value>Absender IP</value>
+  <data name="AppendICVCaptionTooltip" xml:space="preserve">
+    <value>The Component will automaticly append a Checksum</value>
   </data>
-  <data name="MetaLabel" xml:space="preserve">
-    <value>Info</value>
+  <data name="BarcodeSection" xml:space="preserve">
+    <value>properties of barcode</value>
   </data>
-  <data name="PackageLimit" xml:space="preserve">
-    <value>Packetlimit</value>
+  <data name="C128_ICV_DISC" xml:space="preserve">
+    <value>The ICV is calculated from a weighted
+sum (modulo 103) of all the characters.</value>
   </data>
-  <data name="PackageLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wieviel Packeten die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+  <data name="C128_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
   </data>
-  <data name="PaylodHeader" xml:space="preserve">
-    <value>Empangende Daten</value>
+  <data name="C128_STARTEND_DISC" xml:space="preserve">
+    <value>There are three distinct start pattern 
+that determine, in which way the
+code was encoded. However, the 
+end pattern is always the same</value>
   </data>
-  <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerkausgabe</value>
+  <data name="C128_STARTEND_LABLE" xml:space="preserve">
+    <value>Start and End Pattern</value>
   </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Komponente kann mehere UDP Packete empfangen.</value>
+  <data name="C38_ICV_DISC" xml:space="preserve">
+    <value>The ICV is calculated from a weighted
+sum (modulo 43) of all the characters.</value>
   </data>
-  <data name="Port" xml:space="preserve">
-    <value>Port</value>
+  <data name="C38_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
   </data>
-  <data name="PortTooltip" xml:space="preserve">
-    <value>Port auf welchen die Komponente horchen soll</value>
+  <data name="C38_STARTEND_DISC" xml:space="preserve">
+    <value>The Start and End Symbol is a '*'. 
+With the aid of the symbol, the
+code can be read reliably, even if
+it is read backwards.</value>
   </data>
-  <data name="ReceivedPackagesLabel" xml:space="preserve">
-    <value>Empfangene Pakete</value>
+  <data name="C38_STARTEND_LABLE" xml:space="preserve">
+    <value>Start and End Symbol</value>
   </data>
-  <data name="SingleOutput" xml:space="preserve">
-    <value>Einzelnes Packet</value>
+  <data name="DimCodeEncoderCaption" xml:space="preserve">
+    <value>VisualEncoder</value>
   </data>
-  <data name="SingleOutputTooltip" xml:space="preserve">
-    <value>Daten eines einzenen Packetes</value>
+  <data name="DimCodeEncoderTooltip" xml:space="preserve">
+    <value>This Component encodes various types of one and two dimensional Codes.</value>
   </data>
-  <data name="StartLabel" xml:space="preserve">
-    <value>Gestartet Um:</value>
+  <data name="DimCodeLabel" xml:space="preserve">
+    <value>Visual code</value>
   </data>
-  <data name="StopConditions" xml:space="preserve">
-    <value>Haltebedingungen</value>
+  <data name="DM_ALIG_DISC" xml:space="preserve">
+    <value>The alignment pattern is static.  
+It enables to read the code at 
+every alignment.</value>
   </data>
-  <data name="StreamOutput" xml:space="preserve">
-    <value>Alle Packete</value>
+  <data name="DM_ALIG_LABLE" xml:space="preserve">
+    <value>Alignment Detection</value>
   </data>
-  <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Leitet alle empfangenen Packete weiter</value>
+  <data name="DM_COLUMNID_DISC" xml:space="preserve">
+    <value>This pattern helps the reader to easily  
+find the different data column in the code.</value>
   </data>
-  <data name="TimeLimit" xml:space="preserve">
-    <value>Zeitlimit</value>
+  <data name="DM_COLUMNID_LABLE" xml:space="preserve">
+    <value>Column Identificator</value>
   </data>
-  <data name="TimeLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wievielen Sekunden die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+  <data name="EAN13_FIXED_DISC" xml:space="preserve">
+    <value>The fixed Bars are mainly orientations
+points for the reader. 
+In fact, the reader needs to know when 
+its at the middle of the code,  because
+the encoding changes at that point</value>
   </data>
-  <data name="TORHeader" xml:space="preserve">
-    <value>Empfangen um</value>
+  <data name="EAN13_FIXED_LABLE" xml:space="preserve">
+    <value>Fixed reference point</value>
   </data>
-  <data name="UniqueIPLabel" xml:space="preserve">
-    <value>Unterschiedliches Absender:</value>
+  <data name="EAN13_ICV_DISC" xml:space="preserve">
+    <value>The checksum is calculated taking a 
+varying weight value times the value 
+of each number in the barcode to 
+make a sum (modulo 10).</value>
   </data>
-  <data name="DeviceIpCaption" xml:space="preserve">
-    <value>Netzwerkkarten IP:</value>
+  <data name="EAN13_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
   </data>
-  <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+  <data name="EAN8_FIXED_DISC" xml:space="preserve">
+    <value>The fixed Bars are mainly orientations
+points for the reader. 
+In fact, the reader needs to know when 
+its at the middle of the code,  because
+the encoding changes at that point</value>
   </data>
-  <data name="LisPort" xml:space="preserve">
-    <value>Port: </value>
+  <data name="EAN8_FIXED_LABLE" xml:space="preserve">
+    <value>Fixed Reference Point</value>
   </data>
-  <data name="NetworkConditions" xml:space="preserve">
-    <value>Netzwerk</value>
+  <data name="EAN8_ICV_DISC" xml:space="preserve">
+    <value>The checksum is calculated taking a 
+varying weight value times the value 
+of each number in the barcode to 
+make a sum (modulo 10).</value>
   </data>
-  <data name="NetworkDeviceCaption" xml:space="preserve">
-    <value>Alle Netzwerkgeräte benutzen</value>
+  <data name="EAN8_ICV_LABLE" xml:space="preserve">
+    <value>Integrity Check Value</value>
   </data>
-  <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+  <data name="EncodingCaption" xml:space="preserve">
+    <value>Type of Barcode</value>
   </data>
-  <data name="ByteAsciiSwitchCaption" xml:space="preserve">
-    <value>Bytes als ASCII anzeigen  </value>
+  <data name="EncodingTooltip" xml:space="preserve">
+    <value>Choose a Barcodetype</value>
   </data>
-  <data name="ByteAsciiSwitchCaptionTooltip" xml:space="preserve">
-    <value>Bytes als ASCII anzeigen</value>
+  <data name="ExplainLabel" xml:space="preserve">
+    <value>Explanation</value>
   </data>
-  <data name="PresentationSettings" xml:space="preserve">
-    <value>Präsentation</value>
+  <data name="IncommingData" xml:space="preserve">
+    <value>Input Data</value>
   </data>
-  <data name="Size" xml:space="preserve">
-    <value>Größe</value>
+  <data name="IncommingDataTooltip" xml:space="preserve">
+    <value>The data you want to encode as a barcode.</value>
+  </data>
+  <data name="PictureBytesOutput" xml:space="preserve">
+    <value>Picture output</value>
+  </data>
+  <data name="PictureBytesOutputTooltip" xml:space="preserve">
+    <value>Your Barcode as a picture.</value>
+  </data>
+  <data name="QR_ALIG_DISC" xml:space="preserve">
+    <value>The alignment pattern is static.  
+It enables to read the code at 
+every alignment.</value>
+  </data>
+  <data name="QR_ALIG_LABLE" xml:space="preserve">
+    <value>Alignment Detection</value>
+  </data>
+  <data name="CODE39_INVALIDE_INPUT" xml:space="preserve">
+    <value>Invalide Input</value>
+  </data>
+  <data name="PDF417_ROWID_DISC" xml:space="preserve">
+    <value>This pattern helps the reader to easily  
+find the different data rows in the code.</value>
+  </data>
+  <data name="PDF417_ROWID_LABLE" xml:space="preserve">
+    <value>Row  Identificator</value>
+  </data>
+  <data name="PDF417_SEPAT_DISC" xml:space="preserve">
+    <value>With the aid of the pattern, the
+code can be read reliably, even if
+it is read upside down or 
+backwards.</value>
+  </data>
+  <data name="PDF417_SEPAT_LABLE" xml:space="preserve">
+    <value>Start and End Pattern</value>
+  </data>
+  <data name="QR_FORMAT_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="QR_FORMAT_LABLE" xml:space="preserve">
+    <value>Format Informations</value>
+  </data>
+  <data name="QR_VERSION_DISC" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="QR_VERSION_LABLE" xml:space="preserve">
+    <value>Version Informations</value>
+  </data>
+  <data name="QR_NORMAL_DISC" xml:space="preserve">
+    <value>In this area, the data is shown  
+redundant, so that it can be read 
+reliably even if  pieces of code  
+are covered</value>
+  </data>
+  <data name="QR_NORMAL_LABLE" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="EAN_INVALIDE_INPUT" xml:space="preserve">
+    <value>The input contains invalid characters. Only Digits are allowed.</value>
   </data>
 </root>
