@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">VCard</title>
+  <summary lang="en">Creating a VCard</summary>
+  <description lang="en">This template shows the creating of a VCard.</description>
+  <keywords>vcard qrcode</keywords>
+
+  <title lang="de">VCard</title>
+  <summary lang="de">Erstellung einer VCard</summary>
+  <description lang="de">Diese Vorlage zeigt die Erstellung einer VCard.</description>
+  <keywords lang="de">vcard qrcode</keywords>
+
+  <icon file="vcard.png" />
+
+</sample>
