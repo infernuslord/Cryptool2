@@ -207,4 +207,7 @@
   <data name="PresentationSettings" xml:space="preserve">
     <value>Presentation Settings</value>
   </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
 </root>

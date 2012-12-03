@@ -83,6 +83,19 @@ namespace Cryptool.Plugins.NetworkOutput
         {
             return System.Text.Encoding.ASCII.GetString(data);
         }
+
+        private string generatePackageSizeString(byte[] data)
+        {
+            double size = data.Length;
+            if (size < 1024)
+            {
+                return size + " Byte";
+            }
+            else
+            {
+                return Math.Round((double)(size / 1024.0),2) + " kByte";
+            }
+        }
         
         #endregion
        
@@ -169,6 +182,7 @@ namespace Cryptool.Plugins.NetworkOutput
                     // redirect to gui
                     presentation.AddPresentationPackage(new PresentationPackage
                     {
+                        PackageSize = generatePackageSizeString(data),
                         IPFrom = endPoint.Address.ToString(),
                         Payload = (settings.ByteAsciiSwitch ? ConvertToACII(data) : BitConverter.ToString(data))
                     });

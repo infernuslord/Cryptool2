@@ -50,7 +50,7 @@
                     <ListView Name="ListView" Background="#AFE2FFCE" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" Grid.Column="1" Height="250" HorizontalAlignment="Right" Width="616">
                       <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="{Loc TORHeader}" DisplayMemberBinding="{Binding Path=TimeOfReceiving}" Width="75">
+                                <GridViewColumn Header="{Loc TORHeader}" DisplayMemberBinding="{Binding Path=TimeOfReceiving}" Width="73">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>
@@ -64,7 +64,14 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn   Header="{Loc PaylodHeader}" DisplayMemberBinding="{Binding Path=Payload}" Width="459">
+                                <GridViewColumn   Header="{Loc Size}" DisplayMemberBinding="{Binding Path=PackageSize}" Width="70">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn   Header="{Loc PaylodHeader}" DisplayMemberBinding="{Binding Path=Payload}" Width="389">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>

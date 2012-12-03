@@ -259,6 +259,15 @@ namespace NetworkOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Size ähnelt.
+        /// </summary>
+        internal static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start Time: ähnelt.
         /// </summary>
         internal static string StartLabel {
