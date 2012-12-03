@@ -36,6 +36,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Cryptool.Core;
 using Cryptool.CrypWin.Helper;
@@ -275,13 +276,22 @@ namespace Cryptool.CrypWin
             // will exit application after doc has been generated
             if (IsCommandParameterGiven("-GenerateDoc"))
             {
-                var generatingDocWindow = new GeneratingDocWindow();
-
+                var generatingDocWindow = new GeneratingWindow();
+                generatingDocWindow.Message.Content = Properties.Resources.GeneratingWaitMessage;
+                generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
                 generatingDocWindow.ContentRendered += delegate
                 {
-                    var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
-                    generatingDocWindow.Close();
+                    try
+                    {
+                        var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                        docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
+                        Console.WriteLine("HTML documentation sucessfully generated!");
+                        generatingDocWindow.Close();                        
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(string.Format("Error while generating HTML documentation: {0}",ex.Message));
+                    }
                     Application.Current.Shutdown();
                 };
                 generatingDocWindow.ShowDialog();
@@ -291,9 +301,26 @@ namespace Cryptool.CrypWin
             {
                 var noIcons = IsCommandParameterGiven("-NoIcons");
                 var showAuthors = IsCommandParameterGiven("-ShowAuthors");
-                var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de", noIcons, showAuthors));
-                Application.Current.Shutdown();
+                var generatingDocWindow = new GeneratingWindow();
+                generatingDocWindow.Message.Content = Properties.Resources.GeneratingLaTeXWaitMessage;
+                generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
+                generatingDocWindow.ContentRendered += delegate
+                {
+                    try
+                    {
+                        var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                        docGenerator.Generate(DirectoryHelper.BaseDirectory,new LaTeXGenerator("de", noIcons, showAuthors));
+                        Console.WriteLine("LaTeX documentation sucessfully generated!");
+                        
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(string.Format("Error while generating LaTeX documentation: {0}",ex.Message));
+                    }
+                    
+                    Application.Current.Shutdown();
+                };                
+                generatingDocWindow.ShowDialog();
                 return;
             }
 
@@ -306,9 +333,24 @@ namespace Cryptool.CrypWin
 
             if (IsCommandParameterGiven("-GenerateComponentConnectionStatistics"))
             {
-                TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
-                ComponentConnectionStatistics.SaveCurrentStatistics(Path.Combine(DirectoryHelper.BaseDirectory, "ccs.xml"));
-                Application.Current.Shutdown();
+                var generatingComponentConnectionStatistic = new GeneratingWindow();
+                generatingComponentConnectionStatistic.Message.Content = Properties.Resources.StatisticsWaitMessage;
+                generatingComponentConnectionStatistic.Title = Properties.Resources.Generating_Statistics_Title;
+                generatingComponentConnectionStatistic.ContentRendered += delegate
+                {
+                    try
+                    {
+                        TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                        SaveComponentConnectionStatistics();
+                        Console.WriteLine("Component connection statistics sucessfully generated!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(string.Format("Error while generating component connection statistics: {0}", ex.Message));
+                    }
+                    Application.Current.Shutdown();
+                };
+                generatingComponentConnectionStatistic.ShowDialog();
                 return;
             }
 
@@ -544,9 +586,22 @@ namespace Cryptool.CrypWin
 
         private void GenerateStatisticsFromTemplates()
         {
-            TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
-            SaveComponentConnectionStatistics();
-            GuiLogMessage("Component connection statistics successfully generated from templates.", NotificationLevel.Info);
+            var generatingComponentConnectionStatistic = new GeneratingWindow();
+            generatingComponentConnectionStatistic.Message.Content = Properties.Resources.StatisticsWaitMessage;
+            generatingComponentConnectionStatistic.Title = Properties.Resources.Generating_Statistics_Title;
+            var icon = new BitmapImage();
+            icon.BeginInit();
+            icon.UriSource = new Uri("pack://application:,,,/CrypWin;component/images/statistics_icon.png");
+            icon.EndInit();
+            generatingComponentConnectionStatistic.Icon.Source = icon;
+            generatingComponentConnectionStatistic.ContentRendered += delegate
+            {
+                TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                SaveComponentConnectionStatistics();
+                GuiLogMessage("Component connection statistics successfully generated from templates.", NotificationLevel.Info);
+                generatingComponentConnectionStatistic.Close();
+            };
+            generatingComponentConnectionStatistic.ShowDialog();
         }
 
         private bool EstablishSingleInstance()

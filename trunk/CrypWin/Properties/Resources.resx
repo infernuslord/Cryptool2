@@ -889,4 +889,13 @@
   <data name="SysinfosTooltip" xml:space="preserve">
     <value>System Infos</value>
   </data>
+  <data name="GeneratingLaTeXWaitMessage" xml:space="preserve">
+    <value>Please wait... Generating LaTeX-Documentation!</value>
+  </data>
+  <data name="Generating_Statistics_Title" xml:space="preserve">
+    <value>Generating Component Connection Statistics</value>
+  </data>
+  <data name="StatisticsWaitMessage" xml:space="preserve">
+    <value>Please wait... Generating Component Connection Statistics!</value>
+  </data>
 </root>

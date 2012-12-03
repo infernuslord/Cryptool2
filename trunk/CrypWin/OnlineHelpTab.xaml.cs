@@ -116,8 +116,9 @@ namespace Cryptool.CrypWin
                                                                 _mainWindow.OnGuiLogNotificationOccured("DocGenerator", args);
                                                             };
 
-            var generatingDocWindow = new GeneratingDocWindow();
-
+            var generatingDocWindow = new GeneratingWindow();
+            generatingDocWindow.Message.Content = Properties.Resources.GeneratingWaitMessage;
+            generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
             bool init = false;
             generatingDocWindow.ContentRendered += delegate
                                               {
