@@ -255,6 +255,19 @@ namespace TextOutput
                 setStatusBar();
 
             }, fillValue);
+
+            //if the presentation is visible we wait some ms to avoid a "hanging" of the application
+            if (Presentation.IsVisible)
+            {
+                try
+                {
+                    Thread.Sleep(5);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(String.Format("Error during Thread.Sleep of TextOutput: {0}", ex.Message), NotificationLevel.Warning);
+                }
+            }
         }
 
         void setStatusBar()
