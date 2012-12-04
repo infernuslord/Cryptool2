@@ -262,12 +262,6 @@ namespace Cryptool.CrypWin
             SetLanguage();
             LoadResources();
 
-            if (!EstablishSingleInstance())
-            {
-                Application.Current.Shutdown();
-                return;
-            }
-
             if (AssemblyHelper.InstallationType == Ct2InstallationType.ZIP)
             {
                 UnblockDLLs();
@@ -276,52 +270,41 @@ namespace Cryptool.CrypWin
             // will exit application after doc has been generated
             if (IsCommandParameterGiven("-GenerateDoc"))
             {
-                var generatingDocWindow = new GeneratingWindow();
-                generatingDocWindow.Message.Content = Properties.Resources.GeneratingWaitMessage;
-                generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
-                generatingDocWindow.ContentRendered += delegate
+                try
                 {
-                    try
-                    {
-                        var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                        docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
-                        Console.WriteLine("HTML documentation sucessfully generated!");
-                        generatingDocWindow.Close();                        
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(string.Format("Error while generating HTML documentation: {0}",ex.Message));
-                    }
-                    Application.Current.Shutdown();
-                };
-                generatingDocWindow.ShowDialog();
-                return;
+                    var generatingDocWindow = new GeneratingWindow();
+                    generatingDocWindow.Message.Content = Properties.Resources.GeneratingWaitMessage;
+                    generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
+                    generatingDocWindow.Show();
+                    var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new HtmlGenerator());
+                    generatingDocWindow.Close();
+                }
+                catch(Exception ex)
+                {
+                    //wtf?    
+                }
+                Environment.Exit(0);
             }
             if (IsCommandParameterGiven("-GenerateDocLaTeX"))
             {
-                var noIcons = IsCommandParameterGiven("-NoIcons");
-                var showAuthors = IsCommandParameterGiven("-ShowAuthors");
-                var generatingDocWindow = new GeneratingWindow();
-                generatingDocWindow.Message.Content = Properties.Resources.GeneratingLaTeXWaitMessage;
-                generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
-                generatingDocWindow.ContentRendered += delegate
+                try
                 {
-                    try
-                    {
-                        var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
-                        docGenerator.Generate(DirectoryHelper.BaseDirectory,new LaTeXGenerator("de", noIcons, showAuthors));
-                        Console.WriteLine("LaTeX documentation sucessfully generated!");
-                        
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(string.Format("Error while generating LaTeX documentation: {0}",ex.Message));
-                    }
-                    
-                    Application.Current.Shutdown();
-                };                
-                generatingDocWindow.ShowDialog();
-                return;
+                    var noIcons = IsCommandParameterGiven("-NoIcons");
+                    var showAuthors = IsCommandParameterGiven("-ShowAuthors");
+                    var generatingDocWindow = new GeneratingWindow();
+                    generatingDocWindow.Message.Content = Properties.Resources.GeneratingLaTeXWaitMessage;
+                    generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;                                                              
+                    generatingDocWindow.Show();
+                    var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de", noIcons, showAuthors));
+                    generatingDocWindow.Close();                    
+                }
+                catch(Exception ex)
+                {
+                    //wtf?    
+                }
+                Environment.Exit(0);
             }
 
             defaultTemplatesDirectory = Path.Combine(DirectoryHelper.BaseDirectory, Settings.Default.SamplesDir);
@@ -333,25 +316,25 @@ namespace Cryptool.CrypWin
 
             if (IsCommandParameterGiven("-GenerateComponentConnectionStatistics"))
             {
-                var generatingComponentConnectionStatistic = new GeneratingWindow();
-                generatingComponentConnectionStatistic.Message.Content = Properties.Resources.StatisticsWaitMessage;
-                generatingComponentConnectionStatistic.Title = Properties.Resources.Generating_Statistics_Title;
-                generatingComponentConnectionStatistic.ContentRendered += delegate
+                try
                 {
-                    try
-                    {
-                        TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
-                        SaveComponentConnectionStatistics();
-                        Console.WriteLine("Component connection statistics sucessfully generated!");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(string.Format("Error while generating component connection statistics: {0}", ex.Message));
-                    }
-                    Application.Current.Shutdown();
-                };
-                generatingComponentConnectionStatistic.ShowDialog();
-                return;
+                    var generatingComponentConnectionStatistic = new GeneratingWindow();
+                    generatingComponentConnectionStatistic.Message.Content = Properties.Resources.StatisticsWaitMessage;
+                    generatingComponentConnectionStatistic.Title = Properties.Resources.Generating_Statistics_Title;
+                    generatingComponentConnectionStatistic.Show();
+                    TemplatesAnalyzer.GenerateStatisticsFromTemplate(defaultTemplatesDirectory);
+                    SaveComponentConnectionStatistics();
+                    generatingComponentConnectionStatistic.Close();
+                }catch(Exception ex)
+                {
+                    //wtf?
+                }
+                Environment.Exit(0);
+            }
+
+            if (!EstablishSingleInstance())
+            {
+                Environment.Exit(0);
             }
 
             // check whether update is available to be installed
