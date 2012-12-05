@@ -115,8 +115,7 @@ namespace Cryptool.Substitution
         {
             if(inputString != null)
             {
-                StringBuilder output = new StringBuilder();
-
+                StringBuilder output = new StringBuilder();                
                 string alphabet = settings.AlphabetSymbols;
 
                 //in case we don't want consider case in the alphabet, we use only capital letters, hence transform
@@ -346,11 +345,23 @@ namespace Cryptool.Substitution
 
         public void Execute()
         {
+            if (string.IsNullOrWhiteSpace(settings.AlphabetSymbols))
+            {
+                GuiLogMessage("Alphabet is not set correctly. Reset it to default value", NotificationLevel.Warning);
+                settings.resetCipherAlphabet();
+            }
+
+            if (string.IsNullOrWhiteSpace(settings.KeyValue))
+            {
+                GuiLogMessage(string.Format("Key is not set correctly. Set it to: '{0}'",settings.AlphabetSymbols), NotificationLevel.Warning);
+                settings.KeyValue = settings.AlphabetSymbols;
+            }
+
             foreach (char c in settings.KeyValue)
             {
                 if (!settings.AlphabetSymbols.Contains(c))
                 {
-                    GuiLogMessage("Key contains characters that are not part of the alphabet!", NotificationLevel.Error);
+                    GuiLogMessage(string.Format("The key contains a character that is not part of the alphabet: '{0}'",c), NotificationLevel.Error);
                     return;
                 }
             }

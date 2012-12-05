@@ -108,6 +108,12 @@ namespace Cryptool.Substitution
             return value;
         }
 
+        public void resetCipherAlphabet()
+        {
+            setCipherAlphabet(upperAlphabet);
+            LogMessage(String.Format("Alphabet set to: '{0}",upperAlphabet),NotificationLevel.Warning);
+        }
+
         private void setCipherAlphabet(string value)
         {
             foreach (char c in value)
