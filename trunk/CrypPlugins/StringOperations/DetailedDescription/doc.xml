@@ -36,7 +36,7 @@
       <item>Equals: Returns a 1 at the number output if the texts are equal. Otherwise returns a 0</item>
       <item>Replace: Replaces all substrings of the first input string which are equal to the second input string by the third input string and returns the new string</item>
       <item>RegexReplace: Replaces all substrings of the first input string which match to the regular expression provided by the second input string by the third input string and returns the new string</item>
-      <item>Block: Formats the given string into blocks (using the setting "Blocksize") after removing all whitespaces.</item>
+      <item>>Block: Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
     </enum>
   </usage>
 
@@ -55,7 +55,7 @@
       <item>Vergleich: Gibt 1 aus, wenn beide Texte identisch sind. Gibt ansonsten 0 aus</item>
       <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
       <item>RegexErsetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
-      <item>Block: Formatiert den Text des ersten Texteingangs in Textblöcke um (nutzt die Einstellung "Blockgröße"), nachdem der vollständige typografische Weißraum entfernt wurde</item>
+      <item>Block: Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
     </enum>    
   </usage>
   
