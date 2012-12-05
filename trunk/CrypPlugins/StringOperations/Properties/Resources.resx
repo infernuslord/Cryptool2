@@ -180,4 +180,10 @@
   <data name="OutputStringArrayTooltip" xml:space="preserve">
     <value>The output strings created by this operation in an array of strings</value>
   </data>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blocksize</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>Size of blocks in which this string should be splitted.</value>
+  </data>
 </root>

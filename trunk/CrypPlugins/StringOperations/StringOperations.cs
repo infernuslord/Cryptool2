@@ -15,6 +15,7 @@
 */
 using System;
 using System.ComponentModel;
+using System.Text;
 using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
@@ -70,7 +71,7 @@ namespace StringOperations
         {
             try
             {
-                switch ((StringOperationType) (_settings).Operation)
+                switch (_settings.Operation)
                 {
                     case StringOperationType.Concatenate:
                         _outputString = String.Concat(_string1,_string2);
@@ -121,6 +122,28 @@ namespace StringOperations
                         OnPropertyChanged("OutputStringArray");
                         _outputValue = (_outputStringArray == null) ? 0 :_outputStringArray.Length;
                         OnPropertyChanged("OutputValue");
+                        break;
+                    case StringOperationType.Block:
+                        if (_settings.Blocksize == 0)
+                        {
+                            GuiLogMessage("Blocksize is '0'. Set blocksize to '1'", NotificationLevel.Warning);
+                            _settings.Blocksize = 1;                            
+                        }
+                        var counter = 0;
+                        var str = Regex.Replace(_string1, @"\s*", "");
+                        var strbuilder = new StringBuilder();
+                        foreach (char c in str)
+                        {
+                            strbuilder.Append(c);
+                            counter++;
+                            if(counter == ((StringOperationsSettings)Settings).Blocksize)
+                            {
+                                counter = 0;
+                                strbuilder.Append(" ");
+                            }
+                        }
+                        _outputString = strbuilder.ToString().TrimEnd();
+                        OnPropertyChanged("OutputString");
                         break;
                 }
                 ProgressChanged(1, 1);

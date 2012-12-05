@@ -13,36 +13,70 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 using Cryptool.PluginBase;
+using System;
 
 namespace StringOperations
 {
     class StringOperationsSettings : ISettings
     {
         private StringOperationType _stringOperationType;
+        private int _blockSize = 5;
+        private readonly Dictionary<StringOperationType, List<string>> _operationVisibility = new Dictionary<StringOperationType, List<string>>();
+        private readonly List<string> _operationList = new List<string>();  
 
         #region INotifyPropertyChanged Members
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
+        public StringOperationsSettings()
+        {
+            foreach (StringOperationType name in Enum.GetValues(typeof(StringOperationType)))
+            {
+                _operationVisibility[name] = new List<string>();
+            }
+            _operationList.Add("Blocksize");
+            _operationVisibility[StringOperationType.Block].Add("Blocksize");
+            UpdateTaskPaneVisibility();
+        }
+
         [TaskPane("OperationCaption", "OperationCaptionToolTip", null, 1, false, ControlType.ComboBox,
-            new[] { "Concatenate", "Substring", "ToLowercase", "ToUppercase", "Length", "CompareTo", "Trim", "IndexOf", "Equals", "Replace", "RegexReplace", "Split" })]
-        public int Operation
+            new[] { "Concatenate", "Substring", "ToLowercase", "ToUppercase", "Length", "CompareTo", "Trim", "IndexOf", "Equals", "Replace", "RegexReplace", "Split","Block" })]
+        public StringOperationType Operation
         {
             get
             {
-                return (int)_stringOperationType;
+                return _stringOperationType;
             }
             set
             {
-                if (_stringOperationType != (StringOperationType)value)
+                if (_stringOperationType != value)
                 {
-                    _stringOperationType = (StringOperationType) value;
+                    _stringOperationType = value;
+                    UpdateTaskPaneVisibility();
                     OnPropertyChanged("Operation");
                 }
+            }
+        }
+        
+        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 3, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+        public int Blocksize
+        {
+            get
+            {
+                return _blockSize;
+            }
+            set
+            {
+                _blockSize = value;
+                OnPropertyChanged("Blocksize");
             }
         }
 
@@ -52,7 +86,20 @@ namespace StringOperations
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
-        }        
+        }
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            foreach (var tpac in _operationList.Select(operation => new TaskPaneAttribteContainer(operation, (_operationVisibility[Operation].Contains(operation)) ? Visibility.Visible : Visibility.Collapsed)))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tpac));
+            }
+        }
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
     }
 
     enum StringOperationType
@@ -68,6 +115,7 @@ namespace StringOperations
         Equals,
         Replace,
         RegexReplace,
-        Split
+        Split,
+        Block
     }
 }
