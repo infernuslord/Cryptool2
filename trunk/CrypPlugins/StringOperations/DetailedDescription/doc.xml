@@ -36,7 +36,7 @@
       <item>Equals: Returns a 1 at the number output if the texts are equal. Otherwise returns a 0</item>
       <item>Replace: Replaces all substrings of the first input string which are equal to the second input string by the third input string and returns the new string</item>
       <item>RegexReplace: Replaces all substrings of the first input string which match to the regular expression provided by the second input string by the third input string and returns the new string</item>
-      <item>>Block: Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
+      <item>Block: Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
     </enum>
   </usage>
 
