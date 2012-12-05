@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blockgröße</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>Größe der Blöcke in die diese Zeichenkette aufgeteilt werden soll.</value>
+  </data>
   <data name="OperationCaption" xml:space="preserve">
     <value>Funktion</value>
   </data>
