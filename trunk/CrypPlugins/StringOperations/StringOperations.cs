@@ -41,7 +41,7 @@ namespace StringOperations
 
         public StringOperations()
         {
-            _settings = new StringOperationsSettings();
+            _settings = new StringOperationsSettings();            
         }
 
         #region IPlugin Members
@@ -166,7 +166,7 @@ namespace StringOperations
 
         public void Initialize()
         {
-            
+            _settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
