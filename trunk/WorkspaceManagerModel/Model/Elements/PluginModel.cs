@@ -405,7 +405,7 @@ namespace WorkspaceManager.Model
 
                     //we are startable if we have NO input connectors
                     //Startable flag is deprecated now
-                    if (firstrun && InputConnectors.Count == 0)
+                    if (firstrun && (InputConnectors.Count == 0 || HasOnlyOptionalUnconnectedInputs()))
                     {
                         firstrun = false;
                         try
@@ -668,7 +668,20 @@ namespace WorkspaceManager.Model
         }
 
         //public int ZIndex { get; set; }
-    }
+
+        public bool HasOnlyOptionalUnconnectedInputs()
+        {
+            foreach (ConnectorModel cm in GetInputConnectors())
+            {
+                if (cm.IsMandatory || cm.GetInputConnections().Count > 0)
+                {
+                    return false;
+                } 
+            }
+            return true;
+        }    
+    }    
+
     /// <summary>
     /// The internal state of a Plugin Model
     /// </summary>
