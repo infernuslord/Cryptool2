@@ -13,35 +13,35 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System;
+
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.NetworkInput
+namespace Cryptool.Plugins.NetworkSender
 {
-    // HOWTO: rename class (click name, press F2)
-    public class NetworkInputSettings : ISettings
+    public class NetworkSenderSettings : ISettings
     {
         #region Private Variables
 
         private int port;
         private string deviceIP;
-        private readonly NetworkInput caller;
+        private bool byteAsciiSwitch;
 
         #endregion
 
-        public NetworkInputSettings(NetworkInput caller)
-        {
-            this.caller = caller;
-        }
-
         #region TaskPane Settings
-
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
+        [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
+        public string DeviceIP
+        {
+            get { return deviceIP; }
+            set
+            {
+                deviceIP = value;
+                OnPropertyChanged("DeviceIp");
+            }
+        }
+   
         [TaskPane("Port", "PortToolTip", "NetworkConditions", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
         public int Port
         {
@@ -59,17 +59,20 @@ namespace Cryptool.Plugins.NetworkInput
             }
         }
 
-
-        [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
-        public string DeviceIP
+        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings", 3, false, ControlType.CheckBox)]
+        public bool ByteAsciiSwitch
         {
-            get { return deviceIP; }
+            get { return byteAsciiSwitch; }
             set
             {
-                deviceIP = value;
-                OnPropertyChanged("DeviceIp");
+                if (value != byteAsciiSwitch)
+                {
+                    byteAsciiSwitch = value;
+                    OnPropertyChanged("ByteAsciiSwitch");
+                }
             }
         }
+
 
         #endregion
 

@@ -4,17 +4,17 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
-namespace Cryptool.Plugins.NetworkOutput
+namespace Cryptool.Plugins.NetworkReceiver
 {
     /// <summary>
     /// Interaktionslogik für UDPReceiverQuickWatchPresentation.xaml
     /// </summary>
-    [Cryptool.PluginBase.Attributes.Localization("NetworkOutput.Properties.Resources")]
-    public partial class NetworkOutputPresentation : UserControl
+    [Cryptool.PluginBase.Attributes.Localization("NetworkReceiver.Properties.Resources")]
+    public partial class NetworkReceiverPresentation : UserControl
     {
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
 
-        public NetworkOutputPresentation()
+        public NetworkReceiverPresentation()
         {
             InitializeComponent();
             this.DataContext = entries;
@@ -22,19 +22,19 @@ namespace Cryptool.Plugins.NetworkOutput
 
         public void RefreshMetaData(int amountOfReceivedPackages, int amountOfUniqueIps)
         {
-            int[] jar = {amountOfReceivedPackages, amountOfUniqueIps};
+            var jar = new int[2]{amountOfReceivedPackages, amountOfUniqueIps};
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>{
               try
               {
-                amount.Content = jar[0];
-                uniqueIP.Content = jar[1];
+                  amount.Content = jar[0];
+                  uniqueIP.Content = jar[1];
               } catch{} // dont throw an error in invoke threat
             }),jar);
         }
 
         public void SetStaticMetaData(string starttime, string port)
         {
-            string[] jar = { starttime, port};
+            var jar = new string[2] { starttime, port };
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
                 {
                     try

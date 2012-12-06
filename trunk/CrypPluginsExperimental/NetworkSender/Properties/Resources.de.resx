@@ -130,7 +130,7 @@
     <value>Gesendete Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerkeingabe</value>
+    <value>Netzwerk Sender</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
     <value>Komponente kann mehere UDP Packete versenden.</value>
@@ -141,20 +141,20 @@
   <data name="PortToolTip" xml:space="preserve">
     <value>Port auf dem die Daten versendet werden</value>
   </data>
-  <data name="ReceivedPackagesLabel" xml:space="preserve">
+  <data name="SendPackagesLabel" xml:space="preserve">
     <value>Gesendete Pakete</value>
   </data>
   <data name="StartLabel" xml:space="preserve">
     <value>Gestartet Um:</value>
   </data>
   <data name="StreamInput" xml:space="preserve">
-    <value>Alle Pakete</value>
+    <value>zu sendende Daten</value>
   </data>
   <data name="StreamInputTooltip" xml:space="preserve">
-    <value>Leitet alle gesendeten Packete weiter</value>
+    <value>Daten, die über das Netzwerk gesendet werden sollen.</value>
   </data>
-  <data name="TORHeader" xml:space="preserve">
-    <value>Empfangen um</value>
+  <data name="TOSHeader" xml:space="preserve">
+    <value>Gesendet Um</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
     <value>Netzwerkkarten IP:</value>
@@ -164,5 +164,8 @@
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port: </value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Größe</value>
   </data>
 </root>

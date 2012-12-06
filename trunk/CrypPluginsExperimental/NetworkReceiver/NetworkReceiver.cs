@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -25,18 +26,18 @@ using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
 
-namespace Cryptool.Plugins.NetworkOutput
+namespace Cryptool.Plugins.NetworkReceiver
 {
     [Author("Christopher Konze", "ckonze@uni.de", "University of Kassel", "")]
-    [PluginInfo("NetworkOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkOutput/userdoc.xml", new[] { "NetworkOutput/Images/package.png" })]
+    [PluginInfo("NetworkReceiver.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkReceiver/userdoc.xml", new[] { "NetworkReceiver/Images/package.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
-    public class NetworkOutput : ICrypComponent
+    public class NetworkReceiver : ICrypComponent
     {
  
         #region Private variables
 
-        private readonly NetworkOutputSettings settings;
-        private readonly NetworkOutputPresentation presentation = new NetworkOutputPresentation();
+        private readonly NetworkReceiverSettings settings;
+        private readonly NetworkReceiverPresentation presentation = new NetworkReceiverPresentation();
 
         private IPEndPoint endPoint;
 
@@ -51,9 +52,9 @@ namespace Cryptool.Plugins.NetworkOutput
 
         #endregion
 
-        public NetworkOutput()
+        public NetworkReceiver()
         {
-            settings = new NetworkOutputSettings(this);
+            settings = new NetworkReceiverSettings(this);
         }
 
         #region Helper Functions
@@ -78,12 +79,8 @@ namespace Cryptool.Plugins.NetworkOutput
         {
             return (settings.PackageLimit < receivedPackages.Count || settings.PackageLimit == 0);
         }
-
-        private string ConvertToACII(byte[] data)
-        {
-            return System.Text.Encoding.ASCII.GetString(data);
-        }
-
+        
+        // creates a size string corespornsing to the size of the given bytearray (data) with a byte or kByte ending
         private string generatePackageSizeString(byte[] data)
         {
             double size = data.Length;
@@ -184,7 +181,7 @@ namespace Cryptool.Plugins.NetworkOutput
                     {
                         PackageSize = generatePackageSizeString(data),
                         IPFrom = endPoint.Address.ToString(),
-                        Payload = (settings.ByteAsciiSwitch ? ConvertToACII(data) : BitConverter.ToString(data))
+                        Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(data) : BitConverter.ToString(data))
                     });
                     presentation.RefreshMetaData(receivedPackages.Count, uniqueSrcIps.Count);
 

@@ -14,52 +14,58 @@
    limitations under the License.
 */
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
+using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
-using NetworkInput;
-using NetworkInput.Model;
 
 
-namespace Cryptool.Plugins.NetworkInput
+namespace Cryptool.Plugins.NetworkSender
 {
 
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "University of Kassel", "")]
-    [PluginInfo("NetworkInput.Properties.Resources", "PluginCaption", "PluginToolTip", "NetworkInput/userdoc.xml", new[] { "NetworkInput/Images/1352124662_ark.png" })]
+    [PluginInfo("NetworkSender.Properties.Resources", "PluginCaption", "PluginToolTip", "NetworkSender/userdoc.xml", new[] { "NetworkSender/Images/package.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkInput : ICrypComponent
     {
         #region Private Variables
-
-        // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly NetworkInputSettings settings;
-        private readonly NetworkInputPresentation presentation = new NetworkInputPresentation();
+        private readonly NetworkSenderSettings settings;
+        private readonly NetworkSenderPresentation presentation = new NetworkSenderPresentation();
         private string addr;
         private IPEndPoint endPoint;
         private bool valid = false;
         private IPAddress ip;
-        private byte[] packetData;
         private bool isRunning;
         private CStreamReader streamReader;
         private Socket clientSocket;
-        private int bytesRead;
+        private int packageCount;
         private DateTime startTime;
 
         #endregion
 
-         public NetworkInput()
+        public NetworkInput()
         {
-
-            settings = new NetworkInputSettings(this);
+            settings = new NetworkSenderSettings();
         }
 
         #region Helper Function
+
+         private string generatePackageSizeString(byte[] data)
+         {
+             double size = data.Length;
+             if (size < 1024)
+             {
+                 return size + " Byte";
+             }
+             else
+             {
+                 return Math.Round((double)(size / 1024.0), 2) + " kByte";
+             }
+         }
 
         //check ip adress to be valid
         public bool IsValidIP(string addr)
@@ -90,8 +96,7 @@ namespace Cryptool.Plugins.NetworkInput
         #region Data Properties
 
         /// <summary>
-        /// HOWTO: Input interface to read the input data. 
-        /// You can add more input properties of other type if needed.
+        /// Data to be send inside of a package over a network
         /// </summary>
         [PropertyInfo(Direction.InputData, "StreamInput", "StreamInputTooltip")]
         public ICryptoolStream PackageStream
@@ -135,10 +140,7 @@ namespace Cryptool.Plugins.NetworkInput
             //resets the presentation
             presentation.ClearList();
             presentation.RefreshMetaData(0);
-            presentation.SetStaticMetaData(startTime.ToLongTimeString());
-
-
-
+            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port);
         }
 
         /// <summary>
@@ -146,7 +148,6 @@ namespace Cryptool.Plugins.NetworkInput
         /// </summary>
         public void Execute()
         {
-            // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(1, 100);
 
             if (IsValidIP(settings.DeviceIP))
@@ -157,36 +158,28 @@ namespace Cryptool.Plugins.NetworkInput
 
                 using (streamReader = PackageStream.CreateReader())
                 {
-
-                    packetData = new byte[1024];
-
-
-                    while ((bytesRead = streamReader.Read(packetData)) > 0)
+                    var streamBuffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
                     {
-                        var input = new List<byte>();
-                        //cuts the zeros of the packet data   
-                        foreach (var zero in packetData)
+                        var packetData = new byte[bytesRead];
+                        for (int i = 0; i < bytesRead; i++)
                         {
-                            if (zero != 0)
-                            {
-                                input.Add(zero);
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            packetData[i] = streamBuffer[i]; // copy all read data to streamData 
                         }
 
                         //updates the presentation
                         presentation.AddPresentationPackage(new PresentationPackage
                         {
                             IPFrom = endPoint.Address.ToString(),
-                            Payload = BitConverter.ToString(input.ToArray())
+                            Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                            PackageSize = generatePackageSizeString(packetData)
                         });
-                        presentation.RefreshMetaData(input.Count);
+                        packageCount++;
+                        presentation.RefreshMetaData(packageCount);
 
                         //sends input data
-                        clientSocket.SendTo(input.ToArray(), endPoint);
+                        clientSocket.SendTo(packetData, endPoint);
                     }
                 }
             }

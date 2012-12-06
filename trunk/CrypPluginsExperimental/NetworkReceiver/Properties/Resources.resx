@@ -118,51 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AmountLabel" xml:space="preserve">
-    <value>Transmitted Packages:</value>
+    <value>Received Packages:</value>
   </data>
   <data name="IPFromHeader" xml:space="preserve">
-    <value>Receiver IP</value>
+    <value>Source IP</value>
   </data>
   <data name="MetaLabel" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="PackageLimit" xml:space="preserve">
+    <value>Package Limit</value>
+  </data>
+  <data name="PackageLimitTooltip" xml:space="preserve">
+    <value>gives the amount of packages after that the component will stop. 0 means 'dont stop'</value>
+  </data>
   <data name="PaylodHeader" xml:space="preserve">
-    <value>Transmitted Data</value>
+    <value>Received Data</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Network Input</value>
+    <value>Network Receiver</value>
   </data>
-  <data name="PluginToolTip" xml:space="preserve">
-    <value>Component is able to send muliple UDP packets</value>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>The component is able to receive packets sent over a network.</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
-  <data name="PortToolTip" xml:space="preserve">
-    <value>Port on which the data packets are sended</value>
+  <data name="PortTooltip" xml:space="preserve">
+    <value>Port on which the component will listen</value>
   </data>
   <data name="ReceivedPackagesLabel" xml:space="preserve">
     <value>Received Packages</value>
   </data>
+  <data name="SingleOutput" xml:space="preserve">
+    <value>Single Packet</value>
+  </data>
+  <data name="SingleOutputTooltip" xml:space="preserve">
+    <value>data of a singel packet</value>
+  </data>
   <data name="StartLabel" xml:space="preserve">
     <value>Start Time:</value>
   </data>
-  <data name="StreamInput" xml:space="preserve">
+  <data name="StopConditions" xml:space="preserve">
+    <value>Stop Conditions</value>
+  </data>
+  <data name="StreamOutput" xml:space="preserve">
     <value>All Packets</value>
   </data>
-  <data name="StreamInputTooltip" xml:space="preserve">
+  <data name="StreamOutputTooltip" xml:space="preserve">
     <value>forward all received packets</value>
   </data>
+  <data name="TimeLimit" xml:space="preserve">
+    <value>Time Limit</value>
+  </data>
+  <data name="TimeLimitTooltip" xml:space="preserve">
+    <value>gives the second after the component will stop. 0 means 'dont stop'</value>
+  </data>
   <data name="TORHeader" xml:space="preserve">
-    <value>Transmitted at</value>
+    <value>Received at</value>
+  </data>
+  <data name="UniqueIPLabel" xml:space="preserve">
+    <value>Unique Consignor:</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
     <value>Networkdevice IP:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Type in the Ip of the reciever, to send to this device</value>
+    <value>Type in the Ip of your Networkdevice to only receive from this device.</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port:</value>
+  </data>
+  <data name="NetworkConditions" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="NetworkDeviceCaption" xml:space="preserve">
+    <value>Use all Networkinterfaces</value>
+  </data>
+  <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
+    <value>Type in the Ip of your Networkinterfaces to only receive from this device.</value>
+  </data>
+  <data name="ByteAsciiSwitchCaption" xml:space="preserve">
+    <value>show bytes as ASCII</value>
+  </data>
+  <data name="ByteAsciiSwitchCaptionTooltip" xml:space="preserve">
+    <value>show bytes as ASCII</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>Presentation Settings</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
   </data>
 </root>
