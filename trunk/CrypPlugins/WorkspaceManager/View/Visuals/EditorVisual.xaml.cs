@@ -1599,9 +1599,7 @@ namespace WorkspaceManager.View.Visuals
                 setDragWindowHandle();
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Arrow;
-                //FOCUS ISSUE WITH THIS !!!!!!!!!!!!!!
-                //Keyboard.DefaultRestoreFocusMode = RestoreFocusMode.Auto;
-                //Keyboard.ClearFocus();
+                Keyboard.Focus(this);
                 e.Handled = true;
             }
 
