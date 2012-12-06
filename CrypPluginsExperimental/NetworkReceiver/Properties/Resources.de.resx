@@ -133,13 +133,13 @@
     <value>Gibt an, nach wieviel Packeten die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
   </data>
   <data name="PaylodHeader" xml:space="preserve">
-    <value>Empangende Daten</value>
+    <value>Empfangende Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerkausgabe</value>
+    <value>Netzwerk Empfänger</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Komponente kann mehere UDP Packete empfangen.</value>
+    <value>Die Komponente kann über ein Netzwerk gesendete Pakete empfangen.</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>

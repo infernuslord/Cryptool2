@@ -22,9 +22,9 @@ using System.Net.Sockets;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.NetworkOutput
+namespace Cryptool.Plugins.NetworkReceiver
 {
-    public class NetworkOutputSettings : ISettings
+    public class NetworkReceiverSettings : ISettings
     {
         #region Private Variables
 
@@ -33,10 +33,10 @@ namespace Cryptool.Plugins.NetworkOutput
         private int packageLimit;
         private string deviceIp;
         private bool networkDevice = true;
-        private readonly NetworkOutput caller;
+        private readonly NetworkReceiver caller;
         private bool byteAsciiSwitch;
 
-        public NetworkOutputSettings(NetworkOutput caller)
+        public NetworkReceiverSettings(NetworkReceiver caller)
         {
             this.caller = caller;
             NetworkDevice = true;
@@ -44,6 +44,8 @@ namespace Cryptool.Plugins.NetworkOutput
 
         #endregion
 
+        #region TaskPane Settings
+        
         [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
         public string DeviceIp
         {
@@ -55,7 +57,6 @@ namespace Cryptool.Plugins.NetworkOutput
             }
         }
      
-        #region TaskPane Settings
         [TaskPane("NetworkDeviceCaption", "NetworkDeviceCaptionTooltip", "NetworkConditions", 1, false, ControlType.CheckBox)]
         public bool NetworkDevice
         {
@@ -90,21 +91,6 @@ namespace Cryptool.Plugins.NetworkOutput
             }
         }
 
-        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings" , 3, false, ControlType.CheckBox)]
-        public bool ByteAsciiSwitch
-        {
-            get { return byteAsciiSwitch; }
-            set
-            {
-                if (value != byteAsciiSwitch)
-                {
-                    byteAsciiSwitch = value;
-                    OnPropertyChanged("ByteAsciiSwitch");
-                }
-            }
-        }
-
-
         [TaskPane("Port", "PortTooltip", "NetworkConditions", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
         public int Port
         {
@@ -122,7 +108,20 @@ namespace Cryptool.Plugins.NetworkOutput
             }
         }
 
-     
+        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings" , 3, false, ControlType.CheckBox)]
+        public bool ByteAsciiSwitch
+        {
+            get { return byteAsciiSwitch; }
+            set
+            {
+                if (value != byteAsciiSwitch)
+                {
+                    byteAsciiSwitch = value;
+                    OnPropertyChanged("ByteAsciiSwitch");
+                }
+            }
+        }
+        
         [TaskPane("TimeLimit", "TimeLimitTooltip", "StopConditions", 4, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
         public int Timeout
         {

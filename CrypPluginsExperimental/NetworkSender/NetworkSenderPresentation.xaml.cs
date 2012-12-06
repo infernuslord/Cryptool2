@@ -2,44 +2,43 @@
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
-using NetworkInput.Model;
 
-namespace NetworkInput
+namespace Cryptool.Plugins.NetworkSender
 {
     /// <summary>
     /// Interaktionslogik für NetworkInputPresentation.xaml
     /// </summary>
-    [Cryptool.PluginBase.Attributes.Localization("NetworkInput.Properties.Resources")]
-    public partial class NetworkInputPresentation : UserControl
+    [Cryptool.PluginBase.Attributes.Localization("NetworkSender.Properties.Resources")]
+    public partial class NetworkSenderPresentation : UserControl
     {
 
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
-        public NetworkInputPresentation()
+        public NetworkSenderPresentation()
         {
             InitializeComponent();
             this.DataContext = entries;
         }
-        public void RefreshMetaData(int amountOfReceivedPackages)
+        public void RefreshMetaData(int amountOfSendedPackages)
         {
-            int[] jar = { amountOfReceivedPackages};
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
-                    amount.Content = jar[0];
+                    amount.Content = amountOfSendedPackages;
                 }
                 catch { } // dont throw an error in invoke threat
-            }), jar);
+            }), amountOfSendedPackages);
         }
 
-        public void SetStaticMetaData(string starttime)
+        public void SetStaticMetaData(string starttime, int port)
         {
-            string[] jar = { starttime};
+            var jar = new string[2] {starttime, port.ToString()};
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
                     startTime.Content = jar[0];
+                    lisPort.Content = jar[1];
                 }
                 catch { } // dont throw an error in invoke threat
             }), jar);
@@ -47,14 +46,12 @@ namespace NetworkInput
 
         public void AddPresentationPackage(PresentationPackage package)
         {
-            if (package.Payload.Length > 85) // cut payload if it is too long
-                package.Payload = package.Payload.Substring(0, 86) + " ... ";
-
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
                     entries.Add(package);
+                    ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
                 }
                 catch { } // dont throw an error in invoke threat
             }), package);
@@ -74,9 +71,6 @@ namespace NetworkInput
             }), null);
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
     }
 }
