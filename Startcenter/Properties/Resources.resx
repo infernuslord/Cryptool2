@@ -202,6 +202,6 @@
     <value>Delete this entry</value>
   </data>
   <data name="StartTemplate" xml:space="preserve">
-    <value>Start this workspace</value>
+    <value>Start this entry</value>
   </data>
 </root>
