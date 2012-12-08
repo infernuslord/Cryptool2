@@ -27,7 +27,7 @@ namespace Cryptool.PluginBase
         /// <summary>
         /// This dictionary maps editor extensions to the corresponding editor type.
         /// </summary>
-        public static Dictionary<string, Type> EditorExtension;
+        public static Dictionary<string, Type> EditorExtension = new Dictionary<string, Type>();
 
         public static void AddPlugin(Type pluginType)
         {
