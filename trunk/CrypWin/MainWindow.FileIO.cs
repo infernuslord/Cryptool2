@@ -68,9 +68,9 @@ namespace Cryptool.CrypWin
         /// <param name="fileName"></param>
         private void OpenProject(string fileName, FileLoadedHandler OnLoaded)
         {
-            if (File.Exists(fileName))
+            if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
             {
-                this.listPluginsAlreadyInitialized.Clear();
+                listPluginsAlreadyInitialized.Clear();
 
                 var ext = new FileInfo(fileName).Extension;
                 if (ext.Length < 2)
@@ -83,15 +83,23 @@ namespace Cryptool.CrypWin
                 {
                     Type editorType = ComponentInformations.EditorExtension[ext];
 
-                    AddEditorDispatched(editorType);
+                    var editor = AddEditorDispatched(editorType);
+                    if (editor == null)
+                    {
+                        return;
+                    }
+
                     if (OnLoaded != null)
                     {
-                        var editor = this.ActiveEditor;
                         editor.OnFileLoaded += OnLoaded;
                         editor.OnFileLoaded += delegate { editor.OnFileLoaded -= OnLoaded; };
                     }
-                    this.ActiveEditor.Open(fileName);
-                    ActiveEditor.Presentation.ToolTip = fileName;
+
+                    editor.Open(fileName);
+                    if (editor.Presentation != null)
+                    {
+                        editor.Presentation.ToolTip = fileName;
+                    }
 
                     SetCurrentEditorAsDefaultEditor();
                     this.ProjectFileName = fileName;
