@@ -1654,6 +1654,7 @@ namespace Cryptool.CrypWin
                 var tab = contentToTabMap[content];
                 tab.Header = title.Replace("_", "__");
                 tab.IsSelected = true;
+                SaveSession();
                 return tab;
             }
 
