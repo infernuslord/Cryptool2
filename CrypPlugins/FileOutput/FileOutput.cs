@@ -205,6 +205,8 @@ namespace FileOutput
 
         #endregion
 
+
+
         public void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
@@ -218,6 +220,11 @@ namespace FileOutput
         private void Progress(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+        
+        public void getMessage(string message)
+        {
+            GuiLogMessage(message, NotificationLevel.Debug);
         }
 
         private void GuiLogMessage(string message, NotificationLevel logLevel)

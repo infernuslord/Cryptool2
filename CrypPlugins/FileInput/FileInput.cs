@@ -54,6 +54,11 @@ namespace FileInput
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
+        public void getMessage(string message)
+        {
+            GuiLogMessage(message, NotificationLevel.Debug);
+        }
+
         public UserControl Presentation { get; private set; }
 
         public void Initialize()

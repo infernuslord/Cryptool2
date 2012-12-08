@@ -17,8 +17,10 @@ namespace HexBox
     /// </summary>
     public partial class HexBox : UserControl
     {
+
         #region Private variables
 
+        private Window window;
         private readonly HexText _ht;
         private readonly TextBlock _info = new TextBlock();
         private readonly long[] _mark;
@@ -34,12 +36,13 @@ namespace HexBox
         private Boolean _markedBackwards;
         private double _offset;
         private Boolean _unicorn = true;
+        
 
         #endregion
 
         #region Properties
 
-        public Boolean InReadOnlyMode;
+        public Boolean InReadOnlyMode = false;
         public string Pfad = string.Empty;
         public event EventHandler OnFileChanged;
 
@@ -51,6 +54,7 @@ namespace HexBox
         {
             InitializeComponent();
 
+            
 
             _st = new StretchText();
             _ht = new HexText();
@@ -112,6 +116,8 @@ namespace HexBox
 
             var sb = new Storyboard();
 
+            
+
             canvas1.MouseDown += canvas1_MouseDown;
             canvas2.MouseDown += canvas2_MouseDown;
 
@@ -131,8 +137,30 @@ namespace HexBox
             Stream s = new MemoryStream();
 
             _dyfipro = new DynamicFileByteProvider(s);
-
+            
             _dyfipro.LengthChanged += dyfipro_LengthChanged;
+
+            this.Loaded += new RoutedEventHandler(HexBox_Loaded);
+        }
+
+        void HexBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            window = Window.GetWindow(this);
+            if (window == null)
+            {
+                return;
+            }
+
+            window.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(window_MouseLeftButtonDown);
+        }
+
+        private void window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!InReadOnlyMode)
+            {
+                this.makeUnFocused(this.IsMouseOver);
+            }
         }
 
         #endregion
@@ -414,7 +442,7 @@ namespace HexBox
             var p = new Point();
 
             p.X = cellText%16*_st.CharWidth;
-            p.Y = cellText/16*20 - 2;
+            p.Y = cellText/16*20-2;
 
             Canvas.SetLeft(cursor2, p.X);
 
@@ -433,7 +461,7 @@ namespace HexBox
             var p = new Point();
 
             p.X = cell%32*(_ht.CharWidth*3)/2;
-            p.Y = cell/32*20 + 2;
+            p.Y = cell/32*20 -2;
 
             if (cell%2 == 1)
             {
@@ -449,11 +477,13 @@ namespace HexBox
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
         {
+            
             if (e.Key != Key.LeftCtrl)
             {
                 if (_cursorposition > fileSlider.Value*32 + 512 || _cursorposition < fileSlider.Value*32)
                 {
                     fileSlider.Value = _cursorposition/32 - 1;
+                    fileSlider.Value = Math.Round(fileSlider.Value);
                 }
             }
 
@@ -586,16 +616,24 @@ namespace HexBox
 
                 if (e.Key == Key.PageDown)
                 {
-                    fileSlider.Value += 16;
-                    _cell += 512;
+                    if (fileSlider.Value < fileSlider.Maximum - 16)
+                    {
+                        fileSlider.Value += 16;
+                        _cell += 512;
+                    }
+                    
                     controlKey = true;
                     e.Handled = true;
                 }
 
                 else if (e.Key == Key.PageUp)
                 {
-                    fileSlider.Value -= 16;
-                    _cell -= 512;
+                    if (fileSlider.Value > 16)
+                    {
+                        fileSlider.Value -= 16;
+                        _cell -= 512;
+                    }
+                    
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -779,6 +817,7 @@ namespace HexBox
             if (_cursorpositionText > fileSlider.Value*16 + 256 || _cursorpositionText < fileSlider.Value*16)
             {
                 fileSlider.Value = _cursorpositionText/16 - 1;
+                fileSlider.Value = Math.Round(fileSlider.Value);
             }
 
             if (Pfad != "" && Pfad != " ")
@@ -896,16 +935,22 @@ namespace HexBox
 
                 if (e.Key == Key.PageDown)
                 {
-                    fileSlider.Value += 16;
-                    _cellText += 256;
+                    if (fileSlider.Value < fileSlider.Maximum-16)
+                    {
+                        fileSlider.Value += 16;
+                        _cellText += 256;
+                    }
                     controlKey = true;
                     e.Handled = true;
                 }
 
                 else if (e.Key == Key.PageUp)
                 {
-                    fileSlider.Value -= 16;
-                    _cellText -= 256;
+                    if (fileSlider.Value > 16)
+                    {
+                        fileSlider.Value -= 16;
+                        _cellText -= 256;
+                    }
                     controlKey = true;
                     e.Handled = true;
                 }
@@ -1195,8 +1240,9 @@ namespace HexBox
             }
             catch (Exception exp)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
-            ;
+            
             e.Handled = true;
         }
 
@@ -1263,6 +1309,7 @@ namespace HexBox
                                 }
                                 catch (Exception exp)
                                 {
+                                    ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
                                 }
                             }
                         }
@@ -1352,7 +1399,7 @@ namespace HexBox
         private void updateUI(long position) // Updates UI
         {
             Column.Text = (int) (_cursorpositionText%16 + 1) + "";
-            Line.Text = _cursorpositionText/16 + "";
+            Line.Text = _cursorpositionText/16 + 1 + "";
 
             long end = _dyfipro.Length - position*16;
             int max = 256;
@@ -1380,7 +1427,7 @@ namespace HexBox
 
             _ht.ByteContent = help2;
 
-            if (_cursorpositionText - fileSlider.Value*16 < 256 && _cursorpositionText - fileSlider.Value*16 > 0)
+            if (_cursorpositionText - fileSlider.Value*16 < 256 && _cursorpositionText - fileSlider.Value*16 >= 0)
             {
                 cursor.Opacity = 1.0;
                 cursor.Width = 10;
@@ -1432,10 +1479,12 @@ namespace HexBox
             if (_offset <= 16)
             {
                 fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 2 + 16 - _offset;
+                fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             }
             else
             {
                 fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             }
 
             if ((long) old > (long) fileSlider.Maximum && fileSlider.Value == fileSlider.Maximum)
@@ -1468,6 +1517,7 @@ namespace HexBox
                 {
                     _dyfipro = new DynamicFileByteProvider(Pfad, true);
                     makeUnAccesable(false);
+                    ErrorOccured(this, new GUIErrorEventArgs(ioe.Message + "File will be opened in ReadOnlyMode"));
                 }
 
 
@@ -1475,6 +1525,7 @@ namespace HexBox
 
                 fileSlider.Minimum = 0;
                 fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                fileSlider.Maximum = Math.Round(fileSlider.Maximum);
                 fileSlider.ViewportSize = 16;
 
                 _info.Text = _dyfipro.Length/256 + "";
@@ -1569,6 +1620,7 @@ namespace HexBox
             }
             catch (Exception e)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(e.Message));
             }
 
             return true;
@@ -1599,12 +1651,35 @@ namespace HexBox
             }
         }
 
+        private void makeUnFocused(Boolean b) // allows or doesn't allows manipulation of data
+        {
+
+            if (b)
+            {
+                _st.brush = Brushes.Orange;
+                _ht.brush = Brushes.Orange;
+                cursor.Visibility = Visibility.Visible;
+                cursor2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _ht.brush = Brushes.DarkGray;
+                _st.brush = Brushes.DarkGray;
+                cursor.Visibility = Visibility.Collapsed;
+                cursor2.Visibility = Visibility.Collapsed;
+
+            }
+            updateUI((long)fileSlider.Value);
+        }
+
+
         public void makeUnAccesable(Boolean b) // allows or doesn't allows manipulation of data
         {
             //grid1.IsEnabled = b;
             //grid2.IsEnabled = b;
             saveAs.IsEnabled = b;
             save.IsEnabled = b;
+
             if (b)
             {
                 cursor.Visibility = Visibility.Visible;
@@ -1614,7 +1689,9 @@ namespace HexBox
             {
                 cursor.Visibility = Visibility.Collapsed;
                 cursor2.Visibility = Visibility.Collapsed;
+
             }
+            
         }
 
         #endregion
@@ -1645,12 +1722,15 @@ namespace HexBox
                     {
                         _dyfipro = new DynamicFileByteProvider(Pfad, true);
                         makeUnAccesable(false);
+                        InReadOnlyMode = true;
+                        ErrorOccured(this, new GUIErrorEventArgs(ioe.Message + "File will be opened in ReadOnlyMode"));
                     }
 
                     _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
                     fileSlider.Minimum = 0;
                     fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                    fileSlider.Maximum = Math.Round(fileSlider.Maximum);
                     fileSlider.ViewportSize = 16;
 
                     _info.Text = _dyfipro.Length/256 + "";
@@ -1667,7 +1747,7 @@ namespace HexBox
             }
             catch (Exception ex)
             {
-                //TODO: GuiLogMessage here
+                ErrorOccured(this, new GUIErrorEventArgs(ex.Message));
             }
         }
 
@@ -1699,6 +1779,7 @@ namespace HexBox
 
                     fileSlider.Minimum = 0;
                     fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                    fileSlider.Maximum = Math.Round(fileSlider.Maximum);
                     fileSlider.ViewportSize = 16;
 
                     _info.Text = _dyfipro.Length/256 + "";
@@ -1714,7 +1795,7 @@ namespace HexBox
                 }
                 catch (Exception exp)
                 {
-                    //TODO: GuiLogMessage here
+                    ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
                 }
             }
         }
@@ -1747,6 +1828,7 @@ namespace HexBox
             }
             catch (Exception exp)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
         }
 
@@ -1788,6 +1870,7 @@ namespace HexBox
                             if (_mark[1] - _mark[0] > celltemp)
                             {
                                 fileSlider.Value = _mark[0]/16;
+                                fileSlider.Value = Math.Round(fileSlider.Value);
                             }
 
                             _cell = (int) (_mark[0]*2 - (long) fileSlider.Value*32);
@@ -1834,6 +1917,7 @@ namespace HexBox
                             if (_mark[1] - _mark[0] > _cellText)
                             {
                                 fileSlider.Value = _mark[0]/16;
+                                fileSlider.Value = Math.Round(fileSlider.Value);
                             }
 
                             _cellText = (int) (_mark[0] - (long) fileSlider.Value*16);
@@ -1883,6 +1967,7 @@ namespace HexBox
             }
             catch (Exception exp)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
             _mark[1] = -1;
             _mark[0] = -1;
@@ -1904,6 +1989,7 @@ namespace HexBox
                         }
                         catch (Exception e)
                         {
+                            ErrorOccured(this, new GUIErrorEventArgs(e.Message));
                         }
                     }
                     else
@@ -1914,11 +2000,13 @@ namespace HexBox
                         }
                         catch (Exception e)
                         {
+                            ErrorOccured(this, new GUIErrorEventArgs(e.Message));
                         }
 
                         if (_mark[1] - _mark[0] > _cell)
                         {
                             fileSlider.Value = _mark[0]/16;
+                            fileSlider.Value = Math.Round(fileSlider.Value);
                         }
                     }
                 }
@@ -1942,6 +2030,7 @@ namespace HexBox
             }
             catch (Exception e)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(e.Message));
             }
 
             updateUI((long) fileSlider.Value);
@@ -1971,6 +2060,7 @@ namespace HexBox
             }
             catch (Exception exp)
             {
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
         }
 
@@ -1982,7 +2072,14 @@ namespace HexBox
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            _dyfipro.ApplyChanges();
+            try
+            {
+                _dyfipro.ApplyChanges();
+            }
+            catch(Exception exp)
+            {
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
+            }
         }
 
         private void Save_As_Button_Click(object sender, RoutedEventArgs e)
@@ -2025,12 +2122,20 @@ namespace HexBox
         {
             scoview.ScrollToTop();
             _offset = scoview.ViewportHeight/20;
+            if(_offset < 2 )
+            {
+                _offset = 2;
+            }
 
             if (_offset < 16)
-                fileSlider.Maximum = _dyfipro.Length/16 - 15 + 2 + 16 - _offset;
+            {
+                fileSlider.Maximum = _dyfipro.Length/16 - 15 +2 + 16 - _offset;
+                fileSlider.Maximum = Math.Round(fileSlider.Maximum);
+            }
             else
             {
                 fileSlider.Maximum = _dyfipro.Length/16 - 15;
+                fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             }
         }
 
@@ -2040,6 +2145,7 @@ namespace HexBox
         {
             fileSlider.Minimum = 0;
             fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+            fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             fileSlider.SmallChange = 1;
             fileSlider.LargeChange = 1;            
             closeFile(true);
@@ -2050,5 +2156,27 @@ namespace HexBox
             reset();
             updateUI(0);
         }
+        #region Events
+        public delegate void GUIErrorEventHandler(object sender, GUIErrorEventArgs ge);
+
+        // Now, create a public event "FireEvent" whose type is our FireEventHandler delegate. 
+
+
+        public event GUIErrorEventHandler ErrorOccured;
+
+        #endregion
+
     }
+
+    public class GUIErrorEventArgs : EventArgs
+    {
+        public GUIErrorEventArgs(string message)
+        {
+            this.message = message;
+
+        }
+
+        public string message;
+
+    }	
 }

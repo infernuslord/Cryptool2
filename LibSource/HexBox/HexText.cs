@@ -13,7 +13,7 @@ namespace HexBox
     {
 
         private double charwidth;
-
+        public Brush brush = Brushes.Orange;
         public int[] mark = {0,0};
 
         public Boolean removemarks;
@@ -59,7 +59,7 @@ namespace HexBox
 
             Point p = new Point();
 
-            p = new Point(0, 0);
+            p = new Point(0, -4);
 
            //Console.WriteLine("" + formattedText.WidthIncludingTrailingWhitespace);
            
@@ -103,11 +103,11 @@ namespace HexBox
 
             if (!removemarks && !outOfScreen)
             {
-
+                double veroff = 2;
                 if (mark[0] < mark[1])
                 {
 
-                    double y = (int) (mark[0]/32)*20;
+                    double y = (int) (mark[0]/32)*20 - veroff;
                     double x = mark[0]%32*charwidth*3/2;
                     double z = mark[1]%32*charwidth*3/2 - x ;
 
@@ -118,7 +118,7 @@ namespace HexBox
                         z = 0;
                     }
 
-                    double y1 = (int) (mark[1]/32)*20;
+                    double y1 = (int) (mark[1]/32)*20 -veroff;
                     double x1 = 0;
                     double z1 = mark[1]%32*charwidth*3/2 ;
 
@@ -134,23 +134,23 @@ namespace HexBox
 
                     if (mark[0]%32 > mark[1]%32 || mark[1] - mark[0] >= 32)
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x1, y1, z1, 20));
                         int v = (int) mark[1]/32 - (int) mark[0]/32;
 
                         for (int i = 1; i < v; i++)
                         {
                             double y3 = y + i*20;
-                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                          new Rect(0, y3, 47*charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
 
@@ -158,7 +158,7 @@ namespace HexBox
 
                 else
                 {
-                    double y = (int) (mark[0]/32)*20;
+                    double y = (int) (mark[0]/32)*20-veroff;
                     double x = mark[1]%32*charwidth*3/2;
                     double z = mark[0]%32*charwidth*3/2 - x ;
 
@@ -169,7 +169,7 @@ namespace HexBox
                         z = 0;
                     }
 
-                    double y1 = (int) (mark[1]/32)*20;
+                    double y1 = (int)(mark[1] / 32) * 20 - veroff;
                     
                     double z1 = mark[1]%32*charwidth*3/2 ;
                     double x1 = 47*charwidth-z1;
@@ -190,23 +190,23 @@ namespace HexBox
 
                     if (mark[0]%32 < mark[1]%32 || mark[0] - mark[1] >= 32)
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(0, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(z1, y1, x1, 20));
                         int v = (int) mark[0]/32 - (int) mark[1]/32;
 
                         for (int i = 1; i < v; i++)
                         {
                             double y3 = y1 + i*20;
-                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                          new Rect(0, y3, 47*charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
                 }
