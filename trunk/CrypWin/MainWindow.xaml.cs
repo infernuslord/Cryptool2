@@ -1651,8 +1651,10 @@ namespace Cryptool.CrypWin
         {
             if (contentToTabMap.ContainsKey(content))
             {
-                contentToTabMap[content].Header = title.Replace("_", "__");
-                return contentToTabMap[content];
+                var tab = contentToTabMap[content];
+                tab.Header = title.Replace("_", "__");
+                tab.IsSelected = true;
+                return tab;
             }
 
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
