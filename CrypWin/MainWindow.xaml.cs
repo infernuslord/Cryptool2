@@ -1495,6 +1495,14 @@ namespace Cryptool.CrypWin
                     {
                         tabContent = UpdaterPresentation.GetSingleton();
                     }
+                    else if (type == typeof(SystemInfos))
+                    {
+                        tabContent = systemInfos;
+                    }
+                    else if (type == typeof(LicensesTab))
+                    {
+                        tabContent = licenses;
+                    }
                     else
                     {
                         try
