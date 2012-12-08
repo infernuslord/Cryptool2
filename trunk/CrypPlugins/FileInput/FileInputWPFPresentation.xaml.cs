@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
@@ -15,6 +16,7 @@ namespace FileInput
     {
         private readonly FileInputClass exp;
         public HexBox.HexBox hexBox;
+        private Window window;
 
         public FileInputWPFPresentation(FileInputClass exp)
         {
@@ -24,7 +26,14 @@ namespace FileInput
             hexBox = new HexBox.HexBox();
             hexBox.OnFileChanged += fileChanged;
             MainMain.Children.Add(hexBox);
+            this.hexBox.ErrorOccured += new HexBox.HexBox.GUIErrorEventHandler(hexBox_ErrorOccured);
         }
+
+        void hexBox_ErrorOccured(object sender, HexBox.GUIErrorEventArgs ge)
+        {
+            exp.getMessage(ge.message);
+        }
+
 
         public void CloseFileToGetFileStreamForExecution()
         {

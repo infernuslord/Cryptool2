@@ -96,8 +96,8 @@
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </Border>
-                    <Border Style="{StaticResource border2}" Height="333" DockPanel.Dock="Right" Margin="5" VerticalAlignment="Top">
-                <Canvas Name="canvas2"  MinWidth="120" Background="Transparent" Margin="5">
+                    <Border Style="{StaticResource border2}" Height="333" DockPanel.Dock="Right" Margin="5" VerticalAlignment="Top" MinWidth="130" >
+                <Canvas Name="canvas2"  Background="Transparent" Margin="5">
 
                     <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
                         <Rectangle.Style>
@@ -129,9 +129,9 @@
 
                 </Canvas>
             </Border>
-                    <Border Style="{StaticResource border2}" VerticalAlignment="Top" MinWidth="340" Height="333"   DockPanel.Dock="Top" Margin="5">
+            <Border Style="{StaticResource border2}" VerticalAlignment="Top" MinWidth="340" Height="333"   DockPanel.Dock="Top" Margin="5" Padding="5">
                 
-                <Canvas Name="canvas1" HorizontalAlignment="Center" Width="340" Height="333" Background="Transparent" >
+                <Canvas Name="canvas1" HorizontalAlignment="Center" Width="340" Height="333"  Background="Transparent" >
 
                     <Rectangle Name="cursor" Width="10" Height="20" Fill="Yellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
                         <Rectangle.InputBindings>

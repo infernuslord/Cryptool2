@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using FileOutput;
 
 namespace FileOutputWPF
@@ -19,9 +21,17 @@ namespace FileOutputWPF
             this.exp = exp;
             SizeChanged += sizeChanged;
             hexBox = new HexBox.HexBox();
+            hexBox.InReadOnlyMode = true;
             hexBox.OnFileChanged += fileChanged;
+            this.hexBox.ErrorOccured += new HexBox.HexBox.GUIErrorEventHandler(hexBox_ErrorOccured);
+
             MainMain.Children.Add(hexBox);
             hexBox.collapseControl(false);
+        }
+
+        void hexBox_ErrorOccured(object sender, HexBox.GUIErrorEventArgs ge)
+        {
+            exp.getMessage(ge.message);
         }
 
         public void CloseFileToGetFileStreamForExecution()
@@ -46,7 +56,11 @@ namespace FileOutputWPF
 
 
         internal void OpenFile(String fileName)
-        {           
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                hexBox.openFile(fileName, false);
+            }, null);  
         }
 
         internal void dispose()

@@ -13,7 +13,7 @@ namespace HexBox
     {
 
         public int[] mark = { 0, 0 };
-
+        public Brush brush = Brushes.Orange;
         public Boolean removemarks;
         
         private double charwidth;
@@ -78,7 +78,7 @@ namespace HexBox
 
             if (!removemarks)
             {
-                double veroff = 4;
+                double veroff = 2;
                 if (mark[0] < mark[1])
                 {
 
@@ -109,23 +109,23 @@ namespace HexBox
 
                     if (mark[0] % 16 > mark[1] % 16 || mark[1] - mark[0] >= 16)
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x1, y1, z1, 20));
                         int v = (int)mark[1] / 16 - (int)mark[0] / 16;
 
                         for (int ix = 1; ix < v; ix++)
                         {
                             double y3 = y + ix * 20 ;
-                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
 
@@ -162,23 +162,23 @@ namespace HexBox
 
                     if (mark[0] % 32 < mark[1] % 16 || mark[0] - mark[1] >= 16)
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(0, y, z2, 20));
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(z1, y1, x1, 20));
                         int v = (int)mark[0] / 16 - (int)mark[1] / 16;
 
                         for (int ix = 1; ix < v; ix++)
                         {
                             double y3 = y1 + ix * 20 ;
-                            drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                          new Rect(0, y3, 16 * charwidth, 20));
                         }
 
                     }
                     else
                     {
-                        drawingContext.DrawRectangle(Brushes.Orange, new Pen(Brushes.Orange, 1.0),
+                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
                 }
