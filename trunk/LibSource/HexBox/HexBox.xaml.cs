@@ -157,7 +157,7 @@ namespace HexBox
 
         private void window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!InReadOnlyMode)
+            if (!_dyfipro.ReadOnly)
             {
                 this.makeUnFocused(this.IsMouseOver);
             }
@@ -799,7 +799,15 @@ namespace HexBox
 
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.S)
                 {
-                    _dyfipro.ApplyChanges();
+                    try
+                    {
+
+                        _dyfipro.ApplyChanges();
+                    }
+                    catch(Exception exp)
+                    {
+                        ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
+                    }
                     e.Handled = true;
                 }
             }
@@ -1393,6 +1401,7 @@ namespace HexBox
 
         public void dispose() //Disposes File See IDisposable for further information
         {
+
             _dyfipro.Dispose();
         }
 
@@ -1510,7 +1519,7 @@ namespace HexBox
                 Pfad = fileName;
                 try
                 {
-                    _dyfipro = new DynamicFileByteProvider(Pfad, false);
+                    _dyfipro = new DynamicFileByteProvider(Pfad, canRead);
                     makeUnAccesable(true);
                 }
                 catch (IOException ioe)

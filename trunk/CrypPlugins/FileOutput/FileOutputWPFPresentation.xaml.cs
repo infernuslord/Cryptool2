@@ -49,7 +49,7 @@ namespace FileOutputWPF
             if (File.Exists((exp.Settings as FileOutputSettings).TargetFilename))
             {             
                 hexBox.closeFile(false);
-                hexBox.openFile((exp.Settings as FileOutputSettings).TargetFilename, false);
+                hexBox.openFile((exp.Settings as FileOutputSettings).TargetFilename, true);
                 hexBox.collapseControl(false);
             }
         }
@@ -59,7 +59,7 @@ namespace FileOutputWPF
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                hexBox.openFile(fileName, false);
+                hexBox.openFile(fileName, true);
             }, null);  
         }
 
