@@ -1606,6 +1606,15 @@ namespace WorkspaceManager.View.Visuals
             //}
         }
 
+        private void returnWindowFocus()
+        {
+            var win = Util.TryFindParent<Window>(this);
+            if (win != null)
+            {
+                Keyboard.Focus(win as IInputElement);
+            }
+        }
+
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
             if (!(e.Source is ComponentVisual) && !(e.Source is ImageVisual) && !(e.Source is TextVisual)
@@ -1615,12 +1624,12 @@ namespace WorkspaceManager.View.Visuals
                 setDragWindowHandle();
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Arrow;
-                var win = Util.TryFindParent<Window>(e.OriginalSource as UIElement);
-                if (win != null)
-                    Keyboard.Focus(win);
+                this.Focus();
+                Keyboard.Focus(this);
                 e.Handled = true;
             }
-
+     
+            
             switch (e.ClickCount)
             {
                 case 1:
@@ -1673,6 +1682,13 @@ namespace WorkspaceManager.View.Visuals
                         if (SelectedItems == null || !SelectedItems.Contains(c))
                             SelectedItems = new UIElement[] { c };
                         startedSelection = true;
+                        //var res = Util.TryFindParent<Thumb>(e.OriginalSource as UIElement);
+
+                        //Dispatcher.BeginInvoke((ThreadStart)delegate
+                        //{
+                        //    c.Focus();
+                        //    Keyboard.Focus(c);
+                        //});
                         return;
                     }
 
@@ -1682,6 +1698,7 @@ namespace WorkspaceManager.View.Visuals
                         if (SelectedItems == null || !SelectedItems.Contains(line))
                             SelectedItems = new UIElement[] { line };
                         startedSelection = true;
+                        return;
                     }
                     break;
 
