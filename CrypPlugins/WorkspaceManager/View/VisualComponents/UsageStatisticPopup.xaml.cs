@@ -87,7 +87,7 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     var x = (SuggestionContainer)TopUsages.SelectedItem;
                     PluginModel pluginModel = (PluginModel)_editor.Model.ModifyModel(new NewPluginModelOperation(position, 0, 0, x.ComponentType));
-                    _editor.AddBinComponentVisual(pluginModel, 0);
+                    _editor.AddComponentVisual(pluginModel, 0);
                     ConnectorVisual connector = null;
 
                     foreach (var con in pluginModel.GetInputConnectors())
@@ -110,7 +110,7 @@ namespace WorkspaceManager.View.VisualComponents
                         output,
                         input,
                         output.ConnectorType));
-                    _editor.AddConnection(SelectedConnector, connector, connectionModel);
+                    _editor.AddConnectionVisual(SelectedConnector, connector, connectionModel);
 
                     position.X += 50;
                     position.Y += 50;

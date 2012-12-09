@@ -730,11 +730,13 @@ namespace WorkspaceManager.View.Visuals
             VisualCollection.Add(selectionPath);
             draggedLink = new CryptoLineView(VisualCollection);
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
+            MyEditor.PasteOccured += new EventHandler(PasteOccured);
             InitializeComponent();
             _usagePopup = new UsageStatisticPopup(this);
             //_usagePopup.Closed += new EventHandler(_usagePopup_Closed);
             //_usagePopup.Opened += new EventHandler(_usagePopup_Closed);
         }
+
 
         //void _usagePopup_Closed(object sender, EventArgs e)
         //{
@@ -752,7 +754,21 @@ namespace WorkspaceManager.View.Visuals
 
         #region Public
 
-        public void AddBinComponentVisual(PluginModel pluginModel, int mode = 0)
+        void PasteOccured(object sender, EventArgs e)
+        {
+            var concat = new UIElement[0];
+
+            foreach (var bin in ComponentCollection)
+            {
+                if (MyEditor.CurrentCopies.Contains(bin.Model))
+                {
+                    concat = concat.Concat(new UIElement[] { bin }).ToArray();
+                }
+            }
+            SelectedItems = concat;
+        }
+
+        public void AddComponentVisual(PluginModel pluginModel, int mode = 0)
         {
             if (this.State != BinEditorState.READY)
                 return;
@@ -820,7 +836,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
                     if (!skip)
-                        AddBinComponentVisual(pluginModel, 0);
+                        AddComponentVisual(pluginModel, 0);
                 }
 
                 foreach (ConnectionModel connModel in m.GetAllConnectionModels())
@@ -843,7 +859,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
 
-                    AddConnection(from, to, connModel);
+                    AddConnectionVisual(from, to, connModel);
                 }
                 PartialCopyHelper.CurrentSelection = null;
             }
@@ -949,7 +965,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
                     if (!skip)
-                        AddBinComponentVisual(pluginModel, 0);
+                        AddComponentVisual(pluginModel, 0);
                 }
 
                 foreach (ConnectionModel connModel in m.GetAllConnectionModels())
@@ -972,7 +988,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
 
-                    AddConnection(from, to, connModel);
+                    AddConnectionVisual(from, to, connModel);
                 }
 
                 foreach (var img in m.GetAllImageModels())
@@ -996,7 +1012,7 @@ namespace WorkspaceManager.View.Visuals
             , null);
         }
 
-        public void AddConnection(ConnectorVisual source, ConnectorVisual target, ConnectionModel model)
+        public void AddConnectionVisual(ConnectorVisual source, ConnectorVisual target, ConnectionModel model)
         {
             if (this.State != BinEditorState.READY || source == null || target == null)
                 return;
@@ -1156,7 +1172,7 @@ namespace WorkspaceManager.View.Visuals
                 {
                     var model = (ConnectionModel) args.EffectedModelElement;
                     if (!model.To.IControl)
-                        AddConnection((ConnectorVisual)model.From.UpdateableView, (ConnectorVisual)model.To.UpdateableView, model);
+                        AddConnectionVisual((ConnectorVisual)model.From.UpdateableView, (ConnectorVisual)model.To.UpdateableView, model);
                 }
             }
             else if (args.EffectedModelElement is PluginModel)
@@ -1179,7 +1195,7 @@ namespace WorkspaceManager.View.Visuals
                         }
                     }
                     if (!skip)
-                        AddBinComponentVisual(pluginModel);
+                        AddComponentVisual(pluginModel);
                 }
             }
             else if (args.EffectedModelElement is ImageModel)
@@ -1599,7 +1615,9 @@ namespace WorkspaceManager.View.Visuals
                 setDragWindowHandle();
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Arrow;
-                Keyboard.Focus(this);
+                var win = Util.TryFindParent<Window>(e.OriginalSource as UIElement);
+                if (win != null)
+                    Keyboard.Focus(win);
                 e.Handled = true;
             }
 
@@ -1781,7 +1799,7 @@ namespace WorkspaceManager.View.Visuals
                                         output,
                                         input,
                                         output.ConnectorType));
-                                    AddConnection(SelectedConnector, b, connectionModel);
+                                    AddConnectionVisual(SelectedConnector, b, connectionModel);
                                     e.Handled = true;
                                 }
                                 reset();
@@ -1844,7 +1862,7 @@ namespace WorkspaceManager.View.Visuals
                 {
                     DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
                     PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(Util.MouseUtilities.CorrectGetPosition(sender as FrameworkElement), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
-                    AddBinComponentVisual(pluginModel, 0);
+                    AddComponentVisual(pluginModel, 0);
                     e.Handled = true;
                 }
                 catch (Exception ex)
