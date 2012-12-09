@@ -180,6 +180,7 @@
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Panel.ZIndex" Value="-1"></Setter>
+            <Setter Property="Focusable" Value="True"></Setter>
             <Setter Property="Cursor" Value="Hand"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
@@ -199,6 +200,7 @@
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
             </Style.Triggers>
+            <Setter Property="Focusable" Value="True"></Setter>
             <Setter Property="Cursor" Value="Hand"></Setter>
             <Setter Property="Visibility" Value="Collapsed"></Setter>
             <Setter Property="Template">
@@ -212,6 +214,7 @@
 
         <Style TargetType="{x:Type Thumb}" x:Key="InvisibleThumbStyleSecond">
             <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="Focusable" Value="True"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
