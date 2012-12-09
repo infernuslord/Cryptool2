@@ -291,7 +291,7 @@ namespace WorkspaceManager
 
         public void Cut()
         {
-            if (WorkspaceSpaceEditorView.SelectedItems != null)
+            if (WorkspaceSpaceEditorView.SelectedItems != null && !WorkspaceSpaceEditorView.IsFullscreenOpen)
             {
                 doCopy();
                 Remove();
@@ -300,7 +300,7 @@ namespace WorkspaceManager
 
         public void Copy()
         {
-            if (WorkspaceSpaceEditorView.SelectedItems != null)
+            if (WorkspaceSpaceEditorView.SelectedItems != null && !WorkspaceSpaceEditorView.IsFullscreenOpen)
             {
                 doCopy();
                 //PartialCopyHelper.Copy(list, this.WorkspaceModel);
@@ -310,7 +310,7 @@ namespace WorkspaceManager
         public IList<PluginModel> CurrentCopies = new List<PluginModel>();
         public void Paste()
         {
-            if (copy == null)
+            if (copy == null || WorkspaceSpaceEditorView.IsFullscreenOpen)
                 return;
 
             WorkspaceModel.ModifyModel(copy, true);
