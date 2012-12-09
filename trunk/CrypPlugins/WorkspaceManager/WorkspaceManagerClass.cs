@@ -59,6 +59,7 @@ namespace WorkspaceManager
     {
         public event FileLoadedHandler OnFileLoaded;
         public event EventHandler<LoadingErrorEventArgs> LoadingErrorOccurred;
+        public event EventHandler PasteOccured;
 
         /// <summary>
         /// Create a new Instance of the Editor
@@ -240,7 +241,7 @@ namespace WorkspaceManager
             if (!executing)
             {
                 PluginModel pluginModel = (PluginModel)WorkspaceSpaceEditorView.Model.ModifyModel(new NewPluginModelOperation(new Point(0, 0), 0, 0, type));
-                WorkspaceSpaceEditorView.AddBinComponentVisual(pluginModel, 1);
+                WorkspaceSpaceEditorView.AddComponentVisual(pluginModel, 1);
             }
         }
 
@@ -306,13 +307,16 @@ namespace WorkspaceManager
             }
         }
 
+        public IList<PluginModel> CurrentCopies = new List<PluginModel>();
         public void Paste()
         {
             if (copy == null)
                 return;
 
             WorkspaceModel.ModifyModel(copy, true);
-
+            CurrentCopies = copy.copiedElements.OfType<PluginModel>().ToList();
+            if (PasteOccured != null)
+                PasteOccured.Invoke(this, null);
             copy = null;
         }
 

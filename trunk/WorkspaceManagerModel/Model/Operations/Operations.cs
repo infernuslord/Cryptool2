@@ -501,6 +501,8 @@ namespace WorkspaceManagerModel.Model.Operations
         private readonly List<VisualElementModel> _copiedElements;
         private readonly List<PersistantPlugin> _persistantPlugins;
 
+        public System.Collections.ObjectModel.ReadOnlyCollection<VisualElementModel> copiedElements;
+
         public CopyOperation(SerializationWrapper wrapper)
             : base(null)
         {
@@ -842,6 +844,7 @@ namespace WorkspaceManagerModel.Model.Operations
                     workspaceModel.OnNewChildElement(visualElementModel);                
             }
 
+            copiedElements = new System.Collections.ObjectModel.ReadOnlyCollection<VisualElementModel>(_copiedElements);
             return true;
         }
 
