@@ -112,12 +112,6 @@ namespace TextOutput
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
         }
 
-        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if ( input != null )
-                ShowInPresentation(input);
-        }
-
         private void Progress(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
@@ -135,7 +129,6 @@ namespace TextOutput
         public TextOutput()
         {
             settings = new TextOutputSettings(this);
-            settings.PropertyChanged += settings_PropertyChanged;
             settings.PropertyChanged += settings_OnPropertyChanged;
 
             textOutputPresentation = new TextOutputPresentation();
