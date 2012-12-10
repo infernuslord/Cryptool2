@@ -108,11 +108,19 @@ namespace HexBox
                 id.FontFamily = new FontFamily("Consolas");
 
                 id.Height = 20;
-                id.Text = "00000000";
+                long hex = (j) * 16;
+                id.Text = "";
+                for (int x = 8 - hex.ToString("X").Length; x > 0; x--)
+                {
+                    id.Text += "0";
+                }
+                id.Text += hex.ToString("X"); 
+
                 id.FontSize = 13;
                 Grid.SetRow(id, j);
                 gridid.Children.Add(id);
             }
+
 
             var sb = new Storyboard();
 
