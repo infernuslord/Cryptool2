@@ -5,7 +5,7 @@
 
 <category image="Sym">
   <name lang="en" >Symmetric Encryption</name>
-  <name lang="d" >Symmetrische Verschlüsselung</name>
+  <name lang="de" >Symmetrische Verschlüsselung</name>
   <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern symmetric algorithm. You can choose which algorithm you want to use for doing this.</description>
   <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Geheimtext, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
@@ -111,13 +111,13 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
         <description lang="en">Ciphertext to analyze (in Hex):</description>
         <description lang="de">Geheimtext, der analysiert werden soll (in Hex):</description>
-        <defaultvalue>CE2973F05ED9F96AA59886C3D8BF723D3B406002E27D69931F6C07D38D6DD632</defaultvalue>
+        <defaultvalue>73FCE13EDCC504140F6130AB2AB92EB25D2A6117638FDAC8C520B88306986EBC</defaultvalue>
       </inputBox>
 
-      <inputBox plugin="CostFunction" property="Regex" group="inputs" width="50%" alignment="Right">
+      <inputBox plugin="CostFunction" property="RegEx" group="inputs" width="50%" alignment="Right">
         <description lang="en">Known plaintext (as regular expression):</description>
         <description lang="de">Bekannter Klartext (als regulärer Ausdruck):</description>
-        <defaultvalue>.*Welt.*</defaultvalue>
+        <defaultvalue>.*world.*</defaultvalue>
       </inputBox>
 
       <keyTextBox plugin="KeySearcher" property="Key" defaultkey="A1-B1-C1-11-11-11-11-11-11-11-11-11-11-**-**-**" format="[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]">
