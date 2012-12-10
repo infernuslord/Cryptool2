@@ -37,6 +37,7 @@ namespace Cryptool.Plugins.CodeScanner
         private readonly CodeScannerSettings settings = new CodeScannerSettings();
         private readonly CodeScannerPresentation presentation = new CodeScannerPresentation();
         private WebCam wCam = new WebCam();
+        private bool isRunning = false;
 
         #endregion
 
@@ -50,7 +51,14 @@ namespace Cryptool.Plugins.CodeScanner
             return wCam.GetCurrentImage();
         }
 
+        private void close()
+        {
+            wCam.Dispose();
+        }
+
         #endregion
+
+        
 
         #region Data Properties
 
@@ -88,7 +96,7 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void PreExecution()
         {
-
+            isRunning = true;
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
@@ -111,20 +119,21 @@ namespace Cryptool.Plugins.CodeScanner
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-            while (true)
+
+            while (isRunning)
             {
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
                     try
                     {
-                        getWebCamImage();
+                        presentation.setImage(getWebCamImage());
                     }
                     catch
                     {
                     }
                 }), null);
-                
             }
+            
             ProgressChanged(1, 1);
 
         }
@@ -142,6 +151,8 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void Stop()
         {
+            isRunning = false;
+            close();
         }
 
         /// <summary>
