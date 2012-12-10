@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Protocols</name>
   <name lang="de">Protokolle</name>  
-  <summary lang="en">The folder "Protocols" contains templates which show cryptographical protocols.</summary>
-  <summary lang="de">Das Verzeichnis "Protokolle" enthält Vorlagen, die kryptographische Protokolle zeigen.</summary>
+  <summary lang="en">The folder "Protocols" contains templates that demonstrate cryptographical protocols.</summary>
+  <summary lang="de">Das Verzeichnis "Protokolle" enthält Vorlagen, die kryptographische Protokolle demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>

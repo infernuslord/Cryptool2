@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Steganography</name>
   <name lang="de">Steganographie</name>
-  <summary lang="en">The folder "Steganography" contains templates which show steganographical protocols.</summary>
-  <summary lang="de">Das Verzeichnis "Steganographie" enthält Vorlagen, die steganographische Protokolle zeigen.</summary>
+  <summary lang="en">The folder "Steganography" contains templates that demonstrate steganographical protocols.</summary>
+  <summary lang="de">Das Verzeichnis "Steganographie" enthält Vorlagen, die steganographische Protokolle demonstrieren.</summary>
   <icon file="Steganography.png" />
 </directory>
