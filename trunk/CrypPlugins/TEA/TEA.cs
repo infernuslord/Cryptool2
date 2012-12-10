@@ -18,14 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.TEA
 {
@@ -39,14 +38,21 @@ namespace Cryptool.TEA
         private TEASettings settings;
         private CStreamWriter outputStream;
         private byte[] inputKey;
+        private byte[] inputIV;
         private bool stop = false;
+        
+        delegate void CryptDelegate(int rounds, uint[] v, uint[] k);
+        CryptDelegate[] delegates;
+        TEAImage[] teaimages;
 
         #endregion
 
         public TEA()
         {
             this.settings = new TEASettings();
-            //((TEASettings)(this.settings)).LogMessage += TEA_LogMessage;
+
+            delegates = new CryptDelegate[] { encode_tea, encode_xtea, encode_btea, decode_tea, decode_xtea, decode_btea };
+            teaimages = new TEAImage[] { TEAImage.Encode, TEAImage.EncodeX, TEAImage.EncodeX, TEAImage.Decode, TEAImage.DecodeX, TEAImage.DecodeX };
         }
 
         public ISettings Settings
@@ -69,6 +75,17 @@ namespace Cryptool.TEA
             set
             {
                 this.inputKey = value;
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false)]
+        public byte[] InputIV
+        {
+            get { return this.inputIV; }
+            set
+            {
+                this.inputIV = value;
+                OnPropertyChanged("InputIV");
             }
         }
 
@@ -127,211 +144,158 @@ namespace Cryptool.TEA
                     return;
                 }
 
-                using (CStreamReader reader = InputStream.CreateReader())
+                byte[] inputbuffer = new byte[8];
+                byte[] outputbuffer = new byte[8];
+
+                uint[] key = new uint[4];
+                long[] longKey = new long[4];
+                long keybytes = inputKey.Length;
+                GuiLogMessage("inputKey length [byte]: " + keybytes.ToString(), NotificationLevel.Debug);
+
+                if (keybytes != 16)
                 {
-                    reader.WaitEof(); // lazy reading, wait until writer has finished.
+                    GuiLogMessage("Given key has false length. Please provide a key with 128 Bits length. Aborting now.", NotificationLevel.Error);
+                    return;
+                }
 
-                    outputStream = new CStreamWriter();
+                if (settings.Version != 2)
+                {
+                    key[0] = BitConverter.ToUInt32(inputKey, 0);
+                    key[1] = BitConverter.ToUInt32(inputKey, 4);
+                    key[2] = BitConverter.ToUInt32(inputKey, 8);
+                    key[3] = BitConverter.ToUInt32(inputKey, 12);
+                }
+                else
+                {
+                    longKey[0] = (long)BitConverter.ToUInt32(inputKey, 0);
+                    longKey[1] = (long)BitConverter.ToUInt32(inputKey, 4);
+                    longKey[2] = (long)BitConverter.ToUInt32(inputKey, 8);
+                    longKey[3] = (long)BitConverter.ToUInt32(inputKey, 12);
+                }
 
-                    long inputbytes = reader.Length;
-                    GuiLogMessage("inputStream length [bytes]: " + inputbytes.ToString(), NotificationLevel.Debug);
+                //check for a valid IV
+                if (this.inputIV == null)
+                {
+                    //create a trivial IV 
+                    inputIV = new byte[8];
+                    if(settings.Mode!=0)
+                        GuiLogMessage("WARNING - No IV provided. Using 0x000..00!", NotificationLevel.Warning);
+                }
+                byte[] IV = new byte[8];
+                Array.Copy(inputIV, IV, Math.Min(inputIV.Length,IV.Length));
 
-                    int bytesRead = 0;
-                    int blocksRead = 0;
-                    int position;
-                    int blocks;
+                DateTime startTime = DateTime.Now;
 
-                    // get number of blocks
-                    if (((int)inputbytes % 8) == 0)
+                uint[] vector = new uint[2];
+                long[] longVector = new long[2];
+
+                CryptDelegate crypfunc = delegates[settings.Action * 3 + settings.Version];
+                StatusChanged((int)teaimages[settings.Action * 3 + settings.Version]);
+
+                outputStream = new CStreamWriter();
+                ICryptoolStream inputdata = InputStream;
+
+                if (action == 0)
+                    inputdata = BlockCipherHelper.AppendPadding(InputStream, settings.padmap[settings.Padding], 8);
+
+                CStreamReader reader = inputdata.CreateReader();
+
+                GuiLogMessage("Starting " + ((action==0)?"encryption":"decryption") + " [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
+
+                if (settings.Mode == 0)    // ECB
+                {
+                    while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
                     {
-                        blocks = (int)inputbytes / 8;
+                        Bytes2Vector(vector, inputbuffer);
+                        crypfunc(settings.Rounds, vector, key);
+                        Vector2Bytes(vector, outputbuffer);
+                        outputStream.Write(outputbuffer);
+                    }
+                }
+                else if (settings.Mode == 1)    // CBC
+                {
+                    if (settings.Action == 0)
+                    {
+                        while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
+                        {
+                            for (int i = 0; i < 8; i++) inputbuffer[i] ^= IV[i];
+                            Bytes2Vector(vector, inputbuffer);
+                            crypfunc(settings.Rounds, vector, key);
+                            Vector2Bytes(vector, outputbuffer);
+                            for (int i = 0; i < 8; i++) IV[i] = outputbuffer[i];
+                            outputStream.Write(outputbuffer);
+                        }
                     }
                     else
                     {
-                        blocks = (int)Math.Round(inputbytes / 8 + 0.4, 0) + 1;
-                    }
-
-                    byte[] inputbuffer = new byte[8 * blocks];
-                    byte[] outputbuffer = new byte[4];
-                    GuiLogMessage("# of blocks: " + blocks.ToString(), NotificationLevel.Debug);
-
-                    //read input
-                    //GuiLogMessage("Current position: " + inputStream.Position.ToString(), NotificationLevel.Debug);
-                    for (blocksRead = 0; blocksRead <= blocks - 1; blocksRead++)
-                    {
-                        for (position = bytesRead; position <= (blocksRead * 8 + 7); position++)
+                        while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
                         {
-                            // no padding to do
-                            if (position < inputbytes)
-                            {
-                                inputbuffer[position] = (byte)reader.ReadByte();
-                            }
-                            else // padding to do!
-                            {
-                                if (padding == 0)
-                                {
-                                    // padding with zeros
-                                    inputbuffer[position] = 48;
-                                }
-                                else if (padding == 2)
-                                {
-                                    // padding with PKCS7
-                                    int temp = 8 - (int)inputbytes % 8 + 48;
-                                    inputbuffer[position] = (byte)temp;
-                                }
-                                else
-                                {
-                                    // no padding
-                                    inputbuffer[position] = (byte)reader.ReadByte();
-                                    GuiLogMessage("Byte is: " + inputbuffer[position].ToString(), NotificationLevel.Info);
-                                }
-                            }
-                            bytesRead++;
-                            //GuiLogMessage("Current position: " + inputStream.Position.ToString(), NotificationLevel.Debug);
-                            //GuiLogMessage("Content of buffer[" + position + "]: " + buffer[position].ToString(), NotificationLevel.Debug);
+                            Bytes2Vector(vector, inputbuffer);
+                            crypfunc(settings.Rounds, vector, key);
+                            Vector2Bytes(vector, outputbuffer);
+                            for (int i = 0; i < 8; i++) outputbuffer[i] ^= IV[i];
+                            for (int i = 0; i < 8; i++) IV[i] = inputbuffer[i];
+                            outputStream.Write(outputbuffer);
                         }
                     }
-
-                    //GuiLogMessage("vector[0] before coding: " + vector[0].ToString(), NotificationLevel.Debug);
-                    //GuiLogMessage("vector[1] before coding: " + vector[1].ToString(), NotificationLevel.Debug);
-
-                    uint[] key = new uint[4];
-                    long[] longKey = new long[4];
-                    long keybytes = inputKey.Length;
-                    GuiLogMessage("inputKey length [byte]: " + keybytes.ToString(), NotificationLevel.Debug);
-
-                    if (keybytes != 16)
+                }
+                else if (settings.Mode == 2)    // CFB
+                {
+                    if (settings.Action == 0)
                     {
-                        GuiLogMessage("Given key has false length. Please provide a key with 128 Bits length. Aborting now.", NotificationLevel.Error);
-                        return;
+                        while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
+                        {
+                            Bytes2Vector(vector, IV);
+                            crypfunc(settings.Rounds, vector, key);
+                            Vector2Bytes(vector, outputbuffer);
+                            for (int i = 0; i < 8; i++) outputbuffer[i] ^= inputbuffer[i];
+                            for (int i = 0; i < 8; i++) IV[i] = outputbuffer[i];
+                            outputStream.Write(outputbuffer);
+                        }
                     }
                     else
                     {
-                        if (settings.Version != 2)
+                        crypfunc = delegates[settings.Version]; // choose encrypt function
+                        while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
                         {
-                            key[0] = BitConverter.ToUInt32(inputKey, 0);
-                            key[1] = BitConverter.ToUInt32(inputKey, 4);
-                            key[2] = BitConverter.ToUInt32(inputKey, 8);
-                            key[3] = BitConverter.ToUInt32(inputKey, 12);
-                        }
-                        else
-                        {
-                            longKey[0] = (long)BitConverter.ToUInt32(inputKey, 0);
-                            longKey[1] = (long)BitConverter.ToUInt32(inputKey, 4);
-                            longKey[2] = (long)BitConverter.ToUInt32(inputKey, 8);
-                            longKey[3] = (long)BitConverter.ToUInt32(inputKey, 12);
+                            Bytes2Vector(vector, IV);
+                            crypfunc(settings.Rounds, vector, key);
+                            Vector2Bytes(vector, outputbuffer);
+                            for (int i = 0; i < 8; i++) outputbuffer[i] ^= inputbuffer[i];
+                            for (int i = 0; i < 8; i++) IV[i] = inputbuffer[i];
+                            outputStream.Write(outputbuffer);
                         }
                     }
-
-                    //encryption or decryption
-                    //GuiLogMessage("Action is: " + action, NotificationLevel.Debug);
-                    DateTime startTime = DateTime.Now;
-
-                    uint[] vector = new uint[2];
-                    long[] longVector = new long[2];
-
-                    if (action == 0)
+                }
+                else if (settings.Mode == 3)    // OFB - encrypt = decrypt
+                {
+                    crypfunc = delegates[settings.Version]; // choose encrypt function
+                    while (reader.Read(inputbuffer, 0, inputbuffer.Length) > 0 && !stop)
                     {
-                        GuiLogMessage("Starting encryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
-                        for (int i = 0; i <= blocks - 1; i++)
-                        {
-                            vector[0] = BitConverter.ToUInt32(inputbuffer, (i * 8));
-                            vector[1] = BitConverter.ToUInt32(inputbuffer, (i * 8 + 4));
-
-                            // see in settings which version of TEA to use
-                            if (settings.Version == 0)
-                            {
-                                encode_tea(vector, key);
-                                StatusChanged((int)TEAImage.Encode);
-                            }
-                            else if (settings.Version == 1)
-                            {
-                                encode_xtea((uint)settings.Rounds, vector, key);
-                                StatusChanged((int)TEAImage.EncodeX);
-                            }
-                            else if (settings.Version == 2)
-                            {
-                                btea(vector, 2, key);
-                                StatusChanged((int)TEAImage.EncodeX);
-                            }
-
-                            //write buffer to output stream
-                            outputbuffer = BitConverter.GetBytes(vector[0]);
-                            outputStream.Write(outputbuffer, 0, 4);
-                            outputbuffer = BitConverter.GetBytes(vector[1]);
-                            outputStream.Write(outputbuffer, 0, 4);
-                        }
+                        Bytes2Vector(vector, IV);
+                        crypfunc(settings.Rounds, vector, key);
+                        Vector2Bytes(vector, outputbuffer);
+                        for (int i = 0; i < 8; i++) IV[i] = outputbuffer[i];
+                        for (int i = 0; i < 8; i++) outputbuffer[i] ^= inputbuffer[i];
+                        outputStream.Write(outputbuffer);
                     }
-                    else if (action == 1)
-                    {
-                        GuiLogMessage("Starting decryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
-                        for (int i = 0; i <= blocks - 1; i++)
-                        {
-                            vector[0] = BitConverter.ToUInt32(inputbuffer, i * 8);
-                            vector[1] = BitConverter.ToUInt32(inputbuffer, i * 8 + 4);
+                }
 
-                            // see in settings which version of TEA to use
-                            if (settings.Version == 0)
-                            {
-                                decode_tea(vector, key);
-                                StatusChanged((int)TEAImage.Decode);
-                            }
-                            else if (settings.Version == 1)
-                            {
-                                decode_xtea((uint)settings.Rounds, vector, key);
-                                StatusChanged((int)TEAImage.DecodeX);
-                            }
-                            else if (settings.Version == 2)
-                            {
-                                btea(vector, -2, key);
-                                StatusChanged((int)TEAImage.DecodeX);
-                            }
+                long outbytes = outputStream.Length;
+                DateTime stopTime = DateTime.Now;
+                TimeSpan duration = stopTime - startTime;
 
-                            //write buffer to output stream
-                            outputbuffer = BitConverter.GetBytes(vector[0]);
-                            outputStream.Write(outputbuffer, 0, 4);
-                            outputbuffer = BitConverter.GetBytes(vector[1]);
-                            outputStream.Write(outputbuffer, 0, 4);
-                        }
-                    }
+                outputStream.Close();
 
-                    //GuiLogMessage("vector[0] after coding: " + vector[0], NotificationLevel.Debug);
-                    //GuiLogMessage("vector[1] after coding: " + vector[1], NotificationLevel.Debug);
+                if (action == 1)
+                    outputStream = BlockCipherHelper.StripPadding(outputStream, settings.padmap[settings.Padding], 8) as CStreamWriter;
 
-                    /*while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
-                    {
-                        outputStream.Write(buffer, 0, bytesRead);
-                        if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
-                        {
-                            position = (int)(inputStream.Position * 100 / inputStream.Length);
-                            //ProgressChanged(inputStream.Position, inputStream.Length);
-                        }
-                    }*/
-
-                    long outbytes = outputStream.Length;
-                    DateTime stopTime = DateTime.Now;
-                    TimeSpan duration = stopTime - startTime;
-
-                    if (!stop)
-                    {
-                        if (action == 0)
-                        {
-                            GuiLogMessage("Encryption complete! (in: " + inputbytes + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                        }
-                        else
-                        {
-                            GuiLogMessage("Decryption complete! (in: " + inputbytes + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                        }
-                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                        outputStream.Close();
-                        OnPropertyChanged("OutputStream");
-                    }
-
-                    if (stop)
-                    {
-                        outputStream.Close();
-                        GuiLogMessage("Aborted!", NotificationLevel.Info);
-                    }
+                if (!stop)
+                {
+                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                    OnPropertyChanged("OutputStream");
+                } else {
+                    GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
             }
             catch (Exception exception)
@@ -343,8 +307,20 @@ namespace Cryptool.TEA
                 ProgressChanged(1, 1);
             }
         }
+        
+        void Vector2Bytes(uint[] vector, byte[] buffer )
+        {
+            Array.Copy(BitConverter.GetBytes(vector[0]), 0, buffer, 0, 4);
+            Array.Copy(BitConverter.GetBytes(vector[1]), 0, buffer, 4, 4);
+        }
+        
+        void Bytes2Vector(uint[] vector, byte[] buffer )
+        {
+            vector[0] = BitConverter.ToUInt32(buffer, 0);
+            vector[1] = BitConverter.ToUInt32(buffer, 4);
+        }
 
-        private void encode_tea(uint[] v, uint[] k)
+        private void encode_tea(int rounds, uint[] v, uint[] k)
         {
             uint y = v[0];
             uint z = v[1];
@@ -371,7 +347,7 @@ namespace Cryptool.TEA
             v[1] = z;
         }
 
-        private void decode_tea(uint[] v, uint[] k)
+        private void decode_tea(int rounds, uint[] v, uint[] k)
         {
             uint n = 64;
             uint sum = 0x8DDE6E40; // for 64 rounds, for 32 rounds it would be 0xC6EF3720
@@ -397,14 +373,14 @@ namespace Cryptool.TEA
             v[1] = z;
         }
 
-        private void encode_xtea(uint rounds, uint[] v, uint[] k)
+        private void encode_xtea(int rounds, uint[] v, uint[] k)
         {
             uint y = v[0];
             uint z = v[1];
 
             uint sum = 0;
             uint delta = 0x9e3779b9;
-            uint n = rounds;
+            int n = rounds;
 
             while (n-- > 0)
             {
@@ -417,9 +393,9 @@ namespace Cryptool.TEA
             v[1] = z;
         }
 
-        private void decode_xtea(uint rounds, uint[] v, uint[] k)
+        private void decode_xtea(int rounds, uint[] v, uint[] k)
         {
-            uint n = rounds;
+            uint n = (uint)rounds;
             uint sum;
             uint y = v[0];
             uint z = v[1];
@@ -436,6 +412,16 @@ namespace Cryptool.TEA
 
             v[0] = y;
             v[1] = z;
+        }
+
+        private void encode_btea(int rounds, uint[] v, uint[] k)
+        {
+            btea(v, 2, k);
+        }
+
+        private void decode_btea(int rounds, uint[] v, uint[] k)
+        {
+            btea(v, -2, k);
         }
 
         private uint btea(uint[] v, int n, uint[] k)
@@ -462,14 +448,14 @@ namespace Cryptool.TEA
                         z = v[p] += MX;
                     }
                     y = v[0];
-                    GuiLogMessage("y: " + y.ToString("X"), NotificationLevel.Info);
+                    GuiLogMessage("y: " + y.ToString("X"), NotificationLevel.Debug);
                     MX = (z >> 5 ^ y << 2) + (y >> 3 ^ z << 4) ^ (sum ^ y) + (k[p & 3 ^ e] ^ z);
                     z = v[n - 1] += MX;
-                    GuiLogMessage("z: " + z.ToString("X"), NotificationLevel.Info);
+                    GuiLogMessage("z: " + z.ToString("X"), NotificationLevel.Debug);
                 }
 
-                GuiLogMessage("v[n-1]: " + v[n - 1].ToString("X"), NotificationLevel.Info);
-                GuiLogMessage("v[0]: " + v[0].ToString("X"), NotificationLevel.Info);
+                GuiLogMessage("v[n-1]: " + v[n - 1].ToString("X"), NotificationLevel.Debug);
+                GuiLogMessage("v[0]: " + v[0].ToString("X"), NotificationLevel.Debug);
 
                 return 0;
             }

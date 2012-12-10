@@ -28,12 +28,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     public class AESSettings : ISettings
     {
-        private int action = 0; //0=encrypt, 1=decrypt
+        private int action = 0; // 0=encrypt, 1=decrypt
         private int cryptoAlgorithm = 0; // 0=AES, 1=Rijndael
         private int blocksize = 0; // 0=128, 1=192, 2=256
         private int keysize = 0; // 0=128, 1=192, 2=256
-        private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
-        private int padding = 0; ////0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5=1-0-Padding
+        private int mode = 0; // 0="ECB", 1="CBC", 2="CFB", 3="OFB"
+        private int padding = 1; // 0="None", 1="Zeros"=default, 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5=1-0-Padding
+
+        public BlockCipherHelper.PaddingType[] padmap = new BlockCipherHelper.PaddingType[6] { 
+            BlockCipherHelper.PaddingType.None, BlockCipherHelper.PaddingType.Zeros, BlockCipherHelper.PaddingType.PKCS7,
+            BlockCipherHelper.PaddingType.ANSIX923, BlockCipherHelper.PaddingType.ISO10126, BlockCipherHelper.PaddingType.OneZeros
+        };
 
         [ContextMenu("CryptoAlgorithmCaption", "CryptoAlgorithmTooltip", 1, ContextMenuControlType.ComboBox, null, "CryptoAlgorithmList1", "CryptoAlgorithmList2")]
         [TaskPane("CryptoAlgorithmCaption", "CryptoAlgorithmTooltip", null, 0, false, ControlType.ComboBox, new string[] { "CryptoAlgorithmList1", "CryptoAlgorithmList2" })]
@@ -163,8 +168,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu("ModeCaption", "ModeTooltip", 5, ContextMenuControlType.ComboBox, null, new String[] { "ModeList1", "ModeList2", "ModeList3" })]
-        [TaskPane("ModeCaption", "ModeTooltip", null, 5, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3" })]
+        [ContextMenu("ModeCaption", "ModeTooltip", 5, ContextMenuControlType.ComboBox, null, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 5, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
         public int Mode
         {
             get { return this.mode; }

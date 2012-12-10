@@ -136,7 +136,7 @@
     <value>Must be 10 or 16 bytes.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialization vector</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
     <value>IV to be used in chaining modes (CBC,CFB,OFB). It must be the same size as the block length (8 bytes).</value>
@@ -182,15 +182,6 @@
   </data>
   <data name="ModeList4" xml:space="preserve">
     <value>Output feedback (OFB)</value>
-  </data>
-  <data name="PaddingList1" xml:space="preserve">
-    <value>Zeros</value>
-  </data>
-  <data name="PaddingList2" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="PaddingList3" xml:space="preserve">
-    <value>PKCS7</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
@@ -308,5 +299,23 @@
   </data>
   <data name="xor_round_counter" xml:space="preserve">
     <value>xor round counter with key register : {0} XOR {1} = {2}</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>Zeros</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
+  </data>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0 padding</value>
   </data>
 </root>

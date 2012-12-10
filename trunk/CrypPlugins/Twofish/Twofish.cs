@@ -30,7 +30,7 @@ namespace Twofish
     public class Twofish : ICrypComponent
     {
         private byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
+        private CryptoStream p_crypto_stream;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Twofish"/> class.
@@ -116,6 +116,19 @@ namespace Twofish
         /// </summary>
         public void Dispose()
         {
+            try
+            {
+                if (p_crypto_stream != null)
+                {
+                    p_crypto_stream.Flush();
+                    p_crypto_stream.Clear();
+                    p_crypto_stream = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
         }
 
         #endregion
@@ -139,7 +152,7 @@ namespace Twofish
         /// Gets or sets the input inputdata.
         /// </summary>
         /// <value>The input inputdata.</value>
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStream
         {
             get
@@ -167,33 +180,6 @@ namespace Twofish
             }
         }
 
-        /// <summary>
-        /// Gets the input data.
-        /// </summary>
-        /// <value>The input data.</value>
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false)]
-        public byte[] InputData
-        {
-            get
-            {
-                return inputdata;
-            }
-            set
-            {
-                if (null == value)
-                {
-                    inputdata = new byte[0];
-                    return;
-                }
-                long len = value.Length;
-                inputdata = new byte[len];
-
-                for (long i = 0; i < len; i++)
-                    inputdata[i] = value[i];
-
-                NotifyUpdateInput();
-            }
-        }
         #endregion
 
         #region Key data
@@ -209,45 +195,12 @@ namespace Twofish
             OnPropertyChanged("KeyStream");
             OnPropertyChanged("KeyData");
         }
-
+        
         /// <summary>
         /// Gets or sets the key data.
         /// </summary>
         /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", false)]
-        public ICryptoolStream KeyStream
-        {
-            get
-            {
-                if (key == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return new CStreamWriter(key);
-                }
-            }
-            set
-            {
-                if (value != null)
-                {
-                    using (CStreamReader reader = value.CreateReader())
-                    {
-                        GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
-                        key = reader.ReadFully();
-                    }
-
-                    NotifyUpdateKey();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the key data.
-        /// </summary>
-        /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", false)]
+        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", true)]
         public byte[] KeyData
         {
             get
@@ -290,23 +243,11 @@ namespace Twofish
             }
         }
 
-
-
         #region Output
 
         // Output
-        private byte[] outputData = { };
-
-        /// <summary>
-        /// Notifies the update output.
-        /// </summary>
-        private void NotifyUpdateOutput()
-        {
-            OnPropertyChanged("OutputStream");
-            OnPropertyChanged("OutputData");
-        }
-
-
+        private CStreamWriter outputStreamWriter;
+        
         /// <summary>
         /// Gets or sets the output inputdata stream.
         /// </summary>
@@ -316,33 +257,11 @@ namespace Twofish
         {
             get
             {
-                if (outputData == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return new CStreamWriter(outputData);
-                }
+                return outputStreamWriter;
             }
         }
-
-        /// <summary>
-        /// Gets the output inputdata.
-        /// </summary>
-        /// <value>The output inputdata.</value>
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
-        public byte[] OutputData
-        {
-            get
-            {
-                return this.outputData;
-            }
-        }
-
+        
         #endregion
-
-
 
         #region INotifyPropertyChanged Member
 
@@ -364,7 +283,6 @@ namespace Twofish
             }
         }
 
-
         /// <summary>
         /// GUIs the log message.
         /// </summary>
@@ -378,9 +296,8 @@ namespace Twofish
 
         #endregion
 
-
-        private void Crypt()
-        {
+        private void ConfigureAlg(SymmetricAlgorithm alg)
+        {   
             // fit key to correct length
             if( key.Length < settings.KeyLength / 8 )
                 GuiLogMessage("The supplied key is too short, padding with zero bits.", NotificationLevel.Warning);
@@ -389,79 +306,141 @@ namespace Twofish
 
             byte[] k2 = new byte[settings.KeyLength / 8];
             for (int i = 0; i < settings.KeyLength / 8; i++)
-                if (i < key.Length)
-                    k2[i] = key[i];
-                else
-                    k2[i] = 0;
+                k2[i] = (i < key.Length) ? key[i] : (byte)0;
+            alg.Key = k2;
 
+            //switch (settings.Mode)
+            //{
+            //    case 1: alg.Mode = CipherMode.CBC; break;
+            //    default: alg.Mode = CipherMode.ECB; break;
+            //}
 
-            TwofishManaged tf = TwofishManaged.Create();
-
-            tf.Mode = (settings.Mode == 0) ? CipherMode.CBC : CipherMode.ECB;
-
-            int pos = 0;
-
-            byte[] tmpInput = inputdata;
-            if (tmpInput.Length % 16 != 0) // weird block length
-            {
-                if (settings.Action == 0) // encrypt?
-                {
-                    tmpInput = PadData(inputdata); // add zero pad
-                }
-                else // decrypt?
-                {
-                    GuiLogMessage("Input data must be a multiple of 16", NotificationLevel.Error);
-                    return;
-                }                
-            }
-
-            if (outputData.Length != tmpInput.Length)
-                outputData = new byte[tmpInput.Length];
-
-            switch (settings.Action)
-            {
-                case 0: // encrypt
-                    {
-                        ICryptoTransform encrypt = tf.CreateEncryptor(k2, iv);
-
-                        while (tmpInput.Length - pos > encrypt.InputBlockSize)
-                        {
-                            pos += encrypt.TransformBlock(tmpInput, pos, encrypt.InputBlockSize, outputData, pos);
-                        }
-                        byte[] final = encrypt.TransformFinalBlock(tmpInput, pos, tmpInput.Length - pos);
-                        Array.Copy(final, 0, outputData, pos, 16);
-                        encrypt.Dispose();
-                        break;
-                    }
-                case 1: // decrypt
-                    {
-                        ICryptoTransform decrypt = tf.CreateDecryptor(k2, iv);
-
-                        while (tmpInput.Length - pos > decrypt.InputBlockSize)
-                        {
-                            pos += decrypt.TransformBlock(tmpInput, pos, decrypt.InputBlockSize, outputData, pos);
-                        }
-                        if (tmpInput.Length - pos > 0)
-                        {
-                            byte[] final = decrypt.TransformFinalBlock(tmpInput, pos, tmpInput.Length - pos);
-
-                            for (int i = pos; i < outputData.Length; i++)
-                                outputData[i] = final[i - pos];
-                        }
-
-                        decrypt.Dispose();
-                        break;
-                    }
-            }
-
-            NotifyUpdateOutput();
+            alg.Mode = CipherMode.ECB;
+            alg.Padding = PaddingMode.None;
         }
 
-        private byte[] PadData(byte[] input)
+        private void Crypt()
         {
-            byte[] output = new byte[input.Length + (16 - (input.Length % 16))]; // multiple of 16
-            Array.Copy(input, output, input.Length); // copy old content, keep zeros at end
-            return output;
+            try
+            {
+                ICryptoTransform p_encryptor;
+                SymmetricAlgorithm p_alg = TwofishManaged.Create();
+
+                ConfigureAlg(p_alg);
+
+                outputStreamWriter = new CStreamWriter();
+                ICryptoolStream inputdata = InputStream;
+
+                if (settings.Action == 0)
+                    inputdata = BlockCipherHelper.AppendPadding(InputStream, settings.padmap[settings.Padding], p_alg.BlockSize / 8);
+
+                CStreamReader reader = inputdata.CreateReader();
+
+                byte[] tmpInput = BlockCipherHelper.StreamToByteArray(inputdata);
+                byte[] outputData = new byte[tmpInput.Length];
+                byte[] IV = new byte[p_alg.IV.Length];
+                Array.Copy(p_alg.IV, IV, p_alg.IV.Length);
+                int bs = p_alg.BlockSize >> 3;
+
+                if (settings.Mode == 0) // ECB
+                {
+                    p_encryptor = (settings.Action==0) ? p_alg.CreateEncryptor(p_alg.Key, p_alg.IV) : p_alg.CreateDecryptor(p_alg.Key, p_alg.IV);
+                    for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                    {
+                        p_encryptor.TransformBlock(tmpInput, pos, bs, outputData, pos);
+                    }
+                } 
+                else if (settings.Mode == 1) // CBC
+                {
+                    if (settings.Action == 0)
+                    {
+                        p_encryptor = p_alg.CreateEncryptor(p_alg.Key, p_alg.IV);
+                        for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                        {
+                            for (int i = 0; i < bs; i++) tmpInput[pos + i] ^= IV[i];
+                            p_encryptor.TransformBlock(tmpInput, pos, bs, outputData, pos);
+                            for (int i = 0; i < bs; i++) IV[i] = outputData[pos + i];
+                        }
+                    }
+                    else
+                    {
+                        p_encryptor = p_alg.CreateDecryptor(p_alg.Key, p_alg.IV);
+                        for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                        {
+                            p_encryptor.TransformBlock(tmpInput, pos, bs, outputData, pos);
+                            for (int i = 0; i < bs; i++)
+                            {
+                                outputData[pos + i] ^= IV[i];
+                                IV[i] = tmpInput[pos + i];
+                            }
+                        }
+                    }
+                }
+                else if (settings.Mode == 2) // CFB
+                {
+                    p_encryptor = p_alg.CreateEncryptor(p_alg.Key, p_alg.IV);
+                    if (settings.Action == 0)
+                    {
+                        for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                        {
+                            p_encryptor.TransformBlock(IV, 0, p_encryptor.InputBlockSize, outputData, pos);
+                            for (int i = 0; i < bs; i++)
+                            {
+                                outputData[pos + i] ^= tmpInput[pos + i];
+                                IV[i] = outputData[pos + i];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                        {
+                            p_encryptor.TransformBlock(IV, 0, p_encryptor.InputBlockSize, outputData, pos);
+                            for (int i = 0; i < bs; i++)
+                            {
+                                IV[i] = tmpInput[pos + i];
+                                outputData[pos + i] ^= tmpInput[pos + i];
+                            }
+                        }
+                    }
+                } 
+                else if (settings.Mode == 3) // OFB
+                {
+                    p_encryptor = p_alg.CreateEncryptor(p_alg.Key, p_alg.IV);
+                    for (int pos = 0; pos < tmpInput.Length; pos += bs)
+                    {
+                        p_encryptor.TransformBlock(IV, 0, p_encryptor.InputBlockSize, outputData, pos);
+                        for (int i = 0; i < bs; i++)
+                        {
+                            IV[i] = outputData[pos + i];
+                            outputData[pos + i] ^= tmpInput[pos + i];
+                        }
+                    }
+                }
+
+                outputStreamWriter.Write(outputData);
+
+                //if( p_encryptor!=null ) p_encryptor.Dispose();
+                outputStreamWriter.Close();
+
+                if (settings.Action == 1)
+                    outputStreamWriter = BlockCipherHelper.StripPadding(outputStreamWriter, settings.padmap[settings.Padding], p_alg.BlockSize / 8) as CStreamWriter;
+
+                OnPropertyChanged("OutputStream");
+            }
+            catch (CryptographicException cryptographicException)
+            {
+                // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
+                // Trying so makes p_crypto_stream throw the same exception again. So in Dispose 
+                // the error messages will be doubled. 
+                // As a workaround we set p_crypto_stream to null here.
+                p_crypto_stream = null;
+                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
         }
     }
 }

@@ -136,13 +136,13 @@
     <value>Input data stream to process</value>
   </data>
   <data name="IVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialization vector</value>
   </data>
   <data name="IVTooltip" xml:space="preserve">
-    <value>Initialization Vector</value>
+    <value>IV to be used in chaining modes (CBC,CFB,OFB). It must be the same size as the block length (16 bytes).</value>
   </data>
   <data name="KeyDataCaption" xml:space="preserve">
-    <value>Key Data</value>
+    <value>Key</value>
   </data>
   <data name="KeyDataTooltip" xml:space="preserve">
     <value>Key - Input key data</value>
@@ -172,7 +172,7 @@
     <value>Output data</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output Stream</value>
+    <value>Output stream</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Output stream</value>
@@ -203,5 +203,35 @@
   </data>
   <data name="ModeList2" xml:space="preserve">
     <value>Cipher Block Chaining (CBC)</value>
+  </data>
+  <data name="ModeList3" xml:space="preserve">
+    <value>Cipher Feedback (CFB)</value>
+  </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
+  </data>
+  <data name="PaddingCaption" xml:space="preserve">
+    <value>Padding mode</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>Zeros</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
+  </data>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0 padding</value>
+  </data>
+  <data name="PaddingTooltip" xml:space="preserve">
+    <value>Select a mode to fill partial data blocks.</value>
   </data>
 </root>

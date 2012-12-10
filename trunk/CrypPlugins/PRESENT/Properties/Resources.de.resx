@@ -183,15 +183,6 @@
   <data name="ModeList4" xml:space="preserve">
     <value>Output feedback (OFB)</value>
   </data>
-  <data name="PaddingList1" xml:space="preserve">
-    <value>Nullen</value>
-  </data>
-  <data name="PaddingList2" xml:space="preserve">
-    <value>Keine</value>
-  </data>
-  <data name="PaddingList3" xml:space="preserve">
-    <value>PKCS7</value>
-  </data>
   <data name="About" xml:space="preserve">
     <value>Über</value>
   </data>
@@ -308,5 +299,23 @@
   </data>
   <data name="xor_round_counter" xml:space="preserve">
     <value>XOR Rundenzähler mit Schlüsselregister: {0} XOR {1} = {2}</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>Nullen</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
+  </data>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0-Padding</value>
   </data>
 </root>

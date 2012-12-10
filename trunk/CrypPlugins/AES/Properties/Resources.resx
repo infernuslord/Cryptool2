@@ -146,10 +146,10 @@
     <value>Select which symmetric cipher you want to use</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialization vector</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.</value>
+    <value>The initialization vector (IV) which is used in chaining modes. It must be the same as the blocksize.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
@@ -233,10 +233,10 @@
     <value>Cipher Feedback (CFB)</value>
   </data>
   <data name="PaddingList1" xml:space="preserve">
-    <value>Zeros</value>
+    <value>None</value>
   </data>
   <data name="PaddingList2" xml:space="preserve">
-    <value>None</value>
+    <value>Zeros</value>
   </data>
   <data name="PaddingList3" xml:space="preserve">
     <value>PKCS7</value>
@@ -249,5 +249,8 @@
   </data>
   <data name="PaddingList6" xml:space="preserve">
     <value>1-0 padding</value>
+  </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
   </data>
 </root>

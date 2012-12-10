@@ -139,7 +139,7 @@
     <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB). Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB,OFB). Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Ausgabedatenstrom</value>
@@ -180,11 +180,17 @@
   <data name="ModeList3" xml:space="preserve">
     <value>Cipher Feedback (CFB)</value>
   </data>
+  <data name="ControlSlaveCaption" xml:space="preserve">
+    <value>RC2-Sklave</value>
+  </data>
+  <data name="ControlSlaveTooltip" xml:space="preserve">
+    <value>Direkter Zugriff auf das RC2-Plugin</value>
+  </data>
   <data name="PaddingList1" xml:space="preserve">
-    <value>Nullen</value>
+    <value>Keine</value>
   </data>
   <data name="PaddingList2" xml:space="preserve">
-    <value>Keine</value>
+    <value>Nullen</value>
   </data>
   <data name="PaddingList3" xml:space="preserve">
     <value>PKCS7</value>
@@ -195,10 +201,10 @@
   <data name="PaddingList5" xml:space="preserve">
     <value>ISO10126</value>
   </data>
-  <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>RC2-Sklave</value>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0-Padding</value>
   </data>
-  <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf das RC2-Plugin</value>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
   </data>
 </root>
