@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #region private
 
         private int action = 0; //0=encrypt, 1=decrypt
-        private int mode = 0; //0="ECB", 1="CBC"
+        private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
       
         #endregion
         
@@ -49,7 +49,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 1 = Encrypt
         /// 2 = Decrypt
         /// </summary>
-        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "ActionList1", "ActionList2")]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
         [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
@@ -68,9 +68,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Sets the block cipher mode of this plugin
         /// 1 = ECB
         /// 2 = CBC
+        /// 3 = CFB
+        /// 4 = OFB
         /// </summary>
-        [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ModeList1", "ModeList2" })]
-        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", })]
+        [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
         public int Mode
         {
             get { return this.mode; }

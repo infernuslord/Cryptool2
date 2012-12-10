@@ -24,15 +24,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
-using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Runtime.CompilerServices;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 
 
 namespace Cryptool.PRESENT
@@ -145,11 +145,16 @@ namespace Cryptool.PRESENT
                 default: alg.Mode = CipherMode.ECB; break;
             }
             switch (settings.Padding)
-            { // 0="Zeros"=default, 1="None", 2="PKCS7"
-                case 1: alg.Padding = PaddingMode.None; break;
+            { //0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5="1-0-padding"
+                case 0: alg.Padding = PaddingMode.None; break;
+                case 1: alg.Padding = PaddingMode.Zeros; break;
                 case 2: alg.Padding = PaddingMode.PKCS7; break;
+                case 3: alg.Padding = PaddingMode.ANSIX923; break;
+                case 4: alg.Padding = PaddingMode.ISO10126; break;
+                case 5: alg.Padding = PaddingMode.None; break;  // 1-0 padding, use PaddingMode.None, as it's handeled separately
                 default: alg.Padding = PaddingMode.Zeros; break;
             }
+            alg.Padding = PaddingMode.None;
 
             // Check input data
             if (this.inputStream == null)
@@ -161,13 +166,6 @@ namespace Cryptool.PRESENT
                 if (!encrypt)
                 { // when decrypting, input size must be multiple of blocksize
                     GuiLogMessage("ERROR - When decrypting, the input length (" + this.inputStream.Length + " bytes) has to be a multiple of the blocksize (n*" + (alg.BlockSize >> 3) + " bytes).", NotificationLevel.Error);
-                }
-                else if (alg.Padding == PaddingMode.None)
-                { // without padding, input size must be multiple of blocksize
-                    GuiLogMessage("ERROR - Without padding, the input length (" + this.inputStream.Length + " bytes) has to be a multiple of the blocksize (n*" + (alg.BlockSize >> 3) + " bytes).", NotificationLevel.Error);
-                    GuiLogMessage("WARNING - Input length (" + this.inputStream.Length + " bytes) is not multiple of blocksize, switching to PKCS7 padding.", NotificationLevel.Warning);
-                    alg.Padding = PaddingMode.PKCS7;
-                    settings.Padding = 2;
                 }
             }
 
@@ -200,13 +198,6 @@ namespace Cryptool.PRESENT
                 this.inputIV = new byte[8];
             }
             alg.IV = this.inputIV;
-            GuiLogMessage(
-                "cipher " + (encrypt ? "encryption" : "decryption") + " info:\n"
-                + "\tkey: 0x" + getHex(alg.Key) + "\n"
-                + ((alg.Mode == CipherMode.ECB) ? "" : "\tIV: 0x" + getHex(alg.IV) + "\n")
-                + "\tchaining mode: " + alg.Mode.ToString() + "\n"
-                + "\tpadding mode: " + alg.Padding.ToString(),
-                NotificationLevel.Info);
         }
 
 
@@ -227,65 +218,66 @@ namespace Cryptool.PRESENT
                 // Encrypt Stream
                 try
                 {
-                    using (CStreamReader reader = inputStream.CreateReader())
+                    SymmetricAlgorithm p_alg = new PresentManaged();
+                    ConfigureAlg(p_alg, true);
+
+                    ICryptoolStream inputdata = InputStream;
+
+                    inputdata = BlockCipherHelper.AppendPadding(InputStream, settings.padmap[settings.Padding], p_alg.BlockSize / 8);
+
+                    CStreamReader reader = inputdata.CreateReader();                
+
+                    if ((this.presentation != null) & (p_alg.KeySize == 80))
                     {
-                        SymmetricAlgorithm p_alg = new PresentManaged();
-                        ConfigureAlg(p_alg, true);
-
-                        if ((this.presentation != null) & (p_alg.KeySize == 80))
+                        byte[] block = new byte[8];
+                        byte[] key = (byte[])p_alg.Key.Clone();
+                        int r = reader.Read(block, 0, 8);
+                        if (reader.CanSeek) reader.Position = 0;
+                        if (r < 8)
                         {
-                            byte[] block = new byte[8];
-                            byte[] key = (byte[])p_alg.Key.Clone();
-                            int r = reader.Read(block, 0, 8);
-                            if (reader.CanSeek) reader.Position = 0;
-                            if (r < 8)
+                            for (int i = 0; i < r; i++)
                             {
-                                for (int i = 0; i < r; i++)
-                                {
-                                    block[7 - i] = block[r - i - 1];
-                                }
-                                byte p;
-                                if (p_alg.Padding == PaddingMode.PKCS7) { p = (byte)(8 - r); } else { p = (byte)0; }
-                                for (int i = 0; i < 8 - r; i++) block[i] = p;
+                                block[7 - i] = block[r - i - 1];
                             }
-                            this.presentation.Assign_Values(key, block);
+                            byte p;
+                            if (p_alg.Padding == PaddingMode.PKCS7) { p = (byte)(8 - r); } else { p = (byte)0; }
+                            for (int i = 0; i < 8 - r; i++) block[i] = p;
                         }
+                        this.presentation.Assign_Values(key, block);
+                    }
+                    
+                    ICryptoTransform p_encryptor = p_alg.CreateEncryptor();
 
-                        ICryptoTransform p_encryptor = p_alg.CreateEncryptor();
-                        outputStream = new CStreamWriter();
-                        p_crypto_stream_enc = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
-                        byte[] buffer = new byte[p_alg.BlockSize / 8];
-                        int bytesRead;
-                        int position = 0;
-                        DateTime startTime = DateTime.Now;
-                        while ((bytesRead = p_crypto_stream_enc.Read(buffer, 0, buffer.Length)) > 0 && !stop)
+                    outputStream = new CStreamWriter();
+                    p_crypto_stream_enc = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
+                    byte[] buffer = new byte[p_alg.BlockSize / 8];
+                    int bytesRead;
+                    int position = 0;
+                    DateTime startTime = DateTime.Now;
+                    while ((bytesRead = p_crypto_stream_enc.Read(buffer, 0, buffer.Length)) > 0 && !stop)
+                    {
+                        outputStream.Write(buffer, 0, bytesRead);
+                        if ((int)(reader.Position * 100 / inputStream.Length) > position)
                         {
-                            outputStream.Write(buffer, 0, bytesRead);
-                            if ((int)(reader.Position * 100 / inputStream.Length) > position)
-                            {
-                                position = (int)(reader.Position * 100 / inputStream.Length);
-                                Progress(reader.Position, inputStream.Length);
-                            }
+                            position = (int)(reader.Position * 100 / inputStream.Length);
+                            Progress(reader.Position, inputStream.Length);
                         }
-                        p_crypto_stream_enc.Flush();
-                        // p_crypto_stream_enc.Close();        
+                    }
+                    p_crypto_stream_enc.Flush();
+                    // p_crypto_stream_enc.Close();        
 
-                        DateTime stopTime = DateTime.Now;
-                        TimeSpan duration = stopTime - startTime;
+                    DateTime stopTime = DateTime.Now;
+                    TimeSpan duration = stopTime - startTime;
 
-                        if (!stop)
-                        {
-                            GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-                            GuiLogMessage("Wrote data to file: " + outputStream.FilePath, NotificationLevel.Info);
-                            GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                            outputStream.Close();
-                            OnPropertyChanged("OutputStream");
-                        }
-                        if (stop)
-                        {
-                            GuiLogMessage("Aborted!", NotificationLevel.Info);
-                            outputStream.Close();
-                        }
+                    outputStream.Close();
+
+                    if (!stop)
+                    {
+                        GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
+                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                        OnPropertyChanged("OutputStream");
+                    } else {
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
                     }
                 }
                 catch (CryptographicException cryptographicException)
@@ -315,43 +307,49 @@ namespace Cryptool.PRESENT
                 // Decrypt Stream
                 try
                 {
-                    using (CStreamReader reader = this.inputStream.CreateReader())
+                    SymmetricAlgorithm p_alg = new PresentManaged();
+                    ConfigureAlg(p_alg, true);
+
+                    ICryptoolStream inputdata = InputStream;
+
+                    CStreamReader reader = inputdata.CreateReader();
+
+                    ICryptoTransform p_decryptor = p_alg.CreateDecryptor();
+                    outputStream = new CStreamWriter();
+                    p_crypto_stream_dec = new CryptoStream((Stream)reader, p_decryptor, CryptoStreamMode.Read);
+                    byte[] buffer = new byte[p_alg.BlockSize / 8];
+                    int bytesRead;
+                    int position = 0;
+                    DateTime startTime = DateTime.Now;
+
+                    while ((bytesRead = p_crypto_stream_dec.Read(buffer, 0, buffer.Length)) > 0 && !stop)
                     {
-                        SymmetricAlgorithm p_alg = new PresentManaged();
-                        ConfigureAlg(p_alg, false);
-                        ICryptoTransform p_decryptor = p_alg.CreateDecryptor();
-                        outputStream = new CStreamWriter();
-                        p_crypto_stream_dec = new CryptoStream((Stream)reader, p_decryptor, CryptoStreamMode.Read);
-                        byte[] buffer = new byte[p_alg.BlockSize / 8];
-                        int bytesRead;
-                        int position = 0;
-                        DateTime startTime = DateTime.Now;
-                        while ((bytesRead = p_crypto_stream_dec.Read(buffer, 0, buffer.Length)) > 0 && !stop)
+                        outputStream.Write(buffer, 0, bytesRead);
+                        if ((int)(reader.Position * 100 / inputStream.Length) > position)
                         {
-                            outputStream.Write(buffer, 0, bytesRead);
-                            if ((int)(reader.Position * 100 / inputStream.Length) > position)
-                            {
-                                position = (int)(reader.Position * 100 / inputStream.Length);
-                                Progress(reader.Position, inputStream.Length);
-                            }
+                            position = (int)(reader.Position * 100 / inputStream.Length);
+                            Progress(reader.Position, inputStream.Length);
                         }
-                        p_crypto_stream_dec.Flush();
-                        p_crypto_stream_dec.Close();
-                        DateTime stopTime = DateTime.Now;
-                        TimeSpan duration = stopTime - startTime;
-                        if (!stop)
-                        {
-                            GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-                            GuiLogMessage("Wrote data to file: " + outputStream.FilePath, NotificationLevel.Info);
-                            GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                            outputStream.Close();
-                            OnPropertyChanged("OutputStream");
-                        }
-                        if (stop)
-                        {
-                            outputStream.Close();
-                            GuiLogMessage("Aborted!", NotificationLevel.Info);
-                        }
+                    }
+
+                    p_crypto_stream_dec.Flush();
+                    p_crypto_stream_dec.Close();
+
+                    DateTime stopTime = DateTime.Now;
+                    TimeSpan duration = stopTime - startTime;
+
+                    outputStream.Close();
+
+                    if (settings.Action == 1)
+                        outputStream = BlockCipherHelper.StripPadding(outputStream, settings.padmap[settings.Padding], p_alg.BlockSize / 8) as CStreamWriter;
+
+                    if (!stop)
+                    {
+                        GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
+                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                        OnPropertyChanged("OutputStream");
+                    } else {
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
                     }
                 }
                 catch (CryptographicException cryptographicException)

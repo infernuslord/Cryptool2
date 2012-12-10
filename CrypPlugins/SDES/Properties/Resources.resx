@@ -198,4 +198,10 @@
   <data name="Plaintext" xml:space="preserve">
     <value>Plaintext</value>
   </data>
+  <data name="ModeList3" xml:space="preserve">
+    <value>Cipher Feedback (CFB)</value>
+  </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
+  </data>
 </root>

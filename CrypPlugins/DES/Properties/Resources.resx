@@ -152,10 +152,10 @@
     <value>The key must be exactly 8 bytes (64 bit) long.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialization vector</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes (CBC,CFB). It must be the same size as the block length (8 bytes).</value>
+    <value>IV to be used in chaining modes (CBC,CFB,OFB). It must be the same size as the block length (8 bytes).</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Output stream</value>
@@ -208,11 +208,17 @@
   <data name="ModeList3" xml:space="preserve">
     <value>Cipher Feedback (CFB)</value>
   </data>
+  <data name="TripleDESCaption" xml:space="preserve">
+    <value>Use TripleDES</value>
+  </data>
+  <data name="TripleDESTooltip" xml:space="preserve">
+    <value>Use TripleDES</value>
+  </data>
   <data name="PaddingList1" xml:space="preserve">
-    <value>Zeros</value>
+    <value>None</value>
   </data>
   <data name="PaddingList2" xml:space="preserve">
-    <value>None</value>
+    <value>Zeros</value>
   </data>
   <data name="PaddingList3" xml:space="preserve">
     <value>PKCS7</value>
@@ -223,10 +229,10 @@
   <data name="PaddingList5" xml:space="preserve">
     <value>ISO10126</value>
   </data>
-  <data name="TripleDESCaption" xml:space="preserve">
-    <value>Use TripleDES</value>
+  <data name="PaddingList6" xml:space="preserve">
+    <value>1-0 padding</value>
   </data>
-  <data name="TripleDESTooltip" xml:space="preserve">
-    <value>Use TripleDES</value>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
   </data>
 </root>

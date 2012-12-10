@@ -149,7 +149,7 @@
     <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB). Der IV muss dieselbe Blockgröße wie AES haben.</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi. Der IV muss dieselbe Blockgröße wie AES haben.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
@@ -233,10 +233,10 @@
     <value>Cipher Feedback (CFB)</value>
   </data>
   <data name="PaddingList1" xml:space="preserve">
-    <value>Nullen</value>
+    <value>Keine</value>
   </data>
   <data name="PaddingList2" xml:space="preserve">
-    <value>Keine</value>
+    <value>Nullen</value>
   </data>
   <data name="PaddingList3" xml:space="preserve">
     <value>PKCS7</value>
@@ -249,5 +249,8 @@
   </data>
   <data name="PaddingList6" xml:space="preserve">
     <value>1-0-Padding</value>
+  </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Output Feedback (OFB)</value>
   </data>
 </root>

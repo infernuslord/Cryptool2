@@ -19,16 +19,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Security.Cryptography;
-using Cryptool.PluginBase;
-using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using System.Runtime.CompilerServices;
-using Cryptool.PluginBase.Miscellaneous;
-using System.Runtime.Remoting.Contexts;
-using Cryptool.PluginBase.Control;
 using System.Reflection;
+using System.ComponentModel;
+using System.Runtime.Remoting.Contexts;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using NativeCryptography;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -117,12 +117,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
 
             switch (settings.Padding)
-            { //0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5="1-0-Padding"
-                case 1: alg.Padding = PaddingMode.None; break;
+            { //0="Zeros"=default, 1="None", 2="PKCS7" , 3="ANSIX923", 4="ISO10126", 5="1-0-padding"
+                case 0: alg.Padding = PaddingMode.None; break;
+                case 1: alg.Padding = PaddingMode.Zeros; break;
                 case 2: alg.Padding = PaddingMode.PKCS7; break;
                 case 3: alg.Padding = PaddingMode.ANSIX923; break;
                 case 4: alg.Padding = PaddingMode.ISO10126; break;
-                case 5: alg.Padding = PaddingMode.None; break;
+                case 5: alg.Padding = PaddingMode.None; break;  // 1-0 padding, use PaddingMode.None, as it's handeled separately
                 default: alg.Padding = PaddingMode.Zeros; break;
             }
 
@@ -196,7 +197,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
             return this.stop;
         }
-
+                
         private void process(int action)
         {
             //Encrypt/Decrypt Stream
@@ -210,9 +211,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                 SymmetricAlgorithm p_alg = null;
                 if (settings.CryptoAlgorithm == 1)
-                { p_alg = new RijndaelManaged(); }
+                    p_alg = new RijndaelManaged();
                 else
-                { p_alg = new AesCryptoServiceProvider(); }
+                    p_alg = new AesCryptoServiceProvider();
 
                 ConfigureAlg(p_alg);
 
@@ -231,41 +232,64 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                 ICryptoolStream inputdata = InputStream;
 
-                // append 1-0 padding (special handling, as it's not present in System.Security.Cryptography.PaddingMode)
-                if (action==0 && settings.Padding == 5)
-                {
-                    int bs = p_alg.BlockSize / 8; // blocksize in bytes
-                    long l = bs - (InputStream.Length % bs);
-                    CStreamReader stream = InputStream.CreateReader();
-                    stream.WaitEof();
-                    byte[] buf = new byte[InputStream.Length + l];
-                    stream.Seek(0, System.IO.SeekOrigin.Begin);
-                    stream.ReadFully(buf);
-                    buf[InputStream.Length] = 0x01;
-                    for (int i = 1; i < l; i++)
-                        buf[InputStream.Length + i] = 0x00;
-                    inputdata = new CStreamWriter(buf);
-                }
+                string mode = action == 0 ? "encryption" : "decryption";
+                long inbytes, outbytes;
 
-                using (CStreamReader reader = inputdata.CreateReader())
+                GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+
+                DateTime startTime = DateTime.Now;
+
+                // special handling of OFB mode, as it's not available for AES in .Net
+                if (settings.Mode == 3)    // OFB - bei OFB ist encrypt = decrypt, daher keine Fallunterscheidung
                 {
+                    if (action == 0)
+                        inputdata = BlockCipherHelper.AppendPadding(InputStream, settings.padmap[settings.Padding], p_alg.BlockSize / 8);
+
+                    ICryptoTransform encrypt = p_alg.CreateEncryptor(p_alg.Key,p_alg.IV);
+
+                    byte[] IV = new byte[p_alg.IV.Length];
+                    Array.Copy(p_alg.IV, IV, p_alg.IV.Length);
+                    byte[] tmpInput = BlockCipherHelper.StreamToByteArray(inputdata);
+                    byte[] outputData = new byte[tmpInput.Length];
+
+                    for (int pos = 0; pos <= tmpInput.Length - encrypt.InputBlockSize; )
+                    {
+                        int l = encrypt.TransformBlock(IV, 0, encrypt.InputBlockSize, outputData, pos);
+                        for (int i = 0; i < l; i++)
+                        {
+                            IV[i] = outputData[pos + i];
+                            outputData[pos + i] ^= tmpInput[pos + i];
+                        }
+                        pos += l;
+                    }
+
+                    int validBytes = (int)inputdata.Length;
+
+                    if (action == 1)
+                        validBytes = BlockCipherHelper.StripPadding(outputData, validBytes, settings.padmap[settings.Padding], p_alg.BlockSize / 8);
+
+                    encrypt.Dispose();
+                    outputStreamWriter.Write(outputData, 0, validBytes);
+                    inbytes = inputdata.Length;
+                }
+                else
+                {
+                    // append 1-0 padding (special handling, as it's not present in System.Security.Cryptography.PaddingMode)
+                    if (action == 0 && settings.Padding == 5)
+                        inputdata = BlockCipherHelper.AppendPadding(InputStream, BlockCipherHelper.PaddingType.OneZeros, p_alg.BlockSize / 8);
+
+                    CStreamReader reader = inputdata.CreateReader();
+
                     p_crypto_stream = new CryptoStream(reader, p_encryptor, CryptoStreamMode.Read);
                     byte[] buffer = new byte[p_alg.BlockSize / 8];
                     int bytesRead;
                     int position = 0;
-                    string mode = action == 0 ? "encryption" : "decryption";
-                    GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
-                    DateTime startTime = DateTime.Now;
+
                     while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
                     {
                         // remove 1-0 padding (special handling, as it's not present in System.Security.Cryptography.PaddingMode)
-                        if (action == 1 && settings.Padding == 5 && reader.Position==reader.Length)
-                        {
-                            if (bytesRead != buffer.Length) throw new Exception("Unexpected size of 1-0 padding");
-                            for (bytesRead--; bytesRead > 0; bytesRead--)
-                                if (buffer[bytesRead] != 0) break;
-                            if (bytesRead < 0 || buffer[bytesRead]!=0x01) throw new Exception("Unexpected byte in 1-0 padding");
-                        }
+                        if (action == 1 && settings.Padding == 5 && reader.Position == reader.Length)
+                            bytesRead = BlockCipherHelper.StripPadding(buffer, bytesRead, BlockCipherHelper.PaddingType.OneZeros, buffer.Length);
 
                         outputStreamWriter.Write(buffer, 0, bytesRead);
 
@@ -276,26 +300,29 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         }
                     }
 
-                    long outbytes = outputStreamWriter.Length;
-                    p_crypto_stream.Flush();            
-                    // p_crypto_stream.Close();
-                    DateTime stopTime = DateTime.Now;
-                    TimeSpan duration = stopTime - startTime;
-                    // (outputStream as CryptoolStream).FinishWrite();
+                    p_crypto_stream.Flush();
+                    inbytes = reader.Length;
+                }
 
-                    if (!stop)
-                    {
-                        mode = action == 0 ? "Encryption" : "Decryption";
-                        GuiLogMessage(mode + " complete! (in: " + reader.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                        outputStreamWriter.Close();
-                        OnPropertyChanged("OutputStream");
-                    }
-                    if (stop)
-                    {
-                        outputStreamWriter.Close();
-                        GuiLogMessage("Aborted!", NotificationLevel.Info);
-                    }
+                outbytes = outputStreamWriter.Length;
+
+                DateTime stopTime = DateTime.Now;
+                TimeSpan duration = stopTime - startTime;
+                // (outputStream as CryptoolStream).FinishWrite();
+
+                if (!stop)
+                {
+                    mode = action == 0 ? "Encryption" : "Decryption";
+                    GuiLogMessage(mode + " complete! (in: " + inbytes + " bytes, out: " + outbytes + " bytes)", NotificationLevel.Info);
+                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                    outputStreamWriter.Close();
+                    OnPropertyChanged("OutputStream");
+                }
+
+                if (stop)
+                {
+                    outputStreamWriter.Close();
+                    GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
             }
             catch (CryptographicException cryptographicException)

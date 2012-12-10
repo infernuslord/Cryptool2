@@ -20,9 +20,9 @@
   </introduction>
 
   <usage lang="en">
-    This component enables the user to choose between electronic code book (ECB) and cipher block chaining (CBC) for en- and decryption of texts.
-    SDES needs two streams for en-/decryption (one as input and the other as output). It also needs a key of 10 bit length (here represented as text containing only '1' and '0'); 
-    for example '1110011010'. Finally an initialization vector IV of 8 bit is needed (also represented as text containing only '1' and '0'); for example '10010010'. 
+    This component enables the user to choose between electronic code book (ECB), cipher block chaining (CBC), cipher feedback (CFB) and output feedback (OFB) for en- and decryption of texts.
+    SDES needs two streams for en-/decryption (one as input and the other as output). It also needs a key of 10 bit length (here represented as text containing only '1' and '0');
+    for example '1110011010'. Finally an initialization vector IV of 8 bit is needed (also represented as text containing only '1' and '0'); for example '10010010'.
     The component will not work if the key length or IV length is wrong (indicated by an error message). The key and IV have to be byte arrays.
     <newline/>
     Drag the SDES component to your workspace and connect the data input with some data source (like a text output component).
@@ -33,7 +33,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Mit dieser Komponente kann man bei der Ver- und Entschlüsselung wählen, ob als Verkettungsmodus "Electronic Code Book" (ECB) oder "Cipher Block Chaining" (CBC) benutzt wird.
+    Mit dieser Komponente kann man bei der Ver- und Entschlüsselung wählen, ob als Verkettungsmodus "Electronic Code Book" (ECB), "Cipher Block Chaining" (CBC), "Cipher Feedback" (CFB) oder "Output Feedback" (OFB) benutzt wird.
     SDES benötigt zwei Datenströme für die Ver- und Entschlüsselung (einen für die Eingabedaten und einen für die Ausgabedaten).
     Außerdem wird ein 10-Bit-Schlüssel benötigt (repräsentiert durch eine Zeichenkette bestehend aus '1' und '0' Zeichen); z.B. '1110011010'.
     Abschließend wird ein Initialisierungsvektor der Länge 8-Bit benötigt (z.B. '10010010').

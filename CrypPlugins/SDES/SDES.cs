@@ -409,15 +409,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                         if (this.settings.Mode == 0)
                         {
-                            GuiLogMessage("Starting encryption with ecb", NotificationLevel.Info);
+                            GuiLogMessage("Starting encryption with ECB", NotificationLevel.Info);
                             ElectronicCodeBook ecb = new ElectronicCodeBook(this);
                             ecb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
                         }
                         else if (this.settings.Mode == 1)
                         {
-                            GuiLogMessage("Starting encryption with cbc", NotificationLevel.Info);
+                            GuiLogMessage("Starting encryption with CBC", NotificationLevel.Info);
                             CipherBlockChaining cbc = new CipherBlockChaining(this);
                             cbc.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                        else if (this.settings.Mode == 2)
+                        {
+                            GuiLogMessage("Starting encryption with CFB", NotificationLevel.Info);
+                            CipherFeedBack cfb = new CipherFeedBack(this);
+                            cfb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                        else if (this.settings.Mode == 3)
+                        {
+                            GuiLogMessage("Starting encryption with OFB", NotificationLevel.Info);
+                            OutputFeedBack ofb = new OutputFeedBack(this);
+                            ofb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
                         }
                     }
                     //Decrypt
@@ -426,15 +438,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                         if (this.settings.Mode == 0)
                         {
-                            GuiLogMessage("Starting decryption with ecb", NotificationLevel.Info);
+                            GuiLogMessage("Starting decryption with ECB", NotificationLevel.Info);
                             ElectronicCodeBook ecb = new ElectronicCodeBook(this);
                             ecb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
                         }
-                        if (this.settings.Mode == 1)
+                        else if (this.settings.Mode == 1)
                         {
-                            GuiLogMessage("Starting decryption with cbc", NotificationLevel.Info);
+                            GuiLogMessage("Starting decryption with CBC", NotificationLevel.Info);
                             CipherBlockChaining cbc = new CipherBlockChaining(this);
                             cbc.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                        else if (this.settings.Mode == 2)
+                        {
+                            GuiLogMessage("Starting decryption with CFB", NotificationLevel.Info);
+                            CipherFeedBack cfb = new CipherFeedBack(this);
+                            cfb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                        else if (this.settings.Mode == 3)
+                        {
+                            GuiLogMessage("Starting decryption with OFB", NotificationLevel.Info);
+                            OutputFeedBack ofb = new OutputFeedBack(this);
+                            ofb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
                         }
                     }
 
@@ -445,7 +469,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     TimeSpan duration = stopTime - startTime;
                     if (!stop)
                     {
-                        GuiLogMessage("En-/Decryption complete! ", NotificationLevel.Info);
+                        GuiLogMessage(((settings.Action==0)?"Encryption":"Decryption")+" complete! ", NotificationLevel.Info);
                         GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                         OnPropertyChanged("OutputStream");
 
@@ -481,6 +505,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private byte[] input;
         ElectronicCodeBook ecb;
         CipherBlockChaining cbc;
+        CipherFeedBack cfb;
+        OutputFeedBack ofb;
         #endregion
 
         #region events
@@ -499,6 +525,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             this.plugin = Plugin;
             this.ecb = new ElectronicCodeBook(plugin);
             this.cbc = new CipherBlockChaining(plugin);
+            this.cfb = new CipherFeedBack(plugin);
+            this.ofb = new OutputFeedBack(plugin);
         }
 
         /// <summary>
@@ -607,22 +635,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 IVString = enc.GetString(plugin.InputIV);
             }
 
-            if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
+            if (action == 0)
             {
-                output = ecb.encrypt(data, key, bytesToUse);
+                switch (((SDESSettings)plugin.Settings).Mode)
+                {
+                    case 0: output = ecb.encrypt(data, key, bytesToUse); break;
+                    case 1: output = cbc.encrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                    case 2: output = cfb.encrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                    case 3: output = ofb.encrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                }
             }
-            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 0)
+            else
             {
-                output = cbc.encrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse);
+                switch (((SDESSettings)plugin.Settings).Mode)
+                {
+                    case 0: output = ecb.decrypt(data, key, bytesToUse); break;
+                    case 1: output = cbc.decrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                    case 2: output = cfb.decrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                    case 3: output = ofb.decrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse); break;
+                }
             }
-            else if (((SDESSettings)plugin.Settings).Mode == 0 && action == 1)
-            {
-                output = ecb.decrypt(data, key, bytesToUse);
-            }
-            else if (((SDESSettings)plugin.Settings).Mode == 1 && action == 1)
-            {
-                output = cbc.decrypt(data, key, Tools.stringToBinaryByteArray(IVString), bytesToUse);
-            }
+
             return output;
 
         }
@@ -2056,5 +2089,264 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }//end encrypt
 
     }//end class ElectronicCodeBook
+
+    ///<summary>
+    ///Encapsulates the CipherFeedBack algorithm
+    ///</summary>
+    public class CipherFeedBack
+    {
+
+        private SDES mSdes;
+        private SDES_algorithm mAlgorithm;
+
+        /// <summary>
+        /// Constructs a CipherFeedBack for SDES
+        /// </summary>
+        /// <param name="sdes">plugin</param>
+        public CipherFeedBack(SDES sdes)
+        {
+            this.mSdes = sdes;
+            this.mAlgorithm = new SDES_algorithm(sdes);
+        }
+
+        ///<summary>
+        ///Encrypts the given plaintext with the given key
+        ///using CipherFeedBack 
+        ///</summary>
+        public void encrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
+        {
+
+            byte[] buffer = new byte[1];
+            int position = 0;
+
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
+            {
+                //Step 1 get plaintext symbol
+                byte symbol = buffer[0];
+                //Step 2 encrypt vector with key
+                vector = mAlgorithm.encrypt(vector, key);
+                //Step 3 exclusiv OR with input
+                vector = Tools.exclusive_or(vector, Tools.byteToByteArray(symbol));
+                //Step 4 store symbol in ciphertext
+                writer.WriteByte(Tools.byteArrayToByte(vector));
+
+                if ((int)(reader.Position * 100 / reader.Length) > position)
+                {
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
+                }
+                writer.Flush();
+            }
+
+        }//end encrypt
+
+        ///
+        ///Encrypts the given plaintext with the given key
+        ///using CipherFeedBack 
+        ///
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
+        {
+            int until = input.Length;
+
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
+
+            byte[] output = new byte[until];
+
+            for (int i = 0; i < until; i++)
+            {
+                vector = Tools.exclusive_or(mAlgorithm.encrypt(vector, key), Tools.byteToByteArray(input[i]));
+                output[i] = Tools.byteArrayToByte(vector);
+
+            }//end while
+
+            return output;
+
+        }//end encrypt
+
+        ///<summary>
+        ///Decrypts the given plaintext with the given Key
+        ///using CipherFeedBack 
+        ///</summary>
+        public void decrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
+        {
+
+            byte[] buffer = new byte[1];
+            int position = 0;
+
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
+            {
+                byte symbol = buffer[0];
+                vector = mAlgorithm.encrypt(vector, key);
+                writer.WriteByte(Tools.byteArrayToByte(Tools.exclusive_or(Tools.byteToByteArray(symbol), vector)));
+                vector = Tools.byteToByteArray(symbol);
+
+                if ((int)(reader.Position * 100 / reader.Length) > position)
+                {
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
+                }
+                writer.Flush();
+            }
+
+        }//end decrypt
+
+        ///
+        ///Decrypt the given plaintext with the given key
+        ///using CipherFeedBack 
+        ///
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] decrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
+        {
+
+            int until = input.Length;
+
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
+
+            byte[] output = new byte[until];
+
+            for (int i = 0; i < until; i++)
+            {
+                vector = mAlgorithm.encrypt(vector, key);
+                output[i] = (Tools.byteArrayToByte(Tools.exclusive_or(Tools.byteToByteArray(input[i]), vector)));
+                vector = Tools.byteToByteArray(input[i]);
+
+            }//end while
+
+            return output;
+
+        }//end encrypt
+
+    }//end class CipherFeedBack
+
+    ///<summary>
+    ///Encapsulates the OutputFeedBack algorithm
+    ///</summary>
+    public class OutputFeedBack
+    {
+
+        private SDES mSdes;
+        private SDES_algorithm mAlgorithm;
+
+        /// <summary>
+        /// Constructs a OutputFeedBack for SDES
+        /// </summary>
+        /// <param name="sdes">plugin</param>
+        public OutputFeedBack(SDES sdes)
+        {
+            this.mSdes = sdes;
+            this.mAlgorithm = new SDES_algorithm(sdes);
+        }
+
+        ///<summary>
+        ///Encrypts the given plaintext with the given key
+        ///using OutputFeedBack 
+        ///</summary>
+        public void encrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
+        {
+
+            byte[] buffer = new byte[1];
+            int position = 0;
+
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
+            {
+                byte symbol = buffer[0];
+                vector = mAlgorithm.encrypt(vector, key);
+                writer.WriteByte(Tools.byteArrayToByte(Tools.exclusive_or(vector, Tools.byteToByteArray(symbol))));
+
+                if ((int)(reader.Position * 100 / reader.Length) > position)
+                {
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
+                }
+                writer.Flush();
+            }
+
+        }//end encrypt
+
+        ///
+        ///Encrypts the given plaintext with the given key
+        ///using OutputFeedBack 
+        ///
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
+        {
+            int until = input.Length;
+
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
+
+            byte[] output = new byte[until];
+
+            for (int i = 0; i < until; i++)
+            {
+                vector = mAlgorithm.encrypt(vector, key);
+                output[i] = Tools.byteArrayToByte(Tools.exclusive_or(vector, Tools.byteToByteArray(input[i])));
+
+            }//end while
+
+            return output;
+
+        }//end encrypt
+
+        ///<summary>
+        ///Decrypts the given plaintext with the given Key
+        ///using OutputFeedBack 
+        ///</summary>
+        public void decrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
+        {
+
+            byte[] buffer = new byte[1];
+            int position = 0;
+
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
+            {
+                byte symbol = buffer[0];
+                vector = mAlgorithm.encrypt(vector, key);
+                writer.WriteByte((Tools.byteArrayToByte(Tools.exclusive_or(Tools.byteToByteArray(symbol), vector))));
+
+                if ((int)(reader.Position * 100 / reader.Length) > position)
+                {
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
+                }
+                writer.Flush();
+            }
+
+        }//end decrypt
+
+        ///
+        ///Decrypt the given plaintext with the given key
+        ///using OutputFeedBack 
+        ///
+        /// bytesToUse tells the algorithm how many bytes it has to encrypt
+        /// bytesToUse = 0 => encrypt all
+        public byte[] decrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
+        {
+
+            int until = input.Length;
+
+            if (bytesToUse < until && bytesToUse > 0)
+                until = bytesToUse;
+
+            byte[] output = new byte[until];
+
+            for (int i = 0; i < until; i++)
+            {
+                vector = mAlgorithm.encrypt(vector, key);
+                output[i] = (Tools.byteArrayToByte(Tools.exclusive_or(Tools.byteToByteArray(input[i]), vector)));
+
+            }//end while
+
+            return output;
+
+        }//end encrypt
+
+    }//end class OutputFeedBack
 
 }//end namespace Cryptool.Plugins.Cryptography.Encryption
