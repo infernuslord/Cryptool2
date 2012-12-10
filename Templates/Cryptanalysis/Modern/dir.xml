@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Modern</name>
   <name lang="de">Modern</name>  
-  <summary lang="en">This folder contains templates which show the cryptanalyis of modern cryptographical algorithms</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche die Kryptoanalyse von modern kryptographischen Verfahren zeigen</summary>
+  <summary lang="en">This folder contains templates that demonstrate cryptanalytical attacks against modern cryptographical algorithms.</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, die kryptoanalytische Angriffe gegen moderne Verfahren demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>

@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Classical</name>
   <name lang="de">Klassisch</name>  
-  <summary lang="en">This folder contains templates which show the cryptanalyis of classical cryptographical algorithms</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche die Kryptoanalyse von klassischen kryptographischen Verfahren zeigen</summary>
+  <summary lang="en">This folder contains templates that demonstrate cryptanalytical attacks against classical cryptographical algorithms.</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, die kryptoanalytische Angriffe gegen klassische Verfahren demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>

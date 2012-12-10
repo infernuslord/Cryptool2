@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Modern</name>
   <name lang="de">Modern</name>
-  <summary lang="en">This folder contains templates which show modern cryptographical algorithms</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche moderne kryptographische Verfahren zeigen</summary>
+  <summary lang="en">This folder contains templates that demonstrate modern cryptographical algorithms.</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, die moderne kryptographische Verfahren demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>
