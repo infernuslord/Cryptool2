@@ -130,7 +130,7 @@ namespace HexBox
             scoview.ScrollChanged += scoview_ScrollChanged;
             fileSlider.ValueChanged += MyManipulationCompleteEvent;
 
-            fileSlider.Scroll += fileSlider_Scroll;
+            
 
             mainPanel.MouseWheel += MainWindow_MouseWheel;
 
@@ -205,6 +205,11 @@ namespace HexBox
             if (_cellText > 256)
             {
                 _cellText = 256;
+            }
+
+            if (_cellText < 0)
+            {
+                _cellText = 0;
             }
 
             _st.mark[0] = _cellText;
@@ -359,7 +364,10 @@ namespace HexBox
             {
                 _cellText = 255;
             }
-
+            if (_cellText < 0)
+            {
+                _cellText = 0;
+            }
             setPositionText(_cellText);
             setPosition(_cellText*2);
 
@@ -2104,9 +2112,7 @@ namespace HexBox
             e.Handled = true;
         }
 
-        private void fileSlider_Scroll(object sender, EventArgs e)
-        {
-        }
+        
 
         private void MyManipulationCompleteEvent(object sender, EventArgs e)
         {
@@ -2156,7 +2162,10 @@ namespace HexBox
             fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
             fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             fileSlider.SmallChange = 1;
-            fileSlider.LargeChange = 1;            
+            fileSlider.LargeChange = 1;
+
+            FileName.Text = "";
+
             closeFile(true);
             Stream s = new MemoryStream();
             _dyfipro = new DynamicFileByteProvider(s);
