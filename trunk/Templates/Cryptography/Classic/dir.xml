@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Classical</name>
   <name lang="de">Klassisch</name>
-  <summary lang="en">This folder contains templates which show classical cryptographical algorithms</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche klassische kryptographische Verfahren zeigen</summary>
+  <summary lang="en">This folder contains templates that demonstrate classical cryptographical algorithms.</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, die klassische kryptographische Verfahren demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>

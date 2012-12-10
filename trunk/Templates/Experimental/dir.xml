@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Experimental</name>
   <name lang="de">Experimentell</name>  
-  <summary lang="en">This folder contains templates which show components in experimental state</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche Komponenten im experimentellen Stadium zeigen</summary>
+  <summary lang="en">The folder "Experimental" contains templates which show components in experimental state.</summary>
+  <summary lang="de">Das Verzeichnis "Experimentell" enthält Vorlagen, die Komponenten im experimentellen Stadium zeigen.</summary>
   <icon file="dir.png" />
 </directory>

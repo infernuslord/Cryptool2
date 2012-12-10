@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Symmetric</name>
   <name lang="de">Symmetrisch</name>
-  <summary lang="en">This folder contains templates which show modern symmetric cryptographical algorithms</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche moderne symmetrische kryptographische Verfahren zeigen</summary>
+  <summary lang="en">This folder contains templates that demonstrate modern symmetric cryptographical algorithms.</summary>
+  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, die moderne symmetrische kryptographische Verfahren demonstrieren.</summary>
   <!--<icon file="dir.png" />-->
 </directory>

@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Mathematics</name>
   <name lang="de">Mathematisch</name>  
-  <summary lang="en">This folder contains templates which show mathematical functions</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche mathematische Funktionen zeigen</summary>
+  <summary lang="en">The folder "Mathematics" contains templates with mathematical functions.</summary>
+  <summary lang="de">Das Verzeichnis "Mathematisch" enthält Vorlagen mit einzelnen mathematischen Funktionen.</summary>
   <icon file="math.png" />
 </directory>

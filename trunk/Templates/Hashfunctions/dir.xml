@@ -2,7 +2,7 @@
 <directory>
   <name lang="en">Hashfunctions</name>
   <name lang="de">Hashfunktionen</name>  
-  <summary lang="en">This folder contains templates which show hash functions</summary>
-  <summary lang="de">Dieses Verzeichnis enthält Vorlagen, welche Hashfunktionen zeigen</summary>
+  <summary lang="en">The folder "Hashfunctions" contains templates which demonstrate the use of hash functions.</summary>
+  <summary lang="de">Das Verzeichnis "Hashfunktionen" enthält Vorlagen, die die Verwendung von Hashfunktionen demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>
