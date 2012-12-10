@@ -24,6 +24,7 @@ namespace Cryptool.Plugins.CodeScanner
         private const int SWP_NOMOVE = 0x2;
         private const int SWP_NOZORDER = 0x4;
         private const int HWND_BOTTOM = 1;
+        private readonly CodeScannerPresentation presentation = new CodeScannerPresentation();
 
         //This function enables enumerate the web cam devices
         [DllImport("avicap32.dll")]
@@ -89,6 +90,7 @@ namespace Cryptool.Plugins.CodeScanner
         public void OpenConnection()
         {
             string DeviceIndex = Convert.ToString(DeviceID);
+        //    IntPtr oHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
             IntPtr oHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
 
             // Open Preview window in picturebox .
