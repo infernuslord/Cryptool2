@@ -110,6 +110,7 @@
     <Compile Include="Miscellaneous\ApplicationSettingsHelper.cs" />
     <Compile Include="Miscellaneous\BigIntegerHelper.cs" />
     <Compile Include="Miscellaneous\AssemblyHelper.cs" />
+    <Compile Include="Miscellaneous\BlockCipherHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
     <Compile Include="Control\IControl.cs" />
