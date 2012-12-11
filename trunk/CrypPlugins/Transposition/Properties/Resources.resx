@@ -190,10 +190,10 @@
     <value>Decrypt</value>
   </data>
   <data name="NumberList1" xml:space="preserve">
-    <value>US-ASCII</value>
+    <value>Character</value>
   </data>
   <data name="NumberList2" xml:space="preserve">
-    <value>hex</value>
+    <value>Character-Code</value>
   </data>
   <data name="PermutationList1" xml:space="preserve">
     <value>by row</value>
@@ -239,5 +239,14 @@
   </data>
   <data name="PresentationGroup" xml:space="preserve">
     <value>Presentation</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>by byte</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>by character</value>
+  </data>
+  <data name="NumberModeCaption" xml:space="preserve">
+    <value>Typ of processing</value>
   </data>
 </root>
