@@ -46,7 +46,7 @@ namespace Primes.WpfControls.Start
       b.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(b_Navigating);
       windowsFormsHost1.Child = b;
       b.DocumentText = Properties.Resources.Start;
-      b.Document.ContextMenuShowing += new System.Windows.Forms.HtmlElementEventHandler(Document_ContextMenuShowing);
+      //b.Document.ContextMenuShowing += new System.Windows.Forms.HtmlElementEventHandler(Document_ContextMenuShowing);
     }
 
     void Document_ContextMenuShowing(object sender, System.Windows.Forms.HtmlElementEventArgs e)

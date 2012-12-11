@@ -117,7 +117,6 @@ namespace Primes.WpfVisualization.Navigation
         else if (sender == lnkDistribGoldbach) commandtype = NavigationCommandType.PrimeDistrib_Goldbach;
         else if (sender == lnkPowMod) commandtype = NavigationCommandType.PowerMod;
 
-
         OnNavigate(commandtype);
       }
       
