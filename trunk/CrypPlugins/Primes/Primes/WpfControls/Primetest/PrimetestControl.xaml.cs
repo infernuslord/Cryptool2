@@ -39,8 +39,7 @@ namespace Primes.WpfControls.Primetest
   /// </summary>
   public partial class PrimetestControl : UserControl, IPrimeMethodDivision
   {
-
-    public PrimetestControl()
+    public PrimetestControl(Navigate nav=null)
     {
       InitializeComponent();
 
@@ -65,6 +64,8 @@ namespace Primes.WpfControls.Primetest
       iscNumber.SetText(InputSingleControl.CalcBase, ((new Random().Next() % 5)+1).ToString());
       iscNumber.SetText(InputSingleControl.CalcExp, ((new Random().Next() % 5)+1).ToString());
       iscNumber.SetText(InputSingleControl.CalcSum, (new Random().Next() % 11).ToString());
+
+      myNavigate = nav;
     }
 
     void sieveoferatosthenes_ForceGetInteger(ExecuteIntegerDelegate ExecuteDelegate)
@@ -160,9 +161,24 @@ namespace Primes.WpfControls.Primetest
       }
     }
 
+    private NavigationCommandType CurrentNavigationCommand
+    {
+        get
+        {
+            if (tbctrl.SelectedItem == tabItemSieveOfEratosthenes) return NavigationCommandType.Primetest_Sieve;
+            if (tbctrl.SelectedItem == tabItemMillerRabin) return NavigationCommandType.Primetest_Miller;
+            if (tbctrl.SelectedItem == tabItemSoa) return NavigationCommandType.SieveOfAtkin;
+
+            return NavigationCommandType.Primetest_Sieve;
+        }
+    }
+
+    public Navigate myNavigate = null;
+
     private void tbctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       iscNumber.SetValueValidator(InputSingleControl.Value, CurrentControl.Validator);
+      if (myNavigate != null) myNavigate(CurrentNavigationCommand);
 
       SetLocks();
     }
