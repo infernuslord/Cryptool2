@@ -232,4 +232,7 @@
   <data name="Spiral_Ulam" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\spiral_ulam.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="StartControl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\startcontrol.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

@@ -778,6 +778,7 @@
     <Content Include="OnlineHelp\HelpFiles\de\PrimitivRoot_PrimitivRoot.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Simpson_Lin.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Spiral_Ulam.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\StartControl.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_Distribution.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhi.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Distribution_EulerPhiSum.html" />
@@ -816,6 +817,7 @@
     <Content Include="OnlineHelp\HelpFiles\en\PrimitivRoot_PrimitivRoot.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Simpson_Lin.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Spiral_Ulam.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\StartControl.html" />
     <Content Include="OnlineHelp\HelpFiles\template.en.html" />
     <Resource Include="PrimesPlugin.png" />
     <None Include="OnlineHelp\Resources\sigma.jpg" />

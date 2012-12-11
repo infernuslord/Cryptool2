@@ -60,7 +60,9 @@ namespace Primes.WpfVisualization
     public bool Standalone
     {
       get { return m_Standalone; }
-      set { 
+        set
+        {
+            if (m_HistoryPointer > 0) m_HistoryPointer--;
         m_Standalone = value;
         if (Standalone)
         {
@@ -76,7 +78,8 @@ namespace Primes.WpfVisualization
       
       }
     }
-    private IList<NavigationCommandType> m_History;
+
+    private List<NavigationCommandType> m_History;
     private int m_HistoryPointer = -1;
     public event VoidDelegate OnClose;
 
@@ -86,21 +89,24 @@ namespace Primes.WpfVisualization
       Initialize();
     }
 
-
-
     private void Navigate(NavigationCommandType type)
     {
       Navigate(type, true);
     }
+
     private void Navigate(NavigationCommandType type, bool incHistory)
     {
       if (m_ActualControl != null)
-      {
         m_ActualControl.Dispose();
-      }
+
       SetTitle(type);
+
       switch (type)
       {
+        case NavigationCommandType.Start:
+          if (m_StartControl == null) m_StartControl = new StartControl();
+          SetUserControl(m_StartControl);
+          break;
         case NavigationCommandType.Factor_Bf:
           if (m_FactorizationControl == null) m_FactorizationControl = new FactorizationControl();
           SetUserControl(m_FactorizationControl, 0);
@@ -109,27 +115,17 @@ namespace Primes.WpfVisualization
           if (m_FactorizationControl == null) m_FactorizationControl = new FactorizationControl();
           SetUserControl(m_FactorizationControl, 2);
           break;
-        case NavigationCommandType.Graph:
-          if (m_GraphControl == null) m_GraphControl = new GraphControl();
-          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-
-          SetUserControl(m_PrimesInNaturalNumbersControl,2);
-          break;
-        case NavigationCommandType.Start:
-          if (m_StartControl == null) m_StartControl = new StartControl();
-          SetUserControl(m_StartControl);
-          break;
         case NavigationCommandType.Primetest_Miller:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl();
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
           SetUserControl(m_PrimetestControl, 2);
           break;
         case NavigationCommandType.Primetest_Sieve:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl();
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
           SetUserControl(m_PrimetestControl, 0);
           break;
-        case NavigationCommandType.PrimeDistrib_Ulam:
-          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-          SetUserControl(m_PrimesInNaturalNumbersControl, 3);
+        case NavigationCommandType.SieveOfAtkin:
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
+          SetUserControl(m_PrimetestControl,3);
           break;
         case NavigationCommandType.PrimeDistrib_Numberline:
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
@@ -137,27 +133,32 @@ namespace Primes.WpfVisualization
           break;
         case NavigationCommandType.PrimeDistrib_Numberrec :
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-
           SetUserControl(m_PrimesInNaturalNumbersControl, 1);
+          break;
+        case NavigationCommandType.Graph:
+          if (m_GraphControl == null) m_GraphControl = new GraphControl();
+          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
+          SetUserControl(m_PrimesInNaturalNumbersControl,2);
+          break;
+        case NavigationCommandType.PrimeDistrib_Ulam:
+          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
+          SetUserControl(m_PrimesInNaturalNumbersControl, 3);
           break;
         case NavigationCommandType.PrimeDistrib_Goldbach:
           if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-
           SetUserControl(m_PrimesInNaturalNumbersControl, 4);
           break;
-
+        case NavigationCommandType.Numberline:
+          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
+          SetUserControl(m_PrimesInNaturalNumbersControl);
+          break;
         case NavigationCommandType.Primespirals:
           if (m_PrimespiralControl == null) m_PrimespiralControl = new PrimesprialControl();
-
           SetUserControl(m_PrimespiralControl);
           break;
         case NavigationCommandType.Primesgeneration:
           if (m_PrimesgenerationControl == null) m_PrimesgenerationControl = new PrimesgenerationControl();
           SetUserControl(m_PrimesgenerationControl);
-          break;
-        case NavigationCommandType.Numberline:
-          if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-          SetUserControl(m_PrimesInNaturalNumbersControl);
           break;
         case NavigationCommandType.PrimitivRoot:
           if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
@@ -171,28 +172,24 @@ namespace Primes.WpfVisualization
           if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
           SetUserControl(m_NumberTheoryControl, 1);
           break;
-        case NavigationCommandType.SieveOfAtkin:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl();
-
-          //if (m_SieveOfAtkinControl == null) m_SieveOfAtkinControl = new SieveOfAtkinControl();
-          SetUserControl(m_PrimetestControl,3);
-          break;
-
       }
-      if (incHistory)
-      {
-        m_History.Add(type);
-        m_HistoryPointer++;
-        for (int i = m_HistoryPointer + 1; i < m_History.Count; i++)
-        {
-          m_History.RemoveAt(i);
-        }
-      }
+
+      if (incHistory) NavigateHistory(type);
+
       SetHistoryButtons();
     }
+
+    private void NavigateHistory(NavigationCommandType type)
+    {
+        m_HistoryPointer++;
+        m_History.RemoveRange(m_HistoryPointer, m_History.Count - m_HistoryPointer);
+        m_History.Add(type);
+    }
+
     private void SetTitle(NavigationCommandType type)
     {
       imghelp.Visibility = Visibility.Visible;
+
       switch(type)
       {
         case NavigationCommandType.Factor_QS:
@@ -201,15 +198,12 @@ namespace Primes.WpfVisualization
           break;
         case NavigationCommandType.Start:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_start;
-          imghelp.Visibility = Visibility.Hidden;
+          //imghelp.Visibility = Visibility.Hidden;
           break;
         case NavigationCommandType.Primetest_Miller:
         case NavigationCommandType.Primetest_Sieve:
-          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primetest;
-          break;
         case NavigationCommandType.SieveOfAtkin:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primetest;
-          //lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_soa;
           break;
         case NavigationCommandType.Primespirals:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primespiral;
@@ -221,21 +215,17 @@ namespace Primes.WpfVisualization
         case NavigationCommandType.PrimeDistrib_Numberrec:
         case NavigationCommandType.PrimeDistrib_Ulam:
         case NavigationCommandType.PrimeDistrib_Goldbach:
-          lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_distribution;
-          break;
         case NavigationCommandType.Graph:
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_distribution;
-          //lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_primecount;
           break;
         case NavigationCommandType.NumberTheoryFunctions:
         case NavigationCommandType.PrimitivRoot:
-        case NavigationCommandType.PowerMod:           
-          
+        case NavigationCommandType.PowerMod:          
           lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_Numbertheory;
           break;
-
       }
     }
+
     private void SetUserControl(IPrimeMethodDivision control)
     {
       SetUserControl(control, -1);
@@ -267,7 +257,6 @@ namespace Primes.WpfVisualization
       {
         //(m_ActualControl as UserControl).Height = ContentArea.ActualHeight;
         //(m_ActualControl as UserControl).Width = ContentArea.ActualWidth;
-
       }
 
     }
@@ -276,82 +265,84 @@ namespace Primes.WpfVisualization
     {
       //StartControl.Width = ContentArea.ActualWidth;
       //StartControl.Height = ContentArea.ActualHeight;
-
     }
 
     public void CleanUp()
     {
-      if (m_FactorizationControl != null)
-        m_FactorizationControl.Dispose();
-      if (m_GraphControl != null)
-        m_GraphControl.Dispose();
-      if (m_PrimetestControl != null)
-        m_PrimetestControl.Dispose();
-      if (m_PrimespiralControl != null)
-        m_PrimespiralControl.Dispose();
-      if (m_PrimesgenerationControl != null)
-        m_PrimesgenerationControl.Dispose();
-      if (m_PrimesInNaturalNumbersControl != null)
-        m_PrimesInNaturalNumbersControl.Dispose();
-      if (m_NumberTheoryControl!= null)
-        m_NumberTheoryControl.Dispose();
-      if (m_SieveOfAtkinControl != null)
-        m_SieveOfAtkinControl.Dispose();
+        if (m_FactorizationControl != null)
+            m_FactorizationControl.Dispose();
+        if (m_GraphControl != null)
+            m_GraphControl.Dispose();
+        if (m_PrimetestControl != null)
+            m_PrimetestControl.Dispose();
+        if (m_PrimespiralControl != null)
+            m_PrimespiralControl.Dispose();
+        if (m_PrimesgenerationControl != null)
+            m_PrimesgenerationControl.Dispose();
+        if (m_PrimesInNaturalNumbersControl != null)
+            m_PrimesInNaturalNumbersControl.Dispose();
+        if (m_NumberTheoryControl!= null)
+            m_NumberTheoryControl.Dispose();
+        if (m_SieveOfAtkinControl != null)
+            m_SieveOfAtkinControl.Dispose();
 
-      m_FactorizationControl = null;
-      m_GraphControl = null;
-      m_StartControl = null;
-      m_PrimetestControl = null;
-      m_PrimespiralControl = null;
-      m_PrimesgenerationControl = null;
-      m_PrimesInNaturalNumbersControl = null;
-      m_NumberTheoryControl = null;
-      m_SieveOfAtkinControl = null;
-      OnlineHelp.OnlineHelpAccess.HelpWindowClosed();
+        m_FactorizationControl = null;
+        m_GraphControl = null;
+        m_StartControl = null;
+        m_PrimetestControl = null;
+        m_PrimespiralControl = null;
+        m_PrimesgenerationControl = null;
+        m_PrimesInNaturalNumbersControl = null;
+        m_NumberTheoryControl = null;
+        m_SieveOfAtkinControl = null;
+
+        OnlineHelp.OnlineHelpAccess.HelpWindowClosed();
     }
 
     private void ImageHelpClick(object sender, MouseButtonEventArgs e)
     {
-      Primes.OnlineHelp.OnlineHelpActions action = Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount; 
-      if (m_ActualControl.GetType() == typeof(GraphControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount; 
-      }
-      else if(m_ActualControl.GetType() == typeof(FactorizationControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Factorization_Factorization;
-      }
-      else if (m_ActualControl.GetType() == typeof(PrimetestControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Primetest_Primetest;
-      }
-      else if (m_ActualControl.GetType() == typeof(PrimesgenerationControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Generation_Generation;
-      }
-      else if (m_ActualControl.GetType() == typeof(NumberlineControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Numberline;
-      }
-      else if (m_ActualControl.GetType() == typeof(PrimesprialControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Spiral_Ulam;
-      }
-      else if (m_ActualControl.GetType() == typeof(PrimitivRootControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot;
-      }
-      else if(m_ActualControl.GetType() == typeof(PrimesInNaturalNumbersControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Distribution;
-      }
-      else if (m_ActualControl.GetType() == typeof(SieveOfAtkinControl))
-      {
-        action = Primes.OnlineHelp.OnlineHelpActions.Generation_SieveOfAtkin;
-      }
+        //Primes.OnlineHelp.OnlineHelpActions action = Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount;
+        Primes.OnlineHelp.OnlineHelpActions action = Primes.OnlineHelp.OnlineHelpActions.StartControl;
 
-      e.Handled = true;
-      OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(action);
+        if (m_ActualControl.GetType() == typeof(GraphControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount; 
+        }
+        else if(m_ActualControl.GetType() == typeof(FactorizationControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Factorization_Factorization;
+        }
+        else if (m_ActualControl.GetType() == typeof(PrimetestControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Primetest_Primetest;
+        }
+        else if (m_ActualControl.GetType() == typeof(PrimesgenerationControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Generation_Generation;
+        }
+        else if (m_ActualControl.GetType() == typeof(NumberlineControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Numberline;
+        }
+        else if (m_ActualControl.GetType() == typeof(PrimesprialControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Spiral_Ulam;
+        }
+        else if (m_ActualControl.GetType() == typeof(PrimitivRootControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot;
+        }
+        else if(m_ActualControl.GetType() == typeof(PrimesInNaturalNumbersControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Distribution_Distribution;
+        }
+        else if (m_ActualControl.GetType() == typeof(SieveOfAtkinControl))
+        {
+            action = Primes.OnlineHelp.OnlineHelpActions.Generation_SieveOfAtkin;
+        }
+
+        e.Handled = true;
+        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(action);
     }
 
 
@@ -421,8 +412,6 @@ namespace Primes.WpfVisualization
       }, null);
       (m_StartControl as StartControl).OnStartpageLinkClick += new Navigate(Navigate);
       this.MouseRightButtonDown += new MouseButtonEventHandler(PrimesControl_MouseRightButtonDown);
-
-
     }
 
     void PrimesControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -468,23 +457,22 @@ namespace Primes.WpfVisualization
 
     private void miHistory_Click(object sender, RoutedEventArgs e)
     {
-      int historyDirection = (sender == miBack) ? -1 : 1;
-      if (m_HistoryPointer >= 0 && historyDirection < 0)
-      {
-        m_HistoryPointer += historyDirection;
-      }
-      else if (m_HistoryPointer + historyDirection < m_History.Count)
-      {
-        m_HistoryPointer += historyDirection;
-      }
-      Navigate(m_History[m_HistoryPointer], false);
+        if (sender == miBack)
+        {
+            if (m_HistoryPointer > 0) m_HistoryPointer--;
+        }
+        else
+        {
+            if (m_HistoryPointer < m_History.Count-1) m_HistoryPointer++;
+        }
+
+        Navigate(m_History[m_HistoryPointer], false);
     }
 
     private void SetHistoryButtons()
     {
-      miBack.IsEnabled = (m_HistoryPointer > 0 && m_History.Count>1);
-      miForward.IsEnabled = (m_HistoryPointer < m_History.Count-1);
-      
+        miBack.IsEnabled = (m_HistoryPointer > 0);
+        miForward.IsEnabled = (m_HistoryPointer < m_History.Count-1);
     }
 
   }
