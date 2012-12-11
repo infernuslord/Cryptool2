@@ -261,7 +261,7 @@ namespace Transposition
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
-            if (Presentation.IsVisible)
+            if (Presentation.IsVisible && key.Count() != 0)
             {
                     Transposition_LogMessage(Read_in_matrix.GetLength(0) +" " + Read_in_matrix.GetLength(1) +" " + Input.Length  , NotificationLevel.Debug);        
                     Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
