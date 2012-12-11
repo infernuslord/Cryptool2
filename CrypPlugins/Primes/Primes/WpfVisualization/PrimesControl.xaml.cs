@@ -116,16 +116,15 @@ namespace Primes.WpfVisualization
           SetUserControl(m_FactorizationControl, 2);
           break;
         case NavigationCommandType.Primetest_Miller:
-          //Commented out due compilation failure:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(/*NavigateHistory*/);
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
           SetUserControl(m_PrimetestControl, 2);
           break;
         case NavigationCommandType.Primetest_Sieve:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(/*NavigateHistory*/);
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
           SetUserControl(m_PrimetestControl, 0);
           break;
         case NavigationCommandType.SieveOfAtkin:
-          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(/*NavigateHistory*/);
+          if (m_PrimetestControl == null) m_PrimetestControl = new PrimetestControl(NavigateHistory);
           SetUserControl(m_PrimetestControl,3);
           break;
         case NavigationCommandType.PrimeDistrib_Numberline:
