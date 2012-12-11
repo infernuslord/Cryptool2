@@ -170,9 +170,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             //check for a valid IV
             if (this.inputIV == null)
             {
-                //create a trivial key 
+                //create a trivial IV
                 inputIV = new byte[alg.BlockSize / 8];
-                GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
+                if( settings.Mode!=0 )  // ECB needs no IV, thus no warning if IV misses
+                    GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
             }
 
             alg.IV = this.inputIV;

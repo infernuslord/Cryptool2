@@ -226,11 +226,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             //check for a valid IV
             if (this.inputIV == null)
             {
-                //create a trivial key 
+                //create a trivial IV
                 inputIV = new byte[alg.BlockSize / 8];
-                GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
+                if (settings.Mode != 0)  // ECB needs no IV, thus no warning if IV misses
+                    GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
             }
             alg.IV = this.inputIV;
+
             switch (settings.Mode)
             { // 0="ECB"=default, 1="CBC", 2="CFB", 3="OFB"
                 case 1: alg.Mode = CipherMode.CBC; break;
@@ -238,6 +240,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 case 3: alg.Mode = CipherMode.ECB; break;
                 default: alg.Mode = CipherMode.ECB; break;
             }
+
             switch (settings.Padding)
             { // 0="None", 1="Zeros"=default, 2="PKCS7", 3="ANSIX923", 4="ISO10126", 5=", 5="1-0-padding"
                 case 0: alg.Padding = PaddingMode.None; break;
