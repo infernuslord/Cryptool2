@@ -787,7 +787,7 @@ namespace Transposition
         private void sort2()
         {
             if(per == 1)
-            changes = new int[teba.GetLength(0), 2];
+                changes = new int[teba.GetLength(0), 2];
             else
                 changes = new int[teba.GetLength(1), 2];
             mainStory2.Children.Clear();
@@ -847,7 +847,7 @@ namespace Transposition
                                     }
                                 }
                                 
-                                if (goon)
+                                if (goon )
                                     {
                                         Storyboard[] stb = preaniboard(i, s);
                                         stb[0].BeginTime = TimeSpan.FromMilliseconds(4000 * counter);
@@ -874,7 +874,8 @@ namespace Transposition
                                         tesave[s] = help;
                                         
                                     }
-                        }
+                              
+                            }
                     }
                 }
 
@@ -956,14 +957,17 @@ namespace Transposition
                                         tesave[s] = help;
                                         
                                     }
-
+                           
                         }
                     }
                 }
 
             }
 
-            
+            DoubleAnimation nop = new DoubleAnimation(1.0, 1.0, new Duration(TimeSpan.FromMilliseconds((1001)))); //important because storyboard won't start empty
+            mainStory2.Children.Add(nop);
+            Storyboard.SetTarget(nop, Stack);
+            Storyboard.SetTargetProperty(nop, new PropertyPath("(Opacity)"));
             mainStory2.Begin();
             mainStory2.SetSpeedRatio(speed / 100);
         }
@@ -1168,7 +1172,7 @@ namespace Transposition
 
             outPut.Visibility = Visibility.Visible;
             Stack.Visibility = Visibility.Hidden;
-
+            outPut.Text = "";
             foreach (TextBlock t in mywrap2.Children)
                 outPut.Text += t.Text;
 
@@ -1217,7 +1221,10 @@ namespace Transposition
                 mainStory1.Stop();
                 mainStory2.Stop();
                 mainStory3.Stop();
-                
+                mainStory1.Children.Clear();
+                mainStory2.Children.Clear();
+                mainStory3.Children.Clear();
+                                                                                            
                     foreach (Clock cl in aniClock)
                     {
                         cl.Controller.Stop();
