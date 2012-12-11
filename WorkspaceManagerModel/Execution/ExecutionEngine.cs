@@ -107,7 +107,7 @@ namespace WorkspaceManager.Execution
                 {
                     var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute))
                                      {Name = "WorkspaceManager_Thread-" + i};
-                    thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+                    //thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
                     threads.Add(thread);
                     thread.IsBackground = true;
                     i++;

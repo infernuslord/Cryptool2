@@ -314,7 +314,7 @@ namespace WorkspaceManager
                 return;
 
             WorkspaceModel.ModifyModel(copy, true);
-            CurrentCopies = copy.copiedElements.OfType<PluginModel>().ToList();
+            CurrentCopies = copy.GetCopiedModelElements().OfType<PluginModel>().ToList();
             if (PasteOccured != null)
                 PasteOccured.Invoke(this, null);
             copy = null;

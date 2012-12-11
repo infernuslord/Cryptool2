@@ -498,10 +498,8 @@ namespace WorkspaceManagerModel.Model.Operations
 
     public sealed class CopyOperation : Operation
     {
-        private readonly List<VisualElementModel> _copiedElements;
-        private readonly List<PersistantPlugin> _persistantPlugins;
-
-        public System.Collections.ObjectModel.ReadOnlyCollection<VisualElementModel> copiedElements;
+        private List<VisualElementModel> _copiedElements;
+        private List<PersistantPlugin> _persistantPlugins;
 
         public CopyOperation(SerializationWrapper wrapper)
             : base(null)
@@ -737,10 +735,12 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var myconnectionModel in new List<ConnectionModel>(connectorModel.InputConnections))
                         {
-                            if (!_copiedElements.Contains(myconnectionModel))
+                            if (!_copiedElements.Contains(myconnectionModel.From.PluginModel))
                             {
                                 _copiedElements.Remove(myconnectionModel);
                                 connectorModel.InputConnections.Remove(myconnectionModel);
+                                workspaceModel.AllConnectionModels.Remove(myconnectionModel);
+                                myconnectionModel.From.OutputConnections.Remove(myconnectionModel);
                             }
                         }
                     }
@@ -748,13 +748,15 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         foreach (var myconnectionModel in new List<ConnectionModel>(connectorModel.OutputConnections))
                         {
-                            if (!_copiedElements.Contains(myconnectionModel))
+                            if (!_copiedElements.Contains(myconnectionModel.To.PluginModel))
                             {
                                 _copiedElements.Remove(myconnectionModel);
                                 connectorModel.OutputConnections.Remove(myconnectionModel);
+                                workspaceModel.AllConnectionModels.Remove(myconnectionModel);
+                                myconnectionModel.To.InputConnections.Remove(myconnectionModel);
                             }
                         }
-                    }
+                    }                    
 
                     //initialize plugin and register event handlers
                     try
@@ -842,11 +844,14 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 if (events)
                     workspaceModel.OnNewChildElement(visualElementModel);                
-            }
-
-            copiedElements = new System.Collections.ObjectModel.ReadOnlyCollection<VisualElementModel>(_copiedElements);
+            }            
             return true;
         }
+
+        public List<VisualElementModel> GetCopiedModelElements()
+        {
+            return new List<VisualElementModel>(_copiedElements);
+        } 
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
