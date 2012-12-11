@@ -67,12 +67,12 @@ namespace HexBox
             _st.removemarks = true;
             _ht.removemarks = true;
 
-            canvas1.MouseDown += ht_MouseDown;
-            canvas1.MouseUp += ht_MouseUp;
+            canvas1.MouseLeftButtonDown += ht_MouseDown;
+            canvas1.MouseLeftButtonUp += ht_MouseUp;
             canvas1.MouseMove += ht_MouseMove;
-            canvas2.MouseDown += st_MouseDown;
+            canvas2.MouseLeftButtonDown += st_MouseDown;
             canvas2.MouseMove += st_MouseMove;
-            canvas2.MouseUp += st_MouseUp;
+            canvas2.MouseLeftButtonUp += st_MouseUp;
 
             canvas1.Cursor = Cursors.IBeam;
 
@@ -126,8 +126,8 @@ namespace HexBox
 
             
 
-            canvas1.MouseDown += canvas1_MouseDown;
-            canvas2.MouseDown += canvas2_MouseDown;
+            canvas1.MouseLeftButtonDown += canvas1_MouseDown;
+            canvas2.MouseLeftButtonDown += canvas2_MouseDown;
 
             cursor.PreviewKeyDown += KeyInputHexField;
             cursor2.PreviewKeyDown += KeyInputASCIIField;
@@ -493,8 +493,8 @@ namespace HexBox
 
         private void KeyInputHexField(object sender, KeyEventArgs e)
         {
-            
-            if (e.Key != Key.LeftCtrl)
+
+            if (e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl)
             {
                 if (_cursorposition > fileSlider.Value*32 + 512 || _cursorposition < fileSlider.Value*32)
                 {
@@ -784,7 +784,7 @@ namespace HexBox
                     }
                 }
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.A)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.A || Keyboard.IsKeyDown(Key.RightCtrl) && e.Key == Key.A)
                 {
                     _mark[0] = 0;
                     _mark[1] = _dyfipro.Length;
@@ -795,25 +795,25 @@ namespace HexBox
                 }
 
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.C || Keyboard.IsKeyDown(Key.RightCtrl) && e.Key == Key.C)
                 {
                     Copy_HexBoxField();
                     e.Handled = true;
                 }
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.V || Keyboard.IsKeyDown(Key.RightCtrl) && e.Key == Key.V)
                 {
                     HexBox_TextInput_Help(Clipboard.GetText());
                     e.Handled = true;
                 }
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.X || Keyboard.IsKeyDown(Key.RightCtrl) && e.Key == Key.X)
                 {
                     Cut_HexBoxField();
                     e.Handled = true;
                 }
 
-                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.S)
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) && e.Key == Key.S || Keyboard.IsKeyDown(Key.RightCtrl) && e.Key == Key.S)
                 {
                     try
                     {
@@ -1304,7 +1304,16 @@ namespace HexBox
 
                     if (_cell/2 + (long) fileSlider.Value*16 < _dyfipro.Length)
                     {
-                        s = String.Format("{0:X2}", _dyfipro.ReadByte(_cell/2 + (long) fileSlider.Value*16));
+
+                        try
+                        {
+                            s = String.Format("{0:X2}", _dyfipro.ReadByte(_cell/2 + (long) fileSlider.Value*16));
+                        }
+                        catch(Exception exp)
+                        {
+                            _dyfipro.Dispose();
+                            ErrorOccured(this, new GUIErrorEventArgs(exp.Message + "DynamicFileByteProvider cannot read from file"));
+                        }
                     }
 
                     if (insertCheck.IsChecked == false)
@@ -1446,7 +1455,17 @@ namespace HexBox
                 if (i <= max)
                 {
                     if (i < end)
-                        help2[i] = _dyfipro.ReadByte(i + position*16);
+                    {
+                        try
+                        {
+                            help2[i] = _dyfipro.ReadByte(i + position*16);
+                        }
+                        catch(Exception exp)
+                        {
+                            _dyfipro.Dispose();
+                            ErrorOccured(this, new GUIErrorEventArgs(exp.Message + "DynamicFileByteProvider cannot read from file"));
+                        }
+                    }
                 }
             }
 
@@ -1645,6 +1664,7 @@ namespace HexBox
             }
             catch (Exception e)
             {
+                _dyfipro.Dispose();
                 ErrorOccured(this, new GUIErrorEventArgs(e.Message));
             }
 
@@ -1772,6 +1792,7 @@ namespace HexBox
             }
             catch (Exception ex)
             {
+                _dyfipro.Dispose();
                 ErrorOccured(this, new GUIErrorEventArgs(ex.Message));
             }
         }
@@ -1844,7 +1865,15 @@ namespace HexBox
 
             for (long i = _mark[0]; i < _mark[1]; i++)
             {
-                clipBoardString.Append(String.Format("{0:X2}", _dyfipro.ReadByte(i)));
+                try
+                {
+                    clipBoardString.Append(String.Format("{0:X2}", _dyfipro.ReadByte(i)));
+                }
+                catch(Exception exp)
+                {
+                    _dyfipro.Dispose();
+                    ErrorOccured(this, new GUIErrorEventArgs(exp.Message + "DynamicFileByteProvider cannot read from file"));
+                }
             }
 
             try
@@ -1974,6 +2003,8 @@ namespace HexBox
         private void Copy_ASCIIFild()
         {
             var clipBoardString = new StringBuilder();
+            try
+            {
             for (long i = _mark[0]; i < _mark[1]; i++)
             {
                 if (_dyfipro.ReadByte(i) > 34 && _dyfipro.ReadByte(i) < 128)
@@ -1986,12 +2017,12 @@ namespace HexBox
                 }
             }
 
-            try
-            {
+            
                 Clipboard.SetText(clipBoardString.ToString());
             }
             catch (Exception exp)
             {
+                _dyfipro.Dispose();
                 ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
             _mark[1] = -1;
@@ -2067,6 +2098,8 @@ namespace HexBox
             if (_mark[1] > _dyfipro.Length)
                 _mark[1] = _dyfipro.Length;
 
+            try
+            {
             for (long i = _mark[0]; i < _mark[1]; i++)
             {
                 if (_dyfipro.ReadByte(i) > 34 && _dyfipro.ReadByte(i) < 128)
@@ -2079,12 +2112,11 @@ namespace HexBox
                 }
             }
 
-            try
-            {
                 Clipboard.SetText(clipBoardString.ToString());
             }
             catch (Exception exp)
             {
+                _dyfipro.Dispose();
                 ErrorOccured(this, new GUIErrorEventArgs(exp.Message));
             }
         }

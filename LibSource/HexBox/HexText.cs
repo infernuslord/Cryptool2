@@ -136,8 +136,11 @@ namespace HexBox
                     {
                         drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z2, 20));
-                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
-                                                     new Rect(x1, y1, z1, 20));
+                        if (z1> 2)
+                        {
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
+                                                         new Rect(x1, y1, z1, 20));
+                        }
                         int v = (int) mark[1]/32 - (int) mark[0]/32;
 
                         for (int i = 1; i < v; i++)
@@ -192,8 +195,11 @@ namespace HexBox
                     {
                         drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(0, y, z2, 20));
-                        drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
-                                                     new Rect(z1, y1, x1, 20));
+                        if (z1 > 2)
+                        {
+                            drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
+                                                         new Rect(z1, y1, x1, 20));
+                        }
                         int v = (int) mark[0]/32 - (int) mark[1]/32;
 
                         for (int i = 1; i < v; i++)
@@ -206,6 +212,7 @@ namespace HexBox
                     }
                     else
                     {
+                        if(mark[0]!= mark[1])
                         drawingContext.DrawRectangle(brush, new Pen(brush, 1.0),
                                                      new Rect(x, y, z, 20));
                     }
