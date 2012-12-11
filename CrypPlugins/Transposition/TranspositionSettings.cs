@@ -132,8 +132,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("Art der Verarbeitung", "NumberTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "Buchstabenwiese", "Byteweise" })]
-        [TaskPane("Art der Verarbeitung", "NumberTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Buchstabenweise", "Byteweise" })]
+        [ContextMenu("NumberModeCaption", "NumberTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "ModeList2", "ModeList1" })]
+        [TaskPane("NumberModeCaption", "NumberTooltip", null, 8, false, ControlType.ComboBox, new string[] { "ModeList2", "ModeList1" })]
         public int InternalNumber
         {
             get { return (int)this.selectedInternalNumberMode; }

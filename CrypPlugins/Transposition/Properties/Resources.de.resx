@@ -190,10 +190,10 @@
     <value>Entschlüsselung</value>
   </data>
   <data name="NumberList1" xml:space="preserve">
-    <value>ASCII</value>
+    <value>Zeichen</value>
   </data>
   <data name="NumberList2" xml:space="preserve">
-    <value>ASCII-Code (hexadezimal)</value>
+    <value>Zeichen-Code</value>
   </data>
   <data name="PermutationList1" xml:space="preserve">
     <value>zeilenweise</value>
@@ -236,5 +236,14 @@
   </data>
   <data name="reading_out_by_row" xml:space="preserve">
     <value>zeilenweise Auslesen</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Byteweise</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Buchstabenweise</value>
+  </data>
+  <data name="NumberModeCaption" xml:space="preserve">
+    <value>Art der Verarbeitung</value>
   </data>
 </root>
