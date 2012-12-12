@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AchterbahnTest.cs" />
     <Compile Include="AESTest.cs" />
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
@@ -135,6 +136,14 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Achterbahn\Achterbahn.csproj">
+      <Project>{C8ACE050-4B85-41B6-90F4-5105674BB968}</Project>
+      <Name>Achterbahn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\ADFGVX\ADFGVX.csproj">
+      <Project>{9B9CD0E9-D048-45FD-BF0F-7C5A8E714AA2}</Project>
+      <Name>ADFGVX</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\AES\AES.csproj">
       <Project>{2A81A3B2-ABC0-4850-9C89-3830AD07FD6B}</Project>
