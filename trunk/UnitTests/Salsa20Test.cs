@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cryptool.PluginBase.IO;
-using System.Numerics;
 
 namespace Tests.TemplateAndPluginTests
 {
@@ -19,12 +18,12 @@ namespace Tests.TemplateAndPluginTests
         public void Salsa20TestMethod()
         {
             var pluginInstance = TestHelpers.GetPluginInstance("Salsa20");
-            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputData", "InputKey", "InputIV", "InputOffset" }, new[] { "OutputData" });
+            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputData", "InputKey", "InputIV" }, new[] { "OutputData" });
 
             foreach (TestVector vector in testvectors)
             {
-                object[] output = scenario.GetOutputs(new object[] { new byte[vector.output.Length / 2], vector.key.HexToByteArray(), vector.IV.HexToByteArray(), new BigInteger(vector.offset) });
-                Assert.AreEqual(vector.output.ToUpper(), output[0].ToHex(), "Unexpected value in test #" + vector.n + ".");
+                object[] output = scenario.GetOutputs(new object[] { new byte[vector.offset + vector.output.Length / 2], vector.key.HexToByteArray(), vector.IV.HexToByteArray() });
+                Assert.AreEqual(vector.output.ToUpper(), output[0].ToHex().Substring(vector.offset * 2), "Unexpected value in test #" + vector.n + ".");
             }
         }
 
