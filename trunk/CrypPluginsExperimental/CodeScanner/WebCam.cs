@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.CodeScanner
         ArrayList ListOfDevices = new ArrayList();
 
         //The picture to be displayed
-     //   public PictureBox Container { get; set; }
+   //     public PictureBox Container { get; set; }
 
         // Connect to the device.
         /// <summary>
@@ -90,14 +90,15 @@ namespace Cryptool.Plugins.CodeScanner
         public void OpenConnection()
         {
             string DeviceIndex = Convert.ToString(DeviceID);
+            //    IntPtr oHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
         //    IntPtr oHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
-            IntPtr oHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
-
+            IntPtr oHandle = presentation.picLiveView.Handle;
             // Open Preview window in picturebox .
             // Create a child window with capCreateCaptureWindowA so you can display it in a picturebox.
 
+            // hHwnd = capCreateCaptureWindowA();
             hHwnd = capCreateCaptureWindowA(ref DeviceIndex, WS_VISIBLE | WS_CHILD, 0, 0, 640, 480, oHandle.ToInt32(), 0);
-
+            
             // Connect to device
             if (SendMessage(hHwnd, WM_CAP_DRIVER_CONNECT, DeviceID, 0) != 0)
             {
@@ -108,7 +109,7 @@ namespace Cryptool.Plugins.CodeScanner
                 // Start previewing the image from the camera
                 SendMessage(hHwnd, WM_CAP_SET_PREVIEW, -1, 0);
                 // Resize window to fit in picturebox
-              //  SetWindowPos(hHwnd, HWND_BOTTOM, 0, 0, Container.Height, Container.Width, SWP_NOMOVE | SWP_NOZORDER);
+                SetWindowPos(hHwnd, HWND_BOTTOM, 0, 0, presentation.picLiveView.Height, presentation.picLiveView.Width, SWP_NOMOVE | SWP_NOZORDER);
             }
             else
             {
@@ -139,7 +140,8 @@ namespace Cryptool.Plugins.CodeScanner
                 if (data.GetDataPresent(typeof(Bitmap)))
                 {
                     var oImage = (Bitmap)data.GetData(typeof(Bitmap));
-                    //     Container.Image = oImage;
+                   // Container.Image = oImage;
+                    presentation.picLiveView.Image = oImage;
                     return oImage;
                 }
             }
