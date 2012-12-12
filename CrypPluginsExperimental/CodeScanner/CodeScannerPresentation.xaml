@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Name="MyUserControl">
     <Grid>
-        <Image Height="261" HorizontalAlignment="Left" Margin="12,27,0,0" Name="image" Stretch="Fill" VerticalAlignment="Top" Width="276" />
+        <WindowsFormsHost Margin="21,25,22,36">
+            <wf:PictureBox x:Name="picLiveView" />
+        </WindowsFormsHost>
     </Grid>
 </UserControl>

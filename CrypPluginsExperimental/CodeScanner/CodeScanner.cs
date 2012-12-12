@@ -23,7 +23,6 @@ using System.Drawing;
 using System.Windows.Threading;
 using System.Threading;
 
-
 namespace Cryptool.Plugins.CodeScanner
 {
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "University of Kassel", "")]
@@ -36,24 +35,27 @@ namespace Cryptool.Plugins.CodeScanner
 
         private readonly CodeScannerSettings settings = new CodeScannerSettings();
         private readonly CodeScannerPresentation presentation = new CodeScannerPresentation();
-        private WebCam wCam = new WebCam();
         private bool isRunning = false;
+        private readonly WebCam wCam = new WebCam();
+        private System.Drawing.Imaging.ImageFormat format;
 
         #endregion
 
 
         #region Helper Functions
-        
 
-        private Bitmap getWebCamImage()
+        private byte[] BildToByteArray(System.Drawing.Image Bild)
         {
-            
-            return wCam.GetCurrentImage();
+            MemoryStream IS = new MemoryStream();
+            Bild.Save(IS, System.Drawing.Imaging.ImageFormat.Bmp);
+            IS.Flush();
+            return IS.ToArray();
         }
 
-        private void close()
+        public static byte[] ImageToByte(System.Drawing.Image img)
         {
-            wCam.Dispose();
+            ImageConverter converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
         #endregion
@@ -65,7 +67,7 @@ namespace Cryptool.Plugins.CodeScanner
 
 
         [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
-        public byte[] OutPutStream
+        public byte[] PictureOutPut
         {
             get;
             set;
@@ -101,8 +103,10 @@ namespace Cryptool.Plugins.CodeScanner
             {
                 try
                 {
-                    wCam = new WebCam();
                     wCam.OpenConnection();
+
+                 //   presentation.Attach();
+                  
                 }
                 catch
                 {
@@ -126,7 +130,10 @@ namespace Cryptool.Plugins.CodeScanner
                 {
                     try
                     {
-                        presentation.setImage(getWebCamImage());
+                      //  presentation.Attach();
+                        presentation.setImage(wCam.GetCurrentImage());
+                        PictureOutPut = ImageToByte(wCam.GetCurrentImage());
+                        OnPropertyChanged("PictureOutPut");
                     }
                     catch
                     {
@@ -152,7 +159,7 @@ namespace Cryptool.Plugins.CodeScanner
         public void Stop()
         {
             isRunning = false;
-            close();
+            wCam.Dispose();
         }
 
         /// <summary>
