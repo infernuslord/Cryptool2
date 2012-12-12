@@ -32,10 +32,10 @@ namespace Tests.TemplateAndPluginTests
             return true;
         }
 
-        public object[] GetOutputs(object[] inputValues)
+        public object[] GetOutputs(object[] inputValues, bool preexecfirst=true)
         {
             Initialize();
-            PreExecution();
+            if(preexecfirst) PreExecution();
 
             if (inputValues.Length != _inputProperties.Length)
                 throw new ArgumentException("input vector doesn't match scenario.");
@@ -43,6 +43,7 @@ namespace Tests.TemplateAndPluginTests
             for (int i = 0; i < _inputProperties.Length; i++)
                 _inputProperties[i].SetValue(_inputObjects[i], inputValues[i], null);
 
+            if (!preexecfirst) PreExecution();
             Execute();
 
             object[] outputValues = new object[_outputProperties.Length];

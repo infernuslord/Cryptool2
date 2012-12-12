@@ -86,7 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AchterbahnTest.cs" />
+    <Compile Include="ADFGVXTest.cs" />
     <Compile Include="AESTest.cs" />
+    <Compile Include="CaesarTest.cs" />
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
     <Compile Include="DESTest.cs" />
@@ -249,6 +251,26 @@
       <Project>{00135C5E-F976-42DC-9BB3-CD6053341E20}</Project>
       <Name>Sosemanuk</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\StringDecoder\StringDecoder.csproj">
+      <Project>{A7A16F8B-2616-442F-8B8E-8AD0E2EDB7FF}</Project>
+      <Name>StringDecoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\StringEncoder\StringEncoder.csproj">
+      <Project>{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}</Project>
+      <Name>StringEncoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Substitution\Substitution.csproj">
+      <Project>{C2DE271E-BAC1-48A8-9D06-432F4978DC94}</Project>
+      <Name>Substitution</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\TextInput\TextInput.csproj">
+      <Project>{475E8850-4D82-4C5E-AD19-5FDA82BC7576}</Project>
+      <Name>TextInput</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\TextOutput\TextOutput.csproj">
+      <Project>{A5529873-06EA-4E38-8B99-5ABD84B20446}</Project>
+      <Name>TextOutput</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Tiger\Tiger.csproj">
       <Project>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</Project>
       <Name>Tiger</Name>
@@ -277,6 +299,10 @@
       <Project>{FF247A82-21AD-4010-B2FB-D93EE2B02677}</Project>
       <Name>Wizard</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\XOR\XOR.csproj">
+      <Project>{2BBA5775-A0F2-4846-BC88-46BE3B0F38B1}</Project>
+      <Name>XOR</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibSource\SSCext\SSCext.csproj">
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
