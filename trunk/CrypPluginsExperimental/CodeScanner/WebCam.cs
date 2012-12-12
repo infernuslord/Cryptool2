@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.CodeScanner
             // Create a child window with capCreateCaptureWindowA so you can display it in a picturebox.
 
             // hHwnd = capCreateCaptureWindowA();
-            hHwnd = capCreateCaptureWindowA(ref DeviceIndex, WS_VISIBLE | WS_CHILD, 0, 0, 640, 480, oHandle.ToInt32(), 0);
+            hHwnd = capCreateCaptureWindowA(ref DeviceIndex, WS_VISIBLE | WS_CHILD, 0, 0, 100, 100, oHandle.ToInt32(), 0);
             
             // Connect to device
             if (SendMessage(hHwnd, WM_CAP_DRIVER_CONNECT, DeviceID, 0) != 0)

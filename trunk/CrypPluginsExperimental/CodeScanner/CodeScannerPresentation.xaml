@@ -8,8 +8,9 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Name="MyUserControl">
     <Grid>
-        <WindowsFormsHost Margin="21,25,22,36">
+        <WindowsFormsHost Margin="21,25,22,36" Visibility="Hidden">
             <wf:PictureBox x:Name="picLiveView" />
         </WindowsFormsHost>
+        <Image Height="239" HorizontalAlignment="Left" Margin="21,25,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="257" />
     </Grid>
 </UserControl>
