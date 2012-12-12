@@ -197,6 +197,8 @@ namespace Cryptool.ADFGVX
 
         public void Execute()
         {
+            BuildTables();
+
             switch (settings.Action)
             {
                 case ADFGVXSettings.ActionEnum.Encrypt:
@@ -219,6 +221,10 @@ namespace Cryptool.ADFGVX
         }
 
         public void PreExecution()
+        {
+        }
+
+        private void BuildTables()
         {
             string substMatrix = settings.SubstitutionMatrix;
             string cipherAlphabet = settings.CipherAlphabet;
