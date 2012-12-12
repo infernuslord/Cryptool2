@@ -168,4 +168,10 @@
   <data name="Size" xml:space="preserve">
     <value>Größe</value>
   </data>
+  <data name="ByteAsciiSwitchCaption" xml:space="preserve">
+    <value>Bytes als ASCII anzeigen</value>
+  </data>
+  <data name="ByteAsciiSwitchCaptionTooltip" xml:space="preserve">
+    <value>Bytes als ASCII anzeigen</value>
+  </data>
 </root>
