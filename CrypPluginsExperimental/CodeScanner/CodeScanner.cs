@@ -13,7 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+using System;
 using System.ComponentModel;
+using System.Timers;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -37,7 +40,9 @@ namespace Cryptool.Plugins.CodeScanner
         private readonly CodeScannerPresentation presentation = new CodeScannerPresentation();
         private bool isRunning = false;
         private readonly WebCam wCam = new WebCam();
-        private System.Drawing.Imaging.ImageFormat format;
+      //  private System.Drawing.Imaging.ImageFormat format;
+        private System.Timers.Timer t1 = null;
+        private DateTime lastExecuted = DateTime.Now;
 
         #endregion
 
@@ -58,6 +63,29 @@ namespace Cryptool.Plugins.CodeScanner
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
         }
 
+
+        void t1_Tick(object sender, EventArgs e)
+        {
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            {
+                try
+                {
+                    //  presentation.Attach();
+                    presentation.setImage(wCam.GetCurrentImage());
+                    if (lastExecuted.AddSeconds(5) < DateTime.Now)
+                    {
+                        PictureOutPut = ImageToByte(wCam.GetCurrentImage());
+                        OnPropertyChanged("PictureOutPut");
+                        lastExecuted = DateTime.Now;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(ex.Message, NotificationLevel.Error);
+                }
+            }), null);
+        }
         #endregion
 
         
@@ -98,6 +126,9 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void PreExecution()
         {
+            
+
+    
             isRunning = true;
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
@@ -124,23 +155,14 @@ namespace Cryptool.Plugins.CodeScanner
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
 
-            while (isRunning)
-            {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
-                {
-                    try
-                    {
-                      //  presentation.Attach();
-                        presentation.setImage(wCam.GetCurrentImage());
-                        PictureOutPut = ImageToByte(wCam.GetCurrentImage());
-                        OnPropertyChanged("PictureOutPut");
-                    }
-                    catch
-                    {
-                    }
-                }), null);
-            }
-            
+            t1 = new System.Timers.Timer();
+
+            t1.Interval = 100; // Intervall festlegen, hier 100 ms
+            t1.Elapsed += new ElapsedEventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
+            t1.Start(); // Timer starten
+
+
+
             ProgressChanged(1, 1);
 
         }
@@ -150,6 +172,7 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void PostExecution()
         {
+            t1.Stop();
         }
 
         /// <summary>

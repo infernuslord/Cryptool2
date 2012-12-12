@@ -82,21 +82,21 @@ namespace Cryptool.Plugins.CodeScanner
         {
 
             
-            //var imageJar = new ImageSource[1];
-           // var c = new ImageConverter();
-          //  imageJar[0] = (ImageSource)ConvertToBitmapSource(Image);
-         //   imageJar[0].Freeze();
+            var imageJar = new ImageSource[1];
+            var c = new ImageConverter();
+            imageJar[0] = (ImageSource)ConvertToBitmapSource(Image);
+            imageJar[0].Freeze();
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
-                    picLiveView.Image = Image;
-                //   picLiveView = imageJar[0];
+                //    image1.Image = Image;
+                   image1.Source = imageJar[0];
                 }
                 catch
                 {
                 }
-            }), Image); 
+            }), imageJar); 
         }
 
         #region helper
