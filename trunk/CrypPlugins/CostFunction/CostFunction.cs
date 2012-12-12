@@ -192,8 +192,7 @@ namespace Cryptool.Plugins.CostFunction
                 bigramInput = ByteArrayToString(array);
                 switch (settings.FunctionType)
                 {
-
-                    case 0: // Index of Coincedence
+                    case 0: // Index of Coincidence
                         this.Value = calculateIndexOfCoincidence(array);
                         break;
 
@@ -208,12 +207,15 @@ namespace Cryptool.Plugins.CostFunction
                     case 3: // sinkov Bigrams
                         this.Value = calculateNGrams(bigramInput, 2, 3,false);
                         break;
+
                     case 4: //percentaged Bigrams
                         this.Value = calculateNGrams(bigramInput, 2, 1,false);
                         break;
+
                     case 5: //regular expressions
                         this.Value = regex(array);
                         break;
+
                     case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser)
                         this.Value = calculateWeighted(bigramInput);
                         break;
