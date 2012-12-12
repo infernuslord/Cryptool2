@@ -5,10 +5,10 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The cost function assigns numeric values to given texts. The type of cost function (coincidence, entropy,
+    The cost function assigns numeric values to given texts. The type of the cost function (coincidence, entropy,
     bigramme (log2), bigram (sinkov), bigram (percentual), regular expression, weighted bigrams/trigrams)
     may be set by the user through a setting. By using the numeric values one can detect if a given text contains
-    natural language. Cost functions are used in the cryptanalysis to compare the results of the deciphering of
+    natural language. Cost functions are used in cryptanalysis to compare the results of deciphering
     texts to find the original text out of millions of deciphered texts.
   </introduction>
 
@@ -16,9 +16,9 @@
     Die Kostenfunktion weisst gegebenen Textkörpern numerische Werte zu. Die Art der Kostenfunktion
     (Koinzidenzindex, Entropie, Bigramm (log2), Bigramm (Sinkov), Bigramm (Prozentual), Reguläre Ausdrücke,
     Gewichtete Bigramme/Trigramme) kann durch den Benutzer mittels Einstellung verändert werden. Mit Hilfe
-    des zugewiesenen numerischen Wert kann z.B. festgestellt werden, ob ein gegebener Textkörper natürliche
+    des zugewiesenen numerischen Wertes kann z.B. festgestellt werden, ob ein gegebener Textkörper natürliche
     Sprache beinhaltet. So werden Kostenfunktionen bei der Kryptoanalyse genutzt, um die Ergebnisse der
-    Entschlüsselungen miteinander zu vergleichen und so den ursprünglichen Klartext in Millionen von entschlüsselten
+    Entschlüsselungen miteinander zu vergleichen und den ursprünglichen Klartext aus Millionen von entschlüsselten
     Texten herauszufinden.
   </introduction>
 
@@ -27,7 +27,7 @@
     the type of the cost function using a setting. Depending on the type of the cost function additional settings 
     and parameters may be set by the user. The length of the part of the text which should be used for calculating 
     the result of the cost function may also be set. The cost function returns a numeric value (depending on 
-    the type of the cost function an integer value or a fraction one) as output.
+    the type of the cost function this is an integer or a floating point number) as output.
   </usage>
 
   <usage lang="de-DE">
@@ -36,7 +36,7 @@
     In den Einstellungen können auch weitere Parameter, abhängig von der gewählten Kostenfunktion, angepasst werden.
     Außerdem kann die Länge des Textausschnitts eingestellt werden, die genutzt werden soll, um die Berechnung
     der Kostenfunktion durchzuführen. Die Kostenfunktion liefert einen numerischen Wert (je nach Art und Weise
-    der Funktion eine Ganzzahl oder einen Kommazahl) als Ausgabe.
+    der Funktion eine Ganzzahl oder eine Fließkommazahl) als Ausgabe.
   </usage>
 
   <references>
