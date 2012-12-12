@@ -24,8 +24,8 @@ namespace Tests.TemplateAndPluginTests
 
             foreach (TestVector vector in testvectors)
             {
-                output = scenario.GetOutputs(new object[] { vector.input.ToByteArray(), vector.key, vector.readin, vector.perm, vector.readout });
-                Assert.AreEqual(vector.output, ((byte[])output[0]).ToString2(), "Unexpected value in test #" + vector.n + ".");
+                output = scenario.GetOutputs(new object[] { vector.input.ToStream(), vector.key, vector.readin, vector.perm, vector.readout });
+                Assert.AreEqual(vector.output, ((ICryptoolStream)output[0]).ToByteArray().ToString2(), "Unexpected value in test #" + vector.n + ".");
             }
 
         }

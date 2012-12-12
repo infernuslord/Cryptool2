@@ -21,10 +21,10 @@ namespace Tests.TemplateAndPluginTests
             var pluginInstance = TestHelpers.GetPluginInstance("Enigma");
             var scenario = new PluginTestScenario(pluginInstance, new[] { "InputString", ".Model", ".Key", ".Rotor1", ".Rotor2", ".Rotor3", ".Rotor4", ".Reflector", ".Ring1", ".Ring2", ".Ring3", ".Ring4" }, new[] { "OutputString" });
             object[] output;
-
+            
             foreach (TestVector vector in testvectors)
             {
-                output = scenario.GetOutputs(new object[] { vector.input, vector.model, vector.key, vector.rot1, vector.rot2, vector.rot3, vector.rot4, vector.ukw, vector.ring1, vector.ring2, vector.ring3, vector.ring4 });
+                output = scenario.GetOutputs(new object[] { vector.input, vector.model, vector.key, vector.rot1, vector.rot2, vector.rot3, vector.rot4, vector.ukw, vector.ring1, vector.ring2, vector.ring3, vector.ring4 }, false);
                 Assert.AreEqual(vector.output.ToUpper(), (string)output[0], "Unexpected value in test #" + vector.n + ".");
             }
         }

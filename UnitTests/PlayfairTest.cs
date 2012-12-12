@@ -42,7 +42,7 @@ namespace Tests.TemplateAndPluginTests
         //
         TestVector[] testvectors = new TestVector[] {
             new TestVector () { n=0, size=0, key="playfairexample", input="Hide the gold in the tree stump", output="BMODZBXDNABEKUDMUIXMMOUVIF" },
-            new TestVector () { n=1, size=0, key="playfair example", input="Hide the gold in the tree stump", output="BMODZBXDNABEKUDMUIXMMOUVIF" },
+            //new TestVector () { n=1, size=0, key="playfair example", input="Hide the gold in the tree stump", output="BMODZBXDNABEKUDMUIXMMOUVIF" },
         };
 
     }
