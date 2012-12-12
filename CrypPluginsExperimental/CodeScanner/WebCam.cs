@@ -141,7 +141,10 @@ namespace Cryptool.Plugins.CodeScanner
                 {
                     var oImage = (Bitmap)data.GetData(typeof(Bitmap));
                    // Container.Image = oImage;
-                    presentation.picLiveView.Image = oImage;
+                    if (presentation.IsVisible)
+                    {
+                        presentation.picLiveView.Image = oImage;
+                    }     
                     return oImage;
                 }
             }

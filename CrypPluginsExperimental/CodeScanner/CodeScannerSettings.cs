@@ -25,7 +25,8 @@ namespace Cryptool.Plugins.CodeScanner
     {
         #region Private Variables
 
-        private int someParameter = 0;
+        private int frameRate = 200;
+        private int sendPicture = 3000;
 
         #endregion
 
@@ -35,20 +36,38 @@ namespace Cryptool.Plugins.CodeScanner
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("SomeParameter", "This is a parameter tooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int SomeParameter
+        [TaskPane("FrameRate", "This is a parameter tooltip", "DeviceSettings" , 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
+        public int FrameRate
         {
             get
             {
-                return someParameter;
+                return frameRate;
             }
             set
             {
-                if (someParameter != value)
+                if (frameRate != value)
                 {
-                    someParameter = value;
+                    frameRate = value;
                     // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    OnPropertyChanged("SomeParameter");
+                    OnPropertyChanged("FrameRate");
+                }
+            }
+        }
+
+        [TaskPane("SendPicture", "This is a parameter tooltip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1000, 10000)]
+        public int SendPicture
+        {
+            get
+            {
+                return sendPicture;
+            }
+            set
+            {
+                if (sendPicture != value)
+                {
+                    sendPicture = value;
+                    // HOWTO: MUST be called every time a property value changes with correct parameter name
+                    OnPropertyChanged("SendPicture");
                 }
             }
         }

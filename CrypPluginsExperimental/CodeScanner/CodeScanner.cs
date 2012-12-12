@@ -40,7 +40,6 @@ namespace Cryptool.Plugins.CodeScanner
         private readonly CodeScannerPresentation presentation = new CodeScannerPresentation();
         private bool isRunning = false;
         private readonly WebCam wCam = new WebCam();
-      //  private System.Drawing.Imaging.ImageFormat format;
         private System.Timers.Timer t1 = null;
         private DateTime lastExecuted = DateTime.Now;
 
@@ -48,14 +47,6 @@ namespace Cryptool.Plugins.CodeScanner
 
 
         #region Helper Functions
-
-        private byte[] BildToByteArray(System.Drawing.Image Bild)
-        {
-            MemoryStream IS = new MemoryStream();
-            Bild.Save(IS, System.Drawing.Imaging.ImageFormat.Bmp);
-            IS.Flush();
-            return IS.ToArray();
-        }
 
         public static byte[] ImageToByte(System.Drawing.Image img)
         {
@@ -72,7 +63,7 @@ namespace Cryptool.Plugins.CodeScanner
                 {
                     //  presentation.Attach();
                     presentation.setImage(wCam.GetCurrentImage());
-                    if (lastExecuted.AddSeconds(5) < DateTime.Now)
+                    if (lastExecuted.AddMilliseconds(settings.SendPicture) < DateTime.Now)
                     {
                         PictureOutPut = ImageToByte(wCam.GetCurrentImage());
                         OnPropertyChanged("PictureOutPut");
@@ -126,10 +117,14 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void PreExecution()
         {
-            
 
+            if (settings.FrameRate > settings.SendPicture)
+            {
+                GuiLogMessage("Frame Rate muss kleiner als Send Picture sein", NotificationLevel.Error);
+                PostExecution();
+            }
     
-            isRunning = true;
+         //   isRunning = true;
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
@@ -157,7 +152,7 @@ namespace Cryptool.Plugins.CodeScanner
 
             t1 = new System.Timers.Timer();
 
-            t1.Interval = 100; // Intervall festlegen, hier 100 ms
+            t1.Interval = settings.FrameRate; // Intervall festlegen, hier 100 ms
             t1.Elapsed += new ElapsedEventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
             t1.Start(); // Timer starten
 
@@ -181,7 +176,7 @@ namespace Cryptool.Plugins.CodeScanner
         /// </summary>
         public void Stop()
         {
-            isRunning = false;
+          //  isRunning = false;
             wCam.Dispose();
         }
 
