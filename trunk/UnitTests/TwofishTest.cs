@@ -19,12 +19,12 @@ namespace Tests.TemplateAndPluginTests
         public void TwofishTestMethod()
         {
             var pluginInstance = TestHelpers.GetPluginInstance("Twofish");
-            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", "KeyData", ".Action", ".Mode", ".KeySize" }, new[] { "OutputStream" });
+            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", "KeyData", ".Action", ".Mode", ".KeySize", ".Mode", ".Padding" }, new[] { "OutputStream" });
             object[] output;
 
             foreach (TestVector vector in testvectors)
             {
-                output = scenario.GetOutputs(new object[] { vector.input.HexToStream(), vector.key.HexToByteArray(), 0, 0, vector.keysize });
+                output = scenario.GetOutputs(new object[] { vector.input.HexToStream(), vector.key.HexToByteArray(), 0, 0, vector.keysize, 0, 0 });
                 Assert.AreEqual(vector.output.ToUpper(), output[0].ToHex(), "Unexpected value in test #" + vector.n + ".");
             }
 
@@ -37,7 +37,7 @@ namespace Tests.TemplateAndPluginTests
                 {
                     key = (input + key).Substring(0, (128 + vector.keysize * 64) / 4);
                     input = cipher;
-                    output = scenario.GetOutputs(new object[] { input.HexToStream(), key.HexToByteArray(), 0, 0, vector.keysize });
+                    output = scenario.GetOutputs(new object[] { input.HexToStream(), key.HexToByteArray(), 0, 0, vector.keysize, 0, 0 });
                     cipher = output[0].ToHex();
                 }
                 Assert.AreEqual(vector.output.ToUpper(), cipher, "Unexpected value in test loop #" + vector.n + ".");
