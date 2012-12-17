@@ -56,14 +56,7 @@ namespace Tests
             
             //Bigrams: log 2
             target = 265.318365029242;
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            path = Environment.CurrentDirectory;
-            for (int i = 0; i < 3; i++)
-            {
-                path = System.IO.Path.GetDirectoryName(path);
-            }
-            path = Path.Combine(path, "CrypBuild\\Debug\\CrypPlugins\\Data\\StatisticsCorpusDE"); // TODO: not platform specific (x64/x86)
-            
+            string path = Path.Combine(Environment.CurrentDirectory, "CrypPlugins\\Data\\StatisticsCorpusDE"); // TODO: not platform specific (x64/x86)            
             this.testContextInstance.WriteLine(path);
             cf.setDataPath(path);
             cf.Initialize();
