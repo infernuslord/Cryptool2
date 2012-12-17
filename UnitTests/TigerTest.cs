@@ -21,7 +21,7 @@ namespace Tests.TemplateAndPluginTests
 
             // Parameters as ByteArrays
             var scenario = new PluginTestScenario(pluginInstance, new[] { "InputData" }, new[] { "HashOutputData" });
-
+            
             foreach (TestVector vector in testvectors)
             {
                 object[] output = scenario.GetOutputs(new object[] { vector.input.ToByteArray() });
@@ -56,16 +56,7 @@ namespace Tests.TemplateAndPluginTests
             new TestVector () { n=5, output="A6737F3997E8FBB63D20D2DF88F86376B5FE2D5CE36646A9", input="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" },
             new TestVector () { n=6, output="EA9AB6228CEE7B51B77544FCA6066C8CBB5BBAE6319505CD", input="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" },
             new TestVector () { n=7, output="D85278115329EBAA0EEC85ECDC5396FDA8AA3A5820942FFF", input="12345678901234567890123456789012345678901234567890123456789012345678901234567890" },
-            new TestVector () { n=8, output="976ABFF8062A2E9DCEA3A1ACE966ED9C19CB85558B4976D8", input="The quick brown fox jumps over the lazy dog" },  // Wikipedia
-            //new TestVector () { n=0, output="3293AC630C13F0245F92BBB1766E16167A4E58492DDE73F3", input="" },
-            //new TestVector () { n=1, output="77BEFBEF2E7EF8AB2EC8F93BF587A7FC613E247F5F247809", input="a" },
-            //new TestVector () { n=2, output="2AAB1484E8C158F2BFB8C5FF41B57A525129131C957B5F93", input="abc" },
-            //new TestVector () { n=3, output="D981F8CB78201A950DCF3048751E441C517FCA1AA55A29F6", input="message digest" },
-            //new TestVector () { n=4, output="1714A472EEE57D30040412BFCC55032A0B11602FF37BEEE9", input="abcdefghijklmnopqrstuvwxyz" },
-            //new TestVector () { n=5, output="0F7BF9A19B9C58F2B7610DF7E84F0AC3A71C631E7B53F78E", input="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" },
-            //new TestVector () { n=6, output="8DCEA680A17583EE502BA38A3C368651890FFBCCDC49A8CC", input="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" },
-            //new TestVector () { n=7, output="1C14795529FD9F207A958F84C52F11E887FA0CABDFD91BFD", input="12345678901234567890123456789012345678901234567890123456789012345678901234567890" },
-            //new TestVector () { n=8, output="6D12A41E72E644F017B6F0E2F7B44C6285F06DD5D2C5B075", input="The quick brown fox jumps over the lazy dog" }  // Wikipedia
+            new TestVector () { n=8, output="976ABFF8062A2E9DCEA3A1ACE966ED9C19CB85558B4976D8", input="The quick brown fox jumps over the lazy dog" },  // Wikipedia           
         };
 
     }

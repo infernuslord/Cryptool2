@@ -89,40 +89,39 @@ namespace Tiger
       OnPropertyChanged("InputData");
     }
 
-    /// <summary>
-    /// Gets or sets the input inputdata.
-    /// </summary>
-    /// <value>The input inputdata.</value>
-    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
-    public ICryptoolStream InputStream
-    {
-      get
+      /// <summary>
+      /// Gets or sets the input inputdata.
+      /// </summary>
+      /// <value>The input inputdata.</value>
+      [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
+      public ICryptoolStream InputStream
       {
-          if (inputdata == null)
+          get
           {
-              return null;
-      }
-          else
+              if (inputdata == null)
+              {
+                  return null;
+              }
+              else
+              {
+                  return new CStreamWriter(inputdata);
+              }
+          }
+          set
           {
-              return new CStreamWriter(inputdata);
+              if (value != null)
+              {
+                  using (CStreamReader reader = value.CreateReader())
+                  {
+                      inputdata = reader.ReadFully();
+                      GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
+                  }
+                  NotifyUpdateInput();
+              }
           }
       }
-      set
-      {
-        if (value != null)
-        {
-            using (CStreamReader reader = value.CreateReader())
-            {
-                inputdata = reader.ReadFully();
-                GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
-        }
 
-        NotifyUpdateInput();
-      }
-    }
-    }
-
-    /// <summary>
+      /// <summary>
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
@@ -136,12 +135,18 @@ namespace Tiger
       set
       {
           if (inputdata != value)
-        {
-              inputdata = (value == null) ? new byte[0] : null;
-        GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+          {
+              if (value == null)
+              {
+                  inputdata = new byte[0];
+              }else
+              {
+                  inputdata = value;
+              }
+              GuiLogMessage("InputData changed.", NotificationLevel.Debug);
               NotifyUpdateInput();
+          }
       }
-    }
     }
     #endregion
 
