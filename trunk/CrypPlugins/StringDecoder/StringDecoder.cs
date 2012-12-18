@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2012 Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ using System.Text.RegularExpressions;
 namespace Cryptool.Plugins.Convertor
 {
     // Converts a given string into a stream by using different encodings.
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringDecoder/DetailedDescription/doc.xml", "StringDecoder/t2s-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringDecoder : ICrypComponent

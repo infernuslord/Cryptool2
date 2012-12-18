@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2009 Arno Wacker, Uni Duisburg-Essen
+   Copyright 2009-2012 Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Caesar
 {
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Caesar.Properties.Resources", "PluginCaption", "PluginTooltip", "Caesar/DetailedDescription/doc.xml",
         new[] { "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png" } )]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
