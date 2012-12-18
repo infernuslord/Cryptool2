@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2009 Fabian Enkler, Arno Wacker (maintenance, updates), Uni Duisburg-Essen
+   Copyright 2009-2012 Fabian Enkler, Arno Wacker (maintenance, updates), University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Scytale
 {
-    [Author("Fabian Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
+    [Author("F. Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Scytale.Properties.Resources", "PluginCaption", "PluginTooltip", "Scytale/DetailedDescription/doc.xml", "Scytale/icon.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Scytale : ICrypComponent

@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2012 Dr. Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 
 namespace Cryptool.Plugins.Convertor
 {
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringEncoder/DetailedDescription/doc.xml", "StringEncoder/s2t-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringEncoder : ICrypComponent

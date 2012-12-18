@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2012 Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "AES/DetailedDescription/doc.xml", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class AES : ContextBoundObject, ICrypComponent

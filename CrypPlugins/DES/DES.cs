@@ -15,7 +15,7 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
-    [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "DES/DetailedDescription/doc.xml", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class DES : ICrypComponent
