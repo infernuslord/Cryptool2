@@ -38,6 +38,7 @@ namespace Cryptool.Plugins.VisualDecoder
         private readonly VisualDecoderSettings settings = new VisualDecoderSettings();
         private Thread decodingThread = null;
         private readonly ParameterizedThreadStart threadStart;
+        private bool codeFound = false;
         
         // decoder chain
         private readonly Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder> codeTypeHandler = 
@@ -114,7 +115,7 @@ namespace Cryptool.Plugins.VisualDecoder
         {
             ProgressChanged(0.1, 1);
             if (decodingThread == null || !decodingThread.IsAlive   // decoding thread is idle
-                && (OutputData == null || !settings.StopOnSuccess)) // stop if setting is selected and we decoded  something  
+                && (!codeFound || !settings.StopOnSuccess)) // stop if setting is selected and we decoded  something  
             {
                 ProgressChanged(0.5, 1);
                 decodingThread = new Thread(threadStart); // unfortunately we cant resart a thread and a threadpool with just one thread
@@ -128,6 +129,7 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void PostExecution()
         {
+            codeFound = false;
         }
 
         /// <summary>
@@ -192,6 +194,8 @@ namespace Cryptool.Plugins.VisualDecoder
 
                 //update Progress
                 ProgressChanged(1, 1);
+
+                codeFound = true;
             }
             else
             {
