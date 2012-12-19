@@ -20,15 +20,15 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.VisualDecoder
 {
-    // HOWTO: rename class (click name, press F2)
     public class VisualDecoderSettings : ISettings
     {
         public enum DimCodeType { AUTO, EAN13, EAN8, Code39, Code128, QRCode, DataMatrix, PDF417 };
         private DimCodeType decodingType;
+        private bool stopOnSuccess;
 
         #region TaskPane Settings
         
-        [TaskPane("DecodingCaption", "DecodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "AUTO","EAN13", "EAN8", "Code39", "Code128", "QRCode", "DataMatrix", "PDF417" })]
+        [TaskPane("CodeTypeCaption", "CodeTypeTooltip", null, 1, true, ControlType.ComboBox, new[] { "AUTO","EAN13", "EAN8", "Code39", "Code128", "QRCode", "DataMatrix", "PDF417" })]
         public DimCodeType DecodingType
         {
             get { return decodingType; }
@@ -41,6 +41,25 @@ namespace Cryptool.Plugins.VisualDecoder
                 }
             }
         }
+
+        [TaskPane("StopOnSuccessCaption", "StopOnSuccessCaptionTooltip", null, 2, true, ControlType.CheckBox)]
+        public bool StopOnSuccess
+        {
+            get
+            {
+                return stopOnSuccess;
+            }
+            set
+            {
+                if (stopOnSuccess != value)
+                {
+                    stopOnSuccess = value;
+                    OnPropertyChanged("StopOnSuccess");
+                }
+            }
+        }
+
+
         #endregion
 
         #region Events

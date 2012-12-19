@@ -46,7 +46,6 @@ namespace Cryptool.Plugins.VisualEncoder
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code39, new Encoders.Code39(this));
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code128, new Encoders.Code128(this));
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.QRCode, new Encoders.QRCode(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.DataMatrix, new Encoders.DataMatrix(this));
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.PDF417, new Encoders.PDF417(this));
 
         }

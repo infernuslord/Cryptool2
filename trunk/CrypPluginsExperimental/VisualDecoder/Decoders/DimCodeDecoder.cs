@@ -17,6 +17,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using Cryptool.Plugins.VisualDecoder.Model;
 
@@ -28,10 +29,11 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
     class DimCodeDecoder
     {
         protected readonly VisualDecoder Caller;
-        protected Pen MarkingPen = Pens.Green;
+        protected Pen MarkingPen;
         protected DimCodeDecoder(VisualDecoder caller)
         {
             this.Caller = caller;
+            MarkingPen = new Pen(Color.FromArgb(190, Color.Blue), 10.0f);
         }
 
 

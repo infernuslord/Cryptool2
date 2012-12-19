@@ -86,6 +86,16 @@
     <Compile Include="Decoders\ZXingDecoder.cs" />
     <Compile Include="LockBitmap.cs" />
     <Compile Include="model\DimCodeDecoderItem.cs" />
+    <Compile Include="Properties\Resources.de.Designer.cs">
+      <DependentUpon>Resources.de.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="VisualDecoder.cs" />
     <Compile Include="VisualDecoderSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,11 +136,22 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="externalLibs\ZXing.net\apache License 2.0.txt" />
     <Content Include="externalLibs\ZXing.net\zxing.dll" />
     <Content Include="externalLibs\ZXing.net\zxing.XML" />
+    <Resource Include="Images\icon.png" />
+    <Content Include="Images\License.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
