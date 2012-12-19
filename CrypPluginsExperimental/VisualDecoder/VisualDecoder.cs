@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -26,7 +27,7 @@ using ZXing;
 namespace Cryptool.Plugins.VisualDecoder
 {
     [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
-    [PluginInfo("VisualDecoderCaption", "VisualDecoderCaptionTooltip", "VisualDecoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("VisualDecoder.Properties.Resources", "VisualDecoderCaption", "VisualDecoderCaptionTooltip", "VisualDecoder/userdoc.xml", new[] { "VisualDecoder/Images/icon.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class VisualDecoder : ICrypComponent
     {
@@ -34,15 +35,22 @@ namespace Cryptool.Plugins.VisualDecoder
         #region Private Variables
 
        private readonly VisualDecoderPresentation presentation = new VisualDecoderPresentation();
-       
         private readonly VisualDecoderSettings settings = new VisualDecoderSettings();
-        // decoder chain
-        private readonly Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder> codeTypeHandler = new Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder>();
+        private Thread decodingThread = null;
+        private readonly ParameterizedThreadStart threadStart;
         
+        // decoder chain
+        private readonly Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder> codeTypeHandler = 
+                                                        new Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder>();
+        
+       
         #endregion
 
         public VisualDecoder()
         {
+
+            threadStart = new ParameterizedThreadStart(ProcessImage);
+
             //init chain
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.EAN8, new ZXingDecoder(this, BarcodeFormat.EAN_8));
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.EAN13, new ZXingDecoder(this, BarcodeFormat.EAN_13));
@@ -96,6 +104,7 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void PreExecution()
         {
+            presentation.ClearPresentation();
         }
 
         /// <summary>
@@ -103,41 +112,15 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void Execute()
         {
-            ProgressChanged(0, 1);
-
-            DimCodeDecoderItem dimCode = null;
-            if (settings.DecodingType != VisualDecoderSettings.DimCodeType.AUTO)
+            ProgressChanged(0.1, 1);
+            if (decodingThread == null || !decodingThread.IsAlive   // decoding thread is idle
+                && (OutputData == null || !settings.StopOnSuccess)) // stop if setting is selected and we decoded  something  
             {
-                dimCode = codeTypeHandler[settings.DecodingType].Decode(PictureInput);
+                ProgressChanged(0.5, 1);
+                decodingThread = new Thread(threadStart); // unfortunately we cant resart a thread and a threadpool with just one thread
+                                                          // would produce more overhead, hence we have to create a new thread
+                decodingThread.Start(PictureInput);
             }
-            else // automatic mode (try all decoder)
-            {
-                foreach (var decoder in codeTypeHandler)
-                {
-                    dimCode = decoder.Value.Decode(PictureInput);
-                    if (dimCode != null)
-                        break;
-                }
-            }
-
-            if (dimCode != null) //input is valid and has been decoded
-            {
-                //update Presentation
-                presentation.SetImages(dimCode.BitmapWithMarkedCode);
-                presentation.SetPayload( System.Text.Encoding.ASCII.GetString(dimCode.CodePayload));
-                presentation.SetColorMode(1);
-                //update output
-                OutputData = dimCode.CodePayload;
-                OnPropertyChanged("OutputData");
-            }
-            else
-            {
-                presentation.SetImages(PictureInput);
-                presentation.SetPayload("");
-                presentation.SetColorMode(0);
-            }
-           
-            ProgressChanged(1, 1);
         }
 
         /// <summary>
@@ -153,6 +136,7 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void Stop()
         {
+
         }
 
         /// <summary>
@@ -170,6 +154,52 @@ namespace Cryptool.Plugins.VisualDecoder
         }
 
         #endregion
+        
+
+        /// <summary>
+        /// This Methode decodes the given Image and updates the outputs and presentation. 
+        /// Its meant to be called by the DecodingThread, hence the image has be declared as an object
+        /// </summary>
+        /// <param name="image">has to be a bytearray representation of an image</param>
+        public void ProcessImage(object image)
+        {
+            var curImage = image as byte[]; 
+
+            DimCodeDecoderItem dimCode = null;
+            if (settings.DecodingType != VisualDecoderSettings.DimCodeType.AUTO)
+            {
+                dimCode = codeTypeHandler[settings.DecodingType].Decode(curImage);
+            }
+            else // automatic mode (try all decoder)
+            {
+                foreach (var decoder in codeTypeHandler)
+                {
+                    dimCode = decoder.Value.Decode(curImage);
+                    if (dimCode != null)
+                        break;
+                }
+            }
+            
+            if (dimCode != null) //input is valid and has been decoded
+            {
+                //update Presentation
+                presentation.SetImages(dimCode.BitmapWithMarkedCode);
+                presentation.SetData(System.Text.Encoding.ASCII.GetString(dimCode.CodePayload), dimCode.CodeType);
+
+                //update output
+                OutputData = dimCode.CodePayload;
+                OnPropertyChanged("OutputData");
+
+                //update Progress
+                ProgressChanged(1, 1);
+            }
+            else
+            {
+                presentation.ClearPresentation();
+                presentation.SetImages(PictureInput);
+            }
+        }
+
 
         #region Event Handling
 

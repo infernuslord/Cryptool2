@@ -53,9 +53,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataMatrix.net">
-      <HintPath>externalLibs\DataMatrix.net.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -93,7 +90,6 @@
     <Compile Include="VisualEncoderSettings.cs" />
     <Compile Include="Encoders\EAN8.cs" />
     <Compile Include="Encoders\Code39.cs" />
-    <Compile Include="Encoders\DataMatrix.cs" />
     <Compile Include="Encoders\PDF417.cs" />
     <Compile Include="Encoders\QRCode.cs" />
     <Compile Include="Encoders\Code128.cs" />
@@ -142,8 +138,6 @@
     <Resource Include="userdoc.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="externalLibs\DataMatrix.net\DataMatrix.net.dll" />
-    <Content Include="externalLibs\DataMatrix.net\gpl.txt" />
     <Content Include="externalLibs\ZXing.net\zxing.dll" />
     <Content Include="externalLibs\ZXing.net\zxing.XML" />
     <Content Include="how_to_add_new_DimCodes.txt" />

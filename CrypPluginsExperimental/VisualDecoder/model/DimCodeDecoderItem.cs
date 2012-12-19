@@ -20,6 +20,7 @@ namespace Cryptool.Plugins.VisualDecoder.Model
     class DimCodeDecoderItem
     {
         public byte[] BitmapWithMarkedCode { get; set; }
-        public byte[] CodePayload{ get;  set; } 
+        public byte[] CodePayload{ get;  set; }
+        public string CodeType { get; set; } 
     }
 }
