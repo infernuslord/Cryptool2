@@ -163,16 +163,17 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void Execute()
         {
-            ProgressChanged(1, 100);
             while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
             {
                 try
                 {
-                    // read
+                    // wait for package
+                    ProgressChanged(1, 1);
                     udpSocked.Client.ReceiveTimeout = TimeTillTimelimit();
                     byte[] data = udpSocked.Receive(ref endPoint);
-
+                    ProgressChanged(0.5, 1);
                     // package recieved. fill local storage
+                 
                     uniqueSrcIps.Add(endPoint.Address);
                     receivedPackages.Add(data);
 
@@ -195,7 +196,6 @@ namespace Cryptool.Plugins.NetworkReceiver
                         SingleOutput = data;
                         OnPropertyChanged("SingleOutput");
                     }
-
                 } 
                 catch (SocketException e)
                 {
@@ -206,7 +206,7 @@ namespace Cryptool.Plugins.NetworkReceiver
                 } 
              
             }
-            ProgressChanged(1, 1);
+            
         }
 
         /// <summary>
