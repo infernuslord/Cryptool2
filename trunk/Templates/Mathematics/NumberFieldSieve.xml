@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Factorization with General Number Field Sieve</title>
+  <summary lang="en">Usage of the <i>General Number Field Sieve</i></summary>
+  <description lang="en">-</description>
+  <keywords>Prime, sieve, Factorization</keywords>
+
+  <title lang="de">Faktorisierung mit generellem Zahlenfeldsieb</title>
+  <summary lang="de">Benutzung des <i>generellen Zahlenfeldsieb</i></summary>
+  <description lang="de">-</description>
+  <keywords lang="de">Primzahl, Faktorisierung, Zerlegung,  Sieb</keywords>
+
+  <icon file="NumberFieldSieve.png" />
+  <relevantPlugins>
+    <plugin name="NumberFieldSieve" />
+  </relevantPlugins>
+
+</sample>
