@@ -205,7 +205,7 @@
             </Grid.RowDefinitions>
             <!-- Play button. -->
             <Button Grid.Row="1" FontStretch="Normal" FontFamily="Aparajita" Click="PlayClick" Margin="5" Padding="10">
-
+                
             </Button>
 
             <!-- Pause button.
