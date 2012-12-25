@@ -12,7 +12,34 @@
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
                     <GradientStop Color="#eee" Offset="0.0"/>
-                    <GradientStop Color="#aaa" Offset="1.0"/>
+                    <GradientStop Color="#ccc" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Background3" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#e1e1e1" Offset="0.0"/>
+                    <GradientStop Color="Transparent" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundIsSelected" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#d2f0d4" Offset="0.0"/>
+                    <GradientStop Color="#33e2efe3" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#d2e8f0" Offset="0.0"/>
+                    <GradientStop Color="#44deeaee" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -48,58 +75,86 @@
     <Grid Background="{StaticResource ResourceKey=Background}">
         <Grid HorizontalAlignment="Stretch">
             <Grid.Resources>
-                <DataTemplate x:Key="ItemTemplate">
-                    <Border Background="#eee" HorizontalAlignment="Center" CornerRadius="6" Padding="5" Margin="10">
-                        <!--<Border.Effect>
-                            <DropShadowEffect BlurRadius="10"  Opacity="0.3" ShadowDepth="0"/>
-                        </Border.Effect>-->
-                        <Grid x:Name="Root">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"></RowDefinition>
-                                <RowDefinition Height="auto"></RowDefinition>
-                            </Grid.RowDefinitions>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="SnapsToDevicePixels" Value="true" />
+                    <Setter Property="OverridesDefaultStyle" Value="true" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                            <Border x:Name="Root" Background="{StaticResource ResourceKey=Background3}" HorizontalAlignment="Stretch" Padding="5" Margin="1">
+                                <Grid>
 
-                            <!--<Grid Grid.Row="0" Height="300" Background="{StaticResource ResourceKey=VideoBackground}" Visibility="Collapsed">
-                                <Controls:VideoPlayer Url="{Binding Path=Url}">
-                                </Controls:VideoPlayer>
-                            </Grid>-->
+                                    <Border Padding="5">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="51"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="51"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <!--<RowDefinition Height="*"></RowDefinition>-->
+                                            </Grid.RowDefinitions>
+                                            <Border Width="45" Height="45" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
 
-                            <Border Grid.Row="1" Background="#ddd" Padding="5" CornerRadius="5">
-                                <Grid  Background="#ddd">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="51"></ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="51"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                    </Grid.RowDefinitions>
-                                    <Border Width="50" Height="50" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
-                                        <Image></Image>
-                                    </Border>
+                                            </Border>
 
-                                    <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <!--<RowDefinition Height="auto"></RowDefinition>-->
-                                        </Grid.RowDefinitions>
-                                        <TextBlock FontSize="20" x:Name="Title" TextWrapping="Wrap" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Text="{Binding Path=Title}"></TextBlock>
-                                        <!--<TextBlock Grid.Row="1" Foreground="#666" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>-->
-                                    </Grid>
+                                            <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"></RowDefinition>
+                                                    <RowDefinition Height="auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock FontSize="25" Foreground="#666" x:Name="Title" VerticalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" Text="{Binding Path=Title}"
+                                                   FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz"></TextBlock>
+                                                <TextBlock Grid.Row="1" Foreground="#888" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                                            </Grid>
 
-                                    <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
+                                            <!--<TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
                                            Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="10,20,0,0" FontWeight="ExtraLight" FontSize="14"
-                                           Text="{Binding Path=Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                                           Text="{Binding Path=Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>-->
+                                        </Grid>
+                                    </Border>
                                 </Grid>
                             </Border>
-                        </Grid>     
-                    </Border>
-                </DataTemplate>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Root" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Root" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style x:Key="ComponentListStyle" TargetType="{x:Type ListView}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                    </Style.Resources>
+                    <Setter Property="Padding" Value="0"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--<Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=ItemTemplate}"></Setter>-->
+                </Style>
+                
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition MinWidth="200" Width="250" MaxWidth="500"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -108,14 +163,33 @@
             </Grid.RowDefinitions>
             <Rectangle Grid.ColumnSpan="3" Fill="#11222222"></Rectangle>
             
-            <TextBlock Margin="20,5,0,0" HorizontalAlignment="Left" Text="Cryptool Tutorial Videos" FontSize="30" Foreground="#444"
+            <TextBlock Margin="20,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Cryptool Tutorial Videos" FontSize="22" Foreground="#444"
                         FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
                     <TextBlock.Effect>
                         <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                     </TextBlock.Effect>
             </TextBlock>
+            
+            <Grid Grid.Column="1" Grid.Row="1" Visibility="Visible" Background="#80ffffff">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontSize="30" Foreground="#666" x:Name="Title" VerticalAlignment="Center" TextWrapping="Wrap" 
+                                            TextTrimming="CharacterEllipsis" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Title}"
+                                            FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz"></TextBlock>
 
-            <TextBox Grid.Column="2" Margin="10">
+                    <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
+                                        Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="0,20,0,0" FontWeight="ExtraLight" FontSize="14"
+                                        Text="{Binding ElementName=VideoListView, Path=SelectedItem.Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+
+                    <TextBlock Grid.Row="2" Foreground="#888" FontSize="10" Margin="0,20,0,0" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                </Grid>
+            </Grid>
+
+            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Margin="10">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Style.Triggers>
@@ -140,35 +214,27 @@
                 </TextBox.Style>
             </TextBox>
 
-            <ScrollViewer Grid.Row="1" Name="ScrollViewer" VerticalScrollBarVisibility="auto" HorizontalScrollBarVisibility="Auto" Width="auto" Grid.Column="3">
-                <ItemsControl ItemsSource="{Binding Path=Videos}" ItemTemplate="{StaticResource ItemTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Margin="11" Background="Transparent" Orientation="Vertical">
-                                <!--<WrapPanel.OpacityMask>
-                                    <LinearGradientBrush StartPoint="0.1,0.1" EndPoint="0.75,0.75">
-                                        <LinearGradientBrush.GradientStops>
-                                            <GradientStop Offset="1" Color="Black"/>
-                                            <GradientStop Offset="0" Color="Transparent"/>
-                                        </LinearGradientBrush.GradientStops>
-                                    </LinearGradientBrush>
-                                </WrapPanel.OpacityMask>-->
-                            </WrapPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
-        
-            <Border Grid.Row="1" Margin="20,20,0,20" ClipToBounds="True" Width="200" CornerRadius="5" Background="#55ffffff" HorizontalAlignment="Left">
-                <StackPanel >
-                    <TextBlock  Text="Kategorien" FontSize="22" Foreground="#000" Margin="2" Background="#11444444" TextAlignment="Center"
+            <!--<ListView Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
+                              SelectedItem="{Binding Path=ActiveComponent, Mode=TwoWay}"
+                              SelectionMode="Single" Grid.Column="3"></ListView>-->
+            <ListView Grid.Row="1" x:Name="VideoListView" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
+                              SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
+            <Grid Grid.Row="1" Background="#bbffffff">
+                <Border  Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <StackPanel >
+                        <TextBlock  Text="Kategorien" FontSize="22"  Margin="2" TextAlignment="Center"
                         FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
                         <TextBlock.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                         </TextBlock.Effect>
-                    </TextBlock>
-                </StackPanel>
-            </Border>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
+            <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
         </Grid>
     </Grid>
 </UserControl>
