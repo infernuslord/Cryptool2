@@ -44,21 +44,30 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
-        <VisualBrush x:Key="Background2" TileMode="None" Stretch="None" AlignmentX="Left" AlignmentY="Bottom">
+        <LinearGradientBrush x:Key="bg" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#9ed9ff" Offset="0.0"/>
+                    <GradientStop Color="#81a4c0" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <VisualBrush x:Key="Background2" TileMode="None" Stretch="None" AlignmentX="Center" AlignmentY="Center">
             <VisualBrush.Visual>
-                <TextBlock  Margin="20,10,0,0" Text="c" FontSize="600" Foreground="#aaa"
-                    FontFamily="/CrypTutorials;component/#CrypTool2"></TextBlock>
+                <TextBlock  Margin="20,10,0,0" Text="c" FontSize="115" Foreground="{StaticResource ResourceKey=bg}" Opacity="0.4"
+                    FontFamily="/CrypTutorials;component/#CrypTool2">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="2" Opacity="0" ShadowDepth="0"></DropShadowEffect>
+                </TextBlock.Effect>    
+                </TextBlock>
             </VisualBrush.Visual>
         </VisualBrush>
 
         <VisualBrush x:Key="VideoBackground" TileMode="None" Stretch="None" AlignmentX="Center" AlignmentY="Center">
             <VisualBrush.Visual>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <TextBlock  Margin="20,10,0,0" Text="c" FontSize="200" Foreground="#ddd" TextAlignment="Center"
-                    FontFamily="/CrypTutorials;component/#CrypTool2"></TextBlock>
-
-                    <TextBlock  Margin="20,10,0,0" Text="Video" FontSize="70" Foreground="#ccc" TextAlignment="Center"></TextBlock>
-                </StackPanel>
+                <TextBlock  Margin="20,10,0,0" Text="c" FontSize="100" Foreground="{StaticResource ResourceKey=bg}" TextAlignment="Center"
+                FontFamily="/CrypTutorials;component/#CrypTool2"></TextBlock>
             </VisualBrush.Visual>
         </VisualBrush>
 
@@ -70,7 +79,38 @@
             </VisualBrush.Visual>
         </VisualBrush>
 
+        <tut:IsNullConverter x:Key="IsNullConverter"></tut:IsNullConverter>
+
         <tut:RandomMaxConverter x:Key="RandomMaxConverter"></tut:RandomMaxConverter>
+
+        <Style TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                            x:Name="Border"  
+                            CornerRadius="6" 
+                            BorderThickness="1"
+                            Background="#993a5563">
+                            <ContentPresenter 
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#00a8ff" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Background="{StaticResource ResourceKey=Background}">
         <Grid HorizontalAlignment="Stretch">
@@ -154,7 +194,22 @@
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition MinWidth="200" Width="250" MaxWidth="500"></ColumnDefinition>
+                <ColumnDefinition>
+                    <ColumnDefinition.Style>
+                        <Style TargetType="ColumnDefinition">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=VideoListView, Path=SelectedItem, Converter={StaticResource ResourceKey=IsNullConverter}}" Value="True">
+                                    <Setter Property="MaxWidth" Value="0"></Setter>
+                                    <Setter Property="MinWidth" Value="0"></Setter>
+                                    <Setter Property="Width" Value="0"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="MaxWidth" Value="350"></Setter>
+                            <Setter Property="MinWidth" Value="200"></Setter>
+                            <Setter Property="Width" Value="250"></Setter>
+                        </Style>
+                    </ColumnDefinition.Style>
+                </ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -162,17 +217,20 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle Grid.ColumnSpan="3" Fill="#11222222"></Rectangle>
-            
-            <TextBlock Margin="20,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Cryptool Tutorial Videos" FontSize="22" Foreground="#444"
-                        FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
-                    <TextBlock.Effect>
-                        <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
-                    </TextBlock.Effect>
+
+            <Grid Background="{StaticResource ResourceKey=Background2}"></Grid>
+
+            <TextBlock Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Cryptool Tutorial Videos" FontSize="22" Foreground="#666"
+                            FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
+                        <TextBlock.Effect>
+                            <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                        </TextBlock.Effect>
             </TextBlock>
-            
-            <Grid Grid.Column="1" Grid.Row="1" Visibility="Visible" Background="#80ffffff">
+
+        <Grid Grid.Column="1" Grid.Row="1" Visibility="Visible" Background="#80ffffff">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
                         <RowDefinition Height="auto"></RowDefinition>
@@ -181,11 +239,14 @@
                                             TextTrimming="CharacterEllipsis" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Title}"
                                             FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz"></TextBlock>
 
-                    <TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Left" 
                                         Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="0,20,0,0" FontWeight="ExtraLight" FontSize="14"
                                         Text="{Binding ElementName=VideoListView, Path=SelectedItem.Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
-
-                    <TextBlock Grid.Row="2" Foreground="#888" FontSize="10" Margin="0,20,0,0" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                    <Button Grid.Row="1" Margin="0,5,0,5">
+                        <Image Source="/CrypTutorials;component/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30"></Image>
+                    </Button>
+                    
+                    <TextBlock Grid.Row="3" Foreground="#888" FontSize="10" Margin="0,20,0,0" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Timestamp, StringFormat={}{0:r}}"></TextBlock>
                 </Grid>
             </Grid>
 
@@ -220,13 +281,13 @@
             <ListView Grid.Row="1" x:Name="VideoListView" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
                               SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
             <Grid Grid.Row="1" Background="#bbffffff">
-                <Border  Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Border Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <StackPanel >
-                        <TextBlock  Text="Kategorien" FontSize="22"  Margin="2" TextAlignment="Center"
-                        FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" Grid.ColumnSpan="2">
-                        <TextBlock.Effect>
-                            <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
-                        </TextBlock.Effect>
+                        <TextBlock  Text="Kategorien" FontSize="15" Foreground="#888"  Margin="2" TextAlignment="Center"
+                        FontFamily="Tahoma" Grid.ColumnSpan="2">
+                            <TextBlock.Effect>
+                                <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                            </TextBlock.Effect>
                         </TextBlock>
                     </StackPanel>
                 </Border>
