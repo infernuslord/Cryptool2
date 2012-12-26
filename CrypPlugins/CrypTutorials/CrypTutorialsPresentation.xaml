@@ -6,7 +6,8 @@
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
              xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
              xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
-             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}">
+             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}"
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -227,7 +228,7 @@
                         </TextBlock.Effect>
             </TextBlock>
 
-        <Grid Grid.Column="1" Grid.Row="1" Visibility="Visible" Background="#80ffffff">
+            <Grid Grid.Column="1" Grid.Row="1" Visibility="Visible" Background="#80ffffff">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"></RowDefinition>
@@ -242,7 +243,7 @@
                     <TextBlock Grid.Row="2" HorizontalAlignment="Left" 
                                         Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="0,20,0,0" FontWeight="ExtraLight" FontSize="14"
                                         Text="{Binding ElementName=VideoListView, Path=SelectedItem.Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
-                    <Button Grid.Row="1" Margin="0,5,0,5">
+                    <Button Grid.Row="1" Margin="0,5,0,5" Click="Button_Click">
                         <Image Source="/CrypTutorials;component/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30"></Image>
                     </Button>
                     
@@ -274,12 +275,10 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-
-            <!--<ListView Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
-                              SelectedItem="{Binding Path=ActiveComponent, Mode=TwoWay}"
-                              SelectionMode="Single" Grid.Column="3"></ListView>-->
+            
             <ListView Grid.Row="1" x:Name="VideoListView" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
                               SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
+            
             <Grid Grid.Row="1" Background="#bbffffff">
                 <Border Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <StackPanel >
@@ -292,6 +291,9 @@
                     </StackPanel>
                 </Border>
             </Grid>
+
+            <tut:VideoPlayer x:Name="Player" Grid.Row="1" Grid.Column="3" Visibility="Collapsed">
+            </tut:VideoPlayer>
 
             <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
             <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
