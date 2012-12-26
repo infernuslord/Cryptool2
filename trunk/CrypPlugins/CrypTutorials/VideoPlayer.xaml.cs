@@ -155,6 +155,28 @@ namespace Cryptool.CrypTutorials
             else
                 myMediaElement.Volume = value;
         }
+
+        private Panel preMaximizedVisualParent;
+        private Window fullScreen = new Window() { WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, WindowState = WindowState.Maximized };
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (preMaximizedVisualParent != null)
+            {
+                fullScreen.Content = null;
+                fullScreen.Hide();
+                preMaximizedVisualParent.Children.Add(this);
+                preMaximizedVisualParent = null;
+
+            }
+            else
+            {
+                preMaximizedVisualParent = (Panel)this.VisualParent;
+                preMaximizedVisualParent.Children.Remove(this);
+                fullScreen.Content = this;
+                fullScreen.Show();
+            }
+        }
     }
 
     public class VolumeConverter : IValueConverter

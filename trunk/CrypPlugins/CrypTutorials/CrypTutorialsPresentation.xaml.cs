@@ -6,10 +6,83 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Globalization;
+using System.Windows;
 
 namespace Cryptool.CrypTutorials
 {
+    [Localization("Cryptool.CrypTutorials.Properties.Resources")]
+    public partial class CrypTutorialsPresentation : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        //private readonly CrypTutorials _crypTutorials;
+        //private const string _VideoUrl = "http://localhost/ct2/videos.xml";
+        private readonly TutorialVideosManager _tutorialVideosManager = new TutorialVideosManager();
+        private readonly ObservableCollection<VideoInfo> _videos = new ObservableCollection<VideoInfo>();
 
+        private VideoInfo playingItem = null;
+        public VideoInfo PlayingItem
+        {
+            get { return playingItem; }
+            set
+            {
+                playingItem = value;
+                if (playingItem == null)
+                    Player.Visibility = Visibility.Collapsed;
+                else
+                    Player.Visibility = Visibility.Visible;
+                OnPropertyChanged("PlayingItem");
+            }
+        }
+
+        //public CrypTutorialsPresentation(CrypTutorials crypTutorials)
+        public CrypTutorialsPresentation()
+        {
+            DataContext = this;       
+            InitializeComponent();
+            //_crypTutorials = crypTutorials;
+     
+            _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
+            //has to be replaced later on by "GetVideoInformationFromServer"
+            _tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
+        }
+
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        public ObservableCollection<VideoInfo> Videos
+        {
+            get { return _videos; }
+        }
+
+        private void _tutorialVideosManager_OnVideosFetched(object sender, VideosFetchedEventArgs videosFetchedEventArgs)
+        {
+            _videos.Clear();
+            foreach (var videoInfo in videosFetchedEventArgs.VideoInfos)
+            {
+                _videos.Add(videoInfo);
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (VideoListView.SelectedItem != null)
+            {
+                PlayingItem = (VideoInfo)VideoListView.SelectedItem;
+                //Player.
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+    }
 
     public class RandomMaxConverter : IValueConverter
     {
@@ -43,11 +116,14 @@ namespace Cryptool.CrypTutorials
         public string Url { get; set; }
         public DateTime Timestamp { get; set; }
         private bool isSelected = false;
-        public bool IsSelected { 
-            get{
+        public bool IsSelected
+        {
+            get
+            {
                 return isSelected;
             }
-            set{
+            set
+            {
                 isSelected = value;
                 OnPropertyChanged("IsSelected");
             }
@@ -66,45 +142,6 @@ namespace Cryptool.CrypTutorials
         public override string ToString()
         {
             return Title;
-        }
-    }
-
-    [Localization("Cryptool.CrypTutorials.Properties.Resources")]
-    public partial class CrypTutorialsPresentation
-    {
-        //private readonly CrypTutorials _crypTutorials;
-        //private const string _VideoUrl = "http://localhost/ct2/videos.xml";
-        private readonly TutorialVideosManager _tutorialVideosManager = new TutorialVideosManager();
-        private readonly ObservableCollection<VideoInfo> _videos = new ObservableCollection<VideoInfo>();
-
-        //public CrypTutorialsPresentation(CrypTutorials crypTutorials)
-        public CrypTutorialsPresentation()
-        {            
-            InitializeComponent();
-            //_crypTutorials = crypTutorials;
-            DataContext = this;            
-            _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
-            //has to be replaced later on by "GetVideoInformationFromServer"
-            _tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
-        }
-
-        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        public ObservableCollection<VideoInfo> Videos
-        {
-            get { return _videos; }
-        }
-
-        private void _tutorialVideosManager_OnVideosFetched(object sender, VideosFetchedEventArgs videosFetchedEventArgs)
-        {
-            _videos.Clear();
-            foreach (var videoInfo in videosFetchedEventArgs.VideoInfos)
-            {
-                _videos.Add(videoInfo);
-            }
         }
     }
 
