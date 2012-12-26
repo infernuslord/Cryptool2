@@ -30,9 +30,11 @@
                         <Label Content="{Loc Start_}" Grid.Column="1" />
                         <Label Name="startTime" Style="{StaticResource ValueRow}" Grid.Column="1" />
                         <Label Content="{Loc End_}" HorizontalAlignment="Left" Grid.Column="2" />
-                        <Label Name="endTime" Style="{StaticResource ValueRow}" Grid.Column="2" />
+                        <Label Name="endTime" Style="{StaticResource ValueRow}" Grid.Column="2" />                        
                         <Label Content="{Loc Elapsed_}" Grid.Column="1" Grid.Row="1" />
                         <Label Name="elapsedTime" Style="{StaticResource ValueRow}" Grid.Column="1" Grid.Row="1" />
+                        <Label Content="{Loc Tested_Bits_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2"/>
+                        <Label Name="testedBits" Style="{StaticResource ValueRow}" Grid.Column="1" Grid.Row="2"/>
                         <Label Content="{Loc Remaining_}" Grid.Column="2" Grid.Row="1" />
                         <Label Name="timeLeft" Style="{StaticResource ValueRow}" Grid.Column="2" Grid.Row="1" />
                         <Label Content="{Loc Keys_Sec_}" Grid.Column="2" Grid.Row="2" />

@@ -1304,7 +1304,7 @@ namespace KeySearcher
             if (localQuickWatchPresentation.IsVisible && keysPerSecond != 0 && !stop)
             {
                 double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - Math.Log10(keysPerSecond)));
-                TimeSpan timeleft = new TimeSpan(-1);
+                TimeSpan timeleft = new TimeSpan(-1);                
 
                 try
                 {
@@ -1326,16 +1326,27 @@ namespace KeySearcher
                     //can not calculate time span
                 }
 
+                double testetBits = 0;
+                try
+                {
+                    testetBits = Math.Ceiling(BigInteger.Log10(pattern.size())/Math.Log10(2));
+                }
+                catch (Exception)
+                {
+                    //can not calculate testedBits
+                }
+
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    localQuickWatchPresentation.elapsedTime.Content = localBruteForceStopwatch.Elapsed;
+                    localQuickWatchPresentation.testedBits.Content = String.Format("{0}", testetBits);
+                    localQuickWatchPresentation.elapsedTime.Content = TimeSpanString(localBruteForceStopwatch.Elapsed);
                     localQuickWatchPresentation.keysPerSecond.Content = String.Format("{0:0,0}", keysPerSecond);
                     if (timeleft != new TimeSpan(-1))
                     {
-                        localQuickWatchPresentation.timeLeft.Content = "" + timeleft;
+                        localQuickWatchPresentation.timeLeft.Content = TimeSpanString(timeleft);
                         try
                         {
-                            localQuickWatchPresentation.endTime.Content = "" + DateTime.Now.Add(timeleft);
+                            localQuickWatchPresentation.endTime.Content = DateTime.Now.Add(timeleft).ToString(@"dd\.MM\.yyyy hh\:mm\:ss");
                         }
                         catch
                         {
@@ -2018,5 +2029,42 @@ namespace KeySearcher
             public long maschid { get; set; }
             public string maschname { get; set; }
         };
+
+        /// <summary>
+        /// calculate a String which shows the timespan
+        /// 
+        /// example
+        /// 
+        ///     4 days
+        /// or
+        ///     2 minutes
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
+        private String TimeSpanString(TimeSpan ts)
+        {
+            String res = "";
+            if (ts.Days > 1)
+                res = ts.Days + " " + typeof(KeySearcher).GetPluginStringResource("days") + " ";
+            if (ts.Days == 1)
+                res = ts.Days + " " + typeof(KeySearcher).GetPluginStringResource("day") + " ";
+
+            if (ts.Hours > 1 || res.Length != 0)
+                res += ts.Hours + " " + typeof(KeySearcher).GetPluginStringResource("hours") + " ";
+            if (ts.Hours == 1)
+                res += ts.Hours + " " + typeof(KeySearcher).GetPluginStringResource("hour") + " ";
+
+            if (ts.Minutes > 1)
+                res += ts.Minutes + " " + typeof(KeySearcher).GetPluginStringResource("minutes") + " ";
+            if (ts.Minutes == 1)
+                res += ts.Minutes + " " + typeof(KeySearcher).GetPluginStringResource("minute") + " ";
+
+            if (res.Length == 0 && ts.Seconds > 1)
+                res += ts.Seconds + " " + typeof(KeySearcher).GetPluginStringResource("seconds");
+            if (res.Length == 0 && ts.Seconds == 1)
+                res += ts.Seconds + " " + typeof(KeySearcher).GetPluginStringResource("second");
+
+            return res;
+        }
     }
 }

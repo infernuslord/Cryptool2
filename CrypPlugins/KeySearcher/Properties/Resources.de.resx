@@ -751,4 +751,28 @@
   <data name="Connection_lost__Waiting_for_reconnect___" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="hour" xml:space="preserve">
+    <value>Stunde</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>Stunden</value>
+  </data>
+  <data name="minute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="minutes" xml:space="preserve">
+    <value>Minuten</value>
+  </data>
+  <data name="second" xml:space="preserve">
+    <value>Sekunde</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>Sekunden</value>
+  </data>
 </root>
