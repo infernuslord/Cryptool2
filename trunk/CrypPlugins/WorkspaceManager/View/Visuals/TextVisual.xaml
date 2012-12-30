@@ -150,22 +150,32 @@
         <Style x:Key="WindowStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="false">
-                    <Setter Property="Background" Value="Transparent"></Setter>
                     <Setter Property="BorderBrush" Value="Transparent"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Background" Value="#66365b81"></Setter>
-                    <Setter Property="BorderBrush" Value="#33ffffff"></Setter>
+                    <Setter Property="BorderBrush" Value="#9ada7e"></Setter>
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
             <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
             <Setter Property="MinHeight" Value="100"></Setter>
             <Setter Property="MinWidth" Value="150"></Setter>
-            <Setter Property="BorderThickness" Value="1.7"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderBrush" Value="#9ada7e"></Setter>
+            <Setter Property="BorderThickness" Value="5"></Setter>
             <Setter Property="CornerRadius" Value="5,5,0,0"></Setter>
-            <Setter Property="Padding" Value="3.5"></Setter>
+        </Style>
+        <Style x:Key="OpStyle" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="false">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Background" Value="#9ada7e"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
@@ -212,7 +222,8 @@
                 <!--<RowDefinition Height="16"></RowDefinition>-->
             </Grid.RowDefinitions>
             <!--##########/Definitions##########-->
-
+            <Border Style="{StaticResource ResourceKey=OpStyle}"></Border>
+            
             <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
                         DragDelta="PositionDragDeltaHandler"></Thumb>
             <Border>

@@ -27,9 +27,14 @@ namespace Cryptool.CrypTutorials
             {
                 playingItem = value;
                 if (playingItem == null)
+                {
                     Player.Visibility = Visibility.Collapsed;
-                else
+                    Player.Stop();
+                }
+                else {
                     Player.Visibility = Visibility.Visible;
+                }
+
                 OnPropertyChanged("PlayingItem");
             }
         }
@@ -81,6 +86,11 @@ namespace Cryptool.CrypTutorials
             {
                 handler(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        private void CloseClick(object sender, RoutedEventArgs e)
+        {
+            PlayingItem = null;
         }
     }
 

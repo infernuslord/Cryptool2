@@ -109,6 +109,11 @@ namespace Cryptool.CrypTutorials
 
         }
 
+        public void Stop()
+        {
+            myMediaElement.Stop();
+        }
+
         // Change the volume of the media.
         private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
         {

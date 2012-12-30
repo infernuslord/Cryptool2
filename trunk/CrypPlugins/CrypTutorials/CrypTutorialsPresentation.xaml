@@ -84,6 +84,31 @@
 
         <tut:RandomMaxConverter x:Key="RandomMaxConverter"></tut:RandomMaxConverter>
 
+        <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="Border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <Image RenderOptions.BitmapScalingMode="Linear" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#55222222" TargetName="Border" />
+                    <Setter Property="BorderBrush" Value="#aa222222" TargetName="Border" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="#77222222" TargetName="Border" />
+                    <Setter Property="BorderBrush" Value="#cc222222" TargetName="Border" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Button}" x:Key="OperationCloseStyle">
+            <Setter Property="ToolTip" Value="{Loc CloseComponentTooltip}"></Setter>
+            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Width" Value="35"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+        </Style>
+
         <Style TargetType="Button">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -129,19 +154,18 @@
                                     <Border Padding="5">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="51"></ColumnDefinition>
+                                                <!--<ColumnDefinition Width="51"></ColumnDefinition>-->
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
-                                                <ColumnDefinition Width="51"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"></RowDefinition>
                                                 <!--<RowDefinition Height="*"></RowDefinition>-->
                                             </Grid.RowDefinitions>
-                                            <Border Width="45" Height="45" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
+                                            <!--<Border Width="45" Height="45" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
+                                            
+                                            </Border>-->
 
-                                            </Border>
-
-                                            <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                            <Grid Grid.Column="0" Margin="10,0,0,0" HorizontalAlignment="Left">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto"></RowDefinition>
                                                     <RowDefinition Height="auto"></RowDefinition>
@@ -291,9 +315,18 @@
                     </StackPanel>
                 </Border>
             </Grid>
+            <Grid Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="{Binding ElementName=Player, Path=Visibility}">
 
-            <tut:VideoPlayer x:Name="Player" Grid.Row="1" Grid.Column="3" Visibility="Collapsed">
-            </tut:VideoPlayer>
+                <tut:VideoPlayer x:Name="Player" Grid.Row="1" Visibility="Collapsed">
+                </tut:VideoPlayer>
+
+                <Button Style="{StaticResource ResourceKey=OperationCloseStyle}" Click="CloseClick" Panel.ZIndex="9001">
+                    <Button.Tag>
+                        <Image Source="/CrypTutorials;component/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                    </Button.Tag>
+                </Button>
+            </Grid>
+
 
             <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
             <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
