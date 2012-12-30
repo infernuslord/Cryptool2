@@ -311,8 +311,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypTutorials", "CrypPlugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Achterbahn", "CrypPlugins\Achterbahn\Achterbahn.csproj", "{C8ACE050-4B85-41B6-90F4-5105674BB968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberFieldSieve", "CrypPluginsExperimental\NumberFieldSieve\NumberFieldSieve.csproj", "{612E2C3B-B510-4B88-8E63-50950D31FA9E}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -2537,21 +2535,6 @@ Global
 		{C8ACE050-4B85-41B6-90F4-5105674BB968}.Test|Win32.ActiveCfg = Debug|x86
 		{C8ACE050-4B85-41B6-90F4-5105674BB968}.Test|x86.ActiveCfg = Debug|x86
 		{C8ACE050-4B85-41B6-90F4-5105674BB968}.Test|x86.Build.0 = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Debug|Win32.ActiveCfg = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Debug|x86.ActiveCfg = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Debug|x86.Build.0 = Debug|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Release|Mixed Platforms.Build.0 = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Release|Win32.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Release|x86.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Release|x86.Build.0 = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|Mixed Platforms.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|Mixed Platforms.Build.0 = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|Win32.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|x86.ActiveCfg = Release|x86
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2694,6 +2677,5 @@ Global
 		{62296CE7-A264-497A-A63A-F7B517F4A0CC} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{F182C351-6646-42BF-BD8C-96DFE53D217E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
-		{612E2C3B-B510-4B88-8E63-50950D31FA9E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 	EndGlobalSection
 EndGlobal
