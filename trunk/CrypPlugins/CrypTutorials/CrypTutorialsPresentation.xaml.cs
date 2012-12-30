@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Collections;
 
 namespace Cryptool.CrypTutorials
 {
@@ -20,6 +21,8 @@ namespace Cryptool.CrypTutorials
         private readonly ObservableCollection<VideoInfo> _videos = new ObservableCollection<VideoInfo>();
 
         private VideoInfo playingItem = null;
+        private ListCollectionView _videosView;
+        private string _filterString = "";
         public VideoInfo PlayingItem
         {
             get { return playingItem; }
@@ -39,6 +42,16 @@ namespace Cryptool.CrypTutorials
             }
         }
 
+        public string FilterString
+        {
+            get { return _filterString; }
+            set
+            {
+                _filterString = value;
+                OnPropertyChanged("FilterString");
+            }
+        }
+
         //public CrypTutorialsPresentation(CrypTutorials crypTutorials)
         public CrypTutorialsPresentation()
         {
@@ -49,6 +62,25 @@ namespace Cryptool.CrypTutorials
             _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
             //has to be replaced later on by "GetVideoInformationFromServer"
             _tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
+            _videosView = CollectionViewSource.GetDefaultView(Videos) as ListCollectionView;
+            _videosView.CustomSort = new VideoSorter();
+            _videosView.Filter = videoFilter;
+        }
+
+        private bool videoFilter(object item)
+        {
+            VideoInfo customer = item as VideoInfo;
+            return customer.Title.Contains(_filterString);
+        }
+
+        internal class VideoSorter : IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                var vidx = x as VideoInfo;
+                var vidY = y as VideoInfo;
+                return vidx.Timestamp.CompareTo(vidY.Timestamp);
+            }
         }
 
         private void SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -92,6 +124,16 @@ namespace Cryptool.CrypTutorials
         {
             PlayingItem = null;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_videosView != null) 
+            {
+                FilterString = (sender as TextBox).Text;
+                _videosView.Refresh();
+            }
+
+        }
     }
 
     public class RandomMaxConverter : IValueConverter
@@ -125,20 +167,6 @@ namespace Cryptool.CrypTutorials
         public string Icon { get; set; }
         public string Url { get; set; }
         public DateTime Timestamp { get; set; }
-        private bool isSelected = false;
-        public bool IsSelected
-        {
-            get
-            {
-                return isSelected;
-            }
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged("IsSelected");
-            }
-        }
-
 
         protected void OnPropertyChanged(string name)
         {
