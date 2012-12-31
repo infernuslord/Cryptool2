@@ -10,12 +10,12 @@ namespace Cryptool.CrypTutorials
 {
     public class TutorialVideosManager
     {
-        private readonly string _url;
+        private readonly string _url = PluginBase.Properties.Settings.Default.CrypVideoTutorials_URL;
         private List<VideoInfo> _videoInfos;
-        private const string DefaultUrl = "http://localhost/ct2/videos.xml";
 
-        public TutorialVideosManager() : this(DefaultUrl)
+        public TutorialVideosManager()
         {
+            
         }
 
         /// <summary>
@@ -23,10 +23,6 @@ namespace Cryptool.CrypTutorials
         /// Tutorial Videos Information
         /// </summary>
         /// <param name="url"></param>
-        public TutorialVideosManager(string url)
-        {
-            _url = url;
-        }
 
         /// <summary>
         /// Fired if video Informations are fetched

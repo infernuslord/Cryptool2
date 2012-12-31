@@ -129,6 +129,9 @@
   <data name="Show_Video" xml:space="preserve">
     <value>Show video</value>
   </data>
+  <data name="VideoTutorialsSettings" xml:space="preserve">
+    <value>Video Tutorial</value>
+  </data>
   <data name="Welcome_Cryptutorials" xml:space="preserve">
     <value>Welcome to the Cryptutorials. In this section you can watch YouTube videos concerning the work with CrypTool 2.</value>
   </data>
