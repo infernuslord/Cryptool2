@@ -77,5 +77,8 @@
     <Setting Name="WorkspaceManager_ToggleFullscreenPluginList" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="CrypVideoTutorials_URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost/ct2/videos.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

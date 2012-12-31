@@ -315,7 +315,7 @@
                     </StackPanel>
                 </Border>
             </Grid>
-            <Grid Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="{Binding ElementName=Player, Path=Visibility}">
+            <Grid Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="{Binding ElementName=Player, Path=Visibility}" Background="#01ffffff">
 
                 <tut:VideoPlayer x:Name="Player" Grid.Row="1" Visibility="Collapsed">
                 </tut:VideoPlayer>
