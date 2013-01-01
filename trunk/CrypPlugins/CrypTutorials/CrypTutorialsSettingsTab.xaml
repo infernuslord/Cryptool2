@@ -6,11 +6,16 @@
              xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <StackPanel>
+        
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-            <TextBlock Text="URL:" VerticalAlignment="Center" Width="50"></TextBlock>
+            <TextBlock Text="URL:" VerticalAlignment="Center" Width="80"></TextBlock>
             <TextBox Height="25" Width="300" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=CrypVideoTutorials_URL, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
         </StackPanel>
-        
-    </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
+            <TextBlock Text="Category URL:" VerticalAlignment="Center" Width="80"></TextBlock>
+            <TextBox Height="25" Width="300" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=CrypVideoTutorials_CatURL, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+        </StackPanel>
+
+    </StackPanel>
 </UserControl>

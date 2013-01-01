@@ -80,5 +80,8 @@
     <Setting Name="CrypVideoTutorials_URL" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://localhost/ct2/videos.xml</Value>
     </Setting>
+    <Setting Name="CrypVideoTutorials_CatURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost/ct2/cat.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

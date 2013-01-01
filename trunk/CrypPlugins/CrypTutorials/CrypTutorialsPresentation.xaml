@@ -60,7 +60,7 @@
                     FontFamily="/CrypTutorials;component/#CrypTool2">
                 <TextBlock.Effect>
                     <DropShadowEffect BlurRadius="2" Opacity="0" ShadowDepth="0"></DropShadowEffect>
-                </TextBlock.Effect>    
+                </TextBlock.Effect>
                 </TextBlock>
             </VisualBrush.Visual>
         </VisualBrush>
@@ -148,49 +148,51 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                            <Border x:Name="Root" Background="{StaticResource ResourceKey=Background3}" HorizontalAlignment="Stretch" Padding="5" Margin="1">
-                                <Grid>
+                                <Border x:Name="Root" Background="{StaticResource ResourceKey=Background3}" HorizontalAlignment="Stretch" Padding="5" Margin="1">
+                                    <Grid>
 
-                                    <Border Padding="5">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <!--<ColumnDefinition Width="51"></ColumnDefinition>-->
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"></RowDefinition>
-                                                <!--<RowDefinition Height="*"></RowDefinition>-->
-                                            </Grid.RowDefinitions>
-                                            <!--<Border Width="45" Height="45" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
-                                            
-                                            </Border>-->
-
-                                            <Grid Grid.Column="0" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                        <Border Padding="5">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="51"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"></RowDefinition>
-                                                    <RowDefinition Height="auto"></RowDefinition>
+                                                    <RowDefinition Height="*"></RowDefinition>
+                                                    <!--<RowDefinition Height="*"></RowDefinition>-->
                                                 </Grid.RowDefinitions>
-                                                <TextBlock FontSize="25" Foreground="#666" x:Name="Title" VerticalAlignment="Center"
-                                                   TextTrimming="CharacterEllipsis" Text="{Binding Path=Title}"
-                                                   FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz"></TextBlock>
-                                                <TextBlock Grid.Row="1" Foreground="#888" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
-                                            </Grid>
+                                                <Border Width="45" Height="45" VerticalAlignment="Top" BorderBrush="#ddd" BorderThickness="1.5" CornerRadius="4" Background="#aaa">
+                                                    <Image Source="{Binding Path=Icon}" Width="40" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                                </Border>
 
-                                            <!--<TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
+                                                <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"></RowDefinition>
+                                                        <RowDefinition Height="auto"></RowDefinition>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock FontSize="25" Foreground="#666" x:Name="Title" VerticalAlignment="Center"
+                                                           TextTrimming="CharacterEllipsis" Text="{Binding Path=Title}"
+                                                           FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
+
+                                                    </TextBlock>
+                                                    <TextBlock Grid.Row="1" Foreground="#888" FontSize="10" Text="{Binding Path=Timestamp, StringFormat={}{0:r}}"></TextBlock>
+                                                </Grid>
+
+                                                <!--<TextBlock Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" 
                                            Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="10,20,0,0" FontWeight="ExtraLight" FontSize="14"
                                            Text="{Binding Path=Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>-->
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="Root" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
-                                </Trigger>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter TargetName="Root" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Root" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -207,15 +209,15 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate>
-                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
-                                        <ItemsPresenter/>
-                                    </ScrollViewer>
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
+                                    <ItemsPresenter/>
+                                </ScrollViewer>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                     <!--<Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=ItemTemplate}"></Setter>-->
                 </Style>
-                
+
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -270,7 +272,7 @@
                     <Button Grid.Row="1" Margin="0,5,0,5" Click="Button_Click">
                         <Image Source="/CrypTutorials;component/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30"></Image>
                     </Button>
-                    
+
                     <TextBlock Grid.Row="3" Foreground="#888" FontSize="10" Margin="0,20,0,0" Text="{Binding ElementName=VideoListView, Path=SelectedItem.Timestamp, StringFormat={}{0:r}}"></TextBlock>
                 </Grid>
             </Grid>
@@ -299,10 +301,10 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            
+
             <ListView Grid.Row="1" x:Name="VideoListView" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
                               SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
-            
+
             <Grid Grid.Row="1" Background="#bbffffff">
                 <Border Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <StackPanel >

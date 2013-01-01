@@ -8,6 +8,8 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Collections;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.CrypTutorials
 {
@@ -36,6 +38,8 @@ namespace Cryptool.CrypTutorials
                 }
                 else {
                     Player.Visibility = Visibility.Visible;
+                    Player.Url = playingItem.Url;
+                    Player.PlayOrPause();
                 }
 
                 OnPropertyChanged("PlayingItem");
@@ -61,7 +65,8 @@ namespace Cryptool.CrypTutorials
      
             _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
             //has to be replaced later on by "GetVideoInformationFromServer"
-            _tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
+            //_tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
+            _tutorialVideosManager.GetVideoInformationFromServer();
             _videosView = CollectionViewSource.GetDefaultView(Videos) as ListCollectionView;
             _videosView.CustomSort = new VideoSorter();
             _videosView.Filter = videoFilter;
@@ -96,6 +101,7 @@ namespace Cryptool.CrypTutorials
         private void _tutorialVideosManager_OnVideosFetched(object sender, VideosFetchedEventArgs videosFetchedEventArgs)
         {
             _videos.Clear();
+            Console.Out.WriteLine("lol");
             foreach (var videoInfo in videosFetchedEventArgs.VideoInfos)
             {
                 _videos.Add(videoInfo);

@@ -73,6 +73,19 @@ namespace Cryptool.CrypTutorials
             }
         }
 
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public static long GetCurrentUnixTimestampSeconds()
+        {
+            return (long)(DateTime.UtcNow - UnixEpoch).TotalSeconds;
+        }
+
+        public static DateTime DateTimeFromUnixTimestampSeconds(string sec)
+        {
+            double seconds = double.Parse(sec, CultureInfo.InvariantCulture);
+            return UnixEpoch.AddSeconds(seconds);
+        }
+
         /// <summary>
         /// Retrieve Video Informations from Server asynchronously
         /// Fires OnVideosFetched in case of success
@@ -80,54 +93,40 @@ namespace Cryptool.CrypTutorials
         /// </summary>
         public void GetVideoInformationFromServer()
         {
-            var fetchThread = new Thread(delegate()
-            {
-                try
-                {
-                    _videoInfos = new List<VideoInfo>();
-                    XElement xraw = XElement.Load(_url);
-                    XElement xroot = XElement.Parse(xraw.ToString());
-                    IEnumerable<VideoInfo> links =
-                        (from item in xroot.Descendants("video")
-                        let id = item.Element("id")
-                        let title = item.Element("title")
-                        let description = item.Element("description")
-                        let icon = item.Element("icon")
-                        let url = item.Element("videoUrl")
-                        let timestamp = item.Element("timestamp")
-                        select new VideoInfo
-                        {
-                            Id = id.Value,
-                            Title = title.Value,
-                            Description = description.Value,
-                            Icon = icon.Value,
-                            Url = url.Value,
-                            Timestamp = DateTime.Parse(timestamp.Value)
-                        });
-                    _videoInfos.AddRange(links);
-                    if (OnVideosFetched != null)
-                    {
-                        OnVideosFetched.Invoke(this, new VideosFetchedEventArgs(_videoInfos));
-                    }
-                }
-                catch (Exception exception)
-                {
-                    if (OnVideosFetchErrorOccured != null)
-                    {
-                        OnVideosFetchErrorOccured.Invoke(this,new ErrorEventArgs(exception));
-                    }
-                }
-            });
-
             try
             {
-                fetchThread.Start();
+                _videoInfos = new List<VideoInfo>();
+                XElement xraw = XElement.Load(_url);
+                XElement xroot = XElement.Parse(xraw.ToString());
+                List<VideoInfo> links =
+                    (from item in xroot.Descendants("video")
+                    let id = item.Element("id")
+                    let title = item.Element("title")
+                    let description = item.Element("description")
+                    let icon = item.Element("icon")
+                    let url = item.Element("url")
+                    let timestamp = item.Element("timestamp")
+                    select new VideoInfo
+                    {
+                        Id = id.Value,
+                        Title = title.Value,
+                        Description = description.Value,
+                        Icon = icon.Value,
+                        Url = url.Value,
+                        Timestamp = DateTimeFromUnixTimestampSeconds(timestamp.Value)
+                    }).ToList();
+
+                _videoInfos = links;
+                if (OnVideosFetched != null)
+                {
+                    OnVideosFetched.Invoke(this, new VideosFetchedEventArgs(links));
+                }
             }
             catch (Exception exception)
             {
                 if (OnVideosFetchErrorOccured != null)
                 {
-                    OnVideosFetchErrorOccured.Invoke(this, new ErrorEventArgs(exception));
+                    OnVideosFetchErrorOccured.Invoke(this,new ErrorEventArgs(exception));
                 }
             }
         }
