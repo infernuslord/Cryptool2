@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Input;
 using System.Globalization;
+using System.Windows.Threading;
 
 namespace Cryptool.CrypTutorials
 {
@@ -18,6 +19,11 @@ namespace Cryptool.CrypTutorials
             InitializeComponent();
             myMediaElement.Volume = (double)0.5;
             myMediaElement.SpeedRatio = (double)1;
+            timer.Tick += delegate(object o, EventArgs args)
+            {
+                int seSliderValue = (int)myMediaElement.Position.TotalSeconds;
+                timelineSlider.Value = seSliderValue;
+            };
         }
 
         public static readonly DependencyProperty UrlProperty =
@@ -50,9 +56,15 @@ namespace Cryptool.CrypTutorials
             set { SetValue(IsPlayingProperty, value); }
         }
 
+
+        private DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) }; 
         private static void OnIsPlaying(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-
+            VideoPlayer player = (VideoPlayer)sender;
+            if (player.IsPlaying)
+                player.timer.Start();
+            else
+                player.timer.Stop();
         }
 
         private static void OnIsActive(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
@@ -62,18 +74,20 @@ namespace Cryptool.CrypTutorials
 
         private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-            VideoPlayer player = (VideoPlayer)sender;
-            player.myMediaElement.Source = new Uri(eventArgs.NewValue.ToString());
+            try
+            {
+                VideoPlayer player = (VideoPlayer)sender;
+                string uriString = eventArgs.NewValue.ToString();
+                player.myMediaElement.Source = new Uri(uriString);
+            }
+            catch (Exception e)
+            {
+ 
+            }
         }
 
-
-        // Play the media.
-        void PlayClick(object sender, RoutedEventArgs args)
+        public void PlayOrPause()
         {
-            // The Play method will begin the media if it is not currently active or 
-            // resume media if it is paused. This has no effect if the media is
-            // already running.
-
             if (IsPlaying)
             {
                 myMediaElement.Pause();
@@ -84,6 +98,17 @@ namespace Cryptool.CrypTutorials
                 myMediaElement.Play();
                 IsPlaying = true;
             }
+        }
+
+
+        // Play the media.
+        void PlayClick(object sender, RoutedEventArgs args)
+        {
+            // The Play method will begin the media if it is not currently active or 
+            // resume media if it is paused. This has no effect if the media is
+            // already running.
+
+            PlayOrPause();
 
             // Initialize the MediaElement property values.
 
@@ -105,13 +130,13 @@ namespace Cryptool.CrypTutorials
 
             // The Stop method stops and resets the media to be played from
             // the beginning.
-            myMediaElement.Stop();
-
+            Stop();
         }
 
         public void Stop()
         {
             myMediaElement.Stop();
+            IsPlaying = false;
         }
 
         // Change the volume of the media.
@@ -130,7 +155,7 @@ namespace Cryptool.CrypTutorials
         // to the total number of miliseconds in the length of the media clip.
         private void Element_MediaOpened(object sender, EventArgs e)
         {
-            timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalMilliseconds;
+            timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalSeconds;
         }
 
         // When the media playback is finished. Stop() the media to seek to media start.
@@ -139,15 +164,20 @@ namespace Cryptool.CrypTutorials
             myMediaElement.Stop();
         }
 
-        // Jump to different parts of the media (seek to). 
-        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
+        void seek() 
         {
             int SliderValue = (int)timelineSlider.Value;
 
             // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
             // Create a TimeSpan with miliseconds equal to the slider value.
-            TimeSpan ts = new TimeSpan(0, 0, 0, 0, SliderValue);
+            TimeSpan ts = TimeSpan.FromSeconds(SliderValue);
             myMediaElement.Position = ts;
+        }
+
+        // Jump to different parts of the media (seek to). 
+        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
+        {
+            seek();
         }
 
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -168,19 +198,43 @@ namespace Cryptool.CrypTutorials
         {
             if (preMaximizedVisualParent != null)
             {
+                if (IsPlaying)
+                    myMediaElement.Pause();
+
                 fullScreen.Content = null;
                 fullScreen.Hide();
                 preMaximizedVisualParent.Children.Add(this);
                 preMaximizedVisualParent = null;
 
+                if (IsPlaying) 
+                {
+                    myMediaElement.Play();
+                    seek();
+                }
+
+
             }
             else
             {
+                if (IsPlaying)
+                    myMediaElement.Pause();
+
                 preMaximizedVisualParent = (Panel)this.VisualParent;
                 preMaximizedVisualParent.Children.Remove(this);
                 fullScreen.Content = this;
                 fullScreen.Show();
+
+                if (IsPlaying)
+                {
+                    myMediaElement.Play();
+                    seek();
+                }
             }
+        }
+
+        private void SeekToMediaPosition(object sender, MouseButtonEventArgs e)
+        {
+            seek();
         }
     }
 

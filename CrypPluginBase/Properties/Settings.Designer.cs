@@ -331,5 +331,17 @@ namespace Cryptool.PluginBase.Properties {
                 this["CrypVideoTutorials_URL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/ct2/cat.xml")]
+        public string CrypVideoTutorials_CatURL {
+            get {
+                return ((string)(this["CrypVideoTutorials_CatURL"]));
+            }
+            set {
+                this["CrypVideoTutorials_CatURL"] = value;
+            }
+        }
     }
 }
