@@ -12,18 +12,33 @@ namespace Cryptool.CrypTutorials
 
     public partial class VideoPlayer : UserControl
     {
-
+        private double curTime = 0;
         public VideoPlayer()
         {
             this.DataContext = this;
             InitializeComponent();
             myMediaElement.Volume = (double)0.5;
             myMediaElement.SpeedRatio = (double)1;
+
+            myMediaElement.BufferingStarted += new RoutedEventHandler(myMediaElement_BufferingStarted);
+            myMediaElement.BufferingEnded += new RoutedEventHandler(myMediaElement_BufferingEnded);
+
+
             timer.Tick += delegate(object o, EventArgs args)
             {
-                int seSliderValue = (int)myMediaElement.Position.TotalSeconds;
-                timelineSlider.Value = seSliderValue;
+                double seSliderValue = (double)myMediaElement.Position.TotalSeconds;
+                timelineSlider.Value  = seSliderValue;
             };
+        }
+
+        void myMediaElement_BufferingEnded(object sender, RoutedEventArgs e)
+        {
+            LoadingVisual.Visibility = Visibility.Collapsed;
+        }
+
+        void myMediaElement_BufferingStarted(object sender, RoutedEventArgs e)
+        {
+            LoadingVisual.Visibility = Visibility.Visible;
         }
 
         public static readonly DependencyProperty UrlProperty =
@@ -82,7 +97,7 @@ namespace Cryptool.CrypTutorials
             }
             catch (Exception e)
             {
- 
+                
             }
         }
 
@@ -164,13 +179,23 @@ namespace Cryptool.CrypTutorials
             myMediaElement.Stop();
         }
 
-        void seek() 
+        void seek()
         {
             int SliderValue = (int)timelineSlider.Value;
 
             // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
             // Create a TimeSpan with miliseconds equal to the slider value.
             TimeSpan ts = TimeSpan.FromSeconds(SliderValue);
+            myMediaElement.Position = ts;
+        }
+
+        void seek(double time)
+        {
+
+            // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
+            // Create a TimeSpan with miliseconds equal to the slider value.
+
+            TimeSpan ts = TimeSpan.FromSeconds(time);
             myMediaElement.Position = ts;
         }
 
@@ -198,38 +223,49 @@ namespace Cryptool.CrypTutorials
         {
             if (preMaximizedVisualParent != null)
             {
-                if (IsPlaying)
-                    myMediaElement.Pause();
+                if (IsPlaying) 
+                {
+                    curTime = myMediaElement.Position.TotalSeconds;
+                    myMediaElement.Stop();
+                }
+
 
                 fullScreen.Content = null;
                 fullScreen.Hide();
                 preMaximizedVisualParent.Children.Add(this);
-                preMaximizedVisualParent = null;
-
-                if (IsPlaying) 
+                if (IsPlaying)
                 {
                     myMediaElement.Play();
-                    seek();
+                    seek(curTime);
                 }
-
-
+                preMaximizedVisualParent = null;
             }
             else
             {
                 if (IsPlaying)
-                    myMediaElement.Pause();
+                {
+                    curTime = myMediaElement.Position.TotalSeconds;
+                    myMediaElement.Stop();
+                }
 
                 preMaximizedVisualParent = (Panel)this.VisualParent;
                 preMaximizedVisualParent.Children.Remove(this);
                 fullScreen.Content = this;
                 fullScreen.Show();
 
-                if (IsPlaying)
-                {
-                    myMediaElement.Play();
-                    seek();
-                }
+                fullScreen.ContentRendered += new EventHandler(fullScreen_ContentRendered);
             }
+        }
+
+        void fullScreen_ContentRendered(object sender, EventArgs e)
+        {
+            if (IsPlaying)
+            {
+                myMediaElement.Play();
+                seek(curTime);
+            }
+
+            (sender as Window).ContentRendered -= fullScreen_ContentRendered;
         }
 
         private void SeekToMediaPosition(object sender, MouseButtonEventArgs e)
