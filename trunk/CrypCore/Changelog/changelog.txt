@@ -1,59 +1,44 @@
-[b]Beta 7b[/b]
+[b]Beta 9[/b]
+The Beta 9 is a bug fixing beta. Nevertheless many new components found their way into this beta release.
+Several bugs were fixed and the graphical editor "WorkspaceManager" is declared as "feature complete".
+For a detailed overview of new components please use the list beneath this text. We hope you have as much fun 
+using CrypTool 2.0 Beta 9 as we had creating it. If you find any bugs please do not hesitate using our bug 
+reporting form at https://www.cryptool.org/trac/CrypTool2/newticket or use the contact form on the upper 
+right side under the "about" menue in the CrypTool 2.0 application.
 
-This version contains some minor bug fixes:
-- Some text corrections
-- Connecting two components with different connector types now works as expected
-- Fixed wizard template bug
-- Fixed title of main window
-- Startcenter closes handles on image files now
-- Fixed opening templates from online help
-- Fixed exception handling when loading images in workspace manager
-- Added new certificate, so the AutoUpdate will work also with the new server certificate
+Sincerly yours,
+The CrypTool 2.0 Developer Team
 
-Please update soon!
+[b]Detailed changelog of Beta 9:[/b]
 
-
-[b]Beta 7[/b]
-
-Updater:
-- Added this changelog
-- Zip updater removes old files of previous update (fixes problems which regularly occur due to obsolete DLLs)
-
-Editor:
-- Replaced component parameter panel with new one
-- New feature to change plugin depth (top/bottom) on workspace
-- AnotherEditor (.cte files) is no longer shipped, use WorkspaceManager (.cwm files) instead
-
-Editor execution engine:
-- Does not lose data anymore (occured in (N)LFSR and Enigma templates)
-- Reworked starting logic of components (manual "repeat start" option no longer used)
-- Supports implicit UTF-8 conversion of ICryptoolStream <-> string similar to already existing byte[] <-> string conversion
-
-ADFGVX:
-- Rewritten from scratch, fixes some issues of former implementation
-- Supports now also ADFGX variant (5x5 polybius square)
-
-Online Help:
-- Various (crash) fixes during help generation
-- External weblinks are now opened in system default webbrowser
-- Internal links to CWM templates are opened directly in CrypTool 2
-
-Text/binary input handling:
-- Renamed StreamToString/StringToStream to StringEncoder/StringDecoder
-- Moved hex/binary conversions from TextInput/TextOutput to StringEncoder/StringDecoder
-- TextInput now only uses plain strings
-- TextOutput prints binary data as hex, everything else as plain strings
-
-Factorizer:
-- Fixed infinite loop bug
-
-Caesar:
-- Removed ambigous key character input ('C'), shows character mapping instead ('A -> D')
-
-Primes and PKCS1:
-- Removed from "Standalone" component panel, added into "CrypTutorial" ribbon tab instead
-
-Plugin interface:
-- Removed dynamic properties (too complicated and did not work properly)
-- Removed handling of HasChanges property from plugins (now handled by editor internally)
-- Removed some no longer needed parameters (QuickWatchFormat, startable, hasDefaultValue)
+CrypTool 2.0
+- The application now restores the "session"; So all tabs which
+  were opened in the last session will be opened in the new one
+- License tab added which shows the CrypTool 2.0 license
+- Several bug fixes
+	
+Workspace Manager
+- Defined as "stable" and "feature complete"
+- Several bug fixes
+	
+New components added:
+- Achterbahn (stream cipher)
+- MICKEY2 (stream cipher)
+- Password Strength
+- Rabbit  (stream cipher)
+- Salsa20 (stream cipher)	
+- SAT Solver
+- Sosemanuk (stream cipher)
+	
+Redesigned/updated components:
+- File Input (new WPF hexbox)
+- File Output (new WPF hexbox)
+- Number Input (new presentation added)	
+- Primes (several updates/bug fixes)
+- And many more small changes...
+	
+Online documentation:
+- Added MathJax library for formular support
+- Redesigned the layout of the components pages and the overview pages
+- Addded common doc page about "homomorphic ciphers"
+- added several new documentation pages/updated several existing documentation pages
