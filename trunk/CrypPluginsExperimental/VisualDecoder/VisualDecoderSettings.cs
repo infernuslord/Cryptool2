@@ -13,7 +13,6 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -22,13 +21,15 @@ namespace Cryptool.Plugins.VisualDecoder
 {
     public class VisualDecoderSettings : ISettings
     {
-        public enum DimCodeType { AUTO, EAN13, EAN8, Code39, Code128, QRCode, DataMatrix, PDF417 };
+        public enum DimCodeType { AUTO, EAN13, EAN8, Code39, Code128, QRCode, DataMatrix, PDF417, MaxiCode, Aztec, CodaBar, RSS, UPC_A, UPC_E };
         private DimCodeType decodingType;
         private bool stopOnSuccess;
 
         #region TaskPane Settings
-        
-        [TaskPane("CodeTypeCaption", "CodeTypeTooltip", null, 1, true, ControlType.ComboBox, new[] { "AUTO","EAN13", "EAN8", "Code39", "Code128", "QRCode", "DataMatrix", "PDF417" })]
+
+        [TaskPane("CodeTypeCaption", "CodeTypeTooltip", null, 1, true, ControlType.ComboBox, new[] { "AUTO", "EAN13", "EAN8", "Code39", "Code128", "QRCode", 
+                                                                                                     "DataMatrix", "PDF417", "MaxiCode",  "Aztec", "CodaBar",
+                                                                                                     "RSS", "UPC_A", "UPC_E" })]
         public DimCodeType DecodingType
         {
             get { return decodingType; }

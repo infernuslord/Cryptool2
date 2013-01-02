@@ -36,9 +36,9 @@ namespace Cryptool.Plugins.VisualDecoder
 
        private readonly VisualDecoderPresentation presentation = new VisualDecoderPresentation();
         private readonly VisualDecoderSettings settings = new VisualDecoderSettings();
-        private Thread decodingThread = null;
+        private Thread decodingThread;
         private readonly ParameterizedThreadStart threadStart;
-        private bool codeFound = false;
+        private bool codeFound;
         
         // decoder chain
         private readonly Dictionary<VisualDecoderSettings.DimCodeType, DimCodeDecoder> codeTypeHandler = 
@@ -49,8 +49,7 @@ namespace Cryptool.Plugins.VisualDecoder
 
         public VisualDecoder()
         {
-
-            threadStart = new ParameterizedThreadStart(ProcessImage);
+            threadStart = ProcessImage;
 
             //init chain
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.EAN8, new ZXingDecoder(this, BarcodeFormat.EAN_8));
@@ -60,6 +59,12 @@ namespace Cryptool.Plugins.VisualDecoder
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.QRCode, new ZXingDecoder(this, BarcodeFormat.QR_CODE));
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.PDF417, new ZXingDecoder(this, BarcodeFormat.PDF_417));
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.DataMatrix, new ZXingDecoder(this, BarcodeFormat.DATA_MATRIX));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.MaxiCode, new ZXingDecoder(this, BarcodeFormat.MAXICODE));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.Aztec, new ZXingDecoder(this, BarcodeFormat.AZTEC));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.CodaBar, new ZXingDecoder(this, BarcodeFormat.CODABAR));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.RSS, new ZXingDecoder(this, BarcodeFormat.RSS_EXPANDED));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.UPC_A, new ZXingDecoder(this, BarcodeFormat.UPC_A));
+            codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.UPC_E, new ZXingDecoder(this, BarcodeFormat.UPC_E));
         }
 
 
@@ -74,7 +79,7 @@ namespace Cryptool.Plugins.VisualDecoder
 
 
         [PropertyInfo(Direction.OutputData, "OutputData", "OutputTooltip")]
-        public byte[] OutputData
+        public string OutputData
         {
             get;
             set;
@@ -106,6 +111,7 @@ namespace Cryptool.Plugins.VisualDecoder
         public void PreExecution()
         {
             presentation.ClearPresentation();
+            codeFound = false;
         }
 
         /// <summary>
@@ -129,7 +135,6 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void PostExecution()
         {
-            codeFound = false;
         }
 
         /// <summary>
@@ -186,7 +191,7 @@ namespace Cryptool.Plugins.VisualDecoder
             {
                 //update Presentation
                 presentation.SetImages(dimCode.BitmapWithMarkedCode);
-                presentation.SetData(System.Text.Encoding.ASCII.GetString(dimCode.CodePayload), dimCode.CodeType);
+                presentation.SetData(dimCode.CodePayload, dimCode.CodeType);
 
                 //update output
                 OutputData = dimCode.CodePayload;

@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// extern reachable encode methode
         /// </summary>
         /// <returns> combind a DimCodeReturnValue by using childclass's methods</returns>
-        public DimCodeEncoderItem Encode(byte[] input, VisualEncoderSettings settings)
+        public DimCodeEncoderItem Encode(string input, VisualEncoderSettings settings)
         {
             input = EnrichInput(input, settings);
 
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <param name="input"></param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        protected virtual List<LegendItem> GetLegend(byte[] input, VisualEncoderSettings settings)
+        protected virtual List<LegendItem> GetLegend(string input, VisualEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <param name="input"></param>
         /// <param name="settings"></param>
         /// <returns>returns the image of the dim-Code</returns>
-        protected virtual Image GenerateBitmap(byte[] input, VisualEncoderSettings settings)
+        protected virtual Image GenerateBitmap(string input, VisualEncoderSettings settings)
         {
             throw new NotImplementedException();
         }
@@ -94,19 +94,20 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <param name="input"></param>
         /// <param name="settings"></param>
         /// <returns>has to return true if no error occurred</returns>
-        protected virtual bool VerifyInput(byte[] input, VisualEncoderSettings settings)
+        protected virtual bool VerifyInput(string input, VisualEncoderSettings settings)
         {
-            throw new NotImplementedException();
+            return true;
         }
-   
 
+
+        // this may be some kind of integrity check value, or, if your code has a fixed size ,some pad
         /// <summary>
         /// gives the child class the ability to enrich the input before validating.
-        // this may be some kind of integrity check value, or, if your code has a fixed size ,some pad
         /// </summary>
         /// <param name="input"></param>
+        /// <param name="settings"></param>
         /// <returns>enriched Input</returns>
-        protected virtual byte[] EnrichInput(byte[] input, VisualEncoderSettings settings)
+        protected virtual string EnrichInput(string input, VisualEncoderSettings settings)
         {
             return input;
         }
@@ -114,9 +115,9 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
       
      
-        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        public byte[] imageToByteArray(Image imageIn)
         {
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
             return ms.ToArray();
         }
@@ -126,7 +127,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
             int barHight = 0;
             var onBar = false;
 
-            LockBitmap lockBitmap = new LockBitmap(bitmap);
+            var lockBitmap = new LockBitmap(bitmap);
             lockBitmap.LockBits();
             for (int y = 0; y < bitmap.Height; y++)
             {
@@ -148,7 +149,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
         protected static Bitmap FillBitmapOnX(int x, int yFrom, int yTo, Bitmap bitmap, Color cBlack, Color cWhite)
         {
-            LockBitmap lockBitmap = new LockBitmap(bitmap);
+            var lockBitmap = new LockBitmap(bitmap);
             lockBitmap.LockBits();
         
 

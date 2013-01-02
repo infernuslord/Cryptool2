@@ -14,10 +14,10 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.VisualEncoder.Model;
 using VisualEncoder.Properties;
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
         public EAN13(VisualEncoder caller) : base(caller) {/*empty*/}
 
-        protected override Image GenerateBitmap(byte[] input, VisualEncoderSettings settings)
+        protected override Image GenerateBitmap(string input, VisualEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
             {
@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                 }
             };
 
-            var payload = Encoding.ASCII.GetString(input);
+            var payload = input;
 
             if (settings.AppendICV)
                 payload = payload.Substring(0, 12); // cut of last byte to let the lib calculate the ICV
@@ -73,27 +73,20 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
             return  barcodeWriter.Write(payload);
         }
 
-        protected override byte[] EnrichInput(byte[] input, VisualEncoderSettings settings)
+        protected override string EnrichInput(string input, VisualEncoderSettings settings)
         {
-            var inp = new byte[13];
-            for (int i = 0; i < 13; i++)
-            {
-                if (input.Length > i )
-                {
-                    inp[i] = (input[i] != 0) ? input[i] : Encoding.ASCII.GetBytes("0")[0];
-                }
-                else
-                {
-                    inp[i] = Encoding.ASCII.GetBytes("0")[0];
-                }
-            }
+           input = input.Substring(Math.Max(0, input.Length - 13));
 
-            return inp;
+           if (input.Length < 13)
+           {
+               input = input.PadLeft(13, '0');
+           }
+            return input;
         }
 
-        protected override bool VerifyInput(byte[] input, VisualEncoderSettings settings)
+        protected override bool VerifyInput(string input, VisualEncoderSettings settings)
         {
-            if (input.Any(b => b < Encoding.ASCII.GetBytes("0")[0] || b > Encoding.ASCII.GetBytes("9")[0]))
+            if (input.Any(b => b < '0' || b > '9'))
             {
                 caller.GuiLogMessage(Resources.EAN_INVALIDE_INPUT, NotificationLevel.Error);
                 return false;
@@ -101,7 +94,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
             return true;
         }
 
-        protected override List<LegendItem> GetLegend(byte[] input, VisualEncoderSettings settings)
+        protected override List<LegendItem> GetLegend(string input, VisualEncoderSettings settings)
         {
             var legend = new List<LegendItem> { fixedLegend };
 
