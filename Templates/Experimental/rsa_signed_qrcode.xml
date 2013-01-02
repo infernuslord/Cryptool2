@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">RSA signed QRCode</title>
+  <summary lang="en">Authenticated QRCode</summary>
+  <description lang="en">This template shows how to create and read a signed QRCode with RSA.</description>
+  <keywords>visual code, qr, qrcode, rsa, sign</keywords>
+
+  <title lang="de">RSA signierter QRCode</title>
+  <summary lang="de">Authentifizierter QRCode</summary>
+  <description lang="de">Diese Vorlage zeigt das Erstellen und Lesen eines mit RSA signierten QRCodes.</description>
+  <keywords lang="de">Visueller Code</keywords>
+
+  <icon file="rsa_signed_qrcode" />
+
+</sample>
