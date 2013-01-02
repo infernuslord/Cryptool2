@@ -41,19 +41,19 @@ namespace Cryptool.Plugins.VisualEncoder
         {
             settings = new VisualEncoderSettings(this);
 
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.EAN8, new Encoders.EAN8(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.EAN13, new Encoders.EAN13(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code39, new Encoders.Code39(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code128, new Encoders.Code128(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.QRCode, new Encoders.QRCode(this));
-            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.PDF417, new Encoders.PDF417(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.EAN8, new EAN8(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.EAN13, new EAN13(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code39, new Code39(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code128, new Code128(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.QRCode, new QRCode(this));
+            codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.PDF417, new PDF417(this));
 
         }
 
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "IncommingData", "IncommingDataTooltip")]
-        public byte[] InputStream
+        public string InputStream
         {
             get;
             set;

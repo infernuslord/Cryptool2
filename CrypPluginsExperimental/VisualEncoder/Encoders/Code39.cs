@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.VisualEncoder.Model;
 using VisualEncoder.Properties;
@@ -53,7 +52,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <summary>
         /// see superclass
         /// </summary>
-        protected override Image GenerateBitmap(byte[] input, VisualEncoderSettings settings)
+        protected override Image GenerateBitmap(string input, VisualEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
             {
@@ -66,7 +65,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                 }
             };
 
-            var payload = Encoding.ASCII.GetString(input);
+            var payload = input;
             if(settings.AppendICV)
             {
                 if(payload.Length == 80) // replace last digit with icv
@@ -81,24 +80,22 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <summary>
         /// see superclass
         /// </summary>
-        protected override byte[] EnrichInput(byte[] input, VisualEncoderSettings settings)
+        protected override string EnrichInput(string input, VisualEncoderSettings settings)
         {
-            if(input.Length > 80)//80 is the maximum for c39
+            if (input.Length > 80)//80 is the maximum for c39
             {
-                var inp = new byte[80];
-                Array.Copy(input,inp, 80);
-                return inp;
+                return input.Substring(0, 80);
             }
-            
+
             return input;
         }
 
         /// <summary>
         /// see superclass
         /// </summary>
-        protected override bool VerifyInput(byte[] input, VisualEncoderSettings settings)
+        protected override bool VerifyInput(string input, VisualEncoderSettings settings)
         {
-            if (Encoding.ASCII.GetChars(input).Any(c => Code39CharToInt(c)  == -1))
+            if (input.Any(c => Code39CharToInt(c)  == -1))
             {
                 caller.GuiLogMessage(Resources.CODE39_INVALIDE_INPUT, NotificationLevel.Error);
                 return false;
@@ -109,7 +106,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         /// <summary>
         /// see superclass
         /// </summary>
-        protected override List<LegendItem> GetLegend(byte[] input, VisualEncoderSettings settings)
+        protected override List<LegendItem> GetLegend(string input, VisualEncoderSettings settings)
         {
             return new List<LegendItem> { startEndLegend, ivcLegend };
         }

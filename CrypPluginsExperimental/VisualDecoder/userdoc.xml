@@ -5,10 +5,32 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Visual codes are a common way to provide information that should be easily read by machines
+    Since the first barcode, which  was patented in 1952 by Norman Joseph Woodland [1] and based on the Morse code,
+    one dimentional barcodes are used to easily identify things (e.g.: product in a supermarket).
+
+    But since the invention of two dimentional visual codes, the application has considerably expanded.
+    Among many other tasks, visual codes are also be usefull for advertisement (e.g: providing additional infromation)
+    or a proof of payment (e.g.: train tickets,  post stamps).
+
+    But be aware that visual codes can also contain harmfull content such as a link to a  malicious webpage [2]
+    or malicious code (e.g.: exploits for the Mobile/reader or even SQL-Injections) and there are currently
+    no common way to authenticate the origin of a visual code
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Visuelle Kodes sind eine gängige Möglichkeit, um Informationen bereitzustellen, die einfach von Maschinen gelesen werden können.
+    Seit dem ersten Barcode, welcher 1952 von Norman Joseph Woodland  patentiert [1] wurde und auf dem Morsecode basierte, werden Barcodes
+    zu Identifizierung von Gegenständen benutzt (z.B.: Artikel im Supermarkt).
+
+    Aber seit der Erfindung von zweidimensionalen visuellen Kodes hat sich das Anwendungsgebiet erheblich erweitert. Neben vielen anderen Aufgaben
+    sind sie nun auch für die Werbung (z.B.: Um zusätzliche Informationen bereitzustellen)
+    oder Nachweis einer Zahlung (z.B.: Bahntickets, Briefmarken) nützlich.
+
+    Aber seien Sie sich bewusst, dass ein visueller Kode auch schädliche Inhalte wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder
+    bösartigen Code (z.B.: exploits für das Handy) enthalten können und das es zurzeit keine standardisierte Möglichkeit
+    gibt die Herkunft eines visuellen Kodes zu authentifizieren
   </introduction>
 
   <usage lang="en">

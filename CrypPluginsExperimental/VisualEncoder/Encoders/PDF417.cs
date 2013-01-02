@@ -15,7 +15,6 @@
 */
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using Cryptool.Plugins.VisualEncoder.Model;
 using ZXing;
 using ZXing.Common;
@@ -47,7 +46,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
         public PDF417(VisualEncoder caller) : base(caller) {/*empty*/}
 
-        protected override Image GenerateBitmap(byte[] input, VisualEncoderSettings settings)
+        protected override Image GenerateBitmap(string input, VisualEncoderSettings settings)
         {
             
             var barcodeWriter = new BarcodeWriter
@@ -61,22 +60,11 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                               }
             };
 
-            var payload = Encoding.ASCII.GetString(input);
+            var payload = input;
             return barcodeWriter.Write(payload);
         }
 
-        protected override byte[] EnrichInput(byte[] input, VisualEncoderSettings settings)
-        {
-            return input;
-        }
-
-        protected override bool VerifyInput(byte[] input, VisualEncoderSettings settings)
-        {
-            return true;
-        }
-
-
-        protected override List<LegendItem> GetLegend(byte[] input, VisualEncoderSettings settings)
+        protected override List<LegendItem> GetLegend(string input, VisualEncoderSettings settings)
         {
             var legend = new List<LegendItem> { startEndPatternLegend, rowIndiLegend };
             return legend;

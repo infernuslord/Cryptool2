@@ -14,7 +14,6 @@
    limitations under the License.
 */
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows;
@@ -23,7 +22,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Brushes = System.Windows.Media.Brushes;
 using Color = System.Windows.Media.Color;
 
 namespace Cryptool.Plugins.VisualDecoder

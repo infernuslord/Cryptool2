@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using System.Drawing;
-using Cryptool.PluginBase;
 using Cryptool.Plugins.VisualDecoder.Model;
 using ZXing;
 
@@ -29,21 +28,20 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
     {
 
         private readonly List<BarcodeFormat> list;
-        private string codeType;
+        private readonly string codeType;
 
         public ZXingDecoder(VisualDecoder caller, BarcodeFormat codeType ): base(caller)
         {
-            list = new List<BarcodeFormat>() { codeType };
+            list = new List<BarcodeFormat> { codeType };
             this.codeType = codeType.ToString(); 
         }
 
         public override DimCodeDecoderItem Decode(byte[] input)
         {
             var image = ByteArrayToImage(input);
-            var encoding = new System.Text.ASCIIEncoding();
 
             #region decode barcode
-            var barcodeReader = new BarcodeReader()
+            var barcodeReader = new BarcodeReader
             {
                 AutoRotate = true,
                 PossibleFormats = list,
@@ -58,10 +56,10 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
             {
                 image = DrawRectangleZXing(image, result);
 
-                return new DimCodeDecoderItem()
+                return new DimCodeDecoderItem
                            {
                                BitmapWithMarkedCode = ImageToByteArray(image),
-                               CodePayload = encoding.GetBytes(result.Text),
+                               CodePayload = result.Text,
                                CodeType = codeType
                            };
             }

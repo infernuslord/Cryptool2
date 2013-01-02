@@ -14,11 +14,9 @@
    limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.VisualEncoder.Model;
 using VisualEncoder.Properties;
@@ -52,7 +50,7 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
         public Code128(VisualEncoder caller) : base(caller) {/*empty*/}
 
-        protected override Image GenerateBitmap(byte[] input, VisualEncoderSettings settings)
+        protected override Image GenerateBitmap(string input, VisualEncoderSettings settings)
         {
             var barcodeWriter = new BarcodeWriter
             {
@@ -64,25 +62,23 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                     Width = 300
                 }
             };
-            var payload = Encoding.ASCII.GetString(input);
+            var payload = input;
             return  barcodeWriter.Write(payload);
         }
 
-        protected override byte[] EnrichInput(byte[] input, VisualEncoderSettings settings)
+        protected override string EnrichInput(string input, VisualEncoderSettings settings)
         {
             if (input.Length > 80)//80 is the maximum for c128
             {
-                var inp = new byte[80];
-                Array.Copy(input, inp, 80);
-                return inp;
+                return input.Substring(0, 80);
             }
 
             return input;
         }
 
-        protected override bool VerifyInput(byte[] input, VisualEncoderSettings settings)
+        protected override bool VerifyInput(string input, VisualEncoderSettings settings)
         {
-            if (Encoding.ASCII.GetChars(input).Any(InvalidC128Char)) //if one char  is invalid
+            if (input.Any(InvalidC128Char)) //if one char  is invalid
             {
                 caller.GuiLogMessage(Resources.CODE39_INVALIDE_INPUT, NotificationLevel.Error);
                 return false;
@@ -94,7 +90,8 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
         {
            return !((c >= 32 && c <= 126) || (c >= 200 && c <= 211));
         }
-        protected override List<LegendItem> GetLegend(byte[] input, VisualEncoderSettings settings)
+
+        protected override List<LegendItem> GetLegend(string input, VisualEncoderSettings settings)
         {
             return new List<LegendItem> {startEndLegend, ivcLegend};
         }
