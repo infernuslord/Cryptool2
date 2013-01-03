@@ -67,7 +67,6 @@
     <Compile Include="VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Visuals\AnimWrapPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrypTutorialsPresentation.xaml.cs">
@@ -117,12 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="cryptutorials_header.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="no_preview.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="cryptool2.ttf" />

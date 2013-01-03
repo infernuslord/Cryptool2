@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
-             xmlns:visuals="clr-namespace:Cryptool.CrypTutorials.Visuals"
              xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
              d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
@@ -314,6 +313,13 @@
                                 <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                             </TextBlock.Effect>
                         </TextBlock>
+                        <TreeView Name="viewsTreeView" ItemsSource="{Binding Path=Categories}">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type tut:Category}" ItemsSource="{Binding Path=Children}">
+                                    <TreeViewItem Header="{Binding Path=Name}"/>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
                     </StackPanel>
                 </Border>
             </Grid>

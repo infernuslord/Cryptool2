@@ -21,6 +21,7 @@ namespace Cryptool.CrypTutorials
         //private const string _VideoUrl = "http://localhost/ct2/videos.xml";
         private readonly TutorialVideosManager _tutorialVideosManager = new TutorialVideosManager();
         private readonly ObservableCollection<VideoInfo> _videos = new ObservableCollection<VideoInfo>();
+        private readonly ObservableCollection<Category> _categories = new ObservableCollection<Category>();
 
         private VideoInfo playingItem = null;
         private ListCollectionView _videosView;
@@ -34,7 +35,7 @@ namespace Cryptool.CrypTutorials
                 if (playingItem == null)
                 {
                     Player.Visibility = Visibility.Collapsed;
-                    Player.Stop();
+                    Player.Close();
                 }
                 else {
                     Player.Visibility = Visibility.Visible;
@@ -62,14 +63,24 @@ namespace Cryptool.CrypTutorials
             DataContext = this;       
             InitializeComponent();
             //_crypTutorials = crypTutorials;
-     
+
             _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
+            _tutorialVideosManager.OnCategoriesFetched += new EventHandler<CategoriesFetchedEventArgs>(_tutorialVideosManager_OnCategoriesFetched);
             //has to be replaced later on by "GetVideoInformationFromServer"
             //_tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
             _tutorialVideosManager.GetVideoInformationFromServer();
             _videosView = CollectionViewSource.GetDefaultView(Videos) as ListCollectionView;
             _videosView.CustomSort = new VideoSorter();
             _videosView.Filter = videoFilter;
+        }
+
+        void _tutorialVideosManager_OnCategoriesFetched(object sender, CategoriesFetchedEventArgs e)
+        {
+            _categories.Clear();
+            foreach (var cat in e.Categories)
+            {
+                _categories.Add(cat);
+            }
         }
 
         private bool videoFilter(object item)
@@ -98,10 +109,14 @@ namespace Cryptool.CrypTutorials
             get { return _videos; }
         }
 
+        public ObservableCollection<Category> Categories
+        {
+            get { return _categories; }
+        }
+
         private void _tutorialVideosManager_OnVideosFetched(object sender, VideosFetchedEventArgs videosFetchedEventArgs)
         {
             _videos.Clear();
-            Console.Out.WriteLine("lol");
             foreach (var videoInfo in videosFetchedEventArgs.VideoInfos)
             {
                 _videos.Add(videoInfo);
@@ -172,6 +187,7 @@ namespace Cryptool.CrypTutorials
         public string Description { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
+        public string Category { get; set; }
         public DateTime Timestamp { get; set; }
 
         protected void OnPropertyChanged(string name)
@@ -186,6 +202,32 @@ namespace Cryptool.CrypTutorials
         public override string ToString()
         {
             return Title;
+        }
+    }
+
+    public class Category : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public IList<Category> Children { get; set; }
+
+        public Category()
+        {
+            Children = new List<Category>();
+        }
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 
