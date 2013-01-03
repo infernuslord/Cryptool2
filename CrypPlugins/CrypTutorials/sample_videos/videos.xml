@@ -8,9 +8,10 @@
 It also shows how to create a Caesar cipher and encrypt a plain text and how to decrypt a cipher text using this classical cipher</description>
 		<description lang="de">Dieses Video demonstiert die grundlegende Handhabung des graphischen Benutzerinterfaces WorkspaceManager <newline/>
 Es zeigt außrdem, wie man eine Caesar Chiffre erstellt und einen Klartext verschlüselt und einen Geheimtext entschlüsselt</description>
-		<icon>http://localhost/ct2/caesar.png</icon>
-		<url>http://localhost/ct2/CT2_Tutorium_Beispiel.wvx</url>
+		<icon>http://raspberry.vs.uni-due.de:8080/ct2/caesar.png</icon>
+		<url>http://raspberry.vs.uni-due.de:8080/ct2/CT2_Tutorium.wmv</url>
 		<timestamp>1341494133</timestamp>
+		<category>1</category>
 	</video>
 	<video>
 		<id>2</id>
@@ -20,8 +21,9 @@ Es zeigt außrdem, wie man eine Caesar Chiffre erstellt und einen Klartext versc
 It also shows how to create a Caesar cipher and encrypt a plain text and how to decrypt a cipher text using this classical cipher</description>
 		<description lang="de">Dieses Video demonstiert die grundlegende Handhabung des graphischen Benutzerinterfaces WorkspaceManager <newline/>
 Es zeigt außrdem, wie man eine Caesar Chiffre erstellt und einen Klartext verschlüselt und einen Geheimtext entschlüsselt</description>
-		<icon>http://localhost/ct2/caesar.png</icon>
-		<url>http://localhost/ct2/CT2_Tutorium_Beispiel.wvx</url>
+		<icon>http://raspberry.vs.uni-due.de:8080/ct2/caesar.png</icon>
+		<url>http://raspberry.vs.uni-due.de:8080/ct2/CT2_Tutorium.wmv</url>
 		<timestamp>1341494133</timestamp>
+		<category>4</category>
 	</video>
 </videos>
