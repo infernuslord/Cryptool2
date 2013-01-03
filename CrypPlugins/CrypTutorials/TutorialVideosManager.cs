@@ -11,7 +11,9 @@ namespace Cryptool.CrypTutorials
     public class TutorialVideosManager
     {
         private readonly string _url = PluginBase.Properties.Settings.Default.CrypVideoTutorials_URL;
+        private readonly string _catUrl = PluginBase.Properties.Settings.Default.CrypVideoTutorials_CatURL;
         private List<VideoInfo> _videoInfos;
+        private List<Category> _catInfos;
 
         public TutorialVideosManager()
         {
@@ -28,6 +30,8 @@ namespace Cryptool.CrypTutorials
         /// Fired if video Informations are fetched
         /// </summary>
         public event EventHandler<VideosFetchedEventArgs> OnVideosFetched;
+
+        public event EventHandler<CategoriesFetchedEventArgs> OnCategoriesFetched;
 
         /// <summary>
         /// Fired in case of an error
@@ -86,6 +90,27 @@ namespace Cryptool.CrypTutorials
             return UnixEpoch.AddSeconds(seconds);
         }
 
+        private List<Category> parseSubCat(string s)
+        {
+            if (s == "")
+                return null;
+
+            var _catInfos = new List<Category>();
+            XElement xroot = XElement.Parse(s);
+            _catInfos =
+                (from item in xroot.Elements("category")
+                 let id = item.Element("id")
+                 let name = item.Element("name")
+                 let subcat = item.Element("subcategories")
+                 select new Category
+                 {
+                     Id = int.Parse(id.Value),
+                     Name = name.Value,
+                     Children = parseSubCat(subcat.ToString()),
+                 }).ToList();
+            return _catInfos;
+        }
+
         /// <summary>
         /// Retrieve Video Informations from Server asynchronously
         /// Fires OnVideosFetched in case of success
@@ -95,26 +120,49 @@ namespace Cryptool.CrypTutorials
         {
             try
             {
-                _videoInfos = new List<VideoInfo>();
-                XElement xraw = XElement.Load(_url);
+                _catInfos = new List<Category>();
+                XElement xraw = XElement.Load(_catUrl);
                 XElement xroot = XElement.Parse(xraw.ToString());
+                _catInfos =
+                    (from item in xroot.Elements("category")
+                     let id = item.Element("id")
+                     let name = item.Element("name")
+                     let subcat = item.Element("subcategories")
+                     select new Category
+                     {
+                         Id = int.Parse(id.Value),
+                         Name = name.Value,
+                         Children = parseSubCat(subcat.ToString()),
+                     }).ToList();
+
+                if (OnCategoriesFetched != null)
+                {
+                    OnCategoriesFetched.Invoke(this, new CategoriesFetchedEventArgs(_catInfos));
+                }
+
+                ////////////////////////////////////////////////////////////////
+                _videoInfos = new List<VideoInfo>();
+                xraw = XElement.Load(_url);
+                xroot = XElement.Parse(xraw.ToString());
                 List<VideoInfo> links =
                     (from item in xroot.Descendants("video")
-                    let id = item.Element("id")
-                    let title = item.Element("title")
-                    let description = item.Element("description")
-                    let icon = item.Element("icon")
-                    let url = item.Element("url")
-                    let timestamp = item.Element("timestamp")
-                    select new VideoInfo
-                    {
-                        Id = id.Value,
-                        Title = title.Value,
-                        Description = description.Value,
-                        Icon = icon.Value,
-                        Url = url.Value,
-                        Timestamp = DateTimeFromUnixTimestampSeconds(timestamp.Value)
-                    }).ToList();
+                     let id = item.Element("id")
+                     let title = item.Element("title")
+                     let description = item.Element("description")
+                     let icon = item.Element("icon")
+                     let url = item.Element("url")
+                     let timestamp = item.Element("timestamp")
+                     let cat = item.Element("category")
+                     select new VideoInfo
+                     {
+                         Id = id.Value,
+                         Title = title.Value,
+                         Description = description.Value,
+                         Icon = icon.Value,
+                         Url = url.Value,
+                         Timestamp = DateTimeFromUnixTimestampSeconds(timestamp.Value),
+                         Category = cat.Value
+                     }).ToList();
 
                 _videoInfos = links;
                 if (OnVideosFetched != null)
@@ -140,5 +188,15 @@ namespace Cryptool.CrypTutorials
         }
 
         public List<VideoInfo> VideoInfos { get; private set; }
+    }
+
+    public class CategoriesFetchedEventArgs : EventArgs
+    {
+        public CategoriesFetchedEventArgs(List<Category> categories)
+        {
+            Categories = categories;
+        }
+
+        public List<Category> Categories { get; private set; }
     }
 }

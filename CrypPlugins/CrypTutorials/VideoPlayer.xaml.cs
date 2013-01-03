@@ -22,6 +22,7 @@ namespace Cryptool.CrypTutorials
 
             myMediaElement.BufferingStarted += new RoutedEventHandler(myMediaElement_BufferingStarted);
             myMediaElement.BufferingEnded += new RoutedEventHandler(myMediaElement_BufferingEnded);
+            myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(myMediaElement_MediaFailed);
 
 
             timer.Tick += delegate(object o, EventArgs args)
@@ -29,6 +30,12 @@ namespace Cryptool.CrypTutorials
                 double seSliderValue = (double)myMediaElement.Position.TotalSeconds;
                 timelineSlider.Value  = seSliderValue;
             };
+
+        }
+
+        void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            
         }
 
         void myMediaElement_BufferingEnded(object sender, RoutedEventArgs e)
@@ -125,8 +132,6 @@ namespace Cryptool.CrypTutorials
 
             PlayOrPause();
 
-            // Initialize the MediaElement property values.
-
         }
 
         // Pause the media.
@@ -146,11 +151,18 @@ namespace Cryptool.CrypTutorials
             // The Stop method stops and resets the media to be played from
             // the beginning.
             Stop();
+
         }
 
         public void Stop()
         {
             myMediaElement.Stop();
+            IsPlaying = false;
+        }
+
+        public void Close()
+        {
+            myMediaElement.Close();
             IsPlaying = false;
         }
 
