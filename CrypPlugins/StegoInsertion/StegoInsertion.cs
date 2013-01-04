@@ -99,6 +99,11 @@ namespace Cryptool.Plugins.StegoInsertion
             // no progress, yet
             ProgressChanged(0, 1);
 
+            if( InputCarrier == null ) {
+                GuiLogMessage("Please specify an input file.", NotificationLevel.Error);
+                return;
+            }
+
             using (CStreamReader midiReader = InputCarrier.CreateReader())
             {
                     MemoryStream secretStream;
