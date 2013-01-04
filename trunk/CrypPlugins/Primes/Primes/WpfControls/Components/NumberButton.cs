@@ -62,17 +62,21 @@ namespace Primes.WpfControls.Components
   ///     <MyNamespace:NumberButton/>
   ///
   /// </summary>
-  public enum NumberButtonStyle { Button, Ellipse}
+  public enum NumberButtonStyle { Button, Ellipse }
+
   public class NumberButton : Button
   {
     private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(999);
     private PrimesBigInteger m_Number;
     private string m_StrNumber;
+
     private bool m_ShowContent;
+
     public bool ShowContent {
       get { return m_ShowContent; }
       set { m_ShowContent=value; } 
     }
+
     public string Number
     {
       get { return m_StrNumber; }
@@ -95,9 +99,9 @@ namespace Primes.WpfControls.Components
           {
             ControlHandler.SetElementContent(this, "   ");
           }
-          ToolTip tt = ControlHandler.CreateObject(typeof(ToolTip)) as ToolTip;
-          ControlHandler.SetElementContent(tt, m_StrNumber);
-          ControlHandler.SetPropertyValue(this, "ToolTip", tt);
+          //ToolTip tt = ControlHandler.CreateObject(typeof(ToolTip)) as ToolTip;
+          //ControlHandler.SetElementContent(tt, m_StrNumber);
+          //ControlHandler.SetPropertyValue(this, "ToolTip", tt);
         }
       }
     }
@@ -108,11 +112,11 @@ namespace Primes.WpfControls.Components
       set { 
         m_Number = value;
         Number = m_Number.ToString();
-      
       }
     }
 
     private NumberButtonStyle m_NumberButtonStyle;
+
     public string NumberButtonStyle
     {
       get { return m_NumberButtonStyle.ToString(); }
@@ -135,17 +139,20 @@ namespace Primes.WpfControls.Components
    
       }
     }
+
     private static Primes.WpfControls.Components.NumberButtonStyle ParseNumberButtonStyle(string s)
     {
       Primes.WpfControls.Components.NumberButtonStyle result = Primes.WpfControls.Components.NumberButtonStyle.Button;
+
       if (s != null)
       {
         if(s.Equals(Primes.WpfControls.Components.NumberButtonStyle.Ellipse.ToString()))
-          result = Primes.WpfControls.Components.NumberButtonStyle.Ellipse;
-          
+          result = Primes.WpfControls.Components.NumberButtonStyle.Ellipse;     
       }
+
       return result;
     }
+
     static NumberButton()
     {
       DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberButton), new FrameworkPropertyMetadata(typeof(NumberButton)));

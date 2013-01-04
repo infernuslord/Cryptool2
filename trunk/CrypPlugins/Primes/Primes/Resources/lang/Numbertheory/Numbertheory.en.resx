@@ -135,6 +135,9 @@
   <data name="eulerphivalues" xml:space="preserve">
     <value>List of coprimes</value>
   </data>
+  <data name="gcd" xml:space="preserve">
+    <value>Greatest common divisor</value>
+  </data>
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Choose functions</value>
   </data>
@@ -143,6 +146,12 @@
   </data>
   <data name="invalidnumber" xml:space="preserve">
     <value>{0} does not lie between 5 und {1} and is not evaluated further.</value>
+  </data>
+  <data name="lcm" xml:space="preserve">
+    <value>Least common multiple</value>
+  </data>
+  <data name="modinv" xml:space="preserve">
+    <value>Modular multiplicative inverse</value>
   </data>
   <data name="pix" xml:space="preserve">
     <value>Number of primes</value>

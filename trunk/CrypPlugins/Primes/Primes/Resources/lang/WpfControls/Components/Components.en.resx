@@ -153,4 +153,7 @@
   <data name="generaternd1_Header" xml:space="preserve">
     <value>generate random number</value>
   </data>
+  <data name="secondparameter" xml:space="preserve">
+    <value>Second parameter</value>
+  </data>
 </root>

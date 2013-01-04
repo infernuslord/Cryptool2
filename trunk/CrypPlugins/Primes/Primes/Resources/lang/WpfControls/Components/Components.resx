@@ -153,4 +153,7 @@
   <data name="generaternd1_Header" xml:space="preserve">
     <value>Zufallszahl generieren</value>
   </data>
+  <data name="secondparameter" xml:space="preserve">
+    <value>Zweiter Parameter</value>
+  </data>
 </root>

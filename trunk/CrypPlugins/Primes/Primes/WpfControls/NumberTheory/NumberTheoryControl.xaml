@@ -1,36 +1,33 @@
 ﻿<UserControl x:Class="Primes.WpfControls.NumberTheory.NumberTheoryControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:power="clr-namespace:Primes.WpfControls.NumberTheory.PowerMod"
-             xmlns:ntfunctions="clr-namespace:Primes.WpfControls.NumberTheory.NumberTheoryFunctions"
-             xmlns:proots="clr-namespace:Primes.WpfControls.NumberTheory.PrimitivRoots"
-             
-                xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
-             xmlns:comps="clr-namespace:Primes.WpfControls.Components"
+    xmlns:power="clr-namespace:Primes.WpfControls.NumberTheory.PowerMod"
+    xmlns:ntfunctions="clr-namespace:Primes.WpfControls.NumberTheory.NumberTheoryFunctions"
+    xmlns:proots="clr-namespace:Primes.WpfControls.NumberTheory.PrimitivRoots"
+    xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
+    xmlns:comps="clr-namespace:Primes.WpfControls.Components"
     >
-<UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Resources/Shared.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-
-
-
-
-  </UserControl.Resources>  
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Shared.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>  
+    
     <Grid>
-<TabControl Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_power}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPower" HelpButtonClick="TabItem_HelpButtonClick">
-        <power:PowerModControl x:Name="power" />
-      </comps:HelpTabItem>
-      <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_ntfunctions}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemNTFunctions" HelpButtonClick="TabItem_HelpButtonClick">
-        <ntfunctions:NumberTheoryFunctionsControl x:Name="ntfunctions" />
-      </comps:HelpTabItem>
-      <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_proots}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPRoots" HelpButtonClick="TabItem_HelpButtonClick">
-        <proots:PrimitivRootControl x:Name="proots" />
-      </comps:HelpTabItem>
-
-    </TabControl>            
+        <TabControl Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_power}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPower" HelpButtonClick="TabItem_HelpButtonClick">
+                <power:PowerModControl x:Name="power" />
+            </comps:HelpTabItem>
+            <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_ntfunctions}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemNTFunctions" HelpButtonClick="TabItem_HelpButtonClick">
+                <ntfunctions:NumberTheoryFunctionsControl x:Name="ntfunctions" />
+            </comps:HelpTabItem>
+            <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_proots}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPRoots" HelpButtonClick="TabItem_HelpButtonClick">
+                <proots:PrimitivRootControl x:Name="proots" />
+            </comps:HelpTabItem>
+        </TabControl>            
     </Grid>
+    
 </UserControl>

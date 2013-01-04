@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Primes.WpfControls.Components;
+using Primes.Library;
 
 namespace Primes.WpfControls
 {
@@ -26,6 +27,5 @@ namespace Primes.WpfControls
     void Dispose();
     void Init();
     void SetTab(int i);
-
   }
 }

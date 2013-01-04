@@ -135,6 +135,9 @@
   <data name="eulerphivalues" xml:space="preserve">
     <value>Liste der Teilerfremden</value>
   </data>
+  <data name="gcd" xml:space="preserve">
+    <value>Größter gemeinsamer Teiler</value>
+  </data>
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Auswahl der zu berechnenden Funktionen</value>
   </data>
@@ -143,6 +146,12 @@
   </data>
   <data name="invalidnumber" xml:space="preserve">
     <value>{0} ist keine Zahl zwischen 5 und {1}. Sie wird daher nicht weiter ausgewertet.</value>
+  </data>
+  <data name="lcm" xml:space="preserve">
+    <value>Kleinstes gemeinsames Vielfaches</value>
+  </data>
+  <data name="modinv" xml:space="preserve">
+    <value>Modulare multiplikative Inverse</value>
   </data>
   <data name="pix" xml:space="preserve">
     <value>Anzahl der Primzahlen</value>

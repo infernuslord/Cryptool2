@@ -30,7 +30,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
   {
     private int m_Row;
     private StringBuilder m_SbSum;
-    public Rho(LogControl lc, TextBlock tb)
+    public Rho(LogControl2 lc, TextBlock tb)
       : base(lc, tb)
     {
       m_Log.Columns = 1;

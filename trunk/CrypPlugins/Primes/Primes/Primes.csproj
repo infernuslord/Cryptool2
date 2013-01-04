@@ -109,6 +109,14 @@
     <Compile Include="SettingsTab\PrimesSettingsTab.xaml.cs">
       <DependentUpon>PrimesSettingsTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfControls\Components\LogControl2.xaml.cs">
+      <DependentUpon>LogControl2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\GCD.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\LCM.cs" />
+    <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\ModInverse.cs" />
     <Compile Include="WpfControls\NumberTheory\PowerMod\PowerModCommands.cs" />
     <Compile Include="Library\ControlHandler.cs" />
     <Compile Include="Library\Delegates.cs" />
@@ -470,6 +478,10 @@
     <Page Include="WpfControls\Components\InputSingleControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WpfControls\Components\LogControl2.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

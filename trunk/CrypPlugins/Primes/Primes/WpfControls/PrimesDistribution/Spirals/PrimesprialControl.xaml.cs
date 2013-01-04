@@ -71,20 +71,20 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     private void btnExecute_Click(object sender, RoutedEventArgs e)
     {
 
-      PrimesBigInteger from = null;
-      PrimesBigInteger to = null;
+        PrimesBigInteger from = null;
+        PrimesBigInteger to = null;
+        PrimesBigInteger second = null;
 
-      if (irc.GetValue(ref from, ref to))
-      {
-        irc_Execute(from, to);
-      }
+        if (irc.GetValue(ref from, ref to))
+        {
+            irc_Execute(from, to, second);
+        }
     }
     
-    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       CurrentSpiral.Clear();
       CurrentSpiral.Draw(from, to);
-      
     }
 
     private void btnCancel_Click(object sender, RoutedEventArgs e)

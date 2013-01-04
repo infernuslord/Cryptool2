@@ -95,7 +95,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
 
     }
 
-    void ircGoldbach_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void ircGoldbach_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       m_From = from;
       m_To = to;

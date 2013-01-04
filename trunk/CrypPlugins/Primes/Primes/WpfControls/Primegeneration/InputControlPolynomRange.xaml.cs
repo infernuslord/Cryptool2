@@ -322,10 +322,9 @@ namespace Primes.WpfControls.Primegeneration
     private void InputSingleControl_Execute(PrimesBigInteger value)
     {
       DoExecute();
-
     }
 
-    private void InputRangeControl_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    private void InputRangeControl_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       DoExecute();
     }
