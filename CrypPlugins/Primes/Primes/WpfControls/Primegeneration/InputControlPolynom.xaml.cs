@@ -266,7 +266,7 @@ namespace Primes.WpfControls.Primegeneration
     internal event VoidDelegate Cancel;
 
     #endregion
-    void rangeinputcontrol_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void rangeinputcontrol_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       bool doExecute = true;
       foreach (Control element in pnlFactors.Children)

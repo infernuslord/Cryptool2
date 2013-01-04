@@ -27,7 +27,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
   public class Tau:BaseNTFunction
   {
-    public Tau(LogControl lc, TextBlock tb):base(lc,tb)
+    public Tau(LogControl2 lc, TextBlock tb):base(lc,tb)
     {
     }
 
@@ -44,14 +44,14 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       {
         if (m_Value.Mod(d).Equals(PrimesBigInteger.Zero))
         {
-          m_Log.Info(d.ToString("D"));
+          m_Log.Info(d.ToString("D") + "   ");
           counter = counter.Add(PrimesBigInteger.One);
           SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
         }
         d = d.Add(PrimesBigInteger.One);
       }
-      m_Log.Info(m_Value.ToString("D"));
+      m_Log.Info(m_Value.ToString("D")+"   ");
       counter = counter.Add(PrimesBigInteger.One);
       SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 

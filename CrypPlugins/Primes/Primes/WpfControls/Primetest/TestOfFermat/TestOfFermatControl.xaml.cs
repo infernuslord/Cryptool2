@@ -65,7 +65,7 @@ namespace Primes.WpfControls.Primetest.TestOfFermat
 
     }
 
-    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       if (ForceGetValue != null) ForceGetValue(new GmpBigIntegerParameterDelegate(Execute));
     }

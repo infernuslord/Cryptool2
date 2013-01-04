@@ -54,7 +54,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       ircSystematic.IntervalDoesntSizeNeedToBeGreateThanZero = true;
     }
 
-    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       if (ForceGetInteger != null) ForceGetInteger(new ExecuteIntegerDelegate(Execute));
     }

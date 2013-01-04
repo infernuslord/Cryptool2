@@ -27,10 +27,10 @@ using System.Diagnostics;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-    public class EulerPhi : BaseNTFunction
+    public class LCM : BaseNTFunction
     {
         object lockobj = new object();
-        public EulerPhi() : base() {}
+        public LCM() : base() { }
 
         #region Calculating
 
@@ -38,33 +38,23 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         {
             FireOnStart();
 
-            PrimesBigInteger from = m_From;
-
-            while (from.CompareTo(m_To) <= 0)
+            try
             {
-                if (from.IsPrime(20))
-                {
-                    FireOnMessage(this, from, from.Subtract(PrimesBigInteger.One).ToString("D"));
-                }
-                else
-                {
-                    PrimesBigInteger d = PrimesBigInteger.One;
-                    PrimesBigInteger counter = PrimesBigInteger.Zero;
-            
-                    while (d.CompareTo(from) < 0)
-                    {
-                        if (PrimesBigInteger.GCD(d, from).Equals(PrimesBigInteger.One))
-                        {
-                            counter = counter.Add(PrimesBigInteger.One);
-                            FireOnMessage(this, from, counter.ToString("D"));
-                        }
-                        d = d.Add(PrimesBigInteger.One);
-                    }
+                PrimesBigInteger modulus = m_SecondParameter;
 
-                    FireOnMessage(this, from, counter.ToString("D"));
-                }
+                PrimesBigInteger from = m_From;
 
-                from = from.Add(PrimesBigInteger.One);
+                while (from.CompareTo(m_To) <= 0)
+                {
+                    PrimesBigInteger result = PrimesBigInteger.GCD(from, modulus);
+                    //PrimesBigInteger result = (from.Multiply(modulus)).Divide(PrimesBigInteger.GCD(from, modulus));
+                    //FireOnMessage(this, from, result.ToString("D"));
+                    FireOnMessage(this, from, "123");
+                    from = from.Add(PrimesBigInteger.One);
+                }
+            }
+            catch (Exception ex)
+            {
             }
 
             FireOnStop();
@@ -74,7 +64,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         {
             get
             {
-                return m_ResourceManager.GetString(BaseNTFunction.eulerphi);
+                return m_ResourceManager.GetString(BaseNTFunction.lcm);
             }
         }
 

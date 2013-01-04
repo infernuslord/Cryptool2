@@ -28,7 +28,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
   public abstract class BaseNTFunction:INTFunction
   {
-    public BaseNTFunction(LogControl lc, TextBlock tbCalcInfo)
+    public BaseNTFunction(LogControl2 lc, TextBlock tbCalcInfo)
     {
       this.m_Log = lc;
       this.m_tbCalcInfo = tbCalcInfo;
@@ -39,8 +39,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     #endregion
     #region INTFunction Members
 
-    protected LogControl m_Log;
-    public Primes.WpfControls.Components.LogControl Log
+    protected LogControl2 m_Log;
+    public Primes.WpfControls.Components.LogControl2 Log
     {
       set { m_Log = value; }
     }

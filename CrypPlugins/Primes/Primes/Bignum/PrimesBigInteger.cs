@@ -1358,6 +1358,8 @@ namespace Primes.Bignum
 
             Debug.Assert(s >= 1);
 
+            Random rnd = new Random();
+
             do
             {
                 // TODO Make a method for random PrimesBigIntegers in range 0 < x < n)
@@ -1365,7 +1367,7 @@ namespace Primes.Bignum
                 PrimesBigInteger a;
                 do
                 {
-                    a = new PrimesBigInteger(n.BitLength, random);
+                    a = new PrimesBigInteger(n.BitLength, rnd);
                 }
                 while (a.CompareTo(One) <= 0 || a.CompareTo(nMinusOne) >= 0);
 

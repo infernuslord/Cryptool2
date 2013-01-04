@@ -298,7 +298,7 @@
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="28" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Label VerticalAlignment="Center" Grid.Column="0" Content="{x:Static lang:Distribution.numberline_from}"></Label>
@@ -307,13 +307,14 @@
               <Line X1="-0.4" Y1="40" X2="8" Y2="30" Stroke="Black" StrokeThickness="2"/>-->
         <comps:InputSingleControl 
           Grid.Column="1" 
-          x:Name="iscFrom" 
+          x:Name="iscFrom"
           InputRangeControlType="Horizontal" 
           ShowCalcInput="False"
           ShowButtons="False" 
           ShowInfoErrorText="False"
-          FreeTextboxWidth="100" FreeText="2" Margin="3"
+          FreeTextboxWidth="75" FreeText="2" Margin="3"
           Canvas.Left="0" Canvas.Top="0"
+          BorderThickness="3" BorderBrush="Blue"
           VerticalAlignment="Center"/>
 
         <Polygon Grid.Column="2" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" VerticalAlignment="Center" Width="0"/>
@@ -325,40 +326,48 @@
             <ColumnDefinition Width="33"/>
             <ColumnDefinition Width="33"/>
           </Grid.ColumnDefinitions>
-          <Button Grid.Column="0" Cursor="Hand" Template="{StaticResource leftscrollbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">
-            <Button.Resources>
+
+          <!--<Button Grid.Column="0" Cursor="Hand" Template="{StaticResource leftscrollbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">-->
+                    <Button Grid.Column="0" Cursor="Hand" Template="{StaticResource leftscrollbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">
+             <Button.Resources>
               <Style  TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="WhiteSmoke" />
               </Style>
             </Button.Resources>
           </Button>
-          <Button Grid.Column="1" Cursor="Hand" Template="{StaticResource leftscrollfastbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft_Fast" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">
-            <Button.Resources>
+
+          <!--<Button Grid.Column="1" Cursor="Hand" Template="{StaticResource leftscrollfastbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft_Fast" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleftfast}">-->
+                    <Button Grid.Column="1" Cursor="Hand" Template="{StaticResource leftscrollfastbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleftfast}">
+             <Button.Resources>
               <Style  TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="WhiteSmoke" />
               </Style>
             </Button.Resources>
           </Button>
+            
           <StackPanel Grid.Column="2">
             <TextBlock HorizontalAlignment="Center" Text="{x:Static lang:Distribution.numberline_pointsdisplayed}"></TextBlock>
             <TextBlock HorizontalAlignment="Center" Name="lblCountPoints" VerticalAlignment="Center">44</TextBlock>
-
           </StackPanel>
 
-          <Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
-            <Button.Resources>
+                    <!--<Button Cursor="Hand" Template="{StaticResource rightscrollfastbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight_Fast" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollrightfast}">-->
+                    <Button Cursor="Hand" Template="{StaticResource rightscrollfastbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollrightfast}">
+                            <Button.Resources>
               <Style  TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="WhiteSmoke" />
               </Style>
             </Button.Resources>
           </Button>
-          <Button Cursor="Hand" Template="{StaticResource rightscrollfastbutton}" Height="30" Width="30" Grid.Column="4" Name="btnScrollRight_Fast" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
-            <Button.Resources>
+
+                    <!--<Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="4" Name="btnScrollRight" MouseEnter="btnScroll_MouseEnter" MouseLeave="btnScrollRight_MouseLeave" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">-->
+                    <Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="4" Name="btnScrollRight" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
+                            <Button.Resources>
               <Style  TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="WhiteSmoke" />
               </Style>
             </Button.Resources>
           </Button>
+            
         </Grid>
         <Label Grid.Column="4" VerticalAlignment="Center" Content="{x:Static lang:Distribution.numberline_to}"></Label>
         <comps:InputSingleControl 
@@ -368,55 +377,52 @@
           ShowInfoErrorText="False"
           ShowButtons="False" 
           Grid.Column="5"
-            Margin="3"
-          FreeTextboxWidth="100" FreeText="46" HorizontalAlignment="Left"
+          Margin="3"
+          BorderThickness="3" BorderBrush="Violet"
+          FreeTextboxWidth="75" FreeText="46" HorizontalAlignment="Left"
           VerticalAlignment="Center"/>
-        <!--<Line X1="120" Y1="19" X2="120" Y2="40" Stroke="Black" StrokeThickness="2"/>
+
+        <Button Grid.Column="7" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
+                <!--<Line X1="120" Y1="19" X2="120" Y2="40" Stroke="Black" StrokeThickness="2"/>
               <Line X1="120" Y1="40" X2="112" Y2="30" Stroke="Black" StrokeThickness="2"/>
               <Line X1="120" Y1="40" X2="128" Y2="30" Stroke="Black" StrokeThickness="2"/>-->
-        <Polygon Grid.Column="6" VerticalAlignment="Center" Canvas.Top="0" Canvas.Left="0" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" HorizontalAlignment="Left" Width="0">
+        <!--<Polygon Grid.Column="6" VerticalAlignment="Center" Canvas.Top="0" Canvas.Left="0" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" HorizontalAlignment="Left" Width="0" />-->
 
-        </Polygon>
       </Grid>
     </Grid>
-    <Button Grid.Row="4" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
+    <!--<Button Grid.Row="4" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>-->
 
-    <Grid Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
-      <Grid.RowDefinitions>
-        <RowDefinition Height="10" />
-        <RowDefinition Height="30" />
-      </Grid.RowDefinitions>
-      <!--<Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
-      <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove">
-
-        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0">
-
-        </Polygon>
-        <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0">
-
-        </Polygon>
-        <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
-          <Polygon Canvas.Top="0" Canvas.Left="0"  Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5" DragDrop.DragEnter="pActualNumber_DragEnter" />
-          <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0"/>
+      <Grid Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Margin="0,10,0,25" MouseMove="ActuallNumberButtonArea_MouseMove">
           
-        </DockPanel>
-      </Canvas>
-      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent" >
-        <Rectangle Height="2" Fill="Black" Name="numberline" Canvas.Top="20">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="30" />
+          </Grid.RowDefinitions>
+          
+          <!--<Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
+          <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent">
 
-        </Rectangle>
-      </Canvas>
+            <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0" />
+            <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0" />
+          
+            <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
+              <Polygon Canvas.Top="0" Canvas.Left="0"  Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5" DragDrop.DragEnter="pActualNumber_DragEnter" />
+              <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0"/>
+            </DockPanel>
+              
+          </Canvas>
+        
+          <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent" >
+            <Rectangle Name="numberline" Width="100" Height="3" Fill="Gray" Canvas.Top="20" />
+          </Canvas>
 
-      <!--<Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
-      <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" >
-
-      </Canvas>
-
+          <!--<Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" MouseMove="ActuallNumberButtonArea_MouseMove" MouseLeave="ActuallNumberButtonArea_MouseLeave">-->
+          <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" />
 
     </Grid>
 
 
-    <ScrollViewer Grid.Row="6" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+    <ScrollViewer Grid.Row="6" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
       <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pnlContent" MinWidth="500" >
 
@@ -436,174 +442,170 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
-          <Grid Grid.Row="1" >
+
+          <StackPanel Grid.Row="0" Name="pnlCountPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
+            <DockPanel Margin="0,0,0,5">
+              <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Name="lblInfoCountPrimesInterval" Text="{x:Static lang:Distribution.numberline_headercoutprimes}"></TextBlock>
+              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100"/>
+            </DockPanel>
+            <DockPanel Margin="10,0,0,7">
+              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimespin}"></TextBlock>
+              <!--<TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap"></TextBlock>-->
+            </DockPanel>
+            <DockPanel Margin="10,0,0,0">
+              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesGauss" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimesgauss}"></TextBlock>
+              <!--<TextBlock HorizontalAlignment="Left" Name="lblCountPrimesGauss" TextWrapping="Wrap"></TextBlock>-->
+            </DockPanel>
+          </StackPanel>
+            
+          <Grid Grid.Row="1" Margin="0,0,0,7">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center"  />
+                <TextBlock FontWeight="Bold" Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center"/>
                 <TextBlock Name="lblActualNumber" Grid.Column="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" MaxWidth="100" VerticalAlignment="Center"/>
                 <TextBlock Name="lblActualNumberInfo" Grid.Column="2" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-              </Grid>
-          <DockPanel Grid.Row="3">
-            <TextBlock Margin="5" Text="{x:Static lang:Distribution.numberline_numberofprimes}"></TextBlock>
-            <TextBlock Margin="5" Name="lblInfoCountPrimes"></TextBlock>
-          </DockPanel>
-          <DockPanel Grid.Row="2" Name="pnlNextPrimes" Grid.ColumnSpan="3" Margin="0,0,0,20">
-            <TextBlock  Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,0,10,0" MaxWidth="150" VerticalAlignment="Center"/>
-            <TextBlock Name="lblPriorPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
-            <TextBlock  Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center"/>
-            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150"/>
-      </DockPanel>
-          <StackPanel Grid.Row="0" Name="pnlCountPrimes" Grid.ColumnSpan="3" Margin="0,0,0,10">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Name="lblInfoCountPrimesInterval" Text="{x:Static lang:Distribution.numberline_headercoutprimes}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100"/>
-            </DockPanel>
-            <DockPanel>
-              <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimespin}"></TextBlock>
-              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap"></TextBlock>
-            </DockPanel>
-            <DockPanel Margin="0,7,0,0">
-              <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimesgauss}"></TextBlock>
-              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesGauss" TextWrapping="Wrap"></TextBlock>
+          </Grid>
 
-            </DockPanel>
-          </StackPanel>
+          <DockPanel Grid.Row="2" Name="pnlNextPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
+            <TextBlock  Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+            <TextBlock Name="lblPriorPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
+            <TextBlock  Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150"/>
+          </DockPanel>
+
+          <DockPanel Grid.Row="3" Margin="0,0,0,7">
+            <TextBlock FontWeight="Bold" Margin="0,0,10,0" Text="{x:Static lang:Distribution.numberline_numberofprimes}" VerticalAlignment="Center"/>
+            <TextBlock FontWeight="Bold" FontSize="15" Name="lblInfoCountPrimes" VerticalAlignment="Center"/>
+          </DockPanel>
+
           <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,0,7">
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_factorization}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpFactorize" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcFactorizationInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}"></TextBlock>
+              <TextBlock Name="lblCalcFactorizationInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}" Width="150"></TextBlock>
               <TextBlock Name="lblCalcFactorization" Margin="0,0,0,0" TextWrapping="Wrap" ></TextBlock>
             </DockPanel>
-            <TextBlock HorizontalAlignment="Left" Name="lblFactors" TextWrapping="Wrap"></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Name="lblFactors" TextWrapping="Wrap" Margin="10,0,0,0" />
           </StackPanel>
-          <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+            
+          <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,7">
             <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}"></TextBlock>
+              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}"/>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGoldbach" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbachinfo}" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Name="lblGoldbachInfoCalc" Cursor="Hand" Foreground="Blue"></TextBlock>
+              <TextBlock TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Name="lblGoldbachInfoCalc" Cursor="Hand" Foreground="Blue" />
             </DockPanel>
             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Name="gbGoldbach">
               <Grid>
                 <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-
-                  <RowDefinition Height="100"/>
+                  <!--<RowDefinition Height="Auto"/>-->
+                  <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <TextBlock Name="lblCalcGoldbachInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}"></TextBlock>
-                <comps:LogControl Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Title=""/>
+                <!--<TextBlock Name="lblCalcGoldbachInfo" Margin="0,5,0,5" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}"></TextBlock>-->
+                <comps:LogControl2 Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
               </Grid>
             </GroupBox>
           </StackPanel>
+            
           <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,0,7" >
             <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}"></TextBlock>
+              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}"/>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpEulerPhi" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcEulerPhiInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue">
-                  
-                </TextBlock>
-
+              <TextBlock Name="lblCalcEulerPhiInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
             </DockPanel>
             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbEulerPhi">
               <Grid>
                 <Grid.RowDefinitions>
-
-                  <RowDefinition Height="100"/>
+                  <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <comps:LogControl Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Title=""/>
+                <comps:LogControl2 Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
               </Grid>
             </GroupBox>
           </StackPanel>
+            
           <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,7" >
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divcount}" ></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTau" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcTauInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue">
-                  
-                </TextBlock>
-
+              <TextBlock Name="lblCalcTauInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
             </DockPanel>
             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbTau">
               <Grid>
                 <Grid.RowDefinitions>
-
-                  <RowDefinition Height="100"/>
+                  <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <comps:LogControl Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Title=""/>
+                <comps:LogControl2 Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
               </Grid>
             </GroupBox>
           </StackPanel>
+            
           <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,7" >
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divsum}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpRho" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcRhoInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue">
-                  
-                </TextBlock>
-
+              <TextBlock Name="lblCalcRhoInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
             </DockPanel>
             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbRho">
               <Grid>
                 <Grid.RowDefinitions>
-
-                  <RowDefinition Height="100"/>
+                  <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
-                <comps:LogControl Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Title=""/>
+                <comps:LogControl2 Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
               </Grid>
             </GroupBox>
           </StackPanel>
+            
           <StackPanel Grid.Row="9" Grid.ColumnSpan="3" Margin="0,0,0,7" >
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphisum}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpDivSum" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcDividerSum" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue">
-                  
-                </TextBlock>
-
+              <TextBlock Name="lblCalcDividerSum" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
             </DockPanel>
             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbDivSum">
               <Grid>
                 <Grid.RowDefinitions>
-
-                  <RowDefinition Height="100"/>
+                  <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
-                <comps:LogControl Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Title=""/>
+                <comps:LogControl2 Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
               </Grid>
             </GroupBox>
           </StackPanel>
+            
           <StackPanel Name="pnlTwinPrimes" Grid.ColumnSpan="3" Grid.Row="10" Margin="0,0,0,7">
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Text="{x:Static lang:Distribution.numberline_twinprime}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTwinPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
             </DockPanel>
 
-            <DockPanel>
-              <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,0,7,0" Text="{x:Static lang:Distribution.numberline_priortwinprime}"></TextBlock>
-              <TextBlock HorizontalAlignment="Left" Name="lblPriorTwinPrime" TextWrapping="Wrap" ></TextBlock>
-              <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,7,0" Text="{x:Static lang:Distribution.numberline_nexttwinprime}"></TextBlock>
-              <TextBlock HorizontalAlignment="Left" Name="lblNextTwinPrime" TextWrapping="Wrap" ></TextBlock>
-            </DockPanel>
-            <TextBlock Name="lblTwinPrimes" Visibility="Collapsed" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Name="lblTwinPrimes" Visibility="Collapsed" TextWrapping="Wrap" Margin="10,0,0,0" />
+            <TextBlock Name="lblTwinPrimes2" TextWrapping="Wrap" Margin="10,0,0,0" />
+            <!--<DockPanel>-->
+                <!--<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="0,0,7,0" Text="{x:Static lang:Distribution.numberline_priortwinprime}"></TextBlock>-->
+                <!--<TextBlock HorizontalAlignment="Left" Name="lblPriorTwinPrime" TextWrapping="Wrap" ></TextBlock>-->
+                <!--<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0,7,0" Text="{x:Static lang:Distribution.numberline_nexttwinprime}"></TextBlock>-->
+                <!--<TextBlock HorizontalAlignment="Left" Name="lblNextTwinPrime" TextWrapping="Wrap" ></TextBlock>-->
+            <!--</DockPanel>-->
           </StackPanel>
+            
           <StackPanel Name="pnlQuadrupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="11" Margin="0,0,0,10">
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_quadtuplet}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpQuadrupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
             </DockPanel>
-            <TextBlock Name="lblQuadrupletPrimes" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Name="lblQuadrupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
           </StackPanel>
+            
           <StackPanel Name="pnlSixTupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="12">
             <DockPanel>
               <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_sixtuplet}"></TextBlock>
               <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpSixTupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown"  Margin="0,0,4,0"/>
             </DockPanel>
-            <TextBlock Name="lblSixTupletPrimes" TextWrapping="Wrap"></TextBlock>
+            <TextBlock Name="lblSixTupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
           </StackPanel>
+            
         </Grid>
-
 
       </StackPanel>
     </ScrollViewer>

@@ -30,8 +30,10 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
   public class EulerPhi : BaseNTFunction
   {
     object lockobj = new object();
-    public EulerPhi(LogControl lc, TextBlock tb) : base(lc, tb) { }
+    public EulerPhi(LogControl2 lc, TextBlock tb) : base(lc, tb) { }
+
     #region Calculating
+
     protected override void DoExecute()
     {
       FireOnStart();
@@ -47,21 +49,23 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       }
       else
       {
+        SetCalcInfo( Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_calculating );
+
         PrimesBigInteger d = PrimesBigInteger.One;
         PrimesBigInteger counter = PrimesBigInteger.Zero;
         while (d.CompareTo(m_Value) < 0)
         {
           if (PrimesBigInteger.GCD(d, m_Value).Equals(PrimesBigInteger.One))
           {
-            m_Log.Info(d.ToString());
+            m_Log.Info(d.ToString()+"   ");
             counter = counter.Add(PrimesBigInteger.One);
-            SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
-
+            //SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
           }
-          d = d.Add(PrimesBigInteger.One);
 
+          d = d.Add(PrimesBigInteger.One);
         }
 
+        SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
 
       }
       FireOnStop();

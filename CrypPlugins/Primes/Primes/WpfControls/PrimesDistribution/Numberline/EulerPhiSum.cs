@@ -27,7 +27,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
   public class EulerPhiSum:BaseNTFunction
   {
-    public EulerPhiSum(LogControl lc, TextBlock tb)
+    public EulerPhiSum(LogControl2 lc, TextBlock tb)
       : base(lc, tb)
     {
       m_Log.OverrideText = true;

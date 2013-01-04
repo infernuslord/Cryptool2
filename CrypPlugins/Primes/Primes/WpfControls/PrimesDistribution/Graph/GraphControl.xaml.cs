@@ -118,10 +118,9 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
         }
       }
 
-
     }
 
-    void ircCountPrimes_KeyDown(PrimesBigInteger from, PrimesBigInteger to)
+    void ircCountPrimes_KeyDown(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       if (to.CompareTo(PrimesBigInteger.ValueOf(10000)) > 0)
       {
@@ -135,15 +134,12 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
       }
     }
 
-
-
-
     void ircCountPrimes_Cancel()
     {
       Cancel();
     }
 
-    void ircCountPrimes_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void ircCountPrimes_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       ExecuteGraph(from, to);
     }

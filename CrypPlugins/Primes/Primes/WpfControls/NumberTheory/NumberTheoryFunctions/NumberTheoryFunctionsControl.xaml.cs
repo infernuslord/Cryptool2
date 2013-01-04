@@ -27,6 +27,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 using System.ComponentModel;
 using System.Data;
 using Primes.Library;
@@ -36,21 +37,24 @@ using System.Collections.ObjectModel;
 using Primes.WpfControls.Components;
 using System.IO;
 using Primes.Bignum;
+using Primes.WpfControls.Validation.Validator;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
   /// <summary>
   /// Interaction logic for NumberTheoryFunctionsControl.xaml
   /// </summary>
+
   public partial class NumberTheoryFunctionsControl : System.Windows.Controls.UserControl, IPrimeMethodDivision
   {
     private NTFunctions m_SourceFunctions;
     private NTFunctions m_DestinationFunctions;
-    private System.Windows.Forms.DataGridView m_DgvFunctions;
+    private DataGridView m_DgvFunctions;
     private DataTable m_DataTable;
     private IDictionary<INTFunction, DataColumn> m_ColumnsDict;
     private DataColumn m_DcN;
     bool initialized = false;
+
     public NumberTheoryFunctionsControl()
     {
       InitializeComponent();
@@ -61,9 +65,9 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       m_DcN = new DataColumn("n");
 
       m_DataTable.Columns.Add(m_DcN);
-      m_DgvFunctions = new System.Windows.Forms.DataGridView();
+      m_DgvFunctions = new DataGridView();
       m_DgvFunctions.AllowUserToOrderColumns = true;
-      m_DgvFunctions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+      m_DgvFunctions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       m_DgvFunctions.RowHeadersVisible = false;
       m_DgvFunctions.DataSource = m_DataTable;
       m_DgvFunctions.AllowUserToResizeColumns = true;
@@ -71,16 +75,17 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       AddGridMenu();
       irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
       irc.Cancel += new VoidDelegate(irc_Cancel);
+      irc.AddValueValidator(InputRangeControl.SecondParameter, new BigIntegerMinValueValidator(null, PrimesBigInteger.Zero));
 
       SourceFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
       DestinationFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
-
     }
 
     #region Menu
+
     private void AddGridMenu()
     {
-      System.Windows.Forms.ContextMenuStrip menu = new System.Windows.Forms.ContextMenuStrip();
+      ContextMenuStrip menu = new ContextMenuStrip();
       m_DgvFunctions.ContextMenuStrip = menu;
       menu.Items.Add(Primes.Resources.lang.Numbertheory.Numbertheory.copy_selectedrow, null, new EventHandler(MenuItemClick_CopySelectionToClipboard));
       menu.Items.Add(Primes.Resources.lang.Numbertheory.Numbertheory.copy_table, null, new EventHandler(MenuItemClick_CopyAllToClipboard));
@@ -89,12 +94,12 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
     private void MenuItemClick_CopySelectionToClipboard(object sender, EventArgs e)
     {
-      System.Windows.Forms.DataGridViewRow row = m_DgvFunctions.CurrentRow;
+      DataGridViewRow row = m_DgvFunctions.CurrentRow;
       if (row != null)
       {
         string header = GetHeader('\t');
         string[] content = new string[m_DgvFunctions.Columns.Count];
-        foreach (System.Windows.Forms.DataGridViewColumn c in m_DgvFunctions.Columns)
+        foreach (DataGridViewColumn c in m_DgvFunctions.Columns)
         {
           content[c.DisplayIndex] = row.Cells[c.Index].FormattedValue.ToString();
         }
@@ -107,6 +112,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         System.Windows.Clipboard.SetText(header+"\r\n"+_content);
       }
     }
+
     private void MenuItemClick_CopyAllToClipboard(object sender, EventArgs e)
     {
       if (m_DgvFunctions.Rows.Count > 1)
@@ -116,13 +122,14 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         System.Windows.Clipboard.SetText(header + "\r\n" + content);
       }
     }
+
     private void MenuItemClick_CopyAllToFile(object sender, EventArgs e)
     {
       if (m_DgvFunctions.Rows.Count > 1)
       {
-        System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+        SaveFileDialog sfd = new SaveFileDialog();
         sfd.Filter = "CSV-Datei|*.csv";
-        if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+        if (sfd.ShowDialog() == DialogResult.OK)
         {
           string header = GetHeader(';');
           string content = GetAllGridContent(';');
@@ -132,24 +139,26 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       }
     }
 
-    private string GetHeader(char seperator)
+    private string GetHeader(char separator)
     {
       string result = string.Empty;
       string[] header = new string[m_DgvFunctions.Columns.Count];
-      foreach (System.Windows.Forms.DataGridViewColumn c in m_DgvFunctions.Columns)
-      {
 
+      foreach (DataGridViewColumn c in m_DgvFunctions.Columns)
+      {
         header[c.DisplayIndex] = c.HeaderText;
       }
+
       foreach (string h in header)
       {
-        if (!string.IsNullOrEmpty(result)) result += seperator;
+        if (!string.IsNullOrEmpty(result)) result += separator;
         result += h;
       }
+
       return result;
     }
 
-    private string GetAllGridContent(char seperator)
+    private string GetAllGridContent(char separator)
     {
       string result = string.Empty;
       if (m_DgvFunctions.Rows.Count > 1)
@@ -157,33 +166,32 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         string header = GetHeader('\t');
 
         string[][] content = new string[m_DgvFunctions.Rows.Count][];
-        foreach (System.Windows.Forms.DataGridViewRow row in m_DgvFunctions.Rows)
+        foreach (DataGridViewRow row in m_DgvFunctions.Rows)
         {
           content[row.Index] = new string[m_DgvFunctions.Columns.Count];
-          foreach (System.Windows.Forms.DataGridViewColumn c in m_DgvFunctions.Columns)
+          foreach (DataGridViewColumn c in m_DgvFunctions.Columns)
           {
-
             content[row.Index][c.DisplayIndex] = row.Cells[c.Index].FormattedValue.ToString();
-
           }
         }
+
         foreach (string[] _s in content)
         {
           if (!string.IsNullOrEmpty(result)) result += "\r\n";
           string innercontent = string.Empty;
           foreach (string _s2 in _s)
           {
-            if (!string.IsNullOrEmpty(innercontent)) innercontent += seperator;
+            if (!string.IsNullOrEmpty(innercontent)) innercontent += separator;
             innercontent += _s2;
           }
           result += innercontent;
-
         }
 
-
       }
+
       return result;
     }
+
     #endregion
 
     private void InitFunctions()
@@ -226,11 +234,27 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       f7.OnStop += new VoidDelegate(f1_OnStop);
       m_SourceFunctions.Add(f7);
 
+      INTFunction f8 = new GCD();
+      f8.Message += new NumberTheoryMessageDelegate(f1_Message);
+      f8.OnStop += new VoidDelegate(f1_OnStop);
+      m_SourceFunctions.Add(f8);
+
+      INTFunction f9 = new LCM();
+      f9.Message += new NumberTheoryMessageDelegate(f1_Message);
+      f9.OnStop += new VoidDelegate(f1_OnStop);
+      m_SourceFunctions.Add(f9);
+
+      INTFunction f10 = new ModInv();
+      f10.Message += new NumberTheoryMessageDelegate(f1_Message);
+      f10.OnStop += new VoidDelegate(f1_OnStop);
+      m_SourceFunctions.Add(f10);
+
       lbDestination.DataContext = m_DestinationFunctions;
       lbSource.DataContext = m_SourceFunctions;
-
     }
+
     object stopobject = new object();
+
     void f1_OnStop()
     {
       lock (stopobject)
@@ -257,13 +281,13 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       irc.UnLockControls();
       gridChooseFunctions.IsEnabled = true;
     }
+
     private object locksetdata = new object();
 
     void f1_Message(INTFunction function, PrimesBigInteger value, string message)
     {
       lock (locksetdata)
       {
-
         if (m_ColumnsDict.ContainsKey(function))
         {
           DataRow[] rows = m_DataTable.Select("n = '" + value.ToString() + "'");
@@ -277,11 +301,10 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
           }
         }
       }
-
     }
 
-
     private delegate void SetDataDelegate(int column, int row, string data);
+
     private void SetData(int column, int row, string data)
     {
       if (m_DgvFunctions.InvokeRequired)
@@ -295,6 +318,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
           if (row >= 0)
           {
             DataRow dr = null;
+
             if (row >= m_DataTable.Rows.Count)
             {
               dr = m_DataTable.NewRow();
@@ -304,6 +328,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
             {
               dr = m_DataTable.Rows[row];
             }
+
             if (dr != null)
             {
               dr[column] = data;
@@ -313,40 +338,39 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       }
     }
 
-    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to)
+    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
     {
       m_DataTable.Clear();
 
       PrimesBigInteger _from = from;
       int c = 0;
       int column = m_DataTable.Columns.IndexOf(m_DcN);
+
       while (_from.CompareTo(to) <= 0)
       {
-        int i = _from.IntValue;
-        SetData(column, c, i.ToString());
+        SetData(column, c, _from.IntValue.ToString());
         _from = _from.Add(PrimesBigInteger.One);
         c++;
       }
+
       if (m_DestinationFunctions.Count > 0)
       {
         gridChooseFunctions.IsEnabled = false;
         foreach (INTFunction f in m_DestinationFunctions)
         {
-          f.Start(from, to);
+          f.Start(from, to, second);
         }
       }
       else
       {
         irc.UnLockControls();
       }
-
     }
 
     #region IPrimeUserControl Members
 
     public void Dispose()
     {
-
     }
 
     public void SetTab(int i)
@@ -359,6 +383,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     {
       get { return CollectionViewSource.GetDefaultView(m_SourceFunctions); }
     }
+
     ICollectionView DestinationFunctionView
     {
       get { return CollectionViewSource.GetDefaultView(m_DestinationFunctions); }
@@ -379,6 +404,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     private void AddFunction(INTFunction function)
     {
       DataColumn dc = new DataColumn(function.Description);
+        
       m_ColumnsDict.Add(function, dc);
       m_DataTable.Clear();
       m_DataTable.Columns.Add(dc);
@@ -388,13 +414,12 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     {
       if (m_ColumnsDict.ContainsKey(function))
       {
-        DataColumn dc = m_ColumnsDict[function];
-        m_ColumnsDict.Remove(function);
         m_DataTable.Clear();
-
-        m_DataTable.Columns.Remove(dc);
+        m_DataTable.Columns.Remove( m_ColumnsDict[function] );
+        m_ColumnsDict.Remove(function);
       }
     }
+
     private void btnToDontExec_Click(object sender, RoutedEventArgs e)
     {
       ObservableCollection<object> selectd = lbDestination.SelectedItems as ObservableCollection<object>;
@@ -409,7 +434,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
     private void lbSource_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      IList selected = (sender as ListBox).SelectedItems;
+      IList selected = (sender as System.Windows.Controls.ListBox).SelectedItems;
       if (selected != null && selected.Count > 0)
       {
         if (sender == lbSource)
@@ -422,17 +447,18 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
           lbDestination.AllowDrop = false;
           lbSource.AllowDrop = true;
         }
-        DragDrop.DoDragDrop(sender as ListBox, selected, System.Windows.DragDropEffects.Move);
+        DragDrop.DoDragDrop(sender as System.Windows.Controls.ListBox, selected, System.Windows.DragDropEffects.Move);
       }
-
     }
 
     private void lbDestination_Drop(object sender, System.Windows.DragEventArgs e)
     {
-      
+        IList selected = (sender as System.Windows.Controls.ListBox).SelectedItems;
+
       ObservableCollection<object> dropped;
       NTFunctions dest = null;
       NTFunctions source = null;
+
       if (sender == lbDestination)
       {
         source = m_SourceFunctions;
@@ -443,19 +469,21 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         dest = m_SourceFunctions;
         source = m_DestinationFunctions;
       }
+
       try
       {
-        dropped = e.Data.GetData(typeof(ObservableCollection<object>)) as ObservableCollection<object>;
+        dropped = e.Data.GetData("System.Windows.Controls.SelectedItemCollection") as ObservableCollection<object>;
         object[] objs = dropped.ToArray<object>();
 
         foreach (object o in objs)
         {
-          
           if (o.GetType().GetInterface(typeof(INTFunction).ToString()) != null)
           {
             source.Remove(o as INTFunction);
           }
+
           dest.Add(o as INTFunction);
+
           if (sender == lbDestination)
           {
             AddFunction(o as INTFunction);
@@ -469,11 +497,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       catch { }
     }
 
-
-
-
     #region IPrimeUserControl Members
-
 
     public void Init()
     {
