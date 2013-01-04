@@ -45,6 +45,8 @@ namespace Cryptool.Plugins.StegoPermutation
             }
             set
             {
+                if (value == null) return;
+
                 this.number = -1;
                 this.list.Clear();
                 foreach (string s in value)
