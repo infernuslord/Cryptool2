@@ -26,6 +26,15 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <LinearGradientBrush x:Key="Background4" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#e5e5e5" Offset="0.0"/>
+                    <GradientStop Color="#88e5e5e5" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
         <LinearGradientBrush x:Key="BackgroundIsSelected" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
@@ -217,6 +226,15 @@
                     <!--<Setter Property="ItemTemplate" Value="{StaticResource ResourceKey=ItemTemplate}"></Setter>-->
                 </Style>
 
+                <Style x:Key="ItemContainerStyle" TargetType="TreeViewItem">
+                    <Setter Property="Background" Value="Khaki" />
+                    <Setter Property="Foreground" Value="DarkSlateGray" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="FontStyle" Value="Italic" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="BorderBrush" Value="DarkGray" />
+                </Style>
+
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -266,8 +284,10 @@
                                             FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz"></TextBlock>
 
                     <TextBlock Grid.Row="2" HorizontalAlignment="Left" 
-                                        Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="0,20,0,0" FontWeight="ExtraLight" FontSize="14"
-                                        Text="{Binding ElementName=VideoListView, Path=SelectedItem.Description}" LineHeight="20" LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                               Foreground="#333" TextAlignment="Justify" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="0,20,0,0" FontWeight="ExtraLight" FontSize="14"
+                               Text="{Binding ElementName=VideoListView, Path=SelectedItem.Description}" LineHeight="20" 
+                               LineStackingStrategy="BlockLineHeight" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Description}"></TextBlock>
+                    
                     <Button Grid.Row="1" Margin="0,5,0,5" Click="Button_Click">
                         <Image Source="/CrypTutorials;component/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="30"></Image>
                     </Button>
@@ -305,7 +325,7 @@
                               SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
 
             <Grid Grid.Row="1" Background="#bbffffff">
-                <Border Margin="10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Border Margin="0,10,0,10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <StackPanel >
                         <TextBlock  Text="Kategorien" FontSize="15" Foreground="#888"  Margin="2" TextAlignment="Center"
                         FontFamily="Tahoma" Grid.ColumnSpan="2">
@@ -313,10 +333,105 @@
                                 <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                             </TextBlock.Effect>
                         </TextBlock>
-                        <TreeView Name="viewsTreeView" ItemsSource="{Binding Path=Categories}">
+                        
+                        <TreeView Name="viewsTreeView"  ItemsSource="{Binding Path=Categories}" BorderBrush="Transparent" Background="Transparent" Padding="0" Margin="0">
                             <TreeView.Resources>
+
+  
+
+                                <Style TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="Focusable" Value="False"/>
+                                    <Setter Property="Width" Value="16"/>
+                                    <Setter Property="Height" Value="16"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <Border Name="Root" Background="Transparent">
+                                                    <Image x:Name="img" Source="/CrypTutorials;component/open.png" 
+                                                           HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="12"></Image>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="img" Property="Source" Value="/CrypTutorials;component/close.png"></Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+
+                                <Style TargetType="TreeViewItem">
+                                    <Setter Property="Padding" Value="3" />
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Top" />
+                                    <Setter Property="Background" Value="{StaticResource ResourceKey=Background4}" />
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="BorderBrush" Value="#ccc"></Setter>
+                                    <Setter Property="Cursor" Value="Arrow" />
+                                    <Setter Property="IsTabStop" Value="False" />
+                                    <Setter Property="Margin" Value="0,3,0,3" />
+                                    <Setter Property="FontSize" Value="15"></Setter>
+                                    <Setter Property="Foreground" Value="#333"></Setter>
+                                    <Setter Property="FontFamily" Value="Corbel"></Setter>
+                                    <Setter Property="IsExpanded" Value="True"></Setter>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="20"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border Grid.ColumnSpan="2" Grid.Row="0" x:Name="Bd" CornerRadius="3" SnapsToDevicePixels="true" 
+                                                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                            BorderThickness="{TemplateBinding BorderThickness}"></Border>
+                                                    <ToggleButton x:Name="Expander" ClickMode="Press" Margin="2" 
+                                                                  IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    <Border Grid.Column="1" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter x:Name="PART_Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" ContentSource="Header"/>
+                                                    </Border>
+                                                    <ItemsPresenter x:Name="ItemsHost" HorizontalAlignment="Stretch" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsExpanded" Value="false">
+                                                        <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                                                    </Trigger>
+                                                    <Trigger Property="HasItems" Value="false">
+                                                        <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter Property="Background" TargetName="Bd" Value="#333"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsSelected" Value="true"/>
+                                                            <Condition Property="IsSelectionActive" Value="false"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Background" TargetName="Bd" Value="#555"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsEnabled" Value="false">
+                                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
                                 <HierarchicalDataTemplate DataType="{x:Type tut:Category}" ItemsSource="{Binding Path=Children}">
-                                    <TreeViewItem Header="{Binding Path=Name}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <!--<CheckBox Margin="2" Name="checkBox1"/>-->
+                                        <Border Padding="2">
+                                            <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                        </Border>
+                                    </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
