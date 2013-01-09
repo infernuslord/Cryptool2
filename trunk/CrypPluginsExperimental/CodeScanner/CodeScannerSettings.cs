@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.CodeScanner
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("FrameRate", "This is a parameter tooltip", "DeviceSettings" , 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
+        [TaskPane("FrameRate", "FrameRateToolTip", "DeviceSettings" , 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
         public int FrameRate
         {
             get
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.CodeScanner
             }
         }
 
-        [TaskPane("SendPicture", "This is a parameter tooltip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1000, 10000)]
+        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1000, 10000)]
         public int SendPicture
         {
             get
