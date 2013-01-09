@@ -29,7 +29,7 @@ using System.Threading;
 namespace Cryptool.Plugins.CodeScanner
 {
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "University of Kassel", "")]
-    [PluginInfo("CodeScanner", "Caputre Image from Webcam", "CodeScanner/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("CodeScanner.Properties.Resources", "PluginCaption", "PluginTooltip", "CodeScanner/userdoc.xml", new[] { "CodeScanner/Images/webcam.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class CodeScanner : ICrypComponent
     {
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.CodeScanner
 
 
 
-        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
+        [PropertyInfo(Direction.OutputData, "PictureOutPut", "PictureOutPutToolTip")]
         public byte[] PictureOutPut
         {
             get;
