@@ -39,8 +39,7 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
         public override DimCodeDecoderItem Decode(byte[] input)
         {
             var image = ByteArrayToImage(input);
-
-            #region decode barcode
+           
             var barcodeReader = new BarcodeReader
             {
                 AutoRotate = true,
@@ -49,9 +48,8 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
                 TryHarder = true 
             };
 
-            var result = barcodeReader.Decode(image);
-            #endregion
-
+            var result = barcodeReader.Decode(image);  // decode barcode
+            
             if (result != null)
             {
                 image = DrawRectangleZXing(image, result);
