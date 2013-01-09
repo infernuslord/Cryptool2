@@ -28,8 +28,12 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
     /// </summary>
     class DimCodeDecoder
     {
+        private ImageConverter imageConverter= new ImageConverter();
+
         protected readonly VisualDecoder Caller;
         protected Pen MarkingPen;
+       
+
         protected DimCodeDecoder(VisualDecoder caller)
         {
             this.Caller = caller;
@@ -52,8 +56,7 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
 
         public Bitmap ByteArrayToImage(byte[] byteArrayIn)
         {
-            var ic = new ImageConverter();
-            var img = (Image)ic.ConvertFrom(byteArrayIn);
+            var img = (Image)imageConverter.ConvertFrom(byteArrayIn);
             return new Bitmap(img);
         }
 
