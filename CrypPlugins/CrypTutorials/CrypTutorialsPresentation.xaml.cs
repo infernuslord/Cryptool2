@@ -26,6 +26,19 @@ namespace Cryptool.CrypTutorials
         private VideoInfo playingItem = null;
         private ListCollectionView _videosView;
         private string _filterString = "";
+
+        private Category selectedCategory;
+        public Category SelectedCategory
+        {
+            get { return selectedCategory; }
+            set
+            {
+                selectedCategory = value;
+                _videosView.Refresh();
+                OnPropertyChanged("SelectedCategory");
+            }
+        }
+
         public VideoInfo PlayingItem
         {
             get { return playingItem; }
@@ -37,7 +50,8 @@ namespace Cryptool.CrypTutorials
                     Player.Visibility = Visibility.Collapsed;
                     Player.Close();
                 }
-                else {
+                else
+                {
                     Player.Visibility = Visibility.Visible;
                     Player.Url = playingItem.Url;
                     Player.PlayOrPause();
@@ -74,19 +88,71 @@ namespace Cryptool.CrypTutorials
             _videosView.Filter = videoFilter;
         }
 
+
+        private Dictionary<int, Category> catMap = new Dictionary<int,Category>();
+
+
+        void makeHashMap(List<Category> cats)
+        {
+            if (cats.Count == 0)
+                return;
+
+            foreach (var cat in cats)
+            {
+                catMap.Add(cat.Id, cat);
+                makeHashMap(cat.Children);
+            }
+        }
+
         void _tutorialVideosManager_OnCategoriesFetched(object sender, CategoriesFetchedEventArgs e)
         {
             _categories.Clear();
+            _categories.Add(new Category() { Id = int.MaxValue, Name = "All"});
+            _categories.Add(new Category() { Id = int.MinValue, Name = "Misc" });
             foreach (var cat in e.Categories)
             {
                 _categories.Add(cat);
+            }
+            makeHashMap(new List<Category>(_categories));
+        }
+
+
+        void findAllVideos(List<Category> cats, List<Category> allCats)
+        {
+            if (cats.Count == 0)
+                return;
+
+            foreach(var cat in cats)
+            {
+                allCats.AddRange(cats);
+                findAllVideos(cat.Children, allCats);
             }
         }
 
         private bool videoFilter(object item)
         {
-            VideoInfo customer = item as VideoInfo;
-            return customer.Title.Contains(_filterString);
+            var videoinfo = item as VideoInfo;
+            if (_filterString != string.Empty)
+            {
+                return videoinfo.Title.Contains(_filterString);
+            }
+
+            if (SelectedCategory != null)
+            {
+                if (SelectedCategory.Id == int.MaxValue)
+                {
+                    return true;
+                }
+            }
+
+            if (SelectedCategory != null)
+            {
+                var list = new List<Category>();
+                list.Add(selectedCategory);
+                findAllVideos(SelectedCategory.Children, list);
+                return list.Contains(catMap[videoinfo.Category]);
+            }
+            return true;
         }
 
         internal class VideoSorter : IComparer
@@ -120,6 +186,16 @@ namespace Cryptool.CrypTutorials
             foreach (var videoInfo in videosFetchedEventArgs.VideoInfos)
             {
                 _videos.Add(videoInfo);
+
+                Category cat;
+                if (catMap.TryGetValue(videoInfo.Category, out cat))
+                    cat.Count++;
+                else {
+                    videoInfo.Category = int.MinValue;
+                    catMap[int.MinValue].Count++;
+                }
+ 
+                catMap[int.MaxValue].Count++;
             }
         }
 
@@ -146,14 +222,32 @@ namespace Cryptool.CrypTutorials
             PlayingItem = null;
         }
 
+
+        private Category searchCat = new Category() { Name = "Search" };
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var text = (sender as TextBox).Text;
             if (_videosView != null) 
             {
-                FilterString = (sender as TextBox).Text;
+                FilterString = text;
+                if (text == string.Empty)
+                {
+                    SelectedCategory = viewsTreeView.SelectedItem as Category;
+                    return;
+                }
+    
                 _videosView.Refresh();
             }
 
+        }
+
+        private void viewsTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var cat = e.NewValue as Category;
+            if(cat == null)
+                return;
+
+            SelectedCategory = cat;
         }
     }
 
@@ -187,7 +281,7 @@ namespace Cryptool.CrypTutorials
         public string Description { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
-        public string Category { get; set; }
+        public int Category { get; set; }
         public DateTime Timestamp { get; set; }
 
         protected void OnPropertyChanged(string name)
@@ -205,12 +299,48 @@ namespace Cryptool.CrypTutorials
         }
     }
 
+    public class ChildrenCountEventArgs : EventArgs
+    {
+        public int count { get; set; } 
+    }
+
     public class Category : INotifyPropertyChanged
     {
+        public Category Parent { get; set; }
+        public event EventHandler<ChildrenCountEventArgs> ChildrenCountChanged;
         public event PropertyChangedEventHandler PropertyChanged;
         public int Id { get; set; }
         public string Name { get; set; }
-        public IList<Category> Children { get; set; }
+        private List<Category> children;
+        public List<Category> Children 
+        {
+            get { return children; }
+            set 
+            {
+                children = value;
+            } 
+        }
+
+
+        private int count = 0;
+        private void incrementCount(Category parent)
+        {
+            if (Parent == null)
+                return;
+
+            parent.Count++;
+        }
+
+        public int Count
+        {
+            get { return count; }
+            set
+            {
+                count = value;
+                incrementCount(Parent);
+                OnPropertyChanged("Count");
+            }
+        }
 
         public Category()
         {

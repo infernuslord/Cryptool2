@@ -111,6 +111,18 @@ namespace Cryptool.CrypTutorials
             return _catInfos;
         }
 
+        private void evalParents(List<Category> cat, Category parent)
+        {
+            if (cat.Count == 0)
+                return;
+
+            foreach (var element in cat)
+            {
+                element.Parent = parent;
+                evalParents(element.Children, element);
+            }
+        }
+
         /// <summary>
         /// Retrieve Video Informations from Server asynchronously
         /// Fires OnVideosFetched in case of success
@@ -134,6 +146,11 @@ namespace Cryptool.CrypTutorials
                          Name = name.Value,
                          Children = parseSubCat(subcat.ToString()),
                      }).ToList();
+
+                foreach (var element in _catInfos)
+                {
+                    evalParents(element.Children, element);
+                }
 
                 if (OnCategoriesFetched != null)
                 {
@@ -161,7 +178,7 @@ namespace Cryptool.CrypTutorials
                          Icon = icon.Value,
                          Url = url.Value,
                          Timestamp = DateTimeFromUnixTimestampSeconds(timestamp.Value),
-                         Category = cat.Value
+                         Category = int.Parse(cat.Value)
                      }).ToList();
 
                 _videoInfos = links;
