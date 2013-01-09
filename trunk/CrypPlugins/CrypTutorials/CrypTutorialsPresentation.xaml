@@ -320,12 +320,26 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-
-            <ListView Grid.Row="1" x:Name="VideoListView" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
-                              SelectionMode="Single" Grid.Column="3" SelectionChanged="SelectionChanged"></ListView>
+            <Grid Grid.Row="1" Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Background="#77ffffff" BorderBrush="#ccc" BorderThickness="0,0,0,0.5" Padding="10">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Category: " FontFamily="Corbel" FontSize="18" Foreground="#666" Margin="0,0,5,0"></TextBlock>
+                        <TextBlock Text="{Binding Path=SelectedCategory.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                   FontFamily="Corbel" FontSize="20" Foreground="#666" FontWeight="ExtraBold"></TextBlock>
+                    </StackPanel>
+                </Border>
+                
+                <ListView  x:Name="VideoListView" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Videos}"
+                              SelectionMode="Single"  SelectionChanged="SelectionChanged"></ListView>
+            </Grid>
+            
 
             <Grid Grid.Row="1" Background="#bbffffff">
-                <Border Margin="0,10,0,10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                <Border Margin="5,10,5,10" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <StackPanel >
                         <TextBlock  Text="Kategorien" FontSize="15" Foreground="#888"  Margin="2" TextAlignment="Center"
                         FontFamily="Tahoma" Grid.ColumnSpan="2">
@@ -333,12 +347,10 @@
                                 <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                             </TextBlock.Effect>
                         </TextBlock>
-                        
-                        <TreeView Name="viewsTreeView"  ItemsSource="{Binding Path=Categories}" BorderBrush="Transparent" Background="Transparent" Padding="0" Margin="0">
+
+                        <TreeView Name="viewsTreeView" ItemsSource="{Binding Path=Categories}" SelectedItemChanged="viewsTreeView_SelectedItemChanged"
+                                  BorderBrush="Transparent" Background="Transparent" Padding="0" Margin="0">
                             <TreeView.Resources>
-
-  
-
                                 <Style TargetType="{x:Type ToggleButton}">
                                     <Setter Property="Focusable" Value="False"/>
                                     <Setter Property="Width" Value="16"/>
@@ -382,14 +394,24 @@
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="20"/>
                                                         <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="auto"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
-                                                    <Border Grid.ColumnSpan="2" Grid.Row="0" x:Name="Bd" CornerRadius="3" SnapsToDevicePixels="true" 
+                                                    <Border Grid.ColumnSpan="3" Grid.Row="0" x:Name="Bd" CornerRadius="3" SnapsToDevicePixels="true" 
                                                             Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                                             BorderThickness="{TemplateBinding BorderThickness}"></Border>
+                                                    <Border Grid.Column="2" Background="#aabbbbbb" CornerRadius="5" BorderBrush="#555" BorderThickness="0.5"
+                                                            Padding="5,0,5,0" Margin="0,0,3,0" VerticalAlignment="Center">
+                                                        <TextBlock FontFamily="Corbel" FontSize="16" Text="{Binding Path=Count}" 
+                                                                   VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="WhiteSmoke">
+                                                            <TextBlock.Effect>
+                                                                <DropShadowEffect BlurRadius="2" ShadowDepth="0"></DropShadowEffect>
+                                                            </TextBlock.Effect>
+                                                        </TextBlock>
+                                                    </Border>
                                                     <ToggleButton x:Name="Expander" ClickMode="Press" Margin="2" 
                                                                   IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
                                                     <Border Grid.Column="1" Padding="{TemplateBinding Padding}">
@@ -435,6 +457,8 @@
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
+
+                        
                     </StackPanel>
                 </Border>
             </Grid>
