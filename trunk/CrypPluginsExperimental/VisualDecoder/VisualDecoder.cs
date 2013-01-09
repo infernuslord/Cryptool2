@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
@@ -49,7 +50,7 @@ namespace Cryptool.Plugins.VisualDecoder
 
         public VisualDecoder()
         {
-            threadStart = ProcessImage;
+            threadStart = ProcessInput;
 
             //init chain
             codeTypeHandler.Add(VisualDecoderSettings.DimCodeType.EAN8, new ZXingDecoder(this, BarcodeFormat.EAN_8));
@@ -161,27 +162,23 @@ namespace Cryptool.Plugins.VisualDecoder
         }
 
         #endregion
-        
 
         /// <summary>
         /// This Methode decodes the given Image and updates the outputs and presentation. 
-        /// Its meant to be called by the DecodingThread, hence the image has be declared as an object
         /// </summary>
-        /// <param name="image">has to be a bytearray representation of an image</param>
-        public void ProcessImage(object image)
+        /// <param name="image"></param>
+        public void ProcessImage(byte[]  image)
         {
-            var curImage = image as byte[]; 
-
             DimCodeDecoderItem dimCode = null;
             if (settings.DecodingType != VisualDecoderSettings.DimCodeType.AUTO)
             {
-                dimCode = codeTypeHandler[settings.DecodingType].Decode(curImage);
+                dimCode = codeTypeHandler[settings.DecodingType].Decode(image);
             }
-            else // automatic mode (try all decoder)
+            else // 'automatic' mode (try all decoder)
             {
                 foreach (var decoder in codeTypeHandler)
                 {
-                    dimCode = decoder.Value.Decode(curImage);
+                    dimCode = decoder.Value.Decode(image);
                     if (dimCode != null)
                         break;
                 }
@@ -206,6 +203,30 @@ namespace Cryptool.Plugins.VisualDecoder
             {
                 presentation.ClearPresentation();
                 presentation.SetImages(PictureInput);
+            }
+        }
+
+        /// <summary>
+        ///  Execution Methode of the DecodingThread
+        ///  catches errors
+        /// </summary>
+        /// <param name="image">has to be the bytearray representation of an image, otherwise it will be ignored</param>
+        public void ProcessInput(object image)
+        {
+            try
+            {
+                var curImage = image as byte[];
+                if (curImage != null && curImage.Length != 0) 
+                {
+                    //we did the null and lengthcheck but the only way to know for sure that curImage is a byte[] image is to convert it.
+                    codeTypeHandler[VisualDecoderSettings.DimCodeType.QRCode].ByteArrayToImage(curImage);
+                    ProcessImage(curImage);
+                }
+               
+            }
+            catch (Exception e)
+            {
+               GuiLogMessage("Error in DecodingThread: " + e.Message, NotificationLevel.Error);
             }
         }
 
