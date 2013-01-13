@@ -50,6 +50,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
           }
           k = k.Add(PrimesBigInteger.One);
         }
+        FireOnMessage(this, from, result.ToString());
         from = from.Add(PrimesBigInteger.One);
       }
       FireOnStop();
