@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Primes.Bignum
@@ -985,12 +986,7 @@ namespace Primes.Bignum
                 : sign == 0 ? 0
                 : sign * CompareNoLeadingZeroes(0, magnitude, 0, value.magnitude);
         }
-
-        public static int Compare(PrimesBigInteger a, PrimesBigInteger b)
-        {
-            return a.CompareTo(b);
-        }
-
+        
         /**
          * return z = x / y - done in place (z value preserved, x contains the
          * remainder)
@@ -1193,19 +1189,14 @@ namespace Primes.Bignum
                 return false;
 
             if (this.m_IsNaN)
-            {
                 return biggie.m_IsNaN;
-            }
+
             if (biggie.sign != sign || biggie.magnitude.Length != magnitude.Length)
                 return false;
 
             for (int i = 0; i < magnitude.Length; i++)
-            {
                 if (biggie.magnitude[i] != magnitude[i])
-                {
                     return false;
-                }
-            }
 
             return true;
         }
@@ -1606,7 +1597,7 @@ namespace Primes.Bignum
          * @param u2Out      the return object for the u2 value
          * @return     The greatest common divisor of a and b
          */
-        private static PrimesBigInteger ExtEuclid(
+        public static PrimesBigInteger ExtEuclid(
             PrimesBigInteger a,
             PrimesBigInteger b,
             PrimesBigInteger u1Out,
@@ -2954,6 +2945,11 @@ namespace Primes.Bignum
             return createValueOf(value);
         }
 
+        public static implicit operator PrimesBigInteger(long i)
+        {
+            return PrimesBigInteger.ValueOf(i);
+        }
+
         public int GetLowestSetBit()
         {
             if (this.sign == 0)
@@ -3222,27 +3218,23 @@ namespace Primes.Bignum
             return a.Min(b);
         }
 
-        public bool IsTwinPrime(ref PrimesBigInteger quadruplet2)
+        public bool IsTwinPrime(ref PrimesBigInteger twin)
         {
             if (this.IsPrime(10))
             {
                 if (this.Add(PrimesBigInteger.Two).IsPrime(10))
                 {
-                    quadruplet2 = this.Add(PrimesBigInteger.Two);
+                    twin = this.Add(PrimesBigInteger.Two);
                     return true;
                 }
                 else if (this.Subtract(PrimesBigInteger.Two).IsPrime(10))
                 {
-                    quadruplet2 = this.Subtract(PrimesBigInteger.Two);
+                    twin = this.Subtract(PrimesBigInteger.Two);
                     return true;
                 }
-                return false;
-            }
-            else
-            {
-                return false;
             }
 
+            return false;
         }
 
         public bool IsPrime(int p)
@@ -3252,7 +3244,6 @@ namespace Primes.Bignum
 
         public PrimesBigInteger PriorProbablePrime(bool ignorePrime)
         {
-
             PrimesBigInteger result = this;
             if (result.CompareTo(PrimesBigInteger.Two) > 0)
             {
@@ -3270,35 +3261,199 @@ namespace Primes.Bignum
 
         public bool NextTwinPrime(ref PrimesBigInteger a, ref PrimesBigInteger b)
         {
-            PrimesBigInteger p = this.NextProbablePrime();
-            while (!p.IsTwinPrime(ref b))
+            a = this;
+
+            while (true)
             {
-                p = p.NextProbablePrime();
+                a = a.NextProbablePrime();
+                b = a.Add(PrimesBigInteger.Two);
+                if (b.IsPrime(10)) return true;
             }
-            a = p;
-            return true;
         }
 
         public bool PriorTwinPrime(ref PrimesBigInteger a, ref PrimesBigInteger b)
         {
-            a = this;
-            PrimesBigInteger i = PrimesBigInteger.ValueOf(4);
-            if (this.CompareTo(i) > 0)
+            a = this.Subtract(PrimesBigInteger.Two);
+
+            while (a.CompareTo(PrimesBigInteger.Three) > 0)
             {
-                do
-                {
-                    a = a.Subtract(PrimesBigInteger.One);
+                if( a.IsPrime(10) ) {
+                    b = a.Add(PrimesBigInteger.Two);
+                    if (b.IsPrime(10)) return true;
                 }
-                while (!a.IsTwinPrime(ref b));
+                a = a.Subtract(PrimesBigInteger.One);
             }
-            else
-            {
-                a = PrimesBigInteger.Three;
-                b = PrimesBigInteger.Five;
-            }
+
+            // no smaller twin primes found, return smallest twin primes
+            a = PrimesBigInteger.Three;
+            b = PrimesBigInteger.Five;
+
             return true;
         }
 
+        public Dictionary<PrimesBigInteger, long> Factorize()
+        {
+            Dictionary<PrimesBigInteger, long> factors = new Dictionary<PrimesBigInteger, long>();
+            PrimesBigInteger value = this.Abs();
+
+            if (value.IsProbablePrime(10))
+            {
+                factors[value] = 1;
+                return factors;
+            }
+
+            PrimesBigInteger factor = PrimesBigInteger.Two;
+            PrimesBigInteger factor2 = factor.Multiply(factor);
+
+            while (!value.Equals(PrimesBigInteger.One))
+            {
+                if (factor2.CompareTo(value) > 0)
+                {
+                    factors[value] = 1;
+                    break;
+                }
+                if (value.Mod(factor).Equals(PrimesBigInteger.Zero))
+                {
+                    //string key = factor.ToString();
+                    factors[factor] = 0;
+                    do
+                    {
+                        value = value.Divide(factor);
+                        factors[factor]++;
+                    }
+                    while (value.Mod(factor).Equals(PrimesBigInteger.Zero));
+                }
+                factor = factor.NextProbablePrime();
+                factor2 = factor.Multiply(factor);
+            }
+
+            return factors;
+        }
+
+        public static PrimesBigInteger Refactor(Dictionary<PrimesBigInteger, long> factors)
+        {
+            PrimesBigInteger result = PrimesBigInteger.One;
+
+            foreach (var s in factors.Keys)
+            {
+                //PrimesBigInteger f = new PrimesBigInteger(s);
+                result = result.Multiply(s.Pow((int)factors[s]));
+            }
+
+            return result;
+        }
+
+        public List<PrimesBigInteger> Divisors()
+        {
+            return Divisors(this.Factorize());
+        }
+
+        public static List<PrimesBigInteger> Divisors(Dictionary<PrimesBigInteger, long> factors)
+        {
+            Dictionary<PrimesBigInteger, long> f = new Dictionary<PrimesBigInteger, long>();
+            List<PrimesBigInteger> keys = new List<PrimesBigInteger>();
+            foreach(var key in factors.Keys) {
+                keys.Add(key);
+                f[key] = 0;
+            }
+
+            List<PrimesBigInteger> result = new List<PrimesBigInteger>();
+
+            int i;
+            do
+            {
+                result.Add(Refactor(f));
+                for (i = keys.Count - 1; i >= 0; i--)
+                {
+                    f[keys[i]]++;
+                    if (f[keys[i]] <= factors[keys[i]]) break;
+                }
+                for (int j=i+1; j < keys.Count; j++) f[keys[j]] = 0;
+            }
+            while (i >= 0);
+
+            return result;
+        }
+
+        public PrimesBigInteger Phi()
+        {
+            return Phi(this.Factorize());
+        }
+
+        public static PrimesBigInteger Phi(Dictionary<PrimesBigInteger, long> factors)
+        {
+            PrimesBigInteger phi = PrimesBigInteger.One;
+
+            foreach (var s in factors.Keys)
+            {
+                if (factors[s] > 0)
+                {
+                    phi = phi.Multiply(s.Pow((int)factors[s] - 1));
+                    phi = phi.Multiply(s.Subtract(PrimesBigInteger.One));
+                }
+            }
+
+            return phi;
+        }
+
+        #region Operators
+
+        public static int Compare(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b);
+        }
+
+        public static bool operator <(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b) < 0;
+        }
+
+        public static bool operator >(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b) > 0;
+        }
+
+        public static bool operator <=(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b) <= 0;
+        }
+
+        public static bool operator >=(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.CompareTo(b) >= 0;
+        }
+
+        //public static bool operator ==(PrimesBigInteger a, PrimesBigInteger b)
+        //{
+        //    return a.CompareTo(b) == 0;
+        //}
+
+        //public static bool operator !=(PrimesBigInteger a, PrimesBigInteger b)
+        //{
+        //    return a.CompareTo(b) != 0;
+        //}
+
+        public static PrimesBigInteger operator +(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.Add(b);
+        }
+
+        public static PrimesBigInteger operator -(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.Subtract(b);
+        }
+
+        public static PrimesBigInteger operator *(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.Multiply(b);
+        }
+
+        public static PrimesBigInteger operator /(PrimesBigInteger a, PrimesBigInteger b)
+        {
+            return a.Divide(b);
+        }
+
+        #endregion
 
         public PrimesBigInteger SquareRoot()
         {
