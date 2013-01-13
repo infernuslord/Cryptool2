@@ -283,7 +283,7 @@
     <value>{0} lies inside the twin prime ({1}, {2}).</value>
   </data>
   <data name="numberline_isodd" xml:space="preserve">
-    <value>The goldbach conjecture only holds for even numbers. {0} is odd.</value>
+    <value>The Goldbach conjecture only holds for even numbers. {0} is odd.</value>
   </data>
   <data name="numberline_isprime" xml:space="preserve">
     <value>is prime</value>
@@ -298,7 +298,7 @@
     <value>({0}, {1}) is a prime twin.</value>
   </data>
   <data name="numberline_istwo" xml:space="preserve">
-    <value>The goldbach conjecture only holds for even numbers &gt; 2.</value>
+    <value>The Goldbach conjecture only holds for even numbers &gt; 2.</value>
   </data>
   <data name="numberline_maxinterval" xml:space="preserve">
     <value>The lower boundary of the interval is 2, the upper boundary is 10^9. With the arrow keys, you can move left and right through the interval in steps of size 1 or 10.</value>
