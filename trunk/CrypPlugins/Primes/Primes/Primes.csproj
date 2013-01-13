@@ -92,6 +92,7 @@
     <Compile Include="CalculatorLib\CalcToken.cs" />
     <Compile Include="CalculatorLib\CalcVariables.cs" />
     <Compile Include="Library\Pair.cs" />
+    <Compile Include="Library\PrimeNumbers.cs" />
     <Compile Include="Options\OptionVersionInfo.xaml.cs">
       <DependentUpon>OptionVersionInfo.xaml</DependentUpon>
     </Compile>
@@ -115,6 +116,7 @@
     <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\GCD.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\ExtEuclid.cs" />
     <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\LCM.cs" />
     <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\ModInverse.cs" />
     <Compile Include="WpfControls\NumberTheory\PowerMod\PowerModCommands.cs" />
