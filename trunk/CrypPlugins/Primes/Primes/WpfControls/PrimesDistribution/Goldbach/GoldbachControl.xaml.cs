@@ -27,13 +27,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Primes.Bignum;
 using System.Threading;
+using System.Numerics;
+using Primes.Bignum;
 using Primes.Library;
 using Primes.WpfControls.Components.Arrows;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
+using Cryptool.PluginBase.Miscellaneous;
+using Primes.Resources.lang.WpfControls.Distribution;
 
 namespace Primes.WpfControls.PrimesDistribution.Goldbach
 {
@@ -43,22 +46,34 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
   public partial class GoldbachControl : UserControl, IPrimeDistribution
   {
     private bool m_Initialized;
-    private PrimesBigInteger m_From;
-    private PrimesBigInteger m_To;
+
     private Thread m_Thread;
-    private const double PADDING_AXISTOP = 10;
-    private const double PADDING_AXISLEFT = 30;
+
+    private PrimesBigInteger m_From = 2;
+    private PrimesBigInteger m_To = 1000;
+    private PrimesBigInteger m_Min = 0;
+    private PrimesBigInteger m_Max = 52;
+
+    private const double PADDING_AXISLEFT = 20;
     private const double PADDING_AXISBOTTOM = 20;
+    private const double PADDING_AXISTOP = 10;
     private const double PADDING_AXISRIGHT = 10;
 
-    private const double PADDING_TOP = PADDING_AXISTOP;
-    private const double PADDING_LEFT = PADDING_AXISLEFT+30;
-    private const double PADDING_BOTTOM = PADDING_AXISBOTTOM;
-    private const double PADDING_RIGHT = PADDING_AXISRIGHT+30;
+    private const double PADDING_LEFT = PADDING_AXISLEFT + 20;
+    private const double PADDING_BOTTOM = PADDING_AXISBOTTOM + 20;
+    private const double PADDING_TOP = PADDING_AXISTOP + 20;
+    private const double PADDING_RIGHT = PADDING_AXISRIGHT + 20;
 
+    private const int MAXSUMSINTOOLTIP = 10;
 
-    private PrimesBigInteger m_Max;
-    private PrimesBigInteger m_Min;
+    public struct GoldbachInfo
+    {
+        public int n;
+        public int sums;
+        public String tooltip;
+    }
+
+    private int maxindex = 0;
 
     public GoldbachControl()
     {
@@ -68,9 +83,9 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       this.Start += new VoidDelegate(GoldbachControl_Start);
       this.Stop += new VoidDelegate(GoldbachControl_Stop);
       this.Cancel += new VoidDelegate(GoldbachControl_Cancel);
+
+      PaintCoordinateAxis();
     }
-
-
 
     void GoldbachControl_Cancel()
     {
@@ -92,7 +107,6 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     void ircGoldbach_Cancel()
     {      
       FireCancelEvent();
-
     }
 
     void ircGoldbach_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
@@ -104,6 +118,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     }
 
     #region Events
+
     private event VoidDelegate Start;
     private event VoidDelegate Stop;
     private event VoidDelegate Cancel;
@@ -112,16 +127,21 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     {
       if (Start != null) Start();
     }
+
     private void FireStopEvent()
     {
       if (Stop != null) Stop();
     }
+
     private void FireCancelEvent()
     {
       if (Cancel != null) Cancel();
     }
+
     #endregion
+
     #region Thread
+
     private void StartThread()
     {
       m_Thread = new Thread(new ThreadStart(DoExecute));
@@ -138,13 +158,16 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
         m_Thread = null;
       }
     }
+
     #endregion
     
     #region Properties
+
     private PrimesBigInteger Range
     {
-      get { return m_Max.Subtract(m_Min); }
+      get { return m_Max - m_Min; }
     }
+
     #endregion
 
     private PrimesBigInteger From
@@ -152,48 +175,54 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       get 
       {
         PrimesBigInteger value = m_From;
-        if (!value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
-        {
-          value = value.Add(PrimesBigInteger.One);
-        }
+        if (value.Mod(2).Equals(1)) value = value + 1;
         return value;
       }
     }
+
     private void DoExecute()
     {
       FireStartEvent();
-      m_Max = null;
-      m_Min = null;
-      IDictionary<PrimesBigInteger, PrimesBigInteger> points = new Dictionary<PrimesBigInteger, PrimesBigInteger>();
-      PrimesBigInteger goldbachResult = null;
-      ControlHandler.ExecuteMethod(this, "PaintCoordianteAxis");
-      PrimesBigInteger value = From;
-      bool repaint = false;
-      while (value.CompareTo(m_To) <= 0)
-      {
-        goldbachResult = Calculate(value);
-        if (m_Max == null) m_Max = goldbachResult.Add(PrimesBigInteger.Ten);
-        if (m_Min == null) m_Min = goldbachResult;
-        if (goldbachResult.CompareTo(m_Min) <= 0)
-        {
-          m_Min = goldbachResult;
-        }
-        if (m_Max.CompareTo(goldbachResult.Add(PrimesBigInteger.Ten)) < 0)
-        {
-          m_Max = goldbachResult.Add(PrimesBigInteger.Ten);
-          repaint = true;
-        }
 
-        points.Add(value, goldbachResult);
-        if (points.Count >= 100)
-        {
-          ControlHandler.ExecuteMethod(this, "PaintGoldbachResult", new object[] { points });
-          points.Clear();
-          if(repaint)
-            ControlHandler.ExecuteMethod(this, "RepaintGoldbach");
-        }
-        value = value.Add(PrimesBigInteger.Two);
+      m_Max = 0;
+      m_Min = 1000000000;
+
+      List<GoldbachInfo> points = new List<GoldbachInfo> {};
+      PrimesBigInteger goldbachResult = null;
+      ControlHandler.ExecuteMethod(this, "PaintCoordinateAxis");
+      bool repaint = false;
+
+      for (PrimesBigInteger value = From; value <= m_To; value = value + 2)
+      {
+          GoldbachInfo info;
+          String text = "";
+          goldbachResult = Calculate(value, ref text);
+          info.n = value.IntValue;
+          info.sums = goldbachResult.IntValue;
+          String fmt = (info.sums == 1) ? Distribution.numberline_goldbachsum : Distribution.numberline_goldbachsums;
+          if(info.sums>0) text = "\n" + text;
+          info.tooltip = String.Format("{0}: {1} " + fmt + "{2}", info.n, info.sums, text);
+          if (info.sums > MAXSUMSINTOOLTIP) info.tooltip += "\n...";
+
+          points.Add(info);
+
+          if (m_Min > goldbachResult) m_Min = goldbachResult;
+
+          if (m_Max < goldbachResult)
+          {
+              m_Max = goldbachResult;
+              repaint = true;
+          }
+
+          if (points.Count >= 100)
+          {
+              ControlHandler.ExecuteMethod(this, "PaintGoldbachResult", new object[] { points });
+              points.Clear();
+              if (repaint)
+                  ControlHandler.ExecuteMethod(this, "RepaintGoldbach");
+          }
       }
+
       if (points.Count > 0)
       {
         ControlHandler.ExecuteMethod(this, "PaintGoldbachResult", new object[] { points });
@@ -201,6 +230,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
         if (repaint)
           ControlHandler.ExecuteMethod(this, "RepaintGoldbach");
       }
+
       FireStopEvent();
     }
 
@@ -210,7 +240,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     {
       get 
       {
-        return ((PaintArea.ActualHeight - PADDING_BOTTOM) - PADDING_TOP) / Range.DoubleValue;
+        return (PaintArea.ActualHeight - PADDING_BOTTOM - PADDING_TOP) / Range.DoubleValue;
       }
     }
 
@@ -218,136 +248,144 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     {
       get
       {
-        return ((PaintArea.ActualWidth - PADDING_LEFT) - PADDING_RIGHT) / m_To.Subtract(From).DoubleValue;
+          if (m_To.Equals(From)) return 0;
+          return (PaintArea.ActualWidth - PADDING_LEFT - PADDING_RIGHT) / (m_To-From).DoubleValue;
       }
     }
 
-    public void PaintGoldbachResult(IDictionary<PrimesBigInteger, PrimesBigInteger> points)
+    public void PaintGoldbachResult(List<GoldbachInfo> points)
     {
-      foreach (KeyValuePair<PrimesBigInteger, PrimesBigInteger> pair in points)
-      {
-        PrimesBigInteger x = pair.Key;
-        PrimesBigInteger y = pair.Value;
-        double size = 4;
-        double val = y.DoubleValue;
-        double unitwidth = UnitWidth;
-        double unitheight = UnitHeight;
+        foreach (var point in points)
+        {
+            Ellipse el = new Ellipse();
+            el.Tag = point;
+            el.StrokeThickness = 0.0;
+            el.ToolTip = new ToolTip { Content = point.tooltip };
+            SetEllipse(el);
 
-        double top = (PaintArea.ActualHeight - PADDING_TOP - PADDING_BOTTOM - (val * unitheight)) - size / 2;
-        double left = (((x.DoubleValue - From.DoubleValue) * unitwidth) + PADDING_LEFT) - size / 2;
-        Ellipse el = new Ellipse();
-        el.Stroke = Brushes.Red;
-        el.StrokeThickness = 1.0;
-        el.Fill = Brushes.Red;
-        el.Width = 4;
-        el.Height = 4;
-        el.Tag = new KeyValuePair<PrimesBigInteger, PrimesBigInteger>(x, y);
-        el.MouseMove += new MouseEventHandler(el_MouseMove);
-        Canvas.SetTop(el, top);
-        Canvas.SetLeft(el, left);
-        PaintArea.Children.Add(el);
-      }
+            el.MouseEnter += new MouseEventHandler(el_MouseEnter);
+            el.MouseLeave += new MouseEventHandler(el_MouseLeave);
+
+            PaintArea.Children.Add(el);
+        }
     }
 
-    void el_MouseMove(object sender, MouseEventArgs e)
+    double MapX(double x)
     {
+        return (x - From.DoubleValue) * UnitWidth + PADDING_LEFT;
+    }
 
-      tbinfo.Text = ((KeyValuePair<PrimesBigInteger, PrimesBigInteger>)((Ellipse)sender).Tag).Key.ToString();
-      tbinfo.Text += ":";
-      tbinfo.Text += ((KeyValuePair<PrimesBigInteger, PrimesBigInteger>)((Ellipse)sender).Tag).Value.ToString();
+    double MapY(double y)
+    {
+        return PaintArea.ActualHeight - ((y-m_Min.DoubleValue) * UnitHeight + PADDING_BOTTOM);
+    }
+
+    void SetEllipse(Ellipse el, bool normal = true)
+    {
+        double size;
+
+        if (normal)
+        {
+            el.Fill = Brushes.Red;
+            size = 4;
+        }
+        else
+        {
+            el.Fill = Brushes.Green;
+            size = 8;
+        }
+
+        el.Width = size;
+        el.Height = size;
+
+        var point = (GoldbachInfo)el.Tag;
+        Canvas.SetTop(el, MapY(point.sums) - size / 2);
+        Canvas.SetLeft(el, MapX(point.n) - size / 2);
+    }
+
+    void el_MouseLeave(object sender, MouseEventArgs e)
+    {
+        SetEllipse((Ellipse)sender);
+        (((Ellipse)sender).ToolTip as ToolTip).IsOpen = false;
+    }
+
+    void el_MouseEnter(object sender, MouseEventArgs e)
+    {
+        SetEllipse((Ellipse)sender, false);
+        (((Ellipse)sender).ToolTip as ToolTip).IsOpen = true;
+        //Canvas.SetZIndex((Ellipse)sender, ++maxindex); // Problem: really slow when many points are present
     }
 
     public void RepaintGoldbach()
     {
-      double size = 4;
-
-      double unitwidth = UnitWidth;
-      double unitheight = UnitHeight;
-
-
       IList<UIElement> toremove = new List<UIElement>();
+
       foreach (UIElement element in PaintArea.Children)
       {
         if (element.GetType() == typeof(Ellipse))
         {
-          KeyValuePair<PrimesBigInteger, PrimesBigInteger> pair = (KeyValuePair<PrimesBigInteger,PrimesBigInteger>)((Ellipse)(element)).Tag;
-
-          double top = (PaintArea.ActualHeight - PADDING_TOP - PADDING_BOTTOM - (pair.Value.DoubleValue * unitheight)) - size / 2;
-          double left = (((pair.Key.DoubleValue - From.DoubleValue) * unitwidth) + PADDING_LEFT) - size / 2;
-          Canvas.SetTop(element, top);
-          Canvas.SetLeft(element, left);
+            SetEllipse((Ellipse)element);
         }
         else if (element.GetType() == typeof(Line))
         {
-          Line l = (Line)element;
-          if (l.Name.StartsWith("YAXSIS"))
-          {
-            toremove.Add(l);
-          }
+          if (((Line)element).Name.StartsWith("YAXSIS"))
+              toremove.Add(element);
         }
         else if (element.GetType() == typeof(TextBlock))
         {
-          TextBlock l = (TextBlock)element;
-          if (l.Name.StartsWith("YAXSIS"))
-          {
-            toremove.Add(l);
-          }
+          if (((TextBlock)element).Name.StartsWith("YAXSIS"))
+              toremove.Add(element);
         }
       }
+
       foreach (UIElement e in toremove)
-      {
         PaintArea.Children.Remove(e);
-      }
+
       // Koordinaten neu zeichnen
-      PrimesBigInteger inc = PrimesBigInteger.Max(m_Max.Subtract(m_Min).Divide(PrimesBigInteger.Ten), PrimesBigInteger.Two);
-      PrimesBigInteger startx = m_Min;
-      while (startx.CompareTo(m_Max.Subtract(PrimesBigInteger.Ten)) <= 0)
+      double inc = Math.Max(Range.DoubleValue / 10, 2);
+
+      for (double yk = m_Min.DoubleValue; yk <= m_Max.DoubleValue+0.001; yk += inc)
       {
-        Line l = new Line();
-        l.Name = "YAXSIS" + startx.ToString();
+          string s = ((int)(yk+0.5)).ToString();
 
-        l.X1 = PADDING_AXISLEFT - 2;
-        l.X2 = PADDING_AXISLEFT + 2;
+          Line l = new Line();
+          l.Name = "YAXSIS" + s;
 
-        l.Y1 = l.Y2 = PaintArea.ActualHeight - PADDING_TOP - PADDING_BOTTOM - (startx.DoubleValue * unitheight);
+          l.X1 = PADDING_AXISLEFT - 2;
+          l.X2 = PADDING_AXISLEFT + 2;
 
-        l.Stroke = Brushes.Black;
-        l.StrokeThickness = 1.0;
-        PaintArea.Children.Add(l);
+          l.Y1 = l.Y2 = MapY(yk);
 
-        TextBlock lbl = new TextBlock();
-        lbl.Name = "YAXSISlbl" + startx.ToString();
-        lbl.Text = startx.ToString("D");
-        Canvas.SetLeft(lbl, PADDING_AXISLEFT - 20);
-        Canvas.SetTop(lbl, l.Y1);
-        PaintArea.Children.Add(lbl);
-        startx = startx.Add(inc);
+          l.Stroke = Brushes.Black;
+          l.StrokeThickness = 1.0;
+          PaintArea.Children.Add(l);
+
+          TextBlock lbl = new TextBlock();
+          lbl.Name = "YAXSISlbl" + s;
+          lbl.Text = s;
+          Canvas.SetLeft(lbl, PADDING_AXISLEFT - 20);
+          Canvas.SetTop(lbl, l.Y1);
+          PaintArea.Children.Add(lbl);
       }
     }
 
     public void ClearCoordinateAxis()
     {
       IList<UIElement> toremove = new List<UIElement>();
+
       foreach (UIElement element in PaintArea.Children)
-      {
-        if (element.GetType() == typeof(Line) || element.GetType() == typeof(ArrowLine)||element.GetType() == typeof(TextBlock))
-        {
+        if (element.GetType() == typeof(Line) || element.GetType() == typeof(ArrowLine) || element.GetType() == typeof(TextBlock))
           toremove.Add(element);
-        }
-      }
+
       foreach (UIElement e in toremove)
-      {
         PaintArea.Children.Remove(e);
-      }
-
-
     }
-    public void PaintCoordianteAxis()
+
+    public void PaintCoordinateAxis()
     {
       ArrowLine y = new ArrowLine();
-      y.X1 = PADDING_AXISLEFT;
-      y.X2 = PADDING_AXISLEFT;
-      y.Y1 = PaintArea.ActualHeight-PADDING_AXISBOTTOM;
+      y.X1 = y.X2 = PADDING_AXISLEFT;
+      y.Y1 = PaintArea.ActualHeight - PADDING_AXISBOTTOM;
       y.Y2 = PADDING_AXISTOP;
       y.Stroke = Brushes.Black;
       y.StrokeThickness = 1.0;
@@ -365,75 +403,101 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       TextBlock lblX = new TextBlock();
       lblX.Text = "n";
       lblX.Name = "AxisLabelX";
-      Canvas.SetTop(lblX, x.Y2);
-      Canvas.SetLeft(lblX, x.X2);
+      Canvas.SetTop(lblX, x.Y2-8);
+      Canvas.SetLeft(lblX, x.X2+8);
       PaintArea.Children.Add(lblX);
 
       TextBlock lblY = new TextBlock();
       lblY.Text = "y(n)";
       lblY.Name = "AxisLabelY";
-      Canvas.SetTop(lblY, y.Y2);
+      Canvas.SetTop(lblY, y.Y2-8);
       Canvas.SetLeft(lblY, y.X2-25);
       PaintArea.Children.Add(lblY);
 
-      double unitwidth = UnitWidth;
+      double inc = Math.Max((m_To.DoubleValue - From.DoubleValue) / 10, 2);
 
-      PrimesBigInteger inc = PrimesBigInteger.Max(m_To.Subtract(From).Divide(PrimesBigInteger.Ten),PrimesBigInteger.Two);
-      PrimesBigInteger startx = From;
-      while(startx.CompareTo(m_To)<=0)
+      for (double xk = From.DoubleValue; xk <= m_To.DoubleValue+0.001; xk += inc)
       {
-        Line l = new Line();
+          Line l = new Line();
 
-        l.X1 = l.X2 = (((startx.DoubleValue - From.DoubleValue) * unitwidth) + PADDING_LEFT);
-        l.Y1 = x.Y1 - 2;
-        l.Y2 = x.Y1 + 2;
-        l.Stroke = Brushes.Black;
-        l.StrokeThickness = 1.0;
-        PaintArea.Children.Add(l);
+          l.X1 = l.X2 = MapX(xk);
+          l.Y1 = x.Y1 - 2;
+          l.Y2 = x.Y1 + 2;
 
-        TextBlock lbl = new TextBlock();
-        lbl.Text = startx.ToString("D");
-        Canvas.SetLeft(lbl, l.X1);
-        Canvas.SetTop(lbl, x.Y1+4);
-        PaintArea.Children.Add(lbl);
-        startx = startx.Add(inc);
+          l.Stroke = Brushes.Black;
+          l.StrokeThickness = 1.0;
+          PaintArea.Children.Add(l);
+
+          TextBlock lbl = new TextBlock();
+          lbl.Text = ((int)(xk+0.5)).ToString();
+          Canvas.SetLeft(lbl, l.X1);
+          Canvas.SetTop(lbl, x.Y1 + 4);
+          PaintArea.Children.Add(lbl);
       }
-
     }
 
     #endregion
 
     #region Calculating
-    private PrimesBigInteger Calculate(PrimesBigInteger value)
+
+    private PrimesBigInteger Calculate(PrimesBigInteger value, ref string info)
     {
-      PrimesBigInteger result = PrimesBigInteger.Zero;
-      if (value != null && value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
-      {
-        PrimesBigInteger sum1 = PrimesBigInteger.Two;
-        while (sum1.CompareTo(value.Divide(PrimesBigInteger.Two)) <= 0)
-        {
-          PrimesBigInteger sum2 = value.Subtract(sum1);
-          if (sum2.IsProbablePrime(10))
-          {
-            result = result.Add(PrimesBigInteger.One);
+        long x = value.LongValue;
 
+        int count = 0;
 
-          }
-          sum1 = sum1.NextProbablePrime();
-        }
-
-      }
-      return result;
+        if (x % 2 == 0)
+            for (int i = 0; i < PrimeNumbers.primes.Length && PrimeNumbers.primes[i] <= x / 2; i++)
+            {
+                long p = PrimeNumbers.primes[i];
+                if (PrimeNumbers.isprime.Contains(x - p))
+                    if (++count <= MAXSUMSINTOOLTIP)
+                        info += "\n" + p + " + " + (x - p) + " = " + x;
+            }
+        
+        return count;
     }
+
+    //private PrimesBigInteger Calculate(PrimesBigInteger value)
+    //{
+    //    BigInteger x = BigInteger.Parse(value.ToString());
+    //    if (x % 2 == 1) return PrimesBigInteger.Zero;
+
+    //    int count = 0;
+    //    for (long p = 2; p <= x / 2; p = (long)BigIntegerHelper.NextProbablePrime(p + 1))
+    //        if (BigIntegerHelper.IsProbablePrime(x - p))
+    //            count++;
+
+    //    return PrimesBigInteger.ValueOf(count);
+    //}
+
+    //private PrimesBigInteger Calculate(PrimesBigInteger value)
+    //{
+    //    PrimesBigInteger result = PrimesBigInteger.Zero;
+    //    if (value != null && value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
+    //    {
+    //        PrimesBigInteger sum1 = PrimesBigInteger.Two;
+    //        while (sum1.CompareTo(value.Divide(PrimesBigInteger.Two)) <= 0)
+    //        {
+    //            if (value.Subtract(sum1).IsProbablePrime(10))
+    //                result = result.Add(PrimesBigInteger.One);
+    //            sum1 = sum1.NextProbablePrime();
+    //        }
+    //    }
+
+    //    return result;
+    //}
+
     #endregion
 
     #region IPrimeDistribution Members
 
     public void Init()
     {
-      m_Initialized = true;
-      ircGoldbach.SetButtonCancelButtonEnabled(false);
-      InitInput();
+        m_Initialized = true;
+        ircGoldbach.IntervalSizeCanBeZero = true;
+        ircGoldbach.SetButtonCancelButtonEnabled(false);
+        InitInput();
     }
 
     private void InitInput()
@@ -441,17 +505,16 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       ircGoldbach.Execute += new Primes.WpfControls.Components.ExecuteDelegate(ircGoldbach_Execute);
       ircGoldbach.Cancel += new VoidDelegate(ircGoldbach_Cancel);
 
-      ircGoldbach.SetText(InputRangeControl.FreeFrom, "4");
-      ircGoldbach.SetText(InputRangeControl.FreeTo, "1000");
+      ircGoldbach.SetText(InputRangeControl.FreeFrom, m_From.ToString());
+      ircGoldbach.SetText(InputRangeControl.FreeTo, m_To.ToString());
 
       InputValidator<PrimesBigInteger> ivFrom = new InputValidator<PrimesBigInteger>();
-      ivFrom.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Four,PrimesBigInteger.ValueOf(100000-1));
+      ivFrom.Validator = new BigIntegerMinValueMaxValueValidator(null, 2, 100000);
       ircGoldbach.AddInputValidator(InputRangeControl.FreeFrom, ivFrom);
       InputValidator<PrimesBigInteger> ivTo = new InputValidator<PrimesBigInteger>();
-      ivTo.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Five, PrimesBigInteger.ValueOf(100000));
+      ivTo.Validator = new BigIntegerMinValueMaxValueValidator(null, 2, 100000);
       ircGoldbach.AddInputValidator(InputRangeControl.FreeTo, ivTo);
     }
-
 
     public void Dispose()
     {
@@ -462,12 +525,11 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
     {
       base.OnRenderSizeChanged(sizeInfo);
+
       if (m_Initialized)
       {
         PaintArea.Width = gridContent.ActualWidth;
-        PaintArea.Height = gridContent.ActualHeight - spInput.ActualHeight - spSlider.ActualHeight;
-
-
+        PaintArea.Height = gridContent.ActualHeight - ircGoldbach.ActualHeight - spSlider.ActualHeight;
       }
     }
 
@@ -476,10 +538,10 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
       if (m_From != null && m_To != null)
       {
         ClearCoordinateAxis();
-        PaintCoordianteAxis();
+        PaintCoordinateAxis();
         RepaintGoldbach();
       }
-
     }
+
   }
 }

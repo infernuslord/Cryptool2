@@ -115,6 +115,15 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Erweiterter euklidischer Algorithmus ähnelt.
+        /// </summary>
+        public static string exteuclid {
+            get {
+                return ResourceManager.GetString("exteuclid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Größter gemeinsamer Teiler ähnelt.
         /// </summary>
         public static string gcd {

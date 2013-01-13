@@ -38,6 +38,8 @@ using Primes.WpfControls.Components;
 using System.IO;
 using Primes.Bignum;
 using Primes.WpfControls.Validation.Validator;
+using Primes.WpfControls.Validation;
+using Primes.Resources.lang.WpfControls.Distribution;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
@@ -75,7 +77,14 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       AddGridMenu();
       irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
       irc.Cancel += new VoidDelegate(irc_Cancel);
-      irc.AddValueValidator(InputRangeControl.SecondParameter, new BigIntegerMinValueValidator(null, PrimesBigInteger.Zero));
+
+      //irc.AddValueValidator(InputRangeControl.SecondParameter, new BigIntegerMinValueValidator(null, PrimesBigInteger.Zero));
+
+      InputValidator<PrimesBigInteger> ivSecond = new InputValidator<PrimesBigInteger>();
+      ivSecond.Validator = new PositiveBigIntegerValidator();
+      irc.AddInputValidator(InputRangeControl.SecondParameter, ivSecond);
+
+      irc.SecondParameterPresent = NeedsSecondParameter;
 
       SourceFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
       DestinationFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
@@ -249,6 +258,11 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       f10.OnStop += new VoidDelegate(f1_OnStop);
       m_SourceFunctions.Add(f10);
 
+      INTFunction f11 = new ExtEuclid();
+      f11.Message += new NumberTheoryMessageDelegate(f1_Message);
+      f11.OnStop += new VoidDelegate(f1_OnStop);
+      m_SourceFunctions.Add(f11);
+
       lbDestination.DataContext = m_DestinationFunctions;
       lbSource.DataContext = m_SourceFunctions;
     }
@@ -302,6 +316,17 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         }
       }
     }
+      
+      private bool NeedsSecondParameter
+      {
+          get
+          {
+              foreach (INTFunction f in m_DestinationFunctions)
+                  if( f.NeedsSecondParameter ) return true;
+
+              return false;
+          }
+      }
 
     private delegate void SetDataDelegate(int column, int row, string data);
 
@@ -342,24 +367,24 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     {
       m_DataTable.Clear();
 
-      PrimesBigInteger _from = from;
-      int c = 0;
       int column = m_DataTable.Columns.IndexOf(m_DcN);
 
-      while (_from.CompareTo(to) <= 0)
-      {
-        SetData(column, c, _from.IntValue.ToString());
-        _from = _from.Add(PrimesBigInteger.One);
-        c++;
-      }
+      for (int x = 0; x<=(to-from).IntValue; x++)
+          SetData(column, x, (from+x).ToString());
 
       if (m_DestinationFunctions.Count > 0)
       {
         gridChooseFunctions.IsEnabled = false;
         foreach (INTFunction f in m_DestinationFunctions)
-        {
-          f.Start(from, to, second);
-        }
+            if (!f.NeedsSecondParameter)
+                f.Start(from, to, second);
+            else
+            {
+                if( irc.ValidateSecondInput(ref second) )
+                    f.Start(from, to, second);
+                else
+                    f1_OnStop();
+            }
       }
       else
       {
@@ -408,6 +433,8 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       m_ColumnsDict.Add(function, dc);
       m_DataTable.Clear();
       m_DataTable.Columns.Add(dc);
+
+      irc.SecondParameterPresent = NeedsSecondParameter;
     }
 
     private void RemoveFunction(INTFunction function)
@@ -417,6 +444,8 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         m_DataTable.Clear();
         m_DataTable.Columns.Remove( m_ColumnsDict[function] );
         m_ColumnsDict.Remove(function);
+
+        irc.SecondParameterPresent = NeedsSecondParameter;
       }
     }
 

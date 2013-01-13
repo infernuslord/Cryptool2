@@ -33,10 +33,15 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       this.m_Log = lc;
       this.m_tbCalcInfo = tbCalcInfo;
     }
+
     #region Properties
+
     protected Thread m_Thread;
     protected PrimesBigInteger m_Value;
+    protected Dictionary<PrimesBigInteger,long> m_Factors;
+
     #endregion
+
     #region INTFunction Members
 
     protected LogControl2 m_Log;
@@ -51,10 +56,11 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
       set { m_tbCalcInfo = value; }
     }
 
-    public virtual void Start(PrimesBigInteger value)
+    public virtual void Start(PrimesBigInteger value, Dictionary<PrimesBigInteger,long> factors=null)
     {
       Stop();
       m_Value = value;
+      m_Factors = factors;
       m_Log.Clear();
       m_Log.Columns = 1;
       m_Thread = new Thread(new ThreadStart(DoExecute));
@@ -67,6 +73,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       CancelThread();
     }
+
     protected void CancelThread()
     {
       if (m_Thread != null)
@@ -75,7 +82,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         m_Thread = null;
       }
     }
+
     protected abstract void DoExecute();
+
     public event VoidDelegate OnStart;
 
     public event VoidDelegate OnStop;
@@ -84,20 +93,20 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
     {
       if (OnStart != null) OnStart();
     }
+
     protected void FireOnStop()
     {
       if (OnStop != null) OnStop();
     }
+
     #endregion
 
     protected void SetCalcInfo(string message)
     {
       ControlHandler.SetPropertyValue(m_tbCalcInfo, "Text", message);
-
     }
 
     #region INTFunction Members
-
 
     public bool IsRunning
     {

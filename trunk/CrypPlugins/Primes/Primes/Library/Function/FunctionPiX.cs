@@ -67,18 +67,27 @@ namespace Primes.Library.Function
         usePrimesCountList = PrimesCountList.Initialzed;
       if (PrimesCountList.Initialzed && usePrimesCountList)
       {
-        if (value <= PrimesCountList.MaxNumber)
-        {
-          m_FormerValue = m_Counter;
-          m_Counter = PrimesCountList.GetPrime((long)input);
-          m_LastNumber = value;
-        }
-        else
-        {
-          m_Counter = PrimesCountList.GetPrime(PrimesCountList.MaxNumber);
-          m_LastNumber = PrimesCountList.MaxNumber;
-          usePrimesCountList = false;
-        }
+          if (value <= PrimesCountList.MaxNumber)
+          {
+              m_FormerValue = m_Counter;
+              m_Counter = PrimesCountList.GetPrime((long)input);
+              m_LastNumber = value;
+          }
+          else
+          {
+              m_Counter = PrimesCountList.GetPrime(PrimesCountList.MaxNumber);
+              m_LastNumber = PrimesCountList.MaxNumber;
+              usePrimesCountList = false;
+          }
+      }
+      else
+      {
+          long i = value / 100000;
+          if (i < PrimeNumbers.numberofprimes.Length)
+          {
+              m_Counter = PrimeNumbers.numberofprimes[i];
+              m_LastNumber = i*100000;
+          }
       }
 
       if (PrimesBigInteger.ValueOf(m_LastNumber).IsPrime(10)) m_LastNumber++;

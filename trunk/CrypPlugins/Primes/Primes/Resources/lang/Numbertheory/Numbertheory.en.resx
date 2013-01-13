@@ -135,6 +135,9 @@
   <data name="eulerphivalues" xml:space="preserve">
     <value>List of coprimes</value>
   </data>
+  <data name="exteuclid" xml:space="preserve">
+    <value>Extended Euclidean algorithm</value>
+  </data>
   <data name="gcd" xml:space="preserve">
     <value>Greatest common divisor</value>
   </data>

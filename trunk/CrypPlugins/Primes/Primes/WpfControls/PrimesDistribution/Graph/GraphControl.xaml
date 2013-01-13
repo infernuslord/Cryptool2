@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="Primes.WpfControls.PrimesDistribution.Graph.GraphControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:graph="clr-namespace:Primes.WpfControls.PrimesDistribution.Graph" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-             xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
-             xmlns:comps="clr-namespace:Primes.WpfControls.Components">
-  <UserControl.Resources>
+    xmlns:graph="clr-namespace:Primes.WpfControls.PrimesDistribution.Graph" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+    xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
+    xmlns:comps="clr-namespace:Primes.WpfControls.Components">
+    
+<UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Resources/Shared.xaml"/>
@@ -18,12 +19,9 @@
       <RowDefinition Height="*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <comps:InputRangeControl 
-      x:Name="ircCountPrimes"
-      InputRangeControlType="Horizontal"
-      Grid.Row="0"
-      Title=""
-      />    
+      
+    <comps:InputRangeControl x:Name="ircCountPrimes" InputRangeControlType="Horizontal" Grid.Row="0" Title="" SecondParameterPresent="false"/>
+      
     <GroupBox Header="{x:Static lang:Distribution.graph_groupboxheader}" Name="gbFunctions" Grid.Row="1" Margin="0,20,0,0">
       <StackPanel>
         <CheckBox Name="cbDontPaint" IsChecked="False" Margin="3,3,3,3" VerticalAlignment="Center" Click="cbDontPaint_Click" Visibility="Collapsed">Nicht zeichnen</CheckBox>

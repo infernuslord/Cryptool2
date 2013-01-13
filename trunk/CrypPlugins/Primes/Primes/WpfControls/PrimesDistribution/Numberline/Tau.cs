@@ -25,38 +25,26 @@ using System.Windows;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
-  public class Tau:BaseNTFunction
+  public class Tau : BaseNTFunction
   {
-    public Tau(LogControl2 lc, TextBlock tb):base(lc,tb)
+    public Tau(LogControl2 lc, TextBlock tb) : base(lc,tb)
     {
     }
 
     protected override void DoExecute()
     {
-      FireOnStart();
-      ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
+        FireOnStart();
 
-      PrimesBigInteger d = PrimesBigInteger.One;
-      PrimesBigInteger counter = PrimesBigInteger.Zero;
-      SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
+        List<PrimesBigInteger> divisors = (m_Factors != null) ? PrimesBigInteger.Divisors(m_Factors) : m_Value.Divisors();
+        divisors.Sort(PrimesBigInteger.Compare);
 
-      while (d.Multiply(PrimesBigInteger.Two).CompareTo(m_Value) <= 0)
-      {
-        if (m_Value.Mod(d).Equals(PrimesBigInteger.Zero))
-        {
-          m_Log.Info(d.ToString("D") + "   ");
-          counter = counter.Add(PrimesBigInteger.One);
-          SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
+        ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
+        SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, divisors.Count, m_Value ));
 
-        }
-        d = d.Add(PrimesBigInteger.One);
-      }
-      m_Log.Info(m_Value.ToString("D")+"   ");
-      counter = counter.Add(PrimesBigInteger.One);
-      SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
-
-      FireOnStop();
-
+        foreach(var d in divisors)
+            m_Log.Info(d + "   ");
+        
+        FireOnStop();
     }
   }
 }

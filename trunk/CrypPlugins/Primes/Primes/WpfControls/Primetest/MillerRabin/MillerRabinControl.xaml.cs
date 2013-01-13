@@ -51,7 +51,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
       iscBaseRandom.Execute += new ExecuteSingleDelegate(iscBaseRandom_Execute);
       iscRounds.Execute += new ExecuteSingleDelegate(iscRounds_Execute);
       ircSystematic.Execute += new ExecuteDelegate(ircSystematic_Execute);
-      ircSystematic.IntervalDoesntSizeNeedToBeGreateThanZero = true;
+      ircSystematic.IntervalSizeCanBeZero = true;
     }
 
     void ircSystematic_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)

@@ -35,6 +35,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     event NumberTheoryMessageDelegate Message;
     string Description { get; }
     bool IsRunnung { get; }
+    bool NeedsSecondParameter{ get; }
   }
 
   public class NTFunctions : ObservableCollection<INTFunction> { }

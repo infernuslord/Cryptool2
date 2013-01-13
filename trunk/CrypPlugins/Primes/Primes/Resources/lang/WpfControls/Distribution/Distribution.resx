@@ -250,7 +250,7 @@
     <value>Goldbach-Vermutung</value>
   </data>
   <data name="numberline_goldbachfoundsums" xml:space="preserve">
-    <value>{0} Primzahlsummen für die aktuelle Zahl {1} gefunden.</value>
+    <value>{0} Primzahlsummen zur aktuellen Zahl {1} gefunden.</value>
   </data>
   <data name="numberline_goldbachinfo" xml:space="preserve">
     <value>(Jede gerade Zahl &gt; 2 kann als Summe von 2 Primzahlen geschrieben werden.)</value>
@@ -284,7 +284,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>Nächstgrößere Primzahl</value>
   </data>
   <data name="numberline_nexttwinprime" xml:space="preserve">
-    <value>Der nächstgrößere Primzahlzwilling ist ({0},{1}).</value>
+    <value>Der nächstgrößere Primzahlzwilling ist ({0}, {1}).</value>
   </data>
   <data name="numberline_numberofprimeinterval" xml:space="preserve">
     <value>Anzahl der Primzahlen im ausgewählten Bereich ({0}, {1})</value>
@@ -299,7 +299,7 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>Nächstkleinere Primzahl</value>
   </data>
   <data name="numberline_priortwinprime" xml:space="preserve">
-    <value>Der nächstkleinere Primzahlzwilling ist ({0},{1}).</value>
+    <value>Der nächstkleinere Primzahlzwilling ist ({0}, {1}).</value>
   </data>
   <data name="numberline_progress" xml:space="preserve">
     <value>Fortschritt</value>
@@ -320,10 +320,10 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>bis</value>
   </data>
   <data name="numberline_tooltipscrollleft" xml:space="preserve">
-    <value>Verringert den Bereich in 1-er Schritten</value>
+    <value>Verringert den Zahlenbereich in 1-er Schritten</value>
   </data>
   <data name="numberline_tooltipscrollleftfast" xml:space="preserve">
-    <value>Verringert den Bereich in 10-er Schritten</value>
+    <value>Verringert den Zahlenbereich in 10-er Schritten</value>
   </data>
   <data name="numberline_tooltipscrollright" xml:space="preserve">
     <value>Erhöht den Bereich in 1-er Schritten</value>
@@ -371,9 +371,33 @@ Auf der Zahlengeraden kann ein Intervall der Breite zwischen 10 und 90 Zahlen an
     <value>Der Abstand zwischen "von" und "bis" muss mindestens {0} und höchstens {1} sein.</value>
   </data>
   <data name="numberline_goldbachfoundsum" xml:space="preserve">
-    <value>{0} Primzahlsumme für die aktuelle Zahl {1} gefunden.</value>
+    <value>{0} Primzahlsumme zur aktuellen Zahl {1} gefunden.</value>
   </data>
   <data name="numberline_istwo" xml:space="preserve">
     <value>Die Goldbach-Vermutung gilt nur für gerade Zahlen &gt; 2.</value>
+  </data>
+  <data name="numberline_eulerphimaxlines" xml:space="preserve">
+    <value>Nur die ersten {0} von {1} Werten werden angezeigt.</value>
+  </data>
+  <data name="numberline_goldbachmaxlines" xml:space="preserve">
+    <value>Nur die ersten {0} Summen werden angezeigt.</value>
+  </data>
+  <data name="numberline_insidetwinprime" xml:space="preserve">
+    <value>{0} liegt innerhalb des Primzahlzwillings ({1}, {2}).</value>
+  </data>
+  <data name="numberline_tooltipdecrange" xml:space="preserve">
+    <value>Verringert den Zahlenbereich bis auf mindestens 10 Zahlen</value>
+  </data>
+  <data name="numberline_tooltipincrange" xml:space="preserve">
+    <value>Vergrößert den Zahlenbereich bis auf höchstens 90 Zahlen</value>
+  </data>
+  <data name="numberline_goldbachdesc" xml:space="preserve">
+    <value>y(n) gibt an, auf wie viele Arten sich die Zahl n als Summe zweier Primzahlen schreiben lässt. Beispiel: 10 = 3 + 7 und 10 = 5 + 5, also ist y(10)=2.</value>
+  </data>
+  <data name="numberline_goldbachsum" xml:space="preserve">
+    <value>Summe</value>
+  </data>
+  <data name="numberline_goldbachsums" xml:space="preserve">
+    <value>Summen</value>
   </data>
 </root>

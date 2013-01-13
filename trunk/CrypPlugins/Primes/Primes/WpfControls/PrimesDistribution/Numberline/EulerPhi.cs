@@ -24,55 +24,51 @@ using Primes.Bignum;
 using Primes.Library;
 using System.Windows;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
-  public class EulerPhi : BaseNTFunction
-  {
-    object lockobj = new object();
-    public EulerPhi(LogControl2 lc, TextBlock tb) : base(lc, tb) { }
-
-    #region Calculating
-
-    protected override void DoExecute()
+    public class EulerPhi : BaseNTFunction
     {
-      FireOnStart();
-      ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
-      if (m_Value.IsPrime(20))
-      {
-        string info = 
-          string.Format(
-            Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphiisprime, 
-            new object[] { m_Value.ToString("D"), m_Value.ToString("D"), m_Value.ToString("D"), m_Value.Subtract(PrimesBigInteger.One).ToString("D") });
-        m_Log.Info(info);
-        SetCalcInfo(info);
-      }
-      else
-      {
-        SetCalcInfo( Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_calculating );
-
-        PrimesBigInteger d = PrimesBigInteger.One;
-        PrimesBigInteger counter = PrimesBigInteger.Zero;
-        while (d.CompareTo(m_Value) < 0)
-        {
-          if (PrimesBigInteger.GCD(d, m_Value).Equals(PrimesBigInteger.One))
-          {
-            m_Log.Info(d.ToString()+"   ");
-            counter = counter.Add(PrimesBigInteger.One);
-            //SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
-          }
-
-          d = d.Add(PrimesBigInteger.One);
+        public EulerPhi(LogControl2 lc, TextBlock tb) : base(lc, tb)
+        { 
         }
 
-        SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, new object[] { counter.ToString("D"), m_Value.ToString("D") }));
+        protected override void DoExecute()
+        {
+            FireOnStart();
 
-      }
-      FireOnStop();
+            ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
 
+            if (m_Value.IsPrime(20))
+            {
+                string info = string.Format( Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphiisprime, m_Value, m_Value, m_Value, m_Value.Subtract(PrimesBigInteger.One) );
+                m_Log.Info(info);
+                SetCalcInfo(info);
+            }
+            else
+            {
+                PrimesBigInteger phi = (m_Factors != null) ? PrimesBigInteger.Phi(m_Factors) : m_Value.Phi();
+                SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, phi, m_Value ));
+
+                BigInteger x = BigInteger.Parse(m_Value.ToString());
+                int counter = 0;
+                int maxlines = 1000;
+
+                for ( BigInteger d = 1; d < x; d++ )
+                {
+                    if (BigInteger.GreatestCommonDivisor(d,x)==1)
+                    {
+                        m_Log.Info(d + "   ");
+                        if (++counter >= maxlines) break;
+                    }
+                }
+
+                if (counter >= maxlines)
+                    m_Log.Info(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphimaxlines, maxlines, phi));
+            }
+
+            FireOnStop();
+        }
     }
-
-
-    #endregion
-  }
 }
