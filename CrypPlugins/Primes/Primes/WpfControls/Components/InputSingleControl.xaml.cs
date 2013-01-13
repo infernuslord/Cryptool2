@@ -852,13 +852,13 @@ namespace Primes.WpfControls.Components
 
     private void tb_KeyDown(object sender, KeyEventArgs e)
     {
-      if (KeyDownNoValidation != null) KeyDownNoValidation((sender as TextBox).Text);
-      PrimesBigInteger value = GetValue();
-      if (value != null && KeyDown!=null)
-      {
-        KeyDown(value);
-      }
-      if (Execute != null && e.Key == Key.Enter && value != null) Execute(value);
+        if (KeyDownNoValidation != null) KeyDownNoValidation((sender as TextBox).Text);
+        PrimesBigInteger value = GetValue();
+        if (value != null && KeyDown != null)
+        {
+            KeyDown(value);
+        }
+        if (Execute != null && e.Key == Key.Enter && value != null) Execute(value);
     }
 
     private void tb_GotFocus(object sender, RoutedEventArgs e)

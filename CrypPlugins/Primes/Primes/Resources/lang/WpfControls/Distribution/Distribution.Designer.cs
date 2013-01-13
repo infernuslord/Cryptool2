@@ -394,6 +394,15 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Nur die ersten {0} von {1} Werten werden angezeigt. ähnelt.
+        /// </summary>
+        public static string numberline_eulerphimaxlines {
+            get {
+                return ResourceManager.GetString("numberline_eulerphimaxlines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Teilersummenformel ähnelt.
         /// </summary>
         public static string numberline_eulerphisum {
@@ -457,7 +466,16 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primzahlsumme für die aktuelle Zahl {1} gefunden. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die y(n) gibt an, auf wie viele Arten sich die Zahl n als Summe zweier Primzahlen schreiben lässt. Beispiel: 10 = 3 + 7 und 10 = 5 + 5, also ist y(10)=2. ähnelt.
+        /// </summary>
+        public static string numberline_goldbachdesc {
+            get {
+                return ResourceManager.GetString("numberline_goldbachdesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primzahlsumme zur aktuellen Zahl {1} gefunden. ähnelt.
         /// </summary>
         public static string numberline_goldbachfoundsum {
             get {
@@ -466,7 +484,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primzahlsummen für die aktuelle Zahl {1} gefunden. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primzahlsummen zur aktuellen Zahl {1} gefunden. ähnelt.
         /// </summary>
         public static string numberline_goldbachfoundsums {
             get {
@@ -480,6 +498,33 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         public static string numberline_goldbachinfo {
             get {
                 return ResourceManager.GetString("numberline_goldbachinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Nur die ersten {0} Summen werden angezeigt. ähnelt.
+        /// </summary>
+        public static string numberline_goldbachmaxlines {
+            get {
+                return ResourceManager.GetString("numberline_goldbachmaxlines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summe ähnelt.
+        /// </summary>
+        public static string numberline_goldbachsum {
+            get {
+                return ResourceManager.GetString("numberline_goldbachsum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summen ähnelt.
+        /// </summary>
+        public static string numberline_goldbachsums {
+            get {
+                return ResourceManager.GetString("numberline_goldbachsums", resourceCulture);
             }
         }
         
@@ -499,6 +544,15 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         public static string numberline_headercoutprimes {
             get {
                 return ResourceManager.GetString("numberline_headercoutprimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} liegt innerhalb des Primzahlzwillings ({1}, {2}). ähnelt.
+        /// </summary>
+        public static string numberline_insidetwinprime {
+            get {
+                return ResourceManager.GetString("numberline_insidetwinprime", resourceCulture);
             }
         }
         
@@ -575,7 +629,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Der nächstgrößere Primzahlzwilling ist ({0},{1}). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der nächstgrößere Primzahlzwilling ist ({0}, {1}). ähnelt.
         /// </summary>
         public static string numberline_nexttwinprime {
             get {
@@ -620,7 +674,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Der nächstkleinere Primzahlzwilling ist ({0},{1}). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der nächstkleinere Primzahlzwilling ist ({0}, {1}). ähnelt.
         /// </summary>
         public static string numberline_priortwinprime {
             get {
@@ -683,7 +737,25 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Verringert den Bereich in 1-er Schritten ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Verringert den Zahlenbereich bis auf mindestens 10 Zahlen ähnelt.
+        /// </summary>
+        public static string numberline_tooltipdecrange {
+            get {
+                return ResourceManager.GetString("numberline_tooltipdecrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vergrößert den Zahlenbereich bis auf höchstens 90 Zahlen ähnelt.
+        /// </summary>
+        public static string numberline_tooltipincrange {
+            get {
+                return ResourceManager.GetString("numberline_tooltipincrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Verringert den Zahlenbereich in 1-er Schritten ähnelt.
         /// </summary>
         public static string numberline_tooltipscrollleft {
             get {
@@ -692,7 +764,7 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Verringert den Bereich in 10-er Schritten ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Verringert den Zahlenbereich in 10-er Schritten ähnelt.
         /// </summary>
         public static string numberline_tooltipscrollleftfast {
             get {

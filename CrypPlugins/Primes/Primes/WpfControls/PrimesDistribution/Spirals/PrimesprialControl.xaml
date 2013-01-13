@@ -27,11 +27,8 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <GroupBox Header="{x:Static lang:Distribution.ulam_input}" Grid.Row="0" Grid.ColumnSpan="3" Padding="5">
-      <comps:InputRangeControl 
-        
-        x:Name="irc" ShowButtons="False" InputRangeControlType="Horizontal" 
-        />
-        </GroupBox>
+        <comps:InputRangeControl x:Name="irc" ShowButtons="False" InputRangeControlType="Horizontal" SecondParameterPresent="false"/>
+      </GroupBox>
       <Button Name="btnExecute" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Width="100" Click="btnExecute_Click" Margin="7" Content="{x:Static lang:Distribution.ulam_btnExecute}"></Button>
       <Button Name="btnCancel" Grid.Row="1" Grid.Column="1" Width="100" Click="btnCancel_Click" IsEnabled="False" Margin="7" Content="{x:Static lang:Distribution.ulam_btnCancel}"></Button>
       <TextBlock Name="lblInfo" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Blue" />

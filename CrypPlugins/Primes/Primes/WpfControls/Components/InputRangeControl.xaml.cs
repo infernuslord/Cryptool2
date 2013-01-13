@@ -458,12 +458,12 @@ namespace Primes.WpfControls.Components
          ControlHandler.SetPropertyValue(m_RbFree, "IsEnabled", true);
       }
 
-      private bool m_IntervalDoesntSizeNeedToBeGreaterThanZero;
+      private bool m_IntervalSizeCanBeZero;
 
-      public bool IntervalDoesntSizeNeedToBeGreateThanZero
+      public bool IntervalSizeCanBeZero
       {
-         get { return m_IntervalDoesntSizeNeedToBeGreaterThanZero; }
-         set { m_IntervalDoesntSizeNeedToBeGreaterThanZero = value; }
+          get { return m_IntervalSizeCanBeZero; }
+          set { m_IntervalSizeCanBeZero = value; }
       }
 
 #endregion
@@ -635,22 +635,28 @@ namespace Primes.WpfControls.Components
 
       private void DoExecute(bool doExecute)
       {
-         PrimesBigInteger from = null;
-         PrimesBigInteger to = null;
-         PrimesBigInteger second = null;
+          PrimesBigInteger from = null;
+          PrimesBigInteger to = null;
+          PrimesBigInteger second = null;
 
-         if (SecondParameterPresent)
-            GetValue(ref from, ref to, ref second);
-         else
-            GetValue(ref from, ref to);
+          GetValue(ref from, ref to);
 
-         if (Execute != null && doExecute && from != null && to != null && (!SecondParameterPresent || (second!=null)))
-         {
-            LockControls();
-            Execute(from, to, second);
-         }
+          if (Execute == null || !doExecute) return;
+          if (from == null || to == null) return;
+
+          if (SecondParameterPresent)
+          {
+              if (!ValidateSecondInput(ref second))
+              {
+                  InfoSecond("No second parameter given", new TextBox[] { tbSecondParameter }, OnlineHelp.OnlineHelpActions.None);
+              }
+              //if (second == null) return;
+          }
+
+          LockControls();
+          Execute(from, to, second);
       }
-
+      
       private void btnCancel_Click(object sender, RoutedEventArgs e)
       {
          if (Cancel != null) Cancel();
@@ -676,19 +682,19 @@ namespace Primes.WpfControls.Components
          {
             from = ValidateInput(m_tbFromFree);
             to = ValidateInput(m_tbToFree);
-            if (m_IntervalDoesntSizeNeedToBeGreaterThanZero)
+
+            if (m_IntervalSizeCanBeZero)
             {
-               if (from.CompareTo(to) > 0)
+               if (!(from <= to))
                {
                   from = null;
                   to = null;
-                  InfoFree(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
+                  InfoFree(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator2, new TextBox[] { m_tbFromFree, m_tbToFree }, OnlineHelp.OnlineHelpActions.None);
                }
             }
             else
             {
-
-               if (from.CompareTo(to) >= 0)
+               if (!(from < to))
                {
                   from = null;
                   to = null;
@@ -710,11 +716,12 @@ namespace Primes.WpfControls.Components
          }
       }
 
-      public void ValidateSecondInput(ref PrimesBigInteger second)
+      public bool ValidateSecondInput(ref PrimesBigInteger second)
       {
          try
          {
             second = ValidateInput(tbSecondParameter);
+            return true;
          }
          catch (ControlValidationException cvex)
          {
@@ -727,6 +734,8 @@ namespace Primes.WpfControls.Components
                   InfoSecond(cvex.Message, cvex.Control as TextBox, cvex.HelpAction);
                   break;
             }
+            second = null;
+            return false;
          }
       }
 
@@ -747,7 +756,7 @@ namespace Primes.WpfControls.Components
 
          try
          {
-            TextBoxValidator<PrimesBigInteger> tbvalidator = new TextBoxValidator<PrimesBigInteger>(m_Validator.Validator, tbSource,m_Validator.DefaultValue);
+            TextBoxValidator<PrimesBigInteger> tbvalidator = new TextBoxValidator<PrimesBigInteger>(m_Validator.Validator, tbSource, m_Validator.DefaultValue);
             tbvalidator.Validate(ref result);
          }
          catch (ControlValidationException cvex)
@@ -779,22 +788,21 @@ namespace Primes.WpfControls.Components
             from = fromBase.Pow(fromExp.IntValue).Multiply(fromFactor).Add(fromSum);
             to = toBase.Pow(toExp.IntValue).Multiply(toFactor).Add(toSum);
 
-            if (m_IntervalDoesntSizeNeedToBeGreaterThanZero)
+            if (m_IntervalSizeCanBeZero)
             {
-               if (from.CompareTo(to) > 0)
+               if (!(from <= to))
                {
                   from = null;
                   to = null;
-                  InfoCalc(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
+                  InfoCalc(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator2, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
                }
             }
             else
             {
-               if (from.CompareTo(to) >= 0)
+               if (!(from < to))
                {
                   from = null;
                   to = null;
-
                   InfoCalc(Primes.Resources.lang.Validation.Validation.IllegalRangeValidator, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, OnlineHelp.OnlineHelpActions.None);
                }
             }
@@ -928,6 +936,7 @@ namespace Primes.WpfControls.Components
       {
          Warning(null, m_LblInfoFree, new TextBox[] { m_tbFromFree, m_tbToFree }, null, Brushes.White, Brushes.Black, Brushes.White);
          Warning(null, m_LblInfoCalc, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, null, Brushes.White, Brushes.Black, Brushes.White);
+         Warning(null, m_LblInfoSecond, new TextBox[] { tbSecondParameter }, null, Brushes.White, Brushes.Black, Brushes.White);
       }
 
 #endregion

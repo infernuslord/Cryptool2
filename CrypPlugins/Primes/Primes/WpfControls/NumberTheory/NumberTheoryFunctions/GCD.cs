@@ -66,6 +66,14 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
             }
         }
 
+        public override bool NeedsSecondParameter
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         #endregion
     }
 }

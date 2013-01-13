@@ -28,37 +28,34 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
   public class Rho:BaseNTFunction
   {
-    public Rho()
-      : base()
+    public Rho() : base()
     {
-
     }
 
     protected override void DoExecute()
     {
       FireOnStart();
-      PrimesBigInteger from = m_From;
-      while (from.CompareTo(m_To) <= 0)
+
+      for (PrimesBigInteger from = m_From; from.CompareTo(m_To) <= 0; from = from + 1)
       {
-        PrimesBigInteger sum = PrimesBigInteger.Zero;
-        PrimesBigInteger d = PrimesBigInteger.One;
-        while (d.Multiply(PrimesBigInteger.Two).CompareTo(from) <= 0)
-        {
-          if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+          PrimesBigInteger sum = 0;
+
+          for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
           {
-            sum = sum.Add(d);
-            FireOnMessage(this, from, sum.ToString());
+              if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+              {
+                  sum = sum + d;
+                  FireOnMessage(this, from, sum.ToString());
+              }
           }
-          d = d.Add(PrimesBigInteger.One);
-        }
 
-        sum = sum.Add(from);
-        FireOnMessage(this, from, sum.ToString());
-        from = from.Add(PrimesBigInteger.One);
+          sum = sum + from;
+          FireOnMessage(this, from, sum.ToString());
       }
-      FireOnStop();
 
+      FireOnStop();
     }
+
     public override string Description
     {
       get

@@ -26,7 +26,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
   public interface INTFunction
   {
-    void Start(PrimesBigInteger value);
+    void Start(PrimesBigInteger value, Dictionary<PrimesBigInteger,long> factors=null);
     void Stop();
     event VoidDelegate OnStart;
     event VoidDelegate OnStop;

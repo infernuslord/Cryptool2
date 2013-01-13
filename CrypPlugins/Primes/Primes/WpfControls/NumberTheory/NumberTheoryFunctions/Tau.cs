@@ -34,27 +34,24 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     protected override void DoExecute()
     {
       FireOnStart();
-      PrimesBigInteger from = m_From;
-      while (from.CompareTo(m_To) <= 0)
+
+      for (PrimesBigInteger from = m_From; from <= m_To; from = from + 1)
       {
-        PrimesBigInteger d = PrimesBigInteger.One;
-        PrimesBigInteger counter = PrimesBigInteger.Zero;
+          PrimesBigInteger counter = 0;
 
-        while (d.Multiply(PrimesBigInteger.Two).CompareTo(from) <= 0)
-        {
-          if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+          for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
           {
-            counter = counter.Add(PrimesBigInteger.One);
-            FireOnMessage(this, from, counter.ToString());
+              if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+              {
+                  counter = counter + 1;
+                  FireOnMessage(this, from, counter.ToString());
+              }
           }
-          d = d.Add(PrimesBigInteger.One);
-        }
-        counter = counter.Add(PrimesBigInteger.One);
-        FireOnMessage(this, from, counter.ToString());
-        from = from.Add(PrimesBigInteger.One);
+          counter = counter + 1;
+          FireOnMessage(this, from, counter.ToString());
       }
-      FireOnStop();
 
+      FireOnStop();
     }
 
     public override string Description

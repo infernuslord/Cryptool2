@@ -135,4 +135,7 @@
   <data name="IllegalRangeValidator" xml:space="preserve">
     <value>Der Wert im Feld "von" muss kleiner sein als der Wert im Feld "bis".</value>
   </data>
+  <data name="IllegalRangeValidator2" xml:space="preserve">
+    <value>Der Wert im Feld "von" muss kleiner oder gleich sein wie der Wert im Feld "bis".</value>
+  </data>
 </root>

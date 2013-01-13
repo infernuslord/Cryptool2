@@ -26,13 +26,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-using Primes.WpfControls.Components;
+using System.Diagnostics;
 using System.Threading;
 using System.Reflection;
+using Primes.WpfControls.Components;
 using Primes.Bignum;
 using Primes.Library;
-using System.Diagnostics;
 
 namespace Primes.WpfControls.PrimesDistribution.Spirals
 {
@@ -48,6 +47,7 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     private PrimesBigInteger m_To;
 
     private enum Direction { Right, Up, Left, Down }
+
     public UlamSpiral()
     {
       InitializeComponent(); 
@@ -65,76 +65,68 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     }
 
     #region Events
+
     public event VoidDelegate StartDrawing;
     public event VoidDelegate StopDrawing;
+
     #endregion
+
     private void DrawThread()
     {
+        FireEvent_StartDrawing();
 
-      //DateTime start = DateTime.Now;
+        double size = CalculateSize() * m_UnitWidth;
+        ControlHandler.SetPropertyValue(PaintArea, "Width", size);
+        ControlHandler.SetPropertyValue(PaintArea, "Height", size);
+        double sawidth = (double)ControlHandler.GetPropertyValue(PaintArea, "Width");
+        double saheight = (double)ControlHandler.GetPropertyValue(PaintArea, "Height");
+        ControlHandler.ExecuteMethod(sv, "ScrollToVerticalOffset", new object[] { sawidth / 2.0 });
+        ControlHandler.ExecuteMethod(sv, "ScrollToHorizontalOffset", new object[] { saheight / 2.0 });
+        int direction = 0;
+        double x1 = size / 2.0;
+        double y1 = size / 2.0;
+        int lenghtFactor = 0;
+        long value = m_From.LongValue;
 
-      FireEvent_StartDrawing();
-      //ControlHandler.SetPropertyValue(PaintArea, "Visibility", Visibility.Visible);
-      double size = CalculateSize() * m_UnitWidth;
-      ControlHandler.SetPropertyValue(PaintArea,"Width",size);
-      ControlHandler.SetPropertyValue(PaintArea,"Height",size);
-      double sawidth = (double)ControlHandler.GetPropertyValue(PaintArea, "Width");
-      double saheight = (double)ControlHandler.GetPropertyValue(PaintArea, "Height");
-      ControlHandler.ExecuteMethod(sv, "ScrollToVerticalOffset", new object[] { sawidth / 2.0 });
-      ControlHandler.ExecuteMethod(sv, "ScrollToHorizontalOffset", new object[] { saheight / 2.0 });
-      int direction = 0;
-      double x1 = size / 2.0;
-      double y1 = size / 2.0;
-      int lenghtFactor = 0;
-      PrimesBigInteger i = PrimesBigInteger.Zero;
-      PrimesBigInteger value = m_From;
-
-      while (value.CompareTo(m_To) <= 0)
-      {
-        if (i.Mod(PrimesBigInteger.Two).CompareTo(PrimesBigInteger.Zero) == 0)
+        while (value <= m_To.LongValue)
         {
-          lenghtFactor++;
+            if (direction % 2 == 0) lenghtFactor++;
+            double x2 = x1, y2 = y1;
+            Calculate(x1, y1, (Direction)direction, lenghtFactor, ref x2, ref y2);
+            DrawLine(x1, x2, y1, y2);
+
+            for (int j = 0; j < lenghtFactor; j++)
+            {
+                if (value > m_To) break;
+                x2 = x1;
+                y2 = y1;
+                Calculate(x1, y1, (Direction)direction, 1, ref x2, ref y2);
+
+                if (PrimeNumbers.isprime.Contains(value))
+                    DrawNumberButton(value, x1, y1);
+                value = value + 1;
+                x1 = x2;
+                y1 = y2;
+            }
+
+            direction = (direction + 1) % 4;
         }
-        double x2 = x1, y2 = y1;
-        Calculate(x1, y1, (Direction)direction, lenghtFactor, ref x2, ref y2);
-        DrawLine(x1, x2, y1, y2);
-        for (int j = 0; j < lenghtFactor; j++)
-        {
-          if (value.CompareTo(m_To) > 0) break;
-          x2 = x1;
-          y2 = y1;
-          Calculate(x1, y1, (Direction)direction, 1, ref x2, ref y2);
-          //if (x2 < 0 || x2 > PaintArea.ActualWidth || y2 < 0 || y2 > PaintArea.ActualHeight)
-          //  return;
-          if (value.IsPrime(10))
-            DrawNumberButton(value, x1, y1);
-          value = value.Add(PrimesBigInteger.One);
-          x1 = x2;
-          y1 = y2;
-        }
-        direction = (direction + 1) % 4;
-        i = i.Add(PrimesBigInteger.One);
-      }
-      //TimeSpan diff = DateTime.Now - start;
-      //Debug.WriteLine(string.Format("{0} {1} {2}", new object[] { diff.Minutes, diff.Seconds, diff.Milliseconds }));
-      FireEvent_StopDrawing();
+
+        FireEvent_StopDrawing();
     }
+
     private double CalculateSize()
     {
-      PrimesBigInteger result = PrimesBigInteger.One;
-      PrimesBigInteger value = m_From;
-      PrimesBigInteger i = PrimesBigInteger.Zero;
-      while (value.CompareTo(m_To) < 0)
-      {
-        if (i.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero))
-        {
-          result = result.Add(PrimesBigInteger.One);
-        }
-        value = value.Add(result);
-        i = i.Add(PrimesBigInteger.One);
-      }
-      return double.Parse(result.ToString())+5;
+        int limit = (m_To - m_From).IntValue;
+        int result = 1;
+        int i = 0;
+
+        for (int k = 0; k < limit; k += result, i++)
+            if (i % 2 == 0) result++;
+
+        return result + 5;
     }
+
     private void Calculate(double x1, double y1, Direction direction, int factor, ref double x2, ref double y2) 
     {
       switch (direction)
@@ -170,12 +162,14 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
 
       ControlHandler.AddChild(result, PaintArea);
     }
+
     private delegate void SetCanvasDelegate(MethodInfo mi, UIElement element, double value);
 
     private void SetCanvas(MethodInfo mi,UIElement element, double value)
     {
       mi.Invoke(PaintArea, new object[] { element,value });
     }
+
     private void DrawNumberButton(PrimesBigInteger value, double x, double y)
     {
       Ellipse nb = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
@@ -200,7 +194,6 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
       ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { nb, y - 3 });
       ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { nb, x - 3 });      
       ControlHandler.AddChild(nb, PaintArea);
-
     }
 
     protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -216,11 +209,11 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
         m_DrawThread.Abort();
         m_DrawThread = null;
       }
+
       FireEvent_StopDrawing();
     }
 
     #region IPrimeSpiral Members
-
 
     public void Close()
     {
@@ -244,10 +237,12 @@ namespace Primes.WpfControls.PrimesDistribution.Spirals
     {
       if (StartDrawing != null) StartDrawing();
     }
+
     private void FireEvent_StopDrawing()
     {
       if (StopDrawing != null) StopDrawing();
     }
+
     private void silderRotate_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         lblRotation.Text = e.NewValue.ToString("N") + "°";

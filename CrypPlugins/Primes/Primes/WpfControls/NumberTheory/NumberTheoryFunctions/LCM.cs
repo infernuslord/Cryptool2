@@ -46,10 +46,8 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
                 while (from.CompareTo(m_To) <= 0)
                 {
-                    PrimesBigInteger result = PrimesBigInteger.GCD(from, modulus);
-                    //PrimesBigInteger result = (from.Multiply(modulus)).Divide(PrimesBigInteger.GCD(from, modulus));
-                    //FireOnMessage(this, from, result.ToString("D"));
-                    FireOnMessage(this, from, "123");
+                    PrimesBigInteger result = (from.Multiply(modulus)).Divide(PrimesBigInteger.GCD(from, modulus));
+                    FireOnMessage(this, from, result.ToString("D"));
                     from = from.Add(PrimesBigInteger.One);
                 }
             }
@@ -65,6 +63,14 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
             get
             {
                 return m_ResourceManager.GetString(BaseNTFunction.lcm);
+            }
+        }
+
+        public override bool NeedsSecondParameter
+        {
+            get
+            {
+                return true;
             }
         }
 

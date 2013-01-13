@@ -28,7 +28,7 @@ using System.Reflection;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-    public abstract class BaseNTFunction:INTFunction
+    public abstract class BaseNTFunction : INTFunction
     {
         #region Resources
 
@@ -43,6 +43,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         protected const string gcd = "gcd";
         protected const string lcm = "lcm";
         protected const string modinv = "modinv";
+        protected const string exteuclid = "exteuclid";
 
         protected static ResourceManager m_ResourceManager;
 
@@ -63,7 +64,6 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         protected PrimesBigInteger m_From;
         protected PrimesBigInteger m_To;
         protected PrimesBigInteger m_SecondParameter;
-        protected bool m_SecondParameterRequired=false;
 
         #endregion
 
@@ -143,6 +143,11 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         public bool IsRunnung
         {
             get { return m_IsRunning; }
+        }
+
+        public virtual bool NeedsSecondParameter
+        {
+            get { return false; }
         }
 
         #endregion

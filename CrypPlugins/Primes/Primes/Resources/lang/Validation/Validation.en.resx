@@ -135,4 +135,7 @@
   <data name="IllegalRangeValidator" xml:space="preserve">
     <value>The from-value must be smaller than the to-value.</value>
   </data>
+  <data name="IllegalRangeValidator1" xml:space="preserve">
+    <value>The from-value must be smaller than or equal to the to-value.</value>
+  </data>
 </root>

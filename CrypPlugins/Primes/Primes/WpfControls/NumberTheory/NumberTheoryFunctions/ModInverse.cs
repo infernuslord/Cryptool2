@@ -46,7 +46,17 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
                 while (from.CompareTo(m_To) <= 0)
                 {
-                    FireOnMessage(this, from, from.ModInverse(modulus).ToString("D"));
+                    string msg;
+                    try
+                    {
+                        PrimesBigInteger result = from.ModInverse(modulus);
+                        msg = result.ToString("D");
+                    }
+                    catch(Exception ex)
+                    {
+                        msg = "-";
+                    }
+                    FireOnMessage(this, from, msg);
                     from = from.Add(PrimesBigInteger.One);
                 }
             }

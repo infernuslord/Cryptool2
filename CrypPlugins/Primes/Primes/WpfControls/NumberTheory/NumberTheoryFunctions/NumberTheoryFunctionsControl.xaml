@@ -24,7 +24,7 @@
 
         <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="{x:Static lang:Numbertheory.groupbox_input}" BorderThickness="1" InputRangeControlType="Horizontal" SecondParameterPresent="true" BorderBrush="Gray" />
         
-        <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}">
+        <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}" Height="100">
             <Grid HorizontalAlignment="Left" Name="gridChooseFunctions">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="200"/>

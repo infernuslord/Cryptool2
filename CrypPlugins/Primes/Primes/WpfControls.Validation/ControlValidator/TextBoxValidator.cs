@@ -81,7 +81,8 @@ namespace Primes.WpfControls.Validation.ControlValidator
       {
         result = false;
         t = default(T);
-        switch (validationResult)
+        
+          switch (validationResult)
         {
           case Primes.WpfControls.Validation.ValidationResult.ERROR:
             Error(this.m_Validator.Message);

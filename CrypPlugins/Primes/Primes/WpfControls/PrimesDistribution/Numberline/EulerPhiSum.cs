@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Timo Eckhardt, University of Siegen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,55 +22,64 @@ using Primes.WpfControls.Components;
 using System.Windows.Controls;
 using Primes.Library;
 using System.Windows;
+using System.Linq;
+using System.Numerics;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
-  public class EulerPhiSum:BaseNTFunction
-  {
-    public EulerPhiSum(LogControl2 lc, TextBlock tb)
-      : base(lc, tb)
+    public class EulerPhiSum : BaseNTFunction
     {
-      m_Log.OverrideText = true;
-    }
-
-    protected override void DoExecute()
-    {
-      FireOnStart();
-      ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
-
-      PrimesBigInteger result = PrimesBigInteger.Zero;
-      PrimesBigInteger k = PrimesBigInteger.One;
-      while (k.CompareTo(m_Value) <= 0)
-      {
-        if (m_Value.Mod(k).Equals(PrimesBigInteger.Zero))
+        public EulerPhiSum(LogControl2 lc, TextBlock tb) : base(lc, tb)
         {
-          PrimesBigInteger phik = EulerPhi(k);
-          result = result.Add(phik);
-          SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisuminfo, m_Value.ToString("D"), result.ToString("D")));
-          m_Log.Info(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisumlog, new object[] { k.ToString("D"), phik.ToString("D") }));
+            m_Log.OverrideText = true;
         }
-        k = k.Add(PrimesBigInteger.One);
-      }
-      FireOnStop();
 
-    }
-
-    private PrimesBigInteger EulerPhi(PrimesBigInteger n)
-    {
-      if (n.Equals(PrimesBigInteger.One)) return PrimesBigInteger.One;
-      PrimesBigInteger result = PrimesBigInteger.Zero;
-      PrimesBigInteger k = PrimesBigInteger.One;
-      while (k.CompareTo(n) <= 0)
-      {
-        if (PrimesBigInteger.GCD(k, n).Equals(PrimesBigInteger.One))
+        protected override void DoExecute()
         {
-          result = result.Add(PrimesBigInteger.One);
+            FireOnStart();
+
+            ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
+            StringBuilder sb = new StringBuilder();
+
+            var factors = (m_Factors != null) ? m_Factors : m_Value.Factorize();
+
+            Dictionary<PrimesBigInteger, long> f = new Dictionary<PrimesBigInteger, long>();
+            List<PrimesBigInteger> keys = factors.Keys.ToList();
+            foreach (var key in keys) f[key] = 0;
+
+            Dictionary<PrimesBigInteger, PrimesBigInteger> result = new Dictionary<PrimesBigInteger, PrimesBigInteger>();
+            PrimesBigInteger sum = PrimesBigInteger.Zero;
+
+            int i;
+            do
+            {
+                PrimesBigInteger phi = PrimesBigInteger.Phi(f);
+                result[PrimesBigInteger.Refactor(f)] = phi;
+                sum = sum.Add(phi);
+                for (i = keys.Count - 1; i >= 0; i--)
+                {
+                    f[keys[i]]++;
+                    if (f[keys[i]] <= factors[keys[i]]) break;
+                }
+                for (int j = i + 1; j < keys.Count; j++) f[keys[j]] = 0;
+            }
+            while (i >= 0);
+
+            SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisuminfo, m_Value, sum));
+
+            List<PrimesBigInteger> philist = result.Keys.Select(k => k).ToList();
+            philist.Sort(PrimesBigInteger.Compare);
+            foreach (var k in philist)
+            {
+                m_Log.Info(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphisumlog, k, result[k]));
+            }
+
+            String s = String.Join(" + ", philist.Select(k => String.Format("φ({0})", k)));
+            m_Log.Info(s + " = " + sum);
+
+            FireOnStop();
         }
-        k = k.Add(PrimesBigInteger.One);
-      }
-      return result;
+
     }
 
-  }
-  
 }

@@ -135,6 +135,9 @@
   <data name="eulerphivalues" xml:space="preserve">
     <value>Liste der Teilerfremden</value>
   </data>
+  <data name="exteuclid" xml:space="preserve">
+    <value>Erweiterter euklidischer Algorithmus</value>
+  </data>
   <data name="gcd" xml:space="preserve">
     <value>Größter gemeinsamer Teiler</value>
   </data>
