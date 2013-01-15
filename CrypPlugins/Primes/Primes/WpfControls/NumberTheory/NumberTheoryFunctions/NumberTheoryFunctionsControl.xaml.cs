@@ -84,7 +84,8 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       ivSecond.Validator = new PositiveBigIntegerValidator();
       irc.AddInputValidator(InputRangeControl.SecondParameter, ivSecond);
 
-      irc.SecondParameterPresent = NeedsSecondParameter;
+      //irc.SecondParameterPresent = NeedsSecondParameter;
+      irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
 
       SourceFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
       DestinationFunctionView.SortDescriptions.Add(new SortDescription("Description", ListSortDirection.Ascending));
@@ -431,21 +432,23 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
       DataColumn dc = new DataColumn(function.Description);
         
       m_ColumnsDict.Add(function, dc);
-      m_DataTable.Clear();
+      //m_DataTable.Clear();
       m_DataTable.Columns.Add(dc);
 
-      irc.SecondParameterPresent = NeedsSecondParameter;
+      //irc.SecondParameterPresent = NeedsSecondParameter;
+      irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
     }
 
     private void RemoveFunction(INTFunction function)
     {
       if (m_ColumnsDict.ContainsKey(function))
       {
-        m_DataTable.Clear();
+        //m_DataTable.Clear();
         m_DataTable.Columns.Remove( m_ColumnsDict[function] );
         m_ColumnsDict.Remove(function);
 
-        irc.SecondParameterPresent = NeedsSecondParameter;
+        //irc.SecondParameterPresent = NeedsSecondParameter;
+        irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
       }
     }
 
@@ -463,21 +466,42 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
     private void lbSource_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      IList selected = (sender as System.Windows.Controls.ListBox).SelectedItems;
-      if (selected != null && selected.Count > 0)
-      {
-        if (sender == lbSource)
+        System.Windows.Controls.ListBox lb = null;
+        if (sender is System.Windows.Controls.ListBox)
+            lb = sender as System.Windows.Controls.ListBox;
+        else if (sender is ListBoxItem)
+            lb = ((ListBoxItem)sender).Parent as System.Windows.Controls.ListBox;
+
+        if (lb != null)
         {
-          lbDestination.AllowDrop = true;
-          lbSource.AllowDrop = false;
+            IList selected = (sender as System.Windows.Controls.ListBox).SelectedItems;
+            if (selected != null && selected.Count > 0)
+            {
+                if (sender == lbSource)
+                {
+                    lbDestination.AllowDrop = true;
+                    lbSource.AllowDrop = false;
+                }
+                else
+                {
+                    lbDestination.AllowDrop = false;
+                    lbSource.AllowDrop = true;
+                }
+                DragDrop.DoDragDrop(sender as System.Windows.Controls.ListBox, selected, System.Windows.DragDropEffects.Move);
+            }
         }
-        else
-        {
-          lbDestination.AllowDrop = false;
-          lbSource.AllowDrop = true;
-        }
-        DragDrop.DoDragDrop(sender as System.Windows.Controls.ListBox, selected, System.Windows.DragDropEffects.Move);
-      }
+    }
+
+    private void lbSource_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ListBoxItem)
+            btnToExec_Click(sender, e);
+    }
+
+    private void lbDestination_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is ListBoxItem)
+            btnToDontExec_Click(sender, e);
     }
 
     private void lbDestination_Drop(object sender, System.Windows.DragEventArgs e)
@@ -553,5 +577,6 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
         initialized = true;
       }
     }
+
   }
 }
