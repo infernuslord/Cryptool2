@@ -14,9 +14,12 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.VisualEncoder.Encoders;
@@ -106,9 +109,19 @@ namespace Cryptool.Plugins.VisualEncoder
                 if (dimCode != null) //input is valid
                 {
                     //update Presentation
-                    presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap,false); 
-                    presentation.SetList(dimCode.Legend);
-    
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>  
+                    {
+                        try
+                        {
+                            presentation.SetImages(dimCode.PresentationBitmap, dimCode.PureBitmap); 
+                            presentation.SetList(dimCode.Legend);
+                        }
+                        catch (Exception e)
+                        {
+                            GuiLogMessage(e.Message, NotificationLevel.Error);
+                        }
+                    }), null);
+
                     //update output
                     PictureBytes = dimCode.PureBitmap;
                     OnPropertyChanged("PictureBytes");

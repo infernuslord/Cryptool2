@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.VisualDecoder.Decoders;
@@ -111,7 +112,18 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void PreExecution()
         {
-            presentation.ClearPresentation();
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            {
+                try
+                {
+                    presentation.ClearPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage(e.Message, NotificationLevel.Error);
+                }
+             }), null);
+
             codeFound = false;
         }
 
@@ -187,8 +199,18 @@ namespace Cryptool.Plugins.VisualDecoder
             if (dimCode != null) //input is valid and has been decoded
             {
                 //update Presentation
-                presentation.SetImages(dimCode.BitmapWithMarkedCode);
-                presentation.SetData(dimCode.CodePayload, dimCode.CodeType);
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                {
+                    try
+                    {
+                        presentation.SetImages(dimCode.BitmapWithMarkedCode);
+                        presentation.SetData(dimCode.CodePayload, dimCode.CodeType);
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage(e.Message, NotificationLevel.Error);
+                    }
+                }), null);
 
                 //update output
                 OutputData = dimCode.CodePayload;
@@ -201,8 +223,19 @@ namespace Cryptool.Plugins.VisualDecoder
             }
             else
             {
-                presentation.ClearPresentation();
-                presentation.SetImages(PictureInput);
+                //reset metadata and set image
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                {
+                    try
+                    {
+                        presentation.ClearPresentation();
+                        presentation.SetImages(PictureInput);
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage(e.Message, NotificationLevel.Error);
+                    }
+                }), null);
             }
         }
 

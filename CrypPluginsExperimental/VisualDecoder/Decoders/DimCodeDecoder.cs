@@ -16,6 +16,7 @@
 
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -28,7 +29,7 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
     /// </summary>
     class DimCodeDecoder
     {
-        private ImageConverter imageConverter= new ImageConverter();
+        private readonly ImageConverter imageConverter= new ImageConverter();
 
         protected readonly VisualDecoder Caller;
         protected Pen MarkingPen;
@@ -49,9 +50,12 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
         #region helper
         public byte[] ImageToByteArray(System.Drawing.Image imageIn)
         {
-            var ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            return ms.ToArray();
+            using (var ms = new MemoryStream())
+            {
+                imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                var image = ms.ToArray();
+                return image;
+            }
         }
 
         public Bitmap ByteArrayToImage(byte[] byteArrayIn)
@@ -59,12 +63,6 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
             var img = (Image)imageConverter.ConvertFrom(byteArrayIn);
             return new Bitmap(img);
         }
-
-
-        
-
         #endregion helper
-     
-
     }
 }

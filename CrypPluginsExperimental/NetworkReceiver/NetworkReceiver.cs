@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         #region Private variables
 
         private readonly NetworkReceiverSettings settings;
-        private readonly NetworkReceiverPresentation presentation = new NetworkReceiverPresentation();
+        private readonly NetworkReceiverPresentation presentation;
 
         private IPEndPoint endPoint;
 
@@ -54,6 +54,7 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         public NetworkReceiver()
         {
+            presentation = new NetworkReceiverPresentation(this);
             settings = new NetworkReceiverSettings(this);
         }
 

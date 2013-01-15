@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.VisualEncoder
 
         #endregion
 
-        public enum DimCodeType { EAN13, EAN8, Code39, Code128, QRCode, PDF417 };
+        public enum DimCodeType { EAN8 , EAN13, Code39, Code128, QRCode, PDF417 };
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.VisualEncoder
 
         #region TaskPane Settings
 
-        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN13", "EAN8", "Code39", "Code128", "QRCode", "PDF417" })]
+        [TaskPane("EncodingCaption", "EncodingTooltip", null, 1, true, ControlType.ComboBox, new[] { "EAN8", "EAN13", "Code39", "Code128", "QRCode", "PDF417" })]
         public DimCodeType EncodingType
         {
             get { return encodingType; }
@@ -77,7 +77,6 @@ namespace Cryptool.Plugins.VisualEncoder
                     caller.Execute();
                     OnPropertyChanged("EncodingType");
                     UpdateTaskPaneVisibility();
-                    
                 }
             }
         }

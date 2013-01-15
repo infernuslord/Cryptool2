@@ -117,9 +117,12 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
      
         public byte[] imageToByteArray(Image imageIn)
         {
-            var ms = new MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            return ms.ToArray();
+            using (var ms = new MemoryStream())
+            {
+                imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                var image = ms.ToArray();
+                return image;
+            }
         }
 
         protected static int CalcBarHight(Bitmap bitmap, int x)

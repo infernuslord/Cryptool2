@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.NetworkReceiver
 {
@@ -13,11 +15,13 @@ namespace Cryptool.Plugins.NetworkReceiver
     public partial class NetworkReceiverPresentation : UserControl
     {
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
+        private readonly NetworkReceiver caller;
 
-        public NetworkReceiverPresentation()
+        public NetworkReceiverPresentation(NetworkReceiver networkReceiver)
         {
             InitializeComponent();
             this.DataContext = entries;
+            caller = networkReceiver;
         }
 
         public void RefreshMetaData(int amountOfReceivedPackages, int amountOfUniqueIps)
@@ -28,7 +32,11 @@ namespace Cryptool.Plugins.NetworkReceiver
               {
                   amount.Content = jar[0];
                   uniqueIP.Content = jar[1];
-              } catch{} // dont throw an error in invoke threat
+              }
+              catch (Exception e)
+              {
+                  caller.GuiLogMessage(e.Message,NotificationLevel.Error);
+              } 
             }),jar);
         }
 
@@ -41,7 +49,11 @@ namespace Cryptool.Plugins.NetworkReceiver
                     {
                         startTime.Content = jar[0];
                         lisPort.Content = jar[1];
-                    } catch { } // dont throw an error in invoke threat
+                    }
+                    catch (Exception e)
+                    {
+                        caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                    } 
                 }), jar);
         }
 
@@ -53,7 +65,11 @@ namespace Cryptool.Plugins.NetworkReceiver
                 {
                    entries.Add(package);
                    ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
-                } catch { } // dont throw an error in invoke threat
+                }
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), package);
             
         }
@@ -64,8 +80,12 @@ namespace Cryptool.Plugins.NetworkReceiver
             {
                 try
                 {
-                    entries.Clear(); 
-                } catch{}  // dont throw an error in invoke threat
+                    entries.Clear();
+                }
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), null); 
         }
     }
