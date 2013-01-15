@@ -401,184 +401,185 @@
 
     </Grid>
 
+        <Border Grid.Row="6" BorderBrush="Gray" BorderThickness="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
-    <ScrollViewer Grid.Row="6" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pnlContent" MinWidth="500">
 
-      <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="pnlContent" MinWidth="500" >
+                    <Grid Margin="7,7,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-        <Grid Margin="7,7,0,0">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Name="pnlCountPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
+                            <DockPanel Margin="0,0,0,5">
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Name="lblInfoCountPrimesInterval" Text="{x:Static lang:Distribution.numberline_headercoutprimes}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100"/>
+                            </DockPanel>
+                            <DockPanel Margin="10,0,0,7">
+                                <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimespin}"></TextBlock>
+                            </DockPanel>
+                            <DockPanel Margin="10,0,0,0">
+                                <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesGauss" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimesgauss}"></TextBlock>
+                            </DockPanel>
+                        </StackPanel>
 
-          <StackPanel Grid.Row="0" Name="pnlCountPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
-            <DockPanel Margin="0,0,0,5">
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Name="lblInfoCountPrimesInterval" Text="{x:Static lang:Distribution.numberline_headercoutprimes}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100"/>
-            </DockPanel>
-            <DockPanel Margin="10,0,0,7">
-              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimespin}"></TextBlock>
-            </DockPanel>
-            <DockPanel Margin="10,0,0,0">
-              <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesGauss" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimesgauss}"></TextBlock>
-            </DockPanel>
-          </StackPanel>
-            
-          <Grid Grid.Row="1" Margin="0,0,0,7">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-                <TextBlock FontWeight="Bold" Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBlock Name="lblActualNumber" Grid.Column="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" MaxWidth="100" VerticalAlignment="Center"/>
-                <TextBlock Name="lblActualNumberInfo" Grid.Column="2" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-          </Grid>
+                        <Grid Grid.Row="1" Margin="0,0,0,7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontWeight="Bold" Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center"/>
+                            <TextBlock Name="lblActualNumber" Grid.Column="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" MaxWidth="100" VerticalAlignment="Center"/>
+                            <TextBlock Name="lblActualNumberInfo" Grid.Column="2" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Grid>
 
-          <DockPanel Grid.Row="2" Name="pnlNextPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
-            <TextBlock  Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
-            <TextBlock Name="lblPriorPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
-            <TextBlock  Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
-            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150"/>
-          </DockPanel>
+                        <DockPanel Grid.Row="2" Name="pnlNextPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
+                            <TextBlock  Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+                            <TextBlock Name="lblPriorPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
+                            <TextBlock  Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+                            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150"/>
+                        </DockPanel>
 
-          <DockPanel Grid.Row="3" Margin="0,0,0,7">
-            <TextBlock FontWeight="Bold" Margin="0,0,10,0" Text="{x:Static lang:Distribution.numberline_numberofprimes}" VerticalAlignment="Center"/>
-            <TextBlock FontWeight="Bold" FontSize="15" Name="lblInfoCountPrimes" VerticalAlignment="Center"/>
-          </DockPanel>
+                        <DockPanel Grid.Row="3" Margin="0,0,0,7">
+                            <TextBlock FontWeight="Bold" Margin="0,0,10,0" Text="{x:Static lang:Distribution.numberline_numberofprimes}" VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" FontSize="15" Name="lblInfoCountPrimes" VerticalAlignment="Center"/>
+                        </DockPanel>
 
-          <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,0,7">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_factorization}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpFactorize" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcFactorizationInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}" Width="150"></TextBlock>
-              <TextBlock Name="lblCalcFactorization" Margin="0,0,0,0" TextWrapping="Wrap" ></TextBlock>
-            </DockPanel>
-            <TextBlock HorizontalAlignment="Left" Name="lblFactors" TextWrapping="Wrap" Margin="10,0,0,0" />
-          </StackPanel>
-            
-          <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,7">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}"/>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGoldbach" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Name="lblGoldbachInfoCalc" Cursor="Hand" Foreground="Blue" />
-            </DockPanel>
-            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Name="gbGoldbach">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <comps:LogControl2 Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              </Grid>
-            </GroupBox>
-          </StackPanel>
-            
-          <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,0,7" >
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}"/>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpEulerPhi" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcEulerPhiInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
-            </DockPanel>
-            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbEulerPhi">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <comps:LogControl2 Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              </Grid>
-            </GroupBox>
-          </StackPanel>
-            
-          <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,7" >
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divcount}" ></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTau" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcTauInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
-            </DockPanel>
-            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbTau">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <comps:LogControl2 Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              </Grid>
-            </GroupBox>
-          </StackPanel>
-            
-          <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,7" >
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divsum}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpRho" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcRhoInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
-            </DockPanel>
-            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbRho">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="25"/>
-                </Grid.RowDefinitions>
-                <comps:LogControl2 Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              </Grid>
-            </GroupBox>
-          </StackPanel>
-            
-          <StackPanel Grid.Row="9" Grid.ColumnSpan="3" Margin="0,0,0,7" >
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphisum}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpDivSum" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-              <TextBlock Name="lblCalcDividerSum" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
-            </DockPanel>
-            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbDivSum">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <comps:LogControl2 Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-              </Grid>
-            </GroupBox>
-          </StackPanel>
-            
-          <StackPanel Name="pnlTwinPrimes" Grid.ColumnSpan="3" Grid.Row="10" Margin="0,0,0,7">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Text="{x:Static lang:Distribution.numberline_twinprime}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTwinPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
-            </DockPanel>
+                        <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,0,7">
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_factorization}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpFactorize" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock Name="lblCalcFactorizationInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}" Width="150"></TextBlock>
+                                <TextBlock Name="lblCalcFactorization" Margin="0,0,0,0" TextWrapping="Wrap" ></TextBlock>
+                            </DockPanel>
+                            <TextBlock HorizontalAlignment="Left" Name="lblFactors" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        </StackPanel>
 
-            <TextBlock Name="lblTwinPrimes" Visibility="Collapsed" TextWrapping="Wrap" Margin="10,0,0,0" />
-            <TextBlock Name="lblTwinPrimes2" TextWrapping="Wrap" Margin="10,0,0,0" />
-          </StackPanel>
-            
-          <StackPanel Name="pnlQuadrupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="11" Margin="0,0,0,10">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_quadtuplet}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpQuadrupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
-            </DockPanel>
-            <TextBlock Name="lblQuadrupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
-          </StackPanel>
-            
-          <StackPanel Name="pnlSixTupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="12">
-            <DockPanel>
-              <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_sixtuplet}"></TextBlock>
-              <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpSixTupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown"  Margin="0,0,4,0"/>
-            </DockPanel>
-            <TextBlock Name="lblSixTupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
-          </StackPanel>
-            
-        </Grid>
+                        <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,7">
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGoldbach" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Name="lblGoldbachInfoCalc" Cursor="Hand" Foreground="Blue" />
+                            </DockPanel>
+                            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Name="gbGoldbach">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+                                    <comps:LogControl2 Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
 
-      </StackPanel>
-    </ScrollViewer>
-  </Grid>
+                        <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpEulerPhi" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock Name="lblCalcEulerPhiInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
+                            </DockPanel>
+                            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbEulerPhi">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divcount}" ></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTau" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock Name="lblCalcTauInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
+                            </DockPanel>
+                            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbTau">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divsum}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpRho" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock Name="lblCalcRhoInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
+                            </DockPanel>
+                            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbRho">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="9" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphisum}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpDivSum" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock Name="lblCalcDividerSum" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
+                            </DockPanel>
+                            <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbDivSum">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                    </Grid.RowDefinitions>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Name="pnlTwinPrimes" Grid.ColumnSpan="3" Grid.Row="10" Margin="0,0,0,7">
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Text="{x:Static lang:Distribution.numberline_twinprime}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTwinPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
+                            </DockPanel>
+
+                            <TextBlock Name="lblTwinPrimes" Visibility="Collapsed" TextWrapping="Wrap" Margin="10,0,0,0" />
+                            <TextBlock Name="lblTwinPrimes2" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Name="pnlQuadrupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="11" Margin="0,0,0,10">
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_quadtuplet}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpQuadrupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                            </DockPanel>
+                            <TextBlock Name="lblQuadrupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Name="pnlSixTupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="12">
+                            <DockPanel>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_sixtuplet}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpSixTupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown"  Margin="0,0,4,0"/>
+                            </DockPanel>
+                            <TextBlock Name="lblSixTupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        </StackPanel>
+
+                    </Grid>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
 
 </UserControl>

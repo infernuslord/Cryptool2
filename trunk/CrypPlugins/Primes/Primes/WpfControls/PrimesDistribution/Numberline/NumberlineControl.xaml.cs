@@ -37,6 +37,7 @@ using Primes.Library;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using Primes.Library.Function;
+using Primes.Resources.lang.WpfControls.Distribution;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
@@ -68,8 +69,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
         private double m_ButtonScale;
         private PrimesBigInteger m_Start;
         private PrimesBigInteger m_End;
-		private PrimesBigInteger m_ActualNumber;
-		private bool m_Initialized;
+        private PrimesBigInteger m_ActualNumber;
+        private bool m_Initialized;
+        private bool goldbachIsOpen = true;
 
 		public NumberlineControl()
 		{
@@ -310,7 +312,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 		{
 			ControlHandler.SetPropertyValue(iscFrom, "FreeText", m_Start.ToString());
 			ControlHandler.SetPropertyValue(iscTo, "FreeText", m_End.ToString());
-			ControlHandler.SetPropertyValue(lblInfoCountPrimesInterval, "Text", string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_numberofprimeinterval, m_Start, m_End));
+			ControlHandler.SetPropertyValue(lblInfoCountPrimesInterval, "Text", string.Format(Distribution.numberline_numberofprimeinterval, m_Start, m_End));
 			SetEdgeButtonColor();
 		}
                 
@@ -498,7 +500,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 			if (value.IsProbablePrime(10))
 			{
 				lblActualNumber.Foreground = Brushes.Red;
-				info = Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_isprime;
+				info = Distribution.numberline_isprime;
 			}
 			else
 			{
@@ -535,8 +537,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
 		private void SetCountPrimes()
 		{
-			ControlHandler.SetPropertyValue(lblCountPrimesPi, "Text", string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_countprimespin, CountPrimesPi.ToString()));
-			ControlHandler.SetPropertyValue(lblCountPrimesGauss, "Text", string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_countprimesgauss, CountPrimesGauss.ToString("N")));
+			ControlHandler.SetPropertyValue(lblCountPrimesPi, "Text", string.Format(Distribution.numberline_countprimespin, CountPrimesPi.ToString()));
+			ControlHandler.SetPropertyValue(lblCountPrimesGauss, "Text", string.Format(Distribution.numberline_countprimesgauss, CountPrimesGauss.ToString("N")));
 		}
 
 		private int CountPrimesPi
@@ -571,7 +573,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             if (twin1.IsPrime(20) && twin2.IsPrime(20))
             {
-                lblTwinPrimes.Text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_insidetwinprime, value, twin1, twin2);
+                lblTwinPrimes.Text = string.Format(Distribution.numberline_insidetwinprime, value, twin1, twin2);
                 lblTwinPrimes.Visibility = Visibility.Visible;
             }
 			else if (value.IsTwinPrime(ref tmp))
@@ -580,7 +582,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
                 twin2 = PrimesBigInteger.Max(value, tmp);
                 if (m_ButtonsDict.ContainsKey(twin1)) MarkNumber(m_ButtonsDict[twin1]);
                 if (m_ButtonsDict.ContainsKey(twin2)) MarkNumber(m_ButtonsDict[twin2]);
-                lblTwinPrimes.Text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_istwinprime, twin1, twin2 );
+                lblTwinPrimes.Text = string.Format(Distribution.numberline_istwinprime, twin1, twin2 );
 				lblTwinPrimes.Visibility = Visibility.Visible;
 			}
 
@@ -589,9 +591,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
             string text = ""; 
             twin1.PriorTwinPrime(ref a, ref b);
             if (a.CompareTo(twin1)<0 )
-                text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_priortwinprime, a, b) + " ";
+                text = string.Format(Distribution.numberline_priortwinprime, a, b) + " ";
             twin1.Add(PrimesBigInteger.One).NextTwinPrime(ref a, ref b);
-            text += string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_nexttwinprime, a, b);
+            text += string.Format(Distribution.numberline_nexttwinprime, a, b);
 
             lblTwinPrimes2.Text = text;
 		}
@@ -622,7 +624,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
                 if (m_ButtonsDict.ContainsKey(p)) MarkNumber(m_ButtonsDict[p]);
             }
 
-            return string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_isquadtrupletprime, l[0], l[1], l[2], l[3]);
+            return string.Format(Distribution.numberline_isquadtrupletprime, l[0], l[1], l[2], l[3]);
         }
 
         private bool IsQuadrupletPrime( PrimesBigInteger value, ref PrimesBigInteger first )
@@ -667,7 +669,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
                 if (m_ButtonsDict.ContainsKey(p)) MarkNumber(m_ButtonsDict[p]);
             }
 
-            lblSixTupletPrimes.Text = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_issixtupletprime, l[0], l[1], l[2], l[3], l[4], l[5]);
+            lblSixTupletPrimes.Text = string.Format(Distribution.numberline_issixtupletprime, l[0], l[1], l[2], l[3], l[4], l[5]);
             pnlSixTupletPrimes.Visibility = Visibility.Visible;
 		}
 
@@ -705,7 +707,7 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             if (o.GetType() == typeof(PrimesBigInteger))
             {
-                ControlHandler.SetPropertyValue(lblCalcFactorizationInfo, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_factorizationcalculating);
+                ControlHandler.SetPropertyValue(lblCalcFactorizationInfo, "Text", Distribution.numberline_factorizationcalculating);
                 value = o as PrimesBigInteger;
                 factors = value.Factorize();
             }
@@ -785,12 +787,14 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 			PrimesBigInteger value = o as PrimesBigInteger;
 
 			if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.One)) // value is odd
-			{
-				ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_isodd, value));
+            {
+                ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", string.Format(Distribution.numberline_isodd, value));
+                ControlHandler.SetPropertyValue(gbGoldbach, "Visibility", Visibility.Collapsed);
 			}
 			else if (value.Equals(PrimesBigInteger.Two))  // value = 2
 			{
-				ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_istwo);
+                ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", Distribution.numberline_istwo);
+                ControlHandler.SetPropertyValue(gbGoldbach, "Visibility", Visibility.Collapsed);
 			}
 			else // value is even and not prime
 			{
@@ -813,23 +817,20 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
                             if (counter < maxlines)
                                 logGoldbach.Info(string.Format("{0} + {1}   ", sum1, sum2));
                             else if (counter == maxlines)
-                                logGoldbach.Info(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_goldbachmaxlines, maxlines));
+                                logGoldbach.Info(string.Format(Distribution.numberline_goldbachmaxlines, maxlines));
 
                             if (counter % 50 == 0)
                             {
-                                string fmt = (counter==1)
-                                    ? Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_goldbachfoundsum
-                                    : Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_goldbachfoundsums;
+                                string fmt = (counter==1) ? Distribution.numberline_goldbachfoundsum : Distribution.numberline_goldbachfoundsums;
                                 ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", string.Format(fmt, counter, value));
                             }
                         }
                         sum1 = (++i < PrimeNumbers.primes.Length) ? PrimeNumbers.primes[i] : (long)BigIntegerHelper.NextProbablePrime(sum1 + 1);
                     }
 
-                    string fmt1 = (counter==1)
-                        ? Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_goldbachfoundsum
-                        : Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_goldbachfoundsums;
+                    string fmt1 = (counter==1) ? Distribution.numberline_goldbachfoundsum : Distribution.numberline_goldbachfoundsums;
                     ControlHandler.SetPropertyValue(lblGoldbachInfoCalc, "Text", string.Format(fmt1, counter, value));
+                    ControlHandler.SetPropertyValue(gbGoldbach, "Visibility", goldbachIsOpen ? Visibility.Visible : Visibility.Collapsed);
 				}
 			}
 
@@ -1055,6 +1056,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
 			if (gb != null)
                 gb.Visibility = (gb.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+
+            goldbachIsOpen = (gbGoldbach.Visibility == Visibility.Visible);
 		}
 
 		private void ActuallNumberButtonArea_MouseMove(object sender, MouseEventArgs e)

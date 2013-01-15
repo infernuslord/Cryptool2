@@ -24,19 +24,31 @@
 
         <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="{x:Static lang:Numbertheory.groupbox_input}" BorderThickness="1" InputRangeControlType="Horizontal" SecondParameterPresent="true" BorderBrush="Gray" />
         
-        <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}" Height="100">
+        <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}" Height="120">
             <Grid HorizontalAlignment="Left" Name="gridChooseFunctions">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="200"/>
+                    <ColumnDefinition MinWidth="252"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition MinWidth="200"/>
+                    <ColumnDefinition MinWidth="252"/>
                 </Grid.ColumnDefinitions>
-                <ListBox x:Uid="lbSource" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="0" Name="lbSource" DisplayMemberPath="Description" Drop="lbDestination_Drop" PreviewMouseLeftButtonDown="lbSource_PreviewMouseLeftButtonDown" SelectionMode="Extended"/>
+                <ListBox x:Uid="lbSource" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="0" Name="lbSource" DisplayMemberPath="Description" SelectionMode="Extended">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <EventSetter Event="MouseDoubleClick" Handler="lbSource_MouseDoubleClick" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
                 <StackPanel x:Uid="StackPanel_1" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="5">
                     <Button x:Uid="btnToExec" Name="btnToExec" Margin="5" Click="btnToExec_Click" Width="50">&gt;&gt;</Button>
                     <Button x:Uid="btnToDontExec" Name="btnToDontExec" Margin="5" Click="btnToDontExec_Click">&lt;&lt;</Button>
                 </StackPanel>
-                <ListBox x:Uid="lbDestination" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="2" Name="lbDestination" DisplayMemberPath="Description" Drop="lbDestination_Drop" PreviewMouseLeftButtonDown="lbSource_PreviewMouseLeftButtonDown" SelectionMode="Extended"/>
+                <ListBox x:Uid="lbDestination" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="2" Name="lbDestination" DisplayMemberPath="Description" SelectionMode="Extended">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <EventSetter Event="MouseDoubleClick" Handler="lbDestination_MouseDoubleClick" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </Grid>
         </GroupBox>
       

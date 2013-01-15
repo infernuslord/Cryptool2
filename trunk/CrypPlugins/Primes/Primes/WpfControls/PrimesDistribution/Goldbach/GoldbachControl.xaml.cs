@@ -363,9 +363,13 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
           TextBlock lbl = new TextBlock();
           lbl.Name = "YAXSISlbl" + s;
           lbl.Text = s;
-          Canvas.SetLeft(lbl, PADDING_AXISLEFT - 20);
-          Canvas.SetTop(lbl, l.Y1);
           PaintArea.Children.Add(lbl);
+
+          lbl.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+          Rect measureRect = new Rect(lbl.DesiredSize);
+          lbl.Arrange(measureRect);
+          Canvas.SetLeft(lbl, PADDING_AXISLEFT - lbl.ActualWidth - 5);
+          Canvas.SetTop(lbl, l.Y1 - lbl.ActualHeight / 2);
       }
     }
 
@@ -430,9 +434,13 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
 
           TextBlock lbl = new TextBlock();
           lbl.Text = ((int)(xk+0.5)).ToString();
-          Canvas.SetLeft(lbl, l.X1);
-          Canvas.SetTop(lbl, x.Y1 + 4);
           PaintArea.Children.Add(lbl);
+
+          lbl.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+          Rect measureRect = new Rect(lbl.DesiredSize);
+          lbl.Arrange(measureRect);
+          Canvas.SetLeft(lbl, l.X1 - lbl.ActualWidth / 2);
+          Canvas.SetTop(lbl, x.Y1 + 4);
       }
     }
 

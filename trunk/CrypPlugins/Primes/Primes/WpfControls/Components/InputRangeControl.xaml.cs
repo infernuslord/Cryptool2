@@ -644,14 +644,8 @@ namespace Primes.WpfControls.Components
           if (Execute == null || !doExecute) return;
           if (from == null || to == null) return;
 
-          if (SecondParameterPresent)
-          {
-              if (!ValidateSecondInput(ref second))
-              {
-                  InfoSecond("No second parameter given", new TextBox[] { tbSecondParameter }, OnlineHelp.OnlineHelpActions.None);
-              }
-              //if (second == null) return;
-          }
+          if (SecondParameterPresent && pnlSecondParameter.IsEnabled)
+              ValidateSecondInput(ref second);
 
           LockControls();
           Execute(from, to, second);
