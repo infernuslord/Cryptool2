@@ -228,12 +228,22 @@ namespace WorkspaceManager.Model
                     object data = property.GetValue(sender, null);
 
                     DataQueue.Enqueue(data);
+                    while(DataQueue.Count >10)
+                    {
+                        DataQueue.Dequeue();
+                        GC.Collect();
+                    }
                     LastData = data;
 
                     List<ConnectionModel> outputConnections = OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
                     {   
                         connectionModel.To.DataQueue.Enqueue(data);
+                        while (connectionModel.To.DataQueue.Count > 10)
+                        {
+                            connectionModel.To.DataQueue.Dequeue();
+                            GC.Collect();
+                        }
                         connectionModel.To.LastData = data;      
                         connectionModel.Active = true;
                         connectionModel.GuiNeedsUpdate = true;
