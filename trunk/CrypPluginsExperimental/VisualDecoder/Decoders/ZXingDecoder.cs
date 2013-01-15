@@ -71,6 +71,7 @@ namespace Cryptool.Plugins.VisualDecoder.Decoders
         /// <param name="bitmap"></param>
         /// <param name="result"></param>
         /// <returns></returns>
+        // https://zxingnet.svn.codeplex.com/svn/trunk/Clients/WindowsFormsDemo/WindowsFormsDemoForm.cs
         protected Bitmap DrawRectangleZXing(Bitmap bitmap, Result result)
         {
             var rect = new Rectangle((int)result.ResultPoints[0].X, (int)result.ResultPoints[0].Y, 1, 1);

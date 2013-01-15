@@ -13,15 +13,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System;
-using System.Drawing;
-using System.Threading;
+
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Color = System.Windows.Media.Color;
 
 namespace Cryptool.Plugins.VisualDecoder
@@ -42,15 +39,13 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void SetImages(byte[] img)
         {
-            var imageJar = new ImageSource[1];
-            var c = new ImageConverter();
-            imageJar[0] = (ImageSource)ConvertToBitmapSource((Bitmap)c.ConvertFrom(img));
-            imageJar[0].Freeze();
-
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            var decoder = BitmapDecoder.Create(new MemoryStream(img),
+                                               BitmapCreateOptions.PreservePixelFormat,
+                                               BitmapCacheOption.None);
+            if (decoder.Frames.Count > 0)
             {
-                Image.Source = imageJar[0];
-            }), imageJar);
+                Image.Source = decoder.Frames[0];
+            }
         }
 
         /// <summary>
@@ -58,18 +53,19 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void SetData(string payload, string codetype)
         {
-            string[] jar = {payload, codetype};
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
-            {
-                Payload.Text = jar[0];
-                codeType.Content = jar[1];
+            Payload.Text = payload;
+            PayloadLable.Visibility = Visibility.Visible;
+            CodeType.Content = codetype;
+            CodeTypeLable.Visibility = Visibility.Visible;
 
-                BodyBorder.Background = new SolidColorBrush(jar[0].Length == 0 ? Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1)
-                                                                                : Color.FromArgb(0xAF, 0xE2, 0xFF, 0xCE));
+            BodyBorder.Background = new SolidColorBrush(payload.Length == 0
+                                                ? Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1)
+                                                : Color.FromArgb(0xAF, 0xE2, 0xFF, 0xCE));
 
-                HeaderBorder.Background = new SolidColorBrush(jar[0].Length == 0 ? Color.FromArgb(0xFF, 0xE5, 0x6B, 0x00)
-                                                                                : Color.FromArgb(0xFF, 0x47, 0x93, 0x08));
-            }), jar);
+            HeaderBorder.Background = new SolidColorBrush(payload.Length == 0 
+                                                ? Color.FromArgb(0xFF, 0xE5, 0x6B, 0x00)
+                                                :Color.FromArgb(0xFF, 0x47, 0x93, 0x08));
+              
         }
     
         /// <summary>
@@ -77,26 +73,12 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void ClearPresentation()
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
-            {
-                Image.Source = null;
-                Payload.Text = "";
-                codeType.Content = "";
-                BodyBorder.Background = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1));
-                HeaderBorder.Background =new SolidColorBrush(Color.FromArgb(0xFF, 0xE5, 0x6B, 0x00));
-            }), null);
+           Payload.Text = "";
+           PayloadLable.Visibility = Visibility.Hidden;
+           CodeType.Content = "";
+           CodeTypeLable.Visibility = Visibility.Hidden;
+           BodyBorder.Background = new SolidColorBrush(Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1));
+           HeaderBorder.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xE5, 0x6B, 0x00));
         }
-        
-        #region helper
-
-        private static ImageSource ConvertToBitmapSource(Bitmap gdiPlusBitmap)
-        {
-            IntPtr hBitmap = gdiPlusBitmap.GetHbitmap();
-            return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        }
-
-
-
-        #endregion
     }
 }

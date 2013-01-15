@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.NetworkSender
 {
@@ -13,10 +15,13 @@ namespace Cryptool.Plugins.NetworkSender
     {
 
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
-        public NetworkSenderPresentation()
+        private readonly NetworkInput caller;
+
+        public NetworkSenderPresentation(NetworkInput networkInput)
         {
             InitializeComponent();
             this.DataContext = entries;
+            caller = networkInput;
         }
         public void RefreshMetaData(int amountOfSendedPackages)
         {
@@ -26,7 +31,10 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     amount.Content = amountOfSendedPackages;
                 }
-                catch { } // dont throw an error in invoke threat
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), amountOfSendedPackages);
         }
 
@@ -40,7 +48,10 @@ namespace Cryptool.Plugins.NetworkSender
                     startTime.Content = jar[0];
                     lisPort.Content = jar[1];
                 }
-                catch { } // dont throw an error in invoke threat
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), jar);
         }
 
@@ -53,7 +64,10 @@ namespace Cryptool.Plugins.NetworkSender
                     entries.Add(package);
                     ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
                 }
-                catch { } // dont throw an error in invoke threat
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), package);
 
         }
@@ -67,7 +81,10 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     entries.Clear();
                 }
-                catch { }  // dont throw an error in invoke threat
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                } 
             }), null);
         }
 

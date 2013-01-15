@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.NetworkSender
     {
         #region Private Variables
         private readonly NetworkSenderSettings settings;
-        private readonly NetworkSenderPresentation presentation = new NetworkSenderPresentation();
+        private readonly NetworkSenderPresentation presentation;
         private string addr;
         private IPEndPoint endPoint;
         private bool valid = false;
@@ -49,6 +49,7 @@ namespace Cryptool.Plugins.NetworkSender
 
         public NetworkInput()
         {
+            presentation = new NetworkSenderPresentation(this);
             settings = new NetworkSenderSettings();
         }
 
@@ -237,7 +238,7 @@ namespace Cryptool.Plugins.NetworkSender
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }

@@ -13,16 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System;
+
 using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Cryptool.Plugins.VisualEncoder.Model;
 using Color = System.Drawing.Color;
 
@@ -34,123 +31,75 @@ namespace Cryptool.Plugins.VisualEncoder
      [Cryptool.PluginBase.Attributes.Localization("VisualEncoder.Properties.Resources")]
     public partial class VisualEncoderPresentation : UserControl
     {
-         public VisualEncoderPresentation()
+
+        public VisualEncoderPresentation()
         {
             InitializeComponent();
         }
 
-        #region secure setter
+        #region setter
 
-        public void SetImages(byte[] explaindImg, byte[] pureImg , bool replaceBackground)
+        public void SetImages(byte[] explaindImg, byte[] pureImg)
         {
-            
-            var imageJar = new ImageSource[2];
-            var c = new ImageConverter();
-            if (replaceBackground)
-            {
-                var bgc = Color.FromArgb(0xAF, 0xFF, 0xD4, 0xC1);
-                imageJar[0] = (ImageSource)ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(explaindImg), Color.White, bgc));
-                imageJar[1] = (ImageSource)ConvertToBitmapSource(ReplaceColorWith((Bitmap)c.ConvertFrom(pureImg), Color.White, bgc)); 
-            } 
-            else
-            {
-                imageJar[0] = (ImageSource)ConvertToBitmapSource((Bitmap)c.ConvertFrom(explaindImg));
-                imageJar[1] = (ImageSource)ConvertToBitmapSource((Bitmap)c.ConvertFrom(pureImg));  
-            }
-             
-            imageJar[0].Freeze();
-            imageJar[1].Freeze();
+            var explImageDecoder = BitmapDecoder.Create(new MemoryStream(explaindImg),
+                                            BitmapCreateOptions.PreservePixelFormat,
+                                            BitmapCacheOption.None);
 
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>  
+            var pureImageDecoder = BitmapDecoder.Create(new MemoryStream(pureImg),
+                                            BitmapCreateOptions.PreservePixelFormat,
+                                            BitmapCacheOption.None);
+
+            if (explImageDecoder != null && explImageDecoder.Frames.Count > 0)
             {
-                try
-                {
-                    ExplImage.Source = imageJar[0];
-                    PureImage.Source = imageJar[1];
-                   UpdateImage();
-                }
-                catch
-                {
-                }
-            }), imageJar);
-            
+                ExplImage.Source = explImageDecoder.Frames[0]; 
+            }
+            if (pureImageDecoder != null && pureImageDecoder.Frames.Count > 0)
+            {
+                PureImage.Source = pureImageDecoder.Frames[0]; 
+            }
+            UpdateImage();
         }
 
         public void SetList(List<LegendItem> legend)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
-            {
-                try
-                {
-                    legend1.Visibility = Visibility.Hidden;
-                    legend2.Visibility = Visibility.Hidden;
-                    legend3.Visibility = Visibility.Hidden;
-                    legend4.Visibility = Visibility.Hidden;
+            legend1.Visibility = Visibility.Hidden;
+            legend2.Visibility = Visibility.Hidden;
+            legend3.Visibility = Visibility.Hidden;
+            legend4.Visibility = Visibility.Hidden;
 
-                    if (legend.Count >= 1)
-                    {
-                        legend1.Visibility = Visibility.Visible;
-                        lable1.Content = legend[0].LableValue;
-                        disc1.Text = legend[0].DiscValue;
-                        ellipse1.Fill = ContvertColorToBrush(legend[0].ColorBlack);
-                    }
-                   if (legend.Count >= 2) 
-                    {
-                        legend2.Visibility = Visibility.Visible;
-                        lable2.Content = legend[1].LableValue;
-                        disc2.Text = legend[1].DiscValue;
-                        ellipse2.Fill = ContvertColorToBrush(legend[1].ColorBlack);
-                    }
-                   if (legend.Count >= 3)
-                   {
-                       legend3.Visibility = Visibility.Visible;
-                       lable3.Content = legend[2].LableValue;
-                       disc3.Text = legend[2].DiscValue;
-                       ellipse3.Fill = ContvertColorToBrush(legend[2].ColorBlack);
-                   }
-                   if (legend.Count >= 4)
-                   {
-                       legend4.Visibility = Visibility.Visible;
-                       lable4.Content = legend[3].LableValue;
-                       disc4.Text = legend[3].DiscValue;
-                       ellipse4.Fill = ContvertColorToBrush(legend[3].ColorBlack);
-                   }
-                 }
-                catch
-                {
-                }
-            }), legend);
+            if (legend.Count >= 1)
+            {
+                legend1.Visibility = Visibility.Visible;
+                lable1.Content = legend[0].LableValue;
+                disc1.Text = legend[0].DiscValue;
+                ellipse1.Fill = ContvertColorToBrush(legend[0].ColorBlack);
+            }
+            if (legend.Count >= 2)
+            {
+                legend2.Visibility = Visibility.Visible;
+                lable2.Content = legend[1].LableValue;
+                disc2.Text = legend[1].DiscValue;
+                ellipse2.Fill = ContvertColorToBrush(legend[1].ColorBlack);
+            }
+            if (legend.Count >= 3)
+            {
+                legend3.Visibility = Visibility.Visible;
+                lable3.Content = legend[2].LableValue;
+                disc3.Text = legend[2].DiscValue;
+                ellipse3.Fill = ContvertColorToBrush(legend[2].ColorBlack);
+            }
+            if (legend.Count >= 4)
+            {
+                legend4.Visibility = Visibility.Visible;
+                lable4.Content = legend[3].LableValue;
+                disc4.Text = legend[3].DiscValue;
+                ellipse4.Fill = ContvertColorToBrush(legend[3].ColorBlack);
+            }
         }
 
         #endregion
 
         #region helper
-        private static Bitmap ReplaceColorWith(Bitmap image, Color to, Color with)
-        {
-           var lockBitmap = new LockBitmap(image);
-           lockBitmap.LockBits();
-           for (int y = 0; y < lockBitmap.Height; ++y)
-            {
-                for (int x = 0; x < lockBitmap.Width; ++x)
-                {
-                    var p = lockBitmap.GetPixel(x, y);
-                    if (p.R == to.R && p.G == to.G && p.B == to.B)
-                    {
-                        lockBitmap.SetPixel(x, y, with);
-                    }
-                }
-            }
-            lockBitmap.UnlockBits();
-            return image;
-
-        }
-
-        private static ImageSource ConvertToBitmapSource(Bitmap gdiPlusBitmap)
-        {
-            IntPtr hBitmap = gdiPlusBitmap.GetHbitmap();
-            return Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-        }
-
 
         private static SolidColorBrush ContvertColorToBrush(Color colorValue)
         {
@@ -174,9 +123,9 @@ namespace Cryptool.Plugins.VisualEncoder
 
         private void UpdateImage()
         {
-            Image.Source = !Explain.IsExpanded ? PureImage.Source : ExplImage.Source;
-            Image.Width = !Explain.IsExpanded ? PureImage.Width : ExplImage.Width;
-            Image.Height = !Explain.IsExpanded ? PureImage.Height : ExplImage.Height;
+            Image.Source = Explain.IsExpanded ? ExplImage.Source : PureImage.Source;
+            Image.Width = Explain.IsExpanded ? ExplImage.Width : PureImage.Width;
+            Image.Height = Explain.IsExpanded ? ExplImage.Height : PureImage.Height;
         }
         #endregion 
     }
