@@ -1063,7 +1063,7 @@ namespace Cryptool.CrypWin
                 return;
 
             OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
-            content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
+            //content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
         }
 
         private void InitCrypEditors(List<Type> typeList)
@@ -1518,8 +1518,8 @@ namespace Cryptool.CrypWin
                     if (tabContent != null)
                     {
                         OpenTab(tabContent, lastOpenedTab.Title, null);
-                        if( tabContent is ICrypTutorial )
-                            ((ICrypTutorial)tabContent).Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
+                        //if( tabContent is ICrypTutorial )
+                        //    ((ICrypTutorial)tabContent).Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
                     }
                 }
             }
@@ -1718,12 +1718,20 @@ namespace Cryptool.CrypWin
                 contentToParentMap.Add(content, parent);
 
             //bind content tooltip to tabitem header tooltip:
-            Binding tooltipBinding = new Binding("ToolTip");
-            tooltipBinding.Source = tabitem.Content;
-            tooltipBinding.Mode = BindingMode.OneWay;
             var headerTooltip = new ToolTip();
             tabitem.Tag = headerTooltip;
-            headerTooltip.SetBinding(ContentProperty, tooltipBinding);
+            if (content is ICrypTutorial)
+            {
+                headerTooltip.Content = ((ICrypTutorial)content).GetPluginInfoAttribute().ToolTip;
+            }
+            else
+            {
+                Binding tooltipBinding = new Binding("ToolTip");
+                tooltipBinding.Source = tabitem.Content;
+                tooltipBinding.Mode = BindingMode.OneWay;
+                headerTooltip.SetBinding(ContentProperty, tooltipBinding);
+            }
+
             tabs.SelectedItem = tabitem;
 
             SaveSession();
