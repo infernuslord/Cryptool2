@@ -261,6 +261,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
             el.Tag = point;
             el.StrokeThickness = 0.0;
             el.ToolTip = new ToolTip { Content = point.tooltip };
+            ToolTipService.SetShowDuration(el, 60000);
             SetEllipse(el);
 
             el.MouseEnter += new MouseEventHandler(el_MouseEnter);
