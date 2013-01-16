@@ -158,10 +158,10 @@ it is read backwards.</value>
   <data name="C38_STARTEND_LABLE" xml:space="preserve">
     <value>Start and End Symbol</value>
   </data>
-  <data name="DimCodeEncoderCaption" xml:space="preserve">
+  <data name="VisualEncoderCaption" xml:space="preserve">
     <value>Visual Encoder</value>
   </data>
-  <data name="DimCodeEncoderTooltip" xml:space="preserve">
+  <data name="VisualEncoderTooltip" xml:space="preserve">
     <value>This Component encodes various types of one and two dimensional Codes.</value>
   </data>
   <data name="DimCodeLabel" xml:space="preserve">

@@ -27,12 +27,11 @@ using Cryptool.Plugins.VisualEncoder.Encoders;
 namespace Cryptool.Plugins.VisualEncoder
 {
     [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
-    [PluginInfo("VisualEncoder.Properties.Resources", "DimCodeEncoderCaption", "DimCodeEncoderTooltip", "VisualEncoder/userdoc.xml", new[] { "VisualEncoder/Images/icon.png" })]
+    [PluginInfo("VisualEncoder.Properties.Resources", "VisualEncoderCaption", "VisualEncoderTooltip", "VisualEncoder/userdoc.xml", new[] { "VisualEncoder/Images/icon.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class VisualEncoder : ICrypComponent
     {
         #region Const / Variables
-
 
         private readonly Dictionary<VisualEncoderSettings.DimCodeType, DimCodeEncoder> codeTypeHandler = new Dictionary<VisualEncoderSettings.DimCodeType, DimCodeEncoder>();
         private readonly VisualEncoderSettings settings;

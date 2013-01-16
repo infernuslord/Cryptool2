@@ -47,8 +47,8 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                 return new DimCodeEncoderItem
                            {
                                Legend = GetLegend(input, settings),
-                               PureBitmap = imageToByteArray(pureBitmap),
-                               PresentationBitmap = imageToByteArray(preBitmap)
+                               PureBitmap = ImageToByteArray(pureBitmap),
+                               PresentationBitmap = ImageToByteArray(preBitmap)
                            };
             }
             return null;
@@ -115,12 +115,13 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
 
       
      
-        public byte[] imageToByteArray(Image imageIn)
+        public byte[] ImageToByteArray(Image imageIn)
         {
             using (var ms = new MemoryStream())
             {
                 imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
                 var image = ms.ToArray();
+                ms.Dispose();
                 return image;
             }
         }

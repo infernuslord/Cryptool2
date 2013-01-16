@@ -177,24 +177,6 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Visual Encoder ähnelt.
-        /// </summary>
-        internal static string DimCodeEncoderCaption {
-            get {
-                return ResourceManager.GetString("DimCodeEncoderCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This Component encodes various types of one and two dimensional Codes. ähnelt.
-        /// </summary>
-        internal static string DimCodeEncoderTooltip {
-            get {
-                return ResourceManager.GetString("DimCodeEncoderTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Visual code ähnelt.
         /// </summary>
         internal static string DimCodeLabel {
@@ -514,6 +496,24 @@ namespace VisualEncoder.Properties {
         internal static string QR_VERSION_LABLE {
             get {
                 return ResourceManager.GetString("QR_VERSION_LABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Visual Encoder ähnelt.
+        /// </summary>
+        internal static string VisualEncoderCaption {
+            get {
+                return ResourceManager.GetString("VisualEncoderCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die This Component encodes various types of one and two dimensional Codes. ähnelt.
+        /// </summary>
+        internal static string VisualEncoderTooltip {
+            get {
+                return ResourceManager.GetString("VisualEncoderTooltip", resourceCulture);
             }
         }
     }
