@@ -63,15 +63,15 @@ namespace HexBox
                 outOfScreen = true;
             }
 
-            if (mark[0] > 256)
+            if (mark[0] > 512)
             {
-                mark[0] = 256;
+                mark[0] = 512;
                 outOfScreen = true;
             }
 
-            if (mark[1] > 256)
+            if (mark[1] > 512)
             {
-                mark[1] = 256;
+                mark[1] = 512;
                 outOfScreen = false;
             }
 

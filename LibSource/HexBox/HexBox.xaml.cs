@@ -15,6 +15,17 @@ namespace HexBox
     /// <summary>
     /// Interaction logic for HexBox.xaml
     /// </summary>
+    /// 
+
+    public static class Constants
+    {
+        public static readonly int _numberOfCells = 768; // ATTENTION: huge numbers can slow the application
+        public static readonly int _helpNumberOfCells1 = (Constants._numberOfCells - 2) * 2; // Number of cells in hex
+        public static readonly int _helpNumberOfCells2 = Constants._numberOfCells / 16; // Number of Cells per Row
+        public static readonly double _heightOfNOR = Constants._numberOfCells / 16 * 20; // Static Resource of height for XAML Code
+
+    }
+    
     public partial class HexBox : UserControl
     {
 
@@ -36,11 +47,12 @@ namespace HexBox
         private Boolean _markedBackwards;
         private double _offset;
         private Boolean _unicorn = true;
-        
 
         #endregion
 
         #region Properties
+
+        
 
         public Boolean InReadOnlyMode = false;
         public string Pfad = string.Empty;
@@ -50,11 +62,11 @@ namespace HexBox
 
         #region Constructor
 
+        
+
         public HexBox()
         {
             InitializeComponent();
-
-            
 
             _st = new StretchText();
             _ht = new HexText();
@@ -100,7 +112,7 @@ namespace HexBox
             _mark[1] = -1;
 
             cursor2.Focus();
-            for (int j = 0; j < 16; j++)
+            for (int j = 0; j < 32; j++)
             {
                 var id = new TextBlock();
                 id.TextAlignment = TextAlignment.Right;
@@ -210,9 +222,9 @@ namespace HexBox
                 _cellText = (int) (_dyfipro.Length - (long) fileSlider.Maximum*16);
             }
 
-            if (_cellText > 256)
+            if (_cellText > Constants._numberOfCells)
             {
-                _cellText = 256;
+                _cellText = Constants._numberOfCells;
             }
 
             if (_cellText < 0)
@@ -256,9 +268,9 @@ namespace HexBox
             _ht.removemarks = true;
             _st.removemarks = true;
 
-            if (_cell > 510)
+            if (_cell > Constants._helpNumberOfCells1)
             {
-                _cell = 510;
+                _cell = Constants._helpNumberOfCells1;
             }
 
             _mark[0] = _cell/2 + (long) fileSlider.Value*16;
@@ -293,9 +305,9 @@ namespace HexBox
                     _cellText = (int) (_dyfipro.Length - (long) fileSlider.Maximum*16);
                 }
 
-                if (_cellText > 256)
+                if (_cellText > Constants._numberOfCells)
                 {
-                    _cellText = 256;
+                    _cellText = Constants._numberOfCells;
                 }
 
                 if (_mark[0] > _cellText + (long) fileSlider.Value*16)
@@ -335,9 +347,9 @@ namespace HexBox
                     _cell = (int) (_dyfipro.Length - (long) fileSlider.Maximum)*2 - 2;
                 }
 
-                if (_cell > 510)
+                if (_cell > Constants._helpNumberOfCells1)
                 {
-                    _cell = 510;
+                    _cell = Constants._helpNumberOfCells1;
                 }
 
                 if (_mark[0] > _cell/2 + (long) fileSlider.Value*16)
@@ -368,9 +380,9 @@ namespace HexBox
                 _cellText = (int) (_dyfipro.Length - (long) fileSlider.Maximum*16);
             }
 
-            if (_cellText > 255)
+            if (_cellText > Constants._numberOfCells-1)
             {
-                _cellText = 255;
+                _cellText = Constants._numberOfCells - 1;
             }
             if (_cellText < 0)
             {
@@ -405,9 +417,9 @@ namespace HexBox
                 _cell = (int) (_dyfipro.Length - (long) fileSlider.Maximum*16)*2;
             }
 
-            if (_cell > 510)
+            if (_cell > Constants._helpNumberOfCells1)
             {
-                _cell = 510;
+                _cell = Constants._helpNumberOfCells1;
             }
 
 
@@ -496,7 +508,7 @@ namespace HexBox
 
             if (e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl)
             {
-                if (_cursorposition > fileSlider.Value*32 + 512 || _cursorposition < fileSlider.Value*32)
+                if (_cursorposition > fileSlider.Value*32 + Constants._numberOfCells || _cursorposition < fileSlider.Value*32)
                 {
                     fileSlider.Value = _cursorposition/32 - 1;
                     fileSlider.Value = Math.Round(fileSlider.Value);
@@ -519,7 +531,7 @@ namespace HexBox
                 {
                     if (_cell/2 + (long) fileSlider.Value*16 < _dyfipro.Length)
                     {
-                        if (_cell < 32*16 - 1 && (_cell + 1)/32 < _offset - 1)
+                        if (_cell < 32 * Constants._helpNumberOfCells2 - 1 && (_cell + 1) / 32 < _offset - 1)
                         {
                             _cell++;
                         }
@@ -559,7 +571,7 @@ namespace HexBox
                 {
                     if (_cell/2 + (long) fileSlider.Value*16 + 15 < _dyfipro.Length)
                     {
-                        if (_cell < 32*16 - 32 && _cell/32 < _offset - 2)
+                        if (_cell < Constants._helpNumberOfCells2 * 31  && _cell / 32 < _offset - 2)
                         {
                             _cell += 32;
                         }
@@ -635,7 +647,7 @@ namespace HexBox
                     if (fileSlider.Value < fileSlider.Maximum - 16)
                     {
                         fileSlider.Value += 16;
-                        _cell += 512;
+                        _cell += Constants._numberOfCells;
                     }
                     
                     controlKey = true;
@@ -647,7 +659,7 @@ namespace HexBox
                     if (fileSlider.Value > 16)
                     {
                         fileSlider.Value -= 16;
-                        _cell -= 512;
+                        _cell -= Constants._numberOfCells;
                     }
                     
                     controlKey = true;
@@ -659,7 +671,7 @@ namespace HexBox
                     controlKey = true;
 
                     long row = 480;
-                    if (256 > _dyfipro.Length)
+                    if (Constants._numberOfCells > _dyfipro.Length)
                     {
                         row = (_dyfipro.Length/16)*32;
                     }
@@ -838,7 +850,7 @@ namespace HexBox
 
         private void KeyInputASCIIField(object sender, KeyEventArgs e)
         {
-            if (_cursorpositionText > fileSlider.Value*16 + 256 || _cursorpositionText < fileSlider.Value*16)
+            if (_cursorpositionText > fileSlider.Value*16 + Constants._numberOfCells || _cursorpositionText < fileSlider.Value*16)
             {
                 fileSlider.Value = _cursorpositionText/16 - 1;
                 fileSlider.Value = Math.Round(fileSlider.Value);
@@ -853,7 +865,7 @@ namespace HexBox
                 {
                     if (_cellText + (long) fileSlider.Value*16 < _dyfipro.Length)
                     {
-                        if (_cellText < 255 && (_cellText + 1)/16 < _offset - 1)
+                        if (_cellText < Constants._numberOfCells-1 && (_cellText + 1) / 16 < _offset - 1)
                         {
                             _cellText++;
                         }
@@ -893,7 +905,7 @@ namespace HexBox
                 {
                     if (_cellText + (long) fileSlider.Value*16 + 15 < _dyfipro.Length)
                     {
-                        if (_cellText < 16*15 && _cellText/16 < _offset - 2)
+                        if (_cellText < Constants._helpNumberOfCells2*15 && _cellText/16 < _offset - 2)
                         {
                             _cellText += 16;
                         }
@@ -962,7 +974,7 @@ namespace HexBox
                     if (fileSlider.Value < fileSlider.Maximum-16)
                     {
                         fileSlider.Value += 16;
-                        _cellText += 256;
+                        _cellText += Constants._numberOfCells;
                     }
                     controlKey = true;
                     e.Handled = true;
@@ -973,7 +985,7 @@ namespace HexBox
                     if (fileSlider.Value > 16)
                     {
                         fileSlider.Value -= 16;
-                        _cellText -= 256;
+                        _cellText -= Constants._numberOfCells;
                     }
                     controlKey = true;
                     e.Handled = true;
@@ -982,7 +994,7 @@ namespace HexBox
                 else if (e.Key == Key.End)
                 {
                     long row = 240;
-                    if (256 > _dyfipro.Length)
+                    if (Constants._numberOfCells > _dyfipro.Length)
                     {
                         row = (_dyfipro.Length/16)*16;
                     }
@@ -1436,18 +1448,18 @@ namespace HexBox
             Line.Text = _cursorpositionText/16 + 1 + "";
 
             long end = _dyfipro.Length - position*16;
-            int max = 256;
+            int max = Constants._numberOfCells;
 
             _st.Text = "";
 
             Byte[] help2;
-            if (end < 256)
+            if (end < Constants._numberOfCells)
             {
                 help2 = new byte[end];
             }
             else
             {
-                help2 = new byte[256];
+                help2 = new byte[Constants._numberOfCells];
             }
 
             for (int i = 0; i < help2.Count(); i++)
@@ -1471,7 +1483,7 @@ namespace HexBox
 
             _ht.ByteContent = help2;
 
-            if (_cursorpositionText - fileSlider.Value*16 < 256 && _cursorpositionText - fileSlider.Value*16 >= 0)
+            if (_cursorpositionText - fileSlider.Value*16 < Constants._numberOfCells && _cursorpositionText - fileSlider.Value*16 >= 0)
             {
                 cursor.Opacity = 1.0;
                 cursor.Width = 10;
@@ -1490,7 +1502,7 @@ namespace HexBox
                 cursor2.Opacity = 0.0;
             }
 
-            for (int j = 0; j < 16; j++)
+            for (int j = 0; j < 32; j++)
             {
                 var id = gridid.Children[j] as TextBlock;
 
@@ -1520,15 +1532,17 @@ namespace HexBox
         {
             double old = fileSlider.Maximum;
 
-            if (_offset <= 16)
+            if (_offset <= Constants._helpNumberOfCells2)
             {
-                fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 2 + 16 - _offset;
+                fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells) / 16 + 2 + Constants._helpNumberOfCells2 - _offset;
                 fileSlider.Maximum = Math.Round(fileSlider.Maximum);
+                fileSlider.Value = fileSlider.Maximum;
             }
             else
             {
-                fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells)/16 + 2;
                 fileSlider.Maximum = Math.Round(fileSlider.Maximum);
+                fileSlider.Value = fileSlider.Maximum;
             }
 
             if ((long) old > (long) fileSlider.Maximum && fileSlider.Value == fileSlider.Maximum)
@@ -1568,11 +1582,11 @@ namespace HexBox
                 _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
                 fileSlider.Minimum = 0;
-                fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells) / 16 + Constants._helpNumberOfCells2 - 1;
                 fileSlider.Maximum = Math.Round(fileSlider.Maximum);
-                fileSlider.ViewportSize = 16;
+                fileSlider.ViewportSize = Constants._helpNumberOfCells2 ;
 
-                _info.Text = _dyfipro.Length/256 + "";
+                _info.Text = _dyfipro.Length/Constants._numberOfCells + "";
 
                 fileSlider.SmallChange = 1;
                 fileSlider.LargeChange = 1;
@@ -1774,11 +1788,11 @@ namespace HexBox
                     _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
                     fileSlider.Minimum = 0;
-                    fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                    fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells) / 16 + Constants._helpNumberOfCells2-1;
                     fileSlider.Maximum = Math.Round(fileSlider.Maximum);
-                    fileSlider.ViewportSize = 16;
+                    fileSlider.ViewportSize = Constants._helpNumberOfCells2;
 
-                    _info.Text = _dyfipro.Length/256 + "";
+                    _info.Text = _dyfipro.Length/Constants._numberOfCells + "";
 
                     fileSlider.SmallChange = 1;
                     fileSlider.LargeChange = 1;
@@ -1824,11 +1838,11 @@ namespace HexBox
                     _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
                     fileSlider.Minimum = 0;
-                    fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+                    fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells) / 16 + Constants._helpNumberOfCells2 - 1;
                     fileSlider.Maximum = Math.Round(fileSlider.Maximum);
-                    fileSlider.ViewportSize = 16;
+                    fileSlider.ViewportSize = Constants._helpNumberOfCells2;
 
-                    _info.Text = _dyfipro.Length/256 + "";
+                    _info.Text = _dyfipro.Length/Constants._numberOfCells + "";
 
                     //fileSlider.ValueChanged += MyManipulationCompleteEvent;
                     fileSlider.SmallChange = 1;
@@ -2182,14 +2196,14 @@ namespace HexBox
                 _offset = 2;
             }
 
-            if (_offset < 16)
+            if (_offset < Constants._helpNumberOfCells2)
             {
-                fileSlider.Maximum = _dyfipro.Length/16 - 15 +2 + 16 - _offset;
+                fileSlider.Maximum = _dyfipro.Length/16 + 2 - _offset;
                 fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             }
             else
             {
-                fileSlider.Maximum = _dyfipro.Length/16 - 15;
+                fileSlider.Maximum = _dyfipro.Length/16 - Constants._helpNumberOfCells2 - 1;
                 fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             }
         }
@@ -2199,7 +2213,7 @@ namespace HexBox
         public void Clear()
         {
             fileSlider.Minimum = 0;
-            fileSlider.Maximum = (_dyfipro.Length - 256)/16 + 1;
+            fileSlider.Maximum = (_dyfipro.Length - Constants._numberOfCells)/16 + 1;
             fileSlider.Maximum = Math.Round(fileSlider.Maximum);
             fileSlider.SmallChange = 1;
             fileSlider.LargeChange = 1;
