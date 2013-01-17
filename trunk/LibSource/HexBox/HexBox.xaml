@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:HexBox="clr-namespace:HexBox;assembly="
              mc:Ignorable="d" 
+             
              >
     <UserControl.Resources>
-
+        
         <Style  TargetType="Border" x:Key="border2" >
         <Setter Property="CornerRadius" Value="5"/>
         <Setter Property="BorderBrush" Value="LightSeaGreen"/>
@@ -71,32 +72,48 @@
             
             <ScrollViewer x:Name="scoview" MouseDown="scoview_MouseDown" VerticalScrollBarVisibility="Hidden" Focusable="False" DockPanel.Dock="Top">
                 <DockPanel  Name="mainPanel"   >
-                    <Border Style="{StaticResource border2}" DockPanel.Dock="Left" Height="333" Margin="5" VerticalAlignment="Top">
+                    <Border Style="{StaticResource border2}" DockPanel.Dock="Left" Height="{x:Static HexBox:Constants._heightOfNOR}" Margin="5" VerticalAlignment="Top">
                         <Grid MinWidth="70" Name="gridid" Height="Auto" Width="70" Margin="5">
                             <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                    </Grid.RowDefinitions>
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60" />
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </Border>
-                    <Border Style="{StaticResource border2}" Height="333" DockPanel.Dock="Right" Margin="5" VerticalAlignment="Top" MinWidth="130" >
+                    <Border Style="{StaticResource border2}" Height="{x:Static HexBox:Constants._heightOfNOR}" DockPanel.Dock="Right" Margin="5" VerticalAlignment="Top" MinWidth="130" >
                 <Canvas Name="canvas2"  Background="Transparent" Margin="5">
 
                     <Rectangle Name="cursor2"  Width="10" Height="20" Fill="GreenYellow" Opacity="80" Focusable="True" Canvas.Left="0" Canvas.Top="0" >
@@ -129,9 +146,9 @@
 
                 </Canvas>
             </Border>
-            <Border Style="{StaticResource border2}" VerticalAlignment="Top" MinWidth="340" Height="333"   DockPanel.Dock="Top" Margin="5" Padding="5">
-                
-                <Canvas Name="canvas1" HorizontalAlignment="Center" Width="340" Height="333"  Background="Transparent" >
+                    <Border Style="{StaticResource border2}" VerticalAlignment="Top" MinWidth="340" Height="{x:Static HexBox:Constants._heightOfNOR}"   DockPanel.Dock="Top" Margin="5" Padding="5">
+
+                        <Canvas Name="canvas1" HorizontalAlignment="Center" Width="340" Height="{x:Static HexBox:Constants._heightOfNOR}"  Background="Transparent" >
 
                     <Rectangle Name="cursor" Width="10" Height="20" Fill="Yellow" Opacity="40" Focusable="True" Canvas.Left="0"  Canvas.Top="0"  >
                         <Rectangle.InputBindings>
