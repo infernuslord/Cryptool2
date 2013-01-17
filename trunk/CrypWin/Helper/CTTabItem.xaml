@@ -57,7 +57,7 @@
                         <Grid>
                             <Grid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Click="CopyToClipboard"  Header="Copy Title">
+                                    <MenuItem Click="CopyToClipboard"  Header="{Loc Copy_Title}">
                                         <MenuItem.Icon>
                                             <Image Width="15" Height="15" Source="../images/Paste32.png"></Image>
                                         </MenuItem.Icon>
