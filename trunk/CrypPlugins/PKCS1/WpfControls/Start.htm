@@ -11,7 +11,7 @@
 		</style>
 	</head>
 	<body>
-	<h2>PKCS#1-Signaturen / Bleichenbacher-Angriff</h2>
+	<h2>Angriffe auf PKCS#1-Signaturen (Bleichenbacher und Kühn)</h2>
 	<p align="justify">
 	PKCS#1-Signaturen basieren auf dem RSA-Verschlüsselungsverfahren. Der Angriff von Daniel Bleichenbacher zielt nicht
 	auf das Verschlüsselungsverfahren selbst, sondern auf Implementierungsfehler, die in mehreren RSA-Klassenbibliotheken
@@ -43,7 +43,7 @@
 	Implementierungen sollten diese fehlerhafte Validierung nicht mehr beinhalten. </br>
 	</p>
   <p align="justify">
-  <strong>Angriff mit kürzeren Schlüsseln (Kühn Angriff)</strong></br>
+  <strong>Angriff mit kürzeren Schlüsseln (Kühn-Angriff)</strong></br>
   Im Gegensatz zum Bleichenbacher-Angriff (3072 Bits lange Schlüssel) zielt der Angriff von Kühn auf kürzere Schlüssel (1024 Bits). Dieser Angriff
   macht sich die Rechenkraft von Computern zunutze. Hier wird nicht berechnet wie eine gefälschte Signatur aussehen muss, sondern
   es wird ein Algorithmus durchlaufen, bis das entsprechende Ergebnis generiert ist.</br>
