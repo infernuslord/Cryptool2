@@ -121,7 +121,7 @@
     <value>Berechne {0}^{1} mod {2} = {3}</value>
   </data>
   <data name="mr_calculating2" xml:space="preserve">
-    <value>Berechne {0}^2 mod {1} = {2}</value>
+    <value>Berechne ({0}^{1})^{2} mod {3} = {4}^2 mod {3} = {5}</value>
   </data>
   <data name="mr_choosearnd" xml:space="preserve">
     <value>Auswahl der Basis von 2 bis </value>
@@ -136,13 +136,13 @@
     <value>{0} ist gerade und kann daher keine Primzahl sein.</value>
   </data>
   <data name="mr_isnotprime1" xml:space="preserve">
-    <value>{0} wurde als Quadratwurzel von {1} mod {2} gefunden. Damit kann {3} keine Primzahl sein.</value>
+    <value>{0} ist eine Quadratwurzel von 1 mod {1}. Daher kann {1} keine Primzahl sein.</value>
   </data>
   <data name="mr_isnotprime2" xml:space="preserve">
-    <value>{0} hat den Fermat-Test mit {1}^{2} mod {3} nicht bestanden und kann daher keine Primzahl sein.</value>
+    <value>{0} hat den Fermat-Test nicht bestanden, denn {1}^{2} mod {3} = {4} ≠ 1. Daher kann {0} keine Primzahl sein.</value>
   </data>
   <data name="mr_isprime" xml:space="preserve">
-    <value>Runde {0} mit Basis {1} beendet. {2} ist wahrscheinlich eine Primzahl.</value>
+    <value>Runde mit Basis {0} beendet. {1} könnte eine Primzahl sein.</value>
   </data>
   <data name="mr_options" xml:space="preserve">
     <value>Optionen</value>
@@ -156,11 +156,26 @@
   <data name="mr_round" xml:space="preserve">
     <value>Runde {0} mit Basis {1}</value>
   </data>
+  <data name="mr_shiftcalc" xml:space="preserve">
+    <value>Berechne die größte Zweierpotenz, die n-1 = {0} teilt.</value>
+  </data>
   <data name="mr_shiftedright" xml:space="preserve">
-    <value>Es wurde {0} mal nach rechts geschoben</value>
+    <value>Es wurde {0} mal nach rechts geschoben: {1} = 2^{0} * {2}</value>
   </data>
   <data name="mr_shiftright" xml:space="preserve">
     <value>{0} ist gerade und wird um ein Bit nach rechts geschoben = {1}</value>
+  </data>
+  <data name="mr_witnessfound1" xml:space="preserve">
+    <value>Nach {0} Runde wurde ein Zeuge gefunden, daher ist {1} keine Primzahl.</value>
+  </data>
+  <data name="mr_witnessfound2" xml:space="preserve">
+    <value>Nach {0} Runden wurde ein Zeuge gefunden, daher ist {1} keine Primzahl.</value>
+  </data>
+  <data name="mr_witnessnotfound1" xml:space="preserve">
+    <value>Nach {0} Runde wurde kein Zeuge gefunden, daher ist {1} wahrscheinlich eine Primzahl.</value>
+  </data>
+  <data name="mr_witnessnotfound2" xml:space="preserve">
+    <value>Nach {0} Runden wurde kein Zeuge gefunden, daher ist {1} wahrscheinlich eine Primzahl.</value>
   </data>
   <data name="soe_btnresume" xml:space="preserve">
     <value>Weiter mit automatischer Ausführung</value>
