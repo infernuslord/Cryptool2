@@ -48,6 +48,7 @@ using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using WorkspaceManager;
 using CrypWin.Helper;
 using DevComponents.WpfRibbon;
 using Microsoft.Win32;
@@ -1477,31 +1478,55 @@ namespace Cryptool.CrypWin
                 {
                     var editorType = ((EditorTypeStoredTab) lastOpenedTab).EditorType;
                     var editor = AddEditorDispatched(editorType);
-                    OpenTab(editor, lastOpenedTab.Title, null);     //rename
+                    string title = null;
+
+                    try
+                    {
+                        if (editorType == typeof(P2PEditor.P2PEditor))
+                            title = P2PEditor.Properties.Resources.P2PEditor_Tab_Caption;
+                        else if (editorType == typeof(WorkspaceManager.WorkspaceManagerClass))
+                            title = WorkspaceManager.Properties.Resources.unnamed_project;
+                        else
+                            title = editorType.GetPluginInfoAttribute().Caption;
+                    }
+                    catch (Exception ex)
+                    {
+                        title = lastOpenedTab.Title;
+                    }
+
+                    OpenTab(editor, title, null);     //rename
                 }
                 else if (lastOpenedTab is CommonTypeStoredTab)
                 {
                     object tabContent = null;
+                    string title = null;
+
                     var type = ((CommonTypeStoredTab) lastOpenedTab).Type;
+
                     if (type == typeof(OnlineHelpTab))
                     {
                         tabContent = OnlineHelpTab.GetSingleton(this);
+                        title = Properties.Resources.Online_Help;
                     }
                     else if (type == typeof(SettingsPresentation))
                     {
                         tabContent = SettingsPresentation.GetSingleton();
+                        title = Properties.Resources.Settings;
                     }
                     else if (type == typeof(UpdaterPresentation))
                     {
                         tabContent = UpdaterPresentation.GetSingleton();
+                        title = Properties.Resources.CrypTool_2_0_Update;
                     }
                     else if (type == typeof(SystemInfos))
                     {
                         tabContent = systemInfos;
+                        title = Properties.Resources.System_Infos;
                     }
                     else if (type == typeof(LicensesTab))
                     {
                         tabContent = licenses;
+                        title = Properties.Resources.Licenses;
                     }
                     else
                     {
@@ -1513,13 +1538,20 @@ namespace Cryptool.CrypWin
                         {
                             GuiLogMessage(string.Format(Properties.Resources.Couldnt_create_tab_of_Type, type.Name, ex.Message), NotificationLevel.Error);
                         }
+
+                        try
+                        {
+                            title = type.GetPluginInfoAttribute().Caption;
+                        }
+                        catch (Exception ex)
+                        {
+                            title = lastOpenedTab.Title;
+                        }
                     }
 
-                    if (tabContent != null)
+                    if (tabContent != null && title != null)
                     {
-                        OpenTab(tabContent, lastOpenedTab.Title, null);
-                        //if( tabContent is ICrypTutorial )
-                        //    ((ICrypTutorial)tabContent).Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
+                        OpenTab(tabContent, title, null);
                     }
                 }
             }
