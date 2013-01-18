@@ -121,7 +121,7 @@
     <value>Calculate {0}^{1} mod {2} = {3}</value>
   </data>
   <data name="mr_calculating2" xml:space="preserve">
-    <value>Calculate {0}^2 mod {1} = {2}</value>
+    <value>Calculate ({0}^{1})^{2} mod {3} = {4}^2 mod {3} = {5}</value>
   </data>
   <data name="mr_choosearnd" xml:space="preserve">
     <value>Choose a base from 2 to </value>
@@ -136,13 +136,13 @@
     <value>{0} is odd and thus not a prime.</value>
   </data>
   <data name="mr_isnotprime1" xml:space="preserve">
-    <value>{0} is a square root of {1} mod {2}. Thus {3} can't be a prime.</value>
+    <value>{0} is a square root of 1 mod {1}. Thus {1} can't be a prime.</value>
   </data>
   <data name="mr_isnotprime2" xml:space="preserve">
-    <value>{0} has failed the Fermat-Test {1}^{2} mod {3} and thus can't be a prime.</value>
+    <value>{0} has failed the Fermat test, as {1}^{2} mod {3} = {4} ≠ 1. Thus {0} can't be a prime.</value>
   </data>
   <data name="mr_isprime" xml:space="preserve">
-    <value>Round {0} with base {1} finished. {2} is probably a prime.</value>
+    <value>Round with base {0} finished. {1} could be a prime.</value>
   </data>
   <data name="mr_options" xml:space="preserve">
     <value>Options</value>
@@ -156,11 +156,26 @@
   <data name="mr_round" xml:space="preserve">
     <value>Round {0} with base {1}</value>
   </data>
+  <data name="mr_shiftcalc" xml:space="preserve">
+    <value>Calculate the biggest power of 2, that divides n-1 = {0}.</value>
+  </data>
   <data name="mr_shiftedright" xml:space="preserve">
-    <value>There were {0} right shifts</value>
+    <value>There were {0} right shifts: : {1} = 2^{0} * {2}</value>
   </data>
   <data name="mr_shiftright" xml:space="preserve">
     <value>{0} is even and is shifted right by 1 bit = {1}</value>
+  </data>
+  <data name="mr_witnessfound1" xml:space="preserve">
+    <value>Found a witness after {0} round. Thus {1} is not a prime number.</value>
+  </data>
+  <data name="mr_witnessfound2" xml:space="preserve">
+    <value>Found a witness after {0} rounds. Thus {1} is not a prime number.</value>
+  </data>
+  <data name="mr_witnessnotfound1" xml:space="preserve">
+    <value>No witnesses found after {0} round. Thus {1} is probably a prime number.</value>
+  </data>
+  <data name="mr_witnessnotfound2" xml:space="preserve">
+    <value>No witnesses found after {0} rounds. Thus {1} is probably a prime number.</value>
   </data>
   <data name="soe_btnresume" xml:space="preserve">
     <value>Resume automatic execution</value>

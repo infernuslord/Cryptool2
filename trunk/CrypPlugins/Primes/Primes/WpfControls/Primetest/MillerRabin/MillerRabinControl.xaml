@@ -38,7 +38,7 @@
         </Grid>
         <DockPanel Name="pnlSystematic" Visibility="Collapsed" >
           <TextBlock Margin="0,5,0,0" Text="{x:Static lang:Primetest.mr_chooseasys}"></TextBlock>
-          <comps:InputRangeControl x:Name="ircSystematic" ShowButtons="False" InputRangeControlType="Horizontal" ShowCalcInput="False"  Title=""/>
+          <comps:InputRangeControl x:Name="ircSystematic" ShowButtons="False" InputRangeControlType="Horizontal" ShowCalcInput="False" SecondParameterPresent="False" Title=""/>
         </DockPanel>
       </StackPanel>
     </GroupBox>
