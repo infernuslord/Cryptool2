@@ -771,34 +771,34 @@ namespace Primes.WpfControls.Components
     {
       if (!string.IsNullOrEmpty(message))
       {
-        if (OnInfoError != null) OnInfoError(message);
-        foreach (TextBox tb in tbSource)
-        {
-          tb.Background = textBoxBackground;
-          tb.Foreground = textboxForegorund;
-          target.Foreground = textColor;
-          if (m_ShowInfoErrorText)
+          if (OnInfoError != null) OnInfoError(message);
+          foreach (TextBox tb in tbSource)
           {
-            target.Text = message;
-            target.Visibility = Visibility.Visible;
+              tb.Background = textBoxBackground;
+              tb.Foreground = textboxForegorund;
+              target.Foreground = textColor;
+              if (m_ShowInfoErrorText)
+              {
+                  target.Text = message;
+                  target.Visibility = Visibility.Visible;
+              }
+              if (helpImage != null)
+                  helpImage.Visibility = Visibility.Visible;
           }
-          if (helpImage != null)
-            helpImage.Visibility = Visibility.Visible;
-        }
 
       }
       else
       {
         foreach (TextBox tb in tbSource)
         {
-          tb.Background = Brushes.White;
-          tb.Foreground = Brushes.Black;
-          target.Text = string.Empty;
-          target.Visibility = Visibility.Hidden;
-          btnHelpHorCalc.Visibility = Visibility.Hidden;
-          btnHelpVertCalc.Visibility = Visibility.Collapsed;
-          btnHelpHorFree.Visibility = Visibility.Hidden;
-          btnHelpVertFree.Visibility = Visibility.Collapsed;
+            tb.Background = Brushes.White;
+            tb.Foreground = Brushes.Black;
+            target.Text = string.Empty;
+            target.Visibility = Visibility.Hidden;
+            btnHelpHorCalc.Visibility = Visibility.Collapsed;
+            btnHelpVertCalc.Visibility = Visibility.Collapsed;
+            btnHelpHorFree.Visibility = Visibility.Collapsed;
+            btnHelpVertFree.Visibility = Visibility.Collapsed;
         }
       }
     }
@@ -806,9 +806,9 @@ namespace Primes.WpfControls.Components
     public void ResetMessages()
     {
       Warning(null, m_LblInfoFree, new TextBox[] { m_tbFree }, null, Brushes.White, Brushes.Black, Brushes.White);
-      Warning(null, m_LblInfoCalc, new TextBox[] { m_tbCalcFactor, m_tbCalcBase, m_tbCalcExp, m_tbCalcSum}, null, Brushes.White, Brushes.Black, Brushes.White);
-      
+      Warning(null, m_LblInfoCalc, new TextBox[] { m_tbCalcFactor, m_tbCalcBase, m_tbCalcExp, m_tbCalcSum }, null, Brushes.White, Brushes.Black, Brushes.White);    
     }
+
     #endregion
 
     #region Setting Text
