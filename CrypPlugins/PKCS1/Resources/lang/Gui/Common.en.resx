@@ -127,6 +127,6 @@
     <value>(length: {0} bits)</value>
   </data>
   <data name="startTitle" xml:space="preserve">
-    <value>Start</value>
+    <value>Attacks on PKCS#1</value>
   </data>
 </root>
