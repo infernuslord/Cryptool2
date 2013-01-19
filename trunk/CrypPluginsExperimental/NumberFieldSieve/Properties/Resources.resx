@@ -157,4 +157,10 @@
   <data name="OutputFactorsTooltip" xml:space="preserve">
     <value>The factors which make up the input number</value>
   </data>
+  <data name="CurrentStatus" xml:space="preserve">
+    <value>Current status:</value>
+  </data>
+  <data name="ShowDetails" xml:space="preserve">
+    <value>Show Details</value>
+  </data>
 </root>

@@ -5,17 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         
-        <Label Visibility="Collapsed">
+        <Label>
             <TextBlock>
-                Derzeitiger Vorgang: <Run Text="{Binding Status}" />
+                <Run Text="{Loc CurrentStatus}" /> <Run Text="{Binding Status}" />
             </TextBlock>
         </Label>
-        <TextBox x:Name="TextOut" Grid.Row="1" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
+        <ToggleButton IsChecked="False" x:Name="ShowDetailsButton" Grid.Column="1" Content="{Loc ShowDetails}" />
+        
+        <TextBox x:Name="TextOut" Visibility="{Binding IsChecked, ElementName=ShowDetailsButton, Mode=OneWay, Converter={StaticResource boolToVisibilityConverter}}" Grid.Row="1" Grid.ColumnSpan="2" IsReadOnly="True" 
+                 VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
     </Grid>
 </UserControl>

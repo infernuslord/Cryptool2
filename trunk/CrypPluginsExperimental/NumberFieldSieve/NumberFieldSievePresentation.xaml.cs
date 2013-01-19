@@ -20,6 +20,7 @@ namespace NumberFieldSieve
     /// <summary>
     /// Interaction logic for NumberFieldSievePresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("NumberFieldSieve.Properties.Resources")]
     public partial class NumberFieldSievePresentation : UserControl
     {
         private readonly Queue _appendTextQueue;
@@ -39,15 +40,18 @@ namespace NumberFieldSieve
         {
             if (_appendTextQueue.Count > 0)
             {
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                lock (_appendTextQueue)
                 {
-                    do
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        var el = _appendTextQueue.Dequeue();
-                        TextOut.AppendText((string) el);
-                    } while (_appendTextQueue.Count > 0);
-                    TextOut.ScrollToEnd();
-                }, null);
+                        do
+                        {
+                            var el = _appendTextQueue.Dequeue();
+                            TextOut.AppendText((string)el);
+                        } while (_appendTextQueue.Count > 0);
+                        TextOut.ScrollToEnd();
+                    }, null);
+                }
             }
             else
             {
@@ -60,7 +64,7 @@ namespace NumberFieldSieve
             _appendTextQueue.Enqueue(text);
             TimerOn();
         }
-
+        
         private void TimerOn()
         {
             if (!_timerOn)
