@@ -290,7 +290,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="View\Base\app.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\Resources\" />
