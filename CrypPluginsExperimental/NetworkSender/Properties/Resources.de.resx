@@ -174,4 +174,10 @@
   <data name="ByteAsciiSwitchCaptionTooltip" xml:space="preserve">
     <value>Bytes als ASCII anzeigen</value>
   </data>
+  <data name="IpInput" xml:space="preserve">
+    <value>Ziel IP</value>
+  </data>
+  <data name="IpInputTooltip" xml:space="preserve">
+    <value>Setzen sie die Ziel IP hier oder in den Einstellungen der Komponente.</value>
+  </data>
 </root>

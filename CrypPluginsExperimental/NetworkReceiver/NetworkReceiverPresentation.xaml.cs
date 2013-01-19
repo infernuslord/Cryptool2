@@ -1,5 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+    Copyright 2013 Christopher Konze, University of Kassel
+ 
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System;
 using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
@@ -24,40 +38,34 @@ namespace Cryptool.Plugins.NetworkReceiver
             caller = networkReceiver;
         }
 
-        public void RefreshMetaData(int amountOfReceivedPackages, int amountOfUniqueIps)
-        {
-            var jar = new int[2]{amountOfReceivedPackages, amountOfUniqueIps};
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>{
-              try
-              {
-                  amount.Content = jar[0];
-                  uniqueIP.Content = jar[1];
-              }
-              catch (Exception e)
-              {
-                  caller.GuiLogMessage(e.Message,NotificationLevel.Error);
-              } 
-            }),jar);
-        }
-
+        /// <summary>
+        /// invoke presentation in order to set the starttime and the port
+        /// </summary>
+        /// <param name="starttime"></param>
+        /// <param name="port"></param>
         public void SetStaticMetaData(string starttime, string port)
         {
-            var jar = new string[2] { starttime, port };
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
                 {
                     try
                     {
-                        startTime.Content = jar[0];
-                        lisPort.Content = jar[1];
+                        startTime.Content = starttime;
+                        lisPort.Content = port;
                     }
                     catch (Exception e)
                     {
                         caller.GuiLogMessage(e.Message, NotificationLevel.Error);
                     } 
-                }), jar);
+                }), null);
         }
 
-        public void AddPresentationPackage(PresentationPackage package)
+        /// <summary>
+        ///  invoke presentation in order to add a new packet and refreshed counters
+        ///  </summary>
+        /// <param name="package"></param>
+        /// <param name="amountOfReceivedPackages"></param>
+        /// <param name="amountOfUniqueIps"></param>
+        public void UpdatePresentation(PresentationPackage package, int amountOfReceivedPackages, int amountOfUniqueIps)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
@@ -65,22 +73,29 @@ namespace Cryptool.Plugins.NetworkReceiver
                 {
                    entries.Add(package);
                    ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
+                   amount.Content = amountOfReceivedPackages;
+                   uniqueIP.Content = amountOfUniqueIps;
                 }
                 catch (Exception e)
                 {
                     caller.GuiLogMessage(e.Message, NotificationLevel.Error);
                 } 
-            }), package);
+            }), null);
             
         }
 
-        public void ClearList()
+        /// <summary>
+        /// clears the packet list and resets packet count and uniueIp count
+        /// </summary>
+        public void ClearPresentation()
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
                     entries.Clear();
+                    amount.Content = 0;
+                    uniqueIP.Content = 0;
                 }
                 catch (Exception e)
                 {

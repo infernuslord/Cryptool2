@@ -106,6 +106,16 @@ namespace Cryptool.Plugins.NetworkSender
             set;
         }
 
+        /// <summary>
+        /// DestinationIp 
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "IpInput", "IpInputTooltip")]
+        public string DestinationIp_i
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -132,11 +142,11 @@ namespace Cryptool.Plugins.NetworkSender
         public void PreExecution()
         {
             ProgressChanged(0, 1);
-
+            DestinationIp_i = "";
             //init
             isRunning = true;
             startTime = DateTime.Now;
-
+            packageCount = 0;
 
             //resets the presentation
             presentation.ClearList();
@@ -151,15 +161,18 @@ namespace Cryptool.Plugins.NetworkSender
         {
             ProgressChanged(1, 100);
 
-            if (IsValidIP(settings.DeviceIP))
+            //if DestinationIp_i is empty we use the ip in the settings.
+            var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
+
+            if (IsValidIP(destinationIP))
             {
                 // Init
-                endPoint = new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port);
+                endPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
                 using (streamReader = PackageStream.CreateReader())
                 {
-                    var streamBuffer = new byte[1024];
+                    var streamBuffer = new byte[65507]; //maximum payload size for udp
                     int bytesRead;
                     while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
                     {
@@ -167,7 +180,9 @@ namespace Cryptool.Plugins.NetworkSender
                         for (int i = 0; i < bytesRead; i++)
                         {
                             packetData[i] = streamBuffer[i]; // copy all read data to streamData 
-                        }
+                        } 
+                        
+                        presentation.RefreshMetaData(++packageCount);
 
                         //updates the presentation
                         presentation.AddPresentationPackage(new PresentationPackage
@@ -176,9 +191,7 @@ namespace Cryptool.Plugins.NetworkSender
                             Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
                             PackageSize = generatePackageSizeString(packetData)
                         });
-                        packageCount++;
-                        presentation.RefreshMetaData(packageCount);
-
+                       
                         //sends input data
                         clientSocket.SendTo(packetData, endPoint);
                     }
