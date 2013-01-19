@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2013 Christopher Konze, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -156,7 +156,12 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
 
-       private List<String> getInterfaceIps()
+
+        /// <summary>
+        /// returns a list with all available networkinterfaces
+        /// </summary>
+        /// <returns></returns>
+        private List<String> getInterfaceIps()
         {
             var interfaces = new List<string>();
                             
@@ -173,7 +178,7 @@ namespace Cryptool.Plugins.NetworkReceiver
            }
            return interfaces;
         } 
-
+            
         #endregion
     
         #region Events

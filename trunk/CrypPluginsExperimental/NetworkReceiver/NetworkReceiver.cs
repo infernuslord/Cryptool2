@@ -1,6 +1,6 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
-
+    Copyright 2013 Christopher Konze, University of Kassel
+ 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -28,7 +28,7 @@ using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Plugins.NetworkReceiver
 {
-    [Author("Christopher Konze", "ckonze@uni.de", "University of Kassel", "")]
+    [Author("", "ckonze@uni.de", "", "")]
     [PluginInfo("NetworkReceiver.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkReceiver/userdoc.xml", new[] { "NetworkReceiver/Images/package.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkReceiver : ICrypComponent
@@ -60,28 +60,45 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         #region Helper Functions
 
-        //the maximum left time in ms till we abroche the user's whised timeout time 
+        /// <summary>
+        /// the maximum left time in ms till we abroche the user's whised timeout time 
+        /// </summary>
+        /// <returns></returns>
         private int TimeTillTimelimit()
         {
             int timeTillTimeout = settings.Timeout - DateTime.Now.Subtract(startTime).Seconds;
             return (timeTillTimeout <= 0) ? 0 : timeTillTimeout*1000;
         }
         
-        // decides on the basis of the given timeout, whether the component continues to wait for more packages
-        // remember timeout = 0 means: dont time out
+        
+       
+        /// <summary>
+        /// decides on the basis of the given timeout, whether the component continues to wait for more packages
+        /// remember timeout = 0 means: dont time out
+        /// </summary>
+        /// <returns></returns>
         private bool IsTimeLeft()
         {
             return (settings.Timeout > DateTime.Now.Subtract(startTime).Seconds || settings.Timeout == 0);
         }
 
-        // decides on basis of user's input whether the component is allowed to receiving another package
-        // remember PackageLimit  = 0 means: dont limit the amount of packages
+        
+        /// <summary>
+        /// decides on basis of user's input whether the component is allowed to receiving another package
+        /// remember PackageLimit  = 0 means: dont limit the amount of packages
+        /// </summary>
+        /// <returns></returns>
         private bool IsPackageLimitNotReached()
         {
             return (settings.PackageLimit < receivedPackages.Count || settings.PackageLimit == 0);
         }
         
-        // creates a size string corespornsing to the size of the given bytearray (data) with a byte or kByte ending
+         
+        /// <summary>
+        /// creates a size string corespornsing to the size of the given bytearray (data) with a byte or kByte ending
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         private string generatePackageSizeString(byte[] data)
         {
             double size = data.Length;
@@ -154,8 +171,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             receivedPackages = new List<byte[]>();
 
             // reset gui
-            presentation.ClearList();
-            presentation.RefreshMetaData(0, 0);
+            presentation.ClearPresentation();
             presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));        
         }
 
@@ -178,15 +194,19 @@ namespace Cryptool.Plugins.NetworkReceiver
                     uniqueSrcIps.Add(endPoint.Address);
                     receivedPackages.Add(data);
 
-                    // redirect to gui
-                    presentation.AddPresentationPackage(new PresentationPackage
-                    {
-                        PackageSize = generatePackageSizeString(data),
-                        IPFrom = endPoint.Address.ToString(),
-                        Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(data) : BitConverter.ToString(data))
-                    });
-                    presentation.RefreshMetaData(receivedPackages.Count, uniqueSrcIps.Count);
+                    // update presentation
+                    var packet = new PresentationPackage
+                                      {
+                                          PackageSize = generatePackageSizeString(data),
+                                          IPFrom = endPoint.Address.ToString(),
+                                          Payload =
+                                              (settings.ByteAsciiSwitch
+                                                   ? Encoding.ASCII.GetString(data)
+                                                   : BitConverter.ToString(data))
+                                      };
+                    presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
 
+                    //update output
                     streamWriter = new CStreamWriter();
                     PackageStream = streamWriter;    
                     streamWriter.Write(data);

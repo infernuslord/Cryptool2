@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     caller.GuiLogMessage(e.Message, NotificationLevel.Error);
                 } 
-            }), amountOfSendedPackages);
+            }), null);
         }
 
         public void SetStaticMetaData(string starttime, int port)
