@@ -61,6 +61,15 @@ namespace NumberFieldSieve.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current status:.
+        /// </summary>
+        internal static string CurrentStatus {
+            get {
+                return ResourceManager.GetString("CurrentStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to # These are default parameters for different size factorizations.
         ///# They will be used only to fill in any non-user-supplied parameters.
         ///# At the moment, they surely will not be optimal - they are just
@@ -164,6 +173,15 @@ namespace NumberFieldSieve.Properties {
         internal static string OutputFactorsTooltip {
             get {
                 return ResourceManager.GetString("OutputFactorsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Details.
+        /// </summary>
+        internal static string ShowDetails {
+            get {
+                return ResourceManager.GetString("ShowDetails", resourceCulture);
             }
         }
         

@@ -27,6 +27,7 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase.Properties;
 using Ionic.Zip;
 using IronPython.Runtime;
 using Microsoft.Scripting.Hosting;
@@ -45,6 +46,8 @@ namespace NumberFieldSieve
         private BigInteger[] _outputFactors;
         private string _status;
         private bool _stop;
+        private ScriptScope _scope;
+        private int _statusNr = 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -165,7 +168,7 @@ namespace NumberFieldSieve
                 var searchPaths = engine.GetSearchPaths();
                 searchPaths.Add(Path.Combine(ggnfsDir, "pythonlib"));
                 engine.SetSearchPaths(searchPaths);
-                using (var outputStream = new GGNFSOutputStream(buffer => _presentation.Append(buffer)))
+                using (var outputStream = new GGNFSOutputStream(delegate(string buffer) { _presentation.Append(buffer); SetStatus(_scope.GetVariable<int>("status")); }))
                 using (var errorOutputStream = new GGNFSOutputStream(buffer => GuiLogMessage(buffer, NotificationLevel.Error)))
                 {
                     engine.Runtime.IO.SetOutput(outputStream, Encoding.ASCII);
@@ -175,6 +178,7 @@ namespace NumberFieldSieve
                     ScriptSource source = engine.CreateScriptSourceFromFile(Path.Combine(ggnfsDir, "factmsieve.py"));
 
                     source.Execute(scope);
+                    _scope = scope;
                     scope.SetVariable("NAME", Path.Combine(_directoryName, inputString));
                     scope.SetVariable("GGNFS_PATH", ggnfsDir);
                     scope.SetVariable("MSIEVE_PATH", ggnfsDir);
@@ -209,6 +213,32 @@ namespace NumberFieldSieve
             finally
             {
                 Status = null;
+            }
+        }
+
+        private void SetStatus(int status)
+        {
+            if (_statusNr != status)
+            {
+                _statusNr = status;
+                switch (status)
+                {
+                    case 0:
+                        Status = "-";
+                        break;
+                    case 1:
+                        Status = Resources.Finding_polynomial;
+                        break;
+                    case 2:
+                        Status = Resources.Setting_up_factorization_step;
+                        break;
+                    case 3:
+                        Status = Resources.Sieving;
+                        break;
+                    case 4:
+                        Status = Resources.Solving_matrix;
+                        break;
+                }
             }
         }
 
