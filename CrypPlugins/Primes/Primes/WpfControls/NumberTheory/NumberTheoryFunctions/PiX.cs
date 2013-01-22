@@ -28,42 +28,46 @@ using Primes.Library.Function;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public class PiX : BaseNTFunction
-  {
-    object lockobj = new object();
-    public PiX() : base() { }
-    #region Calculating
-    protected override void DoExecute()
+    public class PiX : BaseNTFunction
     {
-      FireOnStart();
-      FunctionPiX pix = new FunctionPiX();
-      PrimesBigInteger from = m_From;
-      PrimesBigInteger _counterTmp = PrimesBigInteger.Two;
-      while (_counterTmp.CompareTo(from) <= 0)
-      {
-        double result = pix.Execute(_counterTmp.DoubleValue);
-        FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
-        _counterTmp = _counterTmp.Add(PrimesBigInteger.One);
-      }
-      while (from.CompareTo(m_To) <= 0)
-      {
-        double result = pix.Execute(from.DoubleValue);
-        FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
-        from = from.Add(PrimesBigInteger.One);
+        object lockobj = new object();
+        public PiX() : base() { }
 
-      }
-      FireOnStop();
+        #region Calculating
 
+        protected override void DoExecute()
+        {
+            FireOnStart();
+
+            FunctionPiX pix = new FunctionPiX();
+            PrimesBigInteger from = m_From;
+            PrimesBigInteger _counterTmp = PrimesBigInteger.Two;
+
+            while (_counterTmp.CompareTo(from) <= 0)
+            {
+                double result = pix.Execute(_counterTmp.DoubleValue);
+                FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
+                _counterTmp = _counterTmp.Add(PrimesBigInteger.One);
+            }
+
+            while (from.CompareTo(m_To) <= 0)
+            {
+                double result = pix.Execute(from.DoubleValue);
+                FireOnMessage(this, from, StringFormat.FormatDoubleToIntString(result));
+                from = from.Add(PrimesBigInteger.One);
+            }
+
+            FireOnStop();
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return m_ResourceManager.GetString(BaseNTFunction.pix);
+            }
+        }
+
+        #endregion
     }
-
-
-    public override string Description
-    {
-      get
-      {
-        return m_ResourceManager.GetString(BaseNTFunction.pix);
-      }
-    }
-    #endregion
-  }
 }

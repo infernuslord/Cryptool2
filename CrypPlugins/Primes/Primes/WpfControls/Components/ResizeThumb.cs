@@ -24,92 +24,92 @@ using System.Windows.Input;
 
 namespace Primes.WpfControls.Components
 {
-  public class ResizeThumb : Thumb
-  {
-    private ResizerPosition position;
-    public ResizerPosition Position
+    public class ResizeThumb : Thumb
     {
-      get { return position; }
-      set { position = value; }
-    }
+        private ResizerPosition position;
 
-    public ResizeThumb()
-    {
-      base.DragDelta += new DragDeltaEventHandler(ResizeThumb_DragDelta);
-    }
-
-    void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
-    {
-      ContentControl item = this.DataContext as ContentControl;
-
-      if (item != null)
-      {
-        switch (this.Position)
+        public ResizerPosition Position
         {
-          case ResizerPosition.Top:
-            item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
-            break;
-          case ResizerPosition.Bottom:
-            item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
-            break;
-          case ResizerPosition.Left:
-            item.Width = Math.Max(25, item.ActualWidth - e.HorizontalChange);
-            break;
-          case ResizerPosition.Right:
-            item.Width =
-                    Math.Max(25, item.ActualWidth + e.HorizontalChange);
-            break;
-          case ResizerPosition.TopLeft:
-            item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
-            item.Width =
-                Math.Max(25, item.ActualWidth - e.HorizontalChange);
-            break;
-          case ResizerPosition.TopRight:
-            item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
-            item.Width = Math.Max(25, item.ActualWidth + e.HorizontalChange);
-            break;
-          case ResizerPosition.BottomLeft:
-            item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
-            item.Width = Math.Max(25, item.ActualWidth - e.HorizontalChange);
-            break;
-          case ResizerPosition.BottomRight:
-            item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
-            item.Width = Math.Max(25, item.ActualWidth + e.HorizontalChange);
-            break;
-          default:
-            break;
+            get { return position; }
+            set { position = value; }
         }
-        if (OnSizeChanged!=null) OnSizeChanged(new Size(item.Width, item.Height));
-      }
-      e.Handled = true;
+
+        public ResizeThumb()
+        {
+            base.DragDelta += new DragDeltaEventHandler(ResizeThumb_DragDelta);
+        }
+
+        void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            ContentControl item = this.DataContext as ContentControl;
+
+            if (item != null)
+            {
+                switch (this.Position)
+                {
+                    case ResizerPosition.Top:
+                        item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
+                        break;
+                    case ResizerPosition.Bottom:
+                        item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
+                        break;
+                    case ResizerPosition.Left:
+                        item.Width = Math.Max(25, item.ActualWidth - e.HorizontalChange);
+                        break;
+                    case ResizerPosition.Right:
+                        item.Width = Math.Max(25, item.ActualWidth + e.HorizontalChange);
+                        break;
+                    case ResizerPosition.TopLeft:
+                        item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
+                        item.Width = Math.Max(25, item.ActualWidth - e.HorizontalChange);
+                        break;
+                    case ResizerPosition.TopRight:
+                        item.Height = Math.Max(25, item.ActualHeight - e.VerticalChange);
+                        item.Width = Math.Max(25, item.ActualWidth + e.HorizontalChange);
+                        break;
+                    case ResizerPosition.BottomLeft:
+                        item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
+                        item.Width = Math.Max(25, item.ActualWidth - e.HorizontalChange);
+                        break;
+                    case ResizerPosition.BottomRight:
+                        item.Height = Math.Max(25, item.ActualHeight + e.VerticalChange);
+                        item.Width = Math.Max(25, item.ActualWidth + e.HorizontalChange);
+                        break;
+                    default:
+                        break;
+                }
+                if (OnSizeChanged != null) OnSizeChanged(new Size(item.Width, item.Height));
+            }
+            e.Handled = true;
+        }
+
+        public event DoubleParameterDelegate OnSizeChanged;
+        public event MouseButtonEventHandler LeftButtonUp;
+        public event MouseButtonEventHandler LeftButtonDown;
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            if (this.LeftButtonUp != null) LeftButtonUp(this, e);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            if (this.LeftButtonDown != null) LeftButtonDown(this, e);
+        }
     }
 
-    public event DoubleParameterDelegate OnSizeChanged;
-    public event MouseButtonEventHandler LeftButtonUp;
-    public event MouseButtonEventHandler LeftButtonDown;
-
-    protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+    public enum ResizerPosition
     {
-      base.OnMouseLeftButtonUp(e);
-      if (this.LeftButtonUp != null) LeftButtonUp(this, e);
+        None,
+        Top,
+        Bottom,
+        Left,
+        Right,
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
     }
-    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-    {
-      base.OnMouseLeftButtonDown(e);
-      if (this.LeftButtonDown != null) LeftButtonDown(this, e);
-    }
-  }
-
-  public enum ResizerPosition
-  {
-    None,
-    Top,
-    Bottom,
-    Left,
-    Right,
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-  }
 }

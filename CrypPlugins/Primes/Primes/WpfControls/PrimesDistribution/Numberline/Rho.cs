@@ -28,9 +28,10 @@ using System.Numerics;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
-    public class Rho:BaseNTFunction
+    public class Rho : BaseNTFunction
     {
-        public Rho(LogControl2 lc, TextBlock tb) : base(lc, tb)
+        public Rho(LogControl2 lc, TextBlock tb)
+            : base(lc, tb)
         {
             m_Log.Columns = 1;
             m_Log.OverrideText = true;
@@ -50,9 +51,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             String s = String.Join(" + ", divisors.Select(i => i.ToString()).ToArray());
 
-            m_Log.Info(s+" = "+sum);
+            m_Log.Info(s + " = " + sum);
             SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_rhoinfo, m_Value, sum));
-            
+
             FireOnStop();
         }
 

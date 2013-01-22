@@ -21,54 +21,57 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Advisers
 {
-  public class LargeNumberAdvisor:IValidator<PrimesBigInteger>
-  {
-    #region Properties
-    private PrimesBigInteger m_Limit;
-    private OnlineHelp.OnlineHelpActions m_HelpLink;
-    private PrimesBigInteger m_Value;
-    #endregion
-    public LargeNumberAdvisor(PrimesBigInteger limit, OnlineHelp.OnlineHelpActions helplink)
+    public class LargeNumberAdvisor : IValidator<PrimesBigInteger>
     {
-      m_Limit = limit;
-      m_HelpLink = helplink;
+        #region Properties
+
+        private PrimesBigInteger m_Limit;
+        private OnlineHelp.OnlineHelpActions m_HelpLink;
+        private PrimesBigInteger m_Value;
+
+        #endregion
+
+        public LargeNumberAdvisor(PrimesBigInteger limit, OnlineHelp.OnlineHelpActions helplink)
+        {
+            m_Limit = limit;
+            m_HelpLink = helplink;
+        }
+
+        #region IValidator<PrimesBigInteger> Members
+
+        public object Value
+        {
+            get
+            {
+                return m_Value;
+            }
+            set
+            {
+                m_Value = value as PrimesBigInteger;
+            }
+        }
+
+        public ValidationResult Validate(ref PrimesBigInteger t)
+        {
+            m_Value = t;
+            if (m_Limit.CompareTo(t) < 0)
+            {
+                return ValidationResult.INFO;
+            }
+            return ValidationResult.OK;
+        }
+
+        public string Message
+        {
+            get { return Primes.Resources.lang.Validation.Validation.largenumberadvisor; }
+            set { }
+        }
+
+        public OnlineHelp.OnlineHelpActions HelpLink
+        {
+            get { return m_HelpLink; }
+        }
+
+        #endregion
     }
-    #region IValidator<PrimesBigInteger> Members
-
-    public object Value
-    {
-      get
-      {
-        return m_Value;
-      }
-      set
-      {
-        m_Value = value as PrimesBigInteger ;
-      }
-    }
-
-    public ValidationResult Validate(ref PrimesBigInteger t)
-    {
-      m_Value = t;
-      if (m_Limit.CompareTo(t) < 0)
-      {
-        return ValidationResult.INFO;
-      }
-      return ValidationResult.OK;
-
-    }
-
-    public string Message
-    {
-      get { return Primes.Resources.lang.Validation.Validation.largenumberadvisor; }
-      set { ;}
-    }
-
-    public OnlineHelp.OnlineHelpActions HelpLink
-    {
-      get { return m_HelpLink; }
-    }
-
-    #endregion
-  }
 }

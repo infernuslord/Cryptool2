@@ -20,8 +20,8 @@ using System.Text;
 
 namespace Primes.Library.Function
 {
-  public class ResultNotDefinedException:Exception
-  {
-    public ResultNotDefinedException() { }
-  }
+    public class ResultNotDefinedException : Exception
+    {
+        public ResultNotDefinedException() { }
+    }
 }

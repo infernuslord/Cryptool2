@@ -25,18 +25,19 @@ using Primes.Library;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public delegate void NumberTheoryMessageDelegate(INTFunction function, PrimesBigInteger value, string message);
-  public interface INTFunction
-  {
-    void Start(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second);
-    void Stop();
-    event VoidDelegate OnStart;
-    event VoidDelegate OnStop;
-    event NumberTheoryMessageDelegate Message;
-    string Description { get; }
-    bool IsRunnung { get; }
-    bool NeedsSecondParameter{ get; }
-  }
+    public delegate void NumberTheoryMessageDelegate(INTFunction function, PrimesBigInteger value, string message);
 
-  public class NTFunctions : ObservableCollection<INTFunction> { }
+    public interface INTFunction
+    {
+        void Start(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second);
+        void Stop();
+        event VoidDelegate OnStart;
+        event VoidDelegate OnStop;
+        event NumberTheoryMessageDelegate Message;
+        string Description { get; }
+        bool IsRunnung { get; }
+        bool NeedsSecondParameter { get; }
+    }
+
+    public class NTFunctions : ObservableCollection<INTFunction> { }
 }

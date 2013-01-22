@@ -21,13 +21,13 @@ using System.Text;
 
 namespace Primes.WpfControls.Factorization.QS
 {
-  public enum QSResult  { Ok, Failed, Restart}
-  public interface IQSStep
-  {
-    void PreStep();
-    void PostStep();
-    QSResult Execute(ref QSData data);
-    event FoundFactor FoundFactor;
+    public enum QSResult { Ok, Failed, Restart }
 
-  }
+    public interface IQSStep
+    {
+        void PreStep();
+        void PostStep();
+        QSResult Execute(ref QSData data);
+        event FoundFactor FoundFactor;
+    }
 }

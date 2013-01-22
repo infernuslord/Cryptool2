@@ -7,56 +7,57 @@ using Primes.WpfVisualization;
 
 namespace Primes
 {
-  [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "Primes/DetailedDescription/doc.xml", "Primes/PrimesPlugin.png")] 
-  public class PrimesPlugin:ICrypTutorial
-  {
-    #region IPlugin Members
-    private PrimesControl m_PrimesPlugin = null;
-    public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
-
-    public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-    public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-    public Cryptool.PluginBase.ISettings Settings
+    [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
+    [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "Primes/DetailedDescription/doc.xml", "Primes/PrimesPlugin.png")]
+    public class PrimesPlugin : ICrypTutorial
     {
-      get { return null; }
+        #region IPlugin Members
+
+        private PrimesControl m_PrimesPlugin = null;
+        public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
+
+        public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        public Cryptool.PluginBase.ISettings Settings
+        {
+            get { return null; }
+        }
+
+        public System.Windows.Controls.UserControl Presentation
+        {
+            get
+            {
+                if (m_PrimesPlugin == null) m_PrimesPlugin = new PrimesControl();
+                return m_PrimesPlugin;
+            }
+        }
+
+        public void Execute()
+        {
+        }
+
+        public void Stop()
+        {
+        }
+
+        public void Initialize()
+        {
+        }
+
+        public void Dispose()
+        {
+            if (m_PrimesPlugin != null)
+                m_PrimesPlugin.Dispose();
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
-
-    public System.Windows.Controls.UserControl Presentation
-    {
-      get
-      {
-        if (m_PrimesPlugin == null) m_PrimesPlugin = new PrimesControl();
-        return m_PrimesPlugin;
-      }
-    }
-
-    public void Execute()
-    {
-    }
-
-    public void Stop()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void Dispose()
-    {
-        if (m_PrimesPlugin != null)
-            m_PrimesPlugin.Dispose();
-    }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-  }
 }

@@ -31,132 +31,130 @@ using System.Diagnostics;
 
 namespace Primes.WpfControls.Start
 {
-  /// <summary>
-  /// Interaction logic for StartControl.xaml
-  /// </summary>
-  public partial class StartControl : UserControl, IPrimeMethodDivision
-  {
-    System.Windows.Forms.WebBrowser b;
-    public event Navigate OnStartpageLinkClick;
-    public StartControl()
+    /// <summary>
+    /// Interaction logic for StartControl.xaml
+    /// </summary>
+    public partial class StartControl : UserControl, IPrimeMethodDivision
     {
-      InitializeComponent();
-      b = new System.Windows.Forms.WebBrowser();
-      b.Dock = System.Windows.Forms.DockStyle.Fill;
-      b.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(b_Navigating);
-      windowsFormsHost1.Child = b;
-      b.DocumentText = Properties.Resources.Start;
-      //b.Document.ContextMenuShowing += new System.Windows.Forms.HtmlElementEventHandler(Document_ContextMenuShowing);
-    }
-
-    void Document_ContextMenuShowing(object sender, System.Windows.Forms.HtmlElementEventArgs e)
-    {
-      e.ReturnValue = false;
-    }
-
-
-    void b_Navigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
-    {
-      string target = e.Url.AbsoluteUri;
-      if (target.IndexOf("exec://") >= 0)
-      {
-        target = target.Replace("exec://", "");
-        target = target.Replace("/", "");
-      }
-      if (!string.IsNullOrEmpty(target) && OnStartpageLinkClick != null)
-      {
-        NavigationCommandType action = NavigationCommandType.None;
-        switch (target.ToLower())
+        System.Windows.Forms.WebBrowser b;
+        public event Navigate OnStartpageLinkClick;
+        public StartControl()
         {
-          case "factor_bf":
-            action = NavigationCommandType.Factor_Bf;
-            break;
-          case "factor_qs":
-            action = NavigationCommandType.Factor_QS;
-            break;
-          case "primetest_sieve":
-            action = NavigationCommandType.Primetest_Sieve;
-            break;
-          case "primetest_miller":
-            action = NavigationCommandType.Primetest_Miller;
-            break;
-          case "primesgeneration":
-            action = NavigationCommandType.Primesgeneration;
-            break;
-          case "graph":
-            action = NavigationCommandType.Graph;
-            break;
-          case "primedistrib_numberline":
-            action = NavigationCommandType.PrimeDistrib_Numberline;
-            break;
-          case "primedistrib_numberrec":
-            action = NavigationCommandType.PrimeDistrib_Numberrec;
-            break;
-          case "primedistrib_ulam":
-            action = NavigationCommandType.PrimeDistrib_Ulam;
-            break;
-          case "primitivroot":
-            action = NavigationCommandType.PrimitivRoot;
-            break;
+            InitializeComponent();
+            b = new System.Windows.Forms.WebBrowser();
+            b.Dock = System.Windows.Forms.DockStyle.Fill;
+            b.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(b_Navigating);
+            windowsFormsHost1.Child = b;
+            b.DocumentText = Properties.Resources.Start;
+            //b.Document.ContextMenuShowing += new System.Windows.Forms.HtmlElementEventHandler(Document_ContextMenuShowing);
         }
-        if (action != NavigationCommandType.None)
+
+        void Document_ContextMenuShowing(object sender, System.Windows.Forms.HtmlElementEventArgs e)
         {
-          OnStartpageLinkClick(action);
-          e.Cancel = true;
+            e.ReturnValue = false;
         }
-      }
+
+        void b_Navigating(object sender, System.Windows.Forms.WebBrowserNavigatingEventArgs e)
+        {
+            string target = e.Url.AbsoluteUri;
+            if (target.IndexOf("exec://") >= 0)
+            {
+                target = target.Replace("exec://", "");
+                target = target.Replace("/", "");
+            }
+            if (!string.IsNullOrEmpty(target) && OnStartpageLinkClick != null)
+            {
+                NavigationCommandType action = NavigationCommandType.None;
+                switch (target.ToLower())
+                {
+                    case "factor_bf":
+                        action = NavigationCommandType.Factor_Bf;
+                        break;
+                    case "factor_qs":
+                        action = NavigationCommandType.Factor_QS;
+                        break;
+                    case "primetest_sieve":
+                        action = NavigationCommandType.Primetest_Sieve;
+                        break;
+                    case "primetest_miller":
+                        action = NavigationCommandType.Primetest_Miller;
+                        break;
+                    case "primesgeneration":
+                        action = NavigationCommandType.Primesgeneration;
+                        break;
+                    case "graph":
+                        action = NavigationCommandType.Graph;
+                        break;
+                    case "primedistrib_numberline":
+                        action = NavigationCommandType.PrimeDistrib_Numberline;
+                        break;
+                    case "primedistrib_numberrec":
+                        action = NavigationCommandType.PrimeDistrib_Numberrec;
+                        break;
+                    case "primedistrib_ulam":
+                        action = NavigationCommandType.PrimeDistrib_Ulam;
+                        break;
+                    case "primitivroot":
+                        action = NavigationCommandType.PrimitivRoot;
+                        break;
+                }
+                if (action != NavigationCommandType.None)
+                {
+                    OnStartpageLinkClick(action);
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+            //this.windowsFormsHost1.Width = sizeInfo.NewSize.Width;
+        }
+
+        #region IPrimeUserControl Members
+
+        public void Dispose()
+        {
+            //
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public void SetTab(int i)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public event VoidDelegate Execute;
+
+        public void FireExecuteEvent()
+        {
+            if (Execute != null) Execute();
+        }
+
+        public event VoidDelegate Stop;
+
+        public void FireStopEvent()
+        {
+            if (Stop != null) Stop();
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
-
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-    {
-      base.OnRenderSizeChanged(sizeInfo);
-      //this.windowsFormsHost1.Width = sizeInfo.NewSize.Width;
-    }
-
-    #region IPrimeUserControl Members
-
-    public void Dispose()
-    {
-      //
-    }
-
-    #endregion
-
-    #region IPrimeUserControl Members
-
-
-    public void SetTab(int i)
-    {
-      throw new NotImplementedException();
-    }
-
-    #endregion
-
-    #region IPrimeUserControl Members
-
-
-    public event VoidDelegate Execute;
-    public void FireExecuteEvent()
-    {
-      if (Execute != null) Execute();
-    }
-
-    public event VoidDelegate Stop;
-    public void FireStopEvent()
-    {
-      if (Stop != null) Stop();
-    }
-
-    #endregion
-
-    #region IPrimeUserControl Members
-
-
-    public void Init()
-    {
-      throw new NotImplementedException();
-    }
-
-    #endregion
-  }
 }

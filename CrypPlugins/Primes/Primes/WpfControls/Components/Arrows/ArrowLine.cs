@@ -24,7 +24,7 @@ using System.Windows.Media;
 namespace Primes.WpfControls.Components.Arrows
 {
     /// <summary>
-    ///     Draws a straight line between two points with 
+    ///     Draws a straight line between two points with
     ///     optional arrows on the ends.
     /// </summary>
     public class ArrowLine : ArrowLineBase
@@ -121,8 +121,5 @@ namespace Primes.WpfControls.Components.Arrows
                 return base.DefiningGeometry;
             }
         }
-
-
-
     }
 }

@@ -19,30 +19,29 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.Bignum;
 
-
-
 namespace Primes.Library.FactorTree.Exceptions
 {
-  public class FactorizingException:Exception
-  {
-    private string m_Message;
-    public FactorizingException()
-      : base()
+    public class FactorizingException : Exception
     {
-    }
+        private string m_Message;
 
-    public FactorizingException(PrimesBigInteger value, PrimesBigInteger maxValue)
-      : base()
-    {
-      this.m_Message = string.Format("{0} is bigger than MaxValue {1}", new object[] { value.ToString(),maxValue.ToString()});
-    }
+        public FactorizingException()
+            : base()
+        {
+        }
 
-    public override string Message
-    {
-      get
-      {
-        return m_Message;
-      }
+        public FactorizingException(PrimesBigInteger value, PrimesBigInteger maxValue)
+            : base()
+        {
+            this.m_Message = string.Format("{0} is bigger than MaxValue {1}", new object[] { value.ToString(), maxValue.ToString() });
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return m_Message;
+            }
+        }
     }
-  }
 }

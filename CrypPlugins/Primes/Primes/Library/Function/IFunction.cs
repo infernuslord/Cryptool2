@@ -20,16 +20,17 @@ using System.Text;
 
 namespace Primes.Library.Function
 {
-  public enum  FunctionState {Stopped, Running}
-  public interface IFunction
-  {
-    double FormerValue { get; }
-    double Execute(double input);
-    void Reset();
-    bool CanEstimate { get; }
-    FunctionState FunctionState { get; set; }
-    double MaxValue { get; set; }
-    event ObjectParameterDelegate Executed;
-    double DrawTo { get; }
-  }
+    public enum FunctionState { Stopped, Running }
+
+    public interface IFunction
+    {
+        double FormerValue { get; }
+        double Execute(double input);
+        void Reset();
+        bool CanEstimate { get; }
+        FunctionState FunctionState { get; set; }
+        double MaxValue { get; set; }
+        event ObjectParameterDelegate Executed;
+        double DrawTo { get; }
+    }
 }

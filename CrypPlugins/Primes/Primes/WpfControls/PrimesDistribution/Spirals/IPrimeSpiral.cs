@@ -23,14 +23,14 @@ using Primes.Library;
 
 namespace Primes.WpfControls.PrimesDistribution.Spirals
 {
-  public interface IPrimeSpiral
-  {
-    void Draw(PrimesBigInteger from, PrimesBigInteger to);
-    void Close();
-    void Clear();
-    void Cancel();
+    public interface IPrimeSpiral
+    {
+        void Draw(PrimesBigInteger from, PrimesBigInteger to);
+        void Close();
+        void Clear();
+        void Cancel();
 
-    event VoidDelegate StartDrawing;
-    event VoidDelegate StopDrawing;
-  }
+        event VoidDelegate StartDrawing;
+        event VoidDelegate StopDrawing;
+    }
 }

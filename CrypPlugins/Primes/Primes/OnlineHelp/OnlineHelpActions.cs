@@ -29,7 +29,7 @@ namespace Primes.OnlineHelp
         Generation_GenerateEuler1,
         Generation_GenerateQuadraticRandom,
         Generation_GenerateQuadraticSystematic,
-        Factorization_Generate, 
+        Factorization_Generate,
         Distribution_Numberline,
         Spiral_Ulam,
         Distribution_Goldbach,

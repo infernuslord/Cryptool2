@@ -24,10 +24,10 @@ using Primes.Library;
 
 namespace Primes.WpfControls.Primetest
 {
-  public interface IPrimeTest:IPrimeVisualization
-  {
-      IValidator<PrimesBigInteger> Validator { get; }
+    public interface IPrimeTest : IPrimeVisualization
+    {
+        IValidator<PrimesBigInteger> Validator { get; }
 
-      bool IsRunning();
-  }
+        bool IsRunning();
+    }
 }

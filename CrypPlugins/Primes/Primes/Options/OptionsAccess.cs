@@ -22,29 +22,31 @@ using Primes.Properties;
 
 namespace Primes.Options
 {
-  public static class OptionsAccess
-  {
-    public static void ShowOptionsDialog()
+    public static class OptionsAccess
     {
-      OptionsWindow.ShowOptionsDialog();
-    }
+        public static void ShowOptionsDialog()
+        {
+            OptionsWindow.ShowOptionsDialog();
+        }
 
-    public static void ForceClose()
-    {
-      OptionsWindow.ForceClosing();
-    }
+        public static void ForceClose()
+        {
+            OptionsWindow.ForceClosing();
+        }
 
-    public static bool UsePari
-    {
-      get { return new Settings().usePari; }
+        public static bool UsePari
+        {
+            get { return new Settings().usePari; }
+        }
+
+        public static bool UseSimpson
+        {
+            get { return new Settings().useSimpson; }
+        }
+
+        public static string GpExe
+        {
+            get { return new Settings().gpexe; }
+        }
     }
-    public static bool UseSimpson
-    {
-      get { return new Settings().useSimpson; }
-    }
-    public static string GpExe
-    {
-      get { return new Settings().gpexe; }
-    }
-  }
 }

@@ -27,51 +27,52 @@ using System.Diagnostics;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public class EulerPhiValues : BaseNTFunction
-  {
-    object lockobj = new object();
-    public EulerPhiValues() : base() { }
-    #region Calculating
-    protected override void DoExecute()
+    public class EulerPhiValues : BaseNTFunction
     {
-      FireOnStart();
-      PrimesBigInteger from = m_From;
-      while (from.CompareTo(m_To) <= 0)
-      {
-        StringBuilder sbMessage = new StringBuilder("[");
-        PrimesBigInteger d = PrimesBigInteger.One;
-        while (d.CompareTo(from) < 0)
+        object lockobj = new object();
+
+        public EulerPhiValues() : base() { }
+
+        #region Calculating
+
+        protected override void DoExecute()
         {
-          if (PrimesBigInteger.GCD(d, from).Equals(PrimesBigInteger.One))
-          {
-            if(sbMessage.Length>1)  
-              sbMessage.Append(", ");
-            sbMessage.Append(d.ToString());
-            FireOnMessage(this, from, sbMessage.ToString());
-          }
-          d = d.Add(PrimesBigInteger.One);
+            FireOnStart();
 
+            PrimesBigInteger from = m_From;
+
+            while (from.CompareTo(m_To) <= 0)
+            {
+                StringBuilder sbMessage = new StringBuilder("[");
+                PrimesBigInteger d = PrimesBigInteger.One;
+                while (d.CompareTo(from) < 0)
+                {
+                    if (PrimesBigInteger.GCD(d, from).Equals(PrimesBigInteger.One))
+                    {
+                        if (sbMessage.Length > 1)
+                            sbMessage.Append(", ");
+                        sbMessage.Append(d.ToString());
+                        FireOnMessage(this, from, sbMessage.ToString());
+                    }
+                    d = d.Add(PrimesBigInteger.One);
+                }
+                sbMessage.Append("]");
+                FireOnMessage(this, from, sbMessage.ToString());
+
+                from = from.Add(PrimesBigInteger.One);
+            }
+
+            FireOnStop();
         }
-        sbMessage.Append("]");
-        FireOnMessage(this, from, sbMessage.ToString());
 
-        from = from.Add(PrimesBigInteger.One);
-      }
+        public override string Description
+        {
+            get
+            {
+                return m_ResourceManager.GetString(BaseNTFunction.eulerphivalues);
+            }
+        }
 
-
-
-      //}
-      FireOnStop();
-
+        #endregion
     }
-
-    public override string Description
-    {
-      get
-      {
-        return m_ResourceManager.GetString(BaseNTFunction.eulerphivalues);
-      }
-    }
-    #endregion
-  }
 }

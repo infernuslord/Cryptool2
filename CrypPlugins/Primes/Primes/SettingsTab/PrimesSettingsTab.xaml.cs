@@ -38,23 +38,13 @@ namespace Primes.SettingsTab
         private void btnChooseGpexe_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+
             ofd.Filter = "gp.exe|gp.exe";
             ofd.Multiselect = false;
-            if (File.Exists(tbGpExe.Text))
-            {
-                ofd.InitialDirectory = tbGpExe.Text;
-            }
-            else
-            {
-                ofd.InitialDirectory = string.Empty;
-            }
-            if (ofd.ShowDialog().HasValue)
-            {
-                if (File.Exists(ofd.FileName))
-                {
-                    tbGpExe.Text = ofd.FileName;
-                }
-            }
+            ofd.InitialDirectory = File.Exists(tbGpExe.Text) ? tbGpExe.Text : string.Empty;
+
+            if (ofd.ShowDialog().HasValue && File.Exists(ofd.FileName))
+                tbGpExe.Text = ofd.FileName;
         }
     }
 }

@@ -20,84 +20,83 @@ using System.Text;
 
 namespace Primes.Library.Function
 {
-  public class FunctionX2:IFunction
-  {
-    private double m_FormerValue = double.NaN;
-
-    public double FormerValue
+    public class FunctionX2 : IFunction
     {
-      get { return m_FormerValue; }
-      set { m_FormerValue = value; }
+        private double m_FormerValue = double.NaN;
+
+        public double FormerValue
+        {
+            get { return m_FormerValue; }
+            set { m_FormerValue = value; }
+        }
+
+        public double Execute(double input)
+        {
+            double result = (input * input);
+            m_FormerValue = result;
+            return result;
+        }
+
+        #region IFunction Members
+
+        public void Reset()
+        {
+            m_FormerValue = double.NaN;
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public bool CanEstimate
+        {
+            get { return true; }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        private FunctionState m_FunctionState;
+
+        public FunctionState FunctionState
+        {
+            get { return m_FunctionState; }
+            set { this.m_FunctionState = value; }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public double MaxValue
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public event ObjectParameterDelegate Executed;
+
+        private void FireExecutedEvent()
+        {
+            if (Executed != null) Executed(null);
+        }
+
+        public double DrawTo
+        {
+            get { return double.PositiveInfinity; }
+        }
+
+        #endregion
     }
-    public double Execute(double input)
-    {
-      double result = (input * input);
-      m_FormerValue = result;
-      return result;
-    }
-
-
-    #region IFunction Members
-
-
-    public void Reset()
-    {
-      m_FormerValue = double.NaN;
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public bool CanEstimate
-    {
-      get { return true; }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-    private FunctionState m_FunctionState;
-    public FunctionState FunctionState
-    {
-      get { return m_FunctionState; }
-      set { this.m_FunctionState = value; }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public double MaxValue
-    {
-      get
-      {
-        throw new NotImplementedException();
-      }
-      set
-      {
-        throw new NotImplementedException();
-      }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public event ObjectParameterDelegate Executed;
-    private void FireExecutedEvent()
-    {
-      if (Executed != null) Executed(null);
-    }
-    public double DrawTo
-    {
-      get { return double.PositiveInfinity;  }
-    }
-
-    #endregion
-  }
 }

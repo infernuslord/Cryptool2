@@ -26,83 +26,84 @@ using Primes.Library;
 
 namespace Primes.WpfControls.Threads
 {
-  public class CountPiXThread:SuspendableThread
-  {
-    private FunctionPiX m_FunctionPiX;
-    private ObjectParameterDelegate m_objdelegate;
-    public event FunctionEvent OnFunctionStart;
-    public event FunctionEvent OnFunctionStop;
-    private Dispatcher m_Dispatcher;
-    private long counter = 0;
-    private long n = 2;
-    private PrimesBigInteger m_To;
-
-
-    public CountPiXThread(FunctionPiX functionPiX, Dispatcher dispatcher, ObjectParameterDelegate objdelegate, PrimesBigInteger to)
+    public class CountPiXThread : SuspendableThread
     {
-      this.m_FunctionPiX = functionPiX;
-      this.m_Dispatcher = dispatcher;
-      m_objdelegate = objdelegate;
-      m_To = to;
-    }
-    /*
-      long n = 2;
-      long counter = 0;
-      if (PrimesCountList.Initialzed)
-      {
-        n = PrimesCountList.MaxNumber;
-        counter = PrimesCountList.GetPrime(n);
-      }
-      m_FunctionPix_Executed(n);
-      m_FunctionPix.FunctionState = FunctionState.Running;
+        private FunctionPiX m_FunctionPiX;
+        private ObjectParameterDelegate m_objdelegate;
+        public event FunctionEvent OnFunctionStart;
+        public event FunctionEvent OnFunctionStop;
+        private Dispatcher m_Dispatcher;
+        private long counter = 0;
+        private long n = 2;
+        private PrimesBigInteger m_To;
 
-      while (n < m_To.LongValue)
-      {
-        n++;
-        counter = (long)m_FunctionPix.Execute(n);
-      }
-      m_FunctionPix.FunctionState = FunctionState.Stopped;
-      if (OnStopPiX != null) OnStopPiX();     
-     */
-    protected override void OnDoWork()
-    {
-      if (OnFunctionStart != null)
-        OnFunctionStart(m_FunctionPiX);
-      if (m_FunctionPiX != null)
-      {
-        if (PrimesCountList.Initialzed)
+        public CountPiXThread(FunctionPiX functionPiX, Dispatcher dispatcher, ObjectParameterDelegate objdelegate, PrimesBigInteger to)
         {
-          n = PrimesCountList.MaxNumber;
-          counter = PrimesCountList.GetPrime(n);
+            this.m_FunctionPiX = functionPiX;
+            this.m_Dispatcher = dispatcher;
+            m_objdelegate = objdelegate;
+            m_To = to;
         }
-        m_objdelegate(n);
-        m_FunctionPiX.FunctionState = FunctionState.Running;
-        while (!HasTerminateRequest() && n < m_To.LongValue)
-        //for (long i = m_From; i <= fe.Range.To * factor || !HasTerminateRequest(); i += inci)
-        {
-          Boolean awokenByTerminate = SuspendIfNeeded();
 
-          if (awokenByTerminate)
+        /*
+          long n = 2;
+          long counter = 0;
+          if (PrimesCountList.Initialzed)
           {
-            return;
+            n = PrimesCountList.MaxNumber;
+            counter = PrimesCountList.GetPrime(n);
           }
-          n++;
-          counter = (long)m_FunctionPiX.Execute(n);
-        }
-        m_FunctionPiX.Reset();
-        m_FunctionPiX.FunctionState = FunctionState.Stopped;
-        if (OnFunctionStop != null)
-          OnFunctionStop(m_FunctionPiX);
-      }
-    }
+          m_FunctionPix_Executed(n);
+          m_FunctionPix.FunctionState = FunctionState.Running;
 
-    public void Abort()
-    {
-      m_FunctionPiX.FunctionState = FunctionState.Stopped;
-      m_FunctionPiX.Reset();
-      if (OnFunctionStop != null)
-        OnFunctionStop(m_FunctionPiX);
-      Thread.Abort();
+          while (n < m_To.LongValue)
+          {
+            n++;
+            counter = (long)m_FunctionPix.Execute(n);
+          }
+          m_FunctionPix.FunctionState = FunctionState.Stopped;
+          if (OnStopPiX != null) OnStopPiX();
+         */
+
+        protected override void OnDoWork()
+        {
+            if (OnFunctionStart != null)
+                OnFunctionStart(m_FunctionPiX);
+            if (m_FunctionPiX != null)
+            {
+                if (PrimesCountList.Initialzed)
+                {
+                    n = PrimesCountList.MaxNumber;
+                    counter = PrimesCountList.GetPrime(n);
+                }
+                m_objdelegate(n);
+                m_FunctionPiX.FunctionState = FunctionState.Running;
+                while (!HasTerminateRequest() && n < m_To.LongValue)
+                //for (long i = m_From; i <= fe.Range.To * factor || !HasTerminateRequest(); i += inci)
+                {
+                    Boolean awokenByTerminate = SuspendIfNeeded();
+
+                    if (awokenByTerminate)
+                    {
+                        return;
+                    }
+                    n++;
+                    counter = (long)m_FunctionPiX.Execute(n);
+                }
+                m_FunctionPiX.Reset();
+                m_FunctionPiX.FunctionState = FunctionState.Stopped;
+                if (OnFunctionStop != null)
+                    OnFunctionStop(m_FunctionPiX);
+            }
+        }
+
+        public void Abort()
+        {
+            m_FunctionPiX.FunctionState = FunctionState.Stopped;
+            m_FunctionPiX.Reset();
+            if (OnFunctionStop != null)
+                OnFunctionStop(m_FunctionPiX);
+            Thread.Abort();
+        }
     }
-  }
 }

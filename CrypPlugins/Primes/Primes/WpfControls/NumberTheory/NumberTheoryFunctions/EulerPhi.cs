@@ -30,7 +30,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
     public class EulerPhi : BaseNTFunction
     {
         object lockobj = new object();
-        public EulerPhi() : base() {}
+        public EulerPhi() : base() { }
 
         #region Calculating
 
@@ -50,7 +50,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
                 {
                     PrimesBigInteger d = PrimesBigInteger.One;
                     PrimesBigInteger counter = PrimesBigInteger.Zero;
-            
+
                     while (d.CompareTo(from) < 0)
                     {
                         if (PrimesBigInteger.GCD(d, from).Equals(PrimesBigInteger.One))

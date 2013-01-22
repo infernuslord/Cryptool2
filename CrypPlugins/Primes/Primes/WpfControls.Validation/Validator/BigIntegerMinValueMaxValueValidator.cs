@@ -22,57 +22,61 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
-  public class BigIntegerMinValueMaxValueValidator : BigIntegerMinValueValidator
-  {
-
-    #region Properties
-    private PrimesBigInteger m_MaxValue;
-    private string m_Message;
-    public override string Message
+    public class BigIntegerMinValueMaxValueValidator : BigIntegerMinValueValidator
     {
-      get
-      {
-        try
+        #region Properties
+
+        private PrimesBigInteger m_MaxValue;
+        private string m_Message;
+
+        public override string Message
         {
-          if (!string.IsNullOrEmpty(m_Message))
-          {
-            return string.Format(m_Message, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
-          }
-          else
-          {
-            return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
-          }
+            get
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(m_Message))
+                    {
+                        return string.Format(m_Message, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                    }
+                    else
+                    {
+                        return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                    }
+                }
+                catch
+                {
+                    return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                }
+            }
+            set
+            {
+                this.m_Message = value;
+            }
         }
-        catch
+
+        #endregion
+
+        #region Constructors
+
+        public BigIntegerMinValueMaxValueValidator(object value, PrimesBigInteger minValue, PrimesBigInteger maxValue)
+            : base(value, minValue)
         {
-          return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+            m_MaxValue = maxValue;
         }
-      }
-      set
-      {
-        this.m_Message = value;
-      }
 
+        #endregion
+
+        public override ValidationResult Validate(ref PrimesBigInteger bi)
+        {
+            ValidationResult result = base.Validate(ref bi);
+
+            if (result == ValidationResult.OK)
+            {
+                if (bi.CompareTo(m_MaxValue) > 0) result = ValidationResult.WARNING;
+            }
+
+            return result;
+        }
     }
-    #endregion
-
-    #region Constructors
-    public BigIntegerMinValueMaxValueValidator(object value, PrimesBigInteger minValue, PrimesBigInteger maxValue)
-      : base(value, minValue)
-    {
-      m_MaxValue = maxValue;
-    }
-
-    #endregion
-
-    public override ValidationResult Validate(ref PrimesBigInteger bi)
-    {
-      ValidationResult result = base.Validate(ref bi);
-      if (result == ValidationResult.OK)
-      {
-        if (bi.CompareTo(m_MaxValue) > 0) result = ValidationResult.WARNING;
-      }
-      return result;
-    }
-  }
 }

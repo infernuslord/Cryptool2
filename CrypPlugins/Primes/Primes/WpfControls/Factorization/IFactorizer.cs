@@ -24,21 +24,21 @@ using Primes.WpfControls.Validation;
 
 namespace Primes.WpfControls.Factorization
 {
-  public delegate void FoundFactor(object o);
-  public interface IFactorizer:IPrimeVisualization
-  {
-    //void Factorize(PrimesBigInteger value);
-    //void CancelFactorization();
-    //event FoundFactor FoundFactor;
-    //event VoidDelegate Start;
-    //event VoidDelegate Stop;
-    //event VoidDelegate Cancel;
+    public delegate void FoundFactor(object o);
 
-    //void Clean();
-    void CancelFactorization();
-    event FoundFactor FoundFactor;
-    TimeSpan Needs { get; }
-    IValidator<PrimesBigInteger> Validator { get; } 
+    public interface IFactorizer : IPrimeVisualization
+    {
+        //void Factorize(PrimesBigInteger value);
+        //void CancelFactorization();
+        //event FoundFactor FoundFactor;
+        //event VoidDelegate Start;
+        //event VoidDelegate Stop;
+        //event VoidDelegate Cancel;
 
-  }
+        //void Clean();
+        void CancelFactorization();
+        event FoundFactor FoundFactor;
+        TimeSpan Needs { get; }
+        IValidator<PrimesBigInteger> Validator { get; }
+    }
 }

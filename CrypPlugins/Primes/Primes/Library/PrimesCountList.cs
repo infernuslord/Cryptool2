@@ -21,60 +21,50 @@ using System.IO;
 
 namespace Primes.Library
 {
-  public static class PrimesCountList
-  {
-    private static string m_Filename;
-    static long[] primes;
-    static PrimesCountList()
+    public static class PrimesCountList
     {
-      m_Filename = "primes.txt";
-    }
+        private static string m_Filename;
+        static long[] primes;
 
-    public static bool LoadPrimes()
-    {
-      if (File.Exists(m_Filename))
-      {
-        string[] finput = File.ReadAllLines(m_Filename);
-        primes = new long[finput.LongLength];
-        foreach (string s in finput)
+        static PrimesCountList()
         {
-          int indexEqual = s.IndexOf("=");
-          long n = long.Parse(s.Substring(0, indexEqual));
-          long val = long.Parse(s.Substring(indexEqual + 1, s.Length - indexEqual - 1));
-          primes[n] = val;
+            m_Filename = "primes.txt";
         }
-      }
-      return true;
-    }
 
-    public static bool Initialzed
-    {
-      get { return primes != null && primes.Length > 0; }
-    }
-    public static long GetPrime(long index)
-    {
-      if (Initialzed)
-      {
-        if (index < primes.Length)
+        public static bool LoadPrimes()
         {
-          return primes[index];
-        }
-        else
-        {
-          return 0;
-        }
-      }
-      else
-      {
-        throw new IndexOutOfRangeException();
-      }
-      
-    }
+            if (File.Exists(m_Filename))
+            {
+                string[] finput = File.ReadAllLines(m_Filename);
+                primes = new long[finput.LongLength];
 
-    public static long MaxNumber
-    {
-      get { return primes.LongLength-1; }
+                foreach (string s in finput)
+                {
+                    int indexEqual = s.IndexOf("=");
+                    long n = long.Parse(s.Substring(0, indexEqual));
+                    long val = long.Parse(s.Substring(indexEqual + 1, s.Length - indexEqual - 1));
+                    primes[n] = val;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool Initialzed
+        {
+            get { return primes != null && primes.Length > 0; }
+        }
+
+        public static long GetPrime(long index)
+        {
+            if (!Initialzed) throw new IndexOutOfRangeException();
+            if (index >= primes.Length) return 0;
+            return primes[index];
+        }
+
+        public static long MaxNumber
+        {
+            get { return primes.LongLength - 1; }
+        }
     }
-    
-  }
 }

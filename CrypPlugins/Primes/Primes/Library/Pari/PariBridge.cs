@@ -22,74 +22,78 @@ using System.Globalization;
 
 namespace Primes.Library.Pari
 {
-  public class PariBridge
-  {
-    private Process m_PariProcess;
-    private static ProcessStartInfo m_PariProcessStartInfo;
-    private static string m_PathToGp = "";
-    
-    public static void Initialize(string pathtogp)
+    public class PariBridge
     {
-      if (!string.IsNullOrEmpty(pathtogp))
-      {
-        m_PariProcessStartInfo = new ProcessStartInfo(pathtogp);
-        m_PariProcessStartInfo.Arguments = @"-q";
-        m_PariProcessStartInfo.RedirectStandardInput = true;
-        m_PariProcessStartInfo.RedirectStandardOutput = true;
-        m_PariProcessStartInfo.UseShellExecute = false;
-        m_PariProcessStartInfo.CreateNoWindow = true;
-      }
-    }
-    static PariBridge()
-    {
-    }
+        private Process m_PariProcess;
+        private static ProcessStartInfo m_PariProcessStartInfo;
+        private static string m_PathToGp = "";
 
-    private Process PariProcess
-    {
-      get {
-        if (PariBridge.IsInitialized)
+        public static void Initialize(string pathtogp)
         {
-          if (m_PariProcess == null)
-            m_PariProcess = Process.Start(m_PariProcessStartInfo);
-          if (m_PariProcess.HasExited)
-          {
-            m_PariProcess.Start();
-          }
-          return Process.Start(m_PariProcessStartInfo); 
+            if (!string.IsNullOrEmpty(pathtogp))
+            {
+                m_PariProcessStartInfo = new ProcessStartInfo(pathtogp);
+                m_PariProcessStartInfo.Arguments = @"-q";
+                m_PariProcessStartInfo.RedirectStandardInput = true;
+                m_PariProcessStartInfo.RedirectStandardOutput = true;
+                m_PariProcessStartInfo.UseShellExecute = false;
+                m_PariProcessStartInfo.CreateNoWindow = true;
+            }
         }
-        else { throw new PariInitilizationException(m_PathToGp); }
-      }
-    }
 
-    private string Execute(string expression)
-    {
-      Process p = PariProcess;
-      p.StandardInput.Write(expression);
-      p.StandardInput.Close();
-      string result = p.StandardOutput.ReadToEnd();
-      int index = result.IndexOf('m', result.IndexOf('m') + 1)+1;
-      result = result.Substring(index, result.Length - index);
-      index = result.IndexOf(Char.ConvertFromUtf32(27));
-      result = result.Substring(0, index);
-      result = result.Replace('.', ',');
-      return result;
-    }
-    public double LiX(double x)
-    {
-      string expression = string.Format("intnum (x=2,{0},1/log(x))", x);
-      string result = Execute(expression);
-      return double.Parse(result,NumberStyles.Float);
-    }
-    public int PiX(double x)
-    {
-      string expression = string.Format("primepi({0})", x);
-      string result = Execute(expression);
-      return int.Parse(result);
-    }
+        static PariBridge()
+        {
+        }
 
-    public static bool IsInitialized
-    {
-      get { return m_PariProcessStartInfo != null; }
+        private Process PariProcess
+        {
+            get
+            {
+                if (PariBridge.IsInitialized)
+                {
+                    if (m_PariProcess == null)
+                        m_PariProcess = Process.Start(m_PariProcessStartInfo);
+                    if (m_PariProcess.HasExited)
+                    {
+                        m_PariProcess.Start();
+                    }
+                    return Process.Start(m_PariProcessStartInfo);
+                }
+                else { throw new PariInitilizationException(m_PathToGp); }
+            }
+        }
+
+        private string Execute(string expression)
+        {
+            Process p = PariProcess;
+            p.StandardInput.Write(expression);
+            p.StandardInput.Close();
+            string result = p.StandardOutput.ReadToEnd();
+            int index = result.IndexOf('m', result.IndexOf('m') + 1) + 1;
+            result = result.Substring(index, result.Length - index);
+            index = result.IndexOf(Char.ConvertFromUtf32(27));
+            result = result.Substring(0, index);
+            result = result.Replace('.', ',');
+            return result;
+        }
+
+        public double LiX(double x)
+        {
+            string expression = string.Format("intnum (x=2,{0},1/log(x))", x);
+            string result = Execute(expression);
+            return double.Parse(result, NumberStyles.Float);
+        }
+
+        public int PiX(double x)
+        {
+            string expression = string.Format("primepi({0})", x);
+            string result = Execute(expression);
+            return int.Parse(result);
+        }
+
+        public static bool IsInitialized
+        {
+            get { return m_PariProcessStartInfo != null; }
+        }
     }
-  }
 }

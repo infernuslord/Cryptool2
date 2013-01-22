@@ -39,7 +39,7 @@ namespace Primes.WpfControls.Components.Arrows
                         FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        ///     Gets or sets a collection that contains the 
+        ///     Gets or sets a collection that contains the
         ///     vertex points of the ArrowPolyline.
         /// </summary>
         public PointCollection Points
@@ -49,7 +49,7 @@ namespace Primes.WpfControls.Components.Arrows
         }
 
         /// <summary>
-        ///     Initializes a new instance of the ArrowPolyline class. 
+        ///     Initializes a new instance of the ArrowPolyline class.
         /// </summary>
         public ArrowPolyline()
         {
@@ -61,7 +61,7 @@ namespace Primes.WpfControls.Components.Arrows
         /// </summary>
         protected override Geometry DefiningGeometry
         {
-            get 
+            get
             {
                 // Clear out the PathGeometry.
                 pathgeo.Figures.Clear();

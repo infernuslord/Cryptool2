@@ -31,31 +31,30 @@ using Primes.Properties;
 
 namespace Primes.Options
 {
-  /// <summary>
-  /// Interaction logic for OptionsUserControl.xaml
-  /// </summary>
-  public partial class OptionsUserControl : UserControl
-  {
-    private Settings m_Settings;
-    IOption m_OptionCountPrimes;
-    public OptionsUserControl()
+    /// <summary>
+    /// Interaction logic for OptionsUserControl.xaml
+    /// </summary>
+    public partial class OptionsUserControl : UserControl
     {
-      InitializeComponent();
-      m_Settings = new Settings();
-      m_OptionCountPrimes = optCountPrimes;
-      optCountPrimes.Settings = m_Settings;
-    }
+        private Settings m_Settings;
+        IOption m_OptionCountPrimes;
 
-    public bool Save()
-    {
-      bool result = true;
-      result = m_OptionCountPrimes.Save();
-      if(result)
-      {
-        m_Settings.Save();
+        public OptionsUserControl()
+        {
+            InitializeComponent();
+            m_Settings = new Settings();
+            m_OptionCountPrimes = optCountPrimes;
+            optCountPrimes.Settings = m_Settings;
+        }
 
-      }
-      return result;
+        public bool Save()
+        {
+            bool result = m_OptionCountPrimes.Save();
+
+            if (result)
+                m_Settings.Save();
+
+            return result;
+        }
     }
-  }
 }

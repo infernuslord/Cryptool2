@@ -25,48 +25,50 @@ using System.Windows;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public class TauValues : BaseNTFunction
-  {
-    public TauValues():base()
+    public class TauValues : BaseNTFunction
     {
-    }
-
-    protected override void DoExecute()
-    {
-      FireOnStart();
-      PrimesBigInteger from = m_From;
-      while (from.CompareTo(m_To) <= 0)
-      {
-        StringBuilder sbMessage = new StringBuilder("[");
-
-        PrimesBigInteger d = PrimesBigInteger.One;
-
-        while (d.Multiply(PrimesBigInteger.Two).CompareTo(from) <= 0)
+        public TauValues()
+            : base()
         {
-          if (from.Mod(d).Equals(PrimesBigInteger.Zero))
-          {
-            if (sbMessage.Length > 1)
-              sbMessage.Append(", ");
-            sbMessage.Append(d.ToString());
-
-            FireOnMessage(this, from, sbMessage.ToString());
-          }
-          d = d.Add(PrimesBigInteger.One);
         }
-        sbMessage.Append(", "+from.ToString()+"]");
-        FireOnMessage(this, from, sbMessage.ToString());
-        from = from.Add(PrimesBigInteger.One);
-      }
-      FireOnStop();
 
-    }
+        protected override void DoExecute()
+        {
+            FireOnStart();
 
-    public override string Description
-    {
-      get
-      {
-        return m_ResourceManager.GetString(BaseNTFunction.tauvalues);
-      }
+            PrimesBigInteger from = m_From;
+            while (from.CompareTo(m_To) <= 0)
+            {
+                StringBuilder sbMessage = new StringBuilder("[");
+
+                PrimesBigInteger d = PrimesBigInteger.One;
+
+                while (d.Multiply(PrimesBigInteger.Two).CompareTo(from) <= 0)
+                {
+                    if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+                    {
+                        if (sbMessage.Length > 1)
+                            sbMessage.Append(", ");
+                        sbMessage.Append(d.ToString());
+
+                        FireOnMessage(this, from, sbMessage.ToString());
+                    }
+                    d = d.Add(PrimesBigInteger.One);
+                }
+                sbMessage.Append(", " + from.ToString() + "]");
+                FireOnMessage(this, from, sbMessage.ToString());
+                from = from.Add(PrimesBigInteger.One);
+            }
+
+            FireOnStop();
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return m_ResourceManager.GetString(BaseNTFunction.tauvalues);
+            }
+        }
     }
-  }
 }

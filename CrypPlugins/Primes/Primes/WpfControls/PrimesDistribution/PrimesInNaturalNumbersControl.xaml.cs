@@ -29,100 +29,95 @@ using System.Windows.Shapes;
 
 namespace Primes.WpfControls.PrimesDistribution
 {
-  /// <summary>
-  /// Interaction logic for PrimesInNaturalNumbersControl.xaml
-  /// </summary>
-  public partial class PrimesInNaturalNumbersControl : UserControl, IPrimeMethodDivision
-  {
-    public PrimesInNaturalNumbersControl()
+    /// <summary>
+    /// Interaction logic for PrimesInNaturalNumbersControl.xaml
+    /// </summary>
+    public partial class PrimesInNaturalNumbersControl : UserControl, IPrimeMethodDivision
     {
-      InitializeComponent();
-      //numberlinectrl.Execute += new VoidDelegate(numberlinectrl_Execute);
-      //numberlinectrl.Stop += new VoidDelegate(numberlinectrl_Stop);
+        public PrimesInNaturalNumbersControl()
+        {
+            InitializeComponent();
+            //numberlinectrl.Execute += new VoidDelegate(numberlinectrl_Execute);
+            //numberlinectrl.Stop += new VoidDelegate(numberlinectrl_Stop);
+        }
+
+        #region IPrimeUserControl Members
+
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        IPrimeDistribution ActualControl
+        {
+            get
+            {
+                if (tbctrl.SelectedIndex == 0) return numberlinectrl;
+                return numberrectctrl;
+            }
+        }
+
+        private void tbctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            numberlinectrl.Dispose();
+            numberrectctrl.Dispose();
+
+            ActualControl.Init();
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+            numberlinectrl.Width = sizeInfo.NewSize.Width;
+            numberlinectrl.Init();
+        }
+
+        #region IPrimeUserControl Members
+
+        public void SetTab(int i)
+        {
+            if (i >= 0 && i < tbctrl.Items.Count)
+            {
+                tbctrl.SelectedIndex = i;
+            }
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        private void tabitem_HelpButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender == tabItemUlam)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Spiral_Ulam);
+            }
+            else if (sender == tabItemNumbergrid)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Numbergrid);
+            }
+            else if (sender == tabItemNumberline)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Numberline);
+            }
+            else if (sender == tabItemGraph)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount);
+            }
+            else if (sender == tabItemGoldbach)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Goldbach);
+            }
+
+            e.Handled = true;
+        }
     }
-
-
-    #region IPrimeUserControl Members
-
-    public void Dispose()
-    {
-      
-    }
-
-    #endregion
-
-    IPrimeDistribution ActualControl
-    {
-      get 
-      { 
-        if (tbctrl.SelectedIndex == 0) return numberlinectrl;
-        return numberrectctrl;
-      }
-    }
-    private void tbctrl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-      numberlinectrl.Dispose();
-      numberrectctrl.Dispose();
-
-      ActualControl.Init();
-    }
-    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
-    {
-      base.OnRenderSizeChanged(sizeInfo);
-      numberlinectrl.Width = sizeInfo.NewSize.Width;
-      numberlinectrl.Init();
-    }
-
-    #region IPrimeUserControl Members
-
-
-    public void SetTab(int i)
-    {
-      if (i >= 0 && i < tbctrl.Items.Count)
-      {
-        tbctrl.SelectedIndex = i;
-      }
-    }
-
-    #endregion
-
-
-    #region IPrimeUserControl Members
-
-
-    public void Init()
-    {
-      throw new NotImplementedException();
-    }
-
-    #endregion
-
-    private void tabitem_HelpButtonClick(object sender, RoutedEventArgs e)
-    {
-      
-      if (sender == tabItemUlam)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Spiral_Ulam);
-      }
-      else if (sender == tabItemNumbergrid)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Numbergrid);
-      }
-      else if (sender == tabItemNumberline)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Numberline);
-      }
-      else if (sender == tabItemGraph)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount);
-      }
-      else if (sender == tabItemGoldbach)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Goldbach);
-      }
-
-      e.Handled = true;
-
-    }
-  }
 }

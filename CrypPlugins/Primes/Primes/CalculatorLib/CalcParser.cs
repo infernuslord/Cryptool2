@@ -139,8 +139,6 @@ namespace SevenZ.Calculator
                 ThrowException("Syntax error");
         }
 
-
-
         private void ParseDigit()
         {
             StringBuilder tmpNumber = new StringBuilder();
@@ -186,7 +184,6 @@ namespace SevenZ.Calculator
                     operands.Push(GetVariable(name));
                     TryInsertMultiply();
                     TryRightSideOperator();
-
                 }
             }
         }
@@ -206,7 +203,7 @@ namespace SevenZ.Calculator
         }
 
         /// <summary>
-        /// Check for right-side operators (Factorial) and for arguments separator 
+        /// Check for right-side operators (Factorial) and for arguments separator
         /// </summary>
         private void TryRightSideOperator()
         {
@@ -303,7 +300,6 @@ namespace SevenZ.Calculator
         {
             throw new CalculateException(message, tokenPos);
         }
-
     }
 
     public class CalculateException : Exception

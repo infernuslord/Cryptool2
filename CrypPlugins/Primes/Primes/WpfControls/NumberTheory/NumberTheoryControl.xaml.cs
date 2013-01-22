@@ -30,52 +30,51 @@ using System.Windows.Shapes;
 
 namespace Primes.WpfControls.NumberTheory
 {
-  /// <summary>
-  /// Interaction logic for NumberTheoryControl.xaml
-  /// </summary>
-  public partial class NumberTheoryControl : UserControl, IPrimeMethodDivision
-  {
-    public NumberTheoryControl()
+    /// <summary>
+    /// Interaction logic for NumberTheoryControl.xaml
+    /// </summary>
+    public partial class NumberTheoryControl : UserControl, IPrimeMethodDivision
     {
-      InitializeComponent();
+        public NumberTheoryControl()
+        {
+            InitializeComponent();
+        }
+
+        #region IPrimeMethodDivision Members
+
+        public void Dispose()
+        {
+            power.CleanUp();
+        }
+
+        public void Init()
+        {
+        }
+
+        public void SetTab(int i)
+        {
+            if (i >= 0 && i < tbctrl.Items.Count)
+            {
+                tbctrl.SelectedIndex = i;
+            }
+        }
+
+        #endregion
+
+        private void TabItem_HelpButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender == tabItemNTFunctions)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
+            }
+            else if (sender == tabItemPower)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
+            }
+            else if (sender == tabItemPRoots)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
+            }
+        }
     }
-
-    #region IPrimeMethodDivision Members
-
-    public void Dispose()
-    {
-      power.CleanUp();
-    }
-
-    public void Init()
-    {
-      
-    }
-
-    public void SetTab(int i)
-    {
-      if (i >= 0 && i < tbctrl.Items.Count)
-      {
-        tbctrl.SelectedIndex = i;
-      }
-    }
-
-    #endregion
-
-    private void TabItem_HelpButtonClick(object sender, RoutedEventArgs e)
-    {
-      if (sender == tabItemNTFunctions)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
-      }
-      else if (sender == tabItemPower)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
-      }
-      else if (sender == tabItemPRoots)
-      {
-        OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
-      }
-    }
-  }
 }

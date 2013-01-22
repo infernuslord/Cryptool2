@@ -20,5 +20,5 @@ using System.Text;
 
 namespace Primes.WpfControls.Components
 {
-  public enum PolynomRangeExecuterMode { Random, Systematic }
+    public enum PolynomRangeExecuterMode { Random, Systematic }
 }

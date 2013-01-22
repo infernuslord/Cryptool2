@@ -19,48 +19,47 @@ using System.Collections.Generic;
 using System.Text;
 using Primes.Bignum;
 
-
 namespace SevenZ.Calculator
 {
-   public partial class Calculator
-   {
-      public delegate void CalcVariableDelegate(object sender, EventArgs e);
-      public event CalcVariableDelegate OnVariableStore;
+    public partial class Calculator
+    {
+        public delegate void CalcVariableDelegate(object sender, EventArgs e);
+        public event CalcVariableDelegate OnVariableStore;
 
-      Dictionary<string, PrimesBigInteger> variables;
+        Dictionary<string, PrimesBigInteger> variables;
 
-      public const string AnswerVar = "r";
+        public const string AnswerVar = "r";
 
-      private void LoadConstants()
-      {
-          variables = new Dictionary<string, PrimesBigInteger>();
-         //variables.Add("pi", Math.PI);
-         //variables.Add("e", Math.E);
-         //variables.Add(AnswerVar, 0);
+        private void LoadConstants()
+        {
+            variables = new Dictionary<string, PrimesBigInteger>();
+            //variables.Add("pi", Math.PI);
+            //variables.Add("e", Math.E);
+            //variables.Add(AnswerVar, 0);
 
-         if (OnVariableStore != null)
-            OnVariableStore(this, new EventArgs());
-      }
+            if (OnVariableStore != null)
+                OnVariableStore(this, new EventArgs());
+        }
 
-      public Dictionary<string, PrimesBigInteger> Variables
-      {
-         get { return variables; }
-      }
+        public Dictionary<string, PrimesBigInteger> Variables
+        {
+            get { return variables; }
+        }
 
-       public void SetVariable(string name, PrimesBigInteger val)
-      {
-         if (variables.ContainsKey(name))
-            variables[name] = val;
-         else
-            variables.Add(name, val);
+        public void SetVariable(string name, PrimesBigInteger val)
+        {
+            if (variables.ContainsKey(name))
+                variables[name] = val;
+            else
+                variables.Add(name, val);
 
-         if (OnVariableStore != null)
-            OnVariableStore(this, new EventArgs());
-      }
+            if (OnVariableStore != null)
+                OnVariableStore(this, new EventArgs());
+        }
 
-       public PrimesBigInteger GetVariable(string name)
-      {  // return variable's value // if variable ha push default value, 0
-          return variables.ContainsKey(name) ? variables[name] : PrimesBigInteger.Zero;                    
-      }
-   }
+        public PrimesBigInteger GetVariable(string name)
+        {  // return variable's value // if variable ha push default value, 0
+            return variables.ContainsKey(name) ? variables[name] : PrimesBigInteger.Zero;
+        }
+    }
 }

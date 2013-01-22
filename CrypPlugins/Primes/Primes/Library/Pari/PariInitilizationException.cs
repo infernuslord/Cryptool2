@@ -20,19 +20,20 @@ using System.Text;
 
 namespace Primes.Library.Pari
 {
-  public class PariInitilizationException:Exception
-  {
-    private string m_Path = null;
+    public class PariInitilizationException : Exception
+    {
+        private string m_Path = null;
 
-    public string Path
-    {
-      get { return m_Path; }
-      set { m_Path = value; }
+        public string Path
+        {
+            get { return m_Path; }
+            set { m_Path = value; }
+        }
+
+        public PariInitilizationException(string path)
+            : base(string.Format("Could not find gp.exe in {0}", path))
+        {
+            this.m_Path = path;
+        }
     }
-    public PariInitilizationException(string path)
-      : base(string.Format("Could not find gp.exe in {0}", path))
-    {
-      this.m_Path = path;
-    }
-  }
 }

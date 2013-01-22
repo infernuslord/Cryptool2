@@ -29,7 +29,8 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
     public class EulerPhiSum : BaseNTFunction
     {
-        public EulerPhiSum(LogControl2 lc, TextBlock tb) : base(lc, tb)
+        public EulerPhiSum(LogControl2 lc, TextBlock tb)
+            : base(lc, tb)
         {
             m_Log.OverrideText = true;
         }
@@ -79,7 +80,5 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             FireOnStop();
         }
-
     }
-
 }

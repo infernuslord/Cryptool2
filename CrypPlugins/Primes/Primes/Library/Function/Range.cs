@@ -21,45 +21,46 @@ using Primes.Bignum;
 
 namespace Primes.Library
 {
-  public class Range
-  {
-    private PrimesBigInteger m_From;
-
-    public PrimesBigInteger From
+    public class Range
     {
-      get { return m_From; }
-      set { m_From = value; }
-    }
+        private PrimesBigInteger m_From;
 
-    private PrimesBigInteger m_To;
+        public PrimesBigInteger From
+        {
+            get { return m_From; }
+            set { m_From = value; }
+        }
 
-    public PrimesBigInteger To
-    {
-      get { return m_To; }
-      set { m_To = value; }
-    }
+        private PrimesBigInteger m_To;
 
-    public Range(PrimesBigInteger from, PrimesBigInteger to)
-    {
-      this.From = from;
-      this.To = to;
-    }
-    public Range(int from, int to):this(PrimesBigInteger.ValueOf(from),PrimesBigInteger.ValueOf(to))
-    {
-    }
+        public PrimesBigInteger To
+        {
+            get { return m_To; }
+            set { m_To = value; }
+        }
 
-    public PrimesBigInteger RangeAmount
-    {
-      get
-      {
+        public Range(PrimesBigInteger from, PrimesBigInteger to)
+        {
+            this.From = from;
+            this.To = to;
+        }
 
-        return this.To.Add((this.From.Multiply(PrimesBigInteger.ValueOf(-1))));
-      }
-    }
+        public Range(int from, int to)
+            : this(PrimesBigInteger.ValueOf(from), PrimesBigInteger.ValueOf(to))
+        {
+        }
 
-    public virtual PrimesBigInteger GetZeroPosition()
-    {
-      throw new NotImplementedException("GetZeroPosition is only implmented in Primes.Library.RangeX and Primes.Library.RangeY");
+        public PrimesBigInteger RangeAmount
+        {
+            get
+            {
+                return this.To.Add((this.From.Multiply(PrimesBigInteger.ValueOf(-1))));
+            }
+        }
+
+        public virtual PrimesBigInteger GetZeroPosition()
+        {
+            throw new NotImplementedException("GetZeroPosition is only implmented in Primes.Library.RangeX and Primes.Library.RangeY");
+        }
     }
-  }
 }

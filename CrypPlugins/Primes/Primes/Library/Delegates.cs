@@ -22,16 +22,15 @@ using System.Windows;
 
 namespace Primes.Library
 {
-  public delegate void GmpBigIntegerParameterDelegate(PrimesBigInteger value);
-  public delegate void MessageDelegate(string message);
-  public delegate void ObjectParameterDelegate(object obj);
-  public delegate void DoubleParameterDelegate(Size size);
-  public delegate void CallBackDelegate(GmpBigIntegerParameterDelegate del);
-  public delegate void Navigate(NavigationCommandType type);
-  public delegate void ExecuteIntegerDelegate(PrimesBigInteger value);
-  public delegate void ExecuteIntegerIntervalDelegate(PrimesBigInteger from, PrimesBigInteger to);
-  public delegate void CallbackDelegateGetInteger(ExecuteIntegerDelegate ExecuteDelegate);
-  public delegate void CallbackDelegateGetIntegerInterval(ExecuteIntegerIntervalDelegate ExecuteIntervalDelegate);
-  public delegate void VoidDelegate();
-
+    public delegate void GmpBigIntegerParameterDelegate(PrimesBigInteger value);
+    public delegate void MessageDelegate(string message);
+    public delegate void ObjectParameterDelegate(object obj);
+    public delegate void DoubleParameterDelegate(Size size);
+    public delegate void CallBackDelegate(GmpBigIntegerParameterDelegate del);
+    public delegate void Navigate(NavigationCommandType type);
+    public delegate void ExecuteIntegerDelegate(PrimesBigInteger value);
+    public delegate void ExecuteIntegerIntervalDelegate(PrimesBigInteger from, PrimesBigInteger to);
+    public delegate void CallbackDelegateGetInteger(ExecuteIntegerDelegate ExecuteDelegate);
+    public delegate void CallbackDelegateGetIntegerInterval(ExecuteIntegerIntervalDelegate ExecuteIntervalDelegate);
+    public delegate void VoidDelegate();
 }

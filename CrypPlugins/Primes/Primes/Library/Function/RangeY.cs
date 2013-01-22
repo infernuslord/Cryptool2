@@ -21,20 +21,21 @@ using Primes.Bignum;
 
 namespace Primes.Library
 {
-  public class RangeY : Range
-  {
-    public RangeY(PrimesBigInteger from, PrimesBigInteger to)
-      : base(from,to)
+    public class RangeY : Range
     {
+        public RangeY(PrimesBigInteger from, PrimesBigInteger to)
+            : base(from, to)
+        {
+        }
+
+        public override PrimesBigInteger GetZeroPosition()
+        {
+            PrimesBigInteger result = RangeAmount;
+            if (this.From.CompareTo(PrimesBigInteger.Zero) < 0)
+            {
+                result = RangeAmount.Add(this.From);
+            }
+            return result;
+        }
     }
-    public override PrimesBigInteger GetZeroPosition()
-    {
-      PrimesBigInteger result = RangeAmount;
-      if (this.From.CompareTo(PrimesBigInteger.Zero) < 0)
-      {
-          result = RangeAmount.Add(this.From);
-      }
-      return result;
-    }
-  }
 }

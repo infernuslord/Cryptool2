@@ -22,58 +22,61 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
-  public class BigIntegerMinValueValidator : BigIntegerValidator
-  {
-    public BigIntegerMinValueValidator(object value, PrimesBigInteger minValue)
-      : base(value)
+    public class BigIntegerMinValueValidator : BigIntegerValidator
     {
-      this.m_MinValue = minValue;
-    }
-
-    public BigIntegerMinValueValidator() : base() { }
-    private PrimesBigInteger m_MinValue;
-
-    public PrimesBigInteger MinValue
-    {
-      get { return m_MinValue; }
-      set { m_MinValue = value; }
-    }
-    public override ValidationResult Validate(ref PrimesBigInteger bi)
-    {
-      ValidationResult result = base.Validate(ref bi);
-      if (result == ValidationResult.OK)
-      {
-        if (bi.CompareTo(MinValue) < 0) result = ValidationResult.WARNING;
-      }
-      return result;
-    }
-
-    private string m_Message;
-    public override string Message
-    {
-      get
-      {
-        try
+        public BigIntegerMinValueValidator(object value, PrimesBigInteger minValue)
+            : base(value)
         {
-          if (!string.IsNullOrEmpty(m_Message))
-          {
-            return string.Format(m_Message, MinValue.ToString("D"));
-          }
-          else
-          {
-            return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueValidator, MinValue.ToString("D"));
-          }
+            this.m_MinValue = minValue;
         }
-        catch
-        {
-          return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueValidator, MinValue.ToString("D"));
-        }
-      }
-      set
-      {
-        this.m_Message = value;
-      }
 
+        public BigIntegerMinValueValidator() : base() { }
+
+        private PrimesBigInteger m_MinValue;
+
+        public PrimesBigInteger MinValue
+        {
+            get { return m_MinValue; }
+            set { m_MinValue = value; }
+        }
+
+        public override ValidationResult Validate(ref PrimesBigInteger bi)
+        {
+            ValidationResult result = base.Validate(ref bi);
+            if (result == ValidationResult.OK)
+            {
+                if (bi.CompareTo(MinValue) < 0) result = ValidationResult.WARNING;
+            }
+
+            return result;
+        }
+
+        private string m_Message;
+
+        public override string Message
+        {
+            get
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(m_Message))
+                    {
+                        return string.Format(m_Message, MinValue.ToString("D"));
+                    }
+                    else
+                    {
+                        return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueValidator, MinValue.ToString("D"));
+                    }
+                }
+                catch
+                {
+                    return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueValidator, MinValue.ToString("D"));
+                }
+            }
+            set
+            {
+                this.m_Message = value;
+            }
+        }
     }
-  }
 }

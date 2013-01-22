@@ -33,114 +33,106 @@ using Primes.WpfControls.Validation.Validator;
 
 namespace Primes.WpfControls.PrimesDistribution.Spirals
 {
-  /// <summary>
-  /// Interaction logic for PrimesprialControl.xaml
-  /// </summary>
-  public partial class PrimesprialControl : UserControl, IPrimeMethodDivision
-  {
-
-    public PrimesprialControl()
+    /// <summary>
+    /// Interaction logic for PrimesprialControl.xaml
+    /// </summary>
+    public partial class PrimesprialControl : UserControl, IPrimeMethodDivision
     {
-      InitializeComponent();
-      spiral.StartDrawing += new VoidDelegate(spiral_StartDrawing);
-      spiral.StopDrawing += new VoidDelegate(spiral_StopDrawing);
-      irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
-      irc.RangeValueValidator = new BigIntegerMinValueMaxValueValidator(null,PrimesBigInteger.Ten,PrimesBigInteger.ValueOf(100000));
-      irc.RangeValueValidator.Message = Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_validatorrangemessage;
-      irc.SetText(InputRangeControl.FreeFrom, "1");
-      irc.SetText(InputRangeControl.FreeTo, "2000");
-    }
-
-
-    void spiral_StopDrawing()
-    {
-      ControlHandler.SetPropertyValue(lblInfo, "Text", "");
-      ControlHandler.SetButtonEnabled(btnExecute, true);
-      ControlHandler.SetButtonEnabled(btnCancel, false);
-      irc.UnLockControls();
-    }
-
-    void spiral_StartDrawing()
-    {
-      ControlHandler.SetPropertyValue(lblInfo, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_calculating);
-      ControlHandler.SetButtonEnabled(btnExecute, false);
-      ControlHandler.SetButtonEnabled(btnCancel, true);
-      irc.LockControls();
-    }
-
-    private void btnExecute_Click(object sender, RoutedEventArgs e)
-    {
-
-        PrimesBigInteger from = null;
-        PrimesBigInteger to = null;
-        PrimesBigInteger second = null;
-
-        if (irc.GetValue(ref from, ref to))
+        public PrimesprialControl()
         {
-            irc_Execute(from, to, second);
+            InitializeComponent();
+            spiral.StartDrawing += new VoidDelegate(spiral_StartDrawing);
+            spiral.StopDrawing += new VoidDelegate(spiral_StopDrawing);
+            irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
+            irc.RangeValueValidator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Ten, PrimesBigInteger.ValueOf(100000));
+            irc.RangeValueValidator.Message = Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_validatorrangemessage;
+            irc.SetText(InputRangeControl.FreeFrom, "1");
+            irc.SetText(InputRangeControl.FreeTo, "2000");
         }
+
+        void spiral_StopDrawing()
+        {
+            ControlHandler.SetPropertyValue(lblInfo, "Text", "");
+            ControlHandler.SetButtonEnabled(btnExecute, true);
+            ControlHandler.SetButtonEnabled(btnCancel, false);
+            irc.UnLockControls();
+        }
+
+        void spiral_StartDrawing()
+        {
+            ControlHandler.SetPropertyValue(lblInfo, "Text", Primes.Resources.lang.WpfControls.Distribution.Distribution.ulam_calculating);
+            ControlHandler.SetButtonEnabled(btnExecute, false);
+            ControlHandler.SetButtonEnabled(btnCancel, true);
+            irc.LockControls();
+        }
+
+        private void btnExecute_Click(object sender, RoutedEventArgs e)
+        {
+
+            PrimesBigInteger from = null;
+            PrimesBigInteger to = null;
+            PrimesBigInteger second = null;
+
+            if (irc.GetValue(ref from, ref to))
+            {
+                irc_Execute(from, to, second);
+            }
+        }
+
+        void irc_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
+        {
+            CurrentSpiral.Clear();
+            CurrentSpiral.Draw(from, to);
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentSpiral.Cancel();
+        }
+
+        public void Dispose()
+        {
+            CurrentSpiral.Cancel();
+        }
+
+        private IPrimeSpiral CurrentSpiral
+        {
+            get { return spiral; }
+        }
+
+        #region IPrimeUserControl Members
+
+        public void SetTab(int i)
+        {
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public event VoidDelegate Execute;
+
+        public event VoidDelegate Stop;
+
+        private void FireExecuteEvent()
+        {
+            if (Execute != null) Execute();
+        }
+
+        private void FireStopEvent()
+        {
+            if (Stop != null) Stop();
+        }
+
+        #endregion
+
+        #region IPrimeUserControl Members
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
-    
-    void irc_Execute(PrimesBigInteger from, PrimesBigInteger to, PrimesBigInteger second)
-    {
-      CurrentSpiral.Clear();
-      CurrentSpiral.Draw(from, to);
-    }
-
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
-    {
-      CurrentSpiral.Cancel();
-    }
-
-
-    public void Dispose()
-    {
-      CurrentSpiral.Cancel();
-    }
-
-    private IPrimeSpiral CurrentSpiral
-    {
-      get { return spiral; }
-    }
-
-    #region IPrimeUserControl Members
-
-
-    public void SetTab(int i)
-    {
-      
-    }
-
-    #endregion
-
-    #region IPrimeUserControl Members
-
-
-    public event VoidDelegate Execute;
-
-    public event VoidDelegate Stop;
-
-
-    private void FireExecuteEvent()
-    {
-      if (Execute != null) Execute();
-    }
-
-    private void FireStopEvent()
-    {
-      if (Stop != null) Stop();
-    }
-
-    #endregion
-
-    #region IPrimeUserControl Members
-
-
-    public void Init()
-    {
-      throw new NotImplementedException();
-    }
-
-    #endregion
-  }
 }

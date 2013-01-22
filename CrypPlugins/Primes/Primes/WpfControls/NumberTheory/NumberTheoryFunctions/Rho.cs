@@ -26,42 +26,43 @@ using System.Windows;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public class Rho:BaseNTFunction
-  {
-    public Rho() : base()
+    public class Rho : BaseNTFunction
     {
+        public Rho()
+            : base()
+        {
+        }
+
+        protected override void DoExecute()
+        {
+            FireOnStart();
+
+            for (PrimesBigInteger from = m_From; from.CompareTo(m_To) <= 0; from = from + 1)
+            {
+                PrimesBigInteger sum = 0;
+
+                for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
+                {
+                    if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+                    {
+                        sum = sum + d;
+                        FireOnMessage(this, from, sum.ToString());
+                    }
+                }
+
+                sum = sum + from;
+                FireOnMessage(this, from, sum.ToString());
+            }
+
+            FireOnStop();
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return m_ResourceManager.GetString(BaseNTFunction.rho);
+            }
+        }
     }
-
-    protected override void DoExecute()
-    {
-      FireOnStart();
-
-      for (PrimesBigInteger from = m_From; from.CompareTo(m_To) <= 0; from = from + 1)
-      {
-          PrimesBigInteger sum = 0;
-
-          for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
-          {
-              if (from.Mod(d).Equals(PrimesBigInteger.Zero))
-              {
-                  sum = sum + d;
-                  FireOnMessage(this, from, sum.ToString());
-              }
-          }
-
-          sum = sum + from;
-          FireOnMessage(this, from, sum.ToString());
-      }
-
-      FireOnStop();
-    }
-
-    public override string Description
-    {
-      get
-      {
-        return m_ResourceManager.GetString(BaseNTFunction.rho);
-      }
-    }
-  }
 }

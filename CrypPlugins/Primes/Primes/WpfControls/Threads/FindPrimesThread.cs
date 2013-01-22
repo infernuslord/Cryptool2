@@ -24,55 +24,63 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Threads
 {
-  public class FindPrimesThread : SuspendableThread
-  {
-    #region Constructors
-    public FindPrimesThread(PrimesBigInteger max, EventWaitHandle finished):
-      base()
+    public class FindPrimesThread : SuspendableThread
     {
-      m_Max = max;
-      m_Primes = new List<PrimesBigInteger>();
-      base.m_Priority = System.Threading.ThreadPriority.Highest;
-      m_Finished = finished;
+        #region Constructors
+
+        public FindPrimesThread(PrimesBigInteger max, EventWaitHandle finished) :
+            base()
+        {
+            m_Max = max;
+            m_Primes = new List<PrimesBigInteger>();
+            base.m_Priority = System.Threading.ThreadPriority.Highest;
+            m_Finished = finished;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private IList<PrimesBigInteger> m_Primes;
+
+        public IList<PrimesBigInteger> Primes
+        {
+            get { return m_Primes; }
+            set { m_Primes = value; }
+        }
+
+        private PrimesBigInteger m_Max;
+
+        public PrimesBigInteger Max
+        {
+            get { return m_Max; }
+            set { m_Max = value; }
+        }
+
+        EventWaitHandle m_Finished;
+
+        #endregion
+
+        #region Events
+
+        //public event VoidDelegate Finshed;
+
+        #endregion
+
+        #region Work
+
+        protected override void OnDoWork()
+        {
+            m_Finished.Reset();
+            PrimesBigInteger value = PrimesBigInteger.Two;
+            while (value.CompareTo(m_Max) <= 0)
+            {
+                m_Primes.Add(value);
+                value = value.NextProbablePrime();
+            }
+            m_Finished.Set();
+        }
+
+        #endregion
     }
-    #endregion
-
-    #region Properties
-
-    private IList<PrimesBigInteger> m_Primes;
-
-    public IList<PrimesBigInteger> Primes
-    {
-      get { return m_Primes; }
-      set { m_Primes = value; }
-    }
-    private PrimesBigInteger m_Max;
-
-    public PrimesBigInteger Max
-    {
-      get { return m_Max; }
-      set { m_Max = value; }
-    }
-
-    EventWaitHandle m_Finished;
-    #endregion
-
-    #region Events
-    //public event VoidDelegate Finshed;
-    #endregion
-
-    #region Work
-    protected override void OnDoWork()
-    {
-      m_Finished.Reset();
-      PrimesBigInteger value = PrimesBigInteger.Two;
-      while (value.CompareTo(m_Max) <= 0)
-      {
-        m_Primes.Add(value);
-        value = value.NextProbablePrime();
-      }
-      m_Finished.Set();
-    }
-    #endregion
-  }
 }

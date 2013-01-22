@@ -20,13 +20,12 @@ using System.Text;
 
 namespace Primes.WpfControls.Validation
 {
-  public interface IRangeValidator<T>
-  {
-    object ValueFrom { get; set; }
-    object ValueTo { get; set; }
-    ValidationResult Validate(ref T from, ref T to);
-    string Message { get; }
-    string HelpLink { get; }
-
-  }
+    public interface IRangeValidator<T>
+    {
+        object ValueFrom { get; set; }
+        object ValueTo { get; set; }
+        ValidationResult Validate(ref T from, ref T to);
+        string Message { get; }
+        string HelpLink { get; }
+    }
 }
