@@ -4,7 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.WebCamCap;
+
 
 namespace WebCamCap
 {
@@ -14,13 +17,13 @@ namespace WebCamCap
     /// 
     public partial class WebCamCapPresentation : UserControl
     {
-        private readonly EventHandler captureImageExecuted;
+        private readonly EventHandler newCamEstablished;
 
-        public WebCamCapPresentation(EventHandler captureImageExecuted)
+        public WebCamCapPresentation(EventHandler newCamEstablished)
         {
             InitializeComponent();
-            this.captureImageExecuted = captureImageExecuted;
-        }
+            this.newCamEstablished = newCamEstablished;
+            }
 
         /// <summary>
         /// starts the cam, representated by the given device string and registers the capture handle methode
@@ -28,13 +31,19 @@ namespace WebCamCap
         /// <param name="device"></param>
         public void StartCam(string device)
         {
-            this.SelectedWebcam = new CapDevice("")
-                                      {
-                                          MonikerString = device
-                                      };
-
+            if (SelectedWebcam != null && device.Equals(SelectedWebcam.MonikerString))
+            {
+               SelectedWebcam.Start();
+            }
+            else
+            {
+                 SelectedWebcam = new CapDevice("")
+                        {
+                            MonikerString = device
+                        };
+            }
             //register output change eventhandler
-            SelectedWebcam.NewBitmapReady += captureImageExecuted;
+            SelectedWebcam.NewBitmapReady += newCamEstablished;
         }
 
         /// <summary>
@@ -42,11 +51,11 @@ namespace WebCamCap
         /// </summary>
         public void StopCam()
         {
-            SelectedWebcam.NewBitmapReady -= captureImageExecuted;
-            SelectedWebcam = null;
+           SelectedWebcam.Stop();
+           SelectedWebcam.NewBitmapReady -= newCamEstablished;
         }
 
-   
+ 
 
         #region Properties
         /// <summary>
@@ -90,19 +99,30 @@ namespace WebCamCap
         public static readonly DependencyProperty SelectedWebcamMonikerStringProperty = DependencyProperty.Register("SelectedWebcamMonikerString", typeof(string),
             typeof(WebCamCapPresentation), new UIPropertyMetadata("", new PropertyChangedCallback(SelectedWebcamMonikerString_Changed)));
 
-      
+       /// <summary>
+        /// Wrapper for the SelectedImages dependency property
+        /// </summary>
+        public ObservableCollection<BitmapSource> SelectedImages
+        {
+            get { return (ObservableCollection<BitmapSource>)GetValue(SelectedImagesProperty); }
+            set { SetValue(SelectedImagesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedImages.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedImagesProperty = DependencyProperty.Register("SelectedImages", typeof(ObservableCollection<BitmapSource>),
+            typeof(WebCamCapPresentation), new UIPropertyMetadata(new ObservableCollection<BitmapSource>()));
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Invoked when the SelectedWebcamMonikerString dependency property has changed
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">EventArgs</param>
         private static void SelectedWebcamMonikerString_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            
-        }
+        {}
+
         #endregion
     }
 }

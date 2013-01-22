@@ -200,6 +200,7 @@ namespace Cryptool.Plugins.WebCamCap
             }
         }
 
+
         /// <summary>
         /// Wrapper for the BitmapSource dependency property
         /// </summary>
