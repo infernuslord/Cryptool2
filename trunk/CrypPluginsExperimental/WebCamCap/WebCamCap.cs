@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.WebCamCap
         {
             try
             {
-                grabOutputPicture = new System.Timers.Timer {Interval = 100}; //TODO refactor to settings
+                grabOutputPicture = new System.Timers.Timer {Interval = 1000}; //TODO refactor to settings
                 grabOutputPicture.Elapsed += new ElapsedEventHandler(GrabOutputPictureTick);
                 grabOutputPicture.Start();                
             } 
