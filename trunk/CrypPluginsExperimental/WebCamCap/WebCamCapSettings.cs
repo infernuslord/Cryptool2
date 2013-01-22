@@ -21,7 +21,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.WebCamCap
 {
     // HOWTO: rename class (click name, press F2)
-    public class WebCamCapSettings : ISettings
+    public class ExamplePluginCT2Settings : ISettings
     {
         #region Private Variables
 
