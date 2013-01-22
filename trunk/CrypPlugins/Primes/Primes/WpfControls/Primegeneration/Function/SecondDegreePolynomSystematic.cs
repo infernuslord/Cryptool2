@@ -21,14 +21,14 @@ using System.Text;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
-  public class SecondDegreePolynomSystematic:SecondDegreePolynom
-  {
-    public override string Name
+    public class SecondDegreePolynomSystematic : SecondDegreePolynom
     {
-      get
-      {
-          return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomsyst;
-      }
+        public override string Name
+        {
+            get
+            {
+                return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomsyst;
+            }
+        }
     }
-  }
 }

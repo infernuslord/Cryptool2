@@ -22,34 +22,36 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
-  public class EulerPolynom:SecondDegreePolynom
-  {
-    public EulerPolynom()
-      : base()
+    public class EulerPolynom : SecondDegreePolynom
     {
-      m_StrImageUri = "pack://application:,,,/Primes;Component/Resources/icons/eulerpolynom.jpg";
-      base.SetParameter(A, new PolynomFactor(A, PrimesBigInteger.One, true));
-      base.SetParameter(B, new PolynomFactor(B, PrimesBigInteger.NegativeOne, true));
-      base.SetParameter(C, new PolynomFactor(C, PrimesBigInteger.ValueOf(41), true));
-    }
+        public EulerPolynom()
+            : base()
+        {
+            m_StrImageUri = "pack://application:,,,/Primes;Component/Resources/icons/eulerpolynom.jpg";
+            base.SetParameter(A, new PolynomFactor(A, PrimesBigInteger.One, true));
+            base.SetParameter(B, new PolynomFactor(B, PrimesBigInteger.NegativeOne, true));
+            base.SetParameter(C, new PolynomFactor(C, PrimesBigInteger.ValueOf(41), true));
+        }
 
-    public override PrimesBigInteger Execute(PrimesBigInteger input)
-    {
-      return (input.Pow(2).Subtract(input)).Add(PrimesBigInteger.ValueOf(41));
+        public override PrimesBigInteger Execute(PrimesBigInteger input)
+        {
+            return (input.Pow(2).Subtract(input)).Add(PrimesBigInteger.ValueOf(41));
+        }
+
+        public override ICollection<PolynomFactor> Factors
+        {
+            get
+            {
+                return new Dictionary<string, PolynomFactor>().Values;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomeuler;
+            }
+        }
     }
-    public override ICollection<PolynomFactor> Factors
-    {
-      get
-      {
-        return new Dictionary<string, PolynomFactor>().Values;
-      }
-    }
-    public override string Name
-    {
-      get
-      {
-          return Resources.lang.WpfControls.Generation.PrimesGeneration.polynomname_polynomeuler;
-      }
-    }
-  }
 }

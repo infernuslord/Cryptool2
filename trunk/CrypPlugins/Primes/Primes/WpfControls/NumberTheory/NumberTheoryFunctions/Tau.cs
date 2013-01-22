@@ -25,41 +25,42 @@ using System.Windows;
 
 namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 {
-  public class Tau:BaseNTFunction
-  {
-    public Tau():base()
+    public class Tau : BaseNTFunction
     {
+        public Tau()
+            : base()
+        {
+        }
+
+        protected override void DoExecute()
+        {
+            FireOnStart();
+
+            for (PrimesBigInteger from = m_From; from <= m_To; from = from + 1)
+            {
+                PrimesBigInteger counter = 0;
+
+                for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
+                {
+                    if (from.Mod(d).Equals(PrimesBigInteger.Zero))
+                    {
+                        counter = counter + 1;
+                        FireOnMessage(this, from, counter.ToString());
+                    }
+                }
+                counter = counter + 1;
+                FireOnMessage(this, from, counter.ToString());
+            }
+
+            FireOnStop();
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return m_ResourceManager.GetString(BaseNTFunction.tau);
+            }
+        }
     }
-
-    protected override void DoExecute()
-    {
-      FireOnStart();
-
-      for (PrimesBigInteger from = m_From; from <= m_To; from = from + 1)
-      {
-          PrimesBigInteger counter = 0;
-
-          for (PrimesBigInteger d = 1; d * 2 <= from; d = d + 1)
-          {
-              if (from.Mod(d).Equals(PrimesBigInteger.Zero))
-              {
-                  counter = counter + 1;
-                  FireOnMessage(this, from, counter.ToString());
-              }
-          }
-          counter = counter + 1;
-          FireOnMessage(this, from, counter.ToString());
-      }
-
-      FireOnStop();
-    }
-
-    public override string Description
-    {
-      get
-      {
-        return m_ResourceManager.GetString(BaseNTFunction.tau);
-      }
-    }
-  }
 }

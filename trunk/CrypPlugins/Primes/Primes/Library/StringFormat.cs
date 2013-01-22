@@ -20,36 +20,38 @@ using System.Text;
 
 namespace Primes.Library
 {
-  public static class StringFormat
-  {
-    public static string FormatString(string input, int lenght)
+    public static class StringFormat
     {
-      StringBuilder result = new StringBuilder();
-      if (input.Length <= lenght)
-        result.Append(input);
-      else
-      {
-        while (input.Length > lenght)
+        public static string FormatString(string input, int lenght)
         {
-          int min = Math.Min(input.Length, lenght);
-          result.Append(input.Substring(0, min));
-          result.Append("\n");
-          input = input.Substring(min, input.Length - min);
-        }
-      }
-      return result.ToString();
-    }
+            StringBuilder result = new StringBuilder();
 
-    public static string FormatDoubleToIntString(double value)
-    {
-        try
-        {
-            return Convert.ToInt32(value).ToString();
+            if (input.Length <= lenght)
+                result.Append(input);
+            else
+            {
+                while (input.Length > lenght)
+                {
+                    int min = Math.Min(input.Length, lenght);
+                    result.Append(input.Substring(0, min));
+                    result.Append("\n");
+                    input = input.Substring(min, input.Length - min);
+                }
+            }
+
+            return result.ToString();
         }
-        catch (Exception ex)
+
+        public static string FormatDoubleToIntString(double value)
         {
-            return "";
+            try
+            {
+                return Convert.ToInt32(value).ToString();
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
     }
-  }
 }

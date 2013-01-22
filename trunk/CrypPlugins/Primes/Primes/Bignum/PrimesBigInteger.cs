@@ -36,70 +36,70 @@ namespace Primes.Bignum
 
         // Each list has a product < 2^31
         private static readonly int[][] primeLists = new int[][]
-		{
-			new int[]{ 3, 5, 7, 11, 13, 17, 19, 23 },
-			new int[]{ 29, 31, 37, 41, 43 },
-			new int[]{ 47, 53, 59, 61, 67 },
-			new int[]{ 71, 73, 79, 83 },
-			new int[]{ 89, 97, 101, 103 },
+        {
+           new int[]{ 3, 5, 7, 11, 13, 17, 19, 23 },
+           new int[]{ 29, 31, 37, 41, 43 },
+           new int[]{ 47, 53, 59, 61, 67 },
+           new int[]{ 71, 73, 79, 83 },
+           new int[]{ 89, 97, 101, 103 },
 
-			new int[]{ 107, 109, 113, 127 },
-			new int[]{ 131, 137, 139, 149 },
-			new int[]{ 151, 157, 163, 167 },
-			new int[]{ 173, 179, 181, 191 },
-			new int[]{ 193, 197, 199, 211 },
+           new int[]{ 107, 109, 113, 127 },
+           new int[]{ 131, 137, 139, 149 },
+           new int[]{ 151, 157, 163, 167 },
+           new int[]{ 173, 179, 181, 191 },
+           new int[]{ 193, 197, 199, 211 },
 
-			new int[]{ 223, 227, 229 },
-			new int[]{ 233, 239, 241 },
-			new int[]{ 251, 257, 263 },
-			new int[]{ 269, 271, 277 },
-			new int[]{ 281, 283, 293 },
+           new int[]{ 223, 227, 229 },
+           new int[]{ 233, 239, 241 },
+           new int[]{ 251, 257, 263 },
+           new int[]{ 269, 271, 277 },
+           new int[]{ 281, 283, 293 },
 
-			new int[]{ 307, 311, 313 },
-			new int[]{ 317, 331, 337 },
-			new int[]{ 347, 349, 353 },
-			new int[]{ 359, 367, 373 },
-			new int[]{ 379, 383, 389 },
+           new int[]{ 307, 311, 313 },
+           new int[]{ 317, 331, 337 },
+           new int[]{ 347, 349, 353 },
+           new int[]{ 359, 367, 373 },
+           new int[]{ 379, 383, 389 },
 
-			new int[]{ 397, 401, 409 },
-			new int[]{ 419, 421, 431 },
-			new int[]{ 433, 439, 443 },
-			new int[]{ 449, 457, 461 },
-			new int[]{ 463, 467, 479 },
+           new int[]{ 397, 401, 409 },
+           new int[]{ 419, 421, 431 },
+           new int[]{ 433, 439, 443 },
+           new int[]{ 449, 457, 461 },
+           new int[]{ 463, 467, 479 },
 
-			new int[]{ 487, 491, 499 },
-			new int[]{ 503, 509, 521 },
-			new int[]{ 523, 541, 547 },
-			new int[]{ 557, 563, 569 },
-			new int[]{ 571, 577, 587 },
+           new int[]{ 487, 491, 499 },
+           new int[]{ 503, 509, 521 },
+           new int[]{ 523, 541, 547 },
+           new int[]{ 557, 563, 569 },
+           new int[]{ 571, 577, 587 },
 
-			new int[]{ 593, 599, 601 },
-			new int[]{ 607, 613, 617 },
-			new int[]{ 619, 631, 641 },
-			new int[]{ 643, 647, 653 },
-			new int[]{ 659, 661, 673 },
+           new int[]{ 593, 599, 601 },
+           new int[]{ 607, 613, 617 },
+           new int[]{ 619, 631, 641 },
+           new int[]{ 643, 647, 653 },
+           new int[]{ 659, 661, 673 },
 
-			new int[]{ 677, 683, 691 },
-			new int[]{ 701, 709, 719 },
-			new int[]{ 727, 733, 739 },
-			new int[]{ 743, 751, 757 },
-			new int[]{ 761, 769, 773 },
+           new int[]{ 677, 683, 691 },
+           new int[]{ 701, 709, 719 },
+           new int[]{ 727, 733, 739 },
+           new int[]{ 743, 751, 757 },
+           new int[]{ 761, 769, 773 },
 
-			new int[]{ 787, 797, 809 },
-			new int[]{ 811, 821, 823 },
-			new int[]{ 827, 829, 839 },
-			new int[]{ 853, 857, 859 },
-			new int[]{ 863, 877, 881 },
+           new int[]{ 787, 797, 809 },
+           new int[]{ 811, 821, 823 },
+           new int[]{ 827, 829, 839 },
+           new int[]{ 853, 857, 859 },
+           new int[]{ 863, 877, 881 },
 
-			new int[]{ 883, 887, 907 },
-			new int[]{ 911, 919, 929 },
-			new int[]{ 937, 941, 947 },
-			new int[]{ 953, 967, 971 },
-			new int[]{ 977, 983, 991 },
+           new int[]{ 883, 887, 907 },
+           new int[]{ 911, 919, 929 },
+           new int[]{ 937, 941, 947 },
+           new int[]{ 953, 967, 971 },
+           new int[]{ 977, 983, 991 },
 
-			new int[]{ 997, 1009, 1013 },
-			new int[]{ 1019, 1021, 1031 },
-		};
+           new int[]{ 997, 1009, 1013 },
+           new int[]{ 1019, 1021, 1031 },
+        };
 
         private static readonly int[] primeProducts;
 
@@ -174,11 +174,14 @@ namespace Primes.Bignum
         private PrimesBigInteger()
         {
         }
+
         private bool m_IsNaN = false;
+
         private PrimesBigInteger(bool isNaN)
         {
             m_IsNaN = isNaN;
         }
+
         private PrimesBigInteger(
             int signum,
             int[] mag,
@@ -194,7 +197,7 @@ namespace Primes.Bignum
 
                 if (i == mag.Length)
                 {
-                    //					this.sign = 0;
+                    // this.sign = 0;
                     this.magnitude = ZeroMagnitude;
                 }
                 else
@@ -230,6 +233,7 @@ namespace Primes.Bignum
             : this(value.ToByteArray())
         {
         }
+
         public PrimesBigInteger(
             string str,
             int radix)
@@ -269,7 +273,6 @@ namespace Primes.Bignum
                     throw new FormatException("Only bases 2, 10, or 16 allowed");
             }
 
-
             int index = 0;
             sign = 1;
 
@@ -303,7 +306,6 @@ namespace Primes.Bignum
             //////
 
             PrimesBigInteger b = Zero;
-
 
             int next = index + chunk;
 
@@ -355,7 +357,7 @@ namespace Primes.Bignum
                         Debug.Assert(false);
 
                         // TODO Parse all bits at once
-                        //						b = b.ShiftLeft(s.Length);
+                        // b = b.ShiftLeft(s.Length);
                     }
                     else if (radix == 16)
                     {
@@ -375,15 +377,15 @@ namespace Primes.Bignum
             }
 
             // Note: This is the previous (slower) algorithm
-            //			while (index < value.Length)
-            //            {
-            //				char c = value[index];
-            //				string s = c.ToString();
-            //				int i = Int32.Parse(s, style);
+            // while (index < value.Length)
+            // {
+            //    char c = value[index];
+            //    string s = c.ToString();
+            //    int i = Int32.Parse(s, style);
             //
-            //                b = b.Multiply(r).Add(ValueOf(i));
-            //                index++;
-            //            }
+            //    b = b.Multiply(r).Add(ValueOf(i));
+            //    index++;
+            // }
 
             magnitude = b.magnitude;
         }
@@ -548,7 +550,7 @@ namespace Primes.Bignum
 
             if (sizeInBits == 0)
             {
-                //				this.sign = 0;
+                // this.sign = 0;
                 this.magnitude = ZeroMagnitude;
                 return;
             }
@@ -814,18 +816,18 @@ namespace Primes.Bignum
         }
 
         private readonly static byte[] bitCounts =
-		{
-			0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1,
-			2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4,
-			4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3,
-			4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3, 3, 4, 3, 4, 4, 5,
-			3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 1, 2, 2, 3, 2,
-			3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3,
-			3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6,
-			7, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6,
-			5, 6, 6, 7, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 4, 5, 5, 6, 5, 6, 6, 7, 5,
-			6, 6, 7, 6, 7, 7, 8
-		};
+        {
+           0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1,
+           2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4,
+           4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3,
+           4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3, 3, 4, 3, 4, 4, 5,
+           3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 1, 2, 2, 3, 2,
+           3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 2, 3,
+           3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6,
+           7, 2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6,
+           5, 6, 6, 7, 3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7, 4, 5, 5, 6, 5, 6, 6, 7, 5,
+           6, 6, 7, 6, 7, 7, 8
+        };
 
         private int calcBitLength(
             int indx,
@@ -986,7 +988,7 @@ namespace Primes.Bignum
                 : sign == 0 ? 0
                 : sign * CompareNoLeadingZeroes(0, magnitude, 0, value.magnitude);
         }
-        
+
         /**
          * return z = x / y - done in place (z value preserved, x contains the
          * remainder)
@@ -1026,7 +1028,7 @@ namespace Primes.Bignum
                 int cBitLength = yBitLength;
                 if (shift > 0)
                 {
-                    //					iCount = ShiftLeft(One.magnitude, shift);
+                    // iCount = ShiftLeft(One.magnitude, shift);
                     iCount = new int[(shift >> 5) + 1];
                     iCount[0] = 1 << (shift % 32);
 
@@ -1315,22 +1317,22 @@ namespace Primes.Bignum
 
 
             // TODO Special case for < 10^16 (RabinMiller fixed list)
-            //			if (BitLength < 30)
-            //			{
-            //				RabinMiller against 2, 3, 5, 7, 11, 13, 23 is sufficient
-            //			}
+            // if (BitLength < 30)
+            // {
+            //    RabinMiller against 2, 3, 5, 7, 11, 13, 23 is sufficient
+            // }
 
 
             // TODO Is it worth trying to create a hybrid of these two?
             return RabinMillerTest(certainty, random);
-            //			return SolovayStrassenTest(certainty, random);
+            // return SolovayStrassenTest(certainty, random);
 
-            //			bool rbTest = RabinMillerTest(certainty, random);
-            //			bool ssTest = SolovayStrassenTest(certainty, random);
+            // bool rbTest = RabinMillerTest(certainty, random);
+            // bool ssTest = SolovayStrassenTest(certainty, random);
             //
-            //			Debug.Assert(rbTest == ssTest);
+            // Debug.Assert(rbTest == ssTest);
             //
-            //			return rbTest;
+            // return rbTest;
         }
 
         internal bool RabinMillerTest(
@@ -3277,7 +3279,8 @@ namespace Primes.Bignum
 
             while (a.CompareTo(PrimesBigInteger.Three) > 0)
             {
-                if( a.IsPrime(10) ) {
+                if (a.IsPrime(10))
+                {
                     b = a.Add(PrimesBigInteger.Two);
                     if (b.IsPrime(10)) return true;
                 }
@@ -3352,7 +3355,8 @@ namespace Primes.Bignum
         {
             Dictionary<PrimesBigInteger, long> f = new Dictionary<PrimesBigInteger, long>();
             List<PrimesBigInteger> keys = new List<PrimesBigInteger>();
-            foreach(var key in factors.Keys) {
+            foreach (var key in factors.Keys)
+            {
                 keys.Add(key);
                 f[key] = 0;
             }
@@ -3368,7 +3372,7 @@ namespace Primes.Bignum
                     f[keys[i]]++;
                     if (f[keys[i]] <= factors[keys[i]]) break;
                 }
-                for (int j=i+1; j < keys.Count; j++) f[keys[j]] = 0;
+                for (int j = i + 1; j < keys.Count; j++) f[keys[j]] = 0;
             }
             while (i >= 0);
 

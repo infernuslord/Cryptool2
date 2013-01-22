@@ -58,7 +58,7 @@ namespace Primes.WpfControls.Factorization.QS
             TextBlock tbB = new TextBlock();
             tbB.Text = "b";
             tbB.Margin = new Thickness(5);
-        
+
             TextBlock tbFactors = new TextBlock();
             tbFactors.Text = Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_factorization;
             tbFactors.Margin = new Thickness(5);
@@ -70,7 +70,7 @@ namespace Primes.WpfControls.Factorization.QS
             Grid.SetColumn(tbA, 0);
             Grid.SetRow(tbA, 0);
             Grid.Children.Add(tbA);
-        
+
             Grid.SetColumn(tbB, 1);
             Grid.SetRow(tbB, 0);
             Grid.Children.Add(tbB);
@@ -102,7 +102,7 @@ namespace Primes.WpfControls.Factorization.QS
             ControlHandler.SetPropertyValue(
                 m_lblInfo,
                 "Text",
-                string.Format( Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_B, data.B, fb.ToString() ) );
+                string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_B, data.B, fb.ToString()));
 
             IList<long> list = new List<long>();
             int counter = 1;
@@ -124,8 +124,8 @@ namespace Primes.WpfControls.Factorization.QS
                     sb.Append("-1");
                 }
 
-                if(b!=0) 
-                    for (int i = 0; i < m_Factors.Count;i++ )
+                if (b != 0)
+                    for (int i = 0; i < m_Factors.Count; i++)
                     {
                         int f = m_Factors[i];
                         int exp = 0;
@@ -138,7 +138,7 @@ namespace Primes.WpfControls.Factorization.QS
                         {
                             if (sb.Length > 0) sb.Append(" * ");
                             sb.Append(f);
-                            if( exp > 1 ) sb.Append("^" + exp);
+                            if (exp > 1) sb.Append("^" + exp);
                         }
                         pair.AddExponent(f, exp);
                     }
@@ -148,7 +148,7 @@ namespace Primes.WpfControls.Factorization.QS
 
                 pair.IsBSmooth = (b == 1) || (b == 0);
                 string s = pair.IsBSmooth ? Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_yes : Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step2_no;
-                ControlHandler.ExecuteMethod( this, "AddToGrid", new object[] { Grid, s, counter++, 3, 0, 0 });
+                ControlHandler.ExecuteMethod(this, "AddToGrid", new object[] { Grid, s, counter++, 3, 0, 0 });
 
                 Thread.Sleep(m_Delay);
             }
@@ -157,6 +157,5 @@ namespace Primes.WpfControls.Factorization.QS
         }
 
         #endregion
-
     }
 }

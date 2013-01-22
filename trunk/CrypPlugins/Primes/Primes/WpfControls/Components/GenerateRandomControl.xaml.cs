@@ -31,84 +31,85 @@ using Primes.Library;
 
 namespace Primes.WpfControls.Components
 {
-  /// <summary>
-  /// Interaction logic for GenerateRandomControl.xaml
-  /// </summary>
-  
-  public partial class GenerateRandomControl : UserControl
-  {
-    public event GmpBigIntegerParameterDelegate OnRandomNumberGenerated;
-    public GenerateRandomControl()
-    {
-      InitializeComponent();
-    }
+    /// <summary>
+    /// Interaction logic for GenerateRandomControl.xaml
+    /// </summary>
 
-
-    private void FireOnRandomNumberGenerated(PrimesBigInteger value)
+    public partial class GenerateRandomControl : UserControl
     {
-      if (OnRandomNumberGenerated != null)
-        OnRandomNumberGenerated(value);
-    }
+        public event GmpBigIntegerParameterDelegate OnRandomNumberGenerated;
 
-    private Primes.OnlineHelp.OnlineHelpActions m_HelpAction;
-    public Primes.OnlineHelp.OnlineHelpActions HelpAction
-    {
-      get { return m_HelpAction; }
-      set { 
-        this.m_HelpAction = value; 
-
-      }
-    }
-    private void ImageHelpClick(object sender, MouseButtonEventArgs e)
-    {
-
-      OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(m_HelpAction);
-      e.Handled = true;
-    }
-
-    public string Title
-    {
-      get { if (miHeader != null && miHeader.Header != null) return miHeader.Header.ToString(); else return null; }
-      set { if (miHeader != null)miHeader.Header = value; }
-    }
-
-    public bool ShowMultipleFactors
-    {
-      get { return miIntegerManyFactors.Visibility == Visibility.Visible; }
-      set { if (value)miIntegerManyFactors.Visibility = Visibility.Visible; else miIntegerManyFactors.Visibility = Visibility.Collapsed; }
-    }
-
-    public bool ShowTwoBigFactors
-    {
-      get { return miTowBigFactors.Visibility == Visibility.Visible; }
-      set { if (value)miTowBigFactors.Visibility = Visibility.Visible; else miTowBigFactors.Visibility = Visibility.Collapsed; }
-    }
-    private void miIntegerManyFactors_Click(object sender, RoutedEventArgs e)
-    {
-      PrimesBigInteger value = null;
-      if (sender == miBigInteger)
-      {
-        value = PrimesBigInteger.Random(100);
-        while (value.IsProbablePrime(20))
-          value = PrimesBigInteger.Random(100);
-        if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero)) value = value.Add(PrimesBigInteger.One);
-      }
-      else if (sender == miIntegerManyFactors)
-      {
-        Random r = new Random();
-        value = PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime();
-        for (int i = 0; i < 19; i++)
+        public GenerateRandomControl()
         {
-          value = value.Multiply(PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime());
+            InitializeComponent();
         }
-      }
-      else if (sender == miTowBigFactors)
-      {
-        value = PrimesBigInteger.Random(15).NextProbablePrime().Multiply(PrimesBigInteger.Random(15).NextProbablePrime());
-      }
-      if (value != null)
-        FireOnRandomNumberGenerated(value);
-    }
 
-  }
+        private void FireOnRandomNumberGenerated(PrimesBigInteger value)
+        {
+            if (OnRandomNumberGenerated != null)
+                OnRandomNumberGenerated(value);
+        }
+
+        private Primes.OnlineHelp.OnlineHelpActions m_HelpAction;
+
+        public Primes.OnlineHelp.OnlineHelpActions HelpAction
+        {
+            get { return m_HelpAction; }
+            set
+            {
+                this.m_HelpAction = value;
+            }
+        }
+
+        private void ImageHelpClick(object sender, MouseButtonEventArgs e)
+        {
+            OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(m_HelpAction);
+            e.Handled = true;
+        }
+
+        public string Title
+        {
+            get { if (miHeader != null && miHeader.Header != null) return miHeader.Header.ToString(); else return null; }
+            set { if (miHeader != null)miHeader.Header = value; }
+        }
+
+        public bool ShowMultipleFactors
+        {
+            get { return miIntegerManyFactors.Visibility == Visibility.Visible; }
+            set { if (value)miIntegerManyFactors.Visibility = Visibility.Visible; else miIntegerManyFactors.Visibility = Visibility.Collapsed; }
+        }
+
+        public bool ShowTwoBigFactors
+        {
+            get { return miTowBigFactors.Visibility == Visibility.Visible; }
+            set { if (value)miTowBigFactors.Visibility = Visibility.Visible; else miTowBigFactors.Visibility = Visibility.Collapsed; }
+        }
+
+        private void miIntegerManyFactors_Click(object sender, RoutedEventArgs e)
+        {
+            PrimesBigInteger value = null;
+            if (sender == miBigInteger)
+            {
+                value = PrimesBigInteger.Random(100);
+                while (value.IsProbablePrime(20))
+                    value = PrimesBigInteger.Random(100);
+                if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero)) value = value.Add(PrimesBigInteger.One);
+            }
+            else if (sender == miIntegerManyFactors)
+            {
+                Random r = new Random();
+                value = PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime();
+                for (int i = 0; i < 19; i++)
+                {
+                    value = value.Multiply(PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime());
+                }
+            }
+            else if (sender == miTowBigFactors)
+            {
+                value = PrimesBigInteger.Random(15).NextProbablePrime().Multiply(PrimesBigInteger.Random(15).NextProbablePrime());
+            }
+            if (value != null)
+                FireOnRandomNumberGenerated(value);
+        }
+    }
 }

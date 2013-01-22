@@ -22,9 +22,9 @@ using System.Configuration;
 
 namespace Primes.Options
 {
-  public interface IOption
-  {
-    bool Save();
-    ApplicationSettingsBase Settings { set; }
-  }
+    public interface IOption
+    {
+        bool Save();
+        ApplicationSettingsBase Settings { set; }
+    }
 }

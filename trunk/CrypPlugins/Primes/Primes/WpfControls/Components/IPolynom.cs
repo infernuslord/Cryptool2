@@ -23,93 +23,103 @@ using Primes.Library;
 
 namespace Primes.WpfControls.Components
 {
-  public interface IFormular<T>
-  {
-    Image Image { get; }
-    System.Collections.Generic.ICollection<T> Factors { get; }
-    string Name { get; }
-  }
-  public interface IPolynom : Primes.WpfControls.Components.IExpression, IFormular<PolynomFactor>
-  {
-  }
-  public interface IPolynomRange:IFormular<RangePolynomFactor>
+    public interface IFormular<T>
     {
-    PrimesBigInteger Execute(PrimesBigInteger input);
-
-  }
-
-  public class PolynomFactor
-  {
-    public PolynomFactor(string name, PrimesBigInteger value)
-    {
-      this.Name = name;
-      this.Value = value;
-    }
-    public PolynomFactor(string name, PrimesBigInteger value, bool isReadOnly)
-    {
-      this.Name = name;
-      this.Value = value;
-      this.Readonly = isReadOnly; 
-    }
-    #region Properties
-    private string m_Name;
-
-    public string Name
-    {
-      get { return m_Name; }
-      set { m_Name = value; }
-    }
-    private PrimesBigInteger m_Value;
-
-    public PrimesBigInteger Value
-    {
-      get { return m_Value; }
-      set { m_Value = value; }
+        Image Image { get; }
+        System.Collections.Generic.ICollection<T> Factors { get; }
+        string Name { get; }
     }
 
-    private bool m_Readonly;
-
-    public bool Readonly
-    {
-      get { return m_Readonly; }
-      set { m_Readonly = value; }
-    }
-    #endregion
-  }
-  public class RangePolynomFactor
-  {
-    public RangePolynomFactor(string name, PrimesBigInteger from, PrimesBigInteger to):this(name,new RangeX(from, to))
+    public interface IPolynom : Primes.WpfControls.Components.IExpression, IFormular<PolynomFactor>
     {
     }
-    public RangePolynomFactor(string name, Range range)
-    {
-      if (range == null) throw new ArgumentNullException("range");
-      if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
-      m_Range = range;
-      Name = name;
-    }
-    #region IPolynomFactor Members
 
-    private string m_Name;
-
-    public string Name
+    public interface IPolynomRange : IFormular<RangePolynomFactor>
     {
-      get { return m_Name; }
-      set { m_Name = value; }
+        PrimesBigInteger Execute(PrimesBigInteger input);
     }
 
-    #endregion
-
-    private Range m_Range;
-
-    public PrimesBigInteger From
+    public class PolynomFactor
     {
-      get { return m_Range.From; }
+        public PolynomFactor(string name, PrimesBigInteger value)
+        {
+            this.Name = name;
+            this.Value = value;
+        }
+
+        public PolynomFactor(string name, PrimesBigInteger value, bool isReadOnly)
+        {
+            this.Name = name;
+            this.Value = value;
+            this.Readonly = isReadOnly;
+        }
+
+        #region Properties
+
+        private string m_Name;
+
+        public string Name
+        {
+            get { return m_Name; }
+            set { m_Name = value; }
+        }
+
+        private PrimesBigInteger m_Value;
+
+        public PrimesBigInteger Value
+        {
+            get { return m_Value; }
+            set { m_Value = value; }
+        }
+
+        private bool m_Readonly;
+
+        public bool Readonly
+        {
+            get { return m_Readonly; }
+            set { m_Readonly = value; }
+        }
+
+        #endregion
     }
-    public PrimesBigInteger To
+
+    public class RangePolynomFactor
     {
-      get { return m_Range.To; }
+        public RangePolynomFactor(string name, PrimesBigInteger from, PrimesBigInteger to)
+            : this(name, new RangeX(from, to))
+        {
+        }
+
+        public RangePolynomFactor(string name, Range range)
+        {
+            if (range == null) throw new ArgumentNullException("range");
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
+            m_Range = range;
+            Name = name;
+        }
+
+        #region IPolynomFactor Members
+
+        private string m_Name;
+
+        public string Name
+        {
+            get { return m_Name; }
+            set { m_Name = value; }
+        }
+
+        #endregion
+
+        private Range m_Range;
+
+        public PrimesBigInteger From
+        {
+            get { return m_Range.From; }
+        }
+
+        public PrimesBigInteger To
+        {
+            get { return m_Range.To; }
+        }
     }
-  }
-  
 }

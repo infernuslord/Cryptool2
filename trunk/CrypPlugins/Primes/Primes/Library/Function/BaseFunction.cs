@@ -20,22 +20,22 @@ using System.Text;
 
 namespace Primes.Library.Function
 {
-  public abstract class BaseFunction
-  {
-    protected double m_FormerValue = double.NaN;
-
-    protected Hashtable m_Values;
-    protected Pari.PariBridge m_PariBridge;
-
-    public BaseFunction()
+    public abstract class BaseFunction
     {
+        protected double m_FormerValue = double.NaN;
 
-      m_Values = new System.Collections.Hashtable();
-      m_PariBridge = new Primes.Library.Pari.PariBridge();
+        protected Hashtable m_Values;
+        protected Pari.PariBridge m_PariBridge;
+
+        public BaseFunction()
+        {
+            m_Values = new System.Collections.Hashtable();
+            m_PariBridge = new Primes.Library.Pari.PariBridge();
+        }
+
+        public virtual double FormerValue
+        {
+            get { return m_FormerValue; }
+        }
     }
-    public virtual double FormerValue
-    {
-      get { return m_FormerValue; }
-    }
-  }
 }

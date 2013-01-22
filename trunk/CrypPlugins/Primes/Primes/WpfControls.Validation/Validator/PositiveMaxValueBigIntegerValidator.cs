@@ -22,54 +22,54 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation.Validator
 {
-  public class PositiveMaxValueBigIntegerValidator:PositiveBigIntegerValidator
-  {
-    protected PrimesBigInteger m_MaxValue;
-    public PositiveMaxValueBigIntegerValidator() : base() { }
-    public PositiveMaxValueBigIntegerValidator(PrimesBigInteger maxvalue) : this("", maxvalue) { }
-
-    public PositiveMaxValueBigIntegerValidator(object value, PrimesBigInteger maxValue)
-      : base(value)
+    public class PositiveMaxValueBigIntegerValidator : PositiveBigIntegerValidator
     {
-      this.m_MaxValue = maxValue;
-    }
+        protected PrimesBigInteger m_MaxValue;
+        public PositiveMaxValueBigIntegerValidator() : base() { }
+        public PositiveMaxValueBigIntegerValidator(PrimesBigInteger maxvalue) : this("", maxvalue) { }
 
-    public override ValidationResult Validate(ref PrimesBigInteger bi)
-    {
-      ValidationResult result = base.Validate(ref bi);
-      if (result == ValidationResult.OK)
-      {
-        if (bi.CompareTo(m_MaxValue) > 0) result = ValidationResult.WARNING;
-      }
-      return result;
-    }
-
-    private string m_Message;
-    public override string Message
-    {
-      get
-      {
-        try
+        public PositiveMaxValueBigIntegerValidator(object value, PrimesBigInteger maxValue)
+            : base(value)
         {
-          if (!string.IsNullOrEmpty(m_Message))
-          {
-            return string.Format(m_Message, m_MaxValue.ToString("D"));
-          }
-          else
-          {
-            return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
-          }
+            this.m_MaxValue = maxValue;
         }
-        catch
-        {
-          return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
-        }
-      }
-      set
-      {
-        this.m_Message = value;
-      }
 
+        public override ValidationResult Validate(ref PrimesBigInteger bi)
+        {
+            ValidationResult result = base.Validate(ref bi);
+            if (result == ValidationResult.OK)
+            {
+                if (bi.CompareTo(m_MaxValue) > 0) result = ValidationResult.WARNING;
+            }
+            return result;
+        }
+
+        private string m_Message;
+
+        public override string Message
+        {
+            get
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(m_Message))
+                    {
+                        return string.Format(m_Message, m_MaxValue.ToString("D"));
+                    }
+                    else
+                    {
+                        return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
+                    }
+                }
+                catch
+                {
+                    return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
+                }
+            }
+            set
+            {
+                this.m_Message = value;
+            }
+        }
     }
-  }
 }

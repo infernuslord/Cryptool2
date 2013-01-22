@@ -22,99 +22,100 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Validation
 {
-
-  public class BigIntegerValidator : IValidator<PrimesBigInteger>
-  {
-
-    private object m_Value;
-    protected SevenZ.Calculator.Calculator calculator;
-    public BigIntegerValidator(object value):this()
+    public class BigIntegerValidator : IValidator<PrimesBigInteger>
     {
-      this.m_Value = value;
+        private object m_Value;
+        protected SevenZ.Calculator.Calculator calculator;
 
-    }
-    public BigIntegerValidator()
-    {
-      this.m_Value = string.Empty;
-      calculator = new SevenZ.Calculator.Calculator();
-    }
-
-    #region IValidator Members
-
-    public virtual ValidationResult Validate(ref PrimesBigInteger bi)
-    {
-      if (m_Value != null)
-      {
-        if (m_Value.GetType() == typeof(string)
-        && !string.IsNullOrEmpty(m_Value.ToString().Trim()))
+        public BigIntegerValidator(object value)
+            : this()
         {
-          try
-          {
-            bi = calculator.Evaluate(m_Value.ToString());
-            return ValidationResult.OK;
-          }
-          catch
-          {
-            if(string.IsNullOrEmpty(this.m_Message))
-              this.m_Message = Primes.Resources.lang.Validation.Validation.BigIntegerValidator;
-          }
+            this.m_Value = value;
         }
-        else
+
+        public BigIntegerValidator()
         {
-          if (m_Value.GetType() == typeof(PrimesBigInteger))
-          {
-            bi = m_Value as PrimesBigInteger;
-            return ValidationResult.OK;
-          }
-          else
-          {
-            if (string.IsNullOrEmpty(this.m_Message))
-              this.m_Message = Primes.Resources.lang.Validation.Validation.BigIntegerValidator;
-          }
+            this.m_Value = string.Empty;
+            calculator = new SevenZ.Calculator.Calculator();
         }
-      }
-      return ValidationResult.WARNING;
+
+        #region IValidator Members
+
+        public virtual ValidationResult Validate(ref PrimesBigInteger bi)
+        {
+            if (m_Value != null)
+            {
+                if (m_Value.GetType() == typeof(string)
+                && !string.IsNullOrEmpty(m_Value.ToString().Trim()))
+                {
+                    try
+                    {
+                        bi = calculator.Evaluate(m_Value.ToString());
+                        return ValidationResult.OK;
+                    }
+                    catch
+                    {
+                        if (string.IsNullOrEmpty(this.m_Message))
+                            this.m_Message = Primes.Resources.lang.Validation.Validation.BigIntegerValidator;
+                    }
+                }
+                else
+                {
+                    if (m_Value.GetType() == typeof(PrimesBigInteger))
+                    {
+                        bi = m_Value as PrimesBigInteger;
+                        return ValidationResult.OK;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(this.m_Message))
+                            this.m_Message = Primes.Resources.lang.Validation.Validation.BigIntegerValidator;
+                    }
+                }
+            }
+
+            return ValidationResult.WARNING;
+        }
+
+        private string m_Message = string.Empty;
+
+        public virtual string Message
+        {
+            get
+            {
+                return m_Message;
+            }
+            set
+            {
+                this.m_Message = value;
+            }
+        }
+
+        #endregion
+
+        #region IValidator<BigInteger> Members
+
+        public object Value
+        {
+            get
+            {
+                return m_Value;
+            }
+            set
+            {
+                m_Value = value;
+            }
+        }
+
+        #endregion
+
+        #region IValidator<PrimesBigInteger> Members
+
+        public OnlineHelp.OnlineHelpActions HelpLink
+        {
+            get { return OnlineHelp.OnlineHelpActions.None; }
+        }
+
+        #endregion
     }
-
-    private string m_Message = string.Empty;
-    public virtual string Message
-    {
-      get
-      {
-        return m_Message;
-      }
-      set
-      {
-        this.m_Message = value;
-      }
-    }
-
-    #endregion
-
-    #region IValidator<BigInteger> Members
-
-    public object Value
-    {
-      get
-      {
-        return m_Value;
-      }
-      set
-      {
-        m_Value = value;
-      }
-    }
-
-    #endregion
-
-    #region IValidator<PrimesBigInteger> Members
-
-
-    public OnlineHelp.OnlineHelpActions HelpLink
-    {
-      get { return OnlineHelp.OnlineHelpActions.None; }
-    }
-
-    #endregion
-  }
 }

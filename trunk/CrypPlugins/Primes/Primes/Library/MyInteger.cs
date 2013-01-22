@@ -21,56 +21,57 @@ using System.Text;
 
 namespace Primes.Library
 {
-  public class MyInteger
-  {
-    private long m_Value;
-    public MyInteger(long value)
+    public class MyInteger
     {
-      m_Value = value;
-      m_BitCount = -1;
-    }
+        private long m_Value;
 
-    private int m_BitCount;
-    public int BitCount
-    {
-      get
-      {
-        if (m_BitCount == -1)
+        public MyInteger(long value)
         {
-          m_BitCount = GetBitCount(m_Value);
+            m_Value = value;
+            m_BitCount = -1;
         }
-        return m_BitCount;
-      }
+
+        private int m_BitCount;
+
+        public int BitCount
+        {
+            get
+            {
+                if (m_BitCount == -1)
+                {
+                    m_BitCount = GetBitCount(m_Value);
+                }
+                return m_BitCount;
+            }
+        }
+
+        public static int GetBitCount(long n)
+        {
+            int result = 0;
+            long tmp = n;
+            for (int i = 0; i < 64; i++)
+            {
+                if ((tmp & 1) == 1) result++;
+                tmp = tmp >> 1;
+            }
+            return result;
+        }
+
+        public bool TestBit(int bit)
+        {
+            long tmp = m_Value >> bit;
+            return (tmp & 1) == 1;
+        }
+
+        public int[] GetIndices()
+        {
+            int[] indices = new int[BitCount];
+            long n = m_Value;
+
+            for (int i = 0, j = 0; n != 0; i++, n >>= 1)
+                if ((n & 1) == 1) indices[j++] = i;
+
+            return indices;
+        }
     }
-
-    public static int GetBitCount(long n)
-    {
-      int result = 0;
-      long tmp = n;
-      for (int i = 0; i < 64; i++)
-      {
-        if ((tmp & 1) == 1) result++;
-        tmp = tmp >> 1;
-      }
-      return result;
-
-    }
-
-    public bool TestBit(int bit)
-    {
-      long tmp = m_Value >> bit;
-      return (tmp & 1) == 1;
-    }
-
-    public int[] GetIndices()
-    {
-        int[] indices = new int[BitCount];
-        long n = m_Value;
-        
-        for (int i = 0, j = 0; n != 0; i++, n >>= 1)
-            if ((n & 1)==1) indices[j++] = i;
-
-        return indices;
-    }
-  }
 }

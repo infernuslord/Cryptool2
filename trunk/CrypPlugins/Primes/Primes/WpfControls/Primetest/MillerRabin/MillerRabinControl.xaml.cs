@@ -43,7 +43,6 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     /// </summary>
     public partial class MillerRabinControl : UserControl, IPrimeTest
     {
-
         #region Initialization
 
         public MillerRabinControl()
@@ -153,7 +152,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
                 return false;
 
             PrimesBigInteger n_1 = m_Value - 1;
-            log.Info(string.Format("n-1 = {0} = 2^{1} * {2}", n_1, m_shift, m_d ));
+            log.Info(string.Format("n-1 = {0} = 2^{1} * {2}", n_1, m_shift, m_d));
 
             PrimesBigInteger former = a.ModPow(m_d, m_Value);
             log.Info(string.Format(rsc.Primetest.mr_calculating1, a, m_d, m_Value, former));
@@ -163,7 +162,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
                 return false;
             }
 
-            PrimesBigInteger square=1;
+            PrimesBigInteger square = 1;
             for (int i = 1; i <= m_shift; i++)
             {
                 square = former.ModPow(2, m_Value);
@@ -198,7 +197,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
             m_Value = value;
 
-            if (m_Value.Mod(2).CompareTo(0)==0)
+            if (m_Value.Mod(2).CompareTo(0) == 0)
             {
                 log.Info(string.Format(rsc.Primetest.mr_iseven, value));
                 FireEventCancelTest();
@@ -245,23 +244,23 @@ namespace Primes.WpfControls.Primetest.MillerRabin
             FireEventExecuteTest();
 
             int i = 1;
-            for (; i <= m_Rounds; i++ )
+            for (; i <= m_Rounds; i++)
             {
                 BigInteger k = BigIntegerHelper.Max(2, BigIntegerHelper.RandomIntLimit(BigInteger.Parse(m_RandomBaseTo.ToString())));
-                if (ExecuteWitness(i, new PrimesBigInteger(k.ToString()) )) break;
+                if (ExecuteWitness(i, new PrimesBigInteger(k.ToString()))) break;
             }
 
             if (i <= m_Rounds)
-                log.Info(string.Format( (i == 1) ? rsc.Primetest.mr_witnessfound1 : rsc.Primetest.mr_witnessfound2, i, m_Value));
+                log.Info(string.Format((i == 1) ? rsc.Primetest.mr_witnessfound1 : rsc.Primetest.mr_witnessfound2, i, m_Value));
             else
-                log.Info(string.Format( (m_Rounds.IntValue == 1) ? rsc.Primetest.mr_witnessnotfound1 : rsc.Primetest.mr_witnessnotfound2, m_Rounds.IntValue, m_Value));
+                log.Info(string.Format((m_Rounds.IntValue == 1) ? rsc.Primetest.mr_witnessnotfound1 : rsc.Primetest.mr_witnessnotfound2, m_Rounds.IntValue, m_Value));
 
             FireEventCancelTest();
         }
 
         private bool ExecuteWitness(int round, PrimesBigInteger a)
         {
-            log.Info(string.Format(rsc.Primetest.mr_round, round, a ));
+            log.Info(string.Format(rsc.Primetest.mr_round, round, a));
             bool result = Witness(a);
             log.Info("");
             return result;
@@ -289,7 +288,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
             bool foundwitness = false;
 
             int i = 1;
-            for (; m_SystematicBaseFrom <= m_SystematicBaseTo; i++ )
+            for (; m_SystematicBaseFrom <= m_SystematicBaseTo; i++)
             {
                 if (ExecuteWitness(i, m_SystematicBaseFrom)) { foundwitness = true; break; }
                 m_SystematicBaseFrom = m_SystematicBaseFrom + 1;
@@ -366,6 +365,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
         private enum KOD { Random, Systematic }
 
         #region IPrimeTest Members
+
         #endregion
 
         #region IPrimeVisualization Members

@@ -25,26 +25,27 @@ using System.Windows;
 
 namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
-  public class Tau : BaseNTFunction
-  {
-    public Tau(LogControl2 lc, TextBlock tb) : base(lc,tb)
+    public class Tau : BaseNTFunction
     {
+        public Tau(LogControl2 lc, TextBlock tb)
+            : base(lc, tb)
+        {
+        }
+
+        protected override void DoExecute()
+        {
+            FireOnStart();
+
+            List<PrimesBigInteger> divisors = (m_Factors != null) ? PrimesBigInteger.Divisors(m_Factors) : m_Value.Divisors();
+            divisors.Sort(PrimesBigInteger.Compare);
+
+            ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
+            SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, divisors.Count, m_Value));
+
+            foreach (var d in divisors)
+                m_Log.Info(d + "   ");
+
+            FireOnStop();
+        }
     }
-
-    protected override void DoExecute()
-    {
-        FireOnStart();
-
-        List<PrimesBigInteger> divisors = (m_Factors != null) ? PrimesBigInteger.Divisors(m_Factors) : m_Value.Divisors();
-        divisors.Sort(PrimesBigInteger.Compare);
-
-        ControlHandler.SetPropertyValue(m_tbCalcInfo, "Visibility", Visibility.Visible);
-        SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_tauinfo, divisors.Count, m_Value ));
-
-        foreach(var d in divisors)
-            m_Log.Info(d + "   ");
-        
-        FireOnStop();
-    }
-  }
 }

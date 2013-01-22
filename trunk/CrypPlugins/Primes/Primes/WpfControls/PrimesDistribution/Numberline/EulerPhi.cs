@@ -30,8 +30,9 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 {
     public class EulerPhi : BaseNTFunction
     {
-        public EulerPhi(LogControl2 lc, TextBlock tb) : base(lc, tb)
-        { 
+        public EulerPhi(LogControl2 lc, TextBlock tb)
+            : base(lc, tb)
+        {
         }
 
         protected override void DoExecute()
@@ -42,22 +43,22 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             if (m_Value.IsPrime(20))
             {
-                string info = string.Format( Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphiisprime, m_Value, m_Value, m_Value, m_Value.Subtract(PrimesBigInteger.One) );
+                string info = string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphiisprime, m_Value, m_Value, m_Value, m_Value.Subtract(PrimesBigInteger.One));
                 m_Log.Info(info);
                 SetCalcInfo(info);
             }
             else
             {
                 PrimesBigInteger phi = (m_Factors != null) ? PrimesBigInteger.Phi(m_Factors) : m_Value.Phi();
-                SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, phi, m_Value ));
+                SetCalcInfo(string.Format(Primes.Resources.lang.WpfControls.Distribution.Distribution.numberline_eulerphifoundresult, phi, m_Value));
 
                 BigInteger x = BigInteger.Parse(m_Value.ToString());
                 int counter = 0;
                 int maxlines = 1000;
 
-                for ( BigInteger d = 1; d < x; d++ )
+                for (BigInteger d = 1; d < x; d++)
                 {
-                    if (BigInteger.GreatestCommonDivisor(d,x)==1)
+                    if (BigInteger.GreatestCommonDivisor(d, x) == 1)
                     {
                         m_Log.Info(d + "   ");
                         if (++counter >= maxlines) break;

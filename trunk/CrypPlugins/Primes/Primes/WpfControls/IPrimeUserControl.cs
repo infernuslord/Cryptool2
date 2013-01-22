@@ -22,10 +22,10 @@ using Primes.Library;
 
 namespace Primes.WpfControls
 {
-  public interface IPrimeMethodDivision
-  {
-    void Dispose();
-    void Init();
-    void SetTab(int i);
-  }
+    public interface IPrimeMethodDivision
+    {
+        void Dispose();
+        void Init();
+        void SetTab(int i);
+    }
 }

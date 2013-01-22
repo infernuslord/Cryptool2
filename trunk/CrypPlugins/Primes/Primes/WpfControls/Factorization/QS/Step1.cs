@@ -76,11 +76,11 @@ namespace Primes.WpfControls.Factorization.QS
 
             long sqrt = (long)Math.Ceiling(Math.Sqrt(m_QSData.N));
 
-            String msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step1_squareroot, m_QSData.N, Math.Sqrt(m_QSData.N).ToString("N"), sqrt, data.From, data.To );
-            ControlHandler.SetPropertyValue( m_lblInfo, "Text", msg );
+            String msg = String.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.qs_step1_squareroot, m_QSData.N, Math.Sqrt(m_QSData.N).ToString("N"), sqrt, data.From, data.To);
+            ControlHandler.SetPropertyValue(m_lblInfo, "Text", msg);
 
             int counter = 2;
-            
+
             for (long i = data.From; i <= data.To; i++)
             {
                 int a = (int)i;
@@ -88,7 +88,7 @@ namespace Primes.WpfControls.Factorization.QS
                 data.Add(new QuadraticPair(a, b));
 
                 ControlHandler.AddColumnDefintion(Grid, 1, GridUnitType.Auto);
-                base.AddToGrid(Grid, a.ToString()+"²", 0, counter);
+                base.AddToGrid(Grid, a.ToString() + "²", 0, counter);
                 base.AddToGrid(Grid, b.ToString(), 1, counter);
 
                 counter++;
@@ -97,7 +97,6 @@ namespace Primes.WpfControls.Factorization.QS
 
             return QSResult.Ok;
         }
-
 
         #region IQSStep Members
 

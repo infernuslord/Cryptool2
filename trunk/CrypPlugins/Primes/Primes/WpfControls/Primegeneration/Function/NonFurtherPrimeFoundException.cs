@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
-  public class NonFurtherPrimeFoundException:Exception 
-  {
-  }
+    public class NonFurtherPrimeFoundException : Exception
+    {
+    }
 }

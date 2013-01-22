@@ -20,170 +20,167 @@ using System.Text;
 
 namespace Primes.Library.Function
 {
-  public class FunctionLiN : BaseFunction, IFunction
-  {
-    bool usePari;
-    public FunctionLiN()
-      : base()
+    public class FunctionLiN : BaseFunction, IFunction
     {
-      if (paribridge == null && Options.OptionsAccess.UsePari)
-      {
-        Pari.PariBridge.Initialize(Options.OptionsAccess.GpExe);
-        if (Pari.PariBridge.IsInitialized)
+        bool usePari;
+
+        public FunctionLiN()
+            : base()
         {
-          paribridge = new Primes.Library.Pari.PariBridge();
-          
+            if (paribridge == null && Options.OptionsAccess.UsePari)
+            {
+                Pari.PariBridge.Initialize(Options.OptionsAccess.GpExe);
+                if (Pari.PariBridge.IsInitialized)
+                {
+                    paribridge = new Primes.Library.Pari.PariBridge();
+                }
+            }
         }
-      }
 
-    }
-    private Pari.PariBridge paribridge;
-    #region IFunction Members
+        private Pari.PariBridge paribridge;
 
-    public double Execute(double input)
-    {
-      double value = 0.0;
+        #region IFunction Members
 
-      if (usePari)
-      {
-        value =  paribridge.LiX(input);
-      }
-      else
-      {
-        if ((input > 100000 || m_FormerValue == double.NaN) || MaxValue > 100000)
+        public double Execute(double input)
         {
-          double a = 512.0;
+            double value = 0.0;
 
-          double c1 = 16 * Math.Log10(input);
-          double c2 = c1 * 2;
+            if (usePari)
+            {
+                value = paribridge.LiX(input);
+            }
+            else
+            {
+                if ((input > 100000 || m_FormerValue == double.NaN) || MaxValue > 100000)
+                {
+                    double a = 512.0;
 
-          double h1 = (input - a) / c1;
-          double h2 = (input - a) / c2;
+                    double c1 = 16 * Math.Log10(input);
+                    double c2 = c1 * 2;
 
-          double sum1 = 0.0, sum2 = 0.0, sum3 = 0.0;
-          for (int i = 0; i < c1; i++)
-          {
-            double xk = a + i * h1;
-            if (i % c1 == 0)
-              sum1 += 1 / Math.Log(xk);
-            else if (i % 2 == 1)
-              sum2 += 1 / Math.Log(xk);
-            else sum3 += 1 / Math.Log(xk);
-          }
-          sum2 *= 4;
-          sum3 *= 2;
-          value = (sum1 + sum2 + sum3) * (h1 / 3);
-          sum1 = sum2 = sum3 = 0.0;
-          double value2 = 0.0;
-          for (int i = 0; i < c2; i++)
-          {
-            double xk = a + i * h2;
-            if (i % c2 == 0)
-              sum1 += 1 / Math.Log(xk);
-            else if (i % 2 == 1)
-              sum2 += 1 / Math.Log(xk);
-            else sum3 += 1 / Math.Log(xk);
-          }
-          value2 = (sum1 + sum2 + sum3) * (h2 / 3);
-          double error = (value2 - value) * (1 / 15);
-          value -= error;
-          if (value == 0.0) value = 0.1;
+                    double h1 = (input - a) / c1;
+                    double h2 = (input - a) / c2;
+
+                    double sum1 = 0.0, sum2 = 0.0, sum3 = 0.0;
+                    for (int i = 0; i < c1; i++)
+                    {
+                        double xk = a + i * h1;
+                        if (i % c1 == 0)
+                            sum1 += 1 / Math.Log(xk);
+                        else if (i % 2 == 1)
+                            sum2 += 1 / Math.Log(xk);
+                        else sum3 += 1 / Math.Log(xk);
+                    }
+                    sum2 *= 4;
+                    sum3 *= 2;
+                    value = (sum1 + sum2 + sum3) * (h1 / 3);
+                    sum1 = sum2 = sum3 = 0.0;
+                    double value2 = 0.0;
+                    for (int i = 0; i < c2; i++)
+                    {
+                        double xk = a + i * h2;
+                        if (i % c2 == 0)
+                            sum1 += 1 / Math.Log(xk);
+                        else if (i % 2 == 1)
+                            sum2 += 1 / Math.Log(xk);
+                        else sum3 += 1 / Math.Log(xk);
+                    }
+                    value2 = (sum1 + sum2 + sum3) * (h2 / 3);
+                    double error = (value2 - value) * (1 / 15);
+                    value -= error;
+                    if (value == 0.0) value = 0.1;
+                }
+                else
+                {
+                    double factor = 1;
+                    double counter = 1.0 / (1.0 * factor);
+                    double divider = 2;
+                    for (int i = 2; i <= input * factor; i++)
+                    {
+                        value += (counter) / Math.Log(divider);
+                        divider += counter;
+                    }
+                }
+            }
+            m_FormerValue = value;
+            if (Executed != null) Executed(value);
+            return value;
         }
-        else
+
+        #endregion
+
+        #region IFunction Members
+
+        public void Reset()
         {
-          double factor = 1;
-          double counter = 1.0 / (1.0 * factor);
-          double divider = 2;
-          for (int i = 2; i <= input * factor; i++)
-          {
-            value += (counter) / Math.Log(divider);
-            divider += counter;
-          }
+            m_FormerValue = double.NaN;
+            if (Options.OptionsAccess.UsePari)
+            {
+                if (paribridge == null)
+                {
+                    Pari.PariBridge.Initialize(Options.OptionsAccess.GpExe);
+                    if (Pari.PariBridge.IsInitialized)
+                    {
+                        paribridge = new Primes.Library.Pari.PariBridge();
+                    }
+                }
+                usePari = Pari.PariBridge.IsInitialized;
+            }
+            else
+            {
+                usePari = false;
+            }
         }
-      }
-      m_FormerValue = value;
-      if (Executed != null) Executed(value);
-      return value;
-    }
 
-    #endregion
+        #endregion
 
-    #region IFunction Members
+        #region IFunction Members
 
-
-    public void Reset()
-    {
-      m_FormerValue = double.NaN;
-      if (Options.OptionsAccess.UsePari)
-      {
-        if (paribridge == null)
+        public bool CanEstimate
         {
-          Pari.PariBridge.Initialize(Options.OptionsAccess.GpExe);
-          if (Pari.PariBridge.IsInitialized)
-          {
-            paribridge = new Primes.Library.Pari.PariBridge();
-
-          }
+            get { return true; }
         }
-        usePari = Pari.PariBridge.IsInitialized;
-      }
-      else
-      {
-        usePari = false;
-      }
+
+        private FunctionState m_FunctionState;
+        public FunctionState FunctionState
+        {
+            get { return m_FunctionState; }
+            set { this.m_FunctionState = value; }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        private double m_MaxValue;
+
+        public double MaxValue
+        {
+            get
+            {
+                return m_MaxValue;
+            }
+            set
+            {
+                m_MaxValue = value;
+            }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public event ObjectParameterDelegate Executed;
+
+        #endregion
+
+        #region IFunction Members
+
+        public double DrawTo
+        {
+            get { return double.PositiveInfinity; }
+        }
+
+        #endregion
     }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public bool CanEstimate
-    {
-      get { return true; }
-    }
-
-    private FunctionState m_FunctionState;
-    public FunctionState FunctionState
-    {
-      get { return m_FunctionState; }
-      set { this.m_FunctionState = value; }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-    private double m_MaxValue;
-    public double MaxValue
-    {
-      get
-      {
-        return m_MaxValue;
-      }
-      set
-      {
-        m_MaxValue = value;
-      }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public event ObjectParameterDelegate Executed;
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public double DrawTo
-    {
-      get { return double.PositiveInfinity; }
-    }
-
-    #endregion
-  }
 }

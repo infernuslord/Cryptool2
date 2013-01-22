@@ -20,10 +20,10 @@ using System.Text;
 
 namespace Primes.WpfControls.PrimesDistribution
 {
-  public interface IPrimeDistribution
-  {
-    void Init();
+    public interface IPrimeDistribution
+    {
+        void Init();
 
-    void Dispose();
-  }
+        void Dispose();
+    }
 }

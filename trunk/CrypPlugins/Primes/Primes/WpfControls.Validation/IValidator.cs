@@ -20,12 +20,13 @@ using System.Text;
 
 namespace Primes.WpfControls.Validation
 {
-  public enum ValidationResult { OK, INFO, WARNING, ERROR }
-  public interface IValidator<T>
-  {
-    object Value { get; set; }
-    ValidationResult Validate(ref T t);
-    string Message { get; set; }
-    OnlineHelp.OnlineHelpActions HelpLink { get; }
-  }
+    public enum ValidationResult { OK, INFO, WARNING, ERROR }
+
+    public interface IValidator<T>
+    {
+        object Value { get; set; }
+        ValidationResult Validate(ref T t);
+        string Message { get; set; }
+        OnlineHelp.OnlineHelpActions HelpLink { get; }
+    }
 }

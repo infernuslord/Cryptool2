@@ -20,30 +20,29 @@ using System.Text;
 
 namespace Primes.Library
 {
-  public enum NavigationCommandType
-  {
-    None,
-    Start,
-    Graph,
-    Factor,
-    Factor_Bf,
-    Factor_QS,
+    public enum NavigationCommandType
+    {
+        None,
+        Start,
+        Graph,
+        Factor,
+        Factor_Bf,
+        Factor_QS,
 
-    Primetest_Sieve,
-    Primetest_Miller,
-    Primetest,
-    Primespirals,
-    Primesgeneration,
-    Numberline,
-    PrimitivRoot,
-    PowerMod,
-    NumberTheoryFunctions,
-    PrimeDistrib_Numberline,
-    PrimeDistrib_Numberrec,
-    PrimeDistrib_Ulam,
-    PrimeDistrib_Goldbach,
+        Primetest_Sieve,
+        Primetest_Miller,
+        Primetest,
+        Primespirals,
+        Primesgeneration,
+        Numberline,
+        PrimitivRoot,
+        PowerMod,
+        NumberTheoryFunctions,
+        PrimeDistrib_Numberline,
+        PrimeDistrib_Numberrec,
+        PrimeDistrib_Ulam,
+        PrimeDistrib_Goldbach,
 
-    SieveOfAtkin
-
-  }
+        SieveOfAtkin
+    }
 }

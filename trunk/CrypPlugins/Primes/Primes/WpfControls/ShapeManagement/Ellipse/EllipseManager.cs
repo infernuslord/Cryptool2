@@ -23,147 +23,145 @@ using System.Windows.Threading;
 
 namespace Primes.WpfControls.ShapeManagement.Ellipse
 {
-	public class EllipseManager
-	{
-		private int m_ItemSize = 30;
+    public class EllipseManager
+    {
+        private int m_ItemSize = 30;
 
-		public int ItemSize
-		{
-			get { return m_ItemSize; }
-		}
-		private double m_Width;
+        public int ItemSize
+        {
+            get { return m_ItemSize; }
+        }
 
-		public double Width
-		{
-			get { return m_Width; }
-			set { m_Width = value; }
-		}
-		private double m_Height;
+        private double m_Width;
 
-		public double Height
-		{
-			get { return m_Height; }
-			set { m_Height = value; }
-		}
+        public double Width
+        {
+            get { return m_Width; }
+            set { m_Width = value; }
+        }
 
+        private double m_Height;
 
-		private GmpFactorTree m_FactorTree = null;
+        public double Height
+        {
+            get { return m_Height; }
+            set { m_Height = value; }
+        }
 
-		public EllipseManager() { }
+        private GmpFactorTree m_FactorTree = null;
 
-		public GmpFactorTree FactorTree
-		{
-			get { return m_FactorTree; }
-			set { m_FactorTree = value; CalculateFactorTree(); }
-		}
+        public EllipseManager() { }
 
-		private IDictionary<GmpFactorTreeNode, EllipseItem> m_EllipseItems = null;
+        public GmpFactorTree FactorTree
+        {
+            get { return m_FactorTree; }
+            set { m_FactorTree = value; CalculateFactorTree(); }
+        }
 
-		public IDictionary<GmpFactorTreeNode, EllipseItem> EllipseItems
-		{
-			get { return m_EllipseItems; }
-		}
+        private IDictionary<GmpFactorTreeNode, EllipseItem> m_EllipseItems = null;
 
+        public IDictionary<GmpFactorTreeNode, EllipseItem> EllipseItems
+        {
+            get { return m_EllipseItems; }
+        }
 
-		private void CalculateFactorTree()
-		{
-			if (this.m_FactorTree != null)
-			{
-				if (m_EllipseItems == null)
-				{
-					m_EllipseItems = new Dictionary<GmpFactorTreeNode, EllipseItem>();
-				}
+        private void CalculateFactorTree()
+        {
+            if (this.m_FactorTree != null)
+            {
+                if (m_EllipseItems == null)
+                {
+                    m_EllipseItems = new Dictionary<GmpFactorTreeNode, EllipseItem>();
+                }
 
+                GmpFactorTreeNode root = FactorTree.Root;
 
+                double y = ItemSize / 2;
+                double xRoot = 80;
 
-				GmpFactorTreeNode root = FactorTree.Root;
+                EllipseItem item;
+                if (m_EllipseItems.ContainsKey(root))
+                    item = m_EllipseItems[root];
+                else
+                    item = CreateEllipseItem(root, root.Value, ItemSize, ItemSize, xRoot, y);
+                item.IsRoot = true;
+                EllipseItem parent = item;
+                item.IsPrime = root.IsPrime;
+                GmpFactorTreeNode node = root.LeftChild;
+                double xleft = 10;
+                double xright = 100;
+                bool even = true;
 
-				double y = ItemSize / 2;
-				double xRoot = 80;
+                while (node != null)
+                {
+                    EllipseItem i = null;
+                    if (m_EllipseItems.ContainsKey(node))
+                        i = m_EllipseItems[node];
+                    else
+                        i = new EllipseItem(node);
 
-				EllipseItem item;
-				if (m_EllipseItems.ContainsKey(root))
-					item = m_EllipseItems[root];
-				else
-					item = CreateEllipseItem(root, root.Value, ItemSize, ItemSize, xRoot, y);
-				item.IsRoot = true;
-				EllipseItem parent = item;
-				item.IsPrime = root.IsPrime;
-				GmpFactorTreeNode node = root.LeftChild;
-				double xleft = 10;
-				double xright = 100;
-				bool even = true;
-				while (node != null)
-				{
-					EllipseItem i = null;
-					if (m_EllipseItems.ContainsKey(node))
-						i = m_EllipseItems[node];
-					else
-						i = new EllipseItem(node);
+                    i.Parent = parent;
+                    i.Allign = EllipseAllign.Right;
+                    double xItem = xright;
+                    if (even)
+                    {
+                        i.Allign = EllipseAllign.Left;
+                        xItem = xleft;
+                        y += ItemSize + item.Height / 2;
+                    }
+                    else
+                    {
+                        //y += ItemSize/2;
+                    }
+                    i.Value = node.Value;
+                    i.Height = ItemSize;
+                    i.Width = ItemSize;
+                    i.X = xItem;
+                    i.Y = y;
+                    i.IsPrime = node.IsPrime;
 
-					i.Parent = parent;
-					i.Allign = EllipseAllign.Right;
-					double xItem = xright;
-					if (even)
-					{
-						i.Allign = EllipseAllign.Left;
-						xItem = xleft;
-						y += ItemSize + item.Height / 2;
-					}
-					else
-					{
-						//y += ItemSize/2;
+                    if (!m_EllipseItems.ContainsKey(node))
+                    {
+                        m_EllipseItems.Add(node, i);
+                    }
+                    even = !even;
+                    xright += 10;
+                    xleft += 10;
 
-					}
-					i.Value = node.Value;
-					i.Height = ItemSize;
-					i.Width = ItemSize;
-					i.X = xItem;
-					i.Y = y;
-					i.IsPrime = node.IsPrime;
+                    if (node.RightSibling != null)
+                    {
+                        i.IsPrime = true;
+                        node = node.RightSibling;
+                        continue;
+                    }
 
-					if (!m_EllipseItems.ContainsKey(node))
-					{
-						m_EllipseItems.Add(node, i);
-					}
-					even = !even;
-					xright += 10;
-					xleft += 10;
+                    parent = i;
+                    node = node.LeftChild;
+                }
+                if (!m_EllipseItems.ContainsKey(root))
+                {
+                    m_EllipseItems.Add(root, item);
+                }
+            }
+        }
 
-					if (node.RightSibling != null)
-					{
-						i.IsPrime = true;
-						node = node.RightSibling;
-						continue;
-					}
+        private EllipseItem CreateEllipseItem(GmpFactorTreeNode node, object value, double width, double height, double x, double y)
+        {
+            EllipseItem result = new EllipseItem(node);
+            result.Value = value;
+            result.Width = width;
+            result.Height = height;
+            result.Y = y;
+            result.X = x;
+            return result;
+        }
 
-					parent = i;
-					node = node.LeftChild;
-				}
-				if (!m_EllipseItems.ContainsKey(root))
-				{
-					m_EllipseItems.Add(root, item);
-				}
-			}
-		}
-
-		private EllipseItem CreateEllipseItem(GmpFactorTreeNode node, object value, double width, double height, double x, double y)
-		{
-			EllipseItem result = new EllipseItem(node);
-			result.Value = value;
-			result.Width = width;
-			result.Height = height;
-			result.Y = y;
-			result.X = x;
-			return result;
-		}
-
-		public void Clear()
-		{
-			if(m_EllipseItems!=null)
-				m_EllipseItems.Clear();
-			if(m_FactorTree!=null)
-				m_FactorTree.Clear();
-		}
-	}
+        public void Clear()
+        {
+            if (m_EllipseItems != null)
+                m_EllipseItems.Clear();
+            if (m_FactorTree != null)
+                m_FactorTree.Clear();
+        }
+    }
 }

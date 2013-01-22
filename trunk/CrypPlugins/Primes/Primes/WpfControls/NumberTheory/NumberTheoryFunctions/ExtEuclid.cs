@@ -57,7 +57,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
                         string sa = a.ToString(); if (a < 0) sa = "(" + sa + ")";
                         string sb = b.ToString(); if (b < 0) sb = "(" + sb + ")";
                         if (b < 0) b = -b;
-                        msg = String.Format("{0}*{1} + {2}*{3} = {4}", sa, x, sb, second, gcd );
+                        msg = String.Format("{0}*{1} + {2}*{3} = {4}", sa, x, sb, second, gcd);
                     }
                     catch (Exception ex)
                     {

@@ -29,61 +29,63 @@ using System.Windows.Shapes;
 
 namespace Primes.Options
 {
-  /// <summary>
-  /// Interaction logic for OptionsWindow.xaml
-  /// </summary>
-  public partial class OptionsWindow : Window
-  {
-    private static OptionsWindow m_OptionsWindow;
-    private static bool m_CanClose;
+    /// <summary>
+    /// Interaction logic for OptionsWindow.xaml
+    /// </summary>
+    public partial class OptionsWindow : Window
+    {
+        private static OptionsWindow m_OptionsWindow;
+        private static bool m_CanClose;
 
-    public bool CanClose
-    {
-      get { return m_CanClose; }
-      set { m_CanClose = value; }
-    }
-    private OptionsWindow()
-    {
-      InitializeComponent();
-    }
+        public bool CanClose
+        {
+            get { return m_CanClose; }
+            set { m_CanClose = value; }
+        }
 
-    public static void ShowOptionsDialog()
-    {
-      m_OptionsWindow = null;
-      m_OptionsWindow = new OptionsWindow();
-      m_CanClose = false;
-      m_OptionsWindow.ShowDialog();
-    }
+        private OptionsWindow()
+        {
+            InitializeComponent();
+        }
 
-    public static void ForceClosing()
-    {
-      if (m_OptionsWindow != null)
-      {
-        m_OptionsWindow.CanClose = true;
-        m_OptionsWindow.Close();
-      }
-    }
-    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-    {
-      //if (!CanClose) e.Cancel = true;
-      base.OnClosing(e);
-    }
+        public static void ShowOptionsDialog()
+        {
+            m_OptionsWindow = null;
+            m_OptionsWindow = new OptionsWindow();
+            m_CanClose = false;
+            m_OptionsWindow.ShowDialog();
+        }
 
-    private void btn_Click(object sender, RoutedEventArgs e)
-    {
-      if (sender == btnOk)
-      {
+        public static void ForceClosing()
+        {
+            if (m_OptionsWindow != null)
+            {
+                m_OptionsWindow.CanClose = true;
+                m_OptionsWindow.Close();
+            }
+        }
 
-        CanClose = options.Save();
-      }
-      else if (sender == btnCancel)
-      {
-        CanClose = true;
-      }
-      else if (sender == btnSave)
-      {
-      }
-      Close();
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            //if (!CanClose) e.Cancel = true;
+            base.OnClosing(e);
+        }
+
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == btnOk)
+            {
+                CanClose = options.Save();
+            }
+            else if (sender == btnCancel)
+            {
+                CanClose = true;
+            }
+            else if (sender == btnSave)
+            {
+            }
+
+            Close();
+        }
     }
-  }
 }

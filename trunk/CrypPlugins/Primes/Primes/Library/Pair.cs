@@ -16,6 +16,7 @@ namespace Primes.Library
         public override bool Equals(object obj)
         {
             bool result = false;
+
             if (obj != null && obj.GetType() == typeof(Pair<T, U>))
             {
                 result = (obj as Pair<T, U>).m_Member1.Equals(this.m_Member1) && (obj as Pair<T, U>).m_Member2.Equals(this.m_Member2);
@@ -26,8 +27,9 @@ namespace Primes.Library
 
         public override int GetHashCode()
         {
-            return (this.m_Member1.GetHashCode() + this.m_Member2.GetHashCode())%int.MaxValue;
+            return (this.m_Member1.GetHashCode() + this.m_Member2.GetHashCode()) % int.MaxValue;
         }
+
         private T m_Member1;
 
         public T Member1
@@ -35,6 +37,7 @@ namespace Primes.Library
             get { return m_Member1; }
             set { m_Member1 = value; }
         }
+
         private U m_Member2;
 
         public U Member2

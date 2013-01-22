@@ -24,71 +24,78 @@ using System.Windows.Media.Imaging;
 
 namespace Primes.WpfControls.Primegeneration.Function
 {
-  public class SecondDegreePolynomRange : IPolynomRange
-  {
-    #region constants
-    protected static readonly string A = "a";
-    protected static readonly string B = "b";
-    protected static readonly string C = "c";
-
-    #endregion
-    #region Properties
-    protected Range a;
-    protected Range b;
-    protected Range c;
-    protected IDictionary<string, RangePolynomFactor> m_list;
-    protected string m_StrImageUri;
-    #endregion
-
-    #region Initialization
-    public SecondDegreePolynomRange()
+    public class SecondDegreePolynomRange : IPolynomRange
     {
-      a = new Range(0,1);
-      b = new Range(0,2);
-      c = new Range(0,3);
-      m_list = new Dictionary<string, RangePolynomFactor>();
-      m_list.Add(A, new RangePolynomFactor(A, a));
-      m_list.Add(B, new RangePolynomFactor(B, b));
-      m_list.Add(C, new RangePolynomFactor(C, c));
-      m_StrImageUri = "pack://application:,,,/Primes;Component/Resources/icons/polynomdegree2.jpg";
+        #region constants
 
-    }
-    #endregion
-    #region IFormular<RangePolynomFactor> Members
+        protected static readonly string A = "a";
+        protected static readonly string B = "b";
+        protected static readonly string C = "c";
 
-    private System.Windows.Controls.Image m_Image;
-    public System.Windows.Controls.Image Image
-    {
-      get 
-      {
-        if (m_Image == null)
+        #endregion
+
+        #region Properties
+
+        protected Range a;
+        protected Range b;
+        protected Range c;
+        protected IDictionary<string, RangePolynomFactor> m_list;
+        protected string m_StrImageUri;
+
+        #endregion
+
+        #region Initialization
+
+        public SecondDegreePolynomRange()
         {
-          BitmapImage bmpi = new BitmapImage(new Uri(m_StrImageUri));
-          m_Image = new System.Windows.Controls.Image();
-          m_Image.Source = bmpi;
-          m_Image.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-          m_Image.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-          
+            a = new Range(0, 1);
+            b = new Range(0, 2);
+            c = new Range(0, 3);
+            m_list = new Dictionary<string, RangePolynomFactor>();
+            m_list.Add(A, new RangePolynomFactor(A, a));
+            m_list.Add(B, new RangePolynomFactor(B, b));
+            m_list.Add(C, new RangePolynomFactor(C, c));
+            m_StrImageUri = "pack://application:,,,/Primes;Component/Resources/icons/polynomdegree2.jpg";
         }
-        return m_Image;
-      }
-    }
 
-    public ICollection<RangePolynomFactor> Factors
-    {
-      get { throw new NotImplementedException(); }
-    }
+        #endregion
 
-    public string Name
-    {
-      get { throw new NotImplementedException(); }
-    }
+        #region IFormular<RangePolynomFactor> Members
 
-    public PrimesBigInteger Execute(PrimesBigInteger input)
-    {
-      throw new NotImplementedException();
-    }
-    #endregion
+        private System.Windows.Controls.Image m_Image;
 
-  }
+        public System.Windows.Controls.Image Image
+        {
+            get
+            {
+                if (m_Image == null)
+                {
+                    BitmapImage bmpi = new BitmapImage(new Uri(m_StrImageUri));
+                    m_Image = new System.Windows.Controls.Image();
+                    m_Image.Source = bmpi;
+                    m_Image.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+                    m_Image.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                }
+
+                return m_Image;
+            }
+        }
+
+        public ICollection<RangePolynomFactor> Factors
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public PrimesBigInteger Execute(PrimesBigInteger input)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
 }

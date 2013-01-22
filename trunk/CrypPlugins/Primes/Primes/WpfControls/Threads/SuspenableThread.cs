@@ -20,244 +20,160 @@ using System.Text;
 
 namespace Primes.WpfControls.Threads
 {
-  using System.Threading;
+    using System.Threading;
 
-  public abstract class SuspendableThread
-  {
-
-    #region Data
-
-    private ManualResetEvent suspendChangedEvent = new ManualResetEvent(false);
-
-    private ManualResetEvent terminateEvent = new ManualResetEvent(false);
-
-    private long suspended;
-
-    private Thread thread;
-
-    protected ThreadPriority m_Priority;
-    public Thread Thread
+    public abstract class SuspendableThread
     {
-      get { return thread; }
-      set { thread = value; }
-    }
+        #region Data
 
-    private System.Threading.ThreadState failsafeThreadState = System.Threading.ThreadState.Unstarted;
+        private ManualResetEvent suspendChangedEvent = new ManualResetEvent(false);
 
-    #endregion Data
+        private ManualResetEvent terminateEvent = new ManualResetEvent(false);
 
+        private long suspended;
 
+        private Thread thread;
 
-    public SuspendableThread()
-    {
-      m_Priority = ThreadPriority.Normal;
-    }
+        protected ThreadPriority m_Priority;
 
-
-
-    private void ThreadEntry()
-    {
-
-      failsafeThreadState = System.Threading.ThreadState.Stopped;
-      OnDoWork();
-
-    }
-
-
-
-    protected abstract void OnDoWork();
-
-
-
-    #region Protected methods
-
-    protected Boolean SuspendIfNeeded()
-    {
-
-      Boolean suspendEventChanged = suspendChangedEvent.WaitOne(0, true);
-
-      if (suspendEventChanged)
-      {
-
-        Boolean needToSuspend = Interlocked.Read(ref suspended) != 0;
-
-        suspendChangedEvent.Reset();
-
-        if (needToSuspend)
+        public Thread Thread
         {
+            get { return thread; }
+            set { thread = value; }
+        }
 
-          /// Suspending...
+        private System.Threading.ThreadState failsafeThreadState = System.Threading.ThreadState.Unstarted;
 
-          if (1 == WaitHandle.WaitAny(new WaitHandle[] { suspendChangedEvent, terminateEvent }))
-          {
+        #endregion Data
+
+        public SuspendableThread()
+        {
+            m_Priority = ThreadPriority.Normal;
+        }
+
+        private void ThreadEntry()
+        {
+            failsafeThreadState = System.Threading.ThreadState.Stopped;
+            OnDoWork();
+        }
+
+        protected abstract void OnDoWork();
+
+        #region Protected methods
+
+        protected Boolean SuspendIfNeeded()
+        {
+            Boolean suspendEventChanged = suspendChangedEvent.WaitOne(0, true);
+
+            if (suspendEventChanged)
+            {
+                Boolean needToSuspend = Interlocked.Read(ref suspended) != 0;
+
+                suspendChangedEvent.Reset();
+
+                if (needToSuspend)
+                {
+                    /// Suspending...
+
+                    if (1 == WaitHandle.WaitAny(new WaitHandle[] { suspendChangedEvent, terminateEvent }))
+                    {
+                        return true;
+                    }
+
+                    /// ...Waking
+                }
+            }
+
+            return false;
+        }
+
+        protected bool HasTerminateRequest()
+        {
+            return terminateEvent.WaitOne(0, true);
+        }
+
+        #endregion Protected methods
+
+        public void Start()
+        {
+            thread = new Thread(new ThreadStart(ThreadEntry));
+            thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
+            thread.Priority = m_Priority;
+
+            // make sure this thread won't be automaticaly
+            // terminated by the runtime when the
+            // application exits
+
+            thread.IsBackground = false;
+
+            thread.Start();
+        }
+
+        public void Join()
+        {
+            if (thread != null)
+                thread.Join();
+        }
+
+        public Boolean Join(Int32 milliseconds)
+        {
+            if (thread != null)
+                return thread.Join(milliseconds);
 
             return true;
-
-          }
-
-          /// ...Waking
-
         }
 
-      }
+        /// <remarks>Not supported in .NET Compact Framework</remarks>
 
-      return false;
-
-    }
-
-
-
-    protected bool HasTerminateRequest()
-    {
-
-      return terminateEvent.WaitOne(0, true);
-
-    }
-
-    #endregion Protected methods
-
-
-
-    public void Start()
-    {
-
-      thread = new Thread(new ThreadStart(ThreadEntry));
-      thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
-      thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
-      thread.Priority = m_Priority;
-
-
-      // make sure this thread won't be automaticaly
-
-      // terminated by the runtime when the
-
-      // application exits
-
-      thread.IsBackground = false;
-
-
-
-      thread.Start();
-
-    }
-
-
-
-    public void Join()
-    {
-
-      if (thread != null)
-      {
-
-        thread.Join();
-
-      }
-
-    }
-
-
-
-    public Boolean Join(Int32 milliseconds)
-    {
-
-      if (thread != null)
-      {
-
-        return thread.Join(milliseconds);
-
-      }
-
-      return true;
-
-    }
-
-
-
-    /// <remarks>Not supported in .NET Compact Framework</remarks>
-
-    public Boolean Join(TimeSpan timeSpan)
-    {
-
-      if (thread != null)
-      {
-
-        return thread.Join(timeSpan);
-
-      }
-
-      return true;
-
-    }
-
-
-
-    public void Terminate()
-    {
-
-      terminateEvent.Set();
-      if(thread!=null)
-        thread.Abort();
-
-    }
-
-
-
-    public void TerminateAndWait()
-    {
-
-      terminateEvent.Set();
-
-      thread.Join();
-
-    }
-
-
-
-    public void Suspend()
-    {
-
-      while (1 != Interlocked.Exchange(ref suspended, 1))
-      {
-
-      }
-
-      suspendChangedEvent.Set();
-
-    }
-
-
-    public void Resume()
-    {
-
-      while (0 != Interlocked.Exchange(ref suspended, 0))
-      {
-
-      }
-
-      suspendChangedEvent.Set();
-
-    }
-
-
-
-    public System.Threading.ThreadState ThreadState
-    {
-
-      get
-      {
-
-        if (null != thread)
+        public Boolean Join(TimeSpan timeSpan)
         {
+            if (thread != null)
+                return thread.Join(timeSpan);
 
-          return thread.ThreadState;
-
+            return true;
         }
 
-        return failsafeThreadState;
+        public void Terminate()
+        {
+            terminateEvent.Set();
+            if (thread != null)
+                thread.Abort();
+        }
 
-      }
+        public void TerminateAndWait()
+        {
+            terminateEvent.Set();
+            thread.Join();
+        }
 
+        public void Suspend()
+        {
+            while (1 != Interlocked.Exchange(ref suspended, 1))
+            {
+            }
+
+            suspendChangedEvent.Set();
+        }
+
+        public void Resume()
+        {
+            while (0 != Interlocked.Exchange(ref suspended, 0))
+            {
+            }
+
+            suspendChangedEvent.Set();
+        }
+
+        public System.Threading.ThreadState ThreadState
+        {
+            get
+            {
+                if (null != thread)
+                    return thread.ThreadState;
+
+                return failsafeThreadState;
+            }
+        }
     }
-
-  }
 }

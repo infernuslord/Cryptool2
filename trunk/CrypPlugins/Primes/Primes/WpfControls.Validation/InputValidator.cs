@@ -21,29 +21,30 @@ using Primes.OnlineHelp;
 
 namespace Primes.WpfControls.Validation
 {
-  public class InputValidator<T>
-  {
-    private IValidator<T> m_Validator;
-
-    public IValidator<T> Validator
+    public class InputValidator<T>
     {
-      get { return m_Validator; }
-      set { m_Validator = value; }
-    }
-    private OnlineHelpActions m_LinkOnlinehelp;
+        private IValidator<T> m_Validator;
 
-    public OnlineHelpActions LinkOnlinehelp
-    {
-      get { return m_LinkOnlinehelp; }
-      set { m_LinkOnlinehelp = value; }
-    }
+        public IValidator<T> Validator
+        {
+            get { return m_Validator; }
+            set { m_Validator = value; }
+        }
 
-    private string m_DefaultValue;
+        private OnlineHelpActions m_LinkOnlinehelp;
 
-    public string DefaultValue
-    {
-      get { return m_DefaultValue; }
-      set { m_DefaultValue = value; }
+        public OnlineHelpActions LinkOnlinehelp
+        {
+            get { return m_LinkOnlinehelp; }
+            set { m_LinkOnlinehelp = value; }
+        }
+
+        private string m_DefaultValue;
+
+        public string DefaultValue
+        {
+            get { return m_DefaultValue; }
+            set { m_DefaultValue = value; }
+        }
     }
-  }
 }

@@ -21,10 +21,10 @@ using Primes.Bignum;
 
 namespace Primes.WpfControls.Components
 {
-  public interface IExpression
-  {
-    PrimesBigInteger Execute(PrimesBigInteger input);
-    void SetParameter(string name, PrimesBigInteger value);
-    void Reset();
-  }
+    public interface IExpression
+    {
+        PrimesBigInteger Execute(PrimesBigInteger input);
+        void SetParameter(string name, PrimesBigInteger value);
+        void Reset();
+    }
 }

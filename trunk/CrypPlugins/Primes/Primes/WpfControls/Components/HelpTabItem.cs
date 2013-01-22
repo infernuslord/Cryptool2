@@ -23,14 +23,14 @@ using System.Windows;
 
 namespace Primes.WpfControls.Components
 {
-  public class HelpTabItem: TabItem
+    public class HelpTabItem : TabItem
     {
-    static HelpTabItem()
+        static HelpTabItem()
         {
             //This OverrideMetadata call tells the system that this element wants to provide a style that is different than its base class.
             //This style is defined in themes\generic.xaml
-          DefaultStyleKeyProperty.OverrideMetadata(typeof(HelpTabItem),
-                new FrameworkPropertyMetadata(typeof(HelpTabItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(HelpTabItem),
+                  new FrameworkPropertyMetadata(typeof(HelpTabItem)));
         }
 
         public static readonly RoutedEvent HelpButtonClickEvent =
@@ -49,14 +49,13 @@ namespace Primes.WpfControls.Components
 
             Image helpButton = base.GetTemplateChild("PART_Close") as Image;
             if (helpButton != null)
-              helpButton.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(helpButton_MouseLeftButtonDown);
+                helpButton.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(helpButton_MouseLeftButtonDown);
         }
 
         void helpButton_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-          this.RaiseEvent(new RoutedEventArgs(HelpButtonClickEvent, this));
-          e.Handled = true;
+            this.RaiseEvent(new RoutedEventArgs(HelpButtonClickEvent, this));
+            e.Handled = true;
         }
-
-  }
+    }
 }

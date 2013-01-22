@@ -20,8 +20,8 @@ using System.Text;
 
 namespace Primes.Library.FactorTree.Exceptions
 {
-  public class TrialDivisionException:Exception
-  {
-    public TrialDivisionException() : base() { }
-  }
+    public class TrialDivisionException : Exception
+    {
+        public TrialDivisionException() : base() { }
+    }
 }

@@ -67,7 +67,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_Initialized = true;
             m_StepWiseEvent = new ManualResetEvent(false);
             log.RowMouseOver += new ExecuteIntegerDelegate(log_RowMouseOver);
-
         }
 
         void log_RowMouseOver(PrimesBigInteger value)
@@ -90,7 +89,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 }
                 pl.Stroke = Brushes.Red;
             }
-
         }
 
         private void ConfigureIntegerInputs()
@@ -102,7 +100,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             iscBase.AddInputValidator(
               Primes.WpfControls.Components.InputSingleControl.Free,
               ivBase);
-
 
             iscExp.Execute += new ExecuteSingleDelegate(iscExp_Execute);
             iscExp.SetText(InputSingleControl.Free, "28");
@@ -127,7 +124,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             this.Exp = PrimesBigInteger.ValueOf(28);
             this.Base = PrimesBigInteger.ValueOf(2);
             this.Mod = PrimesBigInteger.ValueOf(13);
-
         }
 
         void iscMod_KeyDown(PrimesBigInteger value)
@@ -135,8 +131,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             if (value != null)
                 this.Mod = value;
         }
-
-
 
         void iscMod_Execute(PrimesBigInteger value)
         {
@@ -162,7 +156,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         }
 
         #endregion
+
         #region Properties
+
         private object m_RunningLockObject;
         private bool m_Running;
         private IDictionary<int, Point> m_Points;
@@ -184,6 +180,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             get { return m_Base; }
             set { m_Base = value; }
         }
+
         private PrimesBigInteger m_Exp;
 
         public PrimesBigInteger Exp
@@ -191,6 +188,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             get { return m_Exp; }
             set { m_Exp = value; }
         }
+
         private PrimesBigInteger m_Mod;
 
         public PrimesBigInteger Mod
@@ -217,7 +215,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 }
             }
         }
+
         #endregion
+
         #region painting the points
 
         private void Reset()
@@ -234,8 +234,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             ControlHandler.ClearChildren(PaintArea);
             ControlHandler.ClearChildren(ArrowArea);
             ControlHandler.ClearChildren(LabelArea);
-
         }
+
         private void CreatePoint(int value)
         {
             double pointsize = 6.0;
@@ -243,11 +243,12 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             double top = Radius + 25 + (Math.Sin((angle * 2 * Math.PI * ((!m_SortAsc) ? -1 : 1)) / 360.0) * Radius - (pointsize / 2.0));
             double left = Radius + 25 + (Math.Cos((angle * 2 * Math.PI * ((!m_SortAsc) ? -1 : 1)) / 360.0) * Radius - (pointsize / 2.0));
             Ellipse point = null;
+
             if (m_Points.ContainsKey(value))
             {
                 point = GetEllipseAt(m_Points[value]);
-
             }
+
             if (point == null)
             {
                 point = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
@@ -260,6 +261,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 ControlHandler.SetPropertyValue(point, "StrokeThickness", 1.0);
                 ControlHandler.AddChild(point, PaintArea);
             }
+
             ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { point, top });
             ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { point, left });
 
@@ -294,15 +296,14 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             {
                 m_Points.Add(value, new Point(left, top));
             }
-
         }
 
         #endregion
 
         #region Painting the Ellipse
+
         private void Paint()
         {
-
             Ellipse el = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
             ControlHandler.SetPropertyValue(el, "Width", Aperture);
             ControlHandler.SetPropertyValue(el, "Height", Aperture);
@@ -333,6 +334,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         {
             get { return (2 * Math.PI * Aperture); }
         }
+
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
@@ -408,6 +410,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             UIElementCollection childs = ControlHandler.GetPropertyValue(PaintArea, "Children") as UIElementCollection;
             ControlHandler.ExecuteMethod(childs, "Clear");
         }
+
         private void ClearLabels()
         {
             UIElementCollection childs = ControlHandler.GetPropertyValue(LabelArea, "Children") as UIElementCollection;
@@ -424,12 +427,12 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_CirclesSource.Clear();
             m_ArrowsMark.Clear();
             m_CirclesMark.Clear();
-
         }
+
         #endregion
 
-
         #region Events
+
         private event VoidDelegate Start;
 
         private void FireStartEvent()
@@ -460,7 +463,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         void PowerModControl_Stop()
         {
             SetupStop();
-
         }
 
         void PowerModControl_Start()
@@ -487,7 +489,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             iscMod.LockControls();
             rbAutomatic.IsEnabled = false;
             rbStepwise.IsEnabled = false;
-
         }
 
         private void SetupStop()
@@ -510,8 +511,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             rbStepwise.IsEnabled = true;
         }
 
-
         #endregion
+
         #region Execute
 
         private void CancelThread()
@@ -535,7 +536,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_Mod = iscMod.GetValue();
             if (m_Base != null && m_Exp != null && m_Mod != null)
             {
-
                 m_Thread = new Thread(new ThreadStart(DoExecuteGraphic));
                 m_Thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
                 m_Thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -543,6 +543,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 //rteDoExecuteGraphic();
             }
         }
+
         //public void Execute(PrimesBigInteger value)
         //{
         //  tabItemGraphic.IsEnabled = true;
@@ -564,9 +565,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //  }
         //}
 
-
-
         private bool m_SortAsc = true;
+
         private void CreatePoints()
         {
             //ClearArrows();
@@ -576,14 +576,13 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             {
                 CreatePoint(i);
             }
-
         }
 
         private void btnExecute_Click(object sender, RoutedEventArgs e)
         {
             StartThread();
         }
-        
+
         private ManualResetEvent m_StepWiseEvent;
 
         private void WaitStepWise()
@@ -598,19 +597,23 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         private void DoExecuteGraphic()
         {
             FireStartEvent();
+
             ClearArrows();
             m_SourceDestination.Clear();
             log.Clear();
+
             lock (m_RunningLockObject)
             {
                 m_Running = true;
             }
+
             Point lastPoint = new Point(-1, -1);
             Ellipse lastEllipse = null;
             PrimesBigInteger i = PrimesBigInteger.One;
             PrimesBigInteger result = null;
             PrimesBigInteger tmp = m_Base.Mod(m_Mod);
             Ellipse e = this.GetEllipseAt(m_Points[tmp.IntValue]);
+
             if (e != null)
             {
                 ControlHandler.SetPropertyValue(e, "Fill", Brushes.Red);
@@ -654,6 +657,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             {
                 m_Running = false;
             }
+
             FireStopEvent();
         }
 
@@ -661,6 +665,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         {
             return (Ellipse)ControlHandler.ExecuteMethod(this, "_GetEllipseAt", new object[] { p });
         }
+
         public Ellipse _GetEllipseAt(Point p)
         {
             foreach (UIElement e in PaintArea.Children)
@@ -670,11 +675,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                     if (Canvas.GetTop(e) == p.Y && Canvas.GetLeft(e) == p.X) return e as Ellipse;
                 }
             }
+
             return null;
         }
-
-
-
 
         //private void CreateArrow(PrimesBigInteger counter, Point from, Point to)
         //{
@@ -711,15 +714,12 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //        {
         //            ResetLine(counter, l);
         //        }
-
         //    }
-
         //}
 
         private void CreateArrow(PrimesBigInteger counter, Ellipse from, Ellipse to)
         {
-            
-            if (from==to)
+            if (from == to)
             {
                 AddCircle(counter, from);
             }
@@ -728,12 +728,12 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 ArrowLine l = ControlHandler.CreateObject(typeof(ArrowLine)) as ArrowLine;
                 ControlHandler.SetPropertyValue(l, "Stroke", Brushes.Black);
                 ControlHandler.SetPropertyValue(l, "StrokeThickness", 1.5);
-                ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.X1Property, new Binding("(Canvas.Left)") { Source = from  }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
+                ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.X1Property, new Binding("(Canvas.Left)") { Source = from }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.Y1Property, new Binding("(Canvas.Top)") { Source = from }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.X2Property, new Binding("(Canvas.Left)") { Source = to }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.Y2Property, new Binding("(Canvas.Top)") { Source = to }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
 
-                Pair<Ellipse, Ellipse> pair = new Pair<Ellipse,Ellipse>(from, to);
+                Pair<Ellipse, Ellipse> pair = new Pair<Ellipse, Ellipse>(from, to);
                 if (!m_SourceDestination.Contains(pair))
                 {
                     m_SourceDestination.Add(pair);
@@ -747,9 +747,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                     l = m_ArrowsWithSourceAndDestination[pair];
                     ResetLine(counter, l);
                 }
-
             }
-
         }
 
         //class myc : IValueConverter
@@ -873,12 +871,10 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             double y = (double)ControlHandler.ExecuteMethod(PaintArea, "GetTop", source);
             ControlHandler.ExecuteMethod(ArrowArea, "SetLeft", new object[] { pl, x });
             ControlHandler.ExecuteMethod(ArrowArea, "SetTop", new object[] { pl, y });
-
         }
 
         private void ResetCircle(PrimesBigInteger counter, Polyline p)
         {
-
             if (p != null)
             {
                 m_CirclesMark.Add(counter, p);
@@ -920,6 +916,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         //{
         //    return GetCircle(x, y) != null;
         //}
+		  //
+
         #endregion
 
         private ExecutionMethod _ExecutionMethod
@@ -930,6 +928,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 return (ischecked.Value) ? ExecutionMethod.auto : ExecutionMethod.stepwise;
             }
         }
+
         private enum ExecutionMethod { auto, stepwise }
 
         private void btnNextStep_Click(object sender, RoutedEventArgs e)
@@ -937,13 +936,11 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_StepWiseEvent.Set();
         }
 
-
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             FireCancelEvent();
             CancelThread();
         }
-
 
         public void CleanUp()
         {
@@ -956,7 +953,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             m_StepWiseEvent.Set();
             ControlHandler.SetPropertyValue(btnNextStep, "IsEnabled", false);
             ControlHandler.SetPropertyValue(btnResumeAutomatic, "IsEnabled", false);
-
         }
 
         private void ContentArea_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -966,10 +962,11 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         }
 
         bool rotate = false;
+
         private void PaintArea_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             Debug.WriteLine(e.Source.ToString());
-            if (e.Source != null && e.Source==PaintArea)
+            if (e.Source != null && e.Source == PaintArea)
             {
                 rotate = true;
             }
@@ -994,8 +991,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 rotate = false;
                 diff = 0;
             }
-
         }
+
         private void ArrowArea_PreviewDragOver(object sender, DragEventArgs e)
         {
         }
@@ -1003,6 +1000,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         object m_lockobject = new object();
         int diff = 0;
         private Point previous = new Point(-10000, -10000);
+
         private void ArrowArea_MouseMove(object sender, MouseEventArgs e)
         {
             lock (m_lockobject)
@@ -1023,7 +1021,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                         diffx = previous.X - actual.X;
                         diffy = centerY - previous.Y;
                         previous = actual;
-
                     }
                     Point currentPosition = e.GetPosition(CircleArea);
                     double diffXp = Math.Abs(((centerX - currentPosition.X)) / 120);
@@ -1037,7 +1034,5 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 }
             }
         }
-
-
     }
 }

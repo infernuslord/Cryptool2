@@ -21,116 +21,122 @@ using Primes.Library.FactorTree;
 
 namespace Primes.WpfControls.ShapeManagement.Ellipse
 {
-  public enum EllipseAllign { Left, Right }
-  public class EllipseItem
-  {
+    public enum EllipseAllign { Left, Right }
 
-    public EllipseItem(GmpFactorTreeNode id)
+    public class EllipseItem
     {
-      ID = id;
+        public EllipseItem(GmpFactorTreeNode id)
+        {
+            ID = id;
+        }
+
+        #region Properties
+
+        private EllipseItem m_Parent;
+
+        public EllipseItem Parent
+        {
+            get { return m_Parent; }
+            set { m_Parent = value; }
+        }
+
+        private GmpFactorTreeNode m_ID;
+
+        public GmpFactorTreeNode ID
+        {
+            get { return m_ID; }
+            set { m_ID = value; }
+        }
+
+        private object m_Value;
+
+        public object Value
+        {
+            get { return m_Value; }
+            set { m_Value = value; }
+        }
+
+        private object m_Description;
+
+        public object Description
+        {
+            get { return m_Description; }
+            set { m_Description = value; }
+        }
+
+        private double m_X;
+
+        public double X
+        {
+            get { return m_X; }
+            set { m_X = value; }
+        }
+
+        private double m_Y;
+
+        public double Y
+        {
+            get { return m_Y; }
+            set { m_Y = value; }
+        }
+
+        private double m_Width;
+
+        public double Width
+        {
+            get { return m_Width; }
+            set { m_Width = value; }
+        }
+
+        private double m_Height;
+
+        public double Height
+        {
+            get { return m_Height; }
+            set { m_Height = value; }
+        }
+
+        private bool m_IsPrime;
+
+        public bool IsPrime
+        {
+            get { return m_IsPrime; }
+            set { m_IsPrime = value; }
+        }
+
+        private bool m_IsRoot;
+
+        public bool IsRoot
+        {
+            get { return m_IsRoot; }
+            set { m_IsRoot = value; }
+        }
+
+        private EllipseAllign m_Allign;
+
+        public EllipseAllign Allign
+        {
+            get { return m_Allign; }
+            set { m_Allign = value; }
+        }
+
+        #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj.GetType() == typeof(EllipseItem))
+            {
+                return (obj as EllipseItem).m_ID == this.m_ID;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
-
-    #region Properties
-
-    private EllipseItem m_Parent;
-
-    public EllipseItem Parent
-    {
-      get { return m_Parent; }
-      set { m_Parent = value; }
-    }
-    private GmpFactorTreeNode m_ID;
-
-    public GmpFactorTreeNode ID
-    {
-      get { return m_ID; }
-      set { m_ID = value; }
-    }
-    private object m_Value;
-
-    public object Value
-    {
-      get { return m_Value; }
-      set { m_Value = value; }
-    }
-    private object m_Description;
-
-    public object Description
-    {
-      get { return m_Description; }
-      set { m_Description = value; }
-    }
-
-    private double m_X;
-
-    public double X
-    {
-      get { return m_X; }
-      set { m_X = value; }
-    }
-    private double m_Y;
-
-    public double Y
-    {
-      get { return m_Y; }
-      set { m_Y = value; }
-    }
-
-    private double m_Width;
-    public double Width
-    {
-      get { return m_Width; }
-      set { m_Width = value; }
-    }
-
-    private double m_Height;
-    public double Height
-    {
-      get { return m_Height; }
-      set { m_Height = value; }
-    }
-
-
-    private bool m_IsPrime;
-
-    public bool IsPrime
-    {
-      get { return m_IsPrime; }
-      set { m_IsPrime = value; }
-    }
-
-    private bool m_IsRoot;
-
-    public bool IsRoot
-    {
-      get { return m_IsRoot; }
-      set { m_IsRoot = value; }
-    }
-
-    private EllipseAllign m_Allign;
-
-    public EllipseAllign Allign
-    {
-      get { return m_Allign; }
-      set { m_Allign = value; }
-    }
-
-    #endregion
-
-    public override bool Equals(object obj)
-    {
-      if (obj != null && obj.GetType() == typeof(EllipseItem))
-      {
-        return (obj as EllipseItem).m_ID == this.m_ID;
-      }
-      else
-      {
-        return base.Equals(obj);
-      }
-    }
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
-  }
 }

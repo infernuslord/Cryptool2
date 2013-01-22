@@ -24,22 +24,22 @@ using Primes.Library;
 
 namespace Primes.WpfControls
 {
-  public interface IPrimeVisualization
-  {
-    event VoidDelegate Start;
+    public interface IPrimeVisualization
+    {
+        event VoidDelegate Start;
 
-    event VoidDelegate Stop;
+        event VoidDelegate Stop;
 
-    event VoidDelegate Cancel;
+        event VoidDelegate Cancel;
 
-    event CallbackDelegateGetInteger ForceGetInteger;
+        event CallbackDelegateGetInteger ForceGetInteger;
 
-    event CallbackDelegateGetInteger ForceGetIntegerInterval;
+        event CallbackDelegateGetInteger ForceGetIntegerInterval;
 
-    void Execute(PrimesBigInteger value);
+        void Execute(PrimesBigInteger value);
 
-    void CancelExecute();
+        void CancelExecute();
 
-    void Execute(PrimesBigInteger from, PrimesBigInteger to);
-  }
+        void Execute(PrimesBigInteger from, PrimesBigInteger to);
+    }
 }

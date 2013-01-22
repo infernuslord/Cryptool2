@@ -38,150 +38,157 @@ using Primes.Library;
 
 namespace Primes.WpfControls.Primegeneration
 {
-  /// <summary>
-  /// Interaction logic for InputControlNTimesM.xaml
-  /// </summary>
-  internal delegate void Execute_N_Digits_Delegate(PrimesBigInteger n, PrimesBigInteger digits);
+    /// <summary>
+    /// Interaction logic for InputControlNTimesM.xaml
+    /// </summary>
+    internal delegate void Execute_N_Digits_Delegate(PrimesBigInteger n, PrimesBigInteger digits);
 
-  public partial class InputControlNTimesM : UserControl
-  {
-    #region Events
-    internal event Execute_N_Digits_Delegate Execute;
-    internal event VoidDelegate Cancel;
-    #endregion
-
-    #region Properties
-    private PrimesBigInteger m_MaxDigits;
-    public PrimesBigInteger MaxDigits
+    public partial class InputControlNTimesM : UserControl
     {
-      get { return m_MaxDigits; }
-      set { m_MaxDigits = value; }
-    }
+        #region Events
 
-    #endregion
-    public InputControlNTimesM()
-    {
-      InitializeComponent();
-      m_MaxDigits = PrimesBigInteger.ValueOf(500);
-    }
+        internal event Execute_N_Digits_Delegate Execute;
+        internal event VoidDelegate Cancel;
 
-    
-    private void btnExec_Click(object sender, RoutedEventArgs e)
-    {
-      PrimesBigInteger n = GetPrimesCount();
-      PrimesBigInteger digits = GetDigits();
-      if (digits != null && n != null)
-      {
-        if (digits.CompareTo(m_MaxDigits) > 0)
+        #endregion
+
+        #region Properties
+
+        private PrimesBigInteger m_MaxDigits;
+
+        public PrimesBigInteger MaxDigits
         {
-          Info(string.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.ntimesm_errordigits, m_MaxDigits.ToString()), tbM);
+            get { return m_MaxDigits; }
+            set { m_MaxDigits = value; }
         }
-        else
+
+        #endregion
+
+        public InputControlNTimesM()
         {
-            if (Execute != null) Execute(n, digits);
-            //if (Execute != null) Execute(n, digits.Subtract(PrimesBigInteger.One));
+            InitializeComponent();
+            m_MaxDigits = PrimesBigInteger.ValueOf(500);
         }
-      }
-    }
 
-    private PrimesBigInteger GetPrimesCount()
-    {
-      PrimesBigInteger result = PrimesBigInteger.One;
-      try
-      {
-        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, PrimesBigInteger.ValueOf(1));
-        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbN, "1");
-        tbValidator.Validate(ref result);
-      }
-      catch (ControlValidationException cvex)
-      {
-        switch (cvex.ValidationResult)
+        private void btnExec_Click(object sender, RoutedEventArgs e)
         {
-          case Primes.WpfControls.Validation.ValidationResult.WARNING:
-            Info(cvex.Message, cvex.Control as TextBox);
-            break;
-          case Primes.WpfControls.Validation.ValidationResult.ERROR:
-            Error(cvex.Message, cvex.Control as TextBox);
-            break;
+            PrimesBigInteger n = GetPrimesCount();
+            PrimesBigInteger digits = GetDigits();
+            if (digits != null && n != null)
+            {
+                if (digits.CompareTo(m_MaxDigits) > 0)
+                {
+                    Info(string.Format(Primes.Resources.lang.WpfControls.Generation.PrimesGeneration.ntimesm_errordigits, m_MaxDigits.ToString()), tbM);
+                }
+                else
+                {
+                    if (Execute != null) Execute(n, digits);
+                    //if (Execute != null) Execute(n, digits.Subtract(PrimesBigInteger.One));
+                }
+            }
         }
-      }
-      return result;
-    }
 
-    private PrimesBigInteger GetDigits()
-    {
-      PrimesBigInteger result = PrimesBigInteger.One;
-      try
-      {
-        IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbM.Text,PrimesBigInteger.Two);
-        TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbM, "2");
-        tbValidator.Validate(ref result);
-      }
-      catch (ControlValidationException cvex)
-      {
-        switch (cvex.ValidationResult)
+        private PrimesBigInteger GetPrimesCount()
         {
-          case Primes.WpfControls.Validation.ValidationResult.WARNING:
-            Info(cvex.Message, cvex.Control as TextBox);
-            break;
-          case Primes.WpfControls.Validation.ValidationResult.ERROR:
-            Error(cvex.Message, cvex.Control as TextBox);
-            break;
+            PrimesBigInteger result = PrimesBigInteger.One;
+
+            try
+            {
+                IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbN.Text, PrimesBigInteger.ValueOf(1));
+                TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbN, "1");
+                tbValidator.Validate(ref result);
+            }
+            catch (ControlValidationException cvex)
+            {
+                switch (cvex.ValidationResult)
+                {
+                    case Primes.WpfControls.Validation.ValidationResult.WARNING:
+                        Info(cvex.Message, cvex.Control as TextBox);
+                        break;
+                    case Primes.WpfControls.Validation.ValidationResult.ERROR:
+                        Error(cvex.Message, cvex.Control as TextBox);
+                        break;
+                }
+            }
+
+            return result;
         }
-      }
-      return result;
-    }
 
-    private void Info(string message, TextBox tb)
-    {
-      if (!string.IsNullOrEmpty(message) && tb != null)
-      {
-        pnlInfo.Visibility = Visibility.Visible;
-        tbInfo.Foreground = Brushes.Blue;
-        tb.Background = Brushes.LightBlue;
-        tbInfo.Text = message;
-      }
-      else
-      {
-        pnlInfo.Visibility = Visibility.Collapsed;
-        tbInfo.Text = string.Empty;
-        tbInfo.Foreground = Brushes.Black;
-        tbInfo.Background = Brushes.White;
+        private PrimesBigInteger GetDigits()
+        {
+            PrimesBigInteger result = PrimesBigInteger.One;
 
-      }
-    }
+            try
+            {
+                IValidator<PrimesBigInteger> validator = new BigIntegerMinValueValidator(tbM.Text, PrimesBigInteger.Two);
+                TextBoxValidator<PrimesBigInteger> tbValidator = new TextBoxValidator<PrimesBigInteger>(validator, tbM, "2");
+                tbValidator.Validate(ref result);
+            }
+            catch (ControlValidationException cvex)
+            {
+                switch (cvex.ValidationResult)
+                {
+                    case Primes.WpfControls.Validation.ValidationResult.WARNING:
+                        Info(cvex.Message, cvex.Control as TextBox);
+                        break;
+                    case Primes.WpfControls.Validation.ValidationResult.ERROR:
+                        Error(cvex.Message, cvex.Control as TextBox);
+                        break;
+                }
+            }
 
-    private void Error(string message, TextBox tb)
-    {
-      if (!string.IsNullOrEmpty(message) && tb != null)
-      {
-        pnlInfo.Visibility = Visibility.Visible;
-        tbInfo.Foreground = Brushes.WhiteSmoke;
-        tb.Background = Brushes.Red;
-        tbInfo.Text = message;
-      }
-      else
-      {
-        pnlInfo.Visibility = Visibility.Collapsed;
-        tbInfo.Text = string.Empty;
-        tbInfo.Foreground = Brushes.Black;
-        tbInfo.Background = Brushes.White;
+            return result;
+        }
 
-      }
-    }
+        private void Info(string message, TextBox tb)
+        {
+            if (!string.IsNullOrEmpty(message) && tb != null)
+            {
+                pnlInfo.Visibility = Visibility.Visible;
+                tbInfo.Foreground = Brushes.Blue;
+                tb.Background = Brushes.LightBlue;
+                tbInfo.Text = message;
+            }
+            else
+            {
+                pnlInfo.Visibility = Visibility.Collapsed;
+                tbInfo.Text = string.Empty;
+                tbInfo.Foreground = Brushes.Black;
+                tbInfo.Background = Brushes.White;
+            }
+        }
 
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
-    {
-      if (Cancel != null) Cancel();
-    }
+        private void Error(string message, TextBox tb)
+        {
+            if (!string.IsNullOrEmpty(message) && tb != null)
+            {
+                pnlInfo.Visibility = Visibility.Visible;
+                tbInfo.Foreground = Brushes.WhiteSmoke;
+                tb.Background = Brushes.Red;
+                tbInfo.Text = message;
+            }
+            else
+            {
+                pnlInfo.Visibility = Visibility.Collapsed;
+                tbInfo.Text = string.Empty;
+                tbInfo.Foreground = Brushes.Black;
+                tbInfo.Background = Brushes.White;
+            }
+        }
 
-    public void SetButtonExecuteEnable(bool enabled)
-    {
-      ControlHandler.SetButtonEnabled(btnExec, enabled);
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Cancel != null) Cancel();
+        }
+
+        public void SetButtonExecuteEnable(bool enabled)
+        {
+            ControlHandler.SetButtonEnabled(btnExec, enabled);
+        }
+
+        public void SetButtonCancelEnable(bool enabled)
+        {
+            ControlHandler.SetButtonEnabled(btnCancel, enabled);
+        }
     }
-    public void SetButtonCancelEnable(bool enabled)
-    {
-      ControlHandler.SetButtonEnabled(btnCancel, enabled);
-    }
-  }
 }

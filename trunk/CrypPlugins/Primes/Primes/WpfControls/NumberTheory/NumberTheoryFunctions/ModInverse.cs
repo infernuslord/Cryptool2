@@ -52,7 +52,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
                         PrimesBigInteger result = from.ModInverse(modulus);
                         msg = result.ToString("D");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         msg = "-";
                     }

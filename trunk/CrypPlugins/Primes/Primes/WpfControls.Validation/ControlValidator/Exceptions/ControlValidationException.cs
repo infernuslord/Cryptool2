@@ -22,39 +22,41 @@ using Primes.OnlineHelp;
 
 namespace Primes.WpfControls.Validation.ControlValidator.Exceptions
 {
-  public class ControlValidationException:Exception
-  {
-    public ControlValidationException(string message, Control control, ValidationResult vr)
-      : base(message)
+    public class ControlValidationException : Exception
     {
-      this.m_ValidationResult = vr;
-      this.m_Control = control;
+        public ControlValidationException(string message, Control control, ValidationResult vr)
+            : base(message)
+        {
+            this.m_ValidationResult = vr;
+            this.m_Control = control;
+        }
+
+        #region Properties
+
+        private ValidationResult m_ValidationResult;
+
+        public ValidationResult ValidationResult
+        {
+            get { return m_ValidationResult; }
+            set { m_ValidationResult = value; }
+        }
+
+        private Control m_Control;
+
+        public Control Control
+        {
+            get { return m_Control; }
+            set { m_Control = value; }
+        }
+
+        private OnlineHelpActions m_HelpAction;
+
+        public OnlineHelpActions HelpAction
+        {
+            get { return m_HelpAction; }
+            set { m_HelpAction = value; }
+        }
+
+        #endregion
     }
-
-    #region Properties
-    private ValidationResult m_ValidationResult;
-
-    public ValidationResult ValidationResult
-    {
-      get { return m_ValidationResult; }
-      set { m_ValidationResult = value; }
-    }
-    private Control m_Control;
-
-    public Control Control
-    {
-      get { return m_Control; }
-      set { m_Control = value; }
-    }
-
-    private OnlineHelpActions m_HelpAction;
-
-    public  OnlineHelpActions HelpAction
-    {
-      get { return m_HelpAction; }
-      set { m_HelpAction = value; }
-    }
-    #endregion
-
-  }
 }

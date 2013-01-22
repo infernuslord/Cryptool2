@@ -20,13 +20,14 @@ using System.Text;
 
 namespace Primes.WpfControls.Validation.Exceptions
 {
-  public class ValidationException:Exception
-  {
-    private ValidationResult m_ValidationResult;
-    public ValidationException(string message, ValidationResult vr)
-      : base(message)
+    public class ValidationException : Exception
     {
-      this.m_ValidationResult = vr;
+        private ValidationResult m_ValidationResult;
+
+        public ValidationException(string message, ValidationResult vr)
+            : base(message)
+        {
+            this.m_ValidationResult = vr;
+        }
     }
-  }
 }

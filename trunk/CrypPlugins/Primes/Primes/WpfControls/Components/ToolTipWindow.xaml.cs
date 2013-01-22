@@ -28,39 +28,38 @@ using System.Windows.Shapes;
 
 namespace Primes.WpfControls.Components
 {
-  /// <summary>
-  /// Interaction logic for ToolTipWindow.xaml
-  /// </summary>
-  public partial class ToolTipWindow : Window
-  {
-    public ToolTipWindow()
+    /// <summary>
+    /// Interaction logic for ToolTipWindow.xaml
+    /// </summary>
+    public partial class ToolTipWindow : Window
     {
-      InitializeComponent();
-      lineSpacer.Width = this.Width;
-    }
+        public ToolTipWindow()
+        {
+            InitializeComponent();
+            lineSpacer.Width = this.Width;
+        }
 
+        public string ToolTipTitle
+        {
+            get { return lblTitle.Content as string; }
+            set { lblTitle.Content = value; }
+        }
 
-    public string ToolTipTitle
-    {
-      get { return lblTitle.Content as string; }
-      set { lblTitle.Content = value; }
-    }
+        public string ToolTipContent
+        {
+            get { return textBlockContent.Text; }
+            set { textBlockContent.Text = value; }
+        }
 
-    public string ToolTipContent
-    {
-      get { return textBlockContent.Text; }
-      set { textBlockContent.Text = value; }
-    }
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            this.Close();
+        }
 
-    protected override void OnMouseLeave(MouseEventArgs e)
-    {
-      this.Close();
-      
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            this.Close();
+        }
     }
-    protected override void OnMouseDown(MouseButtonEventArgs e)
-    {
-      base.OnMouseDown(e);
-      this.Close();
-    }
-  }
 }

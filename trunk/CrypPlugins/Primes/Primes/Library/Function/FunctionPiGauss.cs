@@ -21,79 +21,77 @@ using Primes.Library.Function;
 
 namespace Primes.Library.Function
 {
-  public class FunctionPiGauss : BaseFunction, IFunction
-  {
-
-
-    public FunctionPiGauss() : base() { }
-    #region IFunction Members
-
-    public double Execute(double input)
+    public class FunctionPiGauss : BaseFunction, IFunction
     {
-      if (input < 2) throw new ResultNotDefinedException();
-      double result = input / Math.Log(input);
-      if (double.IsInfinity(result))
-        result = m_FormerValue;
-      m_FormerValue = result;
-      if (Executed != null) Executed(result);
+        public FunctionPiGauss() : base() { }
 
-      return result;
+        #region IFunction Members
+
+        public double Execute(double input)
+        {
+            if (input < 2) throw new ResultNotDefinedException();
+            double result = input / Math.Log(input);
+            if (double.IsInfinity(result))
+                result = m_FormerValue;
+            m_FormerValue = result;
+            if (Executed != null) Executed(result);
+
+            return result;
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public void Reset()
+        {
+            m_FormerValue = double.NaN;
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public bool CanEstimate
+        {
+            get { return true; }
+        }
+
+        private FunctionState m_FunctionState;
+
+        public FunctionState FunctionState
+        {
+            get { return m_FunctionState; }
+            set { this.m_FunctionState = value; }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public double MaxValue
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region IFunction Members
+
+        public event ObjectParameterDelegate Executed;
+
+        public double DrawTo
+        {
+            get { return double.PositiveInfinity; }
+        }
+
+        #endregion
     }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public void Reset()
-    {
-      m_FormerValue = double.NaN;
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public bool CanEstimate
-    {
-      get { return true; }
-    }
-    private FunctionState m_FunctionState;
-    public FunctionState FunctionState
-    {
-      get { return m_FunctionState; }
-      set { this.m_FunctionState = value; }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public double MaxValue
-    {
-      get
-      {
-        throw new NotImplementedException();
-      }
-      set
-      {
-        throw new NotImplementedException();
-      }
-    }
-
-    #endregion
-
-    #region IFunction Members
-
-
-    public event ObjectParameterDelegate Executed;
-    public double DrawTo
-    {
-      get { return double.PositiveInfinity;  }
-    }
-
-    #endregion
-  }
 }
