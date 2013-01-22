@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using Cryptool.PluginBase.Miscellaneous;
 using WorkspaceManager.Model;
 using System.Threading;
 using Cryptool.PluginBase;
@@ -47,6 +48,7 @@ namespace WorkspaceManager.Execution
         public List<Thread> threads;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         /// <summary>
         /// Creates a new ExecutionEngine
@@ -202,6 +204,28 @@ namespace WorkspaceManager.Execution
                         }
                         , null);
                     }
+
+                    double finishedPercentage = 0;
+                    double count = 0;
+                    foreach (PluginModel plugin in workspaceModel.GetAllPluginModels())
+                    {
+                        bool sIcontrolSlave = false;
+                        foreach(ConnectorModel connector in plugin.GetInputConnectors())
+                        {
+                            if(connector.IControl && connector.InputConnections.Count == 1)
+                            {
+                                sIcontrolSlave = true;
+                                break;
+                            }
+                        }
+                        if(!sIcontrolSlave)
+                        {
+                            count++;
+                            finishedPercentage += plugin.PercentageFinished;
+                        }
+                    }
+
+                    ProgressChanged(finishedPercentage/count, 1.0);
                     Thread.Sleep(GuiUpdateInterval);
                 }
             }
@@ -277,6 +301,11 @@ namespace WorkspaceManager.Execution
                 args.Title = "-";
                 OnGuiLogNotificationOccured(Editor, args);
             }
+        }
+
+        internal void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, null, new PluginProgressEventArgs(value, max));
         }
     }    
 }

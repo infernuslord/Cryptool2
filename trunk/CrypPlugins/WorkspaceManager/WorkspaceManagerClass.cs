@@ -686,6 +686,8 @@ namespace WorkspaceManager
                 //we are not visible, so we need no update of gui elements)
                 var updateGuiElements = Presentation.IsVisible;
 
+                ExecutionEngine.OnPluginProgressChanged+=new PluginProgressChangedEventHandler(ExecutionEngine_OnPluginProgressChanged);
+
                 ExecutionEngine.Execute(WorkspaceModel, updateGuiElements);
             }
             catch (Exception ex)
@@ -699,6 +701,17 @@ namespace WorkspaceManager
                     EventsHelper.AsynchronousGuiLogMessage = true;
                     EventsHelper.AsynchronousStatusChanged = true;
                 }
+            }
+        }
+
+        private DateTime progressTime = DateTime.Now;
+
+        private void ExecutionEngine_OnPluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
+        {
+            if (DateTime.Now >= progressTime.AddSeconds(5))
+            {
+                progressTime = DateTime.Now;
+                GuiLogMessage(String.Format("Total Progress {0:F2} %", args.Value * 100), NotificationLevel.Debug);
             }
         }
 
