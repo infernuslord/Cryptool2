@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
+using System.Timers;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -42,10 +43,11 @@ namespace Cryptool.Plugins.WebCamCap
         private readonly ExamplePluginCT2Settings settings = new ExamplePluginCT2Settings();
         private readonly WebCamCapPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
+        private System.Timers.Timer grabOutputPicture = null;
 
         public WebCamCap()
         {
-            presentation = new WebCamCapPresentation(CaptureImage_Executed);
+            presentation = new WebCamCapPresentation(NewCamEstablished);
         }
 
         #endregion
@@ -132,6 +134,7 @@ namespace Cryptool.Plugins.WebCamCap
                     GuiLogMessage(e.Message, NotificationLevel.Error);
                 }
             }), null);
+            grabOutputPicture.Stop();
         }
 
         /// <summary>
@@ -174,36 +177,59 @@ namespace Cryptool.Plugins.WebCamCap
         #region Event Handling
 
         /// <summary>
-        /// is invoked when a new picture is received
+        /// is invoked a cam conection has established.
+        /// starts a time to constandly grab a picture from the cam
         /// its running inside of the presentation thread
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">EventArgs</param>
-        void CaptureImage_Executed(object sender, EventArgs e)
+        void NewCamEstablished(object sender, EventArgs e)
         {
             try
             {
-                //// Store current image in the webcam
-                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
-
-                if (bitmap != null)
-                {
-                  
-                  if (lastExecuted.AddMilliseconds(100) < DateTime.Now) //TODO refactor to settings
-                  {
-                    PictureOutput = ImageTojepgByte(bitmap, 50); //todo refactor quality to settings ( or kinda "maximum picture size", "target pricture size") 
-                    OnPropertyChanged("PictureOutput");
-                    lastExecuted = DateTime.Now;
-                   }
-                }
-            }
+                grabOutputPicture = new System.Timers.Timer {Interval = 100}; //TODO refactor to settings
+                grabOutputPicture.Elapsed += new ElapsedEventHandler(GrabOutputPictureTick);
+                grabOutputPicture.Start();                
+            } 
             catch (Exception ex)
             {
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
         }
 
-     
+
+        /// <summary>
+        /// tickmethode for the GrabOutputPicture timer.
+        /// updates the pictureoutput with the current image of the webcam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GrabOutputPictureTick(object sender, EventArgs e)
+        {
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            {
+                try
+                {
+                    // Store current image in the webcam
+                    BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
+
+                    if (bitmap != null)
+                    {
+                        PictureOutput = ImageTojepgByte(bitmap, 50); //todo refactor quality to settings ( or kinda "maximum picture size", "target pricture size") 
+                        OnPropertyChanged("PictureOutput");
+                        lastExecuted = DateTime.Now;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(ex.Message, NotificationLevel.Error);
+                }
+            }), null);
+        }
+
+
+
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
@@ -213,7 +239,7 @@ namespace Cryptool.Plugins.WebCamCap
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }
