@@ -28,19 +28,15 @@ using WebCamCap;
 
 namespace Cryptool.Plugins.WebCamCap
 {
-    //TODO 
-    // HOWTO: Change author name, email address, organization and URL.
-    [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("WebCamCap", "Subtract one number from another", "WebCamCap/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
+
+    [Author("Mirko Sartorius", "mirkosartorius@web.de", "CrypTool 2 Team", "university of kassel")]
+    [PluginInfo("WebCamCap.Properties.Resources", "PluginCaption", "PluginToolTip", "WebCamCap/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class WebCamCap : ICrypComponent
     {
         #region Private Variables
 
-        private readonly ExamplePluginCT2Settings settings = new ExamplePluginCT2Settings();
+        private readonly WebCamCapSettings settings = new WebCamCapSettings();
         private readonly WebCamCapPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
         private System.Timers.Timer grabOutputPicture = null;
@@ -56,7 +52,7 @@ namespace Cryptool.Plugins.WebCamCap
 
         /// <summary>
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "pictureOutputCaption", "pictureOutputCaptionTooltip")] //TODO internationalisierung
+        [PropertyInfo(Direction.OutputData, "PictureOutPut", "PictureOutPutToolTip")]
         public byte[] PictureOutput
         {
             get;
