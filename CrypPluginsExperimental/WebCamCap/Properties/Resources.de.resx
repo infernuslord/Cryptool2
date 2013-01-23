@@ -120,7 +120,7 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Kamera</value>
   </data>
-  <data name="PluginTooltip" xml:space="preserve">
+  <data name="PluginToolTip" xml:space="preserve">
     <value>Die Komponente fängt das Bild der Webcam ab und sendet dieses als Bitarray weiter.</value>
   </data>
   <data name="FrameRate" xml:space="preserve">

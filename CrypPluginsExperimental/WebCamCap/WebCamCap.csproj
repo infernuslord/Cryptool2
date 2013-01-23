@@ -92,6 +92,8 @@
     <Compile Include="CapStructures.cs" />
     <Compile Include="CaptureImageCommands.cs" />
     <Compile Include="FilterInfo.cs" />
+    <Compile Include="Properties\Resources.de.Designer.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
     <Compile Include="ThreeFourthConverter.cs" />
     <Compile Include="WebCamCap.cs" />
     <Compile Include="WebCamCapPresentation.xaml.cs">
@@ -132,6 +134,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\webcamcap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
