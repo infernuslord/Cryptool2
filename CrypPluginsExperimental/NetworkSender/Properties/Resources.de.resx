@@ -133,7 +133,7 @@
     <value>Netzwerk Sender</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>Komponente kann mehere UDP Packete versenden.</value>
+    <value>Die Komponente kann über ein Netzwerk Pakete senden.</value>
   </data>
   <data name="Port" xml:space="preserve">
     <value>Port</value>

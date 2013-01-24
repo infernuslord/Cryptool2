@@ -49,7 +49,6 @@ namespace Cryptool.Plugins.VisualEncoder
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.Code128, new Code128(this));
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.QRCode, new QRCode(this));
             codeTypeHandler.Add(VisualEncoderSettings.DimCodeType.PDF417, new PDF417(this));
-
         }
 
         #region Data Properties

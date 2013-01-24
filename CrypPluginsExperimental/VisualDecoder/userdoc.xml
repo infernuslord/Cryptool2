@@ -26,20 +26,20 @@
 
   
   <introduction lang="de-DE">
-    Visuelle Kodes sind eine verbreitete Methode um Informationen, die einfach von Maschinen gelesen werden sollen, bereitzustellen. 
+    Visuelle Codes sind eine verbreitete Methode um Informationen, die einfach von Maschinen gelesen werden sollen, bereitzustellen. 
 		 <newline/>
-		Der erste visuelle Kode wurde 1952 von Norman Joseph Woodland patentiert[1] und basierte auf dem Morsecode.
+		Der erste visuelle Code wurde 1952 von Norman Joseph Woodland patentiert[1] und basierte auf dem Morsecode.
 		 <newline/> <newline/>
-		Es gibt zwei Haupttypen von visuellen Kodes, ein und zwei Dimensionale.
+		Es gibt zwei Haupttypen von visuellen Codes, ein und zwei Dimensionale.
 		 <newline/>
-		Ein-dimensionale Kodes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
+		Ein-dimensionale Codes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
 		 <newline/>
-		Das Einsatzgebiet von zwei-dimensionalen visuellen Kodes ist, da sie mehr Informationen speichern können, weit gefächert.
+		Das Einsatzgebiet von zwei-dimensionalen visuellen Codes ist, da sie mehr Informationen speichern können, weit gefächert.
 		Sie können einen einfachen Link zu einer Webseite oder ganze Kontaktinformationen (siehe Vcard Vorlage) enthalten.
 		Andere Anwendungen sind Werbung(z.B.: Um zusätzliche Informationen bereitzustellen) oder als Zahlungsnachweis (z.B.: Bahntickets, Briefmarken).
 		 <newline/> <newline/>
-    Aber seien Sie sich bewusst, dass ein visueller Kode auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injections).
-		Und neben der Tatsache, dass es das es einfache Möglichkeiten gibt die Herkunft eines visuellen Kodes zu authentifizieren (siehe "RSA signierter QRCode" Vorlage), sind fast alle visuellen Kodes nicht signiert.
+    Aber seien Sie sich bewusst, dass ein visueller Code auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injections).
+		Und neben der Tatsache, dass es das es einfache Möglichkeiten gibt die Herkunft eines visuellen Codes zu authentifizieren (siehe "RSA signierter QRCode" Vorlage), sind fast alle visuellen Codes nicht signiert.
   </introduction>
 
   <usage lang="en">
@@ -49,7 +49,7 @@
   </usage>
 
   <usage lang="de-DE">
-		Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können Sie in den Einstellungen eine Kode Art auswählen oder die Komponente selbstständig diese bestimmen lassen.
+		Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können Sie in den Einstellungen eine Code Art auswählen oder die Komponente selbstständig diese bestimmen lassen.
 		 <newline/>
 		Die Komponente wird nun versuchen das anliegende Bild zu dekodieren.
   </usage>
@@ -65,9 +65,9 @@
   <presentation lang="de-DE">
     Die Präsentation zeigt Ihnen das am Eingang anliegende Bild.
 		 <newline/> <newline/>
-    Wenn die Komponente in dem Bild einen visuellen Kode entdeckt hat, wird sie ihn auf dem Bild markieren und den Inhalt ausgeben.
+    Wenn die Komponente in dem Bild einen visuellen Code entdeckt hat, wird sie ihn auf dem Bild markieren und den Inhalt ausgeben.
 		 <newline/>
-		Es wird ebenfalls die Art des visuellen Kodes angezeigt, für den Fall, dass Sie die Komponente im Automatik Modus betreiben.
+		Es wird ebenfalls die Art des visuellen Codes angezeigt, für den Fall, dass Sie die Komponente im Automatik Modus betreiben.
   </presentation>
   
     <references>
