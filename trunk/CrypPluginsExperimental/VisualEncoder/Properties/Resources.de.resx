@@ -160,14 +160,14 @@ er falsch herum liegt.</value>
   <data name="C38_STARTEND_LABLE" xml:space="preserve">
     <value>Start- und Endesymbol</value>
   </data>
-  <data name="DimCodeEncoderCaption" xml:space="preserve">
+  <data name="VisualEncoderCaption" xml:space="preserve">
     <value>Visueller Kodierer</value>
   </data>
-  <data name="DimCodeEncoderTooltip" xml:space="preserve">
+  <data name="VisualEncoderTooltip" xml:space="preserve">
     <value>Diese Komponente erzeugt unterschiedliche Arten von Ein und Zweidimensionalen Barcodes.</value>
   </data>
   <data name="DimCodeLabel" xml:space="preserve">
-    <value>Visueller Kode</value>
+    <value>Visueller Code</value>
   </data>
   <data name="DM_ALIG_DISC" xml:space="preserve">
     <value>Das Ausrichtungsmuster ist immer gleich. 
