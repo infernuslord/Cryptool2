@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.WebCamCap
     {
         #region Private Variables
 
-        private readonly WebCamCapSettings settings = new WebCamCapSettings();
+        private static readonly WebCamCapSettings settings = new WebCamCapSettings();
         private readonly WebCamCapPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
         private System.Timers.Timer grabOutputPicture = null;
@@ -155,13 +155,13 @@ namespace Cryptool.Plugins.WebCamCap
         /// <param name="bitmap"></param>
         /// <param name="quality"></param>
         /// <returns></returns>
-        public static byte[] ImageTojepgByte(BitmapSource bitmap, int quality)
+        public static byte[] ImageTojepgByte(BitmapSource bitmap)
         {
             using (var ms = new MemoryStream())
             {
                 var enc = new JpegBitmapEncoder();
                 enc.Frames.Add(BitmapFrame.Create(bitmap));
-                enc.QualityLevel = quality;
+                enc.QualityLevel = settings.PictureQuality;
                 enc.Save(ms);
 
                 var image = ms.ToArray(); 
@@ -183,7 +183,7 @@ namespace Cryptool.Plugins.WebCamCap
         {
             try
             {
-                grabOutputPicture = new System.Timers.Timer {Interval = 1000}; //TODO refactor to settings
+                grabOutputPicture = new System.Timers.Timer {Interval = settings.SendPicture}; //TODO refactor to settings
                 grabOutputPicture.Elapsed += new ElapsedEventHandler(GrabOutputPictureTick);
                 grabOutputPicture.Start();                
             } 
@@ -211,7 +211,7 @@ namespace Cryptool.Plugins.WebCamCap
 
                     if (bitmap != null)
                     {
-                        PictureOutput = ImageTojepgByte(bitmap, 50); //todo refactor quality to settings ( or kinda "maximum picture size", "target pricture size") 
+                        PictureOutput = ImageTojepgByte(bitmap); //todo refactor quality to settings ( or kinda "maximum picture size", "target pricture size") 
                         OnPropertyChanged("PictureOutput");
                         lastExecuted = DateTime.Now;
                     }

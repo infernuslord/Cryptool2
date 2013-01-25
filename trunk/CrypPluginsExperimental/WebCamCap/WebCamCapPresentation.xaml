@@ -18,7 +18,7 @@
      <!-- Webcamp preview -->
         <webcam:CapPlayer x:Name="webcamPlayer"
                           Rotation="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}}, Path=WebcamRotation}"
-                          Device="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}}, Path=SelectedWebcam}" Stretch="Fill">
+                          Device="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}}, Path=SelectedWebcam}" Width="Auto" Height="Auto">
         </webcam:CapPlayer>
     </Grid>
 </UserControl>

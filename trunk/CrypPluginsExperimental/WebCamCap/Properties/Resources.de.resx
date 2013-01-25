@@ -123,17 +123,23 @@
   <data name="PluginToolTip" xml:space="preserve">
     <value>Die Komponente fängt das Bild der Webcam ab und sendet dieses als Bitarray weiter.</value>
   </data>
-  <data name="FrameRate" xml:space="preserve">
-    <value>Frame Rate</value>
+  <data name="DeviceChoice" xml:space="preserve">
+    <value>Gerät Auswahl</value>
   </data>
-  <data name="FrameRateToolTip" xml:space="preserve">
-    <value>Bestimmt die Zeitspanne in Millisekunden in denen die Kamera Bilder abfängt</value>
+  <data name="DeviceChoiceToolTip" xml:space="preserve">
+    <value>Zeigt die angeschlossenen Geräte an.</value>
   </data>
   <data name="PictureOutPut" xml:space="preserve">
     <value>Picture Out Put</value>
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
     <value>Sendet die Bilddatei als Byte Array</value>
+  </data>
+  <data name="PictureQuality" xml:space="preserve">
+    <value>Bildqualität</value>
+  </data>
+  <data name="PictureQualityToolTip" xml:space="preserve">
+    <value>Verändert die Paket größe und Qualität der Ausgabedaten der Kamera</value>
   </data>
   <data name="SendPicture" xml:space="preserve">
     <value>Send Picture</value>
