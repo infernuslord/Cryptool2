@@ -14,9 +14,11 @@
    limitations under the License.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using WebCamCap;
 
 namespace Cryptool.Plugins.WebCamCap
 {
@@ -25,7 +27,11 @@ namespace Cryptool.Plugins.WebCamCap
     {
         #region Private Variables
 
-        private int someParameter = 0;
+        private int quality = 0;
+        private string device = null;
+        private List<Array> capDevice;
+        private int sendPicture = 0;
+
 
         #endregion
 
@@ -35,20 +41,38 @@ namespace Cryptool.Plugins.WebCamCap
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("SomeParameter", "This is a parameter tooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int SomeParameter
+        [TaskPane("PictureQuality", "PictureQualityToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        public int PictureQuality
         {
             get
             {
-                return someParameter;
+                return quality;
             }
             set
             {
-                if (someParameter != value)
+                if (quality != value)
                 {
-                    someParameter = value;
+                    quality = value;
                     // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    OnPropertyChanged("SomeParameter");
+                    OnPropertyChanged("PictureQuality");
+                }
+            }
+        }
+
+        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 500, 10000)]
+        public int SendPicture
+        {
+            get
+            {
+                return sendPicture;
+            }
+            set
+            {
+                if (sendPicture != value)
+                {
+                    sendPicture = value;
+                    // HOWTO: MUST be called every time a property value changes with correct parameter name
+                    OnPropertyChanged("SendPicture");
                 }
             }
         }

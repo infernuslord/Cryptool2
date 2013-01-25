@@ -123,10 +123,10 @@
   <data name="PluginToolTip" xml:space="preserve">
     <value>The component captures the picture of the webcam and returns it as an Bitarray</value>
   </data>
-  <data name="FrameRate" xml:space="preserve">
+  <data name="DeviceChoice" xml:space="preserve">
     <value>Frame Rate</value>
   </data>
-  <data name="FrameRateToolTip" xml:space="preserve">
+  <data name="DeviceChoiceToolTip" xml:space="preserve">
     <value>Sets the time in milliseconds in which the camera captures images</value>
   </data>
   <data name="PictureOutPut" xml:space="preserve">
@@ -134,6 +134,12 @@
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
     <value>Sends the image file as a byte array</value>
+  </data>
+  <data name="PictureQuality" xml:space="preserve">
+    <value>Send Picture</value>
+  </data>
+  <data name="PictureQualityToolTip" xml:space="preserve">
+    <value>Sets the time in milliseconds in which the image file is sent from the output.</value>
   </data>
   <data name="SendPicture" xml:space="preserve">
     <value>Send Picture</value>
