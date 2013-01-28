@@ -16,10 +16,12 @@
 
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Timers;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
@@ -153,7 +155,6 @@ namespace Cryptool.Plugins.WebCamCap
         /// uses an Memorystream to convert a given BitmapSource to the byte[] representation of its jpeg encodeing with the given quality (0-100)
         /// </summary>
         /// <param name="bitmap"></param>
-        /// <param name="quality"></param>
         /// <returns></returns>
         public static byte[] ImageTojepgByte(BitmapSource bitmap)
         {
@@ -169,6 +170,7 @@ namespace Cryptool.Plugins.WebCamCap
                 return image;
             }
         }
+
 
         #region Event Handling
 
@@ -195,7 +197,7 @@ namespace Cryptool.Plugins.WebCamCap
 
 
         /// <summary>
-        /// tickmethode for the GrabOutputPicture timer.
+        /// tickmethod for the GrabOutputPicture timer.
         /// updates the pictureoutput with the current image of the webcam
         /// </summary>
         /// <param name="sender"></param>
