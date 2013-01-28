@@ -94,11 +94,12 @@ namespace Cryptool.Plugins.WebCamCap
         public void Execute()
         {
             ProgressChanged(0, 1);
+            
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
-                    presentation.StartCam((CapDevice.DeviceMonikers.Length > 0) ? CapDevice.DeviceMonikers[0].MonikerString : ""); //TODO select webcam via settings
+                    presentation.StartCam((CapDevice.DeviceMonikers.Length > 0) ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString : ""); //TODO select webcam via settings
                 }
                 catch (Exception e)
                 {
