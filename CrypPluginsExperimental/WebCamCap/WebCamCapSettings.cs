@@ -14,8 +14,11 @@
    limitations under the License.
 */
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Documents;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using WebCamCap;
@@ -28,13 +31,38 @@ namespace Cryptool.Plugins.WebCamCap
         #region Private Variables
 
         private int quality = 0;
-        private string device = null;
-        private List<Array> capDevice;
+        private ObservableCollection<string> device = new ObservableCollection<string>();
+        private int capDevice;
         private int sendPicture = 0;
+ 
+        
 
 
         #endregion
 
+        public WebCamCapSettings()
+        {
+            Device.Clear();
+            for (int i = 0; i < CapDevice.DeviceMonikers.Length-1; i++)
+            {
+                Device.Add("Cam "+ (i+1));
+            }
+            capDevice = CapDevice.DeviceMonikers.Length-1;
+        }
+        
+        public ObservableCollection<string> Device
+        {
+            get { return device; }
+            set
+            {
+                if (value != device)
+                {
+                    device = value;
+                    OnPropertyChanged("Device");
+                }
+            }
+        }
+        
         #region TaskPane Settings
 
         /// <summary>
@@ -77,6 +105,25 @@ namespace Cryptool.Plugins.WebCamCap
             }
         }
 
+
+        
+        [TaskPane("DeviceChoice", "DeviceChoiceToolTip", null, 1, false, ControlType.DynamicComboBox, new string[] {"Device"})]
+        public int DeviceChoice
+        {
+            get
+            {
+                return capDevice;
+            }
+            set
+            {
+                if (capDevice != value)
+                {
+                    capDevice = value;
+                    OnPropertyChanged("DeviceChoice");
+                }
+            }
+        }
+        
         #endregion
 
         #region Events
