@@ -39,6 +39,7 @@ namespace Cryptool.Plugins.WebCamCap
         #region Constructor & destructor
         public CapPlayer()
         {
+            this.LayoutTransform = new ScaleTransform(1, -1); //somehow the cam gives us a fliped picture, so we flip it back
         }
 
         public void Dispose()
@@ -68,20 +69,7 @@ namespace Cryptool.Plugins.WebCamCap
         // Using a DependencyProperty as the backing store for Device.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register("Device", typeof(CapDevice),
             typeof(CapPlayer), new UIPropertyMetadata(null, new PropertyChangedCallback(DeviceProperty_Changed)));
-
-        /// <summary>
-        /// Wrapper for the Rotation dependency property
-        /// </summary>
-        public double Rotation
-        {
-            get { return (double)GetValue(RotationProperty); }
-            set { SetValue(RotationProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Rotation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(CapPlayer),
-            new UIPropertyMetadata(0d, new PropertyChangedCallback(RotationProperty_Changed)));
-
+    
         /// <summary>
         /// Wrapper for the framerate dependency property
         /// </summary>
@@ -102,7 +90,7 @@ namespace Cryptool.Plugins.WebCamCap
             get
             {
                 // Return right value
-                return (Device != null) ? new TransformedBitmap(Device.BitmapSource.Clone(), new RotateTransform(Rotation)) : null;
+                return (Device != null) ? new TransformedBitmap(Device.BitmapSource.Clone(), new ScaleTransform(1, -1) ): null;
             }
         }
         #endregion
@@ -135,17 +123,7 @@ namespace Cryptool.Plugins.WebCamCap
             }
         }
 
-        static void RotationProperty_Changed(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            // Get the sender
-            CapPlayer typedSender = sender as CapPlayer;
-            if (typedSender != null)
-            {
-                // Rotate
-                typedSender.LayoutTransform = new RotateTransform((double)e.NewValue);
-            }
-        }
-
+       
         /// <summary>
         /// Cleans up a specific device
         /// </summary>

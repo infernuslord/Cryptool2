@@ -4,21 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:webcam="clr-namespace:Cryptool.Plugins.WebCamCap" xmlns:local="clr-namespace:WebCamCap"
-
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
-    <UserControl.Resources>
-        <webcam:ThreeFourthConverter x:Key="ThreeFourthConverter" />
-    </UserControl.Resources>
-    <Grid>
-
-     
-
-     <!-- Webcamp preview -->
-        <webcam:CapPlayer x:Name="webcamPlayer"
-                          Rotation="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}}, Path=WebcamRotation}"
-                          Device="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}}, Path=SelectedWebcam}" Width="Auto" Height="Auto">
-        </webcam:CapPlayer>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <webcam:CapPlayer x:Name="webcamPlayer" Grid.Row="0" Grid.Column="0"
+                          Device="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:WebCamCapPresentation}},
+                          Path=SelectedWebcam}" Width="Auto" Height="Auto" />
     </Grid>
 </UserControl>

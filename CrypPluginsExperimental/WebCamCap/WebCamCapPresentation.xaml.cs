@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -23,7 +24,7 @@ namespace WebCamCap
         {
             InitializeComponent();
             this.newCamEstablished = newCamEstablished;
-            }
+        }
 
         /// <summary>
         /// starts the cam, representated by the given device string and registers the capture handle methode
@@ -38,9 +39,9 @@ namespace WebCamCap
             else
             {
                  SelectedWebcam = new CapDevice("")
-                        {
-                            MonikerString = device
-                        };
+                 {
+                    MonikerString = device
+                 };
             }
             //register output change eventhandler
             SelectedWebcam.NewBitmapReady += newCamEstablished;
@@ -58,21 +59,7 @@ namespace WebCamCap
  
 
         #region Properties
-        /// <summary>
-        /// Wrapper for the WebcamRotation dependency property
-        /// </summary>
-        public double WebcamRotation
-        {
-            get { return (double)GetValue(WebcamRotationProperty); }
-            set { SetValue(WebcamRotationProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for WebcamRotation.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty WebcamRotationProperty =
-            DependencyProperty.Register("WebcamRotation", typeof(double), typeof(WebCamCapPresentation), new UIPropertyMetadata(180d));
-
-
-
+     
         /// <summary>
         /// Wrapper for the SelectedWebcam dependency property
         /// </summary>
@@ -114,6 +101,7 @@ namespace WebCamCap
         #endregion
 
         #region Methods
+      
 
         /// <summary>
         /// Invoked when the SelectedWebcamMonikerString dependency property has changed
