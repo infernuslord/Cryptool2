@@ -12,5 +12,7 @@
   <keywords lang="de">vcard qrcode</keywords>
 
   <icon file="vcard.png" />
-
+	<relevantPlugins>   
+		<plugin name="Visual Encoder" />
+  </relevantPlugins>
 </sample>
