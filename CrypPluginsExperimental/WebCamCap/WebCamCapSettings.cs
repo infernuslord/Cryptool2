@@ -45,7 +45,7 @@ namespace Cryptool.Plugins.WebCamCap
             Device.Clear();
             for (int i = 0; i < CapDevice.DeviceMonikers.Length-1; i++)
             {
-                Device.Add("Cam "+ (i+1));
+                Device.Add(FilterInfo.GetName(CapDevice.DeviceMonikers[i].MonikerString));
             }
             capDevice = CapDevice.DeviceMonikers.Length-1;
         }
