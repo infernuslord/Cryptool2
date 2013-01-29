@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.WebCamCap
 {
 
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "CrypTool 2 Team", "university of kassel")]
-    [PluginInfo("WebCamCap.Properties.Resources", "PluginCaption", "PluginToolTip", "WebCamCap/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("WebCamCap.Properties.Resources", "PluginCaption", "PluginToolTip", "WebCamCap/userdoc.xml", new[] { "WebCamCap/Images/webcamcap.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class WebCamCap : ICrypComponent
     {

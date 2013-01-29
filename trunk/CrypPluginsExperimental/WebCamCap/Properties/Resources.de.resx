@@ -142,7 +142,7 @@
     <value>Verändert die Paket größe und Qualität der Ausgabedaten der Kamera</value>
   </data>
   <data name="SendPicture" xml:space="preserve">
-    <value>Send Picture</value>
+    <value>Bildweiterleitung</value>
   </data>
   <data name="SendPictureToolTip" xml:space="preserve">
     <value>Bestimmt die Zeitspanne in Millisekunden in denen die Bilddatei aus dem Ausgang geschickt wird.</value>

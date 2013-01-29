@@ -198,7 +198,7 @@ namespace Cryptool.Plugins.WebCamCap
         /// </summary>
         /// <param name="monikerString">Moniker string to get the name of</param>
         /// <returns>Name of a specific moniker</returns>
-        private static string GetName(string monikerString)
+        public static string GetName(string monikerString)
         {
             // Declare variables
             IBindCtx bindCtx = null;
