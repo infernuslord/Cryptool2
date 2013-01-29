@@ -124,7 +124,7 @@
     <value>Die Komponente fängt das Bild der Webcam ab und sendet dieses als Bitarray weiter.</value>
   </data>
   <data name="DeviceChoice" xml:space="preserve">
-    <value>Gerät Auswahl</value>
+    <value>Geräteauswahl</value>
   </data>
   <data name="DeviceChoiceToolTip" xml:space="preserve">
     <value>Zeigt die angeschlossenen Geräte an.</value>
