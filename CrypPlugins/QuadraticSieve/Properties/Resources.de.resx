@@ -121,7 +121,7 @@
     <value>Quadratisches Sieb</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Quadratisches Sieb</value>
+    <value>Quadratisches Sieb (QS) zum Faktorisieren</value>
   </data>
   <data name="InputNumberCaption" xml:space="preserve">
     <value>Eingabezahl</value>
@@ -303,8 +303,8 @@
   <data name="SievingFinished2" xml:space="preserve">
     <value>Sieben beendet.</value>
   </data>
-  <data name="Input_too_big_">
-    <value xml:space="preserve">Eingabe zu groß.</value>
+  <data name="Input_too_big_" xml:space="preserve">
+    <value>Eingabe zu groß.</value>
   </data>
   <data name="Digit" xml:space="preserve">
     <value>Dezimalstelle</value>

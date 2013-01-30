@@ -92,6 +92,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// </summary>
         public void PreExecution()
         {
+            running = false;
         }
 
         /// <summary>
@@ -171,6 +172,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// </summary>
         public void PostExecution()
         {
+            running = false;
         }
 
         /// <summary>

@@ -133,7 +133,7 @@
     <value>Text dem Arbeitsbereich hinzufügen</value>
   </data>
   <data name="BBox_Fit_to_Screen_Tooltip" xml:space="preserve">
-    <value>an Bildschirmgröße anpassen</value>
+    <value>An Arbeitsbereichgröße anpassen</value>
   </data>
   <data name="BBox_Sort_Caption" xml:space="preserve">
     <value>Sortieren</value>
