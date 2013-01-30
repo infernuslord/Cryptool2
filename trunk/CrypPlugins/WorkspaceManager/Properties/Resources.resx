@@ -133,7 +133,7 @@
     <value>Add text to workspace</value>
   </data>
   <data name="BBox_Fit_to_Screen_Tooltip" xml:space="preserve">
-    <value>Fit to screen</value>
+    <value>Fit to workspace size</value>
   </data>
   <data name="BBox_Sort_Caption" xml:space="preserve">
     <value>Sort</value>
