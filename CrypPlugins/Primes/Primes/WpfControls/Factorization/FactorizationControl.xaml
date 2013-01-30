@@ -1,88 +1,85 @@
 ﻿<UserControl x:Class="Primes.WpfControls.Factorization.FactorizationControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:thisrho="clr-namespace:Primes.WpfControls.Factorization.Rho" 
-    xmlns:thisqs="clr-namespace:Primes.WpfControls.Factorization.QS" 
-    xmlns:this="clr-namespace:Primes.WpfControls.Factorization" 
+    xmlns:thisrho="clr-namespace:Primes.WpfControls.Factorization.Rho"
+    xmlns:thisqs="clr-namespace:Primes.WpfControls.Factorization.QS"
+    xmlns:this="clr-namespace:Primes.WpfControls.Factorization"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components"
     xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Factorization"
     VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="UserControl_Loaded">
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Resources/Shared.xaml"/>
-        <ResourceDictionary Source="../Resources/menu.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Shared.xaml" />
+                <ResourceDictionary Source="../Resources/menu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-      
+    <DockPanel>
+        <Grid Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
 
-    </ResourceDictionary>
+            <GroupBox Grid.Row="0" Margin="5" Header="{x:Static lang:Factorization.fac_groupboxheader}">
+                <comps:InputSingleControl
+                    x:Name="inputnumbermanager"
+                    InputRangeControlType="Vertical"
+                    FreeTextboxWidth="300"
+                    ShowGenerateRandomNumber="True"
+                    GenerateRandomNumberTitle="{x:Static lang:Factorization.fac_generaternd}"
+                    BorderBrush="Black"
+                    />
+            </GroupBox>
 
-  </UserControl.Resources>
+            <GroupBox Header="{x:Static lang:Factorization.fac_result}" Name="gbFactorizationInfo" Grid.Row="1">
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
+                    <StackPanel Name="pnInfo" Orientation="Horizontal" MouseLeave="pnInfo_MouseLeave" Height="30">
+                        <DockPanel MouseEnter="DockPanelFactors_MouseEnter" Name="dpInfo">
+                            <Label Name="lblInput" Foreground="Blue">
+                                <Label.ContextMenu>
+                                    <ContextMenu BorderBrush="LightGray" Background="WhiteSmoke">
+                                        <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItemCopyInputClick">
+                                            <MenuItem.Icon>
+                                                <Image Source="../../Resources/icons/page_copy.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Label.ContextMenu>
+                            </Label>
+                            <Label Name="lblFactors">
+                                <Label.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItem_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="../../Resources/icons/page_copy.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Label.ContextMenu>
+                            </Label>
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </GroupBox>
 
-  <DockPanel>
-    <Grid Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="100*" />
-      </Grid.RowDefinitions>
-      <GroupBox Grid.Row="0" Margin="5" Header="{x:Static lang:Factorization.fac_groupboxheader}">
-      <comps:InputSingleControl 
+            <TabControl Grid.Row="2" Background="White" Name="tbctrl" SelectionChanged="tbctrl_SelectionChanged" Margin="0,7,0,0">
+                <comps:HelpTabItem Header="{x:Static lang:Factorization.fac_bruteforce}" x:Name="tabItemBruteForce" HelpButtonClick="HelpTabItem_HelpButtonClick">
+                    <this:FactorizationGraph x:Name="graph" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" />
+                </comps:HelpTabItem>
+                <comps:HelpTabItem Header="Rho-Methode" x:Name="tabItemRho" Visibility="Collapsed" HelpButtonClick="HelpTabItem_HelpButtonClick">
+                    <thisrho:RhoControl x:Name="rhoctrl" />
+                </comps:HelpTabItem>
+                <comps:HelpTabItem Header="{x:Static lang:Factorization.fac_qs}" x:Name="tabItemQS" HelpButtonClick="HelpTabItem_HelpButtonClick">
+                    <thisqs:QuadraticSieveControl x:Name="qsctrl" />
+                </comps:HelpTabItem>
+            </TabControl>
 
-        x:Name="inputnumbermanager" 
-        InputRangeControlType="Vertical" 
-        
-        FreeTextboxWidth="300"
-        ShowGenerateRandomNumber="True"
-        GenerateRandomNumberTitle="{x:Static lang:Factorization.fac_generaternd}"
-        BorderBrush="Black" 
-        />
-        </GroupBox>
-      <GroupBox Header="{x:Static lang:Factorization.fac_result}" Name="gbFactorizationInfo" Grid.Row="1">
-      <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" >
-        <StackPanel Name="pnInfo" Orientation="Horizontal" MouseLeave="pnInfo_MouseLeave" Height="30">
-          <DockPanel MouseEnter="DockPanelFactors_MouseEnter" Name="dpInfo">
-            <Label Name="lblInput" Foreground="Blue" >
-              <Label.ContextMenu>
-                <ContextMenu BorderBrush="LightGray" Background="WhiteSmoke">
-                  <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItemCopyInputClick">
-                    <MenuItem.Icon>
-                      <Image Source="../../Resources/icons/page_copy.png"/>
-                    </MenuItem.Icon>
-                  </MenuItem>
-                </ContextMenu>
-              </Label.ContextMenu>
-            </Label>
-            <Label Name="lblFactors" >
-              <Label.ContextMenu>
-                <ContextMenu >
-                  <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItem_Click">
-                    <MenuItem.Icon>
-                      <Image Source="../../Resources/icons/page_copy.png"/>
-                    </MenuItem.Icon>
-                  </MenuItem>
-                </ContextMenu>
-              </Label.ContextMenu>
+        </Grid>
+    </DockPanel>
 
-
-            </Label>
-          </DockPanel>
-        </StackPanel>
-      </ScrollViewer>
-        </GroupBox>
-      <TabControl Grid.Row="2" Background="White" Name="tbctrl" SelectionChanged="tbctrl_SelectionChanged" Margin="0,7,0,0">
-        <comps:HelpTabItem Header="{x:Static lang:Factorization.fac_bruteforce}"  x:Name="tabItemBruteForce"  HelpButtonClick="HelpTabItem_HelpButtonClick">
-          <this:FactorizationGraph x:Name="graph" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" />
-        </comps:HelpTabItem>
-        <comps:HelpTabItem Header="Rho-Methode"  x:Name="tabItemRho" Visibility="Collapsed" HelpButtonClick="HelpTabItem_HelpButtonClick">
-          <thisrho:RhoControl x:Name="rhoctrl" />
-        </comps:HelpTabItem>
-        <comps:HelpTabItem Header="{x:Static lang:Factorization.fac_qs}" x:Name="tabItemQS" HelpButtonClick="HelpTabItem_HelpButtonClick">
-          <thisqs:QuadraticSieveControl x:Name="qsctrl" />
-        </comps:HelpTabItem>
-      </TabControl>
-    </Grid>
-  </DockPanel>
 </UserControl>
