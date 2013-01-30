@@ -58,7 +58,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
             tbInput.Text += ", 2^" + mersenneexp + "-1";
             PrimesBigInteger rangeval = PrimesBigInteger.Random(2).Add(PrimesBigInteger.Three);
 
-            tbInput.Text += ", " + rangeval.ToString() + ";" + rangeval.Add(PrimesBigInteger.Ten).ToString();
+            tbInput.Text += ", " + rangeval.ToString() + ":" + rangeval.Add(PrimesBigInteger.Ten).ToString();
 
             rndGenerate = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
             m_JumpLockObject = new object();
@@ -100,7 +100,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                     {
                         if (!string.IsNullOrEmpty(s))
                         {
-                            string[] _inputrange = s.Split(';');
+                            string[] _inputrange = s.Split(':');
                             if (_inputrange.Length == 1)
                             {
                                 PrimesBigInteger ipt = null;
