@@ -5,17 +5,16 @@
     xmlns:ntfunctions="clr-namespace:Primes.WpfControls.NumberTheory.NumberTheoryFunctions"
     xmlns:proots="clr-namespace:Primes.WpfControls.NumberTheory.PrimitivRoots"
     xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
-    xmlns:comps="clr-namespace:Primes.WpfControls.Components"
-    >
-    
+    xmlns:comps="clr-namespace:Primes.WpfControls.Components">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Shared.xaml"/>
+                <ResourceDictionary Source="../Resources/Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </UserControl.Resources>  
-    
+    </UserControl.Resources>
+
     <Grid>
         <TabControl Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_power}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPower" HelpButtonClick="TabItem_HelpButtonClick">
@@ -27,7 +26,7 @@
             <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_proots}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPRoots" HelpButtonClick="TabItem_HelpButtonClick">
                 <proots:PrimitivRootControl x:Name="proots" />
             </comps:HelpTabItem>
-        </TabControl>            
+        </TabControl>
     </Grid>
-    
+
 </UserControl>

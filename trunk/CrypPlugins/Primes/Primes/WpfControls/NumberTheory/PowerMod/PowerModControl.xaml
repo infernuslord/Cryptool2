@@ -3,17 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components"
     xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
-    xmlns:this="clr-namespace:Primes.WpfControls.NumberTheory.PowerMod"
-    >
+    xmlns:this="clr-namespace:Primes.WpfControls.NumberTheory.PowerMod">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resources/Shared.xaml"/>
+                <ResourceDictionary Source="../../Resources/Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="test">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -21,44 +20,44 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <GroupBox Grid.Row="0" Margin="7" 	Header="{x:Static lang:Numbertheory.powermod_inputgroupbox}">
-            <StackPanel >
+            <StackPanel>
 
                 <DockPanel HorizontalAlignment="Left">
-                    <Button Name="btnExecute" Click="btnExecute_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnexecute}" Width="100"/>
-                    <Button Name="btnCancel" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btncancel}" Width="100" IsEnabled="False" Click="btnCancel_Click"/>
+                    <Button Name="btnExecute" Click="btnExecute_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnexecute}" Width="100" />
+                    <Button Name="btnCancel" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btncancel}" Width="100" IsEnabled="False" Click="btnCancel_Click" />
                 </DockPanel>
                 <Grid Height="43">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <RadioButton Name="rbAutomatic" Grid.Column="0" Content="{x:Static lang:Numbertheory.powermod_rbautomatic}" Margin="7" VerticalAlignment="Center" />
                     <RadioButton Name="rbStepwise" Grid.Column="1" Content="{x:Static lang:Numbertheory.powermod_stepwise}" IsChecked="True" Margin="7" VerticalAlignment="Center" />
                     <DockPanel Name="dpStepwiseButtons" Grid.Column="2" Visibility="Collapsed">
-                        <Button Name="btnNextStep" Click="btnNextStep_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnnextstep}" Width="100" VerticalAlignment="Top"/>
-                        <Button Name="btnResumeAutomatic" Click="btnResumeAutomatic_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnresume}" Width="210" VerticalAlignment="Top"/>
+                        <Button Name="btnNextStep" Click="btnNextStep_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnnextstep}" Width="100" VerticalAlignment="Top" />
+                        <Button Name="btnResumeAutomatic" Click="btnResumeAutomatic_Click" Margin="7" Content="{x:Static lang:Numbertheory.powermod_btnresume}" Width="210" VerticalAlignment="Top" />
                     </DockPanel>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_base}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5"/>
-                    <comps:InputSingleControl x:Name="iscBase" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5"/>
-                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_exponent}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5"/>
-                    <comps:InputSingleControl x:Name="iscExp" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5"/>
-                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_modulus}" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5"/>
-                    <comps:InputSingleControl x:Name="iscMod" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="2" Margin="5"/>
-                    <Slider Name="slidermodulus" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Minimum="2" Maximum="150" Value="2" ValueChanged="slidermodulus_ValueChanged" Margin="5"/>
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_base}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="5" />
+                    <comps:InputSingleControl x:Name="iscBase" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Margin="5" />
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_exponent}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="5" />
+                    <comps:InputSingleControl x:Name="iscExp" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="5" />
+                    <TextBlock Text="{x:Static lang:Numbertheory.powermod_modulus}" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Margin="5" />
+                    <comps:InputSingleControl x:Name="iscMod" InputRangeControlType="Horizontal" ShowCalcInput="False" ShowButtons="False" Grid.Column="1" Grid.Row="2" Margin="5" />
+                    <Slider Name="slidermodulus" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Minimum="2" Maximum="150" Value="2" ValueChanged="slidermodulus_ValueChanged" Margin="5" />
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static lang:Numbertheory.powermod_points}" VerticalAlignment="Center" />
                     <DockPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
@@ -68,36 +67,36 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        
+
         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         </ScrollViewer>
-        
+
         <Grid Grid.Row="2" Margin="7">
-            
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*"/>
-                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
-            
-            <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Name="PaintPanel" >
-                
+
+            <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Name="PaintPanel">
+
                 <GroupBox HorizontalAlignment="Stretch" DockPanel.Dock="Bottom" Name="spslider" Margin="10" Header="{x:Static lang:Numbertheory.powermod_zoom}">
-                    <Slider  Name="slider" Maximum="3" Minimum="0.1"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Value="1" />
+                    <Slider Name="slider" Maximum="3" Minimum="0.1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Value="1" />
                 </GroupBox>
-                
+
                 <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" Name="sv" Margin="5">
                     <Viewbox Stretch="Uniform" HorizontalAlignment="Left" VerticalAlignment="Top" Name="vb">
                         <Viewbox.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding ElementName=slider, Path=Value}" ScaleY="{Binding ElementName=slider, Path=Value}"/>
+                            <ScaleTransform ScaleX="{Binding ElementName=slider, Path=Value}" ScaleY="{Binding ElementName=slider, Path=Value}" />
                         </Viewbox.LayoutTransform>
-                        <Canvas Name="ContentArea" >
+                        <Canvas Name="ContentArea">
                             <Canvas Name="CircleArea" Background="Transparent" />
-                            <Canvas Name="ArrowArea" Background="Transparent"/>
-                            <Canvas Name="LabelArea" Background="Transparent"/>
-                            <Canvas Name="PaintArea"  Background="Transparent"  
-                                  PreviewMouseDown="PaintArea_PreviewMouseDown" 
-                                  AllowDrop="True" 
-                                  MouseLeave="ArrowArea_MouseLeave" 
+                            <Canvas Name="ArrowArea" Background="Transparent" />
+                            <Canvas Name="LabelArea" Background="Transparent" />
+                            <Canvas Name="PaintArea" Background="Transparent"
+                                  PreviewMouseDown="PaintArea_PreviewMouseDown"
+                                  AllowDrop="True"
+                                  MouseLeave="ArrowArea_MouseLeave"
                                   PreviewMouseUp="ArrowArea_PreviewMouseUp"
                                   PreviewDragOver="ArrowArea_PreviewDragOver"
                                   MouseMove="ArrowArea_MouseMove" />
@@ -107,9 +106,9 @@
 
             </DockPanel>
             <GroupBox Header="{x:Static lang:Numbertheory.powermod_progress}" Grid.Column="1">
-                <comps:LogControl x:Name="log" Title=""  />
+                <comps:LogControl x:Name="log" Title="" />
             </GroupBox>
         </Grid>
     </Grid>
-    
+
 </UserControl>

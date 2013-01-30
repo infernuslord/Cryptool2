@@ -3,33 +3,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components"
     xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
-    Loaded="UserControl_Loaded"
-    >
-    
+    Loaded="UserControl_Loaded">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resources/Shared.xaml"/>
+                <ResourceDictionary Source="../../Resources/Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid Margin="5">
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <comps:InputRangeControl Grid.Row="0" x:Name="irc" Title="{x:Static lang:Numbertheory.groupbox_input}" BorderThickness="1" InputRangeControlType="Horizontal" SecondParameterPresent="true" BorderBrush="Gray" />
-        
+
         <GroupBox Grid.Row="1" Header="{x:Static lang:Numbertheory.groupbox_choosefunctions}" Height="120">
             <Grid HorizontalAlignment="Left" Name="gridChooseFunctions">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="252"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition MinWidth="252"/>
+                    <ColumnDefinition MinWidth="252" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition MinWidth="252" />
                 </Grid.ColumnDefinitions>
                 <ListBox x:Uid="lbSource" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" Grid.Column="0" Name="lbSource" DisplayMemberPath="Description" SelectionMode="Extended">
                     <ListBox.ItemContainerStyle>
@@ -51,17 +50,17 @@
                 </ListBox>
             </Grid>
         </GroupBox>
-      
+
         <DockPanel Name="spGrid" Grid.Row="2" Background="AntiqueWhite">
             <WindowsFormsHost Name="DataGridViewHost">
                 <WindowsFormsHost.ContextMenu>
                     <ContextMenu>
-                      <MenuItem Header="test"/>
+                        <MenuItem Header="test" />
                     </ContextMenu>
                 </WindowsFormsHost.ContextMenu>
             </WindowsFormsHost>
         </DockPanel>
-      
+
     </Grid>
-    
+
 </UserControl>

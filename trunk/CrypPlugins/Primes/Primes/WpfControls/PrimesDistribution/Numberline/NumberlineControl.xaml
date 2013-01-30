@@ -3,403 +3,399 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components">
-    
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Resources/Shared.xaml"/>
-        <ResourceDictionary Source="../../Resources/menu.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
-      <Style TargetType="{x:Type TextBlock}" >
-        <Setter Property="Margin" Value="0,0,7,0"/>
-        <Setter Property="FontSize" Value="13" />
 
-      </Style>
-      <ControlTemplate TargetType="{x:Type Button}" x:Key="rightscrollbutton">
-        <Border>
-          <Grid>
-            <Grid>
-              <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}"/>
-            </Grid>
-            <Border >
-              <Polygon Points="11,5 25,15 11,25" Stroke="Black" x:Name="test" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-          </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-          <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Fill" TargetName="test" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resources/Shared.xaml" />
+                <ResourceDictionary Source="../../Resources/menu.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0,0,7,0" />
+                <Setter Property="FontSize" Value="13" />
+            </Style>
+            <ControlTemplate TargetType="{x:Type Button}" x:Key="rightscrollbutton">
+                <Border>
+                    <Grid>
+                        <Grid>
+                            <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <Border>
+                            <Polygon Points="11,5 25,15 11,25" Stroke="Black" x:Name="test">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" TargetName="test">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
 
-              </Setter.Value>
-            </Setter>
-          </Trigger>
-        </ControlTemplate.Triggers>
-      </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
 
-      <ControlTemplate TargetType="{x:Type Button}" x:Key="leftscrollbutton">
-        <Border>
-          <Grid>
-            <Grid>
-              <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}"/>
-            </Grid>
-            <Border >
-              <Polygon Points="20,5 7.5,15 20,25" Stroke="Black" x:Name="test" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-          </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-          <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Fill" TargetName="test" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
-              </Setter.Value>
-            </Setter>
-          </Trigger>
-        </ControlTemplate.Triggers>
-      </ControlTemplate>
-      <ControlTemplate TargetType="{x:Type Button}" x:Key="leftscrollfastbutton">
-        <Border>
-          <Grid>
-            <Grid>
-              <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}"/>
-            </Grid>
-            <Border >
-              <Polygon Points="13,5 5,16 13,25" Stroke="Black" x:Name="pg1" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-            <Border >
-              <Polygon Points="23,5 15,16 23,25" Stroke="Black" x:Name="pg2" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-          </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-          <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Fill" TargetName="pg1" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
-              </Setter.Value>
-            </Setter>
-            <Setter Property="Fill" TargetName="pg2" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
-              </Setter.Value>
-            </Setter>
-          </Trigger>
-        </ControlTemplate.Triggers>
-      </ControlTemplate>
-      <ControlTemplate TargetType="{x:Type Button}" x:Key="rightscrollfastbutton" >
-        <Border>
-          <Grid>
-            <Grid>
-              <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}"/>
-            </Grid>
-            <Border >
-              <Polygon Points="7,5 16,15 7,25" Stroke="Black" x:Name="pg1" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-            <Border >
-              <Polygon Points="18,5 26,15 18,25" Stroke="Black" x:Name="pg2" >
-                <Polygon.Fill>
-                  <RadialGradientBrush>
-                    <GradientStop Offset="-0.8" Color="WhiteSmoke" />
-                    <GradientStop Offset="0.3" Color="Gray" />
-                    <GradientStop Offset="1" Color="Black" />
-                  </RadialGradientBrush>
-                </Polygon.Fill>
-              </Polygon>
-            </Border>
-          </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-          <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="Fill" TargetName="pg1" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
-              </Setter.Value>
-            </Setter>
-            <Setter Property="Fill" TargetName="pg2" >
-              <Setter.Value>
-                <RadialGradientBrush>
-                  <GradientStop Offset="-0.1" Color="WhiteSmoke" />
-                  <GradientStop Offset="0.5" Color="Gray" />
-                  <GradientStop Offset="1.1" Color="Black" />
-                </RadialGradientBrush>
-              </Setter.Value>
-            </Setter>
-          </Trigger>
-        </ControlTemplate.Triggers>
-      </ControlTemplate>
-    </ResourceDictionary>
+            <ControlTemplate TargetType="{x:Type Button}" x:Key="leftscrollbutton">
+                <Border>
+                    <Grid>
+                        <Grid>
+                            <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <Border>
+                            <Polygon Points="20,5 7.5,15 20,25" Stroke="Black" x:Name="test">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" TargetName="test">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <ControlTemplate TargetType="{x:Type Button}" x:Key="leftscrollfastbutton">
+                <Border>
+                    <Grid>
+                        <Grid>
+                            <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <Border>
+                            <Polygon Points="13,5 5,16 13,25" Stroke="Black" x:Name="pg1">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                        <Border>
+                            <Polygon Points="23,5 15,16 23,25" Stroke="Black" x:Name="pg2">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" TargetName="pg1">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Fill" TargetName="pg2">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <ControlTemplate TargetType="{x:Type Button}" x:Key="rightscrollfastbutton">
+                <Border>
+                    <Grid>
+                        <Grid>
+                            <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" />
+                        </Grid>
+                        <Border>
+                            <Polygon Points="7,5 16,15 7,25" Stroke="Black" x:Name="pg1">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                        <Border>
+                            <Polygon Points="18,5 26,15 18,25" Stroke="Black" x:Name="pg2">
+                                <Polygon.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-0.8" Color="WhiteSmoke" />
+                                        <GradientStop Offset="0.3" Color="Gray" />
+                                        <GradientStop Offset="1" Color="Black" />
+                                    </RadialGradientBrush>
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Border>
+                    </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Fill" TargetName="pg1">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Fill" TargetName="pg2">
+                            <Setter.Value>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="-0.1" Color="WhiteSmoke" />
+                                    <GradientStop Offset="0.5" Color="Gray" />
+                                    <GradientStop Offset="1.1" Color="Black" />
+                                </RadialGradientBrush>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-  </UserControl.Resources>
-  
-  
-  <Grid Margin="20">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <TextBlock Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,0" Text="{x:Static lang:Distribution.numberline_header}">
-      </TextBlock>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" TextWrapping="Wrap" Margin="0,0,0,0" Text="{x:Static lang:Distribution.numberline_header}">
+        </TextBlock>
 
-    <Grid Grid.Row="1">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="25"/>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="25"/>
-      </Grid.ColumnDefinitions>
-      <Button VerticalAlignment="Top" Width="20" Height="20" Grid.Column="2" Name="btnZoomIn" Click="btnZoomIn_Click" ToolTip="{x:Static lang:Distribution.numberline_tooltipincrange}">
-        <Button.Resources>
-          <Style  TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="WhiteSmoke" />
-          </Style>
-        </Button.Resources>
-        <Button.Template>
-          <ControlTemplate TargetType="{x:Type Button}">
-            <Border>
-              <Grid>
-                <Grid>
-                  <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}"/>
-                </Grid>
-                <Line X1="5" X2="15" Stroke="Black" Y1="10" Y2="10" StrokeThickness="1.5"/>
-                <Line X1="10" X2="10" Stroke="Black" Y1="5" Y2="15" StrokeThickness="1.5"/>
-              </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource NormalBrush}" />
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="Gray" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="25" />
+            </Grid.ColumnDefinitions>
+            <Button VerticalAlignment="Top" Width="20" Height="20" Grid.Column="2" Name="btnZoomIn" Click="btnZoomIn_Click" ToolTip="{x:Static lang:Distribution.numberline_tooltipincrange}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="WhiteSmoke" />
+                    </Style>
+                </Button.Resources>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border>
+                            <Grid>
+                                <Grid>
+                                    <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" />
+                                </Grid>
+                                <Line X1="5" X2="15" Stroke="Black" Y1="10" Y2="10" StrokeThickness="1.5" />
+                                <Line X1="10" X2="10" Stroke="Black" Y1="5" Y2="15" StrokeThickness="1.5" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource NormalBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="Gray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
 
-        </Button.Template>
+                </Button.Template>
 
-      </Button>
-      <Slider Grid.Column="1" Name="slider" Maximum="90" Minimum="10"  Value="45" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" ValueChanged="slider_ValueChanged" Height="21"/>
-      <Button VerticalAlignment="Top" Width="20" Height="20" DockPanel.Dock="Left" Grid.Column="0" Name="btnZoomOut" Click="btnZoomOut_Click" ToolTip="{x:Static lang:Distribution.numberline_tooltipdecrange}">
-        <Button.Resources>
-          <Style  TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="WhiteSmoke" />
-          </Style>
-        </Button.Resources>
-        <Button.Template>
-          <ControlTemplate TargetType="{x:Type Button}">
-            <Border>
-              <Grid>
-                <Grid>
-                  <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" x:Name="border"/>
-                </Grid>
-                <Line X1="5" X2="15" Stroke="Black" Y1="10" Y2="10" StrokeThickness="1.5"/>
-              </Grid>
-            </Border>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource NormalBrush}" />
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Button.Template>
-
-      </Button>
-    </Grid>
-    <TextBlock Grid.Row="2" TextWrapping="Wrap" Margin="0,10,0,10" Text="{x:Static lang:Distribution.numberline_maxinterval}">
-      </TextBlock>
-    <Grid Grid.Row="3" Margin="0,0,0,0">
-      <Grid.RowDefinitions>
-        <RowDefinition  Height="Auto"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <TextBlock Grid.Row="0" Name="tbInfoError" Foreground="Blue" Height="Auto"></TextBlock>
-      <Grid Margin="0,0,0,10" Grid.Row="1">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <Label VerticalAlignment="Center" Grid.Column="0" Content="{x:Static lang:Distribution.numberline_from}"></Label>
-        <comps:InputSingleControl 
-          Grid.Column="1" 
-          x:Name="iscFrom"
-          InputRangeControlType="Horizontal" 
-          ShowCalcInput="False"
-          ShowButtons="False" 
-          ShowInfoErrorText="False"
-          FreeTextboxWidth="75" FreeText="2" Margin="3"
-          Canvas.Left="0" Canvas.Top="0"
-          BorderThickness="3" BorderBrush="Blue"
-          VerticalAlignment="Center"/>
-
-        <Grid Grid.Column="3" Name="pnlScrollButtons">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="33"/>
-            <ColumnDefinition Width="33"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="33"/>
-            <ColumnDefinition Width="33"/>
-          </Grid.ColumnDefinitions>
-
-           <Button Grid.Column="0" Cursor="Hand" Template="{StaticResource leftscrollbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">
-             <Button.Resources>
-              <Style  TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="WhiteSmoke" />
-              </Style>
-            </Button.Resources>
-          </Button>
-
-          <Button Grid.Column="1" Cursor="Hand" Template="{StaticResource leftscrollfastbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleftfast}">
-             <Button.Resources>
-              <Style  TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="WhiteSmoke" />
-              </Style>
-            </Button.Resources>
-          </Button>
-            
-          <StackPanel Grid.Column="2">
-            <TextBlock HorizontalAlignment="Center" Text="{x:Static lang:Distribution.numberline_pointsdisplayed}"></TextBlock>
-            <TextBlock HorizontalAlignment="Center" Name="lblCountPoints" VerticalAlignment="Center">44</TextBlock>
-          </StackPanel>
-
-          <Button Cursor="Hand" Template="{StaticResource rightscrollfastbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollrightfast}">
-            <Button.Resources>
-              <Style  TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="WhiteSmoke" />
-              </Style>
-            </Button.Resources>
-          </Button>
-
-          <Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="4" Name="btnScrollRight" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
-            <Button.Resources>
-              <Style  TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="WhiteSmoke" />
-              </Style>
-            </Button.Resources>
-          </Button>
-            
+            </Button>
+            <Slider Grid.Column="1" Name="slider" Maximum="90" Minimum="10" Value="45" TickFrequency="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" ValueChanged="slider_ValueChanged" Height="21" />
+            <Button VerticalAlignment="Top" Width="20" Height="20" DockPanel.Dock="Left" Grid.Column="0" Name="btnZoomOut" Click="btnZoomOut_Click" ToolTip="{x:Static lang:Distribution.numberline_tooltipdecrange}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="WhiteSmoke" />
+                    </Style>
+                </Button.Resources>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border>
+                            <Grid>
+                                <Grid>
+                                    <Border CornerRadius="3,3,3,3" BorderBrush="Gray" BorderThickness="2.0" Background="{TemplateBinding Background}" x:Name="border" />
+                                </Grid>
+                                <Line X1="5" X2="15" Stroke="Black" Y1="10" Y2="10" StrokeThickness="1.5" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource NormalBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PressedBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
-        <Label Grid.Column="4" VerticalAlignment="Center" Content="{x:Static lang:Distribution.numberline_to}"></Label>
-        <comps:InputSingleControl 
-          x:Name="iscTo" 
-          InputRangeControlType="Horizontal" 
-          ShowCalcInput="False"
-          ShowInfoErrorText="False"
-          ShowButtons="False" 
-          Grid.Column="5"
-          Margin="3"
-          BorderThickness="3" BorderBrush="Violet"
-          FreeTextboxWidth="75" FreeText="46" HorizontalAlignment="Left"
-          VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" Margin="0,10,0,10" Text="{x:Static lang:Distribution.numberline_maxinterval}">
+        </TextBlock>
+        <Grid Grid.Row="3" Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Name="tbInfoError" Foreground="Blue" Height="Auto"></TextBlock>
+            <Grid Margin="0,0,0,10" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="7" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
+                <Label VerticalAlignment="Center" Grid.Column="0" Content="{x:Static lang:Distribution.numberline_from}"></Label>
+                <comps:InputSingleControl
+                      Grid.Column="1"
+                      x:Name="iscFrom"
+                      InputRangeControlType="Horizontal"
+                      ShowCalcInput="False"
+                      ShowButtons="False"
+                      ShowInfoErrorText="False"
+                      FreeTextboxWidth="75" FreeText="2" Margin="3"
+                      Canvas.Left="0" Canvas.Top="0"
+                      BorderThickness="3" BorderBrush="Blue"
+                      VerticalAlignment="Center" />
 
-      </Grid>
-    </Grid>
+                <Grid Grid.Column="3" Name="pnlScrollButtons">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="33" />
+                        <ColumnDefinition Width="33" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="33" />
+                        <ColumnDefinition Width="33" />
+                    </Grid.ColumnDefinitions>
 
-      <Grid Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Stretch"  Margin="0,10,0,25" MouseMove="ActuallNumberButtonArea_MouseMove">
-          
-          <Grid.RowDefinitions>
-            <RowDefinition Height="10" />
-            <RowDefinition Height="30" />
-          </Grid.RowDefinitions>
-          
-          <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent">
+                    <Button Grid.Column="0" Cursor="Hand" Template="{StaticResource leftscrollbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleft}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="WhiteSmoke" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-            <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0" />
-            <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0" />
+                    <Button Grid.Column="1" Cursor="Hand" Template="{StaticResource leftscrollfastbutton}" Height="30" Width="30" HorizontalAlignment="Left" Name="btnScrollLeft_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollleftfast}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="WhiteSmoke" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-            <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
-              <Polygon Canvas.Top="0" Canvas.Left="0"  Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5"/>
-              <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0" />
-            </DockPanel>
-              
-          </Canvas>
-        
-          <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent" >
-            <Rectangle Name="numberline" Width="100" Height="3" Fill="Gray" Canvas.Top="20" />
-          </Canvas>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock HorizontalAlignment="Center" Text="{x:Static lang:Distribution.numberline_pointsdisplayed}"></TextBlock>
+                        <TextBlock HorizontalAlignment="Center" Name="lblCountPoints" VerticalAlignment="Center">44</TextBlock>
+                    </StackPanel>
 
-          <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" />
+                    <Button Cursor="Hand" Template="{StaticResource rightscrollfastbutton}" Height="30" Width="30" Grid.Column="3" Name="btnScrollRight_Fast" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollrightfast}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="WhiteSmoke" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-    </Grid>
+                    <Button Cursor="Hand" Template="{StaticResource rightscrollbutton}" Height="30" Width="30" Grid.Column="4" Name="btnScrollRight" Click="btnScroll_MouseClick" ToolTip="{x:Static lang:Distribution.numberline_tooltipscrollright}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="WhiteSmoke" />
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </Grid>
+                <Label Grid.Column="4" VerticalAlignment="Center" Content="{x:Static lang:Distribution.numberline_to}"></Label>
+                <comps:InputSingleControl
+                      x:Name="iscTo"
+                      InputRangeControlType="Horizontal"
+                      ShowCalcInput="False"
+                      ShowInfoErrorText="False"
+                      ShowButtons="False"
+                      Grid.Column="5"
+                      Margin="3"
+                      BorderThickness="3" BorderBrush="Violet"
+                      FreeTextboxWidth="75" FreeText="46" HorizontalAlignment="Left"
+                      VerticalAlignment="Center" />
+
+                <Button Grid.Column="7" HorizontalAlignment="Center" Margin="5" Padding="2" Name="btnCancelAll" Click="btnCancelAll_Click" IsEnabled="False" Content="{x:Static lang:Distribution.numberline_cancelcalculations}"></Button>
+
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,10,0,25" MouseMove="ActuallNumberButtonArea_MouseMove">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+
+            <Canvas Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ActuallNumberButtonArea" Background="Transparent">
+
+                <Polygon Canvas.Top="0" Canvas.Left="0" Name="pFromNumber" Points="0,0, 15,0, 7.5,10" Fill="Blue" Stroke="Black" StrokeThickness="0.5" ToolTip="von" Width="0" />
+                <Polygon Canvas.Top="0" Canvas.Left="0" Name="pToNumber" Points="0,0, 15,0, 7.5,10" Fill="Violet" Stroke="Black" StrokeThickness="0.5" ToolTip="bis" Width="0" />
+
+                <DockPanel Canvas.Top="0" Canvas.Left="0" Name="pActualNumber">
+                    <Polygon Canvas.Top="0" Canvas.Left="0" Points="0,0, 15,0, 7.5,10" Fill="Yellow" Stroke="Black" StrokeThickness="0.5" />
+                    <TextBlock Canvas.Top="0" Canvas.Left="0" Name="textActualNumber" Text="2" FontSize="10" VerticalAlignment="Top" Margin="0" />
+                </DockPanel>
+
+            </Canvas>
+
+            <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="LineArea" Background="Transparent">
+                <Rectangle Name="numberline" Width="100" Height="3" Fill="Gray" Canvas.Top="20" />
+            </Canvas>
+
+            <Canvas Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="PaintArea" Background="Transparent" />
+
+        </Grid>
 
         <Border Grid.Row="6" BorderBrush="Gray" BorderThickness="1">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -426,7 +422,7 @@
                         <StackPanel Grid.Row="0" Name="pnlCountPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel Margin="0,0,0,5">
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Name="lblInfoCountPrimesInterval" Text="{x:Static lang:Distribution.numberline_headercoutprimes}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpCountPrimes" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" MinWidth="100" />
                             </DockPanel>
                             <DockPanel Margin="10,0,0,7">
                                 <TextBlock HorizontalAlignment="Left" Name="lblCountPrimesPi" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_countprimespin}"></TextBlock>
@@ -442,109 +438,109 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock FontWeight="Bold" Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center"/>
-                            <TextBlock Name="lblActualNumber" Grid.Column="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" MaxWidth="100" VerticalAlignment="Center"/>
-                            <TextBlock Name="lblActualNumberInfo" Grid.Column="2" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Text="{x:Static lang:Distribution.numberline_actualnumber}" Grid.Column="0" VerticalAlignment="Center" />
+                            <TextBlock Name="lblActualNumber" Grid.Column="1" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" MaxWidth="100" VerticalAlignment="Center" />
+                            <TextBlock Name="lblActualNumberInfo" Grid.Column="2" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </Grid>
 
                         <DockPanel Grid.Row="2" Name="pnlNextPrimes" Grid.ColumnSpan="3" Margin="0,0,0,7">
-                            <TextBlock  Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+                            <TextBlock Text="{x:Static lang:Distribution.numberline_priorprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
                             <TextBlock Name="lblPriorPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
-                            <TextBlock  Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
-                            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150"/>
+                            <TextBlock Text="{x:Static lang:Distribution.numberline_nextprime}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="10,0,10,0" MaxWidth="150" VerticalAlignment="Center" Width="150" />
+                            <TextBlock Name="lblNextPrime" TextWrapping="Wrap" FontWeight="Bold" FontSize="15" HorizontalAlignment="Left" MaxWidth="150" />
                         </DockPanel>
 
                         <DockPanel Grid.Row="3" Margin="0,0,0,7">
-                            <TextBlock FontWeight="Bold" Margin="0,0,10,0" Text="{x:Static lang:Distribution.numberline_numberofprimes}" VerticalAlignment="Center"/>
-                            <TextBlock FontWeight="Bold" FontSize="15" Name="lblInfoCountPrimes" VerticalAlignment="Center"/>
+                            <TextBlock FontWeight="Bold" Margin="0,0,10,0" Text="{x:Static lang:Distribution.numberline_numberofprimes}" VerticalAlignment="Center" />
+                            <TextBlock FontWeight="Bold" FontSize="15" Name="lblInfoCountPrimes" VerticalAlignment="Center" />
                         </DockPanel>
 
                         <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_factorization}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpFactorize" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpFactorize" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock Name="lblCalcFactorizationInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_calculating}" Width="150"></TextBlock>
-                                <TextBlock Name="lblCalcFactorization" Margin="0,0,0,0" TextWrapping="Wrap" ></TextBlock>
+                                <TextBlock Name="lblCalcFactorization" Margin="0,0,0,0" TextWrapping="Wrap"></TextBlock>
                             </DockPanel>
                             <TextBlock HorizontalAlignment="Left" Name="lblFactors" TextWrapping="Wrap" Margin="10,0,0,0" />
                         </StackPanel>
 
                         <StackPanel Grid.Row="5" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
-                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}"/>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGoldbach" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_goldbach}" />
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpGoldbach" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Name="lblGoldbachInfoCalc" Cursor="Hand" Foreground="Blue" />
                             </DockPanel>
                             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Name="gbGoldbach">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
-                                    <comps:LogControl2 Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    <comps:LogControl2 Grid.Row="1" x:Name="logGoldbach" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </GroupBox>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                        <StackPanel Grid.Row="6" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
-                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}"/>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpEulerPhi" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphi}" />
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpEulerPhi" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock Name="lblCalcEulerPhiInfo" Margin="0,0,0,0" Visibility="Hidden" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
                             </DockPanel>
                             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbEulerPhi">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
-                                    <comps:LogControl2 Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logEulerPhi" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </GroupBox>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                        <StackPanel Grid.Row="7" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
-                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divcount}" ></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTau" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divcount}"></TextBlock>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTau" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock Name="lblCalcTauInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
                             </DockPanel>
                             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbTau">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
-                                    <comps:LogControl2 Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logTau" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </GroupBox>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                        <StackPanel Grid.Row="8" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_divsum}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpRho" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpRho" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock Name="lblCalcRhoInfo" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
                             </DockPanel>
                             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbRho">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25" />
                                     </Grid.RowDefinitions>
-                                    <comps:LogControl2 Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logRho" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </GroupBox>
                         </StackPanel>
 
-                        <StackPanel Grid.Row="9" Grid.ColumnSpan="3" Margin="0,0,0,7" >
+                        <StackPanel Grid.Row="9" Grid.ColumnSpan="3" Margin="0,0,0,7">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_eulerphisum}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpDivSum" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpDivSum" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                                 <TextBlock Name="lblCalcDividerSum" Margin="0,0,0,0" TextWrapping="Wrap" MouseLeftButtonDown="lblCalcInfo_MouseLeftButtonDown" Cursor="Hand" Foreground="Blue"></TextBlock>
                             </DockPanel>
                             <GroupBox Header="{x:Static lang:Distribution.numberline_progress}" Visibility="Collapsed" Name="gbDivSum">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="50" />
                                     </Grid.RowDefinitions>
-                                    <comps:LogControl2 Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    <comps:LogControl2 Grid.Row="0" x:Name="logDivSum" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                 </Grid>
                             </GroupBox>
                         </StackPanel>
@@ -552,7 +548,7 @@
                         <StackPanel Name="pnlTwinPrimes" Grid.ColumnSpan="3" Grid.Row="10" Margin="0,0,0,7">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" MinWidth="100" Text="{x:Static lang:Distribution.numberline_twinprime}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTwinPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpTwinPrimes" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                             </DockPanel>
 
                             <TextBlock Name="lblTwinPrimes" Visibility="Collapsed" TextWrapping="Wrap" Margin="10,0,0,0" />
@@ -562,7 +558,7 @@
                         <StackPanel Name="pnlQuadrupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="11" Margin="0,0,0,10">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_quadtuplet}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpQuadrupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpQuadrupletPrimes" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                             </DockPanel>
                             <TextBlock Name="lblQuadrupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
                         </StackPanel>
@@ -570,7 +566,7 @@
                         <StackPanel Name="pnlSixTupletPrimes" Grid.ColumnSpan="3" Visibility="Collapsed" Grid.Row="12">
                             <DockPanel>
                                 <TextBlock FontWeight="Bold" TextWrapping="Wrap" Text="{x:Static lang:Distribution.numberline_sixtuplet}"></TextBlock>
-                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpSixTupletPrimes" HorizontalAlignment="Left"  MouseLeftButtonDown="btnHelp_MouseLeftButtonDown"  Margin="0,0,4,0"/>
+                                <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpSixTupletPrimes" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelp_MouseLeftButtonDown" Margin="0,0,4,0" />
                             </DockPanel>
                             <TextBlock Name="lblSixTupletPrimes" TextWrapping="Wrap" Margin="10,0,0,0" />
                         </StackPanel>
