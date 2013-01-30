@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <directory>
   <name lang="en">Hash Functions</name>
-  <name lang="de">Hashfunktionen</name>  
+  <name lang="de">Hash-Funktionen</name>  
   <summary lang="en">The folder "Hash Functions" contains templates that demonstrate the use of hash functions.</summary>
   <summary lang="de">Das Verzeichnis "Hashfunktionen" enthält Vorlagen, die die Verwendung von Hashfunktionen demonstrieren.</summary>
   <icon file="dir.png" />
