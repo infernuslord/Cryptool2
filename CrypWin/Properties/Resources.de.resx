@@ -871,4 +871,13 @@
   <data name="Copy_Title" xml:space="preserve">
     <value>Titel kopieren</value>
   </data>
+  <data name="Dataflow" xml:space="preserve">
+    <value>Datenfluss</value>
+  </data>
+  <data name="DataInputOutput" xml:space="preserve">
+    <value>Daten-Ein-/Ausgabe</value>
+  </data>
+  <data name="Generic" xml:space="preserve">
+    <value>Generisch</value>
+  </data>
 </root>
