@@ -147,4 +147,16 @@
   <data name="SendPictureToolTip" xml:space="preserve">
     <value>Bestimmt die Zeitspanne in Millisekunden in denen die Bilddatei aus dem Ausgang geschickt wird.</value>
   </data>
+  <data name="SingleOutPut" xml:space="preserve">
+    <value>Single Out Put</value>
+  </data>
+  <data name="SingleOutPutToolTip" xml:space="preserve">
+    <value>Gibt ein einzelnes Bild aus</value>
+  </data>
+  <data name="TakePicture" xml:space="preserve">
+    <value>Take Picture</value>
+  </data>
+  <data name="TakePictureToolTip" xml:space="preserve">
+    <value>Nimmt einen Boolschen Wert entgegen und nimmt das momentane Bild auf</value>
+  </data>
 </root>

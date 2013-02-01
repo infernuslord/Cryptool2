@@ -47,6 +47,8 @@ namespace WebCamCap
             SelectedWebcam.NewBitmapReady += newCamEstablished;
         }
 
+
+
         /// <summary>
         /// stops the current cam and deregister the capture handle methode
         /// </summary>
