@@ -42,6 +42,7 @@ namespace Cryptool.Plugins.WebCamCap
         private readonly WebCamCapPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
         private System.Timers.Timer grabOutputPicture = null;
+        private bool takePicture;
 
         public WebCamCap()
         {
@@ -60,6 +61,22 @@ namespace Cryptool.Plugins.WebCamCap
             get;
             set;
         }
+
+        [PropertyInfo(Direction.OutputData, "SingleOutPut", "SingleOutPutToolTip")]
+        public byte[] SingleOutPut 
+        { 
+            get; 
+            set;
+        }
+
+
+        [PropertyInfo(Direction.InputData, "TakePicture", "TakePictureToolTip")]
+        public bool TakePicture
+        {
+            get; 
+            set;
+        }
+
 
         #endregion
 
@@ -99,7 +116,9 @@ namespace Cryptool.Plugins.WebCamCap
             {
                 try
                 {
-                    presentation.StartCam((CapDevice.DeviceMonikers.Length > 0) ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString : ""); //TODO select webcam via settings
+
+                    presentation.StartCam((CapDevice.DeviceMonikers.Length > 0) ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString : "");
+
                 }
                 catch (Exception e)
                 {
@@ -168,6 +187,9 @@ namespace Cryptool.Plugins.WebCamCap
 
                 var image = ms.ToArray(); 
                 ms.Dispose();
+
+
+         
                 return image;
             }
         }
@@ -186,7 +208,7 @@ namespace Cryptool.Plugins.WebCamCap
         {
             try
             {
-                grabOutputPicture = new System.Timers.Timer {Interval = settings.SendPicture}; //TODO refactor to settings
+                grabOutputPicture = new System.Timers.Timer {Interval = settings.SendPicture};
                 grabOutputPicture.Elapsed += new ElapsedEventHandler(GrabOutputPictureTick);
                 grabOutputPicture.Start();                
             } 
@@ -195,7 +217,7 @@ namespace Cryptool.Plugins.WebCamCap
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
         }
-
+        
 
         /// <summary>
         /// tickmethod for the GrabOutputPicture timer.
@@ -214,9 +236,17 @@ namespace Cryptool.Plugins.WebCamCap
 
                     if (bitmap != null)
                     {
-                        PictureOutput = ImageTojepgByte(bitmap); //todo refactor quality to settings ( or kinda "maximum picture size", "target pricture size") 
+                        PictureOutput = ImageTojepgByte(bitmap);
                         OnPropertyChanged("PictureOutput");
                         lastExecuted = DateTime.Now;
+                        
+                        //Sends single Picture on the "SingleOutPut" OutPut
+                        OnPropertyChanged("TakePicture");
+                        if (TakePicture)
+                        {
+                            SingleOutPut = ImageTojepgByte(bitmap);
+                            OnPropertyChanged("SingleOutPut");
+                        }  
                     }
 
                 }

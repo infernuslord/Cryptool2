@@ -34,6 +34,7 @@ namespace Cryptool.Plugins.WebCamCap
         private ObservableCollection<string> device = new ObservableCollection<string>();
         private int capDevice;
         private int sendPicture = 0;
+        private String abc = "Take Picture";
  
         
 
@@ -123,8 +124,12 @@ namespace Cryptool.Plugins.WebCamCap
                 }
             }
         }
-        
+
+
+
         #endregion
+
+
 
         #region Events
 
