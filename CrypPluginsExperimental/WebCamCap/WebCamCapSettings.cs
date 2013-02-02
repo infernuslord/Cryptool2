@@ -30,15 +30,10 @@ namespace Cryptool.Plugins.WebCamCap
     {
         #region Private Variables
 
-        private int quality = 0;
+        private int quality = 50;
         private ObservableCollection<string> device = new ObservableCollection<string>();
         private int capDevice;
-        private int sendPicture = 0;
-        private String abc = "Take Picture";
- 
-        
-
-
+        private int sendPicture = 1000;
         #endregion
 
         public WebCamCapSettings()
@@ -66,49 +61,7 @@ namespace Cryptool.Plugins.WebCamCap
         
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
-        [TaskPane("PictureQuality", "PictureQualityToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
-        public int PictureQuality
-        {
-            get
-            {
-                return quality;
-            }
-            set
-            {
-                if (quality != value)
-                {
-                    quality = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    OnPropertyChanged("PictureQuality");
-                }
-            }
-        }
-
-        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 500, 10000)]
-        public int SendPicture
-        {
-            get
-            {
-                return sendPicture;
-            }
-            set
-            {
-                if (sendPicture != value)
-                {
-                    sendPicture = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    OnPropertyChanged("SendPicture");
-                }
-            }
-        }
-
-
-        
-        [TaskPane("DeviceChoice", "DeviceChoiceToolTip", null, 1, false, ControlType.DynamicComboBox, new string[] {"Device"})]
+        [TaskPane("DeviceChoice", "DeviceChoiceToolTip", null, 0, false, ControlType.DynamicComboBox, new string[] { "Device" })]
         public int DeviceChoice
         {
             get
@@ -124,9 +77,40 @@ namespace Cryptool.Plugins.WebCamCap
                 }
             }
         }
+       
+        [TaskPane("PictureQuality", "PictureQualityToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        public int PictureQuality
+        {
+            get
+            {
+                return quality;
+            }
+            set
+            {
+                if (quality != value)
+                {
+                    quality = value;
+                    OnPropertyChanged("PictureQuality");
+                }
+            }
+        }
 
-
-
+        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 500, 10000)]
+        public int SendPicture
+        {
+            get
+            {
+                return sendPicture;
+            }
+            set
+            {
+                if (sendPicture != value)
+                {
+                    sendPicture = value;
+                    OnPropertyChanged("SendPicture");
+                }
+            }
+        }
         #endregion
 
 
