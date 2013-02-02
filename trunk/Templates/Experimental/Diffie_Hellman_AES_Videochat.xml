@@ -7,8 +7,8 @@
   <summary lang="en"><i>Diffie-Hellman AES Videochat</i></summary>
 	<summary lang="de"><i>Diffie-Hellman AES Videochat</i></summary>
 	 
-  <description lang="en">This template shows an AES encrypted Videochat that uses Diffie-Hellman to Exchange an Encryptionkey</i>.</description> 
-  <description lang="de">Diese Vorlage zeigt mittels AES verschlüsselten Videochat, welcher Diffie-Hellman benutzt um den Verschlüsselungsschlüssel auszutauschen</i>.</description>
+	<description lang="en"><i>This template shows an AES encrypted video chat which uses Diffie-Hellman to exchange an encryption key</i>.</description>
+  <description lang="de"><i>Diese Vorlage zeigt einen AES-verschlüsselten Video-Chat, der mittels Diffie-Hellman den Verschlüsselungsschlüssel austauscht</i>.</description> 
 	
   <keywords>Diffie, Hellman, AES, Videochat, Camera, Network</keywords>
 	<keywords lang="de">Kamera, Netzwerk</keywords>
