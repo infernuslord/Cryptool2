@@ -60,9 +60,12 @@ namespace Cryptool.CrypWin
             get { return currentState; }
             private set 
             {
-                currentState = value;
-                OnUpdaterStateChanged(currentState);
-                AutoUpdater_OnUpdaterStatusChanged(currentState);
+                if (currentState != value)
+                {
+                    currentState = value;
+                    OnUpdaterStateChanged(currentState);
+                    AutoUpdater_OnUpdaterStatusChanged(currentState);
+                }
             }
         }
 
