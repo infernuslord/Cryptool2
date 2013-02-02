@@ -265,16 +265,19 @@ namespace KeyTextBox
         private int GetKeyOffset(TextPointer caretPosition)
         {
             var count = 0;
-            foreach (var inline in caretPosition.Paragraph.Inlines)
+            if (caretPosition != null && caretPosition.Paragraph != null)
             {
-                if (inline != caretPosition.Parent)
+                foreach (var inline in caretPosition.Paragraph.Inlines)
                 {
-                    count += ((Run) inline).Text.Length;
-                }
-                else
-                {
-                    count += caretPosition.GetTextRunLength(LogicalDirection.Backward);
-                    return count;
+                    if (inline != caretPosition.Parent)
+                    {
+                        count += ((Run) inline).Text.Length;
+                    }
+                    else
+                    {
+                        count += caretPosition.GetTextRunLength(LogicalDirection.Backward);
+                        return count;
+                    }
                 }
             }
             return 0;
