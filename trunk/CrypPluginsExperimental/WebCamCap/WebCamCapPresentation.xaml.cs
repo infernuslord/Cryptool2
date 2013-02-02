@@ -58,6 +58,12 @@ namespace WebCamCap
            SelectedWebcam.NewBitmapReady -= newCamEstablished;
         }
 
+        public bool IsCamRunning()
+        {
+           return SelectedWebcam != null &&  SelectedWebcam.IsRunning;
+        }
+
+
  
 
         #region Properties

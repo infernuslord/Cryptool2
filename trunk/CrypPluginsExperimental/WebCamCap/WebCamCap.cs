@@ -42,7 +42,7 @@ namespace Cryptool.Plugins.WebCamCap
         private readonly WebCamCapPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
         private System.Timers.Timer grabOutputPicture = null;
-        private bool takePicture;
+        private bool takePicture = false;
 
         public WebCamCap()
         {
@@ -70,14 +70,20 @@ namespace Cryptool.Plugins.WebCamCap
         }
 
 
-        [PropertyInfo(Direction.InputData, "TakePicture", "TakePictureToolTip")]
+        [PropertyInfo(Direction.InputData, "TakePicture", "TakePictureToolTip", false)]
         public bool TakePicture
         {
-            get; 
-            set;
+            get
+            {
+                return takePicture;
+            }
+            set
+            {
+               takePicture = value;
+               OnPropertyChanged("TakePicture");
+            }
         }
-
-
+        
         #endregion
 
         #region IPlugin Members
@@ -111,20 +117,34 @@ namespace Cryptool.Plugins.WebCamCap
         public void Execute()
         {
             ProgressChanged(0, 1);
-            
-            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
-            {
-                try
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
+                    try
+                    {
+                        if (!presentation.IsCamRunning()) // if cam is  not running, start it
+                        {
+                            presentation.StartCam((CapDevice.DeviceMonikers.Length > 0)
+                                                      ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString
+                                                      : "");
+                        }
 
-                    presentation.StartCam((CapDevice.DeviceMonikers.Length > 0) ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString : "");
+                        if (TakePicture) //set singleoutput if takepicture is true
+                        {
+                            BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
 
-                }
-                catch (Exception e)
-                {
-                    GuiLogMessage(e.Message, NotificationLevel.Error);
-                }
-            }), null);
+                            if (bitmap != null)
+                            {
+                                SingleOutPut = ImageTojepgByte(bitmap);
+                                OnPropertyChanged("SingleOutPut");
+                            }
+                        } 
+ 
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage(ex.Message, NotificationLevel.Error);
+                    }
+                }), null);
             ProgressChanged(1, 1);
         }
 
@@ -187,8 +207,6 @@ namespace Cryptool.Plugins.WebCamCap
 
                 var image = ms.ToArray(); 
                 ms.Dispose();
-
-
          
                 return image;
             }
@@ -229,7 +247,7 @@ namespace Cryptool.Plugins.WebCamCap
         {
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
-                try
+               try
                 {
                     // Store current image in the webcam
                     BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
@@ -239,22 +257,14 @@ namespace Cryptool.Plugins.WebCamCap
                         PictureOutput = ImageTojepgByte(bitmap);
                         OnPropertyChanged("PictureOutput");
                         lastExecuted = DateTime.Now;
-                        
-                        //Sends single Picture on the "SingleOutPut" OutPut
-                        OnPropertyChanged("TakePicture");
-                        if (TakePicture)
-                        {
-                            SingleOutPut = ImageTojepgByte(bitmap);
-                            OnPropertyChanged("SingleOutPut");
-                        }  
                     }
 
                 }
                 catch (Exception ex)
-                {
+               {
                     GuiLogMessage(ex.Message, NotificationLevel.Error);
                 }
-            }), null);
+           }), null);
         }
 
 
