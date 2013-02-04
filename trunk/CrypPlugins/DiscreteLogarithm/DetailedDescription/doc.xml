@@ -11,7 +11,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Diese Komponente kann dazu benutzt werden, den diskreten Logarithmus einer beliebigen Zahl basierend auf einem gegebenen Modul und einer Basis zu errechnen (basierend auf einem gegebenen Modul und einer gegebenen Basis).
+    Diese Komponente kann dazu benutzt werden, den diskreten Logarithmus einer beliebigen Zahl zu errechnen (basierend auf einem gegebenen Modul und einer gegebenen Basis).
     <newline/>
     Diese Komponente benutzt derzeit nur einen sehr einfachen, <i>Brute-force</i>-artigen Algorithmus, weswegen sie nicht für große Zahlen geeignet ist.
   </introduction>
