@@ -3,12 +3,12 @@
    image	CDATA #IMPLIED
 >
 
-<!ELEMENT input (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|pluginSetter)*, (category|input|sampleViewer|loadSample|file)?) >
+<!ELEMENT input (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|pluginSetter|label)*, (category|input|sampleViewer|loadSample|file)?) >
 <!ATTLIST input 
    image	CDATA #IMPLIED
 >
 
-<!ELEMENT sampleViewer (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|pluginSetter|outputBox|progressBar|presentation)*) >
+<!ELEMENT sampleViewer (name*, description*, headline*, task*, (inputBox|comboBox|checkBox|keyTextBox|pluginSetter|label|outputBox|progressBar|presentation)*) >
 <!ATTLIST sampleViewer 
    image	CDATA 	#IMPLIED
    file		CDATA       #REQUIRED
@@ -119,6 +119,12 @@
 <!ATTLIST pluginSetter
    plugin		CDATA       #REQUIRED
    property		CDATA       #REQUIRED
+>
+
+<!ELEMENT label (description+) >
+<!ATTLIST label
+   alignment	CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
 >
 
 <!ELEMENT item EMPTY >

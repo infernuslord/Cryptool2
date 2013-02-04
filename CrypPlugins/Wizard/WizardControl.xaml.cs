@@ -278,7 +278,8 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Visible;
                 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "presentation" || el.Name == "pluginSetter"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" 
+                             || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "label" || el.Name == "presentation" || el.Name == "pluginSetter"
                              select el;
 
                 inputStack.Children.Clear();
@@ -379,6 +380,7 @@ namespace Wizard
                         rb.MouseDoubleClick += rb_MouseDoubleClick;
                         rb.HorizontalAlignment = HorizontalAlignment.Stretch;
                         rb.VerticalAlignment = VerticalAlignment.Stretch;
+                        rb.VerticalContentAlignment = VerticalAlignment.Center;
                         rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
                         rb.Content = border;
                         rb.Tag = ele;
@@ -434,11 +436,6 @@ namespace Wizard
 
         private void FillInputStack(IEnumerable<XElement> inputs, string type, bool isInput)
         {
-            if (inputs == null || inputs.Any())
-            {
-                
-            }
-
             var inputFieldStyle = (Style)FindResource("InputFieldStyle");
 
             var groups = from input in inputs where input.Attribute("group") != null select input.Attribute("group").Value;
@@ -471,58 +468,61 @@ namespace Wizard
                     description.FontWeight = FontWeights.Bold;
                     stack.Children.Add(description);
 
-                    Control inputElement = CreateInputElement(input, inputFieldStyle, isInput);
-
-                    //TODO add controls to same "level" if they have the same group
-
-                    //Set width:
-                    if (inputElement != null && input.Attribute("width") != null)
+                    if (input.Name != "label")
                     {
-                        string width = input.Attribute("width").Value.Trim();
-                        if (width.EndsWith("%"))
+                        Control inputElement = CreateInputElement(input, inputFieldStyle, isInput);
+
+                        //TODO add controls to same "level" if they have the same group
+
+                        //Set width:
+                        if (inputElement != null && input.Attribute("width") != null)
                         {
-                            double percentage;
-                            if (Double.TryParse(width.Substring(0, width.Length - 1), out percentage))
+                            string width = input.Attribute("width").Value.Trim();
+                            if (width.EndsWith("%"))
                             {
-                                percentage /= 100;
-                                Binding binding = new Binding("ActualWidth");
-                                binding.Source = inputStack;
-                                binding.Converter = widthConverter;
-                                binding.ConverterParameter = percentage;
-                                inputElement.SetBinding(FrameworkElement.WidthProperty, binding);
+                                double percentage;
+                                if (Double.TryParse(width.Substring(0, width.Length - 1), out percentage))
+                                {
+                                    percentage /= 100;
+                                    Binding binding = new Binding("ActualWidth");
+                                    binding.Source = inputStack;
+                                    binding.Converter = widthConverter;
+                                    binding.ConverterParameter = percentage;
+                                    inputElement.SetBinding(FrameworkElement.WidthProperty, binding);
+                                }
+                            }
+                            else
+                            {
+                                double widthValue;
+                                if (Double.TryParse(width, out widthValue))
+                                {
+                                    inputElement.Width = widthValue;
+                                }
                             }
                         }
-                        else
+
+                        //Set alignment
+                        if (inputElement != null && input.Attribute("alignment") != null)
                         {
-                            double widthValue;
-                            if (Double.TryParse(width, out widthValue))
+                            switch (input.Attribute("alignment").Value.Trim().ToLower())
                             {
-                                inputElement.Width = widthValue;
+                                case "right":
+                                    inputElement.HorizontalAlignment = HorizontalAlignment.Right;
+                                    break;
+                                case "left":
+                                    inputElement.HorizontalAlignment = HorizontalAlignment.Left;
+                                    break;
+                                case "center":
+                                    inputElement.HorizontalAlignment = HorizontalAlignment.Center;
+                                    break;
+                                case "stretch":
+                                    inputElement.HorizontalAlignment = HorizontalAlignment.Stretch;
+                                    break;
                             }
                         }
-                    }
 
-                    //Set alignment
-                    if (inputElement != null && input.Attribute("alignment") != null)
-                    {
-                        switch (input.Attribute("alignment").Value.Trim().ToLower())
-                        {
-                            case "right":
-                                inputElement.HorizontalAlignment = HorizontalAlignment.Right;
-                                break;
-                            case "left":
-                                inputElement.HorizontalAlignment = HorizontalAlignment.Left;
-                                break;
-                            case "center":
-                                inputElement.HorizontalAlignment = HorizontalAlignment.Center;
-                                break;
-                            case "stretch":
-                                inputElement.HorizontalAlignment = HorizontalAlignment.Stretch;
-                                break;
-                        }
+                        stack.Children.Add(inputElement);
                     }
-
-                    stack.Children.Add(inputElement);
 
                     if (input.Attribute("group") != null && inputGroups.Any())
                     {
@@ -538,7 +538,6 @@ namespace Wizard
                         stack.Tag = input;
                         otherInputs.Add(stack);
                     }
-
                 }
                 catch (Exception e)
                 {
