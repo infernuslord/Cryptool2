@@ -378,13 +378,13 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <inputBox plugin="Message (Text)" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Message (Text)" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key (Hex)" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Key (Hex)" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
       <description lang="de">Schlüssel:</description>
       <defaultvalue>d</defaultvalue>
