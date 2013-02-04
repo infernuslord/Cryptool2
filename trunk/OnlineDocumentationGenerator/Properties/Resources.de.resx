@@ -141,9 +141,6 @@
   <data name="NoContent" xml:space="preserve">
     <value>Keine</value>
   </data>
-  <data name="References_description" xml:space="preserve">
-    <value>Weitere Referenzen zu diesem Thema sind unten aufgelistet.</value>
-  </data>
   <data name="Templates_description" xml:space="preserve">
     <value>Die unten aufgelisteten Vorlagen sind für diese Komponente verfügbar.</value>
   </data>

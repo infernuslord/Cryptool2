@@ -5,14 +5,14 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    PRESENT is an example of an SP-network and consists of 31 rounds. 
+    PRESENT is an example of an SP-network (substitution permutation network) and consists of 31 rounds. 
     The block length is 64 bits and two key lengths of 80 and 128 bits are supported. 
     PRESENT is an ultra-lightweight block cipher, designed to work in extremely constrained environments such as RFID tags and 
     sensor networks with both security and hardware efficiency in mind.
   </introduction>
 
   <introduction lang="de-DE">
-    PRESENT ist ein Beispiel für ein SP-Netzwerk und besteht aus 31 Runden.
+    PRESENT ist ein Beispiel für ein SP-Netzwerk (Substitutions-Permutations-Netzwerk) und besteht aus 31 Runden.
     Die Blocklänge beträgt 64 Bits, es werden zwei Schlüssellängen von 80 und 128 Bits unterstützt.
     PRESENT ist eine ultra-leichtgewichtige Blockchiffre, die darauf ausgelegt ist, in extrem Ressourcen-beschränkten Umgebungen, wie
     beispielsweise RFID-Tags und Sensornetzwerken, zu arbeiten. PRESENT berücksichtigt damit sowohl Aspekte der Sicherheit als auch der Hardwareeffizienz.
@@ -35,6 +35,12 @@
       <link url="http://en.wikipedia.org/wiki/PRESENT_(cipher)" lang="en" />
       <caption lang="en">PRESENT in Wikipedia</caption>
       <caption lang="de-DE">PRESENT in der englischen Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Substitution-permutation_network" lang="en" />
+      <caption lang="en">Substitution permutation network in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Substitutions-Permutations-Netzwerk " lang="de" />
+      <caption lang="de">Substitutions-Permutations-Netzwerk in Wikipedia</caption>
     </linkReference>
     <linkReference>
       <link url="http://homes.esat.kuleuven.be/~abogdano/papers/present_ches07.pdf" lang="en" />

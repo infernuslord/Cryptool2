@@ -157,9 +157,6 @@
   <data name="TemplateEditorDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templateeditordocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="References_description" xml:space="preserve">
-    <value>Further references about this topic are listed below.</value>
-  </data>
   <data name="Templates_description" xml:space="preserve">
     <value>The templates listed below are available for this component.</value>
   </data>
