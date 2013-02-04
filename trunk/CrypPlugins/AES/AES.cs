@@ -38,12 +38,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class AES : ContextBoundObject, ICrypComponent
     {
         #region Private variables
+
         private AESSettings settings;
         private CStreamWriter outputStreamWriter;
         private byte[] inputKey;
         private byte[] inputIV;
         private CryptoStream p_crypto_stream;
         private bool stop = false;
+
         #endregion
 
         public AES()
@@ -366,7 +368,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         public void Initialize()
-        {            
+        {
+            settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
@@ -377,10 +380,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             inputKey = null;
             inputIV = null;
 
-                if (outputStreamWriter != null)
+            if (outputStreamWriter != null)
             {
-                    outputStreamWriter.Dispose();
-                    outputStreamWriter = null;
+                outputStreamWriter.Dispose();
+                outputStreamWriter = null;
             }
 
             if (p_crypto_stream != null)
