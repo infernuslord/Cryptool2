@@ -37,7 +37,6 @@ namespace OnlineDocumentationGenerator.Reference
             }
 
             var builder = new StringBuilder();
-            builder.AppendLine(string.Format("<p>{0}</p>", Resources.References_description));
             builder.AppendLine("<p><table border=\"0\" width=\"90%\">");
 
             int no = 1;
