@@ -44,11 +44,11 @@ namespace OnlineDocumentationGenerator.Reference
             {
                 if (reference.ID != null)
                 {
-                    builder.AppendLine(string.Format("<tr><td align=\"right\"><div id=\"{0}\">[{1}]</div></td><td>{2}</td></tr>", reference.ID, no, reference.ToHTML(lang)));
+                    builder.AppendLine(string.Format("<tr><td align=\"right\" valign=\"top\"><div id=\"{0}\">[{1}]</div></td><td valign=\"top\">{2}</td></tr>", reference.ID, no, reference.ToHTML(lang)));
                 }
                 else
                 {
-                    builder.AppendLine(string.Format("<tr><td align=\"right\"><div>[{0}]</div></td><td>{1}</td></tr>", no, reference.ToHTML(lang)));
+                    builder.AppendLine(string.Format("<tr><td align=\"right\" valign=\"top\"><div>[{0}]</div></td><td valign=\"top\">{1}</td></tr>", no, reference.ToHTML(lang)));
                 }
                 builder.AppendLine();
                 no++;
