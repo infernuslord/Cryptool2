@@ -75,6 +75,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>settingsRes.resx</DependentUpon>
     </Compile>
+    <Compile Include="StorageContainer.xaml.cs">
+      <DependentUpon>StorageContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StorageEntry.cs" />
+    <Compile Include="StorageWindow.xaml.cs">
+      <DependentUpon>StorageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wizard.cs" />
     <Compile Include="WizardControl.xaml.cs">
       <DependentUpon>WizardControl.xaml</DependentUpon>
@@ -141,6 +148,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="StorageContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StorageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WizardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
