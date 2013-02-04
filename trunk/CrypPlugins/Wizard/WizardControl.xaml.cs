@@ -765,7 +765,19 @@ namespace Wizard
                     }
                     keyTextBox.Tag = input;
                     keyTextBox.Style = inputFieldStyle;
-                    element = keyTextBox;
+
+                    if (input.Element("storage") != null)
+                    {
+                        var storageContainer = new StorageContainer();
+                        storageContainer.AddContent(keyTextBox, input.Element("storage").Attribute("key").Value);
+                        storageContainer.SetValueMethod(delegate(string s) { keyTextBox.CurrentKey = s; });
+                        storageContainer.GetValueMethod(() => keyTextBox.CurrentKey);
+                        element = storageContainer;
+                    }
+                    else
+                    {
+                        element = keyTextBox;
+                    }
                     break;
 
                 case "presentation":

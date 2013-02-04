@@ -46,7 +46,7 @@
    lang	CDATA       "en"
 >
 
-<!ELEMENT inputBox (description+, defaultvalue*) >
+<!ELEMENT inputBox (storage*, description+, defaultvalue*) >
 <!ATTLIST inputBox 
    plugin		CDATA       #REQUIRED
    property		CDATA       #REQUIRED
@@ -96,7 +96,7 @@
    defaultValue	CDATA       #IMPLIED
 >
 
-<!ELEMENT keyTextBox (description+) >
+<!ELEMENT keyTextBox (storage*, description+) >
 <!ATTLIST keyTextBox 
    plugin		CDATA       #REQUIRED
    property		CDATA       #REQUIRED
@@ -140,4 +140,9 @@
 <!ELEMENT defaultvalue (#PCDATA) >
 <!ATTLIST defaultvalue 
    lang	CDATA       "en"
+>
+
+<!ELEMENT storage (#PCDATA) >
+<!ATTLIST storage
+   key	CDATA       #REQUIRED
 >
