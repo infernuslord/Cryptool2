@@ -89,5 +89,10 @@ namespace Wizard
             DialogResult = true;
             Close();
         }
+
+        private void KeyListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            StoreKey.Text = ((StorageEntry) KeyListBox.SelectedItem).Key;
+        }
     }
 }

@@ -631,7 +631,18 @@ namespace Wizard
                     if (!isInput)
                         currentInputBoxes.Add(inputBox);
 
-                    element = inputBox;
+                    if (input.Element("storage") != null)
+                    {
+                        var storageContainer = new StorageContainer();
+                        storageContainer.AddContent(inputBox, input.Element("storage").Attribute("key").Value);
+                        storageContainer.SetValueMethod(delegate(string s) { inputBox.Text = s; });
+                        storageContainer.GetValueMethod(() => inputBox.Text);
+                        element = storageContainer;
+                    }
+                    else
+                    {
+                        element = inputBox;
+                    }
                     break;
 
                 case "comboBox":

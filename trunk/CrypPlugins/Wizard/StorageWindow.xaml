@@ -30,8 +30,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                
                 <Label Content="{Loc AvailableKeys}" />
-                <ListBox x:Name="KeyListBox" Grid.Row="1" DisplayMemberPath="Key" />
+                <ListBox x:Name="KeyListBox" Grid.Row="1" DisplayMemberPath="Key" SelectionChanged="KeyListBox_OnSelectionChanged" />
             </Grid>
             
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ResizeDirection="Columns" />
@@ -71,7 +72,7 @@
             </Grid.ColumnDefinitions>
             
             <Label Content="{Loc StoreKey}" />
-            <TextBox x:Name="StoreKey" Grid.Column="1" Text="{Binding ElementName=KeyListBox, Path=SelectedValue.Key, Mode=OneWay}" MaxLines="1" VerticalAlignment="Center" />
+            <TextBox x:Name="StoreKey" Grid.Column="1" MaxLines="1" VerticalAlignment="Center" />
             <Button Grid.Column="2" Margin="5" IsDefault="True" Content="{Loc StoreButton}" Click="StoreButtonClicked">
                 <Button.Style>
                     <Style TargetType="Button">

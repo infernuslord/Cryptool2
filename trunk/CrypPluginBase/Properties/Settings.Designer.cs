@@ -343,16 +343,5 @@ namespace Cryptool.PluginBase.Properties {
                 this["CrypVideoTutorials_CatURL"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.ArrayList Wizard_Storage {
-            get {
-                return ((global::System.Collections.ArrayList)(this["Wizard_Storage"]));
-            }
-            set {
-                this["Wizard_Storage"] = value;
-            }
-        }
     }
 }

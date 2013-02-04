@@ -83,8 +83,5 @@
     <Setting Name="CrypVideoTutorials_CatURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://raspberry.vs.uni-due.de:8080/ct2/cat.xml</Value>
     </Setting>
-    <Setting Name="Wizard_Storage" Type="System.Collections.ArrayList" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
   </Settings>
 </SettingsFile>
