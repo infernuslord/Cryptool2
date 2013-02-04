@@ -10,20 +10,34 @@
     It currently only uses a very simple brute-force like algorithm, so it isn't adequate to use it for more complex problems.
   </introduction>
 
-  <introduction lang="de-DE">    
-    Diese Komponente kann dazu benutzt werden den diskreten Logarithmus einer beliebigen Zahl basierend auf einem gegebenen Modul und einer Basis zu errechnen.
+  <introduction lang="de-DE">
+    Diese Komponente kann dazu benutzt werden, den diskreten Logarithmus einer beliebigen Zahl basierend auf einem gegebenen Modul und einer Basis zu errechnen (basierend auf einem gegebenen Modul und einer gegebenen Basis).
     <newline/>
     Diese Komponente benutzt derzeit nur einen sehr einfachen, <i>Brute-force</i>-artigen Algorithmus, weswegen sie nicht für große Zahlen geeignet ist.
   </introduction>
 
   <usage lang="en">
     Simply connect the three input connectors of this component with other components, which deliver the input numbers.
-    The output will be the corresponding discrete logarithm.
+    The output will be the corresponding discrete logarithm.<newline/>
+    <newline/>
+    Calculation of a potence y:  y = b^x mod n (b, n fix; x = independent variable)<newline/>
+    Inverse function: Calculation of the exponent x:  x = log_b (y) mod n  (b, n fix; y = dependent variable)<newline/>
+    <newline/>
+    Example with b=2 und n=11:<newline/>
+    y = 3 = 2^8 mod 11<newline/>
+    x = 8 = log_2 (3) mod 11<newline/>
   </usage>
 
   <usage lang="de-DE">
     Verbinden Sie lediglich die drei Eingabe-Konnektoren dieser Komponente mit anderen Komponenten, welche die Eingabezahlen liefern.
-    Die Ausgabe wird der dazugehörige diskrete Logarithmus sein.
+    Die Ausgabe wird der dazugehörige diskrete Logarithmus sein.<newline/>
+    <newline/>
+    Berechnung einer Potenz y:  y = b^x mod n (b, n fix; x = unabhängige Variable)<newline/>
+    Umkehrfunktion: Berechnung des Exponenten x:  x = log_b (y) mod n  (b, n fix; y = unabhängige Variable)<newline/>
+    <newline/>
+    Bsp mit b=2 und n=11:<newline/>
+    y = 3 = 2^8 mod 11<newline/>
+    x = 8 = log_2 (3) mod 11<newline/>
   </usage>
   
   <references>
