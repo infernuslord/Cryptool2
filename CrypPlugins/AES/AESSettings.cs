@@ -19,9 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Cryptool.PluginBase;
-using System.Security.Cryptography;
+using System.Windows;
 using System.ComponentModel;
+using System.Security.Cryptography;
+using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
@@ -67,7 +68,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                             break;
                         default:
                             break;
-                    }   
+                    }
+
+                    UpdateTaskPaneVisibility();
                 }
             }
         }
@@ -77,13 +80,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public int Action
         {
             get { return this.action; }
-            set 
-            { 
-              if (((int)value) != action)
-              {
-                  this.action = (int)value;
-                  OnPropertyChanged("Action");
-              }
+            set
+            {
+                if (((int)value) != action)
+                {
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
+                }
             }
         }
 
@@ -117,10 +120,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         return 32 * 8;
                     default:
                         throw new InvalidOperationException("Selected keysize entry unknown: " + this.keysize);
-                }   
+                }
             }
         }
-
 
         [ContextMenu("BlocksizeCaption", "BlocksizeTooltip", 4, ContextMenuControlType.ComboBox, null, "BlocksizeList1", "BlocksizeList2", "BlocksizeList3")]
         [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 4, false, ControlType.ComboBox, new String[] { "BlocksizeList1", "BlocksizeList2", "BlocksizeList3" })]
@@ -173,13 +175,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public int Mode
         {
             get { return this.mode; }
-            set 
+            set
             {
-              if (((int)value) != mode)
-              {
-                  this.mode = (int)value;
-                  OnPropertyChanged("Mode");
-              }
+                if (((int)value) != mode)
+                {
+                    this.mode = (int)value;
+                    OnPropertyChanged("Mode");
+                }
             }
         }
 
@@ -188,13 +190,37 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public int Padding
         {
             get { return this.padding; }
-            set 
+            set
             {
-              if (((int)value) != padding)
-              {
-                  this.padding = (int)value;
-                  OnPropertyChanged("Padding");
-              }
+                if (((int)value) != padding)
+                {
+                    this.padding = (int)value;
+                    OnPropertyChanged("Padding");
+                }
+            }
+        }
+
+        #region events
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        #endregion
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            switch (CryptoAlgorithm)
+            {
+                case 0: // AES
+                    TaskPaneAttribteContainer tba = new TaskPaneAttribteContainer("Blocksize", Visibility.Collapsed);
+                    TaskPaneAttributeChangedEventArgs tbac = new TaskPaneAttributeChangedEventArgs(tba);
+                    TaskPaneAttributeChanged(this, tbac);
+                    break;
+                case 1: // Rijndael
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Blocksize", Visibility.Visible)));
+                    break;
             }
         }
 
@@ -204,7 +230,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         protected void OnPropertyChanged(string name)
         {
-          EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
         #endregion
@@ -213,7 +239,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private void ChangePluginIcon(int Icon)
         {
-          if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
         }
     }
 }
