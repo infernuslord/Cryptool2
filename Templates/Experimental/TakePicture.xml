@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Take Picture</title>
+  <summary lang="en">Take a Picture</summary>
+  <description lang="en">This template shows how to take a picture with the camera component</description>
+  <keywords>picture, photo, camera</keywords>
+
+  <title lang="de">Foto erstellen</title>
+  <summary lang="de">Ein Foto erstellen</summary>
+  <description lang="de">Diese Vorlage zeigt das Erstellen eines Fotos mittels der Kamerakompnente.</description>
+  <keywords lang="de">kamera, foto</keywords>
+
+  <icon file="TakePicture.png" />
+</sample>
