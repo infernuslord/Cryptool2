@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.Tools
     {
         private readonly PasswordStrengthPresentation _presentation = new PasswordStrengthPresentation();
         private byte[] _password;
-        private double _strength;
+        private int _strength;
         private double _entropy;
         private int _keePass;
 
@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.Tools
         }
 
         [PropertyInfo(Direction.OutputData, "StrengthCaption", "StrengthTooltip", false)]
-        public double Strength
+        public int Strength
         {
             get { return _strength; }
             set
@@ -576,13 +576,13 @@ namespace Cryptool.Plugins.Tools
                     else if (totalValue >= 60 && totalValue < 80) { complexity = Properties.Resources._Strong; }
                     else if (totalValue >= 80 && totalValue <= 100) { complexity = Properties.Resources._VeryStrong; }
                     _presentation.ComplexityTextBlock.Text = complexity;
-                    Strength = ((double)(totalValue)) / 100.0;
+                    Strength = totalValue;
                     double entropyValue = calculateEntropy(_password);
                     _presentation.EntropyTextblock.Text = String.Format("{0}",Math.Round(entropyValue,3));
                     Entropy = entropyValue;
                     int keePassValue = KeePassQualityEstimation.EstimatePasswordBits(_password);
                     _presentation.BitStrengthTextBlock.Text = String.Format("{0}", keePassValue, 3);
-                    KeePass = _keePass;
+                    KeePass = keePassValue;
                 }
                 catch(Exception ex)
                 {
