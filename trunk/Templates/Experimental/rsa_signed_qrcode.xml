@@ -11,7 +11,7 @@
   <description lang="de">Diese Vorlage zeigt das Erstellen und Lesen eines mit RSA signierten QRCodes.</description>
   <keywords lang="de">Visueller</keywords>
 
-  <icon file="rsa_signed_qrcode" />
+  <icon file="rsa_signed_qrcode.png" />
   <relevantPlugins>
     <plugin name="RSAKeyGenerator" />
     <plugin name="RSA" />
