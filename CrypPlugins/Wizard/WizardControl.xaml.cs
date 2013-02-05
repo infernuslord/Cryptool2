@@ -264,12 +264,12 @@ namespace Wizard
             //set headline
             XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
-                taskHeader.Content = headline.Value.Trim().ToUpper();
+                taskHeader.Content = GetTextFromXElement(headline).ToUpper();
 
             //set task description label
             XElement task = FindElementsInElement(element, "task").First();
             if (task != null)
-                descHeader.Text = task.Value.Trim();
+                descHeader.Text = GetTextFromXElement(task);
 
 
             if (element.Name == "input" || element.Name == "sampleViewer")
@@ -352,7 +352,7 @@ namespace Wizard
                         l.HorizontalAlignment = HorizontalAlignment.Stretch;
                         XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
-                            l.Content = label.Value.Trim();
+                            l.Content = GetTextFromXElement(label);
 
                         i.Width = 26;
                         string image = ele.Attribute("image").Value;
@@ -462,7 +462,7 @@ namespace Wizard
                     var descEle = FindElementsInElement(input, "description");
                     if (descEle != null && descEle.Any())
                     {
-                        description.Content = descEle.First().Value.Trim();
+                        description.Content = GetTextFromXElement(descEle.First());
                     }
                     description.HorizontalAlignment = HorizontalAlignment.Left;
                     description.FontWeight = FontWeights.Bold;
@@ -622,10 +622,10 @@ namespace Wizard
                     else
                     {
                         var defaultvalues = FindElementsInElement(input, "defaultvalue");
-                        var defaultvalue = defaultvalues.First();
+                        var defaultvalue = GetTextFromXElement(defaultvalues.First());
 
-                        if (!string.IsNullOrEmpty(defaultvalue.Value))
-                            inputBox.Text = defaultvalue.Value;
+                        if (!string.IsNullOrEmpty(defaultvalue))
+                            inputBox.Text = defaultvalue;
                     }
 
                     if (!isInput)
@@ -689,10 +689,10 @@ namespace Wizard
                     checkBox.Style = inputFieldStyle;
 
                     var contents = FindElementsInElement(input, "content");
-                    var content = contents.First();
+                    var content = GetTextFromXElement(contents.First());
 
-                    if (!string.IsNullOrEmpty(content.Value))
-                        checkBox.Content = content.Value.Trim();
+                    if (!string.IsNullOrEmpty(content))
+                        checkBox.Content = content;
 
                     if (key != null && pluginPropertyValue != null)
                     {
@@ -1210,7 +1210,7 @@ namespace Wizard
                         if (presentation.Content.GetType().GetProperty("Text") != null)
                         {
                             var defaultvalues = FindElementsInElement(ele, "defaultvalue");
-                            var defaultvalue = defaultvalues.First().Value;
+                            var defaultvalue = GetTextFromXElement(defaultvalues.First());
                             if (!string.IsNullOrEmpty(defaultvalue))
                                 presentation.Content.GetType().GetProperty("Text").SetValue(presentation.Content, defaultvalue, null);
                         }
@@ -1279,8 +1279,35 @@ namespace Wizard
             selectedCategories.Add(GetElementID(ele), true);
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
-                description.Text = desc.Value.Trim();
+                description.Text = GetTextFromXElement(desc);
             nextButton.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Gets the elements text with respect to possible condition statements.
+        /// </summary>
+        private string GetTextFromXElement(XElement element)
+        {
+            foreach (var condition in element.Elements("condition"))
+            {
+                var key = GetElementPluginPropertyKey(condition);
+                if (propertyValueDict.ContainsKey(key))
+                {
+                    foreach (var pair in propertyValueDict[key])
+                    {
+                        if (IsSamePath(pair.Path, element))
+                        {
+                            if (condition.Attribute("value").Value == pair.Value.ToString())
+                            {
+                                return condition.Value.Trim();
+                            }
+                        }
+                    }
+                    
+                }
+            }
+
+            return element.Value.Trim();
         }
 
         private void ResetSelectionDependencies()
@@ -1471,9 +1498,9 @@ namespace Wizard
             {
                 var page = new PageInfo()
                                    {
-                                       name = FindElementsInElement(ele, "name").First().Value.Trim(),
-                                       description = FindElementsInElement(ele, "description").First().Value.Trim(),
-                                       headline = FindElementsInElement(ele, "headline").First().Value.Trim(),
+                                       name = GetTextFromXElement(FindElementsInElement(ele, "name").First()),
+                                       description = GetTextFromXElement(FindElementsInElement(ele, "description").First()),
+                                       headline = GetTextFromXElement(FindElementsInElement(ele, "headline").First()),
                                        tag = ele
                                    };
 

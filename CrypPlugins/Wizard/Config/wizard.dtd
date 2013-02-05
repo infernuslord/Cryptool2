@@ -26,22 +26,22 @@
    resource	CDATA       #REQUIRED
 >
 
-<!ELEMENT name (#PCDATA) >
+<!ELEMENT name (#PCDATA|condition)* >
 <!ATTLIST name 
    lang	CDATA       "en"
 >
 
-<!ELEMENT description (#PCDATA) >
+<!ELEMENT description (#PCDATA|condition)* >
 <!ATTLIST description 
    lang	CDATA       "en"
 >
 
-<!ELEMENT headline (#PCDATA) >
+<!ELEMENT headline (#PCDATA|condition)* >
 <!ATTLIST headline 
    lang	CDATA       "en"
 >
 
-<!ELEMENT task (#PCDATA) >
+<!ELEMENT task (#PCDATA|condition)* >
 <!ATTLIST task 
    lang	CDATA       "en"
 >
@@ -133,11 +133,11 @@
    lang	CDATA       "en"
 >
 
-<!ELEMENT content (#PCDATA) >
+<!ELEMENT content (#PCDATA|condition)* >
 <!ATTLIST content 
    lang	CDATA       "en"
 >
-<!ELEMENT defaultvalue (#PCDATA) >
+<!ELEMENT defaultvalue (#PCDATA|condition)* >
 <!ATTLIST defaultvalue 
    lang	CDATA       "en"
 >
@@ -145,4 +145,11 @@
 <!ELEMENT storage (#PCDATA) >
 <!ATTLIST storage
    key	CDATA       #REQUIRED
+>
+
+<!ELEMENT condition (#PCDATA) >
+<!ATTLIST condition
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   value	CDATA       #REQUIRED
 >

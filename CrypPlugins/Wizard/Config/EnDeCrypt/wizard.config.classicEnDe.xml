@@ -62,8 +62,22 @@
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
+        <description lang="en">
+          <condition plugin="Caesar" property="Action" value="0">
+            Message to encrypt:
+          </condition>
+          <condition plugin="Caesar" property="Action" value="1">
+            Message to decrypt:
+          </condition>
+        </description>
+        <description lang="de">
+          <condition plugin="Caesar" property="Action" value="0">
+            Zu verschlüsselnde Nachricht:
+          </condition>
+          <condition plugin="Caesar" property="Action" value="1">
+            Zu entschlüsselnde Nachricht:
+          </condition>
+        </description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
         <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
       </inputBox>
