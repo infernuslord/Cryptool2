@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.Webcam
         private ObservableCollection<string> device = new ObservableCollection<string>();
         private int capDevice;
         private int sendPicture = 1000;
-        private int takePictureChoice = 2;
+        private int takePictureChoice;
 
         #endregion
 
