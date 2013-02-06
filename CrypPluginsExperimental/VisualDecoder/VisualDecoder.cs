@@ -112,7 +112,7 @@ namespace Cryptool.Plugins.VisualDecoder
         /// </summary>
         public void PreExecution()
         {
-            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -199,7 +199,7 @@ namespace Cryptool.Plugins.VisualDecoder
             if (dimCode != null) //input is valid and has been decoded
             {
                 //update Presentation
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -224,7 +224,7 @@ namespace Cryptool.Plugins.VisualDecoder
             else
             {
                 //reset metadata and set image
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
                     try
                     {

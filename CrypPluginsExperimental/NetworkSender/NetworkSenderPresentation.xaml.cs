@@ -25,7 +25,7 @@ namespace Cryptool.Plugins.NetworkSender
         }
         public void RefreshMetaData(int amountOfSendedPackages)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.NetworkSender
         public void SetStaticMetaData(string starttime, int port)
         {
             var jar = new string[2] {starttime, port.ToString()};
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.NetworkSender
 
         public void AddPresentationPackage(PresentationPackage package)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {

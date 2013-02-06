@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.VisualEncoder
                 if (dimCode != null) //input is valid
                 {
                     //update Presentation
-                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>  
+                    presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>  
                     {
                         try
                         {
