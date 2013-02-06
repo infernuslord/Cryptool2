@@ -24,13 +24,13 @@
   <usage lang="en">
     After you drag the component onto the workspace, you may select in the settings which of the detected cameras you want to choose.
     <newline/>
-    Also you may choose the intervall for the record and forwarding of the pictures. It exist an boolean input that records a picture if it is true. 
+    Also you may choose the intervall for the forwarding and the quality of the pictures. It exist an boolean input that records a picture if it is true. 
   </usage>
 
   <usage lang="de-DE">
     Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können sie in den Einstellungen bestimmen welche der erkannten Kameras ausgewählt
     <newline/>
-    werden soll. Außerdem können sie die Intervalle für die Aufnahme und die Weiterleitung der Bilder einstellen.
+    werden soll. Außerdem können sie das Intervall für die Weiterleitung und die Aufnahmequalität der Bilder einstellen.
     <newline/>
     Um Einzelbilder aufnehmen zu können existiert ein boolean Eingang der das Bild aufnimmt sobald dieser Wahr wird.
   </usage>
