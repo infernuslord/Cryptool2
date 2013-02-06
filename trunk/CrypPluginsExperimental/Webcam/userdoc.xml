@@ -6,14 +6,14 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    A Webcam is a camera device, that is integrated in the Computer or connected via any interface. It sends recorded pictures in
+    A Webcam is a camera device, that is integrated in the computer or connected via any interface. It sends recorded pictures in
     <newline/>
     specified intervalls.
     <newline/>
   </introduction>
 
   <introduction lang="de-DE">
-    Unter Webcam versteht man eine im Computer integrierte oder über eine Schnittstelle angeschlossene Kamera die in bestimmten Intervallen
+    Unter Webcam versteht man eine im Computer integrierte oder über eine Schnittstelle angeschlossene Kamera, die in bestimmten Intervallen
     <newline/>
     Bilder aufzeichnet und diese weiter sendet.
     <newline/>
@@ -22,15 +22,15 @@
   <usage lang="en">
     After you drag the component onto the workspace, you may select in the settings which of the detected cameras you want to choose.
     <newline/>
-    Also you may choose the intervall for the forwarding and the quality of the pictures. It exist an boolean input that records a picture if it is true.
+    Additionally, you can choose the interval for the forwarding, and the quality of the pictures. Pictures are recorded if the according boolean input is true.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können sie in den Einstellungen bestimmen welche der erkannten Kameras ausgewählt
+    Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können sie in den Einstellungen bestimmen, welche der erkannten Kameras ausgewählt
     <newline/>
-    werden soll. Außerdem können sie das Intervall für die Weiterleitung und die Aufnahmequalität der Bilder einstellen.
+    werden soll. Außerdem können Sie das Intervall für die Weiterleitung und die Aufnahmequalität der Bilder einstellen.
     <newline/>
-    Um Einzelbilder aufnehmen zu können existiert ein boolean Eingang der das Bild aufnimmt sobald dieser Wahr wird.
+    Einzelbilder werden aufgenommen, wenn der entsprechend Boolsche Eingangswert wahr ist.
   </usage>
 
   <presentation lang="en">
@@ -38,7 +38,7 @@
   </presentation>
 
   <presentation lang="de-DE">
-    Die Presentation zeigt ihnen das live Bild der Kamera.
+    Die Presentation zeigt Ihnen das live Bild der Kamera.
   </presentation>
   
   <references>
