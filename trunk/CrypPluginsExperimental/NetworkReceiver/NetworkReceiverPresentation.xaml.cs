@@ -45,7 +45,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="port"></param>
         public void SetStaticMetaData(string starttime, string port)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="amountOfUniqueIps"></param>
         public void UpdatePresentation(PresentationPackage package, int amountOfReceivedPackages, int amountOfUniqueIps)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void ClearPresentation()
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
             {
                 try
                 {
