@@ -338,70 +338,76 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            if (m_Initialized)
+            try
             {
-                //ClearArrows();
-                log.RenderSize = sizeInfo.NewSize;
-                ArrowArea.Width = PaintArea.Width = CircleArea.Width = LabelArea.Width = ContentArea.Width = PaintPanel.ActualWidth - 20;
-                ArrowArea.Height = PaintArea.Height = CircleArea.Height = ContentArea.Height = LabelArea.Height = PaintPanel.ActualHeight - spslider.ActualHeight - 30;
-                //ContentArea.Width = PaintPanel.ActualWidth;
-
-                //ContentArea.Height = PaintPanel.ActualHeight - spslider.ActualHeight;
-
-                //if (log.ActualWidth < 100)
-                //{
-                //  log.Width = this.ActualWidth - 5;
-                //}
-                if (sizeInfo.NewSize.Height != double.NaN && sizeInfo.NewSize.Height > 0 &&
-                  sizeInfo.NewSize.Width != double.NaN && sizeInfo.NewSize.Width > 0)
+                if (m_Initialized)
                 {
-                    if (!m_Running)
+                    //ClearArrows();
+                    log.RenderSize = sizeInfo.NewSize;
+                    ArrowArea.Width = PaintArea.Width = CircleArea.Width = LabelArea.Width = ContentArea.Width = Math.Max(0, PaintPanel.ActualWidth - 20);
+                    ArrowArea.Height = PaintArea.Height = CircleArea.Height = ContentArea.Height = LabelArea.Height = Math.Max(0, PaintPanel.ActualHeight - spslider.ActualHeight - 30);
+                    //ContentArea.Width = PaintPanel.ActualWidth;
+
+                    //ContentArea.Height = PaintPanel.ActualHeight - spslider.ActualHeight;
+
+                    //if (log.ActualWidth < 100)
+                    //{
+                    //  log.Width = this.ActualWidth - 5;
+                    //}
+                    if (sizeInfo.NewSize.Height != double.NaN && sizeInfo.NewSize.Height > 0 &&
+                      sizeInfo.NewSize.Width != double.NaN && sizeInfo.NewSize.Width > 0)
                     {
-                        if (CircleArea.Children.Count != 0)
-                            CircleArea.Children.Clear();
-                        Paint();
-                        if (this.m_Mod != null)
+                        if (!m_Running)
                         {
-                            //IDictionary<ArrowLine, int> m_StartPoints = new Dictionary<ArrowLine, int>();
-                            //IDictionary<ArrowLine, int> m_EndPoints = new Dictionary<ArrowLine, int>();
-
-                            //foreach (ArrowLine al in m_Arrows)
-                            //{
-                            //    Point from = new Point(al.X1, al.Y1);
-                            //    Point to = new Point(al.X2, al.Y2);
-                            //    foreach (int key in m_Points.Keys)
-                            //    {
-                            //        Point p = m_Points[key];
-                            //        if (from.X == p.X && from.Y == p.Y)
-                            //        {
-                            //            m_StartPoints.Add(al, key);
-                            //        }
-                            //        else if (to.X == p.X && to.Y == p.Y)
-                            //        {
-                            //            m_EndPoints.Add(al, key);
-                            //        }
-                            //    }
-                            //}
-                            CreatePoints();
-                            foreach (Ellipse e in m_CirclesSource.Keys)
+                            if (CircleArea.Children.Count != 0)
+                                CircleArea.Children.Clear();
+                            Paint();
+                            if (this.m_Mod != null)
                             {
-                                MoveCircle(e);
+                                //IDictionary<ArrowLine, int> m_StartPoints = new Dictionary<ArrowLine, int>();
+                                //IDictionary<ArrowLine, int> m_EndPoints = new Dictionary<ArrowLine, int>();
+
+                                //foreach (ArrowLine al in m_Arrows)
+                                //{
+                                //    Point from = new Point(al.X1, al.Y1);
+                                //    Point to = new Point(al.X2, al.Y2);
+                                //    foreach (int key in m_Points.Keys)
+                                //    {
+                                //        Point p = m_Points[key];
+                                //        if (from.X == p.X && from.Y == p.Y)
+                                //        {
+                                //            m_StartPoints.Add(al, key);
+                                //        }
+                                //        else if (to.X == p.X && to.Y == p.Y)
+                                //        {
+                                //            m_EndPoints.Add(al, key);
+                                //        }
+                                //    }
+                                //}
+                                CreatePoints();
+                                foreach (Ellipse e in m_CirclesSource.Keys)
+                                {
+                                    MoveCircle(e);
+                                }
+                                //foreach (ArrowLine al in m_StartPoints.Keys)
+                                //{
+                                //    al.X1 = m_Points[m_StartPoints[al]].X;
+                                //    al.Y1 = m_Points[m_StartPoints[al]].Y;
+
+                                //}
+                                //foreach (ArrowLine al in m_EndPoints.Keys)
+                                //{
+                                //    al.X2 = m_Points[m_EndPoints[al]].X;
+                                //    al.Y2 = m_Points[m_EndPoints[al]].Y;
+
+                                //}
                             }
-                            //foreach (ArrowLine al in m_StartPoints.Keys)
-                            //{
-                            //    al.X1 = m_Points[m_StartPoints[al]].X;
-                            //    al.Y1 = m_Points[m_StartPoints[al]].Y;
-
-                            //}
-                            //foreach (ArrowLine al in m_EndPoints.Keys)
-                            //{
-                            //    al.X2 = m_Points[m_EndPoints[al]].X;
-                            //    al.Y2 = m_Points[m_EndPoints[al]].Y;
-
-                            //}
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
