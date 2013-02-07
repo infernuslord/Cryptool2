@@ -10,6 +10,7 @@ using System.Windows;
 using System.Collections;
 using System.Windows.Threading;
 using System.Threading;
+using System.IO;
 
 namespace Cryptool.CrypTutorials
 {
@@ -80,12 +81,26 @@ namespace Cryptool.CrypTutorials
 
             _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
             _tutorialVideosManager.OnCategoriesFetched += new EventHandler<CategoriesFetchedEventArgs>(_tutorialVideosManager_OnCategoriesFetched);
+            _tutorialVideosManager.OnVideosFetchErrorOccured += new EventHandler<ErrorEventArgs>(_tutorialVideosManager_OnVideosFetchErrorOccured);
             //has to be replaced later on by "GetVideoInformationFromServer"
             //_tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
             _tutorialVideosManager.GetVideoInformationFromServer();
             _videosView = CollectionViewSource.GetDefaultView(Videos) as ListCollectionView;
             _videosView.CustomSort = new VideoSorter();
             _videosView.Filter = videoFilter;
+        }
+
+        void _tutorialVideosManager_OnVideosFetchErrorOccured(object sender, ErrorEventArgs e)
+        {
+            var exception = e.GetException();
+            if (exception is System.Net.WebException)
+            {
+                NetworkErrorPanel.Visibility = Visibility.Visible;
+            }
+            else 
+            {
+                XMLParseError.Visibility = Visibility.Visible;
+            }
         }
 
 

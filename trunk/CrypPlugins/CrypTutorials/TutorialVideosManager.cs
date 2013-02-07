@@ -36,7 +36,7 @@ namespace Cryptool.CrypTutorials
         /// <summary>
         /// Fired in case of an error
         /// </summary>
-        public event EventHandler OnVideosFetchErrorOccured;
+        public event EventHandler<ErrorEventArgs> OnVideosFetchErrorOccured;
 
         /// <summary>
         ///  Helper to generate Test Data for Gui Testing
