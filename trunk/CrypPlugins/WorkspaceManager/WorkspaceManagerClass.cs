@@ -708,10 +708,18 @@ namespace WorkspaceManager
 
         private void ExecutionEngine_OnPluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
         {
-            if (DateTime.Now >= progressTime.AddSeconds(5))
+            if (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_UseGlobalProgressbar) 
             {
-                progressTime = DateTime.Now;
-                GuiLogMessage(String.Format("Total Progress {0:F2} %", args.Value * 100), NotificationLevel.Debug);
+                if (DateTime.Now >= progressTime.AddSeconds(1))
+                {
+                    progressTime = DateTime.Now;
+                    this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        WorkspaceSpaceEditorView.Progress = args.Value;
+                    }, null);
+
+                    GuiLogMessage(String.Format("Total Progress {0:F2} %", args.Value * 100), NotificationLevel.Debug);
+                }
             }
         }
 
@@ -742,6 +750,7 @@ namespace WorkspaceManager
                 this.WorkspaceSpaceEditorView.ResetConnections();
                 this.WorkspaceSpaceEditorView.ResetPlugins(0);
                 this.WorkspaceSpaceEditorView.State = BinEditorState.READY;
+                this.WorkspaceSpaceEditorView.Progress = 0;
             }
             , null);
 
