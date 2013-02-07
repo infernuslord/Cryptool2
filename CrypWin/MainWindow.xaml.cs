@@ -1693,6 +1693,8 @@ namespace Cryptool.CrypWin
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
             lastTab = (TabItem) tabs.SelectedItem;
             CTTabItem tabitem = new CTTabItem();
+            tabitem.RequestDistractionFreeOnOffEvent += new EventHandler(tabitem_RequestDistractionFreeOnOffEvent);
+            tabitem.RequestHideMenuOnOffEvent += new EventHandler(tabitem_RequestHideMenuOnOffEvent);
             tabitem.RequestBigViewFrame += handleMaximizeTab;
 
             var plugin = content as IPlugin;
@@ -1771,6 +1773,16 @@ namespace Cryptool.CrypWin
             return tabitem;
         }
 
+        void tabitem_RequestHideMenuOnOffEvent(object sender, EventArgs e)
+        {
+            AppRibbon.IsMinimized = !AppRibbon.IsMinimized;
+        }
+
+        void tabitem_RequestDistractionFreeOnOffEvent(object sender, EventArgs e)
+        {
+            doHandleMaxTab();
+        }
+
         private void CloseTab(object content, TabControl tabs, TabItem tabitem)
         {
             if (Settings.Default.FixedWorkspace)
@@ -1794,6 +1806,12 @@ namespace Cryptool.CrypWin
             tabToContentMap.Remove(tabitem);
             contentToTabMap.Remove(content);
             contentToParentMap.Remove(content);
+            if(tabitem is CTTabItem)
+            {
+                ((CTTabItem)tabitem).RequestDistractionFreeOnOffEvent -= tabitem_RequestDistractionFreeOnOffEvent;
+                ((CTTabItem)tabitem).RequestHideMenuOnOffEvent -= tabitem_RequestHideMenuOnOffEvent;
+            }
+
 
             tabitem.Content = null;
 
@@ -2362,9 +2380,9 @@ namespace Cryptool.CrypWin
             LogBTN_Checked(LogBTN, null);
         }
 
-        void handleMaximizeTab(object sender, EventArgs e)
-        {
 
+        void doHandleMaxTab() 
+        {
             if (LogBTN.IsChecked || SettingBTN.IsChecked || PluginBTN.IsChecked)
             {
                 MaximizeTab();
@@ -2390,6 +2408,11 @@ namespace Cryptool.CrypWin
                     PluginBTN_Checked(PluginBTN, null);
                 }
             }
+        }
+
+        void handleMaximizeTab(object sender, EventArgs e)
+        {
+            doHandleMaxTab();
         }
 
         private void MaximizeTab()

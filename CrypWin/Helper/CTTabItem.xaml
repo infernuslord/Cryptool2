@@ -77,6 +77,18 @@
                                             <Image Width="15" Height="15" Source="../images/delete2.png"></Image>
                                         </MenuItem.Icon>
                                     </MenuItem>
+                                    <Separator></Separator>
+                                    <MenuItem Click="MenuItem_Click"  Header="Hide Menu (ON/OFF)" InputGestureText="F12">
+                                        <MenuItem.Icon>
+                                            <Image Width="15" Height="15" Source="../images/copy32.png"></Image>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem Click="MenuItem_Click_1"  Header="Distraction Free (ON/OFF)" InputGestureText="F11">
+                                        <MenuItem.Icon>
+                                            <Image Width="15" Height="15" Source="../images/copy32.png"></Image>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Grid.ContextMenu>
                             <Border Width="170"
