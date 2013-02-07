@@ -305,7 +305,6 @@
     <Content Include="View\Images\Bak\WorkspaceManagerIcon_orig.png" />
     <Content Include="View\Images\Bak\WorkspaceManager_Nils.ico" />
     <Content Include="View\Images\License.txt" />
-    <Resource Include="View\Images\WMIcons\progress_arrow.png" />
     <Resource Include="View\Images\WMIcons\progress_bg.png" />
     <Resource Include="View\Images\bg-setting.png" />
     <Resource Include="View\Images\ComponentIcons\Arrow-down-48.png" />
