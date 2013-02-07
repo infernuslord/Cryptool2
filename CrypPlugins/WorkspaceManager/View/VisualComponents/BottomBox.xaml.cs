@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -61,6 +62,23 @@ namespace WorkspaceManager.View.VisualComponents
                 if (Sort != null)
                     Sort.Invoke(this, new EventArgs());
             }
+        }
+    }
+
+    public class IsLesserConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var p = (double)value;
+            if (p < 1)
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

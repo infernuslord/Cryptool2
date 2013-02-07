@@ -83,5 +83,8 @@
     <Setting Name="CrypVideoTutorials_CatURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://raspberry.vs.uni-due.de:8080/ct2/cat.xml</Value>
     </Setting>
+    <Setting Name="WorkspaceManager_UseGlobalProgressbar" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

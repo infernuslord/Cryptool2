@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
-    xmlns:local="clr-namespace:WorkspaceManager.View.Visuals">
+    xmlns:local="clr-namespace:WorkspaceManager.View.Visuals"
+    xmlns:local2="clr-namespace:WorkspaceManager.View.VisualComponents">
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
@@ -36,7 +37,7 @@
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Border}" x:Key="BottomMessage">
+        <Style TargetType="{x:Type Grid}" x:Key="BottomMessage">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsExecuting}" Value="True">
                     <Setter Property="Visibility" Value="Visible"></Setter>
@@ -44,7 +45,6 @@
             </Style.Triggers>
             <Setter Property="Visibility" Value="Collapsed"></Setter>
             <Setter Property="Height" Value="18"></Setter>
-            <Setter Property="Background" Value="Gold"></Setter>
         </Style>
 
         <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
@@ -85,6 +85,115 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <local2:IsLesserConverter x:Key="IsLesserConverter"></local2:IsLesserConverter>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="ProgressTextStyle">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
+                        <Condition Binding="{Binding Path=Progress, Converter={StaticResource ResourceKey=IsLesserConverter}}" Value="True"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Text" Value="{Loc Executing___}"/>
+                </MultiDataTrigger>
+                
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Text" Value="{Loc Executing___}"/>
+                </MultiDataTrigger>
+                
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
+                        <Condition Binding="{Binding Path=Progress, Converter={StaticResource ResourceKey=IsLesserConverter}}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Text" Value="Berechnung beended (Zum Anhalten des Workspaces bitte Stop
+drücken oder neue Daten eingeben um eine Neuberechnung durchzuführen)"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="ProgressVisibilityStyle">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
+                        <Condition Binding="{Binding Path=Progress, Converter={StaticResource ResourceKey=IsLesserConverter}}" Value="True"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
+                        <Condition Binding="{Binding Path=Progress, Converter={StaticResource ResourceKey=IsLesserConverter}}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type ProgressBar}">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid MinHeight="14" MinWidth="200">
+                            <Border
+                                Name="PART_Track" 
+                                Background="Transparent"
+                                BorderBrush="Transparent" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border 
+                                    Name="PART_Indicator" Opacity="0.3"
+                                    CornerRadius="2" 
+                                    Background="{TemplateBinding Foreground}" 
+                                    BorderBrush="#CCC" 
+                                    BorderThickness="1" 
+                                    HorizontalAlignment="Left" >
+                                </Border>
+                                <Border Opacity="0.1">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="/WorkspaceManager;component/View/Images/WMIcons/progress_arrow.png" TileMode="Tile" 
+                                            Viewport="0,0,36,18" ViewportUnits="Absolute"/>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                            
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </UserControl.Resources>
     <UserControl.LayoutTransform>
         <ScaleTransform ScaleX="0.85" ScaleY="0.85"></ScaleTransform>
@@ -133,8 +242,23 @@
 
             </DockPanel>
         </Border>
-        <Border Style="{StaticResource ResourceKey=BottomMessage}">
-            <TextBlock Text="{Loc Executing___}" FontWeight="DemiBold" Foreground="#444" TextAlignment="Center" ToolTip="{Loc EditingDisabled}"></TextBlock>
-        </Border>
+        <Grid Style="{StaticResource ResourceKey=BottomMessage}" Background="Gold">
+            <ProgressBar Value="{Binding Path=Progress}" Maximum="1"></ProgressBar>
+            <Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource ResourceKey=ProgressVisibilityStyle}" FontSize="13" VerticalAlignment="Center" 
+                           FontWeight="DemiBold" Foreground="#444">
+                    <TextBlock.Text>
+                        <Binding Path="Progress" StringFormat=" {0:p2}" FallbackValue="0"></Binding>
+                    </TextBlock.Text>
+                    </TextBlock>
+                    <Rectangle Width="20"></Rectangle>
+                    <TextBlock Style="{StaticResource ResourceKey=ProgressTextStyle}"  
+                           FontWeight="DemiBold" Foreground="#444" TextAlignment="Center" ToolTip="{Loc EditingDisabled}">
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </Grid>
+
     </DockPanel>
 </UserControl>

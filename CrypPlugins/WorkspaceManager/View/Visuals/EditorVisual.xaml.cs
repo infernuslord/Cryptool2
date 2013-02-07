@@ -499,6 +499,7 @@ namespace WorkspaceManager.View.Visuals
                 model.ChildPositionChanged += ChildPositionChanged;
                 model.ChildSizeChanged += ChildSizeChanged;
                 model.ChildNameChanged += ChildNameChanged;
+
                 if (model.Zoom != 0)
                     ZoomLevel = model.Zoom;
             }
@@ -522,6 +523,18 @@ namespace WorkspaceManager.View.Visuals
         #endregion
 
         #region DependencyProperties
+
+        public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress",
+            typeof(double), typeof(EditorVisual), new FrameworkPropertyMetadata((double)0));
+
+        public double Progress
+        {
+            get { return (double)base.GetValue(ProgressProperty); }
+            set
+            {
+                base.SetValue(ProgressProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty IsSettingsOpenProperty = DependencyProperty.Register("IsSettingsOpen",
             typeof(bool), typeof(EditorVisual), new FrameworkPropertyMetadata(true));
@@ -1747,6 +1760,11 @@ namespace WorkspaceManager.View.Visuals
             panel.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(VisualsHelper.panelPreviewMouseLeftButtonDown);
             panel.MouseLeave += new MouseEventHandler(VisualsHelper.panelMouseLeave);
             VisualsHelper.part.Style = (Style)FindResource("FromToLine");
+        }
+
+        void ExecutionEngine_OnPluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
+        {
+            Console.Out.WriteLine(args.Value * 100);
         }
 
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)
