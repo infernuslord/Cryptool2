@@ -182,7 +182,7 @@ drücken oder neue Daten eingeben um eine Neuberechnung durchzuführen)"/>
                                 </Border>
                                 <Border Opacity="0.1">
                                     <Border.Background>
-                                        <ImageBrush ImageSource="/WorkspaceManager;component/View/Images/WMIcons/progress_arrow.png" TileMode="Tile" 
+                                        <ImageBrush ImageSource="/WorkspaceManager;component/View/Images/WMIcons/progress_bg.png" TileMode="Tile" 
                                             Viewport="0,0,36,18" ViewportUnits="Absolute"/>
                                     </Border.Background>
                                 </Border>
