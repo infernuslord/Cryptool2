@@ -717,8 +717,6 @@ namespace WorkspaceManager
                     {
                         WorkspaceSpaceEditorView.Progress = args.Value;
                     }, null);
-
-                    GuiLogMessage(String.Format("Total Progress {0:F2} %", args.Value * 100), NotificationLevel.Debug);
                 }
             }
         }
