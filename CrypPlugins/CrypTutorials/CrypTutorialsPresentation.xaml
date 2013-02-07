@@ -147,6 +147,7 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="{StaticResource ResourceKey=Background}">
+
         <Grid HorizontalAlignment="Stretch">
             <Grid.Resources>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -479,5 +480,22 @@
             <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
             <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
         </Grid>
+        <Border x:Name="NetworkErrorPanel" Visibility="Collapsed" Background="#88555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Could not connect to server" FontSize="70" Foreground="#aaa"
+                            FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
+
+        <Border x:Name="XMLParseError" Visibility="Collapsed" Background="#88555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Could not parse XML-META file from server" FontSize="70" Foreground="#aaa"
+                            FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
+                </TextBlock.Effect>
+            </TextBlock>
+        </Border>
     </Grid>
 </UserControl>

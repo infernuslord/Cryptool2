@@ -271,8 +271,8 @@
                                    Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=1, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
                             </StackPanel>
 
-                            <TextBlock Text="■" TextAlignment="Center" FontSize="20" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Grid.Column="2" LayoutTransform="{x:Null}">
-                            </TextBlock>
+                            <Image MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" LayoutTransform="{x:Null}" Grid.Column="2" Source="/CrypTutorials;component/full.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="25"></Image>
+
 
                             <!--<Slider Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" 
                 Minimum="0" Maximum="1" Value="0.5" Width="70"/>-->
