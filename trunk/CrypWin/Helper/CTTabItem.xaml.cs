@@ -22,6 +22,8 @@ namespace Cryptool.CrypWin.Helper
     public partial class CTTabItem : TabItem
     {
         public event EventHandler RequestBigViewFrame;
+        public event EventHandler RequestHideMenuOnOffEvent;
+        public event EventHandler RequestDistractionFreeOnOffEvent;
 
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register(
@@ -111,6 +113,18 @@ namespace Cryptool.CrypWin.Helper
         private void CopyToClipboard(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(Header.ToString());
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (RequestHideMenuOnOffEvent != null)
+                RequestHideMenuOnOffEvent.Invoke(this, null);
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (RequestDistractionFreeOnOffEvent != null)
+                RequestDistractionFreeOnOffEvent.Invoke(this, null);
         }
     }
 }
