@@ -24,13 +24,27 @@ namespace Cryptool.CrypTutorials
             myMediaElement.BufferingEnded += new RoutedEventHandler(myMediaElement_BufferingEnded);
             myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(myMediaElement_MediaFailed);
 
+            PreviewMouseMove += new MouseEventHandler(VideoPlayer_PreviewMouseMove);
+
 
             timer.Tick += delegate(object o, EventArgs args)
             {
                 double seSliderValue = (double)myMediaElement.Position.TotalSeconds;
-                timelineSlider.Value  = seSliderValue;
+                timelineSlider.Value = seSliderValue;
             };
 
+            timer2.Tick += delegate(object o, EventArgs args)
+            {
+                Controls.Visibility = Visibility.Collapsed;
+                timer2.Stop();
+            };
+
+        }
+
+        void VideoPlayer_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            Controls.Visibility = Visibility.Visible;
+            timer2.Start();
         }
 
         void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
@@ -78,7 +92,7 @@ namespace Cryptool.CrypTutorials
             set { SetValue(IsPlayingProperty, value); }
         }
 
-
+        private DispatcherTimer timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 3) }; 
         private DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) }; 
         private static void OnIsPlaying(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {

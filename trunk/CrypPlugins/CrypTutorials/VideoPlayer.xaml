@@ -211,7 +211,7 @@
            property of the MediaElement must be set to "Manual". -->
                 <Border CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <MediaElement Name="myMediaElement" Source="{Binding Url}"
-                LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" 
+                LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" StretchDirection="Both" 
                 MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
                 </Border>
 
