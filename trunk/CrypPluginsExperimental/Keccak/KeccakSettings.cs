@@ -55,6 +55,7 @@ namespace Cryptool.Plugins.Keccak
         private int outputLength = 256, rate = 1088, capacity = 512, stateSize = 1600;        
 
         private bool manualSettings = false;
+        private bool outputLengthTruncated = false;
 
         private enum stateSizeName { bits25, bits50, bits100, bits200, bits400, bits800, bits1600 };
         private stateSizeName selectedStateSize = stateSizeName.bits1600;
@@ -147,7 +148,16 @@ namespace Cryptool.Plugins.Keccak
             get { return this.outputLength; }
             set
             {
-                this.outputLength = (int)value;
+                if (value > 174760)     // truncate output if too long (174760 is the maximum value such that it is not too long for text output component)
+                {
+                    this.outputLength = 174760;
+                    outputLengthTruncated = true;
+                }
+                else
+                {
+                    this.outputLength = (int)value;
+                    outputLengthTruncated = false;
+                }
                 OnPropertyChanged("OutputLength");
             }
         }
@@ -178,14 +188,21 @@ namespace Cryptool.Plugins.Keccak
 
         #endregion
 
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        /* used for warning message if output needs to be truncated in Keccak.PreExecution() */
+        public bool OutputLengthTruncated()
+        {
+            return this.outputLengthTruncated;
+        }
+
 
         /*  used for verification of rate and capacity size in Keccak.PreExecution() */
         public int GetStateSize()
         {
             return this.stateSize;
-            
+
         }
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         private void settingChanged(string setting, Visibility vis)
         {

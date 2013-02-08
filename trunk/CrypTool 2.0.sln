@@ -313,11 +313,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Achterbahn", "CrypPlugins\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumberFieldSieve", "CrypPluginsExperimental\NumberFieldSieve\NumberFieldSieve.csproj", "{612E2C3B-B510-4B88-8E63-50950D31FA9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keccak", "CrypPluginsExperimental\Keccak\Keccak.csproj", "{54BCDECE-C7DE-454B-8991-901C238FE591}"
+EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CrypTool 2.0.vsmdi
 	EndGlobalSection
@@ -2552,6 +2550,21 @@ Global
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|Win32.ActiveCfg = Release|x86
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|x86.ActiveCfg = Release|x86
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E}.Test|x86.Build.0 = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Debug|Win32.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Debug|x86.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Debug|x86.Build.0 = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Release|Mixed Platforms.Build.0 = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Release|Win32.ActiveCfg = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Release|x86.ActiveCfg = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Release|x86.Build.0 = Release|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Test|Mixed Platforms.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Test|Mixed Platforms.Build.0 = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Test|Win32.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Test|x86.ActiveCfg = Debug|x86
+		{54BCDECE-C7DE-454B-8991-901C238FE591}.Test|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2695,5 +2708,10 @@ Global
 		{F182C351-6646-42BF-BD8C-96DFE53D217E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+		{54BCDECE-C7DE-454B-8991-901C238FE591} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal

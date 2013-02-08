@@ -162,9 +162,9 @@ namespace Keccak.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die SHA3-512 ähnelt.
         /// </summary>
-        internal static string KeccakFunctionList51 {
+        internal static string KeccakFunctionList5 {
             get {
-                return ResourceManager.GetString("KeccakFunctionList51", resourceCulture);
+                return ResourceManager.GetString("KeccakFunctionList5", resourceCulture);
             }
         }
         
