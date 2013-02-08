@@ -121,7 +121,7 @@
     <value>Capacity</value>
   </data>
   <data name="CapacityTooltip" xml:space="preserve">
-    <value>Set the size of the capacity (the sum of capacity and bit rate must match the state size)</value>
+    <value>Size of capacity in bit</value>
   </data>
   <data name="DebugDataStreamTooltip" xml:space="preserve">
     <value>Output stream for debug information</value>
@@ -154,7 +154,7 @@
     <value>Output length</value>
   </data>
   <data name="OutputLengthTooltip" xml:space="preserve">
-    <value>Set the size of the output length in bits (must be divisible by 8)</value>
+    <value>Size of output length in bit (must be divisible by 8)</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Hashed value</value>
@@ -172,13 +172,13 @@
     <value>Bit rate</value>
   </data>
   <data name="RateTooltip" xml:space="preserve">
-    <value>Set the size of the bit rate in bits (must be divisible by 8)</value>
+    <value>Size of bit rate in bit (must be divisible by 8)</value>
   </data>
   <data name="SelectedStateSizeCaption" xml:space="preserve">
     <value>State size</value>
   </data>
   <data name="SelectedStateSizeTooltip" xml:space="preserve">
-    <value>Set the size of the state in bits (must match the sum of bit rate and capacity)</value>
+    <value>Set the size of the state in bit (must match the sum of bit rate and capacity)</value>
   </data>
   <data name="KeccakFunctionList1" xml:space="preserve">
     <value>Keccak</value>
@@ -215,5 +215,14 @@
   </data>
   <data name="StateSize6" xml:space="preserve">
     <value>1600 Bit</value>
+  </data>
+  <data name="OutputMatchError" xml:space="preserve">
+    <value>Output length must be divisible by 8.</value>
+  </data>
+  <data name="OutputTooLongWarning" xml:space="preserve">
+    <value>Output too long. It will be truncated to 174,760 bit.</value>
+  </data>
+  <data name="StateSizeMatchError" xml:space="preserve">
+    <value>The sum of bit rate and capacity must match the selected state size.</value>
   </data>
 </root>

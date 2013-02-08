@@ -121,7 +121,7 @@
     <value>Kapazität</value>
   </data>
   <data name="CapacityTooltip" xml:space="preserve">
-    <value>Größe der Kapazität festlegen (die Summe aus Bitrate und Kapazität muss mit der Größe des States übereinstimmen)</value>
+    <value>Größe der Kapazität in Bit</value>
   </data>
   <data name="DebugDataStreamTooltip" xml:space="preserve">
     <value>Ausgabestrom für Debuginformation</value>
@@ -160,7 +160,7 @@
     <value>Manuell einstellen</value>
   </data>
   <data name="ManualSettingsTooltip" xml:space="preserve">
-    <value>Keccak parameter manuell festlegen</value>
+    <value>Keccak Parameter manuell festlegen</value>
   </data>
   <data name="OutputDataStreamTooltip" xml:space="preserve">
     <value>Hashwert</value>
@@ -169,7 +169,7 @@
     <value>Ausgabelänge</value>
   </data>
   <data name="OutputLengthTooltip" xml:space="preserve">
-    <value>Ausgabelänge in Bits festlegen (muss durch 8 teilbar sein)</value>
+    <value>Ausgabelänge in Bit (muss durch 8 teilbar sein)</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Hashwert</value>
@@ -186,14 +186,11 @@
   <data name="RateCaption" xml:space="preserve">
     <value>Bitrate</value>
   </data>
-  <data name="RateTooltip" xml:space="preserve">
-    <value>Größe der Bitrate festlegen (muss durch 8 teilbar sein)</value>
-  </data>
   <data name="SelectedStateSizeCaption" xml:space="preserve">
     <value>State Größe</value>
   </data>
   <data name="SelectedStateSizeTooltip" xml:space="preserve">
-    <value>Größe des States in Bits festlegen (muss mit der Summe aus Bitrate und Kapazität übereinstimmen)</value>
+    <value>Größe des States in Bit (muss mit der Summe von Bitrate und Kapazität übereinstimmen)</value>
   </data>
   <data name="StateSize0" xml:space="preserve">
     <value>25 Bit</value>
@@ -215,5 +212,17 @@
   </data>
   <data name="StateSize6" xml:space="preserve">
     <value>1600 Bit</value>
+  </data>
+  <data name="OutputMatchError" xml:space="preserve">
+    <value>Ausgabelänge muss durch 8 teilbar sein.</value>
+  </data>
+  <data name="OutputTooLongWarning" xml:space="preserve">
+    <value>Die Ausgabe ist zu lang. Sie wird auf 174.760 Bit gekürzt.</value>
+  </data>
+  <data name="RateTooltip" xml:space="preserve">
+    <value>Größe der Bitrate in Bit (muss durch 8 teilbar sein)</value>
+  </data>
+  <data name="StateSizeMatchError" xml:space="preserve">
+    <value>Die Summe von Bitrate und Kapazität muss mit der Größe des State übereinstimmen.</value>
   </data>
 </root>

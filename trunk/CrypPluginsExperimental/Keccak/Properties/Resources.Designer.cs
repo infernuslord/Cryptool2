@@ -70,7 +70,7 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Set the size of the capacity (the sum of capacity and bit rate must match the state size) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Size of capacity in bit ähnelt.
         /// </summary>
         internal static string CapacityTooltip {
             get {
@@ -214,11 +214,20 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Set the size of the output length in bits (must be divisible by 8) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Size of output length in bit (must be divisible by 8) ähnelt.
         /// </summary>
         internal static string OutputLengthTooltip {
             get {
                 return ResourceManager.GetString("OutputLengthTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output length must be divisible by 8. ähnelt.
+        /// </summary>
+        internal static string OutputMatchError {
+            get {
+                return ResourceManager.GetString("OutputMatchError", resourceCulture);
             }
         }
         
@@ -228,6 +237,15 @@ namespace Keccak.Properties {
         internal static string OutputStreamCaption {
             get {
                 return ResourceManager.GetString("OutputStreamCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output too long. It will be truncated to 174,760 bit. ähnelt.
+        /// </summary>
+        internal static string OutputTooLongWarning {
+            get {
+                return ResourceManager.GetString("OutputTooLongWarning", resourceCulture);
             }
         }
         
@@ -268,7 +286,7 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Set the size of the bit rate in bits (must be divisible by 8) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Size of bit rate in bit (must be divisible by 8) ähnelt.
         /// </summary>
         internal static string RateTooltip {
             get {
@@ -286,7 +304,7 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Set the size of the state in bits (must match the sum of bit rate and capacity) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set the size of the state in bit (must match the sum of bit rate and capacity) ähnelt.
         /// </summary>
         internal static string SelectedStateSizeTooltip {
             get {
@@ -354,6 +372,15 @@ namespace Keccak.Properties {
         internal static string StateSize6 {
             get {
                 return ResourceManager.GetString("StateSize6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The sum of bit rate and capacity must match the selected state size. ähnelt.
+        /// </summary>
+        internal static string StateSizeMatchError {
+            get {
+                return ResourceManager.GetString("StateSizeMatchError", resourceCulture);
             }
         }
     }
