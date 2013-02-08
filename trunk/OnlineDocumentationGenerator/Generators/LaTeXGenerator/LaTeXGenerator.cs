@@ -39,7 +39,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", string.Format("{0}\n{1}", tableCode, descriptionCode));
             var versionString = GetVersion();
             latexCode = latexCode.Replace("$VERSION$", versionString);
-            StoreLaTeX(latexCode, "templates.tex");
+            StoreLaTeX(latexCode, "templates-"+_lang+".tex");
         }
 
         private string GetVersion()
@@ -61,7 +61,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private string GenerateTemplateOverviewTableCode(string lang)
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\\chapter{Übersicht über die Vorlagen}");
+            stringBuilder.AppendLine("\\chapter{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterTitle + "}");
             stringBuilder.AppendLine("\\begin{longtable}{lp{0.6\\textwidth}}");
             foreach (var dir in _templatesDir.SubDirectories)
             {
@@ -159,9 +159,12 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private string GenerateTemplateDescriptionCode(string lang)
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\\chapter{Die Vorlagen}");
+            stringBuilder.AppendLine("\\chapter{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterSubTitle + "}");
+            bool first = true;
             foreach (var dir in _templatesDir.SubDirectories)
             {
+                if (!first) stringBuilder.AppendLine("\\newpage");
+                first = false;
                 GenerateTemplateDescriptionSection(dir, stringBuilder, 0, lang);
             }
             return stringBuilder.ToString();

@@ -275,6 +275,12 @@
     <value>..\generators\htmlgenerator\templateeditorindex.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="LaTeXTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\generators\latexgenerator\latextemplate.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\generators\latexgenerator\latextemplate-en.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="LatexGenerator_ChapterSubTitle" xml:space="preserve">
+    <value>The Templates</value>
+  </data>
+  <data name="LatexGenerator_ChapterTitle" xml:space="preserve">
+    <value>Overview over the Templates</value>
   </data>
 </root>
