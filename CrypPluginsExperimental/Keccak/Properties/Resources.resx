@@ -192,7 +192,7 @@
   <data name="KeccakFunctionList4" xml:space="preserve">
     <value>SHA3-384</value>
   </data>
-  <data name="KeccakFunctionList51" xml:space="preserve">
+  <data name="KeccakFunctionList5" xml:space="preserve">
     <value>SHA3-512</value>
   </data>
   <data name="StateSize0" xml:space="preserve">

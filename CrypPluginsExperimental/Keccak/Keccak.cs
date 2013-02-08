@@ -166,9 +166,15 @@ namespace Cryptool.Plugins.Keccak
         {
             bool stateSizeOk = (settings.GetStateSize() == settings.Rate + settings.Capacity);
             bool outputLengthOk = settings.OutputLength % 8 == 0;
+            bool outputLengthTruncated = settings.OutputLengthTruncated();
 
             if (stateSizeOk && outputLengthOk)
             {
+                if (outputLengthTruncated)
+                {
+                    GuiLogMessage("Output length too long, will be truncated to 174760 bits", NotificationLevel.Warning);
+                }
+
                 return;
             }
             else
