@@ -168,11 +168,12 @@ namespace Cryptool.Plugins.Keccak
             bool outputLengthOk = settings.OutputLength % 8 == 0;
             bool outputLengthTruncated = settings.OutputLengthTruncated();
 
+
             if (stateSizeOk && outputLengthOk)
             {
                 if (outputLengthTruncated)
                 {
-                    GuiLogMessage("Output length too long, will be truncated to 174760 bits", NotificationLevel.Warning);
+                    GuiLogMessage("Output too long. It will be truncated to 174,760 bit.", NotificationLevel.Warning);
                 }
 
                 return;
@@ -181,11 +182,11 @@ namespace Cryptool.Plugins.Keccak
             {
                 if (!stateSizeOk)
                 {
-                    GuiLogMessage("The sum of the specified bit rate and capacity must match the selected state size!", NotificationLevel.Error);
+                    GuiLogMessage("The sum of bit rate and capacity must match the selected state size.", NotificationLevel.Error);
                 }
                 if (!outputLengthOk)
                 {
-                    GuiLogMessage("The output length must be divisible by 8!", NotificationLevel.Error);
+                    GuiLogMessage("Output length must be divisible by 8.", NotificationLevel.Error);
                 }
                 execute = false;
             }
