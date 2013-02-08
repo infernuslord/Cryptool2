@@ -299,6 +299,7 @@ namespace Cryptool.CrypWin
                     generatingDocWindow.Show();
                     var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
                     docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de", noIcons, showAuthors));
+                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("en", noIcons, showAuthors));
                     generatingDocWindow.Close();                    
                 }
                 catch(Exception ex)
