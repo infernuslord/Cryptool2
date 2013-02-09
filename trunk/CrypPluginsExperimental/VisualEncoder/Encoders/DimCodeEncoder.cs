@@ -1,6 +1,6 @@
 ﻿/*
-   Copyright 2008-2011 CrypTool 2 Team <ct2contact@cryptool.org>
-
+    Copyright 2013 Christopher Konze, University of Kassel
+ 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -125,7 +125,10 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
                 return image;
             }
         }
-
+        
+        /// <summary>
+        /// calculates and returns the hight of a black area inside of the given bitmap at x
+        /// </summary>
         protected static int CalcBarHight(Bitmap bitmap, int x)
         {
             int barHight = 0;
@@ -150,7 +153,10 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
             return barHight;
         }
 
-
+        /// <summary>
+        /// Colors the given bitmap at x, between yfrom and yto.
+        /// If the old color of a point x,y was black, the new color will be cBlack, elsewise it will be cWhite. 
+        /// </summary>
         protected static Bitmap FillBitmapOnX(int x, int yFrom, int yTo, Bitmap bitmap, Color cBlack, Color cWhite)
         {
             var lockBitmap = new LockBitmap(bitmap);
@@ -165,6 +171,10 @@ namespace Cryptool.Plugins.VisualEncoder.Encoders
             return bitmap;
         }
 
+        /// <summary>
+        /// Colors the given bitmap.
+        /// If the old color of a point x,y was black, the new color will be cBlack, elsewise it will be cWhite. 
+        /// </summary>
         protected static Bitmap FillArea(int xFrom, int xTo , int yFrom, int yTo, Bitmap bitmap, Color cBlack, Color cWhite)
         {
             for (; xFrom <= xTo ; xFrom++ )

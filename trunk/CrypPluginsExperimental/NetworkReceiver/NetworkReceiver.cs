@@ -28,7 +28,7 @@ using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Plugins.NetworkReceiver
 {
-    [Author("", "ckonze@uni.de", "", "")]
+    [Author("Christopher Konze", "Christopher.Konze@cryptool.org", "University of Kassel", "http://www.uni-kassel.de/eecs/")]
     [PluginInfo("NetworkReceiver.Properties.Resources", "PluginCaption", "PluginTooltip", "NetworkReceiver/userdoc.xml", new[] { "NetworkReceiver/Images/package.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkReceiver : ICrypComponent

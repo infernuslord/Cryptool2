@@ -1,6 +1,6 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
-
+    Copyright 2013 Christopher Konze, University of Kassel
+ 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -60,6 +60,10 @@ namespace Cryptool.Plugins.VisualEncoder
             UpdateImage();
         }
 
+         /// <summary>
+         /// updates the legend with the new legend
+         /// </summary>
+         /// <param name="legend"></param>
         public void SetList(List<LegendItem> legend)
         {
             legend1.Visibility = Visibility.Hidden;
