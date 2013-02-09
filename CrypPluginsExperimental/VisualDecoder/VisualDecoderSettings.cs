@@ -1,6 +1,6 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
-
+    Copyright 2013 Christopher Konze, University of Kassel
+ 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.VisualDecoder
             }
         }
 
-        [TaskPane("StopOnSuccessCaption", "StopOnSuccessCaptionTooltip", null, 2, true, ControlType.CheckBox)]
+        [TaskPane("StopOnSuccessCaption", "StopOnSuccessCaptionTooltip", null, 2, false, ControlType.CheckBox)]
         public bool StopOnSuccess
         {
             get
