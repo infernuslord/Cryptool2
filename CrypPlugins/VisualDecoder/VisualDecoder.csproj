@@ -76,9 +76,8 @@
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="zxing, Version=0.9.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>externalLibs\ZXing.net\zxing.dll</HintPath>
+    <Reference Include="zxing">
+      <HintPath>..\..\Lib\zxing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +148,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="externalLibs\ZXing.net\apache License 2.0.txt" />
-    <Content Include="externalLibs\ZXing.net\zxing.dll" />
-    <Content Include="externalLibs\ZXing.net\zxing.XML" />
     <Resource Include="Images\icon.png" />
     <Content Include="Images\License.txt" />
   </ItemGroup>
