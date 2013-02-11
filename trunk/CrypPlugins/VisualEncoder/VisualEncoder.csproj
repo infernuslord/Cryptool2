@@ -77,9 +77,9 @@
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="zxing, Version=0.9.0.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>externalLibs\ZXing.net\zxing.dll</HintPath>
+    <Reference Include="zxing">
+      <HintPath>..\..\Lib\zxing.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -140,8 +140,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="externalLibs\ZXing.net\zxing.dll" />
-    <Content Include="externalLibs\ZXing.net\zxing.XML" />
     <Content Include="how_to_add_new_DimCodes.txt" />
     <Resource Include="Images\icon.png" />
     <Content Include="Images\License.txt" />
