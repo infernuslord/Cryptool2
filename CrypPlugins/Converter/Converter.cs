@@ -60,11 +60,6 @@ namespace Cryptool.Plugins.Converter
             set { this.settings = (ConverterSettings)value; }
         }
 
-        private void Converter_LogMessage(string msg, NotificationLevel loglevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
-        }
-
         public System.Windows.Controls.UserControl Presentation
         {
             get { return null; }
@@ -310,8 +305,6 @@ namespace Cryptool.Plugins.Converter
         {
             if (input == null) return false;
 
-            GuiLogMessage("Converting from " + input.GetType() + " to " + GetType(settings.Converter), NotificationLevel.Debug);
-
             #region ConvertFromTypes
 
             #region ConvertFromICryptoolStream
@@ -346,7 +339,6 @@ namespace Cryptool.Plugins.Converter
                         }
 
                     default:
-                        //GuiLogMessage("Conversion from ICryptoolStream to the chosen type is not implemented", NotificationLevel.Error);
                         GuiLogMessage("Conversion from " + input.GetType() + " to " + GetType(settings.Converter) + " is not implemented", NotificationLevel.Error);
                         return false;
                 }
@@ -427,11 +419,6 @@ namespace Cryptool.Plugins.Converter
                             Output = (byte[])input;
                             return true;
                         }
-                    //default:
-                    //    {
-                    //        GuiLogMessage("Could not convert from byte[] to chosen type: ", NotificationLevel.Error);
-                    //        return false;
-                    //    }
                 }
             }
             #endregion
@@ -722,26 +709,12 @@ namespace Cryptool.Plugins.Converter
                     }
                 #endregion
                 #region ConvertToIntArray
-                //case OutputTypes.IntArrayType:
-                //    {
-                //        GuiLogMessage("Conversion to int[] not yet defined: ", NotificationLevel.Error);
-                //        break;
-                //    }
                 #endregion
                 #region ConvertToByteArray
                 case OutputTypes.ByteArrayType:
                     {
                         if (settings.Numeric) // apply user setting concerning numeric interpretation of input (else input is read as string)
                         {
-                            //inpString = setText(Encoding.UTF8.GetBytes(inpString), settings.Presentation);
-
-                            //try // can be read as BigInteger?
-                            //{
-                            //    Output = BigInteger.Parse(inpString).ToByteArray();
-                            //    return true;
-                            //}
-                            //catch(Exception){}
-
                             try // can be read as parseable expression?
                             {
                                 Output = BigIntegerHelper.ParseExpression(inpString).ToByteArray();
@@ -781,9 +754,7 @@ namespace Cryptool.Plugins.Converter
                 #endregion
                 #region ConvertToCryptoolStream
                 case OutputTypes.CryptoolStreamType:
-                    {
-                        GuiLogMessage("Conversion from " + input.GetType().Name, NotificationLevel.Info);
-
+                    {                        
                         if (input is byte[] || input is byte || input is BigInteger || input is String)
                         {
                             OnPropertyChanged("Output"); 
@@ -909,12 +880,7 @@ namespace Cryptool.Plugins.Converter
 
         private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //GuiLogMessage("settings_PropertyChanged: "+e.PropertyName, NotificationLevel.Debug);
-                      
-            //if ( e.PropertyName == "OutputEncoding" )
-            {
-                ConvertToOutput(InputOne);
-            }
+            ConvertToOutput(InputOne);
         }
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
