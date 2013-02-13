@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.Webcam
         private readonly WebcamPresentation presentation;
         private DateTime lastExecuted = DateTime.Now;
         private System.Timers.Timer grabOutputPicture = null;
-        private bool takePicture = false;
+        private bool takePicture;
 
         public Webcam()
         {
@@ -127,49 +127,60 @@ namespace Cryptool.Plugins.Webcam
                                                   : "");
                     }
 
-                    
 
-                    if (settings.TakePictureChoice == 0)
+                    if (settings.TakePictureChoice == 1)
                     {
-                        if (TakePicture) //set singleoutput if takepicture is true
+                        if (PictureOutput != null)
                         {
-                            BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
-
-                            if (bitmap != null)
+                            if (TakePicture) //set singleoutput if takepicture is false
                             {
-                                SingleOutPut = ImageTojepgByte(bitmap);
-                                OnPropertyChanged("SingleOutPut");
-                            }
-                        }
-                    } 
-                    else if (settings.TakePictureChoice == 1)
-                    {
-                        if (!TakePicture) //set singleoutput if takepicture is false
-                        {
-                            BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
+                                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
 
-                            if (bitmap != null)
-                            {
-                                SingleOutPut = ImageTojepgByte(bitmap);
-                                OnPropertyChanged("SingleOutPut");
+                                if (bitmap != null)
+                                {
+                                    SingleOutPut = ImageTojepgByte(bitmap);
+                                    OnPropertyChanged("SingleOutPut");
+                                }
                             }
                         }
                     }
                     else if (settings.TakePictureChoice == 2)
                     {
-                        if (TakePicture || !TakePicture) //set singleoutput if takepicture is true or false
+                        if (PictureOutput != null)
                         {
-                            BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
-
-                            if (bitmap != null)
+                            if (!TakePicture) //set singleoutput if takepicture is false
                             {
-                                SingleOutPut = ImageTojepgByte(bitmap);
-                                OnPropertyChanged("SingleOutPut");
+                                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
+
+                                if (bitmap != null)
+                                {
+                                    SingleOutPut = ImageTojepgByte(bitmap);
+                                    OnPropertyChanged("SingleOutPut");
+                                }
                             }
                         }
+                        
                     }
 
+                    else if (settings.TakePictureChoice == 0)
+                    {
+                        if (PictureOutput != null)
+                        {
+                            if (TakePicture || !TakePicture) //set singleoutput if takepicture is true or false
+                            {
+                                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
+
+                                if (bitmap != null)
+                                {
+                                    SingleOutPut = ImageTojepgByte(bitmap);
+                                    OnPropertyChanged("SingleOutPut");
+                                }
+                            }
+                        }
+
+                    }       
                 }
+                
                 catch (Exception ex)
                 {
                     GuiLogMessage(ex.Message, NotificationLevel.Error);

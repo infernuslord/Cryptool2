@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.Webcam
             }
         }
 
-        [TaskPane("TakePictureChoice", "TakePictureChoiceToolTip", null, 0, false, ControlType.ComboBox, new string[] { "True", "False", "True/False" })]
+        [TaskPane("TakePictureChoice", "TakePictureChoiceToolTip", null, 0, false, ControlType.ComboBox, new string[] { "True/False", "True", "False" })]
         public int TakePictureChoice
         {
             get
@@ -121,7 +121,7 @@ namespace Cryptool.Plugins.Webcam
             }
         }
 
-        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 500, 10000)]
+        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 40, 10000)]
         public int SendPicture
         {
             get
