@@ -30,6 +30,8 @@ namespace Cryptool.Plugins.NetworkReceiver
     {
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
         private readonly NetworkReceiver caller;
+        private int newCount = 0;
+        private const int maxMessageCount = 100;
 
         public NetworkReceiverPresentation(NetworkReceiver networkReceiver)
         {
@@ -75,6 +77,18 @@ namespace Cryptool.Plugins.NetworkReceiver
                    ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
                    amount.Content = amountOfReceivedPackages;
                    uniqueIP.Content = amountOfUniqueIps;
+                
+                    //Delets entries from List if the amount is > 100
+                   if (ListView.DataContext != null)
+                   {
+                       newCount++;
+                       if (newCount >= maxMessageCount)
+                       {
+                           entries.Clear();
+                           newCount = 0;
+                       }
+                   } 
+                 
                 }
                 catch (Exception e)
                 {
