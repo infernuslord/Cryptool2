@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.MorseCode
 
         #region TaskPane Settings
 
-        [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "Encode", "Decode" })]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "Encode", "Decode", "Play" })]
         public int Action
         {
             get { return _action; }

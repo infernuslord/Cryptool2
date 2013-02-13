@@ -141,6 +141,9 @@
   <data name="OutputTextTooltip" xml:space="preserve">
     <value>The encoded or decoeded text</value>
   </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Morse Code</value>
   </data>

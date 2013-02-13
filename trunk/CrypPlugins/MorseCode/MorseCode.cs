@@ -16,11 +16,15 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Media;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using MorseCode;
+
 
 namespace Cryptool.Plugins.MorseCode
 {
@@ -29,6 +33,8 @@ namespace Cryptool.Plugins.MorseCode
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class MorseCode : ICrypComponent
     {
+        //private SoundPlayer _player = new SoundPlayer();
+
         /// <summary>
         /// Constructs our mapping and creates our MorseCode object
         /// </summary>
@@ -96,13 +102,15 @@ namespace Cryptool.Plugins.MorseCode
             _mapping.Add('=',"-...-");
             _mapping.Add('+',".-.-.");
             _mapping.Add('/',"-..-.");
-            _mapping.Add('@',".--.-.");
+            _mapping.Add('@',".--.-.");            
         }
 
         #region Private Variables
 
         private readonly MorseCodeSettings _settings = new MorseCodeSettings();
         private readonly Dictionary<char, string> _mapping = new Dictionary<char, string>();
+        private bool _stopped = false;
+
         #endregion
 
         #region Data Properties
@@ -143,13 +151,14 @@ namespace Cryptool.Plugins.MorseCode
         /// </summary>
         public void PreExecution()
         {
+            _stopped = false;
         }
 
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
         /// </summary>
         public void Execute()
-        {
+        {            
             ProgressChanged(0, 1);
             if (string.IsNullOrEmpty(InputText) || string.IsNullOrWhiteSpace(InputText))
             {
@@ -166,9 +175,64 @@ namespace Cryptool.Plugins.MorseCode
                     case 1:
                         Decode();
                         break;
+                    case 2:
+                        Play();
+                        break;
                 }
             }
             ProgressChanged(1, 1);
+        }
+
+        /// <summary>
+        /// Plays the given Morse Code
+        /// </summary>
+        private void Play()
+        {            
+            using(Stream ditStream = new MemoryStream())
+            using(Stream daStream = new MemoryStream())
+            using (Stream silenceStream = new MemoryStream())
+            {
+                var ditPlayer = new SoundPlayer(ditStream);
+                var daPlayer = new SoundPlayer(daStream);
+                var silencePlayer = new SoundPlayer(silenceStream);
+                var dit = new Wave();
+                dit.GenerateSound(256, 600, 50);
+                dit.WriteToStream(ditStream);
+                var dah = new Wave();
+                dah.GenerateSound(256, 600, 100);
+                dah.WriteToStream(daStream);
+                var silence = new Wave();
+                silence.GenerateSound(256, 0, 100);
+                silence.WriteToStream(silenceStream);
+                foreach (char c in InputText)
+                {
+                    if(_stopped)
+                    {
+                        ditPlayer.Stop();
+                        daPlayer.Stop();
+                        silencePlayer.Stop();
+                        return;
+                    }
+                    if (c == '.')
+                    {
+                        ditStream.Position = 0;
+                        ditPlayer.PlaySync();        
+                    }
+                    else if (c == '-')
+                    {
+                        daStream.Position = 0;
+                        daPlayer.PlaySync();  
+                    }
+                    else
+                    {
+                        silenceStream.Position = 0;
+                        silencePlayer.PlaySync(); 
+                    }
+                }
+                ditPlayer.Stop();
+                daPlayer.Stop(); 
+                silencePlayer.Stop();
+            }            
         }
 
         /// <summary>
@@ -292,6 +356,7 @@ namespace Cryptool.Plugins.MorseCode
         /// </summary>
         public void Stop()
         {
+            _stopped = true;
         }
 
         /// <summary>
@@ -309,7 +374,7 @@ namespace Cryptool.Plugins.MorseCode
         }
 
         #endregion
-
+        
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;

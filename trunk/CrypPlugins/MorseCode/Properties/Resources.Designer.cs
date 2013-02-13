@@ -133,6 +133,15 @@ namespace MorseCode.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play.
+        /// </summary>
+        internal static string Play {
+            get {
+                return ResourceManager.GetString("Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Morse Code.
         /// </summary>
         internal static string PluginCaption {
