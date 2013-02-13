@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
 
@@ -16,6 +17,8 @@ namespace Cryptool.Plugins.NetworkSender
 
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
         private readonly NetworkInput caller;
+        private const int maxMessageCount = 100;
+        private int newCount = 0;
 
         public NetworkSenderPresentation(NetworkInput networkInput)
         {
@@ -30,6 +33,18 @@ namespace Cryptool.Plugins.NetworkSender
                 try
                 {
                     amount.Content = amountOfSendedPackages;
+
+                    //Delets entries from List if the amount is > 100
+                    if (ListView.DataContext != null)
+                    {
+                        newCount++;
+                        if (newCount >= maxMessageCount)
+                        {
+                            entries.Clear();
+                            newCount = 0;
+                        }
+                    } 
+                     
                 }
                 catch (Exception e)
                 {
@@ -63,6 +78,7 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     entries.Add(package);
                     ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
+
                 }
                 catch (Exception e)
                 {

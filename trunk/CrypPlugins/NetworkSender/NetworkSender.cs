@@ -44,6 +44,8 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
+        private const int maxMessageCount = 100;
+        private int newCount = 0;
 
         #endregion
 
@@ -183,10 +185,11 @@ namespace Cryptool.Plugins.NetworkSender
                         } 
                         
                         presentation.RefreshMetaData(++packageCount);
-
+                        
                         //updates the presentation
                         presentation.AddPresentationPackage(new PresentationPackage
                         {
+                            
                             IPFrom = endPoint.Address.ToString(),
                             Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
                             PackageSize = generatePackageSizeString(packetData)
