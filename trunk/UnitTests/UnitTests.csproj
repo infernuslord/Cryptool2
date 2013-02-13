@@ -89,6 +89,7 @@
     <Compile Include="ADFGVXTest.cs" />
     <Compile Include="AESTest.cs" />
     <Compile Include="CaesarTest.cs" />
+    <Compile Include="MorseCodeTest.cs" />
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
     <Compile Include="DESTest.cs" />

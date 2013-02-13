@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Morse code</title>
+  <summary lang="en">Shows how a morse code is encoded and decoded</summary>
+  <description lang="en">This template shows how a text is encoded to a morse code and how a morse code is decoded to a text.</description>
+  <keywords>morse code</keywords>
+
+  <title lang="de">Morsecode</title>
+  <summary lang="de">Zeigt wie ein Morsecode kodiert und dekodiert wird</summary>
+  <description lang="de">Diese Vorlage zeigt die Enkodierung eines Textes in einen Morsecode und die Dekodierung eines Morsecodes in einen Text</description>
+  <keywords lang="de">Morsecode</keywords>
+
+  <icon file="MorseCode.png" />
+	<relevantPlugins>   
+		<plugin name="MorseCode" />
+  </relevantPlugins>
+</sample>
