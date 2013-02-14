@@ -7,9 +7,11 @@
              Height="300" Width="500" ResizeMode="CanResize"
              Title="{Loc StorageWindow}" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
     <Window.Resources>
-        <Style TargetType="Button">
+        <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5,1,5,1" />
         </Style>
+        <Style BasedOn="{StaticResource ButtonStyle}" TargetType="Button"/>
     </Window.Resources>
     
     <Grid>
@@ -29,10 +31,22 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
                 <Label Content="{Loc AvailableKeys}" />
                 <ListBox x:Name="KeyListBox" Grid.Row="1" DisplayMemberPath="Key" SelectionChanged="KeyListBox_OnSelectionChanged" />
+                <Button Grid.Row="2" Content="{Loc RemoveKey}" Click="RemoveButtonClick">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItem, ElementName=KeyListBox}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
             
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ResizeDirection="Columns" />
@@ -75,7 +89,7 @@
             <TextBox x:Name="StoreKey" Grid.Column="1" MaxLines="1" VerticalAlignment="Center" />
             <Button Grid.Column="2" Margin="5" IsDefault="True" Content="{Loc StoreButton}" Click="StoreButtonClicked">
                 <Button.Style>
-                    <Style TargetType="Button">
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Text, ElementName=StoreKey}" Value="">
                                 <Setter Property="IsEnabled" Value="False" />

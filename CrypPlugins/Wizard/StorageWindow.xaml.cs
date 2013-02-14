@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -82,17 +83,51 @@ namespace Wizard
             SaveAndClose(storage);
         }
 
+        private void RemoveButtonClick(object sender, RoutedEventArgs e)
+        {
+            Debug.Assert(KeyListBox.SelectedItem != null);
+            var key = ((StorageEntry) KeyListBox.SelectedItem).Key;
+            var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
+            Debug.Assert(storage != null);
+
+            int c = 0;
+            foreach (var entry in storage.Cast<StorageEntry>())
+            {
+                if (entry.Key == key)
+                {
+                    var res = MessageBox.Show("Are you sure you want to remove the selected key?", "Remove key", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        storage.RemoveAt(c);
+                        Save(storage);
+                        KeyListBox.ItemsSource = null;
+                        KeyListBox.ItemsSource = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
+                    }
+                    return;
+                }
+                c++;
+            }
+        }
+
         private void SaveAndClose(ArrayList storage)
         {
-            Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage = storage;
-            Cryptool.PluginBase.Properties.Settings.Default.Save();
+            Save(storage);
             DialogResult = true;
             Close();
         }
 
+        private static void Save(ArrayList storage)
+        {
+            Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage = storage;
+            Cryptool.PluginBase.Properties.Settings.Default.Save();
+        }
+
         private void KeyListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StoreKey.Text = ((StorageEntry) KeyListBox.SelectedItem).Key;
+            if (KeyListBox.SelectedItem != null)
+            {
+                StoreKey.Text = ((StorageEntry) KeyListBox.SelectedItem).Key;
+            }
         }
     }
 }

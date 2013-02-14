@@ -145,6 +145,7 @@
 <!ELEMENT storage (#PCDATA) >
 <!ATTLIST storage
    key	CDATA       #REQUIRED
+   defaultKeyOnly	(true|false)       #IMPLIED
 >
 
 <!ELEMENT condition (#PCDATA) >

@@ -4,14 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="300">
+             d:DesignHeight="27" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Padding" Value="5,1,5,1" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <ContentControl x:Name="StorageContainerContent" />
-        <Button Grid.Column="1" Content="{Loc Storage}" Click="StorageButtonClicked" />
+        <ContentControl VerticalAlignment="Center" x:Name="StorageContainerContent" />
+        <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc Storage}" Click="StorageButtonClicked" />
+        <Button x:Name="SaveButton" Grid.Column="2" Height="20" Content="{Loc Save}" Click="SaveButtonClicked" />
+        <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc Load}" Click="LoadButtonClicked" />
     </Grid>
 </UserControl>
