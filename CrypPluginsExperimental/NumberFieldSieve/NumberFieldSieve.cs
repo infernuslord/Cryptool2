@@ -143,6 +143,7 @@ namespace NumberFieldSieve
         {
             _stop = false;
             OutputFactors = null;
+            ProgressChanged(0, 100);
 
             try
             {
@@ -168,7 +169,7 @@ namespace NumberFieldSieve
                 var searchPaths = engine.GetSearchPaths();
                 searchPaths.Add(Path.Combine(ggnfsDir, "pythonlib"));
                 engine.SetSearchPaths(searchPaths);
-                using (var outputStream = new GGNFSOutputStream(delegate(string buffer) { _presentation.Append(buffer); SetStatus(_scope.GetVariable<int>("status")); }))
+                using (var outputStream = new GGNFSOutputStream(delegate(string buffer) { _presentation.Append(buffer); SetStatus(_scope.GetVariable<int>("status"), _scope.GetVariable<double>("sievingProgress")); }))
                 using (var errorOutputStream = new GGNFSOutputStream(buffer => GuiLogMessage(buffer, NotificationLevel.Error)))
                 {
                     engine.Runtime.IO.SetOutput(outputStream, Encoding.ASCII);
@@ -189,6 +190,11 @@ namespace NumberFieldSieve
 
                     var main = scope.GetVariable<Func<List>>("Main");
                     var res = main.Invoke();
+
+                    if (res == null || res.Count == 0)
+                    {
+                        return;
+                    }
 
                     //give out factors:
                     var factorList = new List<BigInteger>();
@@ -216,29 +222,39 @@ namespace NumberFieldSieve
             }
         }
 
-        private void SetStatus(int status)
+        private void SetStatus(int status, double sievingProgress)
         {
             if (_statusNr != status)
             {
-                _statusNr = status;
                 switch (status)
                 {
                     case 0:
                         Status = "-";
+                        ProgressChanged(_statusNr > 0 ? 100 : 0, 100);
                         break;
                     case 1:
                         Status = Resources.Finding_polynomial;
+                        ProgressChanged(1, 100);
                         break;
                     case 2:
                         Status = Resources.Setting_up_factorization_step;
+                        ProgressChanged(10, 100);
                         break;
                     case 3:
                         Status = Resources.Sieving;
+                        ProgressChanged(11, 100);
                         break;
                     case 4:
                         Status = Resources.Solving_matrix;
+                        ProgressChanged(90, 100);
                         break;
                 }
+                _statusNr = status;
+            }
+            else if (status == 3)
+            {
+                var pc = 11 + (sievingProgress / 100) * 80;
+                ProgressChanged(Math.Min(89.9, pc), 100);
             }
         }
 
@@ -268,6 +284,15 @@ namespace NumberFieldSieve
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void ProgressChanged(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
+
+            }
         }
 
         internal void GuiLogMessage(string p, NotificationLevel notificationLevel)
@@ -306,7 +331,7 @@ namespace NumberFieldSieve
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            _writeCallback(Encoding.ASCII.GetString(buffer));
+            _writeCallback(Encoding.ASCII.GetString(buffer, offset, count));
         }
 
         public override bool CanRead
