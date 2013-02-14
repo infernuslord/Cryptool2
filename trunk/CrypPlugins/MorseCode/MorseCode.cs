@@ -204,8 +204,10 @@ namespace Cryptool.Plugins.MorseCode
                 var silence = new Wave();
                 silence.GenerateSound(256, 0, 100);
                 silence.WriteToStream(silenceStream);
+                int charnumber = 0;
                 foreach (char c in InputText)
                 {
+                    charnumber++;
                     if(_stopped)
                     {
                         ditPlayer.Stop();
@@ -228,6 +230,7 @@ namespace Cryptool.Plugins.MorseCode
                         silenceStream.Position = 0;
                         silencePlayer.PlaySync(); 
                     }
+                    ProgressChanged(((double)charnumber) / InputText.Length, 1);
                 }
                 ditPlayer.Stop();
                 daPlayer.Stop(); 
@@ -261,6 +264,7 @@ namespace Cryptool.Plugins.MorseCode
                     //no corresponding morse code exists for the found character
                     builder.Append("? ");
                 }
+                ProgressChanged(((double)i)/uppertext.Length,1);
             }
             //finally we have to remove the last added space
             builder.Remove(builder.Length - 1, 1);
@@ -275,9 +279,10 @@ namespace Cryptool.Plugins.MorseCode
         {
             var builder = new StringBuilder();
             string[] tokens = InputText.Split(' ');
+            int tokennumber = 0;
             foreach(string token in tokens)
             {
-                
+                tokennumber++;
                 if(_mapping.ContainsValue(token))
                 {
                     //We have no leading or trailing linebreaks because we directly found the token
@@ -307,6 +312,7 @@ namespace Cryptool.Plugins.MorseCode
                     //character value
                     builder.Append("?");
                 }
+                ProgressChanged(((double)tokennumber) / tokens.Length, 1);
             }           
             OutputText = builder.ToString();
             OnPropertyChanged("OutputText");
