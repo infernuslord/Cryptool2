@@ -136,7 +136,7 @@
     <value>Empfangende Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerk Empfänger</value>
+    <value>Netzwerk-Empfänger</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Die Komponente kann über ein Netzwerk gesendete Pakete empfangen.</value>

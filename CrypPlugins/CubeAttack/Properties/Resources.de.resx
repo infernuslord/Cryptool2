@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Cube Attack</value>
+    <value>Cube-Angriff</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Cube Attack</value>
+    <value>Cube-Angriff</value>
   </data>
   <data name="OutputSuperpolyCaption" xml:space="preserve">
     <value>Ausgabe der Superpolynome</value>
@@ -136,10 +136,10 @@
     <value>Ausgabe der geheimen Schlüsselbits</value>
   </data>
   <data name="CubeattackBlackboxCaption" xml:space="preserve">
-    <value>Master für CubeAttack</value>
+    <value>Master für Cube-Angriff</value>
   </data>
   <data name="CubeattackBlackboxTooltip" xml:space="preserve">
-    <value>Master für CubeAttack</value>
+    <value>Master für Cube-Angriff</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>

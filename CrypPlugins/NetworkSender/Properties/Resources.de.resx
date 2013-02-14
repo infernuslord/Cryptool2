@@ -130,7 +130,7 @@
     <value>Gesendete Daten</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Netzwerk Sender</value>
+    <value>Netzwerk-Sender</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
     <value>Die Komponente kann über ein Netzwerk Pakete senden.</value>
