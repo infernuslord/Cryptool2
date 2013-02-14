@@ -86,6 +86,7 @@ namespace WorkspaceManager
         private EditorVisual WorkspaceSpaceEditorView = null;
         public ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
+        private volatile bool stopping = false;
 
         #endregion
 
@@ -617,7 +618,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Execute()
         {
-            if (executing)
+            if (executing || stopping)
             {
                 return;
             }
@@ -628,9 +629,7 @@ namespace WorkspaceManager
                 GuiLogMessage(Resources.WorkspaceManagerClass_Execute_Execute_Model_now_, NotificationLevel.Info);
                 executing = true;
                 executeEvent(this, EventArgs.Empty);
-
-
-
+                
                 if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
                 {
                     EventsHelper.AsynchronousProgressChanged = false;
@@ -647,8 +646,8 @@ namespace WorkspaceManager
                 }
                 , null);
 
-                this.ExecutionEngine = new ExecutionEngine(this);
-                this.ExecutionEngine.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
+                ExecutionEngine = new ExecutionEngine(this);
+                ExecutionEngine.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
 
                 try
                 {
@@ -751,7 +750,7 @@ namespace WorkspaceManager
                 this.WorkspaceSpaceEditorView.Progress = 0;
             }
             , null);
-
+            executing = false;
         }
 
         /// <summary>
@@ -760,11 +759,12 @@ namespace WorkspaceManager
         private void waitingStop()
         {
             lock (this)
-            {
+            {                
                 if (!executing)
-                {
+                {                    
                     return;
                 }
+                stopping = true;
                 try
                 {
                     GuiLogMessage(Resources.WorkspaceManagerClass_waitingStop_Stopping_execution_, NotificationLevel.Info);
@@ -775,9 +775,9 @@ namespace WorkspaceManager
                     GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_waitingStop_Exception_during_the_stopping_of_the_execution___0_,ex.Message), NotificationLevel.Error);
                 }
                 this.ExecutionEngine = null;
-                GC.Collect();
-                executing = false;
+                GC.Collect();                
                 executeEvent(this, EventArgs.Empty);
+                stopping = false;
             }
         }
 
