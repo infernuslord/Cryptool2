@@ -43,7 +43,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       </inputBox>
 
       <keyTextBox plugin="KeySearcher" property="Key" defaultkey="A1-B1-C1-11-11-11-11-11-11-11-11-11-11-**-**-**" format="[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]">
-        <storage key="test" />
+        <storage key="test" defaultKeyOnly="true" />
         <description lang="en">Keypattern:</description>
         <description lang="de">Schlüsselmuster:</description>
       </keyTextBox>
@@ -122,6 +122,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       </inputBox>
 
       <keyTextBox plugin="KeySearcher" property="Key" defaultkey="A1-B1-C1-11-11-11-11-11-11-11-11-11-11-**-**-**" format="[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]">
+        <storage key="test2" defaultKeyOnly="false" />
         <description lang="en">Keypattern:</description>
         <description lang="de">Schlüsselmuster:</description>
       </keyTextBox>

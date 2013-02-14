@@ -580,6 +580,7 @@ namespace Wizard
 
             var pluginPropertyValue = GetPropertyValue(key, input.Parent);
 
+            XElement xel;
             switch (input.Name.ToString())
             {
                 case "pluginSetter":
@@ -631,10 +632,16 @@ namespace Wizard
                     if (!isInput)
                         currentInputBoxes.Add(inputBox);
 
-                    if (input.Element("storage") != null)
+                    xel = input.Element("storage");
+                    if (xel != null)
                     {
                         var storageContainer = new StorageContainer();
-                        storageContainer.AddContent(inputBox, input.Element("storage").Attribute("key").Value);
+                        var defaultKeyOnly = false;
+                        if (xel.Attribute("defaultKeyOnly") != null)
+                        {
+                            defaultKeyOnly = xel.Attribute("defaultKeyOnly").Value == "true";
+                        }
+                        storageContainer.AddContent(inputBox, xel.Attribute("key").Value, defaultKeyOnly);
                         storageContainer.SetValueMethod(delegate(string s) { inputBox.Text = s; });
                         storageContainer.GetValueMethod(() => inputBox.Text);
                         element = storageContainer;
@@ -777,10 +784,16 @@ namespace Wizard
                     keyTextBox.Tag = input;
                     keyTextBox.Style = inputFieldStyle;
 
-                    if (input.Element("storage") != null)
+                    xel = input.Element("storage");
+                    if (xel != null)
                     {
                         var storageContainer = new StorageContainer();
-                        storageContainer.AddContent(keyTextBox, input.Element("storage").Attribute("key").Value);
+                        var defaultKeyOnly = false;
+                        if (xel.Attribute("defaultKeyOnly") != null)
+                        {
+                            defaultKeyOnly = xel.Attribute("defaultKeyOnly").Value == "true";
+                        }
+                        storageContainer.AddContent(keyTextBox, xel.Attribute("key").Value, defaultKeyOnly);
                         storageContainer.SetValueMethod(delegate(string s) { keyTextBox.CurrentKey = s; });
                         storageContainer.GetValueMethod(() => keyTextBox.CurrentKey);
                         element = storageContainer;
