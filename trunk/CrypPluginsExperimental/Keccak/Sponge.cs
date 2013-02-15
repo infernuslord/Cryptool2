@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace Cryptool.Plugins.Keccak
 {
@@ -15,12 +17,13 @@ namespace Cryptool.Plugins.Keccak
         private int rate, capacity, laneSize;
         private byte[] state;
         private Keccak_f keccak_f;
+        private KeccakPres pres;
 
         private int[] widthOfPermutation = { 25, 50, 100, 200, 400, 800, 1600 };
 
         #endregion
 
-        public Sponge(int rate, int capacity)
+        public Sponge(int rate, int capacity, ref KeccakPres pres)
         {
             Debug.Assert(rate > 0);
             Debug.Assert(widthOfPermutation.Contains(rate + capacity));
@@ -29,9 +32,10 @@ namespace Cryptool.Plugins.Keccak
             this.capacity = capacity;
             laneSize = (rate + capacity) / 25;
 
-            keccak_f = new Keccak_f(capacity + rate, ref state);
+            keccak_f = new Keccak_f(capacity + rate, ref state, ref pres);
 
             state = new byte[capacity + rate];
+            this.pres = pres;
         }
 
         public void Absorb(byte[] input)
@@ -47,19 +51,24 @@ namespace Cryptool.Plugins.Keccak
 
 #if _DEBUG_
             Console.WriteLine("#Sponge: the input of length {0} bits is padded to {1} bits\n" +
-                "#Sponge: the padded input is splitted into {3} block(s) of size {4} bit\n", input.Length, paddedInputBits.Length, rate, inputBlocks.Length, inputBlocks[0].Length);
-            Console.WriteLine("#Sponge: begin absorbing phase");
-
-            int blocksCounter = 1;
+                "#Sponge: the padded input is splitted into {2} block(s) of size {3} bit\n", input.Length, paddedInputBits.Length, inputBlocks.Length, inputBlocks[0].Length);
+            Console.WriteLine("#Sponge: begin absorbing phase");            
 #endif
-
+            int blocksCounter = 1;
+             
             /* absorb and permute */
             foreach (byte[] block in inputBlocks)
             {
-#if _DEBUG_
-                Console.WriteLine("#Sponge: exclusive-or'ing input block #{0} on state\n", blocksCounter);
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelBlock.Content = (blocksCounter).ToString() + "/" + inputBlocks.Length.ToString();
+                }, null);
+
                 blocksCounter++;
-#endif
+
+#if _DEBUG_
+                Console.WriteLine("#Sponge: exclusive-or'ing input block #{0} on state\n", blocksCounter);                
+#endif                               
 
                 XorBlockOnState(block);
                 keccak_f.Permute(ref state);

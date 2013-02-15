@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Cryptool.Plugins.Keccak.KeccakPres"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800" IsEnabled="True">
+    <Grid Height="500" Name="grid1" Width="800">
+        <!-- buttons -->
+        <Button Content="Next" Height="23" HorizontalAlignment="Left" Margin="418,439,0,0" Name="buttonNext" VerticalAlignment="Top" Width="75" Click="buttonNext_Click" />
+        <Button Content="Skip step" Height="23" HorizontalAlignment="Left" Margin="605,439,0,0" Name="buttonSkip" VerticalAlignment="Top" Width="75" Click="buttonSkip_Click" />
+        <Button Content="Toggle autorun" Height="23" HorizontalAlignment="Right" Margin="0,439,201,0" Name="buttonAutostep" VerticalAlignment="Top" Width="100" Click="buttonAutostep_Click" />
+        <Button Content="Run to end" Height="23" HorizontalAlignment="Left" Margin="686,439,0,0" Name="buttonRunToEnd" VerticalAlignment="Top" Width="75" Click="buttonRunToEnd_Click" />
+        
+        <Label Content="current step:" Height="28" Margin="177,12,547,0" Name="labelCurrentStepCaption" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="259,12,0,0" Name="labelCurrentStep" VerticalAlignment="Top" />
+        <Label Content="Slice:" Height="28" Margin="573,12,0,0" Name="labelSliceCaption" VerticalAlignment="Top" HorizontalAlignment="Left" Width="37" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="605,12,0,0" Name="labelSlice" VerticalAlignment="Top" />
+        <Label Content="Row:" Height="28" HorizontalAlignment="Right" Margin="0,12,112,0" Name="labelRowCaption" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="686,12,0,0" Name="labelRow" VerticalAlignment="Top" />
+        <Label Content="Round:" Height="28" Margin="82,12,0,0" Name="labelRoundCaption" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="130,12,0,0" Name="labelRound" VerticalAlignment="Top" />
+        <Label Content="Block:" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="labelBlockCaption" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="47,12,0,0" Name="labelBlock" VerticalAlignment="Top" />
+        
+        <Canvas Height="305" HorizontalAlignment="Left" Margin="58,102,0,0" Name="canvasSteps" VerticalAlignment="Top" Width="703">
+            <Canvas Canvas.Left="89" Canvas.Top="47" Height="207" Name="canvasCube" Width="201">
+                <Image Height="183" Name="imgCube4z" Width="184" Source="/Keccak;component/images/cube-4z.png" Canvas.Left="6" Canvas.Top="10" Stretch="Fill" Visibility="Hidden" Opacity="0" />
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefault" Stretch="Fill" Width="184" Source="/Keccak;component/images/cube-default.png" Visibility="Hidden" Opacity="0" />
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefaultInner" Stretch="Fill" Width="184" Source="/Keccak;component/images/cube-default-inner.png" Visibility="Hidden" Opacity="1" />
+                <Image Canvas.Left="138" Canvas.Top="155" Height="36" Name="imgModifiedRow" Stretch="Fill" Width="12" Source="/Keccak;component/images/modified-row.png" />
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgModifiedFirstRow" Stretch="Fill" Width="130" Source="/Keccak;component/images/modified-firstrow4.png" Visibility="Hidden" />
+                <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgModifiedTopRow" Stretch="Fill" Width="141" Source="/Keccak;component/images/modified-toprow.png" Visibility="Hidden" />
+            </Canvas>
+            <Canvas Canvas.Left="434" Canvas.Top="47" Height="207" Name="canvasStepDetailChi" Width="209" Visibility="Hidden">
+                <Image Height="189" Name="image1" Width="189" Source="/Keccak;component/images/step-detail.png" Canvas.Left="14" Canvas.Top="4" />
+                <Label Content="" Name="label1" Height="28" Canvas.Left="29" Canvas.Top="9" />
+                <Label Content="" Height="28" Name="label2" Canvas.Left="65" Canvas.Top="9" />
+                <Label Content="" Height="28" Name="label3" Canvas.Left="100" Canvas.Top="9" />
+                <Label Content="" Height="28" Name="label4" Canvas.Left="136" Canvas.Top="9" />
+                <Label Content="" Height="28" Name="label5" Canvas.Left="171" Canvas.Top="9" />
+                <Label Content="" Height="28" Name="label6" Canvas.Left="29" Canvas.Top="160" />
+                <Label Content="" Height="28" Name="label7" Canvas.Left="65" Canvas.Top="160" />
+                <Label Content="" Height="28" Name="label8" Canvas.Left="100" Canvas.Top="160" />
+                <Label Content="" Height="28" Name="label9" Canvas.Left="136" Canvas.Top="160" />
+                <Label Content="" Height="28" Name="label10" Canvas.Left="171" Canvas.Top="160" />
+            </Canvas>
+        </Canvas>
+    </Grid>
+</UserControl>
