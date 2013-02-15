@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<directory>
+<directory order="1">
   <name lang="en">Cryptanalysis</name>
   <name lang="de">Kryptoanalyse</name>  
   <summary lang="en">The folder "Cryptanalysis" contains templates that demonstrate cryptanalytical attacks against classical and modern cryptographical algorithms.</summary>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<directory>
+<directory order="6">
   <name lang="en">Protocols</name>
   <name lang="de">Protokolle</name>  
   <summary lang="en">The folder "Protocols" contains templates that demonstrate cryptographical protocols.</summary>
