@@ -52,8 +52,15 @@ namespace Wizard
             public string headline;
         }
 
+        private class ConditionalTextSetter
+        {
+            public Action<string> TextSetter { get; set; }
+            public XElement XElement { get; set; }
+        }
+
         ObservableCollection<PageInfo> currentHistory = new ObservableCollection<PageInfo>();
         private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
+        private List<ConditionalTextSetter> conditionalTextSetters;
         private Dictionary<string, bool> selectedCategories = new Dictionary<string, bool>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
@@ -234,8 +241,9 @@ namespace Wizard
             currentProgressBars.Clear();
             currentInputBoxes.Clear();
             currentPresentations.Clear();
-            SaveContent();
             boxesWithWrongContent.Clear();
+            conditionalTextSetters = new List<ConditionalTextSetter>();
+            SaveContent();
 
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
@@ -264,12 +272,16 @@ namespace Wizard
             //set headline
             XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
-                taskHeader.Content = GetTextFromXElement(headline).ToUpper();
+            {
+                SetTextFromXElement(headline, delegate(string text) { taskHeader.Content = text.ToUpper(); });
+            }
 
             //set task description label
             XElement task = FindElementsInElement(element, "task").First();
             if (task != null)
-                descHeader.Text = GetTextFromXElement(task);
+            {
+                SetTextFromXElement(task, delegate(string text) { descHeader.Text = text; });
+            }
 
 
             if (element.Name == "input" || element.Name == "sampleViewer")
@@ -352,7 +364,9 @@ namespace Wizard
                         l.HorizontalAlignment = HorizontalAlignment.Stretch;
                         XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
-                            l.Content = GetTextFromXElement(label);
+                        {
+                            SetTextFromXElement(label, delegate(string text) { l.Content = text; });
+                        }
 
                         i.Width = 26;
                         string image = ele.Attribute("image").Value;
@@ -462,7 +476,7 @@ namespace Wizard
                     var descEle = FindElementsInElement(input, "description");
                     if (descEle != null && descEle.Any())
                     {
-                        description.Content = GetTextFromXElement(descEle.First());
+                        SetTextFromXElement(descEle.First(), delegate(string text) { description.Content = text; });
                     }
                     description.HorizontalAlignment = HorizontalAlignment.Left;
                     description.FontWeight = FontWeights.Bold;
@@ -623,10 +637,11 @@ namespace Wizard
                     else
                     {
                         var defaultvalues = FindElementsInElement(input, "defaultvalue");
-                        var defaultvalue = GetTextFromXElement(defaultvalues.First());
-
-                        if (!string.IsNullOrEmpty(defaultvalue))
-                            inputBox.Text = defaultvalue;
+                        SetTextFromXElement(defaultvalues.First(), delegate(string text)
+                                                                       {
+                                                                           if (!string.IsNullOrEmpty(text)) 
+                                                                               inputBox.Text = text;
+                                                                       });
                     }
 
                     if (!isInput)
@@ -656,6 +671,7 @@ namespace Wizard
                     ComboBox comboBox = new ComboBox();
                     comboBox.Style = inputFieldStyle;
                     comboBox.Tag = input;
+                    comboBox.SelectionChanged += InputComboBoxSelectionChanged;
 
                     var items = FindElementsInElement(input, "item");
                     foreach (var item in items)
@@ -670,22 +686,23 @@ namespace Wizard
                     {
                         if (pluginPropertyValue.Value is int)
                         {
-                            ComboBoxItem cbi =
-                                (ComboBoxItem)comboBox.Items.GetItemAt((int)pluginPropertyValue.Value);
+                            var cbi = (ComboBoxItem) comboBox.Items.GetItemAt((int)pluginPropertyValue.Value);
                             cbi.IsSelected = true;
                         }
                     }
                     else if (input.Attribute("defaultValue") != null)
                     {
-                        int i = 0;
+                        int i;
                         if (Int32.TryParse(input.Attribute("defaultValue").Value.Trim(), out i))
                         {
-                            ComboBoxItem cbi = (ComboBoxItem)comboBox.Items.GetItemAt(i);
+                            var cbi = (ComboBoxItem) comboBox.Items.GetItemAt(i);
                             cbi.IsSelected = true;
                         }
                     }
                     else
+                    {
                         ((ComboBoxItem) comboBox.Items.GetItemAt(0)).IsSelected = true;
+                    }
 
                     element = comboBox;
                     break;
@@ -696,10 +713,11 @@ namespace Wizard
                     checkBox.Style = inputFieldStyle;
 
                     var contents = FindElementsInElement(input, "content");
-                    var content = GetTextFromXElement(contents.First());
-
-                    if (!string.IsNullOrEmpty(content))
-                        checkBox.Content = content;
+                    SetTextFromXElement(contents.First(), delegate(string text)
+                                                   {
+                                                       if (!string.IsNullOrEmpty(text))
+                                                           checkBox.Content = text;
+                                                   });
 
                     if (key != null && pluginPropertyValue != null)
                     {
@@ -846,6 +864,40 @@ namespace Wizard
             }
 
             return element;
+        }
+
+        /// <summary>
+        /// If a combobox on an input page is changed, this method checks if some conditional texts on the same page have to be changed.
+        /// </summary>
+        private void InputComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox) sender;
+            var ele = (XElement) comboBox.Tag;
+            var pluginName = ele.Attribute("plugin").Value;
+            var propertyName = ele.Attribute("property").Value;
+            if (!string.IsNullOrEmpty(pluginName) && !string.IsNullOrEmpty(propertyName))
+            {
+                foreach (var conditionalTextSetter in conditionalTextSetters)
+                {
+                    foreach (var condition in conditionalTextSetter.XElement.Elements("condition"))
+                    {
+                        var condPlugin = condition.Attribute("plugin").Value;
+                        var condProperty = condition.Attribute("property").Value;
+                        if (condPlugin == pluginName && condProperty == propertyName)
+                        {
+                            int value;
+                            if (int.TryParse(condition.Attribute("value").Value, out value))
+                            {
+                                if (value == comboBox.SelectedIndex)
+                                {
+                                    conditionalTextSetter.TextSetter(condition.Value.Trim());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private PluginPropertyValue GetPropertyValue(string key, XElement path)
@@ -1223,9 +1275,12 @@ namespace Wizard
                         if (presentation.Content.GetType().GetProperty("Text") != null)
                         {
                             var defaultvalues = FindElementsInElement(ele, "defaultvalue");
-                            var defaultvalue = GetTextFromXElement(defaultvalues.First());
-                            if (!string.IsNullOrEmpty(defaultvalue))
-                                presentation.Content.GetType().GetProperty("Text").SetValue(presentation.Content, defaultvalue, null);
+                            ContentControl presentation1 = presentation;
+                            SetTextFromXElement(defaultvalues.First(), delegate(string text)
+                                                                           {
+                                                                               if (!string.IsNullOrEmpty(text))
+                                                                                   presentation1.Content.GetType().GetProperty("Text").SetValue(presentation1.Content, text, null);
+                                                                           });
                         }
                     }
                 }
@@ -1292,35 +1347,45 @@ namespace Wizard
             selectedCategories.Add(GetElementID(ele), true);
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
-                description.Text = GetTextFromXElement(desc);
+            {
+                SetTextFromXElement(desc, delegate(string text) { description.Text = text; });
+            }
             nextButton.IsEnabled = true;
         }
 
         /// <summary>
-        /// Gets the elements text with respect to possible condition statements.
+        /// Gets the elements text with respect to possible condition statements and calls the setter action delegate.
         /// </summary>
-        private string GetTextFromXElement(XElement element)
+        private void SetTextFromXElement(XElement element, Action<string> textSetter)
         {
-            foreach (var condition in element.Elements("condition"))
+            if (element.Element("condition") != null)
             {
-                var key = GetElementPluginPropertyKey(condition);
-                if (propertyValueDict.ContainsKey(key))
+                conditionalTextSetters.Add(new ConditionalTextSetter() {TextSetter = textSetter, XElement = element});
+                foreach (var condition in element.Elements("condition"))
                 {
-                    foreach (var pair in propertyValueDict[key])
+                    var key = GetElementPluginPropertyKey(condition);
+                    if (propertyValueDict.ContainsKey(key))
                     {
-                        if (IsSamePath(pair.Path, element))
+                        foreach (var pair in propertyValueDict[key])
                         {
-                            if (condition.Attribute("value").Value == pair.Value.ToString())
+                            if (IsSamePath(pair.Path, element))
                             {
-                                return condition.Value.Trim();
+                                if (condition.Attribute("value").Value == pair.Value.ToString())
+                                {
+                                    textSetter(condition.Value.Trim());
+                                    return;
+                                }
                             }
                         }
                     }
-                    
                 }
+                //if no condition holds, just set the content of the first one:
+                textSetter(element.Element("condition").Value.Trim());
             }
-
-            return element.Value.Trim();
+            else
+            {
+                textSetter(element.Value.Trim());
+            }
         }
 
         private void ResetSelectionDependencies()
@@ -1509,13 +1574,10 @@ namespace Wizard
         {
             try
             {
-                var page = new PageInfo()
-                                   {
-                                       name = GetTextFromXElement(FindElementsInElement(ele, "name").First()),
-                                       description = GetTextFromXElement(FindElementsInElement(ele, "description").First()),
-                                       headline = GetTextFromXElement(FindElementsInElement(ele, "headline").First()),
-                                       tag = ele
-                                   };
+                var page = new PageInfo() { tag = ele };
+                SetTextFromXElement(FindElementsInElement(ele, "name").First(), delegate(string text) { page.name = text; });
+                SetTextFromXElement(FindElementsInElement(ele, "description").First(), delegate(string text) { page.description = text; });
+                SetTextFromXElement(FindElementsInElement(ele, "headline").First(), delegate(string text) { page.headline = text; });
 
                 if (ele.Attribute("image") != null)
                 {
