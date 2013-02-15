@@ -25,6 +25,10 @@ using System.Text;
 using System.IO;
 using System.Collections.Generic;
 using System;
+using Cryptool.PluginBase.Attributes;
+using System.Windows.Threading;
+using System.Threading;
+using Keccak.Properties;
 
 
 namespace Cryptool.Plugins.Keccak
@@ -32,16 +36,18 @@ namespace Cryptool.Plugins.Keccak
     [Author("Max Brandi", "max.brandi@rub.de", null, null)]
     [PluginInfo("Keccak.Properties.Resources", "PluginCaption", "PluginDescription", "Keccak/Documentation/doc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.HashFunctions)]
+    [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class Keccak : ICrypComponent
     {
         #region Private Variables
 
+        private KeccakPres pres = new KeccakPres();
         private Encoding encoding = Encoding.UTF8;
         private readonly KeccakSettings settings = new KeccakSettings();
         private bool execute = true;
 
         #endregion
-
+        
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputDataStreamTooltip", true)]
@@ -126,7 +132,12 @@ namespace Cryptool.Plugins.Keccak
             capacity = settings.Capacity;
 
             /* hash input */
-            output = KeccakHashFunction.Hash(input, outputLength, rate, capacity);
+            output = KeccakHashFunction.Hash(input, outputLength, rate, capacity, ref pres);
+
+            Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                //pres.label1.Content = "Keccak Done!";
+            }, null);
 
             /* write output */
             OutputStreamwriter.Write(output);
@@ -156,9 +167,9 @@ namespace Cryptool.Plugins.Keccak
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return pres; }
         }
-
+        
         /// <summary>
         /// Called once when workflow execution starts.
         /// </summary>
@@ -167,13 +178,13 @@ namespace Cryptool.Plugins.Keccak
             bool stateSizeOk = (settings.GetStateSize() == settings.Rate + settings.Capacity);
             bool outputLengthOk = settings.OutputLength % 8 == 0;
             bool outputLengthTruncated = settings.OutputLengthTruncated();
-
+            
 
             if (stateSizeOk && outputLengthOk)
             {
                 if (outputLengthTruncated)
                 {
-                    GuiLogMessage("Output too long. It will be truncated to 174,760 bit.", NotificationLevel.Warning);
+                    GuiLogMessage(Resources.OutputTooLongWarning, NotificationLevel.Warning);
                 }
 
                 return;
@@ -182,11 +193,11 @@ namespace Cryptool.Plugins.Keccak
             {
                 if (!stateSizeOk)
                 {
-                    GuiLogMessage("The sum of bit rate and capacity must match the selected state size.", NotificationLevel.Error);
+                    GuiLogMessage(Resources.StateSizeMatchError, NotificationLevel.Error);
                 }
                 if (!outputLengthOk)
                 {
-                    GuiLogMessage("Output length must be divisible by 8.", NotificationLevel.Error);
+                    GuiLogMessage(Resources.OutputMatchError, NotificationLevel.Error);
                 }
                 execute = false;
             }
@@ -202,6 +213,9 @@ namespace Cryptool.Plugins.Keccak
         public void PostExecution()
         {
             execute = true;
+            pres.runToEnd = false;
+            pres.autostep = false;
+            pres.skip = false;
         }
 
         /// <summary>
@@ -210,6 +224,8 @@ namespace Cryptool.Plugins.Keccak
         /// </summary>
         public void Stop()
         {
+            pres.buttonNextClickedEvent.Set();
+            pres.runToEnd = true;
         }
 
         /// <summary>
@@ -218,9 +234,6 @@ namespace Cryptool.Plugins.Keccak
         public void Initialize()
         {
             settings.UpdateTaskPaneVisibility();
-
-            /* select Keccak-256 as default */
-            //settings.KECCAKFunction = 2;
         }
 
         /// <summary>
@@ -260,3 +273,9 @@ namespace Cryptool.Plugins.Keccak
         #endregion
     }
 }
+
+
+//Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+//{
+//    //pres.label1.Content = "Keccak Done!";
+//}, null);

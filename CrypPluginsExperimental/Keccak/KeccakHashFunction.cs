@@ -11,10 +11,10 @@ namespace Cryptool.Plugins.Keccak
     public static class KeccakHashFunction
     {
 
-        public static byte[] Hash(byte[] input, int outputLength, int rate, int capacity)
+        public static byte[] Hash(byte[] input, int outputLength, int rate, int capacity, ref KeccakPres pres)
         {
             /* create sponge instance */
-            Sponge sponge = new Sponge(rate, capacity);
+            Sponge sponge = new Sponge(rate, capacity, ref pres);
 
             /* map each bit of the input to a byte */
             byte[] inputInBits = ByteArrayToBitArray(input);
@@ -43,6 +43,7 @@ namespace Cryptool.Plugins.Keccak
             Console.WriteLine("#Keccak: successfully hashed {0} input bits to {1} output bits!", inputInBits.Length, outputInBits.Length);
             Console.WriteLine("#Keccak: all work is done!");
 #endif
+           
 
             return output;
         }

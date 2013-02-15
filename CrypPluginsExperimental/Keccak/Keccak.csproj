@@ -63,6 +63,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -78,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KeccakHashFunction.cs" />
+    <Compile Include="KeccakPres.xaml.cs">
+      <DependentUpon>KeccakPres.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Keccak_f.cs" />
     <Compile Include="Sponge.cs" />
     <Compile Include="Keccak.cs" />
@@ -129,7 +134,38 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="KeccakPres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\modified-firstrow4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cube-4z.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\modified-firstrow3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\modified-row.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\modified-toprow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\step-detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cube-default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cube-default-inner.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
