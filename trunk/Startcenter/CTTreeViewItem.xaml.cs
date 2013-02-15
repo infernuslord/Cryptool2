@@ -62,8 +62,9 @@ namespace Startcenter
             }
         }
         
-        public FileInfo File { get; set; }
-        public string Title { get; set; }
+        public FileInfo File { get; private set; }
+        public string Title { get; private set; }
+        public int Order { get; private set; }
 
         /// <summary>
         /// Constructor only for files
@@ -71,6 +72,7 @@ namespace Startcenter
         public CTTreeViewItem(FileInfo file, string title, Inline tooltip, ImageSource image)
         {
             this.File = file;
+            this.Order = -1;
             this.Title = title;
             this.Icon = image;
             this.IsDirectory = false;
@@ -84,9 +86,10 @@ namespace Startcenter
         /// <summary>
         /// Constructor only for directories
         /// </summary>
-        public CTTreeViewItem(string title, Inline tooltip = null, ImageSource image = null)
+        public CTTreeViewItem(string title, int order = -1, Inline tooltip = null, ImageSource image = null)
         {
             this.Title = title;
+            this.Order = order;
             this.IsDirectory = true;
             if (tooltip != null)
             {

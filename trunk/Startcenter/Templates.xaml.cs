@@ -55,22 +55,44 @@ namespace Startcenter
 
         private void FillTemplatesNavigationPane(DirectoryInfo templateDir, TreeView treeView)
         {
-            CTTreeViewItem item = new CTTreeViewItem(templateDir.Name);
+            var rootItem = new CTTreeViewItem(templateDir.Name);
             if (templateDir.Exists)
             {
                 foreach (var subDirectory in templateDir.GetDirectories())
-                    HandleTemplateDirectories(subDirectory, item);
+                {
+                    HandleTemplateDirectories(subDirectory, rootItem);
+                }
 
-                MakeTemplateInformation(templateDir, item);
+                MakeTemplateInformation(templateDir, rootItem);
             }
-
-            while (item.Items.Count > 0)
+            
+            //Add root directory entries to the treeview based on their order number:
+            var counter = 0;
+            var items = rootItem.Items.Cast<CTTreeViewItem>().ToList();
+            rootItem.Items.Clear();
+            while (items.Count > 0)
             {
-                var it = item.Items[0];
-                item.Items.RemoveAt(0);
-                treeView.Items.Add(it);
+                var item = items.FirstOrDefault(x => x.Order == counter);
+                if (item != null)
+                {
+                    items.Remove(item);
+                    treeView.Items.Add(item);
+                }
+                else
+                {
+                    treeView.Items.Add(new TreeViewItem() { Header = "--------------------------------------------" });
+
+                    if (items.All(x => x.Order < 0))
+                    {
+                        foreach (var it in items)
+                        {
+                            treeView.Items.Add(it);
+                        }
+                        return;
+                    }
+                }
+                counter++;
             }
-            item.IsExpanded = true;
         }
 
         private void HandleTemplateDirectories(DirectoryInfo directory, CTTreeViewItem parent)
@@ -83,9 +105,15 @@ namespace Startcenter
             Inline tooltip = null;
             ImageSource dirImage = null;
             var metainfo = directory.GetFiles("dir.xml");
+            var order = -1;
             if (metainfo.Length > 0)
             {
                 XElement metaXML = XElement.Load(metainfo[0].FullName);
+                if (metaXML.Attribute("order") != null)
+                {
+                    order = int.Parse(metaXML.Attribute("order").Value);
+                }
+
                 var dirNameEl = Helper.GetGlobalizedElementFromXML(metaXML, "name");
                 if (dirNameEl.Value != null)
                 {
@@ -108,7 +136,7 @@ namespace Startcenter
                 }
             }
 
-            CTTreeViewItem item = new CTTreeViewItem(dirName, tooltip, dirImage);
+            CTTreeViewItem item = new CTTreeViewItem(dirName, order, tooltip, dirImage);
             parent.Items.Add(item);
 
             foreach (var subDirectory in directory.GetDirectories())

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<directory>
+<directory order="7">
   <name lang="en">Steganography</name>
   <name lang="de">Steganographie</name>
   <summary lang="en">The folder "Steganography" contains templates that demonstrate steganographical protocols.</summary>

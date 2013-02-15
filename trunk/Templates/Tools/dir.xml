@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<directory>
+<directory order="9">
   <name lang="en">Tools</name>
   <name lang="de">Werkzeuge</name>
   <summary lang="en">The folder "Tools" contains templates that demonstrate the use of tools.</summary>
