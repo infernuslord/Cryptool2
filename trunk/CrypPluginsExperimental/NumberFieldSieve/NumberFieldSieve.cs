@@ -127,15 +127,17 @@ namespace NumberFieldSieve
 
         private void ExtractGGNFS()
         {
-            if (!Directory.Exists(Path.Combine(_directoryName, "ggnfs")))
+            var ggnfsDir = Path.Combine(_directoryName, "ggnfs");
+            if (Directory.Exists(ggnfsDir))
             {
-                var resUri = new Uri("pack://application:,,,/NumberFieldSieve;component/ggnfs.zip");
-                //Extract archive:
-                using (var resStream = Application.GetResourceStream(resUri).Stream)
-                using (var zipPackage = ZipFile.Read(resStream))
-                {
-                    zipPackage.ExtractAll(_directoryName, ExtractExistingFileAction.OverwriteSilently);
-                }
+                Directory.Delete(ggnfsDir, true);
+            }
+            var resUri = new Uri("pack://application:,,,/NumberFieldSieve;component/ggnfs.zip");
+            //Extract archive:
+            using (var resStream = Application.GetResourceStream(resUri).Stream)
+            using (var zipPackage = ZipFile.Read(resStream))
+            {
+                zipPackage.ExtractAll(_directoryName, ExtractExistingFileAction.OverwriteSilently);
             }
         }
 
