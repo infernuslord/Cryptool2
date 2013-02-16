@@ -56,8 +56,11 @@ namespace Webcam
         /// </summary>
         public void StopCam()
         {
-            SelectedWebcam.Stop();
-            SelectedWebcam.NewBitmapReady -= newCamEstablished;
+            if (SelectedWebcam != null)
+            {
+                SelectedWebcam.Stop();
+                SelectedWebcam.NewBitmapReady -= newCamEstablished;
+            }
         }
 
         public bool IsCamRunning()

@@ -14,11 +14,9 @@ namespace Cryptool.Plugins.NetworkSender
     [Cryptool.PluginBase.Attributes.Localization("NetworkSender.Properties.Resources")]
     public partial class NetworkSenderPresentation : UserControl
     {
-
+        private const int MaxStoredPackage = 100;
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
         private readonly NetworkInput caller;
-        private const int maxMessageCount = 100;
-        private int newCount = 0;
 
         public NetworkSenderPresentation(NetworkInput networkInput)
         {
@@ -34,17 +32,7 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     amount.Content = amountOfSendedPackages;
 
-                    //Delets entries from List if the amount is > 100
-                    if (ListView.DataContext != null)
-                    {
-                        newCount++;
-                        if (newCount >= maxMessageCount)
-                        {
-                            entries.Clear();
-                            newCount = 0;
-                        }
-                    } 
-                     
+                
                 }
                 catch (Exception e)
                 {
@@ -76,9 +64,13 @@ namespace Cryptool.Plugins.NetworkSender
             {
                 try
                 {
-                    entries.Add(package);
-                    ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
+                    entries.Insert(0, package);
 
+                    //Delets old entries from List if the amount is > 100
+                    if (entries.Count > MaxStoredPackage)
+                    {
+                        entries.RemoveAt(entries.Count-1);
+                    }
                 }
                 catch (Exception e)
                 {

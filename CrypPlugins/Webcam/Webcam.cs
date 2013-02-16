@@ -116,76 +116,43 @@ namespace Cryptool.Plugins.Webcam
         public void Execute()
         {
             ProgressChanged(0, 1);
-            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            if (CapDevice.DeviceMonikers.Length > 0)
             {
-                try
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
-                    if (!presentation.IsCamRunning()) // if cam is  not running, start it
+                    try
                     {
-                        presentation.StartCam((CapDevice.DeviceMonikers.Length > 0)
-                                                  ? CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString
-                                                  : "");
-                    }
-
-
-                    if (settings.TakePictureChoice == 1)
-                    {
-                        if (PictureOutput != null)
+                        if (!presentation.IsCamRunning()) // if cam is  not running, start it
                         {
-                            if (TakePicture) //set singleoutput if takepicture is false
+                            presentation.StartCam( CapDevice.DeviceMonikers[settings.DeviceChoice].MonikerString);
+                        }
+
+
+                        if ((settings.TakePictureChoice == 1 && TakePicture) //set singleoutput if takepicture is false
+                            | (settings.TakePictureChoice == 2 && !TakePicture) //set singleoutput if takepicture is false
+                            | (settings.TakePictureChoice == 0))
+                        {
+                            if (PictureOutput != null)
                             {
                                 BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
-
                                 if (bitmap != null)
                                 {
                                     SingleOutPut = ImageTojepgByte(bitmap);
                                     OnPropertyChanged("SingleOutPut");
                                 }
-                            }
-                        }
-                    }
-                    else if (settings.TakePictureChoice == 2)
-                    {
-                        if (PictureOutput != null)
-                        {
-                            if (!TakePicture) //set singleoutput if takepicture is false
-                            {
-                                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
 
-                                if (bitmap != null)
-                                {
-                                    SingleOutPut = ImageTojepgByte(bitmap);
-                                    OnPropertyChanged("SingleOutPut");
-                                }
                             }
                         }
-                        
+
+
                     }
 
-                    else if (settings.TakePictureChoice == 0)
+                    catch (Exception ex)
                     {
-                        if (PictureOutput != null)
-                        {
-                            if (TakePicture || !TakePicture) //set singleoutput if takepicture is true or false
-                            {
-                                BitmapSource bitmap = presentation.webcamPlayer.CurrentBitmap;
-
-                                if (bitmap != null)
-                                {
-                                    SingleOutPut = ImageTojepgByte(bitmap);
-                                    OnPropertyChanged("SingleOutPut");
-                                }
-                            }
-                        }
-
-                    }       
-                }
-                
-                catch (Exception ex)
-                {
-                    GuiLogMessage(ex.Message, NotificationLevel.Error);
-                }
-            }), null);
+                        GuiLogMessage(ex.Message, NotificationLevel.Error);
+                    }
+                }), null);
+            }
             ProgressChanged(1, 1);
         }
 
@@ -202,18 +169,21 @@ namespace Cryptool.Plugins.Webcam
         /// </summary>
         public void Stop()
         {
-            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            if (CapDevice.DeviceMonikers.Length > 0)
             {
-                try
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
                 {
-                    presentation.StopCam();
-                }
-                catch (Exception e)
-                {
-                    GuiLogMessage(e.Message, NotificationLevel.Error);
-                }
-            }), null);
-            grabOutputPicture.Stop();
+                    try
+                    {
+                        presentation.StopCam();
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage(e.Message, NotificationLevel.Error);
+                    }
+                }), null);
+                grabOutputPicture.Stop();
+            }
         }
         /// <summary>
         /// Called once when plugin is loaded into editor workspace.
