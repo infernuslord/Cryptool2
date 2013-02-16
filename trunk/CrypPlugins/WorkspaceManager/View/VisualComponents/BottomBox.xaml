@@ -109,7 +109,7 @@
                         <Condition Binding="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}" Value="True"></Condition>
                         <Condition Binding="{Binding Path=Progress, Converter={StaticResource ResourceKey=IsLesserConverter}}" Value="False"></Condition>
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Text" Value="Berechnung beended (Zum Anhalten des Workspaces bitte Stop
+                    <Setter Property="Text" Value="Berechnung beendet (Zum Anhalten des Workspaces bitte Stop
 drücken oder neue Daten eingeben um eine Neuberechnung durchzuführen)"/>
                 </MultiDataTrigger>
             </Style.Triggers>
