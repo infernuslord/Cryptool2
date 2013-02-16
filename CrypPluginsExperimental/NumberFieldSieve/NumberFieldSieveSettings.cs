@@ -13,6 +13,11 @@ namespace NumberFieldSieve
         private int _numCores;
         private int _numThreadsPerCore;
 
+        public NumberFieldSieveSettings()
+        {
+            NumCores = Environment.ProcessorCount - 1;
+        }
+
         [TaskPane("UseCUDACaption", "UseCUDATooltip", null, 0, false, ControlType.CheckBox)]
         [DontSave]
         public bool UseCUDA
