@@ -43,6 +43,23 @@ namespace Cryptool.Plugins.Numbers
         }
         #endregion
 
+        #region ShowDigits
+        private bool showDigits = true;
+        [TaskPane("ShowDigitsCaption", "ShowDigitsTooltip", "ShowDigitsGroup", 1, true, ControlType.CheckBox, "", null)]
+        public bool ShowDigits
+        {
+            get { return showDigits; }
+            set
+            {
+                if (value != showDigits)
+                {
+                    showDigits = value;
+                    OnPropertyChanged("ShowDigits");
+                }
+            }
+        }
+        #endregion
+
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
