@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Height="Auto" Width="Auto" MinHeight="25px" MinWidth="65px" Margin="0" DataContext="{Binding}">
     <Grid Height="Auto" Width="Auto" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
         <TextBox Name="TextBox"
                  AcceptsTab="True"
                  TextWrapping="Wrap" 
@@ -27,5 +31,7 @@
                 </ControlTemplate>
             </TextBox.Template>           
         </TextBox>
+
+        <Label Padding="0" Grid.Row="2" Name="StatusBar" VerticalAlignment="Top" Background="#DFDFDF" />
     </Grid>
 </UserControl>

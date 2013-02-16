@@ -195,4 +195,19 @@
   <data name="OperatList6" xml:space="preserve">
     <value>ggT</value>
   </data>
+  <data name="ShowDigitsCaption" xml:space="preserve">
+    <value>Zeige Ziffern</value>
+  </data>
+  <data name="ShowDigitsGroup" xml:space="preserve">
+    <value>Statuszeile</value>
+  </data>
+  <data name="ShowDigitsTooltip" xml:space="preserve">
+    <value>Wähle dies um Informationen über die Anzahl der Ziffern der gegebenen Zahl zu bekommen.</value>
+  </data>
+  <data name="Digit" xml:space="preserve">
+    <value>Ziffer</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>Ziffern</value>
+  </data>
 </root>

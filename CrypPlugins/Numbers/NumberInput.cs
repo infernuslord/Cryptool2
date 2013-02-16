@@ -46,6 +46,19 @@ namespace Cryptool.Plugins.Numbers
             settings = new NumberInputSettings();
             _presentation.TextBox.TextChanged +=new TextChangedEventHandler(TextBox_TextChanged);
             DataObject.AddPastingHandler(_presentation.TextBox, OnCancelCommand);
+            settings.PropertyChanged += settings_OnPropertyChanged;
+        }
+
+        private void settings_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowDigits")
+            {
+                _presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    SetStatusBar();
+                }, null);
+
+            }
         }
 
         private void OnCancelCommand(object sender, DataObjectPastingEventArgs e)
@@ -62,13 +75,54 @@ namespace Cryptool.Plugins.Numbers
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs args)
         {
-            ((NumberInputSettings)this.settings).Number = _presentation.TextBox.Text;
+            settings.Number = _presentation.TextBox.Text;
+            SetStatusBar();
             if (_running)
             {
                 Execute();
             }
         }
 
+        private void SetStatusBar()
+        {
+            if (settings.ShowDigits)
+            {
+                _presentation.StatusBar.Visibility = Visibility.Visible;
+                int digits = 0;
+                try
+                {
+                    var number = GetNumber();
+                    if (number < 0)
+                    {
+                        number = -number;
+                    }
+                    if (number != 0)
+                    {
+                        digits = (int) Math.Floor(BigInteger.Log10(number)) + 1;
+                    }
+                }
+                catch (Exception)
+                {
+                    digits = 0;
+                }
+                string unitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
+                _presentation.StatusBar.Content = string.Format(" {0:#,0} " + unitText, digits);
+            }
+            else
+            {
+                _presentation.StatusBar.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private BigInteger GetNumber()
+        {
+            //The input from the taskpane is convertet to a BigNumber and is send to the output.
+            if (settings.Number == null || settings.Number.Equals(""))
+            {
+                return BigInteger.Zero;
+            }
+            return BigIntegerHelper.ParseExpression(settings.Number);
+        }
 
         #region Properties
 
@@ -117,7 +171,7 @@ namespace Cryptool.Plugins.Numbers
             set { settings = (NumberInputSettings)value; }
         }
 
-        public System.Windows.Controls.UserControl Presentation
+        public UserControl Presentation
         {
             get { return _presentation; }
         }
@@ -129,25 +183,16 @@ namespace Cryptool.Plugins.Numbers
 
         public void Execute()
         {
-            BigInteger bi;
-            //The input from the taskpane is convertet to a BigNumber and is send to the output.
-            if (settings.Number == null || settings.Number.Equals(""))
+            try
             {
-                NumberOutput = BigInteger.Zero;
+                NumberOutput = GetNumber();
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    bi = BigIntegerHelper.ParseExpression(settings.Number);
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
-                    return;
-                }
-                NumberOutput = bi;
+                GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
+                return;
             }
+            
             ProgressChanged(1.0, 1.0);
         }
 
@@ -165,7 +210,7 @@ namespace Cryptool.Plugins.Numbers
         {
             _presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                this._presentation.TextBox.Text = ((NumberInputSettings)settings).Number;
+                this._presentation.TextBox.Text = settings.Number;
             }
             , null);            
         }
