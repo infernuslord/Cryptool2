@@ -44,9 +44,6 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
-        private const int maxMessageCount = 100;
-        private int newCount = 0;
-
         #endregion
 
         public NetworkInput()

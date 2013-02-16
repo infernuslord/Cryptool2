@@ -28,10 +28,10 @@ namespace Cryptool.Plugins.NetworkReceiver
     [Cryptool.PluginBase.Attributes.Localization("NetworkReceiver.Properties.Resources")]
     public partial class NetworkReceiverPresentation : UserControl
     {
+        private const int MaxStoredPackage = 100;
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
         private readonly NetworkReceiver caller;
-        private int newCount = 0;
-        private const int maxMessageCount = 100;
+        
 
         public NetworkReceiverPresentation(NetworkReceiver networkReceiver)
         {
@@ -73,22 +73,16 @@ namespace Cryptool.Plugins.NetworkReceiver
             {
                 try
                 {
-                   entries.Add(package);
-                   ListView.ScrollIntoView(ListView.Items[ListView.Items.Count - 1]);
+                   entries.Insert(0,package);
+
                    amount.Content = amountOfReceivedPackages;
                    uniqueIP.Content = amountOfUniqueIps;
-                
-                    //Delets entries from List if the amount is > 100
-                   if (ListView.DataContext != null)
+
+                    //Delets old entries from List if the amount is > 100
+                   if (entries.Count > MaxStoredPackage)
                    {
-                       newCount++;
-                       if (newCount >= maxMessageCount)
-                       {
-                           entries.Clear();
-                           newCount = 0;
-                       }
-                   } 
-                 
+                       entries.RemoveAt(entries.Count-1);
+                   }
                 }
                 catch (Exception e)
                 {
