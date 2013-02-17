@@ -759,11 +759,7 @@ namespace WorkspaceManager
         private void waitingStop()
         {
             lock (this)
-            {                
-                if (!executing)
-                {                    
-                    return;
-                }
+            {
                 stopping = true;
                 try
                 {
