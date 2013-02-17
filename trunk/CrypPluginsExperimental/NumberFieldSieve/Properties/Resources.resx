@@ -163,4 +163,25 @@
   <data name="ShowDetails" xml:space="preserve">
     <value>Show Details</value>
   </data>
+  <data name="_was_stopped_" xml:space="preserve">
+    <value>Number field sieve was stopped!</value>
+  </data>
+  <data name="_Error_executing_number_field_sieve__" xml:space="preserve">
+    <value>Error executing number field sieve: </value>
+  </data>
+  <data name="Finding_polynomial" xml:space="preserve">
+    <value>Finding polynomial</value>
+  </data>
+  <data name="Setting_up_factorization_step" xml:space="preserve">
+    <value>Setting up factorization step</value>
+  </data>
+  <data name="Sieving" xml:space="preserve">
+    <value>Sieving</value>
+  </data>
+  <data name="Solving_matrix" xml:space="preserve">
+    <value>Solving matrix</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Finished</value>
+  </data>
 </root>
