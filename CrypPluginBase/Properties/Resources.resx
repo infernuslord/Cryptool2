@@ -135,16 +135,4 @@
   <data name="Error_trying_to_lookup_localization_key">
     <value xml:space="preserve">Error trying to lookup localization key {0}! Message: {1}</value>
   </data>
-  <data name="Finding_polynomial" xml:space="preserve">
-    <value>Finding polynomial</value>
-  </data>
-  <data name="Setting_up_factorization_step" xml:space="preserve">
-    <value>Setting up factorization step</value>
-  </data>
-  <data name="Sieving" xml:space="preserve">
-    <value>Sieving</value>
-  </data>
-  <data name="Solving_matrix" xml:space="preserve">
-    <value>Solving matrix</value>
-  </data>
 </root>

@@ -22,6 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -30,6 +31,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Properties;
 using Ionic.Zip;
 using IronPython.Runtime;
+using IronPython.Runtime.Exceptions;
 using Microsoft.Scripting.Hosting;
 
 namespace NumberFieldSieve
@@ -48,6 +50,8 @@ namespace NumberFieldSieve
         private bool _stop;
         private ScriptScope _scope;
         private int _statusNr = 0;
+        private Thread _executingThread;
+        private Action _kill;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -73,7 +77,10 @@ namespace NumberFieldSieve
                 {
                     _status = value;
                     OnPropertyChanged("Status");
-                    GuiLogMessage("Status update: " + value, NotificationLevel.Info);
+                    if (value != null)
+                    {
+                        GuiLogMessage("Status update: " + value, NotificationLevel.Info);
+                    }
                 }
             }
         }
@@ -143,6 +150,7 @@ namespace NumberFieldSieve
 
         public void Execute()
         {
+            _statusNr = 0;
             _stop = false;
             OutputFactors = null;
             ProgressChanged(0, 100);
@@ -171,7 +179,13 @@ namespace NumberFieldSieve
                 var searchPaths = engine.GetSearchPaths();
                 searchPaths.Add(Path.Combine(ggnfsDir, "pythonlib"));
                 engine.SetSearchPaths(searchPaths);
-                using (var outputStream = new GGNFSOutputStream(delegate(string buffer) { _presentation.Append(buffer); SetStatus(_scope.GetVariable<int>("status"), _scope.GetVariable<double>("sievingProgress")); }))
+                using (var outputStream = new GGNFSOutputStream(delegate(string buffer)
+                                                                    {
+                                                                        _presentation.Append(buffer);
+                                                                        SetStatus(_scope.GetVariable<int>("status"),
+                                                                                  _scope.GetVariable<double>(
+                                                                                      "sievingProgress"));
+                                                                    }))
                 using (var errorOutputStream = new GGNFSOutputStream(buffer => GuiLogMessage(buffer, NotificationLevel.Error)))
                 {
                     engine.Runtime.IO.SetOutput(outputStream, Encoding.ASCII);
@@ -190,10 +204,12 @@ namespace NumberFieldSieve
                     scope.SetVariable("USE_CUDA", _settings.UseCUDA);
                     scope.SetVariable("GPU_NUM", 1);
 
+                    _executingThread = Thread.CurrentThread;
+                    _kill = scope.GetVariable<Action>("Kill");
                     var main = scope.GetVariable<Func<List>>("Main");
                     var res = main.Invoke();
 
-                    if (res == null || res.Count == 0)
+                    if (_stop || res == null || res.Count == 0)
                     {
                         return;
                     }
@@ -208,52 +224,82 @@ namespace NumberFieldSieve
                         }
                         else if (factor is int)
                         {
-                            factorList.Add((int)factor);
+                            factorList.Add((int) factor);
                         }
                         else if (factor is long)
                         {
-                            factorList.Add((long)factor);
+                            factorList.Add((long) factor);
                         }
                     }
                     OutputFactors = factorList.ToArray();
                 }
             }
+            catch (SystemExitException)
+            {
+                if (!_stop)
+                {
+                    ShowStopMessage();
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                ShowStopMessage();
+                Thread.ResetAbort();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(Properties.Resources._Error_executing_number_field_sieve__ + ex.Message, NotificationLevel.Error);
+            }
             finally
             {
                 Status = null;
+                _executingThread = null;
+                _kill = null;
             }
+        }
+
+        private void ShowStopMessage()
+        {
+            GuiLogMessage(Properties.Resources._was_stopped_, NotificationLevel.Info);
         }
 
         private void SetStatus(int status, double sievingProgress)
         {
-            if (_statusNr != status)
+            if (!_stop && _statusNr != status)
             {
                 switch (status)
                 {
                     case 0:
-                        Status = "-";
-                        ProgressChanged(_statusNr > 0 ? 100 : 0, 100);
+                        if (_statusNr > 0)
+                        {
+                            Status = Properties.Resources.Finished;
+                            ProgressChanged(100, 100);
+                        }
+                        else
+                        {
+                            ProgressChanged(0, 100);
+                        }
                         break;
                     case 1:
-                        Status = Resources.Finding_polynomial;
+                        Status = Properties.Resources.Finding_polynomial;
                         ProgressChanged(1, 100);
                         break;
                     case 2:
-                        Status = Resources.Setting_up_factorization_step;
+                        Status = Properties.Resources.Setting_up_factorization_step;
                         ProgressChanged(10, 100);
                         break;
                     case 3:
-                        Status = Resources.Sieving;
+                        Status = Properties.Resources.Sieving;
                         ProgressChanged(11, 100);
                         break;
                     case 4:
-                        Status = Resources.Solving_matrix;
+                        Status = Properties.Resources.Solving_matrix;
                         ProgressChanged(90, 100);
                         break;
                 }
                 _statusNr = status;
             }
-            else if (status == 3)
+            else if (status == 3)   //update progress in sieving step
             {
                 var pc = 11 + (sievingProgress / 100) * 80;
                 ProgressChanged(Math.Min(89.9, pc), 100);
@@ -267,6 +313,22 @@ namespace NumberFieldSieve
         public void Stop()
         {
             _stop = true;
+            if (_kill != null)
+            {
+                try
+                {
+                    _kill.Invoke();
+                }
+                catch (SystemExitException)
+                {
+                    ShowStopMessage();
+                    return;
+                }
+            }
+            if (_executingThread != null)
+            {
+                _executingThread.Abort();
+            }
         }
 
         public void Initialize()

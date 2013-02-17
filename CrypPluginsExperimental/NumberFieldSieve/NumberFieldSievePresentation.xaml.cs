@@ -42,20 +42,23 @@ namespace NumberFieldSieve
             {
                 lock (_appendTextQueue)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (_appendTextQueue.Count > 0)
                     {
-                        do
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            var el = _appendTextQueue.Dequeue();
-                            TextOut.AppendText((string)el);
-                        } while (_appendTextQueue.Count > 0);
-                        TextOut.ScrollToEnd();
-                    }, null);
+                            do
+                            {
+                                var el = _appendTextQueue.Dequeue();
+                                TextOut.AppendText((string)el);
+                            } while (_appendTextQueue.Count > 0);
+                            TextOut.ScrollToEnd();
+                        }, null);
+                    }
                 }
             }
             else
             {
-                TimerOut();
+                TimerOff();
             }
         }
 
@@ -80,7 +83,7 @@ namespace NumberFieldSieve
             }
         }
 
-        private void TimerOut()
+        private void TimerOff()
         {
             if (_timerOn)
             {
