@@ -213,7 +213,10 @@ namespace Cryptool.Plugins.NetworkSender
         /// </summary>
         public void PostExecution()
         {
-            clientSocket.Close();
+            if (clientSocket != null)
+            {
+                 clientSocket.Close();
+            }
         }
 
         /// <summary>
