@@ -180,4 +180,10 @@
   <data name="IpInputTooltip" xml:space="preserve">
     <value>Setzen sie die Ziel IP hier oder in den Einstellungen der Komponente.</value>
   </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protokoll</value>
+  </data>
+  <data name="ProtocolToolTip" xml:space="preserve">
+    <value>Ändert den Protokoll Typen</value>
+  </data>
 </root>

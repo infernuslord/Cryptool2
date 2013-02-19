@@ -210,4 +210,10 @@
   <data name="Size" xml:space="preserve">
     <value>Size</value>
   </data>
+  <data name="Protocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="ProtocolToolTip" xml:space="preserve">
+    <value>Changes the protocol type</value>
+  </data>
 </root>

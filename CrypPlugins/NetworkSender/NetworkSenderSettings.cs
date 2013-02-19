@@ -27,6 +27,7 @@ namespace Cryptool.Plugins.NetworkSender
         private int port;
         private string deviceIP;
         private bool byteAsciiSwitch;
+        private int protocol;
 
         #endregion
 
@@ -73,6 +74,22 @@ namespace Cryptool.Plugins.NetworkSender
             }
         }
 
+        [TaskPane("Protocol", "ProtocolToolTip", "NetworkConditions", 2, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
+        public int Protocol
+        {
+            get
+            {
+                return protocol;
+            }
+            set
+            {
+                if (protocol != value)
+                {
+                    protocol = value;
+                    OnPropertyChanged("Protocol");
+                }
+            }
+        }
 
         #endregion
 

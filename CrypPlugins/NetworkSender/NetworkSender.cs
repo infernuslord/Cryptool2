@@ -15,6 +15,7 @@
 */
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -44,6 +45,10 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
+        private TcpClient tcpClient;
+        private NetworkStream networkStream;
+        private MemoryStream memoryStream;
+
         #endregion
 
         public NetworkInput()
@@ -141,6 +146,12 @@ namespace Cryptool.Plugins.NetworkSender
         public void PreExecution()
         {
             ProgressChanged(0, 1);
+
+            if (settings.Protocol == 2)
+            {
+                tcpClient = new TcpClient();
+            }
+
             DestinationIp_i = "";
             //init
             isRunning = true;
@@ -158,54 +169,110 @@ namespace Cryptool.Plugins.NetworkSender
         /// </summary>
         public void Execute()
         {
-            ProgressChanged(1, 100);
 
-            //if DestinationIp_i is empty we use the ip in the settings.
-            var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
-
-            if (IsValidIP(destinationIP))
+            if (settings.Protocol == 1)
             {
-                // Init
-                endPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
-                clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-                using (streamReader = PackageStream.CreateReader())
+                ProgressChanged(1, 100);
+
+                //if DestinationIp_i is empty we use the ip in the settings.
+                var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
+
+                if (IsValidIP(destinationIP))
                 {
-                    var streamBuffer = new byte[65507]; //maximum payload size for udp
-                    int bytesRead;
-                    while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                    // Init
+                    endPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
+                    clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+                    using (streamReader = PackageStream.CreateReader())
                     {
-                        var packetData = new byte[bytesRead];
-                        for (int i = 0; i < bytesRead; i++)
+                        var streamBuffer = new byte[65507]; //maximum payload size for udp
+                        int bytesRead;
+                        while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
                         {
-                            packetData[i] = streamBuffer[i]; // copy all read data to streamData 
-                        } 
-                        
-                        presentation.RefreshMetaData(++packageCount);
-                        
-                        //updates the presentation
-                        presentation.AddPresentationPackage(new PresentationPackage
-                        {
-                            
-                            IPFrom = endPoint.Address.ToString(),
-                            Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
-                            PackageSize = generatePackageSizeString(packetData)
-                        });
-                       
-                        //sends input data
-                        clientSocket.SendTo(packetData, endPoint);
+                            var packetData = new byte[bytesRead];
+                            for (int i = 0; i < bytesRead; i++)
+                            {
+                                packetData[i] = streamBuffer[i]; // copy all read data to streamData 
+                            }
+
+                            presentation.RefreshMetaData(++packageCount);
+
+                            //updates the presentation
+                            presentation.AddPresentationPackage(new PresentationPackage
+                            {
+
+                                IPFrom = endPoint.Address.ToString(),
+                                Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                                PackageSize = generatePackageSizeString(packetData)
+                            });
+
+                            //sends input data
+                            clientSocket.SendTo(packetData, endPoint);
+                        }
                     }
                 }
+                else
+                {
+                    GuiLogMessage("Ungueltige IP!", NotificationLevel.Error);
+                }
+
+
+
+                // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
+                ProgressChanged(1, 1);
+
             }
-            else
+            else if (settings.Protocol == 2)
             {
-                GuiLogMessage("Ungueltige IP!", NotificationLevel.Error);
+
+                ProgressChanged(1, 100);
+
+
+                var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
+
+                if (IsValidIP(destinationIP))
+                {
+
+                    tcpClient.Connect(settings.DeviceIP, settings.Port);
+                    networkStream = tcpClient.GetStream();
+                    memoryStream = new MemoryStream();
+                    byte[] buffer = new byte[65507];
+
+                    if (networkStream.CanRead)
+                    {
+                        do
+                        {
+                            var bytesRead = networkStream.Read(buffer, 0, buffer.Length);
+                            memoryStream.Write(buffer, 0, bytesRead);
+                        } while (networkStream.DataAvailable);
+                        
+
+                    }
+                    memoryStream.Position = 0;
+                    var completeMessage = new byte[memoryStream.Length];
+                    memoryStream.Write(completeMessage, 0, Convert.ToInt32(memoryStream.Length));
+
+                    presentation.RefreshMetaData(++packageCount);
+
+                    //updates the presentation
+                    presentation.AddPresentationPackage(new PresentationPackage
+                    {
+
+                        IPFrom = endPoint.Address.ToString(),
+                        Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(completeMessage) : BitConverter.ToString(completeMessage)),
+                        PackageSize = generatePackageSizeString(completeMessage)
+                    });
+
+                }
+                
+
+
+                ProgressChanged(100, 100);
+
             }
 
-
-
-            // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
-            ProgressChanged(1, 1);
+           
         }
 
         /// <summary>

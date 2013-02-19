@@ -35,6 +35,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         private bool networkDevice = true;
         private readonly NetworkReceiver caller;
         private bool byteAsciiSwitch;
+        private int protocol;
 
         public NetworkReceiverSettings(NetworkReceiver caller)
         {
@@ -156,6 +157,23 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
 
+
+        [TaskPane("Protocol", "ProtocolToolTip", "NetworkConditions", 3, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
+        public int Protocol
+        {
+            get
+            {
+                return protocol;
+            }
+            set
+            {
+                if (protocol != value)
+                {
+                    protocol = value;
+                    OnPropertyChanged("Protocol");
+                }
+            }
+        }
 
         /// <summary>
         /// returns a list with all available networkinterfaces
