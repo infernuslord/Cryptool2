@@ -196,6 +196,24 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Protocol ähnelt.
+        /// </summary>
+        internal static string Protocol {
+            get {
+                return ResourceManager.GetString("Protocol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Changes the protocol type ähnelt.
+        /// </summary>
+        internal static string ProtocolToolTip {
+            get {
+                return ResourceManager.GetString("ProtocolToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Send Packages ähnelt.
         /// </summary>
         internal static string SendPackagesLabel {

@@ -49,6 +49,10 @@ namespace Cryptool.Plugins.NetworkReceiver
         private DateTime startTime;
         private UdpClient udpSocked;
         private CStreamWriter streamWriter = new CStreamWriter();
+       
+        private TcpListener tcpListener;
+        private TcpClient tcpClient;
+        private NetworkStream networkStream;
 
         #endregion
 
@@ -160,8 +164,17 @@ namespace Cryptool.Plugins.NetworkReceiver
         {
             ProgressChanged(0, 1);
 
-            endPoint = new IPEndPoint(!settings.NetworkDevice? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, 0);
-            udpSocked = new UdpClient(settings.Port);
+            if (settings.Protocol == 1)
+            {
+                endPoint = new IPEndPoint(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, 0);
+                udpSocked = new UdpClient(settings.Port);
+            }
+            else if (settings.Protocol == 2)
+            {
+                tcpListener = new TcpListener(IPAddress.Parse(settings.DeviceIp), settings.Port);
+                tcpListener.Start();
+            }
+            
   
             //init / reset
             uniqueSrcIps = new HashSet<IPAddress>();
@@ -180,53 +193,113 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void Execute()
         {
-            while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
+
+            if (settings.Protocol == 1)
             {
+
+                while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
+                {
+                    try
+                    {
+                        // wait for package
+                        ProgressChanged(1, 1);
+                        udpSocked.Client.ReceiveTimeout = TimeTillTimelimit();
+                        byte[] data = udpSocked.Receive(ref endPoint);
+                        ProgressChanged(0.5, 1);
+                        // package recieved. fill local storage
+
+                        uniqueSrcIps.Add(endPoint.Address);
+                        receivedPackages.Add(data);
+
+                        // update presentation
+                        var packet = new PresentationPackage
+                        {
+                            PackageSize = generatePackageSizeString(data),
+                            IPFrom = endPoint.Address.ToString(),
+                            Payload =
+                                (settings.ByteAsciiSwitch
+                                     ? Encoding.ASCII.GetString(data)
+                                     : BitConverter.ToString(data))
+                        };
+                        presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
+
+                        //update output
+                        streamWriter = new CStreamWriter();
+                        PackageStream = streamWriter;
+                        streamWriter.Write(data);
+                        streamWriter.Close();
+                        OnPropertyChanged("PackageStream");
+                        if (returnLastPackage) //change single output if no item is selected
+                        {
+                            SingleOutput = data;
+                            OnPropertyChanged("SingleOutput");
+                        }
+                    }
+                    catch (SocketException e)
+                    {
+                        if (e.ErrorCode != 10004 || isRunning) // if we stop during the socket waits,if we stop 
+                        {                             //during the socket waits, we won't show an error message
+                            throw;
+                        }
+                    }
+
+                }
+
+            }
+            else if (settings.Protocol == 2)
+            {
+
                 try
                 {
-                    // wait for package
-                    ProgressChanged(1, 1);
-                    udpSocked.Client.ReceiveTimeout = TimeTillTimelimit();
-                    byte[] data = udpSocked.Receive(ref endPoint);
-                    ProgressChanged(0.5, 1);
-                    // package recieved. fill local storage
-                 
-                    uniqueSrcIps.Add(endPoint.Address);
-                    receivedPackages.Add(data);
 
-                    // update presentation
-                    var packet = new PresentationPackage
-                                      {
-                                          PackageSize = generatePackageSizeString(data),
-                                          IPFrom = endPoint.Address.ToString(),
-                                          Payload =
-                                              (settings.ByteAsciiSwitch
-                                                   ? Encoding.ASCII.GetString(data)
-                                                   : BitConverter.ToString(data))
-                                      };
-                    presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
-
-                    //update output
-                    streamWriter = new CStreamWriter();
-                    PackageStream = streamWriter;    
-                    streamWriter.Write(data);
-                    streamWriter.Close();
-                    OnPropertyChanged("PackageStream");
-                    if (returnLastPackage) //change single output if no item is selected
+                    while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
                     {
-                        SingleOutput = data;
-                        OnPropertyChanged("SingleOutput");
+                        tcpClient = tcpListener.AcceptTcpClient();
+                        tcpClient.ReceiveTimeout = TimeTillTimelimit();
+                        networkStream = tcpClient.GetStream();
+                        byte[] data = new byte[tcpClient.ReceiveBufferSize];
+                  //      int bytesRead = networkStream.Read(data, 0, Convert.ToInt32(tcpClient.ReceiveBufferSize));
+
+                        uniqueSrcIps.Add(((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address);
+                        receivedPackages.Add(data);
+
+
+                        var packet = new PresentationPackage
+                        {
+                            PackageSize = generatePackageSizeString(data),
+                            IPFrom = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
+                            Payload =
+                                (settings.ByteAsciiSwitch
+                                     ? Encoding.ASCII.GetString(data)
+                                     : BitConverter.ToString(data))
+                        };
+                        presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
+
+                        //update output
+                        streamWriter = new CStreamWriter();
+                        PackageStream = streamWriter;
+                        streamWriter.Write(data);
+                        streamWriter.Close();
+                        OnPropertyChanged("PackageStream");
+                        if (returnLastPackage) //change single output if no item is selected
+                        {
+                            SingleOutput = data;
+                            OnPropertyChanged("SingleOutput");
+                        }
+
                     }
-                } 
+
+                }
                 catch (SocketException e)
                 {
                     if (e.ErrorCode != 10004 || isRunning) // if we stop during the socket waits,if we stop 
                     {                             //during the socket waits, we won't show an error message
-                       throw;
+                        throw;
                     }
-                } 
-             
+                }
+
             }
+         
             
         }
 
