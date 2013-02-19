@@ -173,6 +173,7 @@ namespace NumberFieldSieve
                     }
                 }
 
+                Directory.SetCurrentDirectory(_directoryName);
                 var ggnfsDir = Path.Combine(_directoryName, "ggnfs") + Path.DirectorySeparatorChar;
                 var engine = IronPython.Hosting.Python.CreateEngine();
 
