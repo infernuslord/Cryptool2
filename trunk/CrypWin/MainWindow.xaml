@@ -143,8 +143,8 @@
         <ControlTemplate x:Key="TabControlTemplate" TargetType="{x:Type TabControl}">
             <Grid SnapsToDevicePixels="True">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="ColumnDefinition1" Width="50"/>
                     <ColumnDefinition x:Name="ColumnDefinition0"/>
-                    <ColumnDefinition x:Name="ColumnDefinition1" Width="20"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
@@ -152,10 +152,10 @@
                     <RowDefinition x:Name="RowDefinition1" Height="*"/>
                 </Grid.RowDefinitions>
                 <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Height="2" Fill="Gray" Grid.Row="0" VerticalAlignment="Bottom"></Rectangle>
-                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0" Template="{DynamicResource ScrollViewerTemplate}">
+                <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0" Template="{DynamicResource ScrollViewerTemplate}">
                     <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Margin="2,2,2,0" Panel.ZIndex="1"></TabPanel>
                 </ScrollViewer>
-                <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=Items,Mode=OneWay}" Height="20" Width="18"
+                <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=Items,Mode=OneWay}" Height="20" Width="45"
                     SelectionChanged="ComboBox_SelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
