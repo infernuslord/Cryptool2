@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Simple Code Detector</title>
+  <summary lang="en">Usage of the <i>Simple Code Detector</i></summary>
+  <description lang="en">This template shows the usage of the <i>Simple Code Detector.</i>.</description>
+  <keywords>Simple Code Detector</keywords>
+
+  <title lang="de">Einfache Code Erkennung</title>
+  <summary lang="de">Benutzung der <i>einfachen Code Erkennung</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>einfachen Code Erkennung</i>.</description>
+  <keywords lang="de">Einfache Code Erkennung</keywords>
+
+  <icon file="QRCodeEncryption.png" />
+
+</sample>
