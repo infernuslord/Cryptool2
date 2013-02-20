@@ -53,6 +53,8 @@ namespace Cryptool.Plugins.NetworkReceiver
         private TcpListener tcpListener;
         private TcpClient tcpClient;
         private NetworkStream networkStream;
+        private Socket serverSocket;
+        private Socket clientSocket;
 
         #endregion
 
@@ -164,15 +166,17 @@ namespace Cryptool.Plugins.NetworkReceiver
         {
             ProgressChanged(0, 1);
 
-            if (settings.Protocol == 1)
+            if (settings.Protocol == 0)
             {
                 endPoint = new IPEndPoint(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, 0);
                 udpSocked = new UdpClient(settings.Port);
             }
-            else if (settings.Protocol == 2)
+            else if (settings.Protocol == 1)
             {
-                tcpListener = new TcpListener(IPAddress.Parse(settings.DeviceIp), settings.Port);
+
+                tcpListener = new TcpListener(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, settings.Port);
                 tcpListener.Start();
+                
             }
             
   
@@ -194,7 +198,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         public void Execute()
         {
 
-            if (settings.Protocol == 1)
+            if (settings.Protocol == 0)
             {
 
                 while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
@@ -246,46 +250,61 @@ namespace Cryptool.Plugins.NetworkReceiver
                 }
 
             }
-            else if (settings.Protocol == 2)
+            else if (settings.Protocol == 1)
             {
 
+
+                
                 try
                 {
 
                     while (IsTimeLeft() && IsPackageLimitNotReached() && isRunning)
                     {
+                        ProgressChanged(1, 1);
                         tcpClient = tcpListener.AcceptTcpClient();
                         tcpClient.ReceiveTimeout = TimeTillTimelimit();
                         networkStream = tcpClient.GetStream();
-                        byte[] data = new byte[tcpClient.ReceiveBufferSize];
+
+                        var data = new byte[tcpClient.ReceiveBufferSize];
+                        networkStream.Read(data, 0, tcpClient.ReceiveBufferSize);
+
+                        while ((networkStream.Read(data, 0, tcpClient.ReceiveBufferSize)) != 0)
+                        {
+                            uniqueSrcIps.Add(((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address);
+                            receivedPackages.Add(data);
+                            
+
+                            var packet = new PresentationPackage
+                            {
+                                PackageSize = generatePackageSizeString(data),
+                                IPFrom = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
+                                Payload =
+                                    (settings.ByteAsciiSwitch
+                                         ? Encoding.ASCII.GetString(data)
+                                         : BitConverter.ToString(data))
+                            };
+                            presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
+
+                            //update output
+                            streamWriter = new CStreamWriter();
+                            PackageStream = streamWriter;
+                            streamWriter.Write(data);
+                            streamWriter.Close();
+                            OnPropertyChanged("PackageStream");
+                            if (returnLastPackage) //change single output if no item is selected
+                            {
+                                SingleOutput = data;
+                                OnPropertyChanged("SingleOutput");
+                            }
+
+                        }
+
+//                        byte[] data = new byte[tcpClient.ReceiveBufferSize];
+                        ProgressChanged(0.5, 1);
                   //      int bytesRead = networkStream.Read(data, 0, Convert.ToInt32(tcpClient.ReceiveBufferSize));
 
-                        uniqueSrcIps.Add(((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address);
-                        receivedPackages.Add(data);
+                        
 
-
-                        var packet = new PresentationPackage
-                        {
-                            PackageSize = generatePackageSizeString(data),
-                            IPFrom = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
-                            Payload =
-                                (settings.ByteAsciiSwitch
-                                     ? Encoding.ASCII.GetString(data)
-                                     : BitConverter.ToString(data))
-                        };
-                        presentation.UpdatePresentation(packet, receivedPackages.Count, uniqueSrcIps.Count);
-
-                        //update output
-                        streamWriter = new CStreamWriter();
-                        PackageStream = streamWriter;
-                        streamWriter.Write(data);
-                        streamWriter.Close();
-                        OnPropertyChanged("PackageStream");
-                        if (returnLastPackage) //change single output if no item is selected
-                        {
-                            SingleOutput = data;
-                            OnPropertyChanged("SingleOutput");
-                        }
 
                     }
 
@@ -299,6 +318,7 @@ namespace Cryptool.Plugins.NetworkReceiver
                 }
 
             }
+                 
          
             
         }
@@ -308,8 +328,12 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void PostExecution()
         {
-           udpSocked.Close();
-           streamWriter.Close();
+            if (settings.Protocol == 0)
+            {
+                udpSocked.Close();
+                
+            }
+            streamWriter.Close();
         }
 
         /// <summary>
@@ -319,7 +343,15 @@ namespace Cryptool.Plugins.NetworkReceiver
         public void Stop()
         {
             isRunning = false;
-            udpSocked.Close(); //we have to close it forcely, but we catch the error
+            if (settings.Protocol == 0)
+            {
+                udpSocked.Close(); //we have to close it forcely, but we catch the error
+            } 
+            else if (settings.Protocol == 1)
+            {
+                tcpClient.Close();
+                tcpListener.Stop();
+            }
         }
 
         /// <summary>

@@ -45,7 +45,7 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
-        private TcpClient tcpClient;
+        private TcpClient tcpClient = new TcpClient();
         private NetworkStream networkStream;
         private MemoryStream memoryStream;
 
@@ -147,9 +147,11 @@ namespace Cryptool.Plugins.NetworkSender
         {
             ProgressChanged(0, 1);
 
-            if (settings.Protocol == 2)
+            if (settings.Protocol == 1)
             {
-                tcpClient = new TcpClient();
+                
+            //    var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
+                tcpClient.Connect(IPAddress.Parse(settings.DeviceIP), settings.Port);
             }
 
             DestinationIp_i = "";
@@ -170,9 +172,8 @@ namespace Cryptool.Plugins.NetworkSender
         public void Execute()
         {
 
-            if (settings.Protocol == 1)
+            if (settings.Protocol == 0)
             {
-
                 ProgressChanged(1, 100);
 
                 //if DestinationIp_i is empty we use the ip in the settings.
@@ -214,7 +215,8 @@ namespace Cryptool.Plugins.NetworkSender
                 }
                 else
                 {
-                    GuiLogMessage("Ungueltige IP!", NotificationLevel.Error);
+                    GuiLogMessage("IP ungueltig!", NotificationLevel.Error);
+                
                 }
 
 
@@ -223,53 +225,10 @@ namespace Cryptool.Plugins.NetworkSender
                 ProgressChanged(1, 1);
 
             }
-            else if (settings.Protocol == 2)
+            else if (settings.Protocol == 1)
             {
 
-                ProgressChanged(1, 100);
-
-
-                var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
-
-                if (IsValidIP(destinationIP))
-                {
-
-                    tcpClient.Connect(settings.DeviceIP, settings.Port);
-                    networkStream = tcpClient.GetStream();
-                    memoryStream = new MemoryStream();
-                    byte[] buffer = new byte[65507];
-
-                    if (networkStream.CanRead)
-                    {
-                        do
-                        {
-                            var bytesRead = networkStream.Read(buffer, 0, buffer.Length);
-                            memoryStream.Write(buffer, 0, bytesRead);
-                        } while (networkStream.DataAvailable);
-                        
-
-                    }
-                    memoryStream.Position = 0;
-                    var completeMessage = new byte[memoryStream.Length];
-                    memoryStream.Write(completeMessage, 0, Convert.ToInt32(memoryStream.Length));
-
-                    presentation.RefreshMetaData(++packageCount);
-
-                    //updates the presentation
-                    presentation.AddPresentationPackage(new PresentationPackage
-                    {
-
-                        IPFrom = endPoint.Address.ToString(),
-                        Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(completeMessage) : BitConverter.ToString(completeMessage)),
-                        PackageSize = generatePackageSizeString(completeMessage)
-                    });
-
-                }
-                
-
-
-                ProgressChanged(100, 100);
-
+      
             }
 
            
@@ -280,7 +239,7 @@ namespace Cryptool.Plugins.NetworkSender
         /// </summary>
         public void PostExecution()
         {
-            if (clientSocket != null)
+            if (clientSocket != null && settings.Protocol == 0)
             {
                  clientSocket.Close();
             }
@@ -293,6 +252,10 @@ namespace Cryptool.Plugins.NetworkSender
         public void Stop()
         {
             isRunning = false;
+            if (settings.Protocol == 1)
+            {
+                tcpClient.Close();
+            }
         }
 
         /// <summary>
