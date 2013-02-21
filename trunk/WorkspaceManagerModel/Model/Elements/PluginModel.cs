@@ -60,14 +60,24 @@ namespace WorkspaceManager.Model
         private string PluginTypeAssemblyName = null;
         [NonSerialized] 
         internal bool SettingesHaveChanges = false;
+        
+        internal void OnConnectorPlugstateChanged(ConnectorModel connector, PlugState state)
+        {
+            if(ConnectorPlugstateChanged != null)
+            {
+                ConnectorPlugstateChanged.Invoke(this,new ConnectorPlugstateChangedEventArgs(state,connector));
+            }
+        }
+        
         #endregion
 
         #region public members
 
+        public event EventHandler<ConnectorPlugstateChangedEventArgs> ConnectorPlugstateChanged;
+
         /// <summary>
         /// State of the Plugin
         /// </summary>
-
         public PluginModelState State
         {
             get { return state; }
@@ -713,4 +723,26 @@ namespace WorkspaceManager.Model
         Fullscreen,
         Default
     };
+
+    public enum PlugState
+    {
+        Plugged,
+        Unplugged
+    }
+
+    public class ConnectorPlugstateChangedEventArgs : EventArgs
+    {
+        public PlugState PlugState { get; private set; }        
+        public ConnectorModel ConnectorModel { get; private set; }
+        public int Connections { get; private set; }
+
+        public ConnectorPlugstateChangedEventArgs(PlugState plugstate, ConnectorModel connectorModel)
+        {
+            PlugState = plugstate;
+            ConnectorModel = connectorModel;
+            //Count how many connections are connected to this ConnectorModel
+            Connections += connectorModel.InputConnections.Count;
+            Connections += connectorModel.OutputConnections.Count;
+        }
+    }
 }
