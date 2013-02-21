@@ -146,7 +146,7 @@
                 <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll">
                     <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 </ScrollViewer>
-                <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight+10}">
+                <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight}">
                     <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >                            
                             <Grid.RowDefinitions>
@@ -157,7 +157,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Content="{Loc Description}" />
-                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" FontSize="18">
+                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" FontSize="16" FontWeight="Normal">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu><MenuItem Command="ApplicationCommands.Copy" /></ContextMenu>
                                 </TextBlock.ContextMenu>

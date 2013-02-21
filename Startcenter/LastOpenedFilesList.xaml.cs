@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.Miscellaneous;
 using Path = System.IO.Path;
 
 namespace Startcenter
@@ -73,22 +74,22 @@ namespace Startcenter
                         try
                         {
                             XElement xml = XElement.Load(xmlFile);
-                            var titleElement = Helper.GetGlobalizedElementFromXML(xml, "title");
+                            var titleElement = XMLHelper.GetGlobalizedElementFromXML(xml, "title");
                             if (titleElement != null)
                                 title = titleElement.Value;
 
-                            var summaryElement = Helper.GetGlobalizedElementFromXML(xml, "summary");
-                            var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
+                            var summaryElement = XMLHelper.GetGlobalizedElementFromXML(xml, "summary");
+                            var descriptionElement = XMLHelper.GetGlobalizedElementFromXML(xml, "description");
                             if (summaryElement != null)
                             {
-                                description.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));
+                                description.Inlines.Add(new Bold(XMLHelper.ConvertFormattedXElement(summaryElement)));
  
                             }
                             if (descriptionElement != null && descriptionElement.Value.Length > 1)
                             {
                                 description.Inlines.Add(new LineBreak());
                                 description.Inlines.Add(new LineBreak());
-                                description.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));
+                                description.Inlines.Add(XMLHelper.ConvertFormattedXElement(descriptionElement));
                             }
 
                             if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)

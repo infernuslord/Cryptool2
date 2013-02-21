@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.Miscellaneous;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using Path = System.IO.Path;
 
@@ -114,7 +115,7 @@ namespace Startcenter
                     order = int.Parse(metaXML.Attribute("order").Value);
                 }
 
-                var dirNameEl = Helper.GetGlobalizedElementFromXML(metaXML, "name");
+                var dirNameEl = XMLHelper.GetGlobalizedElementFromXML(metaXML, "name");
                 if (dirNameEl.Value != null)
                 {
                     dirName = dirNameEl.Value;
@@ -129,10 +130,10 @@ namespace Startcenter
                     }
                 }
 
-                var summaryElement = Helper.GetGlobalizedElementFromXML(metaXML, "summary");
+                var summaryElement = XMLHelper.GetGlobalizedElementFromXML(metaXML, "summary");
                 if (summaryElement != null)
                 {
-                    tooltip = Helper.ConvertFormattedXElement(summaryElement);
+                    tooltip = XMLHelper.ConvertFormattedXElement(summaryElement);
                 }
             }
 
@@ -167,25 +168,25 @@ namespace Startcenter
                     try
                     {
                         XElement xml = XElement.Load(xmlFile);
-                        var titleElement = Helper.GetGlobalizedElementFromXML(xml, "title");
+                        var titleElement = XMLHelper.GetGlobalizedElementFromXML(xml, "title");
                         if (titleElement != null)
                             title = titleElement.Value;
 
-                        var summaryElement = Helper.GetGlobalizedElementFromXML(xml, "summary");
-                        var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
+                        var summaryElement = XMLHelper.GetGlobalizedElementFromXML(xml, "summary");
+                        var descriptionElement = XMLHelper.GetGlobalizedElementFromXML(xml, "description");
                         if (summaryElement != null)
                         {
-                            summary1.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));
-                            summary2.Inlines.Add(new Bold(Helper.ConvertFormattedXElement(summaryElement)));  
+                            summary1.Inlines.Add(new Bold(XMLHelper.ConvertFormattedXElement(summaryElement)));
+                            summary2.Inlines.Add(new Bold(XMLHelper.ConvertFormattedXElement(summaryElement)));  
                         }
                         if (descriptionElement != null && descriptionElement.Value.Length > 1) 
                         {
                             summary1.Inlines.Add(new LineBreak());
                             summary1.Inlines.Add(new LineBreak());
-                            summary1.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));
+                            summary1.Inlines.Add(XMLHelper.ConvertFormattedXElement(descriptionElement));
                             summary2.Inlines.Add(new LineBreak());
                             summary2.Inlines.Add(new LineBreak());
-                            summary2.Inlines.Add(Helper.ConvertFormattedXElement(descriptionElement));  
+                            summary2.Inlines.Add(XMLHelper.ConvertFormattedXElement(descriptionElement));  
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)

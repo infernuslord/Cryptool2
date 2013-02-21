@@ -31,7 +31,7 @@
    lang	CDATA       "en"
 >
 
-<!ELEMENT description (#PCDATA|condition)* >
+<!ELEMENT description (#PCDATA|condition|b|i|u|newline|external)* >
 <!ATTLIST description 
    lang	CDATA       "en"
 >
@@ -44,6 +44,15 @@
 <!ELEMENT task (#PCDATA|condition)* >
 <!ATTLIST task 
    lang	CDATA       "en"
+>
+
+<!ELEMENT b (#PCDATA|b|i|u|newline)* >
+<!ELEMENT i (#PCDATA|b|i|u|newline)* >
+<!ELEMENT u (#PCDATA|b|i|u|newline)* >
+<!ELEMENT newline EMPTY >
+<!ELEMENT external (#PCDATA|b|i|u|newline)* >
+<!ATTLIST external 
+   ref	CDATA       #REQUIRED
 >
 
 <!ELEMENT inputBox (storage?, description+, defaultvalue*) >

@@ -29,6 +29,7 @@ using System.Xml.Schema;
 using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.Miscellaneous;
 using KeyTextBox;
 using WorkspaceManager.Model;
 using Wizard.Properties;
@@ -1348,7 +1349,8 @@ namespace Wizard
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
             {
-                SetTextFromXElement(desc, delegate(string text) { description.Text = text; });
+                description.Inlines.Clear();
+                description.Inlines.Add(XMLHelper.ConvertFormattedXElement(desc));
             }
             nextButton.IsEnabled = true;
         }
