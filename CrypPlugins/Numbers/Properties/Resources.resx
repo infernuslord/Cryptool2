@@ -205,9 +205,15 @@
     <value>Set this to get informations about the amount of digits the given number has.</value>
   </data>
   <data name="Digit" xml:space="preserve">
-    <value>digit</value>
+    <value>decimal digit</value>
   </data>
   <data name="Digits" xml:space="preserve">
-    <value>digits</value>
+    <value>decimal digits</value>
+  </data>
+  <data name="Bit" xml:space="preserve">
+    <value>bit</value>
+  </data>
+  <data name="Bits" xml:space="preserve">
+    <value>bits</value>
   </data>
 </root>

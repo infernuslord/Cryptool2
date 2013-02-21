@@ -89,9 +89,11 @@ namespace Cryptool.Plugins.Numbers
             {
                 _presentation.StatusBar.Visibility = Visibility.Visible;
                 int digits = 0;
+                int bits;
                 try
                 {
                     var number = GetNumber();
+                    bits = number.BitCount();
                     if (number < 0)
                     {
                         number = -number;
@@ -104,9 +106,11 @@ namespace Cryptool.Plugins.Numbers
                 catch (Exception)
                 {
                     digits = 0;
+                    bits = 0;
                 }
-                string unitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
-                _presentation.StatusBar.Content = string.Format(" {0:#,0} " + unitText, digits);
+                string digitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
+                string bitText = (bits == 1) ? Properties.Resources.Bit : Properties.Resources.Bits;
+                _presentation.StatusBar.Content = string.Format(" {0:#,0} {1} - {2} {3}", digits, digitText, bits, bitText);
             }
             else
             {

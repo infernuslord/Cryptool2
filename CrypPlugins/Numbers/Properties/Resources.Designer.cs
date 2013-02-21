@@ -61,7 +61,25 @@ namespace Cryptool.Plugins.Numbers.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to digit.
+        ///   Looks up a localized string similar to bit.
+        /// </summary>
+        internal static string Bit {
+            get {
+                return ResourceManager.GetString("Bit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bits.
+        /// </summary>
+        internal static string Bits {
+            get {
+                return ResourceManager.GetString("Bits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to decimal digit.
         /// </summary>
         internal static string Digit {
             get {
@@ -70,7 +88,7 @@ namespace Cryptool.Plugins.Numbers.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to digits.
+        ///   Looks up a localized string similar to decimal digits.
         /// </summary>
         internal static string Digits {
             get {
