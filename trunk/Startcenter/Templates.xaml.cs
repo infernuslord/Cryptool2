@@ -80,7 +80,7 @@ namespace Startcenter
                 }
                 else
                 {
-                    treeView.Items.Add(new TreeViewItem() { Header = "--------------------------------------------" });
+                    treeView.Items.Add(new TreeViewItem() { Style = (Style) FindResource("SeparatorStyle") });
 
                     if (items.All(x => x.Order < 0))
                     {

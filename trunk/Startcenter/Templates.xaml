@@ -5,6 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="TreeViewItem" x:Key="SeparatorStyle">
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Canvas Width="400" VerticalAlignment="Center" Height="6">
+                            <Line Stroke="Black" X1="5" Y1="3" X2="395" Y2="3" StrokeThickness="2" />
+                        </Canvas>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.Resources>
             <VisualBrush x:Key="HelpBrush" TileMode="None" Stretch="None" AlignmentX="Left" AutoLayoutContent="True">
