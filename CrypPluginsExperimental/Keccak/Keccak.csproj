@@ -144,28 +144,115 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\modified-firstrow4.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\cube-4z.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\modified-firstrow3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\modified-row.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\modified-toprow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\step-detail.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\cube-default.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\cube-default-inner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho-modified-lane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho-modified-side-lane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho-modified-top-lane.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\step-detail-rho.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho-table-marker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta-step-detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-left-row-front.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-left-row-side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-left-row-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-modified-row-front.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-modified-row-side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-modified-row-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-right-row-front.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-right-row-side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-right-row-side-fading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-right-row-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\theta\theta-right-row-top-fading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-cube-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\pi\pi-detailed-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chi\chi-modified-row-front.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chi\chi-modified-row-side.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chi\chi-modified-row-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\chi\chi-step-detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cube-default-bottom.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
