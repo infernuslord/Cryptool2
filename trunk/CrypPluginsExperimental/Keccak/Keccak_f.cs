@@ -103,10 +103,23 @@ namespace Cryptool.Plugins.Keccak
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     pres.labelRound.Content = (i+1).ToString() + "/" + rounds;
+                    pres.labelCurrentStep.Content = "Theta";
                 }, null);
 
                 Theta(ref state);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentStep.Content = "Rho";
+                }, null);
+
                 Rho(ref state);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentStep.Content = "Pi";
+                }, null);
+
                 Pi(ref state);
 
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -134,11 +147,6 @@ namespace Cryptool.Plugins.Keccak
             byte[][][] tmpColumns;
 
             GetColumnsFromState(ref state);
-
-            //pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            //{
-            //    pres.label1.Content = "Theta";
-            //}, null);
 
             // clone `columns` in `tmpColumns`
             tmpColumns = new byte[z][][];
@@ -169,12 +177,125 @@ namespace Cryptool.Plugins.Keccak
                     {
                         tmpColumns[i][j][k] ^= parityResult;
                     }
+
+                    ThetaPres(columns[i][j], tmpColumns[i][j], columns[i][(X + j - 1) % X], columns[(z + i - 1) % z][(j + 1) % X], parity1, parity2, i, j);
                 }
             }
 
             columns = tmpColumns;
 
             SetColumnsToState(ref state);
+
+            pres.autostep = false;
+            pres.skip = false;
+        }
+
+        public void Rho(ref byte[] state)
+        {
+            /* do nothing when lane size is 1 */
+            if (z == 1) return;
+
+            byte[] oldLane;
+            int[][] translationVectorsPres = new int[5][];
+
+            #region presentation translation vectors table
+
+            /* initialize translation vectors for presentation */
+            for (int i = 0; i < 5; i++)
+            {
+                translationVectorsPres[i] = new int[5];
+                for (int j = 0; j < 5; j++)
+                {
+                    translationVectorsPres[i][j] = translationVectors[i][j] % z;
+                }
+            }
+
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                pres.label139.Content = translationVectorsPres[0][0].ToString();
+                pres.label140.Content = translationVectorsPres[0][1].ToString();
+                pres.label141.Content = translationVectorsPres[0][2].ToString();
+                pres.label142.Content = translationVectorsPres[0][3].ToString();
+                pres.label143.Content = translationVectorsPres[0][4].ToString();
+
+                pres.label144.Content = translationVectorsPres[1][0].ToString();
+                pres.label145.Content = translationVectorsPres[1][1].ToString();
+                pres.label146.Content = translationVectorsPres[1][2].ToString();
+                pres.label147.Content = translationVectorsPres[1][3].ToString();
+                pres.label148.Content = translationVectorsPres[1][4].ToString();
+
+                pres.label149.Content = translationVectorsPres[2][0].ToString();
+                pres.label150.Content = translationVectorsPres[2][1].ToString();
+                pres.label151.Content = translationVectorsPres[2][2].ToString();
+                pres.label152.Content = translationVectorsPres[2][3].ToString();
+                pres.label153.Content = translationVectorsPres[2][4].ToString();
+
+                pres.label154.Content = translationVectorsPres[3][0].ToString();
+                pres.label155.Content = translationVectorsPres[3][1].ToString();
+                pres.label156.Content = translationVectorsPres[3][2].ToString();
+                pres.label157.Content = translationVectorsPres[3][3].ToString();
+                pres.label158.Content = translationVectorsPres[3][4].ToString();
+
+                pres.label159.Content = translationVectorsPres[4][0].ToString();
+                pres.label160.Content = translationVectorsPres[4][1].ToString();
+                pres.label161.Content = translationVectorsPres[4][2].ToString();
+                pres.label162.Content = translationVectorsPres[4][3].ToString();
+                pres.label163.Content = translationVectorsPres[4][4].ToString();
+            }, null);
+            #endregion
+
+            GetLanesFromState(ref state);
+
+            /* rotate lanes by a certain value */
+            for (int i = 0; i < Y; i++)         // iterate over planes
+            {
+                for (int j = 0; j < X; j++)     // iterate over lanes of a plane
+                {
+                    oldLane = lanes[i][j];
+                    lanes[i][j] = RotateByteArray(lanes[i][j], translationVectors[i][j] % z);
+                    RhoPres(oldLane, lanes[i][j], i, j, translationVectors[i][j] % z);
+                }
+            }
+
+            SetLanesToState(ref state);
+
+            pres.autostep = false;
+            pres.skip = false;
+        }
+
+        public void Pi(ref byte[] state)
+        {
+            byte[][][] tmpLanes;
+
+            // init `tmpLanes`
+            tmpLanes = new byte[Y][][];
+            for (int i = 0; i < Y; i++)
+            {
+                tmpLanes[i] = new byte[X][];
+                for (int j = 0; j < X; j++)
+                {
+                    tmpLanes[i][j] = new byte[z];
+                }
+            }
+
+            GetLanesFromState(ref state);
+
+            /* rearrange lanes in a certain pattern */
+            for (int i = 0; i < Y; i++)         // iterate over planes
+            {
+                for (int j = 0; j < X; j++)     // iterate over lanes of a plane
+                {
+                    tmpLanes[(2 * j + 3 * i) % X][i] = lanes[i][j];
+                }
+            }
+
+            PiPres(tmpLanes);
+
+            lanes = tmpLanes;
+            SetLanesToState(ref state);
+
+            pres.autostep = false;
+            pres.skip = false;
         }
 
         public void Chi(ref byte[] state)
@@ -191,7 +312,6 @@ namespace Cryptool.Plugins.Keccak
                 {
                     case 4:
                         pres.imgCube4z.Visibility = Visibility.Visible;
-                        pres.imgCube4z.Opacity = 1;
                         break;
 
                     case 8:
@@ -199,7 +319,6 @@ namespace Cryptool.Plugins.Keccak
                     case 32:
                     case 64:
                         pres.imgCubeDefault.Visibility = Visibility.Visible;
-                        pres.imgCubeDefault.Opacity = 1;
                         break;
 
                     default:
@@ -207,8 +326,8 @@ namespace Cryptool.Plugins.Keccak
                 }
 
                 #endregion
-                
-                pres.canvasCube.Visibility = Visibility.Visible;
+
+                pres.canvasCubeChi.Visibility = Visibility.Visible;
                 pres.canvasStepDetailChi.Visibility = Visibility.Visible;
             }, null);
 
@@ -238,6 +357,9 @@ namespace Cryptool.Plugins.Keccak
 
             pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                pres.canvasCubeChi.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailChi.Visibility = Visibility.Hidden;
+
                 #region switch cube presentation
                 switch (z)
                 {
@@ -257,74 +379,10 @@ namespace Cryptool.Plugins.Keccak
                 }
 
                 #endregion
-
-                pres.canvasCube.Visibility = Visibility.Hidden;
-                pres.canvasStepDetailChi.Visibility = Visibility.Hidden;
             }, null);
-
-
-
+            
             pres.autostep = false;
             pres.skip = false;
-        }
-
-        public void Pi(ref byte[] state)
-        {
-            byte[][][] tmpLanes;
-
-            // init `tmpLanes`
-            tmpLanes = new byte[Y][][];
-            for (int i = 0; i < Y; i++)
-            {
-                tmpLanes[i] = new byte[X][];
-                for (int j = 0; j < X; j++)
-                {
-                    tmpLanes[i][j] = new byte[z];
-                }
-            }
-
-            GetLanesFromState(ref state);
-
-            //pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            //{
-            //    pres.label1.Content = "Pi";
-            //}, null);
-
-            /* rearrange lanes in a certain pattern */
-            for (int i = 0; i < Y; i++)         // iterate over planes
-            {
-                for (int j = 0; j < X; j++)     // iterate over lanes of a plane
-                {
-                    tmpLanes[(2 * j + 3 * i) % X][i] = lanes[i][j];
-                }
-            }
-
-            lanes = tmpLanes;
-            SetLanesToState(ref state);
-        }
-
-        public void Rho(ref byte[] state)
-        {
-            /* do nothing when lane size is 1 */
-            if (z == 1) return;
-
-            GetLanesFromState(ref state);
-
-            //pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            //{
-            //    pres.label1.Content = "Rho";
-            //}, null);
-
-            /* rotate lanes by a certain value */
-            for (int i = 0; i < Y; i++)         // iterate over planes
-            {
-                for (int j = 0; j < X; j++)     // iterate over lanes of a plane
-                {
-                    lanes[i][j] = RotateByteArray(lanes[i][j], translationVectors[i][j] % z);
-                }
-            }
-
-            SetLanesToState(ref state);
         }
 
         public void Iota(ref byte[] state, int round)
@@ -348,6 +406,8 @@ namespace Cryptool.Plugins.Keccak
                 firstLane[i] ^= truncatedConstant[i];
             }
 
+            //IotaPres(firstLane, truncatedConstant);
+
             SetFirstLaneToState(ref state, firstLane);
         }
 
@@ -355,34 +415,823 @@ namespace Cryptool.Plugins.Keccak
 
         #region presentation methods
 
-        public void ChiPres(byte[] oldRow, int i, int j)
+        public void CubePres(Visibility vis)
+        {
+            switch (z)
+            {
+                case 4:
+                    pres.imgCube4z.Visibility = vis;
+                    break;
+
+                case 8:
+                case 16:
+                case 32:
+                case 64:
+                    pres.imgCubeDefault.Visibility = vis;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        public void ThetaPres(byte[] columnOld, byte[] columnNew, byte[] columnLeft, byte[] columnRight, int parity1, int parity2, int slice, int column)
         {
             if (!pres.runToEnd && !pres.skip)
             {
-                #region switch different lane sizes
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    /* show theta canvas in first iteration */
+                    if (slice == 0 && column == 0)
+                    {
+                        pres.canvasStepDetailTheta.Visibility = Visibility.Visible;
+                        pres.canvasCubeTheta.Visibility = Visibility.Visible;
+                    }
+
+                    /* show slice and column indexes */
+                    pres.labelOuterPartCaption.Content = "Slice";
+                    pres.labelOuterPart.Content = (slice + 1).ToString();
+                    pres.labelInnerPartCaption.Content = "Column";
+                    pres.labelInnerPart.Content = (column + 1).ToString();
+
+                    #region pres cube
+
+                    switch (z)
+                    {
+                        case 1:
+                            /* TODO */
+                            break;
+                        case 2:
+                            /* TODO */
+                            break;
+                        case 4:      
+                            /* TODO */
+                            break;
+
+                        #region lane size greater than 4
+
+                        case 8:
+                        case 16:
+                        case 32:
+                        case 64:
+                            
+                            /* show cube */
+                            if (slice == 0)
+                            {
+                                /* show default cube */
+                                pres.imgCubeDefault.Visibility = Visibility.Visible;
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                            }
+                            else if (slice == 2)
+                            {
+                                /* show inner cube */
+                                pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                            }
+
+                            /* move modified row */
+                            if (slice == 0)
+                            {
+                                pres.imgThetaModifiedRowFront.SetValue(Canvas.LeftProperty, 7.0 + column * 26);
+                                pres.imgThetaModifiedRowFront.Visibility = Visibility.Visible;
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.LeftProperty, 8.0 + column * 26);
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.TopProperty, 50.0);
+                                pres.imgThetaModifiedRowTop.Visibility = Visibility.Visible;
+                                if (column == 4)
+                                {
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.LeftProperty, 137.0);
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.TopProperty, 51.0);
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Hidden;
+                                }
+                            }
+                            else if (slice == 1)
+                            {
+                                pres.imgThetaModifiedRowFront.Visibility = Visibility.Hidden;
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.LeftProperty, 21.0 + column * 26);
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.TopProperty, 37.0);
+                                if (column == 4)
+                                {
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.LeftProperty, 150.0);
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.TopProperty, 38.0);
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Hidden;
+                                }
+                            }
+                            else if (slice >= 2 && slice < z - 2)
+                            {
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.LeftProperty, 34.0 + column * 26);
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.TopProperty, 24.0);
+                                if (column == 4)
+                                {
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.LeftProperty, 163.0);
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.TopProperty, 25.0);
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Hidden;
+                                }
+                            }
+                            else // slice >= z - 2, last two slices
+                            {
+                                /* show bottom cube */
+                                if (slice == z - 2)
+                                {
+                                    pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                                    pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+                                }
+
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.LeftProperty, 34.0 + column * 26 + (slice - (z - 2)) * 13);
+                                pres.imgThetaModifiedRowTop.SetValue(Canvas.TopProperty, 24.0 - (slice - (z - 2)) * 13);
+
+                                if (column == 4)
+                                {
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.LeftProperty, 163.0 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaModifiedRowSide.SetValue(Canvas.TopProperty, 25.0 - (slice - (z - 2)) * 13);
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaModifiedRowSide.Visibility = Visibility.Hidden;
+                                }
+                            }
+
+                            /* move left row */
+                            if (slice == 0)
+                            {
+                                if (column == 0)
+                                {
+                                    pres.imgThetaLeftRowFront.SetValue(Canvas.LeftProperty, 111.0);
+                                    pres.imgThetaLeftRowFront.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 112.0);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 50.0);
+                                    pres.imgThetaLeftRowTop.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.LeftProperty, 137.0);
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.TopProperty, 51.0);
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaLeftRowFront.SetValue(Canvas.LeftProperty, 7.0 + (column - 1) * 26);
+                                    pres.imgThetaLeftRowFront.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 8.0 + (column - 1) * 26);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 50.0);
+                                    pres.imgThetaLeftRowTop.Visibility = Visibility.Visible;
+                                }
+                            }
+                            else if (slice == 1)
+                            {
+                                pres.imgThetaLeftRowFront.Visibility = Visibility.Hidden;
+                                if (column == 0)
+                                {
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 125.0);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 37.0);
+                                    pres.imgThetaLeftRowTop.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.LeftProperty, 150.0);
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.TopProperty, 38.0);
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 21.0 + (column - 1) * 26);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 37.0);
+                                }
+                            }
+                            else if (slice >= 2 && slice < z - 2)
+                            {
+                                if (column == 0)
+                                {
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 138.0);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 24.0);
+                                    pres.imgThetaLeftRowTop.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.LeftProperty, 163.0);
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.TopProperty, 25.0);
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 34.0 + (column - 1) * 26);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 24.0);
+                                }
+                            }
+                            else // slice >= z - 2, last two slices
+                            {
+                                if (column == 0)
+                                {
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 138.0 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 24.0 - (slice - (z - 2)) * 13);
+                                    pres.imgThetaLeftRowTop.Visibility = Visibility.Visible;
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.LeftProperty, 163.0 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaLeftRowSide.SetValue(Canvas.TopProperty, 25.0 - (slice - (z - 2)) * 13);
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaLeftRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.LeftProperty, 34.0 + (column - 1) * 26 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaLeftRowTop.SetValue(Canvas.TopProperty, 24.0 - (slice - (z - 2)) * 13);
+                                }
+                            }
+
+                            /* move right row */
+                            if (slice == 0)
+                            {
+                                pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                pres.imgThetaRightRowFront.Visibility = Visibility.Hidden;
+                                pres.imgThetaRightRowTop.Visibility = Visibility.Hidden;
+                                if (column == 4)
+                                {
+                                    pres.imgThetaRightRowTopFading.SetValue(Canvas.LeftProperty, 46.0);
+                                    pres.imgThetaRightRowTopFading.SetValue(Canvas.TopProperty, 11.0);
+                                    pres.imgThetaRightRowTopFading.Visibility = Visibility.Visible;
+                                    pres.imgThetaRightRowSideFading.Visibility = Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    pres.imgThetaRightRowTopFading.SetValue(Canvas.LeftProperty, 72.0 + column * 26);
+                                    pres.imgThetaRightRowTopFading.SetValue(Canvas.TopProperty, 11.0);
+                                    pres.imgThetaRightRowTopFading.Visibility = Visibility.Visible;
+                                    if (column == 3)
+                                    {
+                                        pres.imgThetaRightRowSideFading.SetValue(Canvas.LeftProperty, 176.0);
+                                        pres.imgThetaRightRowSideFading.SetValue(Canvas.TopProperty, 12.0);
+                                        pres.imgThetaRightRowSideFading.Visibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        pres.imgThetaRightRowSideFading.Visibility = Visibility.Hidden;
+                                    }
+                                }
+                            }
+                            else if (slice == 1)
+                            {
+                                pres.imgThetaRightRowSideFading.Visibility = Visibility.Hidden;
+                                pres.imgThetaRightRowTopFading.Visibility = Visibility.Hidden;
+                                if (column == 4)
+                                {
+                                    pres.imgThetaRightRowFront.SetValue(Canvas.LeftProperty, 7.0);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 8.0);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 50.0);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+                                    pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                }
+                                else
+                                {
+                                    pres.imgThetaRightRowFront.SetValue(Canvas.LeftProperty, 33.0 + column * 26);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 34.0 + column * 26);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 50.0);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+
+                                    if (column == 3)
+                                    {
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.LeftProperty, 137.0);
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.TopProperty, 51.0);
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                    }
+                                }
+
+                                pres.imgThetaRightRowFront.Visibility = Visibility.Visible;
+                            }
+                            else if (slice >= 2 && slice < z - 2)
+                            {
+                                pres.imgThetaRightRowFront.Visibility = Visibility.Hidden;
+                                if (column == 4)
+                                {
+                                    pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 21.0);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 37.0);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 47.0 + column * 26);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 37.0);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+                                    if (column == 3)
+                                    {
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.LeftProperty, 150.0);
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.TopProperty, 38.0);
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                    }
+                                }
+                            }
+                            else // slice >= z - 2, last two slices
+                            {
+                                if (column == 4)
+                                {
+                                    pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 21.0 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 37.0 - (slice - (z - 2)) * 13);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+                                }
+                                else
+                                {
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.LeftProperty, 47.0 + column * 26 + (slice - (z - 2)) * 13);
+                                    pres.imgThetaRightRowTop.SetValue(Canvas.TopProperty, 37.0 - (slice - (z - 2)) * 13);
+                                    pres.imgThetaRightRowTop.Visibility = Visibility.Visible;
+                                    if (column == 3)
+                                    {
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.LeftProperty, 150.0 + (slice - (z - 2)) * 13);
+                                        pres.imgThetaRightRowSide.SetValue(Canvas.TopProperty, 38.0 - (slice - (z - 2)) * 13);
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        pres.imgThetaRightRowSide.Visibility = Visibility.Hidden;
+                                    }
+                                }
+                            }                           
+                            
+                            break;
+
+                        #endregion
+
+                        default:
+                            break;
+                    }
+
+                    #endregion
+
+                    #region pres detailed
+
+                    /* left and right column */
+                    pres.label164.Content = columnLeft[0].ToString();
+                    pres.label165.Content = columnLeft[1].ToString();
+                    pres.label166.Content = columnLeft[2].ToString();
+                    pres.label167.Content = columnLeft[3].ToString();
+                    pres.label168.Content = columnLeft[4].ToString();
+
+                    pres.label169.Content = columnRight[0].ToString();
+                    pres.label170.Content = columnRight[1].ToString();
+                    pres.label171.Content = columnRight[2].ToString();
+                    pres.label172.Content = columnRight[3].ToString();
+                    pres.label173.Content = columnRight[4].ToString();
+
+                    /* parity bits */
+                    pres.label174.Content = parity1.ToString();
+                    pres.label175.Content = parity2.ToString();
+
+                    /* old and new column */
+                    pres.label176.Content = columnOld[0].ToString();
+                    pres.label177.Content = columnOld[1].ToString();
+                    pres.label178.Content = columnOld[2].ToString();
+                    pres.label179.Content = columnOld[3].ToString();
+                    pres.label180.Content = columnOld[4].ToString();
+
+                    pres.label181.Content = columnNew[0].ToString();
+                    pres.label182.Content = columnNew[1].ToString();
+                    pres.label183.Content = columnNew[2].ToString();
+                    pres.label184.Content = columnNew[3].ToString();
+                    pres.label185.Content = columnNew[4].ToString();
+
+                    #endregion
+
+                }, null);
+
+                /* wait for button clicks */
+                if (!pres.autostep ||(slice == (z - 1) && column == (X - 1)))
+                {
+                    pres.autostep = false;
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+                /* sleep between steps, if autostep was clicked */
+                else
+                {
+                    System.Threading.Thread.Sleep(pres.autostepSpeed);       // value adjustable by a slider
+                }                
+            }
+
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                /* hide theta canvas after last iteration */
+                if (slice == (z - 1) && column == (X - 1))
+                {
+                    pres.canvasStepDetailTheta.Visibility = Visibility.Hidden;
+                    pres.canvasCubeTheta.Visibility = Visibility.Hidden;
+                    pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                    pres.imgCubeDefaultBottom.Visibility = Visibility.Hidden;
+                }
+            }, null);
+        }
+
+        public void RhoPres(byte[] oldLane, byte[] newLane, int plane, int lane, int rotationOffset)
+        {
+            if (!pres.runToEnd && !pres.skip)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    /* show rho canvas in first iteration */
+                    if (plane == 0 && lane == 0)
+                    {
+                        pres.canvasStepDetailRho.Visibility = Visibility.Visible;
+                        pres.canvasCubeRho.Visibility = Visibility.Visible;
+                        pres.imgCubeDefault.Visibility = Visibility.Visible;
+                    }
+
+                    pres.labelOuterPartCaption.Content = "Plane";
+                    pres.labelOuterPart.Content = (plane + 1).ToString();
+                    pres.labelInnerPartCaption.Content = "Lane";
+                    pres.labelInnerPart.Content = (lane + 1).ToString();
+
+                    #region pres cube
+
+                    /* move modified lane */
+                    pres.imgRhoModifiedLane.SetValue(Canvas.TopProperty, 167.0 - plane * 26);
+                    pres.imgRhoModifiedLane.SetValue(Canvas.LeftProperty, 7.0 + lane * 26);
+
+
+                    pres.imgRhoModifiedSideLane.Visibility = Visibility.Hidden;
+                    pres.imgRhoModifiedTopLane.Visibility = Visibility.Hidden;
+
+                    if (lane == 4)
+                    {
+                        pres.imgRhoModifiedSideLane.Visibility = Visibility.Visible;
+                        pres.imgRhoModifiedSideLane.SetValue(Canvas.TopProperty, 116.0 - plane * 26);
+                    } 
+                    if (plane == 4)
+                    {
+                        pres.imgRhoModifiedTopLane.SetValue(Canvas.LeftProperty, 8.0 + lane * 26);
+                        pres.imgRhoModifiedTopLane.Visibility = Visibility.Visible;
+                    }
+                    
+                    #endregion
+
+                    #region pres detailed
+
+                    /* move table marker */
+                    pres.imgRhoTableMarker.SetValue(Canvas.TopProperty, 73.0 + plane * 19);
+                    pres.imgRhoTableMarker.SetValue(Canvas.LeftProperty, 277.0 + lane * 22);
+
+                    pres.labelRotationOffset.Content = rotationOffset.ToString();
+
+                    #region fill lane labels for different lane sizes
+
+                    switch (z)
+                    {
+                        case 1:
+                            /* TODO */
+                            break;
+                        case 2:
+                            /* TODO */
+                            break;
+                        case 4:
+                            /* TODO */
+                            break;
+                        case 8:
+                            /* TODO */
+                            break;
+                        case 16:
+                            /* TODO */
+                            break;
+                        case 32:
+                            /* TODO */
+                            break;
+                        case 64:
+
+                            #region fill labels of old lane
+
+                            pres.label11.Content = oldLane[0].ToString();
+                            pres.label12.Content = oldLane[1].ToString();
+                            pres.label13.Content = oldLane[2].ToString();
+                            pres.label14.Content = oldLane[3].ToString();
+                            pres.label15.Content = oldLane[4].ToString();
+                            pres.label16.Content = oldLane[5].ToString();
+                            pres.label17.Content = oldLane[6].ToString();
+                            pres.label18.Content = oldLane[7].ToString();
+                            pres.label19.Content = oldLane[8].ToString();
+                            pres.label20.Content = oldLane[9].ToString();
+                            pres.label21.Content = oldLane[10].ToString();
+                            pres.label22.Content = oldLane[11].ToString();
+                            pres.label23.Content = oldLane[12].ToString();
+                            pres.label24.Content = oldLane[13].ToString();
+                            pres.label25.Content = oldLane[14].ToString();
+                            pres.label26.Content = oldLane[15].ToString();
+
+                            pres.label27.Content = oldLane[16].ToString();
+                            pres.label28.Content = oldLane[17].ToString();
+                            pres.label29.Content = oldLane[18].ToString();
+                            pres.label30.Content = oldLane[19].ToString();
+                            pres.label31.Content = oldLane[20].ToString();
+                            pres.label32.Content = oldLane[21].ToString();
+                            pres.label33.Content = oldLane[22].ToString();
+                            pres.label34.Content = oldLane[23].ToString();
+                            pres.label35.Content = oldLane[24].ToString();
+                            pres.label36.Content = oldLane[25].ToString();
+                            pres.label37.Content = oldLane[26].ToString();
+                            pres.label38.Content = oldLane[27].ToString();
+                            pres.label39.Content = oldLane[28].ToString();
+                            pres.label40.Content = oldLane[29].ToString();
+                            pres.label41.Content = oldLane[30].ToString();
+                            pres.label42.Content = oldLane[31].ToString();
+
+                            pres.label43.Content = oldLane[32].ToString();
+                            pres.label44.Content = oldLane[33].ToString();
+                            pres.label45.Content = oldLane[34].ToString();
+                            pres.label46.Content = oldLane[35].ToString();
+                            pres.label47.Content = oldLane[36].ToString();
+                            pres.label48.Content = oldLane[37].ToString();
+                            pres.label49.Content = oldLane[38].ToString();
+                            pres.label50.Content = oldLane[39].ToString();
+                            pres.label51.Content = oldLane[40].ToString();
+                            pres.label52.Content = oldLane[41].ToString();
+                            pres.label53.Content = oldLane[42].ToString();
+                            pres.label54.Content = oldLane[43].ToString();
+                            pres.label55.Content = oldLane[44].ToString();
+                            pres.label56.Content = oldLane[45].ToString();
+                            pres.label57.Content = oldLane[46].ToString();
+                            pres.label58.Content = oldLane[47].ToString();
+
+                            pres.label59.Content = oldLane[48].ToString();
+                            pres.label60.Content = oldLane[49].ToString();
+                            pres.label61.Content = oldLane[50].ToString();
+                            pres.label62.Content = oldLane[51].ToString();
+                            pres.label63.Content = oldLane[52].ToString();
+                            pres.label64.Content = oldLane[53].ToString();
+                            pres.label65.Content = oldLane[54].ToString();
+                            pres.label66.Content = oldLane[55].ToString();
+                            pres.label67.Content = oldLane[56].ToString();
+                            pres.label68.Content = oldLane[57].ToString();
+                            pres.label69.Content = oldLane[58].ToString();
+                            pres.label70.Content = oldLane[59].ToString();
+                            pres.label71.Content = oldLane[60].ToString();
+                            pres.label72.Content = oldLane[61].ToString();
+                            pres.label73.Content = oldLane[62].ToString();
+                            pres.label74.Content = oldLane[63].ToString();
+
+                            #endregion
+
+                            #region fill labels of old lane
+
+                            pres.label75.Content = newLane[0].ToString();
+                            pres.label76.Content = newLane[1].ToString();
+                            pres.label77.Content = newLane[2].ToString();
+                            pres.label78.Content = newLane[3].ToString();
+                            pres.label79.Content = newLane[4].ToString();
+                            pres.label80.Content = newLane[5].ToString();
+                            pres.label81.Content = newLane[6].ToString();
+                            pres.label82.Content = newLane[7].ToString();
+                            pres.label83.Content = newLane[8].ToString();
+                            pres.label84.Content = newLane[9].ToString();
+                            pres.label85.Content = newLane[10].ToString();
+                            pres.label86.Content = newLane[11].ToString();
+                            pres.label87.Content = newLane[12].ToString();
+                            pres.label88.Content = newLane[13].ToString();
+                            pres.label89.Content = newLane[14].ToString();
+                            pres.label90.Content = newLane[15].ToString();
+
+                            pres.label91.Content = newLane[16].ToString();
+                            pres.label92.Content = newLane[17].ToString();
+                            pres.label93.Content = newLane[18].ToString();
+                            pres.label94.Content = newLane[19].ToString();
+                            pres.label95.Content = newLane[20].ToString();
+                            pres.label96.Content = newLane[21].ToString();
+                            pres.label97.Content = newLane[22].ToString();
+                            pres.label98.Content = newLane[23].ToString();
+                            pres.label99.Content = newLane[24].ToString();
+                            pres.label100.Content = newLane[25].ToString();
+                            pres.label101.Content = newLane[26].ToString();
+                            pres.label102.Content = newLane[27].ToString();
+                            pres.label103.Content = newLane[28].ToString();
+                            pres.label104.Content = newLane[29].ToString();
+                            pres.label105.Content = newLane[30].ToString();
+                            pres.label106.Content = newLane[31].ToString();
+
+                            pres.label107.Content = newLane[32].ToString();
+                            pres.label108.Content = newLane[33].ToString();
+                            pres.label109.Content = newLane[34].ToString();
+                            pres.label110.Content = newLane[35].ToString();
+                            pres.label111.Content = newLane[36].ToString();
+                            pres.label112.Content = newLane[37].ToString();
+                            pres.label113.Content = newLane[38].ToString();
+                            pres.label114.Content = newLane[39].ToString();
+                            pres.label115.Content = newLane[40].ToString();
+                            pres.label116.Content = newLane[41].ToString();
+                            pres.label117.Content = newLane[42].ToString();
+                            pres.label118.Content = newLane[43].ToString();
+                            pres.label119.Content = newLane[44].ToString();
+                            pres.label120.Content = newLane[45].ToString();
+                            pres.label121.Content = newLane[46].ToString();
+                            pres.label122.Content = newLane[47].ToString();
+
+                            pres.label123.Content = newLane[48].ToString();
+                            pres.label124.Content = newLane[49].ToString();
+                            pres.label125.Content = newLane[50].ToString();
+                            pres.label126.Content = newLane[51].ToString();
+                            pres.label127.Content = newLane[52].ToString();
+                            pres.label128.Content = newLane[53].ToString();
+                            pres.label129.Content = newLane[54].ToString();
+                            pres.label130.Content = newLane[55].ToString();
+                            pres.label131.Content = newLane[56].ToString();
+                            pres.label132.Content = newLane[57].ToString();
+                            pres.label133.Content = newLane[58].ToString();
+                            pres.label134.Content = newLane[59].ToString();
+                            pres.label135.Content = newLane[60].ToString();
+                            pres.label136.Content = newLane[61].ToString();
+                            pres.label137.Content = newLane[62].ToString();
+                            pres.label138.Content = newLane[63].ToString();
+
+                            #endregion
+
+                            break;
+
+                        default:
+                            break;
+                    }
+                    #endregion
+
+                    #endregion
+
+                }, null);
+
+                /* wait for button clicks */
+                if (!pres.autostep || (plane == Y - 1 && lane == X - 1))
+                {
+                    pres.autostep = false;
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+                /* sleep between steps, if autostep was clicked */
+                else
+                {
+                    System.Threading.Thread.Sleep(pres.autostepSpeed * 3);       // value adjustable by a slider (slower for rho, since it performs less steps than theta and chi)
+                }
+            }
+
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                /* hide rho canvas after last iteration */
+                if (plane == (Y - 1) && lane == (X - 1))
+                {
+                    pres.canvasStepDetailRho.Visibility = Visibility.Hidden;
+                    pres.canvasCubeRho.Visibility = Visibility.Hidden;
+                    pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                }
+            }, null);
+        }
+
+        public void PiPres(byte[][][] tmpLanes)
+        {
+            /* presentation is fixed to six rounds and performed after the step mapping of pi */
+            for (int i = 0; i < 6; i++)
+            {
+                if (!pres.runToEnd && !pres.skip)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelOuterPartCaption.Content = "Step";
+                        pres.labelOuterPart.Content = (i + 1).ToString() + "/6";
+                        pres.labelInnerPartCaption.Content = "";
+                        pres.labelInnerPart.Content = "";
+
+                        #region rounds
+
+                        switch (i)
+                        {
+                            case 0:
+                                pres.canvasCubePi_1.Visibility = Visibility.Visible;
+                                pres.imgPiCube_1.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_1.Visibility = Visibility.Visible;
+                                pres.imgPiDetailed_1.Visibility = Visibility.Visible;
+                                break;
+
+                            case 1:
+                                pres.canvasCubePi_1.Visibility = Visibility.Hidden;
+                                pres.canvasStepDetailPi_1.Visibility = Visibility.Hidden;
+                                pres.canvasCubePi_2.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_2.Visibility = Visibility.Visible;
+                                break;
+
+                            case 2:
+                                pres.canvasCubePi_2.Visibility = Visibility.Hidden;
+                                pres.canvasStepDetailPi_2.Visibility = Visibility.Hidden;
+                                pres.canvasCubePi_3.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_3.Visibility = Visibility.Visible;
+                                break;
+
+                            case 3:
+                                pres.canvasCubePi_3.Visibility = Visibility.Hidden;
+                                pres.canvasStepDetailPi_3.Visibility = Visibility.Hidden;
+                                pres.canvasCubePi_4.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_4.Visibility = Visibility.Visible;
+                                break;
+
+                            case 4:
+                                pres.canvasCubePi_4.Visibility = Visibility.Hidden;
+                                pres.canvasStepDetailPi_4.Visibility = Visibility.Hidden;
+                                pres.canvasCubePi_5.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_5.Visibility = Visibility.Visible;
+                                break;
+
+                            case 5:
+                                pres.canvasCubePi_5.Visibility = Visibility.Hidden;
+                                pres.canvasStepDetailPi_5.Visibility = Visibility.Hidden;
+                                pres.canvasCubePi_6.Visibility = Visibility.Visible;
+                                pres.canvasStepDetailPi_6.Visibility = Visibility.Visible;
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        #endregion
+
+                    }, null);
+
+                    /* wait for button clicks */
+                    if (!pres.autostep || i == 5)
+                    {
+                        pres.autostep = false;
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+                    /* sleep between steps, if autostep was clicked */
+                    else
+                    {
+                        System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider (slower for pi, since it performs only 6 steps)
+                    }
+                }
+            }
+
+            /* hide pi canvas after last iteration */
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                pres.canvasCubePi_1.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_1.Visibility = Visibility.Hidden;
+                pres.canvasCubePi_2.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_2.Visibility = Visibility.Hidden;
+                pres.canvasCubePi_3.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_3.Visibility = Visibility.Hidden;
+                pres.canvasCubePi_4.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_4.Visibility = Visibility.Hidden;
+                pres.canvasCubePi_5.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_5.Visibility = Visibility.Hidden;
+                pres.canvasCubePi_6.Visibility = Visibility.Hidden;
+                pres.canvasStepDetailPi_6.Visibility = Visibility.Hidden;
+            }, null);
+        }
+
+        public void ChiPres(byte[] oldRow, int slice, int row)
+        {
+            if (!pres.runToEnd && !pres.skip)
+            {
+                /* show slice and row indexes */
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelOuterPartCaption.Content = "Slice";
+                    pres.labelOuterPart.Content = (slice + 1).ToString();
+                    pres.labelInnerPartCaption.Content = "Row";
+                    pres.labelInnerPart.Content = (row + 1).ToString();
+
+                    /* show chi canvas in first iteration */
+                    if (slice == 0 && row == 0)
+                    {
+                        pres.canvasStepDetailChi.Visibility = Visibility.Visible;
+                        pres.canvasCubeChi.Visibility = Visibility.Visible;
+                        pres.imgCubeDefault.Visibility = Visibility.Visible;
+                    }
+
+                }, null);
+
+                #region pres cube
 
                 switch (z)
                 {
                     #region lane size 4
 
                     case 4:
-                        
+
                         /* show slice and row indexes */
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            pres.labelSlice.Content = (i + 1).ToString();
-                            pres.labelRow.Content = (j + 1).ToString();
-
                             /* move modified row */
-                            double modifiedRowTop = 155 - j * 26 - i * 13;
-                            double modifiedRowLeft = 138 + i * 13;
+                            double modifiedRowTop = 155 - row * 26 - slice * 13;
+                            double modifiedRowLeft = 137 + slice * 13;
                             pres.imgModifiedRow.SetValue(Canvas.TopProperty, modifiedRowTop);
                             pres.imgModifiedRow.SetValue(Canvas.LeftProperty, modifiedRowLeft);
 
                             /* move first row and toggle visibility*/
-                            if (i == 0)
+                            if (slice == 0)
                             {
-                                double modifiedFirstRowTop = 167 - j * 26;
+                                double modifiedFirstRowTop = 167 - row * 26;
                                 pres.imgModifiedFirstRow.Visibility = Visibility.Visible;
                                 pres.imgModifiedFirstRow.SetValue(Canvas.TopProperty, modifiedFirstRowTop);
                             }
@@ -392,7 +1241,7 @@ namespace Cryptool.Plugins.Keccak
                             }
 
                             /* toggle visibility top row */
-                            if (j == 4)
+                            if (row == 4)
                             {
                                 pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, modifiedRowTop - 1);
                                 pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, modifiedRowLeft - 130);
@@ -416,54 +1265,69 @@ namespace Cryptool.Plugins.Keccak
                     case 32:
                     case 64:
 
-                        /* show slice and row indexes */
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            pres.labelSlice.Content = (i + 1).ToString();
-                            pres.labelRow.Content = (j + 1).ToString();
-
-                            double modifiedRowTop = 0;
-                            double modifiedRowLeft = 0;
 
                             /* move first row and toggle visibility*/
-                            if (i == 0)
+                            if (slice == 0)
                             {
                                 /* show cube */
                                 pres.imgCubeDefault.Visibility = Visibility.Visible;
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
 
-                                double modifiedFirstRowTop = 167 - j * 26;
-                                modifiedRowTop = 155 - j * 26;
-                                modifiedRowLeft = 138;
-                                pres.imgModifiedFirstRow.SetValue(Canvas.TopProperty, modifiedFirstRowTop);
-                                pres.imgModifiedRow.SetValue(Canvas.TopProperty, modifiedRowTop);
-                                pres.imgModifiedRow.SetValue(Canvas.LeftProperty, modifiedRowLeft);
+                                pres.imgModifiedFirstRow.SetValue(Canvas.TopProperty, 167.0 - row * 26);
+                                pres.imgModifiedRow.SetValue(Canvas.TopProperty, 155.0 - row * 26);
+                                pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 137.0);
                                 pres.imgModifiedFirstRow.Visibility = Visibility.Visible;
                             }
 
                             /* move modified row only */
-                            else if (i > 0)
+                            else if (slice > 0 && slice < z - 3)
                             {
                                 pres.imgModifiedFirstRow.Visibility = Visibility.Hidden;
 
-                                modifiedRowTop = 142 - j * 26;
-                                modifiedRowLeft = 151;
-                                pres.imgModifiedRow.SetValue(Canvas.TopProperty, modifiedRowTop);
-                                pres.imgModifiedRow.SetValue(Canvas.LeftProperty, modifiedRowLeft);
+                                pres.imgModifiedRow.SetValue(Canvas.TopProperty, 142.0 - row * 26);
+                                pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 150.0);
 
                                 /* change to fading cube */
-                                if (i == 2)
+                                if (slice == 2)
                                 {
                                     pres.imgCubeDefault.Visibility = Visibility.Hidden;
                                     pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
                                 }
                             }
+                            else // slice >= z - 3, last three slices
+                            {
+                                /* change to bottom cube */
+                                if (slice == z - 3)
+                                {
+                                    pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                                    pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+                                }
+                                
+                                pres.imgModifiedRow.SetValue(Canvas.TopProperty, 142.0 - row * 26 - (slice - (z - 3)) * 13);
+                                pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 150.0 + (slice - (z - 3)) * 13);
+                            }
 
                             /* toggle visibility top row */
-                            if (j == 4)
+                            if (row == 4)
                             {
-                                pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, modifiedRowTop - 1);
-                                pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, modifiedRowLeft - 130);
+                                if (slice == 0)
+                                {
+                                    pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, 50.0);
+                                    pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, 8.0);
+                                }
+                                else if (slice < z - 3)
+                                {
+                                    pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, 37.0);
+                                    pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, 21.0);
+                                }
+                                else
+                                {
+                                    pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, 37.0 - (slice - (z - 3)) * 13);
+                                    pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, 21.0 + (slice - (z - 3)) * 13);
+                                }
+
                                 pres.imgModifiedTopRow.Visibility = Visibility.Visible;
                             }
                             else
@@ -473,17 +1337,17 @@ namespace Cryptool.Plugins.Keccak
 
                         }, null);
 
-                        break;  
-                                  
+                        break;
+
                     #endregion
-                    
+
                     default:
                         break;
                 }
 
-                
-
                 #endregion
+
+                #region pres detailed
 
                 /* presentation detailed step */
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -494,25 +1358,77 @@ namespace Cryptool.Plugins.Keccak
                     pres.label4.Content = oldRow[3].ToString();
                     pres.label5.Content = oldRow[4].ToString();
 
-                    pres.label6.Content = rows[i][j][0].ToString();
-                    pres.label7.Content = rows[i][j][1].ToString();
-                    pres.label8.Content = rows[i][j][2].ToString();
-                    pres.label9.Content = rows[i][j][3].ToString();
-                    pres.label10.Content = rows[i][j][4].ToString();
+                    pres.label6.Content = rows[slice][row][0].ToString();
+                    pres.label7.Content = rows[slice][row][1].ToString();
+                    pres.label8.Content = rows[slice][row][2].ToString();
+                    pres.label9.Content = rows[slice][row][3].ToString();
+                    pres.label10.Content = rows[slice][row][4].ToString();
                 }, null);
 
+                #endregion
+
                 /* wait for button clicks */
-                if (!pres.autostep)
+                if (!pres.autostep || (slice == (z - 1) && row == (Y - 1)))
                 {
+                    pres.autostep = false;
                     AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
                     buttonNextClickedEvent.WaitOne();
                 }
                 /* sleep between steps, if autostep was clicked */
                 else
                 {
-                    System.Threading.Thread.Sleep(300);       // value adjustable by a slider
+                    System.Threading.Thread.Sleep(pres.autostepSpeed);       // value adjustable by a slider
                 }
             }
+
+            /* hide chi canvas after last iteration */
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (slice == (z - 1) && row == (Y - 1))
+                {
+                    pres.canvasStepDetailChi.Visibility = Visibility.Hidden;
+                    pres.canvasCubeChi.Visibility = Visibility.Hidden;
+                    pres.imgCubeDefaultBottom.Visibility = Visibility.Hidden;
+                }
+            }, null);
+        }
+
+        public void IotaPres(byte[] firstLane, byte[] truncatedConstant)
+        {
+            if (!pres.runToEnd && !pres.skip)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    /* show iota canvas in first iteration */
+
+                    #region pres cube
+
+                    #endregion
+
+                    #region pres detailed
+                    
+                    #endregion
+
+                }, null);
+
+                /* wait for button clicks */
+                if (!pres.autostep)
+                {
+                    pres.autostep = false;
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+                /* sleep between steps, if autostep was clicked */
+                else
+                {
+                    System.Threading.Thread.Sleep(pres.autostepSpeed * 3);       // value adjustable by a slider (slower for rho, since it performs less steps than theta and chi)
+                }
+            }
+
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                /* hide iota canvas after last iteration */              
+            }, null);
 
         }
 
