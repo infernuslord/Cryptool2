@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Documents;
 using System.Xml.Linq;
-using System.Text.RegularExpressions;
 
-namespace Startcenter
+namespace Cryptool.PluginBase.Miscellaneous
 {
-    public static class Helper
+    public static class XMLHelper
     {
         public static XElement GetGlobalizedElementFromXML(XElement xml, string element)
         {
