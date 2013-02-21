@@ -73,6 +73,7 @@ namespace WorkspaceManager.Model
 
         #region public members
 
+        [field: NonSerialized]
         public event EventHandler<ConnectorPlugstateChangedEventArgs> ConnectorPlugstateChanged;
 
         /// <summary>
