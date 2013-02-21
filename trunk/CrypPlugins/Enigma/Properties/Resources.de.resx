@@ -691,7 +691,7 @@
     <value>UKW (D)</value>
   </data>
   <data name="Reflector5" xml:space="preserve">
-    <value>UKW -- seit 7. Feb. 1941</value>
+    <value>UKW (Reichsbahn) -- seit 7. Feb. 1941</value>
   </data>
   <data name="Reflector6" xml:space="preserve">
     <value>UKW B "dünn" -- seit 1. Feb. 1942</value>
@@ -724,13 +724,13 @@
     <value>III (D)</value>
   </data>
   <data name="RotorA15" xml:space="preserve">
-    <value>I -- seit 7. Feb. 1941</value>
+    <value>I (Reichsbahn) -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA16" xml:space="preserve">
-    <value>II -- seit 7. Feb. 1941</value>
+    <value>II (Reichsbahn) -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA17" xml:space="preserve">
-    <value>III -- seit 7. Feb. 1941</value>
+    <value>III (Reichsbahn) -- seit 7. Feb. 1941</value>
   </data>
   <data name="RotorA18" xml:space="preserve">
     <value>I (K) -- seit Feb. 1939</value>

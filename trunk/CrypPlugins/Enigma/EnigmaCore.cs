@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2013 Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ namespace Cryptool.Enigma
         private string rotor1For, rotor2For, rotor3For, rotor4For; // forward susbstitution strings for the rotors   
         private string rotor1Rev, rotor2Rev, rotor3Rev, rotor4Rev; // reverse susbstitution strings for the rotors
         private string reflector;
+        private string statorFor, statorRev; // stator, i.e. "Eintrittswalze" (ETW)
 
         string rotor1notches, rotor2notches, rotor3notches; // rotor notches
 
@@ -225,10 +226,14 @@ namespace Cryptool.Enigma
                 }
             }
 
-            // configure rotor notches - work in Progress, here only Enigma I/M3 is considered
-            rotor1notches = notches[iCfg.Rotor1];
-            rotor2notches = notches[iCfg.Rotor2];
-            rotor3notches = notches[iCfg.Rotor3];
+            // configure rotor notches
+            rotor1notches = notches[settings.Model, iCfg.Rotor1];
+            rotor2notches = notches[settings.Model, iCfg.Rotor2];
+            rotor3notches = notches[settings.Model, iCfg.Rotor3];
+
+            // configure the stator
+            statorFor = stators[settings.Model];
+            statorRev = generateReverseSubst(statorFor);
 
         }
 
@@ -293,9 +298,10 @@ namespace Cryptool.Enigma
         {
             char ch = entrySubst;
 
-            //check notches and update the rotor position. notches of rotor2 were checked first to avoid double-stepping (mechanical impossible)
-           
+            // we need to consider the stator here:
+            ch = statorFor[settings.AlphabetIndexOf(ch)];
 
+            //check notches and update the rotor position. notches of rotor2 were checked first to avoid double-stepping (mechanical impossible)
             foreach (char n in rotor2notches)
             {
                 int currentRotor2pos = iCfg.Rotor2pos;
@@ -339,6 +345,9 @@ namespace Cryptool.Enigma
             ch = A3[alen + settings.AlphabetIndexOf(rotor3Rev[alen + settings.AlphabetIndexOf(ch) + rotor3Pos]) - rotor3Pos];
             ch = A3[alen + settings.AlphabetIndexOf(rotor2Rev[alen + settings.AlphabetIndexOf(ch) + rotor2Pos]) - rotor2Pos];
             ch = A3[alen + settings.AlphabetIndexOf(rotor1Rev[alen + settings.AlphabetIndexOf(ch) + rotor1Pos]) - rotor1Pos];
+
+            //again, we need to consider the stator here
+            ch = statorRev[settings.AlphabetIndexOf(ch)];
 
             return ch;
         }

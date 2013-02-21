@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008-2009, Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2012, Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -152,7 +152,136 @@ namespace Cryptool.Enigma
         {
             switch (this.model)
             {
-                case 3: // Enigma M3 - curently analysis is supported only for this model
+                case 2: // Enigma Rocket - supports analysis
+
+                    //hide unused elements
+                    hideSettingsElement("Rotor4");
+                    hideSettingsElement("Ring4");
+
+                    // show elements common for analysis and encryption
+                    showSettingsElement("Reflector");
+
+                     switch (this.action)
+                    {
+                        case 0: // Encrypt/Decrypt
+                            // hide all options related to analysis
+                            hideSettingsElement("AnalyzeKey");
+                            hideSettingsElement("AnalyzeRotors");
+                            hideSettingsElement("AnalysisUseRotorI");
+                            hideSettingsElement("AnalysisUseRotorII");
+                            hideSettingsElement("AnalysisUseRotorIII");
+                            hideSettingsElement("AnalysisUseRotorIV");
+                            hideSettingsElement("AnalysisUseRotorV");
+                            hideSettingsElement("AnalysisUseRotorVI");
+                            hideSettingsElement("AnalysisUseRotorVII");
+                            hideSettingsElement("AnalysisUseRotorVIII");
+                            hideSettingsElement("AnalyzeRings");
+                            hideSettingsElement("KeySearchMethod");
+                            hideSettingsElement("AnalyzePlugs");
+                            hideSettingsElement("MaxSearchedPlugs");
+                            hideSettingsElement("PlugSearchMethod");
+
+                             //the Enigma Rocket did not have a Plugboards, hence hide it and reset it
+                            hidePlugBoard();
+                            ResetPlugboard();
+
+                            // make sure, that everything is visible
+                            showSettingsElement("Key");
+                            showSettingsElement("Rotor1");
+                            showSettingsElement("Rotor2");
+                            showSettingsElement("Rotor3");
+                            showSettingsElement("Ring1");
+                            showSettingsElement("Ring2");
+                            showSettingsElement("Ring3");
+                            
+                            break;
+                        case 1: // Analyze
+                            showSettingsElement("AnalyzeKey");
+                            showSettingsElement("AnalyzeRotors");
+                            showSettingsElement("AnalysisUseRotorI");
+                            showSettingsElement("AnalysisUseRotorII");
+                            showSettingsElement("AnalysisUseRotorIII");
+                            showSettingsElement("AnalyzeRings");
+                            showSettingsElement("KeySearchMethod");
+                            
+                             // hide unsed Rotors.
+                            hideSettingsElement("AnalysisUseRotorIV");
+                            hideSettingsElement("AnalysisUseRotorV");
+                            hideSettingsElement("AnalysisUseRotorVI");
+                            hideSettingsElement("AnalysisUseRotorVII");
+                            hideSettingsElement("AnalysisUseRotorVIII");
+
+                            // make sure, the hidden rotors are not selected
+                            analysisUseRotorIV      = false;
+                            analysisUseRotorV       = false;
+                            analysisUseRotorVI      = false;
+                            analysisUseRotorVII     = false;
+                            analysisUseRotorVIII    = false;   
+                         
+                            // hide possibility to analyze plugboard, since the Rocket did not have a plugboard
+                            hideSettingsElement("AnalyzePlugs");
+
+                             //make sure that anaylzing plugboard is not selected
+                            analyzePlugs            = false;
+
+                            // make sure, the plgboard is not visible and it is reset (technically, there would be no problem using the plugboard with the Rocket)
+                            hidePlugBoard();
+                            ResetPlugboard();
+
+                            // hide also settings related to the plugboard
+                            hideSettingsElement("MaxSearchedPlugs");
+                            hideSettingsElement("PlugSearchMethod");
+
+ 
+                            // now check which analysis options are active and hide those settings which are automatically determined
+                            if (this.analyzeKey)
+                            {
+                                hideSettingsElement("Key");
+                            }
+                            else
+                            {
+                                showSettingsElement("Key");
+                            }
+
+                            if (this.analyzeRotors)
+                            {
+                                hideSettingsElement("Rotor1");
+                                hideSettingsElement("Rotor2");
+                                hideSettingsElement("Rotor3");
+                            }
+                            else
+                            {
+                                showSettingsElement("Rotor1");
+                                showSettingsElement("Rotor2");
+                                showSettingsElement("Rotor3");
+                            }
+
+                            if (this.analyzeRings)
+                            {
+                                hideSettingsElement("Ring1");
+                                hideSettingsElement("Ring2");
+                                hideSettingsElement("Ring3");
+                            }
+                            else
+                            {
+                                showSettingsElement("Ring1");
+                                showSettingsElement("Ring2");
+                                showSettingsElement("Ring3");
+                            }
+
+                            break;
+                    }
+                    break;
+
+                case 3: // Enigma M3 - supports analysis
+
+                    //hide unused elements
+                    hideSettingsElement("Rotor4");
+                    hideSettingsElement("Ring4");
+
+                    // show elements common for analysis and encryption
+                    showSettingsElement("Reflector");
+
                     switch (this.action)
                     {
                         case 0: // Encrypt/Decrypt
@@ -173,6 +302,9 @@ namespace Cryptool.Enigma
                             hideSettingsElement("MaxSearchedPlugs");
                             hideSettingsElement("PlugSearchMethod");
 
+                            
+
+
                             // make sure, that everything is visible
                             showSettingsElement("Key");
                             showSettingsElement("Rotor1");
@@ -181,6 +313,7 @@ namespace Cryptool.Enigma
                             showSettingsElement("Ring1");
                             showSettingsElement("Ring2");
                             showSettingsElement("Ring3");
+                            
                             showPlugBoard();
                             break;
                         case 1: // Analyze
@@ -402,8 +535,8 @@ namespace Cryptool.Enigma
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 2: // Reichsbahn (Rocket)
-                        SetList(actionStrings, "Action1");
-                        SetList(rotorAStrings, "RotorA15", "RotorA16", "RotorA17");
+                        SetList(actionStrings, "Action1","Action4");
+                        SetList(rotorAStrings, "RotorA15", "RotorA16", "RotorA17"); // "RotorA4"); //you must add a  Rotor 4 for the challenge C" (Multiple encryptions)
                         SetList(rotorBStrings, "RotorB1");
                         SetList(reflectorStrings, "Reflector5");
 
@@ -412,7 +545,7 @@ namespace Cryptool.Enigma
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 0;
 
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        setSettingsVisibility();
                         break;
                     case 3: // Enigma I / M3
                         SetList(actionStrings, "Action1", "Action4");
@@ -425,7 +558,8 @@ namespace Cryptool.Enigma
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 1;
 
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        setSettingsVisibility();
+
                         break;
                     case 4: // Enigma M4 "Shark"
                         SetList(actionStrings, "Action1");
@@ -439,6 +573,7 @@ namespace Cryptool.Enigma
                         reflector = 0;
 
                         showSettingsElement("Rotor4"); showSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        showPlugBoard();
                         break;
                     case 5: // Enigma K-Model
                         SetList(actionStrings, "Action1");
@@ -1084,7 +1219,7 @@ namespace Cryptool.Enigma
         public string PlugBoard
         {
             get { return plugBoard.ToString(); }
-            set { }
+            set { plugBoard = new StringBuilder(value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
