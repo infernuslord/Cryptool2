@@ -1,5 +1,5 @@
 ﻿/* 
-   Copyright 2008-2009, Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2013, Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Enigma
 {
-    [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
+    [Author("Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Universität Kassel, Universität Duisburg-Essen", "http://www.ais.uni-kassel.de")]
     [PluginInfo("Cryptool.Enigma.Properties.Resources", "PluginCaption", "PluginTooltip", "Enigma/DetailedDescription/doc.xml",
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
@@ -450,9 +450,9 @@ namespace Cryptool.Enigma
                 enigmaPresentationFrame.EnigmaPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
 
-            if (settings.Model != 3)
+            if (settings.Model != 3 && settings.Model != 2)
             {
-                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("This simulator is work in progress. As of right now only Enigma I is supported!!", this, NotificationLevel.Warning));
+                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("This simulator is work in progress. As of right now only Enigma I and Enigma Reichsbahn (Rocket) is supported!!", this, NotificationLevel.Warning));
                 return;
             }
 
@@ -476,9 +476,9 @@ namespace Cryptool.Enigma
                 return;
 
 
-            if (settings.Model != 3)
+            if (settings.Model != 3 && settings.Model != 2)
             {
-                LogMessage("This simulator is work in progress. As of right now only Enigma I is supported!!", NotificationLevel.Error);
+                LogMessage("This simulator is work in progress. As of right now only Enigma I and Enigma Reichsbahn (Rocket) is supported!!", NotificationLevel.Error);
                 return;
             }
 

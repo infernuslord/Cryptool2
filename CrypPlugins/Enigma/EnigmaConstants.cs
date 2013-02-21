@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
+   Copyright 2008-2013 Arno Wacker, University of Kassel
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -24,6 +24,21 @@ namespace Cryptool.Enigma
     {
         private const string A3 = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const int alen = 26; // Alphabet Length
+
+
+        private readonly string[] stators = {
+                                            // Kommerzielle Enigma A/B
+                                            "JWULCMNOHPQZYXIRADKEGVBTSF", // no reference found for this!! This is just a copy from Enigma D
+                                            // Kommerzielle Enigma D
+                                            "JWULCMNOHPQZYXIRADKEGVBTSF",  
+                                            // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
+                                            //"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                                            "QWERTZUIOASDFGHJKPYXCVBNML",
+                                            // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
+                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+                                            // Enigma M4 "Shark"
+                                            "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+                                            };
 
         private readonly string[,] rotors = new string[,]{
                                         { // Kommerzielle Enigma A/B, ab 1924
@@ -52,7 +67,7 @@ namespace Cryptool.Enigma
                                             "JGDQOXUSCAMIFRVTPNEWKBLZYH",
                                             "NTZPSFBOKMWRCJDIVLAEYUXHGQ",
                                             "JVIUBHTCDYAKEQZPOSGXNRMWFL",
-                                            "",
+                                            "", // "CIWTBKXNRESPFLYDAGVHQUOJZM", //a rotor from Enigma T - just used for the challenge C2 (Multiple encryptions)
                                             "",
                                             "",
                                             "",
@@ -82,46 +97,85 @@ namespace Cryptool.Enigma
                                         }
                                   };
         private readonly string[,] reflectors = {
-                                           {  // Kommerzielle Enigma A/B - there was no reflector
-                                              "", 
-                                              "", 
-                                              ""  
-                                           },
-                                           {  // Kommerzielle Enigma D
-                                              "IMETCGFRAYSQBZXWLHKDVUPOJN", 
-                                              "", 
-                                              ""  
-                                           },
-                                           {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
-                                              "QYHOGNECVPUZTFDJAXWMKISRBL", 
-                                              "", 
-                                              ""  
-                                           },
-                                           {  // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
-                                              "EJMZALYXVBWFCRQUONTSPIKHGD", // UKW A
-                                              "YRUHQSLDPXNGOKMIEBFZCWVJAT", // UKW B
-                                              "FVPJIAOYEDRZXWGCTKUQSBNMHL"  // UKW C
-                                           },
-                                           {  // Enigma M4 "Shark"
-                                              "", 
-                                              "ENKQAUYWJICOPBLMDXZVFTHRGS", 
-                                              "RDOBJNTKVEHMLFCWZAXGYIPSUQ"  
-                                           },
-                                       };
+                                                    {  // Kommerzielle Enigma A/B - there was no reflector
+                                                        "", 
+                                                        "", 
+                                                        ""  
+                                                    },
+                                                    {  // Kommerzielle Enigma D
+                                                        "IMETCGFRAYSQBZXWLHKDVUPOJN", 
+                                                        "", 
+                                                        ""  
+                                                    },
+                                                    {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
+                                                        "QYHOGNECVPUZTFDJAXWMKISRBL", 
+                                                        "", 
+                                                        ""  
+                                                    },
+                                                    {  // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
+                                                        "EJMZALYXVBWFCRQUONTSPIKHGD", // UKW A
+                                                        "YRUHQSLDPXNGOKMIEBFZCWVJAT", // UKW B
+                                                        "FVPJIAOYEDRZXWGCTKUQSBNMHL"  // UKW C
+                                                    },
+                                                    {  // Enigma M4 "Shark"
+                                                        "", 
+                                                        "ENKQAUYWJICOPBLMDXZVFTHRGS", 
+                                                        "RDOBJNTKVEHMLFCWZAXGYIPSUQ"  
+                                                    },
+                                                };
 
-        private readonly string[] notches = {
-                                       "Q",  // I
-                                       "E",  // II
-                                       "V",  // III
-                                       "J",  // IV
-                                       "Z",  // V
-                                       "ZM", // VI
-                                       "ZM", // VII
-                                       "ZM"  // VIII
-                                    };
-
-
-        
+        private readonly string[,] notches = {
+                                                {  // Kommerzielle Enigma A/B - work in progress - notches needed
+                                                   "",  // I
+                                                   "",  // II
+                                                   "",  // III
+                                                   "",  // IV
+                                                   "",  // V
+                                                   "", // VI
+                                                   "", // VII
+                                                   ""  // VIII
+                                                },
+                                                 {  // Kommerzielle Enigma D work in progress - notches needed
+                                                   "",  // I
+                                                   "",  // II
+                                                   "",  // III
+                                                   "",  // IV
+                                                   "",  // V
+                                                   "", // VI
+                                                   "", // VII
+                                                   ""  // VIII
+                                                },
+                                                {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
+                                                   "V",  // I
+                                                   "M",  // II
+                                                   "G",  // III
+                                                   "",   //"EHNTZ",  // notches for a rotor from Enigma T - just used for the challenge C2 (Multiple encryptions)
+                                                   "",  
+                                                   "", 
+                                                   "", 
+                                                   ""  
+                                                },
+                                                {  // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
+                                                   "Q",  // I
+                                                   "E",  // II
+                                                   "V",  // III
+                                                   "J",  // IV
+                                                   "Z",  // V
+                                                   "ZM", // VI
+                                                   "ZM", // VII
+                                                   "ZM"  // VIII
+                                                },
+                                                {  // Enigma M4 "Shark" - work in progress - notches need to be verified
+                                                   "Q",  // I
+                                                   "E",  // II
+                                                   "V",  // III
+                                                   "J",  // IV
+                                                   "Z",  // V
+                                                   "ZM", // VI
+                                                   "ZM", // VII
+                                                   "ZM"  // VIII
+                                                },
+                                             };
 
     }
 }
