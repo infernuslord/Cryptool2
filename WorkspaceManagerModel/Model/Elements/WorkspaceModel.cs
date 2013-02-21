@@ -278,6 +278,10 @@ namespace WorkspaceManager.Model
               
             }
 
+            //call events on PluginModels to show that they have new connections
+            from.PluginModel.OnConnectorPlugstateChanged(from,PlugState.Plugged);
+            to.PluginModel.OnConnectorPlugstateChanged(to, PlugState.Plugged);
+
             AllConnectionModels.Add(connectionModel);
             return connectionModel;
         }
@@ -307,6 +311,11 @@ namespace WorkspaceManager.Model
                 propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
                 
             }
+
+            //call events on PluginModels to show that they have new connections
+            from.PluginModel.OnConnectorPlugstateChanged(from, PlugState.Plugged);
+            to.PluginModel.OnConnectorPlugstateChanged(to, PlugState.Plugged);
+
             AllConnectionModels.Add(connectionModel);            
         }
 
@@ -462,9 +471,16 @@ namespace WorkspaceManager.Model
         {
             if (connectionModel == null)
                 return false;
+            var to = connectionModel.To;
+            var from = connectionModel.From;
 
-            connectionModel.To.InputConnections.Remove(connectionModel);
-            connectionModel.From.OutputConnections.Remove(connectionModel);            
+            to.InputConnections.Remove(connectionModel);
+            from.OutputConnections.Remove(connectionModel);
+
+            //call events on PluginModels to show that they have lost connections
+            from.PluginModel.OnConnectorPlugstateChanged(from, PlugState.Unplugged);
+            to.PluginModel.OnConnectorPlugstateChanged(to, PlugState.Unplugged);
+
             OnDeletedChildElement(connectionModel);
             return AllConnectionModels.Remove(connectionModel);
         }
