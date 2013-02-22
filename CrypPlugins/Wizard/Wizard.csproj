@@ -79,8 +79,8 @@
       <DependentUpon>StorageContainer.xaml</DependentUpon>
     </Compile>
     <Compile Include="StorageEntry.cs" />
-    <Compile Include="StorageWindow.xaml.cs">
-      <DependentUpon>StorageWindow.xaml</DependentUpon>
+    <Compile Include="StorageControl.xaml.cs">
+      <DependentUpon>StorageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wizard.cs" />
     <Compile Include="WizardControl.xaml.cs">
@@ -152,7 +152,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StorageWindow.xaml">
+    <Page Include="StorageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,6 +295,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\PasswordStrength.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\check.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\remove.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

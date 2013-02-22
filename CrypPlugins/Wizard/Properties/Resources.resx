@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -152,5 +152,11 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error trying to load template!</value>
+  </data>
+  <data name="RemoveEntryQuestion" xml:space="preserve">
+    <value>Are you sure you want to remove the selected entry?</value>
+  </data>
+  <data name="RemoveEntry" xml:space="preserve">
+    <value>Remove entry</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -35,7 +36,7 @@ namespace Wizard
             _defaultKey = defaultKey;
             StorageButton.Visibility = defaultKeyOnly ? Visibility.Collapsed : Visibility.Visible;
             LoadButton.Visibility = defaultKeyOnly ? Visibility.Visible : Visibility.Collapsed;
-            SaveButton.Visibility = LoadButton.Visibility;
+            AddButton.Visibility = LoadButton.Visibility;
         }
 
         public void SetValueMethod(Action<string> setValueDelegate)
@@ -50,37 +51,17 @@ namespace Wizard
 
         private void StorageButtonClicked(object sender, RoutedEventArgs e)
         {
-            var storageWindow = new StorageWindow(_getValueDelegate, _setValueDelegate, _defaultKey) { Owner = Application.Current.MainWindow };
-            storageWindow.ShowDialog();
+            MessageBox.Show("Not available yet.");
+            //var storageWindow = new StorageControl(_getValueDelegate, _setValueDelegate, _defaultKey) { Owner = Application.Current.MainWindow };
+            //storageWindow.ShowDialog();
         }
 
-        private void SaveButtonClicked(object sender, RoutedEventArgs e)
+        private void AddButtonClicked(object sender, RoutedEventArgs e)
         {
             var key = _defaultKey;
-            var newEntry = new StorageEntry(key, _getValueDelegate());
-
-            var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
-            if (storage == null)
-            {
-                storage = new ArrayList();
-            }
-            int c = 0;
-            foreach (var entry in storage.Cast<StorageEntry>())
-            {
-                if (entry.Key == key)
-                {
-                    var res = MessageBox.Show("An entry with this key already exists. Overwrite?", "Key already exists", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (res == MessageBoxResult.Yes)
-                    {
-                        storage[c] = newEntry;
-                        Save(storage);
-                    }
-                    return;
-                }
-                c++;
-            }
-
-            storage.Insert(0, newEntry);
+            var newEntry = new StorageEntry(key, _getValueDelegate(), null);
+            var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage ?? new ArrayList();
+            storage.Add(newEntry);
             Save(storage);
         }
 
@@ -95,16 +76,68 @@ namespace Wizard
             var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
             if (storage != null)
             {
-                foreach (var entry in storage.Cast<StorageEntry>())
+                var entries = storage.Cast<StorageEntry>().Where(x => x.Key == _defaultKey).OrderBy(x => x.Created).ToList();
+                if (entries.Count == 1)
                 {
-                    if (entry.Key == _defaultKey)
-                    {
-                        _setValueDelegate(entry.Value);
-                        return;
-                    }
+                    _setValueDelegate(entries.First().Value);
+                }
+                if (entries.Count > 1)
+                {
+                    PopUpItems.ItemsSource = entries;
+                    PopUp.IsOpen = true;
                 }
             }
-            MessageBox.Show("No stored value available.", "No value", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                MessageBox.Show("No stored value available.", "No value", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void RemoveButtonClick(object sender, RoutedEventArgs e)
+        {
+            var entryToRemove = (StorageEntry)((Button)sender).Tag;
+            var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
+            Debug.Assert(storage != null);
+
+            int c = 0;
+            foreach (var entry in storage.Cast<StorageEntry>())
+            {
+                if (entry == entryToRemove)
+                {
+                    var res = MessageBox.Show(Properties.Resources.RemoveEntryQuestion, Properties.Resources.RemoveEntry, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        storage.RemoveAt(c);
+                        Save(storage);
+                        PopUp.IsOpen = false;
+                    }
+                    return;
+                }
+                c++;
+            }
+        }
+
+        private void SetValue()
+        {
+            var entry = PopUpItems.SelectedItem as StorageEntry;
+            if (entry != null)
+            {
+                _setValueDelegate(entry.Value);
+            }
+            PopUp.IsOpen = false;
+        }
+
+        private void PopUpItems_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            SetValue();
+        }
+
+        private void PopUpItems_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SetValue();
+            }
         }
     }
 }
