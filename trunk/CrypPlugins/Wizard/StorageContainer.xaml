@@ -12,17 +12,94 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <ContentControl VerticalAlignment="Center" x:Name="StorageContainerContent" />
+
+        <Popup Name="PopUp" PlacementTarget="{Binding ElementName=StorageContainerContent}" Placement="Bottom" HorizontalOffset="5" VerticalOffset="-10" PopupAnimation="Scroll" StaysOpen="False">
+            <ListView x:Name="PopUpItems" MouseUp="PopUpItems_OnMouseUp" KeyUp="PopUpItems_OnKeyUp">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Grid></Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        
+                        <GridViewColumn DisplayMemberBinding="{Binding Value}" />
+                        <GridViewColumn Width="20">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid></Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Created}" />
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button BorderThickness="0" Padding="0" Margin="0" Background="Transparent" Click="RemoveButtonClick" Tag="{Binding}">
+                                        <Image Source="Images\remove.png" />
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Value}" ToolTip="{Binding Description}" />
+                            <TextBlock Grid.Column="2" Opacity="0.7">
+                                (<Run Text="{Binding Created}" />) 
+                            </TextBlock>
+                            <Button Grid.Column="3" BorderThickness="0" Padding="0" Background="Transparent" Click="RemoveButtonClick">
+                                <Image Source="Images\remove.png" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>-->
+            </ListView>
+        </Popup>
+
         <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc Storage}" Click="StorageButtonClicked" />
-        <Button x:Name="SaveButton" Grid.Column="2" Height="20" Content="{Loc Save}" Click="SaveButtonClicked" />
+        <Button x:Name="AddButton" Grid.Column="2" Height="20" Content="{Loc Add}" Click="AddButtonClicked">
+            <Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="CheckIcon"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="0"
+                                     To="1"
+                                     Duration="0:0:1"
+                                     AutoReverse="True"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+        </Button>
         <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc Load}" Click="LoadButtonClicked" />
+        <Image x:Name="CheckIcon" Grid.Column="4" Source="Images\check.ico" Margin="5" Opacity="0" />
     </Grid>
 </UserControl>
