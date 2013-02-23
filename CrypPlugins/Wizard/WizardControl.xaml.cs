@@ -83,7 +83,7 @@ namespace Wizard
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         internal string SamplesDir { set; private get; }
-
+        
         public WizardControl()
         {
             InitializeComponent();
@@ -149,10 +149,6 @@ namespace Wizard
             {
                 set { }
             }
-        }
-
-        ~WizardControl()
-        {
         }
 
         // generate the full XML tree for the wizard (recursive)
@@ -651,7 +647,7 @@ namespace Wizard
                     xel = input.Element("storage");
                     if (xel != null)
                     {
-                        var storageContainer = new StorageContainer();
+                        var storageContainer = new StorageContainer(ShowStorageOverlay);
                         var defaultKeyOnly = false;
                         if (xel.Attribute("defaultKeyOnly") != null)
                         {
@@ -806,7 +802,7 @@ namespace Wizard
                     xel = input.Element("storage");
                     if (xel != null)
                     {
-                        var storageContainer = new StorageContainer();
+                        var storageContainer = new StorageContainer(ShowStorageOverlay);
                         var defaultKeyOnly = false;
                         if (xel.Attribute("defaultKeyOnly") != null)
                         {
@@ -865,6 +861,14 @@ namespace Wizard
             }
 
             return element;
+        }
+
+        private void ShowStorageOverlay(StorageControl control)
+        {
+            control.CloseEvent += delegate { Overlay.Visibility = Visibility.Collapsed; };
+            StorageGrid.Children.Clear();
+            StorageGrid.Children.Add(control);
+            Overlay.Visibility = Visibility.Visible;
         }
 
         /// <summary>

@@ -21,12 +21,14 @@ namespace Wizard
     /// </summary>
     public partial class StorageContainer : UserControl
     {
+        private readonly Action<StorageControl> _showOverlayAction;
         private Action<string> _setValueDelegate;
         private Func<string> _getValueDelegate;
         private string _defaultKey;
 
-        public StorageContainer()
+        public StorageContainer(Action<StorageControl> showOverlayAction)
         {
+            _showOverlayAction = showOverlayAction;
             InitializeComponent();
         }
 
@@ -51,9 +53,8 @@ namespace Wizard
 
         private void StorageButtonClicked(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not available yet.");
-            //var storageWindow = new StorageControl(_getValueDelegate, _setValueDelegate, _defaultKey) { Owner = Application.Current.MainWindow };
-            //storageWindow.ShowDialog();
+            var storageControl = new StorageControl(_getValueDelegate(), _defaultKey, _setValueDelegate);
+            _showOverlayAction(storageControl);
         }
 
         private void AddButtonClicked(object sender, RoutedEventArgs e)
