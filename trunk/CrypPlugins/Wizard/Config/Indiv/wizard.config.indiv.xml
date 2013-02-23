@@ -40,6 +40,7 @@
     </comboBox>
 
     <inputBox plugin="Password" property="Text" alignment="Right" width="78%" visibleLines="1" group="1">
+      <storage key="password" defaultKeyOnly="true" />
       <description lang="en">Password:</description>
       <description lang="de">Passwort:</description>
       <defaultvalue>Your secret password or passphrase</defaultvalue>
@@ -47,8 +48,22 @@
 
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" width="100%" visibleLines="15">
-      <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
+      <description lang="en">
+        <condition plugin="AES;Switch" property="Action" value="0">
+          Message to encrypt:
+        </condition>
+        <condition plugin="AES;Switch" property="Action" value="1">
+          Message to decrypt:
+        </condition>
+      </description>
+      <description lang="de">
+        <condition plugin="AES;Switch" property="Action" value="0">
+          Zu verschlüsselnde Nachricht:
+        </condition>
+        <condition plugin="AES;Switch" property="Action" value="1">
+          Zu entschlüsselnde Nachricht:
+        </condition>
+      </description>
       <defaultvalue>The quick brown fox jumps over the lazy dog.</defaultvalue>
     </inputBox>
 
@@ -61,8 +76,22 @@
 
       <headline lang="en" >Your message</headline>
       <headline lang="de" >Ihre Nachricht</headline>
-      <task lang="en">Your encrypted or decrypted message. In case you encrypted a message, the result is base-64-encoded, which is convenient when copied e.g. to an email. The receiver can then use the same procedure (and clearly the same password) to get back the original message.</task>
-      <task lang="de">Hier sehen Sie Ihre ver- oder entschlüsselte Nachricht. Wenn Sie eine Nachricht verschlüsselten, so ist das Ergebnis zusätzlich in Base64 kodiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.</task>
+      <task lang="en">
+        <condition plugin="AES;Switch" property="Action" value="0">
+          Your encrypted message. The encrypted result is base-64-encoded, which is convenient when copied e.g. to an email. The receiver can then use the same procedure (and clearly the same password) to get back the original message.
+        </condition>
+        <condition plugin="AES;Switch" property="Action" value="1">
+          Your decrypted message.
+        </condition>
+      </task>
+      <task lang="de">
+        <condition plugin="AES;Switch" property="Action" value="0">
+          Hier sehen Sie Ihre verschlüsselte Nachricht. Die verschlüsselte Nachricht ist zusätzlich in Base64 kodiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.
+        </condition>
+        <condition plugin="AES;Switch" property="Action" value="1">
+          Hier sehen Sie Ihre entschlüsselte Nachricht.
+        </condition>
+      </task>
 
       <outputBox plugin="Output" property="CurrentValue" alignment="Stretch" visibleLines="20">
         <description lang="en"></description>
