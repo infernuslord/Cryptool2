@@ -23,21 +23,16 @@ namespace Wizard
     public partial class StorageControl : UserControl
     {
         public delegate void CloseEventDelegate();
-
         public event CloseEventDelegate CloseEvent;
 
         private readonly Action<string> _setValueDelegate;
-        private readonly ICollectionView _view;
+        private ICollectionView _view;
 
         public StorageControl(string defaultValue, string defaultKey, Action<string> setValueDelegate)
         {
             InitializeComponent();
 
-            _view = CollectionViewSource.GetDefaultView(Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage);
-            _view.GroupDescriptions.Add(new PropertyGroupDescription("Key"));
-            _view.SortDescriptions.Add(new SortDescription("Created", ListSortDirection.Ascending));
-            KeyListBox.ItemsSource = _view;
-
+            InitView();
             _setValueDelegate = setValueDelegate;
             StoreValue.Text = defaultValue;
             StoreKey.Text = defaultKey;
@@ -51,9 +46,21 @@ namespace Wizard
                                                                                    };
         }
 
+        private void InitView()
+        {
+            _view = CollectionViewSource.GetDefaultView(Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage);
+            if (_view.GroupDescriptions.Count == 0)
+            {
+                _view.GroupDescriptions.Add(new PropertyGroupDescription("Key"));
+                _view.SortDescriptions.Add(new SortDescription("Created", ListSortDirection.Ascending));
+            }
+            KeyListBox.ItemsSource = _view;
+        }
+
         public StorageControl() : this(null, null, null)
         {
             LoadButton.Visibility = Visibility.Collapsed;
+            CancelButton.Visibility = Visibility.Collapsed;
         }
 
         private void LoadButtonClicked(object sender, RoutedEventArgs e)
@@ -97,6 +104,11 @@ namespace Wizard
                 }
                 c++;
             }
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            OnCloseEvent();
         }
 
         private void RefreshSource()

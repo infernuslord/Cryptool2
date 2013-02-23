@@ -4,7 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             Height="350" Width="400" HorizontalAlignment="Left">
+             Height="400" Width="500" HorizontalAlignment="Left">
+    <UserControl.Background>
+        <RadialGradientBrush RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+            <GradientStop Color="#add3f5" Offset="0.0" />
+            <GradientStop Color="#293955" Offset="1" />
+        </RadialGradientBrush>
+    </UserControl.Background>
+    
     <UserControl.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="5" />
@@ -13,14 +20,20 @@
         <Style BasedOn="{StaticResource ButtonStyle}" TargetType="Button"/>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid>
+            <Label  HorizontalContentAlignment="Center" Content="{Loc STORAGE}" FontSize="28" FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Florsn01" Foreground="#FF003399" VerticalAlignment="Bottom" />
+            <Image Source="Images/header_wizard5.png" Stretch="Uniform"  HorizontalAlignment="Left"></Image>
+        </Grid>
+
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.7*" />
                 <ColumnDefinition Width="5" />
@@ -83,7 +96,7 @@
             </StackPanel>
         </Grid>
         
-        <Grid Grid.Row="1" Margin="10">
+        <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -117,5 +130,7 @@
                 </Button.Style>
             </Button>
         </Grid>
+        
+        <Button x:Name="CancelButton" Grid.Row="3" Content="{Loc Cancel}" HorizontalAlignment="Right" Click="CancelButtonClick" />
     </Grid>
 </UserControl>
