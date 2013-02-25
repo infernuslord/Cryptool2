@@ -20,6 +20,7 @@ namespace Wizard
     /// <summary>
     /// Interaction logic for StorageControl.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Wizard.Properties.Resources")]
     public partial class StorageControl : UserControl
     {
         public delegate void CloseEventDelegate();
@@ -59,50 +60,55 @@ namespace Wizard
 
         public StorageControl() : this(null, null, null)
         {
-            LoadButton.Visibility = Visibility.Collapsed;
-            CancelButton.Visibility = Visibility.Collapsed;
+            EntriesGridView.Columns.Remove(ApplyEntryColumn);   //Hide apply column
+            CancelButton.Visibility = Visibility.Collapsed;     //Hide cancel button
         }
 
-        private void LoadButtonClicked(object sender, RoutedEventArgs e)
+        private void ApplyButtonClicked(object sender, RoutedEventArgs e)
         {
-            var selectedEntry = (StorageEntry) KeyListBox.SelectedValue;
-            _setValueDelegate(selectedEntry.Value);
+            var entryToLoad = (StorageEntry)((Button)sender).Tag;
+            Debug.Assert(entryToLoad != null);
+            _setValueDelegate(entryToLoad.Value);
             OnCloseEvent();
         }
 
         private void AddButtonClicked(object sender, RoutedEventArgs e)
         {
             var newEntry = new StorageEntry(StoreKey.Text, StoreValue.Text, StoreDescription.Text);
-            //StoreKey.Text = null;
-            StoreValue.Text = null;
-            StoreDescription.Text = null;
-
             var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage ?? new ArrayList();
             storage.Add(newEntry);
+
             SaveAndClose(storage);
+            KeyListBox.SelectedItem = newEntry;
+            KeyListBox.ScrollIntoView(newEntry);
+        }
+
+        private void ModifyButtonClicked(object sender, RoutedEventArgs e)
+        {
+            var entry = KeyListBox.SelectedItem as StorageEntry;
+            Debug.Assert(entry != null);
+            entry.Key = StoreKey.Text;
+            entry.Value = StoreValue.Text;
+            entry.Description = StoreDescription.Text;
+
+            Save(Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage);
+            KeyListBox.SelectedItem = entry;
+            KeyListBox.ScrollIntoView(entry);
         }
 
         private void RemoveButtonClick(object sender, RoutedEventArgs e)
         {
-            Debug.Assert(KeyListBox.SelectedItem != null);
+            var entryToRemove = (StorageEntry)((Button)sender).Tag;
+            Debug.Assert(entryToRemove != null);
             var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
             Debug.Assert(storage != null);
 
-            int c = 0;
-            foreach (var entry in storage.Cast<StorageEntry>())
+            var res = MessageBox.Show(Properties.Resources.RemoveEntryQuestion, Properties.Resources.RemoveEntry, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.Yes)
             {
-                if (entry == KeyListBox.SelectedItem)
-                {
-                    var res = MessageBox.Show(Properties.Resources.RemoveEntryQuestion, Properties.Resources.RemoveEntry, MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (res == MessageBoxResult.Yes)
-                    {
-                        storage.RemoveAt(c);
-                        Save(storage);
-                        RefreshSource();
-                    }
-                    return;
-                }
-                c++;
+                storage.Remove(entryToRemove);
+                Save(storage);
+                RefreshSource();
             }
         }
 
@@ -113,20 +119,7 @@ namespace Wizard
 
         private void RefreshSource()
         {
-            var key = StoreKey.Text;
             _view.Refresh();
-
-            if (KeyListBox.Items != null && !string.IsNullOrEmpty(key))
-            {
-                foreach (var item in KeyListBox.Items.Cast<StorageEntry>())
-                {
-                    if (item.Key == key)
-                    {
-                        KeyListBox.SelectedItem = item;
-                        return;
-                    }
-                }
-            }
         }
 
         private void SaveAndClose(ArrayList storage)
@@ -145,7 +138,10 @@ namespace Wizard
         {
             if (KeyListBox.SelectedItem != null)
             {
-                StoreKey.Text = ((StorageEntry) KeyListBox.SelectedItem).Key;
+                var selectedEntry = ((StorageEntry) KeyListBox.SelectedItem);
+                StoreKey.Text = selectedEntry.Key;
+                StoreValue.Text = selectedEntry.Value;
+                StoreDescription.Text = selectedEntry.Description;
             }
         }
 

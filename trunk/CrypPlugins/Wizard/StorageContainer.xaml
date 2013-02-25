@@ -41,7 +41,7 @@
                         </GridView.ColumnHeaderContainerStyle>
                         
                         <GridViewColumn DisplayMemberBinding="{Binding Value}" />
-                        <GridViewColumn Width="20">
+                        <GridViewColumn Width="30">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid></Grid>
@@ -60,30 +60,11 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
-                <!--<ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="15" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Value}" ToolTip="{Binding Description}" />
-                            <TextBlock Grid.Column="2" Opacity="0.7">
-                                (<Run Text="{Binding Created}" />) 
-                            </TextBlock>
-                            <Button Grid.Column="3" BorderThickness="0" Padding="0" Background="Transparent" Click="RemoveButtonClick">
-                                <Image Source="Images\remove.png" />
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>-->
             </ListView>
         </Popup>
 
-        <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc Storage}" Click="StorageButtonClicked" />
-        <Button x:Name="AddButton" Grid.Column="2" Height="20" Content="{Loc Add}" Click="AddButtonClicked">
+        <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc Storage}" Click="StorageButtonClicked" ToolTip="{Loc StorageTooltip}" />
+        <Button x:Name="AddButton" Grid.Column="2" Height="20" Content="{Loc Add}" Click="AddButtonClicked" ToolTip="{Loc AddTooltip}">
             <Button.Triggers>
                 <EventTrigger RoutedEvent="Button.Click">
                     <BeginStoryboard>
@@ -99,7 +80,7 @@
                 </EventTrigger>
             </Button.Triggers>
         </Button>
-        <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc Load}" Click="LoadButtonClicked" />
+        <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc Load}" Click="LoadButtonClicked" ToolTip="{Loc LoadTooltip}" />
         <Image x:Name="CheckIcon" Grid.Column="4" Source="Images\check.ico" Margin="5" Opacity="0" />
     </Grid>
 </UserControl>

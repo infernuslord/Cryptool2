@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             Height="400" Width="500" HorizontalAlignment="Left">
+             Height="400" Width="700" HorizontalAlignment="Left">
     <UserControl.Background>
         <RadialGradientBrush RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
             <GradientStop Color="#add3f5" Offset="0.0" />
@@ -34,68 +34,44 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.7*" />
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                
-                <Label Content="{Loc AvailableKeys}" />
-                <ListBox x:Name="KeyListBox" Grid.Row="1" DisplayMemberPath="Created" SelectionChanged="KeyListBox_OnSelectionChanged">
-                    <ListBox.GroupStyle>
-                        <GroupStyle />
-                    </ListBox.GroupStyle>
-                </ListBox>
-                <Button Grid.Row="2" Content="{Loc RemoveKey}" Click="RemoveButtonClick">
-                    <Button.Style>
-                        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedItem, ElementName=KeyListBox}" Value="{x:Null}">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Grid>
-            
-            <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ResizeDirection="Columns" />
-            
-            <StackPanel Grid.Column="2" Orientation="Vertical">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedItem, ElementName=KeyListBox}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Hidden" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                
-                <Label Content="{Loc Key}" />
-                <TextBox IsReadOnly="True" Text="{Binding SelectedValue.Key, ElementName=KeyListBox}" />
-                <Label Content="{Loc Value}" />
-                <TextBox IsReadOnly="True" Text="{Binding SelectedValue.Value, ElementName=KeyListBox}" />
-                <Label Content="{Loc Description}" />
-                <TextBox IsReadOnly="True" Text="{Binding SelectedValue.Description, ElementName=KeyListBox}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                <Label>
-                    <TextBlock>
-                        <Run Text="{Loc Created}" />
-                        <Run Text="{Binding SelectedValue.Created, ElementName=KeyListBox}" /> 
-                    </TextBlock>
-                </Label>
-                
-                <Button x:Name="LoadButton" HorizontalAlignment="Right" Content="{Loc LoadButton}" Click="LoadButtonClicked" />
-            </StackPanel>
+            <Label Content="{Loc AvailableKeys}" />
+            <ListView x:Name="KeyListBox" Grid.Row="1" DisplayMemberPath="Created" SelectionChanged="KeyListBox_OnSelectionChanged">
+                <ListView.GroupStyle>
+                    <GroupStyle />
+                </ListView.GroupStyle>
+                <ListView.View>
+                    <GridView x:Name="EntriesGridView">
+                        <GridViewColumn DisplayMemberBinding="{Binding Key}" Header="{Loc KeyHeader}" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Value}" Header="{Loc ValueHeader}" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Created}" Header="{Loc CreatedHeader}" />
+                        <GridViewColumn Header="{Loc RemoveHeader}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button BorderThickness="0" Padding="0" Margin="0" Background="Transparent" Click="RemoveButtonClick" Tag="{Binding}">
+                                        <Image Source="Images\remove.png" Stretch="Uniform" Width="16" />
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Loc ApplyHeader}" x:Name="ApplyEntryColumn">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button BorderThickness="0" Padding="0" Margin="0" Background="Transparent" Click="ApplyButtonClicked" Tag="{Binding}">
+                                        <Image Source="Images\apply.png" Stretch="Uniform" Width="16" />
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
-        
+
         <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -115,10 +91,28 @@
             <Label Content="{Loc StoreDescription}" Grid.Row="2" HorizontalAlignment="Right" />
             <TextBox x:Name="StoreDescription" Grid.Column="1" Grid.Row="2" MaxLines="1" VerticalAlignment="Center" />
             
-            <Button Grid.Column="2" Grid.RowSpan="3" Margin="5" Content="{Loc AddButton}" Click="AddButtonClicked">
+            <Button Grid.Column="2" Grid.Row="0" Margin="5" Content="{Loc AddButton}" Click="AddButtonClicked">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                         <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=StoreKey}" Value="">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Text, ElementName=StoreValue}" Value="">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Grid.Column="2" Grid.Row="1" Margin="5" Content="{Loc ModifyButton}" Click="ModifyButtonClicked">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedItem, ElementName=KeyListBox}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding Text, ElementName=StoreKey}" Value="">
                                 <Setter Property="IsEnabled" Value="False" />
                             </DataTrigger>

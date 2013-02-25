@@ -19,6 +19,7 @@ namespace Wizard
     /// <summary>
     /// Interaction logic for StorageContainer.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Wizard.Properties.Resources")]
     public partial class StorageContainer : UserControl
     {
         private readonly Action<StorageControl> _showOverlayAction;
@@ -100,21 +101,12 @@ namespace Wizard
             var storage = Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage;
             Debug.Assert(storage != null);
 
-            int c = 0;
-            foreach (var entry in storage.Cast<StorageEntry>())
+            var res = MessageBox.Show(Properties.Resources.RemoveEntryQuestion, Properties.Resources.RemoveEntry, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (res == MessageBoxResult.Yes)
             {
-                if (entry == entryToRemove)
-                {
-                    var res = MessageBox.Show(Properties.Resources.RemoveEntryQuestion, Properties.Resources.RemoveEntry, MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (res == MessageBoxResult.Yes)
-                    {
-                        storage.RemoveAt(c);
-                        Save(storage);
-                        PopUp.IsOpen = false;
-                    }
-                    return;
-                }
-                c++;
+                storage.Remove(entryToRemove);
+                Save(storage);
+                PopUp.IsOpen = false;
             }
         }
 
