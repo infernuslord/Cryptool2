@@ -648,12 +648,10 @@ namespace Wizard
                     if (xel != null)
                     {
                         var storageContainer = new StorageContainer(ShowStorageOverlay);
-                        var defaultKeyOnly = false;
-                        if (xel.Attribute("defaultKeyOnly") != null)
-                        {
-                            defaultKeyOnly = xel.Attribute("defaultKeyOnly").Value == "true";
-                        }
-                        storageContainer.AddContent(inputBox, xel.Attribute("key").Value, defaultKeyOnly);
+                        bool showStorageButton;
+                        bool showLoadAddButtons;
+                        GetStorageAttributes(xel, out showStorageButton, out showLoadAddButtons);
+                        storageContainer.AddContent(inputBox, xel.Attribute("key").Value, showStorageButton, showLoadAddButtons, showLoadAddButtons);
                         storageContainer.SetValueMethod(delegate(string s) { inputBox.Text = s; });
                         storageContainer.GetValueMethod(() => inputBox.Text);
                         element = storageContainer;
@@ -767,9 +765,24 @@ namespace Wizard
                     }
                     
                     outputBox.IsReadOnly = true;
-
                     currentOutputBoxes.Add(outputBox);
-                    element = outputBox;
+
+                    xel = input.Element("storage");
+                    if (xel != null)
+                    {
+                        var storageContainer = new StorageContainer(ShowStorageOverlay);
+                        bool showLoadAddButtons;
+                        bool showStorageButton;
+                        GetStorageAttributes(xel, out showStorageButton, out showLoadAddButtons);
+                        storageContainer.AddContent(outputBox, xel.Attribute("key").Value, showStorageButton, false, showLoadAddButtons);
+                        storageContainer.SetValueMethod(null);
+                        storageContainer.GetValueMethod(() => outputBox.Text);
+                        element = storageContainer;
+                    }
+                    else
+                    {
+                        element = outputBox;
+                    }
                     break;
 
                 case "progressBar":
@@ -803,12 +816,10 @@ namespace Wizard
                     if (xel != null)
                     {
                         var storageContainer = new StorageContainer(ShowStorageOverlay);
-                        var defaultKeyOnly = false;
-                        if (xel.Attribute("defaultKeyOnly") != null)
-                        {
-                            defaultKeyOnly = xel.Attribute("defaultKeyOnly").Value == "true";
-                        }
-                        storageContainer.AddContent(keyTextBox, xel.Attribute("key").Value, defaultKeyOnly);
+                        bool showLoadAddButtons;
+                        bool showStorageButton;
+                        GetStorageAttributes(xel, out showStorageButton, out showLoadAddButtons);
+                        storageContainer.AddContent(keyTextBox, xel.Attribute("key").Value, showStorageButton, showLoadAddButtons, showLoadAddButtons);
                         storageContainer.SetValueMethod(delegate(string s) { keyTextBox.CurrentKey = s; });
                         storageContainer.GetValueMethod(() => keyTextBox.CurrentKey);
                         element = storageContainer;
@@ -861,6 +872,20 @@ namespace Wizard
             }
 
             return element;
+        }
+
+        private static void GetStorageAttributes(XElement xel, out bool showStorageButton, out bool showLoadAddButtons)
+        {
+            showStorageButton = false;
+            if (xel.Attribute("showStorageButton") != null)
+            {
+                showStorageButton = xel.Attribute("showStorageButton").Value == "true";
+            }
+            showLoadAddButtons = false;
+            if (xel.Attribute("showLoadAddButtons") != null)
+            {
+                showLoadAddButtons = xel.Attribute("showLoadAddButtons").Value == "true";
+            }
         }
 
         private void ShowStorageOverlay(StorageControl control)

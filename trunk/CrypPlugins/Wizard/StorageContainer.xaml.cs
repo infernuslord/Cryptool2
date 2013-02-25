@@ -26,6 +26,7 @@ namespace Wizard
         private Action<string> _setValueDelegate;
         private Func<string> _getValueDelegate;
         private string _defaultKey;
+        private bool _showLoadButtons;
 
         public StorageContainer(Action<StorageControl> showOverlayAction)
         {
@@ -33,13 +34,14 @@ namespace Wizard
             InitializeComponent();
         }
 
-        public void AddContent(Control content, string defaultKey, bool defaultKeyOnly)
+        public void AddContent(Control content, string defaultKey, bool showStorageButton, bool showLoadButtons, bool showAddButtons)
         {
+            _showLoadButtons = showLoadButtons;
             StorageContainerContent.Content = content;
             _defaultKey = defaultKey;
-            StorageButton.Visibility = defaultKeyOnly ? Visibility.Collapsed : Visibility.Visible;
-            LoadButton.Visibility = defaultKeyOnly ? Visibility.Visible : Visibility.Collapsed;
-            AddButton.Visibility = LoadButton.Visibility;
+            StorageButton.Visibility = showStorageButton ? Visibility.Visible : Visibility.Collapsed;
+            LoadButton.Visibility = showLoadButtons ? Visibility.Visible : Visibility.Collapsed;
+            AddButton.Visibility = showAddButtons ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void SetValueMethod(Action<string> setValueDelegate)
@@ -54,7 +56,7 @@ namespace Wizard
 
         private void StorageButtonClicked(object sender, RoutedEventArgs e)
         {
-            var storageControl = new StorageControl(_getValueDelegate(), _defaultKey, _setValueDelegate);
+            var storageControl = new StorageControl(_getValueDelegate(), _defaultKey, _setValueDelegate, _showLoadButtons);
             _showOverlayAction(storageControl);
         }
 

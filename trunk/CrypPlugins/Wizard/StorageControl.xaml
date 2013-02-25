@@ -46,7 +46,6 @@
                 </ListView.GroupStyle>
                 <ListView.View>
                     <GridView x:Name="EntriesGridView">
-                        <GridViewColumn DisplayMemberBinding="{Binding Key}" Header="{Loc KeyHeader}" />
                         <GridViewColumn DisplayMemberBinding="{Binding Value}" Header="{Loc ValueHeader}" />
                         <GridViewColumn DisplayMemberBinding="{Binding Created}" Header="{Loc CreatedHeader}" />
                         <GridViewColumn Header="{Loc RemoveHeader}">

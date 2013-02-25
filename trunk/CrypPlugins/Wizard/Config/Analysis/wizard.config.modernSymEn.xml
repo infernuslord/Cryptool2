@@ -43,7 +43,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       </inputBox>
 
       <keyTextBox plugin="KeySearcher" property="Key" defaultkey="A1-B1-C1-11-11-11-11-11-11-11-11-11-11-**-**-**" format="[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]">
-        <storage key="test" defaultKeyOnly="true" />
+        <storage key="test" showLoadAddButtons="true" showStorageButton="true" />
         <description lang="en">Keypattern:</description>
         <description lang="de">Schlüsselmuster:</description>
       </keyTextBox>
@@ -86,6 +86,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
         </progressBar>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+          <storage key="Output Test" showLoadAddButtons="true" showStorageButton="true" />
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
@@ -122,7 +123,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       </inputBox>
 
       <keyTextBox plugin="KeySearcher" property="Key" defaultkey="A1-B1-C1-11-11-11-11-11-11-11-11-11-11-**-**-**" format="[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]-[A-F0-9][A-F0-9]">
-        <storage key="test2" defaultKeyOnly="false" />
+        <storage key="test2" showStorageButton="true" />
         <description lang="en">Keypattern:</description>
         <description lang="de">Schlüsselmuster:</description>
       </keyTextBox>
