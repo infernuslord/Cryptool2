@@ -70,6 +70,15 @@ namespace Wizard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        public static string ApplyHeader {
+            get {
+                return ResourceManager.GetString("ApplyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string BackButton {
@@ -84,6 +93,15 @@ namespace Wizard.Properties {
         public static string CreateButton {
             get {
                 return ResourceManager.GetString("CreateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created.
+        /// </summary>
+        public static string CreatedHeader {
+            get {
+                return ResourceManager.GetString("CreatedHeader", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace Wizard.Properties {
         public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        public static string KeyHeader {
+            get {
+                return ResourceManager.GetString("KeyHeader", resourceCulture);
             }
         }
         
@@ -169,6 +196,15 @@ namespace Wizard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string RemoveHeader {
+            get {
+                return ResourceManager.GetString("RemoveHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show wizard on startup..
         /// </summary>
         public static string ShowOnStartupCaption {
@@ -183,6 +219,15 @@ namespace Wizard.Properties {
         public static string ShowOnStartupTooltip {
             get {
                 return ResourceManager.GetString("ShowOnStartupTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string ValueHeader {
+            get {
+                return ResourceManager.GetString("ValueHeader", resourceCulture);
             }
         }
     }
