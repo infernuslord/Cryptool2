@@ -214,15 +214,17 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     <name lang="de" >Passwort-Stärke</name>
     <description lang="en" >Select this to test the strength of your password.</description>
     <description lang="de" >Hier können Sie die Stärke ihres Passworts testen</description>
+
     <headline lang="en" >Password Input</headline>
     <headline lang="de" >Passwort Eingabe</headline>
     <task lang="en">Here, you can enter your password to test its strength. Warning! Password is entered as cleartext.</task>
     <task lang="de">Hier können Sie Ihr Passwort eingeben um dessen Stärke zu ermitteln. Warnung! Passwort wird als Klartext eingeben.</task>
 
     <inputBox plugin="Password" property="Text" alignment="Right" width="78%" visibleLines="1" group="1">
+      <storage key="password" showLoadAddButtons="true" />
       <description lang="en">Password (cleartext!) :</description>
       <description lang="de">Passwort (Klartext!) :</description>
-      <defaultvalue>test105!A</defaultvalue>
+      <defaultvalue>test105!A</defaultvalue> <!-- FIXME: This gets overwritten by the sampleviwer.. hence it is completely useless, but cannot be turned off; strange: same thing works for encoding above. -->
     </inputBox>
 
     <sampleViewer image="PasswordStrength" file="Tools\PasswordStrength.cwm">
@@ -237,6 +239,7 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
       <task lang="de">Das detaillierte Ergebnis Ihrer Passwort-Stärke-Analyse.</task>
 
       <inputBox plugin="Password" property="Text" alignment="Right" width="50%" visibleLines="1" group="1">
+        <storage key="password" showLoadAddButtons="true" />
         <description lang="en">Password (cleartext!) :</description>
         <description lang="de">Passwort (Klartext!) :</description>
         <defaultvalue>test105!A</defaultvalue>
@@ -250,6 +253,88 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     </sampleViewer>
   </input>
 
+  
+  <!-- Random decimal number -->
+  <input image="RND" >
+    <name lang="en" >Random numbers</name>
+    <name lang="de" >Zufallszahlen</name>
+    <description lang="en" >Select this to generate a random decimal number.</description>
+    <description lang="de" >Hier können Sie eine dezimale Zufallszahl erzeugen.</description>
+    <headline lang="en" >Specify Paramters</headline>
+    <headline lang="de" >Paramtereingabe</headline>
+    <task lang="en">
+      Please enter the desired parameters for your random number.
+    </task>
+    <task lang="de">
+      Bitte spezifizieren Sie hier die Paramter für ihre gewünschte Zufallszahl.
+    </task>
+
+    <!-- simple paramters -->
+    <inputBox plugin="Decimalisation" property="Quant" alignment="Stretch" visibleLines="1">
+      <description lang="en">Digits:</description>
+      <description lang="de">Dezimalstellen:</description>
+      <defaultvalue>100</defaultvalue>
+    </inputBox>
+    
+    <!-- advanced paramters follow -->
+    <label>
+      <description lang="en">
+        <newline />
+        <u>Advanced Settings:</u>
+        <newline />
+        In most cases no changes are needed for the following paramters.
+    </description>
+      <description lang="de">
+        
+<newline/><newline/><i>Erweiterte Einstellungen:</i><newline/>
+In den meisten Fällen müssen die folgenden Einstellungen nicht verändert werden.<newline/><newline/>
+        
+      </description>
+    </label>
+
+    <inputBox plugin="Random input" property="Bytes" alignment="Stretch" visibleLines="1">
+      <description lang="en">Number of generated random bytes used as the foundation for generating the random decimal number:</description>
+      <description lang="de">Anzahl erzeugter Zufallsbytes als Basis für die Berechnung der dezimalen Zufallszahl:</description>
+      <defaultvalue>1000</defaultvalue>
+    </inputBox>
+
+
+    <comboBox plugin="Decimalisation" property="Mode" alignment="Stretch" defaultValue="1">
+      <description lang="en">Method to convert binary random numbers to decimal numbers:</description>
+      <description lang="de">Die angewandte Methode zur Konvertierung von binären Zufallswerten in Dezimalzahlen:</description>
+      <item lang="en" content="Visa"/>
+      <item lang="de" content="Visa"/>
+      <item lang="en" content="Modulo"/>
+      <item lang="de" content="Modulo"/>
+      <item lang="en" content="Multiplication"/>
+      <item lang="de" content="Multiplikation"/>
+      <item lang="en" content="IBM"/>
+      <item lang="de" content="IBM"/>
+    </comboBox>
+    
+    
+    
+    <sampleViewer image="RND" file="Tools\RandomDecimalNumber.cwm">
+      <name lang="en" >Result</name>
+      <name lang="de" >Ergebnis</name>
+      <description lang="en" >-</description>
+      <description lang="de" >-</description>
+
+      <headline lang="en" >Result</headline>
+      <headline lang="de" >Ergebnis</headline>
+      <task lang="en">Your generated decimal number</task>
+      <task lang="de">Ihre erzeugte Dezimalzahl</task>
+
+      <outputBox plugin="Random decimal number" property="CurrentValue" alignment="Stretch">
+        <storage key="number" showLoadAddButtons="true" />
+        <description lang="en">Random decimal number:</description>
+        <description lang="de">Dezimale Zufallszahl:</description>
+      </outputBox>
+
+    </sampleViewer>
+    
+  </input>
+  
   <!-- Key Exchange Category -->
   <!--<category image="Key">
     <name lang="en" >Key Exchange</name>
