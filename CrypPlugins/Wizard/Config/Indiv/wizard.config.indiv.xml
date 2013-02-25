@@ -40,7 +40,7 @@
     </comboBox>
 
     <inputBox plugin="Password" property="Text" alignment="Right" width="78%" visibleLines="1" group="1">
-      <storage key="password" defaultKeyOnly="true" />
+      <storage key="password" showLoadAddButtons="true" />
       <description lang="en">Password:</description>
       <description lang="de">Passwort:</description>
       <defaultvalue>Your secret password or passphrase</defaultvalue>

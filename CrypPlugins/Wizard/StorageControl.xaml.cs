@@ -29,11 +29,15 @@ namespace Wizard
         private readonly Action<string> _setValueDelegate;
         private ICollectionView _view;
 
-        public StorageControl(string defaultValue, string defaultKey, Action<string> setValueDelegate)
+        public StorageControl(string defaultValue, string defaultKey, Action<string> setValueDelegate, bool applyColumnVisible)
         {
             InitializeComponent();
-
             InitView();
+            if (!applyColumnVisible)
+            {
+                EntriesGridView.Columns.Remove(ApplyEntryColumn);   //Hide apply column
+            }
+            
             _setValueDelegate = setValueDelegate;
             StoreValue.Text = defaultValue;
             StoreKey.Text = defaultKey;
@@ -58,9 +62,8 @@ namespace Wizard
             KeyListBox.ItemsSource = _view;
         }
 
-        public StorageControl() : this(null, null, null)
+        public StorageControl() : this(null, null, null, false)
         {
-            EntriesGridView.Columns.Remove(ApplyEntryColumn);   //Hide apply column
             CancelButton.Visibility = Visibility.Collapsed;     //Hide cancel button
         }
 
