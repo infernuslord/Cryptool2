@@ -32,7 +32,7 @@ using Cryptool.PluginBase.Control;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
-    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.uc.uni-kassel.de")]
+    [Author("Arno Wacker", "arno.wacker@cryptool.org", "Universität Kassel", "http://www.ais.uni-kassel.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "AES/DetailedDescription/doc.xml", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class AES : ContextBoundObject, ICrypComponent
