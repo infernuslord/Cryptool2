@@ -696,7 +696,7 @@ namespace Wizard
                     break;
 
                 case "comboBox":
-                    ComboBox comboBox = new ComboBox();
+                    var comboBox = new ComboBox();
                     comboBox.Style = inputFieldStyle;
                     comboBox.Tag = input;
                     comboBox.SelectionChanged += InputComboBoxSelectionChanged;
@@ -704,9 +704,11 @@ namespace Wizard
                     var items = FindElementsInElement(input, "item");
                     foreach (var item in items)
                     {
-                        ComboBoxItem cbi = new ComboBoxItem();
+                        var cbi = new ComboBoxItem();
                         if (item.Attribute("content") != null)
+                        {
                             cbi.Content = item.Attribute("content").Value;
+                        }
                         comboBox.Items.Add(cbi);
                     }
 
@@ -936,25 +938,53 @@ namespace Wizard
         {
             var comboBox = (ComboBox) sender;
             var ele = (XElement) comboBox.Tag;
-            var pluginName = ele.Attribute("plugin").Value;
-            var propertyName = ele.Attribute("property").Value;
-            if (!string.IsNullOrEmpty(pluginName) && !string.IsNullOrEmpty(propertyName))
+
+            var pluginSetters = (from i in ele.Elements("item")
+                                 group i by i.Attribute("lang").Value
+                                 into ig
+                                 select ig.ElementAt(comboBox.SelectedIndex)).SelectMany(x => x.Elements("pluginSetter")).ToList();
+
+            string pluginName = null;
+            string propertyName = null;
+            if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
             {
-                foreach (var conditionalTextSetter in conditionalTextSetters)
+                pluginName = ele.Attribute("plugin").Value;
+                propertyName = ele.Attribute("property").Value;
+            }
+
+            foreach (var conditionalTextSetter in conditionalTextSetters)
+            {
+                foreach (var condition in conditionalTextSetter.XElement.Elements("condition"))
                 {
-                    foreach (var condition in conditionalTextSetter.XElement.Elements("condition"))
+                    var condPlugin = condition.Attribute("plugin").Value;
+                    var condProperty = condition.Attribute("property").Value;
+                    int condValue;
+                    if (!int.TryParse(condition.Attribute("value").Value, out condValue))
                     {
-                        var condPlugin = condition.Attribute("plugin").Value;
-                        var condProperty = condition.Attribute("property").Value;
+                        continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(pluginName) && !string.IsNullOrEmpty(propertyName))
+                    {
                         if (condPlugin == pluginName && condProperty == propertyName)
                         {
-                            int value;
-                            if (int.TryParse(condition.Attribute("value").Value, out value))
+                            if (condValue == comboBox.SelectedIndex)
                             {
-                                if (value == comboBox.SelectedIndex)
+                                conditionalTextSetter.TextSetter(condition);
+                            }
+                        }
+                    }
+
+                    foreach (var pluginSetter in pluginSetters)
+                    {
+                        if (condPlugin == pluginSetter.Attribute("plugin").Value && condProperty == pluginSetter.Attribute("property").Value)
+                        {
+                            int setterValue;
+                            if (int.TryParse(pluginSetter.Value, out setterValue))
+                            {
+                                if (condValue == setterValue)
                                 {
                                     conditionalTextSetter.TextSetter(condition);
-                                    break;
                                 }
                             }
                         }
@@ -989,11 +1019,13 @@ namespace Wizard
 
         private string GetElementPluginPropertyKey(XElement element)
         {
-            var plugin = element.Attribute("plugin").Value;
-            var property = element.Attribute("property").Value;
             string key = null;
-            if (plugin != null && property != null)
+            if (element.Attribute("plugin") != null && element.Attribute("property") != null)
+            {
+                var plugin = element.Attribute("plugin").Value;
+                var property = element.Attribute("property").Value;
                 key = string.Format("{0}.{1}", plugin, property);
+            }
             return key;
         }
 
@@ -1680,82 +1712,119 @@ namespace Wizard
                     if (ele.Name == "outputBox")
                         continue;
 
+                    var key = GetElementPluginPropertyKey(ele);
                     PluginPropertyValue newEntry = null;
-                    if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                    
+                    if (input is TextBox)
                     {
-                        if (input is TextBox)
+                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                         {
-                            TextBox textBox = (TextBox)input;
+                            TextBox textBox = (TextBox) input;
                             newEntry = new PluginPropertyValue()
-                                       {
-                                           PluginName = ele.Attribute("plugin").Value,
-                                           PropertyName = ele.Attribute("property").Value,
-                                           Value = textBox.Text,
-                                           Path = ele.Parent
-                                       };
+                                           {
+                                               PluginName = ele.Attribute("plugin").Value,
+                                               PropertyName = ele.Attribute("property").Value,
+                                               Value = textBox.Text,
+                                               Path = ele.Parent
+                                           };
                         }
-                        else if (input is KeyTextBox.KeyTextBox)
+                    }
+                    else if (input is KeyTextBox.KeyTextBox)
+                    {
+                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                         {
-                            var keyTextBox = (KeyTextBox.KeyTextBox)input;
+                            var keyTextBox = (KeyTextBox.KeyTextBox) input;
                             newEntry = new PluginPropertyValue()
-                            {
-                                PluginName = ele.Attribute("plugin").Value,
-                                PropertyName = ele.Attribute("property").Value,
-                                Value = keyTextBox.CurrentKey,
-                                Path = ele.Parent
-                            };
+                                           {
+                                               PluginName = ele.Attribute("plugin").Value,
+                                               PropertyName = ele.Attribute("property").Value,
+                                               Value = keyTextBox.CurrentKey,
+                                               Path = ele.Parent
+                                           };
                         }
-                        else if (input is ComboBox)
+                    }
+                    else if (input is ComboBox)
+                    {
+                        var comboBox = (ComboBox)input;
+                        var pluginSetters = (from i in ele.Elements("item")
+                                             group i by i.Attribute("lang").Value into ig
+                                             select ig.ElementAt(comboBox.SelectedIndex)).SelectMany(x => x.Elements("pluginSetter"));
+
+                        foreach (var pluginSetter in pluginSetters)
                         {
-                            ComboBox comboBox = (ComboBox)input;
-                            newEntry = new PluginPropertyValue()
+                            int setterValue;
+                            if (int.TryParse(pluginSetter.Value, out setterValue))
                             {
-                                PluginName = ele.Attribute("plugin").Value,
-                                PropertyName = ele.Attribute("property").Value,
-                                Value = comboBox.SelectedIndex,
-                                Path = ele.Parent
-                            };
-                        }
-                        else if (input is CheckBox)
-                        {
-                            CheckBox checkBox = (CheckBox)input;
-                            if (checkBox.IsChecked != null)
-                            {
-                                newEntry = new PluginPropertyValue()
-                                {
-                                    PluginName = ele.Attribute("plugin").Value,
-                                    PropertyName = ele.Attribute("property").Value,
-                                    Value = (bool)checkBox.IsChecked,
-                                    Path = ele.Parent
-                                };
+                                AddPluginPropertyEntry(new PluginPropertyValue()
+                                                            {
+                                                                PluginName = pluginSetter.Attribute("plugin").Value,
+                                                                PropertyName = pluginSetter.Attribute("property").Value,
+                                                                Value = setterValue,
+                                                                Path = ele.Parent
+                                                            }, key, ele);
                             }
                         }
 
-                        var key = GetElementPluginPropertyKey(ele);
-                        if (newEntry != null && key != null)
+                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                         {
-                            var pluginPropertyValue = GetPropertyValue(key, ele.Parent);
-                            if (pluginPropertyValue != null)
+                            newEntry = new PluginPropertyValue()
+                                            {
+                                                PluginName = ele.Attribute("plugin").Value,
+                                                PropertyName = ele.Attribute("property").Value,
+                                                Value = comboBox.SelectedIndex,
+                                                Path = ele.Parent
+                                            };
+                        }
+                    }
+                    else if (input is CheckBox)
+                    {
+                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                        {
+                            CheckBox checkBox = (CheckBox) input;
+                            if (checkBox.IsChecked != null)
                             {
-                                pluginPropertyValue.Value = newEntry.Value;
-                            }
-                            else
-                            {
-                                if (propertyValueDict.ContainsKey(key))
-                                {
-                                    propertyValueDict[key].Add(newEntry);
-                                }
-                                else
-                                {
-                                    propertyValueDict.Add(key, new List<PluginPropertyValue>() {newEntry} );
-                                }
+                                newEntry = new PluginPropertyValue()
+                                               {
+                                                   PluginName = ele.Attribute("plugin").Value,
+                                                   PropertyName = ele.Attribute("property").Value,
+                                                   Value = (bool) checkBox.IsChecked,
+                                                   Path = ele.Parent
+                                               };
                             }
                         }
+                    }
+
+                    if (newEntry != null)
+                    {
+                        AddPluginPropertyEntry(newEntry, key, ele);
                     }
                 }
                 else if (input is StackPanel)
                 {
                     SaveControlContent(input);
+                }
+            }
+        }
+
+        private void AddPluginPropertyEntry(PluginPropertyValue newEntry, string key, XElement ele)
+        {
+            if (newEntry != null && key != null)
+            {
+                var pluginPropertyValue = GetPropertyValue(key, ele.Parent);
+                if (pluginPropertyValue != null)
+                {
+                    pluginPropertyValue.Value = newEntry.Value;
+                }
+                else
+                {
+                    if (propertyValueDict.ContainsKey(key))
+                    {
+                        propertyValueDict[key].Add(newEntry);
+                    }
+                    else
+                    {
+                        propertyValueDict.Add(key, new List<PluginPropertyValue>() {newEntry});
+                    }
                 }
             }
         }
