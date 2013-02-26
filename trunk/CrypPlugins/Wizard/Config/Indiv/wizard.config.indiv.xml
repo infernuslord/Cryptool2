@@ -279,8 +279,8 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     <!-- advanced paramters follow -->
     <label>
       <description lang="en">
-        <newline/><newline/><u>Advanced Settings:</u><newline/>In most cases no changes are needed for the following paramters.<newline/>
-    </description>
+        <newline/><newline/><u>Advanced Settings:</u><newline/>In most cases, no changes are needed for the following parameters.<newline/>
+      </description>
       <description lang="de">        
         <newline/><newline/><u>Erweiterte Einstellungen:</u><newline/><i>In den meisten Fällen müssen die folgenden Einstellungen nicht verändert werden.</i><newline/>
       </description>
