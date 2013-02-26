@@ -6,8 +6,8 @@
 <category image="Classic">
   <name lang="en" >Classic Encryption/Decryption</name>
   <name lang="de-DE" >Klassische Verschlüsselungsverfahren</name>
-  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a classic algorithm. You can choose which algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines klassischen Verschlüsselungsverfahrens einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Das zu verwendende Verfahren kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting <b>this</b> allows you to encrypt a plaintext or decrypt a ciphertext with a classic algorithm. You can choose which algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Wählen Sie <b>diesen</b> Punkt, um mit Hilfe eines klassischen Verschlüsselungsverfahrens einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Das zu verwendende Verfahren kann von Ihnen ausgewählt werden.</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Algorithm Selection</headline>
@@ -20,8 +20,8 @@
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
-    <description lang="de" >Dieses Verschlüsselungsverfahren, das schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Alphabets um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
+    <description lang="en">This <b>encryption</b> algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
+    <description lang="de">Dieses <b>Verschlüsselungsverfahren</b>, das schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Alphabets um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -40,18 +40,18 @@
     <inputBox plugin="Message" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">
         <condition plugin="Caesar" property="Action" value="0">
-          Message to encrypt:
+          Message to <b>encrypt</b>:
         </condition>
         <condition plugin="Caesar" property="Action" value="1">
-          Message to decrypt:
+          Message to <b>decrypt</b>:
         </condition>
       </description>
       <description lang="de">
         <condition plugin="Caesar" property="Action" value="0">
-          Zu verschlüsselnde Nachricht:
+          Zu <b>verschlüsselnde</b> Nachricht:
         </condition>
         <condition plugin="Caesar" property="Action" value="1">
-          Zu entschlüsselnde Nachricht:
+          Zu <b>entschlüsselnde</b> Nachricht:
         </condition>
       </description>
       <defaultvalue lang="en">Input your message here.</defaultvalue>

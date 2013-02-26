@@ -55,6 +55,13 @@
    ref	CDATA       #REQUIRED
 >
 
+<!ELEMENT condition (#PCDATA|b|i|u|newline|external)* >
+<!ATTLIST condition
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   value	CDATA       #REQUIRED
+>
+
 <!ELEMENT inputBox (storage?, description+, defaultvalue*) >
 <!ATTLIST inputBox 
    plugin		CDATA       #REQUIRED
@@ -156,11 +163,4 @@
    key	CDATA       #REQUIRED
    showStorageButton (true|false)       #IMPLIED
    showLoadAddButtons (true|false)       #IMPLIED
->
-
-<!ELEMENT condition (#PCDATA) >
-<!ATTLIST condition
-   plugin		CDATA       #REQUIRED
-   property		CDATA       #REQUIRED
-   value	CDATA       #REQUIRED
 >
