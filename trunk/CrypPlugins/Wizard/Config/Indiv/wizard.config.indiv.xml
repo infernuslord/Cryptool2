@@ -213,12 +213,12 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     <name lang="en" >Password Strength</name>
     <name lang="de" >Passwort-Stärke</name>
     <description lang="en" >Select this to test the strength of your password.</description>
-    <description lang="de" >Hier können Sie die Stärke ihres Passworts testen</description>
+    <description lang="de" >Hier können Sie die Stärke Ihres Passworts testen.</description>
 
     <headline lang="en" >Password Input</headline>
-    <headline lang="de" >Passwort Eingabe</headline>
-    <task lang="en">Here, you can enter your password to test its strength. Warning! Password is entered as cleartext.</task>
-    <task lang="de">Hier können Sie Ihr Passwort eingeben um dessen Stärke zu ermitteln. Warnung! Passwort wird als Klartext eingeben.</task>
+    <headline lang="de" >Passwort-Eingabe</headline>
+    <task lang="en">Here, you can enter your password to test its strength. Warning! Password is visible on the screen.</task>
+    <task lang="de">Hier können Sie Ihr Passwort eingeben, um dessen Stärke zu ermitteln. Warnung! Das Passwort ist auf dem Bildschirm lesbar.</task>
 
     <inputBox plugin="Password" property="Text" alignment="Right" width="78%" visibleLines="1" group="1">
       <storage key="password" showLoadAddButtons="true" />
@@ -260,13 +260,13 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     <name lang="de" >Zufallszahlen</name>
     <description lang="en" >Select this to generate a random decimal number.</description>
     <description lang="de" >Hier können Sie eine dezimale Zufallszahl erzeugen.</description>
-    <headline lang="en" >Specify Paramters</headline>
+    <headline lang="en" >Specify Parameters</headline>
     <headline lang="de" >Paramtereingabe</headline>
     <task lang="en">
       Please enter the desired parameters for your random number.
     </task>
     <task lang="de">
-      Bitte spezifizieren Sie hier die Paramter für ihre gewünschte Zufallszahl.
+      Bitte spezifizieren Sie hier die Parameter für ihre gewünschte Zufallszahl
     </task>
 
     <!-- simple paramters -->
