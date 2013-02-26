@@ -266,7 +266,7 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
       Please enter the desired parameters for your random number.
     </task>
     <task lang="de">
-      Bitte spezifizieren Sie hier die Parameter für ihre gewünschte Zufallszahl.
+      Bitte spezifizieren Sie hier die Parameter für die gewünschte Zufallszahl.
     </task>
 
     <!-- simple paramters -->
@@ -279,16 +279,10 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
     <!-- advanced paramters follow -->
     <label>
       <description lang="en">
-        <newline />
-        <u>Advanced Settings:</u>
-        <newline />
-        In most cases no changes are needed for the following paramters.
+        <newline/><newline/><u>Advanced Settings:</u><newline/>In most cases no changes are needed for the following paramters.<newline/>
     </description>
-      <description lang="de">
-        
-<newline/><newline/><i>Erweiterte Einstellungen:</i><newline/>
-In den meisten Fällen müssen die folgenden Einstellungen nicht verändert werden.<newline/><newline/>
-        
+      <description lang="de">        
+        <newline/><newline/><u>Erweiterte Einstellungen:</u><newline/><i>In den meisten Fällen müssen die folgenden Einstellungen nicht verändert werden.</i><newline/>
       </description>
     </label>
 
