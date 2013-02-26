@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -145,7 +146,15 @@ namespace Startcenter
             var selectedItem = (RecentFileInfo) RecentFileListBox.SelectedItem;
             IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
 
-            if (selectedItem.File != null)
+            if (selectedItem.Description != null)
+            {
+                var tooltipInline = selectedItem.Description.Inlines.FirstOrDefault();
+                if (tooltipInline != null)
+                {
+                    editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+                }
+            }
+            if (editor.Presentation.ToolTip == null && selectedItem.File != null)
             {
                 editor.Presentation.ToolTip = selectedItem.File;
             }
