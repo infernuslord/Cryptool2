@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    This plugin checks if an incoming message has a correct (PKCS#7) padding. <newline/>
+    In this padding scheme, the padding is appended after the message with as many bytes
+    as required, and each byte has as value the total padding length. As an example it is assumed
+    that the message 61 62 63 shall be padded to 8 bytes. The PKCS#7 scheme then goes: The
+    number of required padding bytes (> 0) is encoded with binary encoding in one byte. This
+    byte is used one or several times to pad the message. Example: 61 62 63 05 05 05 05 05.
+    <newline/>
+    The plugin then returns either true or false, depending on the result of the check.
+    <newline/>
+    Notice: The plugin expects a 2-block message of anz size, so it automatically deletes the first block (aka the first half of the message).
+    
+  </introduction>
+
+  <introduction lang="de-DE">    
+    Dieses Plugin überprüft, ob eine Nachricht ein gültiges (PKCS#7-konformes) Padding hat.<newline/>
+    Bei diesem Padding-Schema wird das Padding an das Ende der Nachricht gehängt. Es werden so viele
+    Padding-Bytes hinzugefügt, bis es nur volle Nachrichten-Blöcke gibt. Die Werte der Padding-Bytes
+    entsprechen dabei der Gesamt-Padding-Länge. Als Beispiel gehen wir davon aus, dass wir die Nachricht
+    61 62 63 padden müssen, um eine 8-Byte lange Nachricht zu erhalten. Da wir dazu 5 Padding-Bytes brauchen,
+    lautet die gepaddete Nachricht 61 62 63 05 05 05 05 05.
+    <newline/>
+    Dieses Plugin gibt entweder true oder false zurück, abhängig vom Ergebnis der Überprüfung.
+    <newline/>
+    Hinweis: Dieses Plugin erwartet eine Nachricht mit 2 Blöcken, d.h. der erste Block (die erste hälfte der Nachricht) wird automatisch gelöscht.
+  </introduction>
+
+  <usage lang="en">
+    This plugin is intended to be used with the Padding Oracle Attack Plugin, although it can be used with other plugins as well.
+    It just requires a (decrypted) message as input.
+  </usage>
+
+  <usage lang="de-DE">
+    Dieses Plugin wurde ursprünglich für das Padding Oracle Attack Plugin entwickelt. Es kann jedoch auch mit anderen Plugins benutzt werden.
+    Das Plugin benötigt nur eine (entschlüsselte) Nachricht als Input.
+  </usage>
+  
+  <presentation lang="en">
+    The presentation view displays the second half (second block) of the input message. It also adds a green border to display which bytes should have the same value, according to the last byte.
+    The validity of the padding is also displayed in the UI. 
+    The UI can only display 8 bytes at a time. If the message exceeds this value, the plugin allows the user to view all bytes by providing a scroll-functionality.
+  </presentation>
+  
+  <presentation lang="de-DE">
+    Die Präsentations-Schicht zeigt die zweite hälfte bzw. den zweiten Block der Input-Nachricht an. Es fügt zusätzlich einen grünen Rahmen hinzu, der darstellt, welche Bytes den selben Wert haben 
+    sollten. Diese Information basiert auf dem Wert des letzten Bytes. Die Gültigkeit des Paddings ist auch in der UI dargestellt.
+    Die UI kann nur 8 Bytes gleichzeitig darstellen. Sollte die Nachricht diese Länge überschreiten, so kann der User trotzdem alle Bytes durch die Scroll-Funktion betrachten.
+  </presentation>
+  
+  <references>
+  </references>
+</documentation>
