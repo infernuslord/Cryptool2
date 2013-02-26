@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -55,7 +56,7 @@ namespace Wizard
 
         private class ConditionalTextSetter
         {
-            public Action<string> TextSetter { get; set; }
+            public Action<XElement> TextSetter { get; set; }
             public XElement XElement { get; set; }
         }
 
@@ -270,14 +271,14 @@ namespace Wizard
             XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
             {
-                SetTextFromXElement(headline, delegate(string text) { taskHeader.Content = text.ToUpper(); });
+                SetTextFromXElement(headline, delegate(XElement el) { taskHeader.Content = el.Value.Trim().ToUpper(); });
             }
 
             //set task description label
             XElement task = FindElementsInElement(element, "task").First();
             if (task != null)
             {
-                SetTextFromXElement(task, delegate(string text) { descHeader.Text = text; });
+                SetTextFromXElement(task, delegate(XElement el) { descHeader.Text = el.Value.Trim(); });
             }
 
 
@@ -363,7 +364,7 @@ namespace Wizard
                         XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
                         {
-                            SetTextFromXElement(label, delegate(string text) { l.Content = text; });
+                            SetTextFromXElement(label, delegate(XElement el) { l.Content = el.Value.Trim(); });
                         }
 
                         i.Width = 26;
@@ -470,11 +471,16 @@ namespace Wizard
                 {
                     var stack = new StackPanel();
 
-                    var description = new Label();
+                    var descriptionTextBlock = new TextBlock() { FontWeight = FontWeights.Normal };
+                    var description = new Label() { Content = descriptionTextBlock };
                     var descEle = FindElementsInElement(input, "description");
                     if (descEle != null && descEle.Any())
                     {
-                        SetTextFromXElement(descEle.First(), delegate(string text) { description.Content = text; });
+                        SetTextFromXElement(descEle.First(), el =>
+                                                                 {
+                                                                     descriptionTextBlock.Inlines.Clear();
+                                                                     descriptionTextBlock.Inlines.Add(TrimInline(XMLHelper.ConvertFormattedXElement(el)));
+                                                                 });
                     }
                     description.HorizontalAlignment = HorizontalAlignment.Left;
                     description.FontWeight = FontWeights.Bold;
@@ -582,6 +588,32 @@ namespace Wizard
 
         }
 
+        private Inline TrimInline(Inline inline, bool left = true, bool right = true)
+        {
+            if (inline is Run)
+            {
+                if (left)
+                {
+                    ((Run) inline).Text = ((Run) inline).Text.TrimStart();
+                }
+                if (right)
+                {
+                    ((Run) inline).Text = ((Run) inline).Text.TrimEnd();
+                }
+            }
+            else if (inline is Span)
+            {
+                var inlines = ((Span) inline).Inlines;
+                TrimInline(inlines.First(), true, false);
+                TrimInline(inlines.Last(), false, true);
+            }
+            else
+            {
+                Debug.Fail("Trimming not possible on this inline type.");
+            }
+            return inline;
+        }
+
         private Control CreateInputElement(XElement input, Style inputFieldStyle, bool isInput)
         {
             Control element = null;
@@ -635,10 +667,10 @@ namespace Wizard
                     else
                     {
                         var defaultvalues = FindElementsInElement(input, "defaultvalue");
-                        SetTextFromXElement(defaultvalues.First(), delegate(string text)
+                        SetTextFromXElement(defaultvalues.First(), delegate(XElement el)
                                                                        {
-                                                                           if (!string.IsNullOrEmpty(text)) 
-                                                                               inputBox.Text = text;
+                                                                           if (!string.IsNullOrEmpty(el.Value))
+                                                                               inputBox.Text = el.Value.Trim();
                                                                        });
                     }
 
@@ -709,10 +741,10 @@ namespace Wizard
                     checkBox.Style = inputFieldStyle;
 
                     var contents = FindElementsInElement(input, "content");
-                    SetTextFromXElement(contents.First(), delegate(string text)
+                    SetTextFromXElement(contents.First(), delegate(XElement el)
                                                    {
-                                                       if (!string.IsNullOrEmpty(text))
-                                                           checkBox.Content = text;
+                                                       if (!string.IsNullOrEmpty(el.Value))
+                                                           checkBox.Content = el.Value.Trim();
                                                    });
 
                     if (key != null && pluginPropertyValue != null)
@@ -921,7 +953,7 @@ namespace Wizard
                             {
                                 if (value == comboBox.SelectedIndex)
                                 {
-                                    conditionalTextSetter.TextSetter(condition.Value.Trim());
+                                    conditionalTextSetter.TextSetter(condition);
                                     break;
                                 }
                             }
@@ -1307,10 +1339,12 @@ namespace Wizard
                         {
                             var defaultvalues = FindElementsInElement(ele, "defaultvalue");
                             ContentControl presentation1 = presentation;
-                            SetTextFromXElement(defaultvalues.First(), delegate(string text)
+                            SetTextFromXElement(defaultvalues.First(), delegate(XElement el)
                                                                            {
-                                                                               if (!string.IsNullOrEmpty(text))
-                                                                                   presentation1.Content.GetType().GetProperty("Text").SetValue(presentation1.Content, text, null);
+                                                                               if (!string.IsNullOrEmpty(el.Value))
+                                                                               {
+                                                                                   presentation1.Content.GetType().GetProperty("Text").SetValue(presentation1.Content, el.Value.Trim(), null);
+                                                                               }
                                                                            });
                         }
                     }
@@ -1379,8 +1413,11 @@ namespace Wizard
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
             {
-                description.Inlines.Clear();
-                description.Inlines.Add(XMLHelper.ConvertFormattedXElement(desc));
+                SetTextFromXElement(desc, el =>
+                                              {
+                                                  CategoryDescription.Inlines.Clear();
+                                                  CategoryDescription.Inlines.Add(TrimInline(XMLHelper.ConvertFormattedXElement(desc)));
+                                              });
             }
             nextButton.IsEnabled = true;
         }
@@ -1388,7 +1425,7 @@ namespace Wizard
         /// <summary>
         /// Gets the elements text with respect to possible condition statements and calls the setter action delegate.
         /// </summary>
-        private void SetTextFromXElement(XElement element, Action<string> textSetter)
+        private void SetTextFromXElement(XElement element, Action<XElement> textSetter)
         {
             if (element.Element("condition") != null)
             {
@@ -1404,7 +1441,7 @@ namespace Wizard
                             {
                                 if (condition.Attribute("value").Value == pair.Value.ToString())
                                 {
-                                    textSetter(condition.Value.Trim());
+                                    textSetter(condition);
                                     return;
                                 }
                             }
@@ -1412,11 +1449,11 @@ namespace Wizard
                     }
                 }
                 //if no condition holds, just set the content of the first one:
-                textSetter(element.Element("condition").Value.Trim());
+                textSetter(element.Element("condition"));
             }
             else
             {
-                textSetter(element.Value.Trim());
+                textSetter(element);
             }
         }
 
@@ -1514,7 +1551,7 @@ namespace Wizard
             ResetSelectionDependencies();
             radioButtonStackPanel.Children.Clear();
             selectedCategories.Clear();
-            description.Text = "";
+            CategoryDescription.Text = "";
             SetupPage(wizardConfigXML);
         }
 
@@ -1607,9 +1644,9 @@ namespace Wizard
             try
             {
                 var page = new PageInfo() { tag = ele };
-                SetTextFromXElement(FindElementsInElement(ele, "name").First(), delegate(string text) { page.name = text; });
-                SetTextFromXElement(FindElementsInElement(ele, "description").First(), delegate(string text) { page.description = text; });
-                SetTextFromXElement(FindElementsInElement(ele, "headline").First(), delegate(string text) { page.headline = text; });
+                SetTextFromXElement(FindElementsInElement(ele, "name").First(), delegate(XElement el) { page.name = el.Value.Trim(); });
+                SetTextFromXElement(FindElementsInElement(ele, "description").First(), delegate(XElement el) { page.description = el.Value.Trim(); });
+                SetTextFromXElement(FindElementsInElement(ele, "headline").First(), delegate(XElement el) { page.headline = el.Value.Trim(); });
 
                 if (ele.Attribute("image") != null)
                 {
@@ -1857,8 +1894,8 @@ namespace Wizard
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (description.Text != null)
-                Clipboard.SetText(description.Text);
+            if (CategoryDescription.Text != null)
+                Clipboard.SetText(CategoryDescription.Text);
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

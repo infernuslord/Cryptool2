@@ -47,7 +47,8 @@ namespace Cryptool.PluginBase.Miscellaneous
             {
                 if (node is XText)
                 {
-                    var line = new Regex("\\s*\\n").Replace(((XText) node).Value, " ");
+                    var line = ((XText) node).Value;
+                    line = new Regex("\\s*\\n").Replace(line, " ");
                     span.Inlines.Add(new Run(line));
                 }
                 else if (node is XElement)

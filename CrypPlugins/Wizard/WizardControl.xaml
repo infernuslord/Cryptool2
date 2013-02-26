@@ -160,7 +160,7 @@
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Content="{Loc Description}" />
-                                <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" FontSize="16" FontWeight="Normal">
+                                <TextBlock Name="CategoryDescription" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" FontSize="16" FontWeight="Normal">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu><MenuItem Command="ApplicationCommands.Copy" /></ContextMenu>
                                     </TextBlock.ContextMenu>
