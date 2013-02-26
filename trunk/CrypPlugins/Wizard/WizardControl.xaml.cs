@@ -288,7 +288,8 @@ namespace Wizard
                 
                 var inputs = from el in element.Elements()
                              where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" 
-                             || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "label" || el.Name == "presentation" || el.Name == "pluginSetter"
+                             || el.Name == "keyTextBox" || el.Name == "progressBar" || el.Name == "label" || el.Name == "presentation" 
+                             || el.Name == "pluginSetter"
                              select el;
 
                 inputStack.Children.Clear();
@@ -1627,8 +1628,14 @@ namespace Wizard
         {
             var sp = (StackPanel)o;
 
-            foreach (var input in sp.Children)
+            foreach (var inp in sp.Children)
             {
+                var input = inp;
+                if (input is StorageContainer)
+                {
+                    input = ((StorageContainer)input).GetContent();
+                }
+
                 if (input is TextBox || input is ComboBox || input is CheckBox || input is KeyTextBox.KeyTextBox)
                 {
                     Control c = (Control)input;
@@ -1711,8 +1718,7 @@ namespace Wizard
                 }
                 else if (input is StackPanel)
                 {
-                    StackPanel stack = (StackPanel)input;
-                    SaveControlContent(stack);
+                    SaveControlContent(input);
                 }
             }
         }

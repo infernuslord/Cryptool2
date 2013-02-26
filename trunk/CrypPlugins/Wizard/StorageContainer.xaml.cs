@@ -27,6 +27,7 @@ namespace Wizard
         private Func<string> _getValueDelegate;
         private string _defaultKey;
         private bool _showLoadButtons;
+        private Control _content;
 
         public StorageContainer(Action<StorageControl> showOverlayAction)
         {
@@ -36,12 +37,18 @@ namespace Wizard
 
         public void AddContent(Control content, string defaultKey, bool showStorageButton, bool showLoadButtons, bool showAddButtons)
         {
+            _content = content;
             _showLoadButtons = showLoadButtons;
             StorageContainerContent.Content = content;
             _defaultKey = defaultKey;
             StorageButton.Visibility = showStorageButton ? Visibility.Visible : Visibility.Collapsed;
             LoadButton.Visibility = showLoadButtons ? Visibility.Visible : Visibility.Collapsed;
             AddButton.Visibility = showAddButtons ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public Control GetContent()
+        {
+            return _content;
         }
 
         public void SetValueMethod(Action<string> setValueDelegate)
