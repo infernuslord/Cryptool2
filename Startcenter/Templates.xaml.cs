@@ -323,12 +323,22 @@ namespace Startcenter
                     editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
                     if (sender is CTTreeViewItem)
                     {
-                        CTTreeViewItem templateItem = (CTTreeViewItem)sender;
+                        var templateItem = (CTTreeViewItem)sender;
                         editor.Presentation.Tag = templateItem.Icon;
+                        var tooltipInline = ((TextBlock) templateItem.ToolTip).Inlines.FirstOrDefault();
+                        if (tooltipInline != null)
+                        {
+                            editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+                        }
                     }
                     else if (sender is ListBoxItem)
                     {
                         var searchItem = (ListBoxItem) sender;
+                        var tooltipInline = ((TextBlock)searchItem.ToolTip).Inlines.FirstOrDefault();
+                        if (tooltipInline != null)
+                        {
+                            editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+                        }
                         editor.Presentation.Tag = ((Image)((StackPanel)searchItem.Content).Children[0]).Source;
                     }
 
