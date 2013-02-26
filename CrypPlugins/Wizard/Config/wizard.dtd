@@ -94,8 +94,8 @@
 
 <!ELEMENT comboBox (description+, item+) >
 <!ATTLIST comboBox 
-   plugin		CDATA       #REQUIRED
-   property		CDATA       #REQUIRED
+   plugin		CDATA       #IMPLIED
+   property		CDATA       #IMPLIED
    alignment	CDATA       #IMPLIED
    width		CDATA       #IMPLIED
    group		CDATA       #IMPLIED
@@ -143,7 +143,7 @@
    group		CDATA       #IMPLIED
 >
 
-<!ELEMENT item EMPTY >
+<!ELEMENT item (pluginSetter*) >
 <!ATTLIST item 
    content	CDATA       #REQUIRED
    lang	CDATA       "en"
