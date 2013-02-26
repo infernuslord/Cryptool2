@@ -165,13 +165,46 @@
   <data name="CreatedHeader" xml:space="preserve">
     <value>Created</value>
   </data>
-  <data name="KeyHeader" xml:space="preserve">
-    <value>Key</value>
-  </data>
   <data name="RemoveHeader" xml:space="preserve">
     <value>Remove</value>
   </data>
   <data name="ValueHeader" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AvailableKeys" xml:space="preserve">
+    <value>Available keys:</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="LoadButton" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="ModifyButton" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="StorageButton" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="StorageHeader" xml:space="preserve">
+    <value>STORAGE</value>
+  </data>
+  <data name="StoreDescription" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="StoreKey" xml:space="preserve">
+    <value>Key:</value>
+  </data>
+  <data name="StoreValue" xml:space="preserve">
+    <value>Value:</value>
+  </data>
+  <data name="No_stored_value_available" xml:space="preserve">
+    <value>No stored value available.</value>
+  </data>
+  <data name="StorageContainer_LoadButtonClicked_Not_available" xml:space="preserve">
+    <value>Not available</value>
   </data>
 </root>

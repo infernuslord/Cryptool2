@@ -26,6 +26,16 @@
 
         <Popup Name="PopUp" PlacementTarget="{Binding ElementName=StorageContainerContent}" Placement="Bottom" HorizontalOffset="5" VerticalOffset="-10" PopupAnimation="Scroll" StaysOpen="False">
             <ListView x:Name="PopUpItems" MouseUp="PopUpItems_OnMouseUp" KeyUp="PopUpItems_OnKeyUp">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="ToolTip" Value="{Binding Description}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Description}" Value="">
+                                <Setter Property="ToolTip" Value="{x:Null}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -63,8 +73,8 @@
             </ListView>
         </Popup>
 
-        <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc Storage}" Click="StorageButtonClicked" ToolTip="{Loc StorageTooltip}" />
-        <Button x:Name="AddButton" Grid.Column="2" Height="20" Content="{Loc Add}" Click="AddButtonClicked" ToolTip="{Loc AddTooltip}">
+        <Button x:Name="StorageButton" Grid.Column="1" Height="20" Content="{Loc StorageButton}" Click="StorageButtonClicked" ToolTip="{Loc StorageTooltip}" />
+        <Button x:Name="AddButton" Grid.Column="2" Height="20" Content="{Loc AddButton}" Click="AddButtonClicked" ToolTip="{Loc AddTooltip}">
             <Button.Triggers>
                 <EventTrigger RoutedEvent="Button.Click">
                     <BeginStoryboard>
@@ -80,7 +90,7 @@
                 </EventTrigger>
             </Button.Triggers>
         </Button>
-        <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc Load}" Click="LoadButtonClicked" ToolTip="{Loc LoadTooltip}" />
-        <Image x:Name="CheckIcon" Grid.Column="4" Source="Images\check.ico" Margin="5" Opacity="0" />
+        <Button x:Name="LoadButton" Grid.Column="3" Height="20" Content="{Loc LoadButton}" Click="LoadButtonClicked" ToolTip="{Loc LoadTooltip}" />
+        <Image x:Name="CheckIcon" Grid.Column="4" Source="Images\check.ico" Margin="5" Opacity="0" Width="16" />
     </Grid>
 </UserControl>
