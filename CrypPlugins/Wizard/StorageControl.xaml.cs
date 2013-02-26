@@ -32,7 +32,6 @@ namespace Wizard
         public StorageControl(string defaultValue, string defaultKey, Action<string> setValueDelegate, bool applyColumnVisible)
         {
             InitializeComponent();
-            InitView();
             if (!applyColumnVisible)
             {
                 EntriesGridView.Columns.Remove(ApplyEntryColumn);   //Hide apply column
@@ -49,17 +48,6 @@ namespace Wizard
                                                                                            RefreshSource();
                                                                                        }
                                                                                    };
-        }
-
-        private void InitView()
-        {
-            _view = CollectionViewSource.GetDefaultView(Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage);
-            if (_view.GroupDescriptions.Count == 0)
-            {
-                _view.GroupDescriptions.Add(new PropertyGroupDescription("Key"));
-                _view.SortDescriptions.Add(new SortDescription("Created", ListSortDirection.Ascending));
-            }
-            KeyListBox.ItemsSource = _view;
         }
 
         public StorageControl() : this(null, null, null, false)
@@ -122,7 +110,20 @@ namespace Wizard
 
         private void RefreshSource()
         {
-            _view.Refresh();
+            if (_view != null)
+            {
+                _view.Refresh();
+            }
+            else if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage != null)
+            {
+                _view = CollectionViewSource.GetDefaultView(Cryptool.PluginBase.Properties.Settings.Default.Wizard_Storage);
+                if (_view.GroupDescriptions.Count == 0)
+                {
+                    _view.GroupDescriptions.Add(new PropertyGroupDescription("Key"));
+                    _view.SortDescriptions.Add(new SortDescription("Created", ListSortDirection.Ascending));
+                }
+                KeyListBox.ItemsSource = _view;
+            }
         }
 
         private void SaveAndClose(ArrayList storage)
