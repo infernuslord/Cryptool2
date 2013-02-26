@@ -100,7 +100,7 @@ namespace Wizard
             }
             else
             {
-                MessageBox.Show("No stored value available.", "No value", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Properties.Resources.No_stored_value_available, Properties.Resources.StorageContainer_LoadButtonClicked_Not_available, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
