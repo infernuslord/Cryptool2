@@ -94,8 +94,8 @@
       </task>
 
       <outputBox plugin="Output" property="CurrentValue" alignment="Stretch" visibleLines="20">
-        <description lang="en"></description>
-        <description lang="de"></description>
+        <description lang="en">Message:</description>
+        <description lang="de">Nachricht:</description>
       </outputBox>
     </sampleViewer>   
   </input>
