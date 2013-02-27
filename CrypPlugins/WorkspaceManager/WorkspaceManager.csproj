@@ -299,6 +299,27 @@
     <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\Images\bild1.png" />
+    <Resource Include="DetailedDescription\Images\componentbrowser.png" />
+    <Resource Include="DetailedDescription\Images\enigma1.png" />
+    <Resource Include="DetailedDescription\Images\enigma2.png" />
+    <Resource Include="DetailedDescription\Images\enigma3.png" />
+    <Resource Include="DetailedDescription\Images\enigma4.png" />
+    <Resource Include="DetailedDescription\Images\parameters.png" />
+    <Resource Include="DetailedDescription\Images\playstop.png" />
+    <Resource Include="DetailedDescription\Images\text and image.png" />
+    <Resource Include="DetailedDescription\Images\textinout.png" />
+    <Resource Include="DetailedDescription\Images\textlist.png" />
+    <Resource Include="DetailedDescription\Images\thunderbolt.png" />
+    <Resource Include="DetailedDescription\Images\thunderbolt2.png" />
+    <Resource Include="DetailedDescription\Images\Unbenannt.png" />
+    <Resource Include="DetailedDescription\Images\Unbenannt2.png" />
+    <Resource Include="DetailedDescription\Images\Unbenannt3.png" />
+    <Resource Include="DetailedDescription\Images\Unbenannt4.png" />
+    <Resource Include="DetailedDescription\Images\Unbenannt5.png" />
+    <Resource Include="DetailedDescription\Images\zoom.png" />
+    <Resource Include="DetailedDescription\Images\suggestionlist.png" />
+    <Resource Include="DetailedDescription\Images\textandimage.png" />
     <Content Include="View\Images\Bak\WorkspaceManagerIcon.png" />
     <Content Include="View\Images\Bak\WorkspaceManagerIcon_Nils.png" />
     <Content Include="View\Images\Bak\WorkspaceManagerIcon_orig.ico" />
