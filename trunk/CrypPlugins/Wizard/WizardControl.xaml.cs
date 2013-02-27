@@ -1759,17 +1759,18 @@ namespace Wizard
                             int setterValue;
                             if (int.TryParse(pluginSetter.Value, out setterValue))
                             {
+                                var pluginSetterKey = GetElementPluginPropertyKey(pluginSetter);
                                 AddPluginPropertyEntry(new PluginPropertyValue()
                                                             {
                                                                 PluginName = pluginSetter.Attribute("plugin").Value,
                                                                 PropertyName = pluginSetter.Attribute("property").Value,
                                                                 Value = setterValue,
                                                                 Path = ele.Parent
-                                                            }, key, ele);
+                                                            }, pluginSetterKey, ele);
                             }
                         }
 
-                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                        if (key != null)
                         {
                             newEntry = new PluginPropertyValue()
                                             {
