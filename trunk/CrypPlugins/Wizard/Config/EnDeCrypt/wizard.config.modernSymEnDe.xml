@@ -28,7 +28,11 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <comboBox alignment="Stretch">
+    <!-- Note: setting the property Action on the plugin AES as attributes (in crontrast to plugin setter) is a workarround for now. Without this 
+         setting, the wizard forgets the settings from the laste page. Hence going one step backward shos the right settings in the GUI, but 
+         in the background the wizard uses the initail value. Can be removed if this is fully fixed in #665
+    -->
+    <comboBox plugin="AES" property="Action" alignment="Stretch">
       <description lang="en">Encrypt or Decrypt:</description>
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt">
