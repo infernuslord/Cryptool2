@@ -301,6 +301,19 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             }
                             result.AppendLine(string.Format("</{0}>", t));
                             break;
+                        case "table":
+                            var borderAtt = ((XElement)node).Attribute("border");
+                            if (borderAtt != null)
+                            {
+                                int border;
+                                if (int.TryParse(borderAtt.Value, out border))
+                                {
+                                    result.Append(ConvertTable((XElement)node, border));
+                                    continue;
+                                }
+                            }
+                            result.Append(ConvertTable((XElement)node, null));
+                            break;
                         case "external":
                             var reference = ((XElement) node).Attribute("ref");
                             if (reference != null)
@@ -355,6 +368,33 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
 
             return result.ToString();
+        }
+
+        private string ConvertTable(XElement node, int? border)
+        {
+            var sb = new StringBuilder("<table");
+            if (border.HasValue)
+            {
+                sb.Append(string.Format(" border=\"{0}\"", border.Value));
+            }
+            sb.AppendLine(">");
+
+            foreach (var row in node.Elements("tr"))
+            {
+                sb.AppendLine("<tr>");
+                foreach (var data in row.Elements("td"))
+                {
+                    sb.AppendLine(string.Format("<td>{0}</td>", data.Value));
+                }
+                foreach (var header in row.Elements("th"))
+                {
+                    sb.AppendLine(string.Format("<th>{0}</th>", header.Value));
+                }
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine("</table>");
+            return sb.ToString();
         }
 
         private EntityDocumentationPage GetEntityDocPage(string entity)
