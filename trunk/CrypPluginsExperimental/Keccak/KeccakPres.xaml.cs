@@ -34,7 +34,6 @@ namespace Cryptool.Plugins.Keccak
             buttonNextClickedEvent = new AutoResetEvent(false);
             skip = false;
             autostep = false;
-            runToEnd = false;
         }
 
         private void buttonNext_Click(object sender, RoutedEventArgs e)

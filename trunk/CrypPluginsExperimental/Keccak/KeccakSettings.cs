@@ -59,9 +59,11 @@ namespace Cryptool.Plugins.Keccak
 
         private enum stateSizeName { bits25, bits50, bits100, bits200, bits400, bits800, bits1600 };
         private stateSizeName selectedStateSize = stateSizeName.bits1600;
+        
+        private bool presEnabled = false;
 
         #endregion
-        
+
         [TaskPane("KECCAKFunctionCaption", "KECCAKFunctionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "KeccakFunctionList1", "KeccakFunctionList2", "KeccakFunctionList3", "KeccakFunctionList4", "KeccakFunctionList5" })]
         public int KECCAKFunction
         {
@@ -112,6 +114,20 @@ namespace Cryptool.Plugins.Keccak
                     {
                         KECCAKFunction = (int)keccakFunctionName.Keccak256;
                     }
+                }
+            }
+        }
+
+        [TaskPane("PresentationCaption", "PresentationTooltip", "PresentationGroupCaption", 0, false, ControlType.CheckBox)]
+        public bool PresEnabled
+        {
+            get { return this.presEnabled; }
+            set
+            {
+                if (presEnabled != value)
+                {
+                    presEnabled = value;
+                    OnPropertyChanged("PresEnabled");
                 }
             }
         }  

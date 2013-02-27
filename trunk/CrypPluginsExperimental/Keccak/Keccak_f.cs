@@ -100,34 +100,55 @@ namespace Cryptool.Plugins.Keccak
                 KeccakHashFunction.PrintBytes(state, z);
 #endif
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.runToEnd)
                 {
-                    pres.labelRound.Content = (i+1).ToString() + "/" + rounds;
-                    pres.labelCurrentStep.Content = "Theta";
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelRound.Content = (i + 1).ToString() + "/" + rounds;
+                        pres.labelCurrentStep.Content = "Theta";
+                    }, null);
+                }
 
                 Theta(ref state);
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.runToEnd)
                 {
-                    pres.labelCurrentStep.Content = "Rho";
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Rho";
+                    }, null);
+                }
 
                 Rho(ref state);
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.runToEnd)
                 {
-                    pres.labelCurrentStep.Content = "Pi";
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Pi";
+                    }, null);
+                }
 
                 Pi(ref state);
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.runToEnd)
                 {
-                    pres.labelCurrentStep.Content = "Chi";
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Chi";
+                    }, null);
+                }
 
                 Chi(ref state);
+
+                if (!pres.runToEnd)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Iota";
+                    }, null);
+                }
+
                 Iota(ref state, i);
             }
 
@@ -200,48 +221,51 @@ namespace Cryptool.Plugins.Keccak
 
             #region presentation translation vectors table
 
-            /* initialize translation vectors for presentation */
-            for (int i = 0; i < 5; i++)
+            if (!pres.runToEnd)
             {
-                translationVectorsPres[i] = new int[5];
-                for (int j = 0; j < 5; j++)
+                /* initialize translation vectors for presentation */
+                for (int i = 0; i < 5; i++)
                 {
-                    translationVectorsPres[i][j] = translationVectors[i][j] % z;
+                    translationVectorsPres[i] = new int[5];
+                    for (int j = 0; j < 5; j++)
+                    {
+                        translationVectorsPres[i][j] = translationVectors[i][j] % z;
+                    }
                 }
+                
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.label139.Content = translationVectorsPres[0][0].ToString();
+                    pres.label140.Content = translationVectorsPres[0][1].ToString();
+                    pres.label141.Content = translationVectorsPres[0][2].ToString();
+                    pres.label142.Content = translationVectorsPres[0][3].ToString();
+                    pres.label143.Content = translationVectorsPres[0][4].ToString();
+
+                    pres.label144.Content = translationVectorsPres[1][0].ToString();
+                    pres.label145.Content = translationVectorsPres[1][1].ToString();
+                    pres.label146.Content = translationVectorsPres[1][2].ToString();
+                    pres.label147.Content = translationVectorsPres[1][3].ToString();
+                    pres.label148.Content = translationVectorsPres[1][4].ToString();
+
+                    pres.label149.Content = translationVectorsPres[2][0].ToString();
+                    pres.label150.Content = translationVectorsPres[2][1].ToString();
+                    pres.label151.Content = translationVectorsPres[2][2].ToString();
+                    pres.label152.Content = translationVectorsPres[2][3].ToString();
+                    pres.label153.Content = translationVectorsPres[2][4].ToString();
+
+                    pres.label154.Content = translationVectorsPres[3][0].ToString();
+                    pres.label155.Content = translationVectorsPres[3][1].ToString();
+                    pres.label156.Content = translationVectorsPres[3][2].ToString();
+                    pres.label157.Content = translationVectorsPres[3][3].ToString();
+                    pres.label158.Content = translationVectorsPres[3][4].ToString();
+
+                    pres.label159.Content = translationVectorsPres[4][0].ToString();
+                    pres.label160.Content = translationVectorsPres[4][1].ToString();
+                    pres.label161.Content = translationVectorsPres[4][2].ToString();
+                    pres.label162.Content = translationVectorsPres[4][3].ToString();
+                    pres.label163.Content = translationVectorsPres[4][4].ToString();
+                }, null);
             }
-
-            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                pres.label139.Content = translationVectorsPres[0][0].ToString();
-                pres.label140.Content = translationVectorsPres[0][1].ToString();
-                pres.label141.Content = translationVectorsPres[0][2].ToString();
-                pres.label142.Content = translationVectorsPres[0][3].ToString();
-                pres.label143.Content = translationVectorsPres[0][4].ToString();
-
-                pres.label144.Content = translationVectorsPres[1][0].ToString();
-                pres.label145.Content = translationVectorsPres[1][1].ToString();
-                pres.label146.Content = translationVectorsPres[1][2].ToString();
-                pres.label147.Content = translationVectorsPres[1][3].ToString();
-                pres.label148.Content = translationVectorsPres[1][4].ToString();
-
-                pres.label149.Content = translationVectorsPres[2][0].ToString();
-                pres.label150.Content = translationVectorsPres[2][1].ToString();
-                pres.label151.Content = translationVectorsPres[2][2].ToString();
-                pres.label152.Content = translationVectorsPres[2][3].ToString();
-                pres.label153.Content = translationVectorsPres[2][4].ToString();
-
-                pres.label154.Content = translationVectorsPres[3][0].ToString();
-                pres.label155.Content = translationVectorsPres[3][1].ToString();
-                pres.label156.Content = translationVectorsPres[3][2].ToString();
-                pres.label157.Content = translationVectorsPres[3][3].ToString();
-                pres.label158.Content = translationVectorsPres[3][4].ToString();
-
-                pres.label159.Content = translationVectorsPres[4][0].ToString();
-                pres.label160.Content = translationVectorsPres[4][1].ToString();
-                pres.label161.Content = translationVectorsPres[4][2].ToString();
-                pres.label162.Content = translationVectorsPres[4][3].ToString();
-                pres.label163.Content = translationVectorsPres[4][4].ToString();
-            }, null);
             #endregion
 
             GetLanesFromState(ref state);
@@ -305,32 +329,6 @@ namespace Cryptool.Plugins.Keccak
 
             GetRowsFromState(ref state);
 
-            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                #region switch cube presentation
-                switch (z)
-                {
-                    case 4:
-                        pres.imgCube4z.Visibility = Visibility.Visible;
-                        break;
-
-                    case 8:
-                    case 16:
-                    case 32:
-                    case 64:
-                        pres.imgCubeDefault.Visibility = Visibility.Visible;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                #endregion
-
-                pres.canvasCubeChi.Visibility = Visibility.Visible;
-                pres.canvasStepDetailChi.Visibility = Visibility.Visible;
-            }, null);
-
             for (int i = 0; i < z; i++)             // iterate over slices
             {
                 for (int j = 0; j < Y; j++)         // iterate over rows of a slice
@@ -354,32 +352,6 @@ namespace Cryptool.Plugins.Keccak
 
             /* write back to state */
             SetRowsToState(ref state);
-
-            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                pres.canvasCubeChi.Visibility = Visibility.Hidden;
-                pres.canvasStepDetailChi.Visibility = Visibility.Hidden;
-
-                #region switch cube presentation
-                switch (z)
-                {
-                    case 4:
-                        pres.imgCube4z.Visibility = Visibility.Hidden;
-                        break;
-
-                    case 8:
-                    case 16:
-                    case 32:
-                    case 64:
-                        pres.imgCubeDefault.Visibility = Visibility.Hidden;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                #endregion
-            }, null);
             
             pres.autostep = false;
             pres.skip = false;
@@ -395,18 +367,12 @@ namespace Cryptool.Plugins.Keccak
 
             byte[] firstLane = GetFirstLaneFromState(ref state);
 
-            //pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            //{
-            //    pres.label1.Content = "Iota";
-            //}, null);
-
             /* xor round constant */
             for (int i = 0; i < z; i++)
             {
                 firstLane[i] ^= truncatedConstant[i];
+                //IotaPres(firstLane, truncatedConstant);
             }
-
-            //IotaPres(firstLane, truncatedConstant);
 
             SetFirstLaneToState(ref state, firstLane);
         }
@@ -488,6 +454,12 @@ namespace Cryptool.Plugins.Keccak
                                 pres.imgCubeDefault.Visibility = Visibility.Hidden;
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
                             }
+                            else if (slice == z - 2)
+                            {
+                                /* show bottom cube */
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                                pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+                            }
 
                             /* move modified row */
                             if (slice == 0)
@@ -541,13 +513,6 @@ namespace Cryptool.Plugins.Keccak
                             }
                             else // slice >= z - 2, last two slices
                             {
-                                /* show bottom cube */
-                                if (slice == z - 2)
-                                {
-                                    pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
-                                    pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
-                                }
-
                                 pres.imgThetaModifiedRowTop.SetValue(Canvas.LeftProperty, 34.0 + column * 26 + (slice - (z - 2)) * 13);
                                 pres.imgThetaModifiedRowTop.SetValue(Canvas.TopProperty, 24.0 - (slice - (z - 2)) * 13);
 
@@ -1206,7 +1171,6 @@ namespace Cryptool.Plugins.Keccak
                     {
                         pres.canvasStepDetailChi.Visibility = Visibility.Visible;
                         pres.canvasCubeChi.Visibility = Visibility.Visible;
-                        pres.imgCubeDefault.Visibility = Visibility.Visible;
                     }
 
                 }, null);
@@ -1215,6 +1179,12 @@ namespace Cryptool.Plugins.Keccak
 
                 switch (z)
                 {
+                    case 1:
+                        /* TODO */
+                        break;
+                    case 2:
+                        /* TODO */
+                        break;
                     #region lane size 4
 
                     case 4:
@@ -1267,14 +1237,29 @@ namespace Cryptool.Plugins.Keccak
 
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
+                            /* show cube */
+                            if (slice == 0)
+                            {
+                                /* show default cube */
+                                pres.imgCubeDefault.Visibility = Visibility.Visible;
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                            }
+                            else if (slice == 2)
+                            {
+                                /* show inner cube */
+                                pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                            }
+                            else if (slice == z - 3)
+                            {
+                                /* change to bottom cube */
+                                pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                                pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+                            }
 
                             /* move first row and toggle visibility*/
                             if (slice == 0)
                             {
-                                /* show cube */
-                                pres.imgCubeDefault.Visibility = Visibility.Visible;
-                                pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
-
                                 pres.imgModifiedFirstRow.SetValue(Canvas.TopProperty, 167.0 - row * 26);
                                 pres.imgModifiedRow.SetValue(Canvas.TopProperty, 155.0 - row * 26);
                                 pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 137.0);
@@ -1288,23 +1273,9 @@ namespace Cryptool.Plugins.Keccak
 
                                 pres.imgModifiedRow.SetValue(Canvas.TopProperty, 142.0 - row * 26);
                                 pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 150.0);
-
-                                /* change to fading cube */
-                                if (slice == 2)
-                                {
-                                    pres.imgCubeDefault.Visibility = Visibility.Hidden;
-                                    pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
-                                }
                             }
                             else // slice >= z - 3, last three slices
-                            {
-                                /* change to bottom cube */
-                                if (slice == z - 3)
-                                {
-                                    pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
-                                    pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
-                                }
-                                
+                            {           
                                 pres.imgModifiedRow.SetValue(Canvas.TopProperty, 142.0 - row * 26 - (slice - (z - 3)) * 13);
                                 pres.imgModifiedRow.SetValue(Canvas.LeftProperty, 150.0 + (slice - (z - 3)) * 13);
                             }
@@ -1322,7 +1293,7 @@ namespace Cryptool.Plugins.Keccak
                                     pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, 37.0);
                                     pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, 21.0);
                                 }
-                                else
+                                else /* last two slices */
                                 {
                                     pres.imgModifiedTopRow.SetValue(Canvas.TopProperty, 37.0 - (slice - (z - 3)) * 13);
                                     pres.imgModifiedTopRow.SetValue(Canvas.LeftProperty, 21.0 + (slice - (z - 3)) * 13);
@@ -1400,6 +1371,9 @@ namespace Cryptool.Plugins.Keccak
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show iota canvas in first iteration */
+                    pres.canvasStepDetailRho.Visibility = Visibility.Visible;
+                    pres.canvasCubeRho.Visibility = Visibility.Visible;
+                    pres.imgCubeDefault.Visibility = Visibility.Visible;
 
                     #region pres cube
 

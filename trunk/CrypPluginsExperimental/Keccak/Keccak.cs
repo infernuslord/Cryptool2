@@ -83,6 +83,9 @@ namespace Cryptool.Plugins.Keccak
                 return;
             }
 
+            /* check if presentation is enabled */
+            pres.runToEnd = settings.PresEnabled ? false : true;
+
             ProgressChanged(0, 1);
 
             byte[] input, output;
@@ -213,7 +216,7 @@ namespace Cryptool.Plugins.Keccak
         public void PostExecution()
         {
             execute = true;
-            pres.runToEnd = false;
+            //pres.runToEnd = false;
             pres.autostep = false;
             pres.skip = false;
         }
@@ -234,6 +237,7 @@ namespace Cryptool.Plugins.Keccak
         public void Initialize()
         {
             settings.UpdateTaskPaneVisibility();
+            settings.PresEnabled = false;
         }
 
         /// <summary>

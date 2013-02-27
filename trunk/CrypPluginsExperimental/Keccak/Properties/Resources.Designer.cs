@@ -477,6 +477,33 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enable presentation ähnelt.
+        /// </summary>
+        internal static string PresentationCaption {
+            get {
+                return ResourceManager.GetString("PresentationCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation ähnelt.
+        /// </summary>
+        internal static string PresentationGroupCaption {
+            get {
+                return ResourceManager.GetString("PresentationGroupCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Check if presentation should be shown ähnelt.
+        /// </summary>
+        internal static string PresentationTooltip {
+            get {
+                return ResourceManager.GetString("PresentationTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bit rate ähnelt.
         /// </summary>
         internal static string RateCaption {

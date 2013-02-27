@@ -337,4 +337,13 @@
   <data name="cube_default_bottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\cube-default-bottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PresentationCaption" xml:space="preserve">
+    <value>Enable presentation</value>
+  </data>
+  <data name="PresentationGroupCaption" xml:space="preserve">
+    <value>Presentation</value>
+  </data>
+  <data name="PresentationTooltip" xml:space="preserve">
+    <value>Check if presentation should be shown</value>
+  </data>
 </root>
