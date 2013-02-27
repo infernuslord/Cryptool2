@@ -479,7 +479,11 @@ namespace Wizard
                         SetTextFromXElement(descEle.First(), el =>
                                                                  {
                                                                      descriptionTextBlock.Inlines.Clear();
-                                                                     descriptionTextBlock.Inlines.Add(TrimInline(XMLHelper.ConvertFormattedXElement(el)));
+                                                                     var inline = TrimInline(XMLHelper.ConvertFormattedXElement(el));
+                                                                     if (inline != null)
+                                                                     {
+                                                                         descriptionTextBlock.Inlines.Add(inline);
+                                                                     }
                                                                  });
                     }
                     description.HorizontalAlignment = HorizontalAlignment.Left;
@@ -606,10 +610,6 @@ namespace Wizard
                 var inlines = ((Span) inline).Inlines;
                 TrimInline(inlines.First(), true, false);
                 TrimInline(inlines.Last(), false, true);
-            }
-            else
-            {
-                Debug.Fail("Trimming not possible on this inline type.");
             }
             return inline;
         }
@@ -1448,7 +1448,11 @@ namespace Wizard
                 SetTextFromXElement(desc, el =>
                                               {
                                                   CategoryDescription.Inlines.Clear();
-                                                  CategoryDescription.Inlines.Add(TrimInline(XMLHelper.ConvertFormattedXElement(desc)));
+                                                  var inline = TrimInline(XMLHelper.ConvertFormattedXElement(el));
+                                                  if (inline != null)
+                                                  {
+                                                      CategoryDescription.Inlines.Add(inline);
+                                                  }
                                               });
             }
             nextButton.IsEnabled = true;
