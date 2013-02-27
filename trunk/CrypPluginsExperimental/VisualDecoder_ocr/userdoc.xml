@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+   Visual codes are a common way to provide information that should be easily read by machines. 
+		 <newline/>
+		The first visual codes was patented in 1952 by Norman Joseph Woodland[1] and based on the Morse code. 
+		 <newline/> <newline/>
+		There are two main types of visual codes, one and two-dimensional.
+		 <newline/>
+		One-dimensional codes are also known as "Barcodes". They are mostly very limited in the amount of information they can provide. 
+		Therefore, they are usually containing a number that should identify something (e.g.: product in a supermarket).
+		 <newline/>
+    The applications of two-dimensional visual codes are widely distributed, due to their ability to provide much more Information. 
+		They can save a simple link to a website or entire contact information (see the Vcard template). 
+		Other applications are advertisement (e.g.: providing additional information) or proof of payment (e.g.: train tickets, post stamps).
+		 <newline/> <newline/>
+    But be aware visual codes can also contain harmful content such as a link to a malicious website[2] or malicious code (e.g.: SQL-Injections).
+		Beside the fact, that there are simple ways to authenticate the origin of a visual code (See "RSA signed QRCode" template), 
+		almost all visual codes are not signed.
+ </introduction>
+
+  
+  <introduction lang="de-DE">
+    Visuelle Codes sind eine verbreitete Methode um Informationen, die einfach von Maschinen gelesen werden sollen, bereitzustellen. 
+		 <newline/>
+		Der erste visuelle Code wurde 1952 von Norman Joseph Woodland patentiert[1] und basierte auf dem Morsecode.
+		 <newline/> <newline/>
+		Es gibt zwei Haupttypen von visuellen Codes, ein und zwei Dimensionale.
+		 <newline/>
+		Ein-dimensionale Codes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
+		 <newline/>
+		Das Einsatzgebiet von zwei-dimensionalen visuellen Codes ist, da sie mehr Informationen speichern können, weit gefächert.
+		Sie können einen einfachen Link zu einer Webseite oder ganze Kontaktinformationen (siehe Vcard Vorlage) enthalten.
+		Andere Anwendungen sind Werbung(z.B.: Um zusätzliche Informationen bereitzustellen) oder als Zahlungsnachweis (z.B.: Bahntickets, Briefmarken).
+		 <newline/> <newline/>
+    Aber seien Sie sich bewusst, dass ein visueller Code auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injections).
+		Und neben der Tatsache, dass es das es einfache Möglichkeiten gibt die Herkunft eines visuellen Codes zu authentifizieren (siehe "RSA signierter QRCode" Vorlage), sind fast alle visuellen Codes nicht signiert.
+  </introduction>
+
+  <usage lang="en">
+	 After you drag the component onto the workspace, you may select in the settings a code type or you let the component determine the type automaticly.
+	  <newline/>
+	 The component will now try to decode the present image.
+  </usage>
+
+  <usage lang="de-DE">
+		Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können Sie in den Einstellungen eine Code Art auswählen oder die Komponente selbstständig diese bestimmen lassen.
+		 <newline/>
+		Die Komponente wird nun versuchen das anliegende Bild zu dekodieren.
+  </usage>
+  
+  <presentation lang="en">
+    The presentation will show the image at the input.
+	 <newline/> <newline/>
+    If the component has detected a visual code in the image, it will mark the location on in the image and output content of the code.
+		 <newline/>
+		Also the type of visual code will be displayed, in case, you run the component on automatic mode
+  </presentation>
+  
+  <presentation lang="de-DE">
+    Die Präsentation zeigt Ihnen das am Eingang anliegende Bild.
+		 <newline/> <newline/>
+    Wenn die Komponente in dem Bild einen visuellen Code entdeckt hat, wird sie ihn auf dem Bild markieren und den Inhalt ausgeben.
+		 <newline/>
+		Es wird ebenfalls die Art des visuellen Codes angezeigt, für den Fall, dass Sie die Komponente im Automatik Modus betreiben.
+  </presentation>
+  
+    <references>
+      <linkReference>
+        <link url='http://www.google.com/patents?id=vWJoAAAAEBAJ' lang="en" />
+        <caption lang="en">first patent</caption>
+        <link url='http://www.google.com/patents?id=vWJoAAAAEBAJ' lang="de-DE" />
+        <caption lang="de-DE">erstes Patent</caption>
+      </linkReference>
+      <linkReference>
+        <link url="http://www.securelist.com/en/blog/208193145/Its_time_for_malicious_QR_codes" lang="en" />
+        <caption lang="en">malicious QRCode</caption>
+        <link url="http://www.securelist.com/en/blog/208193145/Its_time_for_malicious_QR_codes" lang="de-DE" />
+        <caption lang="de-DE">bösartigen QRCode</caption>
+      </linkReference>
+
+      <linkReference>
+        <link url="http://www.securitytube.net/video/190" lang="en" />
+        <caption lang="en">
+          "Toying with Barcodes" at Defcon 16.
+          Felix "FX" Lindner demonstrates security vulnerabilities in existing barcode implementations.
+        </caption>
+        <link url="http://www.securitytube.net/video/190" lang="de-DE" />
+        <caption lang="de-DE">
+          "Toying with Barcodes" auf der Defcon 16.
+          Felix "FX" Lindner demonstriert Sicherheitslücken in existierenden Barcode Anwendungen.
+        </caption>
+      </linkReference>
+  </references>
+</documentation>
