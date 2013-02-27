@@ -59,10 +59,13 @@ namespace Cryptool.Plugins.Keccak
             /* absorb and permute */
             foreach (byte[] block in inputBlocks)
             {
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.runToEnd)
                 {
-                    pres.labelBlock.Content = (blocksCounter).ToString() + "/" + inputBlocks.Length.ToString();
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelBlock.Content = (blocksCounter).ToString() + "/" + inputBlocks.Length.ToString();
+                    }, null);
+                }
 
                 blocksCounter++;
 

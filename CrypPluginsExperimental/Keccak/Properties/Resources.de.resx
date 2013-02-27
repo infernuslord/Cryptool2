@@ -225,4 +225,13 @@
   <data name="StateSizeMatchError" xml:space="preserve">
     <value>Die Summe von Bitrate und Kapazität muss mit der Größe des State übereinstimmen.</value>
   </data>
+  <data name="PresentationCaption" xml:space="preserve">
+    <value>Präsentation einschalten</value>
+  </data>
+  <data name="PresentationGroupCaption" xml:space="preserve">
+    <value>Präsentation</value>
+  </data>
+  <data name="PresentationTooltip" xml:space="preserve">
+    <value>Auswählen ob die Präsentation angezeigt werden soll</value>
+  </data>
 </root>
