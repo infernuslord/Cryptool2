@@ -2,22 +2,270 @@
 
 <documentation>
   <language culture="en"/>
-  <language culture="de-DE"/>
+  <language culture="de"/>
 
-  <manual lang="en">
-    Test
+  <usage lang="en">
+    The Workspacemanager editor is beside and even more than the Wizard and the Cryptutorial the most important and central utility of Cryptool 2. The WPM allows the user to create, edit and structure workspaces. 
+    <newline/>
+    The workspace allows the user to arrange different components in a kind of graphical, modular programming language editor. Therefore the workspacemanager provides a WIMP(windows, menus, icons, pointers) based user interface to organize and structure components on the workspace. The components are the central element of Cryptool 2, because they make it possible to combine and create different algorithms and to test and experiment with them, in order to improve the knowledge about cryptography of the user.  
+    <newline/>
+    To process and pass data from one component to another, the user can connect the components on the workspace, so that the user is capable to implement his own algorithm to encrypt and/or decrypt ciphers.
+    <newline/>
+    A new workspace can be created by pressing the workspace button in the dropdown menu of the "new" button in the file section of the "home" ribbon, in the left upper edge of the Cryptool 2 Menu, like shown in the picture.
+    <newline/>
+    <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt.png" />
+    <newline/>
+    <newline/>    
+    The state of a workspace can be saved in a file in the constellation of the components, settings and connections. The state can therefore later be recalled again by pressing the "open" button in the "file" section of the home ribbon. Workspaces can also be printed or saved on disk as picture files, by pressing the "print" button in the file section of the home ribbon.
+    <newline/>
+    <newline/>    
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt2.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt3.png" />
+    <newline/>
+    <newline/>    
+    Components can be arranged on the whole workspace and they are represented in three ways: minimized, in windows mode and in fullscreen mode. Minimized the component depict as minimal window, as shown in Figure 2, that contains the icon of the component, the in- and outputs as well as the "window control buttons" to maximize the component to a window, enter fullscreen mode and deletion of the component. In window mode the component shows a view of the component as shown in Figure 1. Which view to be shown can be chosen in a small toolbar in upper left corner of the components-window. When in window mode, the window size of the component can be changed by the user. The fullscreen mode shows the actual view in the size of the entire space of the tab of the workspace as shown in Figure 3. Additional the WPM offers on the left a overview list of all components on the workspace to improve the velocity of switching between them. Is the workspace in play mode, a progress bar at the bottom of each view illustrates the progress of the actual component. In case  new messages occur, a notification in the progressbar displays them in color of their type. 
+    <newline/>
+    <newline/>    
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt4.png" />
+    <newline/>    
+    <newline/>
+    The four different views:
+    <newline/>        
+    <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma1.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma2.png" />
+    <newline/>
+    <newline/> 
+    Each component offers up to four different views: Presentation, Settings, Data, Log. 
+    These views can be distinguished in the accountability between component developer set views like the presentation and the settings, can be seen in figure 4 and 5, and the WPM set views, named Data and Log. For the content of the views presentation and settings the developer of the component is responsible. Note that the presentation view must not be offered by every component and is individual in each component while the other views where generated static. The Data view represents, what data is present to the component, like in case of figure 7 a string. The log view stores and represents warning, error, info and debug notifications of the component, see figure 6. A click on the delete button removes all messages so far. In window mode the WPM offers a help button, within the user can directly access the documentation of the actual component. The settings/parameters are the only view, that also can be shown in the parametersbar on the right of the workspacetab.
+    <newline/>
+    <newline/> 
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma3.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma4.png" />
+    <newline/>
+    <newline/> 
+    All workspaces are arranged in the TAB BAR, right above the actual opened workspace. 
+    <newline/><newline/> 
+    Building a workspace
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/suggestionlist.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/textinout.png" />
+    <newline/> <newline/>
+    In the Menu on the left, the user can browse through the installed components of Cryptool 2 or alternatively use the search feature. The components where sorted in groups like Classical ciphers, Steganography, Tools, etc. see figure 8, to enhance the browsing experience. Components may be added to the actual workspace by double-click or simple drag-and drop into the workspace. Components can be connected within the workspace through connections. These connections, represented in the workspace as black lines, could be created by holding the left mouse button on the in- or output of the starting component and releasing on the in- or output of the target component, which should be connected. In order to clear up the workspace, the parts of connections between two bends could be shifted lengthwise. Note that each component got in- and output connectors and that an output connector, symbolized by an away pointing arrow, can only be connected to an input connector, symbolized by an towards pointing arrow. These arrows could be shifted around the component, to customize the workspace. 
+    The type of the in and outputs that should be connected have be the same, or at least compatible. The WPM signals which in- or outputs in the actual workspace are compatible by blinking and serves a pop-up when the cursor is over a possible target connector, whether the connector is of the same type, compatible or incompatible. Additional to this way to connect two components, the WPM offers a suggestion-list of components which may be connected. An example of a suggestion list can be seen in figure 10. By drawing a connection through holding the left mouse button from an input or output connector, into empty space of the workspace and releasing the button, the list appears at the last position of the cursor and the user can choose a compatible component. The list is sorted by usage incidence of the components.
+
+    <newline/> <newline/>
     
-    <section headline="Usage">
-      Describe something here
-    </section>
-  </manual>
-  <manual lang="de-DE">
-    Test
+    <img src="WorkspaceManager/DetailedDescription/Images/playstop.png" />    
 
-    <section headline="Benutzung">
-      Beschreibung hier
-    </section>
-  </manual>
+    <newline/> <newline/>
+
+    The workspace can be controlled by the "execute" ribbon in the Main Ribbon Bar on top of the whole window. A workspace can be started by pressing the "PLAY" button, highlighted in figure 11, and stopped by pressing the "STOP" button. Starting a workspace causes the execution methods of the components in this workspace. A component executes only if data is present to all inputs, that are needed for the execution and is restarted when/if the data has changed. In order to guarantee a correct execution, please pay attention to the logs and read the documentation of the component. Every workspace has to be started separately. Note that several components need data input for their execution.
+
+    <newline/> <newline/>
+
+    Organizing tools:    <newline/> <newline/>
+
+    The WPM offers several tools to organize the workspace.
+    <newline/> <newline/>
+
+    Zoom:    <newline/> <newline/>
+
+    On the down left corner of the workspace is the "zoombar", similar to figure 12. It is used to change the scale of the actual workplace. To automatically choose the scale to fit the whole workspace into the screen, the "fit-to-screen" button in the toolbar at the top center of the workspace is to be used. Alternatively the zoom can be variate by holding CTRL and scrolling with the mousewheel. <newline/> <newline/>
+    A left mouse button click on the percentage zoom level indicator readjust the zoom level too 100%.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/zoom.png" />    
+    <newline/> <newline/>
+    Textareas and Picture Box:<newline/> <newline/>
+    Texts and Pictures can be added to a workspace without the usage of additional components. The "textarea box" button and the "picture box" button in figure 13 offer tools to create textareas and load pictures directly into the workspace. The boxes can be dragged and positioned like components. Editing tools for the textarea appear on top of the workspace as a new toolbar, if the textarea is focused. The size of the areas can be customized by the user thriugh pressing and holding the downer right edge of the box. Note that the textarea and picture boxes can not interact with other components on the workspace and are always in the background of the workspace. 
+    <newline/> <newline/>
+    
+    <newline/> <newline/>
+    Parameters:<newline/> <newline/> 
+    For adjusting the settings of a component, the WPM offers the so called "Parametersbar", like the one shown in figure 14, on the right side of the actual workspacetab. It can be fade in and out by pressing the button on top of the Bar, as well as re-sized in width. It displays the settings of the actually focused component, similar to the view: setting of the component window.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/parameters.png" />    
+    <newline/> <newline/>
+    Icontrols
+        <newline/> <newline/>
+
+    "Icontrols" provide interfaces to access and control other components, that are defined in the Icontrol Interface.  That way, the components can make use of each other, in order to reduce redundancy. 
+    <newline/> <newline/>
+    Icontrols can be set by leftmousebutton-clicking on the bolt icon next to the window controls, as seen in Figure 15. The components in the Icontrol interface can be switched by clicking on the button underneath the component icons. They can be chosen from a vertical menu which lists up all components that support the actual interface, as can be seen in Figure 16.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
+    <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
+    <newline/> <newline/>
+    The parameters of the components that are connected by the Icontrol interface can be set in separate tabs in the parameters section of the component that contains them.
+    <newline/> <newline/>
+    When creating a workspace and using a component which supports Icontrols, the user should read the documentation of the component, in order to set the right Icontrol components and parameters.
+    <newline/> <newline/>
+
+    Shortcuts
+    <newline/> <newline/>
+  <table border="1">
+      <tr>
+        <th>Shortcut</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td><b>Ctrl + C:</b></td>
+        <td>Copies marked Component/s into clipboard</td>
+      </tr>
+      <tr>
+        <td><b>Ctrl + V:</b></td>
+        <td>Inserts Component/s from clipboard onto the workspace</td>
+      </tr>
+      <tr>
+      <td><b>Ctrl + X:</b></td>
+        <td>Cuts marked Components from Clipboard out of the workspace</td>
+      </tr>
+      <tr>
+        <td><b>Ctrl + Z:</b></td>
+        <td>Undoes last action</td>
+      </tr>
+      <tr>
+      <td><b>Ctrl + Mausewheel:</b></td>
+        <td>Changes Scrolling</td>
+      </tr>
+    </table>
+  </usage>
+
+  
+
+  <usage lang="de">
+    Die Workspacemanager Editor ist vor dem Wizard und dem Cryptutorial die wichtigste Komponente von Cryptool 2. Der Workspacemanager erlaubt es dem Benutzer die Arbeitsbereiche(engl.: workspaces) zu erstellen,  zu editieren und zu strukturieren.
+    <newline/>
+    Ein Arbeitsbereich ermöglicht es dem Benutzer, verschiedene Komponenten in einer Art grafischem, modularem Programmiersprache zu arrangieren. Hierfür bietet der Workspacemanager ein WIMP(windows, menus, icons, pointers) gestützte Benutzeroberfläche, um die Komponenten zu organisieren und zu strukturieren. Komponenten sind das zentrale Element von Cryptool 2, da diese es ermöglichen, auf einfache Weise verschiedene Algorithmen zu erschaffen, sie zu testen und mit ihnen zu experimentieren, zu dem Zweck, das Wissen des Nutzers über Kryptografie zu erweitern.
+    <newline/>
+    Um Daten zu verarbeiten und zwischen den Komponenten auszutauschen, kann der Benutzer die Komponenten miteinander verbinden. Dadurch wird der Benutzer in die Lage versetzt eigene Algorithmen zu entwickeln und Chiffren zu ver- und/oder entschlüsseln.
+    <newline/>
+    Neue Arbeitsbereiche können mit einem Klick auf die „Arbeitsbereich“ Schaltfläche in dem Dorpdownmenü der „Neu“ Schaltfläche in der „Datei“ Rubrik des „Start“-Ribbons, in der linken oberen Ecke des Cryptool 2 Fensters, wie man dies in figure X.X sieht.
+    <newline/>
+    <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt.png" />
+    <newline/>
+    <newline/>    
+    Der Status des Arbeitsbereichs kann in der Konstellation der Komponenten, ihrer Verbindungen und Einstellungen in einer Datei auf der Festplatte gespeichert werden. Gespeicherte Dateien können später mit einem Klick auf die „Öffnen“ Schaltfläche wieder als Arbeitsbereich geladen werden. Die grafische Repräsentation der Arbeitsbereiches, kann mit Hilfe der „Drucken“ Schaltfläche des Start-Ribbons in eine Bilddatei auf die Festplatte geschrieben werden. 
+    <newline/>
+    <newline/>    
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt2.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt3.png" />
+    <newline/>
+    <newline/>    
+    Komponenten können im gesamten Arbeitsbereich platziert werden und werden dabei in drei verschiedenen Weisen dargestellt: minimiert,  als Fenster und im Vollbild-Modus. Minimiert erscheint die Komponente lediglich als eine Art minimales Fenster, wie in Figure 2 zu sehen, welches das Icon der Komponente enthält, die Ein – und Ausgänge, sowie Steuerungsschaltflächen zum erweitern des Fensters, zum Eintreten in den Vollbild-Modus und zum Entfernen der Komponente aus dem aktuellen Arbeitsbereich. Zu einem Fenster vergrößert beinhaltet die Komponente eine von vier verschiedenen „Ansichten“(engl.: views), wie in Figure 1 dargestellt. Welche Ansicht dargestellt werden soll kann in einer Werkzeugleiste in der linken oberen Ecke des Fenster ausgewählt werden. Im Fensterzustand  kann die Fenstergröße vom Benutzer festgelegt werden. Ist der Arbeitsbereich im Ausführungsmodus zeigt ein Fortschrittsbalken unterhalb jeder Komponente, den Fortschritt jener Komponente. Sollten neue Nachrichten verfügbar sein, erscheint in der Fortschrittsanzeige eine Benachrichtigung in der Farbe ihres Typs. Im Vollbild-Modus wird die aktuelle Ansicht über den gesamten Bereich des Arbeitsbereiches dargestellt, wie in Figure 3 zu sehen ist. Auf der linken Seite bietet der WPM auf der eine Liste aller Komponenten auf dem Arbeitsbereich, um den Wechsel zwischen den Komponenten zu beschleunigen. 
+    <newline/>
+    <newline/>    
+    <img src="WorkspaceManager/DetailedDescription/Images/unbenannt4.png" />
+    <newline/>    
+    <newline/>
+    Vier verschiedene Ansichten:
+    <newline/>        
+    <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma1.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma2.png" />
+    <newline/>
+    <newline/> 
+    Jede Komponente bietet wie bereits erwähnt bis zu vier verschiedene „Ansichten“ an, als da wären: Präsentation, Einstellungen, Daten, Log. <newline/> 
+    Sie können grob in der Verantwortlichkeit ihres Inhaltes unterschieden werden, und zwar in komponentenentwickler festgelegt, wie Präsentation und Einstellungen, welche in Figure 4 und 5 zu sehen sind und vom WPM festgelegt. Für den Inhalt der Ansicht Präsentation und Einstellungen, ist demnach der Entwickler der Komponente verantwortlich. Beachten Sie, dass die Präsentations-Ansicht nicht von jeder Komponente angeboten werden muss und die Darstellung individuell ist, während die Darstellung der anderen Ansichten statisch vom WPM erzeugt wird. In der Ansicht Einstellungen können alle Parameter der Komponente festgelegt werden. Die Daten Ansicht stellt dar, welche Daten an die Komponente anliegen, wie im Falle von Figure 7 ein String. Die Log Ansicht speichert und gibt warnungs, error, informations oder debug Benachrichtigungen der Komponente wieder, wie in figure 6 zu sehen ist. Ein Klick auf die „Entfernen“ Schaltfläche entfernt alle bisherigen Nachrichten. Im Fenstermodus bietet der WPM eine „Hilfe“ Schaltfläche an, mit welcher der Benutzer direkt die Dokumentation der aktuellen Komponente aufrufen kann. Die Einstellungen sind die einzige Ansicht, welche auch in der Parameterleiste am rechten Bildrand des Arbeitsbereichtabs angezeigt werden kann.
+
+    <newline/>
+    <newline/> 
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma3.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/enigma4.png" />
+    <newline/>
+    <newline/> 
+    Alle Arbeitsbereiche werden in einer Tabulator leiste über dem aktuelle geöffneten Arbeitsbereich organisiert.
+    <newline/><newline/> 
+    Building a workspace
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/suggestionlist.png" />
+    <img src="WorkspaceManager/DetailedDescription/Images/textinout.png" />
+    <newline/> <newline/>
+    Im Menü am linken Bildrand kann der Benutzer durch die installierten Komponenten von Cryptool 2 stöbern, oder alternativ das Suchwerkzeug benutzen. Um dem Benutzer die Suche nach der richtigen Komponente zu vereinfachen, sind die Komponenten geordnet nach Gruppen wie klassische Chiffren, Steganografie, Werkzeuge, usw. siehe Figure 8,. Komponenten können dann per Doppelklick oder simplen Drag-und-Drop dem aktuellen Arbeitsbereich hinzugefügt werden. Innerhalb des Arbeitsbereiches können Komponenten verbunden werden. Diese Verbindungen, im Arbeitsbereich dargestellt durch schwarze Linien, können durch halten der linken Maustaste auf dem Ein-oder Ausgang der ausgangs Komponente und loslassen auf dem Aus- oder Eingang der Ziel Komponente durch den Benutzer erstellt werden. Um den Arbeitsbereich übersichtlich zu halten, können die Teile der Verbindungen, welche sich zwischen zwei Abzweigungen befinden, durch Halten der linken Maustaste und Ziehen längsseits verschoben werden. Es sei erwähnt, dass jede Komponente Ein und/oder Ausgaben besitzt, und dass Eingaben nur mit Ausgaben, sowie Ausgaben nur mit Eingaben verbunden werden dürfen. Eingaben werden durch zur Komponente hinzeigende Pfeile und Ausgaben durch weg zeigende Pfeilsymbole dargestellt. Diese Pfeilsymbole können vom Benutzer vollständig rings um die Darstellung der Komponente herum positioniert werden, um den Arbeitsbereich weiter anzupassen.
+    <newline/> 
+    Es gilt zu beachten, dass der Typ der zu verbindenden Ein- und Ausgänge stets der selbe oder wenigstens kompatibel sein muss. Der WPM signalisiert durch Blinken welche Ein- und Ausgaben des aktuellen Arbeitsbereiches kompatibel sind und zeigt in einem Einblendmenü, wenn sich der Mauszeiger über dem zu verbindenden Konnektor befindet, ob der Konnektor vom selben Typ, kompatibel oder inkompatibel ist. Zusätzlich zu dieser Art Komponenten zu verbindenden, bietet der WPM eine Vorschlagsliste an, welche Komponenten verbunden werden können. Ein Beispiel für solch eine Vorschlagsliste ist in Figure 10 zu sehen. Durch Zeichnen einer Verbindung, angefangen von einem Ein- oder Ausgabe Konnektor hinein in freien Raum des Arbeitsbereiches, und loslassen der Maustaste, erscheint die Liste an der letzten Position des Mauszeigers und der Benutzer kann eine kompatible Komponente aus jener Liste wählen. Die Sortierung der List richtet sich absteigend nach der Häufigkeit der Benutzung der Komponenten durch den Benutzer.
+
+
+    <newline/> <newline/>
+    
+    <img src="WorkspaceManager/DetailedDescription/Images/playstop.png" />    
+
+    <newline/> <newline/>
+
+    Der Arbeitsbereich kann mit Hilfe des „Ausführen“ - Ribbons in der Haupt-Ribbon-Bar im oberen Abschnitt des gesamten Fensters kontrolliert werden. Arbeitsbereiche können durch drücken der „PLAY“ Schaltfläche, zu sehen in Figure 11, gestartet und durch Drücken der „STOP“ - Schaltfläche angehalten werden. Eine Komponente wird nur dann ausgeführt, wenn an allen Eingängen Daten anliegen, welche für die Ausführung notwendig sind. Hier sei auf die Dokumentation der jeweiligen Komponente verwiesen, um eine korrekte Ausführung sicher zu stellen, und darauf, dass auf eventuelle Benachrichtigungen in der Log Rubrik der Komponente zu achten ist. Jeder Arbeitsbereich muss einzeln gestartet werden. Es sei noch einmal erwähnt, dass viele Komponenten Eingaben für ihre Ausführung zwingend benötigen.
+
+
+    <newline/> <newline/>
+
+    Organisationswerkzeuge:    <newline/> <newline/>
+
+    Der WPM bietet verschiedene Werkzeuge zur Organisation der Arbeitsbereiche an.
+
+    <newline/> <newline/>
+
+    Zoom:    <newline/> <newline/>
+
+    In der unteren linken Ecke befindet sich die „Zoom-Leiste“, welche in etwa so aussehen sollte wie in Figure 12 zu sehen. Sie dient dazu den Maßstab des aktuellen Arbeitsbereiches zu variieren. Um den Maßstab automatisch so anzupassen, dass der gesamte Arbeitsbereich im Ganzen zu sehen ist, sollte die Schaltfläche „Fit-to-screen“ mittig oberhalb des Arbeitsbereiches verwendet werden. Alternativ kann zum Zoomen auch das Mausrad benutzt werden, wenn beim Rollen die Strg-Taste gehalten wird. Ein Klick mit der linken Maustaste auf die Prozentangabe der Zoom-leiste, setzt diese auf 100%.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/zoom.png" />    
+    <newline/> <newline/>
+    Textarea und Picture Box:<newline/> <newline/>
+    Texte und Bilder können ohne von einer weiteren Komponente Gebrauch zu machen direkt dem Arbeitsbereich hinzugefügt werden. Die Textbereichs Schaltfläche und die Bilderbereichs Schaltfläche, wie in Figure 13 zu sehen, bieten Werkzeuge um Texte zu erzeugen und Bilder direkt in den Hintergrund des Arbeitsbereiches zu laden. Beide Bereiche können im Arbeitsbereich verschoben werden wie Komponenten. Wenn der Textbereich fokussiert ist, erscheint oberhalb des Arbeitsbereiches eine Werkzeugleiste zur Formatierung des Textes. Die Größe des Bereichs kann durch halten und ziehen der unteren rechten Ecke des Textbereiches verändert werden. Es sei erwähnt, dass beide Werkzeuge nicht mit den Komponenten interagieren können und stets im Hintergrund des Arbeitsbereiches verbleiben.
+    <newline/> <newline/>
+    
+    <newline/> <newline/>
+    Parameterleiste:<newline/> <newline/> 
+    Zum Justieren der Einstellungen von Komponenten, bietet der WPM auf der rechten Seite des aktuellen Arbeitsbereiches die so genannte "Parameterleiste" an, wie in Figure 14 zu sehen. Diese kann sowohl ein als auch ausgeblendet werden, mit Hilfe der Schaltfläche oberhalb der Leiste, so wie in der Breite verändert werden. Ihr Inhalt entspricht Einstellungsansicht der fokusierten Komponente.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/parameters.png" />    
+    <newline/> <newline/>
+    Icontrols
+        <newline/> <newline/>
+
+    "Icontrols" bietet die Möglichkeit auf Komponenten zuzugreifen, welche im Icontrol Interface definiert sind. Auf diese Weise können Komponenten sich gegenseitig von Nutzen sein, was Redundanz bei der Programmierung verhindert.
+    <newline/> <newline/>
+    Unterstützt eine Komponente die Icontrol Funktionalität, befindet sich neben den normalen Fensterkontrollelementen ein Blitzsymbol, wie in Figure 15 zu sehen. Die Komponenten können getauscht werden durch Anklicken der Schaltfläche unterhalb der Icons. Ein vertikales Menu listet alle Komponenten auf, welche dieses Icontrol Interface unterstützen, wie in Figure 16 zu sehen ist.
+    <newline/> <newline/>
+    <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
+    <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
+    <newline/> <newline/>
+    Einstellungen von Komponenten, die über das Icontrol Interface eingebunden wurden können in eigenen Tabs in der Parameterrubrik der Hauptkomponente eingestellt werden.
+    <newline/> <newline/>
+    Beim Erstellen eines Arbeitsbereiches mit Komponenten die Icontrols unterstützen, sollte der Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu finden.
+    <newline/> <newline/>
+
+    Kurzbefehle:
+    <newline/> <newline/>
+    
+    <table border="1">
+      <tr>
+        <th>Tastenkürzel</th>
+        <th>Aktion</th>
+      </tr>
+      <tr>
+        <td><b>Strg + C:</b></td>
+        <td>Kopiert markierte Komponenten in die Zwischenablage</td>
+      </tr>
+      <tr>
+        <td><b>Strg + V:</b></td>
+        <td>Fügt Komponenten aus der Zwischenablage in den Arbeitsbereich ein</td>
+      </tr>
+      <tr>
+      <td><b>Strg + X:</b></td>
+        <td>Schneidet markierte Komponenten aus dem Arbeitsbereich aus</td>
+      </tr>
+      <tr>
+        <td><b>Strg + Z:</b></td>
+        <td>Widerruft letzten Befehl</td>
+      </tr>
+      <tr>
+      <td><b>Strg + Mausewheel:</b></td>
+        <td>Verändert den Maßstab</td>
+      </tr>
+    </table>
+  </usage>
 
   <references>
     <bookReference>
