@@ -28,28 +28,35 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <comboBox plugin="AES" property="Action" alignment="Left" width="20%">
+    <comboBox alignment="Stretch">
       <description lang="en">Encrypt or Decrypt:</description>
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
-      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Encrypt">
+        <!-- Set AES to encrypt -->
+        <pluginSetter plugin="AES" property="Action">0</pluginSetter>
+        <!-- Set input format of the message decoder to Text -->
+        <pluginSetter plugin="Message decoder" property="PresentationFormatSetting">0</pluginSetter>
+        <!-- Set Encoding of the message decoder to ASCII -->
+        <pluginSetter plugin="Message decoder" property="Encoding">4</pluginSetter>
+        <!-- Set output format of the message encoder to Hexadecimal -->
+        <pluginSetter plugin="Message encoder" property="PresentationFormatSetting">4</pluginSetter>
+      </item>
       <item lang="de" content="Verschlüsseln"/>
-      <item lang="en" content="Decrypt"/>
+      <item lang="en" content="Decrypt">
+        <!-- Set AES to decrypt -->
+        <pluginSetter plugin="AES" property="Action">1</pluginSetter>
+        <!-- Set input format of the message decoder to Hexadecimal -->
+        <pluginSetter plugin="Message decoder" property="PresentationFormatSetting">4</pluginSetter>
+        <!-- Set output format of the message encoder to Text -->
+        <pluginSetter plugin="Message encoder" property="PresentationFormatSetting">0</pluginSetter>
+        <!-- Set Encoding of the message encoder to ASCII -->
+        <pluginSetter plugin="Message encoder" property="Encoding">4</pluginSetter>
+       </item>
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
-    
-    <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
-      <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
-      <defaultvalue>Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
-    </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
-      <description lang="en">Key:</description>
-      <description lang="de">Schlüssel:</description>
-      <defaultvalue>A1B1C11111111111</defaultvalue>
-    </inputBox>
 
-    <comboBox plugin="AES" property="Mode" defaultValue="0" group="properties">
+    <comboBox plugin="AES" property="Mode" alignment="Left" width="49%" defaultValue="0" group="properties">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
@@ -57,13 +64,35 @@
       <item content="Cipher Feedback (CFB)" lang="en"/>
     </comboBox>
 
-    <comboBox plugin="AES" property="Keysize" defaultValue="0" group="properties">
+    <comboBox plugin="AES" property="Keysize" defaultValue="0" alignment="Stretch" width="49%" group="properties">
       <description lang="en">Keysize:</description>
       <description lang="de">Schlüsselgröße:</description>
       <item content="128 Bits"/>
       <item content="192 Bits"/>
       <item content="256 Bits"/>
     </comboBox>
+
+    <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch"  visibleLines="1" regex="([0-9A-F][ \-]*)+">
+      <description lang="en">Key (hex values):</description>
+      <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
+      <defaultvalue>FD E8 F7 A9 B8 6C 3B FF 07 C0 D3 9D 04 60 5E DD</defaultvalue>
+    </inputBox>
+    
+    <inputBox plugin="Input message" property="Text" alignment="Stretch" visibleLines="5">
+      <description lang="en">
+        <condition plugin="AES" property="Action" value="0">Message to encrypt:</condition>
+        <condition plugin="AES" property="Action" value="1">Message to decrypt (hex values):</condition>
+      </description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:
+        <condition plugin="AES" property="Action" value="0">Zu verschlüsselnde Nachricht:</condition>
+        <condition plugin="AES" property="Action" value="1">Zu entschlüsselnde Nachricht (in Hex):</condition>
+      </description>
+      <defaultvalue>The quick brown fox jumps over the lazy dog.</defaultvalue>
+    </inputBox>
+
+    
+
+    
 
     <sampleViewer image="AES" file="Cryptography\Modern\Symmetric\AES.cwm">
       <name lang="en" >AES Output</name>
@@ -76,12 +105,18 @@
       <task lang="en">Here, you can change the message and view the results.</task>
       <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
+      <inputBox plugin="Input message" property="Text" alignment="Stretch" visibleLines="5">
+        <description lang="en">
+          <condition plugin="AES" property="Action" value="0">Message to encrypt:</condition>
+          <condition plugin="AES" property="Action" value="1">Message to decrypt (hex values):</condition>
+        </description>
+        <description lang="de">
+          <condition plugin="AES" property="Action" value="0">Zu verschlüsselnde Nachricht:</condition>
+          <condition plugin="AES" property="Action" value="1">Zu entschlüsselnde Nachricht (in Hex):</condition>
+        </description>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Output message" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">AES Output:</description>
         <description lang="de">AES-Ausgabe:</description>
       </outputBox>      
