@@ -84,7 +84,7 @@ namespace Cryptool.PluginBase.Editor
 
             public IEnumerable<ComponentConnector> GetSortedConnectorUsages()
             {
-                return _connectorUsages.OrderBy(x => x.Value).Select(x => x.Key);
+                return _connectorUsages.OrderByDescending(x => x.Value).Select(x => x.Key);
             }
         }
 

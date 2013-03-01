@@ -585,7 +585,6 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             SideBarSetting = new SettingsVisual(Model.Plugin, this, true, true);
             EditorVisual = (EditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
 
-
             InitializeComponent();
         }
 
