@@ -173,7 +173,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="25" />
                 </Grid.ColumnDefinitions>
                 <Border
       x:Name="Border" 
@@ -185,7 +185,7 @@
       CornerRadius="2,0,0,2" 
       Margin="1"
       BorderThickness="0,0,1,0" />
-                <Image Width="18" Height="18" Source="images/ctLogo.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                <Image Width="24" Height="20" Source="images/ctLogoDropDown.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>                
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ToggleButton.IsMouseOver" Value="true">

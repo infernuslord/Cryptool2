@@ -901,4 +901,10 @@
   <data name="Copy_Title" xml:space="preserve">
     <value>Copy Title</value>
   </data>
+  <data name="DistractionFree" xml:space="preserve">
+    <value>Distraction Free (on/off)</value>
+  </data>
+  <data name="HideMenu" xml:space="preserve">
+    <value>Hide Menu (on/off)</value>
+  </data>
 </root>
