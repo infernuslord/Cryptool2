@@ -880,4 +880,10 @@
   <data name="Generic" xml:space="preserve">
     <value>Generisch</value>
   </data>
+  <data name="DistractionFree" xml:space="preserve">
+    <value>Ablenkungsfreiheit (an/aus)</value>
+  </data>
+  <data name="HideMenu" xml:space="preserve">
+    <value>Vertecke Menü (an/aus)</value>
+  </data>
 </root>
