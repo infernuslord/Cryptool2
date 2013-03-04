@@ -254,6 +254,15 @@
   <ItemGroup>
     <Resource Include="images\cube-default-bottom.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\iota\step-detail-iota.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\iota\selected-rc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\iota\iota-step-detail-table.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

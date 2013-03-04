@@ -8,16 +8,16 @@
     <Grid Height="500" Name="grid1" Width="800">
         <!-- buttons -->
         <Button Content="Next" Height="23" HorizontalAlignment="Left" Margin="418,423,0,0" Name="buttonNext" VerticalAlignment="Top" Width="75" Click="buttonNext_Click" />
-        <Button Content="Skip step" Height="23" HorizontalAlignment="Left" Margin="605,423,0,0" Name="buttonSkip" VerticalAlignment="Top" Width="75" Click="buttonSkip_Click" />
-        <Button Content="Toggle autorun" Height="23" HorizontalAlignment="Right" Margin="0,423,201,0" Name="buttonAutostep" VerticalAlignment="Top" Width="100" Click="buttonAutostep_Click" />
-        <Button Content="Run to end" Height="23" HorizontalAlignment="Left" Margin="686,423,0,0" Name="buttonRunToEnd" VerticalAlignment="Top" Width="75" Click="buttonRunToEnd_Click" />
+        <Button Content="Next Step" Height="23" HorizontalAlignment="Left" Margin="605,423,0,0" Name="buttonSkip" VerticalAlignment="Top" Width="75" Click="buttonSkip_Click" />
+        <Button Content="Toggle Autorun" Height="23" HorizontalAlignment="Right" Margin="0,423,201,0" Name="buttonAutostep" VerticalAlignment="Top" Width="100" Click="buttonAutostep_Click" />
+        <Button Content="Run to End" Height="23" HorizontalAlignment="Left" Margin="686,423,0,0" Name="buttonRunToEnd" VerticalAlignment="Top" Width="75" Click="buttonRunToEnd_Click" />
         
         <Label Content="current step:" Height="28" Margin="177,12,547,0" Name="labelCurrentStepCaption" VerticalAlignment="Top" />
         <Label Content="" Height="28" HorizontalAlignment="Left" Margin="259,12,0,0" Name="labelCurrentStep" VerticalAlignment="Top" />
         <Label Content="Round:" Height="28" Margin="82,12,0,0" Name="labelRoundCaption" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" />
         <Label Content="" Height="28" HorizontalAlignment="Left" Margin="130,12,0,0" Name="labelRound" VerticalAlignment="Top" />
         <Label Content="Block:" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="labelBlockCaption" VerticalAlignment="Top" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="47,12,0,0" Name="labelBlock" VerticalAlignment="Top" />
+        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="50,12,0,0" Name="labelBlock" VerticalAlignment="Top" />
         
         <Canvas Height="305" HorizontalAlignment="Left" Margin="58,102,0,0" Name="canvasSteps" VerticalAlignment="Top" Width="703">
             
@@ -30,7 +30,6 @@
                 <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefault" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default.png" Visibility="Hidden" />
                 <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefaultInner" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default-inner.png" Visibility="Hidden" />
                 <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefaultBottom" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default-bottom.png" Visibility="Hidden" />
-
 
                 <!-- theta images -->
                 <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeTheta" Width="200" Visibility="Hidden">                    
@@ -106,6 +105,11 @@
                     <Image Canvas.Left="137" Canvas.Top="155" Height="36" Name="imgModifiedRow" Stretch="Fill" Width="12" Source="/Keccak;component/images/chi/chi-modified-row-side.png" />
                     <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgModifiedFirstRow" Stretch="Fill" Width="129" Source="/Keccak;component/images/chi/chi-modified-row-front.png" Visibility="Hidden" />
                     <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgModifiedTopRow" Stretch="Fill" Width="140" Source="/Keccak;component/images/chi/chi-modified-row-top.png" Visibility="Hidden" />
+                </Canvas>
+
+                <!-- iota images -->
+                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeIota" Width="200" Visibility="Hidden">
+                    <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgIotaModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
                 </Canvas>
 
             </Canvas>
@@ -326,14 +330,21 @@
                 
                 <Label Canvas.Left="28" Canvas.Top="150" Content="Parity:" Height="28" Name="label186" />
             </Canvas>
-
-
-            <Label Content="" Height="28" Name="labelOuterPartCaption" Width="50" Canvas.Left="29" Canvas.Top="10" />
-            <Label Content="" Height="28" Name="labelOuterPart" Canvas.Left="85" Canvas.Top="10" />
-            <Label Content="" Height="28" Name="labelInnerPartCaption" Canvas.Left="157" Canvas.Top="10" Width="58" />
-            <Label Content="" Height="28" Name="labelInnerPart" Canvas.Left="218" Canvas.Top="10" />
+            
+            <!-- iota -->
+            <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailIota" Width="396" Visibility="Hidden">
+                <Image Height="229" Name="imgStepDetailIota" Width="396" Canvas.Left="0" Canvas.Top="0" Source="/Keccak;component/images/iota/step-detail-iota.png" />
+                <Image Canvas.Left="263" Canvas.Top="50" Height="133" Name="image3" Stretch="Fill" Width="72" Source="/Keccak;component/images/iota/iota-step-detail-table.png" />
+                <Image Canvas.Left="264" Canvas.Top="51" Height="10" Name="imgIotaSelectedRC" Stretch="Fill" Width="34" Source="/Keccak;component/images/iota/selected-rc.png" />
+            </Canvas>
+            
+            
         </Canvas>
         <Slider Height="23" HorizontalAlignment="Left" Margin="500,459,0,0" Name="autostepSpeedSlider" VerticalAlignment="Top" Width="100" Value="30" Maximum="40" ValueChanged="autostepSpeedSlider_ValueChanged" />
         <Label Content="Speed" Height="28" HorizontalAlignment="Left" Margin="450,455,0,0" Name="label187" VerticalAlignment="Top" />
+        <Label Content="" Height="28" Name="labelOuterPartCaption" Width="50" Margin="331,12,419,460" />
+        <Label Content="" Height="28" Name="labelOuterPart" Margin="387,12,403,460" />
+        <Label Content="" Height="28" Name="labelInnerPartCaption" Width="58" Margin="459,12,283,460" />
+        <Label Content="" Height="28" Name="labelInnerPart" Margin="520,12,270,460" />
     </Grid>
 </UserControl>
