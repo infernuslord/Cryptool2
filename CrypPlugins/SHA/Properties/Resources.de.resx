@@ -145,18 +145,18 @@
     <value>SHA-Funktion</value>
   </data>
   <data name="SHAFunctionTooltip" xml:space="preserve">
-    <value>Wählen Sie die SHA-Hashfunktion (SHA1 oder eine der SHA2-Familie).</value>
+    <value>Wählen Sie die SHA-Hashfunktion (SHA-1 oder eine der SHA-2-Familie).</value>
   </data>
   <data name="SHAFunctionList1" xml:space="preserve">
-    <value>SHA1</value>
+    <value>SHA-1</value>
   </data>
   <data name="SHAFunctionList2" xml:space="preserve">
-    <value>SHA256</value>
+    <value>SHA-256</value>
   </data>
   <data name="SHAFunctionList3" xml:space="preserve">
-    <value>SHA384</value>
+    <value>SHA-384</value>
   </data>
   <data name="SHAFunctionList4" xml:space="preserve">
-    <value>SHA512</value>
+    <value>SHA-512</value>
   </data>
 </root>

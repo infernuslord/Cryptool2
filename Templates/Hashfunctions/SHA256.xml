@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">SHA256</title>
-  <summary lang="en">Usage of the <i>SHA256</i> hash function</summary>
+  <title lang="en">SHA-256</title>
+  <summary lang="en">Usage of the <i>SHA-256</i> hash function</summary>
   <description lang="en">This template shows the usage of the <i>SHA256</i> hash function.</description>
   <keywords>Hash, nist, secure, 256</keywords>
 
   <title lang="de">SHA256</title>
-  <summary lang="de">Benutzung der <i>SHA256</i>-Hashfunktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA256</i>-Hashfunktion.</description>
+  <summary lang="de">Benutzung der <i>SHA-256</i>-Hashfunktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA-256</i>-Hashfunktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="SHA256.png" />
