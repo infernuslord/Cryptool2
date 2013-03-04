@@ -195,6 +195,16 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iota_step_detail_table {
+            get {
+                object obj = ResourceManager.GetObject("iota_step_detail_table", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Keccak version ähnelt.
         /// </summary>
         internal static string KECCAKFunctionCaption {
@@ -562,6 +572,16 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap selected_rc {
+            get {
+                object obj = ResourceManager.GetObject("selected_rc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die State size ähnelt.
         /// </summary>
         internal static string SelectedStateSizeCaption {
@@ -648,6 +668,16 @@ namespace Keccak.Properties {
         internal static string StateSizeMatchError {
             get {
                 return ResourceManager.GetString("StateSizeMatchError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap step_detail_iota {
+            get {
+                object obj = ResourceManager.GetObject("step_detail_iota", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

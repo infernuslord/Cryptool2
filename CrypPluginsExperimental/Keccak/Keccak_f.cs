@@ -371,10 +371,14 @@ namespace Cryptool.Plugins.Keccak
             for (int i = 0; i < z; i++)
             {
                 firstLane[i] ^= truncatedConstant[i];
-                //IotaPres(firstLane, truncatedConstant);
             }
 
+            IotaPres(firstLane, truncatedConstant, round);
+
             SetFirstLaneToState(ref state, firstLane);
+
+            pres.autostep = false;
+            pres.skip = false;
         }
 
         #endregion
@@ -448,7 +452,7 @@ namespace Cryptool.Plugins.Keccak
                                 pres.imgCubeDefault.Visibility = Visibility.Visible;
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
                             }
-                            else if (slice == 2)
+                            else if (slice == 3)
                             {
                                 /* show inner cube */
                                 pres.imgCubeDefault.Visibility = Visibility.Hidden;
@@ -1364,44 +1368,43 @@ namespace Cryptool.Plugins.Keccak
             }, null);
         }
 
-        public void IotaPres(byte[] firstLane, byte[] truncatedConstant)
+        public void IotaPres(byte[] firstLane, byte[] truncatedConstant, int round)
         {
             if (!pres.runToEnd && !pres.skip)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show iota canvas in first iteration */
-                    pres.canvasStepDetailRho.Visibility = Visibility.Visible;
-                    pres.canvasCubeRho.Visibility = Visibility.Visible;
+                    pres.canvasStepDetailIota.Visibility = Visibility.Visible;
+                    pres.canvasCubeIota.Visibility = Visibility.Visible;
                     pres.imgCubeDefault.Visibility = Visibility.Visible;
 
                     #region pres cube
 
+                    // none because fixed
+
                     #endregion
 
                     #region pres detailed
+
+                    pres.imgIotaSelectedRC.SetValue(Canvas.TopProperty, 51.0 + (round % 12) * 11);
+                    pres.imgIotaSelectedRC.SetValue(Canvas.LeftProperty, 264.0 + (round / 12) * 36); 
                     
                     #endregion
 
                 }, null);
 
                 /* wait for button clicks */
-                if (!pres.autostep)
-                {
-                    pres.autostep = false;
-                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
-                    buttonNextClickedEvent.WaitOne();
-                }
-                /* sleep between steps, if autostep was clicked */
-                else
-                {
-                    System.Threading.Thread.Sleep(pres.autostepSpeed * 3);       // value adjustable by a slider (slower for rho, since it performs less steps than theta and chi)
-                }
+                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                buttonNextClickedEvent.WaitOne();
             }
 
             pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                /* hide iota canvas after last iteration */              
+                /* hide iota canvas after last iteration */
+                pres.canvasStepDetailIota.Visibility = Visibility.Hidden;
+                pres.canvasCubeIota.Visibility = Visibility.Hidden;
+                pres.imgCubeDefault.Visibility = Visibility.Hidden;
             }, null);
 
         }

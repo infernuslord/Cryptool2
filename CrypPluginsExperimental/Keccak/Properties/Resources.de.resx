@@ -232,6 +232,6 @@
     <value>Präsentation</value>
   </data>
   <data name="PresentationTooltip" xml:space="preserve">
-    <value>Auswählen ob die Präsentation angezeigt werden soll</value>
+    <value>Auswählen, ob die Präsentation angezeigt werden soll.</value>
   </data>
 </root>
