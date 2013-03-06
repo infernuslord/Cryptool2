@@ -172,7 +172,7 @@ er falsch herum liegt.</value>
   <data name="DM_ALIG_DISC" xml:space="preserve">
     <value>Mit Hilfe dieses Musters kann der Code
 -- unabhängig von seiner Ausrichtung --
-zuverlässig Auslesen werden.</value>
+zuverlässig auslesen werden.</value>
   </data>
   <data name="DM_ALIG_LABLE" xml:space="preserve">
     <value>Ausrichtung Erkennung</value>
@@ -185,7 +185,7 @@ verschiedenen Datenspalten zu finden.</value>
     <value>Spalten Identifizierer</value>
   </data>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
-    <value>Die Balken sind Orientierungen-Punkte
+    <value>Die Balken sind Orientierungs-Punkte
 für den Reader.
 Der Reader muss sehen, wenn er in der 
 Mitte des Codes angelangt ist,  da sich 
@@ -204,7 +204,7 @@ berechnet.</value>
     <value>Integrität Prüfziffer</value>
   </data>
   <data name="EAN8_FIXED_DISC" xml:space="preserve">
-    <value>Die Balken sind Orientierungen-Punkte
+    <value>Die Balken sind Orientierungs-Punkte
 für den Reader.
 Der Reader muss sehen, wenn er in der 
 Mitte des Codes angelangt ist,  da sich 
@@ -246,7 +246,7 @@ berechnet.</value>
   <data name="QR_ALIG_DISC" xml:space="preserve">
     <value>Mit Hilfe dieses Musters kann der Code
 -- unabhängig von seiner Ausrichtung --
-zuverlässig Auslesen werden.</value>
+zuverlässig auslesen werden.</value>
   </data>
   <data name="QR_ALIG_LABLE" xml:space="preserve">
     <value>Ausrichtung Erkennung</value>
@@ -264,7 +264,7 @@ verschiedenen Datenzeilen zu finden.</value>
   <data name="PDF417_SEPAT_DISC" xml:space="preserve">
     <value>Mit Hilfe dieses Musters kann der Code
 -- unabhängig von seiner Ausrichtung --
-zuverlässig Auslesen werden.</value>
+zuverlässig auslesen werden.</value>
   </data>
   <data name="PDF417_SEPAT_LABLE" xml:space="preserve">
     <value>Start- und Endemuster</value>
