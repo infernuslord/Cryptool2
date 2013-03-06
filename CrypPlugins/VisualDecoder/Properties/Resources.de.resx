@@ -127,7 +127,7 @@
     <value>Codeart:</value>
   </data>
   <data name="CodeTypeTooltip" xml:space="preserve">
-    <value>Wähle eine Codeart oder benutze die automatisch-erkennen-Funktion.</value>
+    <value>Wähle eine Codeart, oder benutze die Automatisch-Erkennen-Funktion.</value>
   </data>
   <data name="DimCodeLabel" xml:space="preserve">
     <value>Visueller Dekodierer</value>
@@ -145,10 +145,10 @@
     <value>Bild Eingang</value>
   </data>
   <data name="PictureInputTooltip" xml:space="preserve">
-    <value>Übergeben Sie ein Bild des visuellen Codes, welchen Sie möchten zu entschlüsseln.</value>
+    <value>Übergeben Sie ein Bild des visuellen Codes, den Sie entschlüsseln möchten.</value>
   </data>
   <data name="StopOnSuccessCaption" xml:space="preserve">
-    <value>Halte wenn Code gefunden</value>
+    <value>Anhalten, wenn Code gefunden</value>
   </data>
   <data name="StopOnSuccessCaptionTooltip" xml:space="preserve">
     <value>Die Komponente wird aufhören, wenn es erfolgreich einen visuellen Code entschlüsselt hat.</value>
@@ -157,6 +157,6 @@
     <value>Visueller Dekodierer</value>
   </data>
   <data name="VisualDecoderCaptionTooltip" xml:space="preserve">
-    <value>Diese Komponente dekodiert unterschiedliche ein- und zweidimensionale visuelle Codes.</value>
+    <value>Diese Komponente decodiert unterschiedliche ein- und zweidimensionale, visuelle Codes.</value>
   </data>
 </root>
