@@ -78,13 +78,9 @@ namespace Cryptool.Plugins.Keccak
 
         public void Execute()
         {
+            /* do not execute if checks in PreExecution() failed */
             if (!execute)
-            {
                 return;
-            }
-
-            /* check if presentation is enabled */
-            pres.runToEnd = settings.PresEnabled ? false : true;
 
             ProgressChanged(0, 1);
 
@@ -136,11 +132,6 @@ namespace Cryptool.Plugins.Keccak
 
             /* hash input */
             output = KeccakHashFunction.Hash(input, outputLength, rate, capacity, ref pres);
-
-            Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                //pres.label1.Content = "Keccak Done!";
-            }, null);
 
             /* write output */
             OutputStreamwriter.Write(output);
@@ -216,9 +207,9 @@ namespace Cryptool.Plugins.Keccak
         public void PostExecution()
         {
             execute = true;
-            //pres.runToEnd = false;
             pres.autostep = false;
-            pres.skip = false;
+            pres.skipStep = false;
+            pres.stopButtonClicked = false;
         }
 
         /// <summary>
@@ -228,7 +219,7 @@ namespace Cryptool.Plugins.Keccak
         public void Stop()
         {
             pres.buttonNextClickedEvent.Set();
-            pres.runToEnd = true;
+            pres.stopButtonClicked = true;
         }
 
         /// <summary>
@@ -237,7 +228,6 @@ namespace Cryptool.Plugins.Keccak
         public void Initialize()
         {
             settings.UpdateTaskPaneVisibility();
-            settings.PresEnabled = false;
         }
 
         /// <summary>
@@ -277,9 +267,3 @@ namespace Cryptool.Plugins.Keccak
         #endregion
     }
 }
-
-
-//Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-//{
-//    //pres.label1.Content = "Keccak Done!";
-//}, null);

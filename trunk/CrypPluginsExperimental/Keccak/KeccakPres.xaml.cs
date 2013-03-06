@@ -22,7 +22,7 @@ namespace Cryptool.Plugins.Keccak
     public partial class KeccakPres : UserControl
     {
         public AutoResetEvent buttonNextClickedEvent;
-        public bool skip, autostep, runToEnd;
+        public bool autostep, skipStep, stopButtonClicked;
         public int autostepSpeed;
 
         public KeccakPres()
@@ -32,8 +32,9 @@ namespace Cryptool.Plugins.Keccak
             this.Width = 800;
             this.Height = 500;
             buttonNextClickedEvent = new AutoResetEvent(false);
-            skip = false;
+            skipStep = false;
             autostep = false;
+            stopButtonClicked = false;
         }
 
         private void buttonNext_Click(object sender, RoutedEventArgs e)
@@ -52,17 +53,11 @@ namespace Cryptool.Plugins.Keccak
 
         private void buttonSkip_Click(object sender, RoutedEventArgs e)
         {
-            skip = true;
+            skipStep = true;
             if (!autostep)
             {
                 buttonNextClickedEvent.Set();
             }
-        }
-
-        private void buttonRunToEnd_Click(object sender, RoutedEventArgs e)
-        {
-            runToEnd = true;
-            buttonNextClickedEvent.Set();
         }
 
         private void autostepSpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
