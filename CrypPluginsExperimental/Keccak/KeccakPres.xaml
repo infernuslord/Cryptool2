@@ -10,8 +10,6 @@
         <Button Content="Next" Height="23" HorizontalAlignment="Left" Margin="418,423,0,0" Name="buttonNext" VerticalAlignment="Top" Width="75" Click="buttonNext_Click" />
         <Button Content="Next Step" Height="23" HorizontalAlignment="Left" Margin="605,423,0,0" Name="buttonSkip" VerticalAlignment="Top" Width="75" Click="buttonSkip_Click" />
         <Button Content="Toggle Autorun" Height="23" HorizontalAlignment="Right" Margin="0,423,201,0" Name="buttonAutostep" VerticalAlignment="Top" Width="100" Click="buttonAutostep_Click" />
-        <Button Content="Run to End" Height="23" HorizontalAlignment="Left" Margin="686,423,0,0" Name="buttonRunToEnd" VerticalAlignment="Top" Width="75" Click="buttonRunToEnd_Click" />
-        
         <Label Content="current step:" Height="28" Margin="177,12,547,0" Name="labelCurrentStepCaption" VerticalAlignment="Top" />
         <Label Content="" Height="28" HorizontalAlignment="Left" Margin="259,12,0,0" Name="labelCurrentStep" VerticalAlignment="Top" />
         <Label Content="Round:" Height="28" Margin="82,12,0,0" Name="labelRoundCaption" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" />

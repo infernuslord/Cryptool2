@@ -13,13 +13,7 @@ namespace Cryptool.Plugins.Keccak
 
         public static byte[] Hash(byte[] input, int outputLength, int rate, int capacity, ref KeccakPres pres)
         {
-            /* create sponge instance */
-            Sponge sponge = new Sponge(rate, capacity, ref pres);
-
-            /* map each bit of the input to a byte */
-            byte[] inputInBits = ByteArrayToBitArray(input);
-
-#if _DEBUG_
+            #if _DEBUG_
             Console.WriteLine("#Keccak: running Keccak with the following parameters:");
             Console.WriteLine(
                 "#Keccak: output length\t{0} bits\n" +
@@ -27,7 +21,13 @@ namespace Cryptool.Plugins.Keccak
                 "#Keccak: bit rate\t\t{2} bits\n" +
                 "#Keccak: capacity\t\t{3} bits\n\n"
                 , outputLength, rate + capacity, rate, capacity);
-#endif
+            #endif            
+
+            /* map each bit of the input to a byte */
+            byte[] inputInBits = ByteArrayToBitArray(input);
+
+            /* create sponge instance */
+            Sponge sponge = new Sponge(rate, capacity, ref pres);            
 
             /* absorb input */
             sponge.Absorb(inputInBits);
@@ -36,13 +36,13 @@ namespace Cryptool.Plugins.Keccak
             Debug.Assert(outputLength % 8 == 0);
             byte[] outputInBits = sponge.Squeeze(outputLength);
 
-            /* reverse mapping */
+            /* reverse 'bit to byte' mapping */
             byte[] output = BitArrayToByteArray(outputInBits);
 
-#if _DEBUG_
+            #if _DEBUG_
             Console.WriteLine("#Keccak: successfully hashed {0} input bits to {1} output bits!", inputInBits.Length, outputInBits.Length);
             Console.WriteLine("#Keccak: all work is done!");
-#endif
+            #endif
            
 
             return output;

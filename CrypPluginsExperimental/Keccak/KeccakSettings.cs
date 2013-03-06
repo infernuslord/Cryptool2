@@ -59,8 +59,6 @@ namespace Cryptool.Plugins.Keccak
 
         private enum stateSizeName { bits25, bits50, bits100, bits200, bits400, bits800, bits1600 };
         private stateSizeName selectedStateSize = stateSizeName.bits1600;
-        
-        private bool presEnabled = false;
 
         #endregion
 
@@ -116,21 +114,7 @@ namespace Cryptool.Plugins.Keccak
                     }
                 }
             }
-        }
-
-        [TaskPane("PresentationCaption", "PresentationTooltip", "PresentationGroupCaption", 0, false, ControlType.CheckBox)]
-        public bool PresEnabled
-        {
-            get { return this.presEnabled; }
-            set
-            {
-                if (presEnabled != value)
-                {
-                    presEnabled = value;
-                    OnPropertyChanged("PresEnabled");
-                }
-            }
-        }  
+        }        
 
         #region variable Task Pane settings
 
