@@ -109,7 +109,9 @@ namespace Cryptool.Plugins.VisualEncoder
             if (TaskPaneAttributeChanged == null)
                 return;
 
-            foreach (var tpac in inputList.Select(input => new TaskPaneAttribteContainer(input, (inputVisibility[EncodingType].Contains(input)) ? Visibility.Visible : Visibility.Collapsed)))
+            foreach (var tpac in inputList.Select(input =>
+                new TaskPaneAttribteContainer(input, (inputVisibility[EncodingType].Contains(input))
+                                                      ? Visibility.Visible : Visibility.Collapsed)))
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tpac));
             }

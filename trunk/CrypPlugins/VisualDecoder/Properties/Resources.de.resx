@@ -121,22 +121,22 @@
     <value>Automatisch Erkennen</value>
   </data>
   <data name="CodeTypeCaption" xml:space="preserve">
-    <value>Erwartete Kodeart</value>
+    <value>Erwartete Codeart</value>
   </data>
   <data name="CodeTypeLable" xml:space="preserve">
-    <value>Kodeart:</value>
+    <value>Codeart:</value>
   </data>
   <data name="CodeTypeTooltip" xml:space="preserve">
-    <value>Wähle eine Kodeart oder benutze die automatisch Erkennen Funktion.</value>
+    <value>Wähle eine Codeart oder benutze die automatisch-erkennen-Funktion.</value>
   </data>
   <data name="DimCodeLabel" xml:space="preserve">
     <value>Visueller Dekodierer</value>
   </data>
   <data name="OutputData" xml:space="preserve">
-    <value>Inhalt des Kodes</value>
+    <value>Inhalt des Codes</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Gibt den Inhalt des gegebenen Kodes aus.</value>
+    <value>Gibt den Inhalt des gegebenen Codes aus.</value>
   </data>
   <data name="PayloadLable" xml:space="preserve">
     <value>Inhalt:</value>
@@ -145,10 +145,10 @@
     <value>Bild Eingang</value>
   </data>
   <data name="PictureInputTooltip" xml:space="preserve">
-    <value>Übergeben Sie ein Bild des visuellen Kodes, welchen Sie möchten zu entschlüsseln.</value>
+    <value>Übergeben Sie ein Bild des visuellen Codes, welchen Sie möchten zu entschlüsseln.</value>
   </data>
   <data name="StopOnSuccessCaption" xml:space="preserve">
-    <value>Halte wenn Kode gefunden</value>
+    <value>Halte wenn Code gefunden</value>
   </data>
   <data name="StopOnSuccessCaptionTooltip" xml:space="preserve">
     <value>Die Komponente wird aufhören, wenn es erfolgreich einen visuellen Code entschlüsselt hat.</value>
@@ -157,6 +157,6 @@
     <value>Visueller Dekodierer</value>
   </data>
   <data name="VisualDecoderCaptionTooltip" xml:space="preserve">
-    <value>Diese Komponente dekodiert unterschiedliche Arten von Ein und Zweidimensionalen Barcodes.</value>
+    <value>Diese Komponente dekodiert unterschiedliche ein- und zweidimensionale visuelle Codes.</value>
   </data>
 </root>

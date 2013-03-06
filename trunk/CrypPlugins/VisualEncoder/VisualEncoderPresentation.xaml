@@ -17,7 +17,8 @@
         </Style>
     </UserControl.Resources>
     <Viewbox>
-        <StackPanel Name="panel" Width="365">
+        <StackPanel Name="panel" Width="365
+                    ">
             <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
                 <Grid Height="400">
                     <Grid.ColumnDefinitions>
@@ -61,9 +62,9 @@
                                 <TextBlock  Margin="5,230,0,0"  FontSize="10" Name="disc3" />
                                 </Canvas>
                             <Canvas Name="legend4" Visibility="Hidden">
-                                    <Label  Margin="20,310,0,0" Name="lable4" />
-                                    <Ellipse Height="10" Margin="5,317,0,0" Name="ellipse4" Width="10" />
-                                <TextBlock  Margin="5,330,0,0" Name="disc4"   FontSize="10"/>
+                                    <Label  Margin="20,290,0,0" Name="lable4" />
+                                    <Ellipse Height="10" Margin="5,297,0,0" Name="ellipse4" Width="10" />
+                                <TextBlock  Margin="5,310,0,0" Name="disc4"   FontSize="10"/>
                                 </Canvas>
                             </Canvas>
                     </Border>

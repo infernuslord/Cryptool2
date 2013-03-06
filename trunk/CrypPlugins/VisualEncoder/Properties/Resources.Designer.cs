@@ -70,7 +70,7 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Component will automaticly append a Checksum ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Component will automatically append a Checksum ähnelt.
         /// </summary>
         internal static string AppendICVCaptionTooltip {
             get {
@@ -107,8 +107,8 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There are three distinct start pattern 
-        ///that determine, in which way the
+        ///   Sucht eine lokalisierte Zeichenfolge, die There are three distinct start patterns 
+        ///that determine in which way the
         ///code was encoded. However, the 
         ///end pattern is always the same ähnelt.
         /// </summary>
@@ -237,7 +237,7 @@ namespace VisualEncoder.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
         ///In fact, the reader needs to know when 
-        ///its at the middle of the code,  because
+        ///it’s at the middle of the code,  because
         ///the encoding changes at that point ähnelt.
         /// </summary>
         internal static string EAN13_FIXED_DISC {
@@ -247,7 +247,7 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fixed reference point ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fixed Reference Point ähnelt.
         /// </summary>
         internal static string EAN13_FIXED_LABLE {
             get {
@@ -280,7 +280,7 @@ namespace VisualEncoder.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
         ///In fact, the reader needs to know when 
-        ///its at the middle of the code,  because
+        ///it’s at the middle of the code,  because
         ///the encoding changes at that point ähnelt.
         /// </summary>
         internal static string EAN8_FIXED_DISC {
@@ -443,7 +443,10 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Here among others, is the Error Correction
+        ///Level determined. This indicates what 
+        ///percentage of the code (7% - 30%) can be
+        ///recovered in case of damage ähnelt.
         /// </summary>
         internal static string QR_FORMAT_DISC {
             get {
@@ -464,7 +467,7 @@ namespace VisualEncoder.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die In this area, the data is shown  
         ///redundant, so that it can be read 
         ///reliably even if  pieces of code  
-        ///are covered ähnelt.
+        ///are covered or damaged. ähnelt.
         /// </summary>
         internal static string QR_NORMAL_DISC {
             get {
@@ -482,7 +485,8 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die   ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The version specifies one of 40 pre-
+        ///defined sizes for the QR code. ähnelt.
         /// </summary>
         internal static string QR_VERSION_DISC {
             get {

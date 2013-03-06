@@ -121,7 +121,7 @@
     <value>Kamera</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>Die Komponente fängt das Bild der Webcam ab und sendet dieses als Bitarray weiter.</value>
+    <value>Diese Komponente ermöglicht es Bilder mit einer angeschlossenen Kamera zu machen.</value>
   </data>
   <data name="DeviceChoice" xml:space="preserve">
     <value>Geräteauswahl</value>
@@ -130,10 +130,10 @@
     <value>Zeigt die angeschlossenen Geräte an.</value>
   </data>
   <data name="PictureOutPut" xml:space="preserve">
-    <value>Picture Out Put</value>
+    <value>Bild Ausgang</value>
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
-    <value>Sendet die Bilddatei als Byte Array</value>
+    <value>Hier wird das aktuelle Kamerabild ausgegeben.</value>
   </data>
   <data name="PictureQuality" xml:space="preserve">
     <value>Bildqualität</value>
@@ -145,22 +145,22 @@
     <value>Abtastrate</value>
   </data>
   <data name="SendPictureToolTip" xml:space="preserve">
-    <value>Bestimmt die Zeitspanne in Millisekunden in denen die Bilddatei aus dem Ausgang geschickt wird.</value>
+    <value>Bestimmt die Zeitspanne in Millisekunden in der das Kamerabild zum Bild Ausgang geschickt wird.</value>
   </data>
   <data name="SingleOutPut" xml:space="preserve">
-    <value>Single Out Put</value>
+    <value>Einzelbild Ausgang</value>
   </data>
   <data name="SingleOutPutToolTip" xml:space="preserve">
     <value>Gibt ein einzelnes Bild aus</value>
   </data>
   <data name="TakePicture" xml:space="preserve">
-    <value>Take Picture</value>
+    <value>Einzelbild aufnehmen.</value>
   </data>
   <data name="TakePictureToolTip" xml:space="preserve">
-    <value>Nimmt einen Boolschen Wert entgegen und nimmt das momentane Bild auf</value>
+    <value>Nimmt einen Boolschen Wert entgegen und gibt das momentane Bild am Einzelbild Ausgang aus. Siehe "Aktion für Bild</value>
   </data>
   <data name="TakePictureChoice" xml:space="preserve">
-    <value>Aktion für Bildaufnahme</value>
+    <value>Aktion für einzel Bildaufnahme</value>
   </data>
   <data name="TakePictureChoiceToolTip" xml:space="preserve">
     <value>Stellt ein auf welchem boolschen Wert das Bild aufgenommen werden soll</value>
