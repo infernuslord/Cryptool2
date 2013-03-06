@@ -121,7 +121,7 @@
     <value>Camera</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>The component captures the picture of the webcam and returns it as an Bitarray</value>
+    <value>This component captures pictures from a webcam.</value>
   </data>
   <data name="DeviceChoice" xml:space="preserve">
     <value>Frame Rate</value>
@@ -130,7 +130,7 @@
     <value>Sets the time in milliseconds in which the camera captures images</value>
   </data>
   <data name="PictureOutPut" xml:space="preserve">
-    <value>Picture Out Put</value>
+    <value>Picture Output</value>
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
     <value>Sends the image file as a byte array</value>
@@ -151,12 +151,18 @@
     <value>Take Picture</value>
   </data>
   <data name="TakePictureChoice" xml:space="preserve">
-    <value>Action for taking Pictures</value>
+    <value>Action for "Take Picture" Input</value>
   </data>
   <data name="TakePictureChoiceToolTip" xml:space="preserve">
     <value>Represents a boolean value on which the image is to be recorded</value>
   </data>
   <data name="TakePictureToolTip" xml:space="preserve">
-    <value>Takes the boolean value and takes a picture</value>
+    <value>Capture the current camera picture and send it to the single</value>
+  </data>
+  <data name="SingleOutPut" xml:space="preserve">
+    <value>Single Picture Output</value>
+  </data>
+  <data name="SingleOutPutToolTip" xml:space="preserve">
+    <value>Outputs a single Picture.</value>
   </data>
 </root>

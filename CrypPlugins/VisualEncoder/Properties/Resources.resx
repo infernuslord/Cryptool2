@@ -121,7 +121,7 @@
     <value>Append Checksum</value>
   </data>
   <data name="AppendICVCaptionTooltip" xml:space="preserve">
-    <value>The Component will automaticly append a Checksum</value>
+    <value>The Component will automatically append a Checksum</value>
   </data>
   <data name="BarcodeSection" xml:space="preserve">
     <value>properties of barcode</value>
@@ -134,8 +134,8 @@ sum (modulo 103) of all the characters.</value>
     <value>Integrity Check Value</value>
   </data>
   <data name="C128_STARTEND_DISC" xml:space="preserve">
-    <value>There are three distinct start pattern 
-that determine, in which way the
+    <value>There are three distinct start patterns 
+that determine in which way the
 code was encoded. However, the 
 end pattern is always the same</value>
   </data>
@@ -186,11 +186,11 @@ find the different data column in the code.</value>
     <value>The fixed Bars are mainly orientations
 points for the reader. 
 In fact, the reader needs to know when 
-its at the middle of the code,  because
+it’s at the middle of the code,  because
 the encoding changes at that point</value>
   </data>
   <data name="EAN13_FIXED_LABLE" xml:space="preserve">
-    <value>Fixed reference point</value>
+    <value>Fixed Reference Point</value>
   </data>
   <data name="EAN13_ICV_DISC" xml:space="preserve">
     <value>The checksum is calculated taking a 
@@ -205,7 +205,7 @@ make a sum (modulo 10).</value>
     <value>The fixed Bars are mainly orientations
 points for the reader. 
 In fact, the reader needs to know when 
-its at the middle of the code,  because
+it’s at the middle of the code,  because
 the encoding changes at that point</value>
   </data>
   <data name="EAN8_FIXED_LABLE" xml:space="preserve">
@@ -269,13 +269,17 @@ backwards.</value>
     <value>Start and End Pattern</value>
   </data>
   <data name="QR_FORMAT_DISC" xml:space="preserve">
-    <value> </value>
+    <value>Here among others, is the Error Correction
+Level determined. This indicates what 
+percentage of the code (7% - 30%) can be
+recovered in case of damage</value>
   </data>
   <data name="QR_FORMAT_LABLE" xml:space="preserve">
     <value>Format Informations</value>
   </data>
   <data name="QR_VERSION_DISC" xml:space="preserve">
-    <value> </value>
+    <value>The version specifies one of 40 pre-
+defined sizes for the QR code.</value>
   </data>
   <data name="QR_VERSION_LABLE" xml:space="preserve">
     <value>Version Informations</value>
@@ -284,7 +288,7 @@ backwards.</value>
     <value>In this area, the data is shown  
 redundant, so that it can be read 
 reliably even if  pieces of code  
-are covered</value>
+are covered or damaged.</value>
   </data>
   <data name="QR_NORMAL_LABLE" xml:space="preserve">
     <value>Data</value>

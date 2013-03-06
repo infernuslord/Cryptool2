@@ -178,7 +178,7 @@ namespace VisualDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This component decodes various types of one and two dimensional codes. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This component decodes various types of one and two dimensional  visual codes. ähnelt.
         /// </summary>
         internal static string VisualDecoderCaptionTooltip {
             get {

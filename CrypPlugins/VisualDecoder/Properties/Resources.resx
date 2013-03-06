@@ -157,6 +157,6 @@
     <value>Visual Decoder</value>
   </data>
   <data name="VisualDecoderCaptionTooltip" xml:space="preserve">
-    <value>This component decodes various types of one and two dimensional codes.</value>
+    <value>This component decodes various types of one and two dimensional  visual codes.</value>
   </data>
 </root>
