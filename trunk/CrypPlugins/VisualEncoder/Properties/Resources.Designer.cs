@@ -70,7 +70,7 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Component will automatically append a Checksum ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Component will automatically append a checksum. ähnelt.
         /// </summary>
         internal static string AppendICVCaptionTooltip {
             get {
@@ -110,7 +110,7 @@ namespace VisualEncoder.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die There are three distinct start patterns 
         ///that determine in which way the
         ///code was encoded. However, the 
-        ///end pattern is always the same ähnelt.
+        ///end pattern is always the same. ähnelt.
         /// </summary>
         internal static string C128_STARTEND_DISC {
             get {
@@ -236,9 +236,8 @@ namespace VisualEncoder.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
-        ///In fact, the reader needs to know when 
-        ///it’s at the middle of the code,  because
-        ///the encoding changes at that point ähnelt.
+        ///They are necessary, because the
+        ///encoding changes at these points. ähnelt.
         /// </summary>
         internal static string EAN13_FIXED_DISC {
             get {
@@ -279,9 +278,8 @@ namespace VisualEncoder.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The fixed Bars are mainly orientations
         ///points for the reader. 
-        ///In fact, the reader needs to know when 
-        ///it’s at the middle of the code,  because
-        ///the encoding changes at that point ähnelt.
+        ///They are necessary, because the
+        ///encoding changes at these points. ähnelt.
         /// </summary>
         internal static string EAN8_FIXED_DISC {
             get {
@@ -443,10 +441,10 @@ namespace VisualEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Here among others, is the Error Correction
-        ///Level determined. This indicates what 
+        ///   Sucht eine lokalisierte Zeichenfolge, die Here among others, the Error Correction
+        ///Level is determined. This indicates what 
         ///percentage of the code (7% - 30%) can be
-        ///recovered in case of damage ähnelt.
+        ///recovered in case of damage. ähnelt.
         /// </summary>
         internal static string QR_FORMAT_DISC {
             get {

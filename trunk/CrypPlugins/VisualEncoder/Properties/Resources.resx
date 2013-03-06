@@ -121,7 +121,7 @@
     <value>Append Checksum</value>
   </data>
   <data name="AppendICVCaptionTooltip" xml:space="preserve">
-    <value>The Component will automatically append a Checksum</value>
+    <value>The Component will automatically append a checksum.</value>
   </data>
   <data name="BarcodeSection" xml:space="preserve">
     <value>properties of barcode</value>
@@ -137,7 +137,7 @@ sum (modulo 103) of all the characters.</value>
     <value>There are three distinct start patterns 
 that determine in which way the
 code was encoded. However, the 
-end pattern is always the same</value>
+end pattern is always the same.</value>
   </data>
   <data name="C128_STARTEND_LABLE" xml:space="preserve">
     <value>Start and End Pattern</value>
@@ -185,9 +185,8 @@ find the different data column in the code.</value>
   <data name="EAN13_FIXED_DISC" xml:space="preserve">
     <value>The fixed Bars are mainly orientations
 points for the reader. 
-In fact, the reader needs to know when 
-it’s at the middle of the code,  because
-the encoding changes at that point</value>
+They are necessary, because the
+encoding changes at these points.</value>
   </data>
   <data name="EAN13_FIXED_LABLE" xml:space="preserve">
     <value>Fixed Reference Point</value>
@@ -204,9 +203,8 @@ make a sum (modulo 10).</value>
   <data name="EAN8_FIXED_DISC" xml:space="preserve">
     <value>The fixed Bars are mainly orientations
 points for the reader. 
-In fact, the reader needs to know when 
-it’s at the middle of the code,  because
-the encoding changes at that point</value>
+They are necessary, because the
+encoding changes at these points.</value>
   </data>
   <data name="EAN8_FIXED_LABLE" xml:space="preserve">
     <value>Fixed Reference Point</value>
@@ -269,10 +267,10 @@ backwards.</value>
     <value>Start and End Pattern</value>
   </data>
   <data name="QR_FORMAT_DISC" xml:space="preserve">
-    <value>Here among others, is the Error Correction
-Level determined. This indicates what 
+    <value>Here among others, the Error Correction
+Level is determined. This indicates what 
 percentage of the code (7% - 30%) can be
-recovered in case of damage</value>
+recovered in case of damage.</value>
   </data>
   <data name="QR_FORMAT_LABLE" xml:space="preserve">
     <value>Format Informations</value>
