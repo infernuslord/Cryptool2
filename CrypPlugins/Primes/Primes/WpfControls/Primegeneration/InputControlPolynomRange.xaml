@@ -27,12 +27,12 @@
                             <comps:InputSingleControl x:Name="icNumberOfCalculations" Execute="InputSingleControl_Execute" InputRangeControlType="Vertical" ShowButtons="False" Title="" ShowCalcInput="False" HorizontalAlignment="Left" FreeTextboxWidth="50" />
                         </DockPanel>
                         <RadioButton Name="rbChooseRange" Click="rbChoose_Click" Margin="0,0,0,7" Content="{x:Static lang:PrimesGeneration.polynom_values}"></RadioButton>
-                        <comps:InputRangeControl InputRangeControlType="Vertical" x:Name="ircRandomChooseXRange" ShowButtons="False" Title="" Execute="InputRangeControl_Execute" ShowCalcInput="False" IsEnabled="False" />
+                        <comps:InputRangeControl SecondParameterPresent="False" InputRangeControlType="Vertical" x:Name="ircRandomChooseXRange" ShowButtons="False" Title="" Execute="InputRangeControl_Execute" ShowCalcInput="False" IsEnabled="False" />
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
             <GroupBox Name="pnlSystematic" Header="{x:Static lang:PrimesGeneration.polynom_values}">
-                <comps:InputRangeControl InputRangeControlType="Vertical" x:Name="ircSystematicChooseXRange" Execute="InputRangeControl_Execute" ShowButtons="False" Title="" ShowCalcInput="False" />
+                <comps:InputRangeControl SecondParameterPresent="False" InputRangeControlType="Vertical" x:Name="ircSystematicChooseXRange" Execute="InputRangeControl_Execute" ShowButtons="False" Title="" ShowCalcInput="False" />
             </GroupBox>
             <DockPanel Name="pnlButtons" Margin="0,7,0,0">
                 <Button Name="btnExecute" Click="btnExecute_Click" Content="{x:Static lang:PrimesGeneration.polynomrange_btnExecute}" HorizontalAlignment="Left" Width="100" />

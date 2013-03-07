@@ -4,7 +4,6 @@
     xmlns:numberline="clr-namespace:Primes.WpfControls.PrimesDistribution.Numberline"
     xmlns:numberrect="clr-namespace:Primes.WpfControls.PrimesDistribution.NumberRectangle"
     xmlns:ulam="clr-namespace:Primes.WpfControls.PrimesDistribution.Spirals"
-    xmlns:goldbach="clr-namespace:Primes.WpfControls.PrimesDistribution.Goldbach"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components"
     xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
     xmlns:graph="clr-namespace:Primes.WpfControls.PrimesDistribution.Graph"
@@ -18,7 +17,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel>
+    <DockPanel Margin="10">
         <TabControl Grid.Row="1" Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="tbctrl_SelectionChanged">
             <comps:HelpTabItem x:Name="tabItemNumberline" Header="{x:Static lang:Distribution.tabitemnumberline}" HelpButtonClick="tabitem_HelpButtonClick">
                 <numberline:NumberlineControl x:Name="numberlinectrl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -32,9 +31,9 @@
             <comps:HelpTabItem x:Name="tabItemUlam" Header="{x:Static lang:Distribution.tabitemulam}" HelpButtonClick="tabitem_HelpButtonClick">
                 <ulam:PrimesprialControl x:Name="spiralCtrl" />
             </comps:HelpTabItem>
-            <comps:HelpTabItem x:Name="tabItemGoldbach" Header="{x:Static lang:Distribution.tabitemgoldbach}" HelpButtonClick="tabitem_HelpButtonClick">
+            <!--<comps:HelpTabItem x:Name="tabItemGoldbach" Header="{x:Static lang:Distribution.tabitemgoldbach}" HelpButtonClick="tabitem_HelpButtonClick">
                 <goldbach:GoldbachControl x:Name="goldbachCtrl" />
-            </comps:HelpTabItem>
+            </comps:HelpTabItem>-->
         </TabControl>
     </DockPanel>
 

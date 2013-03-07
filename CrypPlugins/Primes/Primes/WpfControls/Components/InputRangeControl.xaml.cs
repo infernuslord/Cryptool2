@@ -68,11 +68,13 @@ namespace Primes.WpfControls.Components
         public InputRangeControl()
         {
             InitializeComponent();
+
             m_Validators = new Dictionary<string, InputValidator<PrimesBigInteger>>();
             m_ValueValidators = new Dictionary<string, IValidator<PrimesBigInteger>>();
             m_SingleAdvisors = new Dictionary<string, IList<IValidator<PrimesBigInteger>>>();
             m_SingleAdvisors.Add(From, new List<IValidator<PrimesBigInteger>>());
             m_SingleAdvisors.Add(To, new List<IValidator<PrimesBigInteger>>());
+            SecondParameterPresent = false;
         }
 
         #region Components

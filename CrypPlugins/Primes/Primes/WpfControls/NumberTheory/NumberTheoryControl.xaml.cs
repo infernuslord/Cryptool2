@@ -75,6 +75,10 @@ namespace Primes.WpfControls.NumberTheory
             {
                 OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
             }
+            else if (sender == tabItemGoldbach)
+            {
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Goldbach);
+            }
         }
     }
 }

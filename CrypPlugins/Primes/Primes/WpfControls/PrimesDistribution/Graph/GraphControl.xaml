@@ -13,7 +13,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -23,15 +23,14 @@
 
         <comps:InputRangeControl x:Name="ircCountPrimes" InputRangeControlType="Horizontal" Grid.Row="0" Title="" SecondParameterPresent="false" />
 
-        <GroupBox Header="{x:Static lang:Distribution.graph_groupboxheader}" Name="gbFunctions" Grid.Row="1" Margin="0,20,0,0">
+        <GroupBox Header="{x:Static lang:Distribution.graph_groupboxheader}" Name="gbFunctions" Grid.Row="1" Margin="0,15,0,0">
             <StackPanel>
                 <CheckBox Name="cbDontPaint" IsChecked="False" Margin="3,3,3,3" VerticalAlignment="Center" Click="cbDontPaint_Click" Visibility="Collapsed">Nicht zeichnen</CheckBox>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="115" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-
-                    <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible">
+                    <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Grid Name="pnlFunctions">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -47,12 +46,11 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Line X1="0" X2="10" Y1="14" Y2="14" Stroke="Blue" StrokeThickness="3" Grid.Row="0" Grid.Column="0" />
+                            <Line X1="0" X2="10" Y1="0" Y2="0" Stroke="Blue" StrokeThickness="3" VerticalAlignment="Center" />
                             <CheckBox Name="cbPiGauss" IsChecked="True" Margin="3,3,3,3" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Content="{x:Static lang:Distribution.graph_gaussname}"></CheckBox>
                             <Button Name="btnStopPiGauss" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="2" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
                             <Button Name="btnResumePiGauss" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="0" Grid.Column="3" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
                             <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Grid.Row="0" Grid.Column="4" Name="btnHelpPiGauss" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
-
                             <DockPanel Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="10,0,0,0" Name="dpGauss">
                                 <DockPanel.ContextMenu>
                                     <ContextMenu Opened="ctxMenu_Opened" Closed="ctxMenu_Closed" Name="ctxMenuDpGauss">
@@ -62,13 +60,11 @@
                                 <TextBlock Name="lblCalcInfoPiGauss" Visibility="Collapsed" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" Text="{x:Static lang:Distribution.graph_gausscountinfo}"></TextBlock>
                                 <TextBlock Name="tbInfoGaußPrimeTheorem" Margin="3,0,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" />
                             </DockPanel>
-
-                            <Line X1="0" X2="10" Y1="10" Y2="10" Stroke="Green" StrokeThickness="3" Grid.Row="1" Grid.Column="0" />
-                            <CheckBox Name="cbLin" IsChecked="True" Margin="3,3,3,3" Grid.Row="1" Grid.Column="1" Content="{x:Static lang:Distribution.graph_linname}"></CheckBox>
+                            <Line X1="0" X2="10" Y1="0" Y2="0" Stroke="Green" StrokeThickness="3" Grid.Row="1" VerticalAlignment="Center" />
+                            <CheckBox Name="cbLin" IsChecked="True" Margin="3,3,3,3" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Content="{x:Static lang:Distribution.graph_linname}"></CheckBox>
                             <Button Name="btnStopLin" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="1" Grid.Column="2" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
                             <Button Name="btnResumeLin" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="1" Grid.Column="3" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
                             <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Name="btnHelpLiN" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
-
                             <DockPanel Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="10,0,0,0" Name="dpLin">
                                 <DockPanel.ContextMenu>
                                     <ContextMenu Opened="ctxMenu_Opened" Closed="ctxMenu_Closed" Name="ctxMenuDpLin">
@@ -76,48 +72,28 @@
                                     </ContextMenu>
                                 </DockPanel.ContextMenu>
                                 <TextBlock Name="lblCalcInfoLiN" Visibility="Collapsed" Text="{x:Static lang:Distribution.graph_lincountinfo}" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave">
+
                                 </TextBlock>
                                 <TextBlock Name="tbInfoLin" Margin="3,0,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" />
                             </DockPanel>
-
-                            <Line X1="0" X2="10" Y1="10" Y2="10" Stroke="Red" StrokeThickness="3" Grid.Row="2" Grid.Column="0" />
-                            <CheckBox Name="cbPiX" IsChecked="True" Margin="3,3,3,3" Grid.Row="2" Grid.Column="1" Content="{x:Static lang:Distribution.graph_pinname}"></CheckBox>
-                            <Button Name="btnStopPix" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Top" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
-                            <Button Name="btnResumePix" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="2" Grid.Column="3" VerticalAlignment="Top" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
-                            <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Grid.Row="2" Grid.Column="4" Name="btnHelpPiX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,6,0,0" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
-
+                            <Line X1="0" X2="10" Y1="0" Y2="0" Stroke="Red" StrokeThickness="3" Grid.Row="2" VerticalAlignment="Center" />
+                            <CheckBox Name="cbPiX" IsChecked="True" Margin="3,3,3,3" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Content="{x:Static lang:Distribution.graph_pinname}"></CheckBox>
+                            <Button Name="btnStopPix" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Content="{x:Static lang:Distribution.graph_btnStop}"></Button>
+                            <Button Name="btnResumePix" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Content="{x:Static lang:Distribution.graph_btnResume}"></Button>
+                            <Image Cursor="Hand" Source="../../../Resources/icons/help.png" Width="16" Height="16" Grid.Row="2" Grid.Column="4" Name="btnHelpPiX" HorizontalAlignment="Left" VerticalAlignment="Center" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
                             <DockPanel Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" Margin="10,0,0,0" Name="dpPiX">
                                 <DockPanel.ContextMenu>
                                     <ContextMenu Opened="ctxMenu_Opened" Closed="ctxMenu_Closed" Name="ctxMenuDpPiX">
                                         <MenuItem Header="{x:Static lang:Distribution.graph_contextmenucopy}" Name="miCopyPix" Click="miCopy_Click" />
                                     </ContextMenu>
                                 </DockPanel.ContextMenu>
-                                <TextBlock Name="lblCalcInfoPiX" Visibility="Collapsed" Margin="0,6,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" Text="{x:Static lang:Distribution.graph_pincountinfo}"></TextBlock>
-                                <TextBlock Name="tbInfoPiX" Margin="3,6,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" />
+                                <TextBlock Name="lblCalcInfoPiX" Visibility="Collapsed" Margin="0,0,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" Text="{x:Static lang:Distribution.graph_pincountinfo}"></TextBlock>
+                                <TextBlock Name="tbInfoPiX" Margin="3,0,0,0" MouseEnter="lblInfo_MouseEnter" MouseLeave="lblInfo_MouseLeave" />
                             </DockPanel>
-
                             <TextBlock Name="lblInfoPixDontCalc" Grid.Row="2" Grid.Column="6" Foreground="Red" TextWrapping="Wrap" Visibility="Hidden" Margin="10,0,0,0" MinWidth="100" MaxWidth="400" HorizontalAlignment="Left" Text="{x:Static lang:Distribution.graph_pinlimitinfo}"></TextBlock>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
-                <!--<DockPanel HorizontalAlignment="Left" Name="dpLiN">
-          <Line X1="0" X2="10" Y1="10" Y2="10" Stroke="Green" StrokeThickness="3" />
-
-          <CheckBox Name="cbLin" IsChecked="True" Margin="3,3,3,3">Das logarithmische Integral</CheckBox>
-          <Button Name="btnStopLin" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3">Stop</Button>
-          <Button Name="btnResumeLin" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3">Weiter</Button>
-          <Image Cursor="Hand" Source="/Primes.Resources;component/icons/help.png" Width="16" Height="16" Name="btnHelpLiN" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
-          <TextBlock Name="tbInfoLin" />
-        </DockPanel>
-        <DockPanel HorizontalAlignment="Left" Name="dpPix">
-          <Line X1="0" X2="10" Y1="10" Y2="10" Stroke="Red" StrokeThickness="3" />
-          <CheckBox Name="cbPiX" IsChecked="True" Margin="3,3,3,3">Exakte Treppenfunktion π(x)</CheckBox>
-          <Button Name="btnStopPix" IsEnabled="False" Click="StopFunctionClick" Margin="3,3,3,3">Stop</Button>
-          <Button Name="btnResumePix" IsEnabled="False" Click="ResumeFunctionClick" Margin="3,3,3,3">Weiter</Button>
-          <Image Cursor="Hand" Source="/Primes.Resources;component/icons/help.png" Width="16" Height="16" Name="btnHelpPiX" HorizontalAlignment="Left" MouseLeftButtonDown="btnHelpFunctionTypeClick" />
-          <TextBlock Name="tbInfoPiX" />
-
-        </DockPanel>-->
             </StackPanel>
         </GroupBox>
         <Grid Grid.Row="2">
@@ -134,7 +110,6 @@
                 </Viewbox>
             </ScrollViewer>
         </Grid>
-
         <Slider Name="sliderTest" Minimum="1" Maximum="5" Grid.Row="3" Value="1" />
     </Grid>
 

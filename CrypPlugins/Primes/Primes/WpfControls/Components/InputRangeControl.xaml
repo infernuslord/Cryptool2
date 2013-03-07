@@ -4,7 +4,7 @@
     xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Components"
     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-    <GroupBox Name="gbTitle" Header="" BorderBrush="Transparent" Padding="5" BorderThickness="1">
+    <GroupBox Name="gbTitle" Header="" BorderBrush="Transparent" Margin="0" Padding="0" BorderThickness="1">
 
         <StackPanel Name="pnlParent">
 

@@ -13,16 +13,20 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="10">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="350" />
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <comps:LogControl Grid.Column="0" Grid.RowSpan="2" Grid.Row="0" x:Name="log" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
         <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="pnl" Margin="0,0,0,20">
             <Border BorderBrush="Gray" BorderThickness="1.0" HorizontalAlignment="Stretch" Background="WhiteSmoke" Height="30" Margin="0,0,0,7">
                 <DockPanel>
@@ -84,7 +88,6 @@
             <StackPanel Name="pnlInput">
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 
 </UserControl>

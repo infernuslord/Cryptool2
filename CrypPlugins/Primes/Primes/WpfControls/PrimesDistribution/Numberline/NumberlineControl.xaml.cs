@@ -637,10 +637,10 @@ namespace Primes.WpfControls.PrimesDistribution.Numberline
 
             PrimesBigInteger twin1 = PrimesBigInteger.Min(value, twin);
 
-            if (twin1.Add(PrimesBigInteger.Six).IsTwinPrime(ref twin))
+            if ((twin1+6).IsTwinPrime(ref twin))
                 first = twin1;
-            else if (twin1.Subtract(PrimesBigInteger.Six).IsTwinPrime(ref twin))
-                first = twin1.Subtract(PrimesBigInteger.Six);
+            else if (twin1>6 && (twin1-6).IsTwinPrime(ref twin))
+                first = twin1 - 6;
             else
                 return false;
 

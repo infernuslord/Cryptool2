@@ -5,7 +5,8 @@
     xmlns:ntfunctions="clr-namespace:Primes.WpfControls.NumberTheory.NumberTheoryFunctions"
     xmlns:proots="clr-namespace:Primes.WpfControls.NumberTheory.PrimitivRoots"
     xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
-    xmlns:comps="clr-namespace:Primes.WpfControls.Components">
+    xmlns:comps="clr-namespace:Primes.WpfControls.Components"
+    xmlns:goldbach="clr-namespace:Primes.WpfControls.NumberTheory.Goldbach">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -15,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <TabControl Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_power}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPower" HelpButtonClick="TabItem_HelpButtonClick">
                 <power:PowerModControl x:Name="power" />
@@ -25,6 +26,9 @@
             </comps:HelpTabItem>
             <comps:HelpTabItem Header="{x:Static lang:Numbertheory.tabitemheader_proots}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemPRoots" HelpButtonClick="TabItem_HelpButtonClick">
                 <proots:PrimitivRootControl x:Name="proots" />
+            </comps:HelpTabItem>
+            <comps:HelpTabItem  Header="{x:Static lang:Numbertheory.tabitemheader_goldbach}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemGoldbach" HelpButtonClick="TabItem_HelpButtonClick">
+                <goldbach:GoldbachControl x:Name="goldbachCtrl" />
             </comps:HelpTabItem>
         </TabControl>
     </Grid>

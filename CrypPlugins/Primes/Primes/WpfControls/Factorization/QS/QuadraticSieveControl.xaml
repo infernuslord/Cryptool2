@@ -11,12 +11,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="0">
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" Name="cdStep1" />
@@ -37,7 +37,7 @@
                                     <RowDefinition Height="100" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Name="lblInfoStep1" Grid.Row="0"></TextBlock>
-                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                     <Grid Name="gridFirstStep" Margin="5">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -61,7 +61,7 @@
                                 <RowDefinition Height="100" />
                             </Grid.RowDefinitions>
                             <TextBlock Name="lblInfoStep2" Grid.Row="0"></TextBlock>
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                 <Grid Name="gridSecondStep" Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -85,7 +85,7 @@
                                 <RowDefinition Height="100" />
                             </Grid.RowDefinitions>
                             <TextBlock Name="lblInfoStep3" Grid.Row="0"></TextBlock>
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                 <Grid Name="gridThirdStep" Margin="5" ShowGridLines="False">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -106,7 +106,7 @@
                                 <RowDefinition Height="100" />
                             </Grid.RowDefinitions>
                             <TextBlock Name="lblInfoStep4" Grid.Row="0"></TextBlock>
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                 <StackPanel>
                                     <Grid Name="gridFourthStep" Margin="5" ShowGridLines="False">
                                         <Grid.ColumnDefinitions>
@@ -120,6 +120,7 @@
                         </Grid>
                     </Expander>
                 </StackPanel>
+
             </Grid>
         </ScrollViewer>
     </Grid>

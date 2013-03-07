@@ -95,33 +95,39 @@ namespace Primes.WpfControls.PrimesDistribution.Graph
 
         private void ScaleFunction()
         {
-            if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0)
+            try
             {
-
-                double xSize = (this.Width - paddingleft) / RangeX.RangeAmount.DoubleValue;
-                double ySize = (this.Height - paddingbottom) / RangeY.RangeAmount.DoubleValue;
-
-                foreach (UIElement element in this.PaintArea.Children)
+                if (!double.IsNaN(this.Width) && !double.IsNaN(this.Height) && RangeX != null && RangeY != null && RangeX.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0 && RangeY.RangeAmount.CompareTo(PrimesBigInteger.Zero) > 0)
                 {
-                    if (element.GetType() == typeof(Line))
-                    {
-                        if (element != Abscissa && element != Ordinate)
-                        {
-                            Line line = element as Line;
-                            double x1 = (line.X1 - paddingleft) / m_UnitSizeX;
-                            double x2 = (line.X2 - paddingleft) / m_UnitSizeX;
-                            double y1 = (line.Y1) / m_UnitSizeY;
-                            double y2 = (line.Y2) / m_UnitSizeY;
 
-                            line.X1 = (x1 * xSize) + paddingleft;
-                            line.X2 = (x2 * xSize) + paddingleft;
-                            line.Y1 = (y1 * ySize);
-                            line.Y2 = (y2 * ySize);
-                            //if (l.Y1 > Ordinate.Y2) l.Y1 = Ordinate.Y2;
-                            //if (l.Y2 > Ordinate.Y2) l.Y2 = Ordinate.Y2;
+                    double xSize = (this.Width - paddingleft) / RangeX.RangeAmount.DoubleValue;
+                    double ySize = (this.Height - paddingbottom) / RangeY.RangeAmount.DoubleValue;
+
+                    foreach (UIElement element in this.PaintArea.Children)
+                    {
+                        if (element.GetType() == typeof(Line))
+                        {
+                            if (element != Abscissa && element != Ordinate)
+                            {
+                                Line line = element as Line;
+                                double x1 = (line.X1 - paddingleft) / m_UnitSizeX;
+                                double x2 = (line.X2 - paddingleft) / m_UnitSizeX;
+                                double y1 = (line.Y1) / m_UnitSizeY;
+                                double y2 = (line.Y2) / m_UnitSizeY;
+
+                                line.X1 = (x1 * xSize) + paddingleft;
+                                line.X2 = (x2 * xSize) + paddingleft;
+                                line.Y1 = (y1 * ySize);
+                                line.Y2 = (y2 * ySize);
+                                //if (l.Y1 > Ordinate.Y2) l.Y1 = Ordinate.Y2;
+                                //if (l.Y2 > Ordinate.Y2) l.Y2 = Ordinate.Y2;
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
             }
         }
 

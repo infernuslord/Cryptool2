@@ -20,54 +20,63 @@
     <DockPanel>
         <Grid Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MaxHeight="{Binding ElementName=ParameterRow, Path=ActualHeight}" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="100*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <GroupBox Grid.Row="0" Margin="5" Header="{x:Static lang:Factorization.fac_groupboxheader}">
-                <comps:InputSingleControl
+            <Grid Grid.Row="0" Name="ParameterRow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Margin="0" Header="{x:Static lang:Factorization.fac_groupboxheader}">
+                    <comps:InputSingleControl
+                    Margin="7,7,7,7"
                     x:Name="inputnumbermanager"
                     InputRangeControlType="Vertical"
                     FreeTextboxWidth="300"
                     ShowGenerateRandomNumber="True"
                     GenerateRandomNumberTitle="{x:Static lang:Factorization.fac_generaternd}"
-                    BorderBrush="Black"
-                    />
-            </GroupBox>
+                    BorderBrush="Black" />
+                </GroupBox>
 
-            <GroupBox Header="{x:Static lang:Factorization.fac_result}" Name="gbFactorizationInfo" Grid.Row="1">
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Name="pnInfo" Orientation="Horizontal" MouseLeave="pnInfo_MouseLeave" Height="30">
-                        <DockPanel MouseEnter="DockPanelFactors_MouseEnter" Name="dpInfo">
-                            <Label Name="lblInput" Foreground="Blue">
-                                <Label.ContextMenu>
-                                    <ContextMenu BorderBrush="LightGray" Background="WhiteSmoke">
-                                        <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItemCopyInputClick">
-                                            <MenuItem.Icon>
-                                                <Image Source="../../Resources/icons/page_copy.png" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Label.ContextMenu>
-                            </Label>
-                            <Label Name="lblFactors">
-                                <Label.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItem_Click">
-                                            <MenuItem.Icon>
-                                                <Image Source="../../Resources/icons/page_copy.png" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Label.ContextMenu>
-                            </Label>
-                        </DockPanel>
-                    </StackPanel>
-                </ScrollViewer>
-            </GroupBox>
+                <GroupBox Grid.Row="1" Header="{x:Static lang:Factorization.fac_result}" Name="gbFactorizationInfo" Margin="0,0,0,20">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="pnInfo" Orientation="Horizontal" MouseLeave="pnInfo_MouseLeave" Height="30">
+                            <DockPanel MouseEnter="DockPanelFactors_MouseEnter" Name="dpInfo">
+                                <Label Name="lblInput" Foreground="Blue">
+                                    <Label.ContextMenu>
+                                        <ContextMenu BorderBrush="LightGray" Background="WhiteSmoke">
+                                            <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItemCopyInputClick">
+                                                <MenuItem.Icon>
+                                                    <Image Source="../../Resources/icons/page_copy.png" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Label.ContextMenu>
+                                </Label>
+                                <Label Name="lblFactors">
+                                    <Label.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{x:Static lang:Factorization.fac_copytoclipboard}" Click="MenuItem_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="../../Resources/icons/page_copy.png" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </Label.ContextMenu>
+                                </Label>
+                            </DockPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
 
-            <TabControl Grid.Row="2" Background="White" Name="tbctrl" SelectionChanged="tbctrl_SelectionChanged" Margin="0,7,0,0">
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="2" Background="#000000" HorizontalContentAlignment="Center" Margin="0,0,0,0" ResizeBehavior="PreviousAndNext" />
+
+            <TabControl Grid.Row="2" Background="White" Name="tbctrl" SelectionChanged="tbctrl_SelectionChanged" Margin="10">
                 <comps:HelpTabItem Header="{x:Static lang:Factorization.fac_bruteforce}" x:Name="tabItemBruteForce" HelpButtonClick="HelpTabItem_HelpButtonClick">
                     <this:FactorizationGraph x:Name="graph" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" />
                 </comps:HelpTabItem>
@@ -81,5 +90,4 @@
 
         </Grid>
     </DockPanel>
-
 </UserControl>

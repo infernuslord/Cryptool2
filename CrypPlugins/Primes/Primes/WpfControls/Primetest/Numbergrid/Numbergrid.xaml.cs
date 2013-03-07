@@ -39,6 +39,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
     /// Interaction logic for Numbergrid.xaml
     /// </summary>
     public delegate void NumberButtonClickDelegate(NumberButton value);
+
     public partial class Numbergrid : UserControl
     {
         private const short MAX = 20;
@@ -50,7 +51,6 @@ namespace Primes.WpfControls.Primetest.Numbergrid
 
         public Numbergrid()
         {
-
             InitializeComponent();
             this.Rows = 20;
             this.Columns = 20;
@@ -87,26 +87,6 @@ namespace Primes.WpfControls.Primetest.Numbergrid
 
         private PrimesBigInteger m_Limit;
 
-        //public PrimesBigInteger Limit
-        //{
-        //  get { return m_Limit; }
-        //  set {
-        //    m_Limit = value;
-        //    m_Sieved = new long[m_Limit.LongValue];
-        //    PrimesBigInteger i = PrimesBigInteger.Zero;
-        //    m_Sieved.Clear();
-        //    while (i.CompareTo(m_Limit) <= 0)
-        //    {
-        //      m_Sieved.Add(i.LongValue, false);
-        //      i = i.Add(PrimesBigInteger.One);
-        //    }
-        //    m_ButtonColor = Brushes.White;
-        //    m_RemovedMods.Clear();
-        //    InitButtons();
-        //    RemoveNumber(PrimesBigInteger.One);
-        //  }
-        //}
-
         public PrimesBigInteger Limit
         {
             get { return m_Limit; }
@@ -135,30 +115,20 @@ namespace Primes.WpfControls.Primetest.Numbergrid
         public void RemoveNumber(PrimesBigInteger value)
         {
             m_RemovedNumbers.Add(value);
+
             if (m_Limit != null)
                 RedrawButtons();
         }
 
         public void RemoveMulipleOf(PrimesBigInteger value)
         {
-            DateTime start = DateTime.Now;
-
-            PrimesBigInteger i = value.Multiply(PrimesBigInteger.Two);
-            while (i.CompareTo(m_Limit) <= 0)
-            {
+            for (PrimesBigInteger i = value * 2; i <= m_Limit; i = i + value)
                 m_Sieved[i.LongValue] = -1;
-                i = i.Add(value);
-            }
-            //PrimesBigInteger counter = PrimesBigInteger.Two;
-            //while (counter.Multiply(value).CompareTo(m_Limit)<=0)
-            //{
-            //  m_RemovedNumbers.Add(counter.Multiply(value));
-            //  counter = counter.Add(PrimesBigInteger.One);
-            //}
+
             m_RemovedMods.Add(value);
-            if (value.Pow(2).CompareTo(GetMaxVisibleValue()) <= 0)
+
+            if (value.Pow(2) <= GetMaxVisibleValue())
                 RedrawButtons();
-            TimeSpan diff = DateTime.Now - start;
         }
 
         private void RedrawButtons()
@@ -179,15 +149,6 @@ namespace Primes.WpfControls.Primetest.Numbergrid
             get
             {
                 List<PrimesBigInteger> result = new List<PrimesBigInteger>();
-                //BigInteger bi = BigInteger.Two;
-                //while (bi.CompareTo(m_Limit) <= 0)
-                //{
-                //  if (!m_RemovedNumbers.Contains(bi))
-                //  {
-                //    result.Add(bi);
-                //  }
-                //  bi = bi.Add(BigInteger.One);
-                //}
                 return result;
             }
         }
@@ -217,6 +178,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
             this.border.BorderThickness = new Thickness(1);
             this.numbergrid.RowDefinitions.Clear();
             this.numbergrid.ColumnDefinitions.Clear();
+
             for (int i = 0; i < this.Rows + this.Rows - 1; i++)
             {
                 RowDefinition rd = new RowDefinition();
@@ -254,6 +216,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
                     Grid.SetColumn(rect, i);
                     this.numbergrid.Children.Add(rect);
                 }
+
                 this.numbergrid.ColumnDefinitions.Add(cd);
             }
         }
@@ -281,7 +244,7 @@ namespace Primes.WpfControls.Primetest.Numbergrid
                 DrawGrid();
             }
 
-            PrimesBigInteger counter = PrimesBigInteger.ValueOf(1);
+            PrimesBigInteger counter = 1;
 
             for (int i = 0; i < this.Rows; i++)
             {

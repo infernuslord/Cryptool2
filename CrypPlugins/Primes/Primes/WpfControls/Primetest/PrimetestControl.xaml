@@ -19,30 +19,38 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <Grid>
+
+        <Grid Name="ContentGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MaxHeight="{Binding ElementName=ParameterRow, Path=ActualHeight}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <GroupBox Grid.Row="0" Header="{x:Static lang:Primetest.test_groupboxheader}">
-                <comps:InputSingleControl
-                    x:Name="iscNumber"
-                    InputRangeControlType="Vertical"
-                    Margin="7,7,7,7"
-                    FreeTextboxWidth="200"
-                    Execute="iscNumber_Execute"
-                    Cancel="iscNumber_Cancel"
-                    CancelButtonIsEnabled="False"
-                    ShowGenerateRandomNumber="True"
-                    GenerateRandomNumberTitle="{x:Static lang:Primetest.test_genNumber}"
-                    GenerateRandomNumberShowMultipleFactors="False"
-                    GenerateRandomNumberShowTwoBigFactors="False"
-                    />
-            </GroupBox>
+            <Grid Grid.Row="0" Name="ParameterRow" Margin="10,10,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <TabControl Grid.Row="1" Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="tbctrl_SelectionChanged" Margin="0,20,0,0">
+                <GroupBox Grid.Row="0" Header="{x:Static lang:Primetest.test_groupboxheader}" Margin="0,0,0,20">
+                    <comps:InputSingleControl
+                        x:Name="iscNumber"
+                        InputRangeControlType="Vertical"
+                        Margin="7,7,7,7"
+                        FreeTextboxWidth="200"
+                        Execute="iscNumber_Execute"
+                        Cancel="iscNumber_Cancel"
+                        CancelButtonIsEnabled="False"
+                        ShowGenerateRandomNumber="True"
+                        GenerateRandomNumberTitle="{x:Static lang:Primetest.test_genNumber}"
+                        GenerateRandomNumberShowMultipleFactors="False"
+                        GenerateRandomNumberShowTwoBigFactors="False" />
+                </GroupBox>
+            </Grid>
 
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="2" Background="#000000" HorizontalContentAlignment="Center" Margin="0,0,0,0" ResizeBehavior="PreviousAndNext" />
+
+            <TabControl Grid.Row="2" Name="tbctrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="tbctrl_SelectionChanged" Margin="10">
                 <comps:HelpTabItem Header="{x:Static lang:Primetest.test_soe}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="tabItemSieveOfEratosthenes" HelpButtonClick="TabItem_HelpButtonClick">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <sieveOfEratosthenes:SieveOfEratosthenes x:Name="sieveoferatosthenes" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />

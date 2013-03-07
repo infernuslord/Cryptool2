@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="Primes.WpfControls.PrimesDistribution.Goldbach.GoldbachControl"
+﻿<UserControl x:Class="Primes.WpfControls.NumberTheory.Goldbach.GoldbachControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:lang="clr-namespace:Primes.Resources.lang.WpfControls.Distribution"
+    xmlns:lang="clr-namespace:Primes.Resources.lang.Numbertheory"
     xmlns:comps="clr-namespace:Primes.WpfControls.Components">
 
     <UserControl.Resources>
@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <comps:InputRangeControl Grid.Row="0" x:Name="ircGoldbach" InputRangeControlType="Horizontal" ShowButtons="True" ShowCalcInput="False" SecondParameterPresent="false" />
-        <TextBlock Grid.Row="1" Name="Description" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{x:Static lang:Distribution.numberline_goldbachdesc}" TextWrapping="Wrap" />
+        <TextBlock Grid.Row="1" Name="Description" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Text="{x:Static lang:Numbertheory.goldbach_desc}" TextWrapping="Wrap" />
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Viewbox Stretch="Uniform">
