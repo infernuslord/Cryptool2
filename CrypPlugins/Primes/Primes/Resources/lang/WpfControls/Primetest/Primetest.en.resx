@@ -130,7 +130,7 @@
     <value>Choose a base</value>
   </data>
   <data name="mr_countrounds" xml:space="preserve">
-    <value>Number of rounds</value>
+    <value>Maximum number of rounds</value>
   </data>
   <data name="mr_iseven" xml:space="preserve">
     <value>{0} is odd and thus not a prime.</value>
@@ -160,6 +160,9 @@
     <value>Calculate the biggest power of 2, that divides n-1 = {0}.</value>
   </data>
   <data name="mr_shiftedright" xml:space="preserve">
+    <value>There was {0} right shift: : {1} = 2^{0} * {2}</value>
+  </data>
+  <data name="mr_shiftedright2" xml:space="preserve">
     <value>There were {0} right shifts: : {1} = 2^{0} * {2}</value>
   </data>
   <data name="mr_shiftright" xml:space="preserve">

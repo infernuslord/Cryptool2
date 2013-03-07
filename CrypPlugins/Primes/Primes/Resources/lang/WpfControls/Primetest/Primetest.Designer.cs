@@ -97,7 +97,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Anzahl der Runden ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximale Anzahl der Runden ähnelt.
         /// </summary>
         public static string mr_countrounds {
             get {
@@ -192,6 +192,15 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         public static string mr_shiftedright {
             get {
                 return ResourceManager.GetString("mr_shiftedright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Es wurde {0} mal nach rechts geschoben: {1} = 2^{0} * {2} ähnelt.
+        /// </summary>
+        public static string mr_shiftedright2 {
+            get {
+                return ResourceManager.GetString("mr_shiftedright2", resourceCulture);
             }
         }
         

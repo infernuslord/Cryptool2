@@ -130,7 +130,7 @@
     <value>Wahl der Basis</value>
   </data>
   <data name="mr_countrounds" xml:space="preserve">
-    <value>Anzahl der Runden</value>
+    <value>Maximale Anzahl der Runden</value>
   </data>
   <data name="mr_iseven" xml:space="preserve">
     <value>{0} ist gerade und kann daher keine Primzahl sein.</value>
@@ -160,6 +160,9 @@
     <value>Berechne die größte Zweierpotenz, die n-1 = {0} teilt.</value>
   </data>
   <data name="mr_shiftedright" xml:space="preserve">
+    <value>Es wurde {0} mal nach rechts geschoben: {1} = 2^{0} * {2}</value>
+  </data>
+  <data name="mr_shiftedright2" xml:space="preserve">
     <value>Es wurde {0} mal nach rechts geschoben: {1} = 2^{0} * {2}</value>
   </data>
   <data name="mr_shiftright" xml:space="preserve">
