@@ -631,7 +631,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
         #region private
 
-        private void initializeVisual(PluginModel model)
+        private void initConnectorVisuals(PluginModel model)
         {
             IEnumerable<ConnectorModel> list = model.GetOutputConnectors().Concat<ConnectorModel>(model.GetInputConnectors());
             foreach (ConnectorModel m in list)
@@ -654,7 +654,62 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                 addConnectorView(m);
             }
 
+            var SouthConnectorCollectionView = CollectionViewSource.GetDefaultView(SouthConnectorCollection) as ListCollectionView;
+            SouthConnectorCollectionView.CustomSort = new ConnectorSorter(SouthConnectorCollection, SouthConnectorCollectionView);
+
+            var EastConnectorCollectionView = CollectionViewSource.GetDefaultView(EastConnectorCollection) as ListCollectionView;
+            EastConnectorCollectionView.CustomSort = new ConnectorSorter(EastConnectorCollection, EastConnectorCollectionView);
+
+            var WestConnectorCollectionView = CollectionViewSource.GetDefaultView(WestConnectorCollection) as ListCollectionView;
+            WestConnectorCollectionView.CustomSort = new ConnectorSorter(WestConnectorCollection, WestConnectorCollectionView);
+
+            var NorthConnectorCollectionView = CollectionViewSource.GetDefaultView(NorthConnectorCollection) as ListCollectionView;
+            NorthConnectorCollectionView.CustomSort = new ConnectorSorter(NorthConnectorCollection, NorthConnectorCollectionView);
+
             SouthConnectorCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(SouthConnectorCollectionCollectionChanged);
+        }
+
+        internal class ConnectorSorter : IComparer
+        {
+            private ObservableCollection<ConnectorVisual> collection;
+            private bool assigned;
+            private ListCollectionView view;
+
+            public ConnectorSorter(ObservableCollection<ConnectorVisual> collection, ListCollectionView view)
+            {
+                this.collection = collection;
+                this.view = view;
+                this.collection.OrderBy(x => x.Model.Index);
+                this.collection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(ConnectorCollectionItemChanged);
+            }
+
+            public int Compare(object x, object y)
+            {
+                var connA = x as ConnectorVisual;
+                var connB = y as ConnectorVisual;
+                var val = connA.Model.Index.CompareTo(connB.Model.Index);
+                return val;
+            }
+
+            private void assignIndex()
+            {
+                foreach (var connector in collection)
+                {
+                    int index = collection.IndexOf(connector);
+                    connector.Model.Index = index;
+                }
+                view.Refresh();
+            }
+
+            void ConnectorCollectionItemChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+            {
+                assignIndex();
+            }
+        }
+
+        private void initializeVisual(PluginModel model)
+        {
+            initConnectorVisuals(model);
             LogNotifier = new LogNotifierVisual(LogMessages, this);
             LogNotifier.ErrorMessagesOccured += new EventHandler<ErrorMessagesOccuredArgs>(LogNotifierErrorMessagesOccuredHandler);
             //LogMessages.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogMessagesCollectionChanged);

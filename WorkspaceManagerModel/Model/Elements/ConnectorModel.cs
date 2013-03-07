@@ -63,6 +63,8 @@ namespace WorkspaceManager.Model
         /// </summary>
         public PluginModel PluginModel { get; internal set; }
 
+        public int Index = 0;
+
         /// <summary>
         /// The Type of the Connector Model
         /// </summary>        

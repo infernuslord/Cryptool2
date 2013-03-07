@@ -1046,7 +1046,6 @@ namespace WorkspaceManager.View.Visuals
         {
             if (element.hide)
             {
-                element.Visibility = Visibility.Collapsed;
                 connectorSettingElements.Add(element.tpa.PropertyName, element);
             }
         }
