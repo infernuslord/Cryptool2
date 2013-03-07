@@ -252,9 +252,6 @@
   <data name="numberline_goldbach" xml:space="preserve">
     <value>Goldbach's conjecture</value>
   </data>
-  <data name="numberline_goldbachdesc" xml:space="preserve">
-    <value>y(n) is the number of ways that the number n can be expressed as the sum of two prime numbers. Example: 10 = 3 + 7 and 10 = 5 + 5, thus y(10)=2.</value>
-  </data>
   <data name="numberline_goldbachfoundsum" xml:space="preserve">
     <value>Found {0} prime number sum for the current number {1}.</value>
   </data>
@@ -267,12 +264,6 @@
   <data name="numberline_goldbachmaxlines" xml:space="preserve">
     <value>Only the first {0} sums are displayed.</value>
   </data>
-  <data name="numberline_goldbachsum" xml:space="preserve">
-    <value>sum</value>
-  </data>
-  <data name="numberline_goldbachsums" xml:space="preserve">
-    <value>sums</value>
-  </data>
   <data name="numberline_header" xml:space="preserve">
     <value>Here you get some number-theoretic statements for the numbers on the number line. The number line can display 10 to 90 numbers. You can adjust the range with the slider, which determines the upper limit of the range.</value>
   </data>
@@ -280,7 +271,7 @@
     <value>Number of primes in the selected range</value>
   </data>
   <data name="numberline_insidetwinprime" xml:space="preserve">
-    <value>{0} lies inside the twin prime ({1}, {2}).</value>
+    <value>{0} lies inside the prime twins ({1}, {2}).</value>
   </data>
   <data name="numberline_isodd" xml:space="preserve">
     <value>The Goldbach conjecture only holds for even numbers. {0} is odd.</value>
@@ -307,7 +298,7 @@
     <value>Next bigger prime number</value>
   </data>
   <data name="numberline_nexttwinprime" xml:space="preserve">
-    <value>The next bigger twin prime is ({0}, {1}).</value>
+    <value>The next bigger prime twin is ({0}, {1}).</value>
   </data>
   <data name="numberline_numberofprimeinterval" xml:space="preserve">
     <value>Number of primes in the selected range ({0}, {1})</value>
@@ -322,7 +313,7 @@
     <value>Next smaller prime number</value>
   </data>
   <data name="numberline_priortwinprime" xml:space="preserve">
-    <value>The next smaller twin prime is ({0}, {1}).</value>
+    <value>The next smaller prime twin is ({0}, {1}).</value>
   </data>
   <data name="numberline_progress" xml:space="preserve">
     <value>Progress</value>
@@ -334,7 +325,7 @@
     <value>The sum of the divisors of the current number {0} is {1}.</value>
   </data>
   <data name="numberline_sixtuplet" xml:space="preserve">
-    <value>Prime sixtuplet</value>
+    <value>Prime sixtuplets</value>
   </data>
   <data name="numberline_tauinfo" xml:space="preserve">
     <value>Found {0} divisors for the current number {1}.</value>
@@ -361,10 +352,7 @@
     <value>Increase range in increments of 10</value>
   </data>
   <data name="numberline_twinprime" xml:space="preserve">
-    <value>Twin primes</value>
-  </data>
-  <data name="tabitemgoldbach" xml:space="preserve">
-    <value>Goldbach's conjecture</value>
+    <value>Prime twins</value>
   </data>
   <data name="tabitemgraph" xml:space="preserve">
     <value>Number of primes</value>

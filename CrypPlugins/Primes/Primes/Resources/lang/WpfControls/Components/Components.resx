@@ -142,7 +142,7 @@
     <value>bis</value>
   </data>
   <data name="logcontextmenucopyall" xml:space="preserve">
-    <value>gesamten Text in die Zwischenablage kopieren</value>
+    <value>Gesamten Text in die Zwischenablage kopieren</value>
   </data>
   <data name="logcontextmenucopyselection" xml:space="preserve">
     <value>Markierung in die Zwischenablage kopieren</value>

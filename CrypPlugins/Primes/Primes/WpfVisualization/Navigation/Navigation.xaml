@@ -23,70 +23,74 @@
         </ControlTemplate>
     </UserControl.Resources>
 
-    <StackPanel Name="stackPanel1" Orientation="Vertical" HorizontalAlignment="Stretch">
-        <TreeView BorderThickness="0" FontSize="15">
-            <Hyperlink Name="lnkStartPage" Click="lnk_Click" Focusable="False">
-                <x:Static Member="lang:Navigation.startpage"></x:Static>
-            </Hyperlink>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
 
-            <TreeViewItem Header="{x:Static lang:Navigation.factorization}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
-                <Hyperlink Name="lnkFacBruteForce" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.bruteforce"></x:Static>
+        <StackPanel Name="stackPanel1" Orientation="Vertical">
+            <TreeView BorderThickness="0" FontSize="15">
+                <Hyperlink Name="lnkStartPage" Click="lnk_Click" Focusable="False">
+                    <x:Static Member="lang:Navigation.startpage"></x:Static>
                 </Hyperlink>
-                <Hyperlink Name="lnkFacQS" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.qs"></x:Static>
-                </Hyperlink>
-            </TreeViewItem>
 
-            <TreeViewItem Header="{x:Static lang:Navigation.primetest}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
-                <Hyperlink Name="lnkTestEratothenes" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.soe"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkTestMillerRabin" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.millerrabin"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkSieveOfAtkin" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.sieveofatkin"></x:Static>
-                </Hyperlink>
-            </TreeViewItem>
+                <TreeViewItem Header="{x:Static lang:Navigation.factorization}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
+                    <Hyperlink Name="lnkFacBruteForce" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.bruteforce"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkFacQS" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.qs"></x:Static>
+                    </Hyperlink>
+                </TreeViewItem>
 
-            <TreeViewItem Header="{x:Static lang:Navigation.genprimes}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
-                <Hyperlink Name="lnkGenPrimes" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.genprimes"></x:Static>
-                </Hyperlink>
-            </TreeViewItem>
+                <TreeViewItem Header="{x:Static lang:Navigation.primetest}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
+                    <Hyperlink Name="lnkTestEratothenes" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.soe"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkTestMillerRabin" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.millerrabin"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkSieveOfAtkin" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.sieveofatkin"></x:Static>
+                    </Hyperlink>
+                </TreeViewItem>
 
-            <TreeViewItem Header="{x:Static lang:Navigation.distribution}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
-                <Hyperlink Name="lnkDistribNumberline" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.distributionnumberline"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkDistribNumberrec" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.distributionnumbergrid"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkCountPrimes" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.countprimes"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkDistribUlam" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.distributionulam"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkDistribGoldbach" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.distributiongoldbach"></x:Static>
-                </Hyperlink>
-            </TreeViewItem>
+                <TreeViewItem Header="{x:Static lang:Navigation.genprimes}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
+                    <Hyperlink Name="lnkGenPrimes" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.genprimes"></x:Static>
+                    </Hyperlink>
+                </TreeViewItem>
 
-            <TreeViewItem Header="{x:Static lang:Navigation.numbertheory}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
-                <Hyperlink Name="lnkPowMod" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.powermod"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkNumberTheoryFunctions" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.ntfunctions"></x:Static>
-                </Hyperlink>
-                <Hyperlink Name="lnkPrimitivRoots" Click="lnk_Click" Focusable="False">
-                    <x:Static Member="lang:Navigation.proots"></x:Static>
-                </Hyperlink>
-            </TreeViewItem>
+                <TreeViewItem Header="{x:Static lang:Navigation.distribution}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
+                    <Hyperlink Name="lnkDistribNumberline" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.distributionnumberline"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkDistribNumberrec" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.distributionnumbergrid"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkCountPrimes" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.countprimes"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkDistribUlam" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.distributionulam"></x:Static>
+                    </Hyperlink>
+                </TreeViewItem>
 
-        </TreeView>
-    </StackPanel>
+                <TreeViewItem Header="{x:Static lang:Navigation.numbertheory}" IsExpanded="True" Expanded="TreeViewItem_Expanded" Collapsed="TreeViewItem_Expanded">
+                    <Hyperlink Name="lnkPowMod" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.powermod"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkNumberTheoryFunctions" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.ntfunctions"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkPrimitivRoots" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.proots"></x:Static>
+                    </Hyperlink>
+                    <Hyperlink Name="lnkDistribGoldbach" Click="lnk_Click" Focusable="False">
+                        <x:Static Member="lang:Navigation.distributiongoldbach"></x:Static>
+                    </Hyperlink>
+                </TreeViewItem>
+
+            </TreeView>
+        </StackPanel>
+
+    </ScrollViewer>
 
 </UserControl>

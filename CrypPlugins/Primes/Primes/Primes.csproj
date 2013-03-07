@@ -113,6 +113,9 @@
     <Compile Include="WpfControls\Components\LogControl2.xaml.cs">
       <DependentUpon>LogControl2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfControls\NumberTheory\Goldbach\GoldbachControl.xaml.cs">
+      <DependentUpon>GoldbachControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\NumberTheory\NumberTheoryFunctions\GCD.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -327,9 +330,6 @@
     <Compile Include="WpfControls\Primegeneration\SieveOfAtkin\SieveOfAtkinControl.xaml.cs">
       <DependentUpon>SieveOfAtkinControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfControls\PrimesDistribution\Goldbach\GoldbachControl.xaml.cs">
-      <DependentUpon>GoldbachControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WpfControls\PrimesDistribution\Graph\CartesianPlane.xaml.cs">
       <DependentUpon>CartesianPlane.xaml</DependentUpon>
     </Compile>
@@ -523,6 +523,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="WpfControls\NumberTheory\Goldbach\GoldbachControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="WpfControls\NumberTheory\NumberTheoryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -584,12 +588,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="WpfControls\Primegeneration\SieveOfAtkin\SieveOfAtkinControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WpfControls\PrimesDistribution\Goldbach\GoldbachControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
