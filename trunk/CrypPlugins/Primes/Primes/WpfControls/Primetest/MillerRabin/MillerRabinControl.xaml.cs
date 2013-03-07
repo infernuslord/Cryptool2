@@ -206,7 +206,7 @@ namespace Primes.WpfControls.Primetest.MillerRabin
             {
                 log.Info(string.Format(rsc.Primetest.mr_shiftcalc, m_Value - 1));
                 GetShift(value);
-                log.Info(string.Format(rsc.Primetest.mr_shiftedright, m_shift, m_Value - 1, m_d));
+                log.Info(string.Format((m_shift == 1) ? rsc.Primetest.mr_shiftedright : rsc.Primetest.mr_shiftedright2, m_shift, m_Value - 1, m_d));
                 log.Info("");
 
                 switch (KindOfTest)
