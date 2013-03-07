@@ -149,6 +149,8 @@ namespace Cryptool.Enigma
         {
             EnigmaSettings settings = sender as EnigmaSettings;
 
+
+
             if (e.PropertyName == "Model")
             {
                 if (settings.Model != 3)
@@ -309,7 +311,7 @@ namespace Cryptool.Enigma
                 {
                     test++;
                 }
-
+                System.Console.WriteLine(e.PropertyName);
                 if (e.PropertyName == "Remove all Plugs" && justme)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -320,45 +322,49 @@ namespace Cryptool.Enigma
                     }, null);
                 }
 
-                if (e.PropertyName == "Reflector")
+                if (e.PropertyName == "Reflector" && justme  )
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                            dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
+                            if (walze != null)
+                            {
+                                Image img = new Image();
+                                img.Height = 100;
+                                img.Width = 50;
+                                BitmapImage bi = new BitmapImage();
+                                bi.BeginInit();
+                                bi.UriSource = new Uri("Images/Walze" + walze.typ + ".png", UriKind.Relative);
+                                bi.EndInit();
+                                img.Source = bi;
 
-                        dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
 
-                        Image img = new Image();
-                        img.Height = 100;
-                        img.Width = 50;
-                        BitmapImage bi = new BitmapImage();
-                        bi.BeginInit();
-                        bi.UriSource = new Uri("Images/Walze" + walze.typ + ".png", UriKind.Relative);
-                        bi.EndInit();
-                        img.Source = bi;
+                                Canvas.SetLeft(img, 50*walze.typ);
 
+                                dropBoxCanvasWalze.Children.Add(img);
+                                img.Uid = "" + walze.typ;
+                                img.Cursor = Cursors.Hand;
 
-                        Canvas.SetLeft(img, 50 * walze.typ);
+                                img.PreviewMouseMove += Walze_MouseMove1;
+                                walzeimgs[walze.typ - 1] = img;
+                                walzenarea.Children.Remove(walze);
 
-                        dropBoxCanvasWalze.Children.Add(img);
-                        img.Uid = "" + walze.typ;
-                        img.Cursor = Cursors.Hand;
-
-                        img.PreviewMouseMove += Walze_MouseMove1;
-                        walzeimgs[walze.typ - 1] = img;
-                        walzenarea.Children.Remove(walze);
+                            }
 
                         Walze walze1 = new Walze(settings.Reflector + 1, this.Width, this.Height);
-                        //walze1.fast = speed * 80;
-                        Canvas.SetLeft(walze1, 0);
-                        Canvas.SetTop(walze1, 60);
-                        walzenarea.Children.Add(walze1);
-                        walze1.Cursor = Cursors.Hand;
-                        walze1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-                        walze1.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
-                        this.walze = walze1;
-
+                                //walze1.fast = speed * 80;
+                                Canvas.SetLeft(walze1, 0);
+                                Canvas.SetTop(walze1, 60);
+                                walzenarea.Children.Add(walze1);
+                                walze1.Cursor = Cursors.Hand;
+                                walze1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
+                                walze1.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
+                                this.walze = walze1;
+                            
 
                     }, null);
+                    
+                    
                 }
 
                 if (e.PropertyName == "Rotor1" && justme )
@@ -414,7 +420,7 @@ namespace Cryptool.Enigma
                     }, null);
                 }
 
-                if (e.PropertyName == "Rotor2")
+                if (e.PropertyName == "Rotor2" && justme)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -520,8 +526,8 @@ namespace Cryptool.Enigma
                 {
                      Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-
-                        dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
+                        if (walze != null)
+                            dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
                         if (rotorarray[0] != null)
                             dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor3]);
                         if (rotorarray[1] != null)
@@ -876,7 +882,7 @@ namespace Cryptool.Enigma
             img1.Width = 50;
             BitmapImage bi11 = new BitmapImage();
             bi11.BeginInit();
-            bi11.UriSource = new Uri("Images/Walze1.png", UriKind.Relative);
+            bi11.UriSource = new Uri("Images/Walze2.png", UriKind.Relative);
             bi11.EndInit();
             img1.Source = bi11;
             dropBoxCanvasWalze.Children.Add(img1);
@@ -970,7 +976,7 @@ namespace Cryptool.Enigma
 
 
 
-            walzeimgs[0] = img1;
+            walzeimgs[1] = img1;
             walzeimgs[2] = img2;
             img3.PreviewMouseMove += Rotor_MouseMove1;
             img4.PreviewMouseMove += Rotor_MouseMove1;
