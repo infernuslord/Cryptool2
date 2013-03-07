@@ -235,7 +235,7 @@ Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes deko
 
       <headline lang="en" >Password Strength</headline>
       <headline lang="de" >Passwort-Stärke</headline>
-      <task lang="en">The detailed result of your passwords strength analyisis.</task>
+      <task lang="en">The detailed result of your passwords strength analysis.</task>
       <task lang="de">Das detaillierte Ergebnis Ihrer Passwort-Stärke-Analyse.</task>
 
       <inputBox plugin="Password" property="Text" alignment="Right" width="50%" visibleLines="1" group="1">
