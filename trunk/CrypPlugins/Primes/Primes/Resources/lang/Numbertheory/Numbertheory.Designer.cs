@@ -133,6 +133,33 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die y(n) gibt an, auf wie viele Arten sich die Zahl n als Summe zweier Primzahlen schreiben lässt. Beispiel: 10 = 3 + 7 und 10 = 5 + 5, also ist y(10)=2. ähnelt.
+        /// </summary>
+        public static string goldbach_desc {
+            get {
+                return ResourceManager.GetString("goldbach_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summe ähnelt.
+        /// </summary>
+        public static string goldbach_sum {
+            get {
+                return ResourceManager.GetString("goldbach_sum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summen ähnelt.
+        /// </summary>
+        public static string goldbach_sums {
+            get {
+                return ResourceManager.GetString("goldbach_sums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Auswahl der zu berechnenden Funktionen ähnelt.
         /// </summary>
         public static string groupbox_choosefunctions {
@@ -480,6 +507,15 @@ namespace Primes.Resources.lang.Numbertheory {
         public static string sigma {
             get {
                 return ResourceManager.GetString("sigma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Goldbach-Vermutung ähnelt.
+        /// </summary>
+        public static string tabitemheader_goldbach {
+            get {
+                return ResourceManager.GetString("tabitemheader_goldbach", resourceCulture);
             }
         }
         

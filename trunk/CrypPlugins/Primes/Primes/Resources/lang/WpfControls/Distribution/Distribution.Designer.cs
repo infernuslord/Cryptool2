@@ -466,15 +466,6 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die y(n) gibt an, auf wie viele Arten sich die Zahl n als Summe zweier Primzahlen schreiben lässt. Beispiel: 10 = 3 + 7 und 10 = 5 + 5, also ist y(10)=2. ähnelt.
-        /// </summary>
-        public static string numberline_goldbachdesc {
-            get {
-                return ResourceManager.GetString("numberline_goldbachdesc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0} Primzahlsumme zur aktuellen Zahl {1} gefunden. ähnelt.
         /// </summary>
         public static string numberline_goldbachfoundsum {
@@ -507,24 +498,6 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         public static string numberline_goldbachmaxlines {
             get {
                 return ResourceManager.GetString("numberline_goldbachmaxlines", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Summe ähnelt.
-        /// </summary>
-        public static string numberline_goldbachsum {
-            get {
-                return ResourceManager.GetString("numberline_goldbachsum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Summen ähnelt.
-        /// </summary>
-        public static string numberline_goldbachsums {
-            get {
-                return ResourceManager.GetString("numberline_goldbachsums", resourceCulture);
             }
         }
         
@@ -796,15 +769,6 @@ namespace Primes.Resources.lang.WpfControls.Distribution {
         public static string numberline_twinprime {
             get {
                 return ResourceManager.GetString("numberline_twinprime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Goldbach-Vermutung ähnelt.
-        /// </summary>
-        public static string tabitemgoldbach {
-            get {
-                return ResourceManager.GetString("tabitemgoldbach", resourceCulture);
             }
         }
         

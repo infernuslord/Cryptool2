@@ -3196,6 +3196,7 @@ namespace Primes.Bignum
         {
             return new PrimesBigInteger(seed.IntValue, new Random());
         }
+
         public static PrimesBigInteger Random(int seed)
         {
             return new PrimesBigInteger(seed, new Random());
@@ -3215,6 +3216,7 @@ namespace Primes.Bignum
         {
             return a.Max(b);
         }
+
         public static PrimesBigInteger Min(PrimesBigInteger a, PrimesBigInteger b)
         {
             return a.Min(b);

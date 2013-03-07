@@ -143,10 +143,6 @@ namespace Primes.WpfVisualization
                     if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
                     SetUserControl(m_PrimesInNaturalNumbersControl, 3);
                     break;
-                case NavigationCommandType.PrimeDistrib_Goldbach:
-                    if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
-                    SetUserControl(m_PrimesInNaturalNumbersControl, 4);
-                    break;
                 case NavigationCommandType.Numberline:
                     if (m_PrimesInNaturalNumbersControl == null) m_PrimesInNaturalNumbersControl = new PrimesInNaturalNumbersControl();
                     SetUserControl(m_PrimesInNaturalNumbersControl);
@@ -159,10 +155,6 @@ namespace Primes.WpfVisualization
                     if (m_PrimesgenerationControl == null) m_PrimesgenerationControl = new PrimesgenerationControl();
                     SetUserControl(m_PrimesgenerationControl);
                     break;
-                case NavigationCommandType.PrimitivRoot:
-                    if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
-                    SetUserControl(m_NumberTheoryControl, 2);
-                    break;
                 case NavigationCommandType.PowerMod:
                     if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
                     SetUserControl(m_NumberTheoryControl, 0);
@@ -170,6 +162,14 @@ namespace Primes.WpfVisualization
                 case NavigationCommandType.NumberTheoryFunctions:
                     if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
                     SetUserControl(m_NumberTheoryControl, 1);
+                    break;
+                case NavigationCommandType.PrimitivRoot:
+                    if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
+                    SetUserControl(m_NumberTheoryControl, 2);
+                    break;
+                case NavigationCommandType.PrimeDistrib_Goldbach:
+                    if (m_NumberTheoryControl == null) m_NumberTheoryControl = new NumberTheoryControl();
+                    SetUserControl(m_NumberTheoryControl, 3);
                     break;
             }
 
@@ -213,13 +213,13 @@ namespace Primes.WpfVisualization
                 case NavigationCommandType.PrimeDistrib_Numberline:
                 case NavigationCommandType.PrimeDistrib_Numberrec:
                 case NavigationCommandType.PrimeDistrib_Ulam:
-                case NavigationCommandType.PrimeDistrib_Goldbach:
                 case NavigationCommandType.Graph:
                     lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_distribution;
                     break;
                 case NavigationCommandType.NumberTheoryFunctions:
                 case NavigationCommandType.PrimitivRoot:
                 case NavigationCommandType.PowerMod:
+                case NavigationCommandType.PrimeDistrib_Goldbach:
                     lblTitel.Content = Primes.Resources.lang.PrimesControl.PrimesControl.title_Numbertheory;
                     break;
             }

@@ -39,21 +39,28 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" Name="cdleft" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Name="pnlLeft" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <navi:Navigation HorizontalAlignment="Left" x:Name="navigator" Grid.Row="1" MinWidth="250" />
-            <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="20,0,20,10" Grid.Row="2" Click="miClose_Click" Content="{x:Static lang:PrimesControl.btnclose}" Name="btnClose" Visibility="Hidden"></Button>
-        </Grid>
-        <Rectangle Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="1" Fill="Gray" />
+
+        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+            <Grid Name="pnlLeft" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <navi:Navigation HorizontalAlignment="Left" x:Name="navigator" Grid.Row="1" MinWidth="250" />
+
+                <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="20,0,20,10" Grid.Row="2" Click="miClose_Click" Content="{x:Static lang:PrimesControl.btnclose}" Name="btnClose" Visibility="Hidden"></Button>
+            </Grid>
+        </ScrollViewer>
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="2" Background="#000000" HorizontalContentAlignment="Center" Margin="0,0,0,0" ResizeBehavior="PreviousAndNext" />
+
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60" />
@@ -74,7 +81,7 @@
                         </MenuItem.Style>
                     </MenuItem>
                     <TextBlock Width="2" />
-                    <MenuItem Header="{x:Static lang:PrimesControl.miforward}" Name="miForward" Click="miHistory_Click" Template="{StaticResource miForwardTmpl}">
+                    <MenuItem Header="{x:Static lang:PrimesControl.miforward}" Name="miForward" Click="miHistory_Click" Template="{StaticResource miForwardTmpl}" >
                         <MenuItem.Style>
                             <Style TargetType="MenuItem">
                                 <Setter Property="OverridesDefaultStyle" Value="False" />
@@ -88,17 +95,16 @@
                     </MenuItem>
                     <TextBlock Width="2" />
                     <TextBlock Width="2" />
-                    <MenuItem Header="{x:Static lang:PrimesControl.miclose}" Name="miClose" Click="miClose_Click" Visibility="Hidden">
+                    <MenuItem Header="{x:Static lang:PrimesControl.miclose}" Name="miClose" Click="miClose_Click" Visibility="Hidden" >
                     </MenuItem>
                 </Menu>
-                <Label Name="lblTitel" Margin="10,0,0,0" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center">Label</Label>
+                <Label Name="lblTitel" Margin="10,0,0,0" FontSize="17" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{x:Static lang:PrimesControl.title_start}" />
                 <Image Name="imghelp" Cursor="Hand" Source="../Resources/icons/help32.gif" Width="24" Height="24" HorizontalAlignment="Left" MouseLeftButtonDown="ImageHelpClick" VerticalAlignment="Center" />
             </DockPanel>
-            <ContentControl Grid.Row="1" Name="ContentArea" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10">
+            <ContentControl Grid.Row="1" Name="ContentArea" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0">
                 <controls:StartControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="StartControl" />
             </ContentControl>
         </Grid>
-
     </Grid>
 
 </UserControl>

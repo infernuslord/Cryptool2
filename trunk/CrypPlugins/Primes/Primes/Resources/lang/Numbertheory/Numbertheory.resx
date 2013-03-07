@@ -141,6 +141,15 @@
   <data name="gcd" xml:space="preserve">
     <value>Größter gemeinsamer Teiler</value>
   </data>
+  <data name="goldbach_desc" xml:space="preserve">
+    <value>y(n) gibt an, auf wie viele Arten sich die Zahl n als Summe zweier Primzahlen schreiben lässt. Beispiel: 10 = 3 + 7 und 10 = 5 + 5, also ist y(10)=2.</value>
+  </data>
+  <data name="goldbach_sum" xml:space="preserve">
+    <value>Summe</value>
+  </data>
+  <data name="goldbach_sums" xml:space="preserve">
+    <value>Summen</value>
+  </data>
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Auswahl der zu berechnenden Funktionen</value>
   </data>
@@ -257,6 +266,9 @@
   </data>
   <data name="sigma" xml:space="preserve">
     <value>Summe der Teiler</value>
+  </data>
+  <data name="tabitemheader_goldbach" xml:space="preserve">
+    <value>Goldbach-Vermutung</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
     <value>Zahlentheoretische Funktionen</value>

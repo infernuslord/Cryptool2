@@ -141,6 +141,15 @@
   <data name="gcd" xml:space="preserve">
     <value>Greatest common divisor</value>
   </data>
+  <data name="goldbach_desc" xml:space="preserve">
+    <value>y(n) is the number of ways that the number n can be expressed as the sum of two prime numbers. Example: 10 = 3 + 7 and 10 = 5 + 5, thus y(10)=2.</value>
+  </data>
+  <data name="goldbach_sum" xml:space="preserve">
+    <value>sum</value>
+  </data>
+  <data name="goldbach_sums" xml:space="preserve">
+    <value>sums</value>
+  </data>
   <data name="groupbox_choosefunctions" xml:space="preserve">
     <value>Choose functions</value>
   </data>
@@ -257,6 +266,9 @@
   </data>
   <data name="sigma" xml:space="preserve">
     <value>Sum of divisors</value>
+  </data>
+  <data name="tabitemheader_goldbach" xml:space="preserve">
+    <value>Goldbach's conjecture</value>
   </data>
   <data name="tabitemheader_ntfunctions" xml:space="preserve">
     <value>Number-theoretic functions</value>
