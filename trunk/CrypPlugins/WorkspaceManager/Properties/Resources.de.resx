@@ -507,4 +507,8 @@
   <data name="WorkspaceManagerClass_waitingStop_Stopping_execution_" xml:space="preserve">
     <value>Stoppe Ausführung</value>
   </data>
+  <data name="GlobalProgressBar_Description" xml:space="preserve">
+    <value>Berechnung beendet (Zum Anhalten des Workspaces bitte Stop
+drücken oder neue Daten eingeben um eine Neuberechnung durchzuführen)</value>
+  </data>
 </root>

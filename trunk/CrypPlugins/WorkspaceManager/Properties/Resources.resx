@@ -507,4 +507,7 @@
   <data name="WorkspaceManagerClass_Dispose_Exception_during_disposing_of_the_Model___0_" xml:space="preserve">
     <value>Exception during disposing of the model: {0}</value>
   </data>
+  <data name="GlobalProgressBar_Description" xml:space="preserve">
+    <value>Calculation finished (To stop the workspace please push the stop button or enter new data to start a new calculation)</value>
+  </data>
 </root>
