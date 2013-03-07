@@ -26,7 +26,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 using System.Threading;
 using Primes.WpfControls.Threads;
 using Primes.Bignum;
@@ -34,6 +33,7 @@ using Primes.Library;
 using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
+using rsc = Primes.Resources.lang.WpfControls.Primetest;
 
 namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
 {
@@ -102,15 +102,14 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
 
                 switch (result)
                 {
-
                     case StepResult.SUCCESS:
-                        log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_removemultiple, s.Current.ToString()));
+                        log.Info(string.Format(rsc.Primetest.soe_removemultiple, s.Current));
                         break;
                     case StepResult.FAILED:
-                        log.Error(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_multiplenotexpected, value.BINumber.ToString()));
+                        log.Error(string.Format(rsc.Primetest.soe_multiplenotexpected, value.BINumber));
                         break;
                     case StepResult.END:
-                        log.Info(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_done);
+                        log.Info(rsc.Primetest.soe_done);
                         PrimesStatus();
                         break;
                 }
@@ -123,7 +122,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
             PrimesBigInteger value = s.Expected;
             while (result != StepResult.END)
             {
-                log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_removemultipleof, value.ToString()));
+                log.Info(string.Format(rsc.Primetest.soe_removemultipleof, value));
                 result = s.DoStep(value);
 
                 value = value.NextProbablePrime();
@@ -166,8 +165,8 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
 
             if (m_Method == Method.Manual)
             {
-                log.Info(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_infostepwise1, m_Value.ToString()));
-                log.Info(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_infostepwise2);
+                log.Info(string.Format(rsc.Primetest.soe_infostepwise1, m_Value));
+                log.Info(rsc.Primetest.soe_infostepwise2);
             }
             else
             {
@@ -184,18 +183,13 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
         {
             ControlHandler.SetPropertyValue(btnForceAutomatic, "Visibility", Visibility.Hidden);
 
-            //m_PrimesThreadFinished.WaitOne();
-            //IList<PrimesBigInteger> remainders = m_FPThread.Primes;
-            StringBuilder sbResult = new StringBuilder(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_doneautomatic);
-            //  new StringBuilder(string.Format("Fertig. Es wurden {0} Primzahlen gefunden.", remainders.Count));
+            StringBuilder sbResult = new StringBuilder(rsc.Primetest.soe_doneautomatic);
+
             if (m_Value.IsPrime(10))
-            {
-                sbResult.Append(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_isprime, m_Value.ToString()));
-            }
+                sbResult.Append(string.Format(rsc.Primetest.soe_isprime, m_Value));
             else
-            {
-                sbResult.Append(string.Format(Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_isnotprime, m_Value.ToString()));
-            }
+                sbResult.Append(string.Format(rsc.Primetest.soe_isnotprime, m_Value));
+
             log.Info(sbResult.ToString());
         }
 
@@ -235,7 +229,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
         {
             sievegrid.Reset();
             sievegrid.Limit = m_Value;
-            sievegrid.RemoveNumber(PrimesBigInteger.ValueOf(1));
+            sievegrid.RemoveNumber(1);
         }
 
         public void CancelExecute()
@@ -271,8 +265,8 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
             {
                 if (m_Validator == null)
                 {
-                    m_Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Two, PrimesBigInteger.ValueOf(100000));
-                    m_Validator.Message = Primes.Resources.lang.WpfControls.Primetest.Primetest.soe_validatormessage;
+                    m_Validator = new BigIntegerMinValueMaxValueValidator(null, 2, 100000);
+                    m_Validator.Message = rsc.Primetest.soe_validatormessage;
                 }
 
                 return m_Validator;

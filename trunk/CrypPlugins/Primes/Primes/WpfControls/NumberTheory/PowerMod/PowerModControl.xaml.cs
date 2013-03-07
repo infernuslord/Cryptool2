@@ -49,6 +49,9 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
         private bool m_Initialized;
         private bool m_Resume = false;
 
+        private const double Margin = 25.0;
+        private const double PointRadius = 3.0;
+
         public PowerModControl()
         {
             InitializeComponent();
@@ -236,66 +239,54 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             ControlHandler.ClearChildren(LabelArea);
         }
 
+        public void GetCoords(int value, out double x, out double y)
+        {
+            double angle = 2 * Math.PI * (value / (double)m_Mod.IntValue + offset / 360.0) * (m_SortAsc ? 1 : -1);
+            x = (Math.Sin(angle) + 1) * Radius + Margin;
+            y = (Math.Cos(angle) + 1) * Radius + Margin;
+        }
+
         private void CreatePoint(int value)
         {
-            double pointsize = 6.0;
-            double angle = (360.0 / (double)m_Mod.IntValue) * (value + diff) + ((offset % 360));
-            double top = Radius + 25 + (Math.Sin((angle * 2 * Math.PI * ((!m_SortAsc) ? -1 : 1)) / 360.0) * Radius - (pointsize / 2.0));
-            double left = Radius + 25 + (Math.Cos((angle * 2 * Math.PI * ((!m_SortAsc) ? -1 : 1)) / 360.0) * Radius - (pointsize / 2.0));
-            Ellipse point = null;
+            double x, y;
+            GetCoords(value, out x, out y);
+            y -= PointRadius;
+            x -= PointRadius;
 
-            if (m_Points.ContainsKey(value))
-            {
-                point = GetEllipseAt(m_Points[value]);
-            }
+            Ellipse point = m_Points.ContainsKey(value) ? GetEllipseAt(m_Points[value]) : null;
 
             if (point == null)
             {
                 point = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
                 point.ToolTip = new ToolTip();
                 (point.ToolTip as ToolTip).Content = value.ToString();
-                ControlHandler.SetPropertyValue(point, "Width", pointsize);
-                ControlHandler.SetPropertyValue(point, "Height", pointsize);
+                ControlHandler.SetPropertyValue(point, "Width", PointRadius*2);
+                ControlHandler.SetPropertyValue(point, "Height", PointRadius*2);
                 ControlHandler.SetPropertyValue(point, "Fill", Brushes.Black);
                 ControlHandler.SetPropertyValue(point, "Stroke", Brushes.Black);
                 ControlHandler.SetPropertyValue(point, "StrokeThickness", 1.0);
                 ControlHandler.AddChild(point, PaintArea);
             }
-
-            ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { point, top });
-            ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { point, left });
-
-            Label lbl = ControlHandler.CreateLabel(value.ToString(), null);
-            double _top = top;
-            double _left = left - 5;
-            _top += (top < Radius) ? -20 : 0;
-            _left += (left < Radius) ? -7 + (-2 * (int)Math.Log(value)) : 2;
-            ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { lbl, _top });
-            ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { lbl, _left });
-            ControlHandler.AddChild(lbl, LabelArea);
-
-            //if (m_Ellipses.ContainsKey(value))
-            //{
-            //    m_Ellipses[value] = point;
-            //}
-            //else
-            //{
-            //    m_Ellipses.Add(value, point);
-            //}
+            
+            ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { point, x });
+            ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { point, y });
 
             if (m_CirclesSource.ContainsKey(point))
-            {
                 MoveCircle(point);
-            }
 
             if (m_Points.ContainsKey(value))
-            {
-                m_Points[value] = new Point(left, top);
-            }
+                m_Points[value] = new Point(x, y);
             else
-            {
-                m_Points.Add(value, new Point(left, top));
-            }
+                m_Points.Add(value, new Point(x, y));
+
+            Label lbl = ControlHandler.CreateLabel(value.ToString(), null);
+            double _left = x - 5;
+            double _top = y;
+            _left += (x < Radius) ? -7 + (-2 * (int)Math.Log(value)) : 2;
+            _top += (y < Radius) ? -20 : 0;
+            ControlHandler.ExecuteMethod(PaintArea, "SetLeft", new object[] { lbl, _left });
+            ControlHandler.ExecuteMethod(PaintArea, "SetTop", new object[] { lbl, _top });
+            ControlHandler.AddChild(lbl, LabelArea);
         }
 
         #endregion
@@ -307,8 +298,8 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
             Ellipse el = ControlHandler.CreateObject(typeof(Ellipse)) as Ellipse;
             ControlHandler.SetPropertyValue(el, "Width", Aperture);
             ControlHandler.SetPropertyValue(el, "Height", Aperture);
-            ControlHandler.ExecuteMethod(CircleArea, "SetTop", new object[] { el, 25 });
-            ControlHandler.ExecuteMethod(CircleArea, "SetLeft", new object[] { el, 25 });
+            ControlHandler.ExecuteMethod(CircleArea, "SetTop", new object[] { el, Margin });
+            ControlHandler.ExecuteMethod(CircleArea, "SetLeft", new object[] { el, Margin });
             ControlHandler.SetPropertyValue(el, "StrokeThickness", 1.0);
             ControlHandler.SetPropertyValue(el, "Stroke", Brushes.Black);
             ControlHandler.SetPropertyValue(el, "Name", "dontremove");
@@ -317,7 +308,7 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
         private double Aperture
         {
-            get { return Math.Max(Math.Min(PaintArea.Width, PaintArea.Height) - 50, 0); }
+            get { return Math.Max(Math.Min(PaintArea.Width, PaintArea.Height) - 2*Margin, 0); }
         }
 
         private double _radius = -1;
@@ -615,7 +606,6 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
 
             Point lastPoint = new Point(-1, -1);
             Ellipse lastEllipse = null;
-            PrimesBigInteger i = PrimesBigInteger.One;
             PrimesBigInteger result = null;
             PrimesBigInteger tmp = m_Base.Mod(m_Mod);
             Ellipse e = this.GetEllipseAt(m_Points[tmp.IntValue]);
@@ -626,20 +616,23 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 ControlHandler.SetPropertyValue(e, "Stroke", Brushes.Red);
             }
 
-            while (i.CompareTo(m_Exp) <= 0)
+            PrimesBigInteger i = 1;
+            while (i <= m_Exp)
             {
                 Thread.Sleep(100);
+
                 if (result == null)
                 {
                     result = m_Base.Mod(m_Mod);
-                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_executionfirst, new object[] { PrimesBigInteger.One.ToString(), m_Base.ToString("D"), m_Mod.ToString("D"), result.ToString("D") }));
+                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_executionfirst, 1, m_Base, m_Mod, result ));
                 }
                 else
                 {
                     PrimesBigInteger tmpResult = result;
-                    result = result.Multiply(m_Base).Mod(m_Mod);
-                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_execution, new object[] { i.ToString("D"), tmpResult.ToString("D"), m_Base.ToString("D"), m_Mod.ToString("D"), result.ToString("D") }));
+                    result = (result * m_Base).Mod(m_Mod);
+                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.powermod_execution, i, tmpResult, m_Base, m_Mod, result ));
                 }
+
                 if (lastPoint.X == -1 && lastPoint.Y == -1)
                 {
                     lastPoint = m_Points[result.IntValue];
@@ -650,12 +643,13 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                     Ellipse _e = this.GetEllipseAt(m_Points[result.IntValue]);
                     Point newPoint = m_Points[result.IntValue];
                     //CreateArrow(i.Subtract(PrimesBigInteger.One), lastPoint, newPoint);
-                    CreateArrow(i.Subtract(PrimesBigInteger.One), lastEllipse, _e);
+                    CreateArrow(i-1, lastEllipse, _e);
                     lastPoint = newPoint;
                     lastEllipse = _e;
                 }
-                i = i.Add(PrimesBigInteger.One);
-                if (i.CompareTo(PrimesBigInteger.Three) >= 0)
+
+                i = i+1;
+                if (i>=3)
                     WaitStepWise();
             }
 
@@ -734,6 +728,10 @@ namespace Primes.WpfControls.NumberTheory.PowerMod
                 ArrowLine l = ControlHandler.CreateObject(typeof(ArrowLine)) as ArrowLine;
                 ControlHandler.SetPropertyValue(l, "Stroke", Brushes.Black);
                 ControlHandler.SetPropertyValue(l, "StrokeThickness", 1.5);
+                //ControlHandler.SetPropertyValue(l, "X1", (double)ControlHandler.ExecuteMethod(PaintArea, "GetLeft", from)+3);
+                //ControlHandler.SetPropertyValue(l, "Y1", (double)ControlHandler.ExecuteMethod(PaintArea, "GetTop", from)+3);
+                //ControlHandler.SetPropertyValue(l, "X2", (double)ControlHandler.ExecuteMethod(PaintArea, "GetLeft", to)+3);
+                //ControlHandler.SetPropertyValue(l, "Y2", (double)ControlHandler.ExecuteMethod(PaintArea, "GetTop", to)+3);
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.X1Property, new Binding("(Canvas.Left)") { Source = from }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.Y1Property, new Binding("(Canvas.Top)") { Source = from }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });
                 ControlHandler.ExecuteMethod(l, "SetBinding", new object[] { ArrowLine.X2Property, new Binding("(Canvas.Left)") { Source = to }, new Type[] { typeof(DependencyProperty), typeof(BindingBase) } });

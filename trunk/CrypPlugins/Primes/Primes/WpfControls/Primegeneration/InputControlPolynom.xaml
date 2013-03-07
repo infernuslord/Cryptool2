@@ -16,6 +16,7 @@
             </Grid>
             <comps:InputRangeControl
                 InputRangeControlType="Vertical"
+                SecondParameterPresent="False"
                 FreeTextboxWidth="100" ShowCalcInput="True" ShowFreeInput="True" x:Name="rangeinputcontrol" ButtonCancelIsEnabled="False"
                 Title="{x:Static lang:PrimesGeneration.polynom_values}" BorderColor="Black" />
         </StackPanel>

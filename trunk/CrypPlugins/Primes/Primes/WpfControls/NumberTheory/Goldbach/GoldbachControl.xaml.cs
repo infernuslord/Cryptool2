@@ -36,14 +36,15 @@ using Primes.WpfControls.Components;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using Cryptool.PluginBase.Miscellaneous;
-using Primes.Resources.lang.WpfControls.Distribution;
+//using Primes.Resources.lang.WpfControls.Distribution;
+using Primes.Resources.lang.Numbertheory;
 
-namespace Primes.WpfControls.PrimesDistribution.Goldbach
+namespace Primes.WpfControls.NumberTheory.Goldbach
 {
     /// <summary>
     /// Interaction logic for GoldbachControl.xaml
     /// </summary>
-    public partial class GoldbachControl : UserControl, IPrimeDistribution
+    public partial class GoldbachControl : UserControl
     {
         private bool m_Initialized;
 
@@ -199,7 +200,7 @@ namespace Primes.WpfControls.PrimesDistribution.Goldbach
                 goldbachResult = Calculate(value, ref text);
                 info.n = value.IntValue;
                 info.sums = goldbachResult.IntValue;
-                String fmt = (info.sums == 1) ? Distribution.numberline_goldbachsum : Distribution.numberline_goldbachsums;
+                String fmt = (info.sums == 1) ? Numbertheory.goldbach_sum : Numbertheory.goldbach_sums;
                 if (info.sums > 0) text = "\n" + text;
                 info.tooltip = String.Format("{0}: {1} " + fmt + "{2}", info.n, info.sums, text);
                 if (info.sums > MAXSUMSINTOOLTIP) info.tooltip += "\n...";

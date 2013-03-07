@@ -84,6 +84,7 @@ namespace Primes.WpfControls.Components
             set
             {
                 m_StrNumber = value;
+
                 if (m_StrNumber != null)
                 {
                     if (ShowContent)
@@ -95,15 +96,16 @@ namespace Primes.WpfControls.Components
                         else
                         {
                             ControlHandler.SetElementContent(this, m_StrNumber.Substring(0, 2) + "..");
+
+                            //ToolTip tt = ControlHandler.CreateObject(typeof(ToolTip)) as ToolTip;
+                            //ControlHandler.SetElementContent(tt, m_StrNumber);
+                            //ControlHandler.SetPropertyValue(this, "ToolTip", tt);
                         }
                     }
                     else
                     {
                         ControlHandler.SetElementContent(this, "   ");
                     }
-                    //ToolTip tt = ControlHandler.CreateObject(typeof(ToolTip)) as ToolTip;
-                    //ControlHandler.SetElementContent(tt, m_StrNumber);
-                    //ControlHandler.SetPropertyValue(this, "ToolTip", tt);
                 }
             }
         }

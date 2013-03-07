@@ -112,10 +112,10 @@ namespace Primes.WpfControls.PrimesDistribution
             {
                 OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount);
             }
-            else if (sender == tabItemGoldbach)
-            {
-                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Goldbach);
-            }
+            //else if (sender == tabItemGoldbach)
+            //{
+            //    OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Distribution_Goldbach);
+            //}
 
             e.Handled = true;
         }

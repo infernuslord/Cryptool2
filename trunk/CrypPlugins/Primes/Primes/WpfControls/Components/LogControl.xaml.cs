@@ -277,11 +277,12 @@ namespace Primes.WpfControls.Components
                     //ControlHandler.SetPropertyValue(tb, "Width", Math.Max(this.ActualWidth - 100, 50));
                     ControlHandler.SetPropertyValue(tb, "FontSize", 12);
                     ControlHandler.SetPropertyValue(tb, "HorizontalAlignment", HorizontalAlignment.Left);
+                    //ControlHandler.SetPropertyValue(tb, "IsReadOnly", true);
                     tb.Padding = new Thickness(10, 5, 10, 5);
 
                     if (!string.IsNullOrEmpty(message.Trim()))
                     {
-                        tb.MouseLeftButtonDown += new MouseButtonEventHandler(tb_MouseLeftButtonDown);
+                        //tb.MouseLeftButtonDown += new MouseButtonEventHandler(tb_MouseLeftButtonDown);
                         tb.MouseMove += new MouseEventHandler(tb_MouseMove);
                         tb.MouseLeave += new MouseEventHandler(tb_MouseLeave);
                     }
@@ -343,14 +344,14 @@ namespace Primes.WpfControls.Components
 
         void tb_MouseLeave(object sender, MouseEventArgs e)
         {
-            //  if (m_TextStyle != null)
-            //  {
-            //    MarkRow(sender as TextBlock, m_TextStyle.Background, m_TextStyle.Foreground);
-            //  }
-            //  else
-            //  {
-            //    MarkRow(sender as TextBlock, Brushes.White, Brushes.Black);
-            //  }
+            if (m_TextStyle != null)
+            {
+                MarkRow(sender as TextBlock, m_TextStyle.Background, m_TextStyle.Foreground);
+            }
+            else
+            {
+                MarkRow(sender as TextBlock, Brushes.White, Brushes.Black);
+            }
         }
 
         private void MarkRow(TextBlock sender, Brush background, Brush foreground)
@@ -595,7 +596,7 @@ namespace Primes.WpfControls.Components
             public Brush Foreground
             {
                 get { return m_Foreground; }
-                set { m_Foreground = (value == null) ? m_Foreground = Brushes.Blue : value; }
+                set { m_Foreground = (value == null) ? m_Foreground = Brushes.Green : value; }
             }
 
             private Brush m_Background;
