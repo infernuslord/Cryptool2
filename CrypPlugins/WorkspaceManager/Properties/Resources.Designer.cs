@@ -565,6 +565,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calculation finished (To stop the workspace please push the stop button or enter new data to start a new calculation).
+        /// </summary>
+        public static string GlobalProgressBar_Description {
+            get {
+                return ResourceManager.GetString("GlobalProgressBar_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grow Font.
         /// </summary>
         public static string Grow_Font {
