@@ -2,7 +2,7 @@
 <sample>
   <title lang="en">Random Decimal Number</title>
   <summary lang="en">Generating a <i>random decimal number</i></summary>
-  <description lang="en">With this template you can generate a random decimal number. To do so, first a set of random bytes  (preset to <i>1000</i>) are generated. These bytes are then used by the <b>Decimalisation</b>-component to generate a random number with a certain amount of decimal digits (preset to <i>100</i>). The decimalisation-component is set to use the <i>Modulo</i>-approach to generate the random decimal number. For further details, read the help page for the decimalisation component.</description>
+  <description lang="en">With this template you can generate a random decimal number. To do so, first a set of random bytes (preset to <i>1000</i>) is generated. These bytes are then used by the <b>Decimalisation</b> component to generate a random number with a certain amount of decimal digits (preset to <i>100</i>). Within the decimalisation component it is configured to use the <i>Modulo</i> approach to generate the random decimal number. For further details, read the help page for the decimalisation component.</description>
   <keywords>Random, Number, Decimal</keywords>
   
   <title lang="de">Zufällige Dezimalzahl</title>

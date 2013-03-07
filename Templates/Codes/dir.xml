@@ -2,7 +2,7 @@
 <directory order="5">
   <name lang="en">Codes</name>
   <name lang="de">Codes</name>  
-  <summary lang="en">The folder "Codes" contains templates that demonstrate different types of codes.</summary>
-  <summary lang="de">Das Verzeichnis "Codes" enthält Vorlagen, die Verschiedene Arten von Codierungen demonstrieren.</summary>
+  <summary lang="en">The folder "Codes" contains templates that demonstrate the use of different types of codes and formats.</summary>
+  <summary lang="de">Das Verzeichnis "Codes" enthält Vorlagen, die die Anwendung verschiedener Codierungen und Formate demonstrieren.</summary>
   <icon file="dir.png" />
 </directory>

@@ -5,10 +5,10 @@
   <summary lang="en">Usage of the <i>AES</i> cipher in CBC mode with an initialization vector, where the session key is generated from a password using <i>PKCS#5</i> and the ciphertext is encoded in base64 and finally stored in a QRCode</summary>
   <description lang="en">In this template we provide a quick way to encrypt plaintext with AES [1] by using a simple password (which is converted to an AES-key by using PKCS#5 [2]).
 	The result is base64-encoded and stored in a QRCode.
-	Decryption is also possible with this template: First the AES-<b>component</b> needs to be switched to "Decrypt" and the <b>Switch</b>-component must be set to <i>True</i>.
-	With the help of the <b>Switch</b>-component, the data takes a different path, i.e. for decryption we first need to base64-decode it, 
+	Decryption is also possible with this template: First the AES <b>component</b> needs to be switched to "Decrypt" and the <b>Switch</b> component must be set to <i>True</i>.
+	With the help of the <b>Switch</b> component, the data takes a different path, i.e. for decryption we first need to base64-decode it, 
 	while when encrypting we encode it in base64 after encryption.
-Finally, start the template and put an encrypted QRCode in front of your webcam until the <b>Visual decoder</b>-component decodes it.
+Finally, start the template and put an encrypted QRCode in front of your webcam until the <b>Visual decoder</b> component decodes it.
 	<newline />
 In this template additionally a random initialization vector (IV) is used to strengthen the security of the message.
  The IV is also encoded in base64 and prepended to the encrypted message. On the receiving side, the received IV is
