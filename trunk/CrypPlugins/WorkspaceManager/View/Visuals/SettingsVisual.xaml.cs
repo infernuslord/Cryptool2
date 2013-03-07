@@ -404,33 +404,16 @@ namespace WorkspaceManager.View.Visuals
                 dataBinding.Source = test;
 
                 //                    bodi.SetBinding(Border.WidthProperty, dataBinding);
-
-
                 if (!string.IsNullOrEmpty(cel[0].tpa.groupName))
                 {
                     testexoander.Header = cel[0].tpa.GroupName;
                 }
-
-
-
-
-
                 //testexoander.Style = (Style)FindResource("Expander");
-
-
 
                 StackPanel contentPanel = new StackPanel();
                 List<String> grouplist = new List<String>();
                 List<Grid> gridlist = new List<Grid>();
                 List<TextBlock> tebo = new List<TextBlock>();
-
-
-
-                //test.Width = 400;      
-
-
-
-
                 foreach (ControlEntry ce in cel)
                 {
                     addToConnectorSettingsHide(ce);
@@ -648,13 +631,6 @@ namespace WorkspaceManager.View.Visuals
                         
                     }
 
-                    //Binding bind = new Binding();
-                    //bind.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                    //bind.Path = new PropertyPath(UIElement.VisibilityProperty);
-                    //bind.Mode = BindingMode.TwoWay;
-                    //bind.Source = ce.element.Visibility;
-                    //title.SetBinding(TextBlock.VisibilityProperty, bind);
-
                 }
                 test.HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -731,7 +707,7 @@ namespace WorkspaceManager.View.Visuals
 
 
                             //controlList.Add(new ControlEntry(textbox,tpa,sfa));
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textbox, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textbox, tpa, sfa, b, bcv.Model));
                             break;
 
                         #endregion TextBox
@@ -754,7 +730,7 @@ namespace WorkspaceManager.View.Visuals
                                 intInput.MaxWidth = ft.WidthIncludingTrailingWhitespace + 30;
                                 intInput.Width = ft.WidthIncludingTrailingWhitespace + 30;
                                 intInput.SetBinding(IntegerUpDown.ValueProperty, dataBinding);
-                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa, b));
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa, b, bcv.Model));
                                 intInput.IsEnabled = true;
                                 
                                 /*
@@ -813,7 +789,7 @@ namespace WorkspaceManager.View.Visuals
                             comboBox.ToolTip = tpa.ToolTip;
                             comboBox.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
                             //controlList.Add(new ControlEntry(comboBox, tpa, sfa));
-                            entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(comboBox, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(comboBox, tpa, sfa, b, bcv.Model));
                             break;
 
                         # endregion ComboBox
@@ -857,7 +833,7 @@ namespace WorkspaceManager.View.Visuals
                                     list.Add(radio);
                                 }
                                 dicRadioButtons[plugin.Settings].Add(tpa.PropertyName, list);
-                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(panelRadioButtons, tpa, sfa, b));
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(panelRadioButtons, tpa, sfa, b, bcv.Model));
                            
                             break;
                             
@@ -876,7 +852,7 @@ namespace WorkspaceManager.View.Visuals
                             checkBox.ToolTip = tpa.ToolTip;
                             checkBox.MouseEnter += Control_MouseEnter;
                             checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(checkBox, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(checkBox, tpa, sfa, b, bcv.Model));
                             
                             break;
                         # endregion CheckBox
@@ -900,7 +876,7 @@ namespace WorkspaceManager.View.Visuals
                                 //bInfo.CaptionGUIElement = comboBoxDyn;
 
                                 //controlList.Add(new ControlEntry(comboBoxDyn, tpa, sfa));
-                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(comboBoxDyn, tpa, sfa, b));
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(comboBoxDyn, tpa, sfa, b, bcv.Model));
                             }
                             break;
                             # endregion DynamicComboBox
@@ -939,7 +915,7 @@ namespace WorkspaceManager.View.Visuals
                                 btn.Content = Properties.Resources.Open_File;
                             btn.Click += FileDialogClick;
                             sp.Children.Add(btn);
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(sp, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(sp, tpa, sfa, b, bcv.Model));
                            
                             break;
                         # endregion FileDialog
@@ -959,7 +935,7 @@ namespace WorkspaceManager.View.Visuals
                             taskPaneButton.Content = contentBlock;
                             taskPaneButton.Click += TaskPaneButton_Click;
                             
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(taskPaneButton, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(taskPaneButton, tpa, sfa, b, bcv.Model));
                             break;
                         # endregion Button
                           
@@ -980,7 +956,7 @@ namespace WorkspaceManager.View.Visuals
                             
                             slider.MinWidth = 0;
 
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa, b, bcv.Model));
                             break;
                         # endregion Slider
 
@@ -998,7 +974,7 @@ namespace WorkspaceManager.View.Visuals
                             textBoxReadOnly.MouseEnter += Control_MouseEnter;
                             dataBinding.Mode = BindingMode.OneWay; // read-only strings do not need a setter
                             textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa, b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa, b, bcv.Model));
                             break;
                         # endregion TextBoxReadOnly
                 
@@ -1014,7 +990,7 @@ namespace WorkspaceManager.View.Visuals
                             passwordBox.Password = plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null) as string;
                             //textBoxReadOnly.SetBinding(PasswordBox.property , dataBinding);
                             passwordBox.PasswordChanged += TextBoxHidden_Changed;
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(passwordBox, tpa, sfa,b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(passwordBox, tpa, sfa, b, bcv.Model));
                         break;
                         #endregion TextBoxHidden
 
@@ -1028,7 +1004,7 @@ namespace WorkspaceManager.View.Visuals
                             keyTextBox.ToolTip = tpa.ToolTip;
                             keyTextBox.MouseEnter += Control_MouseEnter;
                             keyTextBox.SetBinding(KeyTextBox.KeyTextBox.CurrentKeyProperty, dataBinding);
-                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(keyTextBox, tpa, sfa,b));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(keyTextBox, tpa, sfa, b, bcv.Model));
                         break;
                         #endregion KeyTextBox
 
@@ -1041,26 +1017,29 @@ namespace WorkspaceManager.View.Visuals
 
         }
 
-
-        void Model_ConnectorPlugstateChanged(object sender, Model.ConnectorPlugstateChangedEventArgs e)
+        void checkIfPlugged(Model.PlugState state, Model.ConnectorModel model)
         {
             ControlEntry ele = null;
-            connectorSettingElements.TryGetValue(e.ConnectorModel.GetName(), out ele);
-            if (e.PlugState == Model.PlugState.Plugged)
-            {
-                if (ele != null)
-                {
-                    ele.Visibility = System.Windows.Visibility.Visible;
-                }
-            }
-            if(e.PlugState == Model.PlugState.Unplugged && e.ConnectorModel.GetInputConnections().Count == 0)
+            connectorSettingElements.TryGetValue(model.GetName(), out ele);
+            if (state == Model.PlugState.Plugged)
             {
                 if (ele != null)
                 {
                     ele.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }
+            if (state == Model.PlugState.Unplugged && model.GetInputConnections().Count == 0)
+            {
+                if (ele != null)
+                {
+                    ele.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+        }
 
+        void Model_ConnectorPlugstateChanged(object sender, Model.ConnectorPlugstateChangedEventArgs e)
+        {
+            checkIfPlugged(e.PlugState, e.ConnectorModel);
         }
 
         void addToConnectorSettingsHide(ControlEntry element)
@@ -1307,14 +1286,23 @@ namespace WorkspaceManager.View.Visuals
             this.element = element;
             this.sfa = sfa;
             this.tpa = tpa;
+            
         }
 
-        public ControlEntry(UIElement element, TaskPaneAttribute tpa, SettingsFormatAttribute sfa, bool hide)
+        public ControlEntry(UIElement element, TaskPaneAttribute tpa, SettingsFormatAttribute sfa, bool hide, Model.PluginModel model)
         {
             this.element = element;
             this.sfa = sfa;
             this.tpa = tpa;
             this.hide = hide;
+            if (hide)
+            {
+                var conModel = model.GetOutputConnectors().Union(model.GetInputConnectors()).First(x => x.GetName() == tpa.PropertyName);
+                var a = conModel.GetInputConnections().Count > 0;
+                var b = conModel.GetOutputConnections().Count > 0;
+                this.Visibility = a || b ? Visibility.Collapsed : Visibility.Visible;
+            }
+
         }
 
     }
