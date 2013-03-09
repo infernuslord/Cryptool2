@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Cryptool.TextInput.TextInputPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
     Height="Auto" Width="Auto" Margin="0" MinHeight="30" MinWidth="100">
     <Grid Height="Auto" Width="Auto" Margin="0">
         <Grid.RowDefinitions>
@@ -9,8 +10,9 @@
         </Grid.RowDefinitions>
          <TextBox Name="textBoxInputText" Grid.Row="0" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-               AcceptsReturn="True" 
-               IsUndoEnabled="True" FontFamily="Courier New" />
+               AcceptsReturn="True" IsUndoEnabled="True" 
+               FontFamily="{Binding Source={x:Static Properties:Settings.Default}, Path=FontFamily, Mode=OneWay}" 
+               FontSize="{Binding Source={x:Static Properties:Settings.Default}, Path=FontSize, Mode=OneWay}" />
         <Label Name="labelBytesCount" Grid.Row="1" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0">
             0 Bytes
         </Label>

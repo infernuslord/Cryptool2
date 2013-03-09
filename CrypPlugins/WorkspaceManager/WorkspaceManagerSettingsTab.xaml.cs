@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Cryptool.PluginBase.Attributes;
 using WorkspaceManager.Model;
-using WorkspaceManager.View.VisualComponents;
 
 namespace WorkspaceManager
 {
@@ -24,10 +18,40 @@ namespace WorkspaceManager
     [SettingsTab("WorkspaceManagerSettings", "/MainSettings/", 1.1)]
     public partial class WorkspaceManagerSettingsTab : UserControl
     {
+        private readonly ICollection<System.Windows.Media.FontFamily> _fontFamilies;
+        private readonly List<double> _fontSizes;
+
+        public ICollection<FontFamily> FontFamilies
+        {
+            get { return _fontFamilies; }
+        }
+
+        public List<double> FontSizes
+        {
+            get { return _fontSizes; }
+        }
+
         public WorkspaceManagerSettingsTab(Style settingsStyle)
         {
+            _fontFamilies = Fonts.SystemFontFamilies;
+            _fontSizes = new List<double>();
+            for (int i = 3; i < 64; i++)
+            {
+                _fontSizes.Add(i);
+            }
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
+
+            if (Cryptool.PluginBase.Properties.Settings.Default.FontFamily != null)
+            {
+                FontFamilyComboBox.SelectedItem = _fontFamilies.First(x => Equals(Cryptool.PluginBase.Properties.Settings.Default.FontFamily, x));
+            }
+            else
+            {
+                FontFamilyComboBox.SelectedItem = _fontFamilies.First(x => Equals(this.FontFamily, x));
+            }
+            FontSizeComboBox.SelectedItem = Cryptool.PluginBase.Properties.Settings.Default.FontSize;
+
             InitializeColors();
             Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate { Cryptool.PluginBase.Miscellaneous.ApplicationSettingsHelper.SaveApplicationsSettings(); };
         }
@@ -140,6 +164,16 @@ namespace WorkspaceManager
         private void ButtonResetCCS_Click(object sender, RoutedEventArgs e)
         {
             Cryptool.PluginBase.Editor.ComponentConnectionStatistics.Reset();
+        }
+
+        private void FontFamilyComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Cryptool.PluginBase.Properties.Settings.Default.FontFamily = (FontFamily) FontFamilyComboBox.SelectedItem;
+        }
+
+        private void FontSizeComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Cryptool.PluginBase.Properties.Settings.Default.FontSize = (double)FontSizeComboBox.SelectedItem;
         }
     }
 }
