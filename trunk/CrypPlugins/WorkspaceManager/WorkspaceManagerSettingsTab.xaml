@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tools="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
              xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
-             xmlns:WorkspaceManager="clr-namespace:WorkspaceManager" mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="632" DataContext="{Binding}">
+             x:Name="Tab"
+             xmlns:WorkspaceManager="clr-namespace:WorkspaceManager" mc:Ignorable="d" d:DesignHeight="890" d:DesignWidth="632" DataContext="{Binding}">
     <Grid>
         <Grid.Resources>
             <WorkspaceManager:RadioBoolToIntConverter x:Key="radioBoolToIntConverter" />
@@ -16,6 +17,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
@@ -157,6 +159,26 @@
 
                     <Button Click="ResetColorButton_Click" Width="133" Height="25" Margin="2,2,198,2" Grid.Row="16" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc ResetColors_Label}" ToolTip="{Loc ResetColors_Tooltip}" Grid.ColumnSpan="2" />
                 </Grid>
+
+                <GroupBox Header="{Loc Fonts_}" Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="256" />
+                            <ColumnDefinition Width="64" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="FontFamilyComboBox" ItemsSource="{Binding FontFamilies, ElementName=Tab}" Grid.Column="0" Margin="5" SelectionChanged="FontFamilyComboBox_OnSelectionChanged" VerticalAlignment="Top">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontFamily="{Binding}" Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox x:Name="FontSizeComboBox" ItemsSource="{Binding FontSizes, ElementName=Tab}" Grid.Column="1" Margin="5" SelectionChanged="FontSizeComboBox_OnSelectionChanged" VerticalAlignment="Top" />
+                        <Label Grid.Column="2" Margin="5" Content="Test" FontFamily="{Binding SelectedItem, ElementName=FontFamilyComboBox}" FontSize="{Binding SelectedItem, ElementName=FontSizeComboBox}" />
+                    </Grid>
+                </GroupBox>
+
             </Grid>
         </ScrollViewer>
     </Grid>
