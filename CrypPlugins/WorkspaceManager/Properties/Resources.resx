@@ -510,4 +510,7 @@
   <data name="GlobalProgressBar_Description" xml:space="preserve">
     <value>Calculation finished (To stop the workspace please push the stop button or enter new data to start a new calculation)</value>
   </data>
+  <data name="Fonts_" xml:space="preserve">
+    <value>Fonts</value>
+  </data>
 </root>

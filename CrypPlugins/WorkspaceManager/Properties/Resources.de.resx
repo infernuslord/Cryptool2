@@ -511,4 +511,7 @@
     <value>Berechnung beendet (Zum Anhalten des Workspaces bitte Stop
 drücken oder neue Daten eingeben um eine Neuberechnung durchzuführen)</value>
   </data>
+  <data name="Fonts_" xml:space="preserve">
+    <value>Schriftarten</value>
+  </data>
 </root>
