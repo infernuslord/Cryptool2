@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -45,9 +46,10 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
-        private TcpClient tcpClient = new TcpClient();
+        private TcpClient tcpClient;
         private NetworkStream networkStream;
         private MemoryStream memoryStream;
+        private byte[] endMark;
 
         #endregion
 
@@ -151,7 +153,9 @@ namespace Cryptool.Plugins.NetworkSender
             {
                 
             //    var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
-                tcpClient.Connect(IPAddress.Parse(settings.DeviceIP), settings.Port);
+                tcpClient = new TcpClient();
+                endMark = Encoding.ASCII.GetBytes("<$EOM$>");
+                
             }
 
             DestinationIp_i = "";
@@ -192,12 +196,14 @@ namespace Cryptool.Plugins.NetworkSender
                         while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
                         {
                             var packetData = new byte[bytesRead];
+
                             for (int i = 0; i < bytesRead; i++)
                             {
-                                packetData[i] = streamBuffer[i]; // copy all read data to streamData 
-                            }
 
-                            presentation.RefreshMetaData(++packageCount);
+                                packetData[i] = streamBuffer[i];
+                            }
+                            
+                                presentation.RefreshMetaData(++packageCount);
 
                             //updates the presentation
                             presentation.AddPresentationPackage(new PresentationPackage
@@ -228,7 +234,79 @@ namespace Cryptool.Plugins.NetworkSender
             else if (settings.Protocol == 1)
             {
 
-      
+                var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
+
+                if (IsValidIP(destinationIP))
+                {
+                    if (!tcpClient.Connected)
+                    {
+                        Thread.Sleep(1000);
+                        tcpClient.Connect(IPAddress.Parse(destinationIP), settings.Port);
+                        byte[] startSequence = new byte[50];
+                        byte[] startMark;
+                        startMark = Encoding.ASCII.GetBytes("<SOM>");
+                        for (int i = 0; i < startMark.Length; i++)
+                        {
+                            startSequence[i] = startMark[i];
+                        }
+
+                        networkStream = tcpClient.GetStream();
+                        networkStream.Write(startSequence, 0, startSequence.Length);
+                    }
+
+                    using (streamReader = PackageStream.CreateReader())
+                    {
+                        var streamBuffer = new byte[14500];
+                        int bytesRead;
+                        while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                        {
+
+                            var packetData = new byte[bytesRead];
+                            for (int i = 0; i < bytesRead; i++)
+                            {
+                                packetData[i] = streamBuffer[i]; // copy all read data to streamData 
+                            }
+
+                            presentation.RefreshMetaData(++packageCount);
+
+                            //updates the presentation
+                            presentation.AddPresentationPackage(new PresentationPackage
+                            {
+
+                                IPFrom = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
+                                Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                                PackageSize = generatePackageSizeString(packetData)
+                            });
+
+                            var sendData = new byte[bytesRead + endMark.Length];
+                            int n = 0;
+                            for (int i = 0; i <= bytesRead; i++)
+                            {
+                                if (i == bytesRead)
+                                {
+                                    for (int j = i; n < endMark.Length; j++)
+                                    {
+                                        sendData[j] = endMark[n];
+                                        n++;
+                                    }
+                                    break;
+                                }
+                                sendData[i] = streamBuffer[i]; // copy all read data to streamData 
+                            }
+
+                            networkStream = tcpClient.GetStream();
+                            networkStream.Write(sendData, 0, sendData.Length);
+  
+                        }
+ 
+                    }
+
+                }
+                else
+                {
+                    GuiLogMessage("Keine gueltige IP", NotificationLevel.Error);
+                }
+
             }
 
            
@@ -243,6 +321,11 @@ namespace Cryptool.Plugins.NetworkSender
             {
                  clientSocket.Close();
             }
+            if (settings.Protocol == 1 && tcpClient != null)
+            {
+                tcpClient.Close();
+                networkStream.Close();
+            }
         }
 
         /// <summary>
@@ -252,10 +335,7 @@ namespace Cryptool.Plugins.NetworkSender
         public void Stop()
         {
             isRunning = false;
-            if (settings.Protocol == 1)
-            {
-                tcpClient.Close();
-            }
+
         }
 
         /// <summary>
