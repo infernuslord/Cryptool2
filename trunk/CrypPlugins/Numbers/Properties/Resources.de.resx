@@ -195,6 +195,18 @@
   <data name="OperatList6" xml:space="preserve">
     <value>ggT</value>
   </data>
+  <data name="OperatList10" xml:space="preserve">
+    <value>Phi</value>
+  </data>
+  <data name="OperatList7" xml:space="preserve">
+    <value>kgV</value>
+  </data>
+  <data name="OperatList8" xml:space="preserve">
+    <value>ganzzahlige Wurzel</value>
+  </data>
+  <data name="OperatList9" xml:space="preserve">
+    <value>modulare Inversion</value>
+  </data>
   <data name="ShowDigitsCaption" xml:space="preserve">
     <value>Zeige Ziffern</value>
   </data>
