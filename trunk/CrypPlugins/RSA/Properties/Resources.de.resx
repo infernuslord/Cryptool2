@@ -244,7 +244,7 @@
     <value>manuelle Eingabe des Schlüssels</value>
   </data>
   <data name="SourceList3" xml:space="preserve">
-    <value>zufällig erzeugen</value>
+    <value>Primzahlen zufällig erzeugen</value>
   </data>
   <data name="SourceList4" xml:space="preserve">
     <value>X.509-Zertifikat</value>
@@ -270,5 +270,23 @@
   <data name="OverrideBlocksizesTooltip" xml:space="preserve">
     <value>Aktivieren Sie diese Checkbox, um die zu verwendenden Blockgrößen selbst zu bestimmen.
 Diese werden dann anstatt der automatisch ermittelten Blockgrößen verwendet. </value>
+  </data>
+  <data name="RangeCaption" xml:space="preserve">
+    <value>Primzahlgröße</value>
+  </data>
+  <data name="RangeTooltip" xml:space="preserve">
+    <value>Parameter, der die Anzahl der Bits oder eine obere Schranke für die zu erzeugenden Primzahlen angibt.</value>
+  </data>
+  <data name="RangeTypeCaption" xml:space="preserve">
+    <value>Größenparameter</value>
+  </data>
+  <data name="RangeTypeList1" xml:space="preserve">
+    <value>Anzahl der Bits</value>
+  </data>
+  <data name="RangeTypeList2" xml:space="preserve">
+    <value>Obere Schranke</value>
+  </data>
+  <data name="RangeTypeTooltip" xml:space="preserve">
+    <value>Soll der Größenparameter die Anzahl der Bits oder eine obere Schranke für die zu erzeugenden Primzahlen angeben?</value>
   </data>
 </root>
