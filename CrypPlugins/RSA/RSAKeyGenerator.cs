@@ -158,6 +158,7 @@ namespace Cryptool.Plugins.RSA
             BigInteger d;
 
             ProgressChanged(0.5, 1.0);
+
             switch (settings.Source)
             {
                 // manual
@@ -199,6 +200,7 @@ namespace Cryptool.Plugins.RSA
                         GuiLogMessage("RSAKeyGenerator Error: E (" + e + ") can not be inverted.", NotificationLevel.Error);
                         return;
                     }
+
                     try
                     {                       
                         N = p * q;
@@ -237,31 +239,86 @@ namespace Cryptool.Plugins.RSA
                     }
                     break;
 
-                //random generated
+                //randomly generated
                 case 2:
+                    //try
+                    //{
+                    //    RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                    //    RSAParameters rsaParameters = rsa.ExportParameters(true);
+                    //    p = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.P);
+                    //    q = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Q);
+                    //    n = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Modulus);
+                    //    Debug.Assert(BigIntegerHelper.IsProbablePrime(p));
+                    //    Debug.Assert(BigIntegerHelper.IsProbablePrime(q));
+                    //    Debug.Assert((p * q) == n);
+                    //    e = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Exponent);
+                    //    d = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.D);
+                    //    Debug.Assert((e * d) % ((p - 1) * (q - 1)) == 1);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    GuiLogMessage(ex.Message, NotificationLevel.Error);
+                    //    return;
+                    //}
+
                     try
                     {
-                        RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-                        RSAParameters rsaParameters = rsa.ExportParameters(true);
-                        p = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.P);
-                        q = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Q);
-                        n = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Modulus);
-                        Debug.Assert(BigIntegerHelper.IsProbablePrime(p));
-                        Debug.Assert(BigIntegerHelper.IsProbablePrime(q));
-                        Debug.Assert((p * q) == n);
-                        e = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Exponent);
-                        d = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.D);
-                        Debug.Assert((e * d) % ((p - 1) * (q - 1)) == 1);
+                        n = BigInteger.Parse(this.settings.Range);
+
+                        switch ( this.settings.RangeType )
+                        {
+                            case 0: // n = number of bits for primes
+                                if (!(n > 2 && n <= 1024))
+                                {
+                                    GuiLogMessage("Value for n has to be greater than 2 and less than or equal to 1024.", NotificationLevel.Error);
+                                    return;
+                                }
+                                p = BigIntegerHelper.RandomPrimeBits((int)n);
+                                do q = BigIntegerHelper.RandomPrimeBits((int)n); while (p == q);
+                                break;
+
+                            case 1: // n = upper limit for primes
+                            default:
+                                if (n <= 4)
+                                {
+                                    GuiLogMessage("Value for n has to be greater than 4", NotificationLevel.Error);
+                                    return;
+                                }
+                                p = BigIntegerHelper.RandomPrimeLimit( n + 1 );
+                                do q = BigIntegerHelper.RandomPrimeLimit(n + 1); while (p == q);
+                                break;
+                        }
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        GuiLogMessage(ex.Message, NotificationLevel.Error);
+                        GuiLogMessage("Please enter an Integer value for n.", NotificationLevel.Error);
                         return;
                     }
 
-                    N = n;
-                    E = e;
-                    D = d;
+                    BigInteger phi = (p - 1) * (q - 1);
+
+                    // generate E for the given values of p and q
+                    bool found = false;
+                    foreach (var ee in new BigInteger[] { 3, 5, 7, 11, 17, 65537 })
+                    {
+                        if (ee<phi && ee.GCD(phi) == 1) { E = ee;  found = true; break; }
+                    }
+                    if (!found)
+                    {
+                        for (int i = 0; i < 1000; i++)
+                        {
+                            e = BigIntegerHelper.RandomIntLimit(phi);
+                            if(e>=2 && e.GCD(phi) == 1) { E = e; found = true; break; }
+                        }
+                    }
+                    if (!found)
+                    {
+                        GuiLogMessage("Could not generate a valid E for p="+p+" and q="+q+".", NotificationLevel.Error);
+                        return;
+                    }
+
+                    N = p*q;
+                    D = BigIntegerHelper.ModInverse(E, phi);
                     break;
                 
                 //using x509 certificate
@@ -329,6 +386,7 @@ namespace Cryptool.Plugins.RSA
                     }
                     break;
             }
+
             ProgressChanged(1.0, 1.0);
         }
 

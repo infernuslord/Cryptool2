@@ -238,13 +238,13 @@
     <value>Decryption</value>
   </data>
   <data name="SourceList1" xml:space="preserve">
-    <value>Manual enter primes</value>
+    <value>Enter primes manually</value>
   </data>
   <data name="SourceList2" xml:space="preserve">
-    <value>Manual enter keys</value>
+    <value>Enter keys manually</value>
   </data>
   <data name="SourceList3" xml:space="preserve">
-    <value>Random generated</value>
+    <value>Generate random primes</value>
   </data>
   <data name="SourceList4" xml:space="preserve">
     <value>X.509 Certificate</value>
@@ -269,5 +269,23 @@
   </data>
   <data name="OverrideBlocksizesTooltip" xml:space="preserve">
     <value>Override the implicit block sizes and enter the values manually.</value>
+  </data>
+  <data name="RangeCaption" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="RangeTooltip" xml:space="preserve">
+    <value>Range parameter that indicates the size of the random prime numbers to be generated.</value>
+  </data>
+  <data name="RangeTypeCaption" xml:space="preserve">
+    <value>Range Type</value>
+  </data>
+  <data name="RangeTypeList1" xml:space="preserve">
+    <value>Number of bits</value>
+  </data>
+  <data name="RangeTypeList2" xml:space="preserve">
+    <value>Upper limit</value>
+  </data>
+  <data name="RangeTypeTooltip" xml:space="preserve">
+    <value>Shall the range parameter be interpreted as 'number of bits' or as 'upper limit'?</value>
   </data>
 </root>

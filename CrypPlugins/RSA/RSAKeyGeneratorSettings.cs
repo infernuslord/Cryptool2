@@ -40,6 +40,8 @@ namespace Cryptool.Plugins.RSA
         private String d = "23";
         private string certificateFile;
         private String password = "";
+        private String range = "100";
+        private int rangeType = 0;  // interpret range as: 0=number of bits, 1=upper limit
         
         #endregion
 
@@ -88,6 +90,8 @@ namespace Cryptool.Plugins.RSA
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Visible)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("D", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("N", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RangeType", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Range", Visibility.Collapsed)));
                     break;
                 case 1:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
@@ -98,6 +102,8 @@ namespace Cryptool.Plugins.RSA
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Visible)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("D", Visibility.Visible)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("N", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RangeType", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Range", Visibility.Collapsed)));
                     break;
                 case 2:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Collapsed)));
@@ -108,6 +114,8 @@ namespace Cryptool.Plugins.RSA
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("D", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("N", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RangeType", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Range", Visibility.Visible)));
                     break;
                 case 3:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CertificateFile", Visibility.Visible)));
@@ -118,6 +126,8 @@ namespace Cryptool.Plugins.RSA
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("E", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("D", Visibility.Collapsed)));
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("N", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RangeType", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Range", Visibility.Collapsed)));
                     break;
             }
         }
@@ -249,6 +259,39 @@ namespace Cryptool.Plugins.RSA
         public void CloseFile()
         {
             CertificateFile = null;
+        }
+
+        /// <summary>
+        /// Getter/Setter for the type of the given range
+        /// </summary>
+        [TaskPane("RangeTypeCaption", "RangeTypeTooltip", null, 2, false, ControlType.RadioButton, new string[] { "RangeTypeList1", "RangeTypeList2" })]
+        public int RangeType
+        {
+            get
+            {
+                return rangeType;
+            }
+            set
+            {
+                rangeType = value;
+                OnPropertyChanged("RangeType");
+            }
+        }
+        /// <summary>
+        /// Getter/Setter for the range of the primes
+        /// </summary>
+        [TaskPane("RangeCaption", "RangeTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
+        public String Range
+        {
+            get { return range; }
+            set
+            {
+                if (value != range)
+                {
+                    this.range = value;
+                    OnPropertyChanged("Range");
+                }
+            }
         }
 
         #endregion
