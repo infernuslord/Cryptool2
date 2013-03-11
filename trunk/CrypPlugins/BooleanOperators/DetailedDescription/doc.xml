@@ -80,7 +80,7 @@
       </item>
     </list>
     Um einen Ausgabewahrheitswert darzustellen verfügt Cryptool über die "Boolsche Ausgabe".
-    Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Flasch" - aus "Falsch" wird "Wahr").
+    Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Falsch" - aus "Falsch" wird "Wahr").
     Der "Wenn-Dann Operator" gibt beim einen Ausgang "Wahr" und beim zweiten Ausgang "Falsch" aus, wenn sein Eingang "Wahr" ist. Ansonsten genau andersrum.
   </usage>
 
