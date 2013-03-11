@@ -36,6 +36,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         private readonly NetworkReceiver caller;
         private bool byteAsciiSwitch;
         private int protocol;
+        private int speedrateIntervall;
 
         public NetworkReceiverSettings(NetworkReceiver caller)
         {
@@ -171,6 +172,20 @@ namespace Cryptool.Plugins.NetworkReceiver
                 {
                     protocol = value;
                     OnPropertyChanged("Protocol");
+                }
+            }
+        }
+
+        [TaskPane("updateSpeedrateLable", "updateSpeedrateTooltip", "PresentationSettings", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 30)]
+        public int SpeedrateIntervall
+        {
+            get { return speedrateIntervall; } 
+            set
+            {
+                if (speedrateIntervall != value)
+                {
+                    speedrateIntervall = value;
+                    OnPropertyChanged("SpeedrateIntervall");
                 }
             }
         }

@@ -28,10 +28,10 @@ namespace Cryptool.Plugins.NetworkReceiver
     [Cryptool.PluginBase.Attributes.Localization("NetworkReceiver.Properties.Resources")]
     public partial class NetworkReceiverPresentation : UserControl
     {
-        private const int MaxStoredPackage = 100;
+        public const int MaxStoredPackage = 100;
         private readonly ObservableCollection<PresentationPackage> entries = new ObservableCollection<PresentationPackage>();
         private readonly NetworkReceiver caller;
-        
+
 
         public NetworkReceiverPresentation(NetworkReceiver networkReceiver)
         {
@@ -93,6 +93,24 @@ namespace Cryptool.Plugins.NetworkReceiver
         }
 
         /// <summary>
+        ///  invoke presentation in order to  update the speedrate
+        ///  </summary>
+        public void UpdateSpeedrate(String Speedrate)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            {
+                try
+                {
+                    speedrate.Content = Speedrate;
+                }
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                }
+            }), null);
+        }
+
+        /// <summary>
         /// clears the packet list and resets packet count and uniueIp count
         /// </summary>
         public void ClearPresentation()
@@ -104,6 +122,8 @@ namespace Cryptool.Plugins.NetworkReceiver
                     entries.Clear();
                     amount.Content = 0;
                     uniqueIP.Content = 0;
+                    speedrate.Content = "0 B/s";
+
                 }
                 catch (Exception e)
                 {

@@ -163,10 +163,10 @@
     <value>Stop Conditions</value>
   </data>
   <data name="StreamOutput" xml:space="preserve">
-    <value>All Packets</value>
+    <value>Latest Packet</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>forward all received packets</value>
+    <value>Forwards the last received packet.</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Time Limit</value>
@@ -215,5 +215,14 @@
   </data>
   <data name="ProtocolToolTip" xml:space="preserve">
     <value>Changes the protocol type</value>
+  </data>
+  <data name="SpeedrateLabel" xml:space="preserve">
+    <value>Receiving Rate:</value>
+  </data>
+  <data name="updateSpeedrateLable" xml:space="preserve">
+    <value>update receiving rate intervall:</value>
+  </data>
+  <data name="updateSpeedrateTooltip" xml:space="preserve">
+    <value>Sets the time in seconds in which the receiving rate will be updated.</value>
   </data>
 </root>
