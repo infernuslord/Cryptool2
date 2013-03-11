@@ -319,10 +319,19 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
 
         /// <summary>
+        /// Greatest Common Divisor
+        /// Returns the GCD of a and b
+        /// </summary>
+        public static BigInteger GCD(this BigInteger a, BigInteger b)
+        {
+            return BigInteger.GreatestCommonDivisor(a, b);
+        }
+
+        /// <summary>
         /// Least Common Multiple
         /// Returns the LCM of a and b
         /// </summary>
-        public static BigInteger LCM(BigInteger a, BigInteger b)
+        public static BigInteger LCM(this BigInteger a, BigInteger b)
         {
             BigInteger gcd = BigInteger.GreatestCommonDivisor(a, b);
             return (gcd != 0) ? ((a * b) / gcd) : 0;
@@ -693,6 +702,107 @@ namespace Cryptool.PluginBase.Miscellaneous
                     if (x - lastx == 1 && (lastx * lastx) < n && (x * x) > n) return lastx;
                 }
             }
+        }
+
+        public static Dictionary<BigInteger, long> Factorize(this BigInteger n)
+        {
+            Dictionary<BigInteger, long> factors = new Dictionary<BigInteger, long>();
+            BigInteger value = (n < 0) ? -n : n;
+
+            if (value.IsProbablePrime())
+            {
+                factors[value] = 1;
+                return factors;
+            }
+
+            BigInteger factor = 2;
+            BigInteger factor2 = factor * factor;
+
+            while (value!=1)
+            {
+                if (factor2 > value)
+                {
+                    factors[value] = 1;
+                    break;
+                }
+                if (value % factor==0)
+                {
+                    factors[factor] = 0;
+                    do
+                    {
+                        value /= factor;
+                        factors[factor]++;
+                    }
+                    while (value % factor == 0);
+                }
+                factor = (factor+1).NextProbablePrime();
+                factor2 = factor * factor;
+            }
+
+            return factors;
+        }
+
+        public static BigInteger Refactor(Dictionary<BigInteger, long> factors)
+        {
+            BigInteger result = 1;
+
+            foreach (var s in factors.Keys)
+                result *= BigInteger.Pow(s,(int)factors[s]);
+
+            return result;
+        }
+
+        public static List<BigInteger> Divisors(this BigInteger n)
+        {
+            return Divisors(n.Factorize());
+        }
+
+        public static List<BigInteger> Divisors(Dictionary<BigInteger, long> factors)
+        {
+            Dictionary<BigInteger, long> f = new Dictionary<BigInteger, long>();
+            List<BigInteger> keys = new List<BigInteger>();
+            foreach (var key in factors.Keys)
+            {
+                keys.Add(key);
+                f[key] = 0;
+            }
+
+            List<BigInteger> result = new List<BigInteger>();
+
+            int i;
+            do
+            {
+                result.Add(Refactor(f));
+                for (i = keys.Count - 1; i >= 0; i--)
+                {
+                    f[keys[i]]++;
+                    if (f[keys[i]] <= factors[keys[i]]) break;
+                }
+                for (int j = i + 1; j < keys.Count; j++) f[keys[j]] = 0;
+            }
+            while (i >= 0);
+
+            return result;
+        }
+
+        public static BigInteger Phi(this BigInteger n)
+        {
+            if (n == 0) return 0;
+            return Phi(n.Factorize());
+        }
+
+        public static BigInteger Phi(Dictionary<BigInteger, long> factors)
+        {
+            BigInteger phi = 1;
+
+            foreach (var f in factors.Keys)
+            {
+                if(f>0)
+                    if (factors[f] > 0)
+                        phi *= (f-1) * BigInteger.Pow(f,(int)factors[f] - 1);
+            }
+
+            return phi;
         }
     }
 }
