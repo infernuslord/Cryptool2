@@ -15,16 +15,16 @@
 */
 
 using System;
+using System.ComponentModel;
+using System.Numerics;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
-using System.Numerics;
 
 namespace Cryptool.Plugins.Numbers
 {
     [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginOperationCaption", "PluginOperationTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginOperationCaption", "PluginOperationTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class NumberOperations : ICrypComponent
     {
@@ -203,9 +203,7 @@ namespace Cryptool.Plugins.Numbers
                                 if (Input2 >= 0)
                                     Output = BigInteger.ModPow(Input1, Input2, Mod);
                                 else
-                                {
                                     Output = BigInteger.ModPow(BigIntegerHelper.ModInverse(Input1, Mod), -Input2, Mod);
-                                }
                             }
                             else
                             {
@@ -214,7 +212,23 @@ namespace Cryptool.Plugins.Numbers
                             break;
                         // gcd(x,y)
                         case 5:
-                            Output = BigInteger.GreatestCommonDivisor(Input1, Input2);
+                            Output = Input1.GCD(Input2);
+                            break;
+                        // lcm(x,y)
+                        case 6:
+                            Output = Input1.LCM(Input2);
+                            break;
+                        // sqrt(x,y)
+                        case 7:
+                            Output = Input1.Sqrt();
+                            break;
+                        // modinv(x,y)
+                        case 8:
+                            Output = BigIntegerHelper.ModInverse(Input1, Input2);
+                            break;
+                        // phi(x)
+                        case 9:
+                            Output = Input1.Phi();
                             break;
                     }
                 }

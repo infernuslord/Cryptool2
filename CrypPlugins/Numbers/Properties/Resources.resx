@@ -172,7 +172,7 @@
     <value>The number this component should output.</value>
   </data>
   <data name="OperatCaption" xml:space="preserve">
-    <value>Operat</value>
+    <value>Operation</value>
   </data>
   <data name="OperatTooltip" xml:space="preserve">
     <value>Choose the operator.</value>
@@ -194,6 +194,18 @@
   </data>
   <data name="OperatList6" xml:space="preserve">
     <value>GCD</value>
+  </data>
+  <data name="OperatList10" xml:space="preserve">
+    <value>Phi</value>
+  </data>
+  <data name="OperatList7" xml:space="preserve">
+    <value>LCM</value>
+  </data>
+  <data name="OperatList8" xml:space="preserve">
+    <value>integer square root</value>
+  </data>
+  <data name="OperatList9" xml:space="preserve">
+    <value>modular inversion</value>
   </data>
   <data name="ShowDigitsCaption" xml:space="preserve">
     <value>Show digits</value>

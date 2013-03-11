@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.Numbers
         /// 
         /// Based on the option chosen, the icon for this plug-in will also change.
         /// </summary>
-        [TaskPane("OperatCaption", "OperatTooltip", null, 1, false, ControlType.ComboBox, new string[] { "OperatList1", "OperatList2", "OperatList3", "OperatList4", "OperatList5", "OperatList6" })]
+        [TaskPane("OperatCaption", "OperatTooltip", null, 1, false, ControlType.ComboBox, new string[] { "OperatList1", "OperatList2", "OperatList3", "OperatList4", "OperatList5", "OperatList6", "OperatList7", "OperatList8", "OperatList9", "OperatList10" })]
         public int Operat
         {
             get { return this.operat; }
@@ -62,29 +62,45 @@ namespace Cryptool.Plugins.Numbers
         {
             switch (operat)
             {
-                //x+y
+                // x+y
                 case 0:
                     ChangePluginIcon(0);
                     break;
-                //x-y
+                // x-y
                 case 1:
                     ChangePluginIcon(1);
                     break;
-                //x*y
+                // x*y
                 case 2:
                     ChangePluginIcon(2);
                     break;
-                //x/y
+                // x/y
                 case 3:
                     ChangePluginIcon(3);
                     break;
-                //x^y
+                // x^y
                 case 4:
                     ChangePluginIcon(4);
                     break;
-                //gcd(x,y)
+                // gcd(x,y)
                 case 5:
                     ChangePluginIcon(5);
+                    break;
+                // lcm(x,y)
+                case 6:
+                    ChangePluginIcon(6);
+                    break;
+                // sqrt(x)
+                case 7:
+                    ChangePluginIcon(7);
+                    break;
+                // modinv(x,y)
+                case 8:
+                    ChangePluginIcon(8);
+                    break;
+                // phi(x)
+                case 9:
+                    ChangePluginIcon(9);
                     break;
             }
         }
@@ -93,6 +109,7 @@ namespace Cryptool.Plugins.Numbers
         {
             OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, p));
         }
+
         #endregion
 
         #region INotifyPropertyChanged Members
@@ -104,6 +121,7 @@ namespace Cryptool.Plugins.Numbers
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
         }
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         #endregion
