@@ -29,7 +29,7 @@ using System.Diagnostics;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", "", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("RSA.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "RSA/DetailedDescription/doc.xml", "RSA/iconkey.png")]
+    [PluginInfo("RSA.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "RSA/DetailedDescription/dockeygen.xml", "RSA/iconkey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
