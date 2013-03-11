@@ -130,7 +130,7 @@
     <value>Packetlimit</value>
   </data>
   <data name="PackageLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wieviel Packeten die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
+    <value>Gibt an, nach wieviel Paketen die Komponente anhalten soll. 0 bedeutet "halte nicht"</value>
   </data>
   <data name="PaylodHeader" xml:space="preserve">
     <value>Empfangende Daten</value>
@@ -151,10 +151,10 @@
     <value>Empfangene Pakete</value>
   </data>
   <data name="SingleOutput" xml:space="preserve">
-    <value>Einzelnes Packet</value>
+    <value>Einzelnes Paket</value>
   </data>
   <data name="SingleOutputTooltip" xml:space="preserve">
-    <value>Daten eines einzenen Packetes</value>
+    <value>Daten eines einzenen Paketes.</value>
   </data>
   <data name="StartLabel" xml:space="preserve">
     <value>Gestartet Um:</value>
@@ -163,10 +163,10 @@
     <value>Haltebedingungen</value>
   </data>
   <data name="StreamOutput" xml:space="preserve">
-    <value>Alle Packete</value>
+    <value>Letztes Paket</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Leitet alle empfangenen Packete weiter</value>
+    <value>Leitet das zuletzt empfangenen Paket weiter.</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Zeitlimit</value>
@@ -215,5 +215,14 @@
   </data>
   <data name="ProtocolToolTip" xml:space="preserve">
     <value>Ändert den Protokoll Typen</value>
+  </data>
+  <data name="SpeedrateLabel" xml:space="preserve">
+    <value>Empfangsrate: </value>
+  </data>
+  <data name="updateSpeedrateLable" xml:space="preserve">
+    <value>Empfangsrate-Aktualisierungsintervall:</value>
+  </data>
+  <data name="updateSpeedrateTooltip" xml:space="preserve">
+    <value>Bestimmt die Zeitspanne in Sekunden, in der die Empfangsrate neu berechnet wird.</value>
   </data>
 </root>

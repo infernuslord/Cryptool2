@@ -286,6 +286,15 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Receiving Rate: ähnelt.
+        /// </summary>
+        internal static string SpeedrateLabel {
+            get {
+                return ResourceManager.GetString("SpeedrateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start Time: ähnelt.
         /// </summary>
         internal static string StartLabel {
@@ -304,7 +313,7 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die All Packets ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Latest Packet ähnelt.
         /// </summary>
         internal static string StreamOutput {
             get {
@@ -313,7 +322,7 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die forward all received packets ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forwards the last received packet. ähnelt.
         /// </summary>
         internal static string StreamOutputTooltip {
             get {
@@ -354,6 +363,24 @@ namespace NetworkReceiver.Properties {
         internal static string UniqueIPLabel {
             get {
                 return ResourceManager.GetString("UniqueIPLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die update receiving rate intervall: ähnelt.
+        /// </summary>
+        internal static string updateSpeedrateLable {
+            get {
+                return ResourceManager.GetString("updateSpeedrateLable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the time in seconds in which the receiving rate will be updated. ähnelt.
+        /// </summary>
+        internal static string updateSpeedrateTooltip {
+            get {
+                return ResourceManager.GetString("updateSpeedrateTooltip", resourceCulture);
             }
         }
     }
