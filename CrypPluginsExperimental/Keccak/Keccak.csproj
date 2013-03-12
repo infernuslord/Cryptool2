@@ -84,6 +84,11 @@
       <DependentUpon>KeccakPres.xaml</DependentUpon>
     </Compile>
     <Compile Include="Keccak_f.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sponge.cs" />
     <Compile Include="Keccak.cs" />
     <Compile Include="KeccakSettings.cs" />
@@ -92,11 +97,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.de.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -133,8 +133,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -160,12 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\rho-modified-top-lane.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\step-detail-rho.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\rho-table-marker.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\theta-step-detail.png" />
@@ -255,13 +249,70 @@
     <Resource Include="images\cube-default-bottom.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\iota\step-detail-iota.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\iota\selected-rc.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="images\iota\iota-step-detail-table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\iota\selected-rc2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\iota\step-detail-iota3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho\rho-table-marker2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho\step-detail-rho.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\rho\step-detail-rho-table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cube-default-inner2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\firstPage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\sponge-1-init.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\sponge-2-absorb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\sponge-3-squeeze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\sponge-4-keccakf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\sponge-5-keccakf-detail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\introduction.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\steps\keccakf-detail-chi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\steps\keccakf-detail-iota.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\steps\keccakf-detail-pi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\steps\keccakf-detail-rho.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\steps\keccakf-detail-theta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\stateNotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\execution.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\intro\blankPage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

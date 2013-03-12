@@ -29,6 +29,7 @@ using Cryptool.PluginBase.Attributes;
 using System.Windows.Threading;
 using System.Threading;
 using Keccak.Properties;
+using System.Windows;
 
 
 namespace Cryptool.Plugins.Keccak
@@ -129,6 +130,171 @@ namespace Cryptool.Plugins.Keccak
             outputLength = settings.OutputLength;
             rate = settings.Rate;
             capacity = settings.Capacity;
+
+            /* show presentation intro */
+            #region presentation intro
+                       
+
+            if (pres.IsVisible)
+            {
+                /* clean up last round */
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.buttonNext.Content = "Next";
+                    pres.absorbGrid.Visibility = Visibility.Hidden;
+                    pres.imgBlankPage.Visibility = Visibility.Hidden;
+                    pres.labelOutput.Visibility = Visibility.Hidden;
+                    pres.textBlockStateBeforeAbsorb.Text = "";
+                    pres.textBlockBlockToAbsorb.Text = "";
+                    pres.textBlockStateAfterAbsorb.Text = "";
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.imgIntroFirstPage.Visibility = Visibility.Visible;
+                }, null);
+
+                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                buttonNextClickedEvent.WaitOne();
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
+                        pres.imgIntroIntroduction.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentPhase.Content = "Introduction";
+                        pres.labelCurrentStep.Content = "Initialization";
+
+                        pres.textBlockIntroduction.Text =
+                            string.Format("The state of the sponge construction is initialized. Every b bits of the state are initialized to 0. " +
+                            "The state is partitioned into two parts: Capacity - c bits and Bit Rate - r bits. " +
+                            "With the current settings the values are: b = {0}, c = {1}, r = {2}.", (rate + capacity), capacity, rate);
+
+                        pres.imgIntroIntroduction.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeInit.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Absorbing Phase";
+
+                        pres.textBlockIntroduction.Text =
+                            string.Format("Every block p of the padded input is absorbed (exclusive-or'ed) by the sponge state followed by " +
+                            "an execution of the Keccak-f permutation. The input blocks only update the {0} bits of the r-bit part of the state.", rate);
+
+                        pres.imgIntroSpongeInit.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeAbsorb.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "Squeezing Phase";
+                        pres.textBlockIntroduction.Text = "The hash value is extracted from the r-bit part (z) of the state. If the size of the requested output " +
+                            "is larger than r, the state is permuted by Keccak-f iteratively until enough output is extracted.";
+
+                        pres.imgIntroSpongeAbsorb.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeSqueeze.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelCurrentStep.Content = "The Keccak-f Permutation";
+                        pres.textBlockIntroduction.Text = "The Keccak-f permutation performs 12 + 2 * l rounds. Each round consists of five step mappings " +
+                            "which permute the state in different ways. For the selected state size l equals 6 which makes a total of 24 rounds.";
+
+                        pres.imgIntroSpongeSqueeze.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Hidden;
+                        pres.imgIntroStateMapping.Visibility = Visibility.Visible;
+                        pres.textBlockIntroduction.Text = string.Format("For a better understanding of the step mappings, the {0} state bits are presented " +
+                            "as a three-dimensional cube. The row and column size is fixed to 5 bits. The lane size " +
+                            "depends on the state size and is {1} bits.", (capacity + rate), (capacity + rate) / 25);
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroStateMapping.Visibility = Visibility.Hidden;
+                        pres.imgIntroExecution.Visibility = Visibility.Visible;
+                        pres.textBlockIntroduction.Text = "";
+                        pres.labelCurrentPhase.Content = "";
+                        pres.labelCurrentStep.Content = "";
+                    }, null);
+
+                    buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.imgIntroExecution.Visibility = Visibility.Hidden;
+                }, null);
+
+                if (pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
+                        pres.imgIntroIntroduction.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeInit.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeAbsorb.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeSqueeze.Visibility = Visibility.Hidden;
+                        pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Hidden;
+                        pres.imgIntroStateMapping.Visibility = Visibility.Hidden;
+                        pres.imgIntroExecution.Visibility = Visibility.Hidden;
+                        pres.textBlockIntroduction.Text = "";
+                    }, null);
+                }
+            }
+
+            
+            #endregion
 
             /* hash input */
             output = KeccakHashFunction.Hash(input, outputLength, rate, capacity, ref pres);

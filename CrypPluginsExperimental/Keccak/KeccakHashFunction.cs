@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Windows.Threading;
+using System.Threading;
+using System.Windows;
 
 namespace Cryptool.Plugins.Keccak
 {
@@ -21,7 +24,7 @@ namespace Cryptool.Plugins.Keccak
                 "#Keccak: bit rate\t\t{2} bits\n" +
                 "#Keccak: capacity\t\t{3} bits\n\n"
                 , outputLength, rate + capacity, rate, capacity);
-            #endif            
+            #endif
 
             /* map each bit of the input to a byte */
             byte[] inputInBits = ByteArrayToBitArray(input);
@@ -157,6 +160,69 @@ namespace Cryptool.Plugins.Keccak
 
             }
             Console.WriteLine(binaryBytes.ToString());
+        }
+
+        public static string GetByteArrayAsString(byte[] bytes, int laneSize)
+        {          
+            /* get bit state if lane size is small */
+            if (laneSize < 16 && laneSize % 8 != 0)
+            {
+                string hexStr = "";
+                StringBuilder hex = new StringBuilder(bytes.Length);
+                int j = 0;
+
+                foreach (byte b in bytes)
+                {
+                    //if (j % laneSize == 0)
+                    //{
+                    //    hex.AppendFormat("{0:00}: ", j / laneSize);
+                    //}
+
+                    hex.Append((int)b);
+
+                    j++;
+                    if (j % laneSize == 0)
+                    {
+                        hex.Append("\n");
+                    }
+                }
+
+                hexStr = hex.ToString();
+                hex.Clear();
+
+                return hexStr;
+            }
+            /* get byte presentation of state otherwise (lane size at least 2 bytes) */
+            else
+            {
+                StringBuilder binaryBytes = new StringBuilder(bytes.Length);
+                StringBuilder bitString = new StringBuilder(8);
+                char[] bitChars = new char[8];
+
+                for (int i = 0; i < bytes.Length; i += 8)
+                {
+                    /* append line break at the end of a lane */
+                    if (i != 0 && i % laneSize == 0)
+                    {
+                        binaryBytes.Append("\n");
+                    }
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        bitString.Append((int)bytes[i + j]);
+                    }
+                    for (int j = 0; j < 8; j++)
+                    {
+                        bitChars[j] = bitString.ToString().ElementAt(8 - 1 - j);
+                    }
+
+                    binaryBytes.AppendFormat("{0:X2} ", Convert.ToByte(new string(bitChars), 2));
+                                       
+                    bitString.Clear();
+                }
+
+                return binaryBytes.ToString();
+            }
         }
 
         /**

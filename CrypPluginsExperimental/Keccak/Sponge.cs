@@ -7,6 +7,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace Cryptool.Plugins.Keccak
 {
@@ -49,32 +50,131 @@ namespace Cryptool.Plugins.Keccak
             /* split padded message into blocks of equal length */
             inputBlocks = SplitBlocks(paddedInputBits);
 
+            #region presentation execution phase information
+            if (pres.IsVisible && !pres.stopButtonClicked)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.imgBlankPage.Visibility = Visibility.Visible;
+
+                    pres.labelCurrentPhase.Content = "Execution";
+                    pres.labelCurrentStep.Content = "Overview";
+
+                    pres.labelExecutionInfoStateSize.Content = string.Format("State Size: {0} bits", (rate + capacity));
+                    pres.labelExecutionInfoCapacitySize.Content = string.Format("Capacity Size: {0} bits", capacity);
+                    pres.labelExecutionInfoRateSize.Content = string.Format("Bit Rate Size: {0} bits", rate);
+                    pres.labelExecutionMessageLength.Content = string.Format("Message Length: {0} bits - {1} bytes", input.Length, input.Length/8);
+                    pres.labelExecutionPaddedMessageLength.Content = string.Format("Padded Message Length: {0} bits - {1} bytes", paddedInputBits.Length, paddedInputBits.Length / 8);
+                    pres.labelExecutionNumberOfBlocks.Content = string.Format("Number of Blocks (Padded Message Length / Bit Rate Size): {0}", inputBlocks.Length);
+
+                    pres.executionInfoCanvas.Visibility = Visibility.Visible;
+                }, null);
+                
+                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                buttonNextClickedEvent.WaitOne();
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.executionInfoCanvas.Visibility = Visibility.Hidden;
+                    pres.imgBlankPage.Visibility = Visibility.Hidden;
+                }, null);
+            }
+            #endregion
+
             #if _DEBUG_
             Console.WriteLine("#Sponge: the input of length {0} bits is padded to {1} bits\n" +
                 "#Sponge: the padded input is splitted into {2} block(s) of size {3} bit\n", input.Length, paddedInputBits.Length, inputBlocks.Length, inputBlocks[0].Length);
             Console.WriteLine("#Sponge: begin absorbing phase");            
             #endif
             int blocksCounter = 1;
+
+            if (pres.IsVisible && !pres.stopButtonClicked)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.spInfo.Visibility = Visibility.Visible;
+                }, null);
+            }
              
             /* absorb and permute */
             foreach (byte[] block in inputBlocks)
-            {
+            {             
+                #if _DEBUG_
+                Console.WriteLine("#Sponge: exclusive-or'ing input block #{0} on state\n", blocksCounter);                
+                #endif                           
+
+                #region presentation absorbing phase
                 if (pres.IsVisible && !pres.stopButtonClicked)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelBlock.Content = (blocksCounter).ToString() + "/" + inputBlocks.Length.ToString();
+                        pres.labelRound.Content = "";
+                        pres.labelBlock.Content = string.Format("Block {0}/{1}", blocksCounter, inputBlocks.Length);
                     }, null);
                 }
 
-                blocksCounter++;
+                if (pres.IsVisible && !pres.stopButtonClicked)
+                {                  
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
+                        string blockStr = KeccakHashFunction.GetByteArrayAsString(block, laneSize);
 
-                #if _DEBUG_
-                Console.WriteLine("#Sponge: exclusive-or'ing input block #{0} on state\n", blocksCounter);                
-                #endif                               
+                        pres.imgBlankPage.Visibility = Visibility.Visible;
+                        pres.labelCurrentPhase.Content = "Absorbing Phase";
+                        pres.labelCurrentStep.Content = "";
+                        pres.labelAbsorbGridBlockCounter.Content = string.Format("Block #{0}/{1}", blocksCounter, inputBlocks.Length);
+                        pres.labelNewState.Visibility = Visibility.Visible;
+
+                        pres.textBlockStateBeforeAbsorb.Text = stateStr;
+                        pres.textBlockBlockToAbsorb.Text = blockStr;
+
+                        pres.absorbGrid.Visibility = Visibility.Visible;
+
+                    }, null);
+
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+                #endregion
 
                 XorBlockOnState(block);
+
+                #region presentation absorbing phase
+                if (pres.IsVisible && !pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
+                        
+                        pres.textBlockStateAfterAbsorb.Text = stateStr;
+                    }, null);
+
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (pres.IsVisible || pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelAbsorbGridBlockCounter.Content = "";
+                        pres.absorbGrid.Visibility = Visibility.Hidden;
+                        pres.imgBlankPage.Visibility = Visibility.Hidden;
+                        pres.labelNewState.Visibility = Visibility.Hidden;
+                        pres.textBlockStateBeforeAbsorb.Text = "";
+                        pres.textBlockBlockToAbsorb.Text = "";
+                        pres.textBlockStateAfterAbsorb.Text = "";
+                        pres.labelCurrentPhase.Content = "";
+                        pres.labelCurrentStep.Content = "";
+                    }, null);
+                }
+                #endregion
+
                 keccak_f.Permute(ref state);
+
+                blocksCounter++;
+                pres.skipPermutation = false;
             }
 
             #if _DEBUG_
@@ -99,7 +199,57 @@ namespace Cryptool.Plugins.Keccak
                 #endif
 
                 /* append `outputLength` bits of the state to the output */
-                output = KeccakHashFunction.SubArray(state, 0, outputLength);        // nachschauen ab wo im state abgeschnitten wird
+                output = KeccakHashFunction.SubArray(state, 0, outputLength);
+
+                /* presentation squeezing phase*/
+                #region presentation absorbing phase
+                if (pres.IsVisible && !pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.labelRound.Content = "";
+                        pres.labelBlock.Content = "";
+                    }, null);
+                }
+
+                if (pres.IsVisible && !pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
+
+                        pres.imgBlankPage.Visibility = Visibility.Visible;
+                        pres.labelCurrentPhase.Content = "Squeezing Phase";
+                        pres.labelCurrentStep.Content = "Extract Output from State";
+                        pres.labelOutput.Visibility = Visibility.Visible;
+
+
+                        pres.textBlockStateBeforeAbsorb.Text = stateStr;
+
+                        pres.absorbGrid.Visibility = Visibility.Visible;
+                    }, null);
+
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (pres.IsVisible && !pres.stopButtonClicked)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        string outputStr = KeccakHashFunction.GetByteArrayAsString(output, laneSize);
+
+                        pres.textBlockStateAfterAbsorb.Text = outputStr;
+                        pres.buttonNext.Content = "Finish";
+                       
+                    }, null);
+
+                    AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                    buttonNextClickedEvent.WaitOne();                   
+                }
+
+                #endregion
+
             }
             else
             {
@@ -134,6 +284,16 @@ namespace Cryptool.Plugins.Keccak
             #if _DEBUG_
             Console.WriteLine("#Sponge: squeezing done!\n");
             #endif
+
+            if (pres.IsVisible)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.spInfo.Visibility = Visibility.Hidden;
+                    pres.labelCurrentStep.Content = "";
+                    pres.labelCurrentPhase.Content = "";
+                }, null);
+            }
 
             return output;
         }

@@ -4,117 +4,168 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" IsEnabled="True">
-    <Grid Height="500" Name="grid1" Width="800">
-        <!-- buttons -->
-        <Button Content="Next" Height="23" HorizontalAlignment="Left" Margin="418,423,0,0" Name="buttonNext" VerticalAlignment="Top" Width="75" Click="buttonNext_Click" />
-        <Button Content="Next Step" Height="23" HorizontalAlignment="Left" Margin="605,423,0,0" Name="buttonSkip" VerticalAlignment="Top" Width="75" Click="buttonSkip_Click" />
-        <Button Content="Toggle Autorun" Height="23" HorizontalAlignment="Right" Margin="0,423,201,0" Name="buttonAutostep" VerticalAlignment="Top" Width="100" Click="buttonAutostep_Click" />
-        <Label Content="current step:" Height="28" Margin="177,12,547,0" Name="labelCurrentStepCaption" VerticalAlignment="Top" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="259,12,0,0" Name="labelCurrentStep" VerticalAlignment="Top" />
-        <Label Content="Round:" Height="28" Margin="82,12,0,0" Name="labelRoundCaption" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="130,12,0,0" Name="labelRound" VerticalAlignment="Top" />
-        <Label Content="Block:" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="labelBlockCaption" VerticalAlignment="Top" />
-        <Label Content="" Height="28" HorizontalAlignment="Left" Margin="50,12,0,0" Name="labelBlock" VerticalAlignment="Top" />
-        
-        <Canvas Height="305" HorizontalAlignment="Left" Margin="58,102,0,0" Name="canvasSteps" VerticalAlignment="Top" Width="703">
+             MinHeight="370" MinWidth="640" MaxHeight="370" MaxWidth="640" IsEnabled="True">
+    <!-- MaxHeight="370" MaxWidth="640" -->
+    <Grid Name="gridMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="207" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+       
+        <Canvas Name="introCanvas" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4">
+            <Image Name="imgIntroFirstPage" Source="/Keccak;component/images/intro/firstPage.png" Width="640" Height="342" Visibility="Hidden" />
+            <Image Name="imgIntroIntroduction" Source="/Keccak;component/images/intro/introduction.png" Width="640" Height="342" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeInit" Source="/Keccak;component/images/intro/sponge-1-init.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeAbsorb" Source="/Keccak;component/images/intro/sponge-2-absorb.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeSqueeze" Source="/Keccak;component/images/intro/sponge-3-squeeze.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeKeccakf2" Source="/Keccak;component/images/intro/sponge-5-keccakf-detail.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroStateMapping" Source="/Keccak;component/images/intro/stateNotation.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroExecution" Source="/Keccak;component/images/intro/execution.png" Width="640" Height="342" Visibility="Hidden" />
+            <Image Name="imgBlankPage" Source="/Keccak;component/images/intro/blankPage.png" Width="640" Height="342" Visibility="Hidden" />
+        </Canvas>
+
+        <Canvas Name="executionInfoCanvas" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Hidden">
+            <StackPanel>
+                <Label Name="labelExecutionInfoSpongeCaption" Content="Sponge Parameter" FontWeight="Bold" FontFamily="Courier New" />
+                <Label Name="labelExecutionInfoStateSize" Content="" Padding="2" FontFamily="Courier New" />
+                <Label Name="labelExecutionInfoCapacitySize" Content="" Padding="2" FontFamily="Courier New" />
+                <Label Name="labelExecutionInfoRateSize" Content="" Padding="2" FontFamily="Courier New" />
+                <Label Name="labelExecutionInfoBlankRow" Content=""/>
+                <Label Name="labelExecutionInfoDigestInfo" Content="Message Information" FontWeight="Bold" Padding="5" FontFamily="Courier New" />
+                <Label Name="labelExecutionMessageLength" Content="" Padding="2" FontFamily="Courier New" />
+                <Label Name="labelExecutionPaddedMessageLength" Content="" Padding="2" FontFamily="Courier New" />
+                <Label Name="labelExecutionNumberOfBlocks" Content="" Padding="2" FontFamily="Courier New" />
+            </StackPanel>
+        </Canvas>
+
+        <!-- -->
+
+        <Canvas Name="stepCanvas" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4" Visibility="Hidden">
+            <Image Name="imgStepTheta" Source="/Keccak;component/images/steps/keccakf-detail-theta.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgStepRho" Source="/Keccak;component/images/steps/keccakf-detail-rho.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgStepPi" Source="/Keccak;component/images/steps/keccakf-detail-pi.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgStepChi" Source="/Keccak;component/images/steps/keccakf-detail-chi.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Image Name="imgStepIota" Source="/Keccak;component/images/steps/keccakf-detail-iota.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
+            <Label Content="" Name="labelStepRounds" Margin="0" FontWeight="Bold" Canvas.Top="305" Canvas.Left="280" />
+            <Button Name="buttonSkipPermutation" Content="Skip Permutation" Click="buttonSkipPermutation_Click" Padding="5" Canvas.Top="300" Canvas.Left="512"/>
+        </Canvas>
+
+        <Label Content="" Name="labelCurrentPhase" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" />
+        <Label Content="" Name="labelCurrentStep" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" />
+
+        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockCurrentPhase" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="5" />
+        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockCurrentStep" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="3" Margin="5" />
+        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockIntroduction" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="50,5" Grid.ColumnSpan="3" TextAlignment="Left" />
+
+        <!-- canvas for the left cube presentation -->
+        <Canvas Height="207" Name="canvasCube" Margin="0,0,18,0" Grid.Row="2" Width="200" Grid.Column="1">
+            <!-- cubes -->
+            <Image Height="183" Name="imgCube4z" Width="183" Source="/Keccak;component/images/cube-4z.png" Canvas.Left="6" Canvas.Top="10" Stretch="Fill" Visibility="Hidden" />
+            <Image Canvas.Left="0" Canvas.Top="4" Height="195" Name="imgCubeDefault" Stretch="Fill" Width="195" Source="/Keccak;component/images/cube-default.png" Visibility="Hidden" />
+            <Image Canvas.Left="0" Canvas.Top="4" Height="195" Name="imgCubeDefaultInner" Stretch="Fill" Width="195" Source="/Keccak;component/images/cube-default-inner2.png" Visibility="Hidden" />
+            <Image Canvas.Left="0" Canvas.Top="4" Height="195" Name="imgCubeDefaultBottom" Stretch="Fill" Width="195" Source="/Keccak;component/images/cube-default-bottom.png" Visibility="Hidden" />
             
-            <!-- cube canvas-->
-            <Canvas Canvas.Left="30" Canvas.Top="47" Height="207" Name="canvasCube" Width="200">
-                
-                <!-- cubes -->
-                <Image Height="183" Name="imgCube4z" Width="183" Source="/Keccak;component/images/cube-4z.png" Canvas.Left="6" Canvas.Top="10" Stretch="Fill" Visibility="Hidden" />
-                
-                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefault" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default.png" Visibility="Hidden" />
-                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefaultInner" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default-inner.png" Visibility="Hidden" />
-                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgCubeDefaultBottom" Stretch="Fill" Width="183" Source="/Keccak;component/images/cube-default-bottom.png" Visibility="Hidden" />
-
-                <!-- theta images -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeTheta" Width="200" Visibility="Hidden">                    
-                    <!-- modified row -->
-                    <Image Canvas.Left="7" Canvas.Top="63" Height="129" Name="imgThetaModifiedRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-modified-row-front.png" />
-                    <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgThetaModifiedRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-modified-row-top.png" />
-                    <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaModifiedRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-modified-row-side.png" />
-                    <!-- left row -->
-                    <Image Canvas.Left="7" Canvas.Top="63" Height="129" Name="imgThetaLeftRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-left-row-front.png" />
-                    <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgThetaLeftRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-left-row-top.png" />
-                    <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaLeftRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-left-row-side.png" />
-                    <!-- right row -->
-                    <Image Canvas.Left="72" Canvas.Top="11" Height="12" Name="imgThetaRightRowTopFading" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-right-row-top-fading.png" />
-                    <Image Canvas.Left="176" Canvas.Top="12" Height="140" Name="imgThetaRightRowSideFading" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-right-row-side-fading.png" />
-                    <Image Canvas.Left="33" Canvas.Top="63" Height="129" Name="imgThetaRightRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-right-row-front.png" />
-                    <Image Canvas.Left="47" Canvas.Top="37" Height="12" Name="imgThetaRightRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-right-row-top.png" />
-                    <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaRightRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-right-row-side.png" />
+            <!-- coordinates -->
+            <Canvas Canvas.Left="-10" Canvas.Top="0" Height="207" Name="canvasCubeCoordinates" Width="200" Visibility="Visible">
+                <Canvas Name="zCoordinates">
+                <Label Name="zCoordinate_1" Content="" FontSize="9" Padding="0" Canvas.Left="-3" Canvas.Top="48" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                <Label Name="zCoordinate_2" Content="" FontSize="9" Padding="0" Canvas.Left="10" Canvas.Top="35" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                <Label Name="zCoordinate_3" Content="" FontSize="9" Padding="0" Canvas.Left="23" Canvas.Top="22" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                <Label Name="zCoordinate_4" Content="" FontSize="9" Padding="0" Canvas.Left="36" Canvas.Top="9" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
                 </Canvas>
                 
-                <!-- rho images -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeRho" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgRhoModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
-                    <Image Canvas.Left="137" Canvas.Top="116" Height="75" Name="imgRhoModifiedSideLane" Stretch="Fill" Width="51" Source="/Keccak;component/images/rho-modified-side-lane.png" Visibility="Hidden" />
-                    <Image Canvas.Left="8" Canvas.Top="14" Height="48" Name="imgRhoModifiedTopLane" Stretch="Fill" Width="72" Source="/Keccak;component/images/rho-modified-top-lane.png" Visibility="Hidden" />
+                <Canvas Name="yCoordinates">
+                    <Label Name="yCoordinate_1" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="174" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="yCoordinate_2" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="148" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="yCoordinate_3" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="122" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="yCoordinate_4" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="96" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="yCoordinate_5" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="70" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="yCoordinate_var" Content="" FontSize="9" Padding="0" Canvas.Left="-8" Canvas.Top="174" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
                 </Canvas>
                 
-                <!-- pi images -->
-                <!-- step 1 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_1" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_1" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-1.png" />
+                <Canvas Name="xCoordinates">
+                    <Label Name="xCoordinate_1" Content="" FontSize="9" Padding="0" Canvas.Left="17" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="xCoordinate_2" Content="" FontSize="9" Padding="0" Canvas.Left="43" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="xCoordinate_3" Content="" FontSize="9" Padding="0" Canvas.Left="69" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="xCoordinate_4" Content="" FontSize="9" Padding="0" Canvas.Left="95" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="xCoordinate_5" Content="" FontSize="9" Padding="0" Canvas.Left="121" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
+                    <Label Name="xCoordinate_var" Content="" FontSize="9" Padding="0" Canvas.Left="17" Canvas.Top="195" HorizontalAlignment="Right" FontStyle="Normal" HorizontalContentAlignment="Right" Width="20" />
                 </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_1" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_1" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-1.png" />
-                </Canvas>
-                <!-- step 2 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_2" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_2" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-2.png" />
-                </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_2" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_2" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-2.png" />
-                </Canvas>
-                <!-- step 2 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_3" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_3" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-3.png" />
-                </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_3" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_3" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-3.png" />
-                </Canvas>
-                <!-- step 2 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_4" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_4" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-4.png" />
-                </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_4" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_4" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-4.png" />
-                </Canvas>
-                <!-- step 2 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_5" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_5" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-5.png" />
-                </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_5" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_5" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-5.png" />
-                </Canvas>
-                <!-- step 2 -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_6" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_6" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-6.png" />
-                </Canvas>
-                <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_6" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_6" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-6.png" />
-                </Canvas>
-
-                <!-- chi images -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeChi" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="137" Canvas.Top="155" Height="36" Name="imgModifiedRow" Stretch="Fill" Width="12" Source="/Keccak;component/images/chi/chi-modified-row-side.png" />
-                    <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgModifiedFirstRow" Stretch="Fill" Width="129" Source="/Keccak;component/images/chi/chi-modified-row-front.png" Visibility="Hidden" />
-                    <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgModifiedTopRow" Stretch="Fill" Width="140" Source="/Keccak;component/images/chi/chi-modified-row-top.png" Visibility="Hidden" />
-                </Canvas>
-
-                <!-- iota images -->
-                <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeIota" Width="200" Visibility="Hidden">
-                    <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgIotaModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
-                </Canvas>
-
             </Canvas>
 
+            <!-- theta images -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeTheta" Width="200" Visibility="Hidden">
+                <!-- modified row -->
+                <Image Canvas.Left="7" Canvas.Top="63" Height="129" Name="imgThetaModifiedRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-modified-row-front.png" />
+                <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgThetaModifiedRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-modified-row-top.png" />
+                <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaModifiedRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-modified-row-side.png" />
+                <!-- left row -->
+                <Image Canvas.Left="7" Canvas.Top="63" Height="129" Name="imgThetaLeftRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-left-row-front.png" />
+                <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgThetaLeftRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-left-row-top.png" />
+                <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaLeftRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-left-row-side.png" />
+                <!-- right row -->
+                <Image Canvas.Left="72" Canvas.Top="11" Height="12" Name="imgThetaRightRowTopFading" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-right-row-top-fading.png" />
+                <Image Canvas.Left="176" Canvas.Top="12" Height="140" Name="imgThetaRightRowSideFading" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-right-row-side-fading.png" />
+                <Image Canvas.Left="33" Canvas.Top="63" Height="129" Name="imgThetaRightRowFront" Stretch="Fill" Width="25" Source="/Keccak;component/images/theta/theta-right-row-front.png" />
+                <Image Canvas.Left="47" Canvas.Top="37" Height="12" Name="imgThetaRightRowTop" Stretch="Fill" Width="36" Source="/Keccak;component/images/theta/theta-right-row-top.png" />
+                <Image Canvas.Left="137" Canvas.Top="51" Height="140" Name="imgThetaRightRowSide" Stretch="Fill" Width="12" Source="/Keccak;component/images/theta/theta-right-row-side.png" />
+            </Canvas>
+            <!-- rho images -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeRho" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgRhoModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
+                <Image Canvas.Left="137" Canvas.Top="116" Height="75" Name="imgRhoModifiedSideLane" Stretch="Fill" Width="51" Source="/Keccak;component/images/rho-modified-side-lane.png" Visibility="Hidden" />
+                <Image Canvas.Left="8" Canvas.Top="14" Height="48" Name="imgRhoModifiedTopLane" Stretch="Fill" Width="72" Source="/Keccak;component/images/rho-modified-top-lane.png" Visibility="Hidden" />
+            </Canvas>
+            <!-- pi images -->
+            <!-- step 1 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_1" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_1" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-1.png" />
+            </Canvas>
+            <!-- step 2 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_2" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_2" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-2.png" />
+            </Canvas>
+            <!-- step 3 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_3" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_3" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-3.png" />
+            </Canvas>
+            <!-- step 4 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_4" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_4" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-4.png" />
+            </Canvas>
+            <!-- step 5 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_5" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_5" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-5.png" />
+            </Canvas>
+            <!-- step 6 -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubePi_6" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiCube_6" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-cube-6.png" />
+            </Canvas>
+            <!-- chi images -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeChi" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="137" Canvas.Top="155" Height="36" Name="imgModifiedRow" Stretch="Fill" Width="12" Source="/Keccak;component/images/chi/chi-modified-row-side.png" />
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgModifiedFirstRow" Stretch="Fill" Width="129" Source="/Keccak;component/images/chi/chi-modified-row-front.png" Visibility="Hidden" />
+                <Image Canvas.Left="8" Canvas.Top="50" Height="12" Name="imgModifiedTopRow" Stretch="Fill" Width="140" Source="/Keccak;component/images/chi/chi-modified-row-top.png" Visibility="Hidden" />
+            </Canvas>
+            <!-- iota images -->
+            <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeIota" Width="200" Visibility="Hidden">
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgIotaModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
+            </Canvas>
+        </Canvas>
+        <!-- grid for the right detail presentation -->
+        <Grid Name="gridStepDetail" Grid.Row="2" Grid.Column="3" Grid.RowSpan="2">            
             <!-- step detail canvas -->
             <!-- chi -->
-            <Canvas Canvas.Left="434" Canvas.Top="47" Height="207" Name="canvasStepDetailChi" Width="209" Visibility="Hidden">
+            <Canvas Height="207" Name="canvasStepDetailChi" Width="209" Visibility="Hidden" FlowDirection="LeftToRight" VerticalAlignment="Top">
                 <Image Height="189" Name="imgStepDetailChi" Width="189" Source="/Keccak;component/images/chi/chi-step-detail.png" Canvas.Left="14" Canvas.Top="4" />
                 <Label Content="" Name="label1" Height="28" Canvas.Left="29" Canvas.Top="9" />
                 <Label Content="" Height="28" Name="label2" Canvas.Left="65" Canvas.Top="9" />
@@ -127,11 +178,72 @@
                 <Label Content="" Height="28" Name="label9" Canvas.Left="136" Canvas.Top="160" />
                 <Label Content="" Height="28" Name="label10" Canvas.Left="171" Canvas.Top="160" />
             </Canvas>
-            
-            <!-- rho -->
-            <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailRho" Width="396" Visibility="Hidden">
-                <Image Height="229" Name="imgStepDetailRho" Width="396" Canvas.Left="0" Canvas.Top="0" Source="/Keccak;component/images/step-detail-rho.png" />
 
+            <!-- pi -->
+            <!-- step 1 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_1" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_1" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-1.png" />
+            </Canvas>
+            <!-- step 2 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_2" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_2" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-2.png" />
+            </Canvas>
+            <!-- step 3 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_3" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_3" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-3.png" />
+            </Canvas>
+            <!-- step 4 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_4" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_4" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-4.png" />
+            </Canvas>
+            <!-- step 5 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_5" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_5" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-5.png" />
+            </Canvas>
+            <!-- step 6 -->
+            <Canvas Canvas.Left="345" Canvas.Top="0" Height="207" Name="canvasStepDetailPi_6" Width="200" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="6" Canvas.Top="10" Height="183" Name="imgPiDetailed_6" Stretch="Fill" Width="183" Source="/Keccak;component/images/pi/pi-detailed-6.png" />
+            </Canvas>           
+
+            <!-- theta -->
+            <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailTheta" Width="396" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Canvas.Left="71" Canvas.Top="8" Height="207" Name="image1" Stretch="Fill" Width="295" Source="/Keccak;component/images/theta-step-detail.png" />
+
+                <Label Canvas.Left="78" Canvas.Top="9" Content="" Height="28" Name="label164" />
+                <Label Canvas.Left="78" Canvas.Top="34" Content="" Height="28" Name="label165" />
+                <Label Canvas.Left="78" Canvas.Top="59" Content="" Height="28" Name="label166" />
+                <Label Canvas.Left="78" Canvas.Top="85" Content="" Height="28" Name="label167" />
+                <Label Canvas.Left="78" Canvas.Top="111" Content="" Height="28" Name="label168" />
+
+                <Label Canvas.Left="125" Canvas.Top="9" Content="" Height="28" Name="label169" />
+                <Label Canvas.Left="125" Canvas.Top="34" Content="" Height="28" Name="label170" />
+                <Label Canvas.Left="125" Canvas.Top="59" Content="" Height="28" Name="label171" />
+                <Label Canvas.Left="125" Canvas.Top="85" Content="" Height="28" Name="label172" />
+                <Label Canvas.Left="125" Canvas.Top="111" Content="" Height="28" Name="label173" />
+
+                <Label Canvas.Left="78" Canvas.Top="151" Content="" Height="28" Name="label174" />
+                <Label Canvas.Left="125" Canvas.Top="151" Content="" Height="28" Name="label175" />
+
+                <Label Canvas.Left="188" Canvas.Top="9" Content="" Height="28" Name="label176" />
+                <Label Canvas.Left="188" Canvas.Top="34" Content="" Height="28" Name="label177" />
+                <Label Canvas.Left="188" Canvas.Top="59" Content="" Height="28" Name="label178" />
+                <Label Canvas.Left="188" Canvas.Top="85" Content="" Height="28" Name="label179" />
+                <Label Canvas.Left="188" Canvas.Top="111" Content="" Height="28" Name="label180" />
+
+                <Label Canvas.Left="344" Canvas.Top="9" Content="" Height="28" Name="label181" />
+                <Label Canvas.Left="344" Canvas.Top="34" Content="" Height="28" Name="label182" />
+                <Label Canvas.Left="344" Canvas.Top="59" Content="" Height="28" Name="label183" />
+                <Label Canvas.Left="344" Canvas.Top="85" Content="" Height="28" Name="label184" />
+                <Label Canvas.Left="344" Canvas.Top="111" Content="" Height="28" Name="label185" />
+
+                <Label Canvas.Left="28" Canvas.Top="150" Content="Parity:" Height="28" Name="label186" />
+            </Canvas>
+
+            <!-- rho -->
+            <Canvas Height="229" Name="canvasStepDetailRho" Width="396" Visibility="Hidden" VerticalAlignment="Top">
+                <Image Name="imgStepDetailTableRho" Canvas.Left="247" Canvas.Top="44" Source="/Keccak;component/images/rho/step-detail-rho-table.png" Height="140" Width="140" />
+                <Image Canvas.Left="270" Canvas.Top="67" Height="25" Name="imgRhoTableMarker" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho/rho-table-marker2.png" />
+                <Image Height="229" Name="imgStepDetailRho" Width="396" Canvas.Left="0" Canvas.Top="0" Source="/Keccak;component/images/rho/step-detail-rho.png" />
                 <Label Canvas.Left="151" Canvas.Top="104" Content="" Height="19" Name="labelRotationOffset" Width="20" FontSize="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                 <!-- old lane bits -->
@@ -267,82 +379,223 @@
                 <Label Canvas.Left="220" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label138" Width="14" />
                 
                 <!-- rotation offsets -->
-                <Label Canvas.Left="279" Canvas.Top="75" Content="" FontSize="8" Height="22" Name="label139" Width="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <Label Canvas.Left="301" Canvas.Top="75" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label140" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="323" Canvas.Top="75" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label141" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="345" Canvas.Top="75" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label142" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="367" Canvas.Top="75" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label143" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="279" Canvas.Top="93" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label144" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="301" Canvas.Top="93" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label145" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="323" Canvas.Top="93" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label146" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="345" Canvas.Top="93" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label147" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="367" Canvas.Top="93" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label148" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="279" Canvas.Top="112" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label149" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="301" Canvas.Top="112" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label150" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="323" Canvas.Top="112" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label151" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="345" Canvas.Top="112" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label152" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="367" Canvas.Top="112" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label153" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="279" Canvas.Top="130" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label154" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="301" Canvas.Top="130" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label155" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="323" Canvas.Top="130" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label156" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="345" Canvas.Top="130" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label157" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="367" Canvas.Top="130" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label158" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="279" Canvas.Top="150" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label159" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="301" Canvas.Top="150" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label160" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="323" Canvas.Top="150" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label161" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="345" Canvas.Top="150" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label162" VerticalContentAlignment="Center" Width="22" />
-                <Label Canvas.Left="367" Canvas.Top="150" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label163" VerticalContentAlignment="Center" Width="22" />
-                <Image Canvas.Left="277" Canvas.Top="73" Height="23" Name="imgRhoTableMarker" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-table-marker.png" />
+                <Label Canvas.Left="272" Canvas.Top="68" Content="" FontSize="8" Height="22" Name="label139" Width="22" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                <Label Canvas.Left="295" Canvas.Top="68" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label140" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="318" Canvas.Top="68" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label141" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="341" Canvas.Top="68" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label142" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="364" Canvas.Top="68" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label143" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="272" Canvas.Top="92" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label144" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="295" Canvas.Top="92" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label145" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="318" Canvas.Top="92" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label146" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="341" Canvas.Top="92" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label147" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="364" Canvas.Top="92" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label148" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="272" Canvas.Top="115" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label149" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="295" Canvas.Top="115" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label150" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="318" Canvas.Top="115" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label151" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="341" Canvas.Top="115" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label152" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="364" Canvas.Top="115" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label153" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="272" Canvas.Top="138" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label154" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="295" Canvas.Top="138" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label155" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="318" Canvas.Top="138" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label156" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="341" Canvas.Top="138" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label157" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="364" Canvas.Top="138" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label158" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="272" Canvas.Top="161" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label159" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="295" Canvas.Top="161" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label160" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="318" Canvas.Top="161" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label161" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="341" Canvas.Top="161" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label162" VerticalContentAlignment="Center" Width="22" />
+                <Label Canvas.Left="364" Canvas.Top="161" Content="" FontSize="8" Height="22" HorizontalContentAlignment="Center" Name="label163" VerticalContentAlignment="Center" Width="22" />
+                
             </Canvas>
 
-            <!-- theta -->
-            <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailTheta" Width="396" Visibility="Hidden">
-                <Image Canvas.Left="71" Canvas.Top="8" Height="207" Name="image1" Stretch="Fill" Width="295" Source="/Keccak;component/images/theta-step-detail.png" />                                
-               
-                <Label Canvas.Left="78" Canvas.Top="9" Content="" Height="28" Name="label164" />
-                <Label Canvas.Left="78" Canvas.Top="34" Content="" Height="28" Name="label165" />
-                <Label Canvas.Left="78" Canvas.Top="59" Content="" Height="28" Name="label166" />
-                <Label Canvas.Left="78" Canvas.Top="85" Content="" Height="28" Name="label167" />
-                <Label Canvas.Left="78" Canvas.Top="111" Content="" Height="28" Name="label168" />
-                
-                <Label Canvas.Left="125" Canvas.Top="9" Content="" Height="28" Name="label169" />
-                <Label Canvas.Left="125" Canvas.Top="34" Content="" Height="28" Name="label170" />
-                <Label Canvas.Left="125" Canvas.Top="59" Content="" Height="28" Name="label171" />
-                <Label Canvas.Left="125" Canvas.Top="85" Content="" Height="28" Name="label172" />
-                <Label Canvas.Left="125" Canvas.Top="111" Content="" Height="28" Name="label173" />
-                
-                <Label Canvas.Left="78" Canvas.Top="151" Content="" Height="28" Name="label174" />
-                <Label Canvas.Left="125" Canvas.Top="151" Content="" Height="28" Name="label175" />
-                
-                <Label Canvas.Left="188" Canvas.Top="9" Content="" Height="28" Name="label176" />           
-                <Label Canvas.Left="188" Canvas.Top="34" Content="" Height="28" Name="label177" />
-                <Label Canvas.Left="188" Canvas.Top="59" Content="" Height="28" Name="label178" />
-                <Label Canvas.Left="188" Canvas.Top="85" Content="" Height="28" Name="label179" />
-                <Label Canvas.Left="188" Canvas.Top="111" Content="" Height="28" Name="label180" />
-                
-                <Label Canvas.Left="344" Canvas.Top="9" Content="" Height="28" Name="label181" />
-                <Label Canvas.Left="344" Canvas.Top="34" Content="" Height="28" Name="label182" />
-                <Label Canvas.Left="344" Canvas.Top="59" Content="" Height="28" Name="label183" />
-                <Label Canvas.Left="344" Canvas.Top="85" Content="" Height="28" Name="label184" />
-                <Label Canvas.Left="344" Canvas.Top="111" Content="" Height="28" Name="label185" />
-                
-                <Label Canvas.Left="28" Canvas.Top="150" Content="Parity:" Height="28" Name="label186" />
-            </Canvas>
-            
             <!-- iota -->
-            <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailIota" Width="396" Visibility="Hidden">
-                <Image Height="229" Name="imgStepDetailIota" Width="396" Canvas.Left="0" Canvas.Top="0" Source="/Keccak;component/images/iota/step-detail-iota.png" />
-                <Image Canvas.Left="263" Canvas.Top="50" Height="133" Name="image3" Stretch="Fill" Width="72" Source="/Keccak;component/images/iota/iota-step-detail-table.png" />
-                <Image Canvas.Left="264" Canvas.Top="51" Height="10" Name="imgIotaSelectedRC" Stretch="Fill" Width="34" Source="/Keccak;component/images/iota/selected-rc.png" />
+            <Canvas Height="229" Name="canvasStepDetailIota" Width="396" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <Image Height="229" Name="imgStepDetailIota" Width="396" Canvas.Left="0" Canvas.Top="0" Source="/Keccak;component/images/iota/step-detail-iota3.png" />
+                <Image Canvas.Left="262" Canvas.Top="36" Height="157" Name="image3" Stretch="Fill" Width="110" Source="/Keccak;component/images/iota/iota-step-detail-table.png" />
+                <Image Canvas.Left="262" Canvas.Top="36" Height="14" Name="imgIotaSelectedRC" Stretch="Fill" Width="55" Source="/Keccak;component/images/iota/selected-rc2.png" />
+
+                <Label Canvas.Left="137" Canvas.Top="103" Content="" Height="19" Name="labelIotaXORedRC" FontSize="8" />
+                <Image Canvas.Left="137" Canvas.Top="106" Height="16" Name="imgIotaXORedRC" Stretch="Fill" Width="86" Source="/Keccak;component/images/iota/selected-rc2.png" />
+
+
+                <!-- old lane bits -->
+                <Label Canvas.Left="8" Canvas.Top="38" Content="" Height="22" Name="label311" Width="14" FontSize="8" />
+                <Label Canvas.Left="22" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label312" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label313" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label314" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label315" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label316" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label317" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label318" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label319" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label320" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label321" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label322" Width="14" />
+                <Label Canvas.Left="178" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label323" Width="14" />
+                <Label Canvas.Left="193" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label324" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label325" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="38" Content="" FontSize="8" Height="22" Name="label326" Width="14" />
+                <Label Canvas.Left="8" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label327" Width="14" />
+                <Label Canvas.Left="22" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label328" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label329" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label330" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label331" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label332" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label333" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label334" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label335" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label336" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label337" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label338" Width="14" />
+                <Label Canvas.Left="178" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label339" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label340" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label341" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="51" Content="" FontSize="8" Height="22" Name="label342" Width="14" />
+                <Label Canvas.Left="7" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label343" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label344" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label345" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label346" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label347" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label348" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label349" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label350" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label351" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label352" Width="14" />
+                <Label Canvas.Left="150" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label353" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label354" Width="14" />
+                <Label Canvas.Left="178" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label355" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label356" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label357" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="65" Content="" FontSize="8" Height="22" Name="label358" Width="14" />
+                <Label Canvas.Left="7" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label359" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label360" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label361" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label362" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label363" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label364" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label365" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label366" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label367" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label368" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label369" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label370" Width="14" />
+                <Label Canvas.Left="177" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label371" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label372" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label373" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="79" Content="" FontSize="8" Height="22" Name="label374" Width="14" />
+
+                <!-- new lane bits -->
+                <Label Canvas.Left="7" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label375" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label376" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label377" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label378" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label379" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label380" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label381" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label382" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label383" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label384" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label385" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label386" Width="14" />
+                <Label Canvas.Left="177" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label387" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label388" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label389" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="129" Content="" FontSize="8" Height="22" Name="label390" Width="14" />
+                <Label Canvas.Left="8" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label391" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label392" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label393" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label394" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label395" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label396" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label397" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label398" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label399" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label400" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label401" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label402" Width="14" />
+                <Label Canvas.Left="177" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label403" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label404" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label405" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="143" Content="" FontSize="8" Height="22" Name="label406" Width="14" />
+                <Label Canvas.Left="8" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label407" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label408" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label409" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label410" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label411" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label412" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label413" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label414" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label415" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label416" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label417" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label418" Width="14" />
+                <Label Canvas.Left="177" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label419" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label420" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label421" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="157" Content="" FontSize="8" Height="22" Name="label422" Width="14" />
+                <Label Canvas.Left="8" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label423" Width="14" />
+                <Label Canvas.Left="21" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label424" Width="14" />
+                <Label Canvas.Left="36" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label425" Width="14" />
+                <Label Canvas.Left="50" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label426" Width="14" />
+                <Label Canvas.Left="64" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label427" Width="14" />
+                <Label Canvas.Left="78" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label428" Width="14" />
+                <Label Canvas.Left="92" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label429" Width="14" />
+                <Label Canvas.Left="107" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label430" Width="14" />
+                <Label Canvas.Left="121" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label431" Width="14" />
+                <Label Canvas.Left="135" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label432" Width="14" />
+                <Label Canvas.Left="149" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label433" Width="14" />
+                <Label Canvas.Left="163" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label434" Width="14" />
+                <Label Canvas.Left="177" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label435" Width="14" />
+                <Label Canvas.Left="192" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label436" Width="14" />
+                <Label Canvas.Left="206" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label437" Width="14" />
+                <Label Canvas.Left="220" Canvas.Top="171" Content="" FontSize="8" Height="22" Name="label438" Width="14" />
+                
             </Canvas>
+        </Grid>
+
+        <!-- stack panel buttons -->
+        <StackPanel Grid.Row="5" HorizontalAlignment="Right" Name="spButtons" VerticalAlignment="Bottom" Orientation="Horizontal" Grid.Column="3" Margin="0,0,20,0">
+            <Button Content="Next" Height="23" Name="buttonNext" Click="buttonNext_Click" Margin="5,0" Padding="10,0" />
+            <Button Content="Autorun" Height="23" Name="buttonAutostep" Click="buttonAutostep_Click" Margin="5,0" Padding="10,0" />
+            <Slider Height="23" Name="autostepSpeedSlider" Width="68" Value="30" Maximum="40" ValueChanged="autostepSpeedSlider_ValueChanged" Margin="5,0" />
+            <Button Content="Skip" Height="23" Name="buttonSkip" Click="buttonSkip_Click" Margin="5,0" Padding="10,0" />
+        </StackPanel>
+        
+        <!-- stack panel informations -->
+        <StackPanel HorizontalAlignment="Left" Name="spInfo" VerticalAlignment="Bottom" Orientation="Vertical" Visibility="Hidden" Grid.Row="5" Grid.Column="1">
+            <Label Content="" Name="labelBlock" Margin="5,0" FontSize="10" Padding="0" />
+            <Label Content="" Name="labelRound" Margin="5,0" FontSize="10" Padding="0" />
+            <!-- 
+            <Label Content="" Height="28" Name="labelOuterPartCaption" Width="50" Margin="5,0" />
+            <Label Content="" Height="28" Name="labelOuterPart" Margin="5,0" />
+            <Label Content="" Height="28" Name="labelInnerPartCaption" Width="58" Margin="5,0" />
+            <Label Content="" Height="28" Name="labelInnerPart" />
+            -->
+        </StackPanel>
+
+        <Grid Name="absorbGrid" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="Hidden" Height="307">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             
+            <!-- 
+            <Rectangle Height="307" Width="640" Fill="White" Visibility="Hidden" Grid.ColumnSpan="3" Margin="0,12,0,11" Grid.RowSpan="2" />
+            -->
             
-        </Canvas>
-        <Slider Height="23" HorizontalAlignment="Left" Margin="500,459,0,0" Name="autostepSpeedSlider" VerticalAlignment="Top" Width="100" Value="30" Maximum="40" ValueChanged="autostepSpeedSlider_ValueChanged" />
-        <Label Content="Speed" Height="28" HorizontalAlignment="Left" Margin="450,455,0,0" Name="label187" VerticalAlignment="Top" />
-        <Label Content="" Height="28" Name="labelOuterPartCaption" Width="50" Margin="331,12,419,460" />
-        <Label Content="" Height="28" Name="labelOuterPart" Margin="387,12,403,460" />
-        <Label Content="" Height="28" Name="labelInnerPartCaption" Width="58" Margin="459,12,283,460" />
-        <Label Content="" Height="28" Name="labelInnerPart" Margin="520,12,270,460" />
+            <Label Content ="Old State" Canvas.Left="55" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0" Grid.Row="0" />
+            <TextBlock Name="textBlockStateBeforeAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+            <Label Name="labelAbsorbGridBlockCounter" Content ="" Canvas.Left="280" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" />
+            <TextBlock Name="textBlockBlockToAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+
+            <Label Name="labelNewState" Content ="New State" Canvas.Left="460" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="0" Visibility="Hidden" />
+            <Label Name="labelOutput" Content ="Output Hash" Canvas.Left="460" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="0" Visibility="Hidden"/>
+            <TextBlock Name="textBlockStateAfterAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        </Grid>
     </Grid>
 </UserControl>

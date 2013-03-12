@@ -327,6 +327,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkSender", "CrypPlugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorseCode", "CrypPlugins\MorseCode\MorseCode.csproj", "{CEE6669A-65EB-40F0-ACAC-2E24C1C6CCAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationTest", "CrypPluginsExperimental\PresentationTest\PresentationTest.csproj", "{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CrypTool 2.0.vsmdi
@@ -2667,6 +2669,21 @@ Global
 		{CEE6669A-65EB-40F0-ACAC-2E24C1C6CCAB}.Test|Win32.ActiveCfg = Debug|x86
 		{CEE6669A-65EB-40F0-ACAC-2E24C1C6CCAB}.Test|x86.ActiveCfg = Debug|x86
 		{CEE6669A-65EB-40F0-ACAC-2E24C1C6CCAB}.Test|x86.Build.0 = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Debug|Win32.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Debug|x86.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Debug|x86.Build.0 = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Release|Win32.ActiveCfg = Release|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Release|x86.ActiveCfg = Release|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Release|x86.Build.0 = Release|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Test|Mixed Platforms.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Test|Mixed Platforms.Build.0 = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Test|Win32.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Test|x86.ActiveCfg = Debug|x86
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC}.Test|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2817,6 +2834,7 @@ Global
 		{6B4CDEF7-EA4F-4573-BDB4-09C0E8401537} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{54BCDECE-C7DE-454B-8991-901C238FE591} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+		{E2EDD9E6-EDF9-4E57-8B48-71CF36C84EEC} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

@@ -244,12 +244,6 @@
   <data name="rho_modified_top_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\rho-modified-top-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rho_table_marker" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\rho-table-marker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="step_detail_rho" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\step-detail-rho.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="theta_left_row_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\theta\theta-left-row-front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -349,10 +343,70 @@
   <data name="iota_step_detail_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\iota\iota-step-detail-table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="selected_rc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\iota\selected-rc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="iota_step_detail_table1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\iota-step-detail-table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="step_detail_iota" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\iota\step-detail-iota.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rho_table_marker2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\rho-table-marker2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="selected_rc2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\selected-rc2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_iota3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\step-detail-iota3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_rho" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\step-detail-rho.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_rho_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\step-detail-rho-table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cube_default_inner2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\cube-default-inner2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="firstPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\firstPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sponge_1_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\sponge-1-init.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sponge_2_absorb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\sponge-2-absorb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sponge_3_squeeze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\sponge-3-squeeze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sponge_4_keccakf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\sponge-4-keccakf.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="introduction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\introduction.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keccakf_detail_chi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\steps\keccakf-detail-chi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keccakf_detail_iota" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\steps\keccakf-detail-iota.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keccakf_detail_pi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\steps\keccakf-detail-pi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keccakf_detail_rho" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\steps\keccakf-detail-rho.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="keccakf_detail_theta" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\steps\keccakf-detail-theta.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sponge_5_keccakf_detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\sponge-5-keccakf-detail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stateNotation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\stateNotation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blankPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\blankPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="execution" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\intro\execution.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
