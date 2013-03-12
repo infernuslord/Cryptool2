@@ -136,46 +136,46 @@
     <value>Enter your public key N here.</value>
   </data>
   <data name="InputMCCaption" xml:space="preserve">
-    <value>Message M / ciphertext C input</value>
+    <value>Message m / Ciphertext c input (as number)</value>
   </data>
   <data name="InputMCTooltip" xml:space="preserve">
-    <value>Enter your message M / ciphertext C here.</value>
+    <value>Enter the number to encrypt or decrypt here.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
-    <value>Public key E / private key D input</value>
+    <value>Public key e / Private key d input</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Enter your public key E / private key D here.</value>
+    <value>Enter your public key e / private key d here.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
-    <value>Cipher C output / message M output</value>
+    <value>Ciphertext c / Message m output (as number)</value>
   </data>
   <data name="OutputMCTooltip" xml:space="preserve">
-    <value>Your cipher C / message M will be sent here.</value>
+    <value>The encrypted or decrypted number will be sent here.</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
-    <value>Text input</value>
+    <value>Message m / Ciphertext c input</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>Enter your text here.</value>
+    <value>Enter the text to encrypt or decrypt here.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
-    <value>Text output</value>
+    <value>Ciphertext c / Message m output</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Your text will be sent here.</value>
+    <value>The encrypted or decrypted text will be sent here.</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>Public key N</value>
+    <value>Public modulus N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>Public key N</value>
+    <value>Public modulus N</value>
   </data>
   <data name="ECaption" xml:space="preserve">
-    <value>Public key e</value>
+    <value>Public exponent e</value>
   </data>
   <data name="ETooltip" xml:space="preserve">
-    <value>Public key e</value>
+    <value>Public exponent e</value>
   </data>
   <data name="DCaption" xml:space="preserve">
     <value>Private key d</value>
@@ -196,10 +196,10 @@
     <value>Close file</value>
   </data>
   <data name="PCaption" xml:space="preserve">
-    <value>Prime number P</value>
+    <value>Prime number p</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
-    <value>Prime number P</value>
+    <value>Prime number p</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
     <value>Password</value>
@@ -208,10 +208,10 @@
     <value>Password</value>
   </data>
   <data name="QCaption" xml:space="preserve">
-    <value>Prime number Q</value>
+    <value>Prime number q</value>
   </data>
   <data name="QTooltip" xml:space="preserve">
-    <value>Prime number Q</value>
+    <value>Prime number q</value>
   </data>
   <data name="SourceCaption" xml:space="preserve">
     <value>Source</value>

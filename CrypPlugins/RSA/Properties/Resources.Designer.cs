@@ -169,7 +169,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key e ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public exponent e ähnelt.
         /// </summary>
         internal static string ECaption {
             get {
@@ -178,7 +178,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key e ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public exponent e ähnelt.
         /// </summary>
         internal static string ETooltip {
             get {
@@ -205,7 +205,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key E / private key D input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public key e / Private key d input ähnelt.
         /// </summary>
         internal static string InputEDCaption {
             get {
@@ -214,7 +214,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key E / private key D here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key e / private key d here. ähnelt.
         /// </summary>
         internal static string InputEDTooltip {
             get {
@@ -223,7 +223,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Message M / ciphertext C input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Message m / Ciphertext c input (as number) ähnelt.
         /// </summary>
         internal static string InputMCCaption {
             get {
@@ -232,7 +232,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your message M / ciphertext C here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number to encrypt or decrypt here. ähnelt.
         /// </summary>
         internal static string InputMCTooltip {
             get {
@@ -259,7 +259,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Message m / Ciphertext c input ähnelt.
         /// </summary>
         internal static string InputTextCaption {
             get {
@@ -268,7 +268,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your text here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the text to encrypt or decrypt here. ähnelt.
         /// </summary>
         internal static string InputTextTooltip {
             get {
@@ -277,7 +277,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key N ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public modulus N ähnelt.
         /// </summary>
         internal static string NCaption {
             get {
@@ -286,7 +286,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key N ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public modulus N ähnelt.
         /// </summary>
         internal static string NTooltip {
             get {
@@ -313,7 +313,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cipher C output / message M output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ciphertext c / Message m output (as number) ähnelt.
         /// </summary>
         internal static string OutputMCCaption {
             get {
@@ -322,7 +322,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Your cipher C / message M will be sent here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The encrypted or decrypted number will be sent here. ähnelt.
         /// </summary>
         internal static string OutputMCTooltip {
             get {
@@ -331,7 +331,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ciphertext c / Message m output ähnelt.
         /// </summary>
         internal static string OutputTextCaption {
             get {
@@ -340,7 +340,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Your text will be sent here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The encrypted or decrypted text will be sent here. ähnelt.
         /// </summary>
         internal static string OutputTextTooltip {
             get {
@@ -394,7 +394,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number P ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number p ähnelt.
         /// </summary>
         internal static string PCaption {
             get {
@@ -439,7 +439,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number P ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number p ähnelt.
         /// </summary>
         internal static string PTooltip {
             get {
@@ -448,7 +448,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number Q ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number q ähnelt.
         /// </summary>
         internal static string QCaption {
             get {
@@ -457,7 +457,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number Q ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime number q ähnelt.
         /// </summary>
         internal static string QTooltip {
             get {
