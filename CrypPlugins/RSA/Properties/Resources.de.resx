@@ -142,10 +142,10 @@
     <value>Geben Sie hier die zu ver-/entschlüsselnde Zahl ein.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
-    <value>Öffentlicher Schlüssel e / Privater Schlüssel d</value>
+    <value>Öffentlicher Exponent e / Privater Schlüssel d</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Geben Sie hier den öffentlichen Schlüssel e / privaten Schlüssel d ein.</value>
+    <value>Geben Sie hier den öffentlichen Exponenten e / privaten Schlüssel d ein.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
     <value>Ausgabe Geheimtext c / Klartext m (als Zahl)</value>

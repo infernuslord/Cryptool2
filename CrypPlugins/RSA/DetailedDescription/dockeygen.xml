@@ -61,13 +61,13 @@
   <references>
     <linkReference>
       <link lang="en" url="http://en.wikipedia.org/wiki/RSA"/>
-      <caption lang="en">RSA in the english wikipedia</caption>
+      <caption lang="en">RSA in the English wikipedia</caption>
       <link lang="de-DE" url="http://de.wikipedia.org/wiki/RSA-Kryptosystem"/>
       <caption lang="de-DE">RSA-Kryptosystem in der deutschen Wikipedia</caption>
     </linkReference>
     <linkReference>
       <link lang="en" url="http://en.wikipedia.org/wiki/X.509"/>
-      <caption lang="en">X.509 certificates in the english wikipedia</caption>
+      <caption lang="en">X.509 certificates in the English wikipedia</caption>
       <link lang="de-DE" url="http://de.wikipedia.org/wiki/X.509"/>
       <caption lang="de-DE">X.509-Zertifikate in der deutschen Wikipedia</caption>
     </linkReference>

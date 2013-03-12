@@ -25,10 +25,10 @@
     To encrypt/decrypt numbers, the user has to provide a number at the number input <b>m</b>/<b>c</b> of the plugin representing the message <b>m</b> or the ciphertext <b>c</b>. The
     resulting number is then provided at the number output connector <b>m</b>/<b>c</b> of the plugin.
     He also has to add a Number Input <b>N</b> representing the modulus <b>N</b> of the RSA algorithm. And the last input he has to add is a Number Input <b>e</b>/<b>d</b> which
-    represents the public or the private key depending on en- or decryption. To encrypt/decrypt texts, the user has to add
-    an input byte array and an output byte array. Also the direction (en- or decrypt) has to be set in the plugins options.
+    represents the public exponent or the private key depending on encryption or decryption. To encrypt/decrypt texts, the user has to add
+    an input byte array and an output byte array. Also the direction (encrypt or decrypt) has to be set in the plugins options.
     He has also to add a Number Input <b>N</b> representing the <b>N</b> of the RSA algorithm. And the last input he has to add is
-    a Number Input <b>e</b>/<b>d</b> which represents the public or the private key depending on en- or decryption.
+    a Number Input <b>e</b>/<b>d</b> which represents the public exponent or the private key depending on encryption or decryption.
   </usage>
 
   <usage lang="de-DE">
@@ -36,7 +36,7 @@
     Zahlen als auch Texte ver- und entschlüsseln. Um eine Zahl zu ver- oder entschlüsseln
     muss der Benutzer den Zahleneingang <b>m</b>/<b>c</b>, der die Nachricht <b>m</b> oder den verschlüsselten Text <b>c</b> repräsentiert, verbinden. Desweiteren
     muss der Benutzer den Zahlenausgang <b>m</b>/<b>c</b> verbinden, an dem die ver- oder entschlüsselte Nachricht ausgegeben wird. Für die
-    Berechnung müssen außerdem der Eingang <b>N</b> und der Schlüsseleingang <b>e</b>/<b>d</b> verbunden werden. <b>e</b> ist der für eine Verschlüsselung benötigte öffentliche Schlüssel
+    Berechnung müssen außerdem der Eingang <b>N</b> und der Schlüsseleingang <b>e</b>/<b>d</b> verbunden werden. <b>e</b> ist der für eine Verschlüsselung benötigte öffentliche Exponent
     und <b>d</b> der für eine Entschlüsselung benötigte private Schlüssel. Um einen ganzen Text zu ver- oder entschlüsseln, kann der Benutzer den Text an den Texteingang <b>m</b>/<b>c</b>
     anschließen und das Resultat am Textausgang <b>m</b>/<b>c</b> abgreifen. In den Einstellungen des Plugins muss zuletzt noch eingestellt werden, ob ver- oder entschlüsselt werden soll.
   </usage>
@@ -44,7 +44,7 @@
   <references>
     <linkReference>
       <link lang="en" url="http://en.wikipedia.org/wiki/RSA"/>
-      <caption lang="en">RSA in the english wikipedia</caption>
+      <caption lang="en">RSA in the English wikipedia</caption>
       <link lang="de-DE" url="http://de.wikipedia.org/wiki/RSA-Kryptosystem"/>
       <caption lang="de-DE">RSA-Kryptosystem in der deutschen Wikipedia</caption>
     </linkReference>
