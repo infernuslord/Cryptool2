@@ -136,46 +136,46 @@
     <value>Geben Sie hier den öffentlichen Schlüssel N ein.</value>
   </data>
   <data name="InputMCCaption" xml:space="preserve">
-    <value>Nachricht M / Geheimtext C (als Zahl)</value>
+    <value>Nachricht m / Geheimtext c (als Zahl)</value>
   </data>
   <data name="InputMCTooltip" xml:space="preserve">
     <value>Geben Sie hier die zu ver-/entschlüsselnde Zahl ein.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
-    <value>Öffentlicher Schlüssel E / Privater Schlüssel D</value>
+    <value>Öffentlicher Schlüssel e / Privater Schlüssel d</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Geben Sie hier den öffentlichen Schlüssel E / privaten Schlüssel D ein.</value>
+    <value>Geben Sie hier den öffentlichen Schlüssel e / privaten Schlüssel d ein.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
-    <value>Ausgabe Geheimtext C / Klartext M</value>
+    <value>Ausgabe Geheimtext c / Klartext m (als Zahl)</value>
   </data>
   <data name="OutputMCTooltip" xml:space="preserve">
     <value>Ausgabe der ver-/entschlüsselten Nachricht (als Zahl)</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
-    <value>Nachricht M / Geheimtext C</value>
+    <value>Nachricht m / Geheimtext c</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
     <value>Geben Sie hier den zu ver-/entschlüsselnden Text ein.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
-    <value>Ausgabe Geheimtext C / Klartext M</value>
+    <value>Ausgabe Geheimtext c / Klartext m</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
     <value>Ausgabe des ver-/entschlüsselten Textes</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>Öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Modulus N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>Öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Modulus N</value>
   </data>
   <data name="ECaption" xml:space="preserve">
-    <value>Öffentlicher Schlüssel e</value>
+    <value>Öffentlicher Exponent e</value>
   </data>
   <data name="ETooltip" xml:space="preserve">
-    <value>Öffentlicher Schlüssel e</value>
+    <value>Öffentlicher Exponent e</value>
   </data>
   <data name="DCaption" xml:space="preserve">
     <value>Privater Schlüssel d</value>
@@ -196,10 +196,10 @@
     <value>Datei schließen</value>
   </data>
   <data name="PCaption" xml:space="preserve">
-    <value>Primzahl P</value>
+    <value>Primzahl p</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
-    <value>Primzahl P</value>
+    <value>Primzahl p</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
     <value>Passwort</value>
@@ -208,10 +208,10 @@
     <value>Passwort</value>
   </data>
   <data name="QCaption" xml:space="preserve">
-    <value>Primzahl Q</value>
+    <value>Primzahl q</value>
   </data>
   <data name="QTooltip" xml:space="preserve">
-    <value>Primzahl Q</value>
+    <value>Primzahl q</value>
   </data>
   <data name="SourceCaption" xml:space="preserve">
     <value>Herkunft des Schlüssels</value>
