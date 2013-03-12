@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">MD5 Salted Hash Stream Comparing</title>
+  <summary lang="en">This template shows how a hash value is created using a salt value.</summary>
+  <description lang="en">This template shows how a hash value is created using a salt value. This created value is compared to a given MD5 hash value which was created using the same salt value.</description>
+  <keywords>message, digest, Hash, salt</keywords>
+
+  <title lang="de">MD5 Salted Hash Strom Vergleich</title>
+  <summary lang="de">Diese Vorlage zeigt wie ein Hash-Wert mittels Salt-Wert erstellt wird.</summary>
+  <description lang="de">Diese Vorlage zeigt wie ein Hash-Wert mittels Salt-Wert erstellt wird. Der erstellte Hash-Wert wird mit einem gegebenen MD5 Hash-Wert, welcher mit selben Salt-Wert erstellt wurde, verglichen.</description>
+  <keywords lang="de">hash, Salz</keywords>
+
+  <icon file="MD5.png" />
+  <relevantPlugins>
+    <plugin name="MD5" />
+  </relevantPlugins>
+
+</sample>
