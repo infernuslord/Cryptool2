@@ -61,6 +61,16 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blankPage {
+            get {
+                object obj = ResourceManager.GetObject("blankPage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Capacity ähnelt.
         /// </summary>
         internal static string CapacityCaption {
@@ -159,6 +169,16 @@ namespace Keccak.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cube_default_inner2 {
+            get {
+                object obj = ResourceManager.GetObject("cube_default_inner2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output stream for debug information ähnelt.
         /// </summary>
         internal static string DebugDataStreamTooltip {
@@ -173,6 +193,26 @@ namespace Keccak.Properties {
         internal static string DebugStreamCaption {
             get {
                 return ResourceManager.GetString("DebugStreamCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap execution {
+            get {
+                object obj = ResourceManager.GetObject("execution", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap firstPage {
+            get {
+                object obj = ResourceManager.GetObject("firstPage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -197,9 +237,79 @@ namespace Keccak.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap introduction {
+            get {
+                object obj = ResourceManager.GetObject("introduction", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iota_step_detail_table {
             get {
                 object obj = ResourceManager.GetObject("iota_step_detail_table", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iota_step_detail_table1 {
+            get {
+                object obj = ResourceManager.GetObject("iota_step_detail_table1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keccakf_detail_chi {
+            get {
+                object obj = ResourceManager.GetObject("keccakf_detail_chi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keccakf_detail_iota {
+            get {
+                object obj = ResourceManager.GetObject("keccakf_detail_iota", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keccakf_detail_pi {
+            get {
+                object obj = ResourceManager.GetObject("keccakf_detail_pi", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keccakf_detail_rho {
+            get {
+                object obj = ResourceManager.GetObject("keccakf_detail_rho", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap keccakf_detail_theta {
+            get {
+                object obj = ResourceManager.GetObject("keccakf_detail_theta", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -564,9 +674,9 @@ namespace Keccak.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap rho_table_marker {
+        internal static System.Drawing.Bitmap rho_table_marker2 {
             get {
-                object obj = ResourceManager.GetObject("rho_table_marker", resourceCulture);
+                object obj = ResourceManager.GetObject("rho_table_marker2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -574,9 +684,9 @@ namespace Keccak.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap selected_rc {
+        internal static System.Drawing.Bitmap selected_rc2 {
             get {
-                object obj = ResourceManager.GetObject("selected_rc", resourceCulture);
+                object obj = ResourceManager.GetObject("selected_rc2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -596,6 +706,66 @@ namespace Keccak.Properties {
         internal static string SelectedStateSizeTooltip {
             get {
                 return ResourceManager.GetString("SelectedStateSizeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sponge_1_init {
+            get {
+                object obj = ResourceManager.GetObject("sponge_1_init", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sponge_2_absorb {
+            get {
+                object obj = ResourceManager.GetObject("sponge_2_absorb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sponge_3_squeeze {
+            get {
+                object obj = ResourceManager.GetObject("sponge_3_squeeze", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sponge_4_keccakf {
+            get {
+                object obj = ResourceManager.GetObject("sponge_4_keccakf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sponge_5_keccakf_detail {
+            get {
+                object obj = ResourceManager.GetObject("sponge_5_keccakf_detail", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stateNotation {
+            get {
+                object obj = ResourceManager.GetObject("stateNotation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -674,9 +844,9 @@ namespace Keccak.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap step_detail_iota {
+        internal static System.Drawing.Bitmap step_detail_iota3 {
             get {
-                object obj = ResourceManager.GetObject("step_detail_iota", resourceCulture);
+                object obj = ResourceManager.GetObject("step_detail_iota3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -687,6 +857,16 @@ namespace Keccak.Properties {
         internal static System.Drawing.Bitmap step_detail_rho {
             get {
                 object obj = ResourceManager.GetObject("step_detail_rho", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap step_detail_rho_table {
+            get {
+                object obj = ResourceManager.GetObject("step_detail_rho_table", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

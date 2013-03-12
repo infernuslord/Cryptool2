@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.Keccak
             new int[] { 210, 66, 253, 120, 78 }
         };
 
-        /* round constants for iota */
+        /* iota round constants */
         private byte[][] roundConstants = new byte[][]
         {
             new byte[] { 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
@@ -66,6 +66,17 @@ namespace Cryptool.Plugins.Keccak
             new byte[] { 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80 },
             new byte[] { 0x01, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00 },
             new byte[] { 0x08, 0x80, 0x00, 0x80, 0x00, 0x00, 0x00, 0x80 },
+        };
+
+        /* iota round constants for presentation */
+        private string[] roundConstantsPres = new string[]
+        {
+            "0x0000000000000001", "0x0000000000008082", "0x800000000000808A", "0x8000000080008000",
+            "0x000000000000808B", "0x0000000080000001", "0x8000000080008081", "0x8000000000008009",
+            "0x000000000000008A", "0x0000000000000088", "0x0000000080008009", "0x000000008000000A",
+            "0x000000008000808B", "0x800000000000008B", "0x8000000000008089", "0x8000000000008003",
+            "0x8000000000008002", "0x8000000000000080", "0x000000000000800A", "0x800000008000000A",
+            "0x8000000080008081", "0x8000000000008080", "0x0000000080000001", "0x8000000080008008",
         };
         
         #endregion
@@ -106,10 +117,28 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelRound.Content = (i + 1).ToString() + "/" + rounds;
+                        pres.labelCurrentPhase.Content = "Keccak-f";
                         pres.labelCurrentStep.Content = "Theta";
+                        pres.imgStepTheta.Visibility = Visibility.Visible;
+                        pres.stepCanvas.Visibility = Visibility.Visible;
+
+                        pres.labelStepRounds.Content = "Round " + (i + 1).ToString() + "/" + rounds;
+                        pres.labelRound.Content = "Round " + (i + 1).ToString() + "/" + rounds;
                     }, null);
-                }
+
+                    /* wait button clicks */
+                    if (!pres.skipPermutation)
+                    {
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.stepCanvas.Visibility = Visibility.Hidden;
+                        pres.imgStepTheta.Visibility = Visibility.Hidden;
+                        }, null);
+                } 
 
                 Theta(ref state);
 
@@ -118,7 +147,22 @@ namespace Cryptool.Plugins.Keccak
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentStep.Content = "Rho";
+                        pres.imgStepRho.Visibility = Visibility.Visible;
+                        pres.stepCanvas.Visibility = Visibility.Visible;
                     }, null);
+
+                    /* wait button clicks */
+                    if (!pres.skipPermutation)
+                    {
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.stepCanvas.Visibility = Visibility.Hidden;
+                        pres.imgStepRho.Visibility = Visibility.Hidden;
+                        }, null);
                 }
 
                 Rho(ref state);
@@ -128,6 +172,21 @@ namespace Cryptool.Plugins.Keccak
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentStep.Content = "Pi";
+                        pres.imgStepPi.Visibility = Visibility.Visible;
+                        pres.stepCanvas.Visibility = Visibility.Visible;
+                    }, null);
+
+                    /* wait button clicks */
+                    if (!pres.skipPermutation)
+                    {
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.stepCanvas.Visibility = Visibility.Hidden;
+                        pres.imgStepPi.Visibility = Visibility.Hidden;
                     }, null);
                 }
 
@@ -138,6 +197,21 @@ namespace Cryptool.Plugins.Keccak
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentStep.Content = "Chi";
+                        pres.imgStepChi.Visibility = Visibility.Visible;
+                        pres.stepCanvas.Visibility = Visibility.Visible;
+                    }, null);
+
+                    /* wait button clicks */
+                    if (!pres.skipPermutation)
+                    {
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.stepCanvas.Visibility = Visibility.Hidden;
+                        pres.imgStepChi.Visibility = Visibility.Hidden;
                     }, null);
                 }
 
@@ -148,10 +222,25 @@ namespace Cryptool.Plugins.Keccak
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentStep.Content = "Iota";
+                        pres.imgStepIota.Visibility = Visibility.Visible;
+                        pres.stepCanvas.Visibility = Visibility.Visible;
+                    }, null);
+
+                    /* wait button clicks */
+                    if (!pres.skipPermutation)
+                    {
+                        AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.stepCanvas.Visibility = Visibility.Hidden;
+                        pres.imgStepIota.Visibility = Visibility.Hidden;
                     }, null);
                 }
 
-                Iota(ref state, i);
+                Iota(ref state, i);                
             }
 
             #if _DEBUG_
@@ -185,7 +274,6 @@ namespace Cryptool.Plugins.Keccak
                     }
                 }
             }
-
 
             for (int i = 0; i < z; i++)          // iterate over slices
             {
@@ -369,6 +457,7 @@ namespace Cryptool.Plugins.Keccak
             byte[] truncatedConstant = KeccakHashFunction.SubArray(constant, 0, z);
 
             byte[] firstLane = GetFirstLaneFromState(ref state);
+            byte[] firstLaneOld = GetFirstLaneFromState(ref state);
 
             /* xor round constant */
             for (int i = 0; i < z; i++)
@@ -376,7 +465,7 @@ namespace Cryptool.Plugins.Keccak
                 firstLane[i] ^= truncatedConstant[i];
             }
 
-            IotaPres(firstLane, truncatedConstant, round);
+            IotaPres(firstLane, firstLaneOld, truncatedConstant, round);
 
             SetFirstLaneToState(ref state, firstLane);
 
@@ -390,23 +479,27 @@ namespace Cryptool.Plugins.Keccak
 
         public void ThetaPres(byte[] columnOld, byte[] columnNew, byte[] columnLeft, byte[] columnRight, int parity1, int parity2, int slice, int column)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep)
+            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show theta canvas in first iteration */
                     if (slice == 0 && column == 0)
                     {
+                        pres.textBlockCurrentPhase.Text = "Theta iterates over each column of the state.";
+                        pres.textBlockCurrentStep.Text = "The parities of two nearby columns (turquoise and light green) are exclusive-or'ed. The result is exclusive-or'ed with each bit of the considered column (green).";
+
                         pres.canvasStepDetailTheta.Visibility = Visibility.Visible;
                         pres.canvasCubeTheta.Visibility = Visibility.Visible;
+                        pres.zCoordinates.Visibility = Visibility.Visible;
                         presActive = true;
                     }
 
                     /* show slice and column indexes */
-                    pres.labelOuterPartCaption.Content = "Slice";
-                    pres.labelOuterPart.Content = (slice + 1).ToString();
-                    pres.labelInnerPartCaption.Content = "Column";
-                    pres.labelInnerPart.Content = (column + 1).ToString();
+                    //pres.labelOuterPartCaption.Content = "Slice";
+                    //pres.labelOuterPart.Content = (slice + 1).ToString();
+                    //pres.labelInnerPartCaption.Content = "Column";
+                    //pres.labelInnerPart.Content = (column + 1).ToString();
 
                     #region pres cube
 
@@ -435,18 +528,39 @@ namespace Cryptool.Plugins.Keccak
                                 /* show default cube */
                                 pres.imgCubeDefault.Visibility = Visibility.Visible;
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_2.Content = "z=" + (slice + 2);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 3);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 4);
                             }
-                            else if (slice == 3)
+                            else if (slice >= 3 && slice < z - 2)
                             {
-                                /* show inner cube */
-                                pres.imgCubeDefault.Visibility = Visibility.Hidden;
-                                pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                                if (slice == 3)
+                                {
+                                    /* show inner cube */
+                                    pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                                    pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                                }
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice - 1);
+                                pres.zCoordinate_2.Content = "z=" + (slice);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 2);
                             }
                             else if (slice == z - 2)
                             {
                                 /* show bottom cube */
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
                                 pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice - 1);
+                                pres.zCoordinate_2.Content = "z=" + (slice);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 2);
                             }
 
                             /* move modified row */
@@ -780,10 +894,15 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
+
                         pres.canvasStepDetailTheta.Visibility = Visibility.Hidden;
                         pres.canvasCubeTheta.Visibility = Visibility.Hidden;
                         pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
                         pres.imgCubeDefaultBottom.Visibility = Visibility.Hidden;
+                        pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                        pres.zCoordinates.Visibility = Visibility.Hidden;
                         presActive = false;
                     }, null);
                 }
@@ -791,24 +910,36 @@ namespace Cryptool.Plugins.Keccak
         }
 
         public void RhoPres(byte[] oldLane, byte[] newLane, int plane, int lane, int rotationOffset)
-        {  
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep)
+        {
+            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show rho canvas in first iteration */
                     if (plane == 0 && lane == 0)
                     {
+                        pres.textBlockCurrentPhase.Text = "Rho iterates over each lane of the state.";
+                        pres.textBlockCurrentStep.Text = "Each lane is right-rotated by a certain value (depicted in the red rectangle). The upper green block represents the lane before rotation, the lower green block after rotation.";
+
                         pres.canvasStepDetailRho.Visibility = Visibility.Visible;
                         pres.canvasCubeRho.Visibility = Visibility.Visible;
                         pres.imgCubeDefault.Visibility = Visibility.Visible;
+                        pres.xCoordinates.Visibility = Visibility.Visible;
+                        pres.yCoordinates.Visibility = Visibility.Visible;
                         presActive = true;
                     }
 
-                    pres.labelOuterPartCaption.Content = "Plane";
-                    pres.labelOuterPart.Content = (plane + 1).ToString();
-                    pres.labelInnerPartCaption.Content = "Lane";
-                    pres.labelInnerPart.Content = (lane + 1).ToString();
+                    /* set coordinates */
+                    pres.xCoordinate_var.Content = "x=" + (lane + 1);
+                    pres.xCoordinate_var.SetValue(Canvas.LeftProperty, 17.0 + 26 * lane);
+
+                    pres.yCoordinate_var.Content = "y=" + (plane + 1);
+                    pres.yCoordinate_var.SetValue(Canvas.TopProperty, 174.0 - 26 * plane);
+
+                    //pres.labelOuterPartCaption.Content = "Plane";
+                    //pres.labelOuterPart.Content = (plane + 1).ToString();
+                    //pres.labelInnerPartCaption.Content = "Lane";
+                    //pres.labelInnerPart.Content = (lane + 1).ToString();
 
                     #region pres cube
 
@@ -836,8 +967,8 @@ namespace Cryptool.Plugins.Keccak
                     #region pres detailed
 
                     /* move table marker */
-                    pres.imgRhoTableMarker.SetValue(Canvas.TopProperty, 73.0 + plane * 19);
-                    pres.imgRhoTableMarker.SetValue(Canvas.LeftProperty, 277.0 + lane * 22);
+                    pres.imgRhoTableMarker.SetValue(Canvas.TopProperty, 67.0 + plane * 23);
+                    pres.imgRhoTableMarker.SetValue(Canvas.LeftProperty, 270.0 + lane * 23);
 
                     pres.labelRotationOffset.Content = rotationOffset.ToString();
 
@@ -935,9 +1066,9 @@ namespace Cryptool.Plugins.Keccak
                             pres.label73.Content = oldLane[62].ToString();
                             pres.label74.Content = oldLane[63].ToString();
 
-                            #endregion
+                            #endregion                            
 
-                            #region fill labels of old lane
+                            #region fill labels of new lane
 
                             pres.label75.Content = newLane[0].ToString();
                             pres.label76.Content = newLane[1].ToString();
@@ -1041,10 +1172,16 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
+
                         pres.canvasStepDetailRho.Visibility = Visibility.Hidden;
                         pres.canvasCubeRho.Visibility = Visibility.Hidden;
                         pres.imgCubeDefault.Visibility = Visibility.Hidden;
                         presActive = false;
+
+                        pres.xCoordinate_var.Content = "";
+                        pres.yCoordinate_var.Content = "";
                     }, null);
                 }
             }
@@ -1052,17 +1189,42 @@ namespace Cryptool.Plugins.Keccak
 
         public void PiPres(byte[][][] tmpLanes)
         {
+            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.textBlockCurrentPhase.Text = "Pi permutes the lane positions within the state. The lane coordinates are shifted for improved visualization.";
+                    pres.textBlockCurrentStep.Text = "Each lane except the lane at (x,y) = (1,1) is moved to a different position. The right cube presents the new lane positions of the lanes indexed in the left cube. Already moved lanes that are grayed out.";
+                }, null);
+            }
+
             /* presentation is fixed to six rounds and performed after the step mapping of pi */
             for (int i = 0; i < 6; i++)
             {
-                if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep)
+                if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelOuterPartCaption.Content = "Step";
-                        pres.labelOuterPart.Content = (i + 1).ToString() + "/6";
-                        pres.labelInnerPartCaption.Content = "";
-                        pres.labelInnerPart.Content = "";
+                        //pres.labelOuterPartCaption.Content = "Step";
+                        //pres.labelOuterPart.Content = (i + 1).ToString() + "/6";
+                        //pres.labelInnerPartCaption.Content = "";
+                        //pres.labelInnerPart.Content = "";
+
+                        pres.xCoordinates.Visibility = Visibility.Visible;
+                        pres.yCoordinates.Visibility = Visibility.Visible;
+
+                        /* set coordinates*/
+                        pres.xCoordinate_1.Content = "x=4";
+                        pres.xCoordinate_2.Content = "x=5";
+                        pres.xCoordinate_3.Content = "x=1";
+                        pres.xCoordinate_4.Content = "x=2";
+                        pres.xCoordinate_5.Content = "x=3";
+
+                        pres.yCoordinate_1.Content = "y=4";
+                        pres.yCoordinate_2.Content = "y=5";
+                        pres.yCoordinate_3.Content = "y=1";
+                        pres.yCoordinate_4.Content = "y=2";
+                        pres.yCoordinate_5.Content = "y=3";
 
                         #region rounds
 
@@ -1139,6 +1301,9 @@ namespace Cryptool.Plugins.Keccak
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    pres.textBlockCurrentPhase.Text = "";
+                    pres.textBlockCurrentStep.Text = "";
+
                     pres.canvasCubePi_1.Visibility = Visibility.Hidden;
                     pres.canvasStepDetailPi_1.Visibility = Visibility.Hidden;
                     pres.canvasCubePi_2.Visibility = Visibility.Hidden;
@@ -1151,6 +1316,23 @@ namespace Cryptool.Plugins.Keccak
                     pres.canvasStepDetailPi_5.Visibility = Visibility.Hidden;
                     pres.canvasCubePi_6.Visibility = Visibility.Hidden;
                     pres.canvasStepDetailPi_6.Visibility = Visibility.Hidden;
+
+                    pres.xCoordinates.Visibility = Visibility.Hidden;
+                    pres.yCoordinates.Visibility = Visibility.Hidden;
+
+                    /* unset coordinates*/
+                    pres.xCoordinate_1.Content = "";
+                    pres.xCoordinate_2.Content = "";
+                    pres.xCoordinate_3.Content = "";
+                    pres.xCoordinate_4.Content = "";
+                    pres.xCoordinate_5.Content = "";
+
+                    pres.yCoordinate_1.Content = "";
+                    pres.yCoordinate_2.Content = "";
+                    pres.yCoordinate_3.Content = "";
+                    pres.yCoordinate_4.Content = "";
+                    pres.yCoordinate_5.Content = "";
+
                     presActive = false;
                 }, null);
             }
@@ -1158,21 +1340,25 @@ namespace Cryptool.Plugins.Keccak
 
         public void ChiPres(byte[] oldRow, int slice, int row)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep)
+            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
             {
                 /* show slice and row indexes */
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.labelOuterPartCaption.Content = "Slice";
-                    pres.labelOuterPart.Content = (slice + 1).ToString();
-                    pres.labelInnerPartCaption.Content = "Row";
-                    pres.labelInnerPart.Content = (row + 1).ToString();
+                    //pres.labelOuterPartCaption.Content = "Slice";
+                    //pres.labelOuterPart.Content = (slice + 1).ToString();
+                    //pres.labelInnerPartCaption.Content = "Row";
+                    //pres.labelInnerPart.Content = (row + 1).ToString();
 
                     /* show chi canvas in first iteration */
                     if (slice == 0 && row == 0)
                     {
+                        pres.textBlockCurrentPhase.Text = "Chi iterates over each row of the state.";
+                        pres.textBlockCurrentStep.Text = "Each bit of a row is exclusive-or'ed with the logical conjunction of the two bits to the right of the considered bit. The first bit of those two bits is inverted before the logical conjunction.";
+                    
                         pres.canvasStepDetailChi.Visibility = Visibility.Visible;
                         pres.canvasCubeChi.Visibility = Visibility.Visible;
+                        pres.zCoordinates.Visibility = Visibility.Visible;
                         presActive = true;
                     }
 
@@ -1246,18 +1432,39 @@ namespace Cryptool.Plugins.Keccak
                                 /* show default cube */
                                 pres.imgCubeDefault.Visibility = Visibility.Visible;
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_2.Content = "z=" + (slice + 2);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 3);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 4);
                             }
-                            else if (slice == 2)
+                            else if (slice >= 2 && slice < z - 3)
                             {
-                                /* show inner cube */
-                                pres.imgCubeDefault.Visibility = Visibility.Hidden;
-                                pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                                if (slice == 2)
+                                {
+                                    /* show inner cube */
+                                    pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                                    pres.imgCubeDefaultInner.Visibility = Visibility.Visible;
+                                }
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice);
+                                pres.zCoordinate_2.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 2);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 3);
                             }
                             else if (slice == z - 3)
                             {
-                                /* change to bottom cube */
+                                /* show bottom cube */
                                 pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
                                 pres.imgCubeDefaultBottom.Visibility = Visibility.Visible;
+
+                                /* set coordinates */
+                                pres.zCoordinate_1.Content = "z=" + (slice);
+                                pres.zCoordinate_2.Content = "z=" + (slice + 1);
+                                pres.zCoordinate_3.Content = "z=" + (slice + 2);
+                                pres.zCoordinate_4.Content = "z=" + (slice + 3);
                             }
 
                             /* move first row and toggle visibility*/
@@ -1362,57 +1569,453 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
 
                         pres.canvasStepDetailChi.Visibility = Visibility.Hidden;
                         pres.canvasCubeChi.Visibility = Visibility.Hidden;
                         pres.imgCubeDefaultBottom.Visibility = Visibility.Hidden;
+                        pres.imgCubeDefault.Visibility = Visibility.Hidden;
+                        pres.imgCubeDefaultInner.Visibility = Visibility.Hidden;
+                        pres.zCoordinates.Visibility = Visibility.Hidden;
                         presActive = false;
-
                     }, null);
                 }
             }
         }
 
-        public void IotaPres(byte[] firstLane, byte[] truncatedConstant, int round)
+        public void IotaPres(byte[] firstLane, byte[] firstLaneOld, byte[] truncatedConstant, int round)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep)
+            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
             {
+                AutoResetEvent buttonNextClickedEvent;
+
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    /* show iota canvas in first iteration */
+                    pres.textBlockCurrentPhase.Text = "Iota exclusive-or's a round constant on the first lane (x,y) = (1,1).";
+                    pres.textBlockCurrentStep.Text = "The value of the current round constant is presented in the red rectangle between the green blocks. The round constants differ in each round.";
+                    
+                    /* show iota canvas */
+                    pres.imgIotaSelectedRC.Visibility = Visibility.Hidden;
+                    pres.imgIotaXORedRC.Visibility = Visibility.Hidden;
+                    pres.labelIotaXORedRC.Content = "";
                     pres.canvasStepDetailIota.Visibility = Visibility.Visible;
                     pres.canvasCubeIota.Visibility = Visibility.Visible;
                     pres.imgCubeDefault.Visibility = Visibility.Visible;
+
+                    pres.xCoordinates.Visibility = Visibility.Visible;
+                    pres.yCoordinates.Visibility = Visibility.Visible;
+
+                    /* set coordinates*/
+                    pres.xCoordinate_1.Content = "x=1";
+                    pres.yCoordinate_1.Content = "y=1";
+
                     presActive = true;
 
-                    #region pres cube
+                    #region fill old lane labels for different lane sizes
 
-                    // none because fixed
+                    switch (z)
+                    {
+                        case 1:
+                            /* TODO */
+                            break;
+                        case 2:
+                            /* TODO */
+                            break;
+                        case 4:
+                            /* TODO */
+                            break;
+                        case 8:
+                            /* TODO */
+                            break;
+                        case 16:
+                            /* TODO */
+                            break;
+                        case 32:
+                            /* TODO */
+                            break;
+                        case 64:
 
+                            #region fill labels of old lane
+
+                            pres.label311.Content = firstLaneOld[0].ToString();
+                            pres.label312.Content = firstLaneOld[1].ToString();
+                            pres.label313.Content = firstLaneOld[2].ToString();
+                            pres.label314.Content = firstLaneOld[3].ToString();
+                            pres.label315.Content = firstLaneOld[4].ToString();
+                            pres.label316.Content = firstLaneOld[5].ToString();
+                            pres.label317.Content = firstLaneOld[6].ToString();
+                            pres.label318.Content = firstLaneOld[7].ToString();
+                            pres.label319.Content = firstLaneOld[8].ToString();
+                            pres.label320.Content = firstLaneOld[9].ToString();
+                            pres.label321.Content = firstLaneOld[10].ToString();
+                            pres.label322.Content = firstLaneOld[11].ToString();
+                            pres.label323.Content = firstLaneOld[12].ToString();
+                            pres.label324.Content = firstLaneOld[13].ToString();
+                            pres.label325.Content = firstLaneOld[14].ToString();
+                            pres.label326.Content = firstLaneOld[15].ToString();
+
+                            pres.label327.Content = firstLaneOld[16].ToString();
+                            pres.label328.Content = firstLaneOld[17].ToString();
+                            pres.label329.Content = firstLaneOld[18].ToString();
+                            pres.label330.Content = firstLaneOld[19].ToString();
+                            pres.label331.Content = firstLaneOld[20].ToString();
+                            pres.label332.Content = firstLaneOld[21].ToString();
+                            pres.label333.Content = firstLaneOld[22].ToString();
+                            pres.label334.Content = firstLaneOld[23].ToString();
+                            pres.label335.Content = firstLaneOld[24].ToString();
+                            pres.label336.Content = firstLaneOld[25].ToString();
+                            pres.label337.Content = firstLaneOld[26].ToString();
+                            pres.label338.Content = firstLaneOld[27].ToString();
+                            pres.label339.Content = firstLaneOld[28].ToString();
+                            pres.label340.Content = firstLaneOld[29].ToString();
+                            pres.label341.Content = firstLaneOld[30].ToString();
+                            pres.label342.Content = firstLaneOld[31].ToString();
+
+                            pres.label343.Content = firstLaneOld[32].ToString();
+                            pres.label344.Content = firstLaneOld[33].ToString();
+                            pres.label345.Content = firstLaneOld[34].ToString();
+                            pres.label346.Content = firstLaneOld[35].ToString();
+                            pres.label347.Content = firstLaneOld[36].ToString();
+                            pres.label348.Content = firstLaneOld[37].ToString();
+                            pres.label349.Content = firstLaneOld[38].ToString();
+                            pres.label350.Content = firstLaneOld[39].ToString();
+                            pres.label351.Content = firstLaneOld[40].ToString();
+                            pres.label352.Content = firstLaneOld[41].ToString();
+                            pres.label353.Content = firstLaneOld[42].ToString();
+                            pres.label354.Content = firstLaneOld[43].ToString();
+                            pres.label355.Content = firstLaneOld[44].ToString();
+                            pres.label356.Content = firstLaneOld[45].ToString();
+                            pres.label357.Content = firstLaneOld[46].ToString();
+                            pres.label358.Content = firstLaneOld[47].ToString();
+
+                            pres.label359.Content = firstLaneOld[48].ToString();
+                            pres.label360.Content = firstLaneOld[49].ToString();
+                            pres.label361.Content = firstLaneOld[50].ToString();
+                            pres.label362.Content = firstLaneOld[51].ToString();
+                            pres.label363.Content = firstLaneOld[52].ToString();
+                            pres.label364.Content = firstLaneOld[53].ToString();
+                            pres.label365.Content = firstLaneOld[54].ToString();
+                            pres.label366.Content = firstLaneOld[55].ToString();
+                            pres.label367.Content = firstLaneOld[56].ToString();
+                            pres.label368.Content = firstLaneOld[57].ToString();
+                            pres.label369.Content = firstLaneOld[58].ToString();
+                            pres.label370.Content = firstLaneOld[59].ToString();
+                            pres.label371.Content = firstLaneOld[60].ToString();
+                            pres.label372.Content = firstLaneOld[61].ToString();
+                            pres.label373.Content = firstLaneOld[62].ToString();
+                            pres.label374.Content = firstLaneOld[63].ToString();
+
+                            #endregion
+
+                            break;
+
+                        default:
+                            break;
+                    }
                     #endregion
 
-                    #region pres detailed
+                    #region clear new lane labels for different lane sizes
 
-                    pres.imgIotaSelectedRC.SetValue(Canvas.TopProperty, 51.0 + (round % 12) * 11);
-                    pres.imgIotaSelectedRC.SetValue(Canvas.LeftProperty, 264.0 + (round / 12) * 36); 
-                    
+                    switch (z)
+                    {
+                        case 1:
+                            /* TODO */
+                            break;
+                        case 2:
+                            /* TODO */
+                            break;
+                        case 4:
+                            /* TODO */
+                            break;
+                        case 8:
+                            /* TODO */
+                            break;
+                        case 16:
+                            /* TODO */
+                            break;
+                        case 32:
+                            /* TODO */
+                            break;
+                        case 64:
+
+                            #region fill labels of new lane
+
+                            pres.label375.Content = "";
+                            pres.label376.Content = "";
+                            pres.label377.Content = "";
+                            pres.label378.Content = "";
+                            pres.label379.Content = "";
+                            pres.label380.Content = "";
+                            pres.label381.Content = "";
+                            pres.label382.Content = "";
+                            pres.label383.Content = "";
+                            pres.label384.Content = "";
+                            pres.label385.Content = "";
+                            pres.label386.Content = "";
+                            pres.label387.Content = "";
+                            pres.label388.Content = "";
+                            pres.label389.Content = "";
+                            pres.label390.Content = "";
+
+                            pres.label391.Content = "";
+                            pres.label392.Content = "";
+                            pres.label393.Content = "";
+                            pres.label394.Content = "";
+                            pres.label395.Content = "";
+                            pres.label396.Content = "";
+                            pres.label397.Content = "";
+                            pres.label398.Content = "";
+                            pres.label399.Content = "";
+                            pres.label400.Content = "";
+                            pres.label401.Content = "";
+                            pres.label402.Content = "";
+                            pres.label403.Content = "";
+                            pres.label404.Content = "";
+                            pres.label405.Content = "";
+                            pres.label406.Content = "";
+
+                            pres.label407.Content = "";
+                            pres.label408.Content = "";
+                            pres.label409.Content = "";
+                            pres.label410.Content = "";
+                            pres.label411.Content = "";
+                            pres.label412.Content = "";
+                            pres.label413.Content = "";
+                            pres.label414.Content = "";
+                            pres.label415.Content = "";
+                            pres.label416.Content = "";
+                            pres.label417.Content = "";
+                            pres.label418.Content = "";
+                            pres.label419.Content = "";
+                            pres.label420.Content = "";
+                            pres.label421.Content = "";
+                            pres.label422.Content = "";
+
+                            pres.label423.Content = "";
+                            pres.label424.Content = "";
+                            pres.label425.Content = "";
+                            pres.label426.Content = "";
+                            pres.label427.Content = "";
+                            pres.label428.Content = "";
+                            pres.label429.Content = "";
+                            pres.label430.Content = "";
+                            pres.label431.Content = "";
+                            pres.label432.Content = "";
+                            pres.label433.Content = "";
+                            pres.label434.Content = "";
+                            pres.label435.Content = "";
+                            pres.label436.Content = "";
+                            pres.label437.Content = "";
+                            pres.label438.Content = "";
+
+                            #endregion
+
+                            break;
+
+                        default:
+                            break;
+                    }
                     #endregion
 
                 }, null);
 
                 /* wait for button clicks */
-                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
-                buttonNextClickedEvent.WaitOne();
+                if (!pres.stopButtonClicked && !pres.skipStep)
+                {
+                    if (!pres.autostep)
+                    {
+                        pres.autostep = false;
+                        buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+                    /* sleep between steps, if autostep was clicked */
+                    else
+                    {
+                        System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider
+                    }
+                }
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {   
+                    pres.imgIotaSelectedRC.SetValue(Canvas.TopProperty, 36.0 + (round % 12) * 13);
+                    pres.imgIotaSelectedRC.SetValue(Canvas.LeftProperty, 262.0 + (round / 12) * 55);
+                    pres.imgIotaSelectedRC.Visibility = Visibility.Visible;
+
+                }, null);
+
+                /* wait for button clicks */
+                if (!pres.stopButtonClicked && !pres.skipStep)
+                {
+                    if (!pres.autostep)
+                    {
+                        pres.autostep = false;
+                        buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+                    /* sleep between steps, if autostep was clicked */
+                    else
+                    {
+                        System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIotaXORedRC.Visibility = Visibility.Visible;
+                        pres.labelIotaXORedRC.Content = roundConstantsPres[round];
+                    }, null);
+                }
+
+                /* wait for button clicks */
+                if (!pres.stopButtonClicked && !pres.skipStep)
+                {
+                    if (!pres.autostep)
+                    {
+                        pres.autostep = false;
+                        buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+                    /* sleep between steps, if autostep was clicked */
+                    else
+                    {
+                        System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider
+                    }
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        #region fill new lane labels for different lane sizes
+
+                        switch (z)
+                        {
+                            case 1:
+                                /* TODO */
+                                break;
+                            case 2:
+                                /* TODO */
+                                break;
+                            case 4:
+                                /* TODO */
+                                break;
+                            case 8:
+                                /* TODO */
+                                break;
+                            case 16:
+                                /* TODO */
+                                break;
+                            case 32:
+                                /* TODO */
+                                break;
+                            case 64:
+
+                                #region fill labels of new lane
+
+                                pres.label375.Content = firstLane[0].ToString();
+                                pres.label376.Content = firstLane[1].ToString();
+                                pres.label377.Content = firstLane[2].ToString();
+                                pres.label378.Content = firstLane[3].ToString();
+                                pres.label379.Content = firstLane[4].ToString();
+                                pres.label380.Content = firstLane[5].ToString();
+                                pres.label381.Content = firstLane[6].ToString();
+                                pres.label382.Content = firstLane[7].ToString();
+                                pres.label383.Content = firstLane[8].ToString();
+                                pres.label384.Content = firstLane[9].ToString();
+                                pres.label385.Content = firstLane[10].ToString();
+                                pres.label386.Content = firstLane[11].ToString();
+                                pres.label387.Content = firstLane[12].ToString();
+                                pres.label388.Content = firstLane[13].ToString();
+                                pres.label389.Content = firstLane[14].ToString();
+                                pres.label390.Content = firstLane[15].ToString();
+
+                                pres.label391.Content = firstLane[16].ToString();
+                                pres.label392.Content = firstLane[17].ToString();
+                                pres.label393.Content = firstLane[18].ToString();
+                                pres.label394.Content = firstLane[19].ToString();
+                                pres.label395.Content = firstLane[20].ToString();
+                                pres.label396.Content = firstLane[21].ToString();
+                                pres.label397.Content = firstLane[22].ToString();
+                                pres.label398.Content = firstLane[23].ToString();
+                                pres.label399.Content = firstLane[24].ToString();
+                                pres.label400.Content = firstLane[25].ToString();
+                                pres.label401.Content = firstLane[26].ToString();
+                                pres.label402.Content = firstLane[27].ToString();
+                                pres.label403.Content = firstLane[28].ToString();
+                                pres.label404.Content = firstLane[29].ToString();
+                                pres.label405.Content = firstLane[30].ToString();
+                                pres.label406.Content = firstLane[31].ToString();
+
+                                pres.label407.Content = firstLane[32].ToString();
+                                pres.label408.Content = firstLane[33].ToString();
+                                pres.label409.Content = firstLane[34].ToString();
+                                pres.label410.Content = firstLane[35].ToString();
+                                pres.label411.Content = firstLane[36].ToString();
+                                pres.label412.Content = firstLane[37].ToString();
+                                pres.label413.Content = firstLane[38].ToString();
+                                pres.label414.Content = firstLane[39].ToString();
+                                pres.label415.Content = firstLane[40].ToString();
+                                pres.label416.Content = firstLane[41].ToString();
+                                pres.label417.Content = firstLane[42].ToString();
+                                pres.label418.Content = firstLane[43].ToString();
+                                pres.label419.Content = firstLane[44].ToString();
+                                pres.label420.Content = firstLane[45].ToString();
+                                pres.label421.Content = firstLane[46].ToString();
+                                pres.label422.Content = firstLane[47].ToString();
+
+                                pres.label423.Content = firstLane[48].ToString();
+                                pres.label424.Content = firstLane[49].ToString();
+                                pres.label425.Content = firstLane[50].ToString();
+                                pres.label426.Content = firstLane[51].ToString();
+                                pres.label427.Content = firstLane[52].ToString();
+                                pres.label428.Content = firstLane[53].ToString();
+                                pres.label429.Content = firstLane[54].ToString();
+                                pres.label430.Content = firstLane[55].ToString();
+                                pres.label431.Content = firstLane[56].ToString();
+                                pres.label432.Content = firstLane[57].ToString();
+                                pres.label433.Content = firstLane[58].ToString();
+                                pres.label434.Content = firstLane[59].ToString();
+                                pres.label435.Content = firstLane[60].ToString();
+                                pres.label436.Content = firstLane[61].ToString();
+                                pres.label437.Content = firstLane[62].ToString();
+                                pres.label438.Content = firstLane[63].ToString();
+
+                                #endregion
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                        #endregion
+                    }, null);
+
+                    if (!pres.stopButtonClicked && !pres.skipStep)
+                    {
+                        /* wait for button clicks */
+                        pres.autostep = false;
+                        buttonNextClickedEvent = pres.buttonNextClickedEvent;
+                        buttonNextClickedEvent.WaitOne();
+                    }
+                }
             }
 
+            /* hide iota canvas after last iteration */
             if (presActive)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    /* hide iota canvas after last iteration */
+                    pres.textBlockCurrentPhase.Text = "";
+                    pres.textBlockCurrentStep.Text = "";
+
                     pres.canvasStepDetailIota.Visibility = Visibility.Hidden;
                     pres.canvasCubeIota.Visibility = Visibility.Hidden;
                     pres.imgCubeDefault.Visibility = Visibility.Hidden;
+
+                    pres.xCoordinates.Visibility = Visibility.Hidden;
+                    pres.yCoordinates.Visibility = Visibility.Hidden;
+
+                    /* unset coordinates*/
+                    pres.xCoordinate_1.Content = "";
+                    pres.yCoordinate_1.Content = "";
+
                     presActive = false;
                 }, null);
             }
