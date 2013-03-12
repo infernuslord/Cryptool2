@@ -205,7 +205,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public key e / Private key d input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public exponent e / Private key d input ähnelt.
         /// </summary>
         internal static string InputEDCaption {
             get {
@@ -214,7 +214,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key e / private key d here. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public exponent e / private key d here. ähnelt.
         /// </summary>
         internal static string InputEDTooltip {
             get {

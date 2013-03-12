@@ -142,10 +142,10 @@
     <value>Enter the number to encrypt or decrypt here.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
-    <value>Public key e / Private key d input</value>
+    <value>Public exponent e / Private key d input</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Enter your public key e / private key d here.</value>
+    <value>Enter your public exponent e / private key d here.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
     <value>Ciphertext c / Message m output (as number)</value>
