@@ -268,11 +268,15 @@ namespace Cryptool.Plugins.RSA
                         switch ( this.settings.RangeType )
                         {
                             case 0: // n = number of bits for primes
-                                if (!(n > 2 && n <= 1024))
+                                if ((int)n <= 2)
                                 {
-                                    GuiLogMessage("Value for n has to be greater than 2 and less than or equal to 1024.", NotificationLevel.Error);
+                                    GuiLogMessage("Value for n has to be greater than 2.", NotificationLevel.Error);
                                     return;
                                 }
+
+                                if (n >= 1024)
+                                    GuiLogMessage("Please note that the generation of prime numbers with "+n+" bits may take some time...", NotificationLevel.Warning);
+
                                 p = BigIntegerHelper.RandomPrimeBits((int)n);
                                 do q = BigIntegerHelper.RandomPrimeBits((int)n); while (p == q);
                                 break;
@@ -284,6 +288,7 @@ namespace Cryptool.Plugins.RSA
                                     GuiLogMessage("Value for n has to be greater than 4", NotificationLevel.Error);
                                     return;
                                 }
+
                                 p = BigIntegerHelper.RandomPrimeLimit( n + 1 );
                                 do q = BigIntegerHelper.RandomPrimeLimit(n + 1); while (p == q);
                                 break;
@@ -291,7 +296,7 @@ namespace Cryptool.Plugins.RSA
                     }
                     catch
                     {
-                        GuiLogMessage("Please enter an Integer value for n.", NotificationLevel.Error);
+                        GuiLogMessage("Please enter an integer value for n.", NotificationLevel.Error);
                         return;
                     }
 
