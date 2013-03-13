@@ -1725,6 +1725,10 @@ namespace Cryptool.CrypWin
             tablabel.Name = "Text";
             //tabheader.Children.Add(tablabel);
 
+            // set icon for CrypTutorials
+            if (content is ICrypTutorial && content != null)
+                (content as ICrypTutorial).Presentation.Tag = content.GetType().GetImage(0).Source;
+
             Binding bind = new Binding();
             bind.Source = tabitem.Content;
             bind.Path = new PropertyPath("Tag");
