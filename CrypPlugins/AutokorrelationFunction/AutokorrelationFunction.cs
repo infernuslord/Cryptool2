@@ -34,16 +34,14 @@ namespace Cryptool.Plugins.AutokorrelationFunction
     {
         #region Private Variables
 
-        private AutocorrelationPresentation presentation;
-
-        private String cipher = "";                                     //The cipher to be analysed
-        private int probablelength = 0;                                 //estimated keylength
-        private double probablekorr = -999999.999999;                   //initialized probable korrelation of the length
-        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";         //used alphabet
-        private double same;                                            //Found same letter counter
-        private double[] ak;                                            // Autokorrelation Values
-        private HistogramElement bar;                                   
-        private HistogramDataSource data;
+        private readonly AutocorrelationPresentation _presentation;
+        private const String Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";       //used alphabet
+        private String _cipher;                                             //The cipher to be analysed
+        private int _probablelength;                                        //estimated keylength
+        private double _probablekorr = -999999.999999;                      //initialized probable korrelation of the length        
+        private double[] _ak;                                               //autokorrelation values
+        private HistogramElement _bar;
+        private HistogramDataSource _data;
 
         #endregion
 
@@ -57,11 +55,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         {
             get
             {
-                return cipher;
+                return _cipher;
             }
             set
             {
-                this.cipher = value;
+                this._cipher = value;
                 OnPropertyChanged("InputCipher");
             }
         }
@@ -74,11 +72,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         {
             get
             {
-                return probablelength;
+                return _probablelength;
             }
             set
             {
-                this.probablelength = value;
+                _probablelength = value;
                 OnPropertyChanged("OutputLength");
             }
         }
@@ -89,10 +87,8 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public AutokorrelationFunction()
         {
-            presentation = new AutocorrelationPresentation();
-            HistogramElement bar = new HistogramElement(0, 0, "");
-            data = new HistogramDataSource();
-
+            _presentation = new AutocorrelationPresentation();
+            _data = new HistogramDataSource();
         }
         public ISettings Settings
         {
@@ -101,11 +97,11 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public UserControl Presentation
         {
-            get { return presentation; }
+            get { return _presentation; }
         }
 
         public void PreExecution()
-        {
+        {          
         }
 
         public void Execute()
@@ -118,27 +114,29 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             {
                 ProgressChanged(0, 1);
 
-                cipher = InputCipher;                               //initialising the ciphertext
-                cipher = prepareForAnalyse(cipher);                 //and prepare it for the analyse (-> see private methods section)
+                _probablelength = 0;
+                _probablekorr = -999999.999999;
+                _cipher = InputCipher;                               //initialising the ciphertext
+                _cipher = prepareForAnalyse(_cipher);                 //and prepare it for the analyse (-> see private methods section)
 
-                ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
+                _ak = new double[_cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
 
-                presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
-                presentation.histogram.SetHeadline( typeof(AutokorrelationFunction).GetPluginStringResource("Autocorrelation_matches") );    //sets its title
+                _presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
+                _presentation.histogram.SetHeadline( typeof(AutokorrelationFunction).GetPluginStringResource("Autocorrelation_matches") );    //sets its title
 
                 //-----------------------------------------------------------------------------------------------------------------
                 //Analyse----------------------------------------------------------------------------------------------------------
                 //-----------------------------------------------------------------------------------------------------------------		
 
                 //for each possible shift value...
-                for (int t = 0; t < cipher.Length; t++)
+                for (int t = 0; t < _cipher.Length; t++)
                 {
-                    same = 0;
+                    int same = 0;
 
                     //...calculate how often the letters match...
-                    for (int x = 0; x < cipher.Length - t; x++)
+                    for (int x = 0; x < _cipher.Length - t; x++)
                     {
-                        if (cipher[x] == cipher[x + t])
+                        if (_cipher[x] == _cipher[x + t])
                         {
                             same++;
                         }
@@ -147,50 +145,49 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                     try
                     {
                         //...and save the count for the matches at the shift position
-                        ak[t] = same;
+                        _ak[t] = same;
                     }
                     catch
                     {
                     }
                 }
 
-                data.ValueCollection.Clear();
+                _data.ValueCollection.Clear();
 
                 //for all observed shifts...
-                for (int y = 1; y < ak.Length; y++)
+                for (int y = 1; y < _ak.Length; y++)
                 {
                     //find the one with the highest match count...
-                    if (ak[y] > probablekorr)
+                    if (_ak[y] > _probablekorr)
                     {
-                        probablekorr = ak[y];
-                        probablelength = y;                 //...and remember this shift value
+                        _probablekorr = _ak[y];
+                        _probablelength = y;                 //...and remember this shift value
                     }
                 }
 
                 //find the top 13 matches...
-                if (ak.Length > 11)
+                if (_ak.Length > 11)
                 {
-                    ak = findTopThirteen(ak);
+                    _ak = findTopThirteen(_ak);
                 }
 
-                for (int y = 1; y < ak.Length; y++)
+                for (int y = 1; y < _ak.Length; y++)
                 {
-                    if (ak[y] > -1)                         //Adds a bar into the presentation if it is higher then the average matches
+                    if (_ak[y] > -1)                         //Adds a bar into the presentation if it is higher then the average matches
                     {
-                        bar = new HistogramElement(ak[y], ak[y], "" + y);
-                        data.ValueCollection.Add(bar);
+                        _bar = new HistogramElement(_ak[y], _ak[y], "" + y);
+                        _data.ValueCollection.Add(_bar);
                     }
                 }
-
                 
-                presentation.histogram.SetHeadline( String.Format( typeof(AutokorrelationFunction).GetPluginStringResource("Highest_match_count_with_shift"), probablekorr, probablelength ));
+                _presentation.histogram.SetHeadline( String.Format( typeof(AutokorrelationFunction).GetPluginStringResource("Highest_match_count_with_shift"), _probablekorr, _probablelength ));
 
-                if (data != null)
+                if (_data != null)
                 {
-                    presentation.histogram.ShowData(data);
+                    _presentation.histogram.ShowData(_data);
                 }
 
-                OutputLength = probablelength;              //sending the keylength via output
+                OutputLength = _probablelength;              //sending the keylength via output
                 OnPropertyChanged("OutputLength");
             }  
 
@@ -207,7 +204,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public void Stop()
         {
-            presentation.histogram.SetBackground(Brushes.LightGray);
+            _presentation.histogram.SetBackground(Brushes.LightGray);
         }
 
         public void Initialize()
@@ -253,9 +250,9 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         private int getPos(char c)
         {
             int pos = -1;
-            for (int i = 0; i < alphabet.Length; i++)
+            for (int i = 0; i < Alphabet.Length; i++)
             {
-                if (alphabet[i] == c)
+                if (Alphabet[i] == c)
                 {
                     pos = i;
                 }
@@ -275,7 +272,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             double[] top = ak;
             int thrownaway = 0;
 
-            for(int match=0; match < probablekorr; match++)
+            for(int match=0; match < _probablekorr; match++)
             {
                 for(int x=0;x<ak.Length;x++)
                 {
