@@ -827,7 +827,7 @@ namespace WorkspaceManager.View.Visuals
                                     radio.Content = stringValue;
                                     
                                     radio.Tag = new RadioButtonListAndBindingInfo(list, plugin, tpa);
-                                    radio.ToolTip = new RadioButtonListAndBindingInfo(list, plugin, tpa);
+                                    radio.ToolTip = tpa.ToolTip;
                                     radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding1);
                                     panelRadioButtons.Children.Add(radio);
                                     list.Add(radio);
