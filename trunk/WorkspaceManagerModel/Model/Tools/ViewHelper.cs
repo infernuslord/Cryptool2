@@ -15,6 +15,8 @@
 */
 
 using System;
+using System.Text;
+using Cryptool.PluginBase.IO;
 
 namespace WorkspaceManagerModel.Model.Tools
 {
@@ -27,26 +29,80 @@ namespace WorkspaceManagerModel.Model.Tools
         /// This number is the maximum number of values of an array which should
         /// be used for the creation of the PresentationString
         /// </summary>
-        private const int MaxUsedArrayValues = 100;
+        private const int MaxUsedArrayValues = 200;
+
+        /// <summary>
+        /// This number is the number of characters after a linebreak is put into data representation string
+        /// </summary>
+        private const int MaximumCharactersToShow = 450;
+
+
+        /// <summary>
+        /// This number is the number of characters after a linebreak is put into data representation string
+        /// </summary>
+        private const int LineBreakCharacterAmount = 76;
+
 
         /// <summary>
         /// Converts a given model data value into a valid view string which
         /// can be shown to the user. Returns "null" if there was no valid data
-        /// or a given array was empty. Maximum length of returned string is 50.
-        /// If string gets longer than maxcount only string.Substring(0,maxcount) + "..." is
-        /// returned 
+        /// or a given array was empty
         /// </summary>
         /// <param name="data"></param>
-        /// <param name="maxCharacters"></param>
         /// <returns></returns>
-        public static string GetDataPresentationString(object data, int maxCharacters = 200)
+        public static string GetDataPresentationString(object data)
         {
-            var str = ConvertDataPresentation(data);
-            if (str.Length > maxCharacters)
+            try
             {
-                return str.Substring(0, maxCharacters) + "...";
+                var str = ConvertDataPresentation(data);
+                if (str.Length > MaximumCharactersToShow)
+                {
+                    str = str.Substring(0, MaximumCharactersToShow) + "...";
+                }
+
+                if (str.Length > LineBreakCharacterAmount)
+                {
+                    var output = new StringBuilder();
+                    var lastBreak = 0;      //counts the number of chars the last linebreak occured
+                    for (var index = 0; index < str.Length; index++)
+                    {
+                        //remove spaces at the beginning of a new line
+                        if (!(str[index] == ' ' && lastBreak == 0))
+                        {
+                            output.Append(str[index]);                            
+                            //we found a line break so we memorize that
+                            if (str[index] == '\r' || str[index] == '\n')
+                            {
+                                lastBreak = 0;
+                            }
+                            else
+                            {
+                                lastBreak++;
+                            }
+                        }
+
+                        //we only make a break at spaces 
+                        if (index > 0 && lastBreak >= LineBreakCharacterAmount && str[index] == ' ')
+                        {
+                            output.Remove(output.Length-1, 1);
+                            output.Append("\r\n");
+                            lastBreak = 0;
+                        } 
+                        //or if lastBreak >= (LineBreakCharacterAmount + 5%)
+                        else if (index > 0 && lastBreak >= LineBreakCharacterAmount * 1.05)
+                        {
+                            output.Append("\r\n");
+                            lastBreak = 0;
+                        } 
+                    }
+                    return output.ToString().Trim();
+                }
+                return str.Trim();
             }
-            return str;
+            catch(Exception ex)
+            {
+                return string.Format("Exception during creation of data representation: {0}",ex.Message);
+            }
         }
 
         private static string ConvertDataPresentation(object data)
@@ -56,15 +112,15 @@ namespace WorkspaceManagerModel.Model.Tools
                 return "null";
             }
 
-            if (data is byte[])
+            var value = data as byte[];
+            if (value != null)
             {
-                return BitConverter.ToString((byte[])data).Replace("-"," ");
+                return BitConverter.ToString(value).Replace("-", " ");
             }
-            
-            if (data is Array)
+
+            var array = data as Array;
+            if (array != null)
             {
-                var array = (Array)data;
-                
                 switch (array.Length)
                 {
                     case 0:
@@ -74,7 +130,7 @@ namespace WorkspaceManagerModel.Model.Tools
                     default:
                         var str = "" + array.GetValue(0) + ",";
                         var counter = 0;
-                        for (int i = 1; i < array.Length - 1; i++)
+                        for (var i = 1; i < array.Length - 1; i++)
                         {
                             str += (array.GetValue(i) + ",");
                             counter++;
@@ -88,7 +144,20 @@ namespace WorkspaceManagerModel.Model.Tools
                 }
             }
 
-            return data.ToString();    
+            var stream = data as ICryptoolStream;
+            if (stream != null)
+            {
+                var reader = stream.CreateReader();
+                if(reader.Length > 0)
+                {
+                    var buffer = new byte[reader.Length < MaximumCharactersToShow ? reader.Length : MaximumCharactersToShow];
+                    reader.Read(buffer, 0, (reader.Length < MaximumCharactersToShow ? (int)reader.Length : MaximumCharactersToShow));
+                    return ConvertDataPresentation(buffer);
+                }
+                return "null";
+            }
+
+            return data.ToString();
         }
     }
 }
