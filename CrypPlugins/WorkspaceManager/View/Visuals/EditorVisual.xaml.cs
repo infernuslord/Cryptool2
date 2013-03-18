@@ -939,9 +939,16 @@ namespace WorkspaceManager.View.Visuals
 
         public void AddText()
         {
-            var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
-            VisualCollection.Add(bin);
-            SelectedText = bin;
+            try
+            {
+                var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
+                VisualCollection.Add(bin);
+                SelectedText = bin;
+            }
+            catch (Exception e)
+            {
+                MyEditor.GuiLogMessage(string.Format("Could not load Text to Workspace: {0}", e.Message), NotificationLevel.Error);
+            }
         }
 
         public void AddImage(Uri uri)

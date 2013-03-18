@@ -672,14 +672,20 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         internal class ConnectorSorter : IComparer
         {
             private ObservableCollection<ConnectorVisual> collection;
-            private bool assigned;
             private ListCollectionView view;
 
             public ConnectorSorter(ObservableCollection<ConnectorVisual> collection, ListCollectionView view)
             {
                 this.collection = collection;
                 this.view = view;
-                this.collection.OrderBy(x => x.Model.Index);
+                if (collection.Any(x => x.Model.Index == int.MinValue) != null)
+                {
+                    foreach (var item in collection)
+                        item.Model.Index = collection.IndexOf(item);
+                }
+                else
+                    this.collection.OrderBy(x => x.Model.Index);
+
                 this.collection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(ConnectorCollectionItemChanged);
             }
 
