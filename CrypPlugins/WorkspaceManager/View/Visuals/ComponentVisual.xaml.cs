@@ -678,7 +678,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             {
                 this.collection = collection;
                 this.view = view;
-                if (collection.Any(x => x.Model.Index == int.MinValue) != null)
+                if (collection.Any(x => x.Model.Index == int.MinValue))
                 {
                     foreach (var item in collection)
                         item.Model.Index = collection.IndexOf(item);
