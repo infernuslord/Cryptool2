@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CapacityCaption" xml:space="preserve">
-    <value>Kapazität</value>
+    <value>Capacity</value>
   </data>
   <data name="CapacityTooltip" xml:space="preserve">
-    <value>Größe der Kapazität in Bit</value>
+    <value>Größe der Capacity in Bit</value>
   </data>
   <data name="DebugDataStreamTooltip" xml:space="preserve">
     <value>Ausgabestrom für Debuginformation</value>
@@ -184,7 +184,7 @@
     <value>Keccak Hash Funktion</value>
   </data>
   <data name="RateCaption" xml:space="preserve">
-    <value>Bitrate</value>
+    <value>Bit Rate</value>
   </data>
   <data name="SelectedStateSizeCaption" xml:space="preserve">
     <value>State Größe</value>
@@ -220,10 +220,10 @@
     <value>Die Ausgabe ist zu lang. Sie wird auf 174.760 Bit gekürzt.</value>
   </data>
   <data name="RateTooltip" xml:space="preserve">
-    <value>Größe der Bitrate in Bit (muss durch 8 teilbar sein)</value>
+    <value>Größe der Bit Rate in Bit (muss durch 8 teilbar sein)</value>
   </data>
   <data name="StateSizeMatchError" xml:space="preserve">
-    <value>Die Summe von Bitrate und Kapazität muss mit der Größe des State übereinstimmen.</value>
+    <value>Die Summe von Bit Rate und Capacity muss mit der Größe des State übereinstimmen.</value>
   </data>
   <data name="PresentationCaption" xml:space="preserve">
     <value>Präsentation einschalten</value>
@@ -233,5 +233,108 @@
   </data>
   <data name="PresentationTooltip" xml:space="preserve">
     <value>Auswählen, ob die Präsentation angezeigt werden soll.</value>
+  </data>
+  <data name="PresInitialization" xml:space="preserve">
+    <value>Initialisierung</value>
+  </data>
+  <data name="PresIntroduction" xml:space="preserve">
+    <value>Einführung</value>
+  </data>
+  <data name="PresAbsorbingPhase" xml:space="preserve">
+    <value>Absorbing Phase</value>
+  </data>
+  <data name="PresAbsorbingPhaseExplanation" xml:space="preserve">
+    <value>Eingabeblock #{0} wird durch eine XOR Operation von dem r-Bit Anteil des States 'aufgesaugt'. Bei genauerer Betrachtung des States kann man eindeutig sehen, dass der Capacity Anteil (unterer Teil des States) nicht verändert wurde.</value>
+  </data>
+  <data name="PresAbsorbingPhaseText" xml:space="preserve">
+    <value>Jeder Block p der gepaddeten Eingabedaten wird durch eine XOR Operation von dem Sponge-State aufgesaugt. Die Eingabeblöcke betreffen die {0} Bits des r-bit Anteils. Der c-bit Anteil wird nicht beeinflusst. Nach dem Aufsaugen wird die Keccak-f Permutation ausgeführt um die State-Bits zu vermischen.</value>
+  </data>
+  <data name="PresChiPhaseText" xml:space="preserve">
+    <value>Chi iteriert über jede Zeile des States.</value>
+  </data>
+  <data name="PresChiStepText" xml:space="preserve">
+    <value>Jedes Bit einer Zeile wird XOR-verknüpft mit der Konjunktion der beiden Bits zur Rechten des betrachteten Bits. Das erste von den beiden Bits wird vor der Konjunktion invertiert.</value>
+  </data>
+  <data name="PresExecution" xml:space="preserve">
+    <value>Ausführung</value>
+  </data>
+  <data name="PresExecutionInfoBitRateSize" xml:space="preserve">
+    <value>Bit Rate Größe: {0} Bits</value>
+  </data>
+  <data name="PresExecutionInfoCapacitySize" xml:space="preserve">
+    <value>Capacity Größe: {0} Bits</value>
+  </data>
+  <data name="PresExecutionInfoStateSize" xml:space="preserve">
+    <value>State Größe: {0} Bits</value>
+  </data>
+  <data name="PresExecutionMessageLength" xml:space="preserve">
+    <value>Eingabelänge: {0} Bits = {1} Bytes</value>
+  </data>
+  <data name="PresExecutionNumberOfBlocks" xml:space="preserve">
+    <value>Anzahl Eingabeblöcke (Länge der gepaddeten Eingabe / Bit Rate Größe): {0}</value>
+  </data>
+  <data name="PresExecutionPaddedMessageLength" xml:space="preserve">
+    <value>Länge der gepaddeten Eingabe: {0} Bits = {1} Bytes</value>
+  </data>
+  <data name="PresInitializationText" xml:space="preserve">
+    <value>Der State (Zustand) der Sponge-Konstruktion wird initialisiert. Jedes der b Bits wird mit dem Wert 0 initialisiert. Der State ist in zwei Teile geteilt: Capacity -- c bits und Bit Rate -- r bits. Bei den gewählten Einstellungen sind diese Werte b = {0}, c = {1} und r = {2}.</value>
+  </data>
+  <data name="PresInputInformation" xml:space="preserve">
+    <value>Eingabe Information</value>
+  </data>
+  <data name="PresIotaPhaseText" xml:space="preserve">
+    <value>Iota XOR-verknüpft eine Runenkonstante mit der ersten Lane (x,y) = (1,1).</value>
+  </data>
+  <data name="PresIotaStepText" xml:space="preserve">
+    <value>Die Rundenkonstante der aktuellen Runde ist in dem roten Rechteck angegeben, zwischen den grünen Blöcken, welche den alten und neuen Wert der Lane zeigen. Die Rundenkonstanten sind in jeder Rune unterschiedlich.</value>
+  </data>
+  <data name="PresKeccakFIterations" xml:space="preserve">
+    <value>{0} Wiederholungen</value>
+  </data>
+  <data name="PresKeccakFPhase" xml:space="preserve">
+    <value>Keccak-f Permutation</value>
+  </data>
+  <data name="PresKeccakFPhaseText" xml:space="preserve">
+    <value>Die Keccak-f Permuation besteht aus 12 + 2 * l Runden. In jeder Runde werden fünf "step mappings" ausgeführt, die den State auf unterschiedliche Weise permutieren. Bei der eingestellten State Größe entspricht l dem Wert {0} und die Gesamtanzahl an Runden ist 24.</value>
+  </data>
+  <data name="PresKeccakFStateMapping" xml:space="preserve">
+    <value>Damit die step mappings einfacher dargestellt werden können wird der State als dreidimensionaler Würfel repräsentiert. Die Länge der Reihen und Spalten ist 5 Bit, Die Länge einer Lane hängt von der State Größe ab (bei der ausgewählten State Größe ist die Länge der Lanes {1} Bits).</value>
+    <comment>für lane fällt mir keine gute Übersetzung ein... (Linie, Spur, Weg klingt alles nicht gut)</comment>
+  </data>
+  <data name="PresOverview" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
+  <data name="PresPiPhaseText" xml:space="preserve">
+    <value>Pi permutiert die Anordnung der Lanes innerhalb des States. Die Koordinaten sind verschoben zwecks besserer Visualisierung.</value>
+  </data>
+  <data name="PresPiStepText" xml:space="preserve">
+    <value>Jede Lane, ausser die Lane an Position (x,y) = (1,1), dargestellt in schwarz, wird an eine andere Stelle geschoben. Der Rechte Würfel zeigt die neuen Positionen der Lanes. Bereits verschobene Lanes werden grau dargestellt.</value>
+  </data>
+  <data name="PresRhoPhaseText" xml:space="preserve">
+    <value>Rho iteriert über jede Lane des States.</value>
+  </data>
+  <data name="PresRhoStepText" xml:space="preserve">
+    <value>Jede Lane wird um einen bestimmten Wert (rot markiert) nach rechts rotiert. Der obere grüne Block stellt die Lane vor der Rotation dar, der untere grüne Block nach der Rotation.</value>
+  </data>
+  <data name="PresRoundOfRounds" xml:space="preserve">
+    <value>Runde {0}/{1}</value>
+  </data>
+  <data name="PresSpongeConstructionParameter" xml:space="preserve">
+    <value>Parameter der Sponge Konstruktion</value>
+  </data>
+  <data name="PresSqueezingPhase" xml:space="preserve">
+    <value>Squeezing Phase</value>
+  </data>
+  <data name="PresSqueezingPhaseExplanation" xml:space="preserve">
+    <value>Der {0}-bit Hashwert wird aus dem Bit Rate Anteil (oberer Teil des States) extrahiert.</value>
+  </data>
+  <data name="PresSqueezingPhaseText" xml:space="preserve">
+    <value>Der Hashwert wird aus dem r-bit Anteil des States extrahiert (z). Sofern die angeforderte Ausgabelänge größer ist als r, wird der State immer wieder permutiert bis genug Ausgabe vorhanden ist.</value>
+  </data>
+  <data name="PresThetaPhaseText" xml:space="preserve">
+    <value>Theta iteriert über jede Spalte des States.</value>
+  </data>
+  <data name="PresThetaStepText" xml:space="preserve">
+    <value>Die Paritäten zweier benachbarter Spalten (türkis und hellgrün) werden XOR-verknüpft. Das Ergebnis wird XOR-verknüpft mit jedem Bit der betrachteten Spalte (grün).</value>
   </data>
 </root>

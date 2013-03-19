@@ -133,14 +133,12 @@ namespace Cryptool.Plugins.Keccak
 
             /* show presentation intro */
             #region presentation intro
-                       
 
             if (pres.IsVisible)
             {
                 /* clean up last round */
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.buttonNext.Content = "Next";
                     pres.absorbGrid.Visibility = Visibility.Hidden;
                     pres.imgBlankPage.Visibility = Visibility.Hidden;
                     pres.labelOutput.Visibility = Visibility.Hidden;
@@ -149,6 +147,7 @@ namespace Cryptool.Plugins.Keccak
                     pres.textBlockStateAfterAbsorb.Text = "";
                     pres.labelCurrentPhase.Content = "";
                     pres.labelCurrentStep.Content = "";
+                    pres.textBlockExplanation.Text = "";
                 }, null);
 
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -173,15 +172,19 @@ namespace Cryptool.Plugins.Keccak
 
                 if (!pres.stopButtonClicked)
                 {
+                    //string presIntroduction = "PresIntroduction";
+                    //string presInitialization = "PresInitialization";
+
+                    GuiLogMessage(Resources.PresIntroduction, NotificationLevel.Debug);
+                    GuiLogMessage(Resources.PresInitialization, NotificationLevel.Debug);
+
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelCurrentPhase.Content = "Introduction";
-                        pres.labelCurrentStep.Content = "Initialization";
+                        pres.labelCurrentPhase.Content = Resources.PresIntroduction;
+                        pres.labelCurrentStep.Content = Resources.PresInitialization;
 
                         pres.textBlockIntroduction.Text =
-                            string.Format("The state of the sponge construction is initialized. Every b bits of the state are initialized to 0. " +
-                            "The state is partitioned into two parts: Capacity - c bits and Bit Rate - r bits. " +
-                            "With the current settings the values are: b = {0}, c = {1}, r = {2}.", (rate + capacity), capacity, rate);
+                            string.Format(Resources.PresInitializationText, (rate + capacity), capacity, rate);
 
                         pres.imgIntroIntroduction.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeInit.Visibility = Visibility.Visible;
@@ -195,11 +198,10 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelCurrentStep.Content = "Absorbing Phase";
+                        pres.labelCurrentStep.Content = Resources.PresAbsorbingPhase;
 
                         pres.textBlockIntroduction.Text =
-                            string.Format("Every block p of the padded input is absorbed (exclusive-or'ed) by the sponge state followed by " +
-                            "an execution of the Keccak-f permutation. The input blocks only update the {0} bits of the r-bit part of the state.", rate);
+                            string.Format(Resources.PresAbsorbingPhaseText, rate);
 
                         pres.imgIntroSpongeInit.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeAbsorb.Visibility = Visibility.Visible;
@@ -213,9 +215,8 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelCurrentStep.Content = "Squeezing Phase";
-                        pres.textBlockIntroduction.Text = "The hash value is extracted from the r-bit part (z) of the state. If the size of the requested output " +
-                            "is larger than r, the state is permuted by Keccak-f iteratively until enough output is extracted.";
+                        pres.labelCurrentStep.Content = Resources.PresSqueezingPhase;
+                        pres.textBlockIntroduction.Text = Resources.PresSqueezingPhaseText;
 
                         pres.imgIntroSpongeAbsorb.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeSqueeze.Visibility = Visibility.Visible;
@@ -227,11 +228,14 @@ namespace Cryptool.Plugins.Keccak
 
                 if (!pres.stopButtonClicked)
                 {
+                    /* calculate l parameter */
+                    int l = (int)Math.Log((double)((rate + capacity) / 25), 2);
+
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.labelCurrentStep.Content = "The Keccak-f Permutation";
-                        pres.textBlockIntroduction.Text = "The Keccak-f permutation performs 12 + 2 * l rounds. Each round consists of five step mappings " +
-                            "which permute the state in different ways. For the selected state size l equals 6 which makes a total of 24 rounds.";
+                        pres.labelCurrentStep.Content = Resources.PresKeccakFPhase;
+                        pres.textBlockIntroduction.Text = string.Format(Resources.PresKeccakFPhaseText, l, (12 + 2 * l));
+                        pres.labelIntroIterationAmount.Content = string.Format(Resources.PresKeccakFIterations, (12 + 2 * l));
 
                         pres.imgIntroSpongeSqueeze.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Visible;
@@ -245,11 +249,10 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelIntroIterationAmount.Content = "";
                         pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Hidden;
                         pres.imgIntroStateMapping.Visibility = Visibility.Visible;
-                        pres.textBlockIntroduction.Text = string.Format("For a better understanding of the step mappings, the {0} state bits are presented " +
-                            "as a three-dimensional cube. The row and column size is fixed to 5 bits. The lane size " +
-                            "depends on the state size and is {1} bits.", (capacity + rate), (capacity + rate) / 25);
+                        pres.textBlockIntroduction.Text = string.Format(Resources.PresKeccakFStateMapping, (capacity + rate), (capacity + rate) / 25);
                     }, null);
 
                     buttonNextClickedEvent = pres.buttonNextClickedEvent;
@@ -271,15 +274,19 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!pres.stopButtonClicked)
                 {
-                    pres.imgIntroExecution.Visibility = Visibility.Hidden;
-                }, null);
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroExecution.Visibility = Visibility.Hidden;
+                    }, null);
+                }
 
                 if (pres.stopButtonClicked)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelIntroIterationAmount.Content = "";
                         pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
                         pres.imgIntroIntroduction.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeInit.Visibility = Visibility.Hidden;
@@ -292,7 +299,6 @@ namespace Cryptool.Plugins.Keccak
                     }, null);
                 }
             }
-
             
             #endregion
 

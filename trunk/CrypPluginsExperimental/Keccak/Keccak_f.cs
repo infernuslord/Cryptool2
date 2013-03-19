@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows;
+using Keccak.Properties;
 
 namespace Cryptool.Plugins.Keccak
 {
@@ -122,8 +123,8 @@ namespace Cryptool.Plugins.Keccak
                         pres.imgStepTheta.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
 
-                        pres.labelStepRounds.Content = "Round " + (i + 1).ToString() + "/" + rounds;
-                        pres.labelRound.Content = "Round " + (i + 1).ToString() + "/" + rounds;
+                        pres.labelStepRounds.Content = string.Format(Resources.PresRoundOfRounds, (i + 1).ToString(), rounds);
+                        pres.labelRound.Content = string.Format(Resources.PresRoundOfRounds, (i + 1).ToString(), rounds);
                     }, null);
 
                     /* wait button clicks */
@@ -486,20 +487,14 @@ namespace Cryptool.Plugins.Keccak
                     /* show theta canvas in first iteration */
                     if (slice == 0 && column == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "Theta iterates over each column of the state.";
-                        pres.textBlockCurrentStep.Text = "The parities of two nearby columns (turquoise and light green) are exclusive-or'ed. The result is exclusive-or'ed with each bit of the considered column (green).";
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
 
                         pres.canvasStepDetailTheta.Visibility = Visibility.Visible;
                         pres.canvasCubeTheta.Visibility = Visibility.Visible;
                         pres.zCoordinates.Visibility = Visibility.Visible;
                         presActive = true;
                     }
-
-                    /* show slice and column indexes */
-                    //pres.labelOuterPartCaption.Content = "Slice";
-                    //pres.labelOuterPart.Content = (slice + 1).ToString();
-                    //pres.labelInnerPartCaption.Content = "Column";
-                    //pres.labelInnerPart.Content = (column + 1).ToString();
 
                     #region pres cube
 
@@ -918,8 +913,8 @@ namespace Cryptool.Plugins.Keccak
                     /* show rho canvas in first iteration */
                     if (plane == 0 && lane == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "Rho iterates over each lane of the state.";
-                        pres.textBlockCurrentStep.Text = "Each lane is right-rotated by a certain value (depicted in the red rectangle). The upper green block represents the lane before rotation, the lower green block after rotation.";
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
 
                         pres.canvasStepDetailRho.Visibility = Visibility.Visible;
                         pres.canvasCubeRho.Visibility = Visibility.Visible;
@@ -1193,8 +1188,8 @@ namespace Cryptool.Plugins.Keccak
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.textBlockCurrentPhase.Text = "Pi permutes the lane positions within the state. The lane coordinates are shifted for improved visualization.";
-                    pres.textBlockCurrentStep.Text = "Each lane except the lane at (x,y) = (1,1) is moved to a different position. The right cube presents the new lane positions of the lanes indexed in the left cube. Already moved lanes that are grayed out.";
+                    pres.textBlockCurrentPhase.Text = "";
+                    pres.textBlockCurrentStep.Text = "";
                 }, null);
             }
 
@@ -1205,11 +1200,6 @@ namespace Cryptool.Plugins.Keccak
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        //pres.labelOuterPartCaption.Content = "Step";
-                        //pres.labelOuterPart.Content = (i + 1).ToString() + "/6";
-                        //pres.labelInnerPartCaption.Content = "";
-                        //pres.labelInnerPart.Content = "";
-
                         pres.xCoordinates.Visibility = Visibility.Visible;
                         pres.yCoordinates.Visibility = Visibility.Visible;
 
@@ -1345,16 +1335,11 @@ namespace Cryptool.Plugins.Keccak
                 /* show slice and row indexes */
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    //pres.labelOuterPartCaption.Content = "Slice";
-                    //pres.labelOuterPart.Content = (slice + 1).ToString();
-                    //pres.labelInnerPartCaption.Content = "Row";
-                    //pres.labelInnerPart.Content = (row + 1).ToString();
-
                     /* show chi canvas in first iteration */
                     if (slice == 0 && row == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "Chi iterates over each row of the state.";
-                        pres.textBlockCurrentStep.Text = "Each bit of a row is exclusive-or'ed with the logical conjunction of the two bits to the right of the considered bit. The first bit of those two bits is inverted before the logical conjunction.";
+                        pres.textBlockCurrentPhase.Text = "";
+                        pres.textBlockCurrentStep.Text = "";
                     
                         pres.canvasStepDetailChi.Visibility = Visibility.Visible;
                         pres.canvasCubeChi.Visibility = Visibility.Visible;
@@ -1592,8 +1577,8 @@ namespace Cryptool.Plugins.Keccak
 
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.textBlockCurrentPhase.Text = "Iota exclusive-or's a round constant on the first lane (x,y) = (1,1).";
-                    pres.textBlockCurrentStep.Text = "The value of the current round constant is presented in the red rectangle between the green blocks. The round constants differ in each round.";
+                    pres.textBlockCurrentPhase.Text = "";
+                    pres.textBlockCurrentStep.Text = "";
                     
                     /* show iota canvas */
                     pres.imgIotaSelectedRC.Visibility = Visibility.Hidden;

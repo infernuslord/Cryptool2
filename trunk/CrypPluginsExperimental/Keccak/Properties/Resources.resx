@@ -409,4 +409,106 @@
   <data name="execution" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\intro\execution.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PresInitialization" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
+  <data name="PresIntroduction" xml:space="preserve">
+    <value>Introduction</value>
+  </data>
+  <data name="PresAbsorbingPhase" xml:space="preserve">
+    <value>Absorbing Phase</value>
+  </data>
+  <data name="PresAbsorbingPhaseExplanation" xml:space="preserve">
+    <value>Input block #{0} is exclusive-or'ed on the state. When examining the state before and after the absorbtion it can be observed that the capacity part (the lower part of the state) is unmodified.</value>
+  </data>
+  <data name="PresAbsorbingPhaseText" xml:space="preserve">
+    <value>Every block p of the padded input is absorbed by the sponge state with a XOR operation. The input blocks affect the {0} bits of the r-bit part. The c-bit part is not affected. After the absorbtion the Keccak-f permutation is executed to diffuse the state bits.</value>
+  </data>
+  <data name="PresChiPhaseText" xml:space="preserve">
+    <value>Chi iterates over each row of the state.</value>
+  </data>
+  <data name="PresChiStepText" xml:space="preserve">
+    <value>Each bit of a row is exclusive-or'ed with the logical conjunction of the two bits to the right of the considered bit. The first bit of those two bits is inverted before the logical conjunction.</value>
+  </data>
+  <data name="PresExecution" xml:space="preserve">
+    <value>Execution</value>
+  </data>
+  <data name="PresExecutionInfoBitRateSize" xml:space="preserve">
+    <value>Bit rate size: {0} bits</value>
+  </data>
+  <data name="PresExecutionInfoCapacitySize" xml:space="preserve">
+    <value>Capacity size: {0} bits</value>
+  </data>
+  <data name="PresExecutionInfoStateSize" xml:space="preserve">
+    <value>State size: {0} bits</value>
+  </data>
+  <data name="PresExecutionMessageLength" xml:space="preserve">
+    <value>Input length: {0} bits = {1} bytes</value>
+  </data>
+  <data name="PresExecutionNumberOfBlocks" xml:space="preserve">
+    <value>Number of input blocks (padded input length / bit rate size): {0}</value>
+  </data>
+  <data name="PresExecutionPaddedMessageLength" xml:space="preserve">
+    <value>Padded input length: {0} bits = {1} bytes</value>
+  </data>
+  <data name="PresInitializationText" xml:space="preserve">
+    <value>The state of the sponge construction is initialized. Every b bits of the state are initialized to 0. The state is partitioned into two parts: Capacity -- c bits and Bit Rate -- r bits. With the current settings the values are: b = {0}, c = {1} and r = {2}.</value>
+  </data>
+  <data name="PresInputInformation" xml:space="preserve">
+    <value>Input Information</value>
+  </data>
+  <data name="PresIotaPhaseText" xml:space="preserve">
+    <value>Iota exclusive-or's a round constant on the first lane (x,y) = (1,1).</value>
+  </data>
+  <data name="PresIotaStepText" xml:space="preserve">
+    <value>The value of the current round constant is presented in the red rectangle between the green blocks. The green blocks present the old and new value of the lane. The round constants differ in each round.</value>
+  </data>
+  <data name="PresKeccakFIterations" xml:space="preserve">
+    <value>{0} Iterations</value>
+  </data>
+  <data name="PresKeccakFPhase" xml:space="preserve">
+    <value>Keccak-f Permutation</value>
+  </data>
+  <data name="PresKeccakFPhaseText" xml:space="preserve">
+    <value>The Keccak-f permutation performs 12 + 2 * l rounds. Each round consists of five step mappings which permute the state in different ways. For the selected state size l equals {0} which makes a total of {1} rounds."</value>
+  </data>
+  <data name="PresKeccakFStateMapping" xml:space="preserve">
+    <value>To facilitate the presentation of the step mappings, the state is represented as a three-dimensional cube. The row and column size is fixed to 5 bits. The lane size depends on the state size ({1} bits for the selected state size).</value>
+  </data>
+  <data name="PresOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="PresPiPhaseText" xml:space="preserve">
+    <value>Pi permutes the lane positions within the state. The lane coordinates are shifted for improved visualization.</value>
+  </data>
+  <data name="PresPiStepText" xml:space="preserve">
+    <value>Each lane except the lane at (x,y) = (1,1) is moved to a different position. The right cube presents the new lane positions of the lanes indexed in the left cube. Already moved lanes that are grayed out.</value>
+  </data>
+  <data name="PresRhoPhaseText" xml:space="preserve">
+    <value>Rho iterates over each lane of the state.</value>
+  </data>
+  <data name="PresRhoStepText" xml:space="preserve">
+    <value>Each lane is right-rotated by a certain value (depicted in the red rectangle). The upper green block represents the lane before rotation, the lower green block after rotation.</value>
+  </data>
+  <data name="PresRoundOfRounds" xml:space="preserve">
+    <value>Round {0}/{1}</value>
+  </data>
+  <data name="PresSpongeConstructionParameter" xml:space="preserve">
+    <value>Sponge Construction Parameter</value>
+  </data>
+  <data name="PresSqueezingPhase" xml:space="preserve">
+    <value>Squeezing Phase</value>
+  </data>
+  <data name="PresSqueezingPhaseExplanation" xml:space="preserve">
+    <value>The {0}-bit hash value is extracted from the bit rate part (upper part of the state).</value>
+  </data>
+  <data name="PresSqueezingPhaseText" xml:space="preserve">
+    <value>The hash value is extracted from the r-bit part of the state (z). If the size of the requested output is larger than r, the state is permuted by Keccak-f iteratively until enough output is extracted.</value>
+  </data>
+  <data name="PresThetaPhaseText" xml:space="preserve">
+    <value>Theta iterates over each column of the state.</value>
+  </data>
+  <data name="PresThetaStepText" xml:space="preserve">
+    <value>The parities of two nearby columns (turquoise and light green) are exclusive-or'ed. The result is exclusive-or'ed with each bit of the considered column (green).</value>
+  </data>
 </root>
