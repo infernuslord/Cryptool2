@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             MinHeight="370" MinWidth="640" MaxHeight="370" MaxWidth="640" IsEnabled="True">
-    <!-- MaxHeight="370" MaxWidth="640" -->
+             MinHeight="420" MinWidth="640" MaxHeight="420" MaxWidth="640" IsEnabled="True">
     <Grid Name="gridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -18,34 +17,39 @@
             <RowDefinition Height="60" />
             <RowDefinition Height="207" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="23" />
         </Grid.RowDefinitions>
        
-        <Canvas Name="introCanvas" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Grid.ColumnSpan="4">
-            <Image Name="imgIntroFirstPage" Source="/Keccak;component/images/intro/firstPage.png" Width="640" Height="342" Visibility="Hidden" />
-            <Image Name="imgIntroIntroduction" Source="/Keccak;component/images/intro/introduction.png" Width="640" Height="342" Visibility="Hidden" />
-            <Image Name="imgIntroSpongeInit" Source="/Keccak;component/images/intro/sponge-1-init.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Image Name="imgIntroSpongeAbsorb" Source="/Keccak;component/images/intro/sponge-2-absorb.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Image Name="imgIntroSpongeSqueeze" Source="/Keccak;component/images/intro/sponge-3-squeeze.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Image Name="imgIntroSpongeKeccakf2" Source="/Keccak;component/images/intro/sponge-5-keccakf-detail.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Image Name="imgIntroStateMapping" Source="/Keccak;component/images/intro/stateNotation.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Image Name="imgIntroExecution" Source="/Keccak;component/images/intro/execution.png" Width="640" Height="342" Visibility="Hidden" />
-            <Image Name="imgBlankPage" Source="/Keccak;component/images/intro/blankPage.png" Width="640" Height="342" Visibility="Hidden" />
+        <Canvas Name="introCanvas" Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="4">
+            <Image Name="imgIntroFirstPage" Source="/Keccak;component/images/intro/firstPage.png" Width="640" Height="390" Visibility="Hidden" />
+            <Image Name="imgIntroIntroduction" Source="/Keccak;component/images/intro/introduction.png" Width="640" Height="397" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeInit" Source="/Keccak;component/images/intro/sponge-1-init.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeAbsorb" Source="/Keccak;component/images/intro/sponge-2-absorb.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeSqueeze" Source="/Keccak;component/images/intro/sponge-3-squeeze.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroSpongeKeccakf2" Source="/Keccak;component/images/intro/sponge-5-keccakf-detail.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
+            <Label Name="labelIntroIterationAmount" Content="" Canvas.Left="280" Canvas.Top="100" FontWeight="Bold" />
+            <Image Name="imgIntroStateMapping" Source="/Keccak;component/images/intro/stateNotation.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
+            <Image Name="imgIntroExecution" Source="/Keccak;component/images/intro/execution.png" Width="640" Height="397" Visibility="Hidden" />
         </Canvas>
 
-        <Canvas Name="executionInfoCanvas" Grid.Row="2" Grid.RowSpan="4" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Hidden">
-            <StackPanel>
-                <Label Name="labelExecutionInfoSpongeCaption" Content="Sponge Parameter" FontWeight="Bold" FontFamily="Courier New" />
+        <Grid Name="executionInfoCanvas" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" Visibility="Hidden">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Label Name="labelExecutionInfoSpongeCaption" Content="{Loc PresSpongeConstructionParameter}" FontWeight="Bold" FontFamily="Courier New" HorizontalAlignment="Center" />
                 <Label Name="labelExecutionInfoStateSize" Content="" Padding="2" FontFamily="Courier New" />
                 <Label Name="labelExecutionInfoCapacitySize" Content="" Padding="2" FontFamily="Courier New" />
                 <Label Name="labelExecutionInfoRateSize" Content="" Padding="2" FontFamily="Courier New" />
                 <Label Name="labelExecutionInfoBlankRow" Content=""/>
-                <Label Name="labelExecutionInfoDigestInfo" Content="Message Information" FontWeight="Bold" Padding="5" FontFamily="Courier New" />
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <Label Name="labelExecutionInfoDigestInfo" Content="{Loc PresInputInformation}" FontWeight="Bold" Padding="5" FontFamily="Courier New" HorizontalAlignment="Center" />
                 <Label Name="labelExecutionMessageLength" Content="" Padding="2" FontFamily="Courier New" />
                 <Label Name="labelExecutionPaddedMessageLength" Content="" Padding="2" FontFamily="Courier New" />
                 <Label Name="labelExecutionNumberOfBlocks" Content="" Padding="2" FontFamily="Courier New" />
+                </StackPanel>
             </StackPanel>
-        </Canvas>
+        </Grid>
 
         <!-- -->
 
@@ -55,19 +59,21 @@
             <Image Name="imgStepPi" Source="/Keccak;component/images/steps/keccakf-detail-pi.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
             <Image Name="imgStepChi" Source="/Keccak;component/images/steps/keccakf-detail-chi.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
             <Image Name="imgStepIota" Source="/Keccak;component/images/steps/keccakf-detail-iota.png" Width="640" Canvas.Top="100" Height="242" Visibility="Hidden" />
-            <Label Content="" Name="labelStepRounds" Margin="0" FontWeight="Bold" Canvas.Top="305" Canvas.Left="280" />
+            <Label Content="" Name="labelStepRounds" Margin="0" FontWeight="Bold" Canvas.Top="90" Canvas.Left="280" />
             <Button Name="buttonSkipPermutation" Content="Skip Permutation" Click="buttonSkipPermutation_Click" Padding="5" Canvas.Top="300" Canvas.Left="512"/>
         </Canvas>
 
-        <Label Content="" Name="labelCurrentPhase" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" />
-        <Label Content="" Name="labelCurrentStep" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" />
-
-        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockCurrentPhase" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="5" />
-        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockCurrentStep" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="3" Margin="5" />
-        <TextBlock Canvas.Left="22" Canvas.Top="49" Name="textBlockIntroduction" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="50,5" Grid.ColumnSpan="3" TextAlignment="Left" />
-
+        <StackPanel Name="spHeader" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Grid.ColumnSpan="4">
+            <Label Content="" Name="labelCurrentPhase" FontWeight="Bold" FontSize="16" Padding="0" HorizontalAlignment="Center" ></Label>
+            <Label Content="" Name="labelCurrentStep" FontWeight="Bold" FontSize="11" HorizontalAlignment="Center" Padding="0" FontStyle="Normal"></Label>
+        </StackPanel>
+            
+        <TextBlock Name="textBlockCurrentPhase" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="5,10,5,5" />
+        <TextBlock Name="textBlockCurrentStep" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="3" Margin="5,15,5,0" />
+        <TextBlock Name="textBlockIntroduction" TextWrapping="Wrap" Text="" Grid.Row="1" Grid.Column="1" Margin="5,10,5,0" Grid.ColumnSpan="3" TextAlignment="Left" />
+        
         <!-- canvas for the left cube presentation -->
-        <Canvas Height="207" Name="canvasCube" Margin="0,0,18,0" Grid.Row="2" Width="200" Grid.Column="1">
+        <Canvas Height="207" Name="canvasCube" Grid.Row="2" Width="200" Grid.Column="1" Margin="0,20,0,0">
             <!-- cubes -->
             <Image Height="183" Name="imgCube4z" Width="183" Source="/Keccak;component/images/cube-4z.png" Canvas.Left="6" Canvas.Top="10" Stretch="Fill" Visibility="Hidden" />
             <Image Canvas.Left="0" Canvas.Top="4" Height="195" Name="imgCubeDefault" Stretch="Fill" Width="195" Source="/Keccak;component/images/cube-default.png" Visibility="Hidden" />
@@ -162,7 +168,7 @@
             </Canvas>
         </Canvas>
         <!-- grid for the right detail presentation -->
-        <Grid Name="gridStepDetail" Grid.Row="2" Grid.Column="3" Grid.RowSpan="2">            
+        <Grid Name="gridStepDetail" Grid.Row="2" Grid.Column="3" Grid.RowSpan="2" Margin="0,20,0,0">            
             <!-- step detail canvas -->
             <!-- chi -->
             <Canvas Height="207" Name="canvasStepDetailChi" Width="209" Visibility="Hidden" FlowDirection="LeftToRight" VerticalAlignment="Top">
@@ -553,11 +559,12 @@
         </Grid>
 
         <!-- stack panel buttons -->
-        <StackPanel Grid.Row="5" HorizontalAlignment="Right" Name="spButtons" VerticalAlignment="Bottom" Orientation="Horizontal" Grid.Column="3" Margin="0,0,20,0">
+        <StackPanel Grid.Row="5" HorizontalAlignment="Right" Name="spButtons" VerticalAlignment="Bottom" Orientation="Horizontal" Grid.Column="3" Margin="0,0,5,0">
             <Button Content="Next" Height="23" Name="buttonNext" Click="buttonNext_Click" Margin="5,0" Padding="10,0" />
             <Button Content="Autorun" Height="23" Name="buttonAutostep" Click="buttonAutostep_Click" Margin="5,0" Padding="10,0" />
+            <Label Content="Autorun Speed" Padding="3" />
             <Slider Height="23" Name="autostepSpeedSlider" Width="68" Value="30" Maximum="40" ValueChanged="autostepSpeedSlider_ValueChanged" Margin="5,0" />
-            <Button Content="Skip" Height="23" Name="buttonSkip" Click="buttonSkip_Click" Margin="5,0" Padding="10,0" />
+            <Button Content="Skip Step" Height="23" Name="buttonSkip" Click="buttonSkip_Click" Margin="5,0" Padding="10,0" />
         </StackPanel>
         
         <!-- stack panel informations -->
@@ -572,30 +579,38 @@
             -->
         </StackPanel>
 
-        <Grid Name="absorbGrid" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="Hidden" Height="307">
+        <Grid Name="absorbGrid" Grid.Row="1" Grid.RowSpan="4" Grid.ColumnSpan="4" Visibility="Hidden" Height="357">
             <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
                 <RowDefinition Height="35" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="70" />
             </Grid.ColumnDefinitions>
-            
+                        
             <!-- 
             <Rectangle Height="307" Width="640" Fill="White" Visibility="Hidden" Grid.ColumnSpan="3" Margin="0,12,0,11" Grid.RowSpan="2" />
             -->
-            
-            <Label Content ="Old State" Canvas.Left="55" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0" Grid.Row="0" />
-            <TextBlock Name="textBlockStateBeforeAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-            <Label Name="labelAbsorbGridBlockCounter" Content ="" Canvas.Left="280" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" />
-            <TextBlock Name="textBlockBlockToAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+            <TextBlock Name="textBlockExplanation" TextWrapping="Wrap" Text="" Grid.Row="0" Grid.Column="0" Margin="10,0" Grid.ColumnSpan="5" />
 
-            <Label Name="labelNewState" Content ="New State" Canvas.Left="460" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="0" Visibility="Hidden" />
-            <Label Name="labelOutput" Content ="Output Hash" Canvas.Left="460" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="0" Visibility="Hidden"/>
-            <TextBlock Name="textBlockStateAfterAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+            <Image Name="imgBlankPage" Source="/Keccak;component/images/intro/blankPage.png" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Visibility="Hidden" Stretch="Fill" Opacity="0.5" />
+
+            <Label Content ="Old State" Canvas.Left="55" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" />
+            <TextBlock Name="textBlockStateBeforeAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
+
+            <Label Name="labelAbsorbGridBlockCounter" Content ="" Canvas.Left="280" Canvas.Top="10" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="1" />
+            <TextBlock Name="textBlockBlockToAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
+
+            <Label Name="labelNewState" Content ="New State" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3" Grid.Row="1" Visibility="Hidden" />
+            <Label Name="labelOutput" Content ="Output Hash" FontFamily="Courier New" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3" Grid.Row="1" Visibility="Hidden"/>
+            <TextBlock Name="textBlockStateAfterAbsorb" Text="" FontSize="9" FontFamily="Courier New" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
         </Grid>
     </Grid>
 </UserControl>
