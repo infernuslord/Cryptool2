@@ -136,66 +136,24 @@
 			<table border="0" width="850" height="500" bgcolor="#E6EDF5">
 				<tr>
 					<td align="left" valign="top">						
-						<div style="float:right; width:200;margin-right:24%">
-						    <table border="1" style="width:200">
-							<tr>
-							    <th>
-								<div class="boximage"><docItem property="Icon" /></div>
-							    </th>
-							    <th>
-								<docItem property="Name" />
-							    </th>
-							</tr>
-							<tr>
-							    <td>
-                                <languageSwitch lang="en">            
-						            Description:
-						        </languageSwitch>
-						        <languageSwitch lang="de">
-						            Beschreibung:
-						        </languageSwitch>								
-							    </td>
-							    <td>
-								<docItem property="ToolTip" />
-							    </td>
-							</tr>
-							<tr>
-							    <td>
-                                <languageSwitch lang="en">            
-						            Author:
-						        </languageSwitch>
-						        <languageSwitch lang="de">
-						            Autor:
-						        </languageSwitch>								
-							    </td>
-							    <td>
-								<docItem property="AuthorName" />
-							    </td>
-							</tr>
-							<tr>
-							    <td>
-								E-Mail:
-							    </td>
-							    <td>
-								<a href="mailto:<docItem property="AuthorEmail" />"><docItem property="AuthorEmail" /></a>
-							    </td>
-							</tr>
-                            <tr>
-							    <td>
-								<languageSwitch lang="en">            
-						            Affiliation:
-						        </languageSwitch>
-						        <languageSwitch lang="de">
-						            Organisation:
-						        </languageSwitch>
-							    </td>
-							    <td>
-                                <a href="<docItem property="AuthorURL"/>?external"><docItem property="AuthorInstitute" /></a>
-							    </td>
-							</tr>
-						    </table>        
-						</div>
-						
+						<center>
+					    <br/>
+                        <br/>
+					    <h1>
+					        <docItem property="Name" />
+                            <div class="boximage"><docItem property="Icon" /></div>
+					    </h1>                        
+					    <font size="2">
+					    <docItem property="AuthorName" /><br/>
+					    <a href="<docItem property="AuthorURL"/>?external"><docItem property="AuthorInstitute" /></a><br/>
+                        <a href="mailto:<docItem property="AuthorEmail" />"><docItem property="AuthorEmail" /></a>                        
+                        </font>
+					    </center>	
+                        <br>
+                        <div class="section" width="100%">				    
+                            <docItem property="ToolTip" />
+                        </div>
+                        <br/><br/>
 						<table style="width:150">
 						    <tr>
 							<th>                    
