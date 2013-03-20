@@ -186,4 +186,7 @@
   <data name="ProtocolToolTip" xml:space="preserve">
     <value>Ändert den Protokoll Typen</value>
   </data>
+  <data name="SpeedrateLabel" xml:space="preserve">
+    <value>Übertragungsrate:</value>
+  </data>
 </root>

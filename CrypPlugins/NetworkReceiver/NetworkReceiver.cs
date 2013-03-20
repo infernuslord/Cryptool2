@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.NetworkReceiver
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkReceiver : ICrypComponent
     {
- 
+        private const int UpdateReceivingrate = 1; 
         #region Private variables
 
         private readonly NetworkReceiverSettings settings;
@@ -204,7 +204,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));  
       
             //start speedrate calculator
-            calculateSpeedrate = new System.Timers.Timer { Interval = settings.SpeedrateIntervall*1000}; // seconds
+            calculateSpeedrate = new System.Timers.Timer { Interval = UpdateReceivingrate * 1000 }; // seconds
             calculateSpeedrate.Elapsed += new ElapsedEventHandler(CalculateSpeedrateTick);
             calculateSpeedrate.Start();
         }
@@ -473,7 +473,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="e"></param>
         private void CalculateSpeedrateTick(object sender, EventArgs e)
         {
-            var speedrate = ReceivedDataSize/settings.SpeedrateIntervall;
+            var speedrate = ReceivedDataSize/UpdateReceivingrate;
             presentation.UpdateSpeedrate(generateSizeString(speedrate) + "/s"); // 42kb +"/s"
             ReceivedDataSize = 0;
         }

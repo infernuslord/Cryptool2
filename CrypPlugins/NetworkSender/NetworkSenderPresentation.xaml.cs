@@ -96,6 +96,23 @@ namespace Cryptool.Plugins.NetworkSender
             }), null);
         }
 
+        /// <summary>
+        ///  invoke presentation in order to  update the speedrate
+        ///  </summary>
+        public void UpdateSpeedrate(String Speedrate)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            {
+                try
+                {
+                    speedrate.Content = Speedrate;
+                }
+                catch (Exception e)
+                {
+                    caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                }
+            }), null);
+        }
 
     }
 }

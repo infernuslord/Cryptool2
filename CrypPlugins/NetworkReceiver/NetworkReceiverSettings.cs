@@ -175,21 +175,6 @@ namespace Cryptool.Plugins.NetworkReceiver
                 }
             }
         }
-
-        [TaskPane("updateSpeedrateLable", "updateSpeedrateTooltip", "PresentationSettings", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 30)]
-        public int SpeedrateIntervall
-        {
-            get { return speedrateIntervall; } 
-            set
-            {
-                if (speedrateIntervall != value)
-                {
-                    speedrateIntervall = value;
-                    OnPropertyChanged("SpeedrateIntervall");
-                }
-            }
-        }
-
         /// <summary>
         /// returns a list with all available networkinterfaces
         /// </summary>
