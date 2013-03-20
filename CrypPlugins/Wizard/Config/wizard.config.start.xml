@@ -31,6 +31,9 @@
   
   <!-- Individual Procedures/Tools Category -->
   <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
-  
+
+  <!-- Individual Procedures/Tools Category -->
+  <file resource="Wizard.Config.Codes.wizard.config.codes.xml" />
+
 </category>
 

@@ -308,6 +308,20 @@
   <ItemGroup>
     <Resource Include="Images\RND.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Config\Codes\wizard.config.codes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Codes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MorseCode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VisualCode.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
