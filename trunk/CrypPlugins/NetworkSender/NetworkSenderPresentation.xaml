@@ -30,6 +30,8 @@
                     <Label Name="lisPort" Style="{StaticResource ValueRow1}" Grid.Column="2" Margin="140,0,0,0" />
                     <Label Content="{Loc AmountLabel}" Grid.Column="1" Grid.Row="1" />
                     <Label Name="amount" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Margin="140,0,0,0" />
+                    <Label Content="{Loc SpeedrateLabel}" Grid.Column="1" Grid.Row="2" />
+                    <Label Name="speedrate" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="2" Margin="140,0,0,0" />
                 </Grid>
             </Border>
             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">

@@ -18,12 +18,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
+using Timer = System.Timers.Timer;
 
 
 namespace Cryptool.Plugins.NetworkSender
@@ -34,7 +36,10 @@ namespace Cryptool.Plugins.NetworkSender
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkInput : ICrypComponent
     {
+
         #region Private Variables
+        private const int UpdateSendingrate = 1;
+        private Timer calculateSpeedrate = null;
         private readonly NetworkSenderSettings settings;
         private readonly NetworkSenderPresentation presentation;
         private string addr;
@@ -51,6 +56,8 @@ namespace Cryptool.Plugins.NetworkSender
         private MemoryStream memoryStream;
         private byte[] endMark;
 
+        private int SendDataSize;
+
         #endregion
 
         public NetworkInput()
@@ -61,18 +68,21 @@ namespace Cryptool.Plugins.NetworkSender
 
         #region Helper Function
 
-         private string generatePackageSizeString(byte[] data)
-         {
-             double size = data.Length;
-             if (size < 1024)
-             {
-                 return size + " Byte";
-             }
-             else
-             {
-                 return Math.Round((double)(size / 1024.0), 2) + " kByte";
-             }
-         }
+        /// <summary>
+        /// creates a size string corespornsing to the size of the given amount of bytes with a B or kB ending
+        /// </summary>
+        /// <returns></returns>
+        private string generateSizeString(int size)
+        {
+            if (size < 1024)
+            {
+                return size + " B";
+            }
+            else
+            {
+                return Math.Round((double)(size / 1024.0), 2) + " kB";
+            }
+        }
 
         //check ip adress to be valid
         public bool IsValidIP(string addr)
@@ -163,11 +173,17 @@ namespace Cryptool.Plugins.NetworkSender
             isRunning = true;
             startTime = DateTime.Now;
             packageCount = 0;
+            SendDataSize = 0;
 
             //resets the presentation
             presentation.ClearList();
             presentation.RefreshMetaData(0);
             presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port);
+
+            //start speedrate calculator
+            calculateSpeedrate = new System.Timers.Timer { Interval = UpdateSendingrate * 1000 }; // seconds
+            calculateSpeedrate.Elapsed += new ElapsedEventHandler(CalculateSpeedrateTick);
+            calculateSpeedrate.Start();
         }
 
         /// <summary>
@@ -204,14 +220,14 @@ namespace Cryptool.Plugins.NetworkSender
                             }
                             
                                 presentation.RefreshMetaData(++packageCount);
-
+                                SendDataSize += packetData.Length;
                             //updates the presentation
                             presentation.AddPresentationPackage(new PresentationPackage
                             {
 
                                 IPFrom = endPoint.Address.ToString(),
                                 Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
-                                PackageSize = generatePackageSizeString(packetData)
+                                PackageSize = generateSizeString(packetData.Length) + "yte"
                             });
 
                             //sends input data
@@ -268,14 +284,15 @@ namespace Cryptool.Plugins.NetworkSender
                             }
 
                             presentation.RefreshMetaData(++packageCount);
-
+                            SendDataSize += packetData.Length;
+                            
                             //updates the presentation
                             presentation.AddPresentationPackage(new PresentationPackage
                             {
 
                                 IPFrom = ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
                                 Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
-                                PackageSize = generatePackageSizeString(packetData)
+                                PackageSize = generateSizeString(packetData.Length) + "yte"
                             });
 
                             var sendData = new byte[bytesRead + endMark.Length];
@@ -334,6 +351,7 @@ namespace Cryptool.Plugins.NetworkSender
         /// </summary>
         public void Stop()
         {
+            calculateSpeedrate.Stop();
             isRunning = false;
 
         }
@@ -377,6 +395,17 @@ namespace Cryptool.Plugins.NetworkSender
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+        /// <summary>
+        /// tickmethod for the CalculateSpeedrateTick timer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculateSpeedrateTick(object sender, EventArgs e)
+        {
+            var speedrate = SendDataSize / UpdateSendingrate;
+            presentation.UpdateSpeedrate(generateSizeString(speedrate) + "/s"); // 42kb +"/s"
+            SendDataSize = 0;
         }
 
         #endregion

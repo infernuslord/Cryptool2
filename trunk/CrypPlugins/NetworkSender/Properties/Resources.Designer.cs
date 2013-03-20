@@ -232,6 +232,15 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Transmission Rate: ähnelt.
+        /// </summary>
+        internal static string SpeedrateLabel {
+            get {
+                return ResourceManager.GetString("SpeedrateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start Time: ähnelt.
         /// </summary>
         internal static string StartLabel {
