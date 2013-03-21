@@ -157,7 +157,7 @@
       <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="MorseCode" file="Codes\MorseCode.cwm" showCreateButton="false">
+    <sampleViewer image="MorseCode" file="Codes\MorseCode.cwm" showCreateButton="true">
       <name lang="en" >Morse Code Output</name>
       <name lang="de" >Morsecode-Ausgabe</name>      
 
@@ -235,7 +235,7 @@
       <defaultvalue lang="de">Please enter your message here!</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="VisualCode" file="Codes\CreateQRCode.cwm" showCreateButton="false">
+    <sampleViewer image="VisualCode" file="Codes\CreateQRCode.cwm" showCreateButton="true">
       <name lang="en" >Visual Code Output</name>
       <name lang="de" >Visueller Code Ausgabe</name>
 
@@ -311,7 +311,7 @@
 
     <pluginSetter plugin="Camera" property="SendPicture">50</pluginSetter>
 
-    <sampleViewer image="VisualCode" file="Codes\Simple_Code_Detector.cwm" showCreateButton="false">
+    <sampleViewer image="VisualCode" file="Codes\Simple_Code_Detector.cwm" showCreateButton="true">
       <name lang="en" >Visual Code Output</name>
       <name lang="de" >Visueller Code Ausgabe</name>
 

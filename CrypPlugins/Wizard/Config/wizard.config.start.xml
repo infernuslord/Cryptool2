@@ -28,12 +28,12 @@
 
   <!-- Mathematical Category -->
   <file resource="Wizard.Config.Math.wizard.config.math.xml" />
-  
-  <!-- Individual Procedures/Tools Category -->
-  <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
+
+  <!-- Codes Category -->
+  <file resource="Wizard.Config.Codes.wizard.config.codes.xml" />
 
   <!-- Individual Procedures/Tools Category -->
-  <file resource="Wizard.Config.Codes.wizard.config.codes.xml" />
+  <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
 
 </category>
 
