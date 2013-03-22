@@ -148,45 +148,77 @@ namespace Cryptool.Plugins.Keccak
                     pres.labelCurrentPhase.Content = "";
                     pres.labelCurrentStep.Content = "";
                     pres.textBlockExplanation.Text = "";
+                    pres.textBlockParametersNotSupported.Visibility = Visibility.Hidden;
+                    pres.textBlockParametersNotSupported.Text = "";
+                    pres.textBlockStepPresentationNotAvailable.Visibility = Visibility.Hidden;
+                    pres.textBlockStepPresentationNotAvailable.Text = "";
+
+                    pres.buttonNext.IsEnabled = true;
+                    pres.buttonSkip.IsEnabled = false;
+                    pres.buttonAutostep.IsEnabled = false;
+                    pres.buttonSkipPermutation.IsEnabled = false;
+                    pres.autostepSpeedSlider.IsEnabled = false;
+                    pres.spButtons.Visibility = Visibility.Visible;
+                    pres.buttonSkipIntro.Visibility = Visibility.Visible;
                 }, null);
 
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                #region check if selected parameters are supported
+                if (rate + capacity < 200)
                 {
-                    pres.imgIntroFirstPage.Visibility = Visibility.Visible;
-                }, null);
+                    pres.skipPresentation = true;
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.textBlockParametersNotSupported.Text = Resources.PresStateSizeError;
+                        pres.textBlockParametersNotSupported.Visibility = Visibility.Visible;
+                    }, null);
+                }
+                else if (outputLength > rate)
+                {
+                    pres.skipPresentation = true;
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.textBlockParametersNotSupported.Text = Resources.PresOutputLengthError;
+                        pres.textBlockParametersNotSupported.Visibility = Visibility.Visible;
+                    }, null);
+                }
+                #endregion
 
                 AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
-                buttonNextClickedEvent.WaitOne();
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
+                {
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroFirstPage.Visibility = Visibility.Visible;
+                    }, null);
+
+                    buttonNextClickedEvent.WaitOne();
+                }
+
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
-                        pres.imgIntroIntroduction.Visibility = Visibility.Visible;
+                        pres.labelIntroIntroduction.Visibility = Visibility.Visible;
                     }, null);
 
                     buttonNextClickedEvent = pres.buttonNextClickedEvent;
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
-                    //string presIntroduction = "PresIntroduction";
-                    //string presInitialization = "PresInitialization";
-
-                    GuiLogMessage(Resources.PresIntroduction, NotificationLevel.Debug);
-                    GuiLogMessage(Resources.PresInitialization, NotificationLevel.Debug);
-
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentPhase.Content = Resources.PresIntroduction;
                         pres.labelCurrentStep.Content = Resources.PresInitialization;
 
-                        pres.textBlockIntroduction.Text =
-                            string.Format(Resources.PresInitializationText, (rate + capacity), capacity, rate);
+                        pres.textBlockIntroduction.Text = string.Format(Resources.PresInitializationText, (rate + capacity), capacity, rate);
 
-                        pres.imgIntroIntroduction.Visibility = Visibility.Hidden;
+                        pres.labelIntroIntroduction.Visibility = Visibility.Hidden;
                         pres.imgIntroSpongeInit.Visibility = Visibility.Visible;
                     }, null);
 
@@ -194,7 +226,7 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -211,7 +243,7 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -226,7 +258,7 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     /* calculate l parameter */
                     int l = (int)Math.Log((double)((rate + capacity) / 25), 2);
@@ -245,7 +277,7 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -259,12 +291,13 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.buttonSkipIntro.Visibility = Visibility.Hidden;
                         pres.imgIntroStateMapping.Visibility = Visibility.Hidden;
-                        pres.imgIntroExecution.Visibility = Visibility.Visible;
+                        pres.labelIntroExecution.Visibility = Visibility.Visible;
                         pres.textBlockIntroduction.Text = "";
                         pres.labelCurrentPhase.Content = "";
                         pres.labelCurrentStep.Content = "";
@@ -274,15 +307,15 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (!pres.stopButtonClicked)
+                if (!pres.skipPresentation && !pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        pres.imgIntroExecution.Visibility = Visibility.Hidden;
+                        pres.labelIntroExecution.Visibility = Visibility.Hidden;
                     }, null);
                 }
 
-                if (pres.stopButtonClicked)
+                if (pres.skipPresentation || pres.skipIntro)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -295,6 +328,9 @@ namespace Cryptool.Plugins.Keccak
                         pres.imgIntroSpongeKeccakf2.Visibility = Visibility.Hidden;
                         pres.imgIntroStateMapping.Visibility = Visibility.Hidden;
                         pres.imgIntroExecution.Visibility = Visibility.Hidden;
+                        pres.buttonSkipIntro.Visibility = Visibility.Hidden;
+                        pres.labelIntroIntroduction.Visibility = Visibility.Hidden;
+                        pres.labelIntroExecution.Visibility = Visibility.Hidden;
                         pres.textBlockIntroduction.Text = "";
                     }, null);
                 }
@@ -303,7 +339,7 @@ namespace Cryptool.Plugins.Keccak
             #endregion
 
             /* hash input */
-            output = KeccakHashFunction.Hash(input, outputLength, rate, capacity, ref pres);
+            output = KeccakHashFunction.Hash(input, outputLength, rate, capacity, ref pres, this);
 
             /* write output */
             OutputStreamwriter.Write(output);
@@ -314,6 +350,15 @@ namespace Cryptool.Plugins.Keccak
             debugStreamWriter.Close();
             Console.SetOut(consoleOut);
             #endif
+            
+            /* hide button panel */
+            if (pres.IsVisible)
+            {
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.spButtons.Visibility = Visibility.Hidden;
+                }, null);
+            }
 
             ProgressChanged(1, 1);
         }
@@ -381,7 +426,9 @@ namespace Cryptool.Plugins.Keccak
             execute = true;
             pres.autostep = false;
             pres.skipStep = false;
-            pres.stopButtonClicked = false;
+            pres.skipPresentation = false;
+            pres.skipIntro = false;
+            pres.buttonNextClickedEvent.Reset();
         }
 
         /// <summary>
@@ -391,7 +438,7 @@ namespace Cryptool.Plugins.Keccak
         public void Stop()
         {
             pres.buttonNextClickedEvent.Set();
-            pres.stopButtonClicked = true;
+            pres.skipPresentation = true;
         }
 
         /// <summary>
@@ -431,7 +478,7 @@ namespace Cryptool.Plugins.Keccak
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
-        private void ProgressChanged(double value, double max)
+        public void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }

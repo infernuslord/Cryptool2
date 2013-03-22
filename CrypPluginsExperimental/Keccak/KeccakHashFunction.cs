@@ -8,13 +8,15 @@ using System.Diagnostics;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows;
+using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.Keccak
 {
     public static class KeccakHashFunction
     {
 
-        public static byte[] Hash(byte[] input, int outputLength, int rate, int capacity, ref KeccakPres pres)
+        public static byte[] Hash(byte[] input, int outputLength, int rate, int capacity, ref KeccakPres pres, Keccak plugin)
         {
             #if _DEBUG_
             Console.WriteLine("#Keccak: running Keccak with the following parameters:");
@@ -29,8 +31,11 @@ namespace Cryptool.Plugins.Keccak
             /* map each bit of the input to a byte */
             byte[] inputInBits = ByteArrayToBitArray(input);
 
+            /* for presentation: estimate number of keccak-f executions */
+            int progressionSteps = (int)Math.Ceiling((double)(inputInBits.Length + 8) / rate) + ((int)Math.Ceiling((double)outputLength / rate) - 1);
+
             /* create sponge instance */
-            Sponge sponge = new Sponge(rate, capacity, ref pres);            
+            Sponge sponge = new Sponge(rate, capacity, ref pres, plugin, progressionSteps);            
 
             /* absorb input */
             sponge.Absorb(inputInBits);
@@ -50,7 +55,6 @@ namespace Cryptool.Plugins.Keccak
 
             return output;
         }
-
 
         #region helper methods
 
@@ -162,10 +166,14 @@ namespace Cryptool.Plugins.Keccak
             Console.WriteLine(binaryBytes.ToString());
         }
 
+        /** 
+         * returns a hex string presentation of the byte array `bytes`
+         * the parameter `laneSize` determines after how many bytes a line break is inserted           
+         */
         public static string GetByteArrayAsString(byte[] bytes, int laneSize)
         {          
             /* get bit state if lane size is small */
-            if (laneSize < 16 && laneSize % 8 != 0)
+            if (laneSize < 16) // && laneSize % 8 != 0)
             {
                 string hexStr = "";
                 StringBuilder hex = new StringBuilder(bytes.Length);

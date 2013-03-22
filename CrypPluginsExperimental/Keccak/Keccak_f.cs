@@ -30,6 +30,8 @@ namespace Cryptool.Plugins.Keccak
         private byte[][][] rows;
         private byte[][][] lanes;
 
+        private Keccak plugin;
+
         /* translation vectors for rho */
         private int[][] translationVectors = new int[][] 
         { 
@@ -82,7 +84,7 @@ namespace Cryptool.Plugins.Keccak
         
         #endregion
 
-        public Keccak_f(int stateSize, ref byte[] state, ref KeccakPres pres)
+        public Keccak_f(int stateSize, ref byte[] state, ref KeccakPres pres, Keccak plugin)
         {
             Debug.Assert(stateSize % 25 == 0);
             z = stateSize / 25;                     // length of a lane
@@ -92,9 +94,10 @@ namespace Cryptool.Plugins.Keccak
             rounds = 12 + 2 * l;
             this.pres = pres;
             presActive = false;
+            this.plugin = plugin;
         }
 
-        public void Permute(ref byte[] state)
+        public void Permute(ref byte[] state, int progressionStepCounter, int progressionSteps)
         {
             /* the order of steps is taken from the pseudo-code description at http://keccak.noekeon.org/specs_summary.html (accessed on 2013-02-01) */
 
@@ -114,8 +117,9 @@ namespace Cryptool.Plugins.Keccak
                 KeccakHashFunction.PrintBytes(state, z);
                 #endif
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipPermutation)
                 {
+                    string roundStr = (i + 1).ToString();
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.labelCurrentPhase.Content = "Keccak-f";
@@ -123,8 +127,12 @@ namespace Cryptool.Plugins.Keccak
                         pres.imgStepTheta.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
 
-                        pres.labelStepRounds.Content = string.Format(Resources.PresRoundOfRounds, (i + 1).ToString(), rounds);
-                        pres.labelRound.Content = string.Format(Resources.PresRoundOfRounds, (i + 1).ToString(), rounds);
+                        pres.buttonSkip.IsEnabled = true;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
+
+                        pres.labelStepRounds.Content = string.Format(Resources.PresRoundOfRounds, roundStr, rounds);
+                        pres.labelRound.Content = string.Format(Resources.PresRoundOfRounds, roundStr, rounds);
                     }, null);
 
                     /* wait button clicks */
@@ -143,14 +151,41 @@ namespace Cryptool.Plugins.Keccak
 
                 Theta(ref state);
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (1.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
+
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelCurrentPhase.Content = "Keccak-f";
                         pres.labelCurrentStep.Content = "Rho";
                         pres.imgStepRho.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
+
+                        pres.buttonSkip.IsEnabled = true;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
                     }, null);
+
+                    /* force skipping rho presentation if state size is not supported */
+                    #region force skip rho
+                    if (z < 64)
+                    {                        
+                        /* disable next click button to force the user to skip the rho step */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.buttonNext.IsEnabled = false;
+                            pres.textBlockStepPresentationNotAvailable.Text = string.Format(Resources.PresStepPresentationNotAvailable, "rho");
+                            pres.textBlockStepPresentationNotAvailable.Visibility = Visibility.Visible;
+                        }, null);
+                    }
+                    #endregion
 
                     /* wait button clicks */
                     if (!pres.skipPermutation)
@@ -163,18 +198,44 @@ namespace Cryptool.Plugins.Keccak
                     {
                         pres.stepCanvas.Visibility = Visibility.Hidden;
                         pres.imgStepRho.Visibility = Visibility.Hidden;
-                        }, null);
+                    }, null);
                 }
 
                 Rho(ref state);
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (2.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
+
+                #region force skip rho
+                if (z < 64)
+                {
+                    /* enable next button again */
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.buttonNext.IsEnabled = true;
+                        pres.textBlockStepPresentationNotAvailable.Visibility = Visibility.Hidden;
+                        pres.textBlockStepPresentationNotAvailable.Text = "";
+                    }, null);
+                }
+                #endregion
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
+
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelCurrentPhase.Content = "Keccak-f";
                         pres.labelCurrentStep.Content = "Pi";
                         pres.imgStepPi.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
+
+                        pres.buttonSkip.IsEnabled = true;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
                     }, null);
 
                     /* wait button clicks */
@@ -193,13 +254,26 @@ namespace Cryptool.Plugins.Keccak
 
                 Pi(ref state);
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (3.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
+
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelCurrentPhase.Content = "Keccak-f";
                         pres.labelCurrentStep.Content = "Chi";
                         pres.imgStepChi.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
+
+                        pres.buttonSkip.IsEnabled = true;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
                     }, null);
 
                     /* wait button clicks */
@@ -218,14 +292,41 @@ namespace Cryptool.Plugins.Keccak
 
                 Chi(ref state);
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (4.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
+
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelCurrentPhase.Content = "Keccak-f";
                         pres.labelCurrentStep.Content = "Iota";
                         pres.imgStepIota.Visibility = Visibility.Visible;
                         pres.stepCanvas.Visibility = Visibility.Visible;
+
+                        pres.buttonSkip.IsEnabled = true;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
                     }, null);
+
+                    /* force skipping iota presentation if state size is not supported */
+                    #region force skip iota
+                    if (z < 64)
+                    {                        
+                        /* disable next click button to force the user to skip the rho step */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.buttonNext.IsEnabled = false;
+                            pres.textBlockStepPresentationNotAvailable.Text = string.Format(Resources.PresStepPresentationNotAvailable, "iota");
+                            pres.textBlockStepPresentationNotAvailable.Visibility = Visibility.Visible;
+                        }, null);
+                    }
+                    #endregion
 
                     /* wait button clicks */
                     if (!pres.skipPermutation)
@@ -241,7 +342,28 @@ namespace Cryptool.Plugins.Keccak
                     }, null);
                 }
 
-                Iota(ref state, i);                
+                Iota(ref state, i);
+
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (5.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
+
+                #region force skip iota
+                if (z < 64)
+                {
+                    /* enable next button again */
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.buttonNext.IsEnabled = true; 
+                        pres.textBlockStepPresentationNotAvailable.Visibility = Visibility.Hidden;
+                        pres.textBlockStepPresentationNotAvailable.Text = "";
+                    }, null);
+                }
+                #endregion
+
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pres.labelCurrentPhase.Content = "";
+                    pres.labelCurrentStep.Content = "";
+                }, null);
             }
 
             #if _DEBUG_
@@ -252,7 +374,7 @@ namespace Cryptool.Plugins.Keccak
 
         }
 
-        #region step functions
+        #region step mappings
 
         public void Theta(ref byte[] state)
         {
@@ -312,7 +434,7 @@ namespace Cryptool.Plugins.Keccak
 
             #region presentation translation vectors table
 
-            if (pres.IsVisible && !pres.stopButtonClicked)
+            if (pres.IsVisible && !pres.skipPresentation)
             {
                 /* initialize translation vectors for presentation */
                 for (int i = 0; i < 5; i++)
@@ -480,15 +602,18 @@ namespace Cryptool.Plugins.Keccak
 
         public void ThetaPres(byte[] columnOld, byte[] columnNew, byte[] columnLeft, byte[] columnRight, int parity1, int parity2, int slice, int column)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show theta canvas in first iteration */
                     if (slice == 0 && column == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "";
-                        pres.textBlockCurrentStep.Text = "";
+                        pres.buttonAutostep.IsEnabled = true;
+                        pres.autostepSpeedSlider.IsEnabled = true;
+
+                        pres.textBlockCurrentPhase.Text = Resources.PresThetaPhaseText;
+                        pres.textBlockCurrentStep.Text = Resources.PresThetaStepText;
 
                         pres.canvasStepDetailTheta.Visibility = Visibility.Visible;
                         pres.canvasCubeTheta.Visibility = Visibility.Visible;
@@ -906,15 +1031,18 @@ namespace Cryptool.Plugins.Keccak
 
         public void RhoPres(byte[] oldLane, byte[] newLane, int plane, int lane, int rotationOffset)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show rho canvas in first iteration */
                     if (plane == 0 && lane == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "";
-                        pres.textBlockCurrentStep.Text = "";
+                        pres.buttonAutostep.IsEnabled = true;
+                        pres.autostepSpeedSlider.IsEnabled = true;
+
+                        pres.textBlockCurrentPhase.Text = Resources.PresRhoPhaseText;
+                        pres.textBlockCurrentStep.Text = Resources.PresRhoStepText;
 
                         pres.canvasStepDetailRho.Visibility = Visibility.Visible;
                         pres.canvasCubeRho.Visibility = Visibility.Visible;
@@ -1184,19 +1312,22 @@ namespace Cryptool.Plugins.Keccak
 
         public void PiPres(byte[][][] tmpLanes)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.textBlockCurrentPhase.Text = "";
-                    pres.textBlockCurrentStep.Text = "";
+                    pres.buttonAutostep.IsEnabled = true;
+                    pres.autostepSpeedSlider.IsEnabled = true;
+
+                    pres.textBlockCurrentPhase.Text = Resources.PresPiPhaseText;
+                    pres.textBlockCurrentStep.Text = Resources.PresPiStepText;
                 }, null);
             }
 
             /* presentation is fixed to six rounds and performed after the step mapping of pi */
             for (int i = 0; i < 6; i++)
             {
-                if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+                if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -1330,16 +1461,19 @@ namespace Cryptool.Plugins.Keccak
 
         public void ChiPres(byte[] oldRow, int slice, int row)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
                 /* show slice and row indexes */
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    pres.buttonAutostep.IsEnabled = true;
+                    pres.autostepSpeedSlider.IsEnabled = true;
+
                     /* show chi canvas in first iteration */
                     if (slice == 0 && row == 0)
                     {
-                        pres.textBlockCurrentPhase.Text = "";
-                        pres.textBlockCurrentStep.Text = "";
+                        pres.textBlockCurrentPhase.Text = Resources.PresChiPhaseText;
+                        pres.textBlockCurrentStep.Text = Resources.PresChiStepText;
                     
                         pres.canvasStepDetailChi.Visibility = Visibility.Visible;
                         pres.canvasCubeChi.Visibility = Visibility.Visible;
@@ -1362,20 +1496,21 @@ namespace Cryptool.Plugins.Keccak
                     #region lane size 4
 
                     case 4:
+                        double modifiedRowTop = 155 - row * 26 - slice * 13;
+                        double modifiedRowLeft = 137 + slice * 13;
+
+                        double modifiedFirstRowTop = 167 - row * 26;
 
                         /* show slice and row indexes */
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            /* move modified row */
-                            double modifiedRowTop = 155 - row * 26 - slice * 13;
-                            double modifiedRowLeft = 137 + slice * 13;
+                            /* move modified row */             
                             pres.imgModifiedRow.SetValue(Canvas.TopProperty, modifiedRowTop);
                             pres.imgModifiedRow.SetValue(Canvas.LeftProperty, modifiedRowLeft);
 
                             /* move first row and toggle visibility*/
                             if (slice == 0)
                             {
-                                double modifiedFirstRowTop = 167 - row * 26;
                                 pres.imgModifiedFirstRow.Visibility = Visibility.Visible;
                                 pres.imgModifiedFirstRow.SetValue(Canvas.TopProperty, modifiedFirstRowTop);
                             }
@@ -1571,14 +1706,17 @@ namespace Cryptool.Plugins.Keccak
 
         public void IotaPres(byte[] firstLane, byte[] firstLaneOld, byte[] truncatedConstant, int round)
         {
-            if (pres.IsVisible && !pres.stopButtonClicked && !pres.skipStep && !pres.skipPermutation)
+            if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
                 AutoResetEvent buttonNextClickedEvent;
 
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    pres.textBlockCurrentPhase.Text = "";
-                    pres.textBlockCurrentStep.Text = "";
+                    pres.buttonAutostep.IsEnabled = true;
+                    pres.autostepSpeedSlider.IsEnabled = true;
+
+                    pres.textBlockCurrentPhase.Text = Resources.PresIotaPhaseText;
+                    pres.textBlockCurrentStep.Text = Resources.PresIotaStepText;
                     
                     /* show iota canvas */
                     pres.imgIotaSelectedRC.Visibility = Visibility.Hidden;
@@ -1596,33 +1734,34 @@ namespace Cryptool.Plugins.Keccak
                     pres.yCoordinate_1.Content = "y=1";
 
                     presActive = true;
+                }, null);
 
-                    #region fill old lane labels for different lane sizes
+                #region fill old lane labels for different lane sizes
 
-                    switch (z)
-                    {
-                        case 1:
-                            /* TODO */
-                            break;
-                        case 2:
-                            /* TODO */
-                            break;
-                        case 4:
-                            /* TODO */
-                            break;
-                        case 8:
-                            /* TODO */
-                            break;
-                        case 16:
-                            /* TODO */
-                            break;
-                        case 32:
-                            /* TODO */
-                            break;
-                        case 64:
-
-                            #region fill labels of old lane
-
+                switch (z)
+                {
+                    case 1:
+                        /* TODO */
+                        break;
+                    case 2:
+                        /* TODO */
+                        break;
+                    case 4:
+                        /* TODO */
+                        break;
+                    case 8:
+                        /* TODO */
+                        break;
+                    case 16:
+                        /* TODO */
+                        break;
+                    case 32:
+                        /* TODO */
+                        break;
+                    case 64:                            
+                        #region fill labels of old lane
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
                             pres.label311.Content = firstLaneOld[0].ToString();
                             pres.label312.Content = firstLaneOld[1].ToString();
                             pres.label313.Content = firstLaneOld[2].ToString();
@@ -1690,42 +1829,40 @@ namespace Cryptool.Plugins.Keccak
                             pres.label372.Content = firstLaneOld[61].ToString();
                             pres.label373.Content = firstLaneOld[62].ToString();
                             pres.label374.Content = firstLaneOld[63].ToString();
+                        }, null);
+                        #endregion    
+                        break;
+                    default:
+                        break;
+                }
+                #endregion
 
-                            #endregion
+                #region clear new lane labels for different lane sizes
 
-                            break;
-
-                        default:
-                            break;
-                    }
-                    #endregion
-
-                    #region clear new lane labels for different lane sizes
-
-                    switch (z)
-                    {
-                        case 1:
-                            /* TODO */
-                            break;
-                        case 2:
-                            /* TODO */
-                            break;
-                        case 4:
-                            /* TODO */
-                            break;
-                        case 8:
-                            /* TODO */
-                            break;
-                        case 16:
-                            /* TODO */
-                            break;
-                        case 32:
-                            /* TODO */
-                            break;
-                        case 64:
-
-                            #region fill labels of new lane
-
+                switch (z)
+                {
+                    case 1:
+                        /* TODO */
+                        break;
+                    case 2:
+                        /* TODO */
+                        break;
+                    case 4:
+                        /* TODO */
+                        break;
+                    case 8:
+                        /* TODO */
+                        break;
+                    case 16:
+                        /* TODO */
+                        break;
+                    case 32:
+                        /* TODO */
+                        break;
+                    case 64:
+                        #region fill labels of new lane
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
                             pres.label375.Content = "";
                             pres.label376.Content = "";
                             pres.label377.Content = "";
@@ -1793,20 +1930,18 @@ namespace Cryptool.Plugins.Keccak
                             pres.label436.Content = "";
                             pres.label437.Content = "";
                             pres.label438.Content = "";
+                        }, null);
 
-                            #endregion
+                        #endregion
+                        break;
 
-                            break;
-
-                        default:
-                            break;
-                    }
-                    #endregion
-
-                }, null);
+                    default:
+                        break;
+                }
+                #endregion
 
                 /* wait for button clicks */
-                if (!pres.stopButtonClicked && !pres.skipStep)
+                if (!pres.skipPresentation && !pres.skipStep)
                 {
                     if (!pres.autostep)
                     {
@@ -1821,16 +1956,18 @@ namespace Cryptool.Plugins.Keccak
                     }
                 }
 
+                double topProperty = 36.0 + (round % 12) * 13;
+                double leftProperty = 262.0 + (round / 12) * 55;
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {   
-                    pres.imgIotaSelectedRC.SetValue(Canvas.TopProperty, 36.0 + (round % 12) * 13);
-                    pres.imgIotaSelectedRC.SetValue(Canvas.LeftProperty, 262.0 + (round / 12) * 55);
+                    pres.imgIotaSelectedRC.SetValue(Canvas.TopProperty, topProperty);
+                    pres.imgIotaSelectedRC.SetValue(Canvas.LeftProperty, leftProperty);
                     pres.imgIotaSelectedRC.Visibility = Visibility.Visible;
 
                 }, null);
 
                 /* wait for button clicks */
-                if (!pres.stopButtonClicked && !pres.skipStep)
+                if (!pres.skipPresentation && !pres.skipStep)
                 {
                     if (!pres.autostep)
                     {
@@ -1844,15 +1981,16 @@ namespace Cryptool.Plugins.Keccak
                         System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider
                     }
 
+                    string roundConstantPres = roundConstantsPres[round];
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.imgIotaXORedRC.Visibility = Visibility.Visible;
-                        pres.labelIotaXORedRC.Content = roundConstantsPres[round];
+                        pres.labelIotaXORedRC.Content = roundConstantPres;
                     }, null);
                 }
 
                 /* wait for button clicks */
-                if (!pres.stopButtonClicked && !pres.skipStep)
+                if (!pres.skipPresentation && !pres.skipStep)
                 {
                     if (!pres.autostep)
                     {
@@ -1865,35 +2003,33 @@ namespace Cryptool.Plugins.Keccak
                     {
                         System.Threading.Thread.Sleep(pres.autostepSpeed * 8);       // value adjustable by a slider
                     }
+                    
+                    #region fill new lane labels for different lane sizes
 
-                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    switch (z)
                     {
-                        #region fill new lane labels for different lane sizes
-
-                        switch (z)
-                        {
-                            case 1:
-                                /* TODO */
-                                break;
-                            case 2:
-                                /* TODO */
-                                break;
-                            case 4:
-                                /* TODO */
-                                break;
-                            case 8:
-                                /* TODO */
-                                break;
-                            case 16:
-                                /* TODO */
-                                break;
-                            case 32:
-                                /* TODO */
-                                break;
-                            case 64:
-
-                                #region fill labels of new lane
-
+                        case 1:
+                            /* TODO */
+                            break;
+                        case 2:
+                            /* TODO */
+                            break;
+                        case 4:
+                            /* TODO */
+                            break;
+                        case 8:
+                            /* TODO */
+                            break;
+                        case 16:
+                            /* TODO */
+                            break;
+                        case 32:
+                            /* TODO */
+                            break;
+                        case 64:
+                            #region fill labels of new lane
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
                                 pres.label375.Content = firstLane[0].ToString();
                                 pres.label376.Content = firstLane[1].ToString();
                                 pres.label377.Content = firstLane[2].ToString();
@@ -1961,18 +2097,16 @@ namespace Cryptool.Plugins.Keccak
                                 pres.label436.Content = firstLane[61].ToString();
                                 pres.label437.Content = firstLane[62].ToString();
                                 pres.label438.Content = firstLane[63].ToString();
+                            }, null);
 
-                                #endregion
+                            #endregion
+                            break;
+                        default:
+                            break;
+                    }
+                    #endregion
 
-                                break;
-
-                            default:
-                                break;
-                        }
-                        #endregion
-                    }, null);
-
-                    if (!pres.stopButtonClicked && !pres.skipStep)
+                    if (!pres.skipPresentation && !pres.skipStep)
                     {
                         /* wait for button clicks */
                         pres.autostep = false;
