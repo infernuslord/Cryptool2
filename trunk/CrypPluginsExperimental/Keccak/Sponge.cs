@@ -20,13 +20,15 @@ namespace Cryptool.Plugins.Keccak
         private byte[] state;
         private Keccak_f keccak_f;
         private KeccakPres pres;
-        
+        private Keccak plugin;
+
+        private int progressionSteps, progressionStepCounter;
 
         private int[] widthOfPermutation = { 25, 50, 100, 200, 400, 800, 1600 };
 
         #endregion
 
-        public Sponge(int rate, int capacity, ref KeccakPres pres)
+        public Sponge(int rate, int capacity, ref KeccakPres pres, Keccak plugin, int progressionSteps)
         {
             Debug.Assert(rate > 0);
             Debug.Assert(widthOfPermutation.Contains(rate + capacity));
@@ -35,10 +37,12 @@ namespace Cryptool.Plugins.Keccak
             this.capacity = capacity;
             laneSize = (rate + capacity) / 25;
 
-            keccak_f = new Keccak_f(capacity + rate, ref state, ref pres);
+            keccak_f = new Keccak_f(capacity + rate, ref state, ref pres, plugin);
 
             state = new byte[capacity + rate];
             this.pres = pres;
+            this.plugin = plugin;
+            this.progressionSteps = progressionSteps;
         }
 
         public void Absorb(byte[] input)
@@ -53,7 +57,7 @@ namespace Cryptool.Plugins.Keccak
             inputBlocks = SplitBlocks(paddedInputBits);
 
             #region presentation execution phase information
-            if (pres.IsVisible && !pres.stopButtonClicked)
+            if (pres.IsVisible && !pres.skipPresentation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -86,8 +90,9 @@ namespace Cryptool.Plugins.Keccak
             Console.WriteLine("#Sponge: begin absorbing phase");            
             #endif
             int blocksCounter = 1;
+            progressionStepCounter = 0;
 
-            if (pres.IsVisible && !pres.stopButtonClicked)
+            if (pres.IsVisible && !pres.skipPresentation)
             {
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -103,22 +108,16 @@ namespace Cryptool.Plugins.Keccak
                 #endif                           
 
                 #region presentation absorbing phase
-                if (pres.IsVisible && !pres.stopButtonClicked)
-                {
-                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        pres.labelRound.Content = "";
-                        pres.labelBlock.Content = string.Format("Block {0}/{1}", blocksCounter, inputBlocks.Length);
-                    }, null);
-                }
-
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                if (pres.IsVisible && !pres.skipPresentation)
                 {
                     string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
                     string blockStr = KeccakHashFunction.GetByteArrayAsString(block, laneSize);
 
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.labelRound.Content = "";
+                        pres.labelBlock.Content = string.Format("Block {0}/{1}", blocksCounter, inputBlocks.Length);
+
                         pres.textBlockExplanation.Text = string.Format(Resources.PresAbsorbingPhaseExplanation, blocksCounter);
 
                         pres.imgBlankPage.Visibility = Visibility.Visible;
@@ -126,11 +125,17 @@ namespace Cryptool.Plugins.Keccak
                         pres.labelCurrentStep.Content = "";
                         pres.labelAbsorbGridBlockCounter.Content = string.Format("Block #{0}/{1}", blocksCounter, inputBlocks.Length);
                         pres.labelNewState.Visibility = Visibility.Visible;
+                        pres.labelOldState.Content = Resources.PresOldState;
 
                         pres.textBlockStateBeforeAbsorb.Text = stateStr;
                         pres.textBlockBlockToAbsorb.Text = blockStr;
 
                         pres.absorbGrid.Visibility = Visibility.Visible;
+
+                        pres.buttonSkipPermutation.IsEnabled = true;
+                        pres.buttonSkip.IsEnabled = false;
+                        pres.buttonAutostep.IsEnabled = false;
+                        pres.autostepSpeedSlider.IsEnabled = false;
                     }, null);
 
                     //AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
@@ -140,14 +145,15 @@ namespace Cryptool.Plugins.Keccak
 
                 XorBlockOnState(block);
 
+                plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0), (double)progressionSteps);
+
                 #region presentation absorbing phase
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                if (pres.IsVisible && !pres.skipPresentation)
                 {
                     string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
 
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        
+                    {                        
                         pres.textBlockStateAfterAbsorb.Text = stateStr;
                     }, null);
 
@@ -155,7 +161,7 @@ namespace Cryptool.Plugins.Keccak
                     buttonNextClickedEvent.WaitOne();
                 }
 
-                if (pres.IsVisible || pres.stopButtonClicked)
+                if (pres.IsVisible || pres.skipPresentation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -164,6 +170,7 @@ namespace Cryptool.Plugins.Keccak
                         pres.absorbGrid.Visibility = Visibility.Hidden;
                         pres.imgBlankPage.Visibility = Visibility.Hidden;
                         pres.labelNewState.Visibility = Visibility.Hidden;
+                        pres.labelOldState.Content = "";
                         pres.textBlockStateBeforeAbsorb.Text = "";
                         pres.textBlockBlockToAbsorb.Text = "";
                         pres.textBlockStateAfterAbsorb.Text = "";
@@ -173,9 +180,10 @@ namespace Cryptool.Plugins.Keccak
                 }
                 #endregion
 
-                keccak_f.Permute(ref state);
+                keccak_f.Permute(ref state, progressionStepCounter, progressionSteps);
 
                 blocksCounter++;
+                progressionStepCounter++;
                 pres.skipPermutation = false;
             }
 
@@ -205,7 +213,7 @@ namespace Cryptool.Plugins.Keccak
 
                 /* presentation squeezing phase*/
                 #region presentation squeezing phase
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                if (pres.IsVisible && !pres.skipPresentation)
                 {
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -214,9 +222,10 @@ namespace Cryptool.Plugins.Keccak
                     }, null);
                 }
 
-                if (pres.IsVisible && !pres.stopButtonClicked)
+                if (pres.IsVisible && !pres.skipPresentation)
                 {
                     string stateStr = KeccakHashFunction.GetByteArrayAsString(state, laneSize);
+                    string outputStr = KeccakHashFunction.GetByteArrayAsString(output, laneSize);
 
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -227,19 +236,11 @@ namespace Cryptool.Plugins.Keccak
                         pres.labelOutput.Visibility = Visibility.Visible;
                         pres.textBlockStateBeforeAbsorb.Text = stateStr;
                         pres.absorbGrid.Visibility = Visibility.Visible;
-                    }, null);
-                }
-
-                if (pres.IsVisible && !pres.stopButtonClicked)
-                {
-                    string outputStr = KeccakHashFunction.GetByteArrayAsString(output, laneSize);
-
-                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
+                        pres.labelOldState.Content = Resources.PresState;
+                        
                         pres.textBlockStateAfterAbsorb.Text = outputStr;         
                     }, null);
                 }
-
                 #endregion
 
             }
@@ -261,9 +262,9 @@ namespace Cryptool.Plugins.Keccak
                     #if _DEBUG_
                     Console.WriteLine("#Sponge: squeeze iteration #{0}\n", i);
                     #endif
-
+                    
                     remainingOutput -= rate;
-                    keccak_f.Permute(ref state);
+                    keccak_f.Permute(ref state, progressionStepCounter, progressionSteps);
                 }
 
                 if (remainingOutput > 0)
