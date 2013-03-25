@@ -143,7 +143,6 @@ namespace Cryptool.Plugins.RSA
         /// </summary>
         public void PreExecution()
         {
-
         }
 
         /// <summary>
@@ -157,7 +156,7 @@ namespace Cryptool.Plugins.RSA
             BigInteger e;
             BigInteger d;
 
-            ProgressChanged(0.5, 1.0);
+            ProgressChanged(0.0, 1.0);
 
             switch (settings.Source)
             {
@@ -241,26 +240,6 @@ namespace Cryptool.Plugins.RSA
 
                 //randomly generated
                 case 2:
-                    //try
-                    //{
-                    //    RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-                    //    RSAParameters rsaParameters = rsa.ExportParameters(true);
-                    //    p = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.P);
-                    //    q = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Q);
-                    //    n = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Modulus);
-                    //    Debug.Assert(BigIntegerHelper.IsProbablePrime(p));
-                    //    Debug.Assert(BigIntegerHelper.IsProbablePrime(q));
-                    //    Debug.Assert((p * q) == n);
-                    //    e = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.Exponent);
-                    //    d = BigIntegerHelper.FromPositiveReversedByteArray(rsaParameters.D);
-                    //    Debug.Assert((e * d) % ((p - 1) * (q - 1)) == 1);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    GuiLogMessage(ex.Message, NotificationLevel.Error);
-                    //    return;
-                    //}
-
                     try
                     {
                         n = BigInteger.Parse(this.settings.Range);
@@ -277,8 +256,15 @@ namespace Cryptool.Plugins.RSA
                                 if (n >= 1024)
                                     GuiLogMessage("Please note that the generation of prime numbers with "+n+" bits may take some time...", NotificationLevel.Warning);
 
-                                p = BigIntegerHelper.RandomPrimeBits((int)n);
-                                do q = BigIntegerHelper.RandomPrimeBits((int)n); while (p == q);
+                                // calculate the number of expected tries for the indeterministic prime number generation using the density of primes in the given region
+                                BigInteger limit = ((BigInteger)1) << (int)n;
+                                limittries = (int)(BigInteger.Log(limit) / 6);
+                                expectedtries = 2 * limittries;
+
+                                tries = 0;
+                                p = this.RandomPrimeBits((int)n);
+                                tries = limittries;  limittries = expectedtries;
+                                do q = this.RandomPrimeBits((int)n); while (p == q);
                                 break;
 
                             case 1: // n = upper limit for primes
@@ -290,6 +276,7 @@ namespace Cryptool.Plugins.RSA
                                 }
 
                                 p = BigIntegerHelper.RandomPrimeLimit( n + 1 );
+                                ProgressChanged(0.5, 1.0);
                                 do q = BigIntegerHelper.RandomPrimeLimit(n + 1); while (p == q);
                                 break;
                         }
@@ -425,6 +412,48 @@ namespace Cryptool.Plugins.RSA
         }
         
         #endregion
+
+        // variables for progress bar handling when big prime numbers are requested
+        int tries;          // number of actual tries
+        int expectedtries;  // number of expected tries for both primes
+        int limittries;     // number up to which to increase tries
+
+        public BigInteger RandomPrimeBits(int bits)
+        {
+            if (bits < 0) throw new ArithmeticException("Enter a positive bitcount");
+            BigInteger limit = ((BigInteger)1) << bits;
+            if (limit <= 2) throw new ArithmeticException("No primes below this limit");
+
+            while (true)
+            {
+                var p = NextProbablePrime(limit.RandomIntLimit());
+                if (p < limit) return p;
+            }
+        }
+
+        public BigInteger NextProbablePrime(BigInteger n)
+        {
+            if (n < 0) throw new ArithmeticException("NextProbablePrime cannot be called on value < 0");
+            if (n <= 2) return 2;
+            if (n.IsEven) n++;
+            if (n == 3) return 3;
+            BigInteger r = n % 6;
+            if (r == 3) n += 2;
+            if (r == 1) { if (n.IsProbablePrime()) return n; else n += 4; }
+            
+            // at this point n mod 6 = 5
+            
+            while (true)
+            {
+                ProgressChanged((int)(tries*100.0/expectedtries),100);
+                if (tries+1 < limittries) tries++;
+
+                if (n.IsProbablePrime()) return n;
+                n += 2;
+                if (n.IsProbablePrime()) return n;
+                n += 4;
+            }
+        }
 
         #region private
 
