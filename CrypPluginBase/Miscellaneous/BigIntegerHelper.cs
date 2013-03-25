@@ -372,7 +372,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// <summary>
         /// Returns a random prime less than limit
         /// </summary>
-        public static BigInteger RandomPrimeLimit(BigInteger limit)
+        public static BigInteger RandomPrimeLimit(this BigInteger limit)
         {
             if (limit <= 2) throw new ArithmeticException("No primes below this limit");
 
@@ -394,7 +394,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// <summary>
         /// Returns a random integer less than limit
         /// </summary>
-        public static BigInteger RandomIntLimit(BigInteger limit)
+        public static BigInteger RandomIntLimit(this BigInteger limit)
         {
             if (limit < 0) throw new ArithmeticException("Enter a positive limit");
 
