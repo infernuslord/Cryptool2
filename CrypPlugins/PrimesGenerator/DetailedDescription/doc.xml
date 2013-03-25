@@ -18,11 +18,11 @@
     When you choose 'prime number with at most n bits', the parameter n is interpreted as the maximum bitsize of the generated prime, i.e.
     the maximum number of bits that the binary representation of the generated prime requires.
     The result is then a random prime that is smaller than 2^n, or, in other words, a random prime in the interval [ 2, 2^n [.
-    The bitsize must lie between 1 and 1024.
+    The bitsize must be greater than 1.
     <newline/><newline/>
     When you choose 'prime number with exactly n bits', the generated prime number will be bigger than or equal to 2^(n-1) and smaller than 2^n,
     i.e. it will lie in the interval [ 2^(n-1), 2^n [.
-    The bitsize must lie between 1 and 1024.
+    The bitsize must be greater than 1.
     <newline/><newline/>
     When you choose 'prime number less than or equal to n', the parameter n is an upper limit for the generated prime.
     The result is then a random prime that is smaller than or equal to n, i.e. a random prime in the interval [ 2, n ].
@@ -34,11 +34,11 @@
     Wählt man die Methode 'Primzahl mit höchstens n Bits', so kann man als Parameter die maximale Bitgröße der zu erzeugenden Zahl angeben
     (d.h. die Anzahl der Bits, die für die Binärdarstellung der Primzahl höchstens benötigt werden). Die erzeugte Primzahl ist dann
     eine zufällige Primzahl, die größer oder gleich 2 und kleiner als 2^n ist, d.h. eine Primzahl aus dem Intervall [ 2, 2^n [.
-    Die Bitgröße muss zwischen 1 Bit und 1024 Bit liegen.
+    Die Bitgröße muss größer als 1 Bit sein.
     <newline/><newline/>
     Wählt man die Methode 'Primzahl mit genau n Bits', so wird eine Primzahl erzeugt, deren Binärdarstellung genau n Bits benötigt und die
     damit größer oder gleich 2^(n-1) und kleiner als 2^n ist, d.h. im Intervall [ 2^(n-1), 2^n [ liegt.
-    Die Bitgröße muss zwischen 1 Bit und 1024 Bit liegen.
+    Die Bitgröße muss größer als 1 Bit sein.
     <newline/><newline/>
     Wählt man die Methode 'Primzahl kleiner oder gleich n', so stellt der Parameter n eine obere Schranke für die zu erzeugende
     Primzahl dar. Die resultierende Primzahl ist dann eine zufällige Primzahl, die höchstens gleich n ist und somit im Intervall [ 2, n ] liegt.

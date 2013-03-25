@@ -91,11 +91,13 @@ namespace Cryptool.PrimesGenerator
             {
                 case 0:
                 case 1:
-                    if (!(n > 1 && n <= 1024))
+                    if (n < 2)
                     {
-                        FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1 and less than or equal to 1024.");
+                        FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1.");
                         return false;
                     }
+                    if (n >= 1024)
+                        FireOnGuiLogNotificationOccuredEvent("Please note that the generation of prime numbers with " + n + " bits may take some time...", NotificationLevel.Warning);
                     break;
                 case 2:
                     if (n <= 1)
@@ -134,10 +136,10 @@ namespace Cryptool.PrimesGenerator
         switch (m_Settings.Mode)
         {
             case 0:   // create prime with m_Input bits
-                OutputString = BigIntegerHelper.RandomPrimeBits((int)n);
+                OutputString = this.RandomPrimeBits((int)n);
                 break;
             case 1:   // create prime with m_Input bits, MSB set
-                OutputString = BigIntegerHelper.RandomPrimeMSBSet((int)n);
+                OutputString = this.RandomPrimeMSBSet((int)n);
                 break;
             case 2:   // create prime <= m_Input
                 OutputString = BigIntegerHelper.RandomPrimeLimit( n + 1 );
@@ -145,27 +147,75 @@ namespace Cryptool.PrimesGenerator
         }
 
         ProgressChanged(100, 100);
+    }        
+      
+    private BigInteger RandomPrimeBits(int bits)
+    {
+        if (bits < 0) throw new ArithmeticException("Enter a positive bitcount");
+        BigInteger limit = ((BigInteger)1) << bits;
+        if (limit <= 2) throw new ArithmeticException("No primes below this limit");
+
+        while (true)
+        {
+            var p = this.NextProbablePrime(limit.RandomIntLimit());
+            if (p < limit) return p;
+        }
+    }
+
+    private BigInteger RandomPrimeMSBSet(int bits)
+    {
+        if (bits <= 1) throw new ArithmeticException("No primes with this bitcount");
+
+        BigInteger limit = ((BigInteger)1) << bits;
+
+        while (true)
+        {
+            var p = this.NextProbablePrime(BigIntegerHelper.SetBit(BigIntegerHelper.RandomIntBits(bits - 1), bits - 1));
+            if (p < limit) return p;
+        }
+    }
+
+    private BigInteger NextProbablePrime(BigInteger n)
+    {
+        if (n < 0) throw new ArithmeticException("NextProbablePrime cannot be called on value < 0");
+        if (n <= 2) return 2;
+        if (n.IsEven) n++;
+        if (n == 3) return 3;
+        BigInteger r = n % 6;
+        if (r == 3) n += 2;
+        if (r == 1) { if (n.IsProbablePrime()) return n; else n += 4; }
+
+        // at this point n mod 6 = 5
+
+        int expectedtries = (int)(BigInteger.Log(n) / 6);
+        int tries=0;          // number of actual tries
+
+        while (true)
+        {
+            ProgressChanged((int)(tries * 100.0 / expectedtries), 100);
+            if (tries + 1 < expectedtries) tries++;
+
+            if (n.IsProbablePrime()) return n;
+            n += 2;
+            if (n.IsProbablePrime()) return n;
+            n += 4;
+        }
     }
 
     public void PostExecution()
     {
-      
     }
 
     public void Stop()
     {
-      
     }
 
     public void Initialize()
     {
-
-      
     }
 
     public void Dispose()
     {
-      
     }
 
     #endregion
@@ -178,6 +228,7 @@ namespace Cryptool.PrimesGenerator
     {
       if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
     }
+
     #endregion
   }
 }
