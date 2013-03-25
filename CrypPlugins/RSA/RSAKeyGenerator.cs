@@ -418,7 +418,7 @@ namespace Cryptool.Plugins.RSA
         int expectedtries;  // number of expected tries for both primes
         int limittries;     // number up to which to increase tries
 
-        public BigInteger RandomPrimeBits(int bits)
+        private BigInteger RandomPrimeBits(int bits)
         {
             if (bits < 0) throw new ArithmeticException("Enter a positive bitcount");
             BigInteger limit = ((BigInteger)1) << bits;
@@ -431,7 +431,7 @@ namespace Cryptool.Plugins.RSA
             }
         }
 
-        public BigInteger NextProbablePrime(BigInteger n)
+        private BigInteger NextProbablePrime(BigInteger n)
         {
             if (n < 0) throw new ArithmeticException("NextProbablePrime cannot be called on value < 0");
             if (n <= 2) return 2;
