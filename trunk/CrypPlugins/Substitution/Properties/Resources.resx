@@ -121,7 +121,7 @@
     <value>Substitution</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Substitution -- classic character-based mono-alphabetic substitution</value>
+    <value>Classic substitution</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
@@ -135,82 +135,16 @@
   <data name="OutputStringTooltip" xml:space="preserve">
     <value>The string after processing with the Substitution cipher</value>
   </data>
-  <data name="InputAlphabetCaption" xml:space="preserve">
-    <value>Plaintext Alphabet</value>
+  <data name="DestinationAlphabetCaption" xml:space="preserve">
+    <value>Destination alphabet</value>
   </data>
-  <data name="InputAlphabetTooltip" xml:space="preserve">
-    <value>Input a string containing the plaintext-alphabet which should be used by Substitution. If no alphabet is provided on the input, the internal alphabet will be used.</value>
+  <data name="DestinationAlphabetTooltip" xml:space="preserve">
+    <value>The alphabet which is used in the destination string</value>
   </data>
-  <data name="KeyValueCaption" xml:space="preserve">
-    <value>Key value (multiple letter)</value>
+  <data name="SourceAlphabetCaption" xml:space="preserve">
+    <value>Source alphabet</value>
   </data>
-  <data name="KeyValueTooltip" xml:space="preserve">
-    <value>Enter one or multiple letters as the key.</value>
-  </data>
-  <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
-  </data>
-  <data name="ActionTooltip" xml:space="preserve">
-    <value>Select the Algorithm action</value>
-  </data>
-  <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Alphabet case sensitivity</value>
-  </data>
-  <data name="AlphabetCaseTooltip" xml:space="preserve">
-    <value>Should upper and lower case be treated differently? (Should a == A)</value>
-  </data>
-  <data name="AlphabetSymbolsCaption" xml:space="preserve">
-    <value>Alphabet</value>
-  </data>
-  <data name="AlphabetSymbolsTooltip" xml:space="preserve">
-    <value>This is the used alphabet.</value>
-  </data>
-  <data name="CipherAlphabetCaption" xml:space="preserve">
-    <value>Cipher alphabet</value>
-  </data>
-  <data name="CipherAlphabetTooltip" xml:space="preserve">
-    <value>This is the used cipher alphabet.</value>
-  </data>
-  <data name="KeyVariantCaption" xml:space="preserve">
-    <value>Key variant</value>
-  </data>
-  <data name="KeyVariantTooltip" xml:space="preserve">
-    <value>Select the key variant for the cipher alphabet</value>
-  </data>
-  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
-    <value>Unknown symbol handling</value>
-  </data>
-  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
-  </data>
-  <data name="ActionList1" xml:space="preserve">
-    <value>Encrypt</value>
-  </data>
-  <data name="ActionList2" xml:space="preserve">
-    <value>Decrypt</value>
-  </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Case insensitive</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Case sensitive</value>
-  </data>
-  <data name="KeyVariantList1" xml:space="preserve">
-    <value>Remaining characters are filled in ascending order</value>
-  </data>
-  <data name="KeyVariantList2" xml:space="preserve">
-    <value>Remaining characters are filld in descending order</value>
-  </data>
-  <data name="KeyVariantList3" xml:space="preserve">
-    <value>Atbash (the encryption is using a fixed key)</value>
-  </data>
-  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Ignore (leave unmodified)</value>
-  </data>
-  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
-    <value>Replace with '?'</value>
+  <data name="SourceAlphabetTooltip" xml:space="preserve">
+    <value>The alphabet which is used in the source string</value>
   </data>
 </root>
