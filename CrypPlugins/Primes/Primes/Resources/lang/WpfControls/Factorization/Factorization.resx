@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="bf_actualdiv" xml:space="preserve">
-    <value>aktueller Divisor </value>
+    <value>aktueller Teiler: </value>
   </data>
   <data name="bf_scale" xml:space="preserve">
     <value>Skalisierung des Faktorbaums</value>
@@ -145,16 +145,31 @@
     <value>abgebrochen</value>
   </data>
   <data name="fac_resultabortedtime" xml:space="preserve">
-    <value>Faktorisierungsergebnis (Die Probedivision wurde abgebrochen. Die benötigte Zeit beträgt = {0} Stunden, {1} Minute(n), {2} Sekunden, {3} Millisekunden)</value>
+    <value>Faktorisierungsergebnis (Die Probedivision wurde abgebrochen. Die benötigte Zeit beträgt {0}.)</value>
   </data>
   <data name="fac_resultfinished" xml:space="preserve">
     <value>Faktorisierungsergebnis (beendet)</value>
   </data>
   <data name="fac_resultfinishedtime" xml:space="preserve">
-    <value>Faktorisierungsergebnis (Die Probedivision wurde beendet. Die benötigte Zeit beträgt = {0} Stunden, {1} Minute(n), {2} Sekunden, {3} Millisekunden)</value>
+    <value>Faktorisierungsergebnis (Die Probedivision wurde beendet. Die benötigte Zeit beträgt {0}.)</value>
   </data>
   <data name="fac_resultrunning" xml:space="preserve">
     <value>Faktorisierungsergebnis (aktuell in Arbeit)</value>
+  </data>
+  <data name="fac_timehour" xml:space="preserve">
+    <value>Stunde</value>
+  </data>
+  <data name="fac_timehours" xml:space="preserve">
+    <value>Stunden</value>
+  </data>
+  <data name="fac_timeminute" xml:space="preserve">
+    <value>Minute</value>
+  </data>
+  <data name="fac_timeminutes" xml:space="preserve">
+    <value>Minuten</value>
+  </data>
+  <data name="fac_timeseconds" xml:space="preserve">
+    <value>Sekunden</value>
   </data>
   <data name="qs_btnrestart" xml:space="preserve">
     <value>Neustart</value>

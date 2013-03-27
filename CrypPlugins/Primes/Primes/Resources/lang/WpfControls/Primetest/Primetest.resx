@@ -193,7 +193,7 @@
     <value>Es werden alle Zahlen von 2 bis {0} aufgelistet!</value>
   </data>
   <data name="soe_infostepwise2" xml:space="preserve">
-    <value>Bitte streichen Sie Vielfache der nächten Zahl, beginnend bei 2, indem Sie die Zahl anklicken. </value>
+    <value>Bitte streichen Sie Vielfache der nächsten Zahl, beginnend bei 2, indem Sie die Zahl anklicken. </value>
   </data>
   <data name="soe_isnotprime" xml:space="preserve">
     <value>{0} ist keine Primzahl</value>
@@ -211,13 +211,13 @@
     <value>Schrittweise geführt</value>
   </data>
   <data name="soe_multiplenotexpected" xml:space="preserve">
-    <value>Die Zahl {0} wurde nicht erwartet</value>
+    <value>Die Zahl {0} wurde nicht erwartet.</value>
   </data>
   <data name="soe_removemultiple" xml:space="preserve">
-    <value>Die Vielfachen von {0} werden entfernt</value>
+    <value>Die Vielfachen von {0} werden entfernt.</value>
   </data>
   <data name="soe_removemultipleof" xml:space="preserve">
-    <value>Entferne Vielfache von {0}</value>
+    <value>Entferne Vielfache von {0}.</value>
   </data>
   <data name="soe_validatormessage" xml:space="preserve">
     <value>Für das Verfahren "Sieb des Eratosthenes" werden nur Zahlen von {0} bis {1} zugelassen.</value>

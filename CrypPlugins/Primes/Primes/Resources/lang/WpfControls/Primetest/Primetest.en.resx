@@ -211,13 +211,13 @@
     <value>stepwise</value>
   </data>
   <data name="soe_multiplenotexpected" xml:space="preserve">
-    <value>The number {0} was not expected</value>
+    <value>The number {0} was not expected.</value>
   </data>
   <data name="soe_removemultiple" xml:space="preserve">
-    <value>The multiples of {0} are removed</value>
+    <value>The multiples of {0} are removed.</value>
   </data>
   <data name="soe_removemultipleof" xml:space="preserve">
-    <value>Remove multiples of {0}</value>
+    <value>Remove multiples of {0}.</value>
   </data>
   <data name="soe_validatormessage" xml:space="preserve">
     <value>Only numbers from {0} to {1} are allowed for the "Sieve of Eratosthenes".</value>

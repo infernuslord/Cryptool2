@@ -82,6 +82,8 @@ namespace Primes.WpfControls.Components
         void generateNumberControlVertFree_OnRandomNumberGenerated(PrimesBigInteger value)
         {
             tbVertFree.Text = value.ToString();
+            GetValue();
+            //ValidateFreeInput(ref value);
         }
 
         #region Components
@@ -517,7 +519,9 @@ namespace Primes.WpfControls.Components
         public PrimesBigInteger GetValue()
         {
             PrimesBigInteger value = null;
+
             ResetMessages();
+
             if (m_RbSelection == Selection.Free)
             {
                 ValidateFreeInput(ref value);
@@ -526,6 +530,7 @@ namespace Primes.WpfControls.Components
             {
                 ValidateCalcInput(ref value);
             }
+
             if (value != null)
             {
                 SetButtonExecuteButtonEnabled(true);
@@ -786,43 +791,48 @@ namespace Primes.WpfControls.Components
 
         public void Warning(string message, TextBlock target, TextBox[] tbSource, Image helpImage, Brush textColor, Brush textboxForegorund, Brush textBoxBackground)
         {
-            if (!string.IsNullOrEmpty(message))
+            if (string.IsNullOrEmpty(message))
             {
-                if (OnInfoError != null) OnInfoError(message);
-                foreach (TextBox tb in tbSource)
-                {
-                    tb.Background = textBoxBackground;
-                    tb.Foreground = textboxForegorund;
-                    target.Foreground = textColor;
-                    if (m_ShowInfoErrorText)
-                    {
-                        target.Text = message;
-                        target.Visibility = Visibility.Visible;
-                    }
-                    if (helpImage != null)
-                        helpImage.Visibility = Visibility.Visible;
-                }
+                ResetMessages(target, tbSource);
+                return;
             }
-            else
+
+            if (OnInfoError != null) OnInfoError(message);
+
+            foreach (TextBox tb in tbSource)
             {
-                foreach (TextBox tb in tbSource)
+                tb.Background = textBoxBackground;
+                tb.Foreground = textboxForegorund;
+                target.Foreground = textColor;
+                if (m_ShowInfoErrorText)
                 {
-                    tb.Background = Brushes.White;
-                    tb.Foreground = Brushes.Black;
-                    target.Text = string.Empty;
-                    target.Visibility = Visibility.Hidden;
-                    btnHelpHorCalc.Visibility = Visibility.Collapsed;
-                    btnHelpVertCalc.Visibility = Visibility.Collapsed;
-                    btnHelpHorFree.Visibility = Visibility.Collapsed;
-                    btnHelpVertFree.Visibility = Visibility.Collapsed;
+                    target.Text = message;
+                    target.Visibility = Visibility.Visible;
                 }
+                if (helpImage != null)
+                    helpImage.Visibility = Visibility.Visible;
+            }
+        }
+
+        public void ResetMessages(TextBlock target, TextBox[] tbSource)
+        {
+            foreach (TextBox tb in tbSource)
+            {
+                tb.Background = Brushes.White;
+                tb.Foreground = Brushes.Black;
+                target.Text = string.Empty;
+                target.Visibility = Visibility.Hidden;
+                btnHelpHorCalc.Visibility = Visibility.Collapsed;
+                btnHelpVertCalc.Visibility = Visibility.Collapsed;
+                btnHelpHorFree.Visibility = Visibility.Collapsed;
+                btnHelpVertFree.Visibility = Visibility.Collapsed;
             }
         }
 
         public void ResetMessages()
         {
-            Warning(null, m_LblInfoFree, new TextBox[] { m_tbFree }, null, Brushes.White, Brushes.Black, Brushes.White);
-            Warning(null, m_LblInfoCalc, new TextBox[] { m_tbCalcFactor, m_tbCalcBase, m_tbCalcExp, m_tbCalcSum }, null, Brushes.White, Brushes.Black, Brushes.White);
+            ResetMessages(m_LblInfoFree, new TextBox[] { m_tbFree });
+            ResetMessages(m_LblInfoCalc, new TextBox[] { m_tbCalcFactor, m_tbCalcBase, m_tbCalcExp, m_tbCalcSum });
         }
 
         #endregion
