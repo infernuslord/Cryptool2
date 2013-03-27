@@ -40,5 +40,6 @@ namespace Primes.WpfControls.Factorization
         event FoundFactor FoundFactor;
         TimeSpan Needs { get; }
         IValidator<PrimesBigInteger> Validator { get; }
+        bool isRunning { get; }
     }
 }

@@ -102,6 +102,15 @@ namespace Primes.WpfControls.Factorization.Rho
             }
         }
 
+        public bool isRunning
+        {
+            get
+            {
+                if (m_Thread == null) return false;
+                return m_Thread.IsAlive;
+            }
+        }
+
         private void Factorize()
         {
             m_Factors.Clear();

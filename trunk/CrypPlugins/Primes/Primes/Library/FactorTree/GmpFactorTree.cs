@@ -104,6 +104,15 @@ namespace Primes.Library.FactorTree
             }
         }
 
+        public bool isRunning
+        {
+            get
+            {
+                if (m_FactorThread == null) return false;
+                return m_FactorThread.IsAlive;
+            }
+        }
+
         private int m_Height;
 
         public int Height
