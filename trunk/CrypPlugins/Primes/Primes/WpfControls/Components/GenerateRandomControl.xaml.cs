@@ -106,7 +106,9 @@ namespace Primes.WpfControls.Components
             }
             else if (sender == miTowBigFactors)
             {
-                value = PrimesBigInteger.Random(15).NextProbablePrime().Multiply(PrimesBigInteger.Random(15).NextProbablePrime());
+                PrimesBigInteger a = PrimesBigInteger.Random(15).NextProbablePrime();
+                PrimesBigInteger b = PrimesBigInteger.Random(15).NextProbablePrime();
+                value = a * b;
             }
             if (value != null)
                 FireOnRandomNumberGenerated(value);

@@ -3194,17 +3194,17 @@ namespace Primes.Bignum
 
         public static PrimesBigInteger Random(PrimesBigInteger seed)
         {
-            return new PrimesBigInteger(seed.IntValue, new Random());
+            return new PrimesBigInteger(seed.IntValue, RandomSource);
         }
 
         public static PrimesBigInteger Random(int seed)
         {
-            return new PrimesBigInteger(seed, new Random());
+            return new PrimesBigInteger(seed, RandomSource);
         }
 
         public static PrimesBigInteger RandomM(PrimesBigInteger m)
         {
-            return new PrimesBigInteger(m.IntValue, new Random());
+            return new PrimesBigInteger(m.IntValue, RandomSource);
         }
 
         public static PrimesBigInteger GCD(PrimesBigInteger a, PrimesBigInteger b)

@@ -22,9 +22,9 @@
 
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade" Grid.Column="0">
                             <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1">
-                                <ScrollViewer CanContentScroll="True">
+                                <!--<ScrollViewer CanContentScroll="False">-->
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                                </ScrollViewer>
+                                <!--</ScrollViewer>-->
                             </Border>
                         </Popup>
                         <Image Grid.Column="1" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" MouseLeftButtonDown="ImageHelpClick" VerticalAlignment="Center" Name="imghelp">
