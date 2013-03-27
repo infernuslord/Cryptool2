@@ -899,40 +899,44 @@ namespace Primes.WpfControls.Components
 
         public void Warning(string message, TextBlock target, TextBox[] tbSource, Image helpImage, Brush textColor, Brush textboxForegorund, Brush textBoxBackground)
         {
-            if (!string.IsNullOrEmpty(message))
+            if (string.IsNullOrEmpty(message))
             {
-                foreach (TextBox tb in tbSource)
-                {
-                    tb.Background = textBoxBackground;
-                    tb.Foreground = textboxForegorund;
-                    target.Foreground = textColor;
-                    target.Text = message;
-                    target.Visibility = Visibility.Visible;
-                    if (helpImage != null)
-                        helpImage.Visibility = Visibility.Visible;
-                }
+                ResetMessages(target, tbSource);
+                return;
             }
-            else
+
+            foreach (TextBox tb in tbSource)
             {
-                foreach (TextBox tb in tbSource)
-                {
-                    tb.Background = Brushes.White;
-                    tb.Foreground = Brushes.Black;
-                    target.Text = string.Empty;
-                    target.Visibility = Visibility.Collapsed;
-                    btnHelpHorCalc.Visibility = Visibility.Collapsed;
-                    btnHelpVertCalc.Visibility = Visibility.Collapsed;
-                    btnHelpHorFree.Visibility = Visibility.Collapsed;
-                    btnHelpVertFree.Visibility = Visibility.Collapsed;
-                }
+                tb.Background = textBoxBackground;
+                tb.Foreground = textboxForegorund;
+                target.Foreground = textColor;
+                target.Text = message;
+                target.Visibility = Visibility.Visible;
+                if (helpImage != null)
+                    helpImage.Visibility = Visibility.Visible;
+            }
+        }
+
+        public void ResetMessages(TextBlock target, TextBox[] tbSource)
+        {
+            foreach (TextBox tb in tbSource)
+            {
+                tb.Background = Brushes.White;
+                tb.Foreground = Brushes.Black;
+                target.Text = string.Empty;
+                target.Visibility = Visibility.Collapsed;
+                btnHelpHorCalc.Visibility = Visibility.Collapsed;
+                btnHelpVertCalc.Visibility = Visibility.Collapsed;
+                btnHelpHorFree.Visibility = Visibility.Collapsed;
+                btnHelpVertFree.Visibility = Visibility.Collapsed;
             }
         }
 
         private void ResetMessages()
         {
-            Warning(null, m_LblInfoFree, new TextBox[] { m_tbFromFree, m_tbToFree }, null, Brushes.White, Brushes.Black, Brushes.White);
-            Warning(null, m_LblInfoCalc, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum }, null, Brushes.White, Brushes.Black, Brushes.White);
-            Warning(null, m_LblInfoSecond, new TextBox[] { tbSecondParameter }, null, Brushes.White, Brushes.Black, Brushes.White);
+            ResetMessages(m_LblInfoFree, new TextBox[] { m_tbFromFree, m_tbToFree });
+            ResetMessages(m_LblInfoCalc, new TextBox[] { m_tbToCalcFactor, m_tbToCalcBase, m_tbToCalcExp, m_tbToCalcSum, m_tbFromCalcFactor, m_tbFromCalcBase, m_tbFromCalcExp, m_tbFromCalcSum });
+            ResetMessages(m_LblInfoSecond, new TextBox[] { tbSecondParameter });
         }
 
         #endregion

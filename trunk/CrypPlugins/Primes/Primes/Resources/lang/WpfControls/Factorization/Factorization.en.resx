@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="bf_actualdiv" xml:space="preserve">
-    <value>actual divisor </value>
+    <value>actual divisor: </value>
   </data>
   <data name="bf_scale" xml:space="preserve">
     <value>Scale of the factor tree</value>
@@ -145,16 +145,31 @@
     <value>result aborted</value>
   </data>
   <data name="fac_resultabortedtime" xml:space="preserve">
-    <value>Factorization result (The brute-force division was canceled after {0} hours, {1} minutes, {2} seconds, {3} milliseconds)</value>
+    <value>Factorization result (The brute-force division was canceled after {0}.)</value>
   </data>
   <data name="fac_resultfinished" xml:space="preserve">
     <value>Factorization result (finished)</value>
   </data>
   <data name="fac_resultfinishedtime" xml:space="preserve">
-    <value>Factorization result (The brute-force division finished in {0} hours, {1} minutes, {2} seconds, {3} milliseconds)</value>
+    <value>Factorization result (The brute-force division finished in {0}.)</value>
   </data>
   <data name="fac_resultrunning" xml:space="preserve">
     <value>Factorization result (running)</value>
+  </data>
+  <data name="fac_timehour" xml:space="preserve">
+    <value>hour</value>
+  </data>
+  <data name="fac_timehours" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="fac_timeminute" xml:space="preserve">
+    <value>minute</value>
+  </data>
+  <data name="fac_timeminutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="fac_timeseconds" xml:space="preserve">
+    <value>seconds</value>
   </data>
   <data name="qs_btnrestart" xml:space="preserve">
     <value>Restart</value>

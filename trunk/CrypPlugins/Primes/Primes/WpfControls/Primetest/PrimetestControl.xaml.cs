@@ -179,16 +179,21 @@ namespace Primes.WpfControls.Primetest
         {
             iscNumber.SetValueValidator(InputSingleControl.Value, CurrentControl.Validator);
             if (myNavigate != null) myNavigate(CurrentNavigationCommand);
+            iscNumber.GetValue();
 
             SetLocks();
         }
 
         private void SetLocks()
         {
-            if (CurrentControl.IsRunning())
-                iscNumber.LockControls();
-            else
-                iscNumber.UnLockControls();
+            PrimesBigInteger value = iscNumber.GetValue();
+            if (value != null)
+            {
+                if (CurrentControl.IsRunning())
+                    iscNumber.LockControls();
+                else
+                    iscNumber.UnLockControls();
+            }
         }
 
         #region IPrimeUserControl Members
@@ -198,6 +203,7 @@ namespace Primes.WpfControls.Primetest
             if (i >= 0 && i < tbctrl.Items.Count)
             {
                 tbctrl.SelectedIndex = i;
+                tbctrl_SelectionChanged(null, null);
                 //ResourceDictionary rd = Application.LoadComponent(new Uri("Primes;component/WpfControls/Resources/Brushes.xaml", UriKind.Relative)) as ResourceDictionary;
                 //(tbctrl.Items[i] as TabItem).Background = rd["HorizontalLightBrush"] as Brush;
             }

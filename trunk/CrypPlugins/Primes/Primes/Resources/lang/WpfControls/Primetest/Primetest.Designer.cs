@@ -286,7 +286,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte streichen Sie Vielfache der nächten Zahl, beginnend bei 2, indem Sie die Zahl anklicken.  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte streichen Sie Vielfache der nächsten Zahl, beginnend bei 2, indem Sie die Zahl anklicken.  ähnelt.
         /// </summary>
         public static string soe_infostepwise2 {
             get {
@@ -340,7 +340,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Zahl {0} wurde nicht erwartet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Zahl {0} wurde nicht erwartet. ähnelt.
         /// </summary>
         public static string soe_multiplenotexpected {
             get {
@@ -349,7 +349,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Vielfachen von {0} werden entfernt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Vielfachen von {0} werden entfernt. ähnelt.
         /// </summary>
         public static string soe_removemultiple {
             get {
@@ -358,7 +358,7 @@ namespace Primes.Resources.lang.WpfControls.Primetest {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Entferne Vielfache von {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Entferne Vielfache von {0}. ähnelt.
         /// </summary>
         public static string soe_removemultipleof {
             get {
