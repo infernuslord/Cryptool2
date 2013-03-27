@@ -12,7 +12,7 @@
                 <DockPanel>
                     <RadioButton Name="rbAutomatic" Margin="0,0,10,0" IsChecked="True" VerticalContentAlignment="Center" VerticalAlignment="Center" Click="rbModeClick" Content="{x:Static lang:Primetest.soe_methodauto}"></RadioButton>
                     <RadioButton Name="rbManual" Margin="0,0,10,0" VerticalContentAlignment="Center" VerticalAlignment="Center" Click="rbModeClick" Content="{x:Static lang:Primetest.soe_methodstepwise}"></RadioButton>
-                    <Button Name="btnForceAutomatic" Width="200" HorizontalAlignment="Left" Visibility="Hidden" Click="btnForceAutomatic_Click">Weiter mit automatische Ausführung</Button>
+                    <Button Name="btnForceAutomatic" HorizontalAlignment="Left" Visibility="Hidden" Click="btnForceAutomatic_Click" Content="{x:Static lang:Primetest.soe_btnresume}"></Button>
                 </DockPanel>
             </GroupBox>
         </StackPanel>
