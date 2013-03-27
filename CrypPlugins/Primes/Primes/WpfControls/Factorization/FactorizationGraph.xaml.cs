@@ -72,6 +72,14 @@ namespace Primes.WpfControls.Factorization
             items = new List<object>();
         }
 
+        public bool isRunning
+        {
+            get
+            {
+                return m_FactorTree.isRunning;
+            }
+        }
+
         void m_FactorTree_OnActualDivisorChanged(PrimesBigInteger value)
         {
             ControlHandler.SetPropertyValue(lblActualDivisor, "Text", Primes.Resources.lang.WpfControls.Factorization.Factorization.bf_actualdiv + value.ToString("D"));

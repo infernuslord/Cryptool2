@@ -111,6 +111,15 @@ namespace Primes.WpfControls.Factorization.QS
             m_Thread.Start();
         }
 
+        public bool isRunning
+        {
+            get
+            {
+                if (m_Thread == null) return false;
+                return m_Thread.IsAlive;
+            }
+        }
+
         #region Factorize
 
         private void ExecuteFactorization()
