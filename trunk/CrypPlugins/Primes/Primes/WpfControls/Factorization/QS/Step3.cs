@@ -86,7 +86,7 @@ namespace Primes.WpfControls.Factorization.QS
             }
 
             //
-            // Suche nach Produkten von glatten Werten, die ein Quarat ergeben
+            // Suche nach Produkten von glatten Werten, die ein Quadrat ergeben
             //
 
             int pslen = (int)Math.Pow(2, pairs.Count);
