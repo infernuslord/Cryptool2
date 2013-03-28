@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.Keccak
             foreach (byte[] block in inputBlocks)
             {             
                 #if _DEBUG_
-                Console.WriteLine("#Sponge: exclusive-or'ing input block #{0} on state\n", blocksCounter);                
+                Console.WriteLine("#Sponge: XORing input block #{0} on state\n", blocksCounter);                
                 #endif                           
 
                 #region presentation absorbing phase
@@ -264,7 +264,10 @@ namespace Cryptool.Plugins.Keccak
                     #endif
                     
                     remainingOutput -= rate;
+
+                    plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0), (double)progressionSteps);
                     keccak_f.Permute(ref state, progressionStepCounter, progressionSteps);
+                    progressionStepCounter++;
                 }
 
                 if (remainingOutput > 0)

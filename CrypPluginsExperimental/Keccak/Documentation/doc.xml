@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en" />
+  <language culture="de-DE" />
+  
+	<introduction lang="en">
+    Keccak was selected as the winner of the NIST <i>cryptographic hash algorithm competition</i> in 2012. The competition was held to develop the third generation of the <i>Secure Hash Algorithm</i> (SHA-3). Keccak was developed by Guido Bertoni, Joan Daemen, Michael Peeters and Gilles Van Assche. Apart from a hash function, the design of its construction enables Keccak to be utilized as further cryptographic primitives, like a keystream generator for a stream cipher or as a pseudorandom number generator (examples can be found in the <b>Templates</b> section). As such, the description of the component avoids the terms <i>message</i> and <i>hash value</i> and uses the terms <i>input</i> and <i>output</i>.
+	</introduction>
+  
+	<introduction lang="de-DE">
+	Keccak wurde 2012 als Gewinner der <i>Cryptograhic Hash Algorithm Competition</i> des NIST ausgewählt. Der Wettbewerb wurde ausgetragen, um die dritte Generation des <i>Secure Hash Algorithm</i> (SHA-3) zu bestimmen. Keccak wurde von Guido Bertoni, Joan Daemen, Michael Peeters und Gilles Van Assche entwickelt. Neben dem Einsatz als Hashfunktion kann Keccak aufgrund seines Designs auch in anderen kryptographischen Anwendungen eingesetzt werden, wie etwa als Schlüsselstrom-Generator für eine Stromchiffre oder als Pseudozufallszahlengenerator (Beispiele finden Sie im Bereich <b>Vorlagen</b>). Die Beschreibung der Komponente verwendet daher die Begriffe <i>Eingabe</i> und <i>Ausgabe</i> statt <i>Nachricht</i> und <i>Hashwert</i>.
+	</introduction>
+  
+	<usage lang="en">
+		<section headline="Input and Output">
+		The Keccak component has one input and two outputs, all of the type <i>ICryptoolStream</i>. The output <i>Debug output stream</i> is an optional output which displays information about the internal Keccak process.
+		<newline />
+		The two other connectors (<i>Input stream</i> and <i>Output stream</i>) must be connected for the component to work properly. They both can be connected to other components which support the <i>ICryptoolStream</i> or a connector of the type <i>Byte[]</i> (Byte Array), <i>String</i> or <i>Object</i>. Refer to the <b>Templates</b> section for examples.
+		</section>
+	
+		<section headline="Parameters">
+		The parameters of the Keccak function can be customized in the parameter panel. The user can choose between four SHA-3 functions of Keccak (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>) which apply the parameters as proposed by the Keccak developers in [1] (see <b>References</b> section). Additionally, the user can tweak Keccak manually by selecting the function <i>Keccak</i>. This version enables customizing the <i>state size</i>, <i>output length</i>, <i>bit rate</i> and <i>capacity</i>. These parameters have the following meaning:<newline />
+		<list>
+			<item><b>State size:</b> Size of the internal state of Keccak in bit. The state size is the sum of bit rate and capacity. When increasing the bit rate size, the capacity size must be decreased and vice versa.</item>
+			<item><b>Output length:</b> The length of the produced output in bit.</item>
+			<item><b>Bit rate:</b> The size of the bit rate in bit. The bit rate defines the size of the input blocks in which the input is divided. Each input block is XORed on the bit rate part of the state. The greater this part is, the fewer input blocks must be processed. The bit rate size thus determines the speed of Keccak.</item>
+			<item><b>Capacity:</b> The size of the capacity in bit. The capacity determines the size of the state part which is not modified by the input blocks. The capacity size (c) thus determines the security of Keccak. In [2] (see <b>References</b> section), it is proven that Keccak resists any attack up to 2^(c/2) Keccak computations.</item>
+		</list>		
+		</section>
+	</usage>
+
+	<usage lang="de-DE">
+		<section headline="Eingabe und Ausgabe">
+		Die Keccak-Komponente hat einen Eingabe-Konnektor und zwei Ausgabe-Konnektoren, alle vom Typ <i>ICryptoolStream</i>. Die Ausgabe <i>Debug-Ausgabestrom</i> ist optional und zeigt Informationen über den Keccak-Prozess an.
+		<newline />
+		Die beiden anderen Konnektoren (<i>Eingabestrom</i> und <i>Ausgabestrom</i>) müssen mit anderen Komponenten verbunden sein, damit die Komponente ordnungsgemäß arbeitet. Beide Anschlüsse können mit anderen Komponenten verbunden werden, deren Konnektoren entweder vom Typ <i>ICryptoolStream</i> oder vom Typ <i>Byte[]</i> (Byte Array), <i>String</i> oder <i>Object</i> sind. Im Bereich <b>Vorlagen</b> finden Sie Beispiele für die Kopplung der Keccak-Komponente mit anderen Komponenten.
+		</section>
+		
+		<section headline="Parameter">
+		Die Parameter des Keccak-Algorithmus können im Parameterfenster eingestellt werden. Sie können zwischen den vier SHA-3 Funktionen von Keccak wählen (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>), in denen die Parameter nach den Empfehlungen der Keccak-Entwickler [1] (siehe <b>Referenzen</b> Bereich) eingstellt sind. Zusätzlich können Sie die Funktion <i>Keccak</i> auswählen, bei der Sie die Parameter manuell einstellen können. Diese Version ermöglicht es, die Parameter <i>State-Größe</i>, <i>Ausgabelänge</i>, <i>Bit-Rate</i> und <i>Capacity</i> zu konfigurieren. Die Parameter haben folgende Bedeutungen:<newline />
+		<list>
+			<item><b>State-Größe:</b> Größe des internen Keccak-States in Bit. Die State-Größe ist die Summe aus Bit-Rate und Capacity. Wenn Sie die Bit-Rate vergrößern, muss die Capacity verkleinert werden. Andersherum ist es genauso.</item>
+			<item><b>Ausgabelänge:</b> Die Länge der erzeugten Ausgabe.</item>
+			<item><b>Bit-Rate:</b> Die Größe der Bit-Rate in Bit. Die Bit-Rate bestimmt die Größe der Eingabeblöcke, in welche die Eingabe geteilt wird. Jeder Eingabeblock wird auf den Bit-Rate-Anteil des States geXORed. Je größer dieser Anteil ist, desto weniger Eingabeblöcke müssen insgesamt verarbeitet werden. Daher wird durch die Bit-Rate-Größe die Geschwindigkeit von Keccak bestimmt.</item>
+			<item><b>Capacity:</b> Die Größe der Capacity in Bit. Die Capacity bestimmt die Größe des State-Anteils, der nicht durch die Eingabeblöcke verändert wird. Die Capacity-Größe (c) bestimmt die Sicherheit von Keccak. In [2] (siehe <b>Referenzen</b> Bereich) wird gezeigt, dass Keccak gegen jeden Angriff, der bis zu 2^(c/2) Keccak-Ausführungen durchführt, resistent ist.</item>
+		</list>		
+		</section>		
+	</usage>
+	
+	<presentation lang="en">
+	By double-clicking on the icon of the Keccak component in the CrypTool 2 window, the user can enable the visualization of the Keccak function. In this view, the user can run Keccak step by step and watch the internal functionalities of Keccak, i.e. the absorbing phase, the squeezing phase and the five step mappings theta, rho, pi, chi and iota.
+	</presentation>
+  
+	<presentation lang="de-DE">
+	Durch Doppelklick auf die Keccak-Komponente im CrypTool 2-Fenster können Sie die Visualisierung des Keccak-Algorithmus aktivieren. In dieser Ansicht können Sie Keccak Schritt für Schritt ausführen und die Arbeitsweise von Keccak nachvollziehen. Die Präsentation zeigt die Absorbing-Phase, die Squeezing-Phase und die fünf Step Mappings Theta, Rho, Pi, Chi und Iota.
+	</presentation>
+  
+  <references>
+  <linkReference>
+      <link url="http://keccak.noekeon.org/Keccak-submission-3.pdf" lang="en" />
+      <caption lang="en">The Keccak SHA-3 submission. Accessed 25-03-2013</caption>
+      <link url="http://keccak.noekeon.org/Keccak-submission-3.pdf" lang="de-DE" />
+	  <caption lang="de-DE">The Keccak SHA-3 submission. Aufgerufen am 25-03-2013</caption>
+	</linkReference>
+	<linkReference>
+	  <link url="http://sponge.noekeon.org/CSF-0.1.pdf" lang="en" />
+	  <caption lang="en">Cryptographic sponge functions. Accessed 25-03-2013</caption>
+	  <link url="http://sponge.noekeon.org/CSF-0.1.pdf" lang="de-DE" />
+	  <caption lang="de-DE">Cryptographic sponge functions. Aufgerufen am 25-03-2013</caption>
+	</linkReference>
+  </references>
+</documentation>

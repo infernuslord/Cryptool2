@@ -136,7 +136,7 @@
     <value>Eingabedatenstrom</value>
   </data>
   <data name="KECCAKFunctionCaption" xml:space="preserve">
-    <value>Keccak-Funktion</value>
+    <value>Keccak-Version</value>
   </data>
   <data name="KeccakFunctionList1" xml:space="preserve">
     <value>Keccak</value>
@@ -172,7 +172,7 @@
     <value>Ausgabelänge in Bit (muss durch 8 teilbar sein)</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Hashwert</value>
+    <value>Ausgabestrom</value>
   </data>
   <data name="ParametersCaption" xml:space="preserve">
     <value>Parameter</value>
@@ -181,7 +181,7 @@
     <value>Keccak</value>
   </data>
   <data name="PluginDescription" xml:space="preserve">
-    <value>Keccak Hash-Funktion</value>
+    <value>Keccak-Algorithmus</value>
   </data>
   <data name="RateCaption" xml:space="preserve">
     <value>Bit-Rate</value>

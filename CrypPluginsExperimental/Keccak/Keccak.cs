@@ -160,6 +160,8 @@ namespace Cryptool.Plugins.Keccak
                     pres.autostepSpeedSlider.IsEnabled = false;
                     pres.spButtons.Visibility = Visibility.Visible;
                     pres.buttonSkipIntro.Visibility = Visibility.Visible;
+
+                    pres.imgIntroFirstPage.Visibility = Visibility.Visible;
                 }, null);
 
                 #region check if selected parameters are supported
@@ -187,15 +189,17 @@ namespace Cryptool.Plugins.Keccak
 
                 AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
 
-                if (!pres.skipPresentation && !pres.skipIntro)
-                {
-                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        pres.imgIntroFirstPage.Visibility = Visibility.Visible;
-                    }, null);
+                //if (!pres.skipPresentation && !pres.skipIntro)
+                //{
+                //    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                //    {
+                //        pres.imgIntroFirstPage.Visibility = Visibility.Visible;
+                //    }, null);
 
-                    buttonNextClickedEvent.WaitOne();
-                }
+                //    buttonNextClickedEvent.WaitOne();
+                //}
+
+                buttonNextClickedEvent.WaitOne();
 
                 if (!pres.skipPresentation && !pres.skipIntro)
                 {
@@ -411,7 +415,7 @@ namespace Cryptool.Plugins.Keccak
                     GuiLogMessage(Resources.OutputMatchError, NotificationLevel.Error);
                 }
                 execute = false;
-            }
+            }        
         }
 
         // public void Execute()
