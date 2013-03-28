@@ -162,8 +162,8 @@
     </sampleViewer>
   </input>
 
-  <!-- Substitution input -->
-  <input image="Substitution">
+  <!-- Substitution input
+    <input image="Substitution">
     <name lang="en" >Substitution</name>
     <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
     <description lang="de" >Das Substitutions-Verfahren ist eine Verschlüsselungsmethode, bei der Einheiten des Klartextes nach gewissen Regeln durch Geheimtext ersetzt werden. Die "Einheiten" sind im Allgemeinen einzelne Buchstaben, können aber auch Buchstabenpaare, Buchstabentripel oder Kombinationen davon sein. Der Empfänger entschlüsselt den Text, indem er eine inverse Substitution anwendet.</description>
@@ -218,7 +218,8 @@
 
     </sampleViewer>
   </input>
-
+  -->
+  
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
