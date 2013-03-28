@@ -124,8 +124,14 @@ namespace Primes.WpfControls.Factorization.QS
 
         private void ExecuteFactorization()
         {
-            FireOnStart();
-            DoExecute();
+            try
+            {
+                FireOnStart();
+                DoExecute();
+            }
+            catch
+            {
+            }
         }
 
         private void ResetExpandersAndResumeButtons()

@@ -211,7 +211,7 @@
     <value>{0} is not a square number.</value>
   </data>
   <data name="qs_step3_issquare" xml:space="preserve">
-    <value>{0} is a square number. The square root of {2} is {3}.</value>
+    <value>{0} is a square number. The square root of {1} is {2}.</value>
   </data>
   <data name="qs_step3_smooth" xml:space="preserve">
     <value>{0} smooth value(s) found.</value>
