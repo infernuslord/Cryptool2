@@ -127,7 +127,7 @@
     <value>Output stream for debug information</value>
   </data>
   <data name="DebugStreamCaption" xml:space="preserve">
-    <value>Debug output data</value>
+    <value>Debug output stream</value>
   </data>
   <data name="InputDataStreamTooltip" xml:space="preserve">
     <value>Input data to be hashed</value>
@@ -157,7 +157,7 @@
     <value>Size of output length in bit (must be divisible by 8)</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Hashed value</value>
+    <value>Output stream</value>
   </data>
   <data name="ParametersCaption" xml:space="preserve">
     <value>Parameters</value>
@@ -166,7 +166,7 @@
     <value>Keccak</value>
   </data>
   <data name="PluginDescription" xml:space="preserve">
-    <value>Keccak hash function</value>
+    <value>Keccak algorithm</value>
   </data>
   <data name="RateCaption" xml:space="preserve">
     <value>Bit rate</value>
@@ -733,7 +733,7 @@
     <value>Input Information</value>
   </data>
   <data name="PresIotaPhaseText" xml:space="preserve">
-    <value>Iota XORes a round constant on the first lane (x=1, y=1).</value>
+    <value>Iota XORs a round constant on the first lane (x=1, y=1).</value>
   </data>
   <data name="PresIotaStepText" xml:space="preserve">
     <value>The value of the current round constant is presented in the red rectangle between the green blocks. The green blocks present the old and new value of the lane. The round constants differ in each round.</value>

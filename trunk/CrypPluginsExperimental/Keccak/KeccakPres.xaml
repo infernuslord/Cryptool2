@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
                 
         <Canvas Name="introCanvas" Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="4">
-            <Image Name="imgIntroFirstPage" Source="/Keccak;component/images/intro/firstPage.png" Width="640" Height="390" Visibility="Hidden" />
+            <Image Name="imgIntroFirstPage" Source="/Keccak;component/images/intro/firstPage.png" Width="640" Height="390" Visibility="Visible" />
             <Label Name="labelIntroIntroduction" Content="{Loc PresIntroduction}" FontFamily="Courier New" FontSize="48" FontWeight="Bold" Height="397" Width="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden"/>
             <Image Name="imgIntroIntroduction" Source="/Keccak;component/images/intro/introduction.png" Width="640" Height="397" Visibility="Hidden" />
             <Image Name="imgIntroSpongeInit" Source="/Keccak;component/images/intro/sponge-1-init.png" Width="640" Canvas.Top="130" Height="242" Visibility="Hidden" />
