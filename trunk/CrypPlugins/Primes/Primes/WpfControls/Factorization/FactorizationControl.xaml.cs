@@ -49,10 +49,10 @@ namespace Primes.WpfControls.Factorization
         private IFactorizer _qs;
         private TextBox m_TbFactorizationCopy;
 
+        private string m_gbFactorizationInfo_BruteForce = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_result;
+        private string m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_result;
         private string m_factors_BruteForce = "";
         private string m_factors_QS = "";
-        private string m_gbFactorizationInfo_BruteForce = "";
-        private string m_gbFactorizationInfo_QS = "";
         private string m_lblInput_BruteForce = "";
         private string m_lblInput_QS = "";
         
@@ -60,6 +60,7 @@ namespace Primes.WpfControls.Factorization
         public FactorizationControl()
         {
             InitializeComponent();
+
             _bruteforce = graph;
             _bruteforce.Start += OnFactorizationStart;
             _bruteforce.Stop += OnFactorizationStop;
@@ -70,11 +71,13 @@ namespace Primes.WpfControls.Factorization
             _rho.Start += OnFactorizationStart;
             _rho.Stop += OnFactorizationStop;
             _rho.FoundFactor += OnFoundFactor;
+            _rho.Cancel += new VoidDelegate(_rho_Cancel);
 
             _qs = qsctrl;
             _qs.Start += OnFactorizationStart;
             _qs.Stop += OnFactorizationStop;
             _qs.FoundFactor += OnFoundFactor;
+            _qs.Cancel += new VoidDelegate(_qs_Cancel);
 
             _rho.ForceGetInteger += new CallbackDelegateGetInteger(_rho_ForceGetValue);
             _bruteforce.ForceGetInteger += new CallbackDelegateGetInteger(_rho_ForceGetValue);
@@ -108,8 +111,6 @@ namespace Primes.WpfControls.Factorization
             InputValidator<PrimesBigInteger> ivExp = new InputValidator<PrimesBigInteger>();
             ivExp.Validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One, PrimesBigInteger.OneHundred);
             inputnumbermanager.AddInputValidator(InputSingleControl.CalcExp, ivExp);
-
-            //inputnumbermanager.SetValueValidator(InputSingleControl.Value, new BigIntegerMinValueValidator(null, PrimesBigInteger.Two));
         }
 
         void _rho_ForceGetValue(ExecuteIntegerDelegate del)
@@ -140,7 +141,7 @@ namespace Primes.WpfControls.Factorization
                 m_lblInput_QS = inputvalue;
             }
 
-            lblInput.Content = inputvalue;
+            UpdateMessages();
 
             CurrentFactorizer.Execute(value);
         }
@@ -150,13 +151,13 @@ namespace Primes.WpfControls.Factorization
             if (CurrentFactorizer == _bruteforce)
             {
                 m_gbFactorizationInfo_BruteForce = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning;
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
             }
             else
             {
                 m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultrunning;
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
             }
+
+            UpdateMessages();
 
             inputnumbermanager.LockControls();
         }
@@ -168,26 +169,53 @@ namespace Primes.WpfControls.Factorization
                 if (CurrentFactorizer == _bruteforce)
                 {
                     m_gbFactorizationInfo_BruteForce = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultfinishedtime, TimeString(_bruteforce.Needs));
-                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
                 }
                 else
                 {
                     m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultfinished;
-                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
                 }
+
+                UpdateMessages();
             }
 
             inputnumbermanager.UnLockControls();
+        }
+
+        public void OnFactorizationCancel()
+        {
+            CurrentFactorizer.CancelFactorization();
+
+            if (CurrentFactorizer == _bruteforce)
+            {
+                m_gbFactorizationInfo_BruteForce = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultabortedtime, TimeString(_bruteforce.Needs));
+            }
+            else
+            {
+                m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultaborted;
+            }
+
+            UpdateMessages();
         }
 
         #region IPrimeUserControl Members
 
         public void Dispose()
         {
-            _bruteforce.CancelExecute();
-            _bruteforce.CancelFactorization();
-            _rho.CancelExecute();
-            _rho.CancelFactorization();
+            if (_bruteforce.isRunning)
+            {
+                _bruteforce.CancelExecute();
+                _bruteforce.CancelFactorization();
+            }
+            if (_rho.isRunning)
+            {
+                _rho.CancelExecute();
+                _rho.CancelFactorization();
+            }
+            if (_qs.isRunning)
+            {
+                _qs.CancelExecute();
+                _qs.CancelFactorization();
+            }
         }
 
         #endregion
@@ -197,26 +225,13 @@ namespace Primes.WpfControls.Factorization
             if (o is GmpFactorTree)
             {
                 m_factors_BruteForce = OnFoundFactor_FactorTree(o as GmpFactorTree);
-                if(KindOfFactorization==KOF.BruteForce)
-                    ControlHandler.SetElementContent(lblFactors, m_factors_BruteForce);
             }
             else if (o is IEnumerator<KeyValuePair<PrimesBigInteger, PrimesBigInteger>>)
             {
                 m_factors_QS = OnFoundFactor_Enumerator(o as IEnumerator<KeyValuePair<PrimesBigInteger, PrimesBigInteger>>);
-                if (KindOfFactorization == KOF.QS)
-                    ControlHandler.SetElementContent(lblFactors, m_factors_QS);
             }
 
-            //switch (KindOfFactorization)
-            //{
-            //    case KOF.BruteForce:
-            //        OnFoundFactor_FactorTree(o as GmpFactorTree);
-            //        break;
-            //    case KOF.Rho:
-            //    case KOF.QS:
-            //        OnFoundFactor_Enumerator(o as IEnumerator<KeyValuePair<PrimesBigInteger, PrimesBigInteger>>);
-            //        break;
-            //}
+            UpdateMessages();
         }
 
         public string OnFoundFactor_FactorTree(GmpFactorTree ft)
@@ -226,6 +241,7 @@ namespace Primes.WpfControls.Factorization
             if (ft != null)
             {
                 sbFactors.Append(" = ");
+
                 foreach (string factor in ft.Factors)
                 {
                     sbFactors.Append(factor.ToString());
@@ -234,12 +250,11 @@ namespace Primes.WpfControls.Factorization
                         sbFactors.AppendFormat("^{0}", factorcount.ToString());
                     sbFactors.Append(" * ");
                 }
+
                 if (ft.Remainder != null)
                     sbFactors.Append(ft.Remainder.ToString());
                 else
                     sbFactors = sbFactors.Remove(sbFactors.Length - 2, 2);
-
-                //ControlHandler.SetElementContent(lblFactors, sbFactors.ToString());
             }
 
             return sbFactors.ToString();
@@ -250,6 +265,7 @@ namespace Primes.WpfControls.Factorization
             StringBuilder sbFactors = new StringBuilder();
 
             sbFactors.Append(" = ");
+
             while (_enum.MoveNext())
             {
                 KeyValuePair<PrimesBigInteger, PrimesBigInteger> current = _enum.Current;
@@ -259,9 +275,9 @@ namespace Primes.WpfControls.Factorization
                     sbFactors.AppendFormat("^{0}", factorcount.ToString());
                 sbFactors.Append(" * ");
             }
+
             sbFactors = sbFactors.Remove(sbFactors.Length - 2, 2);
 
-            //ControlHandler.SetElementContent(lblFactors, sbFactors.ToString());
             return sbFactors.ToString();
         }
 
@@ -273,18 +289,7 @@ namespace Primes.WpfControls.Factorization
         
         private void InputSingleNumberControl_Cancel()
         {
-            CurrentFactorizer.CancelFactorization();
-
-            if (CurrentFactorizer == _bruteforce)
-            {
-                m_gbFactorizationInfo_BruteForce = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultabortedtime, TimeString(_bruteforce.Needs));
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
-            }
-            else
-            {
-                m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultaborted;
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
-            }
+            OnFactorizationCancel();
         }
 
         private string TimeString(TimeSpan t)
@@ -303,6 +308,16 @@ namespace Primes.WpfControls.Factorization
         }
 
         void _bruteforce_Cancel()
+        {
+            m_gbFactorizationInfo_BruteForce = string.Format(Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultabortedtime, TimeString(_bruteforce.Needs));
+        }
+
+        void _qs_Cancel()
+        {
+            m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_resultaborted;
+        }
+
+        void _rho_Cancel()
         {
         }
 
@@ -324,6 +339,24 @@ namespace Primes.WpfControls.Factorization
 
         private void lblInputMouseLeave(object sender, MouseEventArgs e)
         {
+        }
+
+        private void UpdateMessages()
+        {
+            switch (KindOfFactorization)
+            {
+                case KOF.BruteForce:
+                    ControlHandler.SetElementContent(lblFactors, m_factors_BruteForce);
+                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
+                    ControlHandler.SetElementContent(lblInput, m_lblInput_BruteForce);
+                    break;
+
+                case KOF.QS:
+                    ControlHandler.SetElementContent(lblFactors, m_factors_QS);
+                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
+                    ControlHandler.SetElementContent(lblInput, m_lblInput_QS);
+                    break;
+            }
         }
 
         private KOF KindOfFactorization
@@ -348,20 +381,14 @@ namespace Primes.WpfControls.Factorization
             switch (KindOfFactorization)
             {
                 case KOF.BruteForce:
-                    //_bruteforce.CancelExecute();
                     inputnumbermanager.SetValueValidator(InputSingleControl.Value, _bruteforce.Validator);
-                    ControlHandler.SetElementContent(lblFactors, m_factors_BruteForce);
-                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
-                    lblInput.Content = m_lblInput_BruteForce;
                     break;
                 case KOF.QS:
-                    //_qs.CancelExecute();
                     inputnumbermanager.SetValueValidator(InputSingleControl.Value, _qs.Validator);
-                    ControlHandler.SetElementContent(lblFactors, m_factors_QS);
-                    ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
-                    lblInput.Content = m_lblInput_QS;
                     break;
             }
+
+            UpdateMessages();
             
             inputnumbermanager.GetValue();
 
@@ -383,38 +410,24 @@ namespace Primes.WpfControls.Factorization
                 inputnumbermanager.CancelButtonIsEnabled = false;
                 inputnumbermanager.ExecuteButtonIsEnabled = true;
             }
-
-            //inputnumbermanager.ResetMessages();
         }
 
         private IFactorizer CurrentFactorizer
         {
             get
             {
-                IFactorizer result = null;
                 switch (KindOfFactorization)
                 {
-                    case KOF.BruteForce:
-                        result = _bruteforce;
-                        break;
-                    case KOF.Rho:
-                        result = _rho;
-                        break;
-                    case KOF.QS:
-                        result = _qs;
-                        break;
+                    case KOF.BruteForce: return _bruteforce;
+                    case KOF.Rho: return _rho;
+                    case KOF.QS: return _qs;
+                    default: return null;
                 }
-                return result;
             }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //inputnumbermanager.FreeText = PrimesBigInteger.Random(5).ToString();
-            //inputnumbermanager.CalcFactorText = "1";
-            //inputnumbermanager.CalcBaseText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(3)).Add(PrimesBigInteger.Two).ToString();
-            //inputnumbermanager.CalcExpText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(7)).Add(PrimesBigInteger.Two).ToString();
-            //inputnumbermanager.CalcSumText = PrimesBigInteger.RandomM(PrimesBigInteger.ValueOf(7)).Add(PrimesBigInteger.Two).ToString();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -438,7 +451,7 @@ namespace Primes.WpfControls.Factorization
 
         private void DockPanelFactors_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (lblFactors.Content != null)
+            if (lblFactors.Content != null && m_Integer != null)
             {
                 m_TbFactorizationCopy.Text = m_Integer.ToString() + lblFactors.Content.ToString();
                 pnInfo.Children.Clear();
@@ -482,20 +495,9 @@ namespace Primes.WpfControls.Factorization
         public void SetTab(int i)
         {
             if (i >= 0 && i < tbctrl.Items.Count)
-            {
                 tbctrl.SelectedIndex = i;
-            }
 
-            if (CurrentFactorizer == _bruteforce)
-            {
-                m_gbFactorizationInfo_BruteForce = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_result;
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_BruteForce);
-            }
-            else
-            {
-                m_gbFactorizationInfo_QS = Primes.Resources.lang.WpfControls.Factorization.Factorization.fac_result;
-                ControlHandler.SetPropertyValue(gbFactorizationInfo, "Header", m_gbFactorizationInfo_QS);
-            }
+            tbctrl_SelectionChanged(null, null);
         }
 
         #endregion

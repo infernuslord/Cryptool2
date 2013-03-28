@@ -108,7 +108,6 @@ namespace Primes.WpfControls.Factorization
         public void CancelExecute()
         {
             CancelFactorization();
-            Reset();
         }
 
         public TimeSpan Needs

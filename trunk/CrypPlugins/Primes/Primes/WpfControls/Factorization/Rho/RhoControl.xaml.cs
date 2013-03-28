@@ -192,7 +192,7 @@ namespace Primes.WpfControls.Factorization.Rho
             CancelThread();
             m_Factors.Clear();
 
-            FireStopEvent();
+            FireCancelEvent();
         }
 
         private void CancelThread()
