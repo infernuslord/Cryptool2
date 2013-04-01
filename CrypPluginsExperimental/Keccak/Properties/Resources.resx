@@ -825,4 +825,7 @@
   <data name="PresStepPresentationNotAvailable" xml:space="preserve">
     <value>The presentation for {0} is only supported for a state size of 1600 bit.</value>
   </data>
+  <data name="PresRotationOffset" xml:space="preserve">
+    <value>Rotation Offset:</value>
+  </data>
 </root>

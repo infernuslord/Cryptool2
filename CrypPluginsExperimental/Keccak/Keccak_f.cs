@@ -1033,6 +1033,8 @@ namespace Cryptool.Plugins.Keccak
         {
             if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
             {
+                int recLeft = 8, recTop = 121, recVariableOffset = 0;
+
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     /* show rho canvas in first iteration */
@@ -1094,6 +1096,15 @@ namespace Cryptool.Plugins.Keccak
                     pres.imgRhoTableMarker.SetValue(Canvas.LeftProperty, 270.0 + lane * 23);
 
                     pres.labelRotationOffset.Content = rotationOffset.ToString();
+
+                    /* move rectangle which visualizes the rotation */
+                    recVariableOffset = (rotationOffset % 16 <= 4) ? 0 : (rotationOffset % 16 <= 10) ? 1 : 2;
+                    recTop += (int)(rotationOffset/16) * 14;
+                    recLeft += (rotationOffset % 16) * 14 + recVariableOffset;
+
+                    pres.rectangleRho.SetValue(Canvas.TopProperty, (double)recTop);
+                    pres.rectangleRho.SetValue(Canvas.LeftProperty, (double)recLeft);
+
 
                     #region fill lane labels for different lane sizes
 
@@ -1333,6 +1344,7 @@ namespace Cryptool.Plugins.Keccak
                     {
                         pres.xCoordinates.Visibility = Visibility.Visible;
                         pres.yCoordinates.Visibility = Visibility.Visible;
+                        pres.PicanvasCubeCoordinates.Visibility = Visibility.Visible;
 
                         /* set coordinates*/
                         pres.xCoordinate_1.Content = "x=4";
@@ -1440,6 +1452,8 @@ namespace Cryptool.Plugins.Keccak
 
                     pres.xCoordinates.Visibility = Visibility.Hidden;
                     pres.yCoordinates.Visibility = Visibility.Hidden;
+                    
+                    pres.PicanvasCubeCoordinates.Visibility = Visibility.Hidden;
 
                     /* unset coordinates*/
                     pres.xCoordinate_1.Content = "";
