@@ -295,7 +295,7 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die repeat connection establishment ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Repeat connection establishment ähnelt.
         /// </summary>
         internal static string TryConnectCaption {
             get {
@@ -304,7 +304,7 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to connect to the Server in a given interval ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to connect to the server in a given time interval ähnelt.
         /// </summary>
         internal static string TryConnectCaptionToolTip {
             get {

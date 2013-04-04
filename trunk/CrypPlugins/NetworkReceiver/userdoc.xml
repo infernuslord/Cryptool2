@@ -6,9 +6,9 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-		This component uses the UDP- and TCP/IP- Protocol in order to receive packages over the network.
-		<newline />
-    The User Datagram Protocol (UDP) is a simple protocol to send data over an IP network to a specific Port.
+    This component offers the UDP and the TCP/IP protocol in order to receive packages over the network.
+    <newline />
+    The User Datagram Protocol (UDP) is a simple protocol to send data over an IP network to a specific port.
     It is a connectionless protocol, which means that it is quick and easy, but also unreliable.
     For example, there is no guarantee that packets arrive in the correct order.
     UDP was standardized 1980 and is used among others for VOIP.
@@ -23,11 +23,11 @@
   </introduction>
 
   <introduction lang="de-DE">
-		Diese Komponente nutzt das UDP- und TCP/IP- Protokoll, um Pakete über ein Netzwerk zu erhalten.
-		<newline />
+    Diese Komponente nutzt das UDP- und das TCP/IP-Protokoll, um Pakete über ein Netzwerk zu erhalten.
+    <newline />
     Das User Datagram Protocol (UDP) ist ein einfaches Protokoll zur Versendung von Daten über ein IP Netzwerk an einen bestimmten Port.
-    Es ist ein Verbindungsloses Protokoll, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
-    Zum Beispiel, gibt es keine Garantie dass Pakete in der richtigen Reihenfolge ankommen.
+    Es ist ein verbindungsloses Protokoll, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
+    Zum Beispiel, gibt es keine Garantie, dass Pakete in der richtigen Reihenfolge ankommen.
     UDP wurde 1980 standardisiert und wird unter anderem für VOIP verwendet.
 
     Transmission Control Protocol / Internet Protocol (TCP/IP) ist eine Familie von Netzwerkprotokollen und
@@ -40,10 +40,10 @@
   </introduction>
 
   <usage lang="en">
-    After dragging the Network Receiver component onto your workspace, you will have to choose an Protocol and set a Port in the component's settings.
-<newline />
-    If you choose the TCP/IP Protocol you should change the Port for every new connection. It could cause some trouble if you don't, because the Port trys to receive the rest of the data and after that it shut gracefully down. This can take up to 4 minutes.
-<newline />
+    After dragging the Network Receiver component onto your workspace, you will have to choose a protocol and set a port in the component's settings.
+    <newline />
+    If you choose the TCP/IP protocol you should change the port for every new connection. It could cause some trouble if you don't use a new port for a new connection, because the port tries to receive the rest of the data and after that it shuts gracefully down. This can take up to 4 minutes.
+    <newline />
     The TCP/IP protocol is in contrast to UDP to handle multiple clients simultaneously. If you are using TCP/IP, it ensures that the packets arrive in the correct order.
 <newline />
     There are a couple other settings, for example, if you want the component to listen to a particular network device, you can enter the internal IP of the device. By default the component will listen on all available network devices
@@ -53,14 +53,14 @@
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Netzwerk Empfänger Komponente auf den Arbeitsbereich gezogen haben, müssen sie ein Protokoll und einen Port in den Einstellungen der Komponente festlegen.
-<newline />
+    Nachdem Sie die Netzwerk-Empfänger-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie in den Einstellungen der Komponente ein Protokoll und einen Port festlegen.
+    <newline />
     Es gibt noch einige andere Einstellungen, zum Beispiel, wenn Sie möchten, dass die Komponente nur auf einem bestimmten Netzwerkgerät horcht, können Sie dies durch Eingabe der Internen IP des Gerätes erreichen.  Standardmäßig wird auf allen verfügbaren Netzwerkgeräten auf Pakete gewartet.
 <newline />
-    Wenn Sie das TCP/IP Protokoll auswählen, sollten sie bei jeder neuen Verbindung darauf achten einen neuen Port zu benutzen. Es könnte zu Problemen kommen wenn sie den gleichen Port nochmals verwenden, da nach dem beenden weiterhin auf eingehenden Daten gewartet wird bis dieser heruntergefahren wird. Dies könnte bis zu 4 Minuten dauern.
-<newline />
-    Das TCP/IP Protokoll kann im Gegensatz zu UDP mehrere Clients gleichzeitig behandeln. Wenn Sie TCP/IP benutzen wird außerdem sichergestellt, dass die Pakete in richtiger Reihenfolge ankommen.
-<newline />
+    Wenn Sie das TCP/IP-Protokoll auswählen, sollten Sie bei jeder neuen Verbindung einen neuen Port benutzen. Es kann zu Problemen kommen, wenn Sie den gleichen Port nochmals verwenden, da TCP/IP nach dem Beenden weiterhin auf eingehende Daten wartet, bis dieser Port heruntergefahren wird. Dies kann bis zu 4 Minuten dauern.
+    <newline />
+    Das TCP/IP-Protokoll kann -- im Gegensatz zu UDP -- mehrere Clients gleichzeitig behandeln. Wenn Sie TCP/IP benutzen, wird außerdem sichergestellt, dass die Pakete in der richtigen Reihenfolge ankommen.
+    <newline />
     Die Komponente wird nun auf dem von Ihnen angegeben Port auf eingehende Pakete warten.
   </usage>
   
