@@ -20,7 +20,7 @@ namespace Tests.TemplateAndPluginTests
         {
             var pluginInstance = TestHelpers.GetPluginInstance("Keccak");
             var keccakSHAScenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".KECCAKFunction" }, new[] { "OutputStream" });
-            var keccakDefaultScenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".KECCAKFunction", ".outputLength" }, new[] { "OutputStream" });
+            var keccakDefaultScenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".KECCAKFunction", ".OutputLength" }, new[] { "OutputStream" });
             object[] output;
 
             int keccakDefaultOutputLength = 4096;
@@ -34,9 +34,7 @@ namespace Tests.TemplateAndPluginTests
             {
                 output = keccakSHAScenario.GetOutputs(new object[] { vector.input.HexToStream(), vector.mode });
                 Assert.AreEqual(vector.output, output[0].ToHex(), "Unexpected value in test #" + vector.n + ".");
-            }
-
-            
+            }            
         }
 
         struct TestVector
