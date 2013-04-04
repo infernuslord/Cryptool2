@@ -84,6 +84,7 @@ namespace Cryptool.Plugins.NetworkSender
                         if (clientSocket.Connected)
                         {
                             clientSocket.EndConnect(ar);
+                            GuiLogMessage("Client Connected!", NotificationLevel.Info);
                             connectDone.Set();
                         }
                         else
@@ -322,36 +323,86 @@ namespace Cryptool.Plugins.NetworkSender
             }
             else if (settings.Protocol == 1 && !shutdown)
             {
-
-                ProgressChanged(1, 100);
-
-                using (streamReader = PackageStream.CreateReader())
+                if (settings.TryConnect)
                 {
-                    var streamBuffer = new byte[65507]; //maximum payload size for udp
-                    int bytesRead;
-                    while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                    if (clientSocket.Connected)
                     {
-                        var packetData = new byte[bytesRead];
-                        for (int i = 0; i < bytesRead; i++)
-                        {
+                        ProgressChanged(1, 100);
 
-                            packetData[i] = streamBuffer[i];
+                        using (streamReader = PackageStream.CreateReader())
+                        {
+                            var streamBuffer = new byte[65507]; //maximum payload size for udp
+                            int bytesRead;
+                            while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                            {
+                                var packetData = new byte[bytesRead];
+                                for (int i = 0; i < bytesRead; i++)
+                                {
+
+                                    packetData[i] = streamBuffer[i];
+                                }
+                                clientSocket.BeginSend(packetData, 0, packetData.Length, SocketFlags.None, new AsyncCallback(SendCallback), null);
+                                presentation.RefreshMetaData(++packageCount);
+                                SendDataSize += packetData.Length;
+                                //updates the presentation
+                                presentation.AddPresentationPackage(new PresentationPackage
+                                {
+
+                                    IPFrom = clientSocket.LocalEndPoint.ToString(),
+                                    Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                                    PackageSize = generateSizeString(packetData.Length) + "yte"
+                                });
+
+                            }
                         }
-                        clientSocket.BeginSend(packetData, 0, packetData.Length, SocketFlags.None, new AsyncCallback(SendCallback), null);
-                        presentation.RefreshMetaData(++packageCount);
-                        SendDataSize += packetData.Length;
-                        //updates the presentation
-                        presentation.AddPresentationPackage(new PresentationPackage
-                        {
-
-                            IPFrom = clientSocket.LocalEndPoint.ToString(),
-                            Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
-                            PackageSize = generateSizeString(packetData.Length) + "yte"
-                        });
-                        
+                        ProgressChanged(1, 1);
+                    }
+                    else
+                    {
+                        GuiLogMessage("Client hasn't connected yet...", NotificationLevel.Warning);
                     }
                 }
-                ProgressChanged(1, 1);
+                else
+                {
+                    if (clientSocket.Connected)
+                    {
+                        ProgressChanged(1, 100);
+
+                        using (streamReader = PackageStream.CreateReader())
+                        {
+                            var streamBuffer = new byte[65507]; //maximum payload size for udp
+                            int bytesRead;
+                            while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                            {
+                                var packetData = new byte[bytesRead];
+                                for (int i = 0; i < bytesRead; i++)
+                                {
+
+                                    packetData[i] = streamBuffer[i];
+                                }
+                                clientSocket.BeginSend(packetData, 0, packetData.Length, SocketFlags.None, new AsyncCallback(SendCallback), null);
+                                presentation.RefreshMetaData(++packageCount);
+                                SendDataSize += packetData.Length;
+                                //updates the presentation
+                                presentation.AddPresentationPackage(new PresentationPackage
+                                {
+
+                                    IPFrom = clientSocket.LocalEndPoint.ToString(),
+                                    Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                                    PackageSize = generateSizeString(packetData.Length) + "yte"
+                                });
+
+                            }
+                        }
+                        ProgressChanged(1, 1);
+                    }
+                    else
+                    {
+                        GuiLogMessage("Client is not connected", NotificationLevel.Error);
+                    }
+                }
+
+               
             }
 
 
