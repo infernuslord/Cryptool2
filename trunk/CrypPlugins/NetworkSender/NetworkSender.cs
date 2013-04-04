@@ -51,10 +51,7 @@ namespace Cryptool.Plugins.NetworkSender
         private Socket clientSocket;
         private int packageCount;
         private DateTime startTime;
-        private TcpClient tcpClient;
-        private NetworkStream networkStream;
-        private MemoryStream memoryStream;
-        private byte[] endMark;
+        private static ManualResetEvent connectDone;
         private bool shutdown;
 
         private int SendDataSize;
@@ -71,27 +68,6 @@ namespace Cryptool.Plugins.NetworkSender
 
         //TCP Functions
 
-        private void DisconnectCallback(IAsyncResult ar)
-        {
-            try
-            {
-                // Retrieve the socket from the state object.
-                Socket client = (Socket)ar.AsyncState;
-
-                // Complete the disconnection.
-                client.EndDisconnect(ar);
-
-                clientSocket.Close();
-                clientSocket = null;
-
-
-            }
-            catch (Exception e)
-            {
-                GuiLogMessage(e.Message, NotificationLevel.Error);
-            }
-        }
-
 
         public void ConnectCallback(IAsyncResult ar)
         {
@@ -99,7 +75,24 @@ namespace Cryptool.Plugins.NetworkSender
             {
                 try
                 {
-                    clientSocket.EndConnect(ar);
+                    if (!settings.TryConnect)
+                    {
+                       clientSocket.EndConnect(ar); 
+                    }
+                    else
+                    {
+                        if (clientSocket.Connected)
+                        {
+                            clientSocket.EndConnect(ar);
+                            connectDone.Set();
+                        }
+                        else
+                        {
+                            clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
+                                              new AsyncCallback(ConnectCallback), null);
+                            connectDone.WaitOne(settings.ConnectIntervall);
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -224,8 +217,18 @@ namespace Cryptool.Plugins.NetworkSender
                 try
                 {
                     clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
+                    if (!settings.TryConnect)
+                    {
+                        clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
                                               new AsyncCallback(ConnectCallback), null);
+                    }
+                    else
+                    {
+                        connectDone = new ManualResetEvent(false);
+                        clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
+                                              new AsyncCallback(ConnectCallback), null);
+                        connectDone.WaitOne(settings.ConnectIntervall);
+                    }
                 }
                 catch (Exception)
                 {
