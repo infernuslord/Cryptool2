@@ -35,9 +35,8 @@ using System.Windows;
 namespace Cryptool.Plugins.Keccak
 {
     [Author("Max Brandi", "max.brandi@rub.de", null, null)]
-    [PluginInfo("Keccak.Properties.Resources", "PluginCaption", "PluginDescription", "Keccak/Documentation/doc.xml", new[] { "CrypWin/images/default.png" })]
-    [ComponentCategory(ComponentCategory.HashFunctions)]
-    [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
+    [PluginInfo("Keccak.Properties.Resources", "PluginCaption", "PluginDescription", "Keccak/Documentation/doc.xml", new[] { "Keccak/images/icon.png" })]
+    [ComponentCategory(ComponentCategory.HashFunctions)]    
     public class Keccak : ICrypComponent
     {
         #region Private Variables
