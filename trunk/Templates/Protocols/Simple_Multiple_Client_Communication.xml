@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Simple Multi Client Communication</title>
+  <summary lang="en">Usage of the <i>Simple Multi Client Communication</i></summary>
+  <description lang="en">The Datapackets will be transmitted asynchronous via the TCP/IP Protocol.<newline /><newline />
+  </description>
+  <keywords>protocol, asynchronous, tcp, tcp/ip</keywords>
+
+  <title lang="de">Einfache Multi Client Kommunikation</title>
+  <summary lang="de">Anwenden der <i>Einfachen Multi Client Kommunikation</i></summary>
+  <description lang="de">Die Datenpakete werden asynchron mit dem TCP/IP Protokoll übermittelt.<newline /><newline />
+  </description>
+  <keywords lang="de">protokoll, asynchron, tcp, tcp/ip</keywords>
+
+  <icon file="Simple_Multiple_Client_Communication.png" />
+
+</sample>
