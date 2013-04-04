@@ -14,9 +14,13 @@
    limitations under the License.
 */
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using Cryptool.Plugins.NetworkSender;
 
 namespace Cryptool.Plugins.NetworkSender
 {
@@ -27,9 +31,12 @@ namespace Cryptool.Plugins.NetworkSender
         private int port;
         private string deviceIP;
         private bool byteAsciiSwitch;
+        private bool tryConnect = false;
+        private int connectIntervall;
         private int protocol;
 
         #endregion
+
 
         #region TaskPane Settings
         [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
@@ -87,11 +94,87 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     protocol = value;
                     OnPropertyChanged("Protocol");
+                    UpdateTaskPaneVisibility();
+                }
+            }
+        }
+
+        [TaskPane("TryConnectCaption", "TryConnectCaptionToolTip", "TCP/IP Settings", 4, false, ControlType.CheckBox)]
+        public bool TryConnect
+        {
+            get { return tryConnect; }
+            set
+            {
+                if (value != tryConnect)
+                {
+                    tryConnect = value;
+                    OnPropertyChanged("TryConnect");
+                    UpdateTaskPaneVisibility();
+                }
+            }
+        }
+
+        [TaskPane("ConnectIntervallCaption", "ConnectIntervallCaptionToolTip", "TCP/IP Settings", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
+        public int ConnectIntervall
+        {
+            get
+            {
+                return connectIntervall;
+            }
+            set
+            {
+                if (connectIntervall != value)
+                {
+                    connectIntervall = value;
+                    OnPropertyChanged("ConnectIntervall");
                 }
             }
         }
 
         #endregion
+
+        #region events
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        #endregion
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            
+
+            switch (Protocol)
+            {
+                case 0:
+                    TaskPaneAttribteContainer tba = new TaskPaneAttribteContainer("TryConnect", Visibility.Collapsed);
+                    TaskPaneAttribteContainer tbb = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
+                    TaskPaneAttributeChangedEventArgs tbac = new TaskPaneAttributeChangedEventArgs(tba);
+                    TaskPaneAttributeChangedEventArgs tbbc = new TaskPaneAttributeChangedEventArgs(tbb);
+                    TaskPaneAttributeChanged(this, tbac);
+                    TaskPaneAttributeChanged(this, tbbc);
+                    break;
+
+                case 1:
+                    
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("TryConnect", Visibility.Visible)));
+                    if (tryConnect)
+                    {
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Visible)));
+                    }
+                    else
+                    {
+                        TaskPaneAttribteContainer tbaa = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
+                        TaskPaneAttributeChangedEventArgs tbbb = new TaskPaneAttributeChangedEventArgs(tbaa);
+                        TaskPaneAttributeChanged(this, tbbb);
+                    }
+                  //  TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Visible)));
+                    break;
+            }
+        }
 
         #region Events
 

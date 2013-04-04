@@ -88,6 +88,24 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Connection-establishment interval ähnelt.
+        /// </summary>
+        internal static string ConnectIntervallCaption {
+            get {
+                return ResourceManager.GetString("ConnectIntervallCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Determines the interval in the attempt to establish the connection to the server ähnelt.
+        /// </summary>
+        internal static string ConnectIntervallCaptionToolTip {
+            get {
+                return ResourceManager.GetString("ConnectIntervallCaptionToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Networkdevice IP: ähnelt.
         /// </summary>
         internal static string DeviceIpCaption {
@@ -273,6 +291,24 @@ namespace NetworkSender.Properties {
         internal static string TOSHeader {
             get {
                 return ResourceManager.GetString("TOSHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die repeat connection establishment ähnelt.
+        /// </summary>
+        internal static string TryConnectCaption {
+            get {
+                return ResourceManager.GetString("TryConnectCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to connect to the Server in a given interval ähnelt.
+        /// </summary>
+        internal static string TryConnectCaptionToolTip {
+            get {
+                return ResourceManager.GetString("TryConnectCaptionToolTip", resourceCulture);
             }
         }
     }

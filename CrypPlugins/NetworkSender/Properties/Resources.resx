@@ -189,4 +189,16 @@
   <data name="SpeedrateLabel" xml:space="preserve">
     <value>Transmission Rate:</value>
   </data>
+  <data name="ConnectIntervallCaption" xml:space="preserve">
+    <value>Connection-establishment interval</value>
+  </data>
+  <data name="ConnectIntervallCaptionToolTip" xml:space="preserve">
+    <value>Determines the interval in the attempt to establish the connection to the server</value>
+  </data>
+  <data name="TryConnectCaption" xml:space="preserve">
+    <value>repeat connection establishment</value>
+  </data>
+  <data name="TryConnectCaptionToolTip" xml:space="preserve">
+    <value>Tries to connect to the Server in a given interval</value>
+  </data>
 </root>
