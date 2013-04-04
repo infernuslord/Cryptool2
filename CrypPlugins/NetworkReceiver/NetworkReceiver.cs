@@ -19,6 +19,8 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -27,6 +29,8 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 using Cryptool.PluginBase.IO;
+using NetworkReceiver;
+using Timer = System.Timers.Timer;
 
 namespace Cryptool.Plugins.NetworkReceiver
 {
@@ -35,7 +39,7 @@ namespace Cryptool.Plugins.NetworkReceiver
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkReceiver : ICrypComponent
     {
-        private const int UpdateReceivingrate = 1; 
+        private const int UpdateReceivingrate = 1;
         #region Private variables
 
         private readonly NetworkReceiverSettings settings;
@@ -53,12 +57,11 @@ namespace Cryptool.Plugins.NetworkReceiver
         private DateTime startTime;
         private UdpClient udpSocked;
         private CStreamWriter streamWriter = new CStreamWriter();
-       
-        private TcpListener tcpListener;
-        private TcpClient tcpClient;
-        private NetworkStream networkStream;
+
         private Socket serverSocket;
         private Socket clientSocket;
+        private List<Socket> clientSocketList;
+        private bool shutdown;
 
         public int ReceivedDataSize
         {
@@ -79,6 +82,119 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         #region Helper Functions
 
+        //Functions for async TCP Server
+
+        private void AcceptCallback(IAsyncResult ar)
+        {
+            if (!shutdown)
+            {
+                try
+                {
+                    clientSocket = serverSocket.EndAccept(ar);
+                    clientSocketList.Add(clientSocket);
+                    StateObject sO = new StateObject();
+                    sO.workSocket = clientSocket;  // create new state for each client connection
+                    clientSocket.BeginReceive(sO.DataToReceive, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveCallback), sO);
+                    serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage(e.Message, NotificationLevel.Error);
+                }
+            }
+
+        }
+
+        private void ReceiveCallback(IAsyncResult ar)
+        {
+            if (!shutdown)
+            {
+                try
+                {
+                    StateObject state = (StateObject)ar.AsyncState;
+                    Socket current = state.workSocket;
+                    string ipFrom = null;
+                    int received = 0;
+                    ipFrom = ((IPEndPoint)current.LocalEndPoint).Address.ToString();
+
+                    received = current.EndReceive(ar); //stop receiving
+                    byte[] bufferData = new byte[received];
+
+                    if (received == 0)
+                    {
+                        return;
+                    }
+                    
+                    Array.Copy(state.DataToReceive, bufferData, received); // copy received data into buffer
+
+                    WriteDateToPresentation(bufferData, ipFrom); // write received data into presentation
+                    current.BeginReceive(state.DataToReceive, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveCallback), state); // start receiving
+
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage(e.Message, NotificationLevel.Error);
+                }
+            }
+
+        }
+
+        private void WriteDateToPresentation(byte[] data, string ipFrom)
+        {
+            if (data != null && ipFrom != null) // wont be "flase" anyway, but you never know
+            {
+                receivedPackagesCount++;
+                // package recieved. fill local storage
+                if (lastPackages.Count > NetworkReceiverPresentation.MaxStoredPackage)
+                {
+                    lastPackages.RemoveAt(lastPackages.Count - 1);
+                }
+                else
+                {
+                    lastPackages.Add(data);
+                }
+
+                uniqueSrcIps.Add(ipFrom);
+                ReceivedDataSize += data.Length;
+
+
+                // create Package
+                var packet = new PresentationPackage
+                {
+                    PackageSize = generateSizeString(data.Length) + "yte", // 42B + "yte"
+                    IPFrom = ipFrom,
+
+                    Payload = (settings.ByteAsciiSwitch
+                         ? Encoding.ASCII.GetString(data)
+                         : BitConverter.ToString(data))
+                };
+
+                // update Presentation
+                if (settings.Protocol == 0)
+                {
+                    presentation.UpdatePresentation(packet, receivedPackagesCount, uniqueSrcIps.Count);
+                }
+                else if (settings.Protocol == 1)
+                {
+                    presentation.UpdatePresentation(packet, receivedPackagesCount, clientSocketList.Count);
+                }
+
+                //update output
+                streamWriter = new CStreamWriter();
+                PackageStream = streamWriter;
+                streamWriter.Write(data);
+                streamWriter.Close();
+                OnPropertyChanged("PackageStream");
+                if (returnLastPackage) //change single output if no item is selected
+                {
+                    SingleOutput = data;
+                    OnPropertyChanged("SingleOutput");
+                }
+            }
+        }
+
+
         /// <summary>
         /// the maximum left time in ms till we abroche the user's whised timeout time 
         /// </summary>
@@ -86,11 +202,11 @@ namespace Cryptool.Plugins.NetworkReceiver
         private int TimeTillTimelimit()
         {
             int timeTillTimeout = settings.Timeout - DateTime.Now.Subtract(startTime).Seconds;
-            return (timeTillTimeout <= 0) ? 0 : timeTillTimeout*1000;
+            return (timeTillTimeout <= 0) ? 0 : timeTillTimeout * 1000;
         }
-        
-        
-       
+
+
+
         /// <summary>
         /// decides on the basis of the given timeout, whether the component continues to wait for more packages
         /// remember timeout = 0 means: dont time out
@@ -101,7 +217,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             return (settings.Timeout > DateTime.Now.Subtract(startTime).Seconds || settings.Timeout == 0);
         }
 
-        
+
         /// <summary>
         /// decides on basis of user's input whether the component is allowed to receiving another package
         /// remember PackageLimit  = 0 means: dont limit the amount of packages
@@ -111,8 +227,8 @@ namespace Cryptool.Plugins.NetworkReceiver
         {
             return (settings.PackageLimit < receivedPackagesCount || settings.PackageLimit == 0);
         }
-        
-         
+
+
         /// <summary>
         /// creates a size string corespornsing to the size of the given amount of bytes with a B or kB ending
         /// </summary>
@@ -125,12 +241,12 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
             else
             {
-                return Math.Round((double)(size / 1024.0),2) + " kB";
+                return Math.Round((double)(size / 1024.0), 2) + " kB";
             }
         }
-        
+
         #endregion
-       
+
         #region Data Properties
 
         [PropertyInfo(Direction.OutputData, "StreamOutput", "StreamOutputTooltip")]
@@ -184,13 +300,29 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
             else if (settings.Protocol == 1)
             {
+                try
+                {
+                    shutdown = false;
+                    endPoint = new IPEndPoint(IPAddress.Any, settings.Port);
+                    serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    serverSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    serverSocket.Bind(endPoint);
+                    serverSocket.Listen(100); //maybe 0 backlog
+                    clientSocketList = new List<Socket>();
+                 //   serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+                    //      allDone = new ManualResetEvent(false);
 
-                tcpListener = new TcpListener(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, settings.Port);
-                tcpListener.Start();
+                }
+                catch (Exception e)
+                {
+                  //  GuiLogMessage(e.Message, NotificationLevel.Error);
+                    GuiLogMessage("verbindung fehlgeschlagen, Receiver", NotificationLevel.Error);
+                }
+
 
             }
-            
-  
+
+
             //init / reset
             uniqueSrcIps = new HashSet<string>();
             isRunning = true;
@@ -201,8 +333,8 @@ namespace Cryptool.Plugins.NetworkReceiver
 
             // reset gui
             presentation.ClearPresentation();
-            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));  
-      
+            presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port.ToString(CultureInfo.InvariantCulture));
+
             //start speedrate calculator
             calculateSpeedrate = new System.Timers.Timer { Interval = UpdateReceivingrate * 1000 }; // seconds
             calculateSpeedrate.Elapsed += new ElapsedEventHandler(CalculateSpeedrateTick);
@@ -229,132 +361,21 @@ namespace Cryptool.Plugins.NetworkReceiver
                         udpSocked.Client.ReceiveTimeout = TimeTillTimelimit();
                         data = udpSocked.Receive(ref endPoint);
                         ProgressChanged(0.5, 1);
-                         ipFrom = endPoint.Address.ToString();
+                        ipFrom = endPoint.Address.ToString();
+
+                        WriteDateToPresentation(data, ipFrom);
+
                     }
-                    else if (settings.Protocol == 1) // TCP receiver
+                    else if (settings.Protocol == 1 && !shutdown) // TCP receiver
                     {
-                        //TODO @mirco: ive refactort a bit, cause i dont want to write code twice ;)
-                        // your old "data" is now "dataBuffer" and your "buffer" is now "data"
-                        
-                        #region tcpStuff
 
-                        if (tcpClient != null && tcpClient.Client != null && tcpClient.Connected)
-                        {
-                            tcpListener.Stop();
-                        }
-                        else
-                        {
-                            tcpListener.Start();
-                            tcpClient = tcpListener.AcceptTcpClient();
-                            tcpClient.ReceiveTimeout = TimeTillTimelimit();
-                            networkStream = tcpClient.GetStream();
-                        }
+                        serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
 
-                        var dataBuffer = new byte[tcpClient.ReceiveBufferSize];
-                        data = new byte[tcpClient.ReceiveBufferSize];
-                        networkStream.Read(dataBuffer, 0, dataBuffer.Length);
+                        Thread.Sleep(100);
 
-                        while ((networkStream.Read(dataBuffer, 0, dataBuffer.Length)) != 0)
-                        {
-
-                            int counter = 0;
-                            /*
-                            for (int i = data.Length-1; i >= 0; i--)
-                            {
-                                if (data[i].ToString() == "62" && data[i - 1].ToString() == "77" && data[i - 2].ToString() == "79" &&
-                                       data[i - 3].ToString() == "69" &&
-                                       data[i - 4].ToString() == "60")
-                                {
-                                    buffer = new byte[data.Length-counter-5];
-
-                                    for (int j = 0; j < data.Length-counter-5; j++)
-                                    {
-                                        buffer[j] = data[j];
-                                    }
-                                    break;
-
-                                }
-                                if (data[i].ToString() == "62" && data[i - 1].ToString() == "77" && data[i - 2].ToString() == "79" &&
-                                         data[i - 3].ToString() == "83" &&
-                                         data[i - 4].ToString() == "60")
-                                {
-                                    break;
-                                }
-                                counter++;
-                            }
-
-                            */
-                            for (int i = 0; i < dataBuffer.Length; i++)
-                            {
-
-                                if (dataBuffer[i].ToString() == "60" && dataBuffer[i + 1].ToString() == "36" &&
-                                    dataBuffer[i + 2].ToString() == "69"
-                                    && dataBuffer[i + 3].ToString() == "79" && dataBuffer[i + 4].ToString() == "77" &&
-                                    dataBuffer[i + 5].ToString() == "36" && dataBuffer[i + 6].ToString() == "62")
-                                {
-                                    dataBuffer = new byte[counter];
-
-                                    for (int j = 0; j < counter; j++)
-                                    {
-                                        data[j] = dataBuffer[j];
-                                    }
-                                    break;
-
-                                }
-                                counter++;
-                            }
-                            
-
-                           ipFrom = ((IPEndPoint) tcpClient.Client.RemoteEndPoint).Address.ToString();
-
-
-                        }
-                        #endregion
                     }
 
-                    if (data != null && ipFrom != null) // wont be "flase" anyway, but you never know
-                    {
-                        receivedPackagesCount++;
-                       // package recieved. fill local storage
-                        if (lastPackages.Count > NetworkReceiverPresentation.MaxStoredPackage)
-                        {
-                            lastPackages.RemoveAt(lastPackages.Count - 1);
-                        }
-                        else
-                        {
-                            lastPackages.Add(data);
-                        }
-                       
-                        uniqueSrcIps.Add(ipFrom);
-                        ReceivedDataSize += data.Length;
-                        
 
-                        // create Package
-                        var packet = new PresentationPackage
-                        {
-                          PackageSize = generateSizeString(data.Length) + "yte", // 42B + "yte"
-                          IPFrom = ipFrom,
-                          
-                          Payload = (settings.ByteAsciiSwitch
-                               ? Encoding.ASCII.GetString(data)
-                               : BitConverter.ToString(data))
-                        };
-
-                        // update Presentation
-                        presentation.UpdatePresentation(packet, receivedPackagesCount, uniqueSrcIps.Count);
-
-                        //update output
-                        streamWriter = new CStreamWriter();
-                        PackageStream = streamWriter;
-                        streamWriter.Write(data);
-                        streamWriter.Close();
-                        OnPropertyChanged("PackageStream");
-                        if (returnLastPackage) //change single output if no item is selected
-                        {
-                            SingleOutput = data;
-                            OnPropertyChanged("SingleOutput");
-                        }
-                    }
                     ProgressChanged(0.5, 1);
                 }
                 catch (SocketException e)
@@ -378,11 +399,34 @@ namespace Cryptool.Plugins.NetworkReceiver
                 udpSocked.Close();
 
             }
-            if (settings.Protocol == 1 && tcpListener != null)
+
+            if (settings.Protocol == 1)
             {
-                  
+                shutdown = true;
             }
-            streamWriter.Close();
+
+
+
+            if (settings.Protocol == 1 && serverSocket != null)
+            {
+                serverSocket.Close();
+            }
+
+            if (settings.Protocol == 1 && clientSocket != null && clientSocket.Connected)
+            {
+                foreach (Socket client in clientSocketList)
+                {
+                    client.Shutdown(SocketShutdown.Both);
+                    client.Disconnect(true);
+                    client.Close();
+                }
+            }
+
+            if (streamWriter != null)
+            {
+                streamWriter.Close();
+            }
+
         }
 
         /// <summary>
@@ -391,20 +435,15 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void Stop()
         {
+
+
             calculateSpeedrate.Stop();
             isRunning = false;
             if (settings.Protocol == 0)
             {
                 udpSocked.Close(); //we have to close it forcely, but we catch the error
             }
-            if (settings.Protocol == 1 && tcpClient != null && tcpListener != null)
-            {
-                tcpListener.Stop();
-                networkStream.Close();
-                tcpClient.Close(); 
-                tcpClient.Close();
-               
-            }
+
         }
 
         /// <summary>
@@ -459,7 +498,7 @@ namespace Cryptool.Plugins.NetworkReceiver
                 returnLastPackage = false;
                 SingleOutput = lastPackages[presentation.ListView.SelectedIndex];
                 OnPropertyChanged("SingleOutput");
-            } 
+            }
             else
             {
                 returnLastPackage = true;
@@ -473,7 +512,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="e"></param>
         private void CalculateSpeedrateTick(object sender, EventArgs e)
         {
-            var speedrate = ReceivedDataSize/UpdateReceivingrate;
+            var speedrate = ReceivedDataSize / UpdateReceivingrate;
             presentation.UpdateSpeedrate(generateSizeString(speedrate) + "/s"); // 42kb +"/s"
             ReceivedDataSize = 0;
         }
