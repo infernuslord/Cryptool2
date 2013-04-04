@@ -320,6 +320,8 @@ namespace Cryptool.Plugins.NetworkSender
             else if (settings.Protocol == 1 && !shutdown)
             {
 
+                ProgressChanged(1, 100);
+
                 using (streamReader = PackageStream.CreateReader())
                 {
                     var streamBuffer = new byte[65507]; //maximum payload size for udp
@@ -346,6 +348,7 @@ namespace Cryptool.Plugins.NetworkSender
                         
                     }
                 }
+                ProgressChanged(1, 1);
             }
 
 
@@ -369,8 +372,6 @@ namespace Cryptool.Plugins.NetworkSender
                 clientSocket.Shutdown(SocketShutdown.Both);
                 clientSocket.Disconnect(true);
                 clientSocket.Close();
-            //    clientSocket = null;
-                //clientSocket.BeginDisconnect(true, new AsyncCallback(DisconnectCallback), clientSocket);
             }
         }
 

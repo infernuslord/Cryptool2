@@ -6,25 +6,45 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-		This component uses the UDP-Protocol in order to receive packages over the network.
+		This component uses the UDP- and TCP/IP- Protocol in order to receive packages over the network.
 		<newline />
     The User Datagram Protocol (UDP) is a simple protocol to send data over an IP network to a specific Port.
     It is a connectionless protocol, which means that it is quick and easy, but also unreliable.
     For example, there is no guarantee that packets arrive in the correct order.
     UDP was standardized 1980 and is used among others for VOIP.
+
+    The Transmission Control Protocol (TCP) is one of the two original core protocols of the Internet protocol suite (IP),
+    and is so ubiquitous that the entire suite is often called TCP/IP. TCP provides reliable, ordered, error-checked delivery
+    of a stream of octets between programs running on computers connected to an intranet or the public Internet.
+    Browsers use it when they connect to servers on the World Wide Web sites, and it is used to accurately deliver
+    email and transfer files from one location to another. Applications that do not require the reliability of a
+    TCP connection may instead use the connectionless User Datagram Protocol (UDP), which emphasizes low-overhead operation
+    and reduced latency rather than error checking and delivery validation.
   </introduction>
 
   <introduction lang="de-DE">
-		Diese Komponente nutzt das UDP-Protokoll, um Pakete über ein Netzwerk zu erhalten.
+		Diese Komponente nutzt das UDP- und TCP/IP- Protokoll, um Pakete über ein Netzwerk zu erhalten.
 		<newline />
     Das User Datagram Protocol (UDP) ist ein einfaches Protokoll zur Versendung von Daten über ein IP Netzwerk an einen bestimmten Port.
     Es ist ein Verbindungsloses Protokoll, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
     Zum Beispiel, gibt es keine Garantie dass Pakete in der richtigen Reihenfolge ankommen.
     UDP wurde 1980 standardisiert und wird unter anderem für VOIP verwendet.
+
+    Transmission Control Protocol / Internet Protocol (TCP/IP) ist eine Familie von Netzwerkprotokollen und
+    wird wegen ihrer großen Bedeutung für das Internet auch als Internetprotokollfamilie bezeichnet.
+    Die Identifizierung der am Netzwerk teilnehmenden Rechner geschieht über IP-Adressen. Ein Rechner oder
+    allgemein ein Gerät mit IP-Adresse wird im TCP/IP-Jargon als Host bezeichnet. Ursprünglich wurde TCP als
+    monolithisches Netzwerkprotokoll entwickelt, jedoch später in die Protokolle IP und TCP aufgeteilt.
+    Die Kerngruppe der Protokollfamilie wird durch das User Datagram Protocol (UDP) als weiteres Transportprotokoll ergänzt.
+    Außerdem gibt es zahlreiche Hilfs- und Anwendungsprotokolle, wie zum Beispiel DHCP und ARP.
   </introduction>
 
   <usage lang="en">
-    After dragging the Network Receiver component onto your workspace, you will have to set a Port in the component's settings.
+    After dragging the Network Receiver component onto your workspace, you will have to choose an Protocol and set a Port in the component's settings.
+<newline />
+    If you choose the TCP/IP Protocol you should change the Port for every new connection. It could cause some trouble if you don't, because the Port trys to receive the rest of the data and after that it shut gracefully down. This can take up to 4 minutes.
+<newline />
+    The TCP/IP protocol is in contrast to UDP to handle multiple clients simultaneously. If you are using TCP/IP, it ensures that the packets arrive in the correct order.
 <newline />
     There are a couple other settings, for example, if you want the component to listen to a particular network device, you can enter the internal IP of the device. By default the component will listen on all available network devices
 <newline />
@@ -33,9 +53,13 @@
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Netzwerk Empfänger Komponente auf den Arbeitsbereich gezogen haben, müssen sie einen Port in den Einstellungen der Komponente festlegen.
+    Nachdem Sie die Netzwerk Empfänger Komponente auf den Arbeitsbereich gezogen haben, müssen sie ein Protokoll und einen Port in den Einstellungen der Komponente festlegen.
 <newline />
     Es gibt noch einige andere Einstellungen, zum Beispiel, wenn Sie möchten, dass die Komponente nur auf einem bestimmten Netzwerkgerät horcht, können Sie dies durch Eingabe der Internen IP des Gerätes erreichen.  Standardmäßig wird auf allen verfügbaren Netzwerkgeräten auf Pakete gewartet.
+<newline />
+    Wenn Sie das TCP/IP Protokoll auswählen, sollten sie bei jeder neuen Verbindung darauf achten einen neuen Port zu benutzen. Es könnte zu Problemen kommen wenn sie den gleichen Port nochmals verwenden, da nach dem beenden weiterhin auf eingehenden Daten gewartet wird bis dieser heruntergefahren wird. Dies könnte bis zu 4 Minuten dauern.
+<newline />
+    Das TCP/IP Protokoll kann im Gegensatz zu UDP mehrere Clients gleichzeitig behandeln. Wenn Sie TCP/IP benutzen wird außerdem sichergestellt, dass die Pakete in richtiger Reihenfolge ankommen.
 <newline />
     Die Komponente wird nun auf dem von Ihnen angegeben Port auf eingehende Pakete warten.
   </usage>
@@ -58,6 +82,12 @@
       <caption lang="en">UDP at Wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/User_Datagram_Protocol" lang="de-DE" />
       <caption lang="de-DE">UDP bei Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Transmission_Control_Protocol" lang="en" />
+      <caption lang="en">TCP at Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Transmission_Control_Protocol/Internet_Protocol" lang="de-DE" />
+      <caption lang="de-DE">TCP bei Wikipedia</caption>
     </linkReference>
     <linkReference>
       <link url="http://tools.ietf.org/html/rfc768" lang="en" />
