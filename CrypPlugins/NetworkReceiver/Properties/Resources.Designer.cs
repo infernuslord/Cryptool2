@@ -160,6 +160,24 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Client Limit ähnelt.
+        /// </summary>
+        internal static string NumberOfClientsCaption {
+            get {
+                return ResourceManager.GetString("NumberOfClientsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the maximum number of client connections. 0 means &quot;no limit&quot; ähnelt.
+        /// </summary>
+        internal static string NumberOfClientsTooltip {
+            get {
+                return ResourceManager.GetString("NumberOfClientsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Package Limit ähnelt.
         /// </summary>
         internal static string PackageLimit {
@@ -327,6 +345,15 @@ namespace NetworkReceiver.Properties {
         internal static string StreamOutputTooltip {
             get {
                 return ResourceManager.GetString("StreamOutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TCP Conditions ähnelt.
+        /// </summary>
+        internal static string TCPServerConditions {
+            get {
+                return ResourceManager.GetString("TCPServerConditions", resourceCulture);
             }
         }
         

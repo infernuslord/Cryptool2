@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.NetworkSender
                 {
                     if (!settings.TryConnect)
                     {
-                       clientSocket.EndConnect(ar); 
+                        clientSocket.EndConnect(ar);
                     }
                     else
                     {
@@ -370,26 +370,11 @@ namespace Cryptool.Plugins.NetworkSender
                 }
                 else if(!settings.TryConnect)
                 {
-
                     ProgressChanged(1, 100);
 
                     WriteToPresentation();
 
                     ProgressChanged(1, 1);
-                    /*
-                    if (clientSocket.Connected)
-                    {
-                        ProgressChanged(1, 100);
-
-                        WriteToPresentation();
-
-                        ProgressChanged(1, 1);
-                    }
-                    else
-                    {
-                        GuiLogMessage("Client is not connected", NotificationLevel.Error);
-                    }
-                     * */
                 }  
             }
         }

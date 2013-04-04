@@ -225,4 +225,13 @@
   <data name="updateSpeedrateTooltip" xml:space="preserve">
     <value>Sets the time in seconds in which the receiving rate will be updated.</value>
   </data>
+  <data name="NumberOfClientsCaption" xml:space="preserve">
+    <value>Client Limit</value>
+  </data>
+  <data name="NumberOfClientsTooltip" xml:space="preserve">
+    <value>Sets the maximum number of client connections. 0 means "no limit"</value>
+  </data>
+  <data name="TCPServerConditions" xml:space="preserve">
+    <value>TCP Conditions</value>
+  </data>
 </root>

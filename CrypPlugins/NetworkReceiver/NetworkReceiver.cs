@@ -90,12 +90,35 @@ namespace Cryptool.Plugins.NetworkReceiver
             {
                 try
                 {
-                    clientSocket = serverSocket.EndAccept(ar);
-                    clientSocketList.Add(clientSocket);
-                    StateObject sO = new StateObject();
-                    sO.workSocket = clientSocket;  // create new state for each client connection
-                    clientSocket.BeginReceive(sO.DataToReceive, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveCallback), sO);
-                    serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+                    if (settings.NumberOfClients == 0)
+                    {
+                        clientSocket = serverSocket.EndAccept(ar);
+                        clientSocketList.Add(clientSocket);
+                        presentation.UpdatePresentationClientCount(clientSocketList.Count);
+                        StateObject sO = new StateObject();
+                        sO.workSocket = clientSocket;  // create new state for each client connection
+                        clientSocket.BeginReceive(sO.DataToReceive, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveCallback), sO);
+                        serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+                    }
+                    else if(settings.NumberOfClients != 0)
+                    {
+                        if (clientSocketList.Count < settings.NumberOfClients)
+                        {
+                            clientSocket = serverSocket.EndAccept(ar);
+                            clientSocketList.Add(clientSocket);
+                            presentation.UpdatePresentationClientCount(clientSocketList.Count);
+                            StateObject sO = new StateObject();
+                            sO.workSocket = clientSocket;  // create new state for each client connection
+                            clientSocket.BeginReceive(sO.DataToReceive, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveCallback), sO);
+                            serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
+                        }
+                        else
+                        {
+                            GuiLogMessage("Client couldn't connect, the adjusted limit of "+settings.NumberOfClients+" is already reached!", NotificationLevel.Info);
+                            return;
+                        }
+                    }
+                    
 
                 }
                 catch (Exception e)
@@ -108,7 +131,7 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         private void ReceiveCallback(IAsyncResult ar)
         {
-            if (!shutdown)
+            if (!shutdown && IsTimeLeft() && IsPackageLimitNotReached())
             {
                 try
                 {
@@ -123,6 +146,10 @@ namespace Cryptool.Plugins.NetworkReceiver
 
                     if (received == 0)
                     {
+                        current.Shutdown(SocketShutdown.Both);
+                        current.Close();
+                        clientSocketList.Remove(current);
+                        presentation.UpdatePresentationClientCount(clientSocketList.Count);
                         return;
                     }
                     
@@ -303,7 +330,8 @@ namespace Cryptool.Plugins.NetworkReceiver
                 try
                 {
                     shutdown = false;
-                    endPoint = new IPEndPoint(IPAddress.Any, settings.Port);
+             //       endPoint = new IPEndPoint(IPAddress.Any, settings.Port);
+                    endPoint = new IPEndPoint(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, settings.Port);
                     serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     serverSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                     serverSocket.Bind(endPoint);

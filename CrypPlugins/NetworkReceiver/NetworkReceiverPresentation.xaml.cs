@@ -92,6 +92,21 @@ namespace Cryptool.Plugins.NetworkReceiver
             
         }
 
+        public void UpdatePresentationClientCount(int amountOfUniqueIps)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
+                {
+                    try
+                    {
+                        uniqueIP.Content = amountOfUniqueIps;
+                    }
+                    catch (Exception e)
+                    {
+                        caller.GuiLogMessage(e.Message, NotificationLevel.Error);
+                    }
+                }), null);
+        }
+
         /// <summary>
         ///  invoke presentation in order to  update the speedrate
         ///  </summary>

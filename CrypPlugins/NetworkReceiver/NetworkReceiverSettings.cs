@@ -36,6 +36,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         private readonly NetworkReceiver caller;
         private bool byteAsciiSwitch;
         private int protocol;
+        private int numberOfClients;
         private int speedrateIntervall;
 
         public NetworkReceiverSettings(NetworkReceiver caller)
@@ -172,6 +173,23 @@ namespace Cryptool.Plugins.NetworkReceiver
                 {
                     protocol = value;
                     OnPropertyChanged("Protocol");
+                }
+            }
+        }
+
+        [TaskPane("NumberOfClientsCaption", "NumberOfClientsTooltip", "TCPServerConditions", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+        public int NumberOfClients
+        {
+            get
+            {
+                return numberOfClients;
+            }
+            set
+            {
+                if (numberOfClients != value)
+                {
+                    numberOfClients = value;
+                    OnPropertyChanged("NumberOfClients");
                 }
             }
         }

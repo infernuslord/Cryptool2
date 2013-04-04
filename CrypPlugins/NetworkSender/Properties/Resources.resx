@@ -196,9 +196,9 @@
     <value>Determines the interval in the attempt to establish the connection to the server</value>
   </data>
   <data name="TryConnectCaption" xml:space="preserve">
-    <value>repeat connection establishment</value>
+    <value>Repeat connection establishment</value>
   </data>
   <data name="TryConnectCaptionToolTip" xml:space="preserve">
-    <value>Tries to connect to the Server in a given interval</value>
+    <value>Tries to connect to the server in a given time interval</value>
   </data>
 </root>

@@ -190,16 +190,15 @@
     <value>Übertragungsrate:</value>
   </data>
   <data name="ConnectIntervallCaption" xml:space="preserve">
-    <value>Verbindungsaufbau Intervall</value>
+    <value>Verbindungsaufbau-Intervall</value>
   </data>
   <data name="ConnectIntervallCaptionToolTip" xml:space="preserve">
-    <value>Bestimmt das Intervall in dem versucht wird die Verbindung zum Server aufzubauen</value>
+    <value>Bestimmt das Intervall, in dem versucht wird, die Verbindung zum Server aufzubauen</value>
   </data>
   <data name="TryConnectCaption" xml:space="preserve">
-    <value>wiederhole Verbindungsaufbau</value>
+    <value>Wiederhole Verbindungsaufbau</value>
   </data>
   <data name="TryConnectCaptionToolTip" xml:space="preserve">
-    <value>Versucht in einem gegebenem Intervall eine Verbindung zum Server aufzubauen</value>
-    <comment> </comment>
+    <value>Versucht in einem gegebenem Zeit-Intervall, eine Verbindung zum Server aufzubauen</value>
   </data>
 </root>
