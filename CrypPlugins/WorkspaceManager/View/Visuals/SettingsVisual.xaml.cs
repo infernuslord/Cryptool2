@@ -68,7 +68,7 @@ namespace WorkspaceManager.View.Visuals
                 ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
 
-                //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
+                
                 if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
                 {
                     plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));
@@ -128,19 +128,6 @@ namespace WorkspaceManager.View.Visuals
 
                 drawList(this.entgrou);
 
-
-
-
-                /*
-                for(int i = 0 ; i< bcv.IControlCollection.Count ; i++)
-                {
-                    this.entgrou.Add(createContentSettings(bcv.IControlCollection[i].PluginModel.Plugin));
-                    drawList(this.entgrou[i+1]);
-                    Console.WriteLine("Hallo" + i);
-                }
-                Console.WriteLine("Hallo" );*/
-
-
             }
 
             else
@@ -161,8 +148,7 @@ namespace WorkspaceManager.View.Visuals
 
         private void CollectionChangedHandler(Object sender, NotifyCollectionChangedEventArgs args)
         {
-            //Console.WriteLine(args.Action);
-
+            
             for (int i = 0; i < args.NewItems.Count; i++)
             {
                 IControlMasterElement icm = args.NewItems[i] as IControlMasterElement;
@@ -176,7 +162,6 @@ namespace WorkspaceManager.View.Visuals
             IControlMasterElement master = (IControlMasterElement)sender;
             if (master.PluginModel != null)
             {
-                //  Console.WriteLine(master.PluginModel.GetName());
                 Boolean b = true;
                 foreach (TabItem vtbI in tbC.Items)
                 {
@@ -239,8 +224,8 @@ namespace WorkspaceManager.View.Visuals
                                 {
                                     if (tpac.Visibility == System.Windows.Visibility.Collapsed)
                                     {
-                                        ce.element.Visibility = System.Windows.Visibility.Hidden;
-                                        ce.caption.Visibility = System.Windows.Visibility.Hidden;
+                                        ce.element.Visibility = System.Windows.Visibility.Visible;
+                                        ce.caption.Visibility = System.Windows.Visibility.Visible;
                                     }
                                     else
                                     {
@@ -277,8 +262,6 @@ namespace WorkspaceManager.View.Visuals
 
         private void excuteEventHandler(Object sender, EventArgs args)
         {
-
-
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
@@ -356,6 +339,8 @@ namespace WorkspaceManager.View.Visuals
         }
 
 
+        private ParameterPanel parameterPanel;
+        private ParameterPanel noVerticalGroupParameterPanel;
 
         private void drawList(EntryGroup entgrou)
         {
@@ -368,13 +353,13 @@ namespace WorkspaceManager.View.Visuals
 
                 Expander noverticalgroupexpander = new Expander();
 
-                TestPanel noVerticalGroup = new TestPanel(isSideBar);
+                noVerticalGroupParameterPanel = new ParameterPanel(isSideBar);
 
                 Border noVerticalGroupBodi = new Border();
 
                 noVerticalGroupBodi.Style = (Style)FindResource("border1");
 
-                noVerticalGroupBodi.Child = noVerticalGroup;
+                noVerticalGroupBodi.Child = noVerticalGroupParameterPanel;
 
                 noverticalgroupexpander.Content = noVerticalGroupBodi;
 
@@ -382,38 +367,30 @@ namespace WorkspaceManager.View.Visuals
 
                 testexoander.IsExpanded = true;
 
-                TestPanel test = new TestPanel(isSideBar);
+                parameterPanel = new ParameterPanel(isSideBar);
 
                 entgrou.gorupPanel.Add(testexoander);
 
-                test.Name = "border1";
+                parameterPanel.Name = "border1";
 
-                //test.Background = Brushes.AliceBlue;
+                parameterPanel.Margin = new Thickness(2);
 
-                //test.IsExpanded = true;
-
-
-                //                   test.Expanded += test_ContextMenuOpening;
-
-                test.Margin = new Thickness(2);
-                //test.VerticalAlignment = VerticalAlignment.Stretch;
 
                 Binding dataBinding = new Binding("ActualWidth");
                 dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 dataBinding.Mode = BindingMode.OneWay;
-                dataBinding.Source = test;
+                dataBinding.Source = parameterPanel;
 
-                //                    bodi.SetBinding(Border.WidthProperty, dataBinding);
                 if (!string.IsNullOrEmpty(cel[0].tpa.groupName))
                 {
                     testexoander.Header = cel[0].tpa.GroupName;
                 }
-                //testexoander.Style = (Style)FindResource("Expander");
 
                 StackPanel contentPanel = new StackPanel();
                 List<String> grouplist = new List<String>();
                 List<Grid> gridlist = new List<Grid>();
                 List<TextBlock> tebo = new List<TextBlock>();
+                
                 foreach (ControlEntry ce in cel)
                 {
                     addToConnectorSettingsHide(ce);
@@ -423,34 +400,30 @@ namespace WorkspaceManager.View.Visuals
 
                     if (ce.sfa == null)
                     {
-
-
                         title.Text = ce.tpa.Caption;
                         title.TextWrapping = TextWrapping.Wrap;
 
                         if (ce.element is CheckBox || ce.element is Button)
                         {
-
-
                             Label l = new Label();
                             l.Height = 0;
-                            test.Children.Add(ce.element);
-                            test.Children.Add(l);
+                            parameterPanel.Children.Add(ce.element);
+                            parameterPanel.Children.Add(l);
                         }
 
                         else
                         {
-                            test.Children.Add(title);
+                            parameterPanel.Children.Add(title);
                             if (ce.element is ComboBox)
                             {
                                 ComboBox cb = ce.element as ComboBox;
                                 cb.MaxWidth = getComboBoxMaxSize(cb);
-                                test.Children.Add(cb);
+                                parameterPanel.Children.Add(cb);
 
                             }
                             else
                             {
-                                test.Children.Add(ce.element);
+                                parameterPanel.Children.Add(ce.element);
                             }
                         }
                     }
@@ -462,8 +435,7 @@ namespace WorkspaceManager.View.Visuals
                             {
 
                                 Grid controlGrid = gridlist[grouplist.IndexOf(ce.sfa.VerticalGroup)];
-                                //controlGrid.Margin = new Thickness(10);
-
+                                
                                 ColumnDefinition coldef1 = new ColumnDefinition();
                                 coldef1.Width = ce.sfa.WidthCol1;
                                 controlGrid.ColumnDefinitions.Add(coldef1);
@@ -471,9 +443,7 @@ namespace WorkspaceManager.View.Visuals
                                 ColumnDefinition coldef2 = new ColumnDefinition();
                                 coldef2.Width = ce.sfa.WidthCol2;
                                 controlGrid.ColumnDefinitions.Add(coldef2);
-                                //controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
-
-                                //TextBlock title = new TextBlock();
+                                
                                 title.Text = ce.tpa.Caption;
                                 ce.caption = title;
                                 title.HorizontalAlignment = HorizontalAlignment.Center;
@@ -481,10 +451,6 @@ namespace WorkspaceManager.View.Visuals
                                 Label space = new Label();
                                 space.Width = 0;
                                 Grid.SetColumn(title, controlGrid.ColumnDefinitions.Count - 2);
-
-                                //controlGrid.Children.Add(space);
-
-                                //                                    Grid.SetColumn(space, controlGrid.ColumnDefinitions.Count - 3);
 
                                 controlGrid.Children.Add(title);
                                 Grid.SetColumn(ce.element, controlGrid.ColumnDefinitions.Count - 1);
@@ -500,7 +466,6 @@ namespace WorkspaceManager.View.Visuals
                                 else
                                 {
                                     controlGrid.Children.Add(ce.element);
-
                                 }
 
 
@@ -510,8 +475,7 @@ namespace WorkspaceManager.View.Visuals
                                 grouplist.Add(ce.sfa.VerticalGroup);
 
                                 Grid controlGrid = new Grid();
-                                //controlGrid.Margin = new Thickness(10);
-
+                                
                                 ColumnDefinition coldef1 = new ColumnDefinition();
                                 coldef1.Width = ce.sfa.WidthCol1;
                                 controlGrid.ColumnDefinitions.Add(coldef1);
@@ -520,7 +484,6 @@ namespace WorkspaceManager.View.Visuals
                                 coldef2.Width = ce.sfa.WidthCol2;
                                 controlGrid.ColumnDefinitions.Add(coldef2);
 
-                                //TextBlock title = new TextBlock();
                                 title.Text = ce.tpa.Caption;
                                 ce.caption = title;
                                 title.HorizontalAlignment = HorizontalAlignment.Center;
@@ -548,61 +511,26 @@ namespace WorkspaceManager.View.Visuals
 
                                 controlGrid.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                                 controlGrid.Arrange(new Rect(controlGrid.DesiredSize));
-                                //controlGrid.MaxWidth = controlGrid.DesiredSize.Width;
-                                test.Children.Add(controlGrid);
-                                test.Children.Add(dummy);
+                                parameterPanel.Children.Add(controlGrid);
+                                parameterPanel.Children.Add(dummy);
 
-                                controlGrid.Width = test.Width;
+                                controlGrid.Width = parameterPanel.Width;
 
                                 gridlist.Add(controlGrid);
                             }
                         }
                         else
                         {
-                            if (!test.IsAncestorOf(noverticalgroupexpander))
+                            if (!parameterPanel.IsAncestorOf(noverticalgroupexpander))
                             {
                                 Label l = new Label();
                                 l.Width = 1;
                                 l.Height = 0;
-                                test.Children.Add(noverticalgroupexpander);
-                                test.Children.Add(l);
+                                parameterPanel.Children.Add(noverticalgroupexpander);
+                                parameterPanel.Children.Add(l);
                             }
 
-                            /* WrapPanel controlGrid = new WrapPanel();
-                             controlGrid.Orientation = Orientation.Horizontal;
-                             //controlGrid.Margin = new Thickness(0);
-                             TextBlock title = new TextBlock();
-                             title.Text = ce.tpa.Caption;
-                             title.TextWrapping = TextWrapping.Wrap;
-
-
-                             ColumnDefinition coldef = new ColumnDefinition();
-                             ColumnDefinition coldef2 = new ColumnDefinition();
-
-
-
-                             //controlGrid.ColumnDefinitions.Add(coldef);
-                             //controlGrid.ColumnDefinitions.Add(coldef2);
-
-
-                             Grid.SetColumn(title, 0);
-
-                             controlGrid.Children.Add(title);
-                             Grid.SetColumn(ce.element, 1);
-
-                             controlGrid.Children.Add(ce.element);
-
-                             contentPanel.Children.Add(controlGrid);
-                                
-                             tebo.Add(title);
-
-                             if (maxlength < title.Text.Length)
-                             {
-                                 maxlength = title.Text.Length;
-                             }
-                             */
-
-                            //TextBlock title = new TextBlock();
+                            
                             title.Text = ce.tpa.Caption;
                             ce.caption = title;
                             title.TextWrapping = TextWrapping.Wrap;
@@ -612,29 +540,28 @@ namespace WorkspaceManager.View.Visuals
                                 Label l = new Label();
                                 l.Width = 1;
                                 l.Height = 0;
-                                noVerticalGroup.Children.Add(ce.element);
-                                noVerticalGroup.Children.Add(l);
+                                noVerticalGroupParameterPanel.Children.Add(ce.element);
+                                noVerticalGroupParameterPanel.Children.Add(l);
 
                             }
                             else if (ce.element is ComboBox)
                             {
                                 ComboBox cb = ce.element as ComboBox;
-                                //cb.Width = getComboBoxMaxSize(cb);
-                                noVerticalGroup.Children.Add(cb);
+                                noVerticalGroupParameterPanel.Children.Add(cb);
                             }
                             else
                             {
-                                noVerticalGroup.Children.Add(title);
-                                noVerticalGroup.Children.Add(ce.element);
+                                noVerticalGroupParameterPanel.Children.Add(title);
+                                noVerticalGroupParameterPanel.Children.Add(ce.element);
                             }
                         }
                         
                     }
 
                 }
-                test.HorizontalAlignment = HorizontalAlignment.Left;
+                parameterPanel.HorizontalAlignment = HorizontalAlignment.Left;
 
-                bodi.Child = test;
+                bodi.Child = parameterPanel;
 
                 bodi.Style = (Style)FindResource("border1");
 
@@ -644,8 +571,8 @@ namespace WorkspaceManager.View.Visuals
                     myStack.Children.Add(testexoander);
                 else
                     myWrap.Children.Add(testexoander);
-                test.setMaxSizes();
-                noVerticalGroup.setMaxSizes();
+                parameterPanel.setMaxSizes();
+                noVerticalGroupParameterPanel.setMaxSizes();
             }
 
             this.BeginInit();
@@ -661,9 +588,7 @@ namespace WorkspaceManager.View.Visuals
 
             
             foreach (TaskPaneAttribute tpa in plugin.Settings.GetSettingsProperties(plugin))
-            //for (int i = 0; i < plugin.Settings.GetSettingsProperties(plugin).Length;i++ )
             {
-                //TaskPaneAttribute tpa = plugin.Settings.GetSettingsProperties(plugin)[i];
                 SettingsFormatAttribute sfa = plugin.Settings.GetSettingsFormat(tpa.PropertyName);
                 if(sfa!=null)
                 if (!groups.Contains(sfa.VerticalGroup))
@@ -676,8 +601,6 @@ namespace WorkspaceManager.View.Visuals
                 dataBinding.Mode = BindingMode.TwoWay;
                 dataBinding.Source = plugin.Settings;
                 
-               // try
-                //{
                 bool b = (bcv.Model.GetOutputConnectors().Union(bcv.Model.GetInputConnectors())).Any(x => tpa.PropertyName == x.GetName());
                     switch (tpa.ControlType)
                     {
@@ -1026,6 +949,8 @@ namespace WorkspaceManager.View.Visuals
                 if (ele != null)
                 {
                     ele.Visibility = System.Windows.Visibility.Collapsed;
+                    parameterPanel.setMaxSizes();
+                    noVerticalGroupParameterPanel.setMaxSizes();
                 }
             }
             if (state == Model.PlugState.Unplugged && model.GetInputConnections().Count == 0)
@@ -1033,6 +958,8 @@ namespace WorkspaceManager.View.Visuals
                 if (ele != null)
                 {
                     ele.Visibility = System.Windows.Visibility.Visible;
+                    parameterPanel.setMaxSizes();
+                    noVerticalGroupParameterPanel.setMaxSizes();
                 }
             }
         }
@@ -1306,7 +1233,7 @@ namespace WorkspaceManager.View.Visuals
 
     }
 
-    public class TestPanel : Panel
+    public class ParameterPanel : Panel
     {
         Boolean isSideBar;
         double maxSize = 0;
@@ -1317,7 +1244,7 @@ namespace WorkspaceManager.View.Visuals
 
         Grid maxGrid = new Grid();
 
-        public TestPanel(Boolean isSideBar)
+        public ParameterPanel(Boolean isSideBar)
         {
             this.isSideBar = isSideBar;
             SizeChanged += new SizeChangedEventHandler(TestPanel_SizeChanged);
@@ -1327,12 +1254,8 @@ namespace WorkspaceManager.View.Visuals
         {
             foreach (UIElement child in Children)
             {
-
-
                 child.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                 child.Arrange(new Rect(child.DesiredSize));
-
-
 
                 if (true)
                 {
@@ -1341,7 +1264,6 @@ namespace WorkspaceManager.View.Visuals
                         if (child.DesiredSize.Width > maxSizeCaption)
                         {
                             maxSizeCaption = child.DesiredSize.Width;
-
                         }
                     }
                     else if (child is Grid)
@@ -1359,8 +1281,6 @@ namespace WorkspaceManager.View.Visuals
                         {
                             if (child.DesiredSize.Width != 0)
                                 maxSizeCB = child.DesiredSize.Width;
-
-
                         }
 
                     }
@@ -1370,8 +1290,6 @@ namespace WorkspaceManager.View.Visuals
                         {
                             if (child.DesiredSize.Width != 0)
                                 maxSizeContent = child.DesiredSize.Width;
-
-
                         }
                     }
                 }
@@ -1390,15 +1308,10 @@ namespace WorkspaceManager.View.Visuals
                 maxSizeContent = maxSizeCB - maxSizeCaption - 1;
             }
 
-            //if (maxSizeCaption > maxSizeContent)
-            //  this.MinWidth = maxSizeCaption;
-            //else
-            // this.MinWidth = maxSizeContent;
-
+            
             if (maxSize < maxGrid.DesiredSize.Width)
             {
                 maxSize = maxGrid.DesiredSize.Width;
-                //  this.MinWidth = maxGrid.Width;
             }
             if (!isSideBar)
             {
@@ -1413,9 +1326,6 @@ namespace WorkspaceManager.View.Visuals
                     IntegerUpDown dummyTextBox = child as IntegerUpDown;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-                    //dummyTextBox.MaxWidth = maxSizeContent;
-
                 }
 
                 if (child is ComboBox)
@@ -1423,9 +1333,6 @@ namespace WorkspaceManager.View.Visuals
                     ComboBox dummyTextBox = child as ComboBox;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-                    //dummyTextBox.MaxWidth = maxSizeContent;
-
                 }
 
                 if (child is TextBox)
@@ -1433,8 +1340,6 @@ namespace WorkspaceManager.View.Visuals
                     TextBox dummyTextBox = child as TextBox;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-
                     dummyTextBox.MaxWidth = maxSizeContent;
 
                 }
@@ -1444,8 +1349,6 @@ namespace WorkspaceManager.View.Visuals
                     PasswordBox dummyTextBox = child as PasswordBox;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-
                     dummyTextBox.MaxWidth = maxSizeContent;
 
                 }
@@ -1455,8 +1358,6 @@ namespace WorkspaceManager.View.Visuals
                     var dummyKeyTextBox = child as KeyTextBox.KeyTextBox;
                     dummyKeyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyKeyTextBox.Arrange(new Rect(dummyKeyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-
                     dummyKeyTextBox.MaxWidth = maxSizeContent;
 
                 }
@@ -1466,7 +1367,6 @@ namespace WorkspaceManager.View.Visuals
                     TextBlock dummyTextBox = child as TextBlock;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
                     dummyTextBox.MaxWidth = maxSizeCaption;
 
                 }
@@ -1476,7 +1376,6 @@ namespace WorkspaceManager.View.Visuals
                     Button dummyTextBox = child as Button;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
                     dummyTextBox.MaxWidth = maxSize;
 
                 }
@@ -1486,7 +1385,6 @@ namespace WorkspaceManager.View.Visuals
                     CheckBox dummyTextBox = child as CheckBox;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
                     dummyTextBox.MaxWidth = maxSize;
 
                 }
@@ -1496,7 +1394,6 @@ namespace WorkspaceManager.View.Visuals
                     StackPanel dummyTextBox = child as StackPanel;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
                     if (dummyTextBox.Uid == "FileDialog")
                         dummyTextBox.MaxWidth = maxSize;
                     else
@@ -1509,16 +1406,13 @@ namespace WorkspaceManager.View.Visuals
                     Slider dummyTextBox = child as Slider;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
                     dummyTextBox.MaxWidth = maxSizeContent - 10;
 
                 }
 
                 if (child is Expander)
                 {
-                    //Expander dummyTextBox = child as Expander;
-                    //dummyTextBox.MaxWidth = maxSizeContent;
-
+                    
                 }
 
 
@@ -1532,7 +1426,6 @@ namespace WorkspaceManager.View.Visuals
 
         private void TestPanel_SizeChanged(Object sender, SizeChangedEventArgs args)
         {
-            //Console.WriteLine(this.ActualWidth);
             foreach (UIElement child in Children)
             {
                 child.Measure(new Size(this.ActualWidth, double.PositiveInfinity));
@@ -1662,8 +1555,6 @@ namespace WorkspaceManager.View.Visuals
                 {
 
                     Expander dummyTextBox = child as Expander;
-                    //dummyTextBox.MinWidth = 0;
-
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
@@ -1695,65 +1586,7 @@ namespace WorkspaceManager.View.Visuals
         {
             Size infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             double curX = 0, curY = 0, curLineHeight = 0;
-            /*
-            double maxSize = 0;
-            double maxSizeContent = 0;
-            double maxSizeCaption = 0;
-
-            Grid maxGrid = new Grid();
-
-            
-
-            foreach (UIElement child in Children)
-            {
-                if (true)
-                {
-                    if (child is TextBlock || child is CheckBox || child is Expander )
-                    {
-                        if (child.DesiredSize.Width > maxSizeCaption)
-                        {
-                            maxSizeCaption = child.DesiredSize.Width;
-                            
-                        }
-                    }
-                    else if (child is Grid) 
-                    {
-                        if (maxGrid.Width < (child as Grid).Width)
-                        {
-                            maxGrid = child as Grid;
-                            
-                        }
-                        
-                    }
-                    else
-                    {
-                        if (child.DesiredSize.Width > maxSizeContent)
-                        {
-                            maxSizeContent = child.DesiredSize.Width;
-                        }
-                    }
-                }
-            }
-
            
-
-            maxSizeCaption += 5;
-            maxSize = maxSizeCaption + maxSizeContent;
-            
-
-            //if (maxSizeCaption > maxSizeContent)
-              //  this.MinWidth = maxSizeCaption;
-            //else
-               // this.MinWidth = maxSizeContent;
-            
-            if (maxSize < maxGrid.Width)
-            {
-                maxSize = maxGrid.Width;
-              //  this.MinWidth = maxGrid.Width;
-            }
-
-            this.MaxWidth = maxSize + 10;
-            */
 
             Boolean b = true;
 
@@ -1764,27 +1597,6 @@ namespace WorkspaceManager.View.Visuals
             {
 
                 child.Measure(infiniteSize);
-                /*
-                if (child is Grid)
-                {
-                    Grid dummy = child as Grid;
-                    if (this.ActualWidth != 0)
-                    {
-                        if(0>this.ActualWidth -10)
-                            dummy.Width = this.ActualWidth; 
-                        else
-                            dummy.Width = this.ActualWidth - 10; 
-                    }
-                    else
-                    {
-                        if (0 > dummy.DesiredSize.Width - 10)
-                            dummy.Width = dummy.DesiredSize.Width;
-                        else
-                            dummy.Width = dummy.DesiredSize.Width - 10;
-                    }
-                }*/
-
-
                 if (child is CheckBox)
                 {
                     //  b = true;
@@ -1819,72 +1631,6 @@ namespace WorkspaceManager.View.Visuals
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            /*
-            double maxSize = 0;
-            double maxSizeContent = 0;
-            double maxSizeCaption = 0;
-
-            
-            Grid maxGrid = new Grid();
-
-
-
-            foreach (UIElement child in Children)
-            {
-                if (true)
-                {
-                    if (child is TextBlock || child is CheckBox || child is Expander )
-                    {
-                        if (child.DesiredSize.Width > maxSizeCaption)
-                        {
-                            maxSizeCaption = child.DesiredSize.Width;
-                            
-                        }
-                    }
-                    else if (child is Grid)
-                    {
-                        if (maxGrid.Width < (child as Grid).Width)
-                        {
-                            maxGrid = child as Grid;
-                            
-                        }
-                       
-                    }
-                    else
-                    {
-                        if (child.DesiredSize.Width > maxSizeContent)
-                        {
-                            maxSizeContent = child.DesiredSize.Width;
-                        }
-                    }
-                }
-            }
-            maxSizeCaption += 5;
-            maxSize = maxSizeCaption + maxSizeContent;
-
-            if (maxSizeContent > maxSizeCaption)
-            {
-                //this.MinWidth = maxSizeContent;
-            }
-            else 
-            {
-               // this.MinWidth = maxSizeCaption;
-            }
-
-            if (maxSize < maxGrid.Width)
-            {
-                maxSize = maxGrid.Width;
-                //this.MinWidth = maxGrid.Width;
-            }
-
-            this.MaxWidth = maxSize + 10;
-            */
-            /*
-            if (maxSizeCaption > maxSizeContent)
-                this.MinWidth = maxSizeCaption;
-            else
-                this.MinWidth = maxSizeContent;
-            */
             if (this.Children == null || this.Children.Count == 0)
                 return finalSize;
 
@@ -1920,9 +1666,6 @@ namespace WorkspaceManager.View.Visuals
                 }
 
                 child.Arrange(new Rect(0, 0, child.DesiredSize.Width, child.DesiredSize.Height));
-
-                //trans.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(curX, _AnimationLength), HandoffBehavior.Compose);
-                //trans.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(curY, _AnimationLength), HandoffBehavior.Compose);
 
                 trans.X = curX;
                 trans.Y = curY;
