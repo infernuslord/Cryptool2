@@ -5,7 +5,7 @@
   <language culture="en"/>
   <language culture="de-DE"/>
   <introduction lang="en">
-    This component offers the UDP and the TCP/IP protocol in order to receive packages over the network.
+    This component offers the UDP and the TCP/IP protocol in order to send packages over the network.
     <newline />
     The User Datagram Protocol (UDP) is a simple protocol to send data over an IP network to a specific port.
     It is a connectionless protocol, which means that it is quick and easy, but also unreliable.
@@ -26,7 +26,7 @@
     <newline />
     Das User Datagram Protocol (UDP) ist ein einfaches Protokoll zur Versendung von Daten über ein IP Netzwerk an einen bestimmten Port.
     Es ist ein verbindungsloses Protokoll, was dazu führt, dass es schnell und einfach, aber auch unzuverlässig ist.
-    Zum Beispiel, gibt es keine Garantie, dass Pakete in der richtigen Reihenfolge ankommen. .
+    Zum Beispiel gibt es keine Garantie, dass Pakete in der richtigen Reihenfolge ankommen.
     UDP wurde 1980 standardisiert und wird unter anderem für VOIP verwendet.
 
     Transmission Control Protocol / Internet Protocol (TCP/IP) ist eine Familie von Netzwerkprotokollen und
@@ -43,8 +43,8 @@
     <newline />
     If you choose the TCP/IP protocol you should change the port for every new connection. It could cause some trouble if you don't use a new port for a new connection, because the port tries to receive the rest of the data and after that it shuts gracefully down. This can take up to 4 minutes.
     <newline />
-    The TCP/IP protocol is in contrast to UDP to handle multiple clients simultaneously. If you are using TCP/IP, it ensures that the packets arrive in the correct order.
-<newline />
+    In contrast to UDP -- the TCP/IP protocol is able to handle multiple simultaneously. If you are using TCP/IP, it ensures that the packets arrive in the correct order.
+    <newline />
     The component is now sending the input data to the IP Address and port you specified.
   </usage>
 
