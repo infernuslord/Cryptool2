@@ -226,12 +226,12 @@
     <value>Bestimmt die Zeitspanne in Sekunden, in der die Empfangsrate neu berechnet wird.</value>
   </data>
   <data name="NumberOfClientsCaption" xml:space="preserve">
-    <value>Client Limit</value>
+    <value>Client-Limit</value>
   </data>
   <data name="NumberOfClientsTooltip" xml:space="preserve">
-    <value>Setzt die maximale Anzahl von Client Verbindungen. 0 bedeutet "kein Limit"</value>
+    <value>Setzt die maximale Anzahl von Client-Verbindungen. 0 bedeutet "kein Limit"</value>
   </data>
   <data name="TCPServerConditions" xml:space="preserve">
-    <value>TCP Eigenschaften</value>
+    <value>TCP-Eigenschaften</value>
   </data>
 </root>

@@ -199,6 +199,6 @@
     <value>Wiederhole Verbindungsaufbau</value>
   </data>
   <data name="TryConnectCaptionToolTip" xml:space="preserve">
-    <value>Versucht in einem gegebenem Zeit-Intervall, eine Verbindung zum Server aufzubauen</value>
+    <value>Versucht in einem gegebenen Zeit-Intervall, eine Verbindung zum Server aufzubauen</value>
   </data>
 </root>
