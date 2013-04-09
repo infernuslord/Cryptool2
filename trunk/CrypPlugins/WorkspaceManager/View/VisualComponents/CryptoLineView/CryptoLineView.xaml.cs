@@ -168,7 +168,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         void Update(object sender, EventArgs e)
         {
-            InvalidateVisual();
             Line.InvalidateVisual();
         }
 
@@ -804,8 +803,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         #region EventsHandler
         void ConnectorSourceUpdate(object sender, EventArgs e)
         {
-            if (!((EditorVisual)(Model.WorkspaceModel.MyEditor.Presentation)).IsLoading)
-                HasComputed = false;
+            loaded = false;
+            HasComputed = false;
         }
 
         void CryptoLineView_Loaded(object sender, RoutedEventArgs e)

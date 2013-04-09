@@ -216,31 +216,12 @@
                         <Grid>
                             <ToggleButton 
             Name="ToggleButton" 
-            Template="{StaticResource ComboBoxToggleButton}" 
-            Grid.Column="2" 
+            Template="{StaticResource ComboBoxToggleButton}"  
             Focusable="false"
             IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
             ClickMode="Press">
                             </ToggleButton>
-                            <ContentPresenter
-            Name="ContentSite"
-            IsHitTestVisible="False" 
-            Content="{TemplateBinding SelectionBoxItem}"
-            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-            Margin="3,3,23,3"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left" />
-                            <TextBox x:Name="PART_EditableTextBox"
-            Style="{x:Null}" 
-            Template="{StaticResource ComboBoxTextBox}" 
-            HorizontalAlignment="Left" 
-            VerticalAlignment="Center" 
-            Margin="3,3,23,3"
-            Focusable="True" 
-            Background="Transparent"
-            Visibility="Hidden"
-            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                
                             <Popup 
             Name="Popup"
             Placement="Bottom"
@@ -280,9 +261,7 @@
                             </Trigger>
                             <Trigger Property="IsEditable"
                Value="true">
-                                <Setter Property="IsTabStop" Value="false"/>
-                                <Setter TargetName="PART_EditableTextBox" Property="Visibility"	Value="Visible"/>
-                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

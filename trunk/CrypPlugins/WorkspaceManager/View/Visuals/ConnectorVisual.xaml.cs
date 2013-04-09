@@ -284,7 +284,7 @@ namespace WorkspaceManager.View.Visuals
             this.Model = model;
             this.WindowParent = component;
             InitializeComponent();
-            Loaded += delegate(object sender, RoutedEventArgs args) { RaiseUpdate(); };
+            //Loaded += delegate(object sender, RoutedEventArgs args) { RaiseUpdate(); };
         }
 
         public void RaiseUpdate()
