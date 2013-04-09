@@ -99,7 +99,7 @@ namespace Cryptool.Plugins.NetworkSender
             }
         }
 
-        [TaskPane("TryConnectCaption", "TryConnectCaptionToolTip", "TCP/IP Settings", 4, false, ControlType.CheckBox)]
+        [TaskPane("TryConnectCaption", "TryConnectCaptionToolTip", "TCPIPSettings", 4, false, ControlType.CheckBox)]
         public bool TryConnect
         {
             get { return tryConnect; }
@@ -114,7 +114,7 @@ namespace Cryptool.Plugins.NetworkSender
             }
         }
 
-        [TaskPane("ConnectIntervallCaption", "ConnectIntervallCaptionToolTip", "TCP/IP Settings", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
+        [TaskPane("ConnectIntervallCaption", "ConnectIntervallCaptionToolTip", "TCPIPSettings", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
         public int ConnectIntervall
         {
             get

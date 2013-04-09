@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -173,6 +174,7 @@ namespace Cryptool.Plugins.NetworkReceiver
                 {
                     protocol = value;
                     OnPropertyChanged("Protocol");
+                    UpdateTaskPaneVisibility();
                 }
             }
         }
@@ -218,6 +220,8 @@ namespace Cryptool.Plugins.NetworkReceiver
         #endregion
     
         #region Events
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
     
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -227,5 +231,27 @@ namespace Cryptool.Plugins.NetworkReceiver
         }
       
         #endregion
+
+        internal void UpdateTaskPaneVisibility()
+        {
+
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+
+
+            switch (Protocol)
+            {
+                case 0:
+                    TaskPaneAttribteContainer tba = new TaskPaneAttribteContainer("NumberOfClients", Visibility.Collapsed);
+                    TaskPaneAttributeChangedEventArgs tbac = new TaskPaneAttributeChangedEventArgs(tba);
+                    TaskPaneAttributeChanged(this, tbac);
+                    break;
+
+                case 1:
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NumberOfClients", Visibility.Visible)));  
+                    break;
+            }
+        }
     }
 }

@@ -193,12 +193,21 @@
     <value>Connection-establishment interval</value>
   </data>
   <data name="ConnectIntervallCaptionToolTip" xml:space="preserve">
-    <value>Determines the interval in the attempt to establish the connection to the server</value>
+    <value>Determines the time interval in the attempt to establish the connection to the server</value>
   </data>
   <data name="TryConnectCaption" xml:space="preserve">
     <value>Repeat connection establishment</value>
   </data>
   <data name="TryConnectCaptionToolTip" xml:space="preserve">
     <value>Tries to connect to the server in a given time interval</value>
+  </data>
+  <data name="NetworkConditions" xml:space="preserve">
+    <value>Network Conditions</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>Presentation Settings</value>
+  </data>
+  <data name="TCPIPSettings" xml:space="preserve">
+    <value>TCP/IP Settings</value>
   </data>
 </root>

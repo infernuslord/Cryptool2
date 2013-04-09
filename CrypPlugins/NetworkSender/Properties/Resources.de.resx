@@ -193,12 +193,21 @@
     <value>Verbindungsaufbau-Intervall</value>
   </data>
   <data name="ConnectIntervallCaptionToolTip" xml:space="preserve">
-    <value>Bestimmt das Intervall, in dem versucht wird, die Verbindung zum Server aufzubauen</value>
+    <value>Bestimmt das Zeit-Intervall, in dem versucht wird, die Verbindung zum Server aufzubauen</value>
   </data>
   <data name="TryConnectCaption" xml:space="preserve">
     <value>Wiederhole Verbindungsaufbau</value>
   </data>
   <data name="TryConnectCaptionToolTip" xml:space="preserve">
     <value>Versucht in einem gegebenen Zeit-Intervall, eine Verbindung zum Server aufzubauen</value>
+  </data>
+  <data name="NetworkConditions" xml:space="preserve">
+    <value>Netzwerk-Einstellungen</value>
+  </data>
+  <data name="PresentationSettings" xml:space="preserve">
+    <value>Präsentations-Eigenschaften</value>
+  </data>
+  <data name="TCPIPSettings" xml:space="preserve">
+    <value>TCP/IP-Eigenschaften</value>
   </data>
 </root>
