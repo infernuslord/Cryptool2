@@ -18,12 +18,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private int[] crossProbability;
         private const int mutateProbability = 1000; // 100000
 
-
         // Working Variables
         private Frequencies plaintext_frequencies = null;
         private int[][] key;
         private double[] key_fitness;
         private static Random rnd = new Random();
+        private double last_best_key_fit = 0;
  
         // Input Property Variables
         private Alphabet plaintext_alphabet = null;
@@ -102,7 +102,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Start analysis (Create first generation of keys and initialize data structures)
         /// </summary>
-        public void StartAnalysis()
+        public double StartAnalysis()
         {
             /*
              * Set up environment
@@ -148,12 +148,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 DecryptCiphertext(this.key[i],this.ciphertext,this.ciphertext_alphabet,this.plaintext);
                 this.key_fitness[i] = CalculateFitness(this.plaintext);
             }
+
+            // Return fitness of best key
+            this.last_best_key_fit = this.key_fitness[GetIndexOfFittestKey(this.key_fitness)];
+            return this.last_best_key_fit;
         }
 
         /// <summary>
         /// Next step of the cryptanalysis process (Create new generation of keys)
         /// </summary>
-        public void NextStep()
+        public double NextStep()
         {
             int[][] newkeys = new int[Analyzer.population_size][];
             //// Crossover parents to generate children (Combination)
@@ -214,7 +218,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 DecryptCiphertext(this.key[i], this.ciphertext, this.ciphertext_alphabet, this.plaintext);
                 this.key_fitness[i] = CalculateFitness(this.plaintext);
             }
-            
+
+            double cur_best_key_fit = this.key_fitness[GetIndexOfFittestKey(this.key_fitness)];
+            double change = cur_best_key_fit - this.last_best_key_fit;
+            this.last_best_key_fit = cur_best_key_fit;
+
+            return change;
         }
 
         public void LastStep()
@@ -418,6 +427,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return res;
+        }
+
+        private int GetIndexOfFittestKey(double[] fitness)
+        {
+            int index_best_key = 0;
+            double best_key_fit = this.key_fitness[0];
+            // Determine best key in population
+            for (int i = 1; i < this.key.Length; i++)
+            {
+                if (this.key_fitness[i] < best_key_fit)
+                {
+                    best_key_fit = this.key_fitness[i];
+                    index_best_key = i;
+                }
+            }
+
+            return index_best_key;
         }
         
         #endregion
