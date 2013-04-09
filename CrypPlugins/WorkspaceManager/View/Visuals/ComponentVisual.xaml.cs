@@ -41,6 +41,7 @@ namespace WorkspaceManager.View.Visuals
         public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
         public event EventHandler<ZIndexChangedArgs> ZIndexChanged;
         public event EventHandler<IsDraggingChangedArgs> IsDraggingChanged;
+        public event EventHandler Redraw;
         #endregion
 
         #region IZOrdering
@@ -655,16 +656,16 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             }
 
             var SouthConnectorCollectionView = CollectionViewSource.GetDefaultView(SouthConnectorCollection) as ListCollectionView;
-            SouthConnectorCollectionView.CustomSort = new ConnectorSorter(SouthConnectorCollection, SouthConnectorCollectionView);
+            SouthConnectorCollectionView.CustomSort = new ConnectorSorter(SouthConnectorCollection, SouthConnectorCollectionView, this);
 
             var EastConnectorCollectionView = CollectionViewSource.GetDefaultView(EastConnectorCollection) as ListCollectionView;
-            EastConnectorCollectionView.CustomSort = new ConnectorSorter(EastConnectorCollection, EastConnectorCollectionView);
+            EastConnectorCollectionView.CustomSort = new ConnectorSorter(EastConnectorCollection, EastConnectorCollectionView, this);
 
             var WestConnectorCollectionView = CollectionViewSource.GetDefaultView(WestConnectorCollection) as ListCollectionView;
-            WestConnectorCollectionView.CustomSort = new ConnectorSorter(WestConnectorCollection, WestConnectorCollectionView);
+            WestConnectorCollectionView.CustomSort = new ConnectorSorter(WestConnectorCollection, WestConnectorCollectionView, this);
 
             var NorthConnectorCollectionView = CollectionViewSource.GetDefaultView(NorthConnectorCollection) as ListCollectionView;
-            NorthConnectorCollectionView.CustomSort = new ConnectorSorter(NorthConnectorCollection, NorthConnectorCollectionView);
+            NorthConnectorCollectionView.CustomSort = new ConnectorSorter(NorthConnectorCollection, NorthConnectorCollectionView, this);
 
             SouthConnectorCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(SouthConnectorCollectionCollectionChanged);
         }
@@ -674,7 +675,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             private ObservableCollection<ConnectorVisual> collection;
             private ListCollectionView view;
 
-            public ConnectorSorter(ObservableCollection<ConnectorVisual> collection, ListCollectionView view)
+            public ConnectorSorter(ObservableCollection<ConnectorVisual> collection, ListCollectionView view, ComponentVisual Parent)
             {
                 this.collection = collection;
                 this.view = view;
