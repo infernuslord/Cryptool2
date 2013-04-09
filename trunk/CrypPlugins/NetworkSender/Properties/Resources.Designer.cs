@@ -97,7 +97,7 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Determines the interval in the attempt to establish the connection to the server ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Determines the time interval in the attempt to establish the connection to the server ähnelt.
         /// </summary>
         internal static string ConnectIntervallCaptionToolTip {
             get {
@@ -169,6 +169,15 @@ namespace NetworkSender.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Network Conditions ähnelt.
+        /// </summary>
+        internal static string NetworkConditions {
+            get {
+                return ResourceManager.GetString("NetworkConditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Transmitted Data ähnelt.
         /// </summary>
         internal static string PaylodHeader {
@@ -210,6 +219,15 @@ namespace NetworkSender.Properties {
         internal static string PortToolTip {
             get {
                 return ResourceManager.GetString("PortToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation Settings ähnelt.
+        /// </summary>
+        internal static string PresentationSettings {
+            get {
+                return ResourceManager.GetString("PresentationSettings", resourceCulture);
             }
         }
         
@@ -282,6 +300,15 @@ namespace NetworkSender.Properties {
         internal static string StreamInputTooltip {
             get {
                 return ResourceManager.GetString("StreamInputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TCP/IP Settings ähnelt.
+        /// </summary>
+        internal static string TCPIPSettings {
+            get {
+                return ResourceManager.GetString("TCPIPSettings", resourceCulture);
             }
         }
         

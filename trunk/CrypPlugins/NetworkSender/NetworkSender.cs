@@ -394,9 +394,17 @@ namespace Cryptool.Plugins.NetworkSender
             }
             if (settings.Protocol == 1 && clientSocket != null)
             {
-                clientSocket.Shutdown(SocketShutdown.Both);
-                clientSocket.Disconnect(true);
-                clientSocket.Close();
+                if (clientSocket.Connected)
+                {
+                    clientSocket.Shutdown(SocketShutdown.Both);
+                    clientSocket.Disconnect(true);
+                    clientSocket.Close();
+                }
+                else
+                {
+                    clientSocket.Close();
+                }
+
             }
         }
 
