@@ -281,7 +281,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            RText = new Text(helper, this.ptAlphabet);
+                           // RText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 1)
@@ -296,7 +296,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            RText = new Text(helper, this.ptAlphabet);
+                           // RText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 2)
@@ -482,6 +482,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Execute()
         {
+            double change;
+            double border = 0.001;
+
             // If input incorrect return
             if (this.inputOK == false)
             {
@@ -491,8 +494,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             // Create new analyzer
             Analyzer analyzer = new Analyzer();
+            
             // Set progress to 0
-            ProgressChanged(0, 52);
+            ProgressChanged(0, 100);
+            
             // Initialize analyzer
             analyzer.Ciphertext = this.cText;
             analyzer.Ciphertext_Alphabet = this.ctAlphabet;
@@ -501,25 +506,28 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             analyzer.Language_Dictionary = this.langDic;
             
             // Start analysis
-            analyzer.StartAnalysis();
+            change = analyzer.StartAnalysis();
             
             // Process several generations
-            ProgressChanged(1, 52); 
-            for (int i = 0; i < 50; i++)
+            ProgressChanged(1, 100);
+
+            int i = 2;
+            while (change >= border)
             {
-                analyzer.NextStep();
-                ProgressChanged(i+1, 52);
+                change = analyzer.NextStep();
+                ProgressChanged(i,100);
+                i++;
             }
 
             // Take best key of last generation
             analyzer.LastStep();
-            ProgressChanged(51, 52);
+            ProgressChanged(99, 100);
 
             this.plaintext = analyzer.Plaintext.ToString(this.ptAlphabet);
             OnPropertyChanged("Plaintext");
        
 
-            ProgressChanged(52, 52);
+            ProgressChanged(100, 100);
         }
 
         public void PostExecution()
