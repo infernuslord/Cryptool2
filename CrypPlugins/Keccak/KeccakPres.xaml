@@ -151,9 +151,9 @@
             </Canvas>
             <!-- rho images -->
             <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeRho" Width="200" Visibility="Hidden">
-                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgRhoModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
-                <Image Canvas.Left="137" Canvas.Top="116" Height="75" Name="imgRhoModifiedSideLane" Stretch="Fill" Width="51" Source="/Keccak;component/images/rho-modified-side-lane.png" Visibility="Hidden" />
-                <Image Canvas.Left="8" Canvas.Top="14" Height="48" Name="imgRhoModifiedTopLane" Stretch="Fill" Width="72" Source="/Keccak;component/images/rho-modified-top-lane.png" Visibility="Hidden" />
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgRhoModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho/rho-modified-lane.png" />
+                <Image Canvas.Left="137" Canvas.Top="116" Height="75" Name="imgRhoModifiedSideLane" Stretch="Fill" Width="51" Source="/Keccak;component/images/rho/rho-modified-side-lane.png" Visibility="Hidden" />
+                <Image Canvas.Left="8" Canvas.Top="14" Height="48" Name="imgRhoModifiedTopLane" Stretch="Fill" Width="72" Source="/Keccak;component/images/rho/rho-modified-top-lane.png" Visibility="Hidden" />
             </Canvas>
             <!-- pi images -->
             <!-- step 1 -->
@@ -188,7 +188,7 @@
             </Canvas>
             <!-- iota images -->
             <Canvas Canvas.Left="0" Canvas.Top="0" Height="207" Name="canvasCubeIota" Width="200" Visibility="Hidden">
-                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgIotaModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho-modified-lane.png" />
+                <Image Canvas.Left="7" Canvas.Top="167" Height="25" Name="imgIotaModifiedLane" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho/rho-modified-lane.png" />
             </Canvas>
         </Canvas>
         <!-- grid for the right detail presentation -->
@@ -237,7 +237,7 @@
 
             <!-- theta -->
             <Canvas Canvas.Left="276" Canvas.Top="39" Height="229" Name="canvasStepDetailTheta" Width="396" Visibility="Hidden" VerticalAlignment="Top">
-                <Image Canvas.Left="71" Canvas.Top="8" Height="207" Name="image1" Stretch="Fill" Width="295" Source="/Keccak;component/images/theta-step-detail.png" />
+                <Image Canvas.Left="71" Canvas.Top="8" Height="207" Name="image1" Stretch="Fill" Width="295" Source="/Keccak;component/images/theta/theta-step-detail.png" />
 
                 <Label Canvas.Left="78" Canvas.Top="9" Content="" Height="28" Name="label164" />
                 <Label Canvas.Left="78" Canvas.Top="34" Content="" Height="28" Name="label165" />
@@ -273,7 +273,10 @@
             <Canvas Height="229" Name="canvasStepDetailRho" Width="396" Visibility="Hidden" VerticalAlignment="Top">
                 <Image Name="imgStepDetailTableRho" Canvas.Left="247" Canvas.Top="44" Source="/Keccak;component/images/rho/step-detail-rho-table.png" Height="140" Width="140" />
                 <Image Canvas.Left="270" Canvas.Top="67" Height="25" Name="imgRhoTableMarker" Stretch="Fill" Width="25" Source="/Keccak;component/images/rho/rho-table-marker2.png" />
-                <Image Height="249" Name="imgStepDetailRho" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/rho/step-detail-rho.png" />
+                <Image Height="249" Name="imgStepDetailRho8" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/rho/step-detail-rho8.png" Visibility="Hidden" />
+                <Image Height="249" Name="imgStepDetailRho16" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/rho/step-detail-rho16.png" Visibility="Hidden" />
+                <Image Height="249" Name="imgStepDetailRho32" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/rho/step-detail-rho32.png" Visibility="Hidden" />
+                <Image Height="249" Name="imgStepDetailRho64" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/rho/step-detail-rho.png" Visibility="Hidden" />
                 <Label Canvas.Left="151" Canvas.Top="94" Content="" Height="19" Name="labelRotationOffset" Width="20" FontSize="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
                 <Label Name="labelRhoBitPos1" Content="0" Canvas.Left="-12" Canvas.Top="27" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
@@ -281,15 +284,15 @@
                 <Label Name="labelRhoBitPos3" Content="32" Canvas.Left="-12" Canvas.Top="55" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
                 <Label Name="labelRhoBitPos4" Content="48" Canvas.Left="-12" Canvas.Top="69" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
 
-                <Label Name="labelRhoBitPos5" Content="0" Canvas.Left="-12" Canvas.Top="118" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelRhoBitPos6" Content="16" Canvas.Left="-12" Canvas.Top="132" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelRhoBitPos7" Content="32" Canvas.Left="-12" Canvas.Top="146" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelRhoBitPos8" Content="48" Canvas.Left="-12" Canvas.Top="160" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
+                <Label Name="labelRhoBitPos5" Content="0" Canvas.Left="-12" Canvas.Top="118" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelRhoBitPos6" Content="16" Canvas.Left="-12" Canvas.Top="132" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelRhoBitPos7" Content="32" Canvas.Left="-12" Canvas.Top="146" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelRhoBitPos8" Content="48" Canvas.Left="-12" Canvas.Top="160" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
 
                 <Label Name="labelRhoRotationOffsetCaption" Content="{Loc PresRotationOffset}" Canvas.Left="8" Canvas.Top="89" Width="142" HorizontalContentAlignment="Right" FontSize="14" />
 
-                <Rectangle Fill="Red" Canvas.Left="8" Canvas.Top="30" Height="15" Width="13" Opacity="0.9"/>
-                <Rectangle Name="rectangleRho" Fill="Red" Canvas.Left="8" Canvas.Top="121" Height="15" Width="14" Opacity="0.9"/>
+                <Rectangle Name="rectangleRhoOldLane" Fill="Red" Canvas.Left="8" Canvas.Top="31" Height="14" Width="13" Opacity="0.9"/>
+                <Rectangle Name="rectangleRhoNewLane" Fill="Red" Canvas.Left="8" Canvas.Top="122" Height="14" Width="14" Opacity="0.9"/>
 
                 <!-- old lane bits -->
                 <Label Canvas.Left="8" Canvas.Top="27" Content="" Height="22" Name="label11" Width="14" FontSize="8" />
@@ -308,6 +311,7 @@
                 <Label Canvas.Left="191" Canvas.Top="27" Content="" FontSize="8" Height="22" Name="label24" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="27" Content="" FontSize="8" Height="22" Name="label25" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="27" Content="" FontSize="8" Height="22" Name="label26" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label27" Width="14" />
                 <Label Canvas.Left="22" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label28" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label29" Width="14" />
@@ -324,6 +328,7 @@
                 <Label Canvas.Left="191" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label40" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label41" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="41" Content="" FontSize="8" Height="22" Name="label42" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label43" Width="14" />
                 <Label Canvas.Left="22" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label44" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label45" Width="14" />
@@ -340,6 +345,7 @@
                 <Label Canvas.Left="191" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label56" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label57" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="55" Content="" FontSize="8" Height="22" Name="label58" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="69" Content="" FontSize="8" Height="22" Name="label59" Width="14" />
                 <Label Canvas.Left="22" Canvas.Top="69" Content="" FontSize="8" Height="22" Name="label60" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="69" Content="" FontSize="8" Height="22" Name="label61" Width="14" />
@@ -374,6 +380,7 @@
                 <Label Canvas.Left="191" Canvas.Top="118" Content="" FontSize="8" Height="22" Name="label88" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="118" Content="" FontSize="8" Height="22" Name="label89" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="118" Content="" FontSize="8" Height="22" Name="label90" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label91" Width="14" />
                 <Label Canvas.Left="22" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label92" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label93" Width="14" />
@@ -390,6 +397,7 @@
                 <Label Canvas.Left="191" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label104" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label105" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="132" Content="" FontSize="8" Height="22" Name="label106" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label107" Width="14" />
                 <Label Canvas.Left="21" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label108" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label109" Width="14" />
@@ -406,6 +414,7 @@
                 <Label Canvas.Left="191" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label120" Width="14" />
                 <Label Canvas.Left="205" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label121" Width="14" />
                 <Label Canvas.Left="219" Canvas.Top="146" Content="" FontSize="8" Height="22" Name="label122" Width="14" />
+                
                 <Label Canvas.Left="8" Canvas.Top="160" Content="" FontSize="8" Height="22" Name="label123" Width="14" />
                 <Label Canvas.Left="21" Canvas.Top="160" Content="" FontSize="8" Height="22" Name="label124" Width="14" />
                 <Label Canvas.Left="36" Canvas.Top="160" Content="" FontSize="8" Height="22" Name="label125" Width="14" />
@@ -454,17 +463,20 @@
 
             <!-- iota -->
             <Canvas Height="229" Name="canvasStepDetailIota" Width="396" Visibility="Hidden" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                <Image Height="249" Name="imgStepDetailIota" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/iota/step-detail-iota3.png" />
+                <Image Height="249" Name="imgStepDetailIota8" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/iota/step-detail-iota8.png" Visibility="Hidden"/>
+                <Image Height="249" Name="imgStepDetailIota16" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/iota/step-detail-iota16.png" Visibility="Hidden"/>
+                <Image Height="249" Name="imgStepDetailIota32" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/iota/step-detail-iota32.png" Visibility="Hidden"/>
+                <Image Height="249" Name="imgStepDetailIota64" Width="396" Canvas.Left="0" Canvas.Top="-20" Source="/Keccak;component/images/iota/step-detail-iota.png" Visibility="Hidden"/>
                 <Image Canvas.Left="262" Canvas.Top="36" Height="157" Name="image3" Stretch="Fill" Width="110" Source="/Keccak;component/images/iota/iota-step-detail-table.png" />
                 <Image Canvas.Left="262" Canvas.Top="36" Height="14" Name="imgIotaSelectedRC" Stretch="Fill" Width="55" Source="/Keccak;component/images/iota/selected-rc2.png" />
 
                 <Label Canvas.Left="137" Canvas.Top="94" Content="" Height="28" Name="labelIotaXORedRC" FontSize="10" Width="120" FontFamily="Courier New" FontStyle="Normal" FontWeight="Bold" />
                 <Image Canvas.Left="137" Canvas.Top="92" Height="24" Name="imgIotaXORedRC" Stretch="Fill" Width="118" Source="/Keccak;component/images/iota/selected-rc2.png" />
 
-                <Label Name="labelIotaBitPos1" Content="0" Canvas.Left="-12" Canvas.Top="27" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelIotaBitPos2" Content="16" Canvas.Left="-12" Canvas.Top="41" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelIotaBitPos3" Content="32" Canvas.Left="-12" Canvas.Top="55" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
-                <Label Name="labelIotaBitPos4" Content="48" Canvas.Left="-12" Canvas.Top="69" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
+                <Label Name="labelIotaBitPos1" Content="0" Canvas.Left="-12" Canvas.Top="27" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelIotaBitPos2" Content="16" Canvas.Left="-12" Canvas.Top="41" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelIotaBitPos3" Content="32" Canvas.Left="-12" Canvas.Top="55" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
+                <Label Name="labelIotaBitPos4" Content="48" Canvas.Left="-12" Canvas.Top="69" Width="22" HorizontalContentAlignment="Right" FontSize="8" Visibility="Hidden"/>
 
                 <Label Name="labelIotaBitPos5" Content="0" Canvas.Left="-12" Canvas.Top="118" Width="22" HorizontalContentAlignment="Right" FontSize="8" />
                 <Label Name="labelIotaBitPos6" Content="16" Canvas.Left="-12" Canvas.Top="132" Width="22" HorizontalContentAlignment="Right" FontSize="8" />

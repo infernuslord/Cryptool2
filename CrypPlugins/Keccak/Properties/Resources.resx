@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CapacityCaption" xml:space="preserve">
-    <value>Capacity</value>
-  </data>
   <data name="CapacityTooltip" xml:space="preserve">
     <value>Size of capacity in bit</value>
   </data>
@@ -232,18 +229,6 @@
   <data name="cube_default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\cube-default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cube_default_inner" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\cube-default-inner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rho_modified_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\rho-modified-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rho_modified_side_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\rho-modified-side-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rho_modified_top_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\rho-modified-top-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="theta_left_row_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\theta\theta-left-row-front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -276,9 +261,6 @@
   </data>
   <data name="theta_right_row_top_fading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\theta\theta-right-row-top-fading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="theta_step_detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\theta-step-detail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="chi_modified_row_front" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\chi\chi-modified-row-front.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -343,17 +325,11 @@
   <data name="iota_step_detail_table" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\iota\iota-step-detail-table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="iota_step_detail_table1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\iota\iota-step-detail-table.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="rho_table_marker2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\rho\rho-table-marker2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="selected_rc2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\iota\selected-rc2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="step_detail_iota3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\images\iota\step-detail-iota3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="step_detail_rho" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\images\rho\step-detail-rho.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -827,5 +803,38 @@
   </data>
   <data name="PresRotationOffset" xml:space="preserve">
     <value>Rotation Offset:</value>
+  </data>
+  <data name="rho_modified_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\rho-modified-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rho_modified_side_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\rho-modified-side-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rho_modified_top_lane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\rho-modified-top-lane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_iota" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\step-detail-iota.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_iota16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\step-detail-iota16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_iota32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\step-detail-iota32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_iota8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\iota\step-detail-iota8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_rho16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\step-detail-rho16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_rho32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\step-detail-rho32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="step_detail_rho8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\rho\step-detail-rho8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="theta_step_detail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\images\theta\theta-step-detail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
