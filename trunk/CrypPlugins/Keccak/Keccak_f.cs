@@ -175,7 +175,7 @@ namespace Cryptool.Plugins.Keccak
 
                     /* force skipping rho presentation if state size is not supported */
                     #region force skip rho
-                    if (z < 64)
+                    if (z < 8)
                     {                        
                         /* disable next click button to force the user to skip the rho step */
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -206,7 +206,7 @@ namespace Cryptool.Plugins.Keccak
                 plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (2.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
 
                 #region force skip rho
-                if (z < 64)
+                if (z < 8)
                 {
                     /* enable next button again */
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -316,7 +316,7 @@ namespace Cryptool.Plugins.Keccak
 
                     /* force skipping iota presentation if state size is not supported */
                     #region force skip iota
-                    if (z < 64)
+                    if (z < 8)
                     {                        
                         /* disable next click button to force the user to skip the rho step */
                         pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -347,7 +347,7 @@ namespace Cryptool.Plugins.Keccak
                 plugin.ProgressChanged((double)progressionStepCounter + (1.0 / 6.0) + (5.0 / 6.0) * (((double)i / (double)rounds) + (5.0 / 5.0) * (1.0 / (double)rounds)), (double)progressionSteps);
 
                 #region force skip iota
-                if (z < 64)
+                if (z < 8)
                 {
                     /* enable next button again */
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -1032,13 +1032,98 @@ namespace Cryptool.Plugins.Keccak
         public void RhoPres(byte[] oldLane, byte[] newLane, int plane, int lane, int rotationOffset)
         {
             if (pres.IsVisible && !pres.skipPresentation && !pres.skipStep && !pres.skipPermutation)
-            {
-                int recLeft = 8, recTop = 121, recVariableOffset = 0;
-
-                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {                   
+                /* show rho canvas in first iteration */
+                if (plane == 0 && lane == 0)
                 {
-                    /* show rho canvas in first iteration */
-                    if (plane == 0 && lane == 0)
+                    presActive = true;
+
+                    #region toggle visibility of rho images with respect to lane size
+
+                    switch (z)
+                    {
+                        case 8:
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.imgStepDetailRho8.Visibility = Visibility.Visible;
+                                pres.imgStepDetailRho16.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho32.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho64.Visibility = Visibility.Hidden;
+
+                                pres.labelRhoBitPos1.Content = "";
+                                pres.labelRhoBitPos2.Content = "";
+                                pres.labelRhoBitPos3.Content = "";
+                                pres.labelRhoBitPos4.Content = "";
+                                pres.labelRhoBitPos5.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos6.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos7.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos8.Visibility = Visibility.Hidden;
+                            }, null);
+                            break;
+
+                        case 16:
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.imgStepDetailRho8.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho16.Visibility = Visibility.Visible;
+                                pres.imgStepDetailRho32.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho64.Visibility = Visibility.Hidden;
+
+                                pres.labelRhoBitPos1.Content = "";
+                                pres.labelRhoBitPos2.Content = "";
+                                pres.labelRhoBitPos3.Content = "";
+                                pres.labelRhoBitPos4.Content = "";
+                                pres.labelRhoBitPos5.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos6.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos7.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos8.Visibility = Visibility.Hidden;
+                            }, null);
+                            break;
+
+                        case 32:
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.imgStepDetailRho8.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho16.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho32.Visibility = Visibility.Visible;
+                                pres.imgStepDetailRho64.Visibility = Visibility.Hidden;
+
+                                pres.labelRhoBitPos1.Content = "";
+                                pres.labelRhoBitPos2.Content = "";
+                                pres.labelRhoBitPos3.Content = "0";
+                                pres.labelRhoBitPos4.Content = "16";                                
+                                pres.labelRhoBitPos5.Visibility = Visibility.Visible;
+                                pres.labelRhoBitPos6.Visibility = Visibility.Visible;
+                                pres.labelRhoBitPos7.Visibility = Visibility.Hidden;
+                                pres.labelRhoBitPos8.Visibility = Visibility.Hidden;
+                            }, null);
+                            break;
+
+                        case 64:
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.imgStepDetailRho8.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho16.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho32.Visibility = Visibility.Hidden;
+                                pres.imgStepDetailRho64.Visibility = Visibility.Visible;
+
+                                pres.labelRhoBitPos1.Content = "0";
+                                pres.labelRhoBitPos2.Content = "16";
+                                pres.labelRhoBitPos3.Content = "32";
+                                pres.labelRhoBitPos4.Content = "48";   
+                                pres.labelRhoBitPos5.Visibility = Visibility.Visible;
+                                pres.labelRhoBitPos6.Visibility = Visibility.Visible;
+                                pres.labelRhoBitPos7.Visibility = Visibility.Visible;
+                                pres.labelRhoBitPos8.Visibility = Visibility.Visible;
+                            }, null);
+                            break;
+
+                        default: break;
+                    }
+
+                    #endregion
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         pres.buttonAutostep.IsEnabled = true;
                         pres.autostepSpeedSlider.IsEnabled = true;
@@ -1051,27 +1136,25 @@ namespace Cryptool.Plugins.Keccak
                         pres.imgCubeDefault.Visibility = Visibility.Visible;
                         pres.xCoordinates.Visibility = Visibility.Visible;
                         pres.yCoordinates.Visibility = Visibility.Visible;
-                        presActive = true;
-                    }
+                    }, null);   
+                }
 
-                    /* set coordinates */
+                /* set coordinates */
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
                     pres.xCoordinate_var.Content = "x=" + (lane + 1);
                     pres.xCoordinate_var.SetValue(Canvas.LeftProperty, 17.0 + 26 * lane);
-
                     pres.yCoordinate_var.Content = "y=" + (plane + 1);
                     pres.yCoordinate_var.SetValue(Canvas.TopProperty, 174.0 - 26 * plane);
+                }, null);
 
-                    //pres.labelOuterPartCaption.Content = "Plane";
-                    //pres.labelOuterPart.Content = (plane + 1).ToString();
-                    //pres.labelInnerPartCaption.Content = "Lane";
-                    //pres.labelInnerPart.Content = (lane + 1).ToString();
+                #region pres cube
 
-                    #region pres cube
-
-                    /* move modified lane */
+                /* move modified lane */
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
                     pres.imgRhoModifiedLane.SetValue(Canvas.TopProperty, 167.0 - plane * 26);
                     pres.imgRhoModifiedLane.SetValue(Canvas.LeftProperty, 7.0 + lane * 26);
-
 
                     pres.imgRhoModifiedSideLane.Visibility = Visibility.Hidden;
                     pres.imgRhoModifiedTopLane.Visibility = Visibility.Hidden;
@@ -1080,58 +1163,535 @@ namespace Cryptool.Plugins.Keccak
                     {
                         pres.imgRhoModifiedSideLane.Visibility = Visibility.Visible;
                         pres.imgRhoModifiedSideLane.SetValue(Canvas.TopProperty, 116.0 - plane * 26);
-                    } 
+                    }
                     if (plane == 4)
                     {
                         pres.imgRhoModifiedTopLane.SetValue(Canvas.LeftProperty, 8.0 + lane * 26);
                         pres.imgRhoModifiedTopLane.Visibility = Visibility.Visible;
                     }
+                }, null);
                     
-                    #endregion
+                #endregion
 
-                    #region pres detailed
+                #region pres detailed
 
-                    /* move table marker */
+                /* move table marker */
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
                     pres.imgRhoTableMarker.SetValue(Canvas.TopProperty, 67.0 + plane * 23);
                     pres.imgRhoTableMarker.SetValue(Canvas.LeftProperty, 270.0 + lane * 23);
-
                     pres.labelRotationOffset.Content = rotationOffset.ToString();
+                }, null);
 
-                    /* move rectangle which visualizes the rotation */
-                    recVariableOffset = (rotationOffset % 16 <= 4) ? 0 : (rotationOffset % 16 <= 10) ? 1 : 2;
-                    recTop += (int)(rotationOffset/16) * 14;
-                    recLeft += (rotationOffset % 16) * 14 + recVariableOffset;
+                int recVariableOffset = (rotationOffset % 16 <= 4) ? 0 : (rotationOffset % 16 <= 10) ? 1 : 2;
+                int recLeft, recTop;
+                recLeft = 8 + (rotationOffset % 16) * 14 + recVariableOffset;
+                recTop = 122 + (int)(rotationOffset / 16) * 14;
 
-                    pres.rectangleRho.SetValue(Canvas.TopProperty, (double)recTop);
-                    pres.rectangleRho.SetValue(Canvas.LeftProperty, (double)recLeft);
+                #region move rectangle which visualizes the rotation for different lane sizes
 
+                switch (z)
+                {
+                    case 8:
+                        /* move rectangle which visualizes the rotation */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.rectangleRhoOldLane.SetValue(Canvas.TopProperty, 73.0);
+                            pres.rectangleRhoOldLane.SetValue(Canvas.LeftProperty, 8.0);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.TopProperty, (double)recTop);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.LeftProperty, (double)recLeft);
+                        }, null);
 
-                    #region fill lane labels for different lane sizes
+                        #region fill labels of old lane
 
-                    switch (z)
-                    {
-                        case 1:
-                            /* TODO */
-                            break;
-                        case 2:
-                            /* TODO */
-                            break;
-                        case 4:
-                            /* TODO */
-                            break;
-                        case 8:
-                            /* TODO */
-                            break;
-                        case 16:
-                            /* TODO */
-                            break;
-                        case 32:
-                            /* TODO */
-                            break;
-                        case 64:
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label11.Content = "";
+                            pres.label12.Content = "";
+                            pres.label13.Content = "";
+                            pres.label14.Content = "";
+                            pres.label15.Content = "";
+                            pres.label16.Content = "";
+                            pres.label17.Content = "";
+                            pres.label18.Content = "";
+                            pres.label19.Content = "";
+                            pres.label20.Content = "";
+                            pres.label21.Content = "";
+                            pres.label22.Content = "";
+                            pres.label23.Content = "";
+                            pres.label24.Content = "";
+                            pres.label25.Content = "";
+                            pres.label26.Content = "";
 
-                            #region fill labels of old lane
+                            pres.label27.Content = "";
+                            pres.label28.Content = "";
+                            pres.label29.Content = "";
+                            pres.label30.Content = "";
+                            pres.label31.Content = "";
+                            pres.label32.Content = "";
+                            pres.label33.Content = "";
+                            pres.label34.Content = "";
+                            pres.label35.Content = "";
+                            pres.label36.Content = "";
+                            pres.label37.Content = "";
+                            pres.label38.Content = "";
+                            pres.label39.Content = "";
+                            pres.label40.Content = "";
+                            pres.label41.Content = "";
+                            pres.label42.Content = "";
 
+                            pres.label43.Content = "";
+                            pres.label44.Content = "";
+                            pres.label45.Content = "";
+                            pres.label46.Content = "";
+                            pres.label47.Content = "";
+                            pres.label48.Content = "";
+                            pres.label49.Content = "";
+                            pres.label50.Content = "";
+                            pres.label51.Content = "";
+                            pres.label52.Content = "";
+                            pres.label53.Content = "";
+                            pres.label54.Content = "";
+                            pres.label55.Content = "";
+                            pres.label56.Content = "";
+                            pres.label57.Content = "";
+                            pres.label58.Content = "";
+
+                            pres.label59.Content = oldLane[0].ToString();
+                            pres.label60.Content = oldLane[1].ToString();
+                            pres.label61.Content = oldLane[2].ToString();
+                            pres.label62.Content = oldLane[3].ToString();
+                            pres.label63.Content = oldLane[4].ToString();
+                            pres.label64.Content = oldLane[5].ToString();
+                            pres.label65.Content = oldLane[6].ToString();
+                            pres.label66.Content = oldLane[7].ToString();
+                            pres.label67.Content = "";
+                            pres.label68.Content = "";
+                            pres.label69.Content = "";
+                            pres.label70.Content = "";
+                            pres.label71.Content = "";
+                            pres.label72.Content = "";
+                            pres.label73.Content = "";
+                            pres.label74.Content = "";
+                        }, null);
+
+                        #endregion
+
+                        #region fill labels of new lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label75.Content = newLane[0].ToString();
+                            pres.label76.Content = newLane[1].ToString();
+                            pres.label77.Content = newLane[2].ToString();
+                            pres.label78.Content = newLane[3].ToString();
+                            pres.label79.Content = newLane[4].ToString();
+                            pres.label80.Content = newLane[5].ToString();
+                            pres.label81.Content = newLane[6].ToString();
+                            pres.label82.Content = newLane[7].ToString();
+                            pres.label83.Content = "";
+                            pres.label84.Content = "";
+                            pres.label85.Content = "";
+                            pres.label86.Content = "";
+                            pres.label87.Content = "";
+                            pres.label88.Content = "";
+                            pres.label89.Content = "";
+                            pres.label90.Content = "";
+
+                            pres.label91.Content = "";
+                            pres.label92.Content = "";
+                            pres.label93.Content = "";
+                            pres.label94.Content = "";
+                            pres.label95.Content = "";
+                            pres.label96.Content = "";
+                            pres.label97.Content = "";
+                            pres.label98.Content = "";
+                            pres.label99.Content = "";
+                            pres.label100.Content = "";
+                            pres.label101.Content = "";
+                            pres.label102.Content = "";
+                            pres.label103.Content = "";
+                            pres.label104.Content = "";
+                            pres.label105.Content = "";
+                            pres.label106.Content = "";
+
+                            pres.label107.Content = "";
+                            pres.label108.Content = "";
+                            pres.label109.Content = "";
+                            pres.label110.Content = "";
+                            pres.label111.Content = "";
+                            pres.label112.Content = "";
+                            pres.label113.Content = "";
+                            pres.label114.Content = "";
+                            pres.label115.Content = "";
+                            pres.label116.Content = "";
+                            pres.label117.Content = "";
+                            pres.label118.Content = "";
+                            pres.label119.Content = "";
+                            pres.label120.Content = "";
+                            pres.label121.Content = "";
+                            pres.label122.Content = "";
+
+                            pres.label123.Content = "";
+                            pres.label124.Content = "";
+                            pres.label125.Content = "";
+                            pres.label126.Content = "";
+                            pres.label127.Content = "";
+                            pres.label128.Content = "";
+                            pres.label129.Content = "";
+                            pres.label130.Content = "";
+                            pres.label131.Content = "";
+                            pres.label132.Content = "";
+                            pres.label133.Content = "";
+                            pres.label134.Content = "";
+                            pres.label135.Content = "";
+                            pres.label136.Content = "";
+                            pres.label137.Content = "";
+                            pres.label138.Content = "";
+                        }, null);
+
+                        #endregion
+
+                        break;
+
+                    case 16:
+                        /* move rectangle which visualizes the rotation */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.rectangleRhoOldLane.SetValue(Canvas.TopProperty, 73.0);
+                            pres.rectangleRhoOldLane.SetValue(Canvas.LeftProperty, 8.0);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.TopProperty, (double)recTop);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.LeftProperty, (double)recLeft);
+                        }, null);
+
+                        #region fill labels of old lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label11.Content = "";
+                            pres.label12.Content = "";
+                            pres.label13.Content = "";
+                            pres.label14.Content = "";
+                            pres.label15.Content = "";
+                            pres.label16.Content = "";
+                            pres.label17.Content = "";
+                            pres.label18.Content = "";
+                            pres.label19.Content = "";
+                            pres.label20.Content = "";
+                            pres.label21.Content = "";
+                            pres.label22.Content = "";
+                            pres.label23.Content = "";
+                            pres.label24.Content = "";
+                            pres.label25.Content = "";
+                            pres.label26.Content = "";
+
+                            pres.label27.Content = "";
+                            pres.label28.Content = "";
+                            pres.label29.Content = "";
+                            pres.label30.Content = "";
+                            pres.label31.Content = "";
+                            pres.label32.Content = "";
+                            pres.label33.Content = "";
+                            pres.label34.Content = "";
+                            pres.label35.Content = "";
+                            pres.label36.Content = "";
+                            pres.label37.Content = "";
+                            pres.label38.Content = "";
+                            pres.label39.Content = "";
+                            pres.label40.Content = "";
+                            pres.label41.Content = "";
+                            pres.label42.Content = "";
+
+                            pres.label43.Content = "";
+                            pres.label44.Content = "";
+                            pres.label45.Content = "";
+                            pres.label46.Content = "";
+                            pres.label47.Content = "";
+                            pres.label48.Content = "";
+                            pres.label49.Content = "";
+                            pres.label50.Content = "";
+                            pres.label51.Content = "";
+                            pres.label52.Content = "";
+                            pres.label53.Content = "";
+                            pres.label54.Content = "";
+                            pres.label55.Content = "";
+                            pres.label56.Content = "";
+                            pres.label57.Content = "";
+                            pres.label58.Content = "";
+
+                            pres.label59.Content = oldLane[0].ToString();
+                            pres.label60.Content = oldLane[1].ToString();
+                            pres.label61.Content = oldLane[2].ToString();
+                            pres.label62.Content = oldLane[3].ToString();
+                            pres.label63.Content = oldLane[4].ToString();
+                            pres.label64.Content = oldLane[5].ToString();
+                            pres.label65.Content = oldLane[6].ToString();
+                            pres.label66.Content = oldLane[7].ToString();
+                            pres.label67.Content = oldLane[8].ToString();
+                            pres.label68.Content = oldLane[9].ToString();
+                            pres.label69.Content = oldLane[10].ToString();
+                            pres.label70.Content = oldLane[11].ToString();
+                            pres.label71.Content = oldLane[12].ToString();
+                            pres.label72.Content = oldLane[13].ToString();
+                            pres.label73.Content = oldLane[14].ToString();
+                            pres.label74.Content = oldLane[15].ToString();
+                        }, null);
+
+                        #endregion
+
+                        #region fill labels of new lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label75.Content = newLane[0].ToString();
+                            pres.label76.Content = newLane[1].ToString();
+                            pres.label77.Content = newLane[2].ToString();
+                            pres.label78.Content = newLane[3].ToString();
+                            pres.label79.Content = newLane[4].ToString();
+                            pres.label80.Content = newLane[5].ToString();
+                            pres.label81.Content = newLane[6].ToString();
+                            pres.label82.Content = newLane[7].ToString();
+                            pres.label83.Content = newLane[8].ToString();
+                            pres.label84.Content = newLane[9].ToString();
+                            pres.label85.Content = newLane[10].ToString();
+                            pres.label86.Content = newLane[11].ToString();
+                            pres.label87.Content = newLane[12].ToString();
+                            pres.label88.Content = newLane[13].ToString();
+                            pres.label89.Content = newLane[14].ToString();
+                            pres.label90.Content = newLane[15].ToString();
+
+                            pres.label91.Content = "";
+                            pres.label92.Content = "";
+                            pres.label93.Content = "";
+                            pres.label94.Content = "";
+                            pres.label95.Content = "";
+                            pres.label96.Content = "";
+                            pres.label97.Content = "";
+                            pres.label98.Content = "";
+                            pres.label99.Content = "";
+                            pres.label100.Content = "";
+                            pres.label101.Content = "";
+                            pres.label102.Content = "";
+                            pres.label103.Content = "";
+                            pres.label104.Content = "";
+                            pres.label105.Content = "";
+                            pres.label106.Content = "";
+
+                            pres.label107.Content = "";
+                            pres.label108.Content = "";
+                            pres.label109.Content = "";
+                            pres.label110.Content = "";
+                            pres.label111.Content = "";
+                            pres.label112.Content = "";
+                            pres.label113.Content = "";
+                            pres.label114.Content = "";
+                            pres.label115.Content = "";
+                            pres.label116.Content = "";
+                            pres.label117.Content = "";
+                            pres.label118.Content = "";
+                            pres.label119.Content = "";
+                            pres.label120.Content = "";
+                            pres.label121.Content = "";
+                            pres.label122.Content = "";
+
+                            pres.label123.Content = "";
+                            pres.label124.Content = "";
+                            pres.label125.Content = "";
+                            pres.label126.Content = "";
+                            pres.label127.Content = "";
+                            pres.label128.Content = "";
+                            pres.label129.Content = "";
+                            pres.label130.Content = "";
+                            pres.label131.Content = "";
+                            pres.label132.Content = "";
+                            pres.label133.Content = "";
+                            pres.label134.Content = "";
+                            pres.label135.Content = "";
+                            pres.label136.Content = "";
+                            pres.label137.Content = "";
+                            pres.label138.Content = "";
+                        }, null);
+
+                        #endregion
+
+                        break;
+
+                    case 32:
+                        /* move rectangle which visualizes the rotation */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.rectangleRhoOldLane.SetValue(Canvas.TopProperty, 59.0);
+                            pres.rectangleRhoOldLane.SetValue(Canvas.LeftProperty, 8.0);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.TopProperty, (double)recTop);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.LeftProperty, (double)recLeft);
+                        }, null);
+
+                        #region fill labels of old lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label11.Content = "";
+                            pres.label12.Content = "";
+                            pres.label13.Content = "";
+                            pres.label14.Content = "";
+                            pres.label15.Content = "";
+                            pres.label16.Content = "";
+                            pres.label17.Content = "";
+                            pres.label18.Content = "";
+                            pres.label19.Content = "";
+                            pres.label20.Content = "";
+                            pres.label21.Content = "";
+                            pres.label22.Content = "";
+                            pres.label23.Content = "";
+                            pres.label24.Content = "";
+                            pres.label25.Content = "";
+                            pres.label26.Content = "";
+
+                            pres.label27.Content = "";
+                            pres.label28.Content = "";
+                            pres.label29.Content = "";
+                            pres.label30.Content = "";
+                            pres.label31.Content = "";
+                            pres.label32.Content = "";
+                            pres.label33.Content = "";
+                            pres.label34.Content = "";
+                            pres.label35.Content = "";
+                            pres.label36.Content = "";
+                            pres.label37.Content = "";
+                            pres.label38.Content = "";
+                            pres.label39.Content = "";
+                            pres.label40.Content = "";
+                            pres.label41.Content = "";
+                            pres.label42.Content = "";
+
+                            pres.label43.Content = oldLane[0].ToString();
+                            pres.label44.Content = oldLane[1].ToString();
+                            pres.label45.Content = oldLane[2].ToString();
+                            pres.label46.Content = oldLane[3].ToString();
+                            pres.label47.Content = oldLane[4].ToString();
+                            pres.label48.Content = oldLane[5].ToString();
+                            pres.label49.Content = oldLane[6].ToString();
+                            pres.label50.Content = oldLane[7].ToString();
+                            pres.label51.Content = oldLane[8].ToString();
+                            pres.label52.Content = oldLane[9].ToString();
+                            pres.label53.Content = oldLane[10].ToString();
+                            pres.label54.Content = oldLane[11].ToString();
+                            pres.label55.Content = oldLane[12].ToString();
+                            pres.label56.Content = oldLane[13].ToString();
+                            pres.label57.Content = oldLane[14].ToString();
+                            pres.label58.Content = oldLane[15].ToString();
+
+                            pres.label59.Content = oldLane[16].ToString();
+                            pres.label60.Content = oldLane[17].ToString();
+                            pres.label61.Content = oldLane[18].ToString();
+                            pres.label62.Content = oldLane[19].ToString();
+                            pres.label63.Content = oldLane[20].ToString();
+                            pres.label64.Content = oldLane[21].ToString();
+                            pres.label65.Content = oldLane[22].ToString();
+                            pres.label66.Content = oldLane[23].ToString();
+                            pres.label67.Content = oldLane[24].ToString();
+                            pres.label68.Content = oldLane[25].ToString();
+                            pres.label69.Content = oldLane[26].ToString();
+                            pres.label70.Content = oldLane[27].ToString();
+                            pres.label71.Content = oldLane[28].ToString();
+                            pres.label72.Content = oldLane[29].ToString();
+                            pres.label73.Content = oldLane[30].ToString();
+                            pres.label74.Content = oldLane[31].ToString();
+                        }, null);
+
+                        #endregion                            
+
+                        #region fill labels of new lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label75.Content = newLane[0].ToString();
+                            pres.label76.Content = newLane[1].ToString();
+                            pres.label77.Content = newLane[2].ToString();
+                            pres.label78.Content = newLane[3].ToString();
+                            pres.label79.Content = newLane[4].ToString();
+                            pres.label80.Content = newLane[5].ToString();
+                            pres.label81.Content = newLane[6].ToString();
+                            pres.label82.Content = newLane[7].ToString();
+                            pres.label83.Content = newLane[8].ToString();
+                            pres.label84.Content = newLane[9].ToString();
+                            pres.label85.Content = newLane[10].ToString();
+                            pres.label86.Content = newLane[11].ToString();
+                            pres.label87.Content = newLane[12].ToString();
+                            pres.label88.Content = newLane[13].ToString();
+                            pres.label89.Content = newLane[14].ToString();
+                            pres.label90.Content = newLane[15].ToString();
+
+                            pres.label91.Content = newLane[16].ToString();
+                            pres.label92.Content = newLane[17].ToString();
+                            pres.label93.Content = newLane[18].ToString();
+                            pres.label94.Content = newLane[19].ToString();
+                            pres.label95.Content = newLane[20].ToString();
+                            pres.label96.Content = newLane[21].ToString();
+                            pres.label97.Content = newLane[22].ToString();
+                            pres.label98.Content = newLane[23].ToString();
+                            pres.label99.Content = newLane[24].ToString();
+                            pres.label100.Content = newLane[25].ToString();
+                            pres.label101.Content = newLane[26].ToString();
+                            pres.label102.Content = newLane[27].ToString();
+                            pres.label103.Content = newLane[28].ToString();
+                            pres.label104.Content = newLane[29].ToString();
+                            pres.label105.Content = newLane[30].ToString();
+                            pres.label106.Content = newLane[31].ToString();
+
+                            pres.label107.Content = "";
+                            pres.label108.Content = "";
+                            pres.label109.Content = "";
+                            pres.label110.Content = "";
+                            pres.label111.Content = "";
+                            pres.label112.Content = "";
+                            pres.label113.Content = "";
+                            pres.label114.Content = "";
+                            pres.label115.Content = "";
+                            pres.label116.Content = "";
+                            pres.label117.Content = "";
+                            pres.label118.Content = "";
+                            pres.label119.Content = "";
+                            pres.label120.Content = "";
+                            pres.label121.Content = "";
+                            pres.label122.Content = "";
+
+                            pres.label123.Content = "";
+                            pres.label124.Content = "";
+                            pres.label125.Content = "";
+                            pres.label126.Content = "";
+                            pres.label127.Content = "";
+                            pres.label128.Content = "";
+                            pres.label129.Content = "";
+                            pres.label130.Content = "";
+                            pres.label131.Content = "";
+                            pres.label132.Content = "";
+                            pres.label133.Content = "";
+                            pres.label134.Content = "";
+                            pres.label135.Content = "";
+                            pres.label136.Content = "";
+                            pres.label137.Content = "";
+                            pres.label138.Content = "";
+                        }, null);
+
+                        #endregion                        
+
+                        break;
+                    
+                    case 64:
+                        /* move rectangle which visualizes the rotation */
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.rectangleRhoOldLane.SetValue(Canvas.TopProperty, 31.0);
+                            pres.rectangleRhoOldLane.SetValue(Canvas.LeftProperty, 8.0);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.TopProperty, (double)recTop);
+                            pres.rectangleRhoNewLane.SetValue(Canvas.LeftProperty, (double)recLeft);
+                        }, null);
+
+                        #region fill labels of old lane
+
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
                             pres.label11.Content = oldLane[0].ToString();
                             pres.label12.Content = oldLane[1].ToString();
                             pres.label13.Content = oldLane[2].ToString();
@@ -1199,11 +1759,14 @@ namespace Cryptool.Plugins.Keccak
                             pres.label72.Content = oldLane[61].ToString();
                             pres.label73.Content = oldLane[62].ToString();
                             pres.label74.Content = oldLane[63].ToString();
+                        }, null);
 
-                            #endregion                            
+                        #endregion                            
 
-                            #region fill labels of new lane
+                        #region fill labels of new lane
 
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
                             pres.label75.Content = newLane[0].ToString();
                             pres.label76.Content = newLane[1].ToString();
                             pres.label77.Content = newLane[2].ToString();
@@ -1271,19 +1834,17 @@ namespace Cryptool.Plugins.Keccak
                             pres.label136.Content = newLane[61].ToString();
                             pres.label137.Content = newLane[62].ToString();
                             pres.label138.Content = newLane[63].ToString();
+                        }, null);
 
-                            #endregion
+                        #endregion                        
+                        break;
 
-                            break;
+                    default: break;
+                }
 
-                        default:
-                            break;
-                    }
-                    #endregion
+                #endregion
 
-                    #endregion
-
-                }, null);
+                #endregion
 
                 /* wait for button clicks */
                 if (!pres.autostep || (plane == Y - 1 && lane == X - 1))
@@ -1724,6 +2285,92 @@ namespace Cryptool.Plugins.Keccak
             {
                 AutoResetEvent buttonNextClickedEvent;
 
+                #region toggle visibility of rho images with respect to lane size
+
+                switch (z)
+                {
+                    case 8:
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.imgStepDetailIota8.Visibility = Visibility.Visible;
+                            pres.imgStepDetailIota16.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota32.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota64.Visibility = Visibility.Hidden;
+
+                            pres.labelIotaBitPos1.Content = "";
+                            pres.labelIotaBitPos2.Content = "";
+                            pres.labelIotaBitPos3.Content = "";
+                            pres.labelIotaBitPos4.Content = "";
+                            pres.labelIotaBitPos5.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos6.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos7.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos8.Visibility = Visibility.Hidden;
+                        }, null);
+                        break;
+
+                    case 16:
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.imgStepDetailIota8.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota16.Visibility = Visibility.Visible;
+                            pres.imgStepDetailIota32.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota64.Visibility = Visibility.Hidden;
+
+                            pres.labelIotaBitPos1.Content = "";
+                            pres.labelIotaBitPos2.Content = "";
+                            pres.labelIotaBitPos3.Content = "";
+                            pres.labelIotaBitPos4.Content = "";
+                            pres.labelIotaBitPos5.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos6.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos7.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos8.Visibility = Visibility.Hidden;
+                        }, null);
+                        break;
+
+                    case 32:
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.imgStepDetailIota8.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota16.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota32.Visibility = Visibility.Visible;
+                            pres.imgStepDetailIota64.Visibility = Visibility.Hidden;
+
+                            pres.labelIotaBitPos1.Content = "";
+                            pres.labelIotaBitPos2.Content = "";
+                            pres.labelIotaBitPos3.Content = "0";
+                            pres.labelIotaBitPos4.Content = "16";
+                            pres.labelIotaBitPos5.Visibility = Visibility.Visible;
+                            pres.labelIotaBitPos6.Visibility = Visibility.Visible;
+                            pres.labelIotaBitPos7.Visibility = Visibility.Hidden;
+                            pres.labelIotaBitPos8.Visibility = Visibility.Hidden;
+                        }, null);
+                        break;
+
+                    case 64:
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.imgStepDetailIota8.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota16.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota32.Visibility = Visibility.Hidden;
+                            pres.imgStepDetailIota64.Visibility = Visibility.Visible;
+
+                            pres.labelIotaBitPos1.Content = "0";
+                            pres.labelIotaBitPos2.Content = "16";
+                            pres.labelIotaBitPos3.Content = "32";
+                            pres.labelIotaBitPos4.Content = "48";
+                            pres.labelIotaBitPos5.Visibility = Visibility.Visible;
+                            pres.labelIotaBitPos6.Visibility = Visibility.Visible;
+                            pres.labelIotaBitPos7.Visibility = Visibility.Visible;
+                            pres.labelIotaBitPos8.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    default: break;
+
+                }
+
+                #endregion
+
                 pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     pres.buttonAutostep.IsEnabled = true;
@@ -1764,13 +2411,226 @@ namespace Cryptool.Plugins.Keccak
                         /* TODO */
                         break;
                     case 8:
-                        /* TODO */
+                        #region fill labels of old lane
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label311.Content = "";
+                            pres.label312.Content = "";
+                            pres.label313.Content = "";
+                            pres.label314.Content = "";
+                            pres.label315.Content = "";
+                            pres.label316.Content = "";
+                            pres.label317.Content = "";
+                            pres.label318.Content = "";
+                            pres.label319.Content = "";
+                            pres.label320.Content = "";
+                            pres.label321.Content = "";
+                            pres.label322.Content = "";
+                            pres.label323.Content = "";
+                            pres.label324.Content = "";
+                            pres.label325.Content = "";
+                            pres.label326.Content = "";
+
+                            pres.label327.Content = "";
+                            pres.label328.Content = "";
+                            pres.label329.Content = "";
+                            pres.label330.Content = "";
+                            pres.label331.Content = "";
+                            pres.label332.Content = "";
+                            pres.label333.Content = "";
+                            pres.label334.Content = "";
+                            pres.label335.Content = "";
+                            pres.label336.Content = "";
+                            pres.label337.Content = "";
+                            pres.label338.Content = "";
+                            pres.label339.Content = "";
+                            pres.label340.Content = "";
+                            pres.label341.Content = "";
+                            pres.label342.Content = "";
+
+                            pres.label343.Content = "";
+                            pres.label344.Content = "";
+                            pres.label345.Content = "";
+                            pres.label346.Content = "";
+                            pres.label347.Content = "";
+                            pres.label348.Content = "";
+                            pres.label349.Content = "";
+                            pres.label350.Content = "";
+                            pres.label351.Content = "";
+                            pres.label352.Content = "";
+                            pres.label353.Content = "";
+                            pres.label354.Content = "";
+                            pres.label355.Content = "";
+                            pres.label356.Content = "";
+                            pres.label357.Content = "";
+                            pres.label358.Content = "";
+
+                            pres.label359.Content = "";
+                            pres.label360.Content = "";
+                            pres.label361.Content = "";
+                            pres.label362.Content = "";
+                            pres.label363.Content = firstLaneOld[0].ToString();
+                            pres.label364.Content = firstLaneOld[1].ToString();
+                            pres.label365.Content = firstLaneOld[2].ToString();
+                            pres.label366.Content = firstLaneOld[3].ToString();
+                            pres.label367.Content = firstLaneOld[4].ToString();
+                            pres.label368.Content = firstLaneOld[5].ToString();
+                            pres.label369.Content = firstLaneOld[6].ToString();
+                            pres.label370.Content = firstLaneOld[7].ToString();
+                            pres.label371.Content = "";
+                            pres.label372.Content = "";
+                            pres.label373.Content = "";
+                            pres.label374.Content = "";
+                        }, null);
+                        #endregion    
                         break;
                     case 16:
-                        /* TODO */
+                        #region fill labels of old lane
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label311.Content = "";
+                            pres.label312.Content = "";
+                            pres.label313.Content = "";
+                            pres.label314.Content = "";
+                            pres.label315.Content = "";
+                            pres.label316.Content = "";
+                            pres.label317.Content = "";
+                            pres.label318.Content = "";
+                            pres.label319.Content = "";
+                            pres.label320.Content = "";
+                            pres.label321.Content = "";
+                            pres.label322.Content = "";
+                            pres.label323.Content = "";
+                            pres.label324.Content = "";
+                            pres.label325.Content = "";
+                            pres.label326.Content = "";
+
+                            pres.label327.Content = "";
+                            pres.label328.Content = "";
+                            pres.label329.Content = "";
+                            pres.label330.Content = "";
+                            pres.label331.Content = "";
+                            pres.label332.Content = "";
+                            pres.label333.Content = "";
+                            pres.label334.Content = "";
+                            pres.label335.Content = "";
+                            pres.label336.Content = "";
+                            pres.label337.Content = "";
+                            pres.label338.Content = "";
+                            pres.label339.Content = "";
+                            pres.label340.Content = "";
+                            pres.label341.Content = "";
+                            pres.label342.Content = "";
+
+                            pres.label343.Content = "";
+                            pres.label344.Content = "";
+                            pres.label345.Content = "";
+                            pres.label346.Content = "";
+                            pres.label347.Content = "";
+                            pres.label348.Content = "";
+                            pres.label349.Content = "";
+                            pres.label350.Content = "";
+                            pres.label351.Content = "";
+                            pres.label352.Content = "";
+                            pres.label353.Content = "";
+                            pres.label354.Content = "";
+                            pres.label355.Content = "";
+                            pres.label356.Content = "";
+                            pres.label357.Content = "";
+                            pres.label358.Content = "";
+
+                            pres.label359.Content = firstLaneOld[0].ToString();
+                            pres.label360.Content = firstLaneOld[1].ToString();
+                            pres.label361.Content = firstLaneOld[2].ToString();
+                            pres.label362.Content = firstLaneOld[3].ToString();
+                            pres.label363.Content = firstLaneOld[4].ToString();
+                            pres.label364.Content = firstLaneOld[5].ToString();
+                            pres.label365.Content = firstLaneOld[6].ToString();
+                            pres.label366.Content = firstLaneOld[7].ToString();
+                            pres.label367.Content = firstLaneOld[8].ToString();
+                            pres.label368.Content = firstLaneOld[9].ToString();
+                            pres.label369.Content = firstLaneOld[10].ToString();
+                            pres.label370.Content = firstLaneOld[11].ToString();
+                            pres.label371.Content = firstLaneOld[12].ToString();
+                            pres.label372.Content = firstLaneOld[13].ToString();
+                            pres.label373.Content = firstLaneOld[14].ToString();
+                            pres.label374.Content = firstLaneOld[15].ToString();
+                        }, null);
+                        #endregion    
                         break;
                     case 32:
-                        /* TODO */
+                        #region fill labels of old lane
+                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            pres.label311.Content = "";
+                            pres.label312.Content = "";
+                            pres.label313.Content = "";
+                            pres.label314.Content = "";
+                            pres.label315.Content = "";
+                            pres.label316.Content = "";
+                            pres.label317.Content = "";
+                            pres.label318.Content = "";
+                            pres.label319.Content = "";
+                            pres.label320.Content = "";
+                            pres.label321.Content = "";
+                            pres.label322.Content = "";
+                            pres.label323.Content = "";
+                            pres.label324.Content = "";
+                            pres.label325.Content = "";
+                            pres.label326.Content = "";
+
+                            pres.label327.Content = "";
+                            pres.label328.Content = "";
+                            pres.label329.Content = "";
+                            pres.label330.Content = "";
+                            pres.label331.Content = "";
+                            pres.label332.Content = "";
+                            pres.label333.Content = "";
+                            pres.label334.Content = "";
+                            pres.label335.Content = "";
+                            pres.label336.Content = "";
+                            pres.label337.Content = "";
+                            pres.label338.Content = "";
+                            pres.label339.Content = "";
+                            pres.label340.Content = "";
+                            pres.label341.Content = "";
+                            pres.label342.Content = "";
+
+                            pres.label343.Content = firstLaneOld[0].ToString();
+                            pres.label344.Content = firstLaneOld[1].ToString();
+                            pres.label345.Content = firstLaneOld[2].ToString();
+                            pres.label346.Content = firstLaneOld[3].ToString();
+                            pres.label347.Content = firstLaneOld[4].ToString();
+                            pres.label348.Content = firstLaneOld[5].ToString();
+                            pres.label349.Content = firstLaneOld[6].ToString();
+                            pres.label350.Content = firstLaneOld[7].ToString();
+                            pres.label351.Content = firstLaneOld[8].ToString();
+                            pres.label352.Content = firstLaneOld[9].ToString();
+                            pres.label353.Content = firstLaneOld[10].ToString();
+                            pres.label354.Content = firstLaneOld[11].ToString();
+                            pres.label355.Content = firstLaneOld[12].ToString();
+                            pres.label356.Content = firstLaneOld[13].ToString();
+                            pres.label357.Content = firstLaneOld[14].ToString();
+                            pres.label358.Content = firstLaneOld[15].ToString();
+
+                            pres.label359.Content = firstLaneOld[16].ToString();
+                            pres.label360.Content = firstLaneOld[17].ToString();
+                            pres.label361.Content = firstLaneOld[18].ToString();
+                            pres.label362.Content = firstLaneOld[19].ToString();
+                            pres.label363.Content = firstLaneOld[20].ToString();
+                            pres.label364.Content = firstLaneOld[21].ToString();
+                            pres.label365.Content = firstLaneOld[22].ToString();
+                            pres.label366.Content = firstLaneOld[23].ToString();
+                            pres.label367.Content = firstLaneOld[24].ToString();
+                            pres.label368.Content = firstLaneOld[25].ToString();
+                            pres.label369.Content = firstLaneOld[26].ToString();
+                            pres.label370.Content = firstLaneOld[27].ToString();
+                            pres.label371.Content = firstLaneOld[28].ToString();
+                            pres.label372.Content = firstLaneOld[29].ToString();
+                            pres.label373.Content = firstLaneOld[30].ToString();
+                            pres.label374.Content = firstLaneOld[31].ToString();
+                        }, null);
+                        #endregion    
                         break;
                     case 64:                            
                         #region fill labels of old lane
@@ -1851,107 +2711,78 @@ namespace Cryptool.Plugins.Keccak
                 }
                 #endregion
 
-                #region clear new lane labels for different lane sizes
-
-                switch (z)
+                #region clear new lane labels
+                pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    case 1:
-                        /* TODO */
-                        break;
-                    case 2:
-                        /* TODO */
-                        break;
-                    case 4:
-                        /* TODO */
-                        break;
-                    case 8:
-                        /* TODO */
-                        break;
-                    case 16:
-                        /* TODO */
-                        break;
-                    case 32:
-                        /* TODO */
-                        break;
-                    case 64:
-                        #region fill labels of new lane
-                        pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            pres.label375.Content = "";
-                            pres.label376.Content = "";
-                            pres.label377.Content = "";
-                            pres.label378.Content = "";
-                            pres.label379.Content = "";
-                            pres.label380.Content = "";
-                            pres.label381.Content = "";
-                            pres.label382.Content = "";
-                            pres.label383.Content = "";
-                            pres.label384.Content = "";
-                            pres.label385.Content = "";
-                            pres.label386.Content = "";
-                            pres.label387.Content = "";
-                            pres.label388.Content = "";
-                            pres.label389.Content = "";
-                            pres.label390.Content = "";
+                    pres.label375.Content = "";
+                    pres.label376.Content = "";
+                    pres.label377.Content = "";
+                    pres.label378.Content = "";
+                    pres.label379.Content = "";
+                    pres.label380.Content = "";
+                    pres.label381.Content = "";
+                    pres.label382.Content = "";
+                    pres.label383.Content = "";
+                    pres.label384.Content = "";
+                    pres.label385.Content = "";
+                    pres.label386.Content = "";
+                    pres.label387.Content = "";
+                    pres.label388.Content = "";
+                    pres.label389.Content = "";
+                    pres.label390.Content = "";
 
-                            pres.label391.Content = "";
-                            pres.label392.Content = "";
-                            pres.label393.Content = "";
-                            pres.label394.Content = "";
-                            pres.label395.Content = "";
-                            pres.label396.Content = "";
-                            pres.label397.Content = "";
-                            pres.label398.Content = "";
-                            pres.label399.Content = "";
-                            pres.label400.Content = "";
-                            pres.label401.Content = "";
-                            pres.label402.Content = "";
-                            pres.label403.Content = "";
-                            pres.label404.Content = "";
-                            pres.label405.Content = "";
-                            pres.label406.Content = "";
+                    pres.label391.Content = "";
+                    pres.label392.Content = "";
+                    pres.label393.Content = "";
+                    pres.label394.Content = "";
+                    pres.label395.Content = "";
+                    pres.label396.Content = "";
+                    pres.label397.Content = "";
+                    pres.label398.Content = "";
+                    pres.label399.Content = "";
+                    pres.label400.Content = "";
+                    pres.label401.Content = "";
+                    pres.label402.Content = "";
+                    pres.label403.Content = "";
+                    pres.label404.Content = "";
+                    pres.label405.Content = "";
+                    pres.label406.Content = "";
 
-                            pres.label407.Content = "";
-                            pres.label408.Content = "";
-                            pres.label409.Content = "";
-                            pres.label410.Content = "";
-                            pres.label411.Content = "";
-                            pres.label412.Content = "";
-                            pres.label413.Content = "";
-                            pres.label414.Content = "";
-                            pres.label415.Content = "";
-                            pres.label416.Content = "";
-                            pres.label417.Content = "";
-                            pres.label418.Content = "";
-                            pres.label419.Content = "";
-                            pres.label420.Content = "";
-                            pres.label421.Content = "";
-                            pres.label422.Content = "";
+                    pres.label407.Content = "";
+                    pres.label408.Content = "";
+                    pres.label409.Content = "";
+                    pres.label410.Content = "";
+                    pres.label411.Content = "";
+                    pres.label412.Content = "";
+                    pres.label413.Content = "";
+                    pres.label414.Content = "";
+                    pres.label415.Content = "";
+                    pres.label416.Content = "";
+                    pres.label417.Content = "";
+                    pres.label418.Content = "";
+                    pres.label419.Content = "";
+                    pres.label420.Content = "";
+                    pres.label421.Content = "";
+                    pres.label422.Content = "";
 
-                            pres.label423.Content = "";
-                            pres.label424.Content = "";
-                            pres.label425.Content = "";
-                            pres.label426.Content = "";
-                            pres.label427.Content = "";
-                            pres.label428.Content = "";
-                            pres.label429.Content = "";
-                            pres.label430.Content = "";
-                            pres.label431.Content = "";
-                            pres.label432.Content = "";
-                            pres.label433.Content = "";
-                            pres.label434.Content = "";
-                            pres.label435.Content = "";
-                            pres.label436.Content = "";
-                            pres.label437.Content = "";
-                            pres.label438.Content = "";
-                        }, null);
+                    pres.label423.Content = "";
+                    pres.label424.Content = "";
+                    pres.label425.Content = "";
+                    pres.label426.Content = "";
+                    pres.label427.Content = "";
+                    pres.label428.Content = "";
+                    pres.label429.Content = "";
+                    pres.label430.Content = "";
+                    pres.label431.Content = "";
+                    pres.label432.Content = "";
+                    pres.label433.Content = "";
+                    pres.label434.Content = "";
+                    pres.label435.Content = "";
+                    pres.label436.Content = "";
+                    pres.label437.Content = "";
+                    pres.label438.Content = "";
+                }, null);
 
-                        #endregion
-                        break;
-
-                    default:
-                        break;
-                }
                 #endregion
 
                 /* wait for button clicks */
@@ -1996,10 +2827,44 @@ namespace Cryptool.Plugins.Keccak
                     }
 
                     string roundConstantPres = roundConstantsPres[round];
+                    string roundConstantPresTruncated = null;
+                    double widthImgIotaXORedRC = 0.0;
+
+                    #region truncate round constant string
+
+                    switch (z)
+                    {
+                        case 8:
+                            roundConstantPresTruncated = "0x" + roundConstantPres.Substring(2 + 8 + 4 + 2, 2);
+                            widthImgIotaXORedRC = 35.0;
+                            break;
+
+                        case 16:
+                            roundConstantPresTruncated = "0x" + roundConstantPres.Substring(2 + 8 + 4, 4);
+                            widthImgIotaXORedRC = 46.0;
+                            break;
+
+                        case 32:
+                            roundConstantPresTruncated = "0x" + roundConstantPres.Substring(2 + 8, 8);
+                            widthImgIotaXORedRC = 70.0;
+                            break;
+
+                        case 64:
+                            roundConstantPresTruncated = roundConstantPres;
+                            widthImgIotaXORedRC = 118.0;
+                            break;
+
+                        default: 
+                            break;
+                    }
+
+                    #endregion
+
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.imgIotaXORedRC.Width = widthImgIotaXORedRC;
                         pres.imgIotaXORedRC.Visibility = Visibility.Visible;
-                        pres.labelIotaXORedRC.Content = roundConstantPres;
+                        pres.labelIotaXORedRC.Content = roundConstantPresTruncated;
                     }, null);
                 }
 
@@ -2032,13 +2897,229 @@ namespace Cryptool.Plugins.Keccak
                             /* TODO */
                             break;
                         case 8:
-                            /* TODO */
+                            #region fill labels of new lane
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.label375.Content = "";
+                                pres.label376.Content = "";
+                                pres.label377.Content = "";
+                                pres.label378.Content = "";
+                                pres.label379.Content = firstLane[0].ToString();
+                                pres.label380.Content = firstLane[1].ToString();
+                                pres.label381.Content = firstLane[2].ToString();
+                                pres.label382.Content = firstLane[3].ToString();
+                                pres.label383.Content = firstLane[4].ToString();
+                                pres.label384.Content = firstLane[5].ToString();
+                                pres.label385.Content = firstLane[6].ToString();
+                                pres.label386.Content = firstLane[7].ToString();
+                                pres.label387.Content = "";
+                                pres.label388.Content = "";
+                                pres.label389.Content = "";
+                                pres.label390.Content = "";
+
+                                pres.label391.Content = "";
+                                pres.label392.Content = "";
+                                pres.label393.Content = "";
+                                pres.label394.Content = "";
+                                pres.label395.Content = "";
+                                pres.label396.Content = "";
+                                pres.label397.Content = "";
+                                pres.label398.Content = "";
+                                pres.label399.Content = "";
+                                pres.label400.Content = "";
+                                pres.label401.Content = "";
+                                pres.label402.Content = "";
+                                pres.label403.Content = "";
+                                pres.label404.Content = "";
+                                pres.label405.Content = "";
+                                pres.label406.Content = "";
+
+                                pres.label407.Content = "";
+                                pres.label408.Content = "";
+                                pres.label409.Content = "";
+                                pres.label410.Content = "";
+                                pres.label411.Content = "";
+                                pres.label412.Content = "";
+                                pres.label413.Content = "";
+                                pres.label414.Content = "";
+                                pres.label415.Content = "";
+                                pres.label416.Content = "";
+                                pres.label417.Content = "";
+                                pres.label418.Content = "";
+                                pres.label419.Content = "";
+                                pres.label420.Content = "";
+                                pres.label421.Content = "";
+                                pres.label422.Content = "";
+
+                                pres.label423.Content = "";
+                                pres.label424.Content = "";
+                                pres.label425.Content = "";
+                                pres.label426.Content = "";
+                                pres.label427.Content = "";
+                                pres.label428.Content = "";
+                                pres.label429.Content = "";
+                                pres.label430.Content = "";
+                                pres.label431.Content = "";
+                                pres.label432.Content = "";
+                                pres.label433.Content = "";
+                                pres.label434.Content = "";
+                                pres.label435.Content = "";
+                                pres.label436.Content = "";
+                                pres.label437.Content = "";
+                                pres.label438.Content = "";
+                            }, null);
+
+                            #endregion
                             break;
                         case 16:
-                            /* TODO */
+                            #region fill labels of new lane
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.label375.Content = firstLane[0].ToString();
+                                pres.label376.Content = firstLane[1].ToString();
+                                pres.label377.Content = firstLane[2].ToString();
+                                pres.label378.Content = firstLane[3].ToString();
+                                pres.label379.Content = firstLane[4].ToString();
+                                pres.label380.Content = firstLane[5].ToString();
+                                pres.label381.Content = firstLane[6].ToString();
+                                pres.label382.Content = firstLane[7].ToString();
+                                pres.label383.Content = firstLane[8].ToString();
+                                pres.label384.Content = firstLane[9].ToString();
+                                pres.label385.Content = firstLane[10].ToString();
+                                pres.label386.Content = firstLane[11].ToString();
+                                pres.label387.Content = firstLane[12].ToString();
+                                pres.label388.Content = firstLane[13].ToString();
+                                pres.label389.Content = firstLane[14].ToString();
+                                pres.label390.Content = firstLane[15].ToString();
+
+                                pres.label391.Content = "";
+                                pres.label392.Content = "";
+                                pres.label393.Content = "";
+                                pres.label394.Content = "";
+                                pres.label395.Content = "";
+                                pres.label396.Content = "";
+                                pres.label397.Content = "";
+                                pres.label398.Content = "";
+                                pres.label399.Content = "";
+                                pres.label400.Content = "";
+                                pres.label401.Content = "";
+                                pres.label402.Content = "";
+                                pres.label403.Content = "";
+                                pres.label404.Content = "";
+                                pres.label405.Content = "";
+                                pres.label406.Content = "";
+
+                                pres.label407.Content = "";
+                                pres.label408.Content = "";
+                                pres.label409.Content = "";
+                                pres.label410.Content = "";
+                                pres.label411.Content = "";
+                                pres.label412.Content = "";
+                                pres.label413.Content = "";
+                                pres.label414.Content = "";
+                                pres.label415.Content = "";
+                                pres.label416.Content = "";
+                                pres.label417.Content = "";
+                                pres.label418.Content = "";
+                                pres.label419.Content = "";
+                                pres.label420.Content = "";
+                                pres.label421.Content = "";
+                                pres.label422.Content = "";
+
+                                pres.label423.Content = "";
+                                pres.label424.Content = "";
+                                pres.label425.Content = "";
+                                pres.label426.Content = "";
+                                pres.label427.Content = "";
+                                pres.label428.Content = "";
+                                pres.label429.Content = "";
+                                pres.label430.Content = "";
+                                pres.label431.Content = "";
+                                pres.label432.Content = "";
+                                pres.label433.Content = "";
+                                pres.label434.Content = "";
+                                pres.label435.Content = "";
+                                pres.label436.Content = "";
+                                pres.label437.Content = "";
+                                pres.label438.Content = "";
+                            }, null);
+
+                            #endregion
                             break;
                         case 32:
-                            /* TODO */
+                            #region fill labels of new lane
+                            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                pres.label375.Content = firstLane[0].ToString();
+                                pres.label376.Content = firstLane[1].ToString();
+                                pres.label377.Content = firstLane[2].ToString();
+                                pres.label378.Content = firstLane[3].ToString();
+                                pres.label379.Content = firstLane[4].ToString();
+                                pres.label380.Content = firstLane[5].ToString();
+                                pres.label381.Content = firstLane[6].ToString();
+                                pres.label382.Content = firstLane[7].ToString();
+                                pres.label383.Content = firstLane[8].ToString();
+                                pres.label384.Content = firstLane[9].ToString();
+                                pres.label385.Content = firstLane[10].ToString();
+                                pres.label386.Content = firstLane[11].ToString();
+                                pres.label387.Content = firstLane[12].ToString();
+                                pres.label388.Content = firstLane[13].ToString();
+                                pres.label389.Content = firstLane[14].ToString();
+                                pres.label390.Content = firstLane[15].ToString();
+
+                                pres.label391.Content = firstLane[16].ToString();
+                                pres.label392.Content = firstLane[17].ToString();
+                                pres.label393.Content = firstLane[18].ToString();
+                                pres.label394.Content = firstLane[19].ToString();
+                                pres.label395.Content = firstLane[20].ToString();
+                                pres.label396.Content = firstLane[21].ToString();
+                                pres.label397.Content = firstLane[22].ToString();
+                                pres.label398.Content = firstLane[23].ToString();
+                                pres.label399.Content = firstLane[24].ToString();
+                                pres.label400.Content = firstLane[25].ToString();
+                                pres.label401.Content = firstLane[26].ToString();
+                                pres.label402.Content = firstLane[27].ToString();
+                                pres.label403.Content = firstLane[28].ToString();
+                                pres.label404.Content = firstLane[29].ToString();
+                                pres.label405.Content = firstLane[30].ToString();
+                                pres.label406.Content = firstLane[31].ToString();
+
+                                pres.label407.Content = "";
+                                pres.label408.Content = "";
+                                pres.label409.Content = "";
+                                pres.label410.Content = "";
+                                pres.label411.Content = "";
+                                pres.label412.Content = "";
+                                pres.label413.Content = "";
+                                pres.label414.Content = "";
+                                pres.label415.Content = "";
+                                pres.label416.Content = "";
+                                pres.label417.Content = "";
+                                pres.label418.Content = "";
+                                pres.label419.Content = "";
+                                pres.label420.Content = "";
+                                pres.label421.Content = "";
+                                pres.label422.Content = "";
+
+                                pres.label423.Content = "";
+                                pres.label424.Content = "";
+                                pres.label425.Content = "";
+                                pres.label426.Content = "";
+                                pres.label427.Content = "";
+                                pres.label428.Content = "";
+                                pres.label429.Content = "";
+                                pres.label430.Content = "";
+                                pres.label431.Content = "";
+                                pres.label432.Content = "";
+                                pres.label433.Content = "";
+                                pres.label434.Content = "";
+                                pres.label435.Content = "";
+                                pres.label436.Content = "";
+                                pres.label437.Content = "";
+                                pres.label438.Content = "";
+                            }, null);
+
+                            #endregion
                             break;
                         case 64:
                             #region fill labels of new lane

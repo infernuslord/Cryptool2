@@ -22,7 +22,7 @@ namespace Cryptool.Plugins.Keccak
             Console.WriteLine("#Keccak: running Keccak with the following parameters:");
             Console.WriteLine(
                 "#Keccak: output length\t{0} bits\n" +
-                "#Keccak: state size\t\t{1} bits\n" +
+                "#Keccak: state size\t{1} bits\n" +
                 "#Keccak: bit rate\t\t{2} bits\n" +
                 "#Keccak: capacity\t\t{3} bits\n\n"
                 , outputLength, rate + capacity, rate, capacity);

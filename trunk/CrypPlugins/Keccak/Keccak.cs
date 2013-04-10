@@ -163,42 +163,37 @@ namespace Cryptool.Plugins.Keccak
                     pres.imgIntroFirstPage.Visibility = Visibility.Visible;
                 }, null);
 
+                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
+
                 #region check if selected parameters are supported
-                if (rate + capacity < 200)
+                if (outputLength > rate)
                 {
                     pres.skipPresentation = true;
 
                     pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
+                        pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
+
+                        pres.textBlockParametersNotSupported.Text = Resources.PresOutputLengthError;
+                        pres.textBlockParametersNotSupported.Visibility = Visibility.Visible;
+                    }, null); 
+                }
+                else if (rate + capacity < 200)
+                {
+                    pres.skipPresentation = true;
+
+                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        pres.imgIntroFirstPage.Visibility = Visibility.Hidden;
+
                         pres.textBlockParametersNotSupported.Text = Resources.PresStateSizeError;
                         pres.textBlockParametersNotSupported.Visibility = Visibility.Visible;
                     }, null);
                 }
-                else if (outputLength > rate)
-                {
-                    pres.skipPresentation = true;
+                #endregion                
 
-                    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        pres.textBlockParametersNotSupported.Text = Resources.PresOutputLengthError;
-                        pres.textBlockParametersNotSupported.Visibility = Visibility.Visible;
-                    }, null);
-                }
-                #endregion
-
-                AutoResetEvent buttonNextClickedEvent = pres.buttonNextClickedEvent;
-
-                //if (!pres.skipPresentation && !pres.skipIntro)
-                //{
-                //    pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                //    {
-                //        pres.imgIntroFirstPage.Visibility = Visibility.Visible;
-                //    }, null);
-
-                //    buttonNextClickedEvent.WaitOne();
-                //}
-
-                buttonNextClickedEvent.WaitOne();
+                if (!pres.skipPresentation)
+                    buttonNextClickedEvent.WaitOne();
 
                 if (!pres.skipPresentation && !pres.skipIntro)
                 {
