@@ -12,5 +12,8 @@
   <keywords lang="de">faktorisierung, faktor</keywords>
 
   <icon file="Factorization.png" />
+  <relevantPlugins>
+    <plugin name="Factorizer" />
+  </relevantPlugins>
 
 </sample>
