@@ -60,6 +60,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
+        public Frequencies(string prob_filename)
+        {
+
+        }
+
         #endregion
 
         #region Properties
