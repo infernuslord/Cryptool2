@@ -154,7 +154,7 @@
     <value>SHA3-512</value>
   </data>
   <data name="KECCAKFunctionTooltip" xml:space="preserve">
-    <value>Auswahl der Keccak Variante</value>
+    <value>Auswahl der Keccak-Variante</value>
   </data>
   <data name="ManualSettingsCaption" xml:space="preserve">
     <value>Manuell einstellen</value>

@@ -9,7 +9,7 @@
 	</introduction>
   
 	<introduction lang="de-DE">
-	Keccak wurde 2012 als Gewinner der <i>Cryptograhic Hash Algorithm Competition</i> des NIST ausgewählt. Der Wettbewerb wurde ausgetragen, um die dritte Generation des <i>Secure Hash Algorithm</i> (SHA-3) zu bestimmen. Keccak wurde von Guido Bertoni, Joan Daemen, Michael Peeters und Gilles Van Assche entwickelt. Neben dem Einsatz als Hashfunktion kann Keccak aufgrund seines Designs auch in anderen kryptographischen Anwendungen eingesetzt werden, wie etwa als Schlüsselstrom-Generator für eine Stromchiffre oder als Pseudozufallszahlengenerator (Beispiele finden Sie im Bereich <b>Vorlagen</b>). Die Beschreibung der Komponente verwendet daher die Begriffe <i>Eingabe</i> und <i>Ausgabe</i> statt <i>Nachricht</i> und <i>Hashwert</i>.
+	Keccak wurde 2012 als Gewinner der <i>Cryptographic Hash Algorithm Competition</i> des NIST ausgewählt. Der Wettbewerb wurde ausgetragen, um die dritte Generation des <i>Secure Hash Algorithm</i> (SHA-3) zu bestimmen. Keccak wurde von Guido Bertoni, Joan Daemen, Michael Peeters und Gilles Van Assche entwickelt. Neben dem Einsatz als Hashfunktion kann Keccak aufgrund seines Designs auch in anderen kryptographischen Anwendungen eingesetzt werden, wie etwa als Schlüsselstrom-Generator für eine Stromchiffre oder als Pseudozufallszahlengenerator (Beispiele finden Sie im Bereich <b>Vorlagen</b>). Die Beschreibung der Komponente verwendet daher die Begriffe <i>Eingabe</i> und <i>Ausgabe</i> statt <i>Nachricht</i> und <i>Hashwert</i>.
 	</introduction>
   
 	<usage lang="en">
@@ -22,10 +22,10 @@
 		<section headline="Parameters">
 		The parameters of the Keccak function can be customized in the parameter panel. The user can choose between four SHA-3 functions of Keccak (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>) which apply the parameters as proposed by the Keccak developers in [1] (see <b>References</b> section). Additionally, the user can tweak Keccak manually by selecting the function <i>Keccak</i>. This version enables customizing the <i>state size</i>, <i>output length</i>, <i>bit rate</i> and <i>capacity</i>. These parameters have the following meaning:<newline />
 		<list>
-			<item><b>State size:</b> Size of the internal state of Keccak in bit. The state size is the sum of bit rate and capacity. When increasing the bit rate size, the capacity size must be decreased and vice versa.</item>
+			<item><b>State size:</b> Size of the internal state of Keccak in bit. The state size is the sum of bit rate and capacity. When increasing the bit rate size, the capacity size must -- if the state size does not change -- be decreased and vice versa.</item>
 			<item><b>Output length:</b> The length of the produced output in bit.</item>
 			<item><b>Bit rate:</b> The size of the bit rate in bit. The bit rate defines the size of the input blocks in which the input is divided. Each input block is XORed on the bit rate part of the state. The greater this part is, the fewer input blocks must be processed. The bit rate size thus determines the speed of Keccak.</item>
-			<item><b>Capacity:</b> The size of the capacity in bit. The capacity determines the size of the state part which is not modified by the input blocks. The capacity size (c) thus determines the security of Keccak. In [2] (see <b>References</b> section), it is proven that Keccak resists any attack up to 2^(c/2) Keccak computations.</item>
+			<item><b>Capacity:</b> The size of the capacity in bit. The capacity determines the size of the state part which is not modified by the input blocks. The capacity size thus determines the security of Keccak. In [2] (see <b>References</b> section), it is proven that Keccak resists any attack up to 2^(c/2) Keccak computations.</item>
 		</list>		
 		</section>
 	</usage>
@@ -38,22 +38,26 @@
 		</section>
 		
 		<section headline="Parameter">
-		Die Parameter des Keccak-Algorithmus können im Parameterfenster eingestellt werden. Sie können zwischen den vier SHA-3 Funktionen von Keccak wählen (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>), in denen die Parameter nach den Empfehlungen der Keccak-Entwickler [1] (siehe <b>Referenzen</b> Bereich) eingstellt sind. Zusätzlich können Sie die Funktion <i>Keccak</i> auswählen, bei der Sie die Parameter manuell einstellen können. Diese Version ermöglicht es, die Parameter <i>State-Größe</i>, <i>Ausgabelänge</i>, <i>Bit-Rate</i> und <i>Capacity</i> zu konfigurieren. Die Parameter haben folgende Bedeutungen:<newline />
+		Die Parameter des Keccak-Algorithmus können im Parameterfenster eingestellt werden: Sie können zwischen den vier SHA-3-Funktionen von Keccak wählen (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>), in denen die Parameter nach den Empfehlungen der Keccak-Entwickler [1] (siehe <b>Referenzen</b> Bereich) eingstellt sind. Zusätzlich können Sie die Funktion <i>Keccak</i> auswählen, bei der Sie die Parameter manuell einstellen können. Diese Version ermöglicht es, die Parameter <i>State-Größe</i>, <i>Ausgabelänge</i>, <i>Bit-Rate</i> und <i>Capacity</i> zu konfigurieren. Diese Parameter haben folgende Bedeutungen:<newline />
 		<list>
-			<item><b>State-Größe:</b> Größe des internen Keccak-States in Bit. Die State-Größe ist die Summe aus Bit-Rate und Capacity. Wenn Sie die Bit-Rate vergrößern, muss die Capacity verkleinert werden. Andersherum ist es genauso.</item>
+			<item><b>State-Größe:</b> Größe des internen Keccak-States in Bit. Die State-Größe ist die Summe aus Bit-Rate und Capacity. Wenn Sie die Bit-Rate vergrößern, muss -- bei gleicher State-Größe -- die Capacity verkleinert werden. Andersherum ist es genauso.</item>
 			<item><b>Ausgabelänge:</b> Die Länge der erzeugten Ausgabe.</item>
 			<item><b>Bit-Rate:</b> Die Größe der Bit-Rate in Bit. Die Bit-Rate bestimmt die Größe der Eingabeblöcke, in welche die Eingabe geteilt wird. Jeder Eingabeblock wird auf den Bit-Rate-Anteil des States geXORed. Je größer dieser Anteil ist, desto weniger Eingabeblöcke müssen insgesamt verarbeitet werden. Daher wird durch die Bit-Rate-Größe die Geschwindigkeit von Keccak bestimmt.</item>
-			<item><b>Capacity:</b> Die Größe der Capacity in Bit. Die Capacity bestimmt die Größe des State-Anteils, der nicht durch die Eingabeblöcke verändert wird. Die Capacity-Größe (c) bestimmt die Sicherheit von Keccak. In [2] (siehe <b>Referenzen</b> Bereich) wird gezeigt, dass Keccak gegen jeden Angriff, der bis zu 2^(c/2) Keccak-Ausführungen durchführt, resistent ist.</item>
+			<item><b>Capacity:</b> Die Größe der Capacity in Bit. Die Capacity bestimmt die Größe des State-Anteils, der nicht durch die Eingabeblöcke verändert wird. Die Capacity-Größe bestimmt die Sicherheit von Keccak. In [2] (siehe <b>Referenzen</b> Bereich) wird gezeigt, dass Keccak gegen jeden Angriff, der nicht mehr als 2^(c/2) Keccak-Ausführungen durchführt, resistent ist.</item>
 		</list>		
 		</section>		
 	</usage>
 	
 	<presentation lang="en">
-	By double-clicking on the icon of the Keccak component in the CrypTool 2 window, the user can enable the visualization of the Keccak function. In this view, the user can run Keccak step by step and watch the internal functionalities of Keccak, i.e. the absorbing phase, the squeezing phase and the five step mappings theta, rho, pi, chi and iota.
+	By double-clicking on the icon of the Keccak component in the CrypTool 2 window, the user can enable the visualization of the Keccak function. In this view, the user can run Keccak step by step and watch the internal functionalities of Keccak.
+	<newline />
+	The presentation shows the absorbing phase, the squeezing phase and the five step mappings theta, rho, pi, chi and iota.
 	</presentation>
   
 	<presentation lang="de-DE">
-	Durch Doppelklick auf die Keccak-Komponente im CrypTool 2-Fenster können Sie die Visualisierung des Keccak-Algorithmus aktivieren. In dieser Ansicht können Sie Keccak Schritt für Schritt ausführen und die Arbeitsweise von Keccak nachvollziehen. Die Präsentation zeigt die Absorbing-Phase, die Squeezing-Phase und die fünf Step Mappings Theta, Rho, Pi, Chi und Iota.
+	Durch Doppelklick auf die Keccak-Komponente im CrypTool 2-Fenster können Sie die Visualisierung des Keccak-Algorithmus aktivieren. In dieser Ansicht können Sie Keccak Schritt für Schritt ausführen und die Arbeitsweise von Keccak nachvollziehen. 
+	<newline />
+	Die Präsentation zeigt die Absorbing-Phase, die Squeezing-Phase und die fünf Step Mappings Theta, Rho, Pi, Chi und Iota.
 	</presentation>
   
   <references>
