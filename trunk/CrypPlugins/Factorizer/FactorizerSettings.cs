@@ -24,11 +24,42 @@ namespace Factorizer
     {
 
         private const int BRUTEFORCEMIN = 100;
-        private const int BRUTEFORCEMAX = 10000000;
+        private const int BRUTEFORCEMAX = (1<<30);
 
         private long m_BruteForceLimit = 100000;
+        private bool m_BruteForceLimitEnabled = true;
+        private int action = 0; // 0 = factorize, 1 = find smallest factor
 
-        [TaskPane("BruteForceLimitCaption", "BruteForceLimitTooltip", "BruteForceLimitGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, BRUTEFORCEMIN, BRUTEFORCEMAX)]
+
+        [TaskPane("ActionCaption", "ActionTooltip", "BruteForceLimitGroup", 0, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
+        public int Action
+        {
+            get { return this.action; }
+            set
+            {
+                if (((int)value) != action)
+                {
+                    this.action = (int)value;
+                    FirePropertyChangedEvent("Action");
+                }
+            }
+        }
+
+        [TaskPane("BruteForceLimitEnabledCaption", "BruteForceLimitEnabledTooltip", "BruteForceLimitGroup", 1, false, ControlType.CheckBox)]
+        public bool BruteForceLimitEnabled
+        {
+            get { return m_BruteForceLimitEnabled; }
+            set
+            {
+                if (value != m_BruteForceLimitEnabled)
+                {
+                    m_BruteForceLimitEnabled = value;
+                    FirePropertyChangedEvent("BruteForceLimitEnabled");
+                }
+            }
+        }
+
+        [TaskPane("BruteForceLimitCaption", "BruteForceLimitTooltip", "BruteForceLimitGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, BRUTEFORCEMIN, BRUTEFORCEMAX)]
         public long BruteForceLimit
         {
             get { return m_BruteForceLimit; }

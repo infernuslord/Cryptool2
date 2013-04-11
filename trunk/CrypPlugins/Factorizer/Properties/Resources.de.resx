@@ -121,19 +121,19 @@
     <value>Faktorisierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin sucht einen Primfaktor der gegebenen Zahl.</value>
+    <value>Dieses Plugin sucht Primfaktoren der gegebenen Zahl.</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
+  <data name="InputNumberCaption" xml:space="preserve">
     <value>Eingabe</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Die zu faktorisierende natürliche Zahl (als Zeichenfolge)</value>
+  <data name="InputNumberTooltip" xml:space="preserve">
+    <value>Die zu faktorisierende natürliche Zahl</value>
   </data>
   <data name="FactorCaption" xml:space="preserve">
     <value>Primfaktor</value>
   </data>
   <data name="FactorTooltip" xml:space="preserve">
-    <value>Ein Primfaktor der Eingabe (als Zeichenfolge)</value>
+    <value>Ein Primfaktor der Eingabe</value>
   </data>
   <data name="RemainderCaption" xml:space="preserve">
     <value>Rest</value>
@@ -149,5 +149,29 @@
   </data>
   <data name="BruteForceLimitGroup" xml:space="preserve">
     <value>Brute-Force-Faktorisierung</value>
+  </data>
+  <data name="BruteForceLimitEnabledCaption" xml:space="preserve">
+    <value>Obere Schranke verwenden</value>
+  </data>
+  <data name="BruteForceLimitEnabledTooltip" xml:space="preserve">
+    <value>Soll die obere Schranke verwendet werden?</value>
+  </data>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Aktion</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>alle Primfaktoren bestimmen</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>kleinsten Primfaktor bestimmen</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Wählen Sie die Betriebsart der Komponente.</value>
+  </data>
+  <data name="FactorsCaption" xml:space="preserve">
+    <value>Primfaktoren</value>
+  </data>
+  <data name="FactorsTooltip" xml:space="preserve">
+    <value>Alle Primfaktoren der Eingabe</value>
   </data>
 </root>

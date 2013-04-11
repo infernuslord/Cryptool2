@@ -76,40 +76,81 @@ namespace Factorizer
 
         public void Execute()
         {
-            BigInteger m_Input = BigIntegerHelper.ParseExpression(InputString);
+            ProgressChanged(0,1);
 
-            if (m_Input < 2)
+            if (InputNumber <= 0)
             {
-                FireOnGuiLogNotificationOccuredEventError("Input must be natural number >= 2");
+                FireOnGuiLogNotificationOccuredEventError("Input must be a natural number > 0");
                 return;
             }
 
-            if (m_Input.IsProbablePrime())
+            if (m_Settings.Action == 0) // find all prime factors
             {
-                Factor = InputString; // Input = Factor
-                return;                 // No remainder
+                Dictionary<BigInteger, long> factors;
+
+                if (m_Settings.BruteForceLimitEnabled)
+                {
+                    bool isFactorized = false;
+                    factors = InputNumber.Factorize(m_Settings.BruteForceLimit, out isFactorized);
+                    if(!isFactorized)
+                        FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, the last factor is still composite.", m_Settings.BruteForceLimit), NotificationLevel.Warning);
+                }
+                else
+                {
+                    factors = InputNumber.Factorize();
+                }
+
+                List<BigInteger> l = new List<BigInteger>();
+                foreach (var f in factors.Keys)
+                    for (int i = 0; i < factors[f]; i++)
+                        l.Add(f);
+                l.Sort();
+                Factors = l.ToArray();
+            }
+            else  // find the smallest prime factor
+            {
+                if (InputNumber==1)
+                {
+                    // do nothing
+                }
+                else if (InputNumber.IsProbablePrime())
+                {
+                    Factor = InputNumber;
+                    Remainder = 1;
+                }
+                else
+                {
+                    BigInteger sqrt = InputNumber.Sqrt();
+                    BigInteger limit = sqrt;
+                    if(m_Settings.BruteForceLimitEnabled && limit > m_Settings.BruteForceLimit) limit = m_Settings.BruteForceLimit;
+                    int progressdisplay = 0;
+
+                    for (BigInteger factor = 2; factor <= sqrt; factor = (factor + 1).NextProbablePrime())
+                    {
+                        if (m_Settings.BruteForceLimitEnabled && factor > m_Settings.BruteForceLimit)
+                        {
+                            FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, no factors found.", m_Settings.BruteForceLimit), NotificationLevel.Warning);
+                            break;
+                        }
+
+                        if (InputNumber % factor == 0)
+                        {
+                            // Factor found, exit gracefully
+                            Factor = factor;
+                            Remainder = InputNumber / factor;
+                            break;
+                        }
+
+                        if (++progressdisplay >= 100)
+                        {
+                            progressdisplay = 0;
+                            ProgressChanged((int)((factor * 100) / limit), 100);
+                        }
+                    }
+                }
             }
 
-            BigInteger limit = BigIntegerHelper.Min(m_Settings.BruteForceLimit, m_Input.Sqrt());
-            int progressdisplay = 0;
-
-            for (BigInteger factor = 2; factor <= limit; factor = (factor + 1).NextProbablePrime())
-            {
-                if (++progressdisplay == 100)
-                {
-                    progressdisplay = 0;
-                    ProgressChanged((int)((factor * 100) / limit), 100);
-                }
-                if (m_Input % factor == 0)
-                {
-                    // Factor found, exit gracefully
-                    Factor = factor.ToString();
-                    Remainder = (m_Input / factor).ToString();
-                    return;
-                }
-            }
-
-            FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, no factors found", limit), NotificationLevel.Warning);
+            ProgressChanged(0, 1);
         }
 
         public void PostExecution()
@@ -142,42 +183,58 @@ namespace Factorizer
 
         #region Properties
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
-        public string InputString
+        private BigInteger m_inputNumber;
+
+        [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip", true)]
+        public BigInteger InputNumber
         {
-            get;
-            set;
+            get
+            {
+                return m_inputNumber;
+            }
+            set
+            {
+                this.m_inputNumber = value;
+                FirePropertyChangedEvent("InputNumber");
+            }
         }
 
-        private string m_Factor;
+        private BigInteger[] m_FactorArray;
+
+        [PropertyInfo(Direction.OutputData, "FactorsCaption", "FactorsTooltip", true)]
+        public BigInteger[] Factors
+        {
+            get { return m_FactorArray; }
+            set
+            {
+                m_FactorArray = value;
+                FirePropertyChangedEvent("Factors");
+            }
+        }
+
+        private BigInteger m_Factor;
 
         [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", true)]
-        public string Factor
+        public BigInteger Factor
         {
             get { return m_Factor; }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    m_Factor = value;
-                    FirePropertyChangedEvent("Factor");
-                }
+                m_Factor = value;
+                FirePropertyChangedEvent("Factor");
             }
         }
 
-        private string m_Remainder;
+        private BigInteger m_Remainder;
 
         [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", true)]
-        public string Remainder
+        public BigInteger Remainder
         {
             get { return m_Remainder; }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    m_Remainder = value;
-                    FirePropertyChangedEvent("Remainder");
-                }
+                m_Remainder = value;
+                FirePropertyChangedEvent("Remainder");
             }
         }
 

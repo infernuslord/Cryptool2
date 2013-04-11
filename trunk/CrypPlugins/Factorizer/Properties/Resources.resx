@@ -121,19 +121,19 @@
     <value>Factorizer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>This plugin searches for a prime factor of the given number.</value>
+    <value>This plugin searches for prime factors of the given number.</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>String input</value>
+  <data name="InputNumberCaption" xml:space="preserve">
+    <value>Number input</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>A string that represents a natural number</value>
+  <data name="InputNumberTooltip" xml:space="preserve">
+    <value>Enter the number you want to factorize</value>
   </data>
   <data name="FactorCaption" xml:space="preserve">
     <value>Prime factor</value>
   </data>
   <data name="FactorTooltip" xml:space="preserve">
-    <value>A string that represents a factor that is a prime.</value>
+    <value>Output of a prime factor of the input number</value>
   </data>
   <data name="RemainderCaption" xml:space="preserve">
     <value>Remainder</value>
@@ -149,5 +149,29 @@
   </data>
   <data name="BruteForceLimitGroup" xml:space="preserve">
     <value>Brute-Force Factorization</value>
+  </data>
+  <data name="BruteForceLimitEnabledCaption" xml:space="preserve">
+    <value>Use upper limit</value>
+  </data>
+  <data name="BruteForceLimitEnabledTooltip" xml:space="preserve">
+    <value>Should the upper limit be used?</value>
+  </data>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>determine all prime factors</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>determine smallest prime factor</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Select the action of the component.</value>
+  </data>
+  <data name="FactorsCaption" xml:space="preserve">
+    <value>Prime factors</value>
+  </data>
+  <data name="FactorsTooltip" xml:space="preserve">
+    <value>Output of all prime factors of the input number</value>
   </data>
 </root>

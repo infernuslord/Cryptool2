@@ -5,55 +5,77 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This plugins searches for a prime factor of the given number.
+    This plugins searches for one or all prime factors of the given number.
+    The plugin uses trial division for finding a prime factor, i.e. it divides the input number by every prime number, beginning
+    with 2. When it finds a prime number for which the remainder is zero, it has found a prime factor of the number.
+    With this method, only prime numbers up to the square root of the input number have to be checked.
   </introduction>
 
   <introduction lang="de-DE">
-    Dieses Plugin sucht einen Primfaktor der eingegebenen Zahl.
+    Dieses Plugin sucht mit dem Verfahren der Probedivision einen oder alle Primfaktoren der eingegebenen Zahl.
+    Bei der Probedivision wird die zu untersuchende Zahl durch alle aufeinanderfolgenden Primzahlen, beginnend mit der 2, geteilt.
+    Bleibt bei der Division kein Rest übrig, so ist die getestete Primzahl ein Teiler der zu untersuchenden Zahl.
+    Bei diesem Verfahren müssen Primzahlen nur bis höchstens zur Quadratwurzel der Zahl getestet werden.
   </introduction>
 
   <usage lang="en">
-    This plugin expects a positive integer as input and tries to find a prime factor of this number.
-    When it succeeds, it sends the found prime factor to the ouput labeled 'Prime factor'. It then divides
+    This plugin expects a positive integer as input and tries to find one or all prime factors of this number.
+    In the settings of the plugin you can choose whether the plugin should find only the smallest or all prime factors of the number.
+    <newline/><newline/>
+    
+    For big numbers, the search for a prime factor can take a very long time. Therefore you can provide an upper limit in the settings
+    of the plugin for the magnitude of the primes that have to be checked by the algorithm. If the number is composite and no prime factor smaller than the
+    upper limit is found, the algorithm stops and generates a warning message.
+    <newline/><newline/>
+
+    If the plugin should only find the smallest prime factor, it sends the first prime factor it found to the ouput labeled 'Prime factor'. It then divides
     the input number by the prime factor and sends the result to the output labeled 'Remainder'.
     Observe that 'Remainder' is generally not a prime number, but a composite number.
+    If the input number is a prime number, the plugin sends the number to the 'Prime factor' output and the number 1 to the 'Remainder' output.
+    If the upper limit is activated and no smaller prime factors were found, the number is sent to the 'Prime factor' output and the 'Remainder' output stays empty.
     <newline/><newline/>
-    If the input number is a prime number, the plugin sends 1 to the 'Prime factor' output and the number itself to
-    the 'Remainder' output.
+
+    If the plugin should find all prime factors, it sends the array of the found prime factors to the ouput labeled 'Prime factors'.
+    If the upper limit is activated, only those prime factors that are smaller than the limit are found.
+    The last number in the array that is sent to the output 'Prime factors' is then set to the product of those prime factors of the input number, that are bigger than the limit.
     <newline/><newline/>
-    The plugin uses trial division for finding a prime factor, i.e. it divides the input number by every prime number, beginning
-    with 2. When it finds a prime number for which the remainder is zero, it has found a prime factor of the number and the
-    algorithm stops. With this method, only prime numbers up to the square root of the input number have to be checked.
-    For big numbers, the search for a prime factor can take a very long time. Therefore you can provide an upper limit in the settings
-    of the plugin for the magnitude of the primes that have to be checked by the algorithm. If no prime factor smaller than the
-    upper limit is found, the algorithm stops and sends 1 to the 'Prime factor' output and the number itself to the 'Remainder'
-    output.
-    <newline/><newline/>
-    The factorization algorithm that is implemented in this plugin should only be applied to relatively small numbers (up to
-    about 10^12). For the factorization of bigger numbers there exist algorithms that are much more efficient,
+    
+    The factorization algorithm that is implemented in this plugin should only be applied to relatively small numbers. For numbers up to about 10^14, the trial division
+    can execute the factorization in an acceptable amount of time. For bigger numbers, the running time depends largely upon the number of smaller prime factors that they have.
+    If the number has too many big prime factors, the trial division algorithms meets its limits.
+    For the factorization of bigger numbers there exist algorithms that are much more efficient,
     e.g. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Cryptool.Plugins.QuadraticSieve.QuadraticSieve"/>.
   </usage>
 
   <usage lang="de-DE">
-    Das Plugin erwartet als Eingabe eine positive ganze Zahl. Es versucht, einen Primfaktor der Zahl zu
-    finden und gibt diesen im Erfolgsfall am Ausgang 'Faktor' aus. Die Zahl wird dann durch diesen Primfaktor
-    geteilt und das Ergebnis der Division wird am Ausgang 'Rest' ausgegeben. Beachten Sie, dass 'Rest' im Allgemeinen
-    noch eine zusammengesetzte Zahl, also keine Primzahl ist.
+    Das Plugin erwartet als Eingabe die zu faktorisierende Zahl. Diese muss eine positive ganze Zahl sein.
+    In den Einstellungen kann gewählt werden, ob nur der kleinste oder alle Primfaktoren dieser Zahl gesucht werden sollen.
     <newline/><newline/>
-    Ist die zu untersuchende Zahl eine Primzahl, so wird am Ausgang 'Faktor' die Zahl 1 ausgegeben und am Ausgang 'Rest'
-    die Zahl selbst.
+    
+    Da die Suche nach einem Primfaktor für große Zahlen sehr lange dauern kann, kann man in den Einstellungen des Plugins eine 
+    obere Schranke für die zu testenden Primfaktoren angeben. Ist die Zahl zusammengesetzt und hat keinen Primfaktor, der kleiner als die angegebene Schranke ist,
+    so wird die Suche abgebrochen und eine Warnmeldung ausgegeben.
     <newline/><newline/>
-    Das Plugin verwendet das Verfahren der Probedivision, um einen Primfaktor zu finden. Hierbei wird die zu untersuchende
-    Zahl durch alle Primzahlen, beginnend mit der 2, geteilt. Bleibt bei der Division kein Rest übrig, so ist die getestete Primzahl
-    ein Teiler der zu untersuchenden Zahl und der Algorithmus bricht die weitere Suche ab. Bei diesem Verfahren müssen Primzahlen
-    bis höchstens zur Quadratwurzel der Zahl getestet werden. Da die Suche nach einem Primfaktor für große Zahlen sehr lange
-    dauern kann, kann man in den Einstellungen des Plugins eine obere Schranke für die zu testenden Primfaktoren angeben. Hat die
-    Zahl keinen Primfaktor, der kleiner als die angegebene Schranke ist, so wird die Suche beendet und am Ausgang 'Faktor' wird
-    1 ausgegeben, am Ausgang 'Rest' die Zahl selbst.
+    
+    Soll nur der kleinste Primfaktor gesucht werden, so wird der erste gefundene Primfaktor am Ausgang 'Primfaktor' ausgegeben.
+    Die Zahl wird dann durch diesen Primfaktor geteilt und das Ergebnis der Division wird am Ausgang 'Rest' ausgegeben.
+    Beachten Sie, dass 'Rest' im Allgemeinen noch eine zusammengesetzte Zahl, also keine Primzahl ist.
+    Ist die zu untersuchende Zahl eine Primzahl, so wird diese am Ausgang 'Primfaktor' ausgegeben und am Ausgang 'Rest' die Zahl 1.
+    Wenn die obere Schranke aktiviert ist und kein kleinerer Primfaktor gefunden wurde, so wird am
+    Ausgang 'Primfaktor' die Zahl selbst ausgegeben, am Ausgang 'Rest' wird hingegen nichts ausgegeben.
     <newline/><newline/>
-    Der in diesem Plugin implementierte Faktorisierungsalgorithmus sollte nur auf kleine Zahlen angewendet werden (etwa bis 10^12). 
+
+    Sollen alle Primfaktoren gesucht werden, werden die gefundenen Primfaktoren als Array am Ausgang 'Primfaktoren' ausgegeben.
+    Wenn die obere Schranke aktiviert ist, so werden nur die Primfaktoren gefunden, die kleiner als diese Schranke sind.
+    Die letzte Zahl im Ausgabe-Array 'Primfaktoren' ist in diesem Fall das Produkt der Primfaktoren der Eingabezahl, die größer
+    als die Schranke sind.
+    <newline/><newline/>
+
+    Der in diesem Plugin implementierte Faktorisierungsalgorithmus sollte nur auf kleine Zahlen angewendet werden. Für Zahlen bis etwa 10^14 kann die
+    Probedivision die Faktorisierung zuverlässig in akzeptabler Zeit durchführen. Bei größeren Zahlen hängt die Laufzeit entscheidend davon ab, ob diese
+    genügend kleinere Primfaktoren enthalten. Wenn die Zahl aber zu viele große Primfaktoren hat, so stößt die Probedivision an ihre Grenzen.
     Für die Faktorisierung größerer Zahlen existieren sehr viel effizientere Methoden, wie z.B. das quadratische Sieb, welches
-    im Plugin <docRef item="Cryptool.Plugins.QuadraticSieve.QuadraticSieve"/> realisiert ist und für größere Zahlen diesem Plugin vorgezogen werden sollte.
+    im Plugin <docRef item="Cryptool.Plugins.QuadraticSieve.QuadraticSieve"/> realisiert ist und dann diesem Plugin vorgezogen werden sollte.
   </usage>
 
   <references>
