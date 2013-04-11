@@ -4,24 +4,89 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
-  </introduction>
-
-  <introduction lang="de-DE">    
-  </introduction>
-
   <usage lang="en">
+    The CrypTool 2 Wizard is - beside of the Workspace Manager and the Crypto Tutorials - one of the most important utility in CrypTool 2. The Wizard was developed specially to faciliate the entry into CrypTool 2 of new and/or inexperienced users. Therefore the wizard provides an assistant, which makes it step-by-step possible to configure and call up easily, predefined templates. This offers you as the user the advantage, to navigate clearly through the wide amount of templates of CrypTool 2. At the same time you don't have to bother about the high complexity in configuration and interaction between components of quiet a few templates.
+    <newline/>
+    <newline/>
+    The easiest way to call up the Wizard is in the Startcenter. In the section "Main functions" pressing the button "Wizard" opens a new Wizard tab. The Wizard is also callable in the dropdown menue of the "New" button in the "File" section of the "Home" ribbon, which is located in the top left corner of the CrypTool 2 window.
+    <newline/>
+    <newline/>
+    <img src="Wizard/DetailedDescription/Images/Figure3.png" />    
+    <newline/>
+    <newline/>
+    The Wizard opens, as can be seen in Figure 1, in a new tab in the CrypTool 2 window, likewise a workspace or the Startcenter. The Wizard will always open with the main page. On the left side of the page are checkboxes in order to choose the catagory of the desired template. In the center of the page were displayed descriptions of the choosen catagory. On the downer, right side are navigation controls to return to the previous page, proceed to the next or cancel the actual process.
+    <newline/>
+    <newline/>
+    The Wizard was designed in such a way, that you approach in a kind of decision tree to that template, which is closest to your problem, task or target. While the seperations in the beginning are more rough - like for example should something be decrypted or analyst - the decisions getting with every page more and more fine-grained. In the best case the Wizard provides on the last page the template which does what you've been looking for.
+    <newline/>
+    In the further extending configuration settings may be necessary. Should problems arise here please read the documentation of the components which were used in the template.
+    <newline/>
+    <newline/>
+    <img src="Wizard/DetailedDescription/Images/Figure2.png" />    
+    <newline/>
+    <newline/>
+    In the downer area of the tab, the path through the decision tree is represented graphically, as can be ssen in Figure 2. Doublclicking on a segment of the path leads back to that step.
+    <newline/>
+    <newline/>
+    Depending on the choosen template, either the Wizard will open the template in a new workspace or the most important informations will be summarized on a further page. In case of the latter, the Wizard will provide a button in the upper right corner which opens the corresponding template as a new workspace with the configurations.
+    <newline/>
+    <newline/>
+    Settings
+    <newline/>
+    <newline/>
+    In the global settings of CrypTool 2 it is possible in the menu option "Wizard" to do configurations. In the option "Run templates automatically" can be set, if opened templates in new workspaces should immediatly be started by the Wizard. In the option "Show animations" the animations which occur when the Wizard page is changed can be deactivated.
   </usage>
 
   <usage lang="de-DE">
+    
+    Der CrypTool 2 Wizard (dt. Zauberer) ist - neben dem Workspace Manager und dem Cryptutorial - eine der Kernkomponenten von CrypTool 2. Der Wizard wurde speziell dazu entwickelt neuen und/oder unerfahrenen Nutzern den Einstieg in CrypTool 2 zu erleichtern. Dazu stellt der Wizard einen Assistenten bereit, mit dem es schrittweise möglich ist, schnell vordefinierte Arbeitsbereiche (soegnannte Templates, zu deutsch: Vorlagen) zu konfigurieren und aufzurufen. Dies bietet Ihnen als Nutzer den Vorteil, dass Sie übersichtlicher durch die große Anzahl von Komponenten und Vorlagen von CrypTool 2 navigieren können. Gleichzeitig bleibt Ihnen die teilweise recht hohe Komplexität an Konfigurationen und Wechselwirkung zwischen Komponenten mancher Vorlagen erspart.
+    <newline/>
+    <newline/>
+    Aufzurufen ist der Wizard am einfachsten über das Startcenter. In der Rubrik "Haupt Funktionen" öffnet ein Druck auf die Schaltfläche "Wizard" einen neuen Wizard Reiter. Ebenfalls aufrufbar ist der Wizard im Ausklapp Menü der "Neu" Schaltfläche, in der Rubrik "Datei" des "Home" Ribbons. Dieser befindet sich in der oberen, linken Ecke des CrypTool 2 Fensters.
+    <newline/>
+    <newline/>
+    <img src="Wizard/DetailedDescription/Images/Figure3.png" />    
+    <newline/>
+    <newline/>
+    Der Wizard öffnet sich, wie in Abbildung 1 zu sehen, in einem neuen Reiter im CrypTool 2 Fenster, ähnlich wie ein Arbeitsbereich oder das Startcenter. Der Wizard öffnet sich stets mit der Startseite. Am linken Rand der Seite befinden sich Checkboxen, um eine Auswahl, der Kategorie, der gewünschten Vorlage treffen zu können. Im Zentrum der Seite ist eine Beschreibung der gewählten Kategorie. Im unteren Teil, am rechten Rand der Seite befinden sich Navigationselemente, mit denen zur vorherigen zurückgesprungen, die nächste Seite aufgerufen oder der laufende Vorgang abgebrochen werden kann.
+    <newoine/>
+    <newline/>
+    Der Wizard wurde dabei so konizpiert, dass man sich wie in einer Art Entscheidungsbaum, jener Vorlage annähert, welche dem eigenen Problem/Aufgabe/Ziel am nächsten kommt. Während am Anfang noch grobe Unterteilungen getroffen werden, wie z.B. ob etwas verschlüsselt oder analysiert werden soll, werden die Entscheidungen mit jeder Seite feingranularer. Am Ende wird im günstigsten Fall die Vorlage erreicht, welche gesucht wurde.<newline/>
+    Im weiteren Verlauf können dann Konfigurationseinstellungen notwendig werden. 
+    Sollten an dieser Stelle Probleme autreten, müssen die Hilfeseiten der Komponenten der Vorlage zu rate gezogen werden.
+    <newline/>
+    <newline/>
+    <img src="Wizard/DetailedDescription/Images/Figure2.png" />    
+    <newline/>
+    <newline/>
+    Im unteren Bereich des Fensters wird der Pfad durch den Entscheidungsbaum grafisch dargstellt, wie in Abbildung 2 zu sehen. Mit einem Doppelklick auf ein Segment des Pfades, kann an diese Stelle im Baum zurück gesprungen werden.
+    <newline/>
+    <newline/>
+    Abhängig von der gewählten Vorlage, wird im letzten Schritt entweder ein Arbeitsbereich mit den entsprechenden Konfigurationen aufgerufen, oder eine weitere Seite im Wizard, welche die wichtigsten Informationen grafisch zusammenfasst. Sollte Letzteres der Fall sein, bietet eine Schaltfläche in der rechten oberen Ecke weiterhin die Möglichkeit, einen Arbeitsbereich mit der entsprechenden Vorlage und den Konfigurationen aufzurufen.
+    <newline/>
+    <newline/>
+    Eintstellungen
+    <newline/>
+    <newline/>
+    In den globalen Einstellungen von CrypTool 2 ist es möglich unter dem Menüpunkt "Wizard" Einstellungen vornehmen zu können. Unter "Vorlagen automatisch ausführen" kann eingestellt werden, ob im letzten Schritt der neue Arbeitsbereich mit der Vorlage vom Wizard gestartet werden soll oder nicht.
+    Im Manü Punkt "Animationen anzeigen" können die Animationen beim Wechsel der Seiten deaktiviert werden.
+
+  
+
   </usage>
   
-  <presentation lang="en">
-  </presentation>
+  <settings lang="en">
+    
+  </settings>
   
-  <presentation lang="de-DE">
-  </presentation>
-  
+  <settings lang="de-DE">
+    
+  </settings>
   <references>
+    <bookReference>
+      <author>Simone Sauer</author>      
+      <name lang="en">Bachelor Thesis</name>
+      <name lang="de-DE">Bachelorarbeit</name>
+    </bookReference>
   </references>
 </documentation>
