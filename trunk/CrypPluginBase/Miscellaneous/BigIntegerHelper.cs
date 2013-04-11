@@ -706,37 +706,70 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         public static Dictionary<BigInteger, long> Factorize(this BigInteger n)
         {
+            bool isFactorized;
+            return n.Factorize(n, out isFactorized);
+        }
+
+        public static Dictionary<BigInteger, long> Factorize(this BigInteger n, BigInteger limit, out bool isFactorized)
+        {
             Dictionary<BigInteger, long> factors = new Dictionary<BigInteger, long>();
             BigInteger value = (n < 0) ? -n : n;
+
+            isFactorized = false;
+
+            if (value == 1)
+            {
+                isFactorized = true;
+                return factors;
+            }
 
             if (value.IsProbablePrime())
             {
                 factors[value] = 1;
+                isFactorized = true;
                 return factors;
             }
 
-            BigInteger factor = 2;
-            BigInteger factor2 = factor * factor;
-
-            while (value!=1)
+            for (BigInteger factor = 2; ; factor = (factor + 1).NextProbablePrime())
             {
-                if (factor2 > value)
+                if (factor * factor > value)
                 {
                     factors[value] = 1;
+                    isFactorized = true;
                     break;
                 }
-                if (value % factor==0)
+
+                if (factor > limit)
+                {
+                    factors[value] = 1;
+                    isFactorized = false;
+                    break;
+                }
+
+                if (value % factor == 0)
                 {
                     factors[factor] = 0;
+
                     do
                     {
                         value /= factor;
                         factors[factor]++;
                     }
                     while (value % factor == 0);
+
+                    if (value == 1)
+                    {
+                        isFactorized = true;
+                        break;
+                    }
+
+                    if (value.IsProbablePrime())
+                    {
+                        factors[value] = 1;
+                        isFactorized = true;
+                        break;
+                    }
                 }
-                factor = (factor+1).NextProbablePrime();
-                factor2 = factor * factor;
             }
 
             return factors;
