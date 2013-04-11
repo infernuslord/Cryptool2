@@ -14,17 +14,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #region Variables
 
         // Genetic algorithm parameters
-        private const int population_size = 100;
-        private int[] crossProbability;
-        private const int mutateProbability = 1000; // 100000
+        private const int population_size = 80;
+        private const int mutateProbability = 40; // 100000
+        private const int maxGenerations = 50;
+        private const double changeBorder = 0.001;
 
         // Working Variables
-        private Frequencies plaintext_frequencies = null;
-        private int[][] key;
-        private double[] key_fitness;
         private static Random rnd = new Random();
-        private double last_best_key_fit = 0;
- 
+
         // Input Property Variables
         private Alphabet plaintext_alphabet = null;
         private Alphabet ciphertext_alphabet = null;
@@ -35,6 +32,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         // Output Property Variables
         private Text plaintext = null;
         private int[] best_key = null;
+
+        // Delegate
+        private PluginProgress PluginProgress;
+
+        // Class for a population
+        private class Population
+        {
+            public int[][] keys;
+            public double[] fitness;
+            public int[] prob;
+            public double dev;
+        }
 
         #endregion
 
@@ -99,149 +108,166 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         #region Main Methods
 
-        /// <summary>
-        /// Start analysis (Create first generation of keys and initialize data structures)
-        /// </summary>
-        public double StartAnalysis()
+        public void Analyze()
         {
-            /*
-             * Set up environment
-             */
+            Population population = new Population();
+            SetUpEnvironment(population,Analyzer.population_size);
+            CreateInitialGeneration(population, this.ciphertext, this.ciphertext_alphabet, this.ciphertext_alphabet.Length);
+
+            double change = population.dev;
+            int curGen = 1;
+            Population nextGen = population;
+
+            while ((change > Analyzer.changeBorder) && (curGen < Analyzer.maxGenerations))
+            {
+                nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, false);
+                curGen++;
+                change = nextGen.dev;
+                PluginProgress(curGen*2,100);
+            }
+
+            nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, true);
+
+            this.plaintext = DecryptCiphertext(nextGen.keys[0], this.ciphertext, this.ciphertext_alphabet);
+        }
+
+        private void SetUpEnvironment(Population pop, int size)
+        {
             // Initialize data structures
-            this.best_key = new int[this.ciphertext_alphabet.Length];
-            this.key_fitness = new double[Analyzer.population_size];
-            this.key = new int[Analyzer.population_size][];
-            for (int i = 0; i < this.key.Length; i++)
-            {
-                this.key[i] = new int[this.ciphertext_alphabet.Length];
-            }
-            this.plaintext = this.ciphertext.CopyTo();
-            this.plaintext_frequencies = new Frequencies(this.plaintext_alphabet);
+            pop.keys = new int[size][];
+            pop.fitness = new double[size];
+       
             // Create probability array to choose crossover keys
-            int size = 0;
-            int[] quantElements = new int[Analyzer.population_size];   
-            for (int i=0;i<Analyzer.population_size;i++)
+            int s = 0;
+            int[] quantElements = new int[size];
+            for (int i = 0; i < size; i++)
             {
-                size += i;
-                quantElements[i]=Analyzer.population_size - i;
+                s += i;
+                quantElements[i] = size - i;
             }
-            size += Analyzer.population_size;
-            this.crossProbability = new int[size];
+            s += size;
+            pop.prob = new int[s];
             int index = 0;
-            for (int i=0;i < quantElements.Length;i++)
+            for (int i = 0; i < quantElements.Length; i++)
             {
-                for (int j=0;j < quantElements[i];j++)
+                for (int j = 0; j < quantElements[i]; j++)
                 {
-                    this.crossProbability[index] = i;
+                    pop.prob[index] = i;
                     index++;
                 }
             }
-            // Create initial population keys
-            for (int i = 0; i < this.key.Length; i++)
-            {
-                this.key[i] = this.CreateInitialKeyRandom();
-            }
-            
-            // Calculate fitness of population keys
-            for (int i = 0; i < this.key.Length; i++)
-            {
-                DecryptCiphertext(this.key[i],this.ciphertext,this.ciphertext_alphabet,this.plaintext);
-                this.key_fitness[i] = CalculateFitness(this.plaintext);
-            }
-
-            // Return fitness of best key
-            this.last_best_key_fit = this.key_fitness[GetIndexOfFittestKey(this.key_fitness)];
-            return this.last_best_key_fit;
         }
 
-        /// <summary>
-        /// Next step of the cryptanalysis process (Create new generation of keys)
-        /// </summary>
-        public double NextStep()
+        private void CreateInitialGeneration(Population pop, Text ciphertext, Alphabet cipher_alpha, int keylength)
         {
-            int[][] newkeys = new int[Analyzer.population_size][];
-            //// Crossover parents to generate children (Combination)
-            // Sort keys according to their fitness
-            for (int i = 0; i < this.key.Length; i++)
+            // Create initial population keys
+            for (int i = 0; i < pop.keys.Length; i++)
             {
-                for (int j = 0; j < this.key.Length; j++)
+                pop.keys[i] = this.CreateInitialKeyRandom(keylength);
+            }
+
+            // Calculate fitness of population keys
+            for (int i = 0; i < pop.keys.Length; i++)
+            {
+                pop.fitness[i] = CalculateFitness(DecryptCiphertext(pop.keys[i], ciphertext, cipher_alpha));
+            }
+
+            // Sort keys according to their fitness
+            int[] helper1;
+            double helper2;
+
+            for (int i = 0; i < pop.keys.Length; i++)
+            {
+                for (int j = 0; j < pop.keys.Length; j++)
                 {
-                    if (this.key_fitness[i] > this.key_fitness[j])
+                    if (pop.fitness[i] > pop.fitness[j])
                     {
-                        int[] helper = this.key[i];
-                        this.key[i] = this.key[j];
-                        this.key[j] = helper;
-                        double h = this.key_fitness[i];
-                        this.key_fitness[i] = this.key_fitness[j];
-                        this.key_fitness[j] = h;
+                        helper1 = pop.keys[i];
+                        pop.keys[i] = pop.keys[j];
+                        pop.keys[j] = helper1;
+                        helper2 = pop.fitness[i];
+                        pop.fitness[i] = pop.fitness[j];
+                        pop.fitness[j] = helper2;
                     }
                 }
             }
+
+            // Calculate change in development
+            pop.dev = Math.Abs(pop.fitness[0]);
+        }
+
+        private Population CreateNextGeneration(Population pop, Text ciphertext, Alphabet cipher_alpha, bool last)
+        {
+            Population next = new Population();
+            
+
+            next.prob = pop.prob;
+            next.fitness = new double[pop.keys.Length];
+            next.keys = new int[pop.keys.Length][];
+
             // Create population_size x children through crossover and mutate children
             int p1;
             int p2;
             int i1;
             int i2;
-            int size = this.crossProbability.Length;
+            int size = pop.prob.Length;
+            int helper3;
 
-            for (int i = 0; i < newkeys.Length; i++)
+            for (int i = 0; i < next.keys.Length; i++)
             {
                 i1 = Analyzer.rnd.Next(size);
                 i2 = Analyzer.rnd.Next(size);
-                p1 = this.crossProbability[i1];
-                p2 = this.crossProbability[i2];
-                //while (this.crossProbability[p1] == this.crossProbability[p2])
-                //{
-                //    p2 = this.crossProbability[Analyzer.rnd.Next(this.crossProbability.Length)];
-                //}
-                newkeys[i] = CombineKeys(this.key[p1], this.key_fitness[p1], this.key[p2], this.key_fitness[p2], this.ciphertext, this.ciphertext_alphabet, this.plaintext);
+                p1 = pop.prob[i1];
+                p2 = pop.prob[i2];
+    
+                next.keys[i] = CombineKeys(pop.keys[p1], pop.fitness[p1], pop.keys[p2], pop.fitness[p2], this.ciphertext, this.ciphertext_alphabet);
 
-                for (int j = 0; j < newkeys[i].Length; j++)
+                if (!last)
                 {
-                    if (Analyzer.rnd.Next(Analyzer.mutateProbability) == 0)
+                    for (int j = 0; j < next.keys[i].Length; j++)
                     {
-                        p1 = Analyzer.rnd.Next(newkeys[i].Length);
-                        p2 = Analyzer.rnd.Next(newkeys[i].Length);
-                        int helper = newkeys[i][p1];
-                        newkeys[i][p1] = newkeys[i][p2];
-                        newkeys[i][p2] = helper;
+                        if (Analyzer.rnd.Next(Analyzer.mutateProbability) == 0)
+                        {
+                            p1 = Analyzer.rnd.Next(next.keys[i].Length);
+                            p2 = Analyzer.rnd.Next(next.keys[i].Length);
+                            helper3 = next.keys[i][p1];
+                            next.keys[i][p1] = next.keys[i][p2];
+                            next.keys[i][p2] = helper3;
+                        }
                     }
                 }
-            
             }
-
-            this.key = newkeys;
 
             // Calculate fitness of population
-            for (int i = 0; i < this.key.Length; i++)
+            for (int i = 0; i < next.keys.Length; i++)
             {
-                DecryptCiphertext(this.key[i], this.ciphertext, this.ciphertext_alphabet, this.plaintext);
-                this.key_fitness[i] = CalculateFitness(this.plaintext);
+                next.fitness[i] = CalculateFitness(DecryptCiphertext(next.keys[i],ciphertext, cipher_alpha));
             }
 
-            double cur_best_key_fit = this.key_fitness[GetIndexOfFittestKey(this.key_fitness)];
-            double change = cur_best_key_fit - this.last_best_key_fit;
-            this.last_best_key_fit = cur_best_key_fit;
+            // Sort keys according to their fitness
+            int[] helper1;
+            double helper2;
 
-            return change;
-        }
-
-        public void LastStep()
-        {
-            int index_best_key = 0;
-            double best_key_fit = this.key_fitness[0];
-            // Determine best key in population
-            for (int i = 1; i < this.key.Length; i++)
+            for (int i = 0; i < next.keys.Length; i++)
             {
-                if (this.key_fitness[i] < best_key_fit)
+                for (int j = 0; j < next.keys.Length; j++)
                 {
-                    best_key_fit = this.key_fitness[i];
-                    index_best_key = i;
+                    if (next.fitness[i] > next.fitness[j])
+                    {
+                        helper1 = next.keys[i];
+                        next.keys[i] = next.keys[j];
+                        next.keys[j] = helper1;
+                        helper2 = next.fitness[i];
+                        next.fitness[i] = next.fitness[j];
+                        next.fitness[j] = helper2;
+                    }
                 }
             }
-            // Decrypt ciphertext
-            this.key[index_best_key].CopyTo(this.best_key, 0);
-            DecryptCiphertext(this.key[index_best_key],this.ciphertext,this.ciphertext_alphabet,this.plaintext);
+
+            // Calculate change in development
+            next.dev = Math.Abs(Math.Abs(next.fitness[0]) - pop.dev);
+
+            return next;
         }
 
         #endregion
@@ -251,10 +277,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Create Random Initial Key
         /// </summary>
-        private int[] CreateInitialKeyRandom()
+        private int[] CreateInitialKeyRandom(int keylength)
         {
             Boolean vorhanden = false;
-            int[] res = new int[this.ciphertext_alphabet.Length];
+            int[] res = new int[keylength];
 
             for (int i = 0; i < res.Length; i++)
             {
@@ -316,31 +342,31 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             int pos2 = 1;
             int pos3 = 2;
 
-            for (int i = 4; i < this.plaintext.Length; i++)
+            for (int i = 4; i < plaintext.Length; i++)
             {
                 pos0++; pos1++; pos2++; pos3++;
-                while ((i < this.plaintext.Length) && (this.plaintext.GetLetterAt(i)==-1))
+                while ((i < plaintext.Length) && (plaintext.GetLetterAt(i)==-1))
                 {
                     i++;
                 }
-                while ((pos0 < this.plaintext.Length) && (this.plaintext.GetLetterAt(pos0) == -1))
+                while ((pos0 < plaintext.Length) && (plaintext.GetLetterAt(pos0) == -1))
                 {
                     pos0++;
                 }
-                while ((pos1 < this.plaintext.Length) && (this.plaintext.GetLetterAt(pos1) == -1))
+                while ((pos1 < plaintext.Length) && (plaintext.GetLetterAt(pos1) == -1))
                 {
                     pos1++;
                 }
-                while ((pos2 < this.plaintext.Length) && (this.plaintext.GetLetterAt(pos2) == -1))
+                while ((pos2 < plaintext.Length) && (plaintext.GetLetterAt(pos2) == -1))
                 {
                     pos2++;
                 }
-                while ((pos3 < this.plaintext.Length) && (this.plaintext.GetLetterAt(pos3) == -1))
+                while ((pos3 < plaintext.Length) && (plaintext.GetLetterAt(pos3) == -1))
                 {
                     pos3++;
                 }
 
-                if (i < this.plaintext.Length)
+                if (i < plaintext.Length)
                 {
                     res += this.language_frequencies.GetLogProb5gram(plaintext.GetLetterAt(pos0), plaintext.GetLetterAt(pos1), plaintext.GetLetterAt(pos2), plaintext.GetLetterAt(pos3), plaintext.GetLetterAt(i));
                 }
@@ -348,17 +374,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return res;
         }
 
-        #endregion
-
-        #region Helper Functions
-
         /// <summary>
         /// Decrypt the ciphertext
         /// </summary>
         /// <param name="k"></param>
-        private void DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet, Text plaintext)
+        private Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
         {
             int index = -1;
+            Text plaintext = ciphertext.CopyTo();
 
             for (int i=0;i<ciphertext.Length;i++)
             {
@@ -368,6 +391,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     plaintext.ChangeLetterAt(i, key[index]);
                 }
             }
+
+            return plaintext;
         }
 
         /// <summary>
@@ -378,12 +403,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <param name="p2"></param>
         /// <param name="fit_p2"></param>
         /// <returns></returns>
-        private int[] CombineKeys(int[] p1, double fit_p1, int[] p2, double fit_p2, Text ciphertext, Alphabet ciphertext_alphabet, Text plaintext)
+        private int[] CombineKeys(int[] p1, double fit_p1, int[] p2, double fit_p2, Text ciphertext, Alphabet ciphertext_alphabet)
         {
             int[] res = new int[this.ciphertext_alphabet.Length];
             int[] less_fit;
             double fitness;
             double new_fitness;
+            Text plaintext;
 
             if (fit_p1 > fit_p2)
             {
@@ -414,7 +440,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     int helper = res[i];
                     res[i] = res[index];
                     res[index] = helper;
-                    DecryptCiphertext(res, ciphertext, ciphertext_alphabet, plaintext);
+                    plaintext = DecryptCiphertext(res, ciphertext, ciphertext_alphabet);
                     new_fitness = CalculateFitness(plaintext);
                     if (fitness > new_fitness)
                     {
@@ -429,21 +455,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return res;
         }
 
-        private int GetIndexOfFittestKey(double[] fitness)
+        public void SetPluginProgressCallback(PluginProgress method)
         {
-            int index_best_key = 0;
-            double best_key_fit = this.key_fitness[0];
-            // Determine best key in population
-            for (int i = 1; i < this.key.Length; i++)
-            {
-                if (this.key_fitness[i] < best_key_fit)
-                {
-                    best_key_fit = this.key_fitness[i];
-                    index_best_key = i;
-                }
-            }
-
-            return index_best_key;
+            this.PluginProgress = new PluginProgress(method);
         }
         
         #endregion

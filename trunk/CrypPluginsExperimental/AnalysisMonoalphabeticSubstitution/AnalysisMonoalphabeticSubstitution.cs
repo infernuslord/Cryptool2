@@ -26,9 +26,12 @@ using System.Windows.Controls;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
+    public delegate void PluginProgress(double current, double maximum);
+
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
     [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+
     public class AnalysisMonoalphabeticSubstitution : ICrypComponent
     {
         #region Private Variables
@@ -281,7 +284,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           // RText = new Text(helper, this.ptAlphabet);
+                           RText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 1)
@@ -296,7 +299,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           // RText = new Text(helper, this.ptAlphabet);
+                           RText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 2)
@@ -482,9 +485,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Execute()
         {
-            double change;
-            double border = 0.001;
-
             // If input incorrect return
             if (this.inputOK == false)
             {
@@ -504,28 +504,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             analyzer.Plaintext_Alphabet = this.ptAlphabet;
             analyzer.Language_Frequencies = this.langFreq;
             analyzer.Language_Dictionary = this.langDic;
+            analyzer.SetPluginProgressCallback(ProgressChanged);
             
-            // Start analysis
-            change = analyzer.StartAnalysis();
             
-            // Process several generations
             ProgressChanged(1, 100);
 
-            int i = 2;
-            while (change >= border)
-            {
-                change = analyzer.NextStep();
-                ProgressChanged(i,100);
-                i++;
-            }
+            // Conduct analysis
+            analyzer.Analyze();
 
-            // Take best key of last generation
-            analyzer.LastStep();
             ProgressChanged(99, 100);
 
             this.plaintext = analyzer.Plaintext.ToString(this.ptAlphabet);
             OnPropertyChanged("Plaintext");
-       
 
             ProgressChanged(100, 100);
         }
