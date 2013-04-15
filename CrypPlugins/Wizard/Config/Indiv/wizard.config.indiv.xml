@@ -24,7 +24,7 @@
     <name lang="en" >Encrypt with password</name>
     <name lang="de" >Verschlüsseln mit Passwort</name>
     <description lang="en" >Select this to quickly encrypt or decrypt some plaintext with AES by using a simple password. The encrypted result is base64-encoded text (e.g. for easy copy and paste to an email).</description>
-    <description lang="de" >Hier können Sie einen Text mit Hilfe eines Passwortes verschlüsseln (AES). Das verschlüsselte Ergebnis wird als Base-64-codierter Text ausgegeben - dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
+    <description lang="de" >Hier können Sie einen Text mit Hilfe eines Passwortes verschlüsseln (AES). Das verschlüsselte Ergebnis wird als Base-64-codierter Text ausgegeben &#8211; dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.</description>
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
     <task lang="en">Here, you can enter your message and the password to use. The password is converted to a 256-bit AES key by using PKCS5. The entered message is then encrypted or decrypted using AES-256.</task>

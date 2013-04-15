@@ -9,7 +9,7 @@
     AES was announced by National Institute of Standards and Technology (NIST) as U.S. FIPS PUB 197 (FIPS 197) <ref id="fips197" /> on November 26, 2001 after a 5-year standardization process. 
     It became effective as a standard May 26, 2002. As of 2006, AES is one of the most popular algorithms used in symmetric key cryptography.
     <newline />
-    Rijdael is considered secure; only after 10 years after its standardisation the first - theoretical interesting, but with no practical relevance - attack has been discovered <ref id="RelatedKeyCrypt" />.
+    Rijdael is considered secure; only after 10 years after its standardisation the first &#8211; theoretical interesting, but with no practical relevance &#8211; attack has been discovered <ref id="RelatedKeyCrypt" />.
     Strictly speaking, AES is not precisely Rijndael (although in practice they are used interchangeably) as Rijndael supports a larger range of block and key sizes; 
     AES has a fixed block size of 128 bits and a key size of 128, 192, or 256 bits, whereas Rijndael can be specified with key and block sizes in any multiple of 32 bits, 
     with a minimum of 128 bits and a maximum of 256 bits.
@@ -26,7 +26,7 @@
     <newline />
     Der Rijndael-Algorithmus besitzt eine variable Blockgröße von 128, 192 oder 256 Bits und eine variable Schlüssellänge von 128, 192 oder 256 Bits.
     Rijndael bietet ein sehr hohes Maß an Sicherheit; erst mehr als 10 Jahre nach seiner Standardisierung wurde der erste, theoretisch interessante, praktisch aber nicht relevante,
-    Angriff gefunden <ref id="RelatedKeyCrypt" />. Streng genommen ist AES nicht Rijndael da bei AES die Blocklänge auf 128 Bit eingeschränkt wurde, während die Wahl der Schlüssellänge von 128, 192 oder 256 Bits unverändert übernommen worden ist. 
+    Angriff gefunden <ref id="RelatedKeyCrypt" />. Streng genommen ist AES nicht Rijndael, da bei AES die Blocklänge auf 128 Bit eingeschränkt wurde, während die Wahl der Schlüssellänge von 128, 192 oder 256 Bits unverändert übernommen worden ist. 
     Die Bezeichnungen der drei AES-Varianten AES-128, AES-192 und AES-256 beziehen sich jeweils auf die gewählte Schlüssellänge.
     <newline />
     Der Algorithmus ist frei verfügbar und darf ohne Lizenzgebühren eingesetzt sowie in Soft- und Hardware implementiert werden. AES ist in den USA für staatliche Dokumente mit höchster Geheimhaltungsstufe zugelassen.

@@ -46,7 +46,7 @@
       </item>
     </list>
     To display a boolean value cryptool has the "Boolean Output".
-    Boolean values can be inverted using the "Boolean Not Operator" ("true" becomes "false" - "false" becomes "true").    
+    Boolean values can be inverted using the "Boolean Not Operator" ("true" becomes "false" &#8211; "false" becomes "true").    
     The "Boolean If-Else Operator" returns at one output "true" and the other "false" if its input is "true".
   </usage>
 
@@ -80,7 +80,7 @@
       </item>
     </list>
     Um einen Ausgabewahrheitswert darzustellen verfügt Cryptool über die "Boolsche Ausgabe".
-    Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Falsch" - aus "Falsch" wird "Wahr").
+    Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Falsch" &#8211; aus "Falsch" wird "Wahr").
     Der "Wenn-Dann Operator" gibt beim einen Ausgang "Wahr" und beim zweiten Ausgang "Falsch" aus, wenn sein Eingang "Wahr" ist. Ansonsten genau andersrum.
   </usage>
 

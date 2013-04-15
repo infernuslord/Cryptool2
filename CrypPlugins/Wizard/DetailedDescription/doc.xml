@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <usage lang="en">
-    The CrypTool 2 Wizard is - beside of the Workspace Manager and the Crypto Tutorials - one of the most important utility in CrypTool 2. The Wizard was developed specially to faciliate the entry into CrypTool 2 of new and/or inexperienced users. Therefore the Wizard provides an assistant, which makes it step-by-step possible to configure and call up easily, predefined templates. This offers you as the user the advantage, to navigate clearly through the wide amount of templates of CrypTool 2. At the same time you don't have to bother about the high complexity in configuration and interaction between components of quiet a few templates.
+    The CrypTool 2 Wizard is &#8211; beside of the Workspace Manager and the Crypto Tutorials &#8211; one of the most important utility in CrypTool 2. The Wizard was developed specially to faciliate the entry into CrypTool 2 of new and/or inexperienced users. Therefore the Wizard provides an assistant, which makes it step-by-step possible to configure and call up easily, predefined templates. This offers you as the user the advantage, to navigate clearly through the wide amount of templates of CrypTool 2. At the same time you don't have to bother about the high complexity in configuration and interaction between components of quiet a few templates.
     <newline/>
     <newline/>
     The easiest way to call up the Wizard is in the Startcenter. Pressing the button "Wizard" in the section "Main functions" opens 
@@ -18,7 +18,7 @@
     The Wizard opens, as can be seen in Figure 1, in a new tab in the CrypTool 2 window, likewise a workspace or the Startcenter. The Wizard will always open with the main page. On the left side of the page are checkboxes in order to choose the category of the desired template. Descriptions of the chosen category are displayed in the center of the page. Down on the right side are navigation controls to return to the previous page, to proceed to the next or to cancel and close the Wizard.
     <newline/>
     <newline/>
-    The Wizard was designed as a kind of decision tree offering the template, which is closest to your problem, task or target. While the seperations in the beginning are more rough - like the question should something be decrypted or analyst - the decisions getting with every page more and more fine-grained. In the best case the Wizard provides on the last page the template which does what you've been looking for.
+    The Wizard was designed as a kind of decision tree offering the template, which is closest to your problem, task or target. While the seperations in the beginning are more rough &#8211; like the question should something be decrypted or analyst &#8211; the decisions getting with every page more and more fine-grained. In the best case the Wizard provides on the last page the template which does what you've been looking for.
     <newline/>
     In the further extending configuration settings may be necessary. Should problems arise here please read the documentation of the components which were used in the template.
     <newline/>
@@ -40,7 +40,7 @@
 
   <usage lang="de-DE">
     
-    Der CrypTool 2 Wizard (dt. Zauberer) ist - neben dem Workspace Manager und dem Krypo-Tutorien - eine der Kernkomponenten von CrypTool 2. Der Wizard wurde speziell dazu entwickelt, neuen und/oder unerfahrenen Nutzern den Einstieg in CrypTool 2 zu erleichtern. Dazu stellt der Wizard einen Assistenten bereit, mit dem es schrittweise möglich ist, schnell vordefinierte Arbeitsbereiche (sogenannte Templates, zu deutsch: Vorlagen) zu konfigurieren und aufzurufen. Dies bietet Ihnen als Nutzer den Vorteil, dass Sie übersichtlicher durch die große Anzahl von Komponenten und Vorlagen von CrypTool 2 navigieren können. Gleichzeitig bleibt Ihnen die teilweise recht hohe Komplexität an Konfigurationen und Wechselwirkung zwischen Komponenten mancher Vorlagen erspart.
+    Der CrypTool 2 Wizard (dt. Zauberer) ist &#8211; neben dem Workspace Manager und den Krypo-Tutorien &#8211; eine der Kernkomponenten von CrypTool 2. Der Wizard wurde speziell dafür entwickelt, neuen und/oder unerfahrenen Nutzern den Einstieg in CrypTool 2 zu erleichtern. Dazu stellt der Wizard einen Assistenten bereit, mit dem es schrittweise möglich ist, schnell vordefinierte Arbeitsbereiche (sogenannte Templates, zu deutsch: Vorlagen) zu konfigurieren und aufzurufen. Dies bietet Ihnen als Nutzer den Vorteil, dass Sie übersichtlicher durch die große Anzahl von Komponenten und Vorlagen von CrypTool 2 navigieren können. Gleichzeitig bleibt Ihnen die teilweise recht hohe Komplexität an Konfigurationen und Wechselwirkung zwischen Komponenten mancher Vorlagen erspart.
     <newline/>
     <newline/>
     Aufzurufen ist der Wizard am einfachsten über das Startcenter. In der Rubrik "Haupt Funktionen" öffnet ein Druck auf die Schaltfläche "Wizard" einen neuen Wizard-Reiter. Ebenfalls aufrufbar ist der Wizard im Ausklapp Menü der "Neu" Schaltfläche, in der Rubrik "Datei" des "Home" Ribbons. Dieser befindet sich in der oberen, linken Ecke des CrypTool 2 Fensters.
@@ -49,7 +49,7 @@
     <img src="Wizard/DetailedDescription/Images/Figure3.png" />    
     <newline/>
     <newline/>
-    Der Wizard öffnet sich, wie in Abbildung 1 zu sehen, in einem neuen Reiter im CrypTool 2 Fenster -- ähnlich wie ein Arbeitsbereich oder das Startcenter. Der Wizard öffnet sich stets mit der Startseite. Am linken Rand der Seite befinden sich Checkboxen, um eine Auswahl, der Kategorie, aus der die gewünschte Vorlage am ehesten stammt treffen zu können. Im Zentrum der Seite ist eine Beschreibung der gewählten Kategorie. Im unteren Teil, am rechten Rand der Seite befinden sich Navigationselemente, mit denen zur vorherigen zurückgesprungen, die nächste Seite aufgerufen oder der laufende Vorgang abgebrochen werden kann.
+    Der Wizard öffnet sich, wie in Abbildung 1 zu sehen, in einem neuen Reiter im CrypTool 2 Fenster &#8211; ähnlich wie ein Arbeitsbereich oder das Startcenter. Der Wizard öffnet sich stets mit der Startseite. Am linken Rand der Seite befinden sich Checkboxen, um eine Auswahl, der Kategorie, aus der die gewünschte Vorlage am ehesten stammt treffen zu können. Im Zentrum der Seite ist eine Beschreibung der gewählten Kategorie. Im unteren Teil, am rechten Rand der Seite befinden sich Navigationselemente, mit denen zur vorherigen zurückgesprungen, die nächste Seite aufgerufen oder der laufende Vorgang abgebrochen werden kann.
     <newoine/>
     <newline/>
     Der Wizard wurde dabei so konizpiert, dass man sich wie in einer Art Entscheidungsbaum jener Vorlage annähert, welche dem eigenen Problem/Aufgabe/Ziel am nächsten kommt. Während am Anfang noch grobe Unterteilungen getroffen werden, wie z.B. ob etwas verschlüsselt oder analysiert werden soll, werden die Entscheidungen mit jeder Seite feingranularer. Am Ende wird im günstigsten Fall die Vorlage erreicht, welche gesucht wurde.<newline/>
