@@ -43,9 +43,8 @@ namespace Cryptool.Alphabets
 
       public Alphabet()
       {          
-          alphabetPresentation = new AlphabetPresentation(this);
+          alphabetPresentation = new AlphabetPresentation();
           Presentation = this.alphabetPresentation;
-          alphabetPresentation.OnGuiLogNotificationOccured += alphabetPresentation_OnGuiLogNotificationOccured;
           settings.PropertyChanged += settings_PropertyChanged;
       }
 
