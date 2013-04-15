@@ -6,7 +6,7 @@
   </introduction>
   <usage lang="en">
     The "NumberInput" can be used to enter numbers in decimal form (for example 1746) or in hexadecimal form
-    ( for example #0A10FF or h0A10FF or x0A10FF - with prefix '#', prefix 'x' or prefix 'h' ). The user may also
+    ( for example #0A10FF or h0A10FF or x0A10FF &#8211; with prefix '#', prefix 'x' or prefix 'h' ). The user may also
     enter the number as an arithmetic expression (for example 127 + 56 * 2^100 ). If the number is described as arithmetic
     expression the component uses mathematic rules to create a number from the expression. The "NumberOperations" support
     addition, subtraction, division, multiplication, exponentiation and the calculation of the greatest common divisior of
@@ -27,7 +27,7 @@
     Mit der Komponente "Zahleneingabe" können ganze Zahlen beliebiger Größe eingegeben werden. Um mit diesen rechnen zu können, steht die Komponente "Rechenoperationen" zur Verfügung.
   </introduction>
   <usage lang="de-DE">
-    Die Zahleneingabe kann genutzt werden, um ganze Zahlen entweder in dezimaler Form ( z.B. 1746 ) oder hexadezimaler Form ( z.B. #0A10FF oder h0A10FF oder x0A10FF - mit vorgestellter '#', vorgestelltem 'x' oder vorgestelltem 'h' ) einzugeben oder diese als arithmetische Ausdrücke zu beschreiben ( z.B. 127 + 56 * 2^100 ). Bei der Eingabe als arithmetischer Ausdruck wird dieser durch Anwendung der mathematischen Gesetze (Assoziativ-, Kommutativ-, und Distributivgesetz) in eine ganze Zahl ausgewertet.<newline /><newline /> Die Rechenoperationen unterstützen die Addition, die Subtraktion, die Multiplikation, die Division, das Potenzieren und die Berechnung des kleinsten gemeinsamen Teilers zweier Zahlen. <newline /><newline /> Die Zahleneingabe wird einfach auf die Arbeitsfläche gezogen. Sie verfügt über keine Einstellmöglichkeiten. Die Zahlen können über ihre Präsentation eingegeben werden. Ein einziger Ausgang leitet die eingegebene Zahl innerhalb des Arbeitsbereiches weiter.<newline /><newline /> Die Rechenoperation verfügt über eine Einstellung, in der ihre auszuführende Operation eingestellt werden kann. Sie besitzt drei Eingänge und einen Ausgang. Die zwei ersten Eingänge nehmen die Operanden für die eingestellte Operation entgegen. Mittels des dritten Eingangs kann eine weitere Zahl angegeben werden, die modulo des Ergebnisses der Operation gerechnet werden soll. Der einzige Ausgang leitet das Endergebnis innerhalb des Arbeitsplatzes weiter.
+    Die Zahleneingabe kann genutzt werden, um ganze Zahlen entweder in dezimaler Form ( z.B. 1746 ) oder hexadezimaler Form ( z.B. #0A10FF oder h0A10FF oder x0A10FF &#8211; mit vorgestellter '#', vorgestelltem 'x' oder vorgestelltem 'h' ) einzugeben oder diese als arithmetische Ausdrücke zu beschreiben ( z.B. 127 + 56 * 2^100 ). Bei der Eingabe als arithmetischer Ausdruck wird dieser durch Anwendung der mathematischen Gesetze (Assoziativ-, Kommutativ-, und Distributivgesetz) in eine ganze Zahl ausgewertet.<newline /><newline /> Die Rechenoperationen unterstützen die Addition, die Subtraktion, die Multiplikation, die Division, das Potenzieren und die Berechnung des kleinsten gemeinsamen Teilers zweier Zahlen. <newline /><newline /> Die Zahleneingabe wird einfach auf die Arbeitsfläche gezogen. Sie verfügt über keine Einstellmöglichkeiten. Die Zahlen können über ihre Präsentation eingegeben werden. Ein einziger Ausgang leitet die eingegebene Zahl innerhalb des Arbeitsbereiches weiter.<newline /><newline /> Die Rechenoperation verfügt über eine Einstellung, in der ihre auszuführende Operation eingestellt werden kann. Sie besitzt drei Eingänge und einen Ausgang. Die zwei ersten Eingänge nehmen die Operanden für die eingestellte Operation entgegen. Mittels des dritten Eingangs kann eine weitere Zahl angegeben werden, die modulo des Ergebnisses der Operation gerechnet werden soll. Der einzige Ausgang leitet das Endergebnis innerhalb des Arbeitsplatzes weiter.
   </usage>
   <presentation lang="de-DE">
     Die Zahleneingabe verfügt über ein Textfeld innerhalb ihrer Präsentation, in der Zahlen entweder als Ziffern oder als arithmetische Ausdrücke eingegeben werden können.<newline /><newline /> Die Rechenoperationen verfügen über keine spezielle Präsentation, zeigen ihre aktuell eingestellte Operation allerdings mittels eines zur Operation passenden Icons.
@@ -35,7 +35,7 @@
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Arithmetic" lang="en" />
-      <caption lang="en">Arithmetics in the english wikipedia</caption>
+      <caption lang="en">Arithmetics in the English wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/Arithmetik" lang="de-DE" />
       <caption lang="de-DE">Arithmetik in der deutschen Wikipedia</caption>
     </linkReference>
