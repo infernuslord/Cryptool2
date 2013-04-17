@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.ArrayIndexer
 
                 ObjOutput = ObjInput.GetValue(settings.ArrayIndex);
 
-                GuiLogMessage("Array type is " + ObjInput.GetType().ToString() + " with value: " + ObjOutput.ToString(), NotificationLevel.Debug);
+                //GuiLogMessage("Array type is " + ObjInput.GetType().ToString() + " with value: " + ObjOutput.ToString(), NotificationLevel.Debug);
             }
         }
 

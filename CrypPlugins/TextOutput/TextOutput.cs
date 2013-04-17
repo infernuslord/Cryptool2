@@ -139,7 +139,7 @@ namespace TextOutput
         {
             if (e.PropertyName == "ShowChars" || e.PropertyName == "ShowLines")
             {
-                textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                textOutputPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     setStatusBar();
                 }, null);
@@ -219,7 +219,7 @@ namespace TextOutput
                 fillValue = fillValue.Substring(0, settings.MaxLength);
             }
             
-            Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 if (settings.Append)
                 {
@@ -323,7 +323,7 @@ namespace TextOutput
 
         public void PreExecution()
         {
-            textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            textOutputPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 textOutputPresentation.textBox.Text = null;
             }, null);

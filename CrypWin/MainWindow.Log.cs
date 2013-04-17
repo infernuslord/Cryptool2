@@ -75,7 +75,7 @@ namespace Cryptool.CrypWin
             {
                 if (!this.Dispatcher.CheckAccess())
                 {
-                    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal,
+                    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
                         new GuiLogNotificationDelegate(OnGuiLogNotificationOccuredTS), sender, new object[] { arg });
                 }
                 else

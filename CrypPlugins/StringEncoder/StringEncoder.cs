@@ -221,11 +221,11 @@ namespace Cryptool.Plugins.Convertor
         {
             ShowProgress(50, 100);
 
-            ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
+            //ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
 
             OutputString = GetPresentation(buffer, settings.PresentationFormatSetting);
 
-            ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
+            //ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
 
             ShowProgress(100, 100);
         }

@@ -216,7 +216,7 @@ namespace Cryptool.Plugins.Convertor
            
             outputStream = new CStreamWriter(outputBytes);
 
-            ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
+            //ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
 
             ShowProgress(100, 100);
 
