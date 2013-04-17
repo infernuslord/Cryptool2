@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Dictionary Attack</title>
+  <summary lang="en">Building a dictionary attack in CrypTool 2.0</summary>
+  <description lang="en">This template shows how a dictionary attack can be built using a dictionary and a hash function.</description>
+  <keywords>Hash, Attack, Dictionary, SHA256</keywords>
+
+  <title lang="de">Wörterbuchangriff</title>
+  <summary lang="de">Ein Wörterbuchangriff in CrypTool 2.0 durchführen</summary>
+  <description lang="de">Diese Vorlage zeigt, wie ein Wörterbuchangriff in CrypTool 2.0 mit Hilfe eines Wörterbuchs und einer Hash-Funktion gebaut durchgeführt werden kann.</description>
+  <keywords lang="de">Hash, Angriff, Wörterbuch, SHA256</keywords>
+
+  <icon file="DictionaryAttack.png" />
+  <relevantPlugins>
+    <plugin name="Dictionary" />
+    <plugin name="SHA256" />
+  </relevantPlugins>
+
+</sample>
