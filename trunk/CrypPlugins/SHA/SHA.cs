@@ -55,18 +55,18 @@ namespace SHA
             if (inputData == null)
               {
                 GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
-              }              
+              }
             else if (hash == null)
             {
                 GuiLogMessage("No valid SHA algorithm instance.", NotificationLevel.Error);
             }
             else
-            {                            
+            {
                 using (CStreamReader reader = inputData.CreateReader())
                 {
                     OutputData = hash.ComputeHash(reader);
-                    GuiLogMessage("Hash created.", NotificationLevel.Info);
-            }
+                    //GuiLogMessage("Hash created.", NotificationLevel.Info);
+                }
             }
             Progress(1.0, 1.0);
         }
