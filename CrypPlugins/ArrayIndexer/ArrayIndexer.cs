@@ -14,11 +14,6 @@
    limitations under the License.
 */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool;
-using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
@@ -32,11 +27,9 @@ namespace Cryptool.Plugins.ArrayIndexer
     {
         #region IPlugin Members
 
-        private ArrayIndexerSettings settings = new ArrayIndexerSettings();
-
-        private Array objInput = null;
-        private int arrayIndex = 0;
-        private object objOutput = null;
+        private Array _objInput;
+        private int _arrayIndex;
+        private object _objOutput;
 
         #region In and Out properties
 
@@ -45,11 +38,11 @@ namespace Cryptool.Plugins.ArrayIndexer
         {
             get
             {
-                return objInput;
+                return _objInput;
             }
             set
             {
-                objInput = value;
+                _objInput = value;
                 OnPropertyChanged("ObjInput");
             }
         }
@@ -59,13 +52,11 @@ namespace Cryptool.Plugins.ArrayIndexer
         {
             get
             {
-                return this.arrayIndex;
+                return this._arrayIndex;
             }
             set
             {
-                this.arrayIndex = value;
-                settings.ArrayIndex = value;
-                OnPropertyChanged("ArrayIndex");
+                _arrayIndex = value;
             }
         }
 
@@ -74,11 +65,11 @@ namespace Cryptool.Plugins.ArrayIndexer
         {
             get
             {
-                return this.objOutput;
+                return this._objOutput;
             }
             set
             {
-                this.objOutput = value;
+                _objOutput = value;
                 OnPropertyChanged("ObjOutput");
             }
         }
@@ -93,8 +84,8 @@ namespace Cryptool.Plugins.ArrayIndexer
 
         public Cryptool.PluginBase.ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = (ArrayIndexerSettings)value; }
+            get { return null; }
+            set {  }
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -111,13 +102,13 @@ namespace Cryptool.Plugins.ArrayIndexer
             if (ObjInput != null)
             {
                 // error case, if array index is greater than the length of the array
-                if (ObjInput.Length <= settings.ArrayIndex)
+                if (ObjInput.Length <= ArrayIndex)
                 {
                     GuiLogMessage("Array Index is greater than the length of the array", NotificationLevel.Error);
                     return;
                 }
 
-                ObjOutput = ObjInput.GetValue(settings.ArrayIndex);
+                ObjOutput = ObjInput.GetValue(ArrayIndex);
 
                 //GuiLogMessage("Array type is " + ObjInput.GetType().ToString() + " with value: " + ObjOutput.ToString(), NotificationLevel.Debug);
             }
