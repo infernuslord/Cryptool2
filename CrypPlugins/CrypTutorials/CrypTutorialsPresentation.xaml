@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:Cryptool.CrypTutorials"
              xmlns:tut="clr-namespace:Cryptool.CrypTutorials"
-             d:DesignHeight="800" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}"
+             d:DesignHeight="500" d:DesignWidth="1200" Background="#ccc" ToolTip="{Loc PluginTooltip}"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="Background" StartPoint="0,0" EndPoint="0,1">
