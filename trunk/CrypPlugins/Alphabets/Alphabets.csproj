@@ -153,6 +153,15 @@
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pluginSetting-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="del.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
