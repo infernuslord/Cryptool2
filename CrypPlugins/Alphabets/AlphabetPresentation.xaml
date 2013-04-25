@@ -66,29 +66,31 @@
             </Setter>
         </Style>
 
-        
+
         <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-            <Setter Property="Width" Value="35"></Setter>
-            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
                         <Border x:Name="Border" BorderThickness="1">
-                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                            <Image Height="25" x:Name="image" Source="unchecked.png"></Image>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Background" Value="#ff9600" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ff9600" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#666" TargetName="Border" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Background" Value="#ffb142" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#aaa" TargetName="Border" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="Source" Value="checked.png" TargetName="image" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter Property="Source" Value="unchecked.png" TargetName="image" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -119,6 +121,15 @@
                 <GradientStopCollection>
                     <GradientStop Color="#fff9f5" Offset="0.0"/>
                     <GradientStop Color="#ebe6e2" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundNormal2" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#99eeeeee" Offset="0.0"/>
+                    <GradientStop Color="#99cccccc" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -170,6 +181,15 @@
             </Setter>
         </Style>
 
+        <LinearGradientBrush x:Key="BackgroundIsSelected" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#D2FFCC" Offset="0.0"/>
+                    <GradientStop Color="#8FFF93" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
         <Style x:Key="ComponentListStyle" TargetType="{x:Type ListView}">
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
@@ -198,28 +218,108 @@
                     <DataTemplate DataType="{x:Type local:AlphabetItem}">
                         <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
                             <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
-                                <Grid.ColumnDefinitions>
-                                    <!--<ColumnDefinition Width="40"/>-->
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                
-                                <!--<Border BorderThickness="1.5" BorderBrush="#888" CornerRadius="5">
-                                    
-                                </Border>-->
                                 <Grid Grid.Column="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
                                     <TextBlock Text="{Binding Path=Title}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
-                                               FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="1">
                                         <Button Style="{StaticResource ResourceKey=ButtonStyleSec}" 
-                                                Height="20" Width="20" Click="Button_Click"
-                                                 VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                                Height="20" Width="20" Click="Button_Click" VerticalContentAlignment="Center" VerticalAlignment="Center">
                                             <Image Height="16" Source="del.png"></Image>
                                         </Button>
                                     </Border>
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="2">
+                                        <Button Height="20" Width="20" VerticalAlignment="Center" Click="Button_Click_2"
+                                                Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
+                                            <Image Height="16" Source="pluginSetting-small.png"></Image>
+                                        </Button>
+                                    </Border>
+                                    <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                        AncestorType={x:Type ListViewItem}}, 
+                                                        Path=IsSelected}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                        AncestorType={x:Type ListViewItem}}, 
+                                                        Path=IsSelected}" Value="false">
+                                                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                                <Setter Property="Padding" Value="2"></Setter>
+                                                <Setter Property="FontFamily" Value="Verdana"></Setter>
+                                                <Setter Property="FontSize" Value="13"></Setter>
+                                                <Setter Property="Foreground" Value="#555"></Setter>
+                                                <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
+                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"></Setter>
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                            </Grid>
+                                        </Border>
+
+                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseNormal}"
+                                                      Grid.Row="0" Grid.Column="0">
+
+                                        </ToggleButton>
+                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseNumeric}"
+                                                      Grid.Row="1" Grid.Column="0">
+
+                                        </ToggleButton>
+                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseSpecial}"
+                                                      Grid.Row="2" Grid.Column="0">
+
+                                        </ToggleButton>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Chracters: "></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Numerics: "></TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Specials: "></TextBlock>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Normal, FallbackValue='Not Set'}"></TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Numeric, FallbackValue='Not Set'}"></TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Path=Special, FallbackValue='Not Set'}"></TextBlock>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Border>
@@ -229,8 +329,8 @@
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#cea57d"></Setter>
-                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsFullscreen}"></Setter>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#8FFF93"></Setter>
+                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -261,71 +361,38 @@
     </UserControl.Resources>
 
     <Grid Width="Auto" Height="Auto" Background="{StaticResource ResourceKey=Background}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="150"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition MaxWidth="250" Width="auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Border Background="#11222222" Grid.ColumnSpan="3">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Alphabets" Padding="5" 
-                           FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="24"></TextBlock>
-                <Border Background="#55ffffff" Margin="5">
-                    <ToggleButton Height="25" Width="25"
-                              IsChecked="{Binding Path=IsConfigOpen, Mode=TwoWay}" VerticalAlignment="Center"
-                              Style="{StaticResource ResourceKey=ToggleButtonStyle}" HorizontalAlignment="Center">
-                        <Image Height="20" Source="pluginSetting-small.png"></Image>
-                    </ToggleButton>
-                </Border>
-                <Border Background="#55ffffff" Margin="5">
-                    <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_1"
-                            VerticalContentAlignment="Center" VerticalAlignment="Center">
-                        <Image Height="20" Source="add.png"></Image>
-                    </Button>
-                </Border>
-            </StackPanel>
-        </Border>
-
-        <Border Grid.Column="0" Grid.Row="1" Background="#bbffffff">
-            <ListView  x:Name="AlphabetList" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Alphabets}"
-                        SelectionMode="Single"  SelectionChanged="SelectionChanged"></ListView>
-        </Border>
-
-        <Border Grid.Column="1" Grid.Row="1" Background="#80ffffff">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <TextBox Text="{Binding Path=SelectedAlphabet.Title, Mode=TwoWay}" Style="{StaticResource ResourceKey=TextBoxStyle}" Foreground="#222"
+        <Grid Visibility="Collapsed">
+            <Border Grid.Column="1" Grid.Row="1" Background="#80ffffff">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBox Text="{Binding Path=SelectedAlphabet.Title, Mode=TwoWay}" Style="{StaticResource ResourceKey=TextBoxStyle}" Foreground="#222"
                          FontFamily="Consolas" FontSize="24" TextAlignment="Center"
                          Background="Transparent">
-                </TextBox>
-                <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
+                    </TextBox>
+                    <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" FontFamily="Consolas" FontSize="22">
-                    
-                </TextBox>
-            </Grid>
-        </Border>
 
-        <Border Grid.Column="2" Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
+                    </TextBox>
+                </Grid>
+            </Border>
 
-                <StackPanel Grid.Column="1" Style="{StaticResource ResourceKey=ConfigStyle}">
-                    <Border>
-                        <StackPanel Margin="5">
-                            <TextBlock Text="Working Alphabet" Padding="7" FontFamily="Verdana" FontSize="13"></TextBlock>
-                            <ComboBox SelectedIndex="0" ItemsSource="{Binding Path=Basic}" FontFamily="Verdana" FontSize="12">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Path=Name}">
+            <Border Grid.Column="2" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="1" Style="{StaticResource ResourceKey=ConfigStyle}">
+                        <Border>
+                            <StackPanel Margin="5">
+                                <TextBlock Text="Working Alphabet" Padding="7" FontFamily="Verdana" FontSize="13"></TextBlock>
+                                <ComboBox SelectedIndex="0" ItemsSource="{Binding Path=Basic}" FontFamily="Verdana" FontSize="12">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Name}">
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Style.Triggers>
@@ -336,25 +403,49 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </TextBlock.Style>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Add Lowercase" Padding="5" Margin="5"></Button>
-                                <Button Content="Add Uppercase" Padding="5" Margin="5"></Button>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Add Lowercase" Padding="5" Margin="5"></Button>
+                                    <Button Content="Add Uppercase" Padding="5" Margin="5"></Button>
+                                </StackPanel>
                             </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Vertical" Margin="5">
+
+                            <Button Content="To Lowercase" Padding="5" Margin="0,5,0,0"></Button>
+                            <Button Content="To Uppercase" Padding="5" Margin="0,5,0,0"></Button>
                         </StackPanel>
-                    </Border>
-
-                    <StackPanel Orientation="Vertical" Margin="5">
-
-                        <Button Content="To Lowercase" Padding="5" Margin="0,5,0,0"></Button>
-                        <Button Content="To Uppercase" Padding="5" Margin="0,5,0,0"></Button>
                     </StackPanel>
+                </Grid>
+
+            </Border>
+        </Grid>
+        <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Background="#11222222" Grid.ColumnSpan="3">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Alphabets" Padding="5" 
+                               FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="24"></TextBlock>
+                    <Border Background="#55ffffff" Margin="5">
+                        <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_1"
+                                VerticalContentAlignment="Center" VerticalAlignment="Center">
+                            <Image Height="20" Source="add.png"></Image>
+                        </Button>
+                    </Border>
                 </StackPanel>
-            </Grid>
-            
-        </Border>
+            </Border>
+
+            <Border Grid.Column="0" Grid.Row="1" Background="#bbffffff">
+                <ListView  x:Name="AlphabetList" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Alphabets}"
+                            SelectionMode="Single"  SelectionChanged="SelectionChanged"></ListView>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>
