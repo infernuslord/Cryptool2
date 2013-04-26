@@ -15,10 +15,11 @@ using System.Windows.Media.Animation;
 using System.Threading;
 using System.Xaml;
 
+
+
+
 namespace Cryptool.Enigma
 {
-
-
     class Rotor2 : Canvas
     {
         #region Variables
@@ -66,28 +67,70 @@ namespace Cryptool.Enigma
 
         public int[,] maparray = new int[26, 2];
 
-        int einsnext = 16;
+        /*int einsnext = 16;
         int zweinext = 4;
         int dreinext = 21;
         int viernext = 9;
         int fuenfnext = 25;
         int[] sechsnext = { 25, 12 };
         int[] siebennext = { 25, 12 };
-        int[] achtnext = { 25, 12 };
+        int[] achtnext = { 25, 12 };*/
 
-
-        int[] eins = new int[] { 4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15, 0, 8, 1, 17, 2, 9 };
+       /* int[] eins = new int[] { 4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15, 0, 8, 1, 17, 2, 9 };
         int[] zwei = new int[] { 0, 9, 3, 10, 18, 8, 17, 20, 23, 1, 11, 7, 22, 19, 12, 2, 16, 6, 25, 13, 15, 24, 5, 21, 14, 4 };
         int[] drei = new int[] { 1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21, 25, 13, 24, 4, 8, 22, 6, 0, 10, 12, 20, 18, 16, 14 };
         int[] vier = new int[] { 4, 18, 14, 21, 15, 25, 9, 0, 24, 16, 20, 8, 17, 7, 23, 11, 13, 5, 19, 6, 10, 3, 2, 12, 22, 1 };
         int[] fuenf = new int[] { 21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16, 14, 5, 4, 2, 10 };
         int[] sechs = new int[] { 9, 15, 6, 21, 14, 20, 12, 5, 24, 16, 1, 4, 13, 7, 25, 17, 3, 10, 0, 18, 23, 11, 8, 2, 19, 22 };
         int[] sieben = new int[] { 13, 25, 9, 7, 6, 17, 2, 23, 12, 24, 18, 22, 1, 14, 20, 5, 0, 8, 21, 11, 15, 4, 10, 16, 3, 19 };
-        int[] acht = new int[] { 5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13, 8, 20, 24, 6, 21 };
+        int[] acht = new int[] { 5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13, 8, 20, 24, 6, 21 };*/
+
+        int[] eins = getRotorsAsInt(3, 0);
+        int[] zwei = getRotorsAsInt(3, 1);
+        int[] drei = getRotorsAsInt(3, 2);
+        int[] vier = getRotorsAsInt(3, 3);
+        int[] fuenf = getRotorsAsInt(3, 4);
+        int[] sechs = getRotorsAsInt(3, 5);
+        int[] sieben = getRotorsAsInt(3, 6);
+        int[] acht = getRotorsAsInt(3, 7);
+
+        int einsnext = getNotchesAsInt(3,0)[0];
+        int zweinext = getNotchesAsInt(3, 1)[0];
+        int dreinext = getNotchesAsInt(3, 2)[0];
+        int viernext = getNotchesAsInt(3, 3)[0];
+        int fuenfnext = getNotchesAsInt(3,4)[0];
+        int[] sechsnext = getNotchesAsInt(3, 5);
+        int[] siebennext = getNotchesAsInt(3, 6);
+        int[] achtnext = getNotchesAsInt(3, 7);
 
         double timecounter = 0.0;
 
         #endregion
+
+        #region getter
+
+        private static int[] getRotorsAsInt(int model, int rotor)
+        {
+            int[] value = new int[26];
+            for (int i = 0; i < EnigmaCore.rotors[model, rotor].Length; i++)
+            {
+                value[i] = EnigmaCore.rotors[model, rotor][i] - 65;
+            }
+            return value;
+        }
+
+        private static int[] getNotchesAsInt(int model, int rotor)
+        {
+            int[] value = new int[2];
+            for (int i = 0; i < EnigmaCore.notches[model, rotor].Length; i++)
+            {
+                value[i] = EnigmaCore.notches[model, rotor][i] - 65;
+            }
+            return value;
+        }
+
+        #endregion
+
 
         #region mapping
         public int mapto(int x)
@@ -96,7 +139,7 @@ namespace Cryptool.Enigma
             textBlockToAnimat[0] = tebo[maparray[x, 0]];
             textBlockToAnimat[1] = tebo2[maparray[x, 1]];
             rotated = false;
-
+            
 
             return maparray[x, 1];
         }
@@ -1327,8 +1370,6 @@ namespace Cryptool.Enigma
 
         public Rotor2(int map, double width, double height, int offset, int ringoffset)
         {
-
-
             StackPanel s = new StackPanel();
             s.Orientation = Orientation.Vertical;
 
@@ -1342,7 +1383,6 @@ namespace Cryptool.Enigma
 
         private Canvas alpha(int offset, int ringoffset)
         {
-
             Rectangle myRectangle = new Rectangle();
             myRectangle.Width = 200;
             myRectangle.Height = 890;
@@ -1365,18 +1405,12 @@ namespace Cryptool.Enigma
             walzeDisplay.Stroke = Brushes.Silver;
             walzeDisplay.StrokeThickness = 30;
 
-
             stack.Orientation = Orientation.Vertical;
-
-
             stack1.Orientation = Orientation.Vertical;
-
-
             stack2.Orientation = Orientation.Horizontal;
 
             Canvas.SetTop(stack1, 60);
             Canvas.SetLeft(stack1, 0);
-
 
             Canvas.SetTop(stack, 60);
             Canvas.SetLeft(stack, 170);

@@ -74,7 +74,7 @@ namespace Cryptool.Enigma
         private int ring3 = 1;
         private int ring4 = 1;
 
-        private int reflector = 1;
+        private int reflector = 0;
 
         private int Presentation_Speed = 1;
 
@@ -161,6 +161,9 @@ namespace Cryptool.Enigma
                     // show elements common for analysis and encryption
                     showSettingsElement("Reflector");
 
+                    //no presentation yet
+                    hideSettingsElement("PresentationSpeed");
+
                      switch (this.action)
                     {
                         case 0: // Encrypt/Decrypt
@@ -193,7 +196,7 @@ namespace Cryptool.Enigma
                             showSettingsElement("Ring1");
                             showSettingsElement("Ring2");
                             showSettingsElement("Ring3");
-                            
+
                             break;
                         case 1: // Analyze
                             showSettingsElement("AnalyzeKey");
@@ -281,6 +284,9 @@ namespace Cryptool.Enigma
 
                     // show elements common for analysis and encryption
                     showSettingsElement("Reflector");
+
+                    //presentation 
+                    showSettingsElement("PresentationSpeed");
 
                     switch (this.action)
                     {
@@ -520,7 +526,20 @@ namespace Cryptool.Enigma
                         if (key.Length > 3) key = key.Remove(0, 1);
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 0;
+
+                        // make sure, that everything is visible
+                        showSettingsElement("Key");
+                        showSettingsElement("Rotor1");
+                        showSettingsElement("Rotor2");
+                        showSettingsElement("Rotor3");
+                        showSettingsElement("Ring1");
+                        showSettingsElement("Ring2");
+                        showSettingsElement("Ring3");
+
+                        hideSettingsElement("PresentationSpeed");
+
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); hideSettingsElement("Reflector");
+                        showPlugBoard();
                         break;
                     case 1: // Enigma D
                         SetList(actionStrings, "Action1");
@@ -532,7 +551,19 @@ namespace Cryptool.Enigma
                         if (key.Length > 3) key = key.Remove(0, 1);
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 0;
+
+                        // make sure, that everything is visible
+                        showSettingsElement("Key");
+                        showSettingsElement("Rotor1");
+                        showSettingsElement("Rotor2");
+                        showSettingsElement("Rotor3");
+                        showSettingsElement("Ring1");
+                        showSettingsElement("Ring2");
+                        showSettingsElement("Ring3");
+
+                        hideSettingsElement("PresentationSpeed");
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        showPlugBoard();
                         break;
                     case 2: // Reichsbahn (Rocket)
                         SetList(actionStrings, "Action1","Action4");
@@ -556,10 +587,9 @@ namespace Cryptool.Enigma
                         action = 0;
                         if (key.Length > 3) key = key.Remove(0, 1);
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
-                        reflector = 1;
+                        reflector = 0;
 
                         setSettingsVisibility();
-
                         break;
                     case 4: // Enigma M4 "Shark"
                         SetList(actionStrings, "Action1");
@@ -571,6 +601,18 @@ namespace Cryptool.Enigma
                         if (key.Length < 4) key = "A" + key;
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 0;
+
+                        // make sure, that everything is visible
+                        showSettingsElement("Key");
+                        showSettingsElement("Rotor1");
+                        showSettingsElement("Rotor2");
+                        showSettingsElement("Rotor3");
+                        showSettingsElement("Ring1");
+                        showSettingsElement("Ring2");
+                        showSettingsElement("Ring3");
+
+                        //no presentation yet
+                        hideSettingsElement("PresentationSpeed");
 
                         showSettingsElement("Rotor4"); showSettingsElement("Ring4"); showSettingsElement("Reflector");
                         showPlugBoard();
@@ -584,9 +626,21 @@ namespace Cryptool.Enigma
                         action = 0; 
                         if (key.Length > 3) key = key.Remove(0, 1); 
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0; 
-                        reflector = 0; 
+                        reflector = 0;
+
+                        // make sure, that everything is visible
+                        showSettingsElement("Key");
+                        showSettingsElement("Rotor1");
+                        showSettingsElement("Rotor2");
+                        showSettingsElement("Rotor3");
+                        showSettingsElement("Ring1");
+                        showSettingsElement("Ring2");
+                        showSettingsElement("Ring3");
+                        //no presentation yet
+                        hideSettingsElement("PresentationSpeed");
 
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        showPlugBoard();
                         break;
                     case 6: // Enigam G / Abwehr
                         SetList(actionStrings, "Action1");
@@ -599,7 +653,20 @@ namespace Cryptool.Enigma
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
                         reflector = 0;
 
+                        // make sure, that everything is visible
+                        showSettingsElement("Key");
+                        showSettingsElement("Rotor1");
+                        showSettingsElement("Rotor2");
+                        showSettingsElement("Rotor3");
+                        showSettingsElement("Ring1");
+                        showSettingsElement("Ring2");
+                        showSettingsElement("Ring3");
+
+                        //no presentation yet
+                        hideSettingsElement("PresentationSpeed");
+
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
+                        showPlugBoard();
                         break;
                 }
 
@@ -1466,7 +1533,7 @@ namespace Cryptool.Enigma
                 OnPropertyChanged("PlugBoard" + c);
             }
 
-            // Are the following needed? For the presentation?
+            // Are the following needed? For the presentation? yes!
             OnPropertyChanged("PlugBoardDisplay");
             OnPropertyChanged("PlugBoard");
             OnPropertyChanged("Remove all Plugs");
