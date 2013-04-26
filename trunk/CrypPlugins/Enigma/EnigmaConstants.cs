@@ -26,7 +26,7 @@ namespace Cryptool.Enigma
         private const int alen = 26; // Alphabet Length
 
 
-        private readonly string[] stators = {
+        public readonly string[] stators = {
                                             // Kommerzielle Enigma A/B
                                             "JWULCMNOHPQZYXIRADKEGVBTSF", // no reference found for this!! This is just a copy from Enigma D
                                             // Kommerzielle Enigma D
@@ -40,7 +40,7 @@ namespace Cryptool.Enigma
                                             "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
                                             };
 
-        private readonly string[,] rotors = new string[,]{
+        public readonly static string[,] rotors = new string[,]{
                                         { // Kommerzielle Enigma A/B, ab 1924
                                             "DMTWSILRUYQNKFEJCAZBPGXOHV",
                                             "HQZGPJTMOBLNCIFDYAWVEUSRXL",
@@ -96,7 +96,7 @@ namespace Cryptool.Enigma
                                             "",
                                         }
                                   };
-        private readonly string[,] reflectors = {
+        public readonly string[,] reflectors = {
                                                     {  // Kommerzielle Enigma A/B - there was no reflector
                                                         "", 
                                                         "", 
@@ -124,7 +124,7 @@ namespace Cryptool.Enigma
                                                     },
                                                 };
 
-        private readonly string[,] notches = {
+        public static readonly string[,] notches = {
                                                 {  // Kommerzielle Enigma A/B - work in progress - notches needed
                                                    "",  // I
                                                    "",  // II

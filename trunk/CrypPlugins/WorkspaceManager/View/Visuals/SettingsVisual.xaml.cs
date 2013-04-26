@@ -220,25 +220,10 @@ namespace WorkspaceManager.View.Visuals
                             if (ce.tpa.PropertyName == tpac.Property)
                             {
 
-                                if (ce.element is IntegerUpDown)
-                                {
-                                    if (tpac.Visibility == System.Windows.Visibility.Collapsed)
-                                    {
-                                        ce.element.Visibility = System.Windows.Visibility.Visible;
-                                        ce.caption.Visibility = System.Windows.Visibility.Visible;
-                                    }
-                                    else
-                                    {
-                                        ce.element.Visibility = tpac.Visibility;
-                                        ce.caption.Visibility = tpac.Visibility;
-
-                                    }
-                                }
-                                else
-                                {
-                                    ce.element.Visibility = tpac.Visibility;
-                                    ce.caption.Visibility = tpac.Visibility;
-                                }
+                                
+                                ce.element.Visibility = tpac.Visibility;
+                                ce.caption.Visibility = tpac.Visibility;
+                                
 
 
                             }
