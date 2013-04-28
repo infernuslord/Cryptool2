@@ -197,7 +197,7 @@ namespace NumberFieldSieve
 
                     source.Execute(scope);
                     _scope = scope;
-                    scope.SetVariable("NAME", Path.Combine(_directoryName, inputString));
+                    scope.SetVariable("NAME", inputString);
                     scope.SetVariable("GGNFS_PATH", ggnfsDir);
                     scope.SetVariable("MSIEVE_PATH", ggnfsDir);
                     scope.SetVariable("NUM_CORES", _settings.NumCores);
