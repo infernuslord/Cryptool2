@@ -112,6 +112,12 @@
     <None Include="Data\wordlists\bg.txt.metainfo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Data\wordlists\cracklib-words">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\wordlists\cracklib-words.metainfo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\wordlists\cs.txt.metainfo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
