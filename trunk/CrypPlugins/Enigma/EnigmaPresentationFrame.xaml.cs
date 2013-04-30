@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -28,14 +29,14 @@ namespace Cryptool.Enigma
         public EnigmaPresentationFrame(Enigma facade)
         {
             this.facade = facade;
+            facade.Settings.PropertyChanged += settings_OnPropertyChange;
+            
             InitializeComponent();
-
+            visbileCheckbox.Content = Properties.Resources.PresentationActivation;
             EnigmaPresentation =  new EnigmaPresentation(facade);
 
             dockPanel1.Children.Add(EnigmaPresentation);
             
-
-
             Binding disableBoolBinding = new Binding("DisabledBoolProperty");
             disableBoolBinding.Mode = BindingMode.TwoWay;
             disableBoolBinding.Source = EnigmaPresentation.PresentationDisabled;
@@ -46,37 +47,37 @@ namespace Cryptool.Enigma
             myBinding2.Mode = BindingMode.TwoWay;
             BooleanToVisibilityConverter booleanToHidden = new BooleanToVisibilityConverter();
             myBinding2.Converter = booleanToHidden;
-            EnigmaPresentation.SetBinding(TextBox.VisibilityProperty, myBinding2);
+            EnigmaPresentation.SetBinding(VisibilityProperty, myBinding2);
 
             this.IsVisibleChanged += new DependencyPropertyChangedEventHandler(EnigmaPresentationFrame_IsVisibleChanged);
-
-
-
-
         }
 
-        public class BooleanToVisibilityConverter : IValueConverter
+        public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
+            EnigmaSettings settings = sender as EnigmaSettings;
 
-            public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+            if (e.PropertyName == "Model")
             {
-                if (targetType == typeof(Visibility))
+                if (settings.Model != 3)
                 {
-                    var visible = System.Convert.ToBoolean(value, culture);
-                    if (InvertVisibility)
-                        visible = !visible;
-                    return visible ? Visibility.Visible : Visibility.Hidden;
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                                                              {
+                                                                                                  visbileCheckbox.
+                                                                                                      IsEnabled = false;
+                                                                                                  visbileCheckbox.
+                                                                                                      IsChecked = false;
+                                                                                              }, null);
                 }
-                throw new InvalidOperationException("Converter can only convert to value of type Visibility.");
+                else
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        visbileCheckbox.
+                                                                      IsEnabled = true;
+                                                                  
+                    }, null);
+                }
             }
-
-            public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
-            {
-                throw new InvalidOperationException("Converter cannot convert back.");
-            }
-
-            public Boolean InvertVisibility { get; set; }
-
         }
 
         public void ChangeStatus(Boolean isrunning, Boolean isvisible)
@@ -114,7 +115,6 @@ namespace Cryptool.Enigma
 
         private void visbileCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-
             enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_ChangeStatus_Präsentation_turned_off;
             enigmaStatus.Background = Brushes.Tomato;
 
@@ -128,7 +128,6 @@ namespace Cryptool.Enigma
             if (facade.isrunning)
             {
                 enigmaStatus.Text = Properties.Resources.EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace;
-                
             }
             else
             {
@@ -136,9 +135,31 @@ namespace Cryptool.Enigma
             }
             enigmaStatus.Background = Brushes.LawnGreen;
 
-
             dockPanel1.Background.Opacity = 0;
         }
+
+    }
+    public class BooleanToVisibilityConverter : IValueConverter
+    {
+
+        public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
+        {
+            if (targetType == typeof(Visibility))
+            {
+                var visible = System.Convert.ToBoolean(value, culture);
+                if (InvertVisibility)
+                    visible = !visible;
+                return visible ? Visibility.Visible : Visibility.Hidden;
+            }
+            throw new InvalidOperationException("Converter can only convert to value of type Visibility.");
+        }
+
+        public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
+        {
+            throw new InvalidOperationException("Converter cannot convert back.");
+        }
+
+        public Boolean InvertVisibility { get; set; }
 
     }
 }

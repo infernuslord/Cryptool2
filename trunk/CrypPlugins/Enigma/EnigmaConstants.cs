@@ -96,7 +96,7 @@ namespace Cryptool.Enigma
                                             "",
                                         }
                                   };
-        public readonly string[,] reflectors = {
+        public readonly static string[,] reflectors = {
                                                     {  // Kommerzielle Enigma A/B - there was no reflector
                                                         "", 
                                                         "", 

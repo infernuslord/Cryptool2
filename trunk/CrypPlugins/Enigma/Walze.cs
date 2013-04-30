@@ -20,9 +20,12 @@ namespace Cryptool.Enigma
     class Walze : Canvas
     {
         #region Variables
-        int[] umkehrlist1 = { 4, 9, 12, 25, 0, 11, 24, 23, 21, 1, 22, 5, 2, 17, 16, 20, 14, 13, 19, 18, 15, 8, 10, 7, 6, 3 };
-        int[] umkehrlist2 = { 24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14, 10, 12, 8, 4, 1, 5, 25, 2, 22, 21, 9, 0, 19 };
-        int[] umkehrlist3 = { 5, 21, 15, 9, 8, 0, 14, 24, 4, 3, 17, 25, 23, 22, 6, 2, 19, 10, 20, 16, 18, 1, 13, 12, 7, 11 };
+
+        int[] umkehrlist1 = getWalzeAsInt(3,0);
+        int[] umkehrlist2 = getWalzeAsInt(3, 1);
+        int[] umkehrlist3 = getWalzeAsInt(3, 2);
+
+
         TextBlock[] tebo = new TextBlock[26];
         Line[,] larray = new Line[26, 3];
         List<Line> linesToAnimat = new List<Line>();
@@ -35,6 +38,17 @@ namespace Cryptool.Enigma
         private double timecounter = 0.0;
         Boolean wrong;
         public int[] umkehrlist;
+        
+        public static int[] getWalzeAsInt(int model, int walze)
+        {
+            int[] value = new int[26];
+            for (int i = 0; i < EnigmaCore.rotors[model, walze].Length; i++)
+            {
+                value[i] = EnigmaCore.reflectors[model, walze][i] - 65;
+            }
+            return value;
+        }
+
         #endregion
 
         #region Storyboard creating
