@@ -1244,9 +1244,34 @@ namespace WorkspaceManager.View.Visuals
 
                 if (true)
                 {
+                    
                     if (child is TextBlock || child is Expander)
                     {
+                        TextBlock caption = child as TextBlock;
+                        if (child.IsVisible)
+                        {
+                            if (caption != null)
+                            {
+                                FormattedText formattedText = new FormattedText(
+                                    caption.Text,
+                                    CultureInfo.GetCultureInfo("en-us"),
+                                    FlowDirection.LeftToRight,
+                                    new Typeface(caption.FontFamily.ToString()),
+                                    caption.FontSize,
+                                    Brushes.Black);
+
+                                if (formattedText.WidthIncludingTrailingWhitespace > maxSizeCaption)
+                                {
+                                    maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace;
+                                }
+                            }
+                        }
+                        
                         if (child.DesiredSize.Width > maxSizeCaption)
+                        {
+                            maxSizeCaption = child.DesiredSize.Width;
+                        }
+                        if (child.RenderSize.Width > maxSizeCaption)
                         {
                             maxSizeCaption = child.DesiredSize.Width;
                         }
@@ -1281,9 +1306,11 @@ namespace WorkspaceManager.View.Visuals
             }
 
             if (maxSizeContent < 20)
-                maxSizeContent = 200;
+            {
+                maxSizeContent = 100;
+            }
 
-            maxSizeCaption += 5;
+            
 
             maxSize = maxSizeCaption + maxSizeContent;
 
@@ -1399,10 +1426,6 @@ namespace WorkspaceManager.View.Visuals
                 {
                     
                 }
-
-
-
-
             }
 
 
@@ -1622,10 +1645,7 @@ namespace WorkspaceManager.View.Visuals
             TranslateTransform trans = null;
             double curX = 0, curY = 0, curLineHeight = 0;
 
-            Boolean b = true;
-
-            if (finalSize.Width > maxSize)
-                b = false;
+            bool b = !(finalSize.Width > maxSize);
 
             foreach (UIElement child in Children)
             {
