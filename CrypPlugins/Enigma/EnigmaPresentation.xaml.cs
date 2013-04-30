@@ -62,7 +62,7 @@ namespace Cryptool.Enigma
         TextBlock[] inputList = new TextBlock[26];
         TextBlock[] outputList = new TextBlock[26];
         int[] switchlist = new int[26];
-        int[] umkehrlist = { 4, 9, 12, 25, 0, 11, 24, 23, 21, 1, 22, 5, 2, 17, 16, 20, 14, 13, 19, 18, 15, 8, 10, 7, 6, 3 };
+        int[] umkehrlist = Walze.getWalzeAsInt(3,1);
 
         int aktuell = -1;
 
@@ -295,7 +295,11 @@ namespace Cryptool.Enigma
                         }, null);
                     }
                 }
-                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && justme)
+
+                /*
+                 * 
+                 * not needed anymore?!
+                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && justme &&false)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -307,11 +311,11 @@ namespace Cryptool.Enigma
 
                     }, null);
                 }
-                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && !justme)
+                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && !justme && false)
                 {
                     test++;
-                }
-                System.Console.WriteLine(e.PropertyName);
+                }*/
+                
                 if (e.PropertyName == "Remove all Plugs" && justme)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -319,6 +323,29 @@ namespace Cryptool.Enigma
                         for (int i = 0; i < bList.Length; i++)
                             if (!bList[i].Uid.Equals(bList[i].Content.ToString()))
                             { switchbuttons(Int32.Parse(bList[i].Content.ToString()), Int32.Parse(bList[i].Uid)); }
+                    }, null);
+                }
+
+                if (e.PropertyName == "PlugBoard")
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                       
+                        for (int i = 0; i < bList.Length; i++)
+                            if (Int32.Parse(bList[i].Content.ToString()) != Int32.Parse(settings.PlugBoard[i] - 65 + ""))
+                                {
+                                    for (int ix = 0; ix < i; ix++)
+                                    {
+                                        if (Int32.Parse(bList[ix].Content.ToString()) != Int32.Parse(settings.PlugBoard[ix] - 65 + ""))
+                                        {
+                                            switchbuttons(Int32.Parse(bList[ix].Content.ToString()),
+                                                          Int32.Parse(bList[ix].Uid));
+                                        }
+                                    }
+                                    switchbuttons(Int32.Parse(bList[i].Content.ToString()),Int32.Parse(bList[i].Uid));
+                                    switchbuttons(Int32.Parse(bList[i].Uid), Int32.Parse(bList[settings.PlugBoard[i] - 65].Uid));
+                                }
+
                     }, null);
                 }
 
@@ -553,17 +580,14 @@ namespace Cryptool.Enigma
             ars = new AutoResetEvent(false);
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
+            facade.Settings.PropertyChanged += settings_OnPropertyChange;
 
             PresentationDisabled = new DisabledBool();
-
-            
-            //PresentationDisabled.DisabledBoolProperty = true;
 
             storyboard1 = new Storyboard();
             storyboard1.Completed += prefadeout1;
 
             settings = (EnigmaSettings)facade.Settings;
-            //settings.PropertyChanged += changeSettings;
             speed = settings.PresentationSpeed;
             InitializeComponent();
 
@@ -572,25 +596,7 @@ namespace Cryptool.Enigma
             walzenarea.AllowDrop = false;
             maingrid.AllowDrop = false;
 
-
             SizeChanged += sizeChanged;
-
-
-
-            //mainWindow.WindowStyle = WindowStyle.None;
-            //slider1.ValueChanged += this.sliderValueChanged;
-
-            //slider1.Minimum = 0.5;
-            //slider1.Maximum = 6;
-
-            //Stop.Click += stopclick;
-            //m4on.Click += m4onClick;
-            //play.Click += playClick;
-            //mainmain.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(DragSource_PreviewMouseLeftButtonDown);
-            //mainmain.PreviewMouseMove += new MouseEventHandler(DragSource_PreviewMouseMove);
-
-
-
             int x = 30;
             int y = 50;
 
@@ -612,8 +618,6 @@ namespace Cryptool.Enigma
                 b.Width = x;
                 b.PreviewMouseMove += new MouseEventHandler(List_MouseMove);
                 b.Drop += List_Drop;
-                //b.DragEnter+=List_DragEnter;
-                //b.AllowDrop=true;
                 b.Uid = "" + i;
                 b.Content = Convert.ToChar(i + 80) + "";
                 b.Content = i;
@@ -621,11 +625,6 @@ namespace Cryptool.Enigma
                 b.Opacity = 1;
 
 
-                //b.Style.Resources.Source = 
-
-                //Style mystyle = new Style();
-                //mystyle.Resources.Source = StaticResource GlassButton;
-                //b.BorderThickness = new Thickness(10.0);
                 steckerbrett.Children.Add(b);
                 bList[i] = b;
 
@@ -666,9 +665,7 @@ namespace Cryptool.Enigma
                 alpha2.Children.Add(t1);
                 inputList[i] = t;
                 outputList[i] = t1;
-                //alpha2.Children.Add(t1);
-                // Set Line's width and color
-
+            
                 l.StrokeThickness = 1;
 
                 l.Stroke = redBrush;
@@ -681,8 +678,6 @@ namespace Cryptool.Enigma
 
                 l2.StrokeThickness = 1;
 
-                //l2.Stroke = redBrush;
-
                 umlList[i, 0] = l2;
                 if (umkehrlist[i] < i)
                     maingrid2.Children.Add(l2);
@@ -694,8 +689,6 @@ namespace Cryptool.Enigma
                 l3.Y2 = 20 + umkehrlist[i] * 10;
 
                 l3.StrokeThickness = 1;
-
-                // l3.Stroke = redBrush;
 
                 umlList[i, 1] = l3;
                 if (umkehrlist[i] < i)
@@ -715,8 +708,6 @@ namespace Cryptool.Enigma
 
                 l4.StrokeThickness = 1;
 
-                // l4.Stroke = redBrush;
-
                 umlList[i, 2] = l4;
                 if (umkehrlist[i] < i)
                     maingrid2.Children.Add(l4);
@@ -729,10 +720,6 @@ namespace Cryptool.Enigma
                 taste.Click += tasteClick;
                 taste.FontSize = 25;
                 Canvas.SetLeft(taste, 50 * i);
-
-                // l2 l3 l4 löschen
-
-                //Canvas hschalter = schalter();
 
                 if (i % 3 == 0)
                 {
@@ -815,11 +802,6 @@ namespace Cryptool.Enigma
             rotorarea.Children.Add(rotorlocks2);
             rotorarea.Children.Add(rotorlocks3);
 
-            //String settingskey = settings.Key;
-
-
-
-
             Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key.ToUpper()[0] - 65, settings.Ring1);
             rotor.updone += changeSettings;
             rotor.downdone += changeSettings;
@@ -840,7 +822,7 @@ namespace Cryptool.Enigma
 
 
             Walze walze = new Walze(settings.Reflector + 1, this.Width, this.Height);
-            //walze.fast = speed * 80;
+            
             Canvas.SetLeft(walze, 0);
             Canvas.SetTop(walze, 60);
             walzenarea.Children.Add(walze);
@@ -985,19 +967,8 @@ namespace Cryptool.Enigma
             img7.PreviewMouseMove += Rotor_MouseMove1;
             img8.PreviewMouseMove += Rotor_MouseMove1;
 
-
-
-            //tebo.PreviewMouseMove += Rotor_MouseMove1;
-            //tebo2.PreviewMouseMove += Rotor_MouseMove1;
-
-
-
             img1.PreviewMouseMove += Walze_MouseMove1;
             img2.PreviewMouseMove += Walze_MouseMove1;
-
-
-
-
 
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
@@ -1008,13 +979,10 @@ namespace Cryptool.Enigma
             fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
 
             dummycanvas = new Canvas();
-            //mainmainmain.Children.Add(dummycanvas);
+
             mainmainmain.Children.Remove(tb);
             this.IsEnabled = true;
             input = "";
-
-            
-
             bList[0].Focus();
 
 
@@ -1026,12 +994,7 @@ namespace Cryptool.Enigma
 
         public Boolean checkReady()
         {
-            Boolean b = true;
-            if (rotorarray[0] == null || rotorarray[1] == null || rotorarray[2] == null || walze == null)
-            {
-                b = false;
-            }
-
+            bool b = !(rotorarray[0] == null || rotorarray[1] == null || rotorarray[2] == null || walze == null);
             return b;
         }
 
@@ -1073,7 +1036,6 @@ namespace Cryptool.Enigma
                     
                     if (!IsVisible && !mainmainmain.Children.Contains(tb))
                     {
-                        //PresentationDisabled.DisabledBoolProperty = false;
                         tb = new TextBlock();
                         tb.TextWrapping = TextWrapping.Wrap;
                         tb.Width = 2200;
@@ -1090,7 +1052,6 @@ namespace Cryptool.Enigma
                     walzenarea.IsEnabled = true;
                     rotorarea.IsEnabled = true;
                     mainmain.IsEnabled = true;
-                    //PresentationDisabled.DisabledBoolProperty = true;
                 }
             }, null);
         }
@@ -1131,9 +1092,6 @@ namespace Cryptool.Enigma
                     this.input = newinput;
                 }
 
-
-
-
                 if (this.input.Length < newinput.Length)
                 {
                     int pos = newinput.Length - 1;
@@ -1156,15 +1114,7 @@ namespace Cryptool.Enigma
                             inputtebo = new List<TextBlock>();
                         }
                         int foo = pos + pos / 5 - 1;
-                        /*
-                        if ((pos) % 5 == 0)
-                        {
-                            TextBlock t1 = new TextBlock();
-                            t1.Text = " ";
-                            t1.FontSize = 40;
-                            inputPanel.Children.Insert(foo, t1);
-
-                        }*/
+                     
                         TextBlock t = new TextBlock();
                         t.FontFamily = new FontFamily("Courier New");
                         t.Text = newinput[pos] + "";
@@ -1173,18 +1123,9 @@ namespace Cryptool.Enigma
                         inputPanel.Children.Insert(pos, t);
                         inputtebo.Insert(pos, t);
 
-                        if (inputtebo.Count == 1)
-                        {
-                            //playClick(null, EventArgs.Empty);
-                           
-                        }
-
+                        
                     }
-                    else
-                    {
-                        //stopclick(null, EventArgs.Empty);
-                        //setinput(newinput);
-                    }
+                    
                 }
 
 
@@ -1210,27 +1151,14 @@ namespace Cryptool.Enigma
                         }
 
                         int foo = pos + pos / 5 - 1;
-                        /*
-                        if ((foo) % 5 == 0)
-                        {
-                            inputPanel.Children.RemoveAt(foo);
-
-                        }
-                        */
+                     
                         inputPanel.Children.RemoveAt(pos);
                         inputtebo.RemoveAt(pos);
-
-                        if (inputtebo.Count == 1)
-                        {
-                            //playClick(null, EventArgs.Empty);
-                            
-                        }
 
                     }
                     else
                     {
                         stopclick(null, EventArgs.Empty);
-                        //setinput(newinput);
                     }
                 }
 
@@ -1240,9 +1168,7 @@ namespace Cryptool.Enigma
 
         public void setinput(String input)
         {
-            
             this.newinput = input;
-            
             t1_Tick();
         }
 
@@ -2662,35 +2588,15 @@ namespace Cryptool.Enigma
 
                 linesToAnimate.Add(line2[4]);
                 linesToAnimate.Add(line2[1]);
-
-
-
-                //if (switchlist[umkehrlist[switchlist[Int32.Parse(button.Uid)]]] % 3 != 2)
-                //  tobat1[8, switchlist[umkehrlist[switchlist[Int32.Parse(button.Uid)]]] % 3].Stroke = Brushes.Red;
-
-
-
-
-
-
-                // int aus = DrawLines(switchlist[Int32.Parse(button.Uid)]);
-
-
-                //inputList[Int32.Parse(button.Uid)].Background = Brushes.Green;
+               
                 linesToAnimate.Add(inputList[Int32.Parse(button.Uid)]);
                 lList[switchlist[Int32.Parse(button.Uid)]].Stroke = Brushes.Green;
                 linesToAnimate.Add(lList[switchlist[Int32.Parse(button.Uid)]]);
-                //bList[switchlist[Int32.Parse(button.Uid)]].Background = Brushes.Green;
+               
                 linesToAnimate.Add(bList[switchlist[Int32.Parse(button.Uid)]]);
-                //outputList[switchlist[Int32.Parse(button.Uid)]].Background = Brushes.Green;
+               
                 linesToAnimate.Add(outputList[switchlist[Int32.Parse(button.Uid)]]);
-                /*umlList[switchlist[Int32.Parse(button.Uid)],0].Stroke = Brushes.Red ;
-                umlList[switchlist[Int32.Parse(button.Uid)], 2].Stroke = Brushes.Red;
-                umlList[switchlist[Int32.Parse(button.Uid)], 1].Stroke = Brushes.Red;
-                umlList[umkehrlist[switchlist[Int32.Parse(button.Uid)]], 1].Stroke = Brushes.Red;
-                umlList[umkehrlist[switchlist[Int32.Parse(button.Uid)]], 0].Stroke = Brushes.Red;
-                umlList[umkehrlist[switchlist[Int32.Parse(button.Uid)]], 2].Stroke = Brushes.Red;
-                */
+               
 
                 int aus = DrawLines2(switchlist[Int32.Parse(button.Uid)]);
 
@@ -2708,8 +2614,6 @@ namespace Cryptool.Enigma
                 Line[] line3 = schalterlist2[switchlist[aus]];
                 line3[0].Stroke = Brushes.Red;
                 line3[1].Stroke = Brushes.Red;
-                //line3[2].Stroke = Brushes.Red;
-                //line3[3].Stroke = Brushes.Red;
                 line3[4].Stroke = Brushes.Red;
                 line3[5].Stroke = Brushes.Red;
 
@@ -3717,8 +3621,6 @@ namespace Cryptool.Enigma
 
                 dummyrec[3] = dummy;
 
-                //steckerbrett.Children.Insert(Int32.Parse(button.Uid), button2);
-
                 //Here we create our adorner.. 
                 _adorner = new DragAdorner(DragScope, (UIElement)rotor.iAm, true, 1, this.ActualWidth, this.ActualHeight);
 
@@ -3730,9 +3632,6 @@ namespace Cryptool.Enigma
 
                 //_dragHasLeftScope = false;
                 //Finally lets drag drop 
-                //if (!button.Uid.Equals(button.Content.ToString()))
-                //  switchbuttons(Int32.Parse(button.Content.ToString()), Int32.Parse(button.Uid));
-
 
                 DataObject data = new DataObject("myFormat", rotor.typ + "");
                 DragDropEffects de = DragDrop.DoDragDrop(rotorarea, data, DragDropEffects.Move);
@@ -3757,9 +3656,6 @@ namespace Cryptool.Enigma
 
                 _adorner = null;
 
-                //           DragSource.GiveFeedback -= feedbackhandler;
-                //         DragScope.DragLeave -= dragleavehandler;
-                //       DragScope.QueryContinueDrag -= queryhandler;
                 DragScope.PreviewDragOver -= draghandler;
 
                 //IsDragging = false;
@@ -4542,8 +4438,6 @@ namespace Cryptool.Enigma
         public bool disabledBoolProperty;
 
         public DisabledBool() { }
-
-
 
         public bool DisabledBoolProperty
         {

@@ -798,4 +798,7 @@
   <data name="EnigmaPresentationFrame_visbileCheckbox_Checked_Restart_Workspace" xml:space="preserve">
     <value>Workspace neu starten</value>
   </data>
+  <data name="PresentationActivation" xml:space="preserve">
+    <value>Präsentation aktivieren</value>
+  </data>
 </root>
