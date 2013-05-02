@@ -134,6 +134,8 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <DropShadowEffect x:Key="effect" Direction="0" ShadowDepth="0.5" BlurRadius="5"></DropShadowEffect>
+
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBoxBase}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=SelectedAlphabet.Editable, Mode=OneWay}" Value="True">
@@ -152,28 +154,23 @@
             <Setter Property="ClipToBounds" Value="False"></Setter>
             <Setter Property="Foreground" Value="#666"></Setter>
             <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="Background" Value="#ddffffff"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                        <DockPanel LastChildFill="True" ClipToBounds="False">
-                            <Rectangle DockPanel.Dock="Left" x:Name="Border" Visibility="Hidden" Fill="#888" Width="2" Height="auto"></Rectangle>
-                            <Rectangle DockPanel.Dock="Top" x:Name="Border2" Visibility="Hidden" Fill="#888" Height="2" Width="auto"></Rectangle>
-                            <Border Margin="0" x:Name="PART_ContentHost" ClipToBounds="False"/>
-                        </DockPanel>
+
+                        <Border Margin="5" x:Name="PART_ContentHost" ClipToBounds="False" Background="#eeffffff" Padding="5"
+                                CornerRadius="5" BorderBrush="#888" BorderThickness="1">
+                        </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="False">
-                                <Setter Property="Visibility" Value="Hidden" TargetName="Border"></Setter>
-                                <Setter Property="Visibility" Value="Hidden" TargetName="Border2"></Setter>
+                            <Trigger Property="IsFocused" Value="False" >
+                                <Setter Property="Effect" Value="{x:Null}" TargetName="PART_ContentHost"></Setter>
                             </Trigger>
                             <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
-                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                                <Setter Property="Effect" Value="{StaticResource ResourceKey=effect}" TargetName="PART_ContentHost"></Setter>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
-                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
-                                <Setter Property="Fill" Value="#bbb" TargetName="Border"></Setter>
-                                <Setter Property="Fill" Value="#bbb" TargetName="Border2"></Setter>
+                                <Setter Property="Effect" Value="{StaticResource ResourceKey=effect}" TargetName="PART_ContentHost"></Setter>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -275,50 +272,76 @@
                                             <RowDefinition Height="auto"></RowDefinition>
                                             <RowDefinition Height="auto"></RowDefinition>
                                         </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
+                                        <!--<Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
+                                        </Grid.ColumnDefinitions>-->
 
-                                        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35" >
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
+                                                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
+                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseNormal}"
+                                                      >
+
+                                                    </ToggleButton>
+                                                    <TextBlock Text="Chracters"></TextBlock>
+                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseUpper}"
+                                                      >
+
+                                                    </ToggleButton>
+                                                    <TextBlock Text="Upper Case"></TextBlock>
+                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseLower}"
+                                                      >
+
+                                                    </ToggleButton>
+                                                    <TextBlock  Text="Lower Case"></TextBlock>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
 
-                                        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35" >
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
+                                                <StackPanel  Orientation="Horizontal">
+                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseNumeric}"
+                                                     >
+
+                                                    </ToggleButton>
+                                                    <TextBlock  Text="Numerics"></TextBlock>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
 
                                         <Border Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="2">
+                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
+                                                <StackPanel  Orientation="Horizontal">
+                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                      IsChecked="{Binding Path=UseSpecial}"
+                                                      >
+
+                                                    </ToggleButton>
+
+                                                    <TextBlock  Text="Specials"></TextBlock>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
+    
 
-                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseNormal}"
-                                                      Grid.Row="0" Grid.Column="0">
 
-                                        </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseNumeric}"
-                                                      Grid.Row="1" Grid.Column="0">
 
-                                        </ToggleButton>
-                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseSpecial}"
-                                                      Grid.Row="2" Grid.Column="0">
 
-                                        </ToggleButton>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Chracters: "></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Numerics: "></TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Specials: "></TextBlock>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Normal, FallbackValue='Not Set'}"></TextBlock>
+
+
+
+                                        <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Normal, FallbackValue='Not Set'}"></TextBlock>
                                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Numeric, FallbackValue='Not Set'}"></TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Path=Special, FallbackValue='Not Set'}"></TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Path=Special, FallbackValue='Not Set'}"></TextBlock>-->
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -328,7 +351,9 @@
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                        AncestorType={x:Type ListViewItem}}, 
+                                                        Path=IsSelected}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#8FFF93"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
@@ -358,28 +383,112 @@
             </Style.Triggers>
         </Style>
 
-    </UserControl.Resources>
+        <Grid x:Key="editAlphabet" Visibility="Visible">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Background="#11222222" Grid.ColumnSpan="3">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Background="#55ffffff" Margin="5">
+                            <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_3"
+                                    VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                <Image Height="20" Source="back.png"></Image>
+                            </Button>
+                        </Border>
+                        <TextBlock Text="Edit Alphabets" Padding="5" FontWeight="Bold"
+                                   FontFamily="Verdana" FontSize="24"></TextBlock>
 
-    <Grid Width="Auto" Height="Auto" Background="{StaticResource ResourceKey=Background}">
-        <Grid Visibility="Collapsed">
-            <Border Grid.Column="1" Grid.Row="1" Background="#80ffffff">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBox Text="{Binding Path=SelectedAlphabet.Title, Mode=TwoWay}" Style="{StaticResource ResourceKey=TextBoxStyle}" Foreground="#222"
-                         FontFamily="Consolas" FontSize="24" TextAlignment="Center"
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1" Background="#80ffffff">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBox Grid.Row="1" Text="{Binding Path=SelectedAlphabet.Title, Mode=TwoWay}" Style="{StaticResource ResourceKey=TextBoxStyle}" Foreground="#222"
+                         FontFamily="Verdana" FontSize="19" TextAlignment="Center"
                          Background="Transparent">
-                    </TextBox>
-                    <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
-                         Text="{Binding Path=SelectedAlphabet.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" FontFamily="Consolas" FontSize="22">
+                            </TextBox>
+                            <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
+                                   FontWeight="Bold" Height="15" TextAlignment="Left" 
+                                   Text="Title" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
 
-                    </TextBox>
-                </Grid>
-            </Border>
 
-            <Border Grid.Column="2" Grid.Row="1">
+                            <TextBox Grid.Row="2" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
+                         Text="{Binding Path=SelectedAlphabet.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             FontFamily="Verdana" FontSize="14">
+                            </TextBox>
+                            <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
+                                   FontWeight="Bold" Height="15" TextAlignment="Left" 
+                                   Text="Upper Case Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+
+                            <TextBox Grid.Row="2" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
+                         Text="{Binding Path=SelectedAlphabet.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             FontFamily="Verdana" FontSize="14">
+                            </TextBox>
+                            <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
+                                   FontWeight="Bold" Height="15" TextAlignment="Left" 
+                                   Text="Lower Case Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
+                         Text="{Binding Path=SelectedAlphabet.Numeric, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             TextWrapping="Wrap" FontFamily="Verdana" FontSize="14">
+                            </TextBox>
+                            <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
+                                   FontWeight="Bold" Height="15" TextAlignment="Left" 
+                                   Text="Numeric Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
+                                   FontWeight="Bold" Height="15" TextAlignment="Left" 
+                                   Text="Special Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                            <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
+                         Text="{Binding Path=SelectedAlphabet.Special, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             TextWrapping="Wrap" FontFamily="Verdana" FontSize="14">
+                            </TextBox>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+            
+
+            <!--<Border Grid.Column="2" Grid.Row="1" Visibility="Collapsed">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -422,17 +531,19 @@
                     </StackPanel>
                 </Grid>
 
-            </Border>
+            </Border>-->
         </Grid>
-        <Grid>
-        <Grid.RowDefinitions>
+
+
+        <Grid x:Key="selectAlphabet">
+            <Grid.RowDefinitions>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Border Background="#11222222" Grid.ColumnSpan="3">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Alphabets" Padding="5" 
-                               FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="24"></TextBlock>
+                    <TextBlock Text="Alphabets" Padding="5" FontWeight="Bold"
+                               FontFamily="Verdana" FontSize="24"></TextBlock>
                     <Border Background="#55ffffff" Margin="5">
                         <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_1"
                                 VerticalContentAlignment="Center" VerticalAlignment="Center">
@@ -444,8 +555,21 @@
 
             <Border Grid.Column="0" Grid.Row="1" Background="#bbffffff">
                 <ListView  x:Name="AlphabetList" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Alphabets}"
-                            SelectionMode="Single"  SelectionChanged="SelectionChanged"></ListView>
+                            SelectionMode="Single"  SelectionChanged="SelectionChanged" SelectedIndex="0"></ListView>
             </Border>
         </Grid>
-    </Grid>
+
+        <Style x:Key="contentSelectorStyle" TargetType="ContentControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=SelectedAlphabet}" Value="{x:Null}">
+                    <Setter Property="Content" Value="{StaticResource ResourceKey=selectAlphabet}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Content" Value="{StaticResource ResourceKey=editAlphabet}"></Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Width="Auto" Height="Auto" Background="{StaticResource ResourceKey=Background}" x:Name="root">
+        <ContentControl Style="{StaticResource ResourceKey=contentSelectorStyle}" DataContext="{Binding Path=DataContext, ElementName=root}"></ContentControl>
+    </Border>
 </UserControl>
