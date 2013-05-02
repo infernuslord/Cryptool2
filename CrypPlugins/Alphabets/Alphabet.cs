@@ -23,6 +23,8 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.Alphabets
 {
@@ -31,105 +33,116 @@ namespace Cryptool.Alphabets
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class Alphabet : ICrypComponent
     {
-      private AlphabetPresentation alphabetPresentation;
+        private AlphabetPresentation alphabetPresentation;
 
-      private AlphabetSettings settings = new AlphabetSettings();
-      public ISettings Settings
-      {
-        get { return settings; }
-        set { settings = (AlphabetSettings)value; }
-      }
-      
-
-      public Alphabet()
-      {          
-          alphabetPresentation = new AlphabetPresentation();
-          Presentation = this.alphabetPresentation;
-          settings.PropertyChanged += settings_PropertyChanged;
-      }
-
-      void alphabetPresentation_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
-      {
-          GuiLogMessage(args.Message, args.NotificationLevel); 
-      }
-
-      void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-      {
-        if (e.PropertyName == "Alphabet")
+        private AlphabetSettings settings = new AlphabetSettings();
+        public ISettings Settings
         {
-          OnPropertyChanged("AlphabetOutput");
+            get { return settings; }
+            set { settings = (AlphabetSettings)value; }
         }
-      }
-
-      [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", false)]
-      public string AlphabetOutput
-      {
-          get { return settings.Alphabet; }
-          set { } //readonly
-      }
 
 
-      public UserControl Presentation { get; private set; }
+        public Alphabet()
+        {
+            alphabetPresentation = new AlphabetPresentation();
+            Presentation = this.alphabetPresentation;
+            settings.PropertyChanged += settings_PropertyChanged;
+        }
 
-      public void Initialize()
-      {
-      }
+        void alphabetPresentation_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
+        {
+            GuiLogMessage(args.Message, args.NotificationLevel);
+        }
 
-      public void Dispose()
-      {
-      }
+        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Alphabet")
+            {
+                OnPropertyChanged("AlphabetOutput");
+            }
+        }
 
-      public void Stop()
-      {
-      }
+        string alphabetString = string.Empty;
 
-      public void PreExecution()
-      {
-      }
+        [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", false)]
+        public string AlphabetOutput
+        {
+            get
+            {
+                return alphabetString;
+            }
+            set { } //readonly
+        }
 
-      public void PostExecution()
-      {
-      }
 
-      public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public UserControl Presentation { get; private set; }
 
-      public void OnPropertyChanged(string name)
-      {
-          if (PropertyChanged != null)
-          {
-              PropertyChanged(this, new PropertyChangedEventArgs(name));
-          }
-      }
+        public void Initialize()
+        {
+                
+        }
 
-      #region IPlugin Members
+        public void Dispose()
+        {
+        }
+
+        public void Stop()
+        {
+        }
+
+        public void PreExecution()
+        {
+            this.alphabetPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.alphabetString = alphabetPresentation.GetAlphabet();
+            }, null);
+
+        }
+
+        public void PostExecution()
+        {
+        }
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        #region IPlugin Members
 
 #pragma warning disable 67
-			public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 #pragma warning restore
-            public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-            public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-      
-      private void GuiLogMessage(string message, NotificationLevel logLevel)
-      {
-        if (OnGuiLogNotificationOccured != null)
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
-          OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
         }
-      }
 
         public void Execute()
-      {
-          OnPropertyChanged("AlphabetOutput");
-          ShowProgress(100, 100);
-      }
+        {
+            OnPropertyChanged("AlphabetOutput");
+            ShowProgress(100, 100);
+        }
 
         #endregion
 
-      #region Private
-      private void ShowProgress(double value, double max)
-      {
-          EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-      }
-      #endregion
+        #region Private
+        private void ShowProgress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+        #endregion
     }
 }
