@@ -69,13 +69,11 @@
 
         <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-            <Setter Property="Width" Value="30"></Setter>
-            <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
                         <Border x:Name="Border" BorderThickness="1">
-                            <Image Height="25" x:Name="image" Source="unchecked.png"></Image>
+                            <Image x:Name="image" Source="unchecked.png"></Image>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
@@ -181,8 +179,8 @@
         <LinearGradientBrush x:Key="BackgroundIsSelected" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
-                    <GradientStop Color="#D2FFCC" Offset="0.0"/>
-                    <GradientStop Color="#8FFF93" Offset="1.0"/>
+                    <GradientStop Color="#bbe3b6" Offset="0.0"/>
+                    <GradientStop Color="#7fe383" Offset="1.0"/>
                 </GradientStopCollection>
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -223,10 +221,31 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Text="{Binding Path=Title}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
+                                    <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Path=Upper}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                        
+                                        <TextBlock Text="{Binding Path=Lower}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                        
+                                        <TextBlock Text="{Binding Path=Numeric}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                        
+                                        <TextBlock Text="{Binding Path=Special}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9"
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    </WrapPanel>
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="1">
                                         <Button Style="{StaticResource ResourceKey=ButtonStyleSec}" 
                                                 Height="20" Width="20" Click="Button_Click" VerticalContentAlignment="Center" VerticalAlignment="Center">
@@ -239,7 +258,8 @@
                                             <Image Height="16" Source="pluginSetting-small.png"></Image>
                                         </Button>
                                     </Border>
-                                    <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                                    
+                                    <Grid Grid.Row="2" Grid.ColumnSpan="3">
                                         <Grid.Style>
                                             <Style TargetType="Grid">
                                                 <Style.Triggers>
@@ -259,9 +279,9 @@
                                         <Grid.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                                                <Setter Property="Padding" Value="2"></Setter>
+                                                <Setter Property="Padding" Value="1"></Setter>
                                                 <Setter Property="FontFamily" Value="Verdana"></Setter>
-                                                <Setter Property="FontSize" Value="13"></Setter>
+                                                <Setter Property="FontSize" Value="11"></Setter>
                                                 <Setter Property="Foreground" Value="#555"></Setter>
                                                 <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
                                                 <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"></Setter>
@@ -269,75 +289,56 @@
                                         </Grid.Resources>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>
+                                            <!--<RowDefinition Height="auto"></RowDefinition>
+                                            <RowDefinition Height="auto"></RowDefinition>-->
                                         </Grid.RowDefinitions>
                                         <!--<Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>-->
+                                        <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
+                                            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+                                                <!--<ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                    IsChecked="{Binding Path=UseNormal}">
 
-                                        <Border Grid.Row="0" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35" >
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
-                                                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
-                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseNormal}"
-                                                      >
+                                                </ToggleButton>
+                                                <TextBlock Text="Chracters"></TextBlock>-->
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" >
 
-                                                    </ToggleButton>
-                                                    <TextBlock Text="Chracters"></TextBlock>
-                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseUpper}"
-                                                      >
+                                                </ToggleButton>
+                                                <TextBlock Text="Upper Case"></TextBlock>
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" >
 
-                                                    </ToggleButton>
-                                                    <TextBlock Text="Upper Case"></TextBlock>
-                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseLower}"
-                                                      >
+                                                </ToggleButton>
+                                                <TextBlock  Text="Lower Case"></TextBlock>
 
-                                                    </ToggleButton>
-                                                    <TextBlock  Text="Lower Case"></TextBlock>
-                                                </StackPanel>
-                                            </Grid>
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                    IsChecked="{Binding Path=UseNumeric}">
+
+                                                </ToggleButton>
+                                                <TextBlock  Text="Numerics"></TextBlock>
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                    IsChecked="{Binding Path=UseSpecial}">
+
+                                                </ToggleButton>
+
+                                                <TextBlock  Text="Specials"></TextBlock>
+                                            </StackPanel>
                                         </Border>
 
-                                        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35" >
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
-                                                <StackPanel  Orientation="Horizontal">
-                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseNumeric}"
-                                                     >
+                                        <!--<Border Grid.Row="1" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
+                                            <StackPanel  Orientation="Horizontal">
 
-                                                    </ToggleButton>
-                                                    <TextBlock  Text="Numerics"></TextBlock>
-                                                </StackPanel>
-                                            </Grid>
+                                            </StackPanel>
+   
                                         </Border>
 
-                                        <Border Grid.Row="2" Grid.ColumnSpan="3" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Height="35">
-                                            <Grid Background="{StaticResource ResourceKey=BackgroundNormal2}" Margin="1">
-                                                <StackPanel  Orientation="Horizontal">
-                                                    <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                      IsChecked="{Binding Path=UseSpecial}"
-                                                      >
+                                        <Border Grid.Row="2" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
+                                            <StackPanel  Orientation="Horizontal">
 
-                                                    </ToggleButton>
-
-                                                    <TextBlock  Text="Specials"></TextBlock>
-                                                </StackPanel>
-                                            </Grid>
-                                        </Border>
-    
-
-
-
-
-
-
-
-
+                                            </StackPanel>
+                                        </Border>-->
 
                                         <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Normal, FallbackValue='Not Set'}"></TextBlock>
                                         <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Numeric, FallbackValue='Not Set'}"></TextBlock>
@@ -354,7 +355,8 @@
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                         AncestorType={x:Type ListViewItem}}, 
                                                         Path=IsSelected}" Value="True">
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#8FFF93"></Setter>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#7fe383"></Setter>
+                                <Setter TargetName="Border" Property="BorderThickness" Value="5"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
@@ -372,7 +374,7 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
-        <Style x:Key="ConfigStyle" TargetType="{x:Type StackPanel}">
+        <!--<Style x:Key="ConfigStyle" TargetType="{x:Type StackPanel}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsConfigOpen, Mode=OneWay}" Value="True">
                     <Setter Property="Visibility" Value="Visible"></Setter>
@@ -381,7 +383,7 @@
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
 
         <Grid x:Key="editAlphabet" Visibility="Visible">
             <Grid>
