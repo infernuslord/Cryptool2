@@ -3,6 +3,9 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -61,12 +64,15 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private string GenerateTemplateOverviewTableCode(string lang)
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\\chapter{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterTitle + "}");
+            stringBuilder.AppendLine("\\chapter*{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterTitle + "}");
+            stringBuilder.AppendLine("\\addcontentsline{toc}{chapter}{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterTitle + "}");
             stringBuilder.AppendLine("\\begin{longtable}{lp{0.6\\textwidth}}");
+            
             foreach (var dir in _templatesDir.SubDirectories)
             {
                 GenerateTemplateOverviewTableSection(dir, stringBuilder, 0, lang);
             }
+
             stringBuilder.AppendLine("\\end{longtable}");
             return stringBuilder.ToString();
         }
@@ -74,15 +80,11 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private void GenerateTemplateOverviewTableSection(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
         {
             const string hspace = "\\hspace{3mm} ";
-            var spacesStringBuilder = new StringBuilder();
-            for (int i = 0; i < depth * 2; i++)
-            {
-                spacesStringBuilder.Append(hspace);
-            }
-            var spaces = spacesStringBuilder.ToString();
+            var spaces = (depth>0) ? String.Format("\\hspace{{{0}mm}} ", depth*6) : "";
 
-            stringBuilder.AppendLine("\\multicolumn{2}{l}{" + spaces + " " + Helper.EscapeLaTeX(templatesDir.GetName(lang)) + "} \\\\");
-            //stringBuilder.AppendLine(string.Format("{0} {1} & & \\\\", spaces, Helper.EscapeLaTeX(templatesDir.GetName(lang))));
+            stringBuilder.AppendLine("\\multicolumn{2}{l}{" + spaces + " \\textbf{" + Helper.EscapeLaTeX(templatesDir.GetName(lang)) + "}} \\\\");
+
+            Boolean itemadded = false;
 
             foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
             {
@@ -98,44 +100,42 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 var templateName = Helper.EscapeLaTeX(templateDocumentationPage.CurrentLocalization.Name);
                 var templateNameMiniPage = "\\begin{minipage}[c]{0.3\\textwidth}" + templateName + "\\end{minipage}";
                 stringBuilder.AppendLine(string.Format("{0} {1} {2} & {3} \\\\", spaces + hspace, includeIcon, templateNameMiniPage, summary));
+
+                itemadded = true;
             }
+
+            if( itemadded ) stringBuilder.AppendLine("\\\\");
+
             foreach (var dir in templatesDir.SubDirectories)
             {
                 GenerateTemplateOverviewTableSection(dir, stringBuilder, depth + 1, lang);
             }
         }
 
+        private string SectionFromDepth(int depth)
+        {
+            if (depth == 0) 
+                return "\\chapter";
+
+            if (depth < 4)
+                return "\\" + string.Join("", Enumerable.Repeat("sub", depth-1)) + "section";
+
+            return "\\paragraph";
+        }
+
         private void GenerateTemplateDescriptionSection(TemplateDirectory templatesDir, StringBuilder stringBuilder, int depth, string lang)
         {
-            var sectionBuilder = new StringBuilder("\\");
-            for(int i=0;i<depth;i++)
-            {
-                sectionBuilder.Append("sub");
-            }
-
-            string templateSection;
-            if (depth < 2)
-            {
-                var templateSectionBuilder = new StringBuilder(sectionBuilder.ToString());
-                templateSectionBuilder.Append("subsection");
-                templateSection = templateSectionBuilder.ToString();
-            }
-            else
-            {
-                templateSection = "\\paragraph";
-            }
-            sectionBuilder.Append("section");
-
-            var section = sectionBuilder.ToString();
-            stringBuilder.AppendLine(string.Format("{0}{1}", section, "{" + Helper.EscapeLaTeX(templatesDir.GetName(lang)) + "}"));
+            stringBuilder.AppendLine(string.Format("{0}{{{1}}}", SectionFromDepth(depth), Helper.EscapeLaTeX(templatesDir.GetName(lang))));
 
             foreach (var templateDocumentationPage in templatesDir.ContainingTemplateDocPages)
             {
                 var locTemplate = templateDocumentationPage.CurrentLocalization;
+
                 var description = _objectConverter.Convert(locTemplate.Description, templateDocumentationPage);
-                
+                description = Regex.Replace(description, "[\r\n]+", "\n");
+
                 var templateName = Helper.EscapeLaTeX(templateDocumentationPage.CurrentLocalization.Name);
-                stringBuilder.AppendLine(string.Format("{0}{1}", templateSection, "{" + templateName + "}"));
+                stringBuilder.AppendLine(string.Format("{0}{{{1}}}", SectionFromDepth(depth+1), templateName));
                 stringBuilder.AppendLine(description);
                 if (_showAuthors)
                 {
@@ -159,7 +159,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         private string GenerateTemplateDescriptionCode(string lang)
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\\chapter{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterSubTitle + "}");
+            //stringBuilder.AppendLine("\\chapter{" + OnlineDocumentationGenerator.Properties.Resources.LatexGenerator_ChapterSubTitle + "}");
             bool first = true;
             foreach (var dir in _templatesDir.SubDirectories)
             {

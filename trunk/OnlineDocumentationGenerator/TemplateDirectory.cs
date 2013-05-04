@@ -24,6 +24,7 @@ namespace OnlineDocumentationGenerator
         public List<TemplateDirectory> SubDirectories { get; private set; }
         public Dictionary<string, LocalizedTemplateInfos> LocalizedInfos { get; private set; }
         public BitmapFrame DirIcon { get; private set; }
+        public int Order { get; private set; }
 
         public string GetName(string lang)
         {
@@ -115,6 +116,17 @@ namespace OnlineDocumentationGenerator
                     if (File.Exists(iconFile))
                     {
                         DirIcon = BitmapFrame.Create(new BitmapImage(new Uri(iconFile)));
+                    }
+                }
+
+                if (metaXML.Attribute("order") != null)
+                {
+                    try
+                    {
+                        Order = int.Parse(metaXML.Attribute("order").Value);
+                    }
+                    catch (Exception ex)
+                    {
                     }
                 }
             }

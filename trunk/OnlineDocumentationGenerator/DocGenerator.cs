@@ -82,6 +82,18 @@ namespace OnlineDocumentationGenerator
             }
         }
 
+        private static int CompareTemplateDirectories(TemplateDirectory x, TemplateDirectory y)
+        {
+            if (x.Order < y.Order) return -1;
+            if (x.Order > y.Order) return 1;
+            return String.Compare(x.GetName(), y.GetName());
+        }
+
+        private static int CompareTemplateDocPages(TemplateDocumentationPage x, TemplateDocumentationPage y)
+        {
+            return String.Compare(x.CurrentLocalization.Name, y.CurrentLocalization.Name);
+        }
+
         private TemplateDirectory ReadTemplates(string baseDir, string subdir, Generator generator)
         {
             var directory = new DirectoryInfo(Path.Combine(baseDir, Path.Combine(TemplateDirectory, subdir)));
@@ -93,6 +105,7 @@ namespace OnlineDocumentationGenerator
                 var subDir = ReadTemplates(baseDir, Path.Combine(subdir, childdir.Name), generator);
                 templateDir.SubDirectories.Add(subDir);
             }
+            templateDir.SubDirectories.Sort(CompareTemplateDirectories);
 
             foreach (var file in directory.GetFiles().Where(x => (x.Extension.ToLower() == ".cwm")))
             {
@@ -120,6 +133,7 @@ namespace OnlineDocumentationGenerator
                 {
                     GuiLogMessage(string.Format("Error while trying to read templates for Online Help generation: {0} ({1})", ex.Message, file.FullName), NotificationLevel.Warning);
                 }
+                templateDir.ContainingTemplateDocPages.Sort(CompareTemplateDocPages);
             }
 
             return templateDir;

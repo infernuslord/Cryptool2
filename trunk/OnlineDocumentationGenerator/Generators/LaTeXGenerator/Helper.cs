@@ -13,8 +13,10 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             var sb = new StringBuilder(value);
 
             sb.Replace("\\", "\\textbackslash").Replace("&", "\\&").Replace("%", "\\%")
-                .Replace("#", "\\#").Replace("_", "\\_").Replace("{", "\\{")
-                .Replace("}", "\\}").Replace("~", "\\textasciitilde").Replace("^", "\\textasciicircum")
+                .Replace("#", "\\#").Replace("_", "\\_")
+                .Replace("{", "\\{").Replace("}", "\\}")
+                .Replace("[", "{[}").Replace("]", "{]}")
+                .Replace("~", "\\textasciitilde").Replace("^", "\\textasciicircum")
                 .Replace("`", "\\glq ").Replace("´", "\\grq ")
                 .Replace("\"", "{\\textquotedblright}").Replace("“", "\"'").Replace("„", "\"`");
 
