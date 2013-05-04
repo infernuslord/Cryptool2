@@ -3,12 +3,12 @@
 
   <title lang="en">Factorization with General Number Field Sieve (GNFS)</title>
   <summary lang="en">Usage of the <i>General Number Field Sieve</i></summary>
-  <description lang="en">-</description>
+  <description lang="en">This template shows the usage of the <i>General Number Field Sieve</i> (GNFS). The GNFS is best used for composite numbers of unknown structure with at least 100 decimal digits. For smaller numbers there exist faster methods, like the Quadratic Sieve (QS).</description>
   <keywords>Prime, sieve, Factorization</keywords>
 
   <title lang="de">Faktorisierung mit dem allgemeinen Zahlkörpersieb (GNFS)</title>
-  <summary lang="de">Benutzung des <i>generellen Zahlenfeldsieb</i></summary>
-  <description lang="de">-</description>
+  <summary lang="de">Benutzung des <i>allgemeinen Zahlkörpersiebs</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>allgemeinen Zahlkörpersiebs</i> (GNFS). Die Verwendung des GNFS macht Sinn für zusammengesetzte Zahlen unbekannter Struktur mit mindestens 100 Dezimalstellen. Für kleinere Zahlen sind andere Verfahren, wie das Quadratische Sieb (QS), schneller.</description>
   <keywords lang="de">Primzahl, Faktorisierung, Zerlegung,  Sieb</keywords>
 
   <icon file="NumberFieldSieve.png" />

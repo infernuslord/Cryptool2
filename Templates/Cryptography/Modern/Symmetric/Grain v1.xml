@@ -3,12 +3,16 @@
 
   <title lang="en">Grain v1 Cipher</title>
   <summary lang="en">Usage of the <i>Grain v1</i> cipher</summary>
-  <description lang="en">This template shows the usage of the <i>Grain v1</i> cipher.</description>
+  <description lang="en">This template shows the usage of the <i>Grain v1</i> cipher.<newline /><newline />
+  <external ref="http://en.wikipedia.org/wiki/Grain_(cipher)" /><newline />
+  <external ref="http://www.ecrypt.eu.org/stream/grainpf.html" /></description>
   <keywords>estream, stream, symmetric</keywords>
 
   <title lang="de">Grain v1-Chiffre</title>
   <summary lang="de">Benutzung der <i>Grain v1</i>-Chiffre</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Grain v1</i>-Chiffre.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Grain v1</i>-Chiffre.<newline /><newline />
+  <external ref="http://en.wikipedia.org/wiki/Grain_(cipher)" /><newline />
+  <external ref="http://www.ecrypt.eu.org/stream/grainpf.html" /></description>
   <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
 
   <icon file="Grain v1.png" />

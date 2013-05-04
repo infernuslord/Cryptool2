@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Keccak Streamcipher</title>
+  <title lang="en">Keccak Cipher</title>
   <summary lang="en">Usage of <i>Keccak</i> as a stream cipher</summary>
   <description lang="en">This template shows how the <i>Keccak</i> component can be used as a keystream generator.</description>
   <keywords>stream cipher, keccak</keywords>
 
-  <title lang="de">Keccak Stromchiffre</title>
+  <title lang="de">Keccak-Chiffre</title>
   <summary lang="de">Benutzung von <i>Keccak</i> als Stromchiffre</summary>
   <description lang="de">Diese Vorlage zeigt, wie die <i>Keccak</i>-Komponente als Schlüsselstromgenerator eingesetzt werden kann.</description>
   <keywords lang="de">stromchiffre, keccak</keywords>

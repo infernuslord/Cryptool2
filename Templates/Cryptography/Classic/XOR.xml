@@ -9,8 +9,8 @@
 
   <title lang="de">XOR-Chiffre</title>
   <summary lang="de">Benutzung der <i>XOR</i>-Chiffre</summary>
-  <description lang="de">Das One-Time-Pad (Abkürzung: OTP, deutsch: Einmalverschlüsselung oder Einmalschlüssel-Verfahren, wörtlich Einmal-Block, nicht zu verwechseln mit dem Einmal-Passwort-Verfahren) ist ein symmetrisches Verschlüsselungsverfahren zur geheimen Nachrichtenübermittlung. Kennzeichnend ist, dass ein Schlüssel verwendet wird, der (mindestens) so lang ist wie die Nachricht selbst. Das OTP ist informationstheoretisch sicher und kann nachweislich nicht gebrochen werden – vorausgesetzt, es wird bestimmungsgemäß verwendet.<newline /><newline />
-Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei denen die einzelnen Buchstaben (oder Zeichen) in jeweils andere Buchstaben (oder Zeichen) umgewandelt (verschlüsselt) werden. Kennzeichnendes Merkmal der Einmalverschlüsselung ist die einmalige Verwendung eines zufälligen Schlüssels, der (mindestens) die gleiche Länge wie die zu verschlüsselnde Nachricht aufweist.<newline /><newline />
+  <description lang="de">Das One-Time-Pad (Abkürzung: OTP, deutsch: Einmalverschlüsselung oder Einmalschlüssel-Verfahren, wörtlich Einmal-Block, nicht zu verwechseln mit dem Einmal-Passwort-Verfahren) ist ein symmetrisches Verschlüsselungsverfahren zur geheimen Nachrichtenübermittlung. Kennzeichnend ist, dass ein Schlüssel verwendet wird, der (mindestens) so lang ist wie die Nachricht selbst. Das OTP ist informationstheoretisch sicher und kann nachweislich nicht gebrochen werden – vorausgesetzt, es wird bestimmungsgemäß verwendet. Voraussetzung ist, dass dieser Schlüssel zufällig ist und nur einmal verwendet wird.<newline /><newline />
+Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei denen die einzelnen Buchstaben (oder Zeichen) in jeweils andere Buchstaben (oder Zeichen) umgewandelt (verschlüsselt) werden.<newline /><newline />
 <external ref="http://de.wikipedia.org/wiki/One-Time-Pad" /></description>
   <keywords lang="de">one-time, pad</keywords>
 

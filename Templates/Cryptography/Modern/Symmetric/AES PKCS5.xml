@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">AES with PKCS#5</title>
-  <summary lang="en">Using <i>AES</i> with <i>PKCS#5</i></summary>
-  <description lang="en">This template shows the usage of <i>AES</i> with <i>PKCS#5</i>.</description>
+  <summary lang="en">Using <i>AES</i> with <i>PKCS#5</i>, where the session key is generated from a password using <i>PKCS#5</i> and the ciphertext is encoded in base64</summary>
+  <description lang="en">This template shows the usage of <i>AES</i> with <i>PKCS#5</i>. <i>PKCS#5</i> is used to generate encryption keys from the given passwords.</description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, symmetric, nist, password, standard</keywords>
 
   <title lang="de">AES mit PKCS#5</title>
-  <summary lang="de">Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i>.</description>
+  <summary lang="de">Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i>, wobei der Sitzungsschlüssel per <i>PKCS#5</i> aus einem Passwort erzeugt wird und der Geheimtext in Base-64 ausgegeben wird</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>AES</i>-Chiffre mit <i>PKCS#5</i>. <i>PKCS#5</i> wird benutzt, um aus den eingegebenen Passwörtern Verschlüsselungsschlüssel zu gewinnen.</description>
   <keywords lang="de">symmetrisch, passwort, standart</keywords>
 
   <icon file="AES.png" />

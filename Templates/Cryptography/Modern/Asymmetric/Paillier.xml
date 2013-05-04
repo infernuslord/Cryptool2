@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Paillier</title>
-  <summary lang="en">Usage of the <i>Pailler</i> cipher</summary>
-  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher.</description>
+  <title lang="en">Paillier Cipher (Number Input)</title>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher with number input</summary>
+  <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with numbers.</description>
   <keywords>homomorphic, Damgard, Eurocrypt, Jurik, Paillier, asymmetric</keywords>
 
-  <title lang="de">Paillier</title>
-  <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre.</description>
+  <title lang="de">Paillier-Chiffre (Zahleneingabe)</title>
+  <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre mit Zahleneingabe</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre mit Zahlen.</description>
   <keywords lang="de">homomorph, asymmetrisch</keywords>
 
   <icon file="Paillier.png" />

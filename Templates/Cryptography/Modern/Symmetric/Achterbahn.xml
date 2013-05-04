@@ -3,12 +3,16 @@
 
   <title lang="en">Achterbahn Cipher</title>
   <summary lang="en">Usage of the <i>Achterbahn</i> cipher</summary>
-  <description lang="en">This template shows the usage of the <i>Achterbahn</i> cipher.</description>
+  <description lang="en">This template shows the usage of the <i>Achterbahn</i> cipher.<newline /><newline />
+  <external ref="http://www.matpack.de/achterbahn/index.html" /><newline />
+  <external ref="http://en.wikipedia.org/wiki/Achterbahn" /></description>
   <keywords>estream, stream, symmetric</keywords>
 
   <title lang="de">Achterbahn-Chiffre</title>
   <summary lang="de">Benutzung der <i>Achterbahn</i>-Chiffre</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Achterbahn</i>-Chiffre.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Achterbahn</i>-Chiffre.<newline /><newline />
+  <external ref="http://www.matpack.de/achterbahn/index.html" /><newline />
+  <external ref="http://en.wikipedia.org/wiki/Achterbahn" /></description>
   <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
 
   <icon file="Achterbahn.jpg" />

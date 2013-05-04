@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Paillier Blinding</title>
+  <title lang="en">Paillier Cipher with Blinding</title>
   <summary lang="en">Usage of the <i>Pailler</i> cipher with blinding</summary>
   <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with blinding.</description>
   <keywords>homomorphic, Blinding, Eurocrypt, Jurik, Damgard, Paillier, asymmetric</keywords>
 
-  <title lang="de">Paillier Blinding</title>
+  <title lang="de">Paillier-Chiffre mit Blinding</title>
   <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre mit Blinding</summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre mit Blinding.</description>
   <keywords lang="de">homomorph, asymmetrisch</keywords>

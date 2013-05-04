@@ -3,12 +3,12 @@
 
   <title lang="en">SHA-1</title>
   <summary lang="en">Usage of the <i>SHA-1</i> hash function</summary>
-  <description lang="en">This template shows the usage of the <i>SHA1</i> hash function.</description>
+  <description lang="en">This template shows the usage of the <i>SHA-1</i> hash function.</description>
   <keywords>Hash, nist, secure, 160</keywords>
 
-  <title lang="de">SHA1</title>
-  <summary lang="de">Benutzung der <i>SHA-1</i>-Hashfunktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA-1</i>-Hashfunktion.</description>
+  <title lang="de">SHA-1</title>
+  <summary lang="de">Benutzung der <i>SHA-1</i>-Hash-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>SHA-1</i>-Hash-Funktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="SHA1.png" />

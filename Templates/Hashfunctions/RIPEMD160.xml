@@ -7,8 +7,8 @@
   <keywords>Hash, RIPEMD, Dobbertin, TrueCrypt</keywords>
 
   <title lang="de">RIPEMD160</title>
-  <summary lang="de">Benutzung der <i>RIPEMD160</i>-Hashfunktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>RIPEMD160</i>-Hashfunktion.</description>
+  <summary lang="de">Benutzung der <i>RIPEMD160</i>-Hash-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>RIPEMD160</i>-Hash-Funktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="RIPEMD160.png" />

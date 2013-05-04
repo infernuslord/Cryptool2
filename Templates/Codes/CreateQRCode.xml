@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en"></title>
-  <title lang="de">Create QRCode</title>
-	
-  <summary lang="en"><i>Create a QRCode</i></summary>
-	<summary lang="de"><i>Erstelle einen QRCode</i></summary>
-	 
-	<description lang="en">This template shows how to create a <i>QRCode</i>.</description>
-  <description lang="de">Diese Vorlage zeigt wie man einen <i>QRCode</i> erstellt.</description> 
-	
-  <keywords> qr, qrcode, code</keywords>
+  <title lang="en">Create QR Code</title>
+  <title lang="de">QR-Code erstellen</title>
+
+  <summary lang="en">Create a <i>QR Code</i></summary>
+  <summary lang="de">Erstelle einen <i>QR-Code</i></summary>
+
+  <description lang="en">This template shows how to create a <i>QR-Code</i>.</description>
+  <description lang="de">Diese Vorlage zeigt, wie man einen <i>QR-Code</i> erstellt.</description> 
+
+  <keywords>qr, qrcode, code</keywords>
 
   <icon file="CreateQRCode.png" />
 

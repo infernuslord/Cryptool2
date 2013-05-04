@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">QR Code Encryption</title>
-  <summary lang="en">Usage of the <i>QR Code Encryption</i></summary>
-  <description lang="en">This template shows the usage of the <i>QR Code Encryption and Decryption with an 256-Bit AES Key and an 128-Bit IV</i>.</description>
+  <summary lang="en">Usage of the <i>QR Code</i> Encryption</summary>
+  <description lang="en">This template shows the usage of the <i>QR Code</i> Encryption and Decryption with an 256-Bit AES Key and an 128-Bit IV.</description>
   <keywords>QR Code Encryption</keywords>
 
-  <title lang="de">QR Code Verschlüsselung</title>
-  <summary lang="de">Benutzung der <i>QR Code Verschlüsselung</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>QR Code Verschlüsselung und Entschlüsselung mit einem 256-Bit AES Schlüssel und einem 128-Bit IV</i>.</description>
+  <title lang="de">QR-Code-Verschlüsselung</title>
+  <summary lang="de">Benutzung der <i>QR-Code</i>-Verschlüsselung</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>QR-Code</i>-Verschlüsselung und -Entschlüsselung mit einem 256-Bit AES-Schlüssel und einem 128-Bit IV.</description>
   <keywords lang="de">QR Code Verschlüsselung</keywords>
 
   <icon file="QRCodeEncryption.png" />

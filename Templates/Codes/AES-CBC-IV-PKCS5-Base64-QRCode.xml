@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">AES(CBC) with PKCS#5 and IV as QRCode</title>
-  <summary lang="en">Usage of the <i>AES</i> cipher in CBC mode with an initialization vector, where the session key is generated from a password using <i>PKCS#5</i> and the ciphertext is encoded in base64 and finally stored in a QRCode</summary>
+  <title lang="en">AES (CBC) with PKCS#5 and IV, output as QR Code</title>
+  <summary lang="en">Usage of the <i>AES</i> cipher in CBC mode with an initialization vector, where the session key is generated from a password using <i>PKCS#5</i> and the ciphertext is encoded in base64 and finally stored in a QR Code</summary>
   <description lang="en">In this template we provide a quick way to encrypt plaintext with AES [1] by using a simple password (which is converted to an AES-key by using PKCS#5 [2]).
-	The result is base64-encoded and stored in a QRCode.
+	The result is base64-encoded and stored in a QR Code.
 	Decryption is also possible with this template: First the AES <b>component</b> needs to be switched to "Decrypt" and the <b>Switch</b> component must be set to <i>True</i>.
 	With the help of the <b>Switch</b> component, the data takes a different path, i.e. for decryption we first need to base64-decode it, 
 	while when encrypting we encode it in base64 after encryption.
-Finally, start the template and put an encrypted QRCode in front of your webcam until the <b>Visual decoder</b> component decodes it.
+	Finally, start the template and put an encrypted QR Code in front of your webcam until the <b>Visual decoder</b> component decodes it.
 	<newline />
-In this template additionally a random initialization vector (IV) is used to strengthen the security of the message.
- The IV is also encoded in base64 and prepended to the encrypted message. On the receiving side, the received IV is
- decoded and used to decrypt the message. Using a random IV for every message yields always different ciphertexts even when sending the same plaintext.
+	<newline />
+	Additionally, this template uses a random initialization vector (IV) to strengthen the security of the message.
+	The IV is also encoded in base64 and prepended to the encrypted message. On the receiving side, the received IV is
+	decoded and used to decrypt the message. Using a random IV for every message yields always different ciphertexts even when sending the same plaintext.
   <newline /><newline />
 Sources:<newline />
 [1] <external ref="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard" /><newline />
@@ -20,19 +21,19 @@ Sources:<newline />
   </description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, symmetric, nist, pkcs, password, base64, qrcode</keywords>
 
-  <title lang="de">AES(CBC) mit PKCS#5 und IV als QRCode</title>
+  <title lang="de">AES (CBC) mit PKCS#5 und IV, Ausgabe als QR-Code</title>
   <summary lang="de">Benutzung der <i>AES</i>-Chiffre im CBC-Modus mit einem Initialisierungsvektor, wobei der Sitzungsschlüssel
-	per <i>PKCS#5</i> aus einem Passwort erzeugt wird und der Geheimtext in Base64 kodiert und als QRCode ausgegeben wird</summary>
-
-  <description lang="de">Mit dieser Vorlage ist es möglich einen Eingabetext mit Hilfe eines Passwortes zu verschlüsseln. 
-	Für die Verschlüsselung wird dabei AES [1] verwendet und um aus dem Passwort einen geeigneten AES-Schlüssel zu generieren wird PKCS#5 [2] 
-	verwendet. Das verschlüsselte Ergebnis wird als Base-64-Kodierung QRCode ausgegeben.
+	per <i>PKCS#5</i> aus einem Passwort erzeugt wird und der Geheimtext in Base-64 codiert und als QR-Code ausgegeben wird</summary>
+	<description lang="de">Mit dieser Vorlage ist es möglich, einen Eingabetext mit Hilfe eines Passwortes zu verschlüsseln. 
+	Für die Verschlüsselung wird dabei AES [1] verwendet; und um aus dem Passwort einen geeigneten AES-Schlüssel zu generieren, wird PKCS#5 [2] 
+	verwendet. Das verschlüsselte Ergebnis wird als Base-64-codierter QR-Code ausgegeben.<newline /><newline />
 	Auch das Entschlüsseln einer solchen Nachricht ist mit dieser Vorlage möglich: Zunächst muss die AES-<b>Komponente</b> auf "Entschlüsseln" und die <b>Switch</b>-Komponente auf <i>Wahr</i> geschaltet werden. 
-	Mit Hilfe der <b>Switch</b>-Komponente wird der Datenpfad für das Ver- bzw. Entschlüsseln jeweils entsprechend angepasst, d.h. bei der Entschlüsselung muss die Eingabe zunächst 
-	Base64-dekodiert und bei der Verschlüsselung muss die Ausgabe Base64-kodiert werden.
-	Starten Sie nun diese Vorlage und halten Sie einen, mit dieser Vorlage erstellen, QRCode vor Ihre Webcam bis die <b>Visueller Dekodierer</b>-Komponente diesen erkennt.
-  <newline /> In dieser Vorlage wird zur Steigerung der Sicherheit zusätzlich ein zufälliger Initialisierungsvektor (IV) für jede Nachricht verwendet. Der IV wird dabei auch Base64-kodiert und der eigentlichen (verschlüsselten) Nachricht vorangestellt. Beim Empfänger wird der IV dekodiert und zum Entschlüsseln der Nachricht verwendet. Durch die Verwendung eines zufälligen IVs für jede neue Nachricht erhält man immer unterschiedliche verschlüsselte Texte, selbst wenn die Klartextnachricht gleich sein sollte.
-  <newline /><newline />
+	Mit Hilfe der <b>Switch</b>-Komponente wird der Datenpfad für das Ver- bzw. Entschlüsseln jeweils entsprechend angepasst: Bei der Entschlüsselung muss die Eingabe zunächst 
+	Base-64-decodiert und bei der Verschlüsselung muss die Ausgabe noch Base-64-codiert werden.
+	Starten Sie nun diese Vorlage und halten Sie einen mit dieser Vorlage erstellen QR-Code vor Ihre Webcam, bis die <b>Visueller Decodierer</b>-Komponente diesen erkennt.
+	<newline /><newline />
+	In dieser Vorlage wird zur Steigerung der Sicherheit zusätzlich ein zufälliger Initialisierungsvektor (IV) für jede Nachricht verwendet. Der IV wird dabei auch Base-64-codiert und der eigentlichen (verschlüsselten) Nachricht vorangestellt. Beim Empfänger wird der IV decodiert und zum Entschlüsseln der Nachricht verwendet. Durch die Verwendung eines zufälligen IVs für jede neue Nachricht erhält man immer unterschiedliche verschlüsselte Texte, selbst wenn die Klartextnachricht gleich sein sollte.
+	<newline /><newline />
 Quellen:<newline />
 [1] <external ref="http://de.wikipedia.org/wiki/Advanced_Encryption_Standard" /><newline />
 [2] <external ref="http://tools.ietf.org/html/rfc2898" />

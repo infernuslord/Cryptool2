@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en"></title>
-  <title lang="de">Diffie_Hellman_AES_Videochat</title>
+  <title lang="en">Diffie-Hellman AES Video Chat</title>
+  <title lang="de">Diffie-Hellman AES-Video-Chat</title>
 	
-  <summary lang="en"><i>Diffie-Hellman AES Videochat</i></summary>
-	<summary lang="de"><i>Diffie-Hellman AES Videochat</i></summary>
+  <summary lang="en">Diffie-Hellman <i>AES Video Chat</i></summary>
+	<summary lang="de">Diffie-Hellman <i>AES-Video-Chat</i></summary>
 	 
-	<description lang="en"><i>This template shows an AES encrypted video chat which uses Diffie-Hellman to exchange an encryption key</i>.</description>
-  <description lang="de"><i>Diese Vorlage zeigt einen AES-verschlüsselten Video-Chat, der mittels Diffie-Hellman den Verschlüsselungsschlüssel austauscht</i>.</description> 
+	<description lang="en">This template shows an AES encrypted video chat which uses Diffie-Hellman to exchange an encryption key.</description>
+  <description lang="de">Diese Vorlage zeigt einen AES-verschlüsselten Video-Chat, der mittels Diffie-Hellman den Verschlüsselungsschlüssel austauscht.</description> 
 	
   <keywords>Diffie, Hellman, AES, Videochat, Camera, Network</keywords>
 	<keywords lang="de">Kamera, Netzwerk</keywords>

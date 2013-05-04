@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Simple Videochat using AES encryption</title>
-  <title lang="de">Einfacher Videochat mit AES-Verschlüsselung</title>
+  <title lang="en">Simple Video Chat using AES encryption</title>
+  <title lang="de">Einfacher Video-Chat mit AES-Verschlüsselung</title>
 	
-  <summary lang="en"><i>Simple Videochat using AES encryption</i></summary>
-  <summary lang="de"><i>Einfacher Videochat mit AES-Verschlüsselung</i></summary>
-  <description lang="en"><i>This template shows a simple AES encrypted video chat with preshared encryption key</i>.</description>
-  <description lang="de"><i>Diese Vorlage zeigt einen einfachen AES-verschlüsselten Video-Chat.</i>.</description> 
+  <summary lang="en">Simple <i>Video Chat</i> using <i>AES</i> encryption</summary>
+  <summary lang="de">Einfacher <i>Video-Chat</i> mit <i>AES</i>-Verschlüsselung</summary>
+  <description lang="en">This template shows a simple AES encrypted video chat with preshared encryption key.</description>
+  <description lang="de">Diese Vorlage zeigt einen einfachen AES-verschlüsselten Video-Chat.</description> 
 	
   <keywords> AES, Videochat, Camera, Network</keywords>
   <keywords lang="de">Kamera, Netzwerk</keywords>
