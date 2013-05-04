@@ -49,6 +49,8 @@ namespace Primes.WpfControls.Factorization.QS
         private IQSStep m_Step3;
         private IQSStep m_Step4;
 
+        private QSResult m_State;
+
         private QSData m_Data;
 
         private ManualResetEvent resetEvent;
@@ -56,9 +58,15 @@ namespace Primes.WpfControls.Factorization.QS
 
         private bool stepwise;
 
+        public PrimesBigInteger MinValue = 4;
+        public PrimesBigInteger MaxValue = 10000;
+
         public QuadraticSieveControl()
         {
             InitializeComponent();
+
+            m_State = QSResult.Ok;
+
             stepwise = false;
             resetEvent = new ManualResetEvent(false);
             m_Count = 10;
@@ -115,6 +123,7 @@ namespace Primes.WpfControls.Factorization.QS
         {
             get
             {
+                if (m_State != QSResult.Ok) return true;
                 if (m_Thread == null) return false;
                 return m_Thread.IsAlive;
             }
@@ -152,12 +161,19 @@ namespace Primes.WpfControls.Factorization.QS
             }
         }
 
-        private void DoExecute()
+        public void Reset()
         {
             m_Data.Reset();
             m_Factors.Clear();
 
             ResetExpandersAndResumeButtons();
+        }
+
+        private void DoExecute()
+        {
+            m_State = QSResult.Ok;
+
+            Reset();
 
             ControlHandler.SetPropertyValue(expFirst, "IsExpanded", true);
             m_Step1.PreStep();
@@ -178,7 +194,7 @@ namespace Primes.WpfControls.Factorization.QS
 
         private void ExecuteStep3()
         {
-            QSResult result = QSResult.Ok;
+            m_State = QSResult.Ok;
 
             ControlHandler.SetPropertyValue(expThird, "IsExpanded", true);
             m_Step3.PreStep();
@@ -191,10 +207,10 @@ namespace Primes.WpfControls.Factorization.QS
             ControlHandler.SetPropertyValue(btnRestart, "Visibility", Visibility.Hidden);
 
             m_Step4.PreStep();
-            result = m_Step4.Execute(ref m_Data);
+            m_State = m_Step4.Execute(ref m_Data);
             m_Step4.PostStep();
 
-            switch (result)
+            switch (m_State)
             {
                 case QSResult.Ok:
                     break;
@@ -208,7 +224,7 @@ namespace Primes.WpfControls.Factorization.QS
                     break;
             }
 
-            if (result == QSResult.Ok)
+            if (m_State == QSResult.Ok)
                 FireOnStop();
         }
 
@@ -401,13 +417,9 @@ namespace Primes.WpfControls.Factorization.QS
 
         public Primes.WpfControls.Validation.IValidator<PrimesBigInteger> Validator
         {
-            get { return new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.Four, PrimesBigInteger.ValueOf(10000)); }
+            get { return new BigIntegerMinValueMaxValueValidator(null, MinValue, MaxValue); }
         }
 
         #endregion
-
-        private void GridSplitter_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-        }
     }
 }

@@ -51,7 +51,7 @@
                     </Expander>
                 </StackPanel>
 
-                <GridSplitter Grid.Row="1" Background="{StaticResource PressedBorderBrush}" HorizontalAlignment="Stretch" SizeChanged="GridSplitter_SizeChanged" />
+                <GridSplitter Grid.Row="1" Background="{StaticResource PressedBorderBrush}" HorizontalAlignment="Stretch" />
 
                 <StackPanel Grid.Row="2">
                     <Expander Name="expSecond" Header="{x:Static lang:Factorization.qs_step2}" IsExpanded="True" MouseLeftButtonDown="exp_MouseLeftButtonDown">

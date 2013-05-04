@@ -124,7 +124,7 @@ namespace Primes.WpfControls.Factorization
             if (Cancel != null) Cancel();
         }
 
-        private void Reset()
+        public void Reset()
         {
             items.Clear();
             m_MapEllipseItems.Clear();
@@ -134,6 +134,7 @@ namespace Primes.WpfControls.Factorization
             ControlHandler.ExecuteMethod(childs, "Clear");
             ControlHandler.SetPropertyValue(PaintArea, "Height", 0);
             ControlHandler.SetPropertyValue(PaintArea, "Width", 0);
+            ControlHandler.SetPropertyValue(lblActualDivisor, "Text", "");
             //sv.ScrollToRightEnd();
             //sv.ScrollToBottom();
         }

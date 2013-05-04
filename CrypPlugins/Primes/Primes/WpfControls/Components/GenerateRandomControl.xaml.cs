@@ -26,6 +26,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Numerics;
+using Cryptool.PluginBase.Miscellaneous;
 using Primes.Bignum;
 using Primes.Library;
 
@@ -38,6 +40,8 @@ namespace Primes.WpfControls.Components
     public partial class GenerateRandomControl : UserControl
     {
         public event GmpBigIntegerParameterDelegate OnRandomNumberGenerated;
+
+        public BigInteger MaxValue = 10000;
 
         public GenerateRandomControl()
         {
@@ -88,28 +92,40 @@ namespace Primes.WpfControls.Components
         private void miIntegerManyFactors_Click(object sender, RoutedEventArgs e)
         {
             PrimesBigInteger value = null;
-            if (sender == miBigInteger)
+
+            try
             {
-                value = PrimesBigInteger.Random(100);
-                while (value.IsProbablePrime(20))
-                    value = PrimesBigInteger.Random(100);
-                if (value.Mod(PrimesBigInteger.Two).Equals(PrimesBigInteger.Zero)) value = value.Add(PrimesBigInteger.One);
-            }
-            else if (sender == miIntegerManyFactors)
-            {
-                Random r = new Random();
-                value = PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime();
-                for (int i = 0; i < 19; i++)
+                if (sender == miPrime)
                 {
-                    value = value.Multiply(PrimesBigInteger.ValueOf(r.Next(999)).NextProbablePrime());
+                    value = new PrimesBigInteger(MaxValue.RandomPrimeLimit());
+                }
+                else if (sender == miBigInteger)
+                {
+                    value = new PrimesBigInteger(MaxValue.RandomIntLimit());
+                }
+                else if (sender == miIntegerManyFactors)
+                {
+                    int bits = Math.Max( MaxValue.BitCount() / 16, 8 );
+                    BigInteger p = MaxValue.Sqrt().RandomIntLimit();
+                    for (int i = 0; i < 16; i++)
+                    {
+                        BigInteger pp = p * BigIntegerHelper.RandomPrimeBits(bits);
+                        if (pp < MaxValue) p = pp;
+                    }
+                    value = new PrimesBigInteger(p);
+                }
+                else if (sender == miTowBigFactors)
+                {
+                    BigInteger a = MaxValue.Sqrt().RandomPrimeLimit();
+                    BigInteger b = (MaxValue / a).RandomPrimeLimit();
+                    value = new PrimesBigInteger(a * b);
                 }
             }
-            else if (sender == miTowBigFactors)
+            catch
             {
-                PrimesBigInteger a = PrimesBigInteger.Random(15).NextProbablePrime();
-                PrimesBigInteger b = PrimesBigInteger.Random(15).NextProbablePrime();
-                value = a * b;
+                return;
             }
+
             if (value != null)
                 FireOnRandomNumberGenerated(value);
         }

@@ -50,6 +50,9 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
         private Step s;
         private Method m_Method;
 
+        public PrimesBigInteger MinValue = 2;
+        public PrimesBigInteger MaxValue = 100000;
+
         public SieveOfEratosthenes()
         {
             InitializeComponent();
@@ -265,7 +268,7 @@ namespace Primes.WpfControls.Primetest.SieveOfEratosthenes
             {
                 if (m_Validator == null)
                 {
-                    m_Validator = new BigIntegerMinValueMaxValueValidator(null, 2, 100000);
+                    m_Validator = new BigIntegerMinValueMaxValueValidator(null, MinValue, MaxValue);
                     m_Validator.Message = rsc.Primetest.soe_validatormessage;
                 }
 

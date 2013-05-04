@@ -53,7 +53,7 @@ namespace Primes.WpfControls.Components
         #endregion
 
         private enum Selection { Free, Calc }
-
+        
         public InputSingleControl()
         {
             try
@@ -307,7 +307,7 @@ namespace Primes.WpfControls.Components
 
         private IDictionary<string, IValidator<PrimesBigInteger>> m_ValueValidators;
 
-		  public void SetValueValidator(string key, IValidator<PrimesBigInteger> validator)
+		public void SetValueValidator(string key, IValidator<PrimesBigInteger> validator)
         {
             if (m_ValueValidators.ContainsKey(key))
             {
@@ -489,6 +489,9 @@ namespace Primes.WpfControls.Components
                 m_InputPnlCalc.IsEnabled = true;
                 m_RbSelection = Selection.Calc;
             }
+
+            if (KeyDown != null)
+                KeyDown(null);
         }
 
         private void GetPanels(ref UIElement pnlFree, ref UIElement pnlCalc)

@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
 using Primes.Bignum;
 
@@ -37,16 +38,16 @@ namespace Primes.WpfControls.Validation.Validator
                 {
                     if (!string.IsNullOrEmpty(m_Message))
                     {
-                        return string.Format(m_Message, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                        return string.Format(m_Message, new object[] { MinValue.ToString("N0"), m_MaxValue.ToString("N0") });
                     }
                     else
                     {
-                        return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                        return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString("N0"), m_MaxValue.ToString("N0") });
                     }
                 }
                 catch
                 {
-                    return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString(), m_MaxValue.ToString("D") });
+                    return string.Format(Primes.Resources.lang.Validation.Validation.BigIntegerMinValueMaxValueValidator, new object[] { MinValue.ToString("N0"), m_MaxValue.ToString("N0") });
                 }
             }
             set
