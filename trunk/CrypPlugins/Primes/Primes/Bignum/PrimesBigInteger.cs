@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Text;
+using System.Numerics;
 
 namespace Primes.Bignum
 {
@@ -231,6 +232,11 @@ namespace Primes.Bignum
 
         public PrimesBigInteger(PrimesBigInteger value)
             : this(value.ToByteArray())
+        {
+        }
+
+        public PrimesBigInteger(BigInteger value)
+            : this(value.ToString())
         {
         }
 
@@ -3189,7 +3195,14 @@ namespace Primes.Bignum
 
         public string ToString(string format)
         {
-            return this.ToString();
+            try
+            {
+                return ((BigInteger)this).ToString(format);
+            }
+            catch(Exception ex)
+            {
+                return this.ToString();
+            }
         }
 
         public static PrimesBigInteger Random(PrimesBigInteger seed)
@@ -3464,6 +3477,11 @@ namespace Primes.Bignum
         public PrimesBigInteger SquareRoot()
         {
             return Zero;
+        }
+
+        public static implicit operator BigInteger(PrimesBigInteger n)
+        {
+            return BigInteger.Parse(n.ToString());
         }
     }
 }
