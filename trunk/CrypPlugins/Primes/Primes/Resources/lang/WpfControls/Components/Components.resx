@@ -124,16 +124,16 @@
     <value>Ausführen</value>
   </data>
   <data name="generaternd_biginteger" xml:space="preserve">
-    <value>Eine sehr große Zufallszahl</value>
+    <value>Eine Zufallszahl</value>
   </data>
   <data name="generaternd_Header" xml:space="preserve">
     <value>Zufallszahlen generieren</value>
   </data>
   <data name="generaternd_integermanyfactors" xml:space="preserve">
-    <value>Eine Zufallszahl aus vielen kleinen Primfaktoren</value>
+    <value>Eine Zufallszahl mit vielen kleinen Primfaktoren</value>
   </data>
   <data name="generaternd_integertwofactors" xml:space="preserve">
-    <value>Eine Zufallszahl aus zwei großen Primfaktoren</value>
+    <value>Eine Zufallszahl mit zwei großen Primfaktoren</value>
   </data>
   <data name="inputrange_from" xml:space="preserve">
     <value>von</value>
@@ -155,5 +155,8 @@
   </data>
   <data name="secondparameter" xml:space="preserve">
     <value>Zweiter Parameter</value>
+  </data>
+  <data name="generaternd_prime" xml:space="preserve">
+    <value>Eine zufällige Primzahl</value>
   </data>
 </root>

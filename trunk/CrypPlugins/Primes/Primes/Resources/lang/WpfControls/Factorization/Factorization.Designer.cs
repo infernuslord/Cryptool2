@@ -133,7 +133,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die abgebrochen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Faktorisierungsergebnis (abgebrochen) ähnelt.
         /// </summary>
         public static string fac_resultaborted {
             get {
@@ -142,7 +142,7 @@ namespace Primes.Resources.lang.WpfControls.Factorization {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Faktorisierungsergebnis (Die Probedivision wurde abgebrochen. Die benötigte Zeit beträgt {0}.) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Faktorisierungsergebnis (Die Probedivision wurde nach {0} abgebrochen.) ähnelt.
         /// </summary>
         public static string fac_resultabortedtime {
             get {

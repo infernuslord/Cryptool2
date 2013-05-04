@@ -45,6 +45,8 @@ namespace Primes.WpfControls.Primetest.MillerRabin
     {
         #region Initialization
 
+        public PrimesBigInteger MaxValue = null;
+
         public MillerRabinControl()
         {
             InitializeComponent();

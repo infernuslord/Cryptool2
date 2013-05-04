@@ -54,16 +54,16 @@ namespace Primes.WpfControls.Validation.Validator
                 {
                     if (!string.IsNullOrEmpty(m_Message))
                     {
-                        return string.Format(m_Message, m_MaxValue.ToString("D"));
+                        return string.Format(m_Message, m_MaxValue.ToString("N0"));
                     }
                     else
                     {
-                        return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
+                        return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("N0"));
                     }
                 }
                 catch
                 {
-                    return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("D"));
+                    return string.Format(Primes.Resources.lang.Validation.Validation.PositiveMaxValueBigIntegerValidator, m_MaxValue.ToString("N0"));
                 }
             }
             set

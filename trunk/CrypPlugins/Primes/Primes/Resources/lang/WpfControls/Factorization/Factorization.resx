@@ -142,10 +142,10 @@
     <value>Faktorisierungsergebnis</value>
   </data>
   <data name="fac_resultaborted" xml:space="preserve">
-    <value>abgebrochen</value>
+    <value>Faktorisierungsergebnis (abgebrochen)</value>
   </data>
   <data name="fac_resultabortedtime" xml:space="preserve">
-    <value>Faktorisierungsergebnis (Die Probedivision wurde abgebrochen. Die benötigte Zeit beträgt {0}.)</value>
+    <value>Faktorisierungsergebnis (Die Probedivision wurde nach {0} abgebrochen.)</value>
   </data>
   <data name="fac_resultfinished" xml:space="preserve">
     <value>Faktorisierungsergebnis (beendet)</value>

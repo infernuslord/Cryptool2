@@ -181,6 +181,23 @@ namespace Primes.WpfControls.Primetest
             if (myNavigate != null) myNavigate(CurrentNavigationCommand);
             iscNumber.GetValue();
 
+            if (CurrentControl==sieveoferatosthenes)
+            {
+                iscNumber.generateNumberControlVertFree.MaxValue = sieveoferatosthenes.MaxValue;
+            }
+            else if (CurrentControl == fermat)
+            {
+                iscNumber.generateNumberControlVertFree.MaxValue = 1000;
+            }
+            else if (CurrentControl == millerrabin)
+            {
+                iscNumber.generateNumberControlVertFree.MaxValue = ((System.Numerics.BigInteger)1)<<100;
+            }
+            else if (CurrentControl == soa)
+            {
+                iscNumber.generateNumberControlVertFree.MaxValue = 1000;
+            }
+
             SetLocks();
         }
 

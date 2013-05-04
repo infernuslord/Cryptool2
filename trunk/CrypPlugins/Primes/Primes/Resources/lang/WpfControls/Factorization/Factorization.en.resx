@@ -139,10 +139,10 @@
     <value>Quadratic sieve</value>
   </data>
   <data name="fac_result" xml:space="preserve">
-    <value>Result</value>
+    <value>Factorization result</value>
   </data>
   <data name="fac_resultaborted" xml:space="preserve">
-    <value>result aborted</value>
+    <value>Factorization result (aborted)</value>
   </data>
   <data name="fac_resultabortedtime" xml:space="preserve">
     <value>Factorization result (The brute-force division was canceled after {0}.)</value>

@@ -15,7 +15,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="16" />
+                            <!--<ColumnDefinition Width="16" />-->
                         </Grid.ColumnDefinitions>
 
                         <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
@@ -27,8 +27,7 @@
                                 <!--</ScrollViewer>-->
                             </Border>
                         </Popup>
-                        <Image Grid.Column="1" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" MouseLeftButtonDown="ImageHelpClick" VerticalAlignment="Center" Name="imghelp">
-                        </Image>
+                        <!--<Image Grid.Column="1" Cursor="Hand" Source="../../Resources/icons/help.png" Width="16" Height="16" MouseLeftButtonDown="ImageHelpClick" VerticalAlignment="Center" Name="imghelp" />-->
 
                     </Grid>
                 </Border>
@@ -56,6 +55,7 @@
         <Menu DockPanel.Dock="Top" Background="Transparent">
             <MenuItem Header="{x:Static lang:Components.generaternd_Header}" Template="{StaticResource mi}" Name="miHeader" IsTextSearchEnabled="False">
                 <MenuItem Name="miBigInteger" Header="{x:Static lang:Components.generaternd_biginteger}" Click="miIntegerManyFactors_Click" />
+                <MenuItem Name="miPrime" Header="{x:Static lang:Components.generaternd_prime}" Click="miIntegerManyFactors_Click" />
                 <MenuItem Name="miIntegerManyFactors" Header="{x:Static lang:Components.generaternd_integermanyfactors}" Click="miIntegerManyFactors_Click" />
                 <MenuItem Name="miTowBigFactors" Header="{x:Static lang:Components.generaternd_integertwofactors}" Click="miIntegerManyFactors_Click" />
             </MenuItem>
