@@ -164,7 +164,7 @@
       <item>Die Ergebnisausgabe gibt entweder <i>UNSAT</i> aus, falls das Problem nicht gelöst werden konnte, oder <i>SAT</i> und die Variablenbelegung, welche die Formel erfüllbar macht. Die Ergebnisausgabe wird erst geschrieben wenn der Solver-Prozess abgeschlossen ist.</item>
     </enum>
     </section>
-    Unter <b>Vorlagen</b>, gibt es zwei Templates, welche die Nutzung des SAT-Solver-Plugins demonstrieren. Ein Template benutzt das Dateieingabe-Plugin, das andere das Texteingabe-Plugin zur Eingabe. Um das Dateieingabe-Template benutzen zu können, muss zuvor noch eine cnf-Datei lokal erzeugt werden oder heruntergeladen werden, damit diese im Dateieingabe-Plugin geöffnet werden kann. Im Texteingabe-Plugin ist bereits eine Beispiel DIMACS CNF enthalten.<newline />
+    Unter <b>Vorlagen</b> gibt es zwei Templates, welche die Nutzung des SAT-Solver-Plugins demonstrieren. Ein Template benutzt das Dateieingabe-Plugin, das andere das Texteingabe-Plugin zur Eingabe. Um das Dateieingabe-Template benutzen zu können, muss zuvor noch eine cnf-Datei lokal erzeugt werden oder heruntergeladen werden, damit diese im Dateieingabe-Plugin geöffnet werden kann. Im Texteingabe-Plugin ist bereits eine Beispiel DIMACS CNF enthalten.<newline />
     <newline />
     <newline />
 
