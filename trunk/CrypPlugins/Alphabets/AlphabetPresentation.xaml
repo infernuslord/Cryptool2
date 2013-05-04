@@ -304,22 +304,24 @@
 
                                                 </ToggleButton>
                                                 <TextBlock Text="Chracters"></TextBlock>-->
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" >
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                              IsChecked="{Binding Path=UseUpper, Mode=TwoWay}">
 
                                                 </ToggleButton>
                                                 <TextBlock Text="Upper Case"></TextBlock>
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" >
+                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                              IsChecked="{Binding Path=UseLower, Mode=TwoWay}">
 
                                                 </ToggleButton>
                                                 <TextBlock  Text="Lower Case"></TextBlock>
 
                                                 <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                    IsChecked="{Binding Path=UseNumeric}">
+                                                    IsChecked="{Binding Path=UseNumeric, Mode=TwoWay}">
 
                                                 </ToggleButton>
                                                 <TextBlock  Text="Numerics"></TextBlock>
                                                 <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                    IsChecked="{Binding Path=UseSpecial}">
+                                                    IsChecked="{Binding Path=UseSpecial, Mode=TwoWay}">
 
                                                 </ToggleButton>
 
