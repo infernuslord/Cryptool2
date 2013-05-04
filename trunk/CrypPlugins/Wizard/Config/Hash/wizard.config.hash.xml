@@ -40,7 +40,7 @@
       <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Input Message:</description>
         <description lang="de">Eingabenachricht:</description>
-        <defaultvalue lang="de">Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
+        <defaultvalue lang="de">Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hash-Funktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
       </inputBox>
 
       <presentation plugin="Hash" alignment="Stretch">
@@ -61,7 +61,7 @@
       <inputBox plugin="Input" property="Text" width="50%" alignment="Stretch" visibleLines="5" group="1">
         <description lang="en">Input Message:</description>
         <description lang="de">Eingabenachricht:</description>
-        <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
+        <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hash-Funktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
       </inputBox>
 
       <presentation plugin="Hash" width="50%" alignment="Right" group="1">
@@ -154,7 +154,7 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
-      <defaultvalue lang="de">Tiger ist eine kryptographische Hashfunktion, die von Ross Anderson und Eli Biham im Jahr 1996 entwickelt wurde. Der von Tiger erzeugte Hashwert hat eine Länge von 192 Bit. Der Tiger-Algorithmus ist nicht patentiert. Testvektoren für den Nachfolger namens Tiger2 sind bereits verfügbar.</defaultvalue>
+      <defaultvalue lang="de">Tiger ist eine kryptographische Hash-Funktion, die von Ross Anderson und Eli Biham im Jahr 1996 entwickelt wurde. Der von Tiger erzeugte Hashwert hat eine Länge von 192 Bit. Der Tiger-Algorithmus ist nicht patentiert. Testvektoren für den Nachfolger namens Tiger2 sind bereits verfügbar.</defaultvalue>
     </inputBox>
 
     <presentation plugin="Hash" alignment="Stretch">

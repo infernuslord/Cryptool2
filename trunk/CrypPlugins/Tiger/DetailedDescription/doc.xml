@@ -8,7 +8,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-	  Tiger ist eine kryptographische Hashfunktion und wurde 1996 von den Kryptographieexperten Ross Anderson und Eli Biham entworfen. 
+	  Tiger ist eine kryptographische Hash-Funktion und wurde 1996 von den Kryptographieexperten Ross Anderson und Eli Biham entworfen. 
 	  Der Tiger-Algorithmus berechnet für eine Eingabe beliebiger Länge einen Hashwert mit einer Länge von 192 Bits (24 Bytes).
 	  Er arbeitet intern mit 64-Bit-Worten und ist daher optimiert für die Verwendung auf 64-Bit-Architekturen.
 	  In CrypTool ist die Version 2 des Tiger-Algorithmus implementiert.

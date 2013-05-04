@@ -9,7 +9,7 @@
 	</introduction>
   
 	<introduction lang="de-DE">
-	Keccak wurde 2012 als Gewinner der <i>Cryptographic Hash Algorithm Competition</i> des NIST ausgewählt. Der Wettbewerb wurde ausgetragen, um die dritte Generation des <i>Secure Hash Algorithm</i> (SHA-3) zu bestimmen. Keccak wurde von Guido Bertoni, Joan Daemen, Michael Peeters und Gilles Van Assche entwickelt. Neben dem Einsatz als Hashfunktion kann Keccak aufgrund seines Designs auch in anderen kryptographischen Anwendungen eingesetzt werden, wie etwa als Schlüsselstrom-Generator für eine Stromchiffre oder als Pseudozufallszahlengenerator (Beispiele finden Sie im Bereich <b>Vorlagen</b>). Die Beschreibung der Komponente verwendet daher die Begriffe <i>Eingabe</i> und <i>Ausgabe</i> statt <i>Nachricht</i> und <i>Hashwert</i>.
+	Keccak wurde 2012 als Gewinner der <i>Cryptographic Hash Algorithm Competition</i> des NIST ausgewählt. Der Wettbewerb wurde ausgetragen, um die dritte Generation des <i>Secure Hash Algorithm</i> (SHA-3) zu bestimmen. Keccak wurde von Guido Bertoni, Joan Daemen, Michael Peeters und Gilles Van Assche entwickelt. Neben dem Einsatz als Hash-Funktion kann Keccak aufgrund seines Designs auch in anderen kryptographischen Anwendungen eingesetzt werden, wie etwa als Schlüsselstrom-Generator für eine Stromchiffre oder als Pseudozufallszahlengenerator (Beispiele finden Sie im Abschnitt <b>Vorlagen</b>). Die Beschreibung der Komponente verwendet daher die Begriffe <i>Eingabe</i> und <i>Ausgabe</i> statt <i>Nachricht</i> und <i>Hashwert</i>.
 	</introduction>
   
 	<usage lang="en">
@@ -34,16 +34,16 @@
 		<section headline="Eingabe und Ausgabe">
 		Die Keccak-Komponente hat einen Eingabe-Konnektor und zwei Ausgabe-Konnektoren, alle vom Typ <i>ICryptoolStream</i>. Die Ausgabe <i>Debug-Ausgabestrom</i> ist optional und zeigt Informationen über den Keccak-Prozess an.
 		<newline />
-		Die beiden anderen Konnektoren (<i>Eingabestrom</i> und <i>Ausgabestrom</i>) müssen mit anderen Komponenten verbunden sein, damit die Komponente ordnungsgemäß arbeitet. Beide Anschlüsse können mit anderen Komponenten verbunden werden, deren Konnektoren entweder vom Typ <i>ICryptoolStream</i> oder vom Typ <i>Byte[]</i> (Byte Array), <i>String</i> oder <i>Object</i> sind. Im Bereich <b>Vorlagen</b> finden Sie Beispiele für die Kopplung der Keccak-Komponente mit anderen Komponenten.
+		Die beiden anderen Konnektoren (<i>Eingabestrom</i> und <i>Ausgabestrom</i>) müssen mit anderen Komponenten verbunden sein, damit die Komponente ordnungsgemäß arbeitet. Beide Anschlüsse können mit anderen Komponenten verbunden werden, deren Konnektoren entweder vom Typ <i>ICryptoolStream</i> oder vom Typ <i>Byte[]</i> (Byte Array), <i>String</i> oder <i>Object</i> sind. Im Abschnitt <b>Vorlagen</b> finden Sie Beispiele für die Kopplung der Keccak-Komponente mit anderen Komponenten.
 		</section>
 		
 		<section headline="Parameter">
-		Die Parameter des Keccak-Algorithmus können im Parameterfenster eingestellt werden: Sie können zwischen den vier SHA-3-Funktionen von Keccak wählen (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>), in denen die Parameter nach den Empfehlungen der Keccak-Entwickler [1] (siehe <b>Referenzen</b>-Bereich) eingstellt sind. Zusätzlich können Sie die Funktion <i>Keccak</i> auswählen, bei der Sie die Parameter manuell einstellen können. Diese Version ermöglicht es, die Parameter <i>State-Größe</i>, <i>Ausgabelänge</i>, <i>Bit-Rate</i> und <i>Capacity</i> zu konfigurieren. Diese Parameter haben folgende Bedeutungen:<newline />
+		Die Parameter des Keccak-Algorithmus können im Parameterfenster eingestellt werden: Sie können zwischen den vier SHA-3-Funktionen von Keccak wählen (<i>SHA3-224</i>, <i>SHA3-256</i>, <i>SHA3-384</i>, <i>SHA3-512</i>), in denen die Parameter nach den Empfehlungen der Keccak-Entwickler [1] (siehe Abschnitt <b>Referenzen</b>) eingstellt sind. Zusätzlich können Sie die Funktion <i>Keccak</i> auswählen, bei der Sie die Parameter manuell einstellen können. Diese Version ermöglicht es, die Parameter <i>State-Größe</i>, <i>Ausgabelänge</i>, <i>Bit-Rate</i> und <i>Capacity</i> zu konfigurieren. Diese Parameter haben folgende Bedeutungen:<newline />
 		<list>
 			<item><b>State-Größe:</b> Größe des internen Keccak-States in Bit. Die State-Größe ist die Summe aus Bit-Rate und Capacity. Wenn Sie die Bit-Rate vergrößern, muss &#8211; bei gleicher State-Größe &#8211; die Capacity verkleinert werden. Andersherum ist es genauso.</item>
 			<item><b>Ausgabelänge:</b> Die Länge der erzeugten Ausgabe.</item>
 			<item><b>Bit-Rate:</b> Die Größe der Bit-Rate in Bit. Die Bit-Rate bestimmt die Größe der Eingabeblöcke, in welche die Eingabe geteilt wird. Jeder Eingabeblock wird auf den Bit-Rate-Anteil des States geXORed. Je größer dieser Anteil ist, desto weniger Eingabeblöcke müssen insgesamt verarbeitet werden. Daher wird durch die Bit-Rate-Größe die Geschwindigkeit von Keccak bestimmt.</item>
-			<item><b>Capacity:</b> Die Größe der Capacity in Bit. Die Capacity bestimmt die Größe des State-Anteils, der nicht durch die Eingabeblöcke verändert wird. Die Capacity-Größe bestimmt die Sicherheit von Keccak. In [2] (siehe <b>Referenzen</b>-Bereich) wird gezeigt, dass Keccak gegen jeden Angriff, der nicht mehr als 2^(c/2) Keccak-Ausführungen durchführt, resistent ist.</item>
+			<item><b>Capacity:</b> Die Größe der Capacity in Bit. Die Capacity bestimmt die Größe des State-Anteils, der nicht durch die Eingabeblöcke verändert wird. Die Capacity-Größe bestimmt die Sicherheit von Keccak. In [2] (siehe Abschnitt <b>Referenzen</b>) wird gezeigt, dass Keccak gegen jeden Angriff, der nicht mehr als 2^(c/2) Keccak-Ausführungen durchführt, resistent ist.</item>
 		</list>		
 		</section>		
 	</usage>
