@@ -35,19 +35,41 @@ namespace Cryptool.Alphabets
     {
         private AlphabetPresentation alphabetPresentation;
 
-        private AlphabetSettings settings = new AlphabetSettings();
+        private AlphabetSettings settings;
         public ISettings Settings
         {
             get { return settings; }
             set { settings = (AlphabetSettings)value; }
         }
 
+        DispatcherTimer timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
 
+        private int count = 0;
         public Alphabet()
         {
-            alphabetPresentation = new AlphabetPresentation();
+            settings = new AlphabetSettings();
+            alphabetPresentation = new AlphabetPresentation(settings);
             Presentation = this.alphabetPresentation;
+            alphabetPresentation.AlphabetChanged += new EventHandler(alphabetPresentation_AlphabetChanged);
             settings.PropertyChanged += settings_PropertyChanged;
+            
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            List<AlphabetItemData> tmp = new List<AlphabetItemData>();
+            tmp.Add(AlphabetItem.CyrillicAlphabet.Data);
+            tmp.Add(AlphabetItem.GreekAlphabet.Data);
+            tmp.Add(AlphabetItem.BasicLatinAlphabet.Data);
+            settings.Data = AlphabetSettings.Serialize(tmp);
+            alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
+        }
+
+        void alphabetPresentation_AlphabetChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged("AlphabetOutput");
         }
 
         void alphabetPresentation_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
@@ -57,9 +79,11 @@ namespace Cryptool.Alphabets
 
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Alphabet")
+            if (count == 0)
             {
-                OnPropertyChanged("AlphabetOutput");
+                alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
+                timer.Stop();
+                count++;
             }
         }
 
@@ -80,7 +104,7 @@ namespace Cryptool.Alphabets
 
         public void Initialize()
         {
-                
+
         }
 
         public void Dispose()
