@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Paillier Text</title>
-  <summary lang="en">Usage of the <i>Pailler</i> cipher for text</summary>
+  <title lang="en">Paillier Cipher (Text Input)</title>
+  <summary lang="en">Usage of the <i>Pailler</i> cipher with text input</summary>
   <description lang="en">This template shows the usage of the <i>Pailler</i> cipher for text.</description>
   <keywords>homomorphic, Paillier, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
 
-  <title lang="de">Paillier Text</title>
-  <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre für Text</summary>
+  <title lang="de">Paillier-Chiffre (Texteingabe)</title>
+  <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre mit Texteingabe</summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre für Text.</description>
   <keywords lang="de">homomorph, asymmetrisch</keywords>
 

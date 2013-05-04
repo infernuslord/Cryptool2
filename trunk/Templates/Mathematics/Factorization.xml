@@ -6,9 +6,9 @@
   <description lang="en">This template shows the usage of the <i>Factorization with Trial Division (brute-force)</i>.</description>
   <keywords>factorization, factorisation, factor</keywords>
 
-  <title lang="de">Faktorisierung mit Probedivision (brute-force)</title>
-  <summary lang="de">Benutzung der <i>Faktorisierung mit Probedivision (brute-force)</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Faktorisierung mit Probedivision (brute-force)</i>.</description>
+  <title lang="de">Faktorisierung mit Probedivision (Brute-Force)</title>
+  <summary lang="de">Benutzung der <i>Faktorisierung mit Probedivision</i> (Brute-Force)</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Faktorisierung mit Probedivision</i> (Brute-Force).</description>
   <keywords lang="de">faktorisierung, faktor</keywords>
 
   <icon file="Factorization.png" />

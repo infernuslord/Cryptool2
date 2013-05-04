@@ -6,7 +6,7 @@
   <description lang="en">This template shows the usage of the <i>Pailler</i> cipher with key generation.</description>
   <keywords>homomorphic, Damgard, Eurocrypt, Jurik, Paillier, asymmetric</keywords>
 
-  <title lang="de">Paillier Schlüsselgenerator</title>
+  <title lang="de">Paillier-Schlüsselgenerator</title>
   <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre mit Schlüsselgenerierung</summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre mit Schlüsselgenerierung.</description>
   <keywords lang="de">homomorph, asymmetrisch</keywords>

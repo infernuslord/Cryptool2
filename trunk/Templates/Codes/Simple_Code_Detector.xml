@@ -3,12 +3,12 @@
 
   <title lang="en">Simple detection of optical codes</title>
   <summary lang="en">Usage of the <i>Optical Code Detector</i></summary>
-  <description lang="en">This template shows the usage of the <i>Simple Code Detector.</i>.</description>
+  <description lang="en">This template shows the usage of the <i>Simple Code Detector</i>.</description>
   <keywords>Simple Code Detector, qr code</keywords>
 
   <title lang="de">Einfache Erkennung optischer Codes</title>
-  <summary lang="de">Benutzung der <i>einfachen Code-Erkennung</i></summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Code Erkennung für optische Codes</i>.</description>
+  <summary lang="de">Benutzung der einfachen <i>Code-Erkennung</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Code-Erkennung</i> für optische Codes.</description>
   <keywords lang="de">Einfache Code Erkennung, QR Code, Code</keywords>
 
   <icon file="Simple_Code_Detector.png" />

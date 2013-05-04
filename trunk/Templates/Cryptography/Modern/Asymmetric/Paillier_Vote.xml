@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Paillier Voting</title>
+  <title lang="en">Paillier Cipher (Voting)</title>
   <summary lang="en">Usage of the <i>Pailler</i> cipher for voting</summary>
   <description lang="en">This template shows the usage of the <i>Pailler</i> cipher for voting.</description>
   <keywords>homomorphic, voting, E-Voting, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
 
-  <title lang="de">Paillier Voting</title>
+  <title lang="de">Paillier-Chiffre (Wahlen)</title>
   <summary lang="de">Benutzung der <i>Paillier</i>-Chiffre für Wahlen</summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Paillier</i>-Chiffre für Wahlen.</description>
   <keywords lang="de">homomorph, Wahl, wählen, asymmetrisch</keywords>

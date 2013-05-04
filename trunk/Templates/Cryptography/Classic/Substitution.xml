@@ -9,7 +9,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/Substitution_cipher" /></des
 
   <title lang="de">Substitutions-Chiffre</title>
   <summary lang="de">Benutzung der <i>Substitutions</i>-Chiffre</summary>
-  <description lang="de">Als monoalphabetische Substitution (von griechisch: μόνο (mono) = „einzig“ und αλφάβητο (alphabeto) = „Alphabet“ sowie von lateinisch: substituere = „ersetzen“) bezeichnet man in der Kryptographie, also in dem Wissenschaftszweig der Kryptologie, der sich mit den Geheimschriften befasst, Verschlüsselungsverfahren, bei der nur ein einziges (festes) Alphabet zur Verschlüsselung, also zur Umwandlung des Klartextes in den Geheimtext, verwendet wird.<newline /><newline />
+  <description lang="de">Als monoalphabetische Substitution [von griechisch: μόνο (mono) = „einzig“ und αλφάβητο (alphabeto) = „Alphabet“ sowie von lateinisch: substituere = „ersetzen“] bezeichnet man in der Kryptographie Verschlüsselungsverfahren, bei der nur ein einziges (festes) Alphabet zur Verschlüsselung, also zur Umwandlung des Klartextes in den Geheimtext, verwendet wird.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Monoalphabetische_Substitution" /></description>
   <keywords lang="de">Substitution</keywords>
 

@@ -3,12 +3,12 @@
 
   <title lang="en">Transposition Crib Analysis</title>
   <summary lang="en">Usage of the <i>Transposition Analyser</i> using a Crib</summary>
-  <description lang="en">This template shows the usage of the <i>Transposition Analyser</i> using a Crib.</description>
+  <description lang="en">This template shows the usage of the <i>Transposition Analyser</i> using a crib, which is a kind of known-plaintext attack.</description>
   <keywords>Transposition, Analysis, Crib, Permutation</keywords>
 
   <title lang="de">Transposition Crib-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Crib, also eine Form der Known-Plaintext-Analyse.</description>
   <keywords lang="de">Transposition, Analyse, Crib, Permutation</keywords>
 
   <icon file="Transposition.png" />

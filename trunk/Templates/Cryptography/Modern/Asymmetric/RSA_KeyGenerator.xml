@@ -3,12 +3,12 @@
 
   <title lang="en">RSA Key Generator</title>
   <summary lang="en">Usage of the <i>RSA Key Generator</i></summary>
-  <description lang="en">The RSA Key Generator generates p * q = N and the public key e and the private key d.</description>
+  <description lang="en">The RSA Key Generator generates random prime numbers p and q and the public key (N,e) and the private key d.</description>
   <keywords>Adleman, Shamir, PKI, Rivest, public key, asymmetric</keywords>
 
   <title lang="de">RSA-Schlüsselgenerator</title>
   <summary lang="de">Benutzung des <i>RSA-Schüsselgenerators</i></summary>
-  <description lang="de">Der RSA-Schlüsselgenerator generiert p * q = N sowie den öffentlichen Schlüssel e als auch den privaten Schlüssel d.</description>
+  <description lang="de">Der RSA-Schlüsselgenerator generiert zufällig Primzahlen p und q sowie den öffentlichen Schlüssel (N,e) und den privaten Schlüssel d.</description>
   <keywords lang="de">Adleman, Shamir, PKI, Rivest, public key, asymmetrisch, öffentlicher Schlüssel</keywords>
 
   <icon file="RSA_KeyGenerator.png" />

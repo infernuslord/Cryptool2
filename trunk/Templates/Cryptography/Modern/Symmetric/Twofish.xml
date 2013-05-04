@@ -9,7 +9,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/Twofish" /></description>
 
   <title lang="de">Twofish-Chiffre</title>
   <summary lang="de">Benutzung der <i>Twofish</i>-Chiffre</summary>
-  <description lang="de">Twofish ist ein symmetrischer Verschlüsselungsalgorithmus in der Informatik, der von Bruce Schneier, Niels Ferguson, John Kelsey, Doug Whiting, David Wagner und Chris Hall entwickelt wurde. Es handelt sich um ein Blockchiffre mit einer Blockgröße von 128 Bit und 16 Runden, die Schlüssellängen betragen 128, 192 oder 256 Bit.<newline /><newline />
+  <description lang="de">Twofish ist ein symmetrischer Verschlüsselungsalgorithmus, der von Bruce Schneier, Niels Ferguson, John Kelsey, Doug Whiting, David Wagner und Chris Hall entwickelt wurde. Es handelt sich um eine Blockchiffre mit einer Blockgröße von 128 Bit und 16 Runden, die Schlüssellängen betragen 128, 192 oder 256 Bit.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Twofish" /></description>
   <keywords lang="de">Blockchiffre, symmetrisch, Runden</keywords>
 

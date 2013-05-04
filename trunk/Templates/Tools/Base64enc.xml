@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Text Encoding (e.g. Base-64)</title>
-  <summary lang="en"><i>Encoding text</i> in different formats (base64, ...)</summary>
-  <description lang="en">With this template different encoding techniques can be demonstrated. With the current parameters, the inputed text (ASCII) is encoded to base64 [1]. To do so, the inputed text is first encoded to bytes according to the ASCII character encoding [2]. These bytes are then encoded with base64 (and outputed as text).<newline />
-For different encodings, the paramters of the <b>Decoder</b> and/or <b>Encoder</b> components need to be adjusted. Currently, the <b>Decoder</b> component supports input in the follwing formats: <i>text</i>, <i>binary</i> [3], <i>octal</i> [4], <i>decimal</i> [5], <i>hexadecimal</i> [6] and <i>base64</i> [1]. The <b>Encoder</b> component supports the same formats for the output. Whenever text is selected, a character encoding is additional required, i.e. how characters are encoded in bytes. Both components support the following character encodings: <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] and <i>Windows-1252</i> [12].<newline />
+  <title lang="en">Text Encoding (e.g. Base64)</title>
+  <summary lang="en"><i>Encoding text</i> in different formats (base64, hexadecimal, ...)</summary>
+  <description lang="en">With this template different encoding techniques can be demonstrated. With the current parameters, the inputed text (ASCII) is encoded to base64 [1]. To do so, the inputed text is first encoded to bytes according to the ASCII character encoding [2]. These bytes are then encoded with base64 (and output as text).<newline />
+For different encodings, the paramters of the <b>Decoder</b> and/or <b>Encoder</b> components need to be adjusted. Currently, the <b>Decoder</b> component supports input in the follwing formats: <i>text</i>, <i>binary</i> [3], <i>octal</i> [4], <i>decimal</i> [5], <i>hexadecimal</i> [6] and <i>base64</i> [1]. The <b>Encoder</b> component supports the same formats for the output. Whenever text is selected, a character encoding is additional required, i.e. how characters are encoded in bytes. Both components support the following character encodings: <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] and <i>Windows-1252</i> [12].<newline /><newline />
 Sources:<newline />
  [1] <external ref="http://en.wikipedia.org/wiki/Base64" /><newline />
  [2] <external ref="http://en.wikipedia.org/wiki/ASCII" /><newline />
@@ -21,11 +21,11 @@ Sources:<newline />
   </description>
   <keywords>Encoding, Decoding, Character, Base64, ASCII, UTF, HEX, ISO8859, 1252</keywords>
 
-  <title lang="de">Textkodierung (z.B. Base-64)</title>
-  <summary lang="de"><i>Kodierung von Text</i> in verschiedene Formate (Base64, ...)</summary>
-  <description lang="de">Mit dieser Vorlage können verschiedene Kodierungstechniken angewendet werden. Mit den voreingestellten Parameter wird der eingegebene Text (ASCII) in Base64 kodiert [1]. Dafür werden die Zeichen des Textes zunächst anhand der ASCII Zeichenkodierung [2] in Bytes gewandelt. Diese Bytes werden daraufhin mit Base64 kodiert (und wieder als Text ausgegeben).<newline />
+  <title lang="de">Textcodierung (z.B. Base-64)</title>
+  <summary lang="de"><i>Codierung von Text</i> in verschiedene Formate (Base-64, Hexadezimal, ...)</summary>
+  <description lang="de">Mit dieser Vorlage können verschiedene Codierungstechniken angewendet werden. Mit den voreingestellten Parameter wird der eingegebene Text (ASCII) in Base-64 umcodiert [1]. Dafür werden die Zeichen des Textes zunächst anhand der ASCII-Zeichencodierung [2] in Bytes gewandelt. Diese Bytes werden daraufhin mit Base-64 codiert (und wieder als Text ausgegeben).<newline />
 
-Für andere Kodierungen müssen die Parameter der <b>Decoder</b>- und/oder <b>Encoder</b>-Komponenten angepasst werden. Derzeit unterstützt die <b>Decoder</b>-Komponente Eingaben in den folgenden Formaten: <i>Text</i>, <i>Binär</i> [3], <i>Oktal</i> [4], <i>Dezimal</i> [5], <i>Hexadezimal</i> [6] und <i>Base64</i> [1]. Die <b>Encoder</b>-Komponete unterstützt die gleichen Format für die Ausgabe. Beide Komponenten unterstützen bei der Auswahl "Text" folgende Zeichenkodierungen (d.h. wie einzelne Zeichen in Bytes kodiert werden): <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] und <i>Windows-1252</i> [12].<newline />
+Für andere Codierungen müssen die Parameter der <b>Decoder</b>- und/oder <b>Encoder</b>-Komponenten angepasst werden. Derzeit unterstützt die <b>Decoder</b>-Komponente Eingaben in den folgenden Formaten: <i>Text</i>, <i>Binär</i> [3], <i>Oktal</i> [4], <i>Dezimal</i> [5], <i>Hexadezimal</i> [6] und <i>Base-64</i> [1]. Die <b>Encoder</b>-Komponete unterstützt die gleichen Format für die Ausgabe. Beide Komponenten unterstützen bei der Auswahl "Text" folgende Zeichencodierungen (d.h. wie einzelne Zeichen in Bytes codiert werden): <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] und <i>Windows-1252</i> [12].<newline /><newline />
 Quellen:<newline />
  [1] <external ref="http://de.wikipedia.org/wiki/Base64" /><newline />
  [2] <external ref="http://de.wikipedia.org/wiki/American_Standard_Code_for_Information_Interchange" /><newline />

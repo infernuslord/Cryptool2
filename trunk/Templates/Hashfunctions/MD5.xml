@@ -7,8 +7,8 @@
   <keywords>message, digest, Hash, Rivest</keywords>
 
   <title lang="de">MD5</title>
-  <summary lang="de">Benutzung der <i>MD5</i>-Hashfunktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>MD5</i>-Hashfunktion.</description>
+  <summary lang="de">Benutzung der <i>MD5</i>-Hash-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>MD5</i>-Hash-Funktion.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="MD5.png" />

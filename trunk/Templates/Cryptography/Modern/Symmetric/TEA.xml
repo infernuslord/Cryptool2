@@ -9,7 +9,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" /
 
   <title lang="de">TEA-Chiffre</title>
   <summary lang="de">Benutzung der <i>TEA</i>-Chiffre</summary>
-  <description lang="de">Der TEA (Tiny Encryption Algorithm) ist eine Blockchiffre, die für ihre einfache Beschreibung und Implementierung bekannt ist (normalerweise einige Zeilen Code). Er wurde von David Wheeler und Roger Needham an der Universität Cambridge entwickelt und das erste Mal im Rahmen eines Workshops zu schneller Verschlüsselung im Jahr 1994 vorgestellt. Er ist frei von Patenten.<newline /><newline />
+  <description lang="de">TEA (Tiny Encryption Algorithm) ist eine Blockchiffre, die für ihre einfache Beschreibung und Implementierung bekannt ist (normalerweise einige Zeilen Code). Er wurde von David Wheeler und Roger Needham an der Universität Cambridge entwickelt und das erste Mal im Rahmen eines Workshops zu schneller Verschlüsselung im Jahr 1994 vorgestellt. Er ist frei von Patenten.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm" /></description>
   <keywords lang="de">symmetrisch</keywords>
 

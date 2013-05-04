@@ -7,8 +7,8 @@
   <keywords>morse code</keywords>
 
   <title lang="de">Morsecode</title>
-  <summary lang="de">Zeigt wie ein Morsecode kodiert und dekodiert wird</summary>
-  <description lang="de">Diese Vorlage zeigt die Enkodierung eines Textes in einen Morsecode und die Dekodierung eines Morsecodes in einen Text</description>
+  <summary lang="de">Zeigt wie ein Morsecode codiert und decodiert wird</summary>
+  <description lang="de">Diese Vorlage zeigt die Codierung eines Textes in einen Morsecode und die Decodierung eines Morsecodes in einen Text.</description>
   <keywords lang="de">Morsecode</keywords>
 
   <icon file="MorseCode.png" />

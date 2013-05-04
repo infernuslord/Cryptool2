@@ -3,12 +3,17 @@
 
   <title lang="en">HC128 Cipher</title>
   <summary lang="en">Usage of the <i>HC128</i> cipher</summary>
-  <description lang="en">This template shows the usage of the <i>HC128</i> cipher.</description>
+  <description lang="en">This template shows the usage of the <i>HC128</i> cipher.<newline /><newline />
+  <external ref="http://www.ecrypt.eu.org/stream/hcpf.html" /><newline />
+  <external ref="http://en.wikipedia.org/wiki/HC-256" /></description>
+	  http://www.ecrypt.eu.org/stream/hcpf.html
   <keywords>estream, stream, symmetric</keywords>
 
   <title lang="de">HC128-Chiffre</title>
   <summary lang="de">Benutzung der <i>HC128</i>-Chiffre</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>HC128</i>-Chiffre.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>HC128</i>-Chiffre.<newline /><newline />
+  <external ref="http://www.ecrypt.eu.org/stream/hcpf.html" /><newline />
+  <external ref="http://en.wikipedia.org/wiki/HC-256" /></description>
   <keywords lang="de">estream, stromchiffre, symmetrisch</keywords>
 
   <icon file="HC128.png" />

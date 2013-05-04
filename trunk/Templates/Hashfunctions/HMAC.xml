@@ -7,8 +7,8 @@
   <keywords>hash</keywords>
 
   <title lang="de">HMAC</title>
-  <summary lang="de">Benutzung eines <i>HMAC</i>, mit dem der Empfänger eine Nachricht auf Integrität und auf Authentizität des Senders überprüfen kann</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung eines <i>HMAC</i>, mit dem der Empfänger eine Nachricht auf Integrität und auf Authentizität des Senders überprüfen kann.</description>
+  <summary lang="de">Benutzung eines <i>HMAC</i>, mit dem der Empfänger die Nachricht auf Integrität und auf Authentizität des Senders überprüfen kann</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung eines <i>HMAC</i>, mit dem der Empfänger die Nachricht auf Integrität und auf Authentizität des Senders überprüfen kann.</description>
   <keywords lang="de">hash</keywords>
 
   <icon file="HMAC.png" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<directory>
+<directory order="11">
   <name lang="en">Experimental</name>
   <name lang="de">Experimentell</name>  
   <summary lang="en">The folder "Experimental" contains templates that show components in experimental state.</summary>

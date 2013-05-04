@@ -14,7 +14,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></descripti
   <title lang="de">Caesar Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Caesar</i>-Verschlüsselung</summary>
   <description lang="de">Wie alle monoalphabetischen Verschlüsselungsverfahren bietet auch die Verschiebechiffre keine hinreichende Sicherheit gegen unbefugte Entzifferung und
-kann sehr leicht „geknackt“ werden. Die in der natürlichen Sprache ungleiche Verteilung der Buchstaben wird durch diese Art der Verschlüsselung nicht verborgen, so dass eine Häufigkeitsanalyse das Wirken einer einfachen monoalphabetischen Substitution enthüllt. Noch einfacher nutzt der Angreifer die sehr kleine Anzahl der
+kann sehr leicht „geknackt“ werden. Die ungleiche Verteilung der Buchstaben in der natürlichen Sprache wird durch diese Art der Verschlüsselung nicht verborgen, so dass eine Häufigkeitsanalyse das Wirken einer einfachen monoalphabetischen Substitution enthüllt. Noch einfacher nutzt der Angreifer die sehr kleine Anzahl der
 möglichen Schlüssel. Da die Größe des Schlüsselraums nur 25 beträgt, was einer „Schlüssellänge“ von nicht einmal 5 bit entspricht, liegt nach Ausprobieren spätestens
 nach dem 25. Versuch der Klartext vor. Eine erschöpfende Schlüsselsuche (Exhaustion) ist bei der Caesar-Verschlüsselung trivial realisierbar. Da dies auch ohne
 Computer oder Rechenmaschine mit geringem Aufwand möglich ist, bestand die Sicherheit der Caesar-Verschlüsselung schon zu ihren Anfängen nicht auf der
