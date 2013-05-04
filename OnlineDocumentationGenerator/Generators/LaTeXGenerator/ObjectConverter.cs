@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.DocInformations.Utils;
@@ -259,7 +260,9 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             {
                 if (node is XText)
                 {
-                    result.Append(Helper.EscapeLaTeX(((XText)node).Value));
+                    string text = ((XText)node).Value;
+                    text = Regex.Replace(text, "[\r\n]+", "\n");
+                    result.Append(Helper.EscapeLaTeX(text));
                 }
                 else if (node is XElement)
                 {
@@ -300,7 +303,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                             }
                             break;
                         case "newline":
-                            result.AppendLine("\\\\");
+                            result.AppendLine("\\\\\n");
                             break;
                         case "section":
                             var headline = ((XElement) node).Attribute("headline");
