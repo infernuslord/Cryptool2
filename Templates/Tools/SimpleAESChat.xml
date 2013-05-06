@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Take a Picture</title>
-  <summary lang="en">Take a Picture</summary>
-  <description lang="en">This template shows how to take a picture with the camera component (e.g. for scanning a QR code).</description>
-  <keywords>picture, photo, camera</keywords>
+  <title lang="en">Simple AES Chat</title>
+  <summary lang="en">Chatting over network using AES 256 encryption</summary>
+  <description lang="en">This template shows how to the network functionality of CT2 can be used to create a simple encrypted hat.</description>
+  <keywords>AES, chat, network, UDP, TCP</keywords>
 
-  <title lang="de">Foto erstellen</title>
-  <summary lang="de">Ein Foto erstellen</summary>
-  <description lang="de">Diese Vorlage zeigt das Erstellen eines Fotos mittels der Kamerakomponente (z.B. um einen QR-Code zu scannen).</description>
-  <keywords lang="de">kamera, foto</keywords>
+  <title lang="de">Einfacher AES Chat</title>
+  <summary lang="de">Übers Netzwerk chatten mit AES 256 Verschlüsselung</summary>
+  <description lang="de">Diese Vorlage zeigt wie die Netzwerkfunktionalität von CT2 genutzt werden kann, um einen einfachen AES Chat zu bauen.</description>
+  <keywords lang="de">AES, Chat, Netzwerk, UDP, TCP</keywords>
 
   <icon file="SimpleAESChat.png" />
 </sample>
