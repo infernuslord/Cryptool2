@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Simple AES Chat</title>
-  <summary lang="en">Chatting over network using AES 256 encryption</summary>
-  <description lang="en">This template shows how to the network functionality of CT2 can be used to create a simple encrypted hat.</description>
+  <summary lang="en">Chatting over network using AES-256 encryption</summary>
+  <description lang="en">This template shows how the network component of CT2 can be used to create a simple encrypted chat.</description>
   <keywords>AES, chat, network, UDP, TCP</keywords>
 
   <title lang="de">Einfacher AES Chat</title>
-  <summary lang="de">Übers Netzwerk chatten mit AES 256 Verschlüsselung</summary>
-  <description lang="de">Diese Vorlage zeigt wie die Netzwerkfunktionalität von CT2 genutzt werden kann, um einen einfachen AES Chat zu bauen.</description>
+  <summary lang="de">Übers Netzwerk chatten mit AES-256 Verschlüsselung</summary>
+  <description lang="de">Diese Vorlage zeigt, wie die Netzwerkkomponenten von CT2 genutzt werden können, um einen einfachen verschlüsselten Chat zu bauen.</description>
   <keywords lang="de">AES, Chat, Netzwerk, UDP, TCP</keywords>
 
   <icon file="SimpleAESChat.png" />
