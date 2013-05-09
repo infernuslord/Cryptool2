@@ -164,7 +164,16 @@ namespace NumberFieldSieve
                 }
 
                 var inputString = InputNumber.ToString();
-                var nFile = Path.Combine(_directoryName, inputString + ".n");
+                string name;
+                if (inputString.Length > 10)
+                {
+                    name = inputString.Substring(0, 10) + "_" + inputString.GetHashCode();
+                }
+                else
+                {
+                    name = inputString;
+                }
+                var nFile = Path.Combine(_directoryName, name + ".n");
                 if (!File.Exists(nFile))
                 {
                     using (var numberFile = File.CreateText(nFile))
@@ -197,7 +206,7 @@ namespace NumberFieldSieve
 
                     source.Execute(scope);
                     _scope = scope;
-                    scope.SetVariable("NAME", inputString);
+                    scope.SetVariable("NAME", name);
                     scope.SetVariable("GGNFS_PATH", ggnfsDir);
                     scope.SetVariable("MSIEVE_PATH", ggnfsDir);
                     scope.SetVariable("NUM_CORES", _settings.NumCores);
