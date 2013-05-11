@@ -38,14 +38,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class AES : ContextBoundObject, ICrypComponent
     {
         #region Private variables
-
         private AESSettings settings;
         private CStreamWriter outputStreamWriter;
         private byte[] inputKey;
         private byte[] inputIV;
         private CryptoStream p_crypto_stream;
         private bool stop = false;
-
         #endregion
 
         public AES()
