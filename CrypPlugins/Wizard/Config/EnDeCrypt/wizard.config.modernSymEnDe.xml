@@ -161,7 +161,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="DES" property="Mode" defaultValue="0">
+	 <comboBox plugin="DES" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
@@ -255,7 +255,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="SDES" property="Mode" defaultValue="0">
+	 <comboBox plugin="SDES" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
@@ -349,7 +349,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="Twofish" property="KeySize" defaultValue="0">
+	 <comboBox plugin="Twofish" property="KeySize" alignment="Left" defaultValue="0">
       <description lang="en">Key size:</description>
       <description lang="de">Schlüsselgröße:</description>
       <item content="128 Bit"/>
@@ -357,7 +357,7 @@
       <item content="256 Bit"/>
     </comboBox>
 
-	 <comboBox plugin="Twofish" property="Mode" defaultValue="0">
+	 <comboBox plugin="Twofish" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
@@ -459,7 +459,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="TEA" property="Mode" defaultValue="0">
+	 <comboBox plugin="TEA" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
@@ -560,7 +560,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="RC2" property="KeySize" defaultValue="0">
+	 <comboBox plugin="RC2" property="KeySize" alignment="Left" defaultValue="0">
       <description lang="en">Key size:</description>
       <description lang="de">Schlüsselgröße:</description>
       <item content="128 Bit"/>
@@ -568,7 +568,7 @@
       <item content="256 Bit"/>
     </comboBox>
 
-	 <comboBox plugin="RC2" property="Mode" defaultValue="0">
+	 <comboBox plugin="RC2" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
