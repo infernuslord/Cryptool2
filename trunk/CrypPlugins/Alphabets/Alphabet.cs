@@ -65,6 +65,7 @@ namespace Cryptool.Alphabets
             tmp.Add(AlphabetItem.BasicLatinAlphabet.Data);
             settings.Data = AlphabetSettings.Serialize(tmp);
             alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
+            timer.Stop();
         }
 
         void alphabetPresentation_AlphabetChanged(object sender, EventArgs e)
@@ -81,9 +82,9 @@ namespace Cryptool.Alphabets
         {
             if (count == 0)
             {
+                count++;
                 alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
                 timer.Stop();
-                count++;
             }
         }
 

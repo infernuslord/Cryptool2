@@ -218,6 +218,8 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"></RowDefinition>
@@ -258,7 +260,21 @@
                                             <Image Height="16" Source="pluginSetting-small.png"></Image>
                                         </Button>
                                     </Border>
-                                    
+
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="3">
+                                        <Button Height="20" Width="20" VerticalAlignment="Center" Click="DownClick"
+                                                Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
+                                            <Image Height="16" Source="up.png"></Image>
+                                        </Button>
+                                    </Border>
+
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="4">
+                                        <Button Height="20" Width="20" VerticalAlignment="Center" Click="UpClick"
+                                                Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
+                                            <Image Height="16" Source="down.png"></Image>
+                                        </Button>
+                                    </Border>
+
                                     <Grid Grid.Row="2" Grid.ColumnSpan="3">
                                         <Grid.Style>
                                             <Style TargetType="Grid">

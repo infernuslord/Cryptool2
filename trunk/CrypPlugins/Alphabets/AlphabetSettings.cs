@@ -45,12 +45,14 @@ namespace Cryptool.Alphabets
 
         public static string Serialize(List<AlphabetItemData> items)
         {
-            string ret = string.Empty;
             MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
+            string ret = string.Empty;
             try
             {
+               
+                BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, items);
+                ret = Convert.ToBase64String(stream.GetBuffer());
             }
             catch (SerializationException e)
             {
@@ -58,8 +60,9 @@ namespace Cryptool.Alphabets
             }
             finally
             {
-                stream.Close();
-                ret = Convert.ToBase64String(stream.GetBuffer());
+                if (stream != null)
+                    stream.Close();
+               
             }
 
             return ret;
@@ -68,20 +71,22 @@ namespace Cryptool.Alphabets
         public static List<AlphabetItemData> Deserialize(string serItems)
         {
             List<AlphabetItemData> ret = null;
-            byte[] buffer = Convert.FromBase64String(serItems);
-            MemoryStream stream = new MemoryStream(buffer);
-            BinaryFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = null;
             try
             {
+                byte[] buffer = Convert.FromBase64String(serItems);
+                stream  = new MemoryStream(buffer);
+                BinaryFormatter formatter = new BinaryFormatter();
                 ret = (List<AlphabetItemData>)formatter.Deserialize(stream);
             }
             catch (SerializationException e)
             {
-                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
             }
             finally
             {
-                stream.Close();
+                if(stream != null)
+                    stream.Close();
             }
 
             return ret;
