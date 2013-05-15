@@ -109,13 +109,28 @@
                                             Background="{StaticResource ResourceKey=linear}"
                                             CornerRadius="2,12,0,0" ></Border>
                                             <DockPanel MouseDown="DockPanel_MouseDown" ToolTip="{TemplateBinding Tag}" ToolTipService.ShowDuration="{x:Static Member=System:Int32.MaxValue}">
+                                                <Image VerticalAlignment="Center" MaxWidth="18" MaxHeight="18" Margin="2">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CTTabItem}}, Path=IsExecuting,Mode=OneWay}" Value="True">
+                                                                    <Setter Property="Source" Value="../Resources/play.png"></Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CTTabItem}}, Path=IsExecuting,Mode=OneWay}" Value="False">
+                                                                    <Setter Property="Source" Value="../Resources/pause.png"></Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
                                                 <Image Width="20" Height="20" Margin="2" Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CTTabItem}}, Path=Icon,Mode=OneWay}"></Image>
+
                                                 <TextBlock x:Name="ContentSite" DockPanel.Dock="Left"
                                         VerticalAlignment="Center" IsEnabled="false"
                                         HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Style="{StaticResource ResourceKey=HasChangesStyle}"
                                         Text="{Binding Path=Header}"
                                         Margin="5,0,0,0"
-                                        Width="110"/>
+                                        Width="90"/>
                                                 <Button Style="{StaticResource ResourceKey=DeleteBtn}" Click="Button_Click" VerticalAlignment="Center" Height="15" Width="15" Margin="0,0,0,0" DockPanel.Dock="Right">
                                                     <Image Source="../images/delete.png"></Image>
                                                 </Button>

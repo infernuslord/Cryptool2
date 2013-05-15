@@ -12,12 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.CrypWin.Helper
 {
-    /// <summary>
-    /// Interaction logic for CTTabItem.xaml
-    /// </summary>
+     //<summary>
+     //Interaction logic for CTTabItem.xaml
+     //</summary>
     [Cryptool.PluginBase.Attributes.Localization("Cryptool.CrypWin.Properties.Resources")]
     public partial class CTTabItem : TabItem
     {
@@ -46,7 +48,7 @@ namespace Cryptool.CrypWin.Helper
             "HasChanges",
             typeof(bool),
             typeof(CTTabItem),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, null));
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
 
         public bool HasChanges
         {
@@ -54,6 +56,22 @@ namespace Cryptool.CrypWin.Helper
             set
             {
                 SetValue(HasChangesProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty IsExecutingProperty =
+            DependencyProperty.Register(
+            "IsExecuting",
+            typeof(bool?),
+            typeof(CTTabItem),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public bool? IsExecuting
+        {
+            get { return (bool)GetValue(IsExecutingProperty); }
+            set
+            {
+                SetValue(IsExecutingProperty, value);
             }
         }
 
@@ -108,7 +126,33 @@ namespace Cryptool.CrypWin.Helper
                 o.Close();
         }
 
-        public PluginBase.Editor.IEditor Editor { get; set; }
+        private PluginBase.Editor.IEditor editor;
+        public PluginBase.Editor.IEditor Editor 
+        {
+            get 
+            { 
+                return editor; 
+            }
+            set 
+            { 
+                editor = value; 
+                if(editor is WorkspaceManager.WorkspaceManagerClass)
+                {
+                    var x = editor as WorkspaceManager.WorkspaceManagerClass;
+                    IsExecuting = false;
+                    x.executeEvent +=new EventHandler(x_executeEvent);
+                }
+            }
+        }
+
+        void  x_executeEvent(object sender, EventArgs e)
+        {
+            var x = editor as WorkspaceManager.WorkspaceManagerClass;
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                IsExecuting = x.isExecuting();
+            }, null);
+        }
 
         private void CopyToClipboard(object sender, RoutedEventArgs e)
         {
