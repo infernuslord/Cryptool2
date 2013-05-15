@@ -2157,11 +2157,21 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are still running tasks, do you really want to exit CrypTool 2?.
+        ///   Looks up a localized string similar to There are still running tasks (workspaces in Play mode). Do you really want to exit CrypTool 2 ?.
         /// </summary>
-        internal static string There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_ {
+        internal static string There_are_still_running_tasks__templates_in_Play_mode___Do_you_really_want_to_exit_CrypTool_2__ {
             get {
-                return ResourceManager.GetString("There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_", resourceCulture);
+                return ResourceManager.GetString("There_are_still_running_tasks__templates_in_Play_mode___Do_you_really_want_to_exi" +
+                        "t_CrypTool_2__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is still one running task (workspace in Play mode). Do you really want to exit CrypTool 2 ?.
+        /// </summary>
+        internal static string There_is_still_one_running_task {
+            get {
+                return ResourceManager.GetString("There_is_still_one_running_task", resourceCulture);
             }
         }
         
