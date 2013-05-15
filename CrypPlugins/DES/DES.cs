@@ -283,7 +283,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                 CStreamReader reader = inputdata.CreateReader();
 
-                GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+                //GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
                 DateTime startTime = DateTime.Now;
 
                 // special handling of OFB mode, as it's not available for DES in .Net
@@ -331,16 +331,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                 outputStreamWriter.Close();
 
-                DateTime stopTime = DateTime.Now;
-                TimeSpan duration = stopTime - startTime;
+                //DateTime stopTime = DateTime.Now;
+                //TimeSpan duration = stopTime - startTime;
 
                 if (action == 1)
                     outputStreamWriter = BlockCipherHelper.StripPadding(outputStreamWriter, settings.padmap[settings.Padding], p_alg.BlockSize / 8) as CStreamWriter;
 
                 if (!stop)
                 {
-                    GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + outputStreamWriter.Length.ToString() + " bytes)", NotificationLevel.Info);
-                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                    //GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + outputStreamWriter.Length.ToString() + " bytes)", NotificationLevel.Info);
+                    //GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     OnPropertyChanged("OutputStream");
                 } else {
                     GuiLogMessage("Aborted!", NotificationLevel.Info);

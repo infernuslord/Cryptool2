@@ -236,7 +236,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 string mode = action == 0 ? "encryption" : "decryption";
                 long inbytes, outbytes;
 
-                GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+                //GuiLogMessage("Starting " + mode + " [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
 
                 DateTime startTime = DateTime.Now;
 
@@ -314,8 +314,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 if (!stop)
                 {
                     mode = action == 0 ? "Encryption" : "Decryption";
-                    GuiLogMessage(mode + " complete! (in: " + inbytes + " bytes, out: " + outbytes + " bytes)", NotificationLevel.Info);
-                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                    //GuiLogMessage(mode + " complete! (in: " + inbytes + " bytes, out: " + outbytes + " bytes)", NotificationLevel.Info);
+                    //GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     outputStreamWriter.Close();
                     OnPropertyChanged("OutputStream");
                 }
