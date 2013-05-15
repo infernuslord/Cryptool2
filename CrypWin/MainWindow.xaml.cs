@@ -2024,7 +2024,7 @@ namespace Cryptool.CrypWin
 
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (WorkspacesRunning() && ShowInTaskbar && !closedByMenu && !restart && !shutdown && Settings.Default.RunInBackground)
+            if (RunningWorkspaces() == 0 && ShowInTaskbar && !closedByMenu && !restart && !shutdown && Settings.Default.RunInBackground)
             {
                 oldWindowState = WindowState;
                 closingCausedMinimization = true;
@@ -2033,12 +2033,17 @@ namespace Cryptool.CrypWin
             }
             else
             {
-                if (WorkspacesRunning() && !restart && !shutdown)
+                if (RunningWorkspaces() > 0 && !restart && !shutdown)
                 {
-                    MessageBoxButton b = MessageBoxButton.OKCancel;
-                    string c = Properties.Resources.Warning;
-                    MessageBoxResult res = MessageBox.Show(Properties.Resources.There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_, c, b);
-                    if (res == MessageBoxResult.OK)
+                    MessageBoxResult res;
+                    if (RunningWorkspaces() == 1)
+                    {
+                        res = MessageBox.Show(Properties.Resources.There_is_still_one_running_task, Properties.Resources.Warning, MessageBoxButton.YesNo);
+                    }else
+                    {
+                        res = MessageBox.Show(Properties.Resources.There_are_still_running_tasks__templates_in_Play_mode___Do_you_really_want_to_exit_CrypTool_2__, Properties.Resources.Warning, MessageBoxButton.YesNo);
+                    }
+                    if (res == MessageBoxResult.Yes)
                     {
                         ClosingRoutine(e);
                     }
@@ -2120,15 +2125,18 @@ namespace Cryptool.CrypWin
             ComponentConnectionStatistics.SaveCurrentStatistics(Path.Combine(DirectoryHelper.DirectoryLocal, "ccs.xml"));
         }
 
-        private bool WorkspacesRunning()
+        private int RunningWorkspaces()
         {
+            var count = 0;
             foreach (var editor in editorToFileMap.Keys)
             {
                 if (editor.CanStop)
-                    return true;
+                {
+                    count++;
+                }
             }
 
-            return false;
+            return count;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

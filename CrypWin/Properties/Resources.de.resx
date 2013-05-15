@@ -226,8 +226,8 @@
   <data name="Show_Balloons" xml:space="preserve">
     <value>Zeige Sprechblasennachrichten</value>
   </data>
-  <data name="There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_" xml:space="preserve">
-    <value>CrypTool 2 arbeitet noch, möchten Sie wirklich beenden?</value>
+  <data name="There_are_still_running_tasks__templates_in_Play_mode___Do_you_really_want_to_exit_CrypTool_2__" xml:space="preserve">
+    <value>CrypTool 2 arbeitet noch (Ausführung mehrerer Arbeitsflächen), möchten Sie wirklich beenden?</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warnung</value>
@@ -885,5 +885,8 @@
   </data>
   <data name="HideMenu" xml:space="preserve">
     <value>Vertecke Menü (an/aus)</value>
+  </data>
+  <data name="There_is_still_one_running_task" xml:space="preserve">
+    <value>CrypTool 2 arbeitet noch (Ausführung einer Arbeitsfläche), möchten Sie wirklich beenden?</value>
   </data>
 </root>

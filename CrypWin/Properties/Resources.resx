@@ -226,8 +226,8 @@
   <data name="Show_Balloons" xml:space="preserve">
     <value>Show Balloons</value>
   </data>
-  <data name="There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_" xml:space="preserve">
-    <value>There are still running tasks, do you really want to exit CrypTool 2?</value>
+  <data name="There_are_still_running_tasks__templates_in_Play_mode___Do_you_really_want_to_exit_CrypTool_2__" xml:space="preserve">
+    <value>There are still running tasks (workspaces in Play mode). Do you really want to exit CrypTool 2 ?</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
@@ -906,5 +906,8 @@
   </data>
   <data name="HideMenu" xml:space="preserve">
     <value>Hide Menu (on/off)</value>
+  </data>
+  <data name="There_is_still_one_running_task" xml:space="preserve">
+    <value>There is still one running task (workspace in Play mode). Do you really want to exit CrypTool 2 ?</value>
   </data>
 </root>
