@@ -248,12 +248,12 @@
                                     </WrapPanel>
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="1">
                                         <Button Style="{StaticResource ResourceKey=ButtonStyleSec}" 
-                                                Height="20" Width="20" Click="Button_Click" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                                                Height="20" Width="20" Click="DeleteItemClick" VerticalContentAlignment="Center" VerticalAlignment="Center">
                                             <Image Height="16" Source="del.png"></Image>
                                         </Button>
                                     </Border>
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="2">
-                                        <Button Height="20" Width="20" VerticalAlignment="Center" Click="Button_Click_2"
+                                        <Button Height="20" Width="20" VerticalAlignment="Center" Click="EditItemClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
                                             <Image Height="16" Source="pluginSetting-small.png"></Image>
                                         </Button>
@@ -396,7 +396,7 @@
                 <Border Background="#11222222" Grid.ColumnSpan="3">
                     <StackPanel Orientation="Horizontal">
                         <Border Background="#55ffffff" Margin="5">
-                            <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_3"
+                            <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="ReturnToOverviewClick"
                                     VerticalContentAlignment="Center" VerticalAlignment="Center">
                                 <Image Height="20" Source="back.png"></Image>
                             </Button>
@@ -549,7 +549,7 @@
                     <TextBlock Text="Alphabets" Padding="5" FontWeight="Bold"
                                FontFamily="Verdana" FontSize="24"></TextBlock>
                     <Border Background="#55ffffff" Margin="5">
-                        <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="Button_Click_1"
+                        <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="AddItemClick"
                                 VerticalContentAlignment="Center" VerticalAlignment="Center">
                             <Image Height="20" Source="add.png"></Image>
                         </Button>
@@ -559,7 +559,7 @@
 
             <Border Grid.Column="0" Grid.Row="1" Background="#bbffffff">
                 <ListView  x:Name="AlphabetList" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Alphabets}"
-                            SelectionMode="Single"  SelectionChanged="SelectionChanged" SelectedIndex="0"></ListView>
+                            SelectionMode="Single"  SelectionChanged="SelectionChanged" SelectedIndex="0" SelectedItem="{Binding Path=ActiveAlphabet, Mode=TwoWay}"></ListView>
             </Border>
         </Grid>
 
