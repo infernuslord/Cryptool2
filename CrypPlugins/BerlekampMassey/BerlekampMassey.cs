@@ -260,7 +260,7 @@ namespace Cryptool.BerlekampMassey
         {
             try
             {
-                string myInputString = input;
+                string myInputString = input.Replace(",", "").Replace(" ","");
                 //GuiLogMessage("myInputString: " + myInputString, NotificationLevel.Info);
 
                 byte[] inputByte = StrToByteArray(myInputString);
