@@ -50,6 +50,30 @@
         </Style>
 
 
+        <Style TargetType="{x:Type ProgressBar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid MinHeight="14">
+                            <Border
+                                Name="PART_Track" 
+                                Background="Transparent"
+                                BorderBrush="Transparent" />
+                                <Border 
+                                    Name="PART_Indicator" Opacity="0.3"
+                                    Background="{TemplateBinding Foreground}" 
+                                    BorderBrush="#CCC" 
+                                    BorderThickness="1"
+                                    CornerRadius="2,12,0,0" 
+                                    HorizontalAlignment="Left" >
+                                </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <Style x:Key="TabStyle" TargetType="{x:Type TabItem}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -102,8 +126,9 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="#888" 
                                     BorderThickness="1,1,1,1.5" 
-                                    CornerRadius="2,12,0,0" >
-                                        <Grid>
+                                    CornerRadius="2,12,0,0"  ClipToBounds="True">
+                                        <Grid ClipToBounds="True">
+                                            <ProgressBar Value="{Binding Path=Editor.Presentation.Progress}" Maximum="1" Opacity="1" Margin="1,1,1,1"></ProgressBar>
                                             <Border
                                             Name="Border3"
                                             Background="{StaticResource ResourceKey=linear}"

@@ -68,10 +68,26 @@ namespace Cryptool.CrypWin.Helper
 
         public bool? IsExecuting
         {
-            get { return (bool)GetValue(IsExecutingProperty); }
+            get { return (bool?)GetValue(IsExecutingProperty); }
             set
             {
                 SetValue(IsExecutingProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty ProgressProperty =
+            DependencyProperty.Register(
+            "Progress",
+            typeof(double),
+            typeof(CTTabItem),
+            new FrameworkPropertyMetadata((double)0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public double Progress
+        {
+            get { return (double)GetValue(ProgressProperty); }
+            set
+            {
+                SetValue(ProgressProperty, value);
             }
         }
 
@@ -140,6 +156,16 @@ namespace Cryptool.CrypWin.Helper
                 {
                     var x = editor as WorkspaceManager.WorkspaceManagerClass;
                     IsExecuting = false;
+                    var y = (WorkspaceManager.View.Visuals.EditorVisual)x.Presentation;
+
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        Binding bind = new Binding();
+                        bind.Path = new PropertyPath(WorkspaceManager.View.Visuals.EditorVisual.ProgressProperty);
+                        bind.Source = y;
+                        this.SetBinding(CTTabItem.ProgressProperty, bind);
+                    }, null);
+
                     x.executeEvent +=new EventHandler(x_executeEvent);
                 }
             }
