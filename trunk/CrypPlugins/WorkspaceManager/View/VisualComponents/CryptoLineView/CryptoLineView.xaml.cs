@@ -25,13 +25,6 @@ using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 {
-    public enum CryptoLineState
-    {
-        Substitute,
-        Normal,
-        Edit
-    }
-
     /// <summary>
     /// Interaction logic for CryptoLineView.xaml
     /// </summary>
