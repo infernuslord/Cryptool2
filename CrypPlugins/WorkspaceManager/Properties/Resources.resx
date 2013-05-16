@@ -244,7 +244,7 @@
     <value>Settings</value>
   </data>
   <data name="Show_IControlsTooltip" xml:space="preserve">
-    <value>Show IControls</value>
+    <value>Show Embedded Components</value>
   </data>
   <data name="SleepTime_Label" xml:space="preserve">
     <value>Sleep-Time:</value>

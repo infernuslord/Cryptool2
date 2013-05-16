@@ -213,7 +213,21 @@
                     <DataTemplate DataType="{x:Type local:AlphabetItem}">
                         <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
                             <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
-                                <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Border Background="#7fe383" CornerRadius="3,0,3,0" x:Name="Active" Visibility="Collapsed">
+                                    <Border>
+                                        <Border.Background>
+                                            <ImageBrush Opacity="0.1" ImageSource="progress_bg.png" TileMode="Tile" 
+                                            Viewport="0,0,36,18" ViewportUnits="Absolute"/>
+                                        </Border.Background>
+                                        <TextBlock Text="Active" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#444" FontSize="12"
+                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    </Border>
+                                </Border>
+                                <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -226,10 +240,11 @@
                                         <RowDefinition Height="auto"></RowDefinition>
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
+
                                     <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
+                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="5" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
                                         <TextBlock Text="{Binding Path=Upper}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
@@ -264,18 +279,18 @@
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="3">
                                         <Button Height="20" Width="20" VerticalAlignment="Center" Click="DownClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
-                                            <Image Height="16" Source="up.png"></Image>
+                                            <Image Height="16" Source="Arrow-up-48.png"></Image>
                                         </Button>
                                     </Border>
 
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="4">
                                         <Button Height="20" Width="20" VerticalAlignment="Center" Click="UpClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
-                                            <Image Height="16" Source="down.png"></Image>
+                                            <Image Height="16" Source="Arrow-down-48.png"></Image>
                                         </Button>
                                     </Border>
 
-                                    <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                                    <Grid Grid.Row="2" Grid.ColumnSpan="5">
                                         <Grid.Style>
                                             <Style TargetType="Grid">
                                                 <Style.Triggers>
@@ -375,6 +390,7 @@
                                                         Path=IsSelected}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7fe383"></Setter>
                                 <Setter TargetName="Border" Property="BorderThickness" Value="5"></Setter>
+                                <Setter TargetName="Active" Property="Visibility" Value="Visible"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
