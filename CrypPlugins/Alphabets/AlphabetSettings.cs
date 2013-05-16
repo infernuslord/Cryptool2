@@ -29,7 +29,7 @@ namespace Cryptool.Alphabets
     public class AlphabetSettings : ISettings
     {
         private string data;
-        [TaskPane("Saved_Data", "Saved", null, 2, false, ControlType.TextBoxHidden)]
+        //[TaskPane("Saved_Data", "Saved", null, 2, false, ControlType.TextBoxHidden)]
         public string Data
         {
             get 
