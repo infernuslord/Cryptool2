@@ -70,6 +70,10 @@ namespace Cryptool.Alphabets
 
         void alphabetPresentation_AlphabetChanged(object sender, EventArgs e)
         {
+            this.alphabetPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.alphabetString = alphabetPresentation.GetAlphabet();
+            }, null);
             OnPropertyChanged("AlphabetOutput");
         }
 
@@ -90,7 +94,7 @@ namespace Cryptool.Alphabets
 
         string alphabetString = string.Empty;
 
-        [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", false)]
+        [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", true)]
         public string AlphabetOutput
         {
             get
