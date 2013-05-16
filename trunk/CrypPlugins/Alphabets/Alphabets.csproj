@@ -173,6 +173,15 @@
     <Resource Include="down.png" />
     <Resource Include="up.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Arrow-down-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Arrow-up-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="progress_bg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
