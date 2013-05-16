@@ -67,14 +67,10 @@ namespace WorkspaceManager.View.Visuals
             {
                 ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
-
-                
                 if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
                 {
                     plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));
                 }
-
-
 
                 InitializeComponent();
 
@@ -105,7 +101,6 @@ namespace WorkspaceManager.View.Visuals
                     stu.Triggers.Add(dt);
 
                     tbC.ItemContainerStyle = stu;
-
 
                     myGrid.Children.Remove(MyScrollViewer);
 
@@ -305,7 +300,7 @@ namespace WorkspaceManager.View.Visuals
 
 
 
-        private double getComboBoxMaxSize(ComboBox child)
+        public static double getComboBoxMaxSize(ComboBox child)
         {
             double x = 0;
             ComboBox cb = child as ComboBox;
@@ -320,19 +315,17 @@ namespace WorkspaceManager.View.Visuals
                 }
             }
 
-            return cb.Width = x + 30;
+            return cb.Width = x + 28 ; // 28 pixel are an approximation of the rendersize of the dropdown button
         }
 
 
-        private ParameterPanel parameterPanel;
-        private ParameterPanel noVerticalGroupParameterPanel;
-
+        
         private void drawList(EntryGroup entgrou)
         {
-
-
             foreach (List<ControlEntry> cel in entgrou.entryList)
             {
+                ParameterPanel parameterPanel;
+                ParameterPanel noVerticalGroupParameterPanel;
 
                 Expander testexoander = new Expander();
 
@@ -359,7 +352,6 @@ namespace WorkspaceManager.View.Visuals
                 parameterPanel.Name = "border1";
 
                 parameterPanel.Margin = new Thickness(2);
-
 
                 Binding dataBinding = new Binding("ActualWidth");
                 dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -452,8 +444,6 @@ namespace WorkspaceManager.View.Visuals
                                 {
                                     controlGrid.Children.Add(ce.element);
                                 }
-
-
                             }
                             else
                             {
@@ -550,14 +540,15 @@ namespace WorkspaceManager.View.Visuals
 
                 bodi.Style = (Style)FindResource("border1");
 
-
                 testexoander.Content = bodi;
+                
                 if (isSideBar)
                     myStack.Children.Add(testexoander);
                 else
                     myWrap.Children.Add(testexoander);
-                parameterPanel.setMaxSizes();
-                noVerticalGroupParameterPanel.setMaxSizes();
+
+                parameterPanel.setMaxSizes(true);
+                noVerticalGroupParameterPanel.setMaxSizes(true);
             }
 
             this.BeginInit();
@@ -598,6 +589,7 @@ namespace WorkspaceManager.View.Visuals
                             textbox.ToolTip = tpa.ToolTip;
                             textbox.MouseEnter += Control_MouseEnter;
                             
+                            
                             if (tpa.RegularExpression != null && tpa.RegularExpression != string.Empty)
                             {
                                 ControlTemplate validationTemplate = Application.Current.Resources["validationTemplate"] as ControlTemplate;
@@ -625,7 +617,7 @@ namespace WorkspaceManager.View.Visuals
                             if (tpa.ValidationType == ValidationType.RangeInteger)
                             {
                                 IntegerUpDown intInput = new IntegerUpDown();
-                     
+                                
                                 intInput.SelectAllOnGotFocus = true;
                                 intInput.Tag = tpa.ToolTip;
                                 intInput.ToolTip = tpa.ToolTip;
@@ -641,19 +633,7 @@ namespace WorkspaceManager.View.Visuals
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa, b, bcv.Model));
                                 intInput.IsEnabled = true;
                                 
-                                /*
-                                InputNumericControl intInput = new InputNumericControl();
-                                intInput.ShowCheckBox = false;
-                                intInput.ShowClearButton = true;
-                                intInput.ShowUpDown = true;
-                                intInput.Tag = tpa.ToolTip;
-                                intInput.MouseEnter += Control_MouseEnter;
-                                //intInput.MaxValue = tpa.IntegerMaxValue;
-                                //intInput.MinValue = tpa.IntegerMinValue;
-                                //intInput.SetBinding(InputNumericControl.prop, dataBinding);
-                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa));
-                                //inputControl = intInput;
-                                //bInfo.CaptionGUIElement = intInput;*/
+                              
                             }
                             else if (tpa.ValidationType == ValidationType.RangeDouble)
                             {
@@ -934,8 +914,15 @@ namespace WorkspaceManager.View.Visuals
                 if (ele != null)
                 {
                     ele.Visibility = System.Windows.Visibility.Collapsed;
-                    parameterPanel.setMaxSizes();
-                    noVerticalGroupParameterPanel.setMaxSizes();
+                    
+                    foreach (Expander expander in myStack.Children)
+                    {
+                        ((expander.Content as Border).Child as ParameterPanel).setMaxSizes(false);   
+                    }
+                    foreach (Expander expander in myWrap.Children)
+                    {
+                        ((expander.Content as Border).Child as ParameterPanel).setMaxSizes(false);
+                    }
                 }
             }
             if (state == Model.PlugState.Unplugged && model.GetInputConnections().Count == 0)
@@ -943,8 +930,15 @@ namespace WorkspaceManager.View.Visuals
                 if (ele != null)
                 {
                     ele.Visibility = System.Windows.Visibility.Visible;
-                    parameterPanel.setMaxSizes();
-                    noVerticalGroupParameterPanel.setMaxSizes();
+
+                    foreach (Expander expander in myStack.Children)
+                    {
+                        ((expander.Content as Border).Child as ParameterPanel).setMaxSizes(true);
+                    }
+                    foreach (Expander expander in myWrap.Children)
+                    {
+                        ((expander.Content as Border).Child as ParameterPanel).setMaxSizes(true);
+                    }
                 }
             }
         }
@@ -1221,10 +1215,10 @@ namespace WorkspaceManager.View.Visuals
     public class ParameterPanel : Panel
     {
         Boolean isSideBar;
+
         double maxSize = 0;
         double maxSizeContent = 0;
         double maxSizeCaption = 0;
-
         double maxSizeCB = 0;
 
         Grid maxGrid = new Grid();
@@ -1235,20 +1229,22 @@ namespace WorkspaceManager.View.Visuals
             SizeChanged += new SizeChangedEventHandler(TestPanel_SizeChanged);
         }
 
-        public void setMaxSizes()
+        public void setMaxSizes(Boolean overRun)
         {
+            maxSizeCaption = 0;
+            maxSizeContent = 0;
+            maxSizeCB = 0;
+            maxSize = 0;
             foreach (UIElement child in Children)
             {
+
                 child.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                 child.Arrange(new Rect(child.DesiredSize));
 
-                if (true)
-                {
-                    
-                    if (child is TextBlock || child is Expander)
+                if (child is TextBlock || child is Expander)
                     {
                         TextBlock caption = child as TextBlock;
-                        if (child.IsVisible)
+                        if (child.Visibility == Visibility.Visible || overRun)
                         {
                             if (caption != null)
                             {
@@ -1262,22 +1258,14 @@ namespace WorkspaceManager.View.Visuals
 
                                 if (formattedText.WidthIncludingTrailingWhitespace > maxSizeCaption)
                                 {
-                                    maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace;
+                                    maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace + 10;
                                 }
                             }
-                        }
-                        
-                        if (child.DesiredSize.Width > maxSizeCaption)
-                        {
-                            maxSizeCaption = child.DesiredSize.Width;
-                        }
-                        if (child.RenderSize.Width > maxSizeCaption)
-                        {
-                            maxSizeCaption = child.DesiredSize.Width;
                         }
                     }
                     else if (child is Grid)
                     {
+
                         if (maxGrid.Width < (child as Grid).DesiredSize.Width)
                         {
                             maxGrid = child as Grid;
@@ -1294,17 +1282,45 @@ namespace WorkspaceManager.View.Visuals
                         }
 
                     }
+                    else if (child is ComboBox)
+                    {
+                        double comboSize = SettingsVisual.getComboBoxMaxSize(child as ComboBox);
+                        if (comboSize > maxSizeContent)
+                        {
+                            if (comboSize != 0)
+                                maxSizeContent = comboSize;
+                        }
+                    }
+
+                    else if (child is IntegerUpDown)
+                    {
+                        IntegerUpDown intUD = child as IntegerUpDown;
+                        String s = intUD.Maximum + "";
+                        int intInput = 0;
+                        FormattedText ft = new FormattedText(s, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(intUD.FontFamily, intUD.FontStyle, intUD.FontWeight, intUD.FontStretch), intUD.FontSize, Brushes.Black);
+                        
+                        if (ft.WidthIncludingTrailingWhitespace > maxSizeContent)
+                        {
+                            if (ft.WidthIncludingTrailingWhitespace != 0)
+                                maxSizeContent = ft.WidthIncludingTrailingWhitespace;
+                        }
+                    }
+
+
                     else
                     {
+                        child.Measure(new Size(10, 10));
                         if (child.DesiredSize.Width > maxSizeContent)
                         {
+                            
                             if (child.DesiredSize.Width != 0)
                                 maxSizeContent = child.DesiredSize.Width;
                         }
                     }
-                }
+                
             }
 
+            
             if (maxSizeContent < 20)
             {
                 maxSizeContent = 100;
@@ -1418,7 +1434,7 @@ namespace WorkspaceManager.View.Visuals
                     Slider dummyTextBox = child as Slider;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
-                    dummyTextBox.MaxWidth = maxSizeContent - 10;
+                    dummyTextBox.MaxWidth = maxSizeContent;
 
                 }
 
@@ -1451,14 +1467,17 @@ namespace WorkspaceManager.View.Visuals
                 {
                     Slider dummyTextBox = child as Slider;
 
+                    dummyTextBox.MinWidth = 0;
+
                     if (this.ActualWidth < maxSizeCaption + maxSizeContent)
                     {
                         dummyTextBox.MaxWidth = Double.MaxValue;
                     }
                     else
                     {
-                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
+                        dummyTextBox.MaxWidth = maxSizeContent;
                     }
+
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
@@ -1594,12 +1613,9 @@ namespace WorkspaceManager.View.Visuals
         {
             Size infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             double curX = 0, curY = 0, curLineHeight = 0;
-           
 
-            Boolean b = true;
 
-            if (availableSize.Width > maxSize)
-                b = false;
+            bool b = !(availableSize.Width > maxSize);
 
             foreach (UIElement child in Children)
             {

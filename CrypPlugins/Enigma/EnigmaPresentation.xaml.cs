@@ -145,6 +145,192 @@ namespace Cryptool.Enigma
 
         }
 
+        private void setReflector()
+        {
+            deleteImage(false,settings.Reflector);
+
+            if (walze != null)
+            {
+                if (walzenarea.Children.Contains(walze))
+                    walzenarea.Children.Remove(walze);
+            }
+            walze = new Walze(settings.Model, settings.Reflector + 1, this.Width, this.Height);
+            //walze1.fast = speed * 80;
+            Canvas.SetLeft(walze, 0);
+            Canvas.SetTop(walze, 60);
+            walzenarea.Children.Add(walze);
+            walze.Cursor = Cursors.Hand;
+            walze.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
+            walze.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
+            
+                        
+        }
+
+        private void setRotor(int position)
+        {
+            if (settings.Model == 2 || settings.Model == 3)
+            {
+                
+                if (rotorarray[position] != null)
+                {
+                    if (rotorarea.Children.Contains(rotorarray[position]))
+                    {
+                        rotorarea.Children.Remove(rotorarray[position]);
+                    }
+                }
+                Array.Clear(rotorarray, position, 0);
+                switch (position)
+                {
+                    case 0:
+                        rotorarray[position] = new Rotor2(settings.Model, settings.Rotor3 + 1, this.Width, this.Height,
+                                                          settings.Key.ToUpper()[0] - 65, settings.Ring3);
+                        Console.WriteLine(position + "  " + settings.Rotor3 + 1 + "   " + settings.Key.ToUpper());
+                        break;
+                    case 1:
+                        rotorarray[position] = new Rotor2(settings.Model, settings.Rotor2 + 1, this.Width, this.Height,
+                                                          settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                        break;
+                    case 2:
+                        rotorarray[position] = new Rotor2(settings.Model, settings.Rotor1 + 1, this.Width, this.Height,
+                                                          settings.Key.ToUpper()[2] - 65, settings.Ring1);
+                        break;
+
+
+                }
+
+                rotorarray[position].updone += changeSettings;
+                rotorarray[position].downdone += changeSettings;
+                rotorarray[position].up1done += changeSettings;
+                rotorarray[position].down1done += changeSettings;
+
+                rotorarray[position].Cursor = Cursors.Hand;
+                rotorarray[position].PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
+
+                Canvas.SetLeft(rotorarray[position], position*230);
+                rotorarea.Children.Add(rotorarray[position]);
+                rotorarray[position].PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
+            }
+        }
+
+        private void setImage( bool rotor,int position )
+        {
+            if (position > -1)
+            {
+                Image img1 = new Image();
+                img1.Uid = position + 1 + "";
+                img1.Height = 100;
+                img1.Width = 50;
+                BitmapImage bi11 = new BitmapImage();
+                bi11.BeginInit();
+
+                for (int i = 0; i < EnigmaCore.rotors.GetLength(1); i++)
+                {
+                    if (EnigmaCore.rotors[settings.Model, i] == "")
+                    {
+                        deleteImage(true, i);
+                    }
+                }
+
+                for (int i = 0; i < EnigmaCore.reflectors.GetLength(1); i++)
+                {
+                    if (EnigmaCore.reflectors[settings.Model, i] == "")
+                    {
+                        deleteImage(false, i);
+                    }
+                }
+
+                switch (rotor)
+                {
+                    case true:
+
+                        if (dropBoxCanvas.Children.Contains(rotorimgs[position]))
+                        {
+                            dropBoxCanvas.Children.Remove(rotorimgs[position]);
+                            Array.Clear(rotorimgs, position, 0);
+                        }
+
+
+
+                        switch (position)
+                        {
+                            case 0:
+                                bi11.UriSource = new Uri("Images/rotor1.png", UriKind.Relative);
+                                break;
+                            case 1:
+                                bi11.UriSource = new Uri("Images/rotor2.png", UriKind.Relative);
+                                break;
+                            case 2:
+                                bi11.UriSource = new Uri("Images/rotor3.png", UriKind.Relative);
+                                break;
+                            case 3:
+                                bi11.UriSource = new Uri("Images/rotor4.png", UriKind.Relative);
+                                break;
+                            case 4:
+                                bi11.UriSource = new Uri("Images/rotor5.png", UriKind.Relative);
+                                break;
+                            case 5:
+                                bi11.UriSource = new Uri("Images/rotor6.png", UriKind.Relative);
+                                break;
+                            case 6:
+                                bi11.UriSource = new Uri("Images/rotor7.png", UriKind.Relative);
+                                break;
+                            case 7:
+                                bi11.UriSource = new Uri("Images/rotor8.png", UriKind.Relative);
+                                break;
+                        }
+                        bi11.EndInit();
+                        img1.Source = bi11;
+                        dropBoxCanvas.Children.Add(img1);
+                        rotorimgs[position] = img1;
+                        rotorimgs[position].PreviewMouseMove += Rotor_MouseMove1;
+                        break;
+                    case false:
+
+                        if (dropBoxCanvasWalze.Children.Contains(walzeimgs[position]))
+                        {
+                            dropBoxCanvas.Children.Remove(walzeimgs[position]);
+                            Array.Clear(rotorimgs, position, 0);
+                        }
+                        switch (position)
+                        {
+                            case 0:
+                                bi11.UriSource = new Uri("Images/Walze1.png", UriKind.Relative);
+                                break;
+                            case 1:
+                                bi11.UriSource = new Uri("Images/Walze2.png", UriKind.Relative);
+                                break;
+                            case 2:
+                                bi11.UriSource = new Uri("Images/Walze3.png", UriKind.Relative);
+                                break;
+                        }
+                        bi11.EndInit();
+                        img1.Source = bi11;
+                        dropBoxCanvasWalze.Children.Add(img1);
+                        walzeimgs[position] = img1;
+                        walzeimgs[position].PreviewMouseMove += Walze_MouseMove1;
+                        break;
+                }
+
+
+                Canvas.SetLeft(img1, 50*(position + 1));
+                img1.Cursor = Cursors.Hand;
+            }
+        }
+
+        private void deleteImage(bool rotor, int position)
+        {
+            if(rotor)
+            {
+                if (dropBoxCanvas.Children.Contains(rotorimgs[position]))
+                dropBoxCanvas.Children.Remove(rotorimgs[position]) ;
+            }
+            else
+            {
+                if (dropBoxCanvasWalze.Children.Contains(walzeimgs[position]))
+                dropBoxCanvasWalze.Children.Remove(walzeimgs[position]);
+            }
+        }
+
         public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             EnigmaSettings settings = sender as EnigmaSettings;
@@ -153,19 +339,73 @@ namespace Cryptool.Enigma
 
             if (e.PropertyName == "Model")
             {
-                if (settings.Model != 3)
+                if (settings.Model == 2)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        
+                        mainCanvas.Visibility = Visibility.Visible;
+                        for (int i = 0; i < 3;i++ )
+                        {
+                            setRotor(i);
+                        }
+
+                        setReflector();
+                        
+
+                        for (int i = 0; i < EnigmaCore.rotors.GetLength(1); i++ )
+                        {
+                            if(EnigmaCore.rotors[2,i] == "")
+                            {
+                                deleteImage(true, i);
+                            }
+                        }
+
+                        for (int i = 0; i < EnigmaCore.reflectors.GetLength(1); i++)
+                        {
+                            if (EnigmaCore.reflectors[2, i] == "")
+                            {
+                                deleteImage(false,i);
+                            }
+                        }
+
+
+                    }, null);
+                }
+                else if (settings.Model == 3)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        mainCanvas.Visibility = Visibility.Visible;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            setRotor(i);
+                        }
+                        setReflector();
+                    }, null);
+                }
+                else 
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         mainCanvas.Visibility = Visibility.Hidden;
                     }, null);
                 }
-                else
+
+                for (int i = 0; i < EnigmaCore.rotors.GetLength(1); i++)
                 {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (EnigmaCore.rotors[3, i] == "")
                     {
-                        mainCanvas.Visibility = Visibility.Visible;
-                    }, null);
+                        deleteImage(true, i);
+                    }
+                }
+
+                for (int i = 0; i < EnigmaCore.reflectors.GetLength(1); i++)
+                {
+                    if (EnigmaCore.reflectors[3, i] == "")
+                    {
+                        deleteImage(false, i);
+                    }
                 }
             }
 
@@ -190,33 +430,19 @@ namespace Cryptool.Enigma
 
             }
 
-            if (settings.Model == 3)
+            if (settings.Model == 3 || settings.Model == 2)
             {
+                
                 if (e.PropertyName == "Key" && justme && !playbool)
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        if (rotorarray[2] != null)
-                        {
-                            
-                            rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
-                            
-                        }
-
-                        if (rotorarray[1] != null)
-                        {
-                            
-                            rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
-                            
-                        }
-                        if (rotorarray[0] != null)
-                        {
-                            
-                            rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
-                            
-                        }
+                        setRotor(0);
+                        setRotor(1);
+                        setRotor(2);
                     }, null);
                 }
+                
                 if (rotorarray[2] != null)
                 {
                     if (e.PropertyName == "Ring1down" && justme)
@@ -239,7 +465,8 @@ namespace Cryptool.Enigma
                     {
                         Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            rotorarray[2].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring1);
+                            //rotorarray[2].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring1);
+                            setRotor(2);
                         }, null);
                     }
                 }
@@ -265,7 +492,8 @@ namespace Cryptool.Enigma
                     {
                         Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                            //rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                            setRotor(1);
                         }, null);
                     }
                 }
@@ -291,30 +519,11 @@ namespace Cryptool.Enigma
                     {
                         Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            rotorarray[0].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring3);
+                            //rotorarray[0].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring3);
+                            setRotor(0);
                         }, null);
                     }
                 }
-
-                /*
-                 * 
-                 * not needed anymore?!
-                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && justme &&false)
-                {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        int i = Convert.ToInt32(e.PropertyName[15]) - 65;
-                        int j = Convert.ToInt32(e.PropertyName[16]) - 65;
-                        switchbuttons(i, j);
-
-                        Debug.Text = j + "" + i;
-
-                    }, null);
-                }
-                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && !justme && false)
-                {
-                    test++;
-                }*/
                 
                 if (e.PropertyName == "Remove all Plugs" && justme)
                 {
@@ -330,225 +539,100 @@ namespace Cryptool.Enigma
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                       
+                        
+                        /*
                         for (int i = 0; i < bList.Length; i++)
-                            if (Int32.Parse(bList[i].Content.ToString()) != Int32.Parse(settings.PlugBoard[i] - 65 + ""))
-                                {
-                                    for (int ix = 0; ix < i; ix++)
-                                    {
-                                        if (Int32.Parse(bList[ix].Content.ToString()) != Int32.Parse(settings.PlugBoard[ix] - 65 + ""))
-                                        {
-                                            switchbuttons(Int32.Parse(bList[ix].Content.ToString()),
-                                                          Int32.Parse(bList[ix].Uid));
-                                        }
-                                    }
-                                    switchbuttons(Int32.Parse(bList[i].Content.ToString()),Int32.Parse(bList[i].Uid));
-                                    switchbuttons(Int32.Parse(bList[i].Uid), Int32.Parse(bList[settings.PlugBoard[i] - 65].Uid));
-                                }
-
-                    }, null);
-                }
-
-                if (e.PropertyName == "Reflector" && justme  )
-                {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                            dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
-                            if (walze != null)
+                        {
+                            if (!bList[i].Uid.Equals(bList[i].Content.ToString()))
                             {
-                                Image img = new Image();
-                                img.Height = 100;
-                                img.Width = 50;
-                                BitmapImage bi = new BitmapImage();
-                                bi.BeginInit();
-                                bi.UriSource = new Uri("Images/Walze" + walze.typ + ".png", UriKind.Relative);
-                                bi.EndInit();
-                                img.Source = bi;
-
-
-                                Canvas.SetLeft(img, 50*walze.typ);
-
-                                dropBoxCanvasWalze.Children.Add(img);
-                                img.Uid = "" + walze.typ;
-                                img.Cursor = Cursors.Hand;
-
-                                img.PreviewMouseMove += Walze_MouseMove1;
-                                walzeimgs[walze.typ - 1] = img;
-                                walzenarea.Children.Remove(walze);
-
+                                switchbuttons(Int32.Parse(bList[i].Content.ToString()), Int32.Parse(bList[i].Uid));
                             }
+                        }
+                        for (int ix = 0; ix < bList.Length; ix++)
+                        for (int i = 0; i < bList.Length; i++)
+                        {
+                            if (Int32.Parse(bList[i].Content + "") != settings.PlugBoard[i] - 65)
+                            {
+                                switchbuttons(i, settings.PlugBoard[i] - 65);
+                            }
+                        }*/
 
-                        Walze walze1 = new Walze(settings.Reflector + 1, this.Width, this.Height);
-                                //walze1.fast = speed * 80;
-                                Canvas.SetLeft(walze1, 0);
-                                Canvas.SetTop(walze1, 60);
-                                walzenarea.Children.Add(walze1);
-                                walze1.Cursor = Cursors.Hand;
-                                walze1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-                                walze1.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
-                                this.walze = walze1;
+                        for (int i = 0; i < bList.Length; i++)
+                        {
+
+                            
+                            
+                            if (Int32.Parse(bList[i].Content.ToString()) != Int32.Parse(settings.PlugBoard[i] - 65 + ""))
+                            {
+                                for (int ix = 0; ix < i; ix++)
+                                {
+                                    if (Int32.Parse(bList[ix].Content.ToString()) != Int32.Parse(settings.PlugBoard[ix] - 65 + ""))
+                                    {
+                                        switchbuttons(Int32.Parse(bList[ix].Content.ToString()),
+                                                      Int32.Parse(bList[ix].Uid));
+                                    }
+                                }
+                                //switchbuttons(Int32.Parse(bList[i].Content.ToString()),Int32.Parse(bList[i].Uid));
+                                switchbuttons(Int32.Parse(bList[i].Uid), Int32.Parse(bList[settings.PlugBoard[i] - 65].Uid));
+                            }
+                        }
                             
 
                     }, null);
-                    
-                    
                 }
 
-                if (e.PropertyName == "Rotor1" && justme )
+                if (e.PropertyName == "Reflector"   )
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor1]);
+                        if(walze != null)
+                        {
+                            setImage(false,walze.typ-1);
+                        }
+                        setReflector();
 
+                    }, null);
+                    
+                    
+                }
+                
+                if (e.PropertyName == "Rotor1")
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                       
                         if (rotorarray[2] != null)
                         {
-                            Image img = new Image();
-                            img.Height = 100;
-                            img.Width = 50;
-                            BitmapImage bi = new BitmapImage();
-
-                            bi.BeginInit();
-                            bi.UriSource = new Uri("Images/rotor" + rotorarray[2].map + ".png", UriKind.Relative);
-                            bi.EndInit();
-                            img.Source = bi;
-
-
-                            Canvas.SetLeft(img, 50 * rotorarray[2].map);
-
-                            dropBoxCanvas.Children.Add(img);
-                            img.Uid = "" + (rotorarray[2].map);
-                            img.Cursor = Cursors.Hand;
-
-                            img.PreviewMouseMove += Rotor_MouseMove1;
-                            rotorimgs[rotorarray[2].map - 1] = img;
-
-                            rotorarea.Children.Remove(rotorarray[2]);
+                            setImage(true, rotorarray[2].map-1);
                         }
-
-                        Rotor2 rotor = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key.ToUpper()[2] - 65, settings.Ring1);
-
-                        rotor.updone += changeSettings;
-                        rotor.downdone += changeSettings;
-                        rotor.up1done += changeSettings;
-                        rotor.down1done += changeSettings;
-
-
-
-                        rotor.Cursor = Cursors.Hand;
-                        rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-                        Canvas.SetLeft(rotor, 460);
-                        rotorarea.Children.Add(rotor);
-                        rotor.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-
-                        rotorarray[2] = rotor;
-
-
-
+                        setRotor(2);
                     }, null);
                 }
 
-                if (e.PropertyName == "Rotor2" && justme)
+                if (e.PropertyName == "Rotor2" )
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         if (rotorarray[1] != null)
                         {
-                            dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor2]);
-                            Image img = new Image();
-                            img.Height = 100;
-                            img.Width = 50;
-                            BitmapImage bi = new BitmapImage();
-                            bi.BeginInit();
-
-                            bi.UriSource = new Uri("Images/rotor" + rotorarray[1].map + ".png", UriKind.Relative);
-                            bi.EndInit();
-                            img.Source = bi;
-                            dropBoxCanvas.Children.Add(img);
-                            Canvas.SetLeft(img, 50 * rotorarray[1].map);
-                            img.Uid = "" + (rotorarray[1].map);
-                            img.Cursor = Cursors.Hand;
-
-                            img.PreviewMouseMove += Rotor_MouseMove1;
-
-                            rotorimgs[rotorarray[1].map - 1] = img;
-
-
-                            rotorarea.Children.Remove(rotorarray[1]);
+                            setImage(true, rotorarray[1].map-1);
                         }
-                        Rotor2 rotor = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key.ToUpper()[1] - 65, settings.Ring2);
-
-
-                        rotor.updone += changeSettings;
-                        rotor.downdone += changeSettings;
-                        rotor.up1done += changeSettings;
-                        rotor.down1done += changeSettings;
-
-
-
-                        rotor.Cursor = Cursors.Hand;
-                        rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-                        Canvas.SetLeft(rotor, 230);
-                        rotorarea.Children.Add(rotor);
-                        rotor.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-
-                        rotorarray[1] = rotor;
-
+                        setRotor(1);
                     }, null);
                 }
 
-                if (e.PropertyName == "Rotor3" && justme)
+                if (e.PropertyName == "Rotor3" )
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-
-                        dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor3]);
-
-
                         if (rotorarray[0] != null)
                         {
-                            Image img = new Image();
-                            img.Height = 100;
-                            img.Width = 50;
-                            BitmapImage bi = new BitmapImage();
-                            bi.BeginInit();
-                            if (rotorarray[0] != null)
-                                bi.UriSource = new Uri("Images/rotor" + rotorarray[0].map + ".png", UriKind.Relative);
-                            bi.EndInit();
-                            img.Source = bi;
-                            dropBoxCanvas.Children.Add(img);
-                            Canvas.SetLeft(img, 50 * rotorarray[0].map);
-                            img.Uid = "" + (rotorarray[0].map);
-                            img.Cursor = Cursors.Hand;
-
-                            img.PreviewMouseMove += Rotor_MouseMove1;
-
-                            rotorimgs[rotorarray[0].map - 1] = img;
-
-
-                            rotorarea.Children.Remove(rotorarray[0]);
-
+                            setImage(true, rotorarray[0].map-1);
                         }
-
-                        Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key.ToUpper()[0] - 65, settings.Ring3);
-
-
-                        rotor.updone += changeSettings;
-                        rotor.downdone += changeSettings;
-                        rotor.up1done += changeSettings;
-                        rotor.down1done += changeSettings;
-
-
-
-                        rotor.Cursor = Cursors.Hand;
-                        rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-                        Canvas.SetLeft(rotor, 0);
-                        rotorarea.Children.Add(rotor);
-                        rotor.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-
-                        rotorarray[0] = rotor;
+                        setRotor(0);
                     }, null);
                 }
-
+                
                 if (justme)
                 {
                      Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -580,9 +664,11 @@ namespace Cryptool.Enigma
             ars = new AutoResetEvent(false);
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
-            facade.Settings.PropertyChanged += settings_OnPropertyChange;
+            
 
             PresentationDisabled = new DisabledBool();
+
+            
 
             storyboard1 = new Storyboard();
             storyboard1.Completed += prefadeout1;
@@ -780,19 +866,14 @@ namespace Cryptool.Enigma
                     schalterlist3.Add(hschalter);
                     modz++;
                 }
-
-
-
                 tList[i] = taste;
             }
 
             batterieMalen();
-
+            
             rotorlocks1 = rotorlocks();
             rotorlocks2 = rotorlocks();
             rotorlocks3 = rotorlocks();
-
-
 
             Canvas.SetLeft(rotorlocks1, 200);
             Canvas.SetLeft(rotorlocks2, 430);
@@ -802,173 +883,26 @@ namespace Cryptool.Enigma
             rotorarea.Children.Add(rotorlocks2);
             rotorarea.Children.Add(rotorlocks3);
 
-            Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key.ToUpper()[0] - 65, settings.Ring1);
-            rotor.updone += changeSettings;
-            rotor.downdone += changeSettings;
-            rotor.up1done += changeSettings;
-            rotor.down1done += changeSettings;
-
-
-            rotor.Cursor = Cursors.Hand;
-            Canvas.SetLeft(rotor, 0);
-            rotorarea.Children.Add(rotor);
-            rotorarray[0] = rotor;
-
-            rotor.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-
             dropBox.Drop += List_Drop2;
             dropBoxWalze.Drop += List_Drop21;
 
+            for (int i = 0; i < 3;i++ )
+            {
+                setRotor(i);
+            }
 
-            Walze walze = new Walze(settings.Reflector + 1, this.Width, this.Height);
-            
-            Canvas.SetLeft(walze, 0);
-            Canvas.SetTop(walze, 60);
-            walzenarea.Children.Add(walze);
-            walze.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            walze.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
-            walze.Cursor = Cursors.Hand;
-            this.walze = walze;
-
-            Rotor2 rotor1 = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key.ToUpper()[1] - 65, settings.Ring1);
-            rotor1.updone += changeSettings;
-            rotor1.downdone += changeSettings;
-            rotor1.up1done += changeSettings;
-            rotor1.down1done += changeSettings;
-
-            rotor1.Cursor = Cursors.Hand;
-            rotor1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            Canvas.SetLeft(rotor1, 230);
-            rotorarea.Children.Add(rotor1);
-            rotor1.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-
-            rotorarray[1] = rotor1;
-
-            Rotor2 rotor2 = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key.ToUpper()[2] - 65, settings.Ring1);
-            rotor2.updone += changeSettings;
-            rotor2.downdone += changeSettings;
-            rotor2.up1done += changeSettings;
-            rotor2.down1done += changeSettings;
-            rotor2.Cursor = Cursors.Hand;
-            rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            Canvas.SetLeft(rotor2, 460);
-            rotorarea.Children.Add(rotor2);
-            rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotorarray[2] = rotor2;
+            setReflector();
 
 
+            for (int i = 0; i < 8;i++ )
+            {
+                setImage(true,i);
+            }
 
-            Image img1 = new Image();
-            img1.Height = 100;
-            img1.Width = 50;
-            BitmapImage bi11 = new BitmapImage();
-            bi11.BeginInit();
-            bi11.UriSource = new Uri("Images/Walze2.png", UriKind.Relative);
-            bi11.EndInit();
-            img1.Source = bi11;
-            dropBoxCanvasWalze.Children.Add(img1);
-            Canvas.SetLeft(img1, 50 * 1);
-            img1.Uid = "1";
-            img1.Cursor = Cursors.Hand;
-
-            Image img2 = new Image();
-            img2.Height = 100;
-            img2.Width = 50;
-            BitmapImage bi12 = new BitmapImage();
-            bi12.BeginInit();
-            bi12.UriSource = new Uri("Images/Walze3.png", UriKind.Relative);
-            bi12.EndInit();
-            img2.Source = bi12;
-            dropBoxCanvasWalze.Children.Add(img2);
-            Canvas.SetLeft(img2, 50 * 3);
-            img2.Uid = "3";
-            img2.Cursor = Cursors.Hand;
-
-            Image img4 = new Image();
-            img4.Height = 100;
-            img4.Width = 50;
-            BitmapImage bi1 = new BitmapImage();
-            bi1.BeginInit();
-            bi1.UriSource = new Uri("Images/rotor5.png", UriKind.Relative);
-            bi1.EndInit();
-            img4.Source = bi1;
-            dropBoxCanvas.Children.Add(img4);
-            Canvas.SetLeft(img4, 50 * 5);
-            img4.Uid = "5";
-            img4.Cursor = Cursors.Hand;
-
-            Image img3 = new Image();
-            img3.Height = 100;
-            img3.Width = 50;
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            bi.UriSource = new Uri("Images/rotor4.png", UriKind.Relative);
-            bi.EndInit();
-            img3.Source = bi;
-            dropBoxCanvas.Children.Add(img3);
-            Canvas.SetLeft(img3, 50 * 4);
-            img3.Uid = "4";
-            img3.Cursor = Cursors.Hand;
-
-            Image img6 = new Image();
-            img6.Height = 100;
-            img6.Width = 50;
-            BitmapImage bi6 = new BitmapImage();
-            bi6.BeginInit();
-            bi6.UriSource = new Uri("Images/rotor6.png", UriKind.Relative);
-            bi6.EndInit();
-            img6.Source = bi6;
-            dropBoxCanvas.Children.Add(img6);
-            Canvas.SetLeft(img6, 50 * 6);
-            img6.Uid = "6";
-            img6.Cursor = Cursors.Hand;
-
-            Image img7 = new Image();
-            img7.Height = 100;
-            img7.Width = 50;
-            BitmapImage bi7 = new BitmapImage();
-            bi7.BeginInit();
-            bi7.UriSource = new Uri("Images/rotor7.png", UriKind.Relative);
-            bi7.EndInit();
-            img7.Source = bi7;
-            dropBoxCanvas.Children.Add(img7);
-            Canvas.SetLeft(img7, 50 * 7);
-            img7.Uid = "7";
-            img7.Cursor = Cursors.Hand;
-
-            Image img8 = new Image();
-            img8.Height = 100;
-            img8.Width = 50;
-            BitmapImage bi8 = new BitmapImage();
-            bi8.BeginInit();
-            bi8.UriSource = new Uri("Images/rotor8.png", UriKind.Relative);
-            bi8.EndInit();
-            img8.Source = bi8;
-            dropBoxCanvas.Children.Add(img8);
-            Canvas.SetLeft(img8, 50 * 8);
-            img8.Uid = "8";
-            img8.Cursor = Cursors.Hand;
-
-            rotorimgs[3] = img3;
-            rotorimgs[4] = img4;
-            rotorimgs[5] = img6;
-            rotorimgs[6] = img7;
-            rotorimgs[7] = img8;
-
-
-
-            walzeimgs[1] = img1;
-            walzeimgs[2] = img2;
-            img3.PreviewMouseMove += Rotor_MouseMove1;
-            img4.PreviewMouseMove += Rotor_MouseMove1;
-
-            img6.PreviewMouseMove += Rotor_MouseMove1;
-            img7.PreviewMouseMove += Rotor_MouseMove1;
-            img8.PreviewMouseMove += Rotor_MouseMove1;
-
-            img1.PreviewMouseMove += Walze_MouseMove1;
-            img2.PreviewMouseMove += Walze_MouseMove1;
+            for (int i = 1; i < 3; i++)
+            {
+                setImage(false, i);
+            }
 
             fadeIn.From = 0.0;
             fadeIn.To = 1.0;
@@ -1078,10 +1012,6 @@ namespace Cryptool.Enigma
 
                     }
                     
-
-                    rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
-                    rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
-                    rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
                     playClick(null, EventArgs.Empty);
                 }
 
@@ -1123,9 +1053,7 @@ namespace Cryptool.Enigma
                         inputPanel.Children.Insert(pos, t);
                         inputtebo.Insert(pos, t);
 
-                        
                     }
-                    
                 }
 
 
@@ -1376,7 +1304,7 @@ namespace Cryptool.Enigma
             k.Height = 40;
             k.Width = 40;
             k.Stroke = Brushes.Black;
-            //k.Fill = Brushes.DimGray;
+            
             Canvas.SetTop(k, 20);
             Canvas.SetLeft(k, 3);
 
@@ -1388,7 +1316,7 @@ namespace Cryptool.Enigma
             b.FontSize = 25;
             b.Width = 40;
             b.TextAlignment = TextAlignment.Center;
-            //b.Background = Brushes.GreenYellow;
+            
             Canvas.SetTop(b, 22);
             Canvas.SetLeft(b, 3);
 
@@ -1721,8 +1649,7 @@ namespace Cryptool.Enigma
                 drawLines[4] = l4;
 
                 int fromboardhelp = fromboard;
-                //textBlocksToAnimate[0].Background = Brushes.Green;
-
+                
                 StackPanel dummyLock1 = (StackPanel)rotorlocks3.Children[0];
                 int ein = 0;
                 if (mfouron)
@@ -1739,14 +1666,12 @@ namespace Cryptool.Enigma
                 ein = rotorarray[2].mapto(fromboard);
                 dummyLock1 = (StackPanel)rotorlocks2.Children[0];
                 textBlocksToAnimate[1] = (TextBlock)dummyLock1.Children[ein];
-                //textBlocksToAnimate[1].Background = Brushes.Green;
-
+                
                 int ein1 = 0;
                 ein1 = rotorarray[1].mapto(ein);
                 dummyLock1 = (StackPanel)rotorlocks1.Children[0];
                 textBlocksToAnimate[2] = (TextBlock)dummyLock1.Children[ein1];
-                //textBlocksToAnimate[2].Background = Brushes.Green;
-
+                
                 int ein2 = 0;
                 ein2 = rotorarray[0].mapto(ein1);
                 int ein3 = walze.umkehrlist0(ein2, off);
@@ -1754,22 +1679,17 @@ namespace Cryptool.Enigma
                 int ein4 = rotorarray[0].maptoreverse(ein3);
                 dummyLock1 = (StackPanel)rotorlocks1.Children[0];
                 textBlocksToAnimate[3] = (TextBlock)dummyLock1.Children[ein4];
-                //textBlocksToAnimate[3].Background = Brushes.Red;
-
-
+                
                 int ein5 = rotorarray[1].maptoreverse(ein4);
 
                 dummyLock1 = (StackPanel)rotorlocks2.Children[0];
                 textBlocksToAnimate[4] = (TextBlock)dummyLock1.Children[ein5];
-                //textBlocksToAnimate[4].Background = Brushes.Red;
-
-
+                
                 int ein6 = rotorarray[2].maptoreverse(ein5);
 
                 dummyLock1 = (StackPanel)rotorlocks3.Children[0];
                 textBlocksToAnimate[5] = (TextBlock)dummyLock1.Children[ein6];
-                //textBlocksToAnimate[5].Background = Brushes.Red;
-
+                
                 if (mfouron)
                 {
                     int dummyein6 = 0;
@@ -2128,7 +2048,11 @@ namespace Cryptool.Enigma
 
         public void resetkey()
         {
+            setRotor(0);
+            setRotor(1);
+            setRotor(2);
 
+            /*
             if (rotorarray[2] != null)
             {
                 if (settings.Key.ToUpper()[2] - 65>0)
@@ -2146,7 +2070,7 @@ namespace Cryptool.Enigma
                 if (settings.Key.ToUpper()[0] - 65 > 0)
                 rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
              
-            }
+            }*/
         }
 
         public void stopclick(object sender, EventArgs e)
@@ -2156,13 +2080,7 @@ namespace Cryptool.Enigma
                 storyboard1.Stop();
                 storyboard.Stop();
                 
-                //mainmainmain.Children.Remove(dummycanvas);
-               //this.IsEnabled = true;
                 resetkey();
-                //rotorarray[0].stop = true;
-                //rotorarray[1].stop = true;
-                //rotorarray[2].stop = true;
-                //walze.stop = true;
                 stop = true;
                 inputPanel.Children.Clear();
                 outputPanel.Children.Clear();
@@ -2175,7 +2093,7 @@ namespace Cryptool.Enigma
             }, null);
         }
 
-        private void m4onClick(object sender, EventArgs e)
+        private void m4onClick(object sender, EventArgs e) //not functional
         {
             mfouron = true;
             everythingblack();
@@ -2185,15 +2103,13 @@ namespace Cryptool.Enigma
 
             rotorarea.Children.Add(rotorlocks4);
 
-            Rotor2 rotor4 = new Rotor2(4, this.Width, this.Height, 0, 0);
+            Rotor2 rotor4 = new Rotor2(settings.Model, 4, this.Width, this.Height, 0, 0);
             rotor4.Cursor = Cursors.Hand;
             rotor4.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
             Canvas.SetLeft(rotor4, 688);
             rotorarea.Children.Add(rotor4);
 
             rotor4.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-
-
 
             rotorarray[3] = rotorarray[2];
             rotorarray[2] = rotorarray[1];
@@ -2239,10 +2155,6 @@ namespace Cryptool.Enigma
                     dummycanvas.Cursor = Cursors.No;
                     dummycanvas.Background = Brushes.Transparent;
 
-                    //mainmainmain.Children.Add(dummycanvas);
-                    //this.IsEnabled = false;
-
-
                     everythingblack();
                     ColorAnimation colorani = new ColorAnimation();
 
@@ -2266,8 +2178,6 @@ namespace Cryptool.Enigma
                     playbool = true;
                     letterInput(bList[x], EventArgs.Empty);
 
-
-                    //inputtebo[0].Opacity = 0.0;
                 }
             }, null);
 
@@ -2285,7 +2195,6 @@ namespace Cryptool.Enigma
                 dummycanvas.Cursor = Cursors.No;
                 dummycanvas.Background = Brushes.Transparent;
 
-                //mainmainmain.Children.Add(dummycanvas);
                 this.IsEnabled = false;
 
                 timecounter = 0.0;
@@ -2335,7 +2244,6 @@ namespace Cryptool.Enigma
             }
             if (!playbool)
             {
-                //mainmainmain.Children.Remove(dummycanvas);
                 mainmainmain.Children.Remove(tb);
                 this.IsEnabled = true;
             }
@@ -2359,29 +2267,14 @@ namespace Cryptool.Enigma
 
                         sb.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
-                        //sb2.BeginTime = TimeSpan.FromMilliseconds(timecounter);
-                        //storyboard1.Children.Add(rotorarray[2].upperclicksb(false));
-                        //rotorarray[2].upperclicksb(false).Begin();
-
                         storyboard.Children.Add(sb);
-
-                        //storyboard.Children.Add(sb2);
-
-                        if (rotorarray[0].next)
-                        {
-
-                            //rotorarray[1].upperclick(sender, EventArgs.Empty);
-                        }
 
                         if (rotorarray[2].next)
                         {
-                            //  rotorarray[1].upperclick(sender, EventArgs.Empty);
                             Storyboard sb3 = rotorarray[1].upperclicksb(false);
-                            //Storyboard sb4 = rotorarray[1].helpupperclicksb(false);
                             sb3.BeginTime = TimeSpan.FromMilliseconds(timecounter);
-                            //sb4.BeginTime = TimeSpan.FromMilliseconds(timecounter);
                             storyboard.Children.Add(sb3);
-                            //storyboard.Children.Add(sb4);
+                            
                         }
 
                         if (rotorarray[1].next)
@@ -2389,22 +2282,16 @@ namespace Cryptool.Enigma
                             if (!rotorarray[2].next)
                             {
                                 Storyboard sb5 = rotorarray[1].upperclicksb(false);
-                                //Storyboard sb6 = rotorarray[1].helpupperclicksb(false);
                                 sb5.BeginTime = TimeSpan.FromMilliseconds(timecounter);
-                                //sb6.BeginTime = TimeSpan.FromMilliseconds(timecounter);
                                 storyboard.Children.Add(sb5);
-                                //storyboard.Children.Add(sb6);
+                            
                             }
                             Storyboard sb7 = rotorarray[0].upperclicksb(false);
-                            //Storyboard sb8 = rotorarray[0].helpupperclicksb(false);
+                            
                             sb7.BeginTime = TimeSpan.FromMilliseconds(timecounter);
-                            //sb8.BeginTime = TimeSpan.FromMilliseconds(timecounter);
+                            
                             storyboard.Children.Add(sb7);
-                            //storyboard.Children.Add(sb8);
-
-                            //rotorarray[1].upperclick(sender, EventArgs.Empty);
-                            //rotorarray[0].upperclick(sender, EventArgs.Empty);
-
+                            
                         }
 
                         Line l = new Line();
@@ -2414,9 +2301,7 @@ namespace Cryptool.Enigma
                         DoubleAnimation animax2 = new DoubleAnimation();
 
                         Line[] line = schalterlist[Int32.Parse(temp.Uid)];
-                        //line[0].Y2 = 27;
-                        //line[1].Y1 = 27;
-
+                        
                         animax.From = line[0].Y2;
                         animax.To = 27;
 
@@ -2440,17 +2325,13 @@ namespace Cryptool.Enigma
 
                         storyboard.Begin();
                         storyboard.SetSpeedRatio(speed);
-                        //l.BeginAnimation(OpacityProperty, nop);
-                        //stop = false;
                     }
                 }
                 else
                 {
                     if (rotorarray[0] != null && rotorarray[1] != null && rotorarray[2] != null &&
                         rotorarray[3] != null && walze != null)
-                    {
-
-                        //stop = true;
+                    { 
                         blupp = false;
                         temp = sender as Button;
                         everythingblack();
@@ -2473,10 +2354,6 @@ namespace Cryptool.Enigma
 
                         }
 
-
-
-
-
                         Line l = new Line();
                         mainmainmain.Children.Add(l);
 
@@ -2484,9 +2361,7 @@ namespace Cryptool.Enigma
                         DoubleAnimation animax2 = new DoubleAnimation();
 
                         Line[] line = schalterlist[Int32.Parse(temp.Uid)];
-                        //line[0].Y2 = 27;
-                        //line[1].Y1 = 27;
-
+                        
                         animax.From = line[0].Y2;
                         animax.To = 27;
 
@@ -2499,9 +2374,6 @@ namespace Cryptool.Enigma
                         animax2.Duration = new Duration(TimeSpan.FromMilliseconds((speed * 80)));
                         line[1].BeginAnimation(Line.Y1Property, animax);
 
-
-                        //l.BeginAnimation(OpacityProperty, nop);
-                        //stop = false;
                     }
                 }
             }
@@ -2531,8 +2403,6 @@ namespace Cryptool.Enigma
 
                 if (rotorarray[2].next)
                 {
-                    //  rotorarray[1].upperclick(sender, EventArgs.Empty);
-
                     Storyboard sb4 = rotorarray[1].helpupperclicksb(false);
                     sb4.Begin();
                 }
@@ -2837,8 +2707,6 @@ namespace Cryptool.Enigma
                 Storyboard.SetTargetProperty(mydouble, new PropertyPath("(X2)"));
                 Storyboard.SetTargetProperty(mydouble1, new PropertyPath("(Y2)"));
 
-                //mydouble.Completed += helptoanimate;
-
                 timecounter += abst;
 
 
@@ -2876,21 +2744,6 @@ namespace Cryptool.Enigma
                     batterie.Children.Add(l1);
                 }
 
-                if (l == batterie.Children[2])
-                {
-                    //blupp = true;
-                }
-
-                if (l == batterie.Children[2] && playbool)
-                {
-                    Debug.Text = "tatütatatütatatatü";
-                    //mydouble.Completed -= helptoanimate21;
-                    //mydouble.Completed += nextPlease;
-
-                }
-
-                //l1.BeginAnimation(Line.X2Property, mydouble);
-                //l1.BeginAnimation(Line.Y2Property, mydouble1);
                 linesToThrowAway.Add(l1);
             }
         }
@@ -2944,8 +2797,6 @@ namespace Cryptool.Enigma
             Storyboard.SetTargetProperty(mydouble, new PropertyPath("(X2)"));
             Storyboard.SetTargetProperty(mydouble1, new PropertyPath("(Y2)"));
 
-            //mydouble.Completed += helptoanimate;
-
             timecounter += abst;
 
             foreach (Canvas c in schalterlist3)
@@ -2982,8 +2833,6 @@ namespace Cryptool.Enigma
                 batterie.Children.Add(l1);
             }
 
-            //l1.BeginAnimation(Line.X2Property, mydouble);
-            //l1.BeginAnimation(Line.Y2Property, mydouble1);
             linesToThrowAway.Add(l1);
 
 
@@ -3029,17 +2878,6 @@ namespace Cryptool.Enigma
                 colorAni.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
                 colorAni.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
-                /*if (c)
-                    colorAni.Completed += helptoanimate;
-                else
-                    colorAni.Completed += helptoanimate21;
-                
-                
-                //brush.BeginAnimation(SolidColorBrush.ColorProperty, colorAni);
-                */
-
-                Debug.Text = "hääääääääääääääääääääää";
-
                 Storyboard.SetTarget(colorAni, tebo);
 
                 Storyboard.SetTargetProperty(colorAni, new PropertyPath("(Button.Background).(SolidColorBrush.Color)"));
@@ -3069,16 +2907,6 @@ namespace Cryptool.Enigma
                 colorAni.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
                 colorAni.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
-                /*if (c)
-                    colorAni.Completed += helptoanimate;
-                else
-                    colorAni.Completed += helptoanimate21;
-                */
-
-                //brush.BeginAnimation(SolidColorBrush.ColorProperty, colorAni);
-
-
-
                 Storyboard.SetTarget(colorAni, tebo);
 
 
@@ -3088,10 +2916,6 @@ namespace Cryptool.Enigma
 
 
                 timecounter += 1000;
-
-
-                //mydouble.Completed += helptoanimate;
-
 
             }
         }
@@ -3177,8 +3001,6 @@ namespace Cryptool.Enigma
 
                 sbret.Children.Add(fadeIn2);
 
-
-
                 ColorAnimation colorani = new ColorAnimation();
 
                 colorani.From = Colors.Orange;
@@ -3192,11 +3014,6 @@ namespace Cryptool.Enigma
 
                 sbret.Children.Add(colorani);
 
-
-
-                //brush0.BeginAnimation(SolidColorBrush.ColorProperty, colorani0);
-                //inputtebo[inputcounter - 1].Background = brush0;
-
                 DoubleAnimation fadeOut2 = new DoubleAnimation();
                 fadeOut2.From = 1.0;
                 fadeOut2.To = 0.5;
@@ -3204,8 +3021,7 @@ namespace Cryptool.Enigma
                 fadeOut2.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
 
                 timecounterint += 1000;
-                //inputtebo[inputcounter - 1].BeginAnimation(OpacityProperty, fadeOut2);
-
+                
                 Storyboard.SetTarget(fadeOut2, inputtebo[inputcounter ]);
                 Storyboard.SetTargetProperty(fadeOut2, new PropertyPath("(Opacity)"));
 
@@ -3227,11 +3043,6 @@ namespace Cryptool.Enigma
 
                 inputcounter++;
 
-                //colorani.Completed += nextPlease1;
-                //brush.BeginAnimation(SolidColorBrush.ColorProperty, colorani);
-
-                //fadeIn2.Completed += nextPlease0;
-                //t.BeginAnimation(OpacityProperty,fadeIn2);
             }
 
             return sbret;
@@ -3892,8 +3703,6 @@ namespace Cryptool.Enigma
             int myInteger1 = Int32.Parse(uID);
             int myInteger2 = Int32.Parse(button.Uid);
 
-            Debug.Text += " " + myInteger1 + "" + myInteger2;
-            Debug.Text = "hossa";
             if (b && (button.Content.ToString().Equals(button.Uid) || Int32.Parse(button.Content.ToString()).Equals(myInteger1)))
             {
                 switchbuttons(myInteger1, myInteger2);
@@ -3917,64 +3726,10 @@ namespace Cryptool.Enigma
         {
             suc = true;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
-
             dropBoxCanvas.AllowDrop = false;
 
             int urint = Int32.Parse(uID);
-
-
-            Image img = new Image();
-            img.Height = 100;
-            img.Width = 50;
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            String path = "";
-            switch (urint)
-            {
-                case 1: img.Uid = "1";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 2: img.Uid = "2";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 3: img.Uid = "3";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 4: img.Uid = "4";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 5: img.Uid = "5";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 6: img.Uid = "6";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 7: img.Uid = "7";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-                case 8: img.Uid = "8";
-                    path = "Images/rotor" + urint + ".png";
-                    rotorimgs[urint - 1] = img;
-                    break;
-
-            }
-
-            bi.UriSource = new Uri(path, UriKind.Relative);
-            bi.EndInit();
-            img.Source = bi;
-            dropBoxCanvas.Children.Add(img);
-            Canvas.SetLeft(img, 50 * urint);
-
-            img.Cursor = Cursors.Hand;
-            img.PreviewMouseMove += Rotor_MouseMove1;
+            setImage(true,urint-1);
 
         }
 
@@ -3984,42 +3739,12 @@ namespace Cryptool.Enigma
             suc = true;
 
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
-
+            
             dropBoxCanvasWalze.AllowDrop = false;
             walzenarea.AllowDrop = false;
-
             int urint = Int32.Parse(uID);
 
-            Image img = new Image();
-            img.Height = 100;
-            img.Width = 50;
-            BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            String path = "";
-            switch (urint)
-            {
-                case 1: img.Uid = "1";
-                    path = "Images/Walze" + urint + ".png";
-                    walzeimgs[urint - 1] = img;
-                    break;
-                case 2: img.Uid = "2";
-                    path = "Images/Walze" + urint + ".png";
-                    walzeimgs[urint - 1] = img;
-                    break;
-                case 3: img.Uid = "3";
-                    path = "Images/Walze" + urint + ".png";
-                    walzeimgs[urint - 1] = img;
-                    break;
-            }
-
-            bi.UriSource = new Uri(path, UriKind.Relative);
-            bi.EndInit();
-            img.Source = bi;
-            Canvas.SetLeft(img, 50 * urint);
-            dropBoxCanvasWalze.Children.Add(img);
-            img.Cursor = Cursors.Hand;
-            img.PreviewMouseMove += Walze_MouseMove1;
+            setImage(false, urint - 1);
         }
 
         private void List_Drop31(object sender, DragEventArgs e)
@@ -4029,24 +3754,20 @@ namespace Cryptool.Enigma
 
             dropBoxCanvas.AllowDrop = false;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[1] - 65, settings.Ring2);
-            Canvas.SetLeft(rotor2, 230);
-            rotorarea.Children.Add(rotor2);
-            rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotorarray[1] = rotor2;
-
-            rotor2.updone += changeSettings;
-            rotor2.downdone += changeSettings;
-            rotor2.up1done += changeSettings;
-            rotor2.down1done += changeSettings;
-
+       
             rotorarea.Children.Remove(dummyrec[1]);
-            rotor2.Cursor = Cursors.Hand;
-            rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            settings.Rotor2 = urint - 1;
+            if (settings.Rotor2 == urint - 1)
+            {
+                setRotor(1);
+            }
+            else
+            {
+                settings.Rotor2 = urint - 1;
+            }
+            
+       
         }
 
         private void List_Drop32(object sender, DragEventArgs e)
@@ -4055,25 +3776,18 @@ namespace Cryptool.Enigma
             rotorarea.AllowDrop = false;
             dropBoxCanvas.AllowDrop = false;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[2] - 65, settings.Ring1);
-            Canvas.SetLeft(rotor2, 460);
-            rotorarea.Children.Add(rotor2);
-            rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotorarray[2] = rotor2;
-
-            rotor2.updone += changeSettings;
-            rotor2.downdone += changeSettings;
-            rotor2.up1done += changeSettings;
-            rotor2.down1done += changeSettings;
-
-
+    
             rotorarea.Children.Remove(dummyrec[2]);
-            rotor2.Cursor = Cursors.Hand;
-            rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            settings.Rotor1 = urint - 1;
+            if (settings.Rotor1 == urint - 1)
+            {
+                setRotor(2);
+            }
+            else
+            {
+                settings.Rotor1 = urint - 1;
+            }
         }
 
         private void List_Drop33(object sender, DragEventArgs e)
@@ -4082,22 +3796,12 @@ namespace Cryptool.Enigma
             rotorarea.AllowDrop = false;
             dropBoxCanvas.AllowDrop = false;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, 0, 0);
-            Canvas.SetLeft(rotor2, 690);
-            rotorarea.Children.Add(rotor2);
-            rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotorarray[3] = rotor2;
-            rotor2.updone += changeSettings;
-            rotor2.downdone += changeSettings;
-            rotor2.up1done += changeSettings;
-            rotor2.down1done += changeSettings;
-
+            
             rotorarea.Children.Remove(dummyrec[3]);
-            rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
             settings.Rotor4 = urint - 1;
+            
         }
 
         private void List_Drop30(object sender, DragEventArgs e)
@@ -4106,27 +3810,17 @@ namespace Cryptool.Enigma
             rotorarea.AllowDrop = false;
             dropBoxCanvas.AllowDrop = false;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[0] - 65, settings.Ring3);
-            Canvas.SetLeft(rotor2, 0);
-            rotorarea.Children.Add(rotor2);
-            rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
-            rotorarray[0] = rotor2;
-
-            rotor2.updone += changeSettings;
-            rotor2.downdone += changeSettings;
-            rotor2.up1done += changeSettings;
-            rotor2.down1done += changeSettings;
-
-
             rotorarea.Children.Remove(dummyrec[0]);
-            rotor2.Cursor = Cursors.Hand;
-            rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            settings.Rotor3 = urint - 1;
-
-
+            if (settings.Rotor3 == urint - 1)
+            {
+                setRotor(0);
+            }
+            else
+            {
+                settings.Rotor3 = urint - 1;
+            }
         }
 
         private void List_Drop4(object sender, DragEventArgs e)
@@ -4135,44 +3829,29 @@ namespace Cryptool.Enigma
             walzenarea.AllowDrop = false;
             dropBoxCanvasWalze.AllowDrop = false;
             String uID = e.Data.GetData("myFormat") as String;
-            Debug.Text = "hello" + uID;
-
             int urint = Int32.Parse(uID);
-            Walze walzetmp = new Walze(urint, this.Width, this.Height);
-            Canvas.SetLeft(walzetmp, 0);
-            walzenarea.Children.Add(walzetmp);
-            walzetmp.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
-            Canvas.SetTop(walzetmp, 60);
-            walze = walzetmp;
             walzenarea.Children.Remove(dummyrec[3]);
-            //walzetmp.fast = speed * 80;
-            walzetmp.Cursor = Cursors.Hand;
-            walzetmp.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
-            settings.Reflector = urint - 1;
-
+            if (settings.Reflector == urint - 1)
+            {
+                setReflector();
+            }
+            else
+            {
+                settings.Reflector = urint - 1;
+            }
         }
 
 
         private void switchbuttons(int button1, int button2)
         {
-
-
             Button dummy = new Button();
             double dummyl;
 
-
             lList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            //lList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            //bList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            //bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-
-
-
+            
             int help = switchlist[button1];
             switchlist[button1] = switchlist[button2];
             switchlist[button2] = help;
-
-
 
             dummyl = lList[Int32.Parse(bList[button1].Content.ToString())].X1;
             dummy.Content = bList[button1].Content;
@@ -4182,25 +3861,16 @@ namespace Cryptool.Enigma
             lList[Int32.Parse(bList[button1].Content.ToString())].Y2 = 200;
             bList[button1].Content = bList[button2].Content;
 
-
-
             lList[Int32.Parse(bList[button2].Content.ToString())].X1 = dummyl;
             lList[Int32.Parse(bList[button2].Content.ToString())].X2 = 15 + Int32.Parse(bList[button2].Content.ToString()) * 30;
             lList[Int32.Parse(bList[button2].Content.ToString())].Y2 = 200;
             bList[button2].Content = dummy.Content;
 
-
-
-            //lList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
             lList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
 
-            //bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
             bList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
 
-
-
             b = true;
-
         }
 
         private void syncPluboardSettings()
@@ -4415,11 +4085,7 @@ namespace Cryptool.Enigma
                 if (Math.Abs(position.X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
                     Math.Abs(position.Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    // StartDrag(e);
-                    //  StartDragCustomCursor(e);
-                    // StartDragWindow(e);
                     StartDragInProcAdorner(e);
-
                 }
             }
         }
