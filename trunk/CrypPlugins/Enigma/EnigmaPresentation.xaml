@@ -37,7 +37,7 @@
                 <Button Canvas.Left="200" Canvas.Top="900" Content="M4on" Height="23" Name="m4on" Width="75" Opacity="0.0"/>
                 <Button Canvas.Left="300" Canvas.Top="900" Content="Play" Height="23" Name="play" Width="75" Opacity="0.0"/>
             </Canvas>
-            <StackPanel Name="mainmain"  Height="1000" Width="800" Canvas.Left="1300">
+            <StackPanel Name="mainmain"  Height="1000" Width="850" Canvas.Left="1300">
 
                 <Canvas Name="leuchten"  HorizontalAlignment="Left" Height="200" >
 

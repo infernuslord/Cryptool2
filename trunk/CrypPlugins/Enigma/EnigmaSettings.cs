@@ -146,8 +146,7 @@ namespace Cryptool.Enigma
 
                     // show elements common for analysis and encryption
                     showSettingsElement("Reflector");
-
-                    hideSettingsElement("PresentationSpeed");
+                    showSettingsElement("PresentationSpeed");
                      switch (this.action)
                     {
                         case 0: // Encrypt/Decrypt

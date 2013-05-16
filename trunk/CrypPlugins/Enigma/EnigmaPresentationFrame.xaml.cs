@@ -58,7 +58,27 @@ namespace Cryptool.Enigma
 
             if (e.PropertyName == "Model")
             {
-                if (settings.Model != 3)
+                if (settings.Model == 2)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        visbileCheckbox.
+                                                                      IsEnabled = true;
+
+                    }, null);
+
+                }
+                else if (settings.Model == 3)
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        visbileCheckbox.
+                                                                      IsEnabled = true;
+
+                    }, null);
+
+                }
+                else
                 {
                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                                                               {
@@ -68,15 +88,7 @@ namespace Cryptool.Enigma
                                                                                                       IsChecked = false;
                                                                                               }, null);
                 }
-                else
-                {
-                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        visbileCheckbox.
-                                                                      IsEnabled = true;
-                                                                  
-                    }, null);
-                }
+                
             }
         }
 

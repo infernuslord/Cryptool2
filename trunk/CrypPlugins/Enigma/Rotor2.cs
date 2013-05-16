@@ -39,7 +39,7 @@ namespace Cryptool.Enigma
         TextBlock[] textBlockToAnimat = new TextBlock[2];
         TextBlock[] textBlockToAnimat2 = new TextBlock[2];
 
-
+        private int version = new int();
 
         StackPanel stack = new StackPanel();
         StackPanel stack1 = new StackPanel();
@@ -62,6 +62,7 @@ namespace Cryptool.Enigma
         public Boolean stop = false;
 
         public Boolean next = false;
+
         Boolean rotated = false;
         int[] nextint = { -2, -2 };
 
@@ -112,6 +113,7 @@ namespace Cryptool.Enigma
         private static int[] getRotorsAsInt(int model, int rotor)
         {
             int[] value = new int[26];
+
             for (int i = 0; i < EnigmaCore.rotors[model, rotor].Length; i++)
             {
                 value[i] = EnigmaCore.rotors[model, rotor][i] - 65;
@@ -130,7 +132,6 @@ namespace Cryptool.Enigma
         }
 
         #endregion
-
 
         #region mapping
         public int mapto(int x)
@@ -1368,13 +1369,14 @@ namespace Cryptool.Enigma
 
         }
 
-        public Rotor2(int map, double width, double height, int offset, int ringoffset)
+        public Rotor2(int version, int map, double width, double height, int offset, int ringoffset)
         {
             StackPanel s = new StackPanel();
             s.Orientation = Orientation.Vertical;
 
             this.width = width;
             this.height = height;
+            this.version = version;
             this.map = map;
 
             this.content = alpha(offset, ringoffset - 1);
@@ -1486,42 +1488,42 @@ namespace Cryptool.Enigma
                 switch (map)
                 {
                     case 1:
-                        maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
-                        t1.Y2 = 29.4 * ((eins[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = ((getRotorsAsInt(version, 0)[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 0)[i] + rest + ringoffset) % 26) + 75;
                         iAm.Text = "I";
-                        nextint[0] = einsnext;
+                        nextint[0] = getNotchesAsInt(version,0)[0];
                         if (offset == nextint[0])
                             next = true;
                         break;
 
                     case 2:
-                        maparray[inew, 1] = (zwei[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = zweinext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 1)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 1)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,1)[0];
                         iAm.Text = "II";
                         if (offset == nextint[0])
                             next = true;
                         break;
                     case 3:
-                        maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = dreinext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 2)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 2)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,2)[0];
                         iAm.Text = "III";
                         if (offset == nextint[0])
                             next = true;
                         break;
                     case 4:
-                        maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = viernext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 3)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 3)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,3)[0];
                         iAm.Text = "IV";
                         if (offset == nextint[0])
                             next = true;
                         break;
                     case 5:
-                        maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = fuenfnext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 4)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 4)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,4)[0];
                         iAm.Text = "V";
                         if (offset == nextint[0])
                             next = true;
@@ -1534,8 +1536,8 @@ namespace Cryptool.Enigma
                         break;
 
                     case 6:
-                        maparray[inew, 1] = (sechs[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((sechs[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 5)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 5)[i] + rest + ringoffset) % 26) + 75;
                         nextint = sechsnext;
                         iAm.Text = "VI";
                         if (offset == nextint[0] || offset == nextint[1])
@@ -1543,8 +1545,8 @@ namespace Cryptool.Enigma
 
                         break;
                     case 7:
-                        maparray[inew, 1] = (sieben[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((sieben[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 6)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 6)[i] + rest + ringoffset) % 26) + 75;
                         nextint = siebennext;
                         iAm.Text = "VII";
                         if (offset == nextint[0] || offset == nextint[1])
@@ -1552,8 +1554,8 @@ namespace Cryptool.Enigma
 
                         break;
                     case 8:
-                        maparray[inew, 1] = (acht[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((acht[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 7)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 7)[i] + rest + ringoffset) % 26) + 75;
                         nextint = achtnext;
                         iAm.Text = "VIII";
                         if (offset == nextint[0] || offset == nextint[1])
@@ -1640,34 +1642,34 @@ namespace Cryptool.Enigma
                 switch (map)
                 {
                     case 1:
-                        maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
-                        t1.Y2 = 29.4 * ((eins[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = ((getRotorsAsInt(version, 0)[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 0)[i] + rest + ringoffset) % 26) + 75;
                         iAm.Text = "I";
-                        nextint[0] = einsnext;
+                        nextint[0] = getNotchesAsInt(version,0)[0];
                         break;
 
                     case 2:
-                        maparray[inew, 1] = ((zwei[i] + rest + ringoffset) % 26);
-                        t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = zweinext;
+                        maparray[inew, 1] = ((getRotorsAsInt(version, 1)[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 1)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,1)[0];
                         iAm.Text = "II";
                         break;
                     case 3:
-                        maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = dreinext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 2)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 2)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,2)[0];
                         iAm.Text = "III";
                         break;
                     case 4:
-                        maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = viernext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 3)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 3)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,3)[0];
                         iAm.Text = "IV";
                         break;
                     case 5:
-                        maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
-                        nextint[0] = fuenfnext;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 4)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 4)[i] + rest + ringoffset) % 26) + 75;
+                        nextint[0] = getNotchesAsInt(version,4)[0];
                         iAm.Text = "V";
                         if (i == 0)
                         {
@@ -1677,8 +1679,8 @@ namespace Cryptool.Enigma
                         }
                         break;
                     case 6:
-                        maparray[inew, 1] = (sechs[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((sechs[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 5)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 5)[i] + rest + ringoffset) % 26) + 75;
                         nextint = sechsnext;
                         iAm.Text = "VI";
                         if (i == 0)
@@ -1689,8 +1691,8 @@ namespace Cryptool.Enigma
                         }
                         break;
                     case 7:
-                        maparray[inew, 1] = (sieben[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((sieben[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 6)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 6)[i] + rest + ringoffset) % 26) + 75;
                         nextint = siebennext;
                         iAm.Text = "VII";
                         if (i == 0)
@@ -1701,8 +1703,8 @@ namespace Cryptool.Enigma
                         }
                         break;
                     case 8:
-                        maparray[inew, 1] = (acht[i] + rest + ringoffset) % 26;
-                        t1.Y2 = 29.4 * ((acht[i] + rest + ringoffset) % 26) + 75;
+                        maparray[inew, 1] = (getRotorsAsInt(version, 7)[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((getRotorsAsInt(version, 7)[i] + rest + ringoffset) % 26) + 75;
                         nextint = achtnext;
                         iAm.Text = "VIII";
                         if (i == 0)
@@ -1863,5 +1865,7 @@ namespace Cryptool.Enigma
         }
 
         #endregion
+
+        
     }
 }

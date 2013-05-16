@@ -21,10 +21,7 @@ namespace Cryptool.Enigma
     {
         #region Variables
 
-        int[] umkehrlist1 = getWalzeAsInt(3,0);
-        int[] umkehrlist2 = getWalzeAsInt(3, 1);
-        int[] umkehrlist3 = getWalzeAsInt(3, 2);
-
+        private int model = 3;
 
         TextBlock[] tebo = new TextBlock[26];
         Line[,] larray = new Line[26, 3];
@@ -44,7 +41,14 @@ namespace Cryptool.Enigma
             int[] value = new int[26];
             for (int i = 0; i < EnigmaCore.rotors[model, walze].Length; i++)
             {
-                value[i] = EnigmaCore.reflectors[model, walze][i] - 65;
+                if(EnigmaCore.reflectors[model, walze].Length>0)
+                {
+                    value[i] = EnigmaCore.reflectors[model, walze][i] - 65;
+                }
+                else
+                {
+                    value[i] = EnigmaCore.reflectors[model, 0][i] - 65;
+                }
             }
             return value;
         }
@@ -309,8 +313,9 @@ namespace Cryptool.Enigma
 
         #region Constructor
 
-        public Walze(int umkehr, double width, double height)
+        public Walze(int model,int umkehr, double width, double height)
         {
+            this.model = model;
             typ = umkehr;
             Rectangle myRectangle = new Rectangle();
             myRectangle.Width = 260;
@@ -326,11 +331,11 @@ namespace Cryptool.Enigma
 
             switch (umkehr)
             {
-                case 1: this.umkehrlist = umkehrlist1;
+                case 1: this.umkehrlist = getWalzeAsInt(model,0);
                     iAm.Text = "A";
                     ; break;
-                case 2: this.umkehrlist = umkehrlist2; iAm.Text = "B"; break;
-                case 3: this.umkehrlist = umkehrlist3; iAm.Text = "C"; break;
+                case 2: this.umkehrlist = getWalzeAsInt(model,1); iAm.Text = "B"; break;
+                case 3: this.umkehrlist = getWalzeAsInt(model,2); iAm.Text = "C"; break;
             }
 
 
