@@ -113,7 +113,7 @@ namespace Cryptool.StreamComparator
 
           if (readerOne.Length != readerTwo.Length && !settings.Diff)
           {
-          GuiTextChanged("Inputs are not equal, because the filesize is different.", NotificationLevel.Info);
+          //GuiTextChanged("Inputs are not equal, because the filesize is different.", NotificationLevel.Info);
           InputsAreEqual = false;
           Progress(1, 1);
           if (settings.Diff) CreateDiffView();
@@ -122,7 +122,7 @@ namespace Cryptool.StreamComparator
         {
           DateTime startTime = DateTime.Now;
           int position = 0;
-          GuiTextChanged("Starting byte comparison of files now...", NotificationLevel.Info);
+          //GuiTextChanged("Starting byte comparison of files now...", NotificationLevel.Info);
           // Read and compare a byte from each file until either a
           // non-matching set of bytes is found or until the end of
           // file1 is reached.
@@ -151,13 +151,13 @@ namespace Cryptool.StreamComparator
           InputsAreEqual = ((streamOneByte - streamTwoByte) == 0);
           DateTime stopTime = DateTime.Now;
           TimeSpan duration = stopTime - startTime;
-          GuiTextChanged(
-            "Comparison complete. Files are " + (InputsAreEqual ? "equal" : "unequal") + ".", NotificationLevel.Info);
-          if (!InputsAreEqual)
-                  GuiTextChanged("First position a different byte: " + readerOne.Position, NotificationLevel.Info);
+          //GuiTextChanged(
+          //  "Comparison complete. Files are " + (InputsAreEqual ? "equal" : "unequal") + ".", NotificationLevel.Info);
+          //if (!InputsAreEqual)
+          //        GuiTextChanged("First position a different byte: " + readerOne.Position, NotificationLevel.Info);
 
           Progress(1, 1);
-          GuiTextChanged("Duration: " + duration, NotificationLevel.Info);
+          //GuiTextChanged("Duration: " + duration, NotificationLevel.Info);
 
           if (settings.Diff) CreateDiffView();
         }

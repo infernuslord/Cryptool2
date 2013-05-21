@@ -28,6 +28,7 @@ namespace Cryptool.Progress
       "Progress/Images/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
+    [AutoAssumeFullEndProgress(false)]
     public class Progress : ICrypComponent
     {
         private int _value;
@@ -94,6 +95,7 @@ namespace Cryptool.Progress
 
         public void Stop()
         {
+            _progressPresentation.Set(0, 1);
         }
 
         public void PostExecution()
@@ -102,6 +104,7 @@ namespace Cryptool.Progress
 
         public void PreExecution()
         {
+            _progressPresentation.Set(0, 1);
         }
 
 #pragma warning disable 67
@@ -111,6 +114,7 @@ namespace Cryptool.Progress
         public void Execute()
         {
             _progressPresentation.Set(Value, Max);
+            ProgressChange(Value,Max);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
