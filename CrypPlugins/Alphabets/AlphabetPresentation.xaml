@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="Cryptool.Alphabets.AlphabetPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:basic="clr-namespace:System;assembly=System"
     xmlns:local="clr-namespace:Cryptool.Alphabets"
     Height="Auto" Width="auto" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" MinWidth="400" MinHeight="340">
     <UserControl.Resources>
@@ -66,22 +67,27 @@
             </Setter>
         </Style>
 
-
+        
         <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
-                        <Border x:Name="Border" BorderThickness="1">
-                            <Image x:Name="image" Source="unchecked.png"></Image>
+                        <Border x:Name="Border" BorderThickness="1" BorderBrush="#aaa" Padding="2" Background="#22444444">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter
+                                    x:Name="contentPresenter"
+                                    Content="{TemplateBinding Content}"/>
+                                <Image x:Name="image" Source="unchecked.png"></Image>
+                            </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" Value="#ff9600" TargetName="Border" />
+                                <Setter Property="Background" Value="#557ac8ff" TargetName="Border" />
                                 <Setter Property="BorderBrush" Value="#666" TargetName="Border" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="Background" Value="#557ac8ff" TargetName="Border" />
                                 <Setter Property="BorderBrush" Value="#aaa" TargetName="Border" />
                             </Trigger>
                             <Trigger Property="IsChecked" Value="true">
@@ -213,27 +219,34 @@
                     <DataTemplate DataType="{x:Type local:AlphabetItem}">
                         <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
                             <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"></RowDefinition>
-                                    <RowDefinition Height="auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Border Background="#7fe383" CornerRadius="3,0,3,0" x:Name="Active" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto" MaxWidth="18"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1" Background="#7fe383" CornerRadius="3" Margin="4,0,4,0" BorderBrush="White" BorderThickness="1,1,0,1" x:Name="Active" Visibility="Collapsed">
                                     <Border>
                                         <Border.Background>
                                             <ImageBrush Opacity="0.1" ImageSource="progress_bg.png" TileMode="Tile" 
                                             Viewport="0,0,36,18" ViewportUnits="Absolute"/>
                                         </Border.Background>
-                                        <TextBlock Text="Active" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#444" FontSize="12"
-                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                        <ItemsControl ItemsSource="Active" FontWeight="Bold" Foreground="#555" FontSize="11"
+                                                FontFamily="Verdana" HorizontalAlignment="Center">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" Background="#01000000" HorizontalAlignment="Center">
+                                                    </StackPanel>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
                                     </Border>
                                 </Border>
-                                <Grid Grid.Row="1">
+                                <Grid Grid.Column="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <!--<ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>-->
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"></RowDefinition>
@@ -244,7 +257,7 @@
                                     <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="5" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
+                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
                                         <TextBlock Text="{Binding Path=Upper}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
@@ -263,34 +276,35 @@
                                         <TextBlock Text="{Binding Path=Special}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                     </WrapPanel>
+                                    
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="1">
                                         <Button Style="{StaticResource ResourceKey=ButtonStyleSec}" 
                                                 Height="20" Width="20" Click="DeleteItemClick" VerticalContentAlignment="Center" VerticalAlignment="Center">
                                             <Image Height="16" Source="del.png"></Image>
                                         </Button>
                                     </Border>
-                                    <Border Background="#55ffffff" Margin="5" Grid.Column="2">
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="2" >
                                         <Button Height="20" Width="20" VerticalAlignment="Center" Click="EditItemClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
                                             <Image Height="16" Source="pluginSetting-small.png"></Image>
                                         </Button>
                                     </Border>
 
-                                    <Border Background="#55ffffff" Margin="5" Grid.Column="3">
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="1" Grid.Row="1">
                                         <Button Height="20" Width="20" VerticalAlignment="Center" Click="DownClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
                                             <Image Height="16" Source="Arrow-up-48.png"></Image>
                                         </Button>
                                     </Border>
 
-                                    <Border Background="#55ffffff" Margin="5" Grid.Column="4">
+                                    <Border Background="#55ffffff" Margin="5" Grid.Column="2" Grid.Row="1">
                                         <Button Height="20" Width="20" VerticalAlignment="Center" Click="UpClick"
                                                 Style="{StaticResource ResourceKey=ButtonStyleSec}" HorizontalAlignment="Center">
                                             <Image Height="16" Source="Arrow-down-48.png"></Image>
                                         </Button>
                                     </Border>
 
-                                    <Grid Grid.Row="2" Grid.ColumnSpan="5">
+                                    <Grid Grid.Row="2" Grid.ColumnSpan="2">
                                         <Grid.Style>
                                             <Style TargetType="Grid">
                                                 <Style.Triggers>
@@ -328,36 +342,45 @@
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                         </Grid.ColumnDefinitions>-->
-                                        <Border Grid.Row="0" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
-                                            <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center">
-                                                <!--<ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                    IsChecked="{Binding Path=UseNormal}">
-
-                                                </ToggleButton>
-                                                <TextBlock Text="Chracters"></TextBlock>-->
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                        <Border Grid.Row="0"
+                                                CornerRadius="3" Height="15" Margin="1.5">
+                                            <ItemsControl PreviewMouseMove="ListView_MouseMove" PreviewMouseLeftButtonUp="ItemsControl_PreviewMouseLeftButtonUp"
+                                                 AllowDrop="True"
+                                                 HorizontalAlignment="Center">
+                                                <ItemsControl.ItemsSource>
+                                                    <x:Array Type="{x:Type ToggleButton}">
+                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
+                                                              PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
                                                               IsChecked="{Binding Path=UseUpper, Mode=TwoWay}">
+                                                            <TextBlock Text="Upper Case"></TextBlock>
+                                                        </ToggleButton>
 
-                                                </ToggleButton>
-                                                <TextBlock Text="Upper Case"></TextBlock>
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
+                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
+                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
                                                               IsChecked="{Binding Path=UseLower, Mode=TwoWay}">
+                                                            <TextBlock  Text="Lower Case"></TextBlock>
+                                                        </ToggleButton>
 
-                                                </ToggleButton>
-                                                <TextBlock  Text="Lower Case"></TextBlock>
+                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
+                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
+                                                                      IsChecked="{Binding Path=UseNumeric, Mode=TwoWay}">
+                                                            <TextBlock  Text="Numerics"></TextBlock>
+                                                        </ToggleButton>
 
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                    IsChecked="{Binding Path=UseNumeric, Mode=TwoWay}">
-
-                                                </ToggleButton>
-                                                <TextBlock  Text="Numerics"></TextBlock>
-                                                <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}" 
-                                                    IsChecked="{Binding Path=UseSpecial, Mode=TwoWay}">
-
-                                                </ToggleButton>
-
-                                                <TextBlock  Text="Specials"></TextBlock>
-                                            </StackPanel>
+                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
+                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
+                                                                      IsChecked="{Binding Path=UseSpecial, Mode=TwoWay}">
+                                                            <TextBlock  Text="Specials"></TextBlock>
+                                                        </ToggleButton>
+                                                    </x:Array>
+                                                </ItemsControl.ItemsSource>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="#01000000">
+                                                        </StackPanel>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
                                         </Border>
 
                                         <!--<Border Grid.Row="1" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
