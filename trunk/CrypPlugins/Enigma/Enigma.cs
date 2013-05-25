@@ -60,10 +60,6 @@ namespace Cryptool.Enigma
 
         private EnigmaSettings settings;
         private EnigmaPresentationFrame enigmaPresentationFrame;
-
-
-
-        
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
