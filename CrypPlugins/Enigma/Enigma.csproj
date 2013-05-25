@@ -94,6 +94,7 @@
     <Compile Include="EnigmaPresentationFrame.xaml.cs">
       <DependentUpon>EnigmaPresentationFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stator.cs" />
     <Compile Include="Walze.cs" />
     <Compile Include="Rotor2.cs" />
     <Compile Include="Enigma.cs" />

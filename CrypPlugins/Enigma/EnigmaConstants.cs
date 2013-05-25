@@ -26,7 +26,7 @@ namespace Cryptool.Enigma
         private const int alen = 26; // Alphabet Length
 
 
-        public readonly string[] stators = {
+        public readonly static string[] stators = {
                                             // Kommerzielle Enigma A/B
                                             "JWULCMNOHPQZYXIRADKEGVBTSF", // no reference found for this!! This is just a copy from Enigma D
                                             // Kommerzielle Enigma D

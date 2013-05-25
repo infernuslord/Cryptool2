@@ -49,7 +49,7 @@ namespace Cryptool.Enigma
         private int merken = -1;
 
         Button temp = new Button();
-        Boolean blupp = true;
+        Boolean access = true;
         private DispatcherTimer dispo;
         Boolean playbool = false;
 
@@ -80,7 +80,7 @@ namespace Cryptool.Enigma
 
         Boolean off = false;
 
-        Boolean mfouron = false;
+        Boolean statoron = false;
 
         private double speed;
 
@@ -103,7 +103,9 @@ namespace Cryptool.Enigma
         Line[] drawLines = new Line[22];
 
         Rotor2[] rotorarray = new Rotor2[4];
+        private Stator stator;
         private Walze walze;
+        
         Image[] rotorimgs = new Image[8];
         Image[] walzeimgs = new Image[3];
 
@@ -164,6 +166,51 @@ namespace Cryptool.Enigma
             walze.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
             
                         
+        }
+
+        private void deleteStator()
+        {
+            if (stator != null)
+            {
+                if(rotorarea.Children.Contains(stator))
+            
+                    {
+                        rotorarea.Children.Remove(stator);        
+                    }
+            }
+            
+
+            
+            if(rotorlocks4!=null)
+            {
+                if(rotorarea.Children.Contains(rotorlocks4))
+                    {
+                        rotorarea.Children.Remove(rotorlocks4);
+                    }
+            }
+
+            textBlocksToAnimate = new TextBlock[6];
+            statoron = false;
+        }
+
+
+        private void setStator()
+        {
+            stator = new Stator(settings.Model, this.Width, this.Height);
+            //walze1.fast = speed * 80;
+            Canvas.SetLeft(stator,3*230);
+            Canvas.SetTop(stator, 0);
+            rotorarea.Children.Add(stator);
+            
+            rotorlocks4 = rotorlocks();
+
+            Canvas.SetLeft(rotorlocks4, 890);
+
+            
+
+            rotorarea.Children.Add(rotorlocks4);
+            textBlocksToAnimate = new TextBlock[8];
+            statoron = true;
         }
 
         private void setRotor(int position)
@@ -350,8 +397,10 @@ namespace Cryptool.Enigma
                             setRotor(i);
                         }
 
+                        steckerbrett.IsEnabled = false;
+
                         setReflector();
-                        
+                        setStator();
 
                         for (int i = 0; i < EnigmaCore.rotors.GetLength(1); i++ )
                         {
@@ -381,7 +430,28 @@ namespace Cryptool.Enigma
                         {
                             setRotor(i);
                         }
+
+                        for(int i=0;i<EnigmaCore.rotors.GetLength(1);i++)
+                        {
+                            if(EnigmaCore.rotors[3,i]!=null)
+                            if(i!=settings.Rotor1&&i!=settings.Rotor2&&i!=settings.Rotor3)
+                            {
+                                setImage(true,i);
+                            }
+                        }
+
+                        for (int i = 0; i < EnigmaCore.reflectors.GetLength(1); i++)
+                        {
+                            if (EnigmaCore.rotors[3, i] != null)
+                            if (i != settings.Reflector )
+                            {
+                                setImage(false, i);
+                            }
+                        }
+
+                        deleteStator();
                         setReflector();
+                        steckerbrett.IsEnabled = true;
                     }, null);
                 }
                 else 
@@ -1592,7 +1662,7 @@ namespace Cryptool.Enigma
             if (!stop)
             {
                 int m4 = 0;
-                if (mfouron)
+                if (statoron)
                     m4 = 228;
                 Line l = new Line();
                 l.Stroke = Brushes.Green;
@@ -1652,12 +1722,13 @@ namespace Cryptool.Enigma
                 
                 StackPanel dummyLock1 = (StackPanel)rotorlocks3.Children[0];
                 int ein = 0;
-                if (mfouron)
+                if (statoron)
                 {
                     dummyLock1 = (StackPanel)rotorlocks4.Children[0];
                     textBlocksToAnimate[6] = (TextBlock)dummyLock1.Children[fromboard];
+
                     int dummyfromboard = 0;
-                    dummyfromboard = rotorarray[3].mapto(fromboard);
+                    dummyfromboard = stator.mapto(fromboard);
                     fromboard = dummyfromboard;
 
                 }
@@ -1690,11 +1761,12 @@ namespace Cryptool.Enigma
                 dummyLock1 = (StackPanel)rotorlocks3.Children[0];
                 textBlocksToAnimate[5] = (TextBlock)dummyLock1.Children[ein6];
                 
-                if (mfouron)
+                if (statoron)
                 {
                     int dummyein6 = 0;
-                    dummyein6 = rotorarray[3].maptoreverse(ein6);
+                    dummyein6 = stator.maptoreverse(ein6);
                     ein6 = dummyein6;
+
                     dummyLock1 = (StackPanel)rotorlocks4.Children[0];
                     textBlocksToAnimate[7] = (TextBlock)dummyLock1.Children[ein6];
                 }
@@ -1931,6 +2003,10 @@ namespace Cryptool.Enigma
                     r.resetColors();
             }
 
+            if(stator!=null)
+            {
+                stator.resetColors();
+            }
             if (drawLines != null)
             {
                 foreach (Line l in drawLines)
@@ -2086,7 +2162,7 @@ namespace Cryptool.Enigma
                 outputPanel.Children.Clear();
                 inputcounter = 0;
                 everythingblack();
-                blupp = true;
+                access = true;
                 input = "";
                 playbool = false;
                 newInput(this, EventArgs.Empty);
@@ -2095,31 +2171,25 @@ namespace Cryptool.Enigma
 
         private void m4onClick(object sender, EventArgs e) //not functional
         {
-            mfouron = true;
+            statoron = true;
             everythingblack();
-            rotorlocks4 = rotorlocks();
-
-            Canvas.SetLeft(rotorlocks4, 890);
-
-            rotorarea.Children.Add(rotorlocks4);
-
-            Rotor2 rotor4 = new Rotor2(settings.Model, 4, this.Width, this.Height, 0, 0);
+            
+            
+           /* Rotor2 rotor4 = new Rotor2(settings.Model, 2, this.Width, this.Height, 0, 0);
             rotor4.Cursor = Cursors.Hand;
-            rotor4.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
+            
             Canvas.SetLeft(rotor4, 688);
             rotorarea.Children.Add(rotor4);
 
-            rotor4.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
+            
 
-            rotorarray[3] = rotorarray[2];
-            rotorarray[2] = rotorarray[1];
-            rotorarray[1] = rotorarray[0];
-            rotorarray[0] = rotor4;
+            rotorarray[3] = rotor4;
 
-            Canvas.SetLeft(rotorarray[2], 460); Canvas.SetLeft(rotorarray[1], 230); Canvas.SetLeft(rotorarray[0], 0); Canvas.SetLeft(rotorarray[3], 688);
+            Canvas.SetLeft(rotorarray[3], 688);
+            
 
-
-
+            
+            */
             textBlocksToAnimate = new TextBlock[8];
         }
 
@@ -2185,7 +2255,7 @@ namespace Cryptool.Enigma
 
         private void tasteClick(object sender, EventArgs e)
         {
-            if (blupp)
+            if (access)
             {
 
                 dummycanvas = new Canvas();
@@ -2211,7 +2281,7 @@ namespace Cryptool.Enigma
 
         private void prefadeout1(object sender, EventArgs e)
         {
-            blupp = true;
+            access = true;
             if (playbool)
             {
                 if (inputtebo.Count > inputcounter && !stop)
@@ -2252,15 +2322,15 @@ namespace Cryptool.Enigma
         private void letterInput(object sender, EventArgs e)
         {
 
-            if (blupp)
+            if (access)
             {
-                if (!mfouron)
+                if (true)
                 {
                     if (rotorarray[0] != null && rotorarray[1] != null && rotorarray[2] != null && walze != null)
                     {
 
                         stop = false;
-                        blupp = false;
+                        access = false;
                         temp = sender as Button;
 
                         Storyboard sb = rotorarray[2].upperclicksb(false);
@@ -2332,7 +2402,7 @@ namespace Cryptool.Enigma
                     if (rotorarray[0] != null && rotorarray[1] != null && rotorarray[2] != null &&
                         rotorarray[3] != null && walze != null)
                     { 
-                        blupp = false;
+                        access = false;
                         temp = sender as Button;
                         everythingblack();
                         rotorarray[3].upperclick(sender, EventArgs.Empty);
@@ -2577,6 +2647,18 @@ namespace Cryptool.Enigma
                 }
 
             }
+
+            if(statoron)
+            {
+                animateThisTebo(textBlocksToAnimate[6], true);
+
+                Storyboard sb7 = stator.startAnimation();
+                sb7.BeginTime = TimeSpan.FromMilliseconds(timecounter);
+                storyboard1.Children.Add(sb7);
+                timecounter += 3000;
+
+            }
+            
             animateThisTebo(textBlocksToAnimate[0], true);
 
             Storyboard sb = rotorarray[2].startAnimation();
@@ -2624,7 +2706,17 @@ namespace Cryptool.Enigma
 
             animateThisTebo(textBlocksToAnimate[5], false);
 
+            if (statoron)
+            {
+                
 
+                Storyboard sb8 = stator.startAnimationReverse();
+                sb8.BeginTime = TimeSpan.FromMilliseconds(timecounter);
+                storyboard1.Children.Add(sb8);
+                timecounter += 3000;
+
+                animateThisTebo(textBlocksToAnimate[7], false);
+            }
 
             for (int i = 0; i < linesToAnimate2.Count; i++)
             {

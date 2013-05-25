@@ -157,11 +157,6 @@ namespace Cryptool.Enigma
                     help = x;
 
             }
-
-            // tebo[help].Background = Brushes.Red;
-            //lines[help].Stroke = Brushes.Red;
-            //lines[help].Opacity = 1.0;
-
             textBlockToAnimat2[1] = tebo2[maparray[y, 0]];
             textBlockToAnimat2[0] = tebo[help];
 
