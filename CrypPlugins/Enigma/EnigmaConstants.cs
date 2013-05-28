@@ -34,6 +34,7 @@ namespace Cryptool.Enigma
                                             // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
                                             //"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
                                             "QWERTZUIOASDFGHJKPYXCVBNML",
+                                            //"JWULCMNOHPQZYXIRADKEGVBTSF",  
                                             // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
                                             "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
                                             // Enigma M4 "Shark"
@@ -145,10 +146,10 @@ namespace Cryptool.Enigma
                                                    "", // VII
                                                    ""  // VIII
                                                 },
-                                                {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
-                                                   "V",  // I
-                                                   "M",  // II
-                                                   "G",  // III
+                                                {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941 // notches: V,M,G see reference: ENIGMA VARIATIONS: AN EXTENDED FAMILY OF MACHINES by Hamer, Sullivan, Weierud
+                                                   "N",  // I
+                                                   "E",  // II
+                                                   "Y",  // III
                                                    "",   //"EHNTZ",  // notches for a rotor from Enigma T - just used for the challenge C2 (Multiple encryptions)
                                                    "",  
                                                    "", 
