@@ -1549,6 +1549,15 @@ namespace WorkspaceManager.View.Visuals
                     PasswordBox dummyTextBox = child as PasswordBox;
                     dummyTextBox.MinWidth = 0;
 
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    {
+                        dummyTextBox.MaxWidth = Double.MaxValue;
+                    }
+                    else
+                    {
+                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
+                    }
+
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
