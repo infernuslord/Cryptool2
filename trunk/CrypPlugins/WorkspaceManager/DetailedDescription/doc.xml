@@ -49,7 +49,7 @@
     <img src="WorkspaceManager/DetailedDescription/Images/unbenannt4.png" />
     <newline/>    
     <newline/>
-    The four different views:
+    <b>The four different views:</b>
     <newline/>        
     <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/enigma1.png" />
@@ -80,7 +80,7 @@
     <newline/> 
     All workspaces are arranged in the TAB BAR, right above the actual opened workspace. 
     <newline/><newline/> 
-    Building a workspace
+    <b>Building a workspace:</b>
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/suggestionlist.png" />
     <img src="WorkspaceManager/DetailedDescription/Images/textinout.png" />
@@ -98,12 +98,12 @@
 
     <newline/> <newline/>
 
-    Organizing tools:    <newline/> <newline/>
+    <b>Organizing tools:</b>    <newline/> <newline/>
 
     The CWM offers several tools to organize the workspace.
     <newline/> <newline/>
 
-    Zoom:    <newline/> <newline/>
+    <b>Zoom:</b>    <newline/> <newline/>
 
     On the down left corner of the workspace is the "Zoom Bar", similar to Figure 12. It is used to change the scale of the actual workplace. To automatically choose the scale to fit the whole workspace into the screen, the "fit-to-screen" button in the toolbar at the top center of the workspace is to be used. Alternatively the zoom can be changed by holding CTRL and scrolling with the mousewheel. <newline/> <newline/>
     A left mouse button click on the percentage zoom level indicator readjust the zoom level too 100%.
@@ -115,32 +115,84 @@
     <newline/> <newline/>
     
     <newline/> <newline/>
-    Parameters:<newline/> <newline/> 
+    <b>Parameters:</b><newline/> <newline/> 
     For adjusting the settings of a component, the CWM offers the so called "Parameters Bar", like the one shown in Figure 14, on the right side of the actual workspacetab. It can be fade in and out by pressing the button on top of the Bar, as well as re-sized in width. It displays the settings of the actually focused component, similar to the view: setting of the component window.
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/parameters.png" />    
     <newline/> <newline/>
-    Icontrols
+    <b>Embedded components:</b>
         <newline/> <newline/>
-    With the target of devlopment of more universal components, CrypTool 2 offers an interface, that is called "Icontrol" in the CrypTool language.
+    With the target of devlopment of more universal components, CrypTool 2 offers an interface, that is called "embedded component" in the CrypTool language.
 
     This interface makes it possible to extend components according to the modular design principle.
 
-    The difference between a connection in the workspace over the connectors and an extension through the Icontrol interface, is that in the icontrols interface one component may control the other. In the CrypTool language here is the talk of Master- and Slavecomponents. The Mastercomponent or Maincomponent integrates the Slavecomponents, controls it and is allowed to access their functions. This is because Mastercomponents can be dependent on functions of the slavecomponent or an equivalent implementation on the workspace would be complicated.
+    The difference between a connection in the workspace over the connectors and an extension through the embedded component interface, is that in the embedded components interface one component may control the other. In the CrypTool language here is the talk of Master- and Slavecomponents. The Mastercomponent or Maincomponent integrates the Slavecomponents, controls it and is allowed to access their functions. This is because Mastercomponents can be dependent on functions of the slavecomponent or an equivalent implementation on the workspace would be complicated.
     From the technical view, this way reduces redundancy in the programming. Further components (i.e. KeySearcher) can be reused in various application possibilities (i.e. different encryption methods).
     <newline/> <newline/>
-    Icontrols can be set by clicking the left mouse button on the bolt icon next to the window controls, as seen in Figure 15. The components in the Icontrol interface can be set and switched by clicking on the button underneath the component icons. They can be chosen from a vertical menu which lists up all components that support the defined interface, as can be seen in Figure 16.
+    Embedded components can be set by clicking the left mouse button on the bolt icon next to the window controls, as seen in Figure 15. The components in the embedded component interface can be set and switched by clicking on the button underneath the component icons. They can be chosen from a vertical menu which lists up all components that support the defined interface, as can be seen in Figure 16.
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
     <newline/> <newline/>
-    The settings of components that are integrated through the Icontrol interface can be set in separate tabs in the view:"settings" of the component that contains them.
+    The settings of components that are integrated through the embedded component interface can be set in separate tabs in the view:"settings" of the component that contains them.
     <newline/> <newline/>
-    When creating a workspace and using a component which supports Icontrols, the user should read the documentation of the component, in order to set the right Icontrol components and settings. Note that several components need components in the Icontrol interface.
+    When creating a workspace and using a component which supports embedded components, the user should read the documentation of the component, in order to set the right embedded component components and settings. Note that several components need components in the embedded component interface.
+    <newline/> <newline/>
+    <b>Global settings</b>
+    <newline/> <newline/>        
+    In the "Main Settings Menu" of CrypTool 2 in the "Workspace" section can be set global settings for all workspaces.
+    <newline/>
+        <b>Global progressbar, checkbox:</b>
+    <newline/>
+        The selection of this checkbox effect the appearance of a progressbar after the start of a workspace, which represents the progression of all components within the worksapace as a bar in the upper area of the workspace tabulator.
+    <newline/>
+        <b>Show component connection proposition, checkbox:</b>
+    <newline/>
+        By setting this checkbox you can decided whether the list of connection suggestions should be displayed or not.
+    <newline/>
+        <b>Component connection suggestion delay, slider:</b>
+    <newline/>
+        With this slider, the time between holding the left mouse button and the event of showing the list of connection proposals can be varied.
+    <newline/>
+        <b>Reset component connection statistics, button:</b>
+    <newline/>
+        Pressing this button causes a reset of the statistics that is needed to create the connection suggestions. The statistics are will then be recreated automatically according to the new usage of the compoonents.
+    <newline/>
+        <b>Standard appearing of components, combo box:</b>
+    <newline/>
+        Within this combo box can be selected whether components always open by default, ie, showing one of the four views, closed, ie in the smallest possible representation is to be displayed only displaying the icon, or the components should make that decision by themselves.
+    <newline/>
+        <b>GUI updateinterval, slider:</b>
+    <newline/>
+        By the use of this slider can be determined how many times the surface of the workspace and thus the representations of the components to be updated. The time interval is specified in milliseconds.
+    <newline/>
+        <b>Synchronus Events, Checkbox:</b>
+    <newline/>
+        Sets the behaviour of event handling of the execution engine.
+    <newline/>
+        <b>Benchmark, Checkbox:</b>
+    <newline/>
+        Sets if the execution engine should benchmark the executed functions per second, or not.
+    <newline/>
+        <b>Data typ colors, Dropdown Menu:</b>
+    <newline/>
+        In these drop down menus can be changed, what colors the various data types are represented within the workspace.
+    <newline/>
+        <b>Function colors, Dropdown Menu:</b>
+    <newline/>
+        In these drop down menus can be changed, what colors the different functions are represented within the workspace.
+    <newline/>
+        <b>Reset colors, button:</b>
+    <newline/>
+       Pressing of this button causes a reset of colors for the representation of data types and functions within the workspace to the default values.
+    <newline/>    
+        <b>Fonts, Dropdown Menu:</b>
+    <newline/>
+        In this box can be set both, font typ as well as font size of all text within the selected workspace, which invoke this option.
     <newline/> <newline/>
 
 
-    Shortcuts
+    <b>Shortcuts </b>
     <newline/> <newline/>
   <table border="1">
       <tr>
@@ -223,7 +275,7 @@
     <img src="WorkspaceManager/DetailedDescription/Images/unbenannt4.png" />
     <newline/>    
     <newline/>
-    Vier verschiedene Ansichten:
+    <b>Vier verschiedene Ansichten:</b>
     <newline/>        
     <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/enigma1.png" />
@@ -242,7 +294,7 @@
     <newline/> 
     Alle Arbeitsbereiche werden in einer Tabulator-Leiste über dem aktuelle geöffneten Arbeitsbereich organisiert.
     <newline/><newline/> 
-    Erstellen eines Arbeitsbereichs
+    <b>Erstellen eines Arbeitsbereichs:</b>
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/suggestionlist.png" />
     <img src="WorkspaceManager/DetailedDescription/Images/textinout.png" />
@@ -263,48 +315,104 @@
 
     <newline/> <newline/>
 
-    Organisationswerkzeuge:    <newline/> <newline/>
+    <b>Organisationswerkzeuge: </b>   <newline/> <newline/>
 
     Der CWM bietet verschiedene Werkzeuge zur Organisation der Arbeitsbereiche an.
 
     <newline/> <newline/>
 
-    Zoom:    <newline/> <newline/>
+    <b>Zoom: </b>   <newline/> <newline/>
 
     In der unteren linken Ecke befindet sich die „Zoom-Leiste“, die in etwa so aussehen sollte wie in Abbildung 12 zu sehen. Sie dient dazu den Maßstab des aktuellen Arbeitsbereiches zu variieren. Um den Maßstab automatisch so anzupassen, dass der gesamte Arbeitsbereich zu sehen ist, sollte die Schaltfläche „Fit-to-screen“ (das Symbol dazu ist in der Mitte oberhalb des Arbeitsbereiches) verwendet werden. Alternativ kann zum Zoomen auch das Maus-Rad benutzt werden, wenn beim Rollen die Strg-Taste gehalten wird. Ein Klick mit der linken Maustaste auf die Prozent-Angabe der Zoom-Leiste, setzt diese auf 100%.
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/zoom.png" />    
     <newline/> <newline/>
-    Textfeld und Bilderfeld:<newline/> <newline/>
+    <b>Textfeld und Bilderfeld:</b>
+        <newline/> <newline/>
     Texte und Bilder können &#8211; ohne von einer weiteren Komponente Gebrauch zu machen &#8211; direkt dem Arbeitsbereich hinzugefügt werden. Die Textfeld Schaltfläche und die Bildfeld Schaltfläche bieten, wie in Abbildung 13 zu sehen, Werkzeuge, um Texte zu erzeugen und Bilder direkt in den Hintergrund des Arbeitsbereiches zu laden. Beide Bereiche können im Arbeitsbereich verschoben werden wie Komponenten. Wenn das Textfeld fokussiert ist, erscheint oberhalb des Arbeitsbereiches eine Werkzeugleiste zur Formatierung des Textes. Die Größe des Bereichs kann durch Halten und Ziehen der unteren rechten Ecke des Textfeldes verändert werden. Diese beiden Werkzeuge können nicht mit den normalen Komponenten interagieren und bleiben stets im Hintergrund des Arbeitsbereiches. Man kann Textfelder benutzen für Memos oder für kurze Beschreibungen, was man mit dem aktuellen Workspace machen kann. Mit den Bildfelder kann man rein optisch auch Komponenten gruppieren.
     <newline/> <newline/>
     
     <newline/> <newline/>
-    Parameter-Leiste:<newline/> <newline/> 
+    <b>Parameter-Leiste:</b>
+    <newline/> <newline/> 
     Zum Justieren der Einstellungen von Komponenten, bietet der CWM auf der rechten Seite des aktuellen Arbeitsbereiches die so genannte "Parameter-Leiste" an (siehe Abbildung 14). Diese kann sowohl ein- als auch ausgeblendet werden (mit Hilfe der Schaltfläche oberhalb der Leiste), so wie in der Breite verändert werden. Ihr Inhalt entspricht Einstellungsansicht der Komponente, die gerade den Fokus hat.
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/parameters.png" />    
     <newline/> <newline/>
-    Icontrols
+   <b> Integrierte Komponenten: </b>
         <newline/> <newline/>
-    Mit dem Ziel, das Komponenten möglichst universell gestaltet werden können, bietet CrypTool 2 eine Schnittstelle an, welche in der CrypTool Sprache "Icontrol" genannt wird. 
+    Mit dem Ziel, das Komponenten möglichst universell gestaltet werden können, bietet CrypTool 2 eine Schnittstelle an, welche in der CrypTool Sprache "integrierte Komponenten" genannt wird. 
 
     Diese Schnittstelle macht es möglich, Komponenten modular nach dem Baukastenprinzip durch andere Komponenten zu erweitern. 
 
-    Der Unterschied zwischen einer Verbindung im Arbeitsbereich, über die Konnektoren und einer Erweiterung durch die Icontrols Schnittstelle, besteht darin, dass eine Komponente die andere steuern kann. In der CrypTool Sprache wird hierbei von Master(engl. für Meister)- und Slave(engl. für Knecht)-Komponenten gesprochen. Die Masterkomponente ist dabei die Hauptkomponente welche die Slavekomponente einbindet, steuern und auf deren Funktionen zugreifen kann. Der Hintergrund ist der, dass die Masterkomponente beispielsweise auf Funktionen der Slavekomponente angewiesen ist, oder aber auch das eine äquivalente Implementierung über den Arbeitsbereich kompliziert wäre.
+    Der Unterschied zwischen einer Verbindung im Arbeitsbereich, über die Konnektoren und einer Erweiterung durch die Schnittstelle für integrierte Komponenten, besteht darin, dass eine Komponente die andere steuern kann. In der CrypTool Sprache wird hierbei von Master(engl. für Meister)- und Slave(engl. für Knecht)-Komponenten gesprochen. Die Masterkomponente ist dabei die Hauptkomponente welche die Slavekomponente einbindet, steuern und auf deren Funktionen zugreifen kann. Der Hintergrund ist der, dass die Masterkomponente beispielsweise auf Funktionen der Slavekomponente angewiesen ist, oder aber auch das eine äquivalente Implementierung über den Arbeitsbereich kompliziert wäre.
     Technisch gesehen reduziert dies Redundanzen bei der Programmierung und macht Komponenten (wie z.B. den KeySearcher) für verschiedene Einsatzmöglichkeiten (z.B. verschiedene Verschlüsselungsverfahren) wiederverwendbar.
     <newline/> <newline/>
-    Unterstützt eine Komponente die Icontrol Funktionalität, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl Menü listet alle Komponenten auf, welche die definierte Icontrol Schnittstelle unterstützen, siehe Abbildung 16. 
+    Unterstützt eine Komponente die Funktionalität für integrierte Komponenten, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl Menü listet alle Komponenten auf, welche die definierte integrierte Komponenten Schnittstelle unterstützen, siehe Abbildung 16. 
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
     <newline/> <newline/>
     Die Einstellungen der eingebundenen Komponenten, erscheinen in eigenen Reitern, in der Ansicht:"Einstellungen" der Komponente, die sie einbindet.
     <newline/> <newline/>
-    Beim Erstellen eines Arbeitsbereiches mit Komponenten die Icontrols unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten in der Icontrols Schnittstelle.
-    <newline/> <newline/>
+    Beim Erstellen eines Arbeitsbereiches mit Komponenten die integrierte Koponenten unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten in der integrierte Koponenten Schnittstelle.
 
-    Kurzbefehle:
+    <newline/> <newline/>    
+   <b>Globale Einstellungen:</b>
+    <newline/> <newline/>        
+    In den "Haupteinstellungen" von CrypTool 2 im Abschnitt "Arbeitsbereich" können globale Einstellungen für alle Arbeitsbereiche festgelegt werden. 
+    <newline/> <newline/>
+      <b>  Global Progressbar, Auswahlkasten:</b> 
+    <newline/> <newline/>
+        Das setzen dieses Auswahlkastens bewirkt, dass nach dem Start eines Arbeitsbereiches, eine Fortschrittsanzeige oberhalb des Tabulatorfensters erscheint, welche den Verlauf des Arbeitsbereichs als Balken darstellt.
+    <newline/> <newline/>
+      <b>  Zeige Komponentenverbindungsvorschläge, Auswahlkasten:</b>
+    <newline/> <newline/>
+        Mit dem Setzen dieses Auswahlkastens, kann entschieden werde, ob die Liste mit Verbindungsvorschläge angezeigt werden soll, oder nicht.
+    <newline/> <newline/>
+       <b> Verzögerung des Komponentenverbindungsvorschlags, Schieber:</b>
+    <newline/> <newline/>
+        Mit Hilfe dieses Schiebereglers kann die Zeit zwischen Halten und Anzeigen der Liste mit Verbindungsvorschlägen variiert werden.
+    <newline/> <newline/>
+      <b>  Komponenten-Konnektoren-Statistik zurücksetzen, Schaltfläche:</b>
+    <newline/> <newline/>
+        Das Drücken dieser Schaltfläche bewirkt eine Zurücksetzung der Statistik, die zur Erstellung der Verbindungsvorschläge nötig ist. Die Statistik wird danach automatisch gemäß der Benutzung neu erstellt.
+    <newline/> <newline/>
+      <b>  Standardmäßige Darstellung von Komponenten, Auswahlfeld:</b>
+    <newline/> <newline/>
+        In diesem Auswahlfeld kann gewählt werden, ob Kompoenenten standardmäßig immer geöffnet, also unter Darstellung einer der vier Ansichten, geschlossen, also in der kleinst möglichen Repräsentation nur unter Anzeigen der Ikone dargestellt werden soll, oder ob die Komponente diese Entscheidung selbst treffen soll.
+    <newline/> <newline/>
+      <b>  GUI updateintervall, Schieberegler:</b>
+    <newline/> <newline/>
+        Mit diesem Schieberegler kann Bestimmt werden, wie oft die Oberfläche des Arbeitsbereichs und damit auch die Darstellungen der Komponenten aktualisiert werden sollen. Die Intervall Dauer wird in Millisekunden angegeben.
+    <newline/> <newline/>
+      <b>  Synchrone Ereignisse, Auswahlkasten:</b>
+    <newline/> <newline/>
+        Wählt die Art der Ereignisbehandlung der Ausführungs Maschine
+    <newline/> <newline/>
+     <b>   Benchmark, Auswahlkasten:</b>
+    <newline/> <newline/>
+        In diesem Auswahlkasten kann eingestellt werden, ob die Ausführungs Maschine die aufgerufenen Funktionen auf sekunden Basis evaluieren soll, oder nicht.
+    <newline/> <newline/>
+      <b>  Datentyp-Farben, Dropdown Menu:</b>
+    <newline/> <newline/>
+        In diesen Dropdown Menüs kann eingestellt werden, in welchen Farben die verschiedenen Datentypen innerhalb des Arbeitsbereiches dargestellt werden.
+    <newline/> <newline/>
+     <b>   Funktionen-Farben, Dropdown Menu:</b>
+    <newline/> <newline/>
+        In diesen Dropdown Menüs kann eingestellt werden, in welchen Farben die verschiedenen Funktionen innerhalb des Arbeitsbereiches dargestellt werden.
+    <newline/> <newline/>
+     <b>   Farben zurücksetzen, Schaltfläche:</b>
+    <newline/> <newline/>
+       Das Drücken dieser Schaltfläche bewirkt eine Zurücksetzung der Farben für die Darstellung von Datentypen und Funktionen innerhalb des Arbeitsbereichs.
+    <newline/> <newline/>
+      <b>  Schriftart, Dropdown Menu:</b>
+    <newline/> <newline/>
+        In diesem Kasten kann sowohl Schriftart, wie auch Schriftgröße aller Texte innerhalb des Arbeitsbereichs gewählt werden, die sich auf diese Option berufen.
+    <newline/> <newline/>
+    
+
+    <b> Kurzbefehle: </b>
     <newline/> <newline/>
     
     <table border="1">
