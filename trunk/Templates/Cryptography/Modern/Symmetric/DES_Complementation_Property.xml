@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">DES Complementation Property</title>
+  <summary lang="en">Shows the complementation property of the <i>DES</i> cipher</summary>
+  <description lang="en">The complementation property of DES means that the work for a brute force attack could be reduced by a factor of 2 (or a single bit) under a chosen-plaintext assumption. By definition, this property also applies also to 3DES cipher. The template demonstrates the property.</description>
+  <keywords>DES, complementation</keywords>
+
+  <title lang="de">DES Komplement-Eigenschaft</title>
+  <summary lang="de">Zeigt die Komplement-Eigenschaft der <i>DES</i>-Chiffre</summary>
+  <description lang="de">Durch die Komplement-Eigenschaft lässt sich mit einem Chosen-Plaintext-Angriff bei einer vollständigen Schlüsselsuche der Suchraum des DES auf 2^55 Schlüssel halbieren. Diese Vorlage zeigt diese Eigenschaft des DES.</description>
+  <keywords lang="de">DES, Komplement</keywords>
+
+  <icon file="DES.png" />
+  <relevantPlugins>
+    <plugin name="DES" />
+  </relevantPlugins>
+
+</sample>
