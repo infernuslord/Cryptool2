@@ -29,12 +29,11 @@ namespace Cryptool.Alphabets
     public class AlphabetSettings : ISettings
     {
         private string data;
-        //[TaskPane("Saved_Data", "Saved", null, 2, false, ControlType.TextBoxHidden)]
         public string Data
         {
-            get 
-            { 
-                return data; 
+            get
+            {
+                return data;
             }
             set
             {
@@ -43,7 +42,71 @@ namespace Cryptool.Alphabets
             }
         }
 
-        public static string Serialize(List<AlphabetItemData> items)
+        private string outputOrderData;
+        public string OutputOrderData
+        {
+            get
+            {
+                return outputOrderData;
+            }
+            set
+            {
+                outputOrderData = value;
+                OnPropertyChanged("OutputOrderData");
+            }
+        }
+
+        public static string SerializeOutputOrder(List<OutputOrder> items)
+        {
+            MemoryStream stream = new MemoryStream();
+            string ret = string.Empty;
+            try
+            {
+
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, items);
+                ret = Convert.ToBase64String(stream.GetBuffer());
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+
+            }
+
+            return ret;
+        }
+
+        public static List<OutputOrder> DeserializeOutputOrder(string serItems)
+        {
+            List<OutputOrder> ret = null;
+            MemoryStream stream = null;
+            try
+            {
+                byte[] buffer = Convert.FromBase64String(serItems);
+                stream = new MemoryStream(buffer);
+                BinaryFormatter formatter = new BinaryFormatter();
+                ret = (List<OutputOrder>)formatter.Deserialize(stream);
+            }
+            catch (SerializationException e)
+            {
+                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
+            }
+            finally
+            {
+                if (stream != null)
+                    stream.Close();
+            }
+
+            return ret;
+        }
+
+
+        public static string SerializeAlphabetItemData(List<AlphabetItemData> items)
         {
             MemoryStream stream = new MemoryStream();
             string ret = string.Empty;
@@ -68,7 +131,7 @@ namespace Cryptool.Alphabets
             return ret;
         }
 
-        public static List<AlphabetItemData> Deserialize(string serItems)
+        public static List<AlphabetItemData> DeserializeAlphabetItemData(string serItems)
         {
             List<AlphabetItemData> ret = null;
             MemoryStream stream = null;

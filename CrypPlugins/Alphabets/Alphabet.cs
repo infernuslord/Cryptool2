@@ -63,8 +63,8 @@ namespace Cryptool.Alphabets
             tmp.Add(AlphabetItem.CyrillicAlphabet.Data);
             tmp.Add(AlphabetItem.GreekAlphabet.Data);
             tmp.Add(AlphabetItem.BasicLatinAlphabet.Data);
-            settings.Data = AlphabetSettings.Serialize(tmp);
-            alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
+            settings.Data = AlphabetSettings.SerializeAlphabetItemData(tmp);
+            alphabetPresentation.SetNewItems(AlphabetSettings.DeserializeAlphabetItemData(settings.Data));
             timer.Stop();
         }
 
@@ -87,7 +87,7 @@ namespace Cryptool.Alphabets
             if (count == 0)
             {
                 count++;
-                alphabetPresentation.SetNewItems(AlphabetSettings.Deserialize(settings.Data));
+                alphabetPresentation.SetNewItems(AlphabetSettings.DeserializeAlphabetItemData(settings.Data));
                 timer.Stop();
             }
         }
