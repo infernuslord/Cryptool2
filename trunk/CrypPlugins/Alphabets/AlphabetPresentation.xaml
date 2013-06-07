@@ -262,17 +262,17 @@
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
                                         <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
-                                        
+
                                         <TextBlock Text="{Binding Path=Lower}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
                                         <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
-                                        
+
                                         <TextBlock Text="{Binding Path=Numeric}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
                                         <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
-                                        
+
                                         <TextBlock Text="{Binding Path=Special}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                     </WrapPanel>
@@ -303,103 +303,6 @@
                                             <Image Height="16" Source="Arrow-down-48.png"></Image>
                                         </Button>
                                     </Border>
-
-                                    <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                        AncestorType={x:Type ListViewItem}}, 
-                                                        Path=IsSelected}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"></Setter>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                        AncestorType={x:Type ListViewItem}}, 
-                                                        Path=IsSelected}" Value="false">
-                                                        <Setter Property="Visibility" Value="Collapsed"></Setter>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
-                                        <Grid.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="VerticalAlignment" Value="Center"></Setter>
-                                                <Setter Property="Padding" Value="1"></Setter>
-                                                <Setter Property="FontFamily" Value="Verdana"></Setter>
-                                                <Setter Property="FontSize" Value="11"></Setter>
-                                                <Setter Property="Foreground" Value="#555"></Setter>
-                                                <Setter Property="TextTrimming" Value="CharacterEllipsis"></Setter>
-                                                <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"></Setter>
-                                            </Style>
-                                        </Grid.Resources>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"></RowDefinition>
-                                            <!--<RowDefinition Height="auto"></RowDefinition>
-                                            <RowDefinition Height="auto"></RowDefinition>-->
-                                        </Grid.RowDefinitions>
-                                        <!--<Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>-->
-                                        <Border Grid.Row="0"
-                                                CornerRadius="3" Height="15" Margin="1.5">
-                                            <ItemsControl PreviewMouseMove="ListView_MouseMove" PreviewMouseLeftButtonUp="ItemsControl_PreviewMouseLeftButtonUp"
-                                                 AllowDrop="True"
-                                                 HorizontalAlignment="Center">
-                                                <ItemsControl.ItemsSource>
-                                                    <x:Array Type="{x:Type ToggleButton}">
-                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
-                                                              PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
-                                                              IsChecked="{Binding Path=UseUpper, Mode=TwoWay}">
-                                                            <TextBlock Text="Upper Case"></TextBlock>
-                                                        </ToggleButton>
-
-                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
-                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
-                                                              IsChecked="{Binding Path=UseLower, Mode=TwoWay}">
-                                                            <TextBlock  Text="Lower Case"></TextBlock>
-                                                        </ToggleButton>
-
-                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
-                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
-                                                                      IsChecked="{Binding Path=UseNumeric, Mode=TwoWay}">
-                                                            <TextBlock  Text="Numerics"></TextBlock>
-                                                        </ToggleButton>
-
-                                                        <ToggleButton Style="{StaticResource ResourceKey=ToggleButtonStyle}"
-                                                                      PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown"
-                                                                      IsChecked="{Binding Path=UseSpecial, Mode=TwoWay}">
-                                                            <TextBlock  Text="Specials"></TextBlock>
-                                                        </ToggleButton>
-                                                    </x:Array>
-                                                </ItemsControl.ItemsSource>
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="#01000000">
-                                                        </StackPanel>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
-                                        </Border>
-
-                                        <!--<Border Grid.Row="1" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
-                                            <StackPanel  Orientation="Horizontal">
-
-                                            </StackPanel>
-   
-                                        </Border>
-
-                                        <Border Grid.Row="2" Grid.ColumnSpan="3" Background="#aadddddd"  CornerRadius="3" Height="15" Margin="1.5">
-                                            <StackPanel  Orientation="Horizontal">
-
-                                            </StackPanel>
-                                        </Border>-->
-
-                                        <!--<TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Normal, FallbackValue='Not Set'}"></TextBlock>
-                                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=Numeric, FallbackValue='Not Set'}"></TextBlock>
-                                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Path=Special, FallbackValue='Not Set'}"></TextBlock>-->
-                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Border>
@@ -599,7 +502,11 @@
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Border Background="#11222222" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#11222222">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Alphabets" Padding="5" FontWeight="Bold"
                                FontFamily="Verdana" FontSize="24"></TextBlock>
@@ -612,7 +519,37 @@
                 </StackPanel>
             </Border>
 
-            <Border Grid.Column="0" Grid.Row="1" Background="#bbffffff">
+            <Border Grid.Row="0" Grid.Column="1">
+                <ItemsControl AllowDrop="True" HorizontalAlignment="Center" ItemsSource="{Binding Path=OutputOrder}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:OutputOrder}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Height="40" Source="bg2.png"></Image>
+                                <Border  Grid.Column="1" Background="#a7c4da" BorderBrush="#909292" BorderThickness="0,1,0,1">
+                                    <ToggleButton Height="30" Style="{StaticResource ResourceKey=ToggleButtonStyle}" Margin="10,0,10,0" Drop="ToggleButton_Drop"
+                                        PreviewMouseLeftButtonDown="ToggleButton_MouseLeftButtonDown" IsChecked="{Binding Path=IsActive, Mode=TwoWay}">
+                                        <TextBlock Foreground="WhiteSmoke" Text="{Binding Path=Caption}" FontWeight="Bold" FontSize="18"></TextBlock>
+                                    </ToggleButton>
+                                </Border>
+                                <Image Grid.Column="2" Height="40" Source="bg1.png"></Image>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="#01000000">
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
+
+            <Border Grid.ColumnSpan="2" Grid.Row="1" Background="#bbffffff">
                 <ListView  x:Name="AlphabetList" Grid.Row="1" Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=Alphabets}"
                             SelectionMode="Single"  SelectionChanged="SelectionChanged" SelectedIndex="0" SelectedItem="{Binding Path=ActiveAlphabet, Mode=TwoWay}"></ListView>
             </Border>
