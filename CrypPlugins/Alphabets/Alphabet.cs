@@ -42,8 +42,6 @@ namespace Cryptool.Alphabets
             set { settings = (AlphabetSettings)value; }
         }
 
-        DispatcherTimer timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(1) };
-
         private int count = 0;
         public Alphabet()
         {
@@ -51,22 +49,8 @@ namespace Cryptool.Alphabets
             alphabetPresentation = new AlphabetPresentation(settings);
             Presentation = this.alphabetPresentation;
             alphabetPresentation.AlphabetChanged += new EventHandler(alphabetPresentation_AlphabetChanged);
-            settings.PropertyChanged += settings_PropertyChanged;
-            
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
         }
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            List<AlphabetItemData> tmp = new List<AlphabetItemData>();
-            tmp.Add(AlphabetItem.CyrillicAlphabet.Data);
-            tmp.Add(AlphabetItem.GreekAlphabet.Data);
-            tmp.Add(AlphabetItem.BasicLatinAlphabet.Data);
-            settings.Data = AlphabetSettings.SerializeAlphabetItemData(tmp);
-            alphabetPresentation.SetNewItems(AlphabetSettings.DeserializeAlphabetItemData(settings.Data));
-            timer.Stop();
-        }
 
         void alphabetPresentation_AlphabetChanged(object sender, EventArgs e)
         {
@@ -80,16 +64,6 @@ namespace Cryptool.Alphabets
         void alphabetPresentation_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
         {
             GuiLogMessage(args.Message, args.NotificationLevel);
-        }
-
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (count == 0)
-            {
-                count++;
-                alphabetPresentation.SetNewItems(AlphabetSettings.DeserializeAlphabetItemData(settings.Data));
-                timer.Stop();
-            }
         }
 
         string alphabetString = string.Empty;
@@ -150,6 +124,7 @@ namespace Cryptool.Alphabets
 #pragma warning restore
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        private bool stop;
 
         private void GuiLogMessage(string message, NotificationLevel logLevel)
         {

@@ -28,6 +28,29 @@ namespace Cryptool.Alphabets
 {
     public class AlphabetSettings : ISettings
     {
+
+        public AlphabetSettings()
+        {
+            data = AlphabetSettings.SerializeData<Data>(Default);
+        }
+
+        public Data Default = new Data(){
+            OutputOrderData = new List<OutputOrder>(new OutputOrder[]
+            {
+                new OutputOrder() { Caption = "Upper", OutputType = OutputType.Upper }, 
+                new OutputOrder() { Caption = "Lower", OutputType = OutputType.Lower }, 
+                new OutputOrder() { Caption = "Numeric", OutputType = OutputType.Numeric },
+                new OutputOrder() { Caption = "Special", OutputType = OutputType.Special }}
+                ),
+
+            AlphabetData = new List<AlphabetItemData>(new AlphabetItemData[]
+            {
+                new AlphabetItem(BasicAlphabet.BasicLatin, "Basic Latin", true).Data,
+                new AlphabetItem(BasicAlphabet.Cyrillic, "Cyrillic", true).Data,
+                new AlphabetItem(BasicAlphabet.Greek, "Greek", true).Data
+            })
+        };
+
         private string data;
         public string Data
         {
@@ -42,27 +65,12 @@ namespace Cryptool.Alphabets
             }
         }
 
-        private string outputOrderData;
-        public string OutputOrderData
-        {
-            get
-            {
-                return outputOrderData;
-            }
-            set
-            {
-                outputOrderData = value;
-                OnPropertyChanged("OutputOrderData");
-            }
-        }
-
-        public static string SerializeOutputOrder(List<OutputOrder> items)
+        public static string SerializeData<T>(T items)
         {
             MemoryStream stream = new MemoryStream();
             string ret = string.Empty;
             try
             {
-
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, items);
                 ret = Convert.ToBase64String(stream.GetBuffer());
@@ -81,16 +89,16 @@ namespace Cryptool.Alphabets
             return ret;
         }
 
-        public static List<OutputOrder> DeserializeOutputOrder(string serItems)
+        public static T DeserializeData<T>(string serItems)
         {
-            List<OutputOrder> ret = null;
+            T ret = default(T);
             MemoryStream stream = null;
             try
             {
                 byte[] buffer = Convert.FromBase64String(serItems);
                 stream = new MemoryStream(buffer);
                 BinaryFormatter formatter = new BinaryFormatter();
-                ret = (List<OutputOrder>)formatter.Deserialize(stream);
+                ret = (T)formatter.Deserialize(stream);
             }
             catch (SerializationException e)
             {
@@ -99,56 +107,6 @@ namespace Cryptool.Alphabets
             finally
             {
                 if (stream != null)
-                    stream.Close();
-            }
-
-            return ret;
-        }
-
-
-        public static string SerializeAlphabetItemData(List<AlphabetItemData> items)
-        {
-            MemoryStream stream = new MemoryStream();
-            string ret = string.Empty;
-            try
-            {
-               
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, items);
-                ret = Convert.ToBase64String(stream.GetBuffer());
-            }
-            catch (SerializationException e)
-            {
-                Console.WriteLine("Failed to serialize. Reason: " + e.Message);
-            }
-            finally
-            {
-                if (stream != null)
-                    stream.Close();
-               
-            }
-
-            return ret;
-        }
-
-        public static List<AlphabetItemData> DeserializeAlphabetItemData(string serItems)
-        {
-            List<AlphabetItemData> ret = null;
-            MemoryStream stream = null;
-            try
-            {
-                byte[] buffer = Convert.FromBase64String(serItems);
-                stream  = new MemoryStream(buffer);
-                BinaryFormatter formatter = new BinaryFormatter();
-                ret = (List<AlphabetItemData>)formatter.Deserialize(stream);
-            }
-            catch (SerializationException e)
-            {
-                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
-            }
-            finally
-            {
-                if(stream != null)
                     stream.Close();
             }
 
