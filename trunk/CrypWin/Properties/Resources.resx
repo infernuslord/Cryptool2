@@ -602,7 +602,7 @@
     <value>Online Help</value>
   </data>
   <data name="GeneratingWaitMessage" xml:space="preserve">
-    <value>Please wait... Generating Documentation!</value>
+    <value>Please wait... Generating Documentation.</value>
   </data>
   <data name="OnlineHelpTab_ShowHTMLFile_Doc_page__0__not_found_" xml:space="preserve">
     <value>Doc page {0} not found!</value>
@@ -890,7 +890,7 @@
     <value>System Infos</value>
   </data>
   <data name="GeneratingLaTeXWaitMessage" xml:space="preserve">
-    <value>Please wait... Generating LaTeX-Documentation!</value>
+    <value>Please wait... Generating LaTeX-Documentation.</value>
   </data>
   <data name="Generating_Statistics_Title" xml:space="preserve">
     <value>Generating Component Connection Statistics</value>

@@ -4,7 +4,7 @@
   <language culture="de-DE" />
 
   <name lang="de-DE">Homomorphe Chiffren und ihre Bedeutung in der Kryptographie</name>
-  <name lang="en">Homomorphic Ciphers and their importance in Cryptography</name>
+  <name lang="en">Homomorphic Ciphers and their Importance in Cryptography</name>
 
   <description lang="en">
     Homomorphic ciphers are public-key cryptosystems with special properties. They allow performing certain arithmetic operations on encrypted ciphertexts, without knowing the corresponding plaintexts and without having to decrypt the ciphertexts first. These special properties have led to a huge amount of applications for homomorphic ciphers, e.g. in the domain of cloud computing. A very famous and relatively new cryptosystem with homomorphic properties is the Paillier cryptosystem. But also some of the older and well established cryptosystems, such as ElGamal or RSA, have homomorphic properties.
