@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -92,11 +93,14 @@ namespace FileInput
         }
 
         public void PreExecution()
-        {        
+        {
+            
         }
 
         public void PostExecution()
-        {            
+        {
+            Console.WriteLine("wird das hier ausgeführt????????????????");
+            fileInputPresentation.makeUnaccesAble(true);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -111,8 +115,10 @@ namespace FileInput
 
             try
             {
+                
                 cstreamWriter = new CStreamWriter(settings.OpenFilename, true);
                 NotifyPropertyChange();
+                fileInputPresentation.makeUnaccesAble(false);
             }
             catch (FileNotFoundException ex)
             {
