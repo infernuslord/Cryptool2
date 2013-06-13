@@ -34,6 +34,12 @@ namespace FileInput
             exp.getMessage(ge.message);
         }
 
+        public void makeUnaccesAble(Boolean b)
+        {
+            hexBox.makeUnAccesable(b);
+            hexBox.IsEnabled = b;
+            hexBox.IsManipulationEnabled = b;
+        }
 
         public void CloseFileToGetFileStreamForExecution()
         {
@@ -42,7 +48,7 @@ namespace FileInput
                 hexBox.saveData(true, false);
                 hexBox.closeFile(false);
                 hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, true);
-                hexBox.IsEnabled = false;
+                //hexBox.IsEnabled = false;
             }
             catch (Exception ex)
             {
@@ -61,7 +67,7 @@ namespace FileInput
                 hexBox.closeFile(false);
                 hexBox.openFile((exp.Settings as FileInputSettings).OpenFilename, false);
             }
-            hexBox.IsEnabled = true;
+            //hexBox.IsEnabled = true;
             try
             {
             }
