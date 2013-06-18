@@ -75,7 +75,7 @@ namespace Cryptool.CrypWin
             {
                 if (!this.Dispatcher.CheckAccess())
                 {
-                    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background,
+                    this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.SystemIdle,
                         new GuiLogNotificationDelegate(OnGuiLogNotificationOccuredTS), sender, new object[] { arg });
                 }
                 else
@@ -106,7 +106,7 @@ namespace Cryptool.CrypWin
         /// <param name="arg">Information about the log message</param>
         public void OnGuiLogNotificationOccuredTS(object sender, GuiLogEventArgs arg)
         {
-            try
+           try
             {
                 statusBarTextCounter++;
                 LogMessage logMessage = new LogMessage();

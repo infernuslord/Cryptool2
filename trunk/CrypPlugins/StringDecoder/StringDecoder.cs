@@ -183,7 +183,7 @@ namespace Cryptool.Plugins.Convertor
         {
             ShowProgress(50, 100);
 
-            ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
+            //ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
                 
             switch (settings.PresentationFormatSetting)
             {
