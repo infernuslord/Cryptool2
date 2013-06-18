@@ -89,7 +89,7 @@ namespace Cryptool.MD5
           {            
             if (outputData != null)
             {
-              GuiLogMessage("Got request for hash (Stream)...", NotificationLevel.Debug);
+              //GuiLogMessage("Got request for hash (Stream)...", NotificationLevel.Debug);
                 return new CStreamWriter(outputData);
             }
             return null; ;
@@ -102,7 +102,7 @@ namespace Cryptool.MD5
           
             get 
             {
-              GuiLogMessage("Got request for hash (Byte Array)...", NotificationLevel.Debug);
+              //GuiLogMessage("Got request for hash (Byte Array)...", NotificationLevel.Debug);
               return this.outputData; 
             }
           
