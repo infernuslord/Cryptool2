@@ -27,18 +27,18 @@ namespace Cryptool.Progress
 
         public void Set(int value, int max)
         {
-            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (SendOrPostCallback) delegate
-                    {
-                        if (max <= 0)
-                        {
-                            Bar.Maximum = 100;
-                        }
-                        else
-                        {
-                            Bar.Maximum = max;
-                        }
-                        Bar.Value = value;
-                    }, null);
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.SystemIdle, (SendOrPostCallback) delegate
+            {
+                if (max <= 0)
+                {
+                    Bar.Maximum = 100;
+                }
+                else
+                {
+                    Bar.Maximum = max;
+                }
+                Bar.Value = value;
+            }, null);
         }
     }
 }
