@@ -767,7 +767,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
         private void OnGuiLogNotificationOccuredHandler(IPlugin sender, GuiLogEventArgs args)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, (SendOrPostCallback)delegate
             {
                 LogMessages.Add(new Log(args));
             }
