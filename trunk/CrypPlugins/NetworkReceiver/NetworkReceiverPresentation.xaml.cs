@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="port"></param>
         public void SetStaticMetaData(string starttime, string port)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <param name="amountOfUniqueIps"></param>
         public void UpdatePresentation(PresentationPackage package, int amountOfReceivedPackages, int amountOfUniqueIps)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -94,7 +94,7 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         public void UpdatePresentationClientCount(int amountOfUniqueIps)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) (state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -112,7 +112,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         ///  </summary>
         public void UpdateSpeedrate(String Speedrate)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -130,7 +130,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void ClearPresentation()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {

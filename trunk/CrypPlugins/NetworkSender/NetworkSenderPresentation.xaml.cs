@@ -26,7 +26,7 @@ namespace Cryptool.Plugins.NetworkSender
         }
         public void RefreshMetaData(int amountOfSendedPackages)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.NetworkSender
         public void SetStaticMetaData(string starttime, int port)
         {
             var jar = new string[2] {starttime, port.ToString()};
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.NetworkSender
 
         public void AddPresentationPackage(PresentationPackage package)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.NetworkSender
         public void ClearList()
         {
 
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.NetworkSender
         ///  </summary>
         public void UpdateSpeedrate(String Speedrate)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {
