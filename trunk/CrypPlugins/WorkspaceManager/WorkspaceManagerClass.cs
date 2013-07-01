@@ -341,10 +341,10 @@ namespace WorkspaceManager
                 var plugins = new List<PluginModel>();
 
                 foreach (var item in editor.SelectedItems)
-                {
-                    plugins.Add(((PluginModel)((ComponentVisual)item).Model));
+                {                    
                     if (item is ComponentVisual)
                     {
+                        plugins.Add(((PluginModel)((ComponentVisual)item).Model));
                         foreach (var connector in ((PluginModel)((ComponentVisual) item).Model).GetOutputConnectors())
                         {
                             foreach (var connectionModel in connector.GetOutputConnections())
