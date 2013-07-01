@@ -97,20 +97,20 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Capital Letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Case Sensitive ähnelt.
         /// </summary>
-        internal static string CapitalLettersCaption {
+        internal static string CaseSensitiveCaption {
             get {
-                return ResourceManager.GetString("CapitalLettersCaption", resourceCulture);
+                return ResourceManager.GetString("CaseSensitiveCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include capital letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Distinguish between small and captial letters. ähnelt.
         /// </summary>
-        internal static string CapitalLettersTooltip {
+        internal static string CaseSensitiveTooltip {
             get {
-                return ResourceManager.GetString("CapitalLettersTooltip", resourceCulture);
+                return ResourceManager.GetString("CaseSensitiveTooltip", resourceCulture);
             }
         }
         
@@ -187,20 +187,20 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Capital Letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Case Sensitive ähnelt.
         /// </summary>
-        internal static string CTCapitalLettersCaption {
+        internal static string CTCaseSensitiveCaption {
             get {
-                return ResourceManager.GetString("CTCapitalLettersCaption", resourceCulture);
+                return ResourceManager.GetString("CTCaseSensitiveCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include capital letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Distinguish between small and captial letters. ähnelt.
         /// </summary>
-        internal static string CTCapitalLettersTooltip {
+        internal static string CTCaseSensitiveTooltip {
             get {
-                return ResourceManager.GetString("CTCapitalLettersTooltip", resourceCulture);
+                return ResourceManager.GetString("CTCaseSensitiveTooltip", resourceCulture);
             }
         }
         
@@ -219,60 +219,6 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         internal static string CTChooseAlphabetTooltip {
             get {
                 return ResourceManager.GetString("CTChooseAlphabetTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Small Letters ähnelt.
-        /// </summary>
-        internal static string CTSmallLettersCaption {
-            get {
-                return ResourceManager.GetString("CTSmallLettersCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include small letters ähnelt.
-        /// </summary>
-        internal static string CTSmallLettersTooltip {
-            get {
-                return ResourceManager.GetString("CTSmallLettersTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Space ähnelt.
-        /// </summary>
-        internal static string CTSpaceCaption {
-            get {
-                return ResourceManager.GetString("CTSpaceCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include space ähnelt.
-        /// </summary>
-        internal static string CTSpaceTooltip {
-            get {
-                return ResourceManager.GetString("CTSpaceTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Special Characters ähnelt.
-        /// </summary>
-        internal static string CTSpecialCharsCaption {
-            get {
-                return ResourceManager.GetString("CTSpecialCharsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include special characters ähnelt.
-        /// </summary>
-        internal static string CTSpecialCharsTooltip {
-            get {
-                return ResourceManager.GetString("CTSpecialCharsTooltip", resourceCulture);
             }
         }
         
@@ -322,20 +268,20 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Capital Letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Case Sensitive ähnelt.
         /// </summary>
-        internal static string PTCapitalLettersCaption {
+        internal static string PTCaseSensitiveCaption {
             get {
-                return ResourceManager.GetString("PTCapitalLettersCaption", resourceCulture);
+                return ResourceManager.GetString("PTCaseSensitiveCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include capital letters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Distinguish between small and captial letters. ähnelt.
         /// </summary>
-        internal static string PTCapitalLettersTooltip {
+        internal static string PTCaseSensitiveTooltip {
             get {
-                return ResourceManager.GetString("PTCapitalLettersTooltip", resourceCulture);
+                return ResourceManager.GetString("PTCaseSensitiveTooltip", resourceCulture);
             }
         }
         
@@ -358,60 +304,6 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Small Letters ähnelt.
-        /// </summary>
-        internal static string PTSmallLettersCaption {
-            get {
-                return ResourceManager.GetString("PTSmallLettersCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include small letters ähnelt.
-        /// </summary>
-        internal static string PTSmallLettersTooltip {
-            get {
-                return ResourceManager.GetString("PTSmallLettersTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Space ähnelt.
-        /// </summary>
-        internal static string PTSpaceCaption {
-            get {
-                return ResourceManager.GetString("PTSpaceCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include space ähnelt.
-        /// </summary>
-        internal static string PTSpaceTooltip {
-            get {
-                return ResourceManager.GetString("PTSpaceTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Special Characters ähnelt.
-        /// </summary>
-        internal static string PTSpecialCharsCaption {
-            get {
-                return ResourceManager.GetString("PTSpecialCharsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include special characters ähnelt.
-        /// </summary>
-        internal static string PTSpecialCharsTooltip {
-            get {
-                return ResourceManager.GetString("PTSpecialCharsTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Separate Plaintext/Ciphertext Alphabets ähnelt.
         /// </summary>
         internal static string SeparateAlphabetsCaption {
@@ -426,60 +318,6 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         internal static string SeparateAlphabetsTooltip {
             get {
                 return ResourceManager.GetString("SeparateAlphabetsTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Small Letters ähnelt.
-        /// </summary>
-        internal static string SmallLettersCaption {
-            get {
-                return ResourceManager.GetString("SmallLettersCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include small letters ähnelt.
-        /// </summary>
-        internal static string SmallLettersTooltip {
-            get {
-                return ResourceManager.GetString("SmallLettersTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Space ähnelt.
-        /// </summary>
-        internal static string SpaceCaption {
-            get {
-                return ResourceManager.GetString("SpaceCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include space ähnelt.
-        /// </summary>
-        internal static string SpaceTooltip {
-            get {
-                return ResourceManager.GetString("SpaceTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Special Characters ähnelt.
-        /// </summary>
-        internal static string SpecialCharsCaption {
-            get {
-                return ResourceManager.GetString("SpecialCharsCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Include special characters ähnelt.
-        /// </summary>
-        internal static string SpecialCharsTooltip {
-            get {
-                return ResourceManager.GetString("SpecialCharsTooltip", resourceCulture);
             }
         }
     }

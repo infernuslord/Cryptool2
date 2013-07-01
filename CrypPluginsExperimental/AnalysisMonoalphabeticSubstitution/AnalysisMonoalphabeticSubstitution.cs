@@ -44,14 +44,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Frequencies langFreq = null;
         private LanguageDictionary langDic = null;
         private Text cText = null;
+        private Text refText = null;
         private Boolean inputOK = true;
-
-        // Input change properties
-        private Boolean ciphertext_has_changed = true;
-        private Boolean ciphertext_alphabet_has_changed = true;
-        private Boolean plaintext_alphabet_has_changed = true;
-        private Boolean reference_text_has_changed = true;
-        private Boolean language_dictionary_has_changed = true;
+        private Boolean caseSensitive = false;
 
         // Input property variables
         private ICryptoolStream ciphertext;
@@ -63,6 +58,15 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         // Output property variables
         private String plaintext; 
 
+        // Presentation
+        private AssignmentPresentation masPresentation = new AssignmentPresentation();
+
+        // Alphabet constants
+        private const String smallEng = "abcdefghijklmnopqrstuvwxyz";
+        private const String capEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const String smallGer = "abcdefghijklmnopqrstuvwxyzöäüß";
+        private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
+
         #endregion
 
         #region Data Properties
@@ -73,8 +77,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.ciphertext; }
             set {
                 this.ciphertext = value;
-                this.ciphertext_has_changed = true;
-                OnPropertyChanged("Ciphertext");
+                //this.ciphertext_has_changed = true;
+                //OnPropertyChanged("Ciphertext");
             }
         }
 
@@ -84,7 +88,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.ciphertext_alphabet; }
             set {
                 this.ciphertext_alphabet = value;
-                this.ciphertext_alphabet_has_changed = true;
+                //this.ciphertext_alphabet_has_changed = true;
             }
         }
 
@@ -94,7 +98,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.plaintext_alphabet; }
             set{
                 this.plaintext_alphabet = value;
-                this.plaintext_alphabet_has_changed = true;
+                //this.plaintext_alphabet_has_changed = true;
             }
         }
 
@@ -104,7 +108,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.reference_text; }
             set {
                 this.reference_text = value;
-                this.reference_text_has_changed = true;
+                //this.reference_text_has_changed = true;
             }
         }
 
@@ -114,7 +118,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.language_dictionary; }
             set {
                 this.language_dictionary = value;
-                this.language_dictionary_has_changed = true;
+                //this.language_dictionary_has_changed = true;
             }
         }
 
@@ -140,7 +144,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return this.masPresentation; }
         }
 
         /// <summary>
@@ -154,8 +158,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void PreExecution()
         {
-            Text RText = null;
-            String helper = null;
+            String alpha = "";
 
             // Prepare the cryptanalysis of the ciphertext
 
@@ -165,12 +168,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set ciphertext and plaintext alphabet
                 if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
                 {
-                    if (settings.bo_alphabet_has_changed == true)
-                    {
-                        settings.bo_alphabet_has_changed = false;
-                        this.ptAlphabet = new Alphabet(settings.boTextAlphabet, 1);
-                        this.ctAlphabet = new Alphabet(settings.boTextAlphabet, 1);
-                    }
+                    alpha = detAlphabet(settings.boAlphabet,settings.boCaseSensitive);
+                    this.ptAlphabet = new Alphabet(alpha, 1);
+                    this.ctAlphabet = new Alphabet(alpha, 1);
+                    this.caseSensitive = settings.boCaseSensitive;
                 }
                 else if (settings.boAlphabet == 2)
                 {
@@ -183,11 +184,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set plaintext alphabet
                 if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
                 {
-                    if (settings.pt_alphabet_has_changed == true)
-                    {
-                        settings.pt_alphabet_has_changed = false;
-                        this.ptAlphabet = new Alphabet(settings.ptTextAlphabet, 1);
-                    }
+                    alpha = detAlphabet(settings.ptAlphabet, settings.ptCaseSensitive);
+                    this.ptAlphabet = new Alphabet(alpha, 1);
+                    
                 }
                 else if (settings.ptAlphabet == 2)
                 {
@@ -197,11 +196,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set ciphertext alphabet
                 if (settings.ctAlphabet == 0 || settings.ctAlphabet == 1)
                 {
-                    if (settings.ct_alphabet_has_changed == true)
-                    {
-                        settings.ct_alphabet_has_changed = false;
-                        this.ctAlphabet = new Alphabet(settings.ctTextAlphabet, 1);
-                    }
+                    alpha = detAlphabet(settings.ctAlphabet, settings.ctCaseSensitive);
+                    this.ctAlphabet = new Alphabet(alpha, 1);
+                    this.caseSensitive = settings.ctCaseSensitive;
                 }
                 else if (settings.ctAlphabet == 2)
                 {
@@ -213,21 +210,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             // Check reference text input first
             if (this.reference_text != null)
             {
-                if (this.reference_text_has_changed == true)
+                String helper = null;
+                try
                 {
-                    this.reference_text_has_changed = false;
-                    try
-                    {
-                        helper = returnStreamContent(this.reference_text);
-                    }
-                    catch
-                    {
-                        GuiLogMessage("Error while obtaining reference text stream.",NotificationLevel.Error);
-                    }
-                    if (helper != null)
-                    {
-                        RText = new Text(helper, this.ptAlphabet);
-                    }
+                    helper = returnStreamContent(this.reference_text);
+                }
+                catch
+                {
+                    GuiLogMessage("Error while obtaining reference text stream.",NotificationLevel.Error);
+                }
+                if (helper != null)
+                {
+                    this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
                 }
             }
             // Check standard files second
@@ -237,6 +231,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     if (settings.boAlphabet == 0)
                     {
+                        String helper = null;
                         try
                         {
                             helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_eng.txt");
@@ -247,11 +242,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            RText = new Text(helper, this.ptAlphabet);
+                            //this.refText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.boAlphabet == 1)
                     {
+                        String helper = null;
                         try
                         {
                             helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_ger.txt");
@@ -262,18 +258,19 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            RText = new Text(helper, this.ptAlphabet);
+                            //this.refText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.boAlphabet == 2)
                     {
-                        RText = null;
+                        this.refText = null;
                     }
                 }
                 else if (settings.SeparateAlphabets == false)
                 {
                     if (settings.ptAlphabet == 0)
                     {
+                        String helper = null;
                         try
                         {
                             helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_eng.txt");
@@ -284,11 +281,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           RText = new Text(helper, this.ptAlphabet);
+                           //this.refText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 1)
                     {
+                        String helper = null;
                         try
                         {
                             helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_ger.txt");
@@ -299,37 +297,32 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           RText = new Text(helper, this.ptAlphabet);
+                           //this.refText = new Text(helper, this.ptAlphabet);
                         }
                     }
                     else if (settings.ptAlphabet == 2)
                     {
-                        RText = null;
+                        this.refText = null;
                     }
                 }
             }
 
-            helper = null;
-
-            // Optional dictionary
+            // Dictionary
             // Check dictionary input first
             if (this.language_dictionary != null)
             {
-                if (this.language_dictionary_has_changed == true)
+                String helper = null;
+                try
                 {
-                    this.language_dictionary_has_changed = false;
-                    try
-                    {
-                        helper = returnStreamContent(this.language_dictionary);
-                    }
-                    catch
-                    {
-                        GuiLogMessage("Error while obtaining language dictionary stream.",NotificationLevel.Error);
-                    }
-                    if (helper != null)
-                    {
-                        this.langDic = new LanguageDictionary(helper, ' ');
-                    }
+                    helper = returnStreamContent(this.language_dictionary);
+                }
+                catch
+                {
+                    GuiLogMessage("Error while obtaining language dictionary stream.",NotificationLevel.Error);
+                }
+                if (helper != null)
+                {
+                    this.langDic = new LanguageDictionary(helper, ' ');
                 }
             }
             // Check standard files second
@@ -341,30 +334,22 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     {
                         try
                         {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_dic_eng.txt");
+                            this.langDic = new LanguageDictionary("dictionary_english.txt",' ');
                         }
                         catch
                         {
                             GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
-                        if ( helper != null )
-                        {
-                            this.langDic = new LanguageDictionary(helper, ' ');
                         }
                     }
                     else if (settings.boAlphabet == 1)
                     {
                         try 
                         {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_dic_ger.txt");
+                            this.langDic = new LanguageDictionary("AnalysisMonoalphabeticSubstitution_dic_ger.txt",' ');
                         }
                         catch
                         {
                             GuiLogMessage("Error while obtaining German language dictionary file.", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                            this.langDic = new LanguageDictionary(helper, ' ');
                         }
                     }
                     else if (settings.boAlphabet == 2)
@@ -378,30 +363,22 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     {
                         try
                         {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_dic_eng.txt");
+                            this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
                         }
                         catch
                         {
                             GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                            this.langDic = new LanguageDictionary(helper, ' ');
                         }
                     }
                     else if (settings.ptAlphabet == 1)
                     {
                         try
                         {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_dic_eng.txt");
+                            this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
                         }
                         catch
                         {
                             GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                            this.langDic = new LanguageDictionary(helper, ' ');
                         }
                     }
                     else if (settings.ptAlphabet == 2)
@@ -411,29 +388,25 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
-            helper = null;
-
             // Set ciphertext
-            if (this.ciphertext_has_changed == true)
+            String helper1 = null;
+            try
             {
-                this.ciphertext_has_changed = false;
-                try
-                {
-                    helper = returnStreamContent(this.ciphertext);
-                }
-                catch
-                {
-                    GuiLogMessage("Error while obtaining ciphertext.", NotificationLevel.Error);
-                }
-                if (helper != null)
-                {
-                    this.cText = new Text(helper, this.ctAlphabet);
-                }
-                else 
-                {
-                    this.cText = null;
-                }
+                helper1 = returnStreamContent(this.ciphertext);
             }
+            catch
+            {
+                GuiLogMessage("Error while obtaining ciphertext.", NotificationLevel.Error);
+            }
+            if (helper1 != null)
+            {
+                this.cText = new Text(helper1, this.ctAlphabet, this.caseSensitive);
+            }
+            else 
+            {
+                this.cText = null;
+            }
+
 
             // PTAlphabet correct?
             if (this.ptAlphabet == null)
@@ -454,15 +427,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.inputOK = false;
             }
             // Reference text correct?
-            if (RText == null)
+            if (this.refText == null)
             {
                 this.langFreq = null;
-                GuiLogMessage("No reference text is set", NotificationLevel.Warning);
-            }
-            else
-            {
-                this.langFreq = new Frequencies(this.ptAlphabet);
-                this.langFreq.updateFrequenciesProbabilities(RText);
+                //GuiLogMessage("No reference text is set", NotificationLevel.Warning);
             }
             // Dictionary correct?
             if (this.langDic == null)
@@ -491,12 +459,15 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.inputOK = true;
                 return;
             }
+            else
+            {
+                this.langFreq = new Frequencies(this.ptAlphabet);
+                //this.langFreq.updateFrequenciesProbabilities(this.refText);
+                this.langFreq.updateFrequenciesProbabilities("english-5-ad.txt");
+            }
 
             // Create new analyzer
             Analyzer analyzer = new Analyzer();
-            
-            // Set progress to 0
-            ProgressChanged(0, 100);
             
             // Initialize analyzer
             analyzer.Ciphertext = this.cText;
@@ -506,18 +477,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             analyzer.Language_Dictionary = this.langDic;
             analyzer.SetPluginProgressCallback(ProgressChanged);
             
-            
-            ProgressChanged(1, 100);
-
             // Conduct analysis
             analyzer.Analyze();
 
-            ProgressChanged(99, 100);
-
+            // Show result
             this.plaintext = analyzer.Plaintext.ToString(this.ptAlphabet);
             OnPropertyChanged("Plaintext");
-
-            ProgressChanged(100, 100);
         }
 
         public void PostExecution()
@@ -598,6 +563,35 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return res;
+        }
+
+        private string detAlphabet(int lang, bool caseSensitive)
+        {
+            String alpha = "";
+            if (lang == 0)
+            {
+                if (caseSensitive == true)
+                {
+                    alpha = AnalysisMonoalphabeticSubstitution.smallEng + AnalysisMonoalphabeticSubstitution.capEng;
+                }
+                else
+                {
+                    alpha = AnalysisMonoalphabeticSubstitution.smallEng;
+                }
+            }
+            else if ( lang == 1)
+            {
+                if (caseSensitive == true)
+                {
+                    alpha = AnalysisMonoalphabeticSubstitution.smallGer + AnalysisMonoalphabeticSubstitution.capGer;
+                }
+                else
+                {
+                    alpha = AnalysisMonoalphabeticSubstitution.smallGer;
+                }
+            }
+
+            return alpha;
         }
 
         #endregion

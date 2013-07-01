@@ -129,11 +129,11 @@
   <data name="AlphabetTooltip" xml:space="preserve">
     <value>Complete used alphabet</value>
   </data>
-  <data name="CapitalLettersCaption" xml:space="preserve">
-    <value>Capital Letters</value>
+  <data name="CaseSensitiveCaption" xml:space="preserve">
+    <value>Case Sensitive</value>
   </data>
-  <data name="CapitalLettersTooltip" xml:space="preserve">
-    <value>Include capital letters</value>
+  <data name="CaseSensitiveTooltip" xml:space="preserve">
+    <value>Distinguish between small and captial letters.</value>
   </data>
   <data name="ChooseAlphabetCaption" xml:space="preserve">
     <value>Alphabet</value>
@@ -159,29 +159,11 @@
   <data name="CTAlphabetTooltip" xml:space="preserve">
     <value>Complete used ciphertext alphabet</value>
   </data>
-  <data name="CTSmallLettersCaption" xml:space="preserve">
-    <value>Small Letters</value>
-  </data>
-  <data name="CTSmallLettersTooltip" xml:space="preserve">
-    <value>Include small letters</value>
-  </data>
   <data name="CTChooseAlphabetCaption" xml:space="preserve">
     <value>Alphabet</value>
   </data>
   <data name="CTChooseAlphabetTooltip" xml:space="preserve">
     <value>Choose ciphertext alphabet</value>
-  </data>
-  <data name="CTSpaceCaption" xml:space="preserve">
-    <value>Space</value>
-  </data>
-  <data name="CTSpaceTooltip" xml:space="preserve">
-    <value>Include space</value>
-  </data>
-  <data name="CTSpecialCharsCaption" xml:space="preserve">
-    <value>Special Characters</value>
-  </data>
-  <data name="CTSpecialCharsTooltip" xml:space="preserve">
-    <value>Include special characters</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>AnalysisMonoalphabeticSubstitution</value>
@@ -198,29 +180,11 @@
   <data name="PTAlphabetTooltip" xml:space="preserve">
     <value>Complete used plaintext alphabet</value>
   </data>
-  <data name="PTSmallLettersCaption" xml:space="preserve">
-    <value>Small Letters</value>
-  </data>
-  <data name="PTSmallLettersTooltip" xml:space="preserve">
-    <value>Include small letters</value>
-  </data>
   <data name="PTChooseAlphabetCaption" xml:space="preserve">
     <value>Alphabet</value>
   </data>
   <data name="PTChooseAlphabetTooltip" xml:space="preserve">
     <value>Choose plaintext alphabet</value>
-  </data>
-  <data name="PTSpaceCaption" xml:space="preserve">
-    <value>Space</value>
-  </data>
-  <data name="PTSpaceTooltip" xml:space="preserve">
-    <value>Include space</value>
-  </data>
-  <data name="PTSpecialCharsCaption" xml:space="preserve">
-    <value>Special Characters</value>
-  </data>
-  <data name="PTSpecialCharsTooltip" xml:space="preserve">
-    <value>Include special characters</value>
   </data>
   <data name="SeparateAlphabetsCaption" xml:space="preserve">
     <value>Separate Plaintext/Ciphertext Alphabets</value>
@@ -228,34 +192,16 @@
   <data name="SeparateAlphabetsTooltip" xml:space="preserve">
     <value>Use distinct alphabets for plaintext and ciphertext</value>
   </data>
-  <data name="SmallLettersCaption" xml:space="preserve">
-    <value>Small Letters</value>
+  <data name="CTCaseSensitiveCaption" xml:space="preserve">
+    <value>Case Sensitive</value>
   </data>
-  <data name="SmallLettersTooltip" xml:space="preserve">
-    <value>Include small letters</value>
+  <data name="CTCaseSensitiveTooltip" xml:space="preserve">
+    <value>Distinguish between small and captial letters.</value>
   </data>
-  <data name="SpaceCaption" xml:space="preserve">
-    <value>Space</value>
+  <data name="PTCaseSensitiveCaption" xml:space="preserve">
+    <value>Case Sensitive</value>
   </data>
-  <data name="SpaceTooltip" xml:space="preserve">
-    <value>Include space</value>
-  </data>
-  <data name="SpecialCharsCaption" xml:space="preserve">
-    <value>Special Characters</value>
-  </data>
-  <data name="SpecialCharsTooltip" xml:space="preserve">
-    <value>Include special characters</value>
-  </data>
-  <data name="CTCapitalLettersCaption" xml:space="preserve">
-    <value>Capital Letters</value>
-  </data>
-  <data name="CTCapitalLettersTooltip" xml:space="preserve">
-    <value>Include capital letters</value>
-  </data>
-  <data name="PTCapitalLettersCaption" xml:space="preserve">
-    <value>Capital Letters</value>
-  </data>
-  <data name="PTCapitalLettersTooltip" xml:space="preserve">
-    <value>Include capital letters</value>
+  <data name="PTCaseSensitiveTooltip" xml:space="preserve">
+    <value>Distinguish between small and captial letters.</value>
   </data>
 </root>

@@ -31,35 +31,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         // General variables
         private bool hasChanges = false;
         // Language variables
-        private const String smallEng = "abcdefghijklmnopqrstuvwxyz";
-        private const String capEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private const String smallGer = "abcdefghijklmnopqrstuvwxyzöäüß";
-        private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
+ 
         private const String specChars = ",;.:-_<>#+*!$%/{([)]}=?";
         // "Alphabet" variables
         private int bo_alphabet = 0;
-        private Boolean bo_smallLetters = true;
-        private Boolean bo_capitalLetters = false;
-        private Boolean bo_specialChars = false;
-        private Boolean bo_space = false;
-        private String bo_textAlphabet = smallEng;
-        public Boolean bo_alphabet_has_changed = true;
+        private Boolean bo_caseSensitive = false;
         // "PTAlphabet" variables
         private int pt_alphabet = 0;
-        private Boolean pt_smallLetters = true;
-        private Boolean pt_capitalLetters = false;
-        private Boolean pt_specialChars = false;
-        private Boolean pt_space = false;
-        private String pt_textAlphabet = smallEng;
-        public Boolean pt_alphabet_has_changed = true;
+        private Boolean pt_caseSensitive = false;
         // "CTAlphabet" variables
         private int ct_alphabet = 0;
-        private Boolean ct_smallLetters = true;
-        private Boolean ct_capitalLetters = false;
-        private Boolean ct_specialChars = false;
-        private Boolean ct_space = false;
-        private String ct_textAlphabet = smallEng;
-        public Boolean ct_alphabet_has_changed = true;
+        private Boolean ct_caseSensitive = false;
         // Advanced settings variables
         private Boolean separateAlphabets = false;
 
@@ -70,42 +52,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void Initialize(){
             if (separateAlphabets==true){
                 hideSettingsElement("boAlphabet");
-                hideSettingsElement("boSmallLetters");
-                hideSettingsElement("boCapitalLetters");
-                hideSettingsElement("boSpecialChars");
-                hideSettingsElement("boSpace");
-                hideSettingsElement("boTextAlphabet");
+                hideSettingsElement("boCaseSensitive");
                 showSettingsElement("ptAlphabet");
-                showSettingsElement("ptSmallLetters");
-                showSettingsElement("ptCapitalLetters");
-                showSettingsElement("ptSpecialChars");
-                showSettingsElement("ptSpace");
-                showSettingsElement("ptTextAlphabet");
+                showSettingsElement("ptCaseSensitive");
                 showSettingsElement("ctAlphabet");
-                showSettingsElement("ctSmallLetters");
-                showSettingsElement("ctCapitalLetters");
-                showSettingsElement("ctSpecialChars");
-                showSettingsElement("ctSpace");
-                showSettingsElement("ctTextAlphabet");   
+                showSettingsElement("ctCaseSensitive");   
             }else{
                 showSettingsElement("boAlphabet");
-                showSettingsElement("boSmallLetters");
-                showSettingsElement("boCapitalLetters");
-                showSettingsElement("boSpecialChars");
-                showSettingsElement("boSpace");
-                showSettingsElement("boTextAlphabet");
+                showSettingsElement("boCaseSensitive");
                 hideSettingsElement("ptAlphabet");
-                hideSettingsElement("ptSmallLetters");
-                hideSettingsElement("ptCapitalLetters");
-                hideSettingsElement("ptSpecialChars");
-                hideSettingsElement("ptSpace");
-                hideSettingsElement("ptTextAlphabet");
+                hideSettingsElement("ptCaseSensitive");
                 hideSettingsElement("ctAlphabet");
-                hideSettingsElement("ctSmallLetters");
-                hideSettingsElement("ctCapitalLetters");
-                hideSettingsElement("ctSpecialChars");
-                hideSettingsElement("ctSpace");
-                hideSettingsElement("ctTextAlphabet");
+                hideSettingsElement("ctCaseSensitive");
             }
         }
 
@@ -119,81 +77,26 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public int boAlphabet
         {
             get { return bo_alphabet; }
-            set {
+            set
+            {
                 bo_alphabet = value;
                 switch (bo_alphabet)
                 {
                     case 0:
                     case 1:
-                        showSettingsElement("boSmallLetters");
-                        showSettingsElement("boCapitalLetters");
-                        showSettingsElement("boSpecialChars");
-                        showSettingsElement("boSpace");
-                        showSettingsElement("boTextAlphabet");
+                        showSettingsElement("boCaseSensitive");
                         break;
                     case 2:
-                        hideSettingsElement("boSmallLetters");
-                        hideSettingsElement("boCapitalLetters");
-                        hideSettingsElement("boSpecialChars");
-                        hideSettingsElement("boSpace");
-                        hideSettingsElement("boTextAlphabet");
+                        hideSettingsElement("boCaseSensitive");
                         break;
                 }
-                bo_textAlphabet = createAlphabetString(bo_alphabet, bo_smallLetters, bo_capitalLetters, bo_specialChars, bo_space);
-                OnPropertyChanged("boTextAlphabet");
-                OnPropertyChanged("boAlphabet");}
-        }
-        [TaskPane("SmallLettersCaption", "SmallLettersTooltip", "AlphabetGroup", 2, false, ControlType.CheckBox, null)]
-        public Boolean boSmallLetters
-        {
-            get { return bo_smallLetters; }
-            set { 
-                bo_smallLetters = value;
-                bo_textAlphabet = createAlphabetString(bo_alphabet,bo_smallLetters,bo_capitalLetters,bo_specialChars,bo_space);
-                OnPropertyChanged("boSmallLetters");
-                OnPropertyChanged("boTextAlphabet");}
-        }
-        [TaskPane("CapitalLettersCaption", "CapitalLettersTooltip", "AlphabetGroup", 3, false, ControlType.CheckBox, null)]
-        public Boolean boCapitalLetters
-        {
-            get { return bo_capitalLetters; }
-            set
-            {
-                bo_capitalLetters = value;
-                bo_textAlphabet = createAlphabetString(bo_alphabet, bo_smallLetters, bo_capitalLetters, bo_specialChars, bo_space);
-                OnPropertyChanged("boTextAlphabet");
-                OnPropertyChanged("boCapitalLetters");
             }
         }
-        [TaskPane("SpecialCharsCaption", "SpecialCharsTooltip", "AlphabetGroup", 4, false, ControlType.CheckBox, null)]
-        public Boolean boSpecialChars
+        [TaskPane("CaseSensitiveCaption", "CaseSensitiveTooltip", "AlphabetGroup", 2, false, ControlType.CheckBox, null)]
+        public Boolean boCaseSensitive
         {
-            get { return bo_specialChars; }
-            set { 
-                bo_specialChars = value;
-                bo_textAlphabet = createAlphabetString(bo_alphabet, bo_smallLetters, bo_capitalLetters, bo_specialChars, bo_space);
-                OnPropertyChanged("boTextAlphabet");
-                OnPropertyChanged("boSpecialChars");}
-        }
-        [TaskPane("SpaceCaption", "SpaceTooltip", "AlphabetGroup", 5, false, ControlType.CheckBox, null)]
-        public Boolean boSpace
-        {
-            get { return bo_space; }
-            set {
-                bo_space = value;
-                bo_textAlphabet = createAlphabetString(bo_alphabet, bo_smallLetters, bo_capitalLetters, bo_specialChars, bo_space);
-                OnPropertyChanged("boTextAlphabet");
-                OnPropertyChanged("boSpace");}
-        }
-        [TaskPane("AlphabetCaption", "AlphabetTooltip", "AlphabetGroup", 6, false, ControlType.TextBoxReadOnly, null)]
-        public String boTextAlphabet
-        {
-            get { return bo_textAlphabet; }
-            set {
-                bo_textAlphabet = value;
-                OnPropertyChanged("boTextAlphabet");
-                bo_alphabet_has_changed = true;
-            }
+            get { return bo_caseSensitive; }
+            set { bo_caseSensitive = value; }
         }
 
         // Settings for plaintext alphabet
@@ -202,83 +105,28 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public int ptAlphabet
         {
             get { return pt_alphabet; }
-            set {
+            set
+            {
                 pt_alphabet = value;
                 switch (pt_alphabet)
                 {
                     case 0:
                     case 1:
-                        showSettingsElement("ptSmallLetters");
-                        showSettingsElement("ptCapitalLetters");
-                        showSettingsElement("ptSpecialChars");
-                        showSettingsElement("ptSpace");
-                        showSettingsElement("ptTextAlphabet");
+                        showSettingsElement("ptCaseSensitive");
                         break;
                     case 2:
-                        hideSettingsElement("ptSmallLetters");
-                        hideSettingsElement("ptCapitalLetters");
-                        hideSettingsElement("ptSpecialChars");
-                        hideSettingsElement("ptSpace");
-                        hideSettingsElement("ptTextAlphabet");
+                        hideSettingsElement("ptCaseSensitive");
                         break;
                 }
-                pt_textAlphabet = createAlphabetString(pt_alphabet, pt_smallLetters, pt_capitalLetters, pt_specialChars, pt_space);
-                OnPropertyChanged("ptTextAlphabet");
-                OnPropertyChanged("ptAlphabet");}
-        }
-        [TaskPane("PTSmallLettersCaption", "PTSmallLettersTooltip", "PTAlphabetGroup", 2, false, ControlType.CheckBox, null)]
-        public Boolean ptSmallLetters
-        {
-            get { return pt_smallLetters; }
-            set {
-                pt_smallLetters = value;
-                pt_textAlphabet = createAlphabetString(pt_alphabet, pt_smallLetters, pt_capitalLetters, pt_specialChars, pt_space);
-                OnPropertyChanged("ptSmallLetters");
-                OnPropertyChanged("ptTextAlphabet");}
-        }
-        [TaskPane("PTCapitalLettersCaption", "PTCapitalLettersTooltip", "PTAlphabetGroup", 3, false, ControlType.CheckBox, null)]
-        public Boolean ptCapitalLetters
-        {
-            get { return pt_capitalLetters; }
-            set
-            {
-                pt_capitalLetters = value;
-                pt_textAlphabet = createAlphabetString(pt_alphabet, pt_smallLetters, pt_capitalLetters, pt_specialChars, pt_space);
-                OnPropertyChanged("ptCapitalLetters");
-                OnPropertyChanged("ptTextAlphabet");
             }
         }
-        [TaskPane("PTSpecialCharsCaption", "PTSpecialCharsTooltip", "PTAlphabetGroup", 4, false, ControlType.CheckBox, null)]
-        public Boolean ptSpecialChars
+        [TaskPane("PTCaseSensitiveCaption", "PTCaseSensitiveTooltip", "PTAlphabetGroup", 2, false, ControlType.CheckBox, null)]
+        public Boolean ptCaseSensitive
         {
-            get { return pt_specialChars; }
-            set {
-                pt_specialChars = value;
-                pt_textAlphabet = createAlphabetString(pt_alphabet, pt_smallLetters, pt_capitalLetters, pt_specialChars, pt_space);
-                OnPropertyChanged("ptTextAlphabet");
-                OnPropertyChanged("ptSpecialChars");}
+            get { return pt_caseSensitive; }
+            set { pt_caseSensitive = value; }
         }
-        [TaskPane("PTSpaceCaption", "PTSpaceTooltip", "PTAlphabetGroup", 5, false, ControlType.CheckBox, null)]
-        public Boolean ptSpace
-        {
-            get { return pt_space; }
-            set {
-                pt_space = value;
-                pt_textAlphabet = createAlphabetString(pt_alphabet, pt_smallLetters, pt_capitalLetters, pt_specialChars, pt_space);
-                OnPropertyChanged("ptTextAlphabet");
-                OnPropertyChanged("ptSpace");}
-        }
-        [TaskPane("PTAlphabetCaption", "PTAlphabetTooltip", "PTAlphabetGroup", 6, false, ControlType.TextBoxReadOnly, null)]
-        public String ptTextAlphabet
-        {
-            get { return pt_textAlphabet; }
-            set {
-                pt_textAlphabet = value;
-                OnPropertyChanged("ptTextAlphabet");
-                pt_alphabet_has_changed = true;
-            }
-        }
-
+      
         // Settings for ciphertext alphabet
         [TaskPane("CTChooseAlphabetCaption", "CTChooseAlphabetTooltip", "CTAlphabetGroup", 1, false, ControlType.ComboBox,
             new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2", "ChooseAlphabetList3"})]
@@ -291,82 +139,21 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     case 0:
                     case 1:
-                        showSettingsElement("ctSmallLetters");
-                        showSettingsElement("ctCapitalLetters");
-                        showSettingsElement("ctSpecialChars");
-                        showSettingsElement("ctSpace");
-                        showSettingsElement("ctTextAlphabet");
+                        showSettingsElement("ctCaseSensitive");
                         break;
                     case 2:
-                        hideSettingsElement("ctSmallLetters");
-                        hideSettingsElement("ctCapitalLetters");
-                        hideSettingsElement("ctSpecialChars");
-                        hideSettingsElement("ctSpace");
-                        hideSettingsElement("ctTextAlphabet");
+                        hideSettingsElement("ctCaseSensitive");
                         break;
                 }
-                ct_textAlphabet = createAlphabetString(ct_alphabet, ct_smallLetters, ct_capitalLetters, ct_specialChars, ct_space);
-                OnPropertyChanged("ctTextAlphabet");
-                OnPropertyChanged("ctAlphabet");
             }
         }
-        [TaskPane("CTSmallLettersCaption", "CTSmallLettersTooltip","CTAlphabetGroup", 2, false, ControlType.CheckBox,null)]
-        public Boolean ctSmallLetters
+        [TaskPane("CTCaseSensitiveCaption", "CTCaseSensitiveTooltip","CTAlphabetGroup", 2, false, ControlType.CheckBox,null)]
+        public Boolean ctCaseSensitive
         {
-            get { return ct_smallLetters; }
-            set {
-                ct_smallLetters = value;
-                ct_textAlphabet = createAlphabetString(ct_alphabet, ct_smallLetters, ct_capitalLetters, ct_specialChars, ct_space);
-                OnPropertyChanged("ctTextAlphabet");
-                OnPropertyChanged("ctSmallLetters");
-            }
+            get { return ct_caseSensitive; }
+            set { ct_caseSensitive = value; }
         }
-        [TaskPane("CTCapitalLettersCaption", "CTCapitalLettersTooltip", "CTAlphabetGroup",3, false, ControlType.CheckBox, null)]
-        public Boolean ctCapitalLetters
-        {
-            get { return ct_capitalLetters; }
-            set
-            {
-                ct_capitalLetters = value;
-                ct_textAlphabet = createAlphabetString(ct_alphabet, ct_smallLetters, ct_capitalLetters, ct_specialChars, ct_space);
-                OnPropertyChanged("ctTextAlphabet");
-                OnPropertyChanged("ctCapitalLetters");
-            }
-        }
-        [TaskPane("CTSpecialCharsCaption", "CTSpecialCharsTooltip", "CTAlphabetGroup", 4, false, ControlType.CheckBox, null)]
-        public Boolean ctSpecialChars
-        {
-            get { return ct_specialChars; }
-            set
-            {
-                ct_specialChars = value;
-                ct_textAlphabet = createAlphabetString(ct_alphabet, ct_smallLetters, ct_capitalLetters, ct_specialChars, ct_space);
-                OnPropertyChanged("ctTextAlphabet");
-                OnPropertyChanged("ctSpecialChars");
-            }
-        }
-        [TaskPane("CTSpaceCaption", "CTSpaceTooltip", "CTAlphabetGroup", 5, false, ControlType.CheckBox, null)]
-        public Boolean ctSpace
-        {
-            get { return ct_space; }
-            set {
-                ct_space = value;
-                ct_textAlphabet = createAlphabetString(ct_alphabet, ct_smallLetters, ct_capitalLetters, ct_specialChars, ct_space);
-                OnPropertyChanged("ctTextAlphabet");
-                OnPropertyChanged("ctSpace");
-            }
-        }
-        [TaskPane("CTAlphabetCaption", "CTAlphabetTooltip", "CTAlphabetGroup", 6, false, ControlType.TextBoxReadOnly, null)]
-        public String ctTextAlphabet
-        {
-            get { return ct_textAlphabet; }
-            set {
-                ct_textAlphabet = value;
-                OnPropertyChanged("ctTextAlphabet");
-                ct_alphabet_has_changed = true;
-            }
-        }
-
+     
         // Advanced settings
         [TaskPane("SeparateAlphabetsCaption", "SeparateAlphabetsTooltip", "AdvancedSettingsGroup", 1, false, ControlType.CheckBox, null)]
         public Boolean SeparateAlphabets
@@ -378,48 +165,21 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 if (separateAlphabets == true)
                 {
                     hideSettingsElement("boAlphabet");
-                    hideSettingsElement("boSmallLetters");
-                    hideSettingsElement("boCapitalLetters");
-                    hideSettingsElement("boSpecialChars");
-                    hideSettingsElement("boSpace");
-                    hideSettingsElement("boTextAlphabet");
+                    hideSettingsElement("boCaseSensitive");
                     showSettingsElement("ptAlphabet");
-                    showSettingsElement("ptSmallLetters");
-                    showSettingsElement("ptCapitalLetters");
-                    showSettingsElement("ptSpecialChars");
-                    showSettingsElement("ptSpace");
-                    showSettingsElement("ptTextAlphabet");
+                    showSettingsElement("ptCaseSensitive");
                     showSettingsElement("ctAlphabet");
-                    showSettingsElement("ctSmallLetters");
-                    showSettingsElement("ctCapitalLetters");
-                    showSettingsElement("ctSpecialChars");
-                    showSettingsElement("ctSpace");
-                    showSettingsElement("ctTextAlphabet");
+                    showSettingsElement("ctCaseSensitive");
                 }
                 else
                 {
                     showSettingsElement("boAlphabet");
-                    showSettingsElement("boSmallLetters");
-                    showSettingsElement("boCapitalLetters");
-                    showSettingsElement("boSpecialChars");
-                    showSettingsElement("boSpace");
-                    showSettingsElement("boTextAlphabet");
+                    showSettingsElement("boCaseSensitive");
                     hideSettingsElement("ptAlphabet");
-                    hideSettingsElement("ptSmallLetters");
-                    hideSettingsElement("ptCapitalLetters");
-                    hideSettingsElement("ptSpecialChars");
-                    hideSettingsElement("ptSpace");
-                    hideSettingsElement("ptTextAlphabet");
+                    hideSettingsElement("ptCaseSensitive");
                     hideSettingsElement("ctAlphabet");
-                    hideSettingsElement("ctSmallLetters");
-                    hideSettingsElement("ctCapitalLetters");
-                    hideSettingsElement("ctSpecialChars");
-                    hideSettingsElement("ctSpace");
-                    hideSettingsElement("ctTextAlphabet");
+                    hideSettingsElement("ctCaseSensitive");
                 }
-                bo_alphabet_has_changed = true;
-                pt_alphabet_has_changed = true;
-                ct_alphabet_has_changed = true;
             }
         }
 
@@ -459,42 +219,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #endregion
 
         #region Helper Functions
-
-        private String createAlphabetString(int alph, Boolean small, Boolean cap, Boolean spec, Boolean space)
-        {
-            String res = "";
-            if (alph == 0)
-            {
-                if (small)
-                {
-                    res += smallEng;
-                }
-                if (cap)
-                {
-                    res += capEng;
-                }
-            }
-            else if (alph == 1)
-            {
-                if (small)
-                {
-                    res += smallGer;
-                }
-                if (cap)
-                {
-                    res += capGer;
-                }
-            }
-            if (spec)
-            {
-                res += specChars;
-            }
-            if (space)
-            {
-                res += " ";
-            }
-            return res;
-        }
 
         private void showSettingsElement(string element)
         {

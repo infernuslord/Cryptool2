@@ -81,6 +81,9 @@
     <Compile Include="AnalysisMonoalphabeticSubstitution.cs" />
     <Compile Include="AnalysisMonoalphabeticSubstitutionSettings.cs" />
     <Compile Include="Analyzer.cs" />
+    <Compile Include="AssignmentPresentation.xaml.cs">
+      <DependentUpon>AssignmentPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Text.cs" />
     <Compile Include="Frequencies.cs" />
     <Compile Include="LanguageDictionary.cs" />
@@ -121,11 +124,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="AnalysisMonoalphabeticSubstitution_dic_eng.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="AnalysisMonoalphabeticSubstitution_dic_ger.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -135,6 +134,18 @@
     <Content Include="AnalysisMonoalphabeticSubstitution_ref_ger.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="dictionary_english.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="english-5-ad.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AssignmentPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
