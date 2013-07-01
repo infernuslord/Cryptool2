@@ -1677,6 +1677,7 @@ namespace WorkspaceManager.View.Visuals
                         else
                             SelectedText = null;
 
+                        SelectedItems = null;
                         return;
                     }
                     else
@@ -1702,13 +1703,6 @@ namespace WorkspaceManager.View.Visuals
                         if (SelectedItems == null || !SelectedItems.Contains(c))
                             SelectedItems = new UIElement[] { c };
                         startedSelection = true;
-                        //var res = Util.TryFindParent<Thumb>(e.OriginalSource as UIElement);
-
-                        //Dispatcher.BeginInvoke((ThreadStart)delegate
-                        //{
-                        //    c.Focus();
-                        //    Keyboard.Focus(c);
-                        //});
                         return;
                     }
 

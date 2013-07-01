@@ -42,6 +42,7 @@ using WorkspaceManager.View.Base;
 using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
 using WorkspaceManagerModel.Model.Tools;
+using System.Collections;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -72,6 +73,13 @@ namespace WorkspaceManager
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new EditorVisual(WorkspaceModel);
+            WorkspaceSpaceEditorView.ItemsSelected += new EventHandler<SelectedItemsEventArgs>(WorkspaceSpaceEditorView_ItemsSelected);
+        }
+
+        void WorkspaceSpaceEditorView_ItemsSelected(object sender, SelectedItemsEventArgs e)
+        {
+            if(e.Items != null)
+                this.SelectedPluginsList = new ObservableCollection<ComponentVisual>(e.Items.OfType<ComponentVisual>());
         }
 
         private void OnSampleLoaded(string filename)
@@ -328,8 +336,13 @@ namespace WorkspaceManager
             {
                 var deleteOperationsList = new List<Operation>();
                 var connections = new List<ConnectionModel>();
+                var images = new List<ImageModel>();
+                var texts = new List<TextModel>();
+                var plugins = new List<PluginModel>();
+
                 foreach (var item in editor.SelectedItems)
                 {
+                    plugins.Add(((PluginModel)((ComponentVisual)item).Model));
                     if (item is ComponentVisual)
                     {
                         foreach (var connector in ((PluginModel)((ComponentVisual) item).Model).GetOutputConnectors())
@@ -348,11 +361,6 @@ namespace WorkspaceManager
                         }
                         
                     }
-                }
-
-                foreach (var item in editor.SelectedItems)
-                {
-
                     if (item is CryptoLineView)
                     {
                         if (!connections.Contains(((CryptoLineView)item).Model))
@@ -360,18 +368,42 @@ namespace WorkspaceManager
                             connections.Add(((CryptoLineView)item).Model);
                         }
                     }
+
+                    //if (item is TextVisual)
+                    //{
+                    //    if (!texts.Contains(((TextVisual)item).Model))
+                    //    {
+                    //        texts.Add(((TextVisual)item).Model);
+                    //    }
+                    //}
+
+                    //if (item is ImageVisual)
+                    //{
+                    //    if (!images.Contains(((ImageVisual)item).Model))
+                    //    {
+                    //        images.Add(((ImageVisual)item).Model);
+                    //    }
+                    //}
                 }
 
-                foreach(var connection in connections)
+                foreach (var item in connections)
                 {
-                    deleteOperationsList.Add(new DeleteConnectionModelOperation(connection));
+                    deleteOperationsList.Add(new DeleteConnectionModelOperation(item));
                 }
 
-                foreach (var item in editor.SelectedItems)
+                //foreach (var item in images)
+                //{
+                //    deleteOperationsList.Add(new DeleteImageModelOperation(item));
+                //}
+
+                //foreach (var item in texts)
+                //{
+                //    deleteOperationsList.Add(new DeleteTextModelOperation(item));
+                //}
+
+                foreach (var item in plugins)
                 {
-                    var componentVisual = item as ComponentVisual;
-                    if (componentVisual != null)
-                        deleteOperationsList.Add(new DeletePluginModelOperation((componentVisual).Model));
+                    deleteOperationsList.Add(new DeletePluginModelOperation(item));
                 }
 
                 WorkspaceModel.ModifyModel(new MultiOperation(deleteOperationsList));
@@ -452,9 +484,9 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            if (((EditorVisual)Presentation).SelectedItems != null && ((EditorVisual)Presentation).SelectedItems[0] is ComponentVisual)
+            if (SelectedPluginsList != null && SelectedPluginsList.Count() != 0)
             {
-                var element = (ComponentVisual)((EditorVisual)Presentation).SelectedItems[0];
+                ComponentVisual element = SelectedPluginsList.ElementAt(0);
                 OnlineHelp.InvokeShowDocPage(element.Model.PluginType);
             }
             else

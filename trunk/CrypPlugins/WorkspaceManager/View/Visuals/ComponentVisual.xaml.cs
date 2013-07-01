@@ -1102,8 +1102,6 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
         {
 
         }
-
-
     }
 
     #region Events

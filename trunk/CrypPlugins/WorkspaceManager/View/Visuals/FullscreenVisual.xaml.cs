@@ -223,8 +223,5 @@ namespace WorkspaceManager.View.Visuals
             f.OnPropertyChanged("ActivePresentation");
         }
         #endregion
-
-
-
     }
 }
