@@ -13,49 +13,82 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private List<int> text = new List<int>();
         private List<string> notInAlphabet = new List<string>();
+        private List<bool> orgCapital = new List<bool>();
+        private Boolean caseSensitive = false;
 
         #endregion
 
         #region Constructor
 
-        public Text(string text, Alphabet alpha)
+        public Text(string text, Alphabet alpha, bool caseSense)
         {
+            this.caseSensitive = caseSense;
             string curString = "";
             string c;
 
-            for (int i = 0; i < text.Length; i++)
+            if (this.caseSensitive == false)
             {
-                int j = 0;
-                do
+                for (int i = 0; i < text.Length; i++)
                 {
-                    j++;
-                    curString = text.Substring(i, j);
-                    c = curString;
+                    bool status = false;
+
+                    int j = 0;
+                    do
+                    {
+                        j++;
+                        curString = text.Substring(i, j);
+                        c = curString;
+                        if (char.IsUpper(c.ToCharArray()[0]))
+                        {
+                            status = true;
+                            c = c.ToLower();
+                        }
+
+                    }
+                    while (alpha.GetNumberOfLettersStartingWith(c) > 1);
+
+                    if (alpha.GetNumberOfLettersStartingWith(c) == 1)
+                    {
+                        this.text.Add(alpha.GetPositionOfLetter(c));
+                        this.orgCapital.Add(status);
+                    }
+                    else if (alpha.GetNumberOfLettersStartingWith(c) == 0)
+                    {
+                        this.notInAlphabet.Add(curString);
+                        this.text.Add(-this.notInAlphabet.Count);
+                        this.orgCapital.Add(false);
+                    }
 
                 }
-                while (alpha.GetNumberOfLettersStartingWith(c) > 1);
-
-                if (alpha.GetNumberOfLettersStartingWith(c) == 1)
-                {
-                    this.text.Add(alpha.GetPositionOfLetter(c));
-                }
-                else if (alpha.GetNumberOfLettersStartingWith(c) == 0)
-                {
-                    this.text.Add(-1);
-                    this.notInAlphabet.Add(curString);
-                }
-
             }
-        }
-
-        public Text(string text, char separator)
-        {
-            string[] letters = text.Split(separator);
-            /*
-            for (int i = 0; i < letters.Count(); i++)
+            else
             {
-                this.txt.Add(letters[i]);
-            }*/
+                for (int i = 0; i < text.Length; i++)
+                {
+                    int j = 0;
+                    do
+                    {
+                        j++;
+                        curString = text.Substring(i, j);
+                        c = curString;
+
+                    }
+                    while (alpha.GetNumberOfLettersStartingWith(c) > 1);
+
+                    if (alpha.GetNumberOfLettersStartingWith(c) == 1)
+                    {
+                        this.text.Add(alpha.GetPositionOfLetter(c));
+                        this.orgCapital.Add(false);
+                    }
+                    else if (alpha.GetNumberOfLettersStartingWith(c) == 0)
+                    {
+                        this.notInAlphabet.Add(curString);
+                        this.text.Add(-this.notInAlphabet.Count);
+                        this.orgCapital.Add(false);
+                    }
+
+                }
+            }
         }
 
         public Text()
@@ -84,16 +117,24 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             string res = "";
 
-            foreach (int letter in this.text)
+            for (int i=0;i<this.text.Count;i++)
             {
-                if (letter != -1)
+                int letter = this.text[i];
+
+                if (letter >= 0)
                 {
-                    res += alpha.GetLetterFromPosition(letter);
+                    if (this.caseSensitive == false && this.orgCapital[i] == true)
+                    {
+                        res += alpha.GetLetterFromPosition(letter).ToUpper();
+                    }
+                    else
+                    {
+                        res += alpha.GetLetterFromPosition(letter);
+                    }
                 }
                 else
                 {
-                    res += this.notInAlphabet[0];
-                    this.notInAlphabet.RemoveAt(0);
+                    res += this.notInAlphabet[(-1)*letter-1];
                 }
             }
 
@@ -114,21 +155,59 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 return -1;
             }
         }
+
+        /// <summary>
+        /// Get letter that is not in alphabet at position
+        /// </summary>
+        public string GetLetterNotInAlphabetAt(int position)
+        {
+            if (position >= 0)
+            {
+                return "";  
+            }
+            else if (-position > this.notInAlphabet.Count)
+            {
+                return "";
+            }
+            else
+            {
+                return this.notInAlphabet[-position-1];
+            }
+        }
         
         /// <summary>
         /// Add letter to the end of the text
         /// </summary>
         public void AddLetter(string letter, Alphabet alpha)
         {
-            int position = alpha.GetPositionOfLetter(letter);
+            int position;
+
+            if (this.caseSensitive == false)
+            {
+                if (char.IsUpper(letter.ToCharArray()[0]) == true)
+                {
+                    this.orgCapital.Add(true);
+                }
+                else
+                {
+                    this.orgCapital.Add(false);
+                }
+                position = alpha.GetPositionOfLetter(letter.ToLower());
+            }
+            else
+            {
+                position = alpha.GetPositionOfLetter(letter);
+                this.orgCapital.Add(false);
+            }
+ 
             if (position >= 0)
             {
                 this.text.Add(position);
             }
             else
             {
-                this.text.Add(-1);
                 this.notInAlphabet.Add(letter);
+                this.text.Add(-this.notInAlphabet.Count);
             }
         }
 
@@ -167,12 +246,22 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 res.AddLetterNotInAlphabet(this.notInAlphabet[i]);
             }
+            for (int i = 0; i < this.orgCapital.Count; i++)
+            {
+                res.AddOrgCapital(this.orgCapital[i]);
+            }
+
             return res;
         }
 
         private void AddLetterNotInAlphabet(string letter)
         {
             this.notInAlphabet.Add(letter);
+        }
+
+        private void AddOrgCapital(bool val)
+        {
+            this.orgCapital.Add(val);
         }
 
         #endregion

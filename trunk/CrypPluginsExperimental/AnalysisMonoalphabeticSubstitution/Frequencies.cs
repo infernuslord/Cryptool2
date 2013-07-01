@@ -13,11 +13,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private int[][][][][] freq5gram;
         private double[][][][][] prob5gram;
-        private int[][] freq2gram;
-        private double[][] prob2gram;
         private Alphabet alpha;
         private int ratio5gram = 0;
-        private int ratio2gram = 0;
 
         #endregion
 
@@ -50,19 +47,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            this.freq2gram = new int[size][];
-            this.prob2gram = new double[size][];
-            for (int i=0;i<size;i++)
-            {
-                this.freq2gram[i] = new int[size];
-                this.prob2gram[i] = new double[size];
-            }
-        }
-
-        public Frequencies(string prob_filename)
-        {
-
         }
 
         #endregion
@@ -72,18 +56,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public int SizeFrequencies5gram
         {
             get { return this.freq5gram.Length; }
-            private set { ; }
-        }
-
-        public int SizeFrequencies2gram
-        {
-            get { return this.freq2gram.Length; }
-            private set { ; }
-        }
-
-        public int Ratio2gram
-        {
-            get { return this.ratio2gram; }
             private set { ; }
         }
 
@@ -100,11 +72,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Get frequency
         /// </summary>
-        public int GetFrequency2gram(int l0, int l1)
-        {
-            return this.freq2gram[l0][l1];
-        }
-
         public int GetFrequency5gram(int l0, int l1, int l2, int l3, int l4)
         {
             return this.freq5gram[l0][l1][l2][l3][l4];
@@ -113,11 +80,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Get probability
         /// </summary>
-        public double GetProbability2gram(int l0, int l1)
-        {
-            return this.prob2gram[l0][l1];
-        }
-
         public double GetLogProb5gram(int l0, int l1, int l2, int l3, int l4)
         {
             return this.prob5gram[l0][l1][l2][l3][l4];
@@ -127,18 +89,36 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// Generate 2-gram and 5-gram frequencies of a text and store them 
         /// </summary>
         /// 
+        public void updateFrequenciesProbabilities(String filename)
+        {
+            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            {
+                for (int i = 0; i < this.freq5gram.Length; i++)
+                {
+                    for (int j = 0; j < this.freq5gram.Length; j++)
+                    {
+                        for (int k = 0; k < this.freq5gram.Length; k++)
+                        {
+                            for (int l = 0; l < this.freq5gram.Length; l++)
+                            {
+                                for (int m = 0; m < this.freq5gram.Length; m++)
+                                {
+                                    string line = reader.ReadLine();
+                                    double nr = double.Parse(line);
+                                    this.prob5gram[i][j][k][l][m] = nr;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+
         public void updateFrequenciesProbabilities(Text text)
         {
             // Set ratios and frequencies to zero
-            this.ratio2gram = 0;
             this.ratio5gram = 0;
-            for (int i = 0; i < this.freq2gram.Length; i++)
-            {
-                for (int j = 0; j < this.freq2gram.Length; j++)
-                {
-                    this.freq2gram[i][j] = 0;
-                }
-            }
             for (int i = 0; i < this.freq5gram.Length; i++)
             {
                 for (int j = 0; j < this.freq5gram.Length; j++)
@@ -160,7 +140,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             int pos1, pos2, pos3, pos4;
             for (int pos0 = 0; pos0 < text.Length; pos0++)
             {
-                while ((pos0 < text.Length) && (text.GetLetterAt(pos0) == -1))
+                while ((pos0 < text.Length) && (text.GetLetterAt(pos0) < 0))
                 {
                     pos0++;
                 }
@@ -169,7 +149,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     break;
                 }
                 pos1 = pos0 + 1;
-                while ((pos1 < text.Length) && (text.GetLetterAt(pos1) == -1))
+                while ((pos1 < text.Length) && (text.GetLetterAt(pos1) < 0))
                 {
                     pos1++;
                 }
@@ -177,11 +157,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     continue;
                 }
-                this.freq2gram[text.GetLetterAt(pos0)][text.GetLetterAt(pos1)]++;
-                this.ratio2gram++;
 
                 pos2 = pos1 + 1;
-                while ((pos2 < text.Length) && (text.GetLetterAt(pos2) == -1))
+                while ((pos2 < text.Length) && (text.GetLetterAt(pos2) < 0))
                 {
                     pos2++;
                 }
@@ -190,7 +168,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     continue;
                 }
                 pos3 = pos2 + 1;
-                while ((pos3 < text.Length) && (text.GetLetterAt(pos3) == -1))
+                while ((pos3 < text.Length) && (text.GetLetterAt(pos3) < 0))
                 {
                     pos3++;
                 }
@@ -199,7 +177,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     continue;
                 }
                 pos4 = pos3 + 1;
-                while ((pos4 < text.Length) && (text.GetLetterAt(pos4) == -1))
+                while ((pos4 < text.Length) && (text.GetLetterAt(pos4) < 0))
                 {
                     pos4++;
                 }
@@ -453,29 +431,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             
             return res;
         }
-        /*
-        private int GetFreqArrayPos2gram(int l0, int l1)
-        {
-            int res = 0;
-
-            res += l1;
-            res += this.alpha.Length * (l0 + 1);
-            
-            return res;
-        }
-
-        private int GetFreqArrayPos5gram(int l0, int l1, int l2, int l3, int l4)
-        {
-            int res = 0;
-
-            res += l4;
-            res += this.alpha.Length * (l3 + 1);
-            res += this.Pow(this.alpha.Length, (2)) * (l2 + 1);
-            res += this.Pow(this.alpha.Length, (3)) * (l1 + 1);
-            res += this.Pow(this.alpha.Length, (4)) * (orders[0] + 1);
-       
-            return res;
-        }*/
 
         /// <summary>
         /// Power
