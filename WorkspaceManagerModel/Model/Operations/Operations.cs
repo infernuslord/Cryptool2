@@ -332,8 +332,8 @@ namespace WorkspaceManagerModel.Model.Operations
     /// </summary>
     public sealed class MoveModelElementOperation : Operation
     {
-        private Point OldPosition = new Point(0, 0);
-        private Point NewPosition = new Point(0, 0);
+        internal Point OldPosition = new Point(0, 0);
+        internal Point NewPosition = new Point(0, 0);
 
         public MoveModelElementOperation(VisualElementModel model, Point newPosition)
             : base(model)
@@ -350,6 +350,13 @@ namespace WorkspaceManagerModel.Model.Operations
             if(OldPosition.Equals(NewPosition))
             {
                 return false;
+            }
+            if(NewPosition.X <= 0){
+                NewPosition.X = 0;
+            }
+            if (NewPosition.Y <= 0)
+            {
+                NewPosition.Y = 0;
             }
             Model.Position = NewPosition;
             workspaceModel.OnChildPositionChanged(Model, OldPosition, NewPosition);
@@ -470,10 +477,63 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override object Execute(WorkspaceModel workspaceModel, bool events = true)
         {
+            bool resetX = false;
+            bool resetY = false;
+            double diffX = 0;
+            double diffY = 0;
+            double smallX = double.PositiveInfinity;
+            double smallY = double.PositiveInfinity;
+            foreach (Operation op in _operations)
+            {
+                
+                if (op is MoveModelElementOperation)
+                {
+                    MoveModelElementOperation mov = (MoveModelElementOperation)op;
+                    if (mov.NewPosition.X <= 0)
+                    {
+                        if (-1 * mov.NewPosition.X > diffX && mov.OldPosition.X < smallX)
+                        {
+                            diffX = mov.OldPosition.X;
+                            smallX = mov.OldPosition.X;
+                        }
+                        resetX = true;
+                    }
+                    if (mov.NewPosition.Y <= 0)
+                    {
+                        if (-1 * mov.NewPosition.Y > diffY && mov.OldPosition.Y < smallY)
+                        {
+                            diffY = mov.OldPosition.Y;
+                            smallY = mov.OldPosition.Y;
+                        }
+                        resetY = true;
+                    }
+                }
+            }
+
+            if (resetX || resetY)
+            {
+                foreach (Operation op in _operations)
+                {
+                    if (op is MoveModelElementOperation)
+                    {
+                        MoveModelElementOperation mov = (MoveModelElementOperation)op;
+                        if (resetX)
+                        {
+                            mov.NewPosition.X = mov.OldPosition.X - diffX;
+                        }
+                        if (resetY)
+                        {
+                            mov.NewPosition.Y = mov.OldPosition.Y - diffY;
+                        }
+                    }
+                }
+            }
+
             foreach (Operation op in _operations)
             {
                 op.Execute(workspaceModel, events);
             }
+
             return true;
         }
 
