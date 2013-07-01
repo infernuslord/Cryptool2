@@ -154,10 +154,6 @@ namespace WorkspaceManager.View.Visuals
         private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
 
-            TextVisual bin = (TextVisual)d;
-            if (bin.PositionDeltaChanged != null)
-                bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() { });
-
         }
 
         private static void OnColorValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -205,8 +201,9 @@ namespace WorkspaceManager.View.Visuals
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
-            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, Position));
+            var delta = new Vector(e.HorizontalChange, e.VerticalChange);
+            if (PositionDeltaChanged != null)
+                PositionDeltaChanged.Invoke(this, new PositionDeltaChangedArgs() { PosDelta = delta, Model = this.Model });
         }
 
         public void update()

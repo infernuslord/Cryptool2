@@ -942,6 +942,7 @@ namespace WorkspaceManager.View.Visuals
             try
             {
                 var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
+                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
                 VisualCollection.Add(bin);
                 SelectedText = bin;
             }
@@ -956,6 +957,7 @@ namespace WorkspaceManager.View.Visuals
             try
             {
                 ImageVisual bin = new ImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri)));
+                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
                 VisualCollection.Add(bin);
             }
             catch (Exception e)
@@ -1343,17 +1345,36 @@ namespace WorkspaceManager.View.Visuals
         {
             if (MyEditor.isExecuting())
                 return;
-            var b = (ComponentVisual)sender;
-            if (SelectedItems != null)
+
+            var list = new List<Operation>();
+            var tmp = (WorkspaceManager.View.Base.Interfaces.IRouting)sender;
+            var senderPos = tmp.Position + e.PosDelta;
+
+            if (sender is ComponentVisual)
             {
-                var list = new List<Operation>();
-                foreach (var element in SelectedItems.OfType<ComponentVisual>())
+                if (SelectedItems != null)
                 {
-                    var bin = (ComponentVisual)element;
-                    list.Add(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
+                    var delta = e.PosDelta;
+                    foreach (var element in SelectedItems.OfType<ComponentVisual>().OrderBy(x => x.Position.X ).ThenBy(y => y.Position.Y))
+                    {
+                        var bin = (ComponentVisual)element;
+                        var val = bin.Position + delta;
+
+                        delta = val.X < 0 ? new Vector(0, delta.Y) : delta;
+                        delta = val.Y < 0 ? new Vector(delta.X, 0) : delta;
+                        val = bin.Position + delta;
+
+                        list.Add(new MoveModelElementOperation(bin.Model, val));
+                    }
+                    this.Model.ModifyModel(new MultiOperation(list));
                 }
-                b.Model.WorkspaceModel.ModifyModel(new MultiOperation(list));
+                return;
             }
+
+            senderPos.X = senderPos.X < 0 ? 0 : senderPos.X;
+            senderPos.Y = senderPos.Y < 0 ? 0 : senderPos.Y;
+            list.Add(new MoveModelElementOperation(e.Model, senderPos));
+            this.Model.ModifyModel(new MultiOperation(list));
         }
 
         private void ExecuteEvent(object sender, EventArgs e)
