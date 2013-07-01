@@ -1112,6 +1112,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
 
     public class PositionDeltaChangedArgs : EventArgs
     {
+        public VisualElementModel Model { get; set; }
         public Vector PosDelta { get; set; }
     }
 
