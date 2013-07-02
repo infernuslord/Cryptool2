@@ -884,7 +884,7 @@
     <value>Ablenkungsfreiheit (an/aus)</value>
   </data>
   <data name="HideMenu" xml:space="preserve">
-    <value>Vertecke Menü (an/aus)</value>
+    <value>Menü verstecken (an/aus)</value>
   </data>
   <data name="There_is_still_one_running_task" xml:space="preserve">
     <value>Eine Arbeitsfläche ist noch im Play-Mode. Möchten Sie CrypTool 2 wirklich beenden?</value>
