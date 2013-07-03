@@ -162,10 +162,22 @@
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>What should be done with unknown symbols?</value>
   </data>
+  <data name="ReplacementSymbolCaption" xml:space="preserve">
+    <value>Unknown Symbol Replacement</value>
+  </data>
+  <data name="ReplacementSymbolTooltip" xml:space="preserve">
+    <value>Which symbol should be used for the replacement of unknown symbols</value>
+  </data>
+  <data name="SymbolChoiceCaption" xml:space="preserve">
+    <value>Symbol Choice</value>
+  </data>
   <data name="SymbolChoiceList1" xml:space="preserve">
     <value>Round Robin</value>
   </data>
   <data name="SymbolChoiceList2" xml:space="preserve">
     <value>Random</value>
+  </data>
+  <data name="SymbolChoiceTooltip" xml:space="preserve">
+    <value>The method for chosing symbols in a homophone substitution</value>
   </data>
 </root>
