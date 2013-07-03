@@ -147,4 +147,25 @@
   <data name="SourceAlphabetTooltip" xml:space="preserve">
     <value>The alphabet which is used in the source string</value>
   </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Unknown symbols handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Leave as is</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>What should be done with unknown symbols?</value>
+  </data>
+  <data name="SymbolChoiceList1" xml:space="preserve">
+    <value>Round Robin</value>
+  </data>
+  <data name="SymbolChoiceList2" xml:space="preserve">
+    <value>Random</value>
+  </data>
 </root>

@@ -147,4 +147,25 @@
   <data name="SourceAlphabetTooltip" xml:space="preserve">
     <value>Das Alphabet des Eingabetextes</value>
   </data>
+  <data name="SymbolChoiceList1" xml:space="preserve">
+    <value>Sequentiell</value>
+  </data>
+  <data name="SymbolChoiceList2" xml:space="preserve">
+    <value>Zufällig</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Behandlung unbekannter Symbole</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Übernehmen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Ersetzen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>Was soll mit unbekannten Symbolen geschehen?</value>
+  </data>
 </root>
