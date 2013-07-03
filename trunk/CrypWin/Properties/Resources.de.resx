@@ -889,4 +889,22 @@
   <data name="There_is_still_one_running_task" xml:space="preserve">
     <value>Eine Arbeitsfläche ist noch im Play-Mode. Möchten Sie CrypTool 2 wirklich beenden?</value>
   </data>
+  <data name="SI_CertHash" xml:space="preserve">
+    <value>Zertifikat Hash</value>
+  </data>
+  <data name="SI_IsSigned" xml:space="preserve">
+    <value>CrypTool 2.0 ist signiert</value>
+  </data>
+  <data name="SI_IssuerName" xml:space="preserve">
+    <value>Aussteller Name</value>
+  </data>
+  <data name="SI_KeyAlgorithm" xml:space="preserve">
+    <value>Schlüssel Algorithmus</value>
+  </data>
+  <data name="SI_SerialNumber" xml:space="preserve">
+    <value>Seriennummer</value>
+  </data>
+  <data name="SI_Subject" xml:space="preserve">
+    <value>Antragsteller</value>
+  </data>
 </root>
