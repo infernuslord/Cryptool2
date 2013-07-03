@@ -913,6 +913,12 @@
   <data name="SI_CertHash" xml:space="preserve">
     <value>Certificate Hash</value>
   </data>
+  <data name="SI_EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
+  </data>
+  <data name="SI_ExpirationDate" xml:space="preserve">
+    <value>Expiration Date</value>
+  </data>
   <data name="SI_IsSigned" xml:space="preserve">
     <value>CrypTool 2.0 is signed</value>
   </data>
@@ -930,5 +936,8 @@
   </data>
   <data name="SI_Subject" xml:space="preserve">
     <value>Subject</value>
+  </data>
+  <data name="SI_ValidCertificate" xml:space="preserve">
+    <value>Valid Certificate</value>
   </data>
 </root>

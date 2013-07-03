@@ -20,6 +20,8 @@ using Cryptool.P2P;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace Cryptool.CrypWin
 {
@@ -42,7 +44,7 @@ namespace Cryptool.CrypWin
         public SystemInfos()
         {
             InitializeComponent();
-
+            
             var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             var hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
 
@@ -89,27 +91,33 @@ namespace Cryptool.CrypWin
             {
                 Assembly asm = Assembly.GetExecutingAssembly();
                 string exe = asm.Location;
-                X509Certificate executingCert = X509Certificate.CreateFromSignedFile(exe);
+                X509Certificate2 executingCert = new X509Certificate2(X509Certificate2.CreateFromSignedFile(exe));
 
                 if (executingCert != null)
                 {
-                    informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_yes });                    
+                    informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_yes });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_ValidCertificate, Value = (executingCert.Verify() ? Properties.Resources.SI_yes : Properties.Resources.SI_no) });                    
                     informations.Add(new Info() { Description = Properties.Resources.SI_Subject, Value = executingCert.Subject });
                     informations.Add(new Info() { Description = Properties.Resources.SI_IssuerName, Value = executingCert.Issuer });
                     informations.Add(new Info() { Description = Properties.Resources.SI_KeyAlgorithm, Value = executingCert.GetKeyAlgorithmParametersString() });
                     informations.Add(new Info() { Description = Properties.Resources.SI_PublicKey, Value = executingCert.GetPublicKeyString() });
                     informations.Add(new Info() { Description = Properties.Resources.SI_SerialNumber, Value = executingCert.GetSerialNumberString() });                    
-                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = executingCert.GetCertHashString() });                    
+                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = executingCert.GetCertHashString() });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_EffectiveDate, Value = executingCert.GetEffectiveDateString() });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_ExpirationDate, Value = executingCert.GetExpirationDateString() });                    
                 }
                 else
                 {
                     informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_ValidCertificate, Value = Properties.Resources.SI_no });                    
                     informations.Add(new Info() { Description = Properties.Resources.SI_Subject, Value = Properties.Resources.SI_no });
                     informations.Add(new Info() { Description = Properties.Resources.SI_IssuerName, Value = Properties.Resources.SI_no });
                     informations.Add(new Info() { Description = Properties.Resources.SI_KeyAlgorithm, Value = Properties.Resources.SI_no });
                     informations.Add(new Info() { Description = Properties.Resources.SI_PublicKey, Value = Properties.Resources.SI_no });
                     informations.Add(new Info() { Description = Properties.Resources.SI_SerialNumber, Value = Properties.Resources.SI_no });
                     informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_EffectiveDate, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_ExpirationDate, Value = Properties.Resources.SI_no });
                 }
             }
             catch (Exception ex)

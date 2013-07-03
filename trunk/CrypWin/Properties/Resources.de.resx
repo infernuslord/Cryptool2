@@ -892,6 +892,12 @@
   <data name="SI_CertHash" xml:space="preserve">
     <value>Zertifikat Hash</value>
   </data>
+  <data name="SI_EffectiveDate" xml:space="preserve">
+    <value>Datum Gültigkeitsbeginn</value>
+  </data>
+  <data name="SI_ExpirationDate" xml:space="preserve">
+    <value>Datum Gültigkeitsende</value>
+  </data>
   <data name="SI_IsSigned" xml:space="preserve">
     <value>CrypTool 2.0 ist signiert</value>
   </data>
@@ -906,5 +912,8 @@
   </data>
   <data name="SI_Subject" xml:space="preserve">
     <value>Antragsteller</value>
+  </data>
+  <data name="SI_ValidCertificate" xml:space="preserve">
+    <value>Valides Zertifikat</value>
   </data>
 </root>
