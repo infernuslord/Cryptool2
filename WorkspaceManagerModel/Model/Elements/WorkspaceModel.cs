@@ -475,6 +475,12 @@ namespace WorkspaceManager.Model
             var from = connectionModel.From;
 
             to.InputConnections.Remove(connectionModel);
+
+            if (from.IControl && to.IControl)
+            {
+                to.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(to.PluginModel));
+            }
+
             from.OutputConnections.Remove(connectionModel);
 
             //call events on PluginModels to show that they have lost connections
