@@ -910,4 +910,25 @@
   <data name="There_is_still_one_running_task" xml:space="preserve">
     <value>There is still one running task (workspace in Play mode). Do you really want to exit CrypTool 2 ?</value>
   </data>
+  <data name="SI_CertHash" xml:space="preserve">
+    <value>Certificate Hash</value>
+  </data>
+  <data name="SI_IsSigned" xml:space="preserve">
+    <value>CrypTool 2.0 is signed</value>
+  </data>
+  <data name="SI_IssuerName" xml:space="preserve">
+    <value>Issuer Name</value>
+  </data>
+  <data name="SI_KeyAlgorithm" xml:space="preserve">
+    <value>Key Algorithm</value>
+  </data>
+  <data name="SI_PublicKey" xml:space="preserve">
+    <value>Certificate Public Key</value>
+  </data>
+  <data name="SI_SerialNumber" xml:space="preserve">
+    <value>Serial Number</value>
+  </data>
+  <data name="SI_Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
 </root>

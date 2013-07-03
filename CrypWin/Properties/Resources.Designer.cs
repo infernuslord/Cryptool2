@@ -1860,6 +1860,15 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Certificate Hash ähnelt.
+        /// </summary>
+        internal static string SI_CertHash {
+            get {
+                return ResourceManager.GetString("SI_CertHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Common Language Runtime Version ähnelt.
         /// </summary>
         internal static string SI_Common_Language_Runtime_Version {
@@ -1901,6 +1910,33 @@ namespace Cryptool.CrypWin.Properties {
         internal static string SI_Installation_Type {
             get {
                 return ResourceManager.GetString("SI_Installation_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die CrypTool 2.0 is signed ähnelt.
+        /// </summary>
+        internal static string SI_IsSigned {
+            get {
+                return ResourceManager.GetString("SI_IsSigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Issuer Name ähnelt.
+        /// </summary>
+        internal static string SI_IssuerName {
+            get {
+                return ResourceManager.GetString("SI_IssuerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key Algorithm ähnelt.
+        /// </summary>
+        internal static string SI_KeyAlgorithm {
+            get {
+                return ResourceManager.GetString("SI_KeyAlgorithm", resourceCulture);
             }
         }
         
@@ -1950,11 +1986,38 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Certificate Public Key ähnelt.
+        /// </summary>
+        internal static string SI_PublicKey {
+            get {
+                return ResourceManager.GetString("SI_PublicKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Runtime Path ähnelt.
         /// </summary>
         internal static string SI_Runtime_Path {
             get {
                 return ResourceManager.GetString("SI_Runtime_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Serial Number ähnelt.
+        /// </summary>
+        internal static string SI_SerialNumber {
+            get {
+                return ResourceManager.GetString("SI_SerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Subject ähnelt.
+        /// </summary>
+        internal static string SI_Subject {
+            get {
+                return ResourceManager.GetString("SI_Subject", resourceCulture);
             }
         }
         

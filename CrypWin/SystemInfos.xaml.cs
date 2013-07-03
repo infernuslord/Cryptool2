@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using Cryptool.P2P;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Cryptool.CrypWin
 {
@@ -83,6 +84,47 @@ namespace Cryptool.CrypWin
             Tag = FindResource("Icon");
 
             InfoGrid.CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, new ExecutedRoutedEventHandler(MyExecutedRoutedEventHandler), new CanExecuteRoutedEventHandler(CanExecuteRoutedEventHandler)));
+
+            try
+            {
+                Assembly asm = Assembly.GetExecutingAssembly();
+                string exe = asm.Location;
+                X509Certificate executingCert = X509Certificate.CreateFromSignedFile(exe);
+
+                if (executingCert != null)
+                {
+                    byte[] assemblyKey = executingCert.GetPublicKey();
+                    informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_yes });                    
+                    informations.Add(new Info() { Description = Properties.Resources.SI_Subject, Value = executingCert.Subject });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_IssuerName, Value = executingCert.Issuer });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_KeyAlgorithm, Value = executingCert.GetKeyAlgorithmParametersString() });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_PublicKey, Value = executingCert.GetPublicKeyString() });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_SerialNumber, Value = executingCert.GetSerialNumberString() });                    
+                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = executingCert.GetCertHashString() });
+                    
+                }
+                else
+                {
+                    informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_Subject, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_IssuerName, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_KeyAlgorithm, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_PublicKey, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_SerialNumber, Value = Properties.Resources.SI_no });
+                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = Properties.Resources.SI_no });
+                }
+            }
+            catch (Exception ex)
+            {
+                //wtf?
+            }
+
+        }
+
+        public static string ByteArrayToHexString(byte[] ba)
+        {
+            string hex = BitConverter.ToString(ba);
+            return hex;
         }
 
         private void MyExecutedRoutedEventHandler(object sender, ExecutedRoutedEventArgs e)
