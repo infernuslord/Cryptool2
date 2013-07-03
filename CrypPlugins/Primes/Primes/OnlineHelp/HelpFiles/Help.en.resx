@@ -208,6 +208,12 @@
   <data name="Graph_PrimesCount" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\graph_primescount.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="Modular_Exponentiation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\modular_exponentiation.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Numbertheoretic_Functions" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>en\numbertheoretic_functions.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="Pari_Lin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>en\pari_lin.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
