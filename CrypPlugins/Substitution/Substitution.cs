@@ -103,7 +103,15 @@ namespace Cryptool.Substitution
             ProgressChanged(0,1);
             var dict = GenerateSubstitutionDictionary(SourceAlphabet.Replace(Environment.NewLine, String.Empty), 
                                                       DestinationAlphabet.Replace(Environment.NewLine, String.Empty));
-            OutputString = Substitute(InputString, dict, false);
+
+            if (((SubstitutionSettings) Settings).SymbolChoice == SymbolChoice.Random)
+            {
+                OutputString = Substitute(InputString, dict);
+            }
+            else
+            {
+                OutputString = Substitute(InputString, dict, false);
+            }
             OnPropertyChanged("OutputString");
             ProgressChanged(1, 1);
         }
@@ -115,7 +123,7 @@ namespace Cryptool.Substitution
 
         public void Initialize()
         {
-            
+            ((SubstitutionSettings) Settings).UpdateTaskPaneVisibility();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -139,9 +147,8 @@ namespace Cryptool.Substitution
         private Dictionary<string, string> GenerateSubstitutionDictionary(string sourceAlphabet, string destinationAlphabet)
         {
             var dictionary = new Dictionary<string, string>();
-
-            var di = 0;
-            for (var si = 0; si < sourceAlphabet.Length && di < destinationAlphabet.Length; si++)
+            
+            for (int si = 0, di = 0; si < sourceAlphabet.Length && di < destinationAlphabet.Length; si++)
             {
                 var sourceCharacter = "";
                 var destinationCharacter = "";
@@ -251,7 +258,17 @@ namespace Cryptool.Substitution
                 }
                 else if (actualCharacter.Length >= maxLength)
                 {
-                    substitution.Append(actualCharacter);
+                    switch (((SubstitutionSettings) Settings).UnknownSymbolHandling )
+                    {
+                        case UnknownSymbolHandling.LeaveAsIs:
+                            substitution.Append(actualCharacter);
+                            break;
+                        case UnknownSymbolHandling.Replace:
+                            substitution.Append(((SubstitutionSettings) Settings).ReplacementSymbol);
+                            break;
+                        case UnknownSymbolHandling.Remove:
+                            break;
+                    }                                    
                     actualCharacter = "";
                 }
                 progressCounter++;

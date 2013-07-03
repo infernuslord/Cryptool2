@@ -16,6 +16,7 @@
 
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Windows;
 
 namespace Cryptool.Substitution
 {
@@ -23,13 +24,76 @@ namespace Cryptool.Substitution
     {
         public SubstitutionSettings()
         {
- 
         }
 
-        //[TaskPane("CaseSensitiveAlphabetCaption", "CaseSensitiveAlphabetTooltip", null, 5, false, ControlType.CheckBox, "")]
-        //public bool CaseSensitiveAlphabet { get; set; }
+        private UnknownSymbolHandling _unknownSymbolHandling;
+        private SymbolChoice _symbolChoice;
+        private string _replacementSymbol = "?";
+
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        public UnknownSymbolHandling UnknownSymbolHandling
+        {
+            get { return _unknownSymbolHandling; }
+            set
+            {
+                if (value != _unknownSymbolHandling)
+                {
+                    _unknownSymbolHandling = value;
+                    OnPropertyChanged("UnknownSymbolHandling");
+                    UpdateTaskPaneVisibility();
+                }
+            }
+        }
+
+        [TaskPane("SymbolChoiceCaption", "SymbolChoiceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SymbolChoiceList1", "SymbolChoiceList2" })]
+        public SymbolChoice SymbolChoice
+        {
+            get { return _symbolChoice; }
+            set
+            {
+                if (value != _symbolChoice)
+                {
+                    _symbolChoice = value;
+                    OnPropertyChanged("SymbolChoice");
+                }
+            }
+        }
+
+        [TaskPane("ReplacementSymbolCaption", "ReplacementSymbolTooltip", null, 1, false, ControlType.TextBox)]
+        public string ReplacementSymbol
+        {
+            get { return _replacementSymbol; }
+            set
+            {
+                if (_replacementSymbol != value)
+                {
+                    _replacementSymbol = value;
+                    OnPropertyChanged("ReplacementSymbol");
+                }
+            }
+        }
+
+        public void UpdateTaskPaneVisibility ()
+        {
+
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            switch (UnknownSymbolHandling)
+            {
+                case UnknownSymbolHandling.Replace:
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ReplacementSymbol", Visibility.Visible)));
+                    break;
+
+                default:
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ReplacementSymbol", Visibility.Collapsed)));
+                    break;
+            }
+        }
 
         #region INotifyPropertyChanged Members
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -42,5 +106,18 @@ namespace Cryptool.Substitution
         }
 
         #endregion
+    }
+
+    public enum UnknownSymbolHandling
+    {
+        LeaveAsIs,
+        Replace,
+        Remove
+    }
+
+    public enum SymbolChoice
+    {
+        RoundRobin,
+        Random
     }
 }
