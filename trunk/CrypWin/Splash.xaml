@@ -51,7 +51,7 @@
 		        <LineBreak/>
 		        <Run Text="{Loc For_more_information_}" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
-		        <Run Text="http://cryptool2.vs.uni-due.de" Foreground="#FFFFFFFF"/>
+		        <Run Text="http://www.cryptool.org/en/cryptool2-en" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
 		        <LineBreak/>
                 <Hyperlink NavigateUri="http://www.cryptool.org" Foreground="#FFFFFFFF" Click="Hyperlink_Click">http://www.cryptool.org</Hyperlink>		        
