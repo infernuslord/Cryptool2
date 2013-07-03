@@ -204,13 +204,17 @@ namespace Cryptool.Plugins.QuadraticSieve
                 userStopped = false;
                 otherPeerFinished = false;
 
-                if (InputNumber != 0)
+                if (InputNumber < 2)
                 {
-                    if (InputNumber.ToString().Length >= 275)
-                    {
-                        GuiLogMessage(Resources.Input_too_big_, NotificationLevel.Error);
-                        return;
-                    }
+                    GuiLogMessage("Please enter a number >= 2.", NotificationLevel.Warning);
+                }
+                else
+                {
+                    //if (InputNumber.ToString().Length >= 275)
+                    //{
+                    //    GuiLogMessage(Resources.Input_too_big_, NotificationLevel.Error);
+                    //    return;
+                    //}
 
                     String info_message = typeof(QuadraticSieve).GetPluginStringResource("Starting_quadratic_sieve");
 
