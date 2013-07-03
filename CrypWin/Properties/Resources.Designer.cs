@@ -1896,6 +1896,24 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Effective Date ähnelt.
+        /// </summary>
+        internal static string SI_EffectiveDate {
+            get {
+                return ResourceManager.GetString("SI_EffectiveDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Expiration Date ähnelt.
+        /// </summary>
+        internal static string SI_ExpirationDate {
+            get {
+                return ResourceManager.GetString("SI_ExpirationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Host Name ähnelt.
         /// </summary>
         internal static string SI_Host_Name {
@@ -2045,6 +2063,15 @@ namespace Cryptool.CrypWin.Properties {
         internal static string SI_User_Name {
             get {
                 return ResourceManager.GetString("SI_User_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Valid Certificate ähnelt.
+        /// </summary>
+        internal static string SI_ValidCertificate {
+            get {
+                return ResourceManager.GetString("SI_ValidCertificate", resourceCulture);
             }
         }
         
