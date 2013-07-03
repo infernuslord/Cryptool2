@@ -93,15 +93,13 @@ namespace Cryptool.CrypWin
 
                 if (executingCert != null)
                 {
-                    byte[] assemblyKey = executingCert.GetPublicKey();
                     informations.Add(new Info() { Description = Properties.Resources.SI_IsSigned, Value = Properties.Resources.SI_yes });                    
                     informations.Add(new Info() { Description = Properties.Resources.SI_Subject, Value = executingCert.Subject });
                     informations.Add(new Info() { Description = Properties.Resources.SI_IssuerName, Value = executingCert.Issuer });
                     informations.Add(new Info() { Description = Properties.Resources.SI_KeyAlgorithm, Value = executingCert.GetKeyAlgorithmParametersString() });
                     informations.Add(new Info() { Description = Properties.Resources.SI_PublicKey, Value = executingCert.GetPublicKeyString() });
                     informations.Add(new Info() { Description = Properties.Resources.SI_SerialNumber, Value = executingCert.GetSerialNumberString() });                    
-                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = executingCert.GetCertHashString() });
-                    
+                    informations.Add(new Info() { Description = Properties.Resources.SI_CertHash, Value = executingCert.GetCertHashString() });                    
                 }
                 else
                 {
