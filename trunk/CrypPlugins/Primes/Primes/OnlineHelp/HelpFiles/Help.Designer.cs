@@ -257,7 +257,7 @@ namespace Primes.OnlineHelp.HelpFiles {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Faktorisierung von Zahlen&lt;/h2&gt;
         ///
         ///Der Fundamentalsatz der Arithmetik besagt, dass sich jede Zahl eindeutig in ihre Primfaktoren
-        ///zerlegen lässt. Um diese Darstellung zu berechnen, stehen in diesem Tutorial die folgenden Funktionen
+        ///zerlegen lässt. Um diese Darstellung zu berechnen, stehen in diesem Tutorial die Verfahren
         ///&lt;ul&gt;
         ///&lt;li&gt;&lt;a href=&quot;help://Factorization_BruteForce&quot;&gt;Probedivision&lt;/a&gt; und &lt;/li&gt;
         ///&lt;li&gt;&lt;a href=&quot;help://Factorization_QS&quot;&gt;quadratisches Sieb&lt;/a&gt;&lt;/li&gt;
@@ -528,6 +528,32 @@ namespace Primes.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Primitivwurzeln einer Primzahl&lt;/h2&gt;
+        ///
+        ///Die &lt;strong&gt;Primitivwurzel&lt;/strong&gt; modulo m ist ein Begriff aus der &lt;a href=&quot;http://de.wikipedia.org/wiki/Zahlentheorie&quot; target=&quot;_blank&quot;&gt;Zahlentheorie&lt;/a&gt;, einem &lt;a href=&quot;http://de.wikipedia.org/wiki/Teilgebiete_der_Mathematik&quot; target=&quot;_blank&quot;&gt;Teilgebiet der Mathematik&lt;/a&gt;.&lt;br /&gt;
+        ///
+        ///Eine Primitivwurzel ist ein ausgezeichnetes Element einer primen Restklassengruppe: Die besondere Eigenschaft einer
+        ///Primitivwurzel ist, dass jedes Element der Restklassengruppe als Po [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string Modular_Exponentiation {
+            get {
+                return ResourceManager.GetString("Modular_Exponentiation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Zahlentheoretische Funktionen&lt;/h2&gt;
+        ///
+        ///&lt;strong&gt;Zahlentheoretische (oder arithmetische) Funktionen&lt;/strong&gt; sind Funktionen, deren Definitionsbereich die natürlichen Zahlen sind und deren Wertebereich üblicherweise die reellen oder die komplexen Zahlen sind.
+        ///Sie werden in dem mathematischen Teilgebiet der &lt;a href=&quot;http://de.wikipedia.org/wiki/Zahlentheorie&quot; target=&quot;_blank&quot;&gt;Zahlentheorie&lt;/a&gt; dazu verwendet, die Eigenschaften der natürlichen Zahlen, insbesondere deren Teilbarkeit, zu beschreiben und zu unt [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string Numbertheoretic_Functions {
+            get {
+                return ResourceManager.GetString("Numbertheoretic_Functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Pari/GP zur Berechnung des logarithmischen Integrals&lt;/h2&gt;
         ///
         ///Pari/GP ist ein Open-Source &lt;a href=&quot;http://de.wikipedia.org/wiki/Computer-Algebra-System&quot; target=&quot;_blank&quot;&gt;Computer-Algebra-System (CAS)&lt;/a&gt;,
@@ -593,15 +619,15 @@ namespace Primes.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Primitivwurzeln einer Primzahl: EingabemÃ¶glichkeiten&lt;/h2&gt;
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Primitivwurzeln einer Primzahl: Eingabemöglichkeiten&lt;/h2&gt;
         ///
-        ///Primitivwurzeln kÃ¶nnen fÃ¼r mehrere Primzahlen berechnet werden. Die Primzahlen, deren Primitivwurzeln errechnet werden sollen, mÃ¼ssen in
+        ///Primitivwurzeln können für mehrere Primzahlen berechnet werden. Die Primzahlen, deren Primitivwurzeln errechnet werden sollen, müssen in
         ///der Form &lt;br /&gt;
         ///[Primzahl1], [Primzahl2], [Primzahl3], ...
         ///&lt;br /&gt;
         ///eingegeben werden. &lt;br /&gt;
-        ///AuÃŸerdem ist es mÃ¶glich, Primitivwurzeln fÃ¼r Primzahlen in einem bestimmten Bereich berechnen zu lassen. DafÃ¼r muss die Eingabe in der Form [Zahl1];[Zahl2] erfolgen.&lt;br /&gt;
-        ///Die folgende Abbildung zeigt ein [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///Außerdem ist es möglich, Primitivwurzeln für Primzahlen in einem bestimmten Bereich berechnen zu lassen. Dafür muss die Eingabe in der Form [Zahl1]:[Zahl2] erfolgen.&lt;br /&gt;
+        ///Die folgende Abbildung zeigt ein Beispie [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string PrimitivRoot_Input {
             get {
@@ -655,11 +681,12 @@ namespace Primes.OnlineHelp.HelpFiles {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;PKCS#1 / Bleichenbacher-Angriff - Hilfe&lt;/h2&gt;
-        ///Willkommen in der Hilfe des Kryptotutoriums &quot;PKCS#1 / Bleichenbacher-Angriff&quot;.&lt;/br&gt;
-        ///Hier finden Sie detaillierte Informationen zu PKCS#1-Signaturen und dem Bleichenbacher-Angriff.&lt;/br&gt;&lt;/br&gt;
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Die Welt der Primzahlen - Hilfe&lt;/h2&gt;
+        ///Willkommen in der Hilfe des Kryptotutoriums &quot;Die Welt der Primzahlen&quot;.&lt;/br&gt;
+        ///Hier finden Sie detaillierte Informationen zu Primzahlen und deren Eigenschaften.&lt;/br&gt;&lt;/br&gt;
         ///In die verschiedenen Masken dieses Kryptotutoriums gelangen Sie mit Hilfe der Navigation auf der linken Seite. In den verschiedenen Masken
-        ///wiederum finden Sie mehrere Hilfebuttons. Wenn Sie auf diese klicken, bekommen Sie detaillierte Informationen über das jeweilige T [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///wiederum finden Sie mehrere Hilfebuttons. Wenn Sie auf diese klicken, bekommen Sie detaillierte Informationen über das jeweilige Thema.
+        /// ähnelt.
         /// </summary>
         internal static string StartControl {
             get {

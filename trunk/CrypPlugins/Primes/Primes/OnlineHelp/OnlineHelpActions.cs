@@ -42,6 +42,8 @@ namespace Primes.OnlineHelp
         Distribution_EulerPhiSum,
         Distribution_Distribution,
         Distribution_Numbergrid,
+        Modular_Exponentiation,
+        Numbertheoretic_Functions,
         PrimitivRoot_PrimitivRoot,
         PrimitivRoot_Input,
         Pari_Lin,

@@ -782,6 +782,8 @@
     <Content Include="OnlineHelp\HelpFiles\de\Graph_LiN.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_PiX.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Graph_PrimesCount.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Modular_Exponentiation.html" />
+    <Content Include="OnlineHelp\HelpFiles\de\Numbertheoretic_Functions.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Pari_Lin.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Primetest_MillerRabin.html" />
     <Content Include="OnlineHelp\HelpFiles\de\Primetest_Primetest.html" />
@@ -821,6 +823,8 @@
     <Content Include="OnlineHelp\HelpFiles\en\Graph_LiN.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_PiX.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Graph_PrimesCount.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Modular_Exponentiation.html" />
+    <Content Include="OnlineHelp\HelpFiles\en\Numbertheoretic_Functions.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Pari_Lin.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Primetest_MillerRabin.html" />
     <Content Include="OnlineHelp\HelpFiles\en\Primetest_Primetest.html" />

@@ -65,11 +65,11 @@ namespace Primes.WpfControls.NumberTheory
         {
             if (sender == tabItemNTFunctions)
             {
-                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Numbertheoretic_Functions);
             }
             else if (sender == tabItemPower)
             {
-                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.PrimitivRoot_PrimitivRoot);
+                OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(Primes.OnlineHelp.OnlineHelpActions.Modular_Exponentiation);
             }
             else if (sender == tabItemPRoots)
             {
