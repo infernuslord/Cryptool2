@@ -833,7 +833,7 @@
     <value>Lizenzen anschauen</value>
   </data>
   <data name="CrypToolLicenses" xml:space="preserve">
-    <value>Cryptool 2.0 und alle seine Komponenten unterliegen der Apache Lizenz 2.0, wenn nicht anders angegeben</value>
+    <value>CrypTool 2.0 und alle seine Komponenten unterliegen der Apache Lizenz 2.0, wenn nicht anders angegeben</value>
   </data>
   <data name="FileLost" xml:space="preserve">
     <value>Konnte Tab für die Datei {0} nicht wiederherstellen, da die Datei verloren wurde!</value>
