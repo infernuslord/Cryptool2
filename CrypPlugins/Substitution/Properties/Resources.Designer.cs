@@ -133,6 +133,24 @@ namespace Substitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknown Symbol Replacement ähnelt.
+        /// </summary>
+        internal static string ReplacementSymbolCaption {
+            get {
+                return ResourceManager.GetString("ReplacementSymbolCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Which symbol should be used for the replacement of unknown symbols ähnelt.
+        /// </summary>
+        internal static string ReplacementSymbolTooltip {
+            get {
+                return ResourceManager.GetString("ReplacementSymbolTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Source alphabet ähnelt.
         /// </summary>
         internal static string SourceAlphabetCaption {
@@ -151,6 +169,15 @@ namespace Substitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Symbol Choice ähnelt.
+        /// </summary>
+        internal static string SymbolChoiceCaption {
+            get {
+                return ResourceManager.GetString("SymbolChoiceCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Round Robin ähnelt.
         /// </summary>
         internal static string SymbolChoiceList1 {
@@ -165,6 +192,15 @@ namespace Substitution.Properties {
         internal static string SymbolChoiceList2 {
             get {
                 return ResourceManager.GetString("SymbolChoiceList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The method for chosing symbols in a homophone substitution ähnelt.
+        /// </summary>
+        internal static string SymbolChoiceTooltip {
+            get {
+                return ResourceManager.GetString("SymbolChoiceTooltip", resourceCulture);
             }
         }
         
