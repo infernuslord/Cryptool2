@@ -535,7 +535,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cryptool 2.0 and all its components are based on the Apache license 2.0 if not marked otherwise ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die CrypTool 2.0 and all its components are based on the Apache license 2.0 if not marked otherwise ähnelt.
         /// </summary>
         internal static string CrypToolLicenses {
             get {
