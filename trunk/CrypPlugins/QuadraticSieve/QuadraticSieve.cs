@@ -192,6 +192,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
                     usePeer2Peer = false;
                 }
+
                 if (settings.UsePeer2Peer)
                 {
                     peerToPeer.SetChannel(settings.Channel);
@@ -206,95 +207,95 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                 if (InputNumber < 2)
                 {
-                    GuiLogMessage("Please enter a number >= 2.", NotificationLevel.Warning);
+                    GuiLogMessage("Please enter a number >= 2.", NotificationLevel.Error);
+                    return;
+                }
+
+                if (InputNumber.ToString().Length >= 275)
+                {
+                    GuiLogMessage(Resources.Input_too_big_, NotificationLevel.Error);
+                    return;
+                }
+
+                String info_message = typeof(QuadraticSieve).GetPluginStringResource("Starting_quadratic_sieve");
+
+                start_time = DateTime.Now;
+
+                GuiLogMessage(info_message, NotificationLevel.Info);
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Clear();
+                    quadraticSieveQuickWatchPresentation.information.Content = info_message;
+                    quadraticSieveQuickWatchPresentation.endTime.Content = "-";
+                    quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                    quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
+                    quadraticSieveQuickWatchPresentation.startTime.Content = "" + start_time;
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Searching_trivial_factors");
+                    if (usePeer2Peer)
+                        quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Hidden;
+                    else
+                        quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Visible;
+                }
+                , null);
+
+                initMsieveDLL();
+                factorManager = new FactorManager(msieve.GetMethod("getPrimeFactors"), msieve.GetMethod("getCompositeFactors"), InputNumber);
+                factorManager.FactorsChanged += this.FactorsChanged;
+
+                //Now factorize:                
+                try
+                {
+                    string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
+                    if (settings.DeleteCache && File.Exists(file))
+                        File.Delete(file);
+                    MethodInfo start = msieve.GetMethod("start");
+                    start.Invoke(null, new object[] { InputNumber.ToString(), file });
+                    obj = IntPtr.Zero;
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Error using msieve. " + ex.Message, NotificationLevel.Error);
+                    stopThreads();
+                    return;
+                }
+
+                if (!userStopped)
+                {
+                    Debug.Assert(factorManager.CalculateNumber() == InputNumber);
+                    OutputFactors = factorManager.getPrimeFactors();
+
+                    String timeLeft_message = Resources.NoneLeft;
+                    String endtime_message = DateTime.Now.ToString();
+
+                    quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        quadraticSieveQuickWatchPresentation.information.Content = string.Format(typeof(QuadraticSieve).GetPluginStringResource("Sieving_finished"), OutputFactors.Count());
+                        quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
+                        quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
+                        quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
+                    }
+                    , null);
+                        
+                    ProgressChanged(1, 1);
                 }
                 else
-                {
-                    //if (InputNumber.ToString().Length >= 275)
-                    //{
-                    //    GuiLogMessage(Resources.Input_too_big_, NotificationLevel.Error);
-                    //    return;
-                    //}
-
-                    String info_message = typeof(QuadraticSieve).GetPluginStringResource("Starting_quadratic_sieve");
-
-                    start_time = DateTime.Now;
+                {                        
+                    info_message = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
 
                     GuiLogMessage(info_message, NotificationLevel.Info);
                     quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        quadraticSieveQuickWatchPresentation.ProgressRelationPackages.Clear();
-                        quadraticSieveQuickWatchPresentation.information.Content = info_message;
+                        quadraticSieveQuickWatchPresentation.information.Content = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
                         quadraticSieveQuickWatchPresentation.endTime.Content = "-";
                         quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                        quadraticSieveQuickWatchPresentation.startTime.Content = "-";
                         quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
-                        quadraticSieveQuickWatchPresentation.startTime.Content = "" + start_time;
-                        quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
-                        quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Searching_trivial_factors");
-                        if (usePeer2Peer)
-                            quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Hidden;
-                        else
-                            quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Visible;
+                        quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
                     }
                     , null);
-
-                    initMsieveDLL();
-                    factorManager = new FactorManager(msieve.GetMethod("getPrimeFactors"), msieve.GetMethod("getCompositeFactors"), InputNumber);
-                    factorManager.FactorsChanged += this.FactorsChanged;
-
-                    //Now factorize:                
-                    try
-                    {
-                        string file = Path.Combine(directoryName, "" + InputNumber + ".dat");
-                        if (settings.DeleteCache && File.Exists(file))
-                            File.Delete(file);
-                        MethodInfo start = msieve.GetMethod("start");
-                        start.Invoke(null, new object[] { InputNumber.ToString(), file });
-                        obj = IntPtr.Zero;
-                    }
-                    catch (Exception ex)
-                    {
-                        GuiLogMessage("Error using msieve. " + ex.Message, NotificationLevel.Error);
-                        stopThreads();
-                        return;
-                    }
-
-                    if (!userStopped)
-                    {
-                        Debug.Assert(factorManager.CalculateNumber() == InputNumber);
-                        OutputFactors = factorManager.getPrimeFactors();
-
-                        String timeLeft_message = Resources.NoneLeft;
-                        String endtime_message = DateTime.Now.ToString();
-
-                        quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            quadraticSieveQuickWatchPresentation.information.Content = string.Format(typeof(QuadraticSieve).GetPluginStringResource("Sieving_finished"), OutputFactors.Count());
-                            quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
-                            quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
-                            quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
-                        }
-                        , null);
-                        
-                        ProgressChanged(1, 1);
-                    }
-                    else
-                    {                        
-                        info_message = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
-
-                        GuiLogMessage(info_message, NotificationLevel.Info);
-                        quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {
-                            quadraticSieveQuickWatchPresentation.information.Content = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
-                            quadraticSieveQuickWatchPresentation.endTime.Content = "-";
-                            quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
-                            quadraticSieveQuickWatchPresentation.startTime.Content = "-";
-                            quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
-                            quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
-                        }
-                        , null);
-                    }
                 }
+                
                 if (useGnuplot)
                     gnuplotFile.Close();
             }
