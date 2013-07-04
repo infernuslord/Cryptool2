@@ -59,6 +59,8 @@ namespace WorkspaceManager.View.Visuals
             }
         }
 
+        private ConnectionModel activeConnectionModel = null;
+
         public static readonly DependencyProperty TypesProperty = DependencyProperty.Register("Types",
             typeof(ObservableCollection<SlaveType>), typeof(Slot), new FrameworkPropertyMetadata(null));
 
@@ -97,6 +99,7 @@ namespace WorkspaceManager.View.Visuals
                 if (collection.Count != 0)
                 {
                     ActiveModel = element.ConnectorModel.GetOutputConnections()[0].To.PluginModel;
+                    activeConnectionModel = element.ConnectorModel.GetOutputConnections()[0];
                     SelectedType = Types.Single(a => a.Type.IsAssignableFrom(ActiveModel.PluginType));
                 }
             }
@@ -118,12 +121,12 @@ namespace WorkspaceManager.View.Visuals
             ConnectorModel model = slot.element.ConnectorModel;
             if (slot.loading)
                 return;
-            
-            if (e.OldValue != null)
+
+            if ((e.OldValue != null || e.NewValue == null) && slot.ActiveModel != null)
             {
-                type = e.NewValue as SlaveType;
                 model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(slot.ActiveModel));
-                args= new PluginChangedEventArgs(slot.ActiveModel.Plugin, slot.ActiveModel.GetName(), DisplayPluginMode.Normal);
+                model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(slot.activeConnectionModel));
+                args = new PluginChangedEventArgs(slot.ActiveModel.Plugin, slot.ActiveModel.GetName(), DisplayPluginMode.Normal);
                 slot.MyEditor.onSelectedPluginChanged(args);
                 slot.ActiveModel = null;
             }
@@ -135,17 +138,13 @@ namespace WorkspaceManager.View.Visuals
             }
 
             if (e.NewValue == null) 
-            {
-                slot.ActiveModel = null;
                 return;
-            }
-            
 
             type = e.NewValue as SlaveType;
             var v = (PluginModel)model.WorkspaceModel.ModifyModel(new NewPluginModelOperation(new Point(0, 0), (double)0, (double)0, type.Type));
             slot.ActiveModel = v;
             var f = v.GetInputConnectors().Single(a => a.ConnectorType.IsAssignableFrom(slot.element.ConnectorModel.ConnectorType));
-            var m = (ConnectionModel)model.WorkspaceModel.ModifyModel(new NewConnectionModelOperation(model, f, f.ConnectorType));
+            slot.activeConnectionModel = (ConnectionModel)model.WorkspaceModel.ModifyModel(new NewConnectionModelOperation(model, f, f.ConnectorType));
 
             args = new PluginChangedEventArgs(slot.ActiveModel.Plugin, slot.ActiveModel.GetName(), DisplayPluginMode.Normal);
             slot.MyEditor.onSelectedPluginChanged(args);
