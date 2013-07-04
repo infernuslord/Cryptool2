@@ -100,6 +100,7 @@ namespace Cryptool.Substitution
 
         public void Execute()
         {
+            //Nullpointer Exception here (DestinationAlphabet / SourceAlphabet)
             ProgressChanged(0,1);
             var dict = GenerateSubstitutionDictionary(SourceAlphabet.Replace(Environment.NewLine, String.Empty), 
                                                       DestinationAlphabet.Replace(Environment.NewLine, String.Empty));
