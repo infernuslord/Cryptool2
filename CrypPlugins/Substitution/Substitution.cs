@@ -217,70 +217,70 @@ namespace Cryptool.Substitution
             var substitution = new StringBuilder();
             var random = new Random();
 
-            //we search for the "longest" soruce character
+            //we search for the "longest" source character
             var maxLength = substitutionDictionary.Keys.Select(key => key.Length).Concat(new[] { 0 }).Max();
-            //the actualCharacter is the actual Character build of one or more chars we try to substitute
+
             var actualCharacter = "";
+            
             //this dictionary is used when we do not want a randomDistribution at poly alphabetic substitution (for example a->[1|2|3])
             //it stores the actual index in the [1|2|3] array
             var polyCounterDictionary = new Dictionary<string, int>();
-            var progressCounter = 0;
-            foreach (char character in text)
+            for (var position = 0; position < text.Length;)
             {
-                actualCharacter += character;
-                if (ExistsSubstitionMapping(substitutionDictionary, actualCharacter))
+                for (var lengthActualCharacter = Math.Min(maxLength,(text.Length - position)); lengthActualCharacter >= 0; lengthActualCharacter--)
                 {
-                    string substitutionCharacter = GetSubstitutionValue(substitutionDictionary, actualCharacter);
-                    if (substitutionCharacter.Contains("|"))
+                    actualCharacter = text.Substring(position, lengthActualCharacter);
+
+                    if (lengthActualCharacter == 0)
                     {
-                        var substitutionCharacters = substitutionCharacter.Split(new[] { '|', '[', ']' });
-                        //choose a random character from the substitution array
-                        if (randomDistribution)
+                        actualCharacter = text.Substring(position, 1);
+                        position++;
+                        switch (((SubstitutionSettings) Settings).UnknownSymbolHandling)
                         {
-                            var randomCharacterNumber = random.Next(substitutionCharacters.Length);
-                            substitutionCharacter = substitutionCharacters[randomCharacterNumber];
-                        }
-                        else
-                        //choose the next character from the substitution array
+                            case UnknownSymbolHandling.LeaveAsIs:
+                                substitution.Append(actualCharacter);
+                                break;
+                            case UnknownSymbolHandling.Replace:
+                                substitution.Append(((SubstitutionSettings) Settings).ReplacementSymbol);
+                                break;
+                            case UnknownSymbolHandling.Remove:
+                                break;
+                        }                        
+                    }
+                    else if (ExistsSubstitionMapping(substitutionDictionary, actualCharacter))
+                    {
+                        position += lengthActualCharacter;
+                        var substitutionCharacter = GetSubstitutionValue(substitutionDictionary, actualCharacter);
+                        if (substitutionCharacter.Contains("|"))
                         {
-                            if (polyCounterDictionary.ContainsKey(actualCharacter))
+                            var substitutionCharacters = substitutionCharacter.Split(new[] {'|', '[', ']'});
+                            //choose a random character from the substitution array
+                            if (randomDistribution)
                             {
-                                polyCounterDictionary[actualCharacter] = (polyCounterDictionary[actualCharacter] + 1) % substitutionCharacters.Length;
+                                var randomCharacterNumber = random.Next(substitutionCharacters.Length);
+                                substitutionCharacter = substitutionCharacters[randomCharacterNumber];
                             }
                             else
+                            //choose the next character from the substitution array
                             {
-                                polyCounterDictionary.Add(actualCharacter, 0);
+                                if (polyCounterDictionary.ContainsKey(actualCharacter))
+                                {
+                                    polyCounterDictionary[actualCharacter] = (polyCounterDictionary[actualCharacter] + 1)%
+                                                                             substitutionCharacters.Length;
+                                }
+                                else
+                                {
+                                    polyCounterDictionary.Add(actualCharacter, 0);
+                                }
+                                substitutionCharacter = substitutionCharacters[polyCounterDictionary[actualCharacter]];
                             }
-                            substitutionCharacter = substitutionCharacters[polyCounterDictionary[actualCharacter]];
                         }
-                    }
-                    substitution.Append(substitutionCharacter);
-                    actualCharacter = "";
+                        substitution.Append(substitutionCharacter);
+                        break;
+                    }                    
                 }
-                else if (actualCharacter.Length >= maxLength)
-                {
-                    switch (((SubstitutionSettings) Settings).UnknownSymbolHandling )
-                    {
-                        case UnknownSymbolHandling.LeaveAsIs:
-                            substitution.Append(actualCharacter);
-                            break;
-                        case UnknownSymbolHandling.Replace:
-                            substitution.Append(((SubstitutionSettings) Settings).ReplacementSymbol);
-                            break;
-                        case UnknownSymbolHandling.Remove:
-                            break;
-                    }                                    
-                    actualCharacter = "";
-                }
-                progressCounter++;
-                ProgressChanged(progressCounter, text.Length);
-            }
-            //If we have unknwon characters at the end of the string
-            //we should append it:
-            if (actualCharacter.Length != 0)
-            {
-                substitution.Append(actualCharacter);
-            }
+                ProgressChanged(position, text.Length);
+            }           
             return substitution.ToString();
         }
 
