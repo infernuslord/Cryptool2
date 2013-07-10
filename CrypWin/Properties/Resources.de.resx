@@ -890,30 +890,33 @@
     <value>Eine Arbeitsfläche ist noch im Play-Mode. Möchten Sie CrypTool 2 wirklich beenden?</value>
   </data>
   <data name="SI_CertHash" xml:space="preserve">
-    <value>Zertifikat Hash</value>
+    <value>SHA-1-Hash des Zertifikats (X509v3-Format)</value>
   </data>
   <data name="SI_EffectiveDate" xml:space="preserve">
-    <value>Datum Gültigkeitsbeginn</value>
+    <value>Datum Gültigkeitsbeginn des Zertifikats</value>
   </data>
   <data name="SI_ExpirationDate" xml:space="preserve">
-    <value>Datum Gültigkeitsende</value>
+    <value>Datum Gültigkeitsende des Zertifikats</value>
   </data>
   <data name="SI_IsSigned" xml:space="preserve">
     <value>CrypTool 2.0 ist signiert</value>
   </data>
   <data name="SI_IssuerName" xml:space="preserve">
-    <value>Aussteller Name</value>
+    <value>Name des Ausstellers des Zertifikats</value>
   </data>
   <data name="SI_KeyAlgorithm" xml:space="preserve">
-    <value>Schlüssel Algorithmus</value>
+    <value>OID des Schlüssel-Algorithmus</value>
   </data>
   <data name="SI_SerialNumber" xml:space="preserve">
-    <value>Seriennummer</value>
+    <value>Seriennummer des Zertifikats</value>
   </data>
   <data name="SI_Subject" xml:space="preserve">
-    <value>Antragsteller</value>
+    <value>Antragsteller des Zertifikats</value>
   </data>
   <data name="SI_ValidCertificate" xml:space="preserve">
     <value>Valides Zertifikat</value>
+  </data>
+  <data name="SI_PublicKey" xml:space="preserve">
+    <value>Öffentlicher Schlüssel des Antragstellers</value>
   </data>
 </root>
