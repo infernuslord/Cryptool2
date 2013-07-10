@@ -1860,7 +1860,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SHA-1 Hash of the certificate (X509v3-Format) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die SHA-1 hash of the certificate (X509v3 format) ähnelt.
         /// </summary>
         internal static string SI_CertHash {
             get {
@@ -2022,7 +2022,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Serial Number of the certificate ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Serial number of the certificate ähnelt.
         /// </summary>
         internal static string SI_SerialNumber {
             get {
@@ -2049,7 +2049,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Unique Identifier of the certificate ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unique identifier of the certificate ähnelt.
         /// </summary>
         internal static string SI_Unique_Identifier {
             get {
