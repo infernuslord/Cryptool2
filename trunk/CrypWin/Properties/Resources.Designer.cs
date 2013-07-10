@@ -1860,7 +1860,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Certificate Hash ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die SHA-1 Hash of the certificate (X509v3-Format) ähnelt.
         /// </summary>
         internal static string SI_CertHash {
             get {
@@ -1896,7 +1896,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Effective Date ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Effective date of the certificate ähnelt.
         /// </summary>
         internal static string SI_EffectiveDate {
             get {
@@ -1905,7 +1905,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Expiration Date ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Expiration date of the certificate ähnelt.
         /// </summary>
         internal static string SI_ExpirationDate {
             get {
@@ -1941,7 +1941,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Issuer Name ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Issuer name of the certificate ähnelt.
         /// </summary>
         internal static string SI_IssuerName {
             get {
@@ -1950,7 +1950,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Key Algorithm ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die OID of the key algorithm ähnelt.
         /// </summary>
         internal static string SI_KeyAlgorithm {
             get {
@@ -2004,7 +2004,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Certificate Public Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public key of the applicant ähnelt.
         /// </summary>
         internal static string SI_PublicKey {
             get {
@@ -2022,7 +2022,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Serial Number ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Serial Number of the certificate ähnelt.
         /// </summary>
         internal static string SI_SerialNumber {
             get {
@@ -2049,7 +2049,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Unique Identifier ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unique Identifier of the certificate ähnelt.
         /// </summary>
         internal static string SI_Unique_Identifier {
             get {

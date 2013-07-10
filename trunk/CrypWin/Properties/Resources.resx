@@ -761,7 +761,7 @@
     <value>Processors</value>
   </data>
   <data name="SI_Unique_Identifier" xml:space="preserve">
-    <value>Unique Identifier</value>
+    <value>Unique Identifier of the certificate</value>
   </data>
   <data name="SI_User_Name" xml:space="preserve">
     <value>User Name</value>
@@ -911,28 +911,28 @@
     <value>There is still one running task (workspace in Play mode). Do you really want to exit CrypTool 2 ?</value>
   </data>
   <data name="SI_CertHash" xml:space="preserve">
-    <value>Certificate Hash</value>
+    <value>SHA-1 Hash of the certificate (X509v3-Format)</value>
   </data>
   <data name="SI_EffectiveDate" xml:space="preserve">
-    <value>Effective Date</value>
+    <value>Effective date of the certificate</value>
   </data>
   <data name="SI_ExpirationDate" xml:space="preserve">
-    <value>Expiration Date</value>
+    <value>Expiration date of the certificate</value>
   </data>
   <data name="SI_IsSigned" xml:space="preserve">
     <value>CrypTool 2.0 is signed</value>
   </data>
   <data name="SI_IssuerName" xml:space="preserve">
-    <value>Issuer Name</value>
+    <value>Issuer name of the certificate</value>
   </data>
   <data name="SI_KeyAlgorithm" xml:space="preserve">
-    <value>Key Algorithm</value>
+    <value>OID of the key algorithm</value>
   </data>
   <data name="SI_PublicKey" xml:space="preserve">
-    <value>Certificate Public Key</value>
+    <value>Public key of the applicant</value>
   </data>
   <data name="SI_SerialNumber" xml:space="preserve">
-    <value>Serial Number</value>
+    <value>Serial Number of the certificate</value>
   </data>
   <data name="SI_Subject" xml:space="preserve">
     <value>Subject</value>
