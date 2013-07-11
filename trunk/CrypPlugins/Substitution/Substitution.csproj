@@ -92,6 +92,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Substitution.cs" />
+    <Compile Include="SubstitutionPresentation.xaml.cs">
+      <DependentUpon>SubstitutionPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SubstitutionSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +142,12 @@
     <Resource Include="DetailedDescription\doc.xml">
       <SubType>Designer</SubType>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="SubstitutionPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
