@@ -198,6 +198,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.plaintext = DecryptCiphertext(bestkeys[best_fit_index], this.ciphertext, this.ciphertext_alphabet);
         }
 
+        public void ResetInnerState()
+        {
+            // Clear banlist
+        }
+
+        public void AddKeyToBanlist(int[] key)
+        {
+
+        }
+
+        #endregion
+
+        #region AlgorithmMethods
+
         private void SetUpEnvironment(Population pop, int size)
         {
             // Initialize data structures
@@ -691,17 +705,19 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             int pt_index;
             for (int i = 0; i < ct_word.Length; i++)
             {
-                ct_index = cipher_alpha.GetPositionOfLetter(ct_word.Substring(i, 1));
-                pt_index = plain_alpha.GetPositionOfLetter(dic_word.Substring(i, 1));
-                if ((!newkey.Contains(pt_index)) && (newkey[ct_index] == -1))
-                {
-                    newkey[ct_index] = pt_index;
-                }
+                    ct_index = cipher_alpha.GetPositionOfLetter(ct_word.Substring(i, 1));
+                    pt_index = plain_alpha.GetPositionOfLetter(dic_word.Substring(i, 1));
+                    if ((!newkey.Contains(pt_index)) && (newkey[ct_index] == -1))
+                    {
+                        newkey[ct_index] = pt_index;
+                    }
+
+                    if ((newkey[ct_index] != pt_index) && (newkey[ct_index] != -1))
+                    {
+                        return null;
+                    }
                 
-                if ((newkey[ct_index] != pt_index) && (newkey[ct_index] != -1))
-                {
-                    return null;
-                }
+               
             }
 
             return newkey; 
@@ -760,7 +776,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// Decrypt the ciphertext
         /// </summary>
         /// <param name="k"></param>
-        private Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
+        public Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
         {
             int index = -1;
             Text plaintext = ciphertext.CopyTo();

@@ -27,6 +27,8 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
     public delegate void PluginProgress(double current, double maximum);
+    public delegate void UpdateOutputCiphertext();
+    public delegate void RestartSearch();
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
     [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
@@ -49,7 +51,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Boolean caseSensitive = false;
 
         // Input property variables
-        private ICryptoolStream ciphertext;
+        //private ICryptoolStream ciphertext;
         private String ciphertext_alphabet;
         private String plaintext_alphabet;
         private ICryptoolStream reference_text;
@@ -67,6 +69,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private const String smallGer = "abcdefghijklmnopqrstuvwxyzöäüß";
         private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
 
+        // Key for presentation
+        private Analyzer analyzer = new Analyzer();
+        private List<LetterPair> pairs = new List<LetterPair>();
+
         #endregion
 
         #region Data Properties
@@ -74,12 +80,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         [PropertyInfo(Direction.InputData, "Ciphertext", "Encrypted text", true)]
         public ICryptoolStream Ciphertext
         {
-            get { return this.ciphertext; }
-            set {
-                this.ciphertext = value;
+            get; // { return this.ciphertext; }
+            set; //{
+                //this.ciphertext = value;
                 //this.ciphertext_has_changed = true;
                 //OnPropertyChanged("Ciphertext");
-            }
+            //}
         }
 
         [PropertyInfo(Direction.InputData, "Ciphertext Alphabet", "Alphabet of the ciphertext", false)]
@@ -242,7 +248,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            //this.refText = new Text(helper, this.ptAlphabet);
+                            this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
                         }
                     }
                     else if (settings.boAlphabet == 1)
@@ -258,7 +264,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                            //this.refText = new Text(helper, this.ptAlphabet);
+                            this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
                         }
                     }
                     else if (settings.boAlphabet == 2)
@@ -281,7 +287,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           //this.refText = new Text(helper, this.ptAlphabet);
+                           this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
                         }
                     }
                     else if (settings.ptAlphabet == 1)
@@ -297,7 +303,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         }
                         if (helper != null)
                         {
-                           //this.refText = new Text(helper, this.ptAlphabet);
+                           this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
                         }
                     }
                     else if (settings.ptAlphabet == 2)
@@ -392,7 +398,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             String helper1 = null;
             try
             {
-                helper1 = returnStreamContent(this.ciphertext);
+                helper1 = returnStreamContent(this.Ciphertext);
             }
             catch
             {
@@ -421,7 +427,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.inputOK = false;
             }
             // Ciphertext correct?
-            if (this.ciphertext == null)
+            if (this.Ciphertext == null)
             {
                 GuiLogMessage("No ciphertext is set", NotificationLevel.Error);
                 this.inputOK = false;
@@ -462,27 +468,41 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             else
             {
                 this.langFreq = new Frequencies(this.ptAlphabet);
-                //this.langFreq.updateFrequenciesProbabilities(this.refText);
-                this.langFreq.updateFrequenciesProbabilities("english-5-ad.txt");
+                this.langFreq.updateFrequenciesProbabilities(this.refText);
+                //this.langFreq.updateFrequenciesProbabilities("english-5-ad.txt");
             }
 
             // Create new analyzer
-            Analyzer analyzer = new Analyzer();
+            this.analyzer = new Analyzer();
             
             // Initialize analyzer
-            analyzer.Ciphertext = this.cText;
-            analyzer.Ciphertext_Alphabet = this.ctAlphabet;
-            analyzer.Plaintext_Alphabet = this.ptAlphabet;
-            analyzer.Language_Frequencies = this.langFreq;
-            analyzer.Language_Dictionary = this.langDic;
-            analyzer.SetPluginProgressCallback(ProgressChanged);
+            this.analyzer.Ciphertext = this.cText;
+            this.analyzer.Ciphertext_Alphabet = this.ctAlphabet;
+            this.analyzer.Plaintext_Alphabet = this.ptAlphabet;
+            this.analyzer.Language_Frequencies = this.langFreq;
+            this.analyzer.Language_Dictionary = this.langDic;
+            this.analyzer.SetPluginProgressCallback(ProgressChanged);
             
             // Conduct analysis
-            analyzer.Analyze();
+            this.analyzer.Analyze();
 
             // Show result
-            this.plaintext = analyzer.Plaintext.ToString(this.ptAlphabet);
+            this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
             OnPropertyChanged("Plaintext");
+
+            // Refresh user interface
+            for (int i = 0; i < this.ctAlphabet.Length; i++)
+            {
+                LetterPair lp = new LetterPair
+                {
+                    Ciphertext_letter = this.ctAlphabet.GetLetterFromPosition(i),
+                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(i)
+                };
+                pairs.Add(lp);
+                
+            }
+            this.masPresentation.RefreshUI(pairs);
+
         }
 
         public void PostExecution()
@@ -499,11 +519,27 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Initialize()
         {
-            settings.Initialize();
+            this.settings.Initialize();
+            this.masPresentation.SetRestartSearch(RestartSearch);
+            this.masPresentation.SetUpdateOutputCiphertext(UpdateCiphertext);
         }
 
         public void Dispose()
         {
+        }
+
+        public void UpdateCiphertext()
+        {
+            //int[] key = new int[this.ciphertext_alphabet.Length];
+            //for 
+            //this.analyzer.DecryptCiphertext();
+            //this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
+            OnPropertyChanged("Plaintext");
+        }
+
+        public void RestartSearch()
+        {
+
         }
 
         #endregion
@@ -595,5 +631,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         }
 
         #endregion
+    }
+
+    public class LetterPair
+    {
+        public string Ciphertext_letter { get; set; }
+        public string Plaintext_letter { get; set; }
     }
 }
