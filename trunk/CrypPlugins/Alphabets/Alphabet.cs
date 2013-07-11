@@ -57,8 +57,9 @@ namespace Cryptool.Alphabets
             this.alphabetPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.alphabetString = alphabetPresentation.GetAlphabet();
+                OnPropertyChanged("AlphabetOutput");
             }, null);
-            OnPropertyChanged("AlphabetOutput");
+            
         }
 
         void alphabetPresentation_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
