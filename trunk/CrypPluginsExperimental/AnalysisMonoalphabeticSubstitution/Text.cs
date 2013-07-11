@@ -24,25 +24,33 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             this.caseSensitive = caseSense;
             string curString = "";
-            string c;
+            string c = "";
 
             if (this.caseSensitive == false)
             {
                 for (int i = 0; i < text.Length; i++)
                 {
+                    if (i == text.Length - 1)
+                    {
+                        Console.WriteLine("ddd");
+                    }
+                    
+                    
                     bool status = false;
 
                     int j = 0;
                     do
                     {
-                        j++;
-                        curString = text.Substring(i, j);
-                        c = curString;
-                        if (char.IsUpper(c.ToCharArray()[0]))
-                        {
-                            status = true;
-                            c = c.ToLower();
-                        }
+                            j++;
+
+                                curString = text.Substring(i, j);
+
+                            c = curString;
+                            if (char.IsUpper(c.ToCharArray()[0]))
+                            {
+                                status = true;
+                                c = c.ToLower();
+                            }
 
                     }
                     while (alpha.GetNumberOfLettersStartingWith(c) > 1);
@@ -68,10 +76,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     int j = 0;
                     do
                     {
-                        j++;
-                        curString = text.Substring(i, j);
-                        c = curString;
-
+                        try
+                        {
+                            j++;
+                            curString = text.Substring(i, j);
+                            c = curString;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("3");
+                        }
                     }
                     while (alpha.GetNumberOfLettersStartingWith(c) > 1);
 

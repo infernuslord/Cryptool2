@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Cryptool.Plugins.AnalysisMonoalphabeticSubstitution.AssignmentPresentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="390" d:DesignWidth="506" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid AllowDrop="False" Background="White" Height="Auto" Width="Auto">
+        <ScrollViewer Width="{Binding ActualWidth,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"                   
+                      Height="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" 
+                      HorizontalAlignment="Left" Name="scrollViewer1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+        <Grid Name="grid1" Margin="0,0,30,12" Width="467" Height="391">
+                <Label Content="Assignment of ciphertext letters to plaintext letters" Height="28" HorizontalAlignment="Left" Margin="6,12,104,0" Name="label1" VerticalAlignment="Top" Width="373" FontWeight="SemiBold" FontSize="14" />
+                <Button Content="Start again" Height="23" HorizontalAlignment="Left" Margin="354,104,0,0" Name="btnRestart" VerticalAlignment="Top" Width="108" Click="button1_Click" />
+                <Button Content="Update ciphertext" Height="23" HorizontalAlignment="Left" Margin="354,46,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="108" Click="button2_Click" />
+                <Grid Height="350" HorizontalAlignment="Left" Margin="0,40,0,0" Name="grid2" VerticalAlignment="Top" Width="348">
+                    <DataGrid AutoGenerateColumns="True" Height="Auto" HorizontalAlignment="Left" Name="dataGrid1" VerticalAlignment="Top" Width="326" ColumnHeaderHeight="30" EnableColumnVirtualization="True" AlternatingRowBackground="#31000000" CanUserReorderColumns="False" CanUserSortColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell" Margin="6,6,0,0" Grid.ColumnSpan="2"></DataGrid>
+                </Grid>
+        </Grid>
+        </ScrollViewer> 
+    </Grid>
+</UserControl>

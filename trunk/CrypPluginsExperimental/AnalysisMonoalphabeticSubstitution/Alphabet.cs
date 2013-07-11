@@ -47,8 +47,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             for (int i = 0; i < alphabet.Length; i = i + length)
             {
-                cur = alphabet.Substring(i, length);
-
+                try
+                {
+                    cur = alphabet.Substring(i, length);
+                }
+                catch
+                {
+                    Console.WriteLine("4");
+                }
                 if (!this.re_alphabet.ContainsKey(cur))
                 {
                     this.alphabet.Add(index, cur);
