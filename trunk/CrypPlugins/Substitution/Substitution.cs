@@ -53,14 +53,14 @@ namespace Cryptool.Substitution
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "SourceAlphabetCaption", "SourceAlphabetTooltip", false)]
+        [PropertyInfo(Direction.InputData, "SourceAlphabetCaption", "SourceAlphabetTooltip", true)]
         public string SourceAlphabet
         {
             get; 
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "DestinationAlphabetCaption", "DestinationAlphabetTooltip", false)]
+        [PropertyInfo(Direction.InputData, "DestinationAlphabetCaption", "DestinationAlphabetTooltip", true)]
         public string DestinationAlphabet
         {
             get;
