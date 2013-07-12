@@ -343,7 +343,6 @@ namespace WorkspaceManager.View.Visuals
 
                     break;
             }
-
             //LineCount = Visuals.OfType<CryptoLineView>().Count();
         }
 
@@ -1846,17 +1845,17 @@ namespace WorkspaceManager.View.Visuals
                         {
                             if (SelectedConnector.Model.ConnectorType != null || b.Model.ConnectorType != null)
                             {
-                                ConnectorModel input, output;
-                                input = SelectedConnector.Model.Outgoing == true ? b.Model : SelectedConnector.Model;
-                                output = SelectedConnector.Model.Outgoing == false ? b.Model : SelectedConnector.Model;
-                                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(output, input);
+                                ConnectorVisual input, output;
+                                input = SelectedConnector.Model.Outgoing == true ? b : SelectedConnector;
+                                output = SelectedConnector.Model.Outgoing == false ? b : SelectedConnector;
+                                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(output.Model, input.Model);
                                 if (lvl != ConversionLevel.Red && lvl != ConversionLevel.NA)
                                 {
                                     ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
-                                        output,
-                                        input,
-                                        output.ConnectorType));
-                                    AddConnectionVisual(SelectedConnector, b, connectionModel);
+                                        output.Model,
+                                        input.Model,
+                                        output.Model.ConnectorType));
+                                    AddConnectionVisual(output, input, connectionModel);
                                     e.Handled = true;
                                 }
                                 reset();
