@@ -27,7 +27,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
     public delegate void PluginProgress(double current, double maximum);
-    public delegate void UpdateOutputCiphertext();
+    public delegate void UpdateOutputCiphertext(List<LetterPair> lp);
     public delegate void RestartSearch();
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
@@ -56,6 +56,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private String plaintext_alphabet;
         private ICryptoolStream reference_text;
         private ICryptoolStream language_dictionary;
+        private String plaintext_alphabet_output;
 
         // Output property variables
         private String plaintext; 
@@ -77,7 +78,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Ciphertext", "Encrypted text", true)]
+        [PropertyInfo(Direction.InputData, "PropCiphertextCaption", "PropCiphertextTooltip", true)]
         public ICryptoolStream Ciphertext
         {
             get; // { return this.ciphertext; }
@@ -88,7 +89,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             //}
         }
 
-        [PropertyInfo(Direction.InputData, "Ciphertext Alphabet", "Alphabet of the ciphertext", false)]
+        [PropertyInfo(Direction.InputData, "PropCiphertextalphabetCaption", "PropCiphertextalphabetTooltip", false)]
         public String Ciphertext_Alphabet
         {
             get { return this.ciphertext_alphabet; }
@@ -98,7 +99,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Plaintext Alphabet", "Assumed alphabet of the plaintext", false)]
+        [PropertyInfo(Direction.InputData, "PropPlaintextalphabetCaption", "PropPlaintextalphabetTooltip", false)]
         public String Plaintext_Alphabet
         {
             get { return this.plaintext_alphabet; }
@@ -108,7 +109,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Reference Text", "Sample text to extract letter frequencies of the assumed plaintext language", false)]
+        [PropertyInfo(Direction.InputData, "PropReferencetextCaption", "PropReferencetextTooltip", false)]
         public ICryptoolStream Reference_Text
         {
             get { return this.reference_text; }
@@ -118,7 +119,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Dictionary", "Dictionary of assumed plaintext language", false)]
+        [PropertyInfo(Direction.InputData, "PropDictionaryCaption", "PropDictionaryTooltip", false)]
         public ICryptoolStream Language_Dictionary
         {
             get { return this.language_dictionary; }
@@ -128,11 +129,19 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Plaintext", "Decrypted text", true)]
+        [PropertyInfo(Direction.OutputData, "PropPlaintextCaption", "PropPlaintextTooltip", true)]
         public String Plaintext
         {
             get { return this.plaintext; }
-            set { this.plaintext = value; }
+            set { }
+            //set { this.plaintext = value; }
+        }
+
+        [PropertyInfo(Direction.OutputData, "PropPlaintextalphabetoutputCaption", "PropPlaintextalphabetoutputTooltip", true)]
+        public String Plaintext_Alphabet_Output
+        {
+            get { return this.plaintext_alphabet_output; }
+            set { }
         }
 
         #endregion
@@ -474,6 +483,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             // Create new analyzer
             this.analyzer = new Analyzer();
+            this.pairs.Clear();
             
             // Initialize analyzer
             this.analyzer.Ciphertext = this.cText;
@@ -490,23 +500,25 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
             OnPropertyChanged("Plaintext");
 
-            // Refresh user interface
+            // Set letter assignment in user interface
+            int[] key = this.analyzer.Key;
             for (int i = 0; i < this.ctAlphabet.Length; i++)
             {
                 LetterPair lp = new LetterPair
                 {
                     Ciphertext_letter = this.ctAlphabet.GetLetterFromPosition(i),
-                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(i)
+                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
                 };
                 pairs.Add(lp);
                 
             }
-            this.masPresentation.RefreshUI(pairs);
-
+            this.masPresentation.RefreshGUI();
+            this.masPresentation.EnableGUI();
         }
 
         public void PostExecution()
         {
+            this.masPresentation.DisableGUI();
         }
 
         public void Pause()
@@ -522,24 +534,53 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.settings.Initialize();
             this.masPresentation.SetRestartSearch(RestartSearch);
             this.masPresentation.SetUpdateOutputCiphertext(UpdateCiphertext);
+            this.masPresentation.DisableGUI();
+            this.masPresentation.Data = this.pairs;
+            this.masPresentation.ConnectDataSource();
+            this.masPresentation.RefreshGUI();
         }
 
         public void Dispose()
         {
         }
 
-        public void UpdateCiphertext()
+        public void UpdateCiphertext(List<LetterPair> lp)
         {
-            //int[] key = new int[this.ciphertext_alphabet.Length];
-            //for 
-            //this.analyzer.DecryptCiphertext();
-            //this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
+            int[] key = new int[this.ctAlphabet.Length];
+
+            for (int i = 0; i < key.Length; i++)
+            {
+                key[i] = this.ptAlphabet.GetPositionOfLetter(lp[i].Plaintext_letter);
+            }
+            
+            this.plaintext = this.analyzer.DecryptCiphertext(key);
             OnPropertyChanged("Plaintext");
         }
 
         public void RestartSearch()
         {
+            // Conduct analysis
+            this.analyzer.Language_Dictionary = null;
+            this.analyzer.Analyze();
 
+            // Show result
+            this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
+            OnPropertyChanged("Plaintext");
+
+            // Set letter assignment in user interface
+            this.pairs.Clear();
+            int[] key = this.analyzer.Key;
+            for (int i = 0; i < this.ctAlphabet.Length; i++)
+            {
+                LetterPair lp = new LetterPair
+                {
+                    Ciphertext_letter = this.ctAlphabet.GetLetterFromPosition(i),
+                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
+                };
+                pairs.Add(lp);
+
+            }
+            ProgressChanged(1, 1);
         }
 
         #endregion

@@ -196,6 +196,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             this.plaintext = DecryptCiphertext(bestkeys[best_fit_index], this.ciphertext, this.ciphertext_alphabet);
+            this.best_key = bestkeys[best_fit_index];
         }
 
         public void ResetInnerState()
@@ -215,6 +216,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private void SetUpEnvironment(Population pop, int size)
         {
             // Initialize data structures
+            this.best_key = new int[size];
             pop.keys = new int[size][];
             pop.fitness = new double[size];
        
@@ -776,7 +778,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// Decrypt the ciphertext
         /// </summary>
         /// <param name="k"></param>
-        public Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
+        private Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
         {
             int index = -1;
             Text plaintext = ciphertext.CopyTo();
@@ -791,6 +793,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return plaintext;
+        }
+
+        public String DecryptCiphertext(int[] key)
+        {
+            Text plaintext = DecryptCiphertext(key, this.ciphertext, this.ciphertext_alphabet);
+            return plaintext.ToString(this.plaintext_alphabet);
         }
 
         /// <summary>
