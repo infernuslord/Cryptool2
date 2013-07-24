@@ -29,7 +29,7 @@ using System.ComponentModel;
 
 namespace Cryptool.HMAC
 {
-    [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [Author("Holger Pretzsch", "cryptool@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.HMAC.Properties.Resources", "PluginCaption", "PluginTooltip", "HMAC/DetailedDescription/doc.xml", "HMAC/HMAC.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class HMAC : ICrypComponent
