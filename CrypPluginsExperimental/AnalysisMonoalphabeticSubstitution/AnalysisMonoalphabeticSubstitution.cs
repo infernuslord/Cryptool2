@@ -23,12 +23,14 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
     public delegate void PluginProgress(double current, double maximum);
     public delegate void UpdateOutputCiphertext(List<LetterPair> lp);
     public delegate void RestartSearch();
+    delegate double CalculateFitness(Text plaintext);
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
     [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
@@ -49,17 +51,22 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Text refText = null;
         private Boolean inputOK = true;
         private Boolean caseSensitive = false;
+        private String wordSeparator;
+
+        // Statistics
+        private TimeSpan total_time = new TimeSpan();
+        private TimeSpan currun_time;
 
         // Input property variables
-        //private ICryptoolStream ciphertext;
+        private ICryptoolStream ciphertext;
         private String ciphertext_alphabet;
         private String plaintext_alphabet;
         private ICryptoolStream reference_text;
         private ICryptoolStream language_dictionary;
-        private String plaintext_alphabet_output;
 
         // Output property variables
-        private String plaintext; 
+        private String plaintext;
+        private String plaintext_alphabet_output;
 
         // Presentation
         private AssignmentPresentation masPresentation = new AssignmentPresentation();
@@ -81,12 +88,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         [PropertyInfo(Direction.InputData, "PropCiphertextCaption", "PropCiphertextTooltip", true)]
         public ICryptoolStream Ciphertext
         {
-            get; // { return this.ciphertext; }
-            set; //{
-                //this.ciphertext = value;
+            get { return this.ciphertext; }
+            set {
+                this.ciphertext = value;
                 //this.ciphertext_has_changed = true;
-                //OnPropertyChanged("Ciphertext");
-            //}
+            }
         }
 
         [PropertyInfo(Direction.InputData, "PropCiphertextalphabetCaption", "PropCiphertextalphabetTooltip", false)]
@@ -221,184 +227,159 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
             
-            // Reference text 
-            // Check reference text input first
-            if (this.reference_text != null)
+            // N-gram probabilities 
+            if (settings.SeparateAlphabets == false)
             {
-                String helper = null;
-                try
+                if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
                 {
-                    helper = returnStreamContent(this.reference_text);
+                    String helper = IdentifyNGramFile(settings.boAlphabet, this.caseSensitive);
+                    if (helper != null)
+                    {
+                        this.langFreq = new Frequencies(this.ptAlphabet);
+                        this.langFreq.ReadProbabilitiesFromNGramFile(helper);
+                    }
+                    else
+                    {
+                        GuiLogMessage("No ngram file available.", NotificationLevel.Error);
+                    }
                 }
-                catch
+                else if (settings.boAlphabet == 2)
                 {
-                    GuiLogMessage("Error while obtaining reference text stream.",NotificationLevel.Error);
-                }
-                if (helper != null)
-                {
-                    this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
+                    String helper = null;
+                    try
+                    {
+                        helper = returnStreamContent(this.reference_text);
+                    }
+                    catch
+                    {
+                        GuiLogMessage("No reference text as input.", NotificationLevel.Error);
+                        this.refText = null;
+                    }
+                    if (helper != null)
+                    {
+                        this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
+                        this.langFreq = new Frequencies(this.ptAlphabet);
+                        this.langFreq.CreateProbabilitiesFromReferenceText(this.refText);
+                    }
                 }
             }
-            // Check standard files second
-            else 
-            { 
-                if (settings.SeparateAlphabets==true)
+            else if (settings.SeparateAlphabets == true)
+            {
+                if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
                 {
-                    if (settings.boAlphabet == 0)
+                    String helper = IdentifyNGramFile(settings.ptAlphabet, this.caseSensitive);
+                    if (helper != null)
                     {
-                        String helper = null;
-                        try
-                        {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_eng.txt");
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining English reference text file.", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                            this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
-                        }
+                        this.langFreq = new Frequencies(this.ptAlphabet);
+                        this.langFreq.ReadProbabilitiesFromNGramFile(helper);
                     }
-                    else if (settings.boAlphabet == 1)
+                    else
                     {
-                        String helper = null;
-                        try
-                        {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_ger.txt");
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining German reference text file.", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                            this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
-                        }
-                    }
-                    else if (settings.boAlphabet == 2)
-                    {
-                        this.refText = null;
+                        GuiLogMessage("No ngram file available.", NotificationLevel.Error);
                     }
                 }
-                else if (settings.SeparateAlphabets == false)
+                else if (settings.ptAlphabet == 2)
                 {
-                    if (settings.ptAlphabet == 0)
+                    String helper = null;
+                    try
                     {
-                        String helper = null;
-                        try
-                        {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_eng.txt");
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining English reference text file.", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                           this.refText = new Text(helper, this.ptAlphabet,this.caseSensitive);
-                        }
+                        helper = returnStreamContent(this.reference_text);
                     }
-                    else if (settings.ptAlphabet == 1)
+                    catch
                     {
-                        String helper = null;
-                        try
-                        {
-                            helper = returnFileContent("AnalysisMonoalphabeticSubstitution_ref_ger.txt");
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining German reference text file.", NotificationLevel.Error);
-                        }
-                        if (helper != null)
-                        {
-                           this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
-                        }
-                    }
-                    else if (settings.ptAlphabet == 2)
-                    {
+                        GuiLogMessage("No reference text as input.", NotificationLevel.Error);
                         this.refText = null;
+                    }
+                    if (helper != null)
+                    {
+                        this.refText = new Text(helper, this.ptAlphabet, this.caseSensitive);
+                        this.langFreq = new Frequencies(this.ptAlphabet);
+                        this.langFreq.CreateProbabilitiesFromReferenceText(this.refText);
                     }
                 }
             }
 
+
             // Dictionary
-            // Check dictionary input first
-            if (this.language_dictionary != null)
+            if (settings.SeparateAlphabets == false)
             {
-                String helper = null;
-                try
+                if (settings.boAlphabet == 0)
                 {
-                    helper = returnStreamContent(this.language_dictionary);
+                   try
+                   {
+                        this.langDic = new LanguageDictionary("dictionary_english.txt",' ');
+                   }
+                   catch
+                   {
+                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
+                   }
                 }
-                catch
+                else if (settings.boAlphabet == 1)
                 {
-                    GuiLogMessage("Error while obtaining language dictionary stream.",NotificationLevel.Error);
+                   try 
+                    {
+                        this.langDic = new LanguageDictionary("dictionary_german.txt",' ');
+                    }
+                    catch
+                    {
+                        GuiLogMessage("Error while obtaining German language dictionary file.", NotificationLevel.Error);
+                    }
                 }
-                if (helper != null)
+                else if (settings.boAlphabet == 2)
                 {
-                    this.langDic = new LanguageDictionary(helper, ' ');
+                    String helper = null;
+                    try
+                    {
+                        helper = returnStreamContent(this.language_dictionary);
+                    }
+                    catch
+                    {
+                        GuiLogMessage("Error while obtaining language dictionary stream.", NotificationLevel.Error);
+                    }
+                    if (helper != null)
+                    {
+                        this.langDic = new LanguageDictionary(helper, ' ');
+                    }
                 }
             }
-            // Check standard files second
-            else
+            else if (settings.SeparateAlphabets == true)
             {
-                if (settings.SeparateAlphabets == true)
+                if (settings.ptAlphabet == 0)
                 {
-                    if (settings.boAlphabet == 0)
+                    try
                     {
-                        try
-                        {
-                            this.langDic = new LanguageDictionary("dictionary_english.txt",' ');
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
+                        this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
                     }
-                    else if (settings.boAlphabet == 1)
+                    catch
                     {
-                        try 
-                        {
-                            this.langDic = new LanguageDictionary("AnalysisMonoalphabeticSubstitution_dic_ger.txt",' ');
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining German language dictionary file.", NotificationLevel.Error);
-                        }
-                    }
-                    else if (settings.boAlphabet == 2)
-                    {
-                        this.langDic = null;
+                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
                     }
                 }
-                else if (settings.SeparateAlphabets == false)
+                else if (settings.ptAlphabet == 1)
                 {
-                    if (settings.ptAlphabet == 0)
+                    try
                     {
-                        try
-                        {
-                            this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
+                        this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
                     }
-                    else if (settings.ptAlphabet == 1)
+                    catch
                     {
-                        try
-                        {
-                            this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
-                        }
-                        catch
-                        {
-                            GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                        }
+                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
                     }
-                    else if (settings.ptAlphabet == 2)
+                }
+                else if (settings.ptAlphabet == 2)
+                {
+                    String helper = null;
+                    try
                     {
-                        this.langDic = null;
+                        helper = returnStreamContent(this.language_dictionary);
+                    }
+                    catch
+                    {
+                        GuiLogMessage("Error while obtaining language dictionary stream.", NotificationLevel.Error);
+                    }
+                    if (helper != null)
+                    {
+                        this.langDic = new LanguageDictionary(helper, ' ');
                     }
                 }
             }
@@ -407,7 +388,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             String helper1 = null;
             try
             {
-                helper1 = returnStreamContent(this.Ciphertext);
+                helper1 = returnStreamContent(this.ciphertext);
             }
             catch
             {
@@ -420,6 +401,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             else 
             {
                 this.cText = null;
+            }
+
+            // Check word separator
+            if (settings.UseDefaultWordSeparator == true)
+            {
+                this.wordSeparator = " ";
+            }
+            else
+            {
+                if (settings.DefaultWordSeparator == "")
+                {
+                    this.wordSeparator = " ";
+                }
+                else
+                {
+                    this.wordSeparator = settings.DefaultWordSeparator;
+                }
             }
 
 
@@ -436,26 +434,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.inputOK = false;
             }
             // Ciphertext correct?
-            if (this.Ciphertext == null)
+            if (this.ciphertext == null)
             {
                 GuiLogMessage("No ciphertext is set", NotificationLevel.Error);
                 this.inputOK = false;
-            }
-            // Reference text correct?
-            if (this.refText == null)
-            {
-                this.langFreq = null;
-                //GuiLogMessage("No reference text is set", NotificationLevel.Warning);
             }
             // Dictionary correct?
             if (this.langDic == null)
             {
                 GuiLogMessage("No language dictionary is set", NotificationLevel.Warning);
             }
-            // Language frequencies and dictionary mustn't be null
-            if (this.langFreq == null && this.langDic == null)
+            // Language frequencies
+            if (this.langFreq == null)
             {
-                GuiLogMessage("Language frequencies or a language dictionary is needed.", NotificationLevel.Error);
+                GuiLogMessage("No language frequencies available.", NotificationLevel.Error);
                 this.inputOK = false;
             }
             // Check length of ciphertext and plaintext alphabet
@@ -474,12 +466,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.inputOK = true;
                 return;
             }
-            else
-            {
-                this.langFreq = new Frequencies(this.ptAlphabet);
-                this.langFreq.updateFrequenciesProbabilities(this.refText);
-                //this.langFreq.updateFrequenciesProbabilities("english-5-ad.txt");
-            }
 
             // Create new analyzer
             this.analyzer = new Analyzer();
@@ -491,10 +477,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.analyzer.Plaintext_Alphabet = this.ptAlphabet;
             this.analyzer.Language_Frequencies = this.langFreq;
             this.analyzer.Language_Dictionary = this.langDic;
+            this.analyzer.WordSeparator = this.wordSeparator;
             this.analyzer.SetPluginProgressCallback(ProgressChanged);
             
             // Conduct analysis
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             this.analyzer.Analyze();
+            watch.Stop();
+            this.total_time = watch.Elapsed;
+            this.currun_time = watch.Elapsed;
 
             // Show result
             this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
@@ -502,6 +494,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             // Set letter assignment in user interface
             int[] key = this.analyzer.Key;
+            String alpha_output = "";
             for (int i = 0; i < this.ctAlphabet.Length; i++)
             {
                 LetterPair lp = new LetterPair
@@ -510,10 +503,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
                 };
                 pairs.Add(lp);
+                alpha_output += lp.Plaintext_letter + ";";
                 
             }
+
+            // Show plaintext alphabet
+            this.plaintext_alphabet_output = alpha_output;
+            OnPropertyChanged("Plaintext_Alphabet_Output");
+
+            // Refresh GUI
             this.masPresentation.RefreshGUI();
             this.masPresentation.EnableGUI();
+
+            string totalTime = String.Format("{0:00}:{1:00}:{2:00}", this.total_time.Minutes, this.total_time.Seconds, this.total_time.Milliseconds / 10);
+            string curTime = String.Format("{0:00}:{1:00}:{2:00}", this.currun_time.Minutes, this.currun_time.Seconds, this.currun_time.Milliseconds / 10);
+
+            GuiLogMessage("Current analysis time: " + curTime + "   Total analysis time: " + totalTime, NotificationLevel.Info);
+            GuiLogMessage("Current number of tested keys: " + this.analyzer.Currun_Keys + "   Total number of tested keys: " + this.analyzer.Total_Keys, NotificationLevel.Info);
         }
 
         public void PostExecution()
@@ -547,21 +553,31 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void UpdateCiphertext(List<LetterPair> lp)
         {
             int[] key = new int[this.ctAlphabet.Length];
+            String alpha_output = "";
 
             for (int i = 0; i < key.Length; i++)
             {
                 key[i] = this.ptAlphabet.GetPositionOfLetter(lp[i].Plaintext_letter);
+                alpha_output += lp[i].Plaintext_letter+";";
             }
             
             this.plaintext = this.analyzer.DecryptCiphertext(key);
             OnPropertyChanged("Plaintext");
+            this.plaintext_alphabet_output = alpha_output;
+            OnPropertyChanged("Plaintext_Alphabet_Output");
         }
 
         public void RestartSearch()
         {
             // Conduct analysis
             this.analyzer.Language_Dictionary = null;
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
             this.analyzer.Analyze();
+            watch.Stop();
+            this.total_time.Add(watch.Elapsed);
+            this.currun_time = watch.Elapsed;
 
             // Show result
             this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
@@ -570,6 +586,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             // Set letter assignment in user interface
             this.pairs.Clear();
             int[] key = this.analyzer.Key;
+            String alpha_output = "";
             for (int i = 0; i < this.ctAlphabet.Length; i++)
             {
                 LetterPair lp = new LetterPair
@@ -578,9 +595,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
                 };
                 pairs.Add(lp);
-
+                alpha_output += lp.Plaintext_letter + ";";
             }
+            // Show plaintext alphabet
+            this.plaintext_alphabet_output = alpha_output;
+            OnPropertyChanged("Plaintext_Alphabet_Output");
+
+            // Refresh GUI
+            this.masPresentation.RefreshGUI();
+            this.masPresentation.EnableGUI();
+
             ProgressChanged(1, 1);
+
+            string totalTime = String.Format("{0:00}:{1:00}:{2:00}", this.total_time.Minutes, this.total_time.Seconds, this.total_time.Milliseconds / 10);
+            string curTime = String.Format("{0:00}:{1:00}:{2:00}", this.currun_time.Minutes, this.currun_time.Seconds, this.currun_time.Milliseconds / 10);
+
+            GuiLogMessage("Current analysis time: " + curTime + "   Total analysis time: " + totalTime, NotificationLevel.Info);
+            GuiLogMessage("Current number of tested keys: " + this.analyzer.Currun_Keys + "   Total number of tested keys: " + this.analyzer.Total_Keys, NotificationLevel.Info);
         }
 
         #endregion
@@ -669,6 +700,38 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return alpha;
+        }
+
+        private string IdentifyNGramFile(int alpha_nr, bool cs)
+        {
+            string name = "";
+            string lang = "";
+            string casesen = "";
+            if (alpha_nr == 0)
+            {
+                lang = "en";
+            } 
+            else if (alpha_nr == 1)
+            {
+                lang = "de";
+            }
+            if (cs == false)
+            {
+                casesen = "nocs";
+            } else
+            {
+                casesen = "cs";
+            }
+
+            for (int i = 7; i > 0; i--)
+            {
+                name = lang + "-" + i.ToString() + "gram-" + casesen + ".lm";
+                if (File.Exists(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, name)))
+                {
+                    return name;
+                }
+            }
+            return null;
         }
 
         #endregion

@@ -246,4 +246,16 @@
   <data name="PropReferencetextTooltip" xml:space="preserve">
     <value>Sample text to extract letter frequencies of the assumed plaintext language</value>
   </data>
+  <data name="DefaultWordSeparatorCaption" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="DefaultWordSeparatorTooltip" xml:space="preserve">
+    <value>Enter word separator</value>
+  </data>
+  <data name="UseDefaultWordSeparatorCaption" xml:space="preserve">
+    <value>Default word separator</value>
+  </data>
+  <data name="UseDefaultWordSeparatorTooltip" xml:space="preserve">
+    <value>Use default word separator (blank) for dictionary attack or set manually a separator</value>
+  </data>
 </root>
