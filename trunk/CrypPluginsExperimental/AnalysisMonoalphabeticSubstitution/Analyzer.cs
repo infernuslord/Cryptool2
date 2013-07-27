@@ -10,9 +10,13 @@ using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
+    
+
     class Analyzer
     {
         #region Variables
+
+        //private CalculateFitness CalculateFitness = null;
 
         // Genetic algorithm parameters
         private const int population_size = 300;
@@ -21,7 +25,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private const double changeBorder = 0.001;
         private int repetitions = 1;
         private const int maxTextLength = 500;
-
 
         // Working Variables
         private static Random rnd = new Random();
@@ -35,14 +38,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Frequencies language_frequencies = null;
         private Boolean standardAlphabet = false;
         private string word_separator = " ";
-        private bool auto_word_separator = false;
         
         // Output Property Variables
         private Text plaintext = null;
         private int[] best_key = null;
+        private int total_keys_tested = 0;
+        private int currun_keys_tested = 0;
 
         // Delegate
         private PluginProgress PluginProgress;
+        private CalculateFitness CalculateFitness;
 
         // Class for a population
         private class Population
@@ -88,7 +93,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public Frequencies Language_Frequencies
         {
             get { return this.language_frequencies; }
-            set { this.language_frequencies = value; }
+            set
+            {
+                this.language_frequencies = value;
+                AssignCalculateFitnessFunction();
+            }
         }
 
         public LanguageDictionary Language_Dictionary
@@ -108,13 +117,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.word_separator; }
             set { this.word_separator = value; }
         }
-
-        public Boolean AutoWordSeparator
-        {
-            get { return this.auto_word_separator; }
-            set { this.auto_word_separator = value; }
-        }
-
         #endregion
 
         #region Output Properties
@@ -131,6 +133,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             private set { }
         }
 
+        public int Total_Keys
+        {
+            get { return this.total_keys_tested; }
+            private set { }
+        }
+
+        public int Currun_Keys
+        {
+            get { return this.currun_keys_tested; }
+            private set { }
+        }
+
         #endregion
 
         #region Main Methods
@@ -139,6 +153,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             // Adjust analyzer parameters to ciphertext length
             AdjustAnalyzerParameters(this.ciphertext.Length);
+            this.currun_keys_tested = 0;
 
             // Initialization of repetition data structures
             int[][] bestkeys = new int[this.repetitions][];
@@ -197,6 +212,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             this.plaintext = DecryptCiphertext(bestkeys[best_fit_index], this.ciphertext, this.ciphertext_alphabet);
             this.best_key = bestkeys[best_fit_index];
+            this.total_keys_tested += this.currun_keys_tested;
         }
 
         public void ResetInnerState()
@@ -409,6 +425,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 this.repetitions = 50;
             }
+
+            // Change parameters according to used ngrams
+            int value = (8 - this.language_frequencies.NGram)*5;
+            this.repetitions += value;
         }
 
         #endregion
@@ -453,7 +473,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// </summary>
         private int[] CreateInitialKeyLangDic(Text ciphertext, Alphabet ciphertext_alphabet, Alphabet plaintext_alphabet, LanguageDictionary ldic)
         {
-            string sep;
             int[] key = new int[ciphertext_alphabet.Length];
             for (int i = 0; i < key.Length; i++)
             {
@@ -461,20 +480,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
             List<string> text = new List<string>();
 
-            // Determine word separator
-            if (this.auto_word_separator == true)
-            {
-                sep = DetermineWordSeparator(ciphertext, ciphertext_alphabet);
-            }
-            else
-            {
-                sep = this.word_separator;
-            }
-
             // Parse text
             Dictionary<string, int> word_count = new Dictionary<string, int>();
             string t = ciphertext.ToString(ciphertext_alphabet);
-            string[] tar = t.Split(sep.ToCharArray());
+            string[] tar = t.Split(this.word_separator.ToCharArray());
 
             // Clean word because at the end of each word could be a sign that does not belong to the word
             for (int i = 0; i < tar.Length; i++)
@@ -500,7 +509,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     word_count.Add(tar[i], tar[i].Length);
                 }
             }
-            
+
+            if (word_count.Count == 0)
+            {
+                int[] ret_key = new int[ciphertext_alphabet.Length];
+                for (int i=0;i<ret_key.Length;i++)
+                {
+                    ret_key[i]=i;
+                }
+                return ret_key;
+            }
+
             foreach (KeyValuePair<string, int> pair in word_count.OrderBy(Key => Key.Value))
             {
                 text.Add(pair.Key);
@@ -542,15 +561,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     break;
                 }
 
-                for (int y=0;y<maxnr;y++)
+                for (int y=start;y<maxnr;y++)
                 {
                     if (word_status[i][y]==true)
                     {
-                        nextkey = KeyCreatedByMatch(curkey,ciphertext_alphabet, text[i], plaintext_alphabet, ldic.GetWord(len,y));
+                        string dic_match = ldic.GetWord(len, y);
+                        nextkey = KeyCreatedByMatch(curkey,ciphertext_alphabet, text[i], plaintext_alphabet, dic_match);
                         word_status[i][y] = false;
                         matchstack.Push(new int[] { i, y });
                         if (nextkey!=null)
                         {
+                            Console.WriteLine("Match CT: " + text[i] + " Dic: " + dic_match);
                             curkey = nextkey;
                             keystack.Push(curkey);
                             matchfound = true;
@@ -573,6 +594,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     {
                         matchstack.Pop();
                     }
+
                     for (int y = 0; y < matchstack.Count; y++)
                     {
                         int[] match = matchstack.ElementAt(y);
@@ -581,8 +603,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     // unmatch current word and go to one ciphertext word earlier and start matching again
                     if (i>0)
                     {
-                      i = i -2;
-                      bestkeys.Add(keystack.Pop());
+                        Console.WriteLine("Unmatch");
+                        i = i -2;
+                        bestkeys.Add(keystack.Pop());
                     } 
                 }
             }
@@ -728,48 +751,108 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Calculate quality of key
         /// </summary>
-        private double CalculateFitness(Text plaintext)
+        /// 
+        private double CalculateFitness1gram(Text plaintext)
         {
+            this.currun_keys_tested += 1;
+
             double res = 0;
+            double[] prob = this.language_frequencies.Prob1Gram;
+            int[] text = plaintext.ValidLetterArray;
 
-            for (int i = 0; i < this.plaintext_alphabet.Length; i++)
+            for (int pos0 = 0; pos0 < text.Length; pos0++)
             {
-                res+= this.language_frequencies.GetLogProb5gram(plaintext.GetLetterAt(0), plaintext.GetLetterAt(1), plaintext.GetLetterAt(2), plaintext.GetLetterAt(3), i);
+                res += prob[text[pos0]];
             }
+            return res;
+        }
 
-            int pos0 = -1;
-            int pos1 = 0;
-            int pos2 = 1;
-            int pos3 = 2;
+        private double CalculateFitness2gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
 
-            for (int i = 4; i < plaintext.Length; i++)
+            double res = 0;
+            double[][] prob = this.language_frequencies.Prob2Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 1; pos0++)
             {
-                pos0++; pos1++; pos2++; pos3++;
-                while ((i < plaintext.Length) && (plaintext.GetLetterAt(i)<0))
-                {
-                    i++;
-                }
-                while ((pos0 < plaintext.Length) && (plaintext.GetLetterAt(pos0) < 0))
-                {
-                    pos0++;
-                }
-                while ((pos1 < plaintext.Length) && (plaintext.GetLetterAt(pos1) < 0))
-                {
-                    pos1++;
-                }
-                while ((pos2 < plaintext.Length) && (plaintext.GetLetterAt(pos2) < 0))
-                {
-                    pos2++;
-                }
-                while ((pos3 < plaintext.Length) && (plaintext.GetLetterAt(pos3) < 0))
-                {
-                    pos3++;
-                }
+                res += prob[text[pos0]][text[pos0 + 1]];
+            }
+            return res;
+        }
 
-                if (i < plaintext.Length)
-                {
-                    res += this.language_frequencies.GetLogProb5gram(plaintext.GetLetterAt(pos0), plaintext.GetLetterAt(pos1), plaintext.GetLetterAt(pos2), plaintext.GetLetterAt(pos3), plaintext.GetLetterAt(i));
-                }
+        private double CalculateFitness3gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
+            
+            double res = 0;
+            double[][][] prob = this.language_frequencies.Prob3Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 2; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness4gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
+
+            double res = 0;
+            double[][][][] prob = this.language_frequencies.Prob4Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 3; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness5gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
+
+            double res = 0;
+            double[][][][][] prob = this.language_frequencies.Prob5Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 4; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness6gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
+
+            double res = 0;
+            double[][][][][][] prob = this.language_frequencies.Prob6Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 5; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]][text[pos0 + 5]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness7gram(Text plaintext)
+        {
+            this.currun_keys_tested += 1;
+
+            double res = 0;
+            double[][][][][][][] prob = this.language_frequencies.Prob7Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 6; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]][text[pos0 + 5]][text[pos0 + 5]];
             }
             return res;
         }
@@ -864,6 +947,35 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void SetPluginProgressCallback(PluginProgress method)
         {
             this.PluginProgress = new PluginProgress(method);
+        }
+
+        private void AssignCalculateFitnessFunction()
+        {
+            switch (this.language_frequencies.NGram)
+            {
+                case 1:
+                    this.CalculateFitness = this.CalculateFitness1gram;
+                    break;
+                case 2:
+                    this.CalculateFitness = this.CalculateFitness2gram;
+                    break;
+                case 3:
+                    this.CalculateFitness = this.CalculateFitness3gram;
+                    break;
+                case 4:
+                    this.CalculateFitness = this.CalculateFitness4gram;
+                    break;
+                case 5:
+                    this.CalculateFitness = this.CalculateFitness5gram;
+                    break;
+                case 6:
+                    this.CalculateFitness = this.CalculateFitness6gram;
+                    break;
+                case 7:
+                    this.CalculateFitness = this.CalculateFitness7gram;
+                    break;
+            }
+            
         }
         
         #endregion

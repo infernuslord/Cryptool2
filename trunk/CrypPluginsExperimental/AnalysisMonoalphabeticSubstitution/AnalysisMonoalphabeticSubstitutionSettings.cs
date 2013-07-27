@@ -44,6 +44,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Boolean ct_caseSensitive = false;
         // Advanced settings variables
         private Boolean separateAlphabets = false;
+        private Boolean useDefaultWordSeparator = true;
+        private String defaultWordSeparator = " ";
 
         #endregion
 
@@ -64,6 +66,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 hideSettingsElement("ptCaseSensitive");
                 hideSettingsElement("ctAlphabet");
                 hideSettingsElement("ctCaseSensitive");
+            }
+            if (useDefaultWordSeparator == true)
+            {
+                hideSettingsElement("DefaultWordSeparator");
+            }
+            else
+            {
+                showSettingsElement("DefaultWordSeparator");
             }
         }
 
@@ -180,6 +190,36 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     hideSettingsElement("ctAlphabet");
                     hideSettingsElement("ctCaseSensitive");
                 }
+            }
+        }
+
+        [TaskPane("UseDefaultWordSeparatorCaption", "UseDefaultWordSeparatorTooltip", "AdvancedSettingsGroup", 2, false, ControlType.CheckBox, null)]
+        public Boolean UseDefaultWordSeparator
+        {
+            get { return useDefaultWordSeparator; }
+            set
+            {
+                useDefaultWordSeparator = value;
+                OnPropertyChanged("UseDefaultWordSeparator");
+                if (useDefaultWordSeparator == true)
+                {
+                    hideSettingsElement("DefaultWordSeparator");
+                }
+                else
+                {
+                    showSettingsElement("DefaultWordSeparator");
+                }
+            }
+        }
+
+        [TaskPane("DefaultWordSeparatorCaption", "DefaultWordSeparatorTooltip", "AdvancedSettingsGroup", 3, false, ControlType.TextBox, null)]
+        public String DefaultWordSeparator
+        {
+            get { return defaultWordSeparator; }
+            set
+            {
+                defaultWordSeparator = value;
+                OnPropertyChanged("DefaultWordSeparator");
             }
         }
 

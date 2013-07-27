@@ -29,29 +29,21 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             if (this.caseSensitive == false)
             {
                 for (int i = 0; i < text.Length; i++)
-                {
-                    if (i == text.Length - 1)
-                    {
-                        Console.WriteLine("ddd");
-                    }
-                    
-                    
+                {                 
                     bool status = false;
 
                     int j = 0;
                     do
                     {
-                            j++;
+                        j++;
+                        curString = text.Substring(i, j);
 
-                                curString = text.Substring(i, j);
-
-                            c = curString;
-                            if (char.IsUpper(c.ToCharArray()[0]))
-                            {
-                                status = true;
-                                c = c.ToLower();
-                            }
-
+                        c = curString;
+                        if (char.IsUpper(c.ToCharArray()[0]))
+                        {
+                            status = true;
+                            c = c.ToLower();
+                         }
                     }
                     while (alpha.GetNumberOfLettersStartingWith(c) > 1);
 
@@ -66,7 +58,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         this.text.Add(-this.notInAlphabet.Count);
                         this.orgCapital.Add(false);
                     }
-
+                    i += j - 1;
                 }
             }
             else
@@ -76,16 +68,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     int j = 0;
                     do
                     {
-                        try
-                        {
-                            j++;
-                            curString = text.Substring(i, j);
-                            c = curString;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("3");
-                        }
+                        j++;
+                        curString = text.Substring(i, j);
+                        c = curString;
                     }
                     while (alpha.GetNumberOfLettersStartingWith(c) > 1);
 
@@ -100,7 +85,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         this.text.Add(-this.notInAlphabet.Count);
                         this.orgCapital.Add(false);
                     }
-
+                    i += j - 1;
                 }
             }
         }
@@ -118,6 +103,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             get { return this.text.Count; }
             private set { ; }
+        }
+
+        public int[] ValidLetterArray 
+        {
+            get { return GetValidLetterArray(); }
+            set { ; }
         }
 
         #endregion
@@ -276,6 +267,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private void AddOrgCapital(bool val)
         {
             this.orgCapital.Add(val);
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private int[] GetValidLetterArray()
+        {
+            List<int> l = new List<int>();
+            for (int i = 0; i < this.text.Count; i++)
+            {
+                if (this.text[i] >= 0)
+                {
+                    l.Add(this.text[i]);
+                }
+            }
+            return l.ToArray();
         }
 
         #endregion

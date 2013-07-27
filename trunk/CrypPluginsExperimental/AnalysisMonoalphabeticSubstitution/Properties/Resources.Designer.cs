@@ -223,6 +223,24 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Separator ähnelt.
+        /// </summary>
+        internal static string DefaultWordSeparatorCaption {
+            get {
+                return ResourceManager.GetString("DefaultWordSeparatorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter word separator ähnelt.
+        /// </summary>
+        internal static string DefaultWordSeparatorTooltip {
+            get {
+                return ResourceManager.GetString("DefaultWordSeparatorTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die AnalysisMonoalphabeticSubstitution ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -444,6 +462,24 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         internal static string SeparateAlphabetsTooltip {
             get {
                 return ResourceManager.GetString("SeparateAlphabetsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Default word separator ähnelt.
+        /// </summary>
+        internal static string UseDefaultWordSeparatorCaption {
+            get {
+                return ResourceManager.GetString("UseDefaultWordSeparatorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use default word separator (blank) for dictionary attack or set manually a separator ähnelt.
+        /// </summary>
+        internal static string UseDefaultWordSeparatorTooltip {
+            get {
+                return ResourceManager.GetString("UseDefaultWordSeparatorTooltip", resourceCulture);
             }
         }
     }
