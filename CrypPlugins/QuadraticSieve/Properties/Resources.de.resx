@@ -309,4 +309,7 @@
   <data name="Digit" xml:space="preserve">
     <value>Dezimalstelle</value>
   </data>
+  <data name="Bit" xml:space="preserve">
+    <value>Bit</value>
+  </data>
 </root>
