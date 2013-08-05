@@ -1,22 +1,128 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
+
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en">CRC (Cyclic Redundancy Check) is 
-an algorithm 
-to detect integrity errors after data transmission or storage, similar to a checksum. It is based on the polynomial division of binary numbers by a so called generator polynomial. CRC detects unintentional bit changes caused e.g. by noise, but does not protect against intentional manipulation at all. The number of detectable bit errors depends on the size of the polynomial and the resulting size of the check value.
-</introduction>
-  <introduction lang="de-DE">CRC (Cyclic Redundancy Check, <i>dt.</i> zyklische Redundanzprüfung) ist ein Algorithmus
- zur Erkennung von Integritätsfehlern nach der Übertragung oder dem Speichern von Daten, ähnlich wie eine Prüfsumme. Es basiert auf der Polynomdivision im Dualsystem mit einem so genannten Generatorpolynom. CRC erkennt zufällige Bitänderungen, die etwa durch Rauschen verursacht werden, aber schützt nicht vor absichtlicher Manipulation. The Zahl der erkennbaren Bitfehler hängt von der Größe des Polynoms und der damit verbundenen Größe des Prüfwerts ab.
-</introduction>
-  <usage lang="en">The current implementation uses CRC-32 with generator polynomial 0x04C11DB7, takes input data of any size and outputs a 4 bytes check value.
-</usage>
-  <usage lang="de-DE">Die aktuelle Implementierung verwendet CRC-32 mit dem Generatorpolynom 0x04C11DB7, liest Eingabedaten beliebiger Länge und gibt den 4 Bytes großen Prüfwert aus.
-</usage>
+
+  <introduction lang="en">
+    The <b>Cyclic Redundancy Check</b> (CRC) is an algorithm to detect integrity errors after data transmission or storage, similar to a checksum.
+    It is based on the division with remainder in the polynomial ring over GF(2).
+    <newline /><newline />
+    The CRC check value of a data sequence is calculated by looking at the binary representation of the data sequence and interpreting its bits as the coefficients of a polynomial.
+    This polynomial is then divided by a fixed polynomial, the <b>generator polynomial</b>. The resulting remainder is also a polynomial and its binary coefficients are converted back into a number.
+    That number is the CRC check value of the data sequence.
+    <newline /><newline />
+    <b>Example:</b> Let the input data consist of the number 19, which is 10011 in binary representation, and interpreted as a polynomial we get <b>1</b>*x^4 + <b>0</b>*x^3 + <b>0</b>*x^2 + <b>1</b>*x + <b>1</b>*1 = x^4 + x + 1.
+    This polynomial is then divided by a fixed generator polynomial, e.g. x^2 + 1. The resulting remainder is the polynomial x, as x^4 + x + 1 = (x^2 + 1)^2 + x (over GF(2)).
+    The remainder polynomial x = <b>1</b>*x + <b>0</b>*1 corresponds to the binary sequence 10, and thus the CRC check value for 19 is 2.
+    <newline /><newline />
+    The calculation of CRC check values can be very easily implemented in hardware using shift registers and XOR gates. The size of the shift register is determined by the degree of the generator polynomial. 
+    <newline /><newline />
+    CRC detects unintentional bit changes caused e.g. by noise, but does not protect against intentional manipulation at all.
+    The number of detectable bit errors depends on the size of the polynomial and the resulting size of the check value.
+  </introduction>
+
+  <introduction lang="de-DE">
+    CRC (<b>Cyclic Redundancy Check</b>, dt. <b>zyklische Redundanzprüfung</b>) ist ein Algorithmus zur Erkennung von Integritätsfehlern nach der Übertragung oder dem Speichern von Daten, ähnlich wie eine Prüfsumme.
+    CRC basiert auf der Division mit Rest im Polynomring über GF(2). 
+    <newline /><newline />
+    Der CRC-Prüfwert einer Datenfolge wird berechnet, indem man die Datenfolge in ihrer Binärdarstellung betrachtet und die Bits als Koeffizienten eines Polynoms
+    interpretiert. Dieses Polynom wird durch ein festgelegtes Polynom, das <b>Generatorpolynom</b>, geteilt. Der dabei entstehende Divisionsrest ist wiederum ein Polynom, dessen Koeffizienten, als Binärdarstellung einer
+    Zahl interpretiert, den CRC-Prüfwert der Eingabedaten darstellen.
+    <newline /><newline />
+    <b>Beispiel:</b> Die Eingabe sei die Zahl 19, in Binärdarstellung ist dies 10011, als Polynom interpretiert <b>1</b>*x^4 + <b>0</b>*x^3 + <b>0</b>*x^2 + <b>1</b>*x + <b>1</b>*1 = x^4 + x + 1. 
+    Dieses Polynom wird nun durch ein festgelegtes Generatorpolynom, z.B. x^2 + 1, dividiert. Der sich ergebende Divisionsrest ist das Polynom x, denn x^4 + x + 1 = (x^2 + 1)^2 + x (über GF(2)). 
+    Das Restpolynom x = <b>1</b>*x + <b>0</b>*1 korrespondiert der Bitfolge 10, und als CRC-Prüfwert von 19 ergibt sich somit der Wert 2.
+    <newline /><newline />
+    Die Berechnung des CRC-Prüfwertes kann durch die Verwendung von Schieberegistern und XOR-Gattern sehr leicht in Hardware umgesetzt und somit sehr effizient durchgeführt werden. Die Größe des Schieberegisters wird dabei durch den
+    Grad des Generatorpolynoms festgelegt.
+    <newline /><newline />
+    CRC erkennt zufällige Bitänderungen, die etwa durch Rauschen verursacht werden, aber schützt nicht vor absichtlicher Manipulation.
+    Die Zahl der erkennbaren Bitfehler hängt von der Größe des Polynoms und der damit verbundenen Größe des Prüfwertes ab.
+  </introduction>
+
+  <usage lang="en">
+    Many variations of the Cyclic Redundancy Check exist, that differ in the used generator polynomial and some other parameters and that are optimized for their special type of use.
+    <newline /><newline />
+    This component implements some of the most used CRC variants. In the settings, you can choose one of the predefined variants by selecting it in the "CRC method" combo box.
+    The parameters belonging to the selected method will then appear in the fields of the "CRC specifications". If the CRC variant you wish to use is not present, you can adjust the fields in the "CRC specifications" area 
+    and define your own CRC method.
+    <newline /><newline />
+    The parameters have the following meanings:
+    <list>
+      <item>
+        <b>Width:</b> This is the degree of the generator polynomial. Possible values are 1 to 64.
+      </item>
+      <item>
+        <b>Generator polynomial:</b> Here you can enter the generator polynomial in normal representation as a hexadecimal number. 
+        In this representation, the highest set bit is ignored, as its position is already determined by the parameter <b>Width</b>.
+        Example: The generator polynomial x^5 + x^4 + x^3 + 1 is represented by the bit sequence 111001. If the highest set bit is ignored, we get 11001, which is 19 in hexadecimal.
+      </item>
+      <item>
+        <b>Initial value:</b> The CRC check value is initialised with this value.
+        As leading zeros don't change the value of a polynomial, data sequences that differ only in the number of their leading zeros would result in the same check value.
+        To prevent this, many CRC variants initialise the CRC check value with a value other than 0. Enter this value here in hexadecimal format.
+      </item>
+      <item>
+        <b>Final XOR value:</b> In some CRC variants, the check value is XORed with a constant value before it is output. Enter this value here in hexadecimal format.
+      </item>
+      <item>
+        <b>Input little-endian:</b> The input data is provided as a sequence of bytes. Different CRC implementations process the bits of a byte in different orders. Here you can specify the endianness of the input bytes.
+      </item>
+      <item>
+        <b>Output little-endian:</b> The calculated CRC check value is a sequence of bits, that represents the coefficients of a polynomial. This bit sequence is converted to a sequence of bytes and sent to the output of the component.
+        Some CRC variants take the highest coefficient of the polynomial as the most significant bit, others as the least significant bit. Here you can specify the endianness of the output.
+      </item>
+    </list>
+  </usage>
+
+  <usage lang="de-DE">
+    Es existieren viele verschiedene Varianten der zyklischen Redundanzprüfung, die sich sowohl in dem verwendeten Generatorpolynom als auch in weiteren Parametern unterscheiden und für spezielle Einsatzzwecke optimiert sind.
+    <newline /><newline />
+    Diese Komponente implementiert bereits viele gebräuchliche CRC-Varianten. Sie können in den Einstellungen eine der vordefinierten Methoden im Kombinationsfeld "CRC-Methode" auswählen. 
+    Die zur gewählten Methode gehörenden Parameter erscheinen dann in den Feldern der "CRC-Spezifikation". Sollte die gewünschte Methode nicht vorhanden sein, so können Sie die Werte in der "CRC-Spezifikation" selbst anpassen
+    und eigene CRC-Methoden definieren.
+    <newline /><newline />
+    Die Parameter haben folgende Bedeutung:
+    <list>
+      <item>
+        <b>Größe:</b> Dies gibt den Grad des Generatorpolynoms an. Erlaubt sind Werte von 1 bis 64.
+      </item>
+      <item>
+        <b>Generatorpolynom:</b> Hier wird das Generatorpolynom in Normaldarstellung als Hexadezimalzahl eingegeben. Das höchste gesetzte Bit wird in dieser Darstellung ignoriert, da seine Position durch den Parameter <b>Größe</b> bereits bestimmt ist.
+        Besipiel: Das Generatorpolynom x^5 + x^4 + x^3 + 1 wird durch die Bitfolge 111001 repräsentiert. Wenn das höchste gesetzte Bit ignoriert wird, ergibt sich 11001, also hexadezimal 19.
+      </item>
+      <item>
+        <b>Startwert:</b> Mit diesem Wert wird der CRC-Prüfwert initialisiert. 
+        Da führende Nullen den Wert eines Polynoms nicht verändern erhalten Datenfolgen, die sich nur durch die Anzahl ihrer führenden Nullen unterscheiden, denselben Prüfwert.
+        Um dies zu vermeiden initialisieren viele CRC-Varianten den CRC-Prüfwert mit einem Wert ungleich 0. Geben Sie den Startwert in hexadezimaler Schreibweise an.
+      </item>
+      <item>
+        <b>Finaler XOR-Wert:</b> Bei einigen Varianten wird der CRC-Prüfwert vor der Ausgabe mit einem konstanten Wert XOR-verknüpft. Geben Sie den Wert in hexadezimaler Schreibweise an.
+      </item>
+      <item>
+        <b>Eingabe Little-Endian:</b> Die Eingabedaten liegen als eine Folge von Bytes vor. Verschiedene CRC-Implementierungen lesen die Bits der Bytes in unterschiedlicher Reihenfolge aus. Hier können Sie die Reihenfolge der Auslese festlegen.
+      </item>
+      <item>
+        <b>Ausgabe Little-Endian:</b> Der berechnete CRC-Prüfwert ist eine Bitfolge, die die Koeffizienten eines Polynoms darstellt. Diese Bitfolge wird in eine Folge von Bytes konvertiert und am Ausgang der Komponente ausgegeben.
+        Manche CRC-Varianten betrachten dabei den höchsten Koeffizienten des Polynoms als höchstwertiges Bit, andere den niedrigsten. Hier können Sie die Bitwertigkeit festlegen.
+      </item>
+    </list>
+  </usage>
+
   <presentation lang="en">
-</presentation>
+  </presentation>
+
   <presentation lang="de-DE">
-</presentation>
+  </presentation>
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Cyclic_redundancy_check" lang="en" />
+      <caption lang="en">Cyclic redundancy check (Wikipedia)</caption>
+      <link url="https://de.wikipedia.org/wiki/Zyklische_Redundanzprüfung" lang="de-DE" />
+      <caption lang="de-DE">Zyklische Redundanzprüfung (Wikipedia)</caption>
+    </linkReference>
   </references>
+
 </documentation>
