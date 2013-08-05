@@ -118,7 +118,7 @@ namespace StringOperations
                         OnPropertyChanged("OutputString");
                         break;
                     case StringOperationType.Split:
-                        _outputStringArray = _string1.Split((_string2 == null) ? "\n".ToCharArray() : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        _outputStringArray = _string1.Split((_string2 == null) ? "\r\n".ToCharArray() : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         OnPropertyChanged("OutputStringArray");
                         _outputValue = (_outputStringArray == null) ? 0 :_outputStringArray.Length;
                         OnPropertyChanged("OutputValue");
@@ -143,6 +143,12 @@ namespace StringOperations
                             }
                         }
                         _outputString = strbuilder.ToString().TrimEnd();
+                        OnPropertyChanged("OutputString");
+                        break;
+                    case StringOperationType.Reverse:
+                        char[] arr = _string1.ToCharArray();
+	                    Array.Reverse(arr);
+                        _outputString = new string(arr);
                         OnPropertyChanged("OutputString");
                         break;
                 }
