@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">CRC</title>
+  <summary lang="en">Usage of the <i>CRC</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>CRC</i> hash function.</description>
+  <keywords>hash</keywords>
+
+  <title lang="de">CRC</title>
+  <summary lang="de">Benutzung des <i>CRC</i>, mit dem der Empfänger die Nachricht auf Integrität überprüfen kann</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des <i>CRC</i>, mit dem der Empfänger die Nachricht auf Integrität überprüfen kann.</description>
+  <keywords lang="de">hash</keywords>
+
+  <icon file="CRC.png" />
+  <relevantPlugins>
+    <plugin name="CRC" />
+  </relevantPlugins>
+
+</sample>
