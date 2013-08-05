@@ -13,9 +13,13 @@
 
   <icon file="rsa_signed_qrcode.png" />
   <relevantPlugins>
-    <plugin name="RSAKeyGenerator" />
+    <plugin name="BooleanOutput" />
+    <plugin name="MD5" />
     <plugin name="RSA" />
-		<plugin name="Visual Encoder" />
-		<plugin name="Visual Decoder" />
+    <plugin name="RSAKeyGenerator" />
+    <plugin name="StreamComparator" />
+    <plugin name="VisualDecoder" />
+    <plugin name="VisualEncoder" />
   </relevantPlugins>
+
 </sample>

@@ -14,6 +14,8 @@
   <icon file="CypherMatrix.png" />
   <relevantPlugins>
     <plugin name="CypherMatrix" />
+    <plugin name="FileInputClass" />
+    <plugin name="FileOutputClass" />
   </relevantPlugins>
 
 </sample>

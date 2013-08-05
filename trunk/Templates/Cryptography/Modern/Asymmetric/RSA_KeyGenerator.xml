@@ -14,7 +14,6 @@
   <icon file="RSA_KeyGenerator.png" />
   <relevantPlugins>
     <plugin name="RSAKeyGenerator" />
-    <plugin name="RSA" />
   </relevantPlugins>
 
 </sample>

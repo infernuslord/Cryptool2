@@ -14,6 +14,7 @@
   <icon file="Factorization.png" />
   <relevantPlugins>
     <plugin name="Factorizer" />
+    <plugin name="Gate" />
   </relevantPlugins>
 
 </sample>

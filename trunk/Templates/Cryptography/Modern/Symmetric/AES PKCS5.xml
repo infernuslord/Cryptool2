@@ -14,7 +14,10 @@
   <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="AES" />
+    <plugin name="BooleanOutput" />
+    <plugin name="MD5" />
     <plugin name="PKCS5" />
+    <plugin name="StreamComparator" />
   </relevantPlugins>
 
 </sample>

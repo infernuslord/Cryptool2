@@ -13,9 +13,10 @@
 
   <icon file="DES.png" />
   <relevantPlugins>
-    <plugin name="KeySearcher" />
+    <plugin name="CostFunction" />
     <plugin name="DES" />
-    <plugin name="Costfunction" />
+    <plugin name="KeySearcher" />
+    <plugin name="RC2" />
   </relevantPlugins>
 
 </sample>

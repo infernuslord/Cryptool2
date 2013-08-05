@@ -13,7 +13,10 @@
 
   <icon file="DES.png" />
   <relevantPlugins>
+    <plugin name="BooleanOutput" />
     <plugin name="DES" />
+    <plugin name="StreamComparator" />
+    <plugin name="Xor" />
   </relevantPlugins>
 
 </sample>

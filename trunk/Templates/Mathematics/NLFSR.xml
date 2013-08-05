@@ -13,4 +13,8 @@
 
   <icon file="NLFSR.png" />
 
+  <relevantPlugins>
+    <plugin name="NLFSR" />
+  </relevantPlugins>
+
 </sample>

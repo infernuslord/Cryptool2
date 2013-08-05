@@ -19,7 +19,7 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Advanced_Encryption_Standard
   <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="AES" />
-    <plugin name="FileInput" />
+    <plugin name="FileInputClass" />
   </relevantPlugins>
 
 </sample>

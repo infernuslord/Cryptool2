@@ -16,6 +16,7 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/RSA-Kryptosystem" /></descri
   <icon file="RSA.png" />
   <relevantPlugins>
     <plugin name="RSA" />
+    <plugin name="RSAKeyGenerator" />
   </relevantPlugins>
 
 </sample>

@@ -13,4 +13,13 @@
 
   <icon file="WEP_Attack.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanInput" />
+    <plugin name="Gate" />
+    <plugin name="IncDec" />
+    <plugin name="Internet_frame_generator" />
+    <plugin name="WEP" />
+    <plugin name="WEPAttacks" />
+  </relevantPlugins>
+
 </sample>

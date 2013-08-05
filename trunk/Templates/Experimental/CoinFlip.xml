@@ -13,4 +13,13 @@
 
   <icon file="CoinFlip.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="CoinFlipping1" />
+    <plugin name="CoinFlipping2" />
+    <plugin name="FlipCoin" />
+    <plugin name="SHA" />
+    <plugin name="StreamComparator" />
+  </relevantPlugins>
+
 </sample>

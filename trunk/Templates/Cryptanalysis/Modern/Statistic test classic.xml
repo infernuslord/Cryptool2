@@ -15,6 +15,7 @@
   <relevantPlugins>
     <plugin name="FrequencyTest" />
     <plugin name="FriedmanTest" />
+    <plugin name="Vigenere" />
   </relevantPlugins>
 
 </sample>

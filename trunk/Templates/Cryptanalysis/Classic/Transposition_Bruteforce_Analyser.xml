@@ -13,7 +13,9 @@
 
   <icon file="Transposition.png" />
   <relevantPlugins>
+    <plugin name="CostFunction" />
     <plugin name="Transposition" />
+    <plugin name="TranspositionAnalyser" />
   </relevantPlugins>
 
 </sample>

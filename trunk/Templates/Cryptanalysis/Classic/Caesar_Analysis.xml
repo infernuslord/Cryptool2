@@ -27,6 +27,7 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /><
   <relevantPlugins>
     <plugin name="Caesar" />
     <plugin name="CaesarAnalysisHelper" />
+    <plugin name="FrequencyTest" />
   </relevantPlugins>
 
 </sample>

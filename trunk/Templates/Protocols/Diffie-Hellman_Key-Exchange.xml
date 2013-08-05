@@ -19,4 +19,11 @@
 
   <icon file="Diffie-Hellman_Key-Exchange.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="Comparators" />
+    <plugin name="VariableLoad" />
+    <plugin name="VariableStore" />
+  </relevantPlugins>
+
 </sample>

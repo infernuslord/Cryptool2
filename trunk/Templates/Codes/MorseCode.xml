@@ -12,7 +12,8 @@
   <keywords lang="de">Morsecode</keywords>
 
   <icon file="MorseCode.png" />
-	<relevantPlugins>   
-		<plugin name="MorseCode" />
+  <relevantPlugins>
+    <plugin name="MorseCode" />
   </relevantPlugins>
+
 </sample>

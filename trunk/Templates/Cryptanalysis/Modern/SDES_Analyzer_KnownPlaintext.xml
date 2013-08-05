@@ -13,9 +13,9 @@
 
   <icon file="SDES.png" />
   <relevantPlugins>
+    <plugin name="CostFunction" />
     <plugin name="KeySearcher" />
     <plugin name="SDES" />
-	 <plugin name="Costfunction" />
   </relevantPlugins>
 
 </sample>

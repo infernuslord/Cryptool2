@@ -13,4 +13,9 @@
 
   <icon file="Pailler_KeyGenerator.png" />
 
+  <relevantPlugins>
+    <plugin name="Paillier" />
+    <plugin name="PaillierKeyGenerator" />
+  </relevantPlugins>
+
 </sample>

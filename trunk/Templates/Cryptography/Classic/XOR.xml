@@ -16,7 +16,7 @@ Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei d
 
   <icon file="XOR.png" />
   <relevantPlugins>
-    <plugin name="XOR" />
+    <plugin name="Xor" />
   </relevantPlugins>
 
 </sample>

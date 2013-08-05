@@ -26,7 +26,11 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /><
   <icon file="Caesar_Analysis.png" />
   <relevantPlugins>
     <plugin name="Caesar" />
-    <plugin name="CaesarAnalysisHelper" />
+    <plugin name="Comparators" />
+    <plugin name="Contains" />
+    <plugin name="CryptoolDictionary" />
+    <plugin name="Gate" />
+    <plugin name="IncDec" />
   </relevantPlugins>
 
 </sample>

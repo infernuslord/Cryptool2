@@ -13,4 +13,15 @@
 
   <icon file="Yao.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="GeneratePrimeWithInput" />
+    <plugin name="IncDec" />
+    <plugin name="RSA" />
+    <plugin name="RSAKeyGenerator" />
+    <plugin name="Yao1" />
+    <plugin name="Yao2" />
+    <plugin name="Yao3" />
+  </relevantPlugins>
+
 </sample>

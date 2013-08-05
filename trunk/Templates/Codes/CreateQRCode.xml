@@ -14,4 +14,8 @@
 
   <icon file="CreateQRCode.png" />
 
+  <relevantPlugins>
+    <plugin name="VisualEncoder" />
+  </relevantPlugins>
+
 </sample>

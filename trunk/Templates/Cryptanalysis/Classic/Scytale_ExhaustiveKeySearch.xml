@@ -13,6 +13,11 @@
 
   <icon file="Scytale_ExhaustiveKeySearch.png" />
   <relevantPlugins>
+    <plugin name="Comparators" />
+    <plugin name="Contains" />
+    <plugin name="CryptoolDictionary" />
+    <plugin name="Gate" />
+    <plugin name="IncDec" />
     <plugin name="Scytale" />
   </relevantPlugins>
 

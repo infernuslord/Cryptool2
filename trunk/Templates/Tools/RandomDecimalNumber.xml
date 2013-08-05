@@ -15,7 +15,7 @@
   
   <relevantPlugins>
     <plugin name="Decimalization" />
-	<plugin name="RandomInput" />
+    <plugin name="RandomInput" />
   </relevantPlugins>
-  
+
 </sample>

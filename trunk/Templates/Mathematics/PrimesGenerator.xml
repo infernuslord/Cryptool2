@@ -13,4 +13,8 @@
 
   <icon file="Factorization.png" />
 
+  <relevantPlugins>
+    <plugin name="PrimesGenerator" />
+  </relevantPlugins>
+
 </sample>

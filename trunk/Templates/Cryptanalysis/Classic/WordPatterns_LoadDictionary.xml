@@ -13,4 +13,9 @@
 
   <icon file="WordPatterns.png" />
 
+  <relevantPlugins>
+    <plugin name="FileInputClass" />
+    <plugin name="WordPatterns" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,9 @@
 
   <icon file="ISBN-13.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="Comparators" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,8 @@
 
   <icon file="DiscreteLogarithm.png" />
 
+  <relevantPlugins>
+    <plugin name="DiscreteLogarithm" />
+  </relevantPlugins>
+
 </sample>

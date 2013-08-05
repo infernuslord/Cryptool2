@@ -13,7 +13,7 @@
 
   <icon file="One time pad demonstration.png" />
   <relevantPlugins>
-    <plugin name="XOR" />
+    <plugin name="Xor" />
   </relevantPlugins>
 
 </sample>

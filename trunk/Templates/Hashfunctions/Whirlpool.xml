@@ -13,7 +13,7 @@
 
   <icon file="Whirlpool.png" />
   <relevantPlugins>
-    <plugin name="Whirlpool" />
+    <plugin name="WPHash" />
   </relevantPlugins>
 
 </sample>

@@ -13,7 +13,7 @@
 
   <icon file="solitaire.jpg" />
   <relevantPlugins>
-		<plugin name="Solitaire" />
-	</relevantPlugins>
+    <plugin name="Solitaire" />
+  </relevantPlugins>
 
 </sample>

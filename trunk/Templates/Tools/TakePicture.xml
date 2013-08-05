@@ -12,4 +12,10 @@
   <keywords lang="de">kamera, foto</keywords>
 
   <icon file="TakePicture.png" />
+  <relevantPlugins>
+    <plugin name="BooleanInput" />
+    <plugin name="PictureOutput" />
+    <plugin name="Webcam" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,10 @@
 
   <icon file="Pailler_Vote.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanInput" />
+    <plugin name="Paillier" />
+    <plugin name="PaillierKeyGenerator" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,9 @@
 
   <icon file="ISAP_BitCommitmentScheme.png" />
 
+  <relevantPlugins>
+    <plugin name="BitCommitmentScheme" />
+    <plugin name="BooleanInput" />
+  </relevantPlugins>
+
 </sample>

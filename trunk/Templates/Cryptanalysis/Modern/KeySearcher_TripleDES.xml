@@ -13,8 +13,9 @@
 
   <icon file="KeySearcher.png" />
   <relevantPlugins>
-    <plugin name="KeySearcher" />
+    <plugin name="CostFunction" />
     <plugin name="DES" />
+    <plugin name="KeySearcher" />
   </relevantPlugins>
 
 </sample>
