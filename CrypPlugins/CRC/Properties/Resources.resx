@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CRC32</value>
+    <value>CRC</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Cyclic Redundancy Check 32-Bit</value>
+    <value>Cyclic Redundancy Check</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Input stream</value>
@@ -134,5 +134,50 @@
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Output hash value as Stream</value>
+  </data>
+  <data name="CRCMethodCaption" xml:space="preserve">
+    <value>CRC Method</value>
+  </data>
+  <data name="CRCMethodTooltip" xml:space="preserve">
+    <value>Choose the CRC method.</value>
+  </data>
+  <data name="CRCSpecsGroup" xml:space="preserve">
+    <value>CRC Specifications</value>
+  </data>
+  <data name="InitCaption" xml:space="preserve">
+    <value>Initial value</value>
+  </data>
+  <data name="InitTooltip" xml:space="preserve">
+    <value>Enter the initial value of the LFSR as a hexadecimal number.</value>
+  </data>
+  <data name="PolynomialCaption" xml:space="preserve">
+    <value>Generator polynomial</value>
+  </data>
+  <data name="PolynomialTooltip" xml:space="preserve">
+    <value>Enter the generator polynomial as a hexadecimal number in normal representation.</value>
+  </data>
+  <data name="RefInCaption" xml:space="preserve">
+    <value>Input is little-endian</value>
+  </data>
+  <data name="RefInTooltip" xml:space="preserve">
+    <value>With this checkbox enabled, the input is treated as little-endian.</value>
+  </data>
+  <data name="RefOutCaption" xml:space="preserve">
+    <value>Output is little-endian</value>
+  </data>
+  <data name="RefOutTooltip" xml:space="preserve">
+    <value>With this checkbox enabled, the output is formatted as little-endian.</value>
+  </data>
+  <data name="WidthCaption" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="WidthTooltip" xml:space="preserve">
+    <value>Enter the width of the generator polynomial (1-64 bits).</value>
+  </data>
+  <data name="XorOutCaption" xml:space="preserve">
+    <value>Final XOR value</value>
+  </data>
+  <data name="XorOutTooltip" xml:space="preserve">
+    <value>Enter the value with which to XOR the result as a hexadecimal number.</value>
   </data>
 </root>
