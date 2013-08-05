@@ -196,10 +196,10 @@
     <value>Sicherheitsparameter t</value>
   </data>
   <data name="BitSizeLCaption" xml:space="preserve">
-    <value>Bitlänge l desEingabe-Alphabets</value>
+    <value>Bitlänge l des Eingabe-Alphabets</value>
   </data>
   <data name="BitSizeLTooltip" xml:space="preserve">
-    <value>Bitlänge l desEingabe-Alphabets</value>
+    <value>Bitlänge l des Eingabe-Alphabets</value>
   </data>
   <data name="VPCaption" xml:space="preserve">
     <value>privater Schlüssel VP</value>
@@ -250,21 +250,21 @@
     <value>Entschlüsselung</value>
   </data>
   <data name="InputPCaption" xml:space="preserve">
-    <value>secret key P</value>
+    <value>privater Schlüssel P</value>
   </data>
   <data name="InputPTooltip" xml:space="preserve">
-    <value>secret key P</value>
+    <value>privater Schlüssel P</value>
   </data>
   <data name="InputVPCaption" xml:space="preserve">
-    <value>secret key VP</value>
+    <value>privater Schlüssel VP</value>
   </data>
   <data name="InputVPTooltip" xml:space="preserve">
-    <value>secret key VP</value>
+    <value>privater Schlüssel VP</value>
   </data>
   <data name="InputVQCaption" xml:space="preserve">
-    <value>secret key VQ</value>
+    <value>privater Schlüssel VQ</value>
   </data>
   <data name="InputVQTooltip" xml:space="preserve">
-    <value>secret key VQ</value>
+    <value>privater Schlüssel VQ</value>
   </data>
 </root>
