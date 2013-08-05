@@ -4,7 +4,8 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en"></introduction>
+  <introduction lang="en">
+  </introduction>
 
   <introduction lang="de-DE">
     Unter <i>Steganographie</i> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
@@ -23,7 +24,8 @@
     zurückverwandeln.
   </introduction>
 
-  <usage lang="en"></usage>
+  <usage lang="en">
+  </usage>
 
   <usage lang="de-DE">
     Das Plugin hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins
@@ -68,4 +70,5 @@
       <caption lang="de-DE">http://www.steganografie.eu</caption>
     </linkReference>
   </references>
+  
 </documentation>

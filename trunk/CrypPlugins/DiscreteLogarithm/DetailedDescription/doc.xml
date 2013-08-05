@@ -39,7 +39,20 @@
     y = 3 = 2^8 mod 11<newline/>
     x = 8 = log_2 (3) mod 11<newline/>
   </usage>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Discrete_logarithm" lang="en" />
+      <caption lang="en">Discrete logarithm (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Diskreter_Logarithmus" lang="de-DE" />
+      <caption lang="en">Diskreter Logarithmus (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="wolfram">
+      <link url="http://mathworld.wolfram.com/DiscreteLogarithm.html" lang="en" />
+      <caption lang="en">Discrete logarithm (Wolfram Mathworld)</caption>
+      <link url="http://mathworld.wolfram.com/DiscreteLogarithm.html" lang="de-DE" />
+      <caption lang="en">Diskreter Logarithmus (Wolfram Mathworld, englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

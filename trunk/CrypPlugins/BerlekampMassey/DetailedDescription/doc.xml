@@ -21,7 +21,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Berlekamp–Massey_algorithm" lang="en" />
+      <caption lang="en">Berlekamp–Massey algorithm (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Berlekamp-Massey-Algorithmus" lang="de-DE" />
+      <caption lang="de-DE">Berlekamp-Massey-Algorithmus (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

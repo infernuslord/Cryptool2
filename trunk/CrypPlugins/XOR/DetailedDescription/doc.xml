@@ -20,11 +20,23 @@ Ist der Schlüsselstrom so lang wie der Eingabedatenstrom und zudem echt zufäll
 </presentation>
 
   <references>
-    <linkReference>
+    <linkReference id="xor">
+      <link url="http://en.wikipedia.org/wiki/XOR_cipher" lang="en" />
+      <caption lang="en">XOR cipher (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Kontravalenz" lang="de-DE" />
+      <caption lang="de-DE">Exklusives Oder (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="otp">
+      <link url="http://en.wikipedia.org/wiki/One-time_pad" lang="en" />
+      <caption lang="en">One-time pad (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/One-Time-Pad" lang="de-DE" />
+      <caption lang="de-DE">One-Time-Pad (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="stream">
       <link url="http://en.wikipedia.org/wiki/Stream_cipher" lang="en" />
-      <caption lang="en">XOR in Wikipedia</caption>
+      <caption lang="en">Stream cipher in Wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/Stromchiffre" lang="de-DE" />
-      <caption lang="de-DE">XOR in Wikipedia</caption>
+      <caption lang="de-DE">Stromchiffre in Wikipedia</caption>
     </linkReference>
   </references>
   

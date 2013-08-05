@@ -23,5 +23,24 @@
   </presentation>
   
   <references>
+    <linkReference id="dgk">
+      <link url="http://alexandria.tue.nl/extra1/afstversl/wsk-i/makkes2010.pdf" lang="en" />
+      <caption lang="en">Makkes, M.: Efficient Implementation of Homomorphic Cryptosystems (PDF)</caption>
+      <link url="http://alexandria.tue.nl/extra1/afstversl/wsk-i/makkes2010.pdf" lang="de-DE" />
+      <caption lang="en">Makkes, M.: Efficient Implementation of Homomorphic Cryptosystems (PDF, englisch)</caption>
+    </linkReference>    
+    <linkReference id="springer">
+      <link url="http://alexandria.tue.nl/extra1/afstversl/wsk-i/makkes2010.pdf" lang="en" />
+      <caption lang="en">Damgård, Geisler, Krøigaard: Efficient and Secure Comparison for On-Line Auctions</caption>
+      <link url="http://alexandria.tue.nl/extra1/afstversl/wsk-i/makkes2010.pdf" lang="de-DE" />
+      <caption lang="en">Damgård, Geisler, Krøigaard: Efficient and Secure Comparison for On-Line Auctions (englisch)</caption>
+    </linkReference>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Homomorphic_encryption" lang="en" />
+      <caption lang="en">Homomorphic encryption (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Homomorphic_encryption" lang="de-DE" />
+      <caption lang="en">Homomorphic encryption (Wikipedia, englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>
