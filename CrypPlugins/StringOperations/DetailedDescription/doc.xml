@@ -9,21 +9,23 @@
     By using the StringOperations a string may be converted to a lower-case or to an upper-case one. The user can separate substrings from
     a string or merge (concatenate) different strings. StringOperations may also be used to calculate the length of a given string.
     The position of a substring may be calculated. Parts of a string may be replaced by another string (using a regex is supported).
-    The user can check if two strings are equal using the StringOperations.
+    The input string can be split into substrings using a separator string.
+    The user can check if two strings are equal and reverse the string.
   </introduction>
 
   <introduction lang="de-DE">
     Die Zeichenketten-Operationen ermöglichen das Manipulieren von Zeichenketten (Strings).
-    So können mit Hilfe der Operationen Zeichenketten in ihrer Groß- oder Kleinschreibung verändert werden. Es können einzelne
+    So können mit Hilfe der Operationen Zeichenketten in ihrer Groß- oder Kleinschreibung verändert werden. Es können
     einzelne Teile entnommen werden oder mehrere Zeichenkette als eine zusammengefasst werden (Konkatenation). Außerdem
     ermöglichen die Zeichenketten-Operationen die Bestimmung der Länge einer übergebenen Zeichenkette. Es kann der Index, also
     die Position, einer Zeichenkette innerhalb einer anderen bestimmt werden. Teile einer Zeichenkette können durch eine weitere
-    Zeichenkette ersetzt werden (auch mittels regulären Ausdruck). Außerdem kann man überprüfen, ob zwei übergebene Zeichenketten identisch sind.    
+    Zeichenkette ersetzt werden (auch mittels regulären Ausdruck). Zeichenketten können mittels eines Trennstrings in Teilstrings zerlegt werden.
+    Außerdem kann man überprüfen, ob zwei übergebene Zeichenketten identisch sind, und die Zeichenkette umkehren.
   </introduction>
 
   <usage lang="en">
     The StringOperations has two text inputs and two number inputs. Depending on the used function these inputs have different usage.
-    It has also a text output and a number output.
+    It has also a text output, a text array output and a number output.
     <enum>
       <item>Concatenate: Needs only the text inputs. Merges the given textes to one new</item>
       <item>Substring: Needs the first text inputs and both number inputs (X,Y).Returns the substring from X with length Y at the text output</item>
@@ -36,13 +38,15 @@
       <item>Equals: Returns a 1 at the number output if the texts are equal. Otherwise returns a 0</item>
       <item>Replace: Replaces all substrings of the first input string which are equal to the second input string by the third input string and returns the new string</item>
       <item>RegexReplace: Replaces all substrings of the first input string which match to the regular expression provided by the second input string by the third input string and returns the new string</item>
+      <item>Split: Splits the text of the first input at the string given at the second text input (or on newlines, if input is empty) and returns the resulting substrings at the output array</item>
       <item>Block: Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
+      <item>Reverse: Reverses the given text of the first text input</item>
     </enum>
   </usage>
 
   <usage lang="de-DE">
     Die Zeichenketten-Operationen verfügen über zwei Texteingänge und zwei Zahleneingänge. Je nach genutzter Funktion werden diese Eingängen
-    unterschiedlichem Nutzen zugeordnet. Außerdem besitzt es einen Textausgang und einen Zahlenausgang.
+    unterschiedlichem Nutzen zugeordnet. Außerdem besitzt es einen Textausgang, einen Text-Array-Ausgang und einen Zahlenausgang.
     <enum>
       <item>Konkatenieren: Benötigt nur die beiden Texteingänge. Verbindet die beiden Zeichenketten zu einer und gibt diese beim Textausgang aus</item>
       <item>Teilstring: Benötigt den ersten Texteingang sowie beide Zahleneingänge (X,Y). Gibt die Zeichenkette von X der Länge Y beim Textausgang aus</item>
@@ -55,7 +59,9 @@
       <item>Vergleich: Gibt 1 aus, wenn beide Texte identisch sind. Gibt ansonsten 0 aus</item>
       <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
       <item>RegexErsetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
+      <item>Trennen: Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
       <item>Block: Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
+      <item>Umkehren: Kehrt die Zeichenkette des ersten Texteingangs um</item>
     </enum>    
   </usage>
   

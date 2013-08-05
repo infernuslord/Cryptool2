@@ -129,6 +129,48 @@
   <data name="OperationCaptionToolTip" xml:space="preserve">
     <value>Wählen Sie die Funktion, die auf die Zeichenketten angewendet werden soll.</value>
   </data>
+  <data name="OperationList1" xml:space="preserve">
+    <value>Konkatenieren </value>
+  </data>
+  <data name="OperationList10" xml:space="preserve">
+    <value>Ersetzen</value>
+  </data>
+  <data name="OperationList11" xml:space="preserve">
+    <value>RegexErsetzen</value>
+  </data>
+  <data name="OperationList12" xml:space="preserve">
+    <value>Trennen</value>
+  </data>
+  <data name="OperationList13" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="OperationList14" xml:space="preserve">
+    <value>Umkehren</value>
+  </data>
+  <data name="OperationList2" xml:space="preserve">
+    <value>Teilstring</value>
+  </data>
+  <data name="OperationList3" xml:space="preserve">
+    <value>Kleinbuchstaben</value>
+  </data>
+  <data name="OperationList4" xml:space="preserve">
+    <value>Großbuchstaben</value>
+  </data>
+  <data name="OperationList5" xml:space="preserve">
+    <value>Länge</value>
+  </data>
+  <data name="OperationList6" xml:space="preserve">
+    <value>Vergleichen</value>
+  </data>
+  <data name="OperationList7" xml:space="preserve">
+    <value>Trimmen</value>
+  </data>
+  <data name="OperationList8" xml:space="preserve">
+    <value>IndexVon</value>
+  </data>
+  <data name="OperationList9" xml:space="preserve">
+    <value>Vergleich</value>
+  </data>
   <data name="OutputStringArrayCaption" xml:space="preserve">
     <value>Ausgabe des Zeichenketten-Arrays</value>
   </data>

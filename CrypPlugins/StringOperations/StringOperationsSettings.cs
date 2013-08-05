@@ -48,7 +48,7 @@ namespace StringOperations
         }
 
         [TaskPane("OperationCaption", "OperationCaptionToolTip", null, 1, false, ControlType.ComboBox,
-            new[] { "Concatenate", "Substring", "ToLowercase", "ToUppercase", "Length", "CompareTo", "Trim", "IndexOf", "Equals", "Replace", "RegexReplace", "Split","Block" })]
+            new[] { "OperationList1", "OperationList2", "OperationList3", "OperationList4", "OperationList5", "OperationList6", "OperationList7", "OperationList8", "OperationList9", "OperationList10", "OperationList11", "OperationList12", "OperationList13", "OperationList14" })]
         public StringOperationType Operation
         {
             get
@@ -116,6 +116,7 @@ namespace StringOperations
         Replace,
         RegexReplace,
         Split,
-        Block
+        Block,
+        Reverse
     }
 }

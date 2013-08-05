@@ -186,4 +186,46 @@
   <data name="BlocksizeTooltip" xml:space="preserve">
     <value>Size of blocks in which this string should be splitted.</value>
   </data>
+  <data name="OperationList1" xml:space="preserve">
+    <value>Concatenate </value>
+  </data>
+  <data name="OperationList10" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="OperationList11" xml:space="preserve">
+    <value>RegexReplace</value>
+  </data>
+  <data name="OperationList12" xml:space="preserve">
+    <value>Split</value>
+  </data>
+  <data name="OperationList13" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="OperationList14" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="OperationList2" xml:space="preserve">
+    <value>Substring</value>
+  </data>
+  <data name="OperationList3" xml:space="preserve">
+    <value>ToLowercase</value>
+  </data>
+  <data name="OperationList4" xml:space="preserve">
+    <value>ToUppercase</value>
+  </data>
+  <data name="OperationList5" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="OperationList6" xml:space="preserve">
+    <value>CompareTo</value>
+  </data>
+  <data name="OperationList7" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="OperationList8" xml:space="preserve">
+    <value>IndexOf</value>
+  </data>
+  <data name="OperationList9" xml:space="preserve">
+    <value>Equals</value>
+  </data>
 </root>
