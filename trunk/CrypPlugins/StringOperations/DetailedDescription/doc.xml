@@ -16,10 +16,10 @@
   <introduction lang="de-DE">
     Die Zeichenketten-Operationen ermöglichen das Manipulieren von Zeichenketten (Strings).
     So können mit Hilfe der Operationen Zeichenketten in ihrer Groß- oder Kleinschreibung verändert werden. Es können
-    einzelne Teile entnommen werden oder mehrere Zeichenkette als eine zusammengefasst werden (Konkatenation). Außerdem
+    einzelne Teile entnommen werden oder mehrere Zeichenketten als eine zusammengefasst werden (Konkatenation). Außerdem
     ermöglichen die Zeichenketten-Operationen die Bestimmung der Länge einer übergebenen Zeichenkette. Es kann der Index, also
     die Position, einer Zeichenkette innerhalb einer anderen bestimmt werden. Teile einer Zeichenkette können durch eine weitere
-    Zeichenkette ersetzt werden (auch mittels regulären Ausdruck). Zeichenketten können mittels eines Trennstrings in Teilstrings zerlegt werden.
+    Zeichenkette ersetzt werden (auch mittels eines regulären Ausdruckes). Zeichenketten können mittels eines Trennstrings in Teilstrings zerlegt werden.
     Außerdem kann man überprüfen, ob zwei übergebene Zeichenketten identisch sind, und die Zeichenkette umkehren.
   </introduction>
 
@@ -45,16 +45,16 @@
   </usage>
 
   <usage lang="de-DE">
-    Die Zeichenketten-Operationen verfügen über zwei Texteingänge und zwei Zahleneingänge. Je nach genutzter Funktion werden diese Eingängen
-    unterschiedlichem Nutzen zugeordnet. Außerdem besitzt es einen Textausgang, einen Text-Array-Ausgang und einen Zahlenausgang.
+    Die Zeichenketten-Operationen verfügen über zwei Texteingänge und zwei Zahleneingänge. Je nach gewählter Funktion werden diese Eingänge
+    unterschiedlich verwendet. Außerdem besitzt die Komponente einen Textausgang, einen Text-Array-Ausgang und einen Zahlenausgang.
     <enum>
       <item>Konkatenieren: Benötigt nur die beiden Texteingänge. Verbindet die beiden Zeichenketten zu einer und gibt diese beim Textausgang aus</item>
       <item>Teilstring: Benötigt den ersten Texteingang sowie beide Zahleneingänge (X,Y). Gibt die Zeichenkette von X der Länge Y beim Textausgang aus</item>
       <item>Kleinbuchstaben: Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Kleinbuchstaben besteht</item>
       <item>Großbuchstaben: Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Großbuchstaben besteht</item>
       <item>Länge: Gibt die Textlänge (Anzahl der Zeichen) des Textes des ersten Textingangs beim Zahlenausgang aus</item>
-      <item>Vergleichen: Vergleicht die in beiden Texteingängen eingegeben Text und gibt 0 aus, falls diese identisch sind. Ist die Zahl kleiner als 0, so ist der erste Text "kleiner" als der zweite. Ist die Zahl größer als 0, so ist der erste Text "größer" als der zweite</item>
-      <item>Trimmen: Entfernt sogenannte Whitespaces vom Anfang und Ende (tab, Leerzeichen) aus dem Text, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
+      <item>Vergleichen: Vergleicht die in beiden Texteingängen eingegeben Texte und gibt 0 aus, falls diese identisch sind. Ist die Zahl kleiner als 0, so ist der erste Text "kleiner" als der zweite. Ist die Zahl größer als 0, so ist der erste Text "größer" als der zweite</item>
+      <item>Trimmen: Entfernt sogenannte Whitespaces (tab, Leerzeichen) vom Anfang und Ende des Textes, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
       <item>IndexVon: Gibt den ersten Index des Vorkommens vom Text des Texteingangs zwei des Texteingangs eins am Zahlenausgang aus</item>
       <item>Vergleich: Gibt 1 aus, wenn beide Texte identisch sind. Gibt ansonsten 0 aus</item>
       <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
