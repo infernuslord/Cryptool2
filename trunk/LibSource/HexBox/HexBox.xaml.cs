@@ -1439,6 +1439,7 @@ namespace HexBox
         public void dispose() //Disposes File See IDisposable for further information
         {
 
+            window = null;
             _dyfipro.Dispose();
         }
 
@@ -1462,23 +1463,23 @@ namespace HexBox
                 help2 = new byte[Constants._numberOfCells];
             }
 
-            for (int i = 0; i < help2.Count(); i++)
+            try
             {
-                if (i <= max)
+                for (int i = 0; i < help2.Count(); i++)
                 {
-                    if (i < end)
+                    if (i <= max)
                     {
-                        try
+                        if (i < end)
                         {
-                            help2[i] = _dyfipro.ReadByte(i + position*16);
-                        }
-                        catch(Exception exp)
-                        {
-                            _dyfipro.Dispose();
-                            ErrorOccured(this, new GUIErrorEventArgs(exp.Message + "DynamicFileByteProvider cannot read from file"));
+                            help2[i] = _dyfipro.ReadByte(i + position * 16);
                         }
                     }
                 }
+            }
+            catch (Exception exp)
+            {
+                _dyfipro.Dispose();
+                ErrorOccured(this, new GUIErrorEventArgs(exp.Message + "DynamicFileByteProvider cannot read from file"));
             }
 
             _ht.ByteContent = help2;
