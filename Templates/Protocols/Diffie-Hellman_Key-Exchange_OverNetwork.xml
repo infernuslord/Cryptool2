@@ -19,4 +19,10 @@
 
   <icon file="Diffie-Hellman_Key-Exchange_OverNetwork.png" />
 
+  <relevantPlugins>
+    <plugin name="NetworkInput" />
+    <plugin name="NetworkReceiver" />
+    <plugin name="PrimesGenerator" />
+  </relevantPlugins>
+
 </sample>

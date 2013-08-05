@@ -13,4 +13,16 @@
 
   <icon file="QRCodeEncryption.png" />
 
+  <relevantPlugins>
+    <plugin name="AES" />
+    <plugin name="PKCS5" />
+    <plugin name="PrimesGenerator" />
+    <plugin name="RandomInput" />
+    <plugin name="VariableLoad" />
+    <plugin name="VariableStore" />
+    <plugin name="VisualDecoder" />
+    <plugin name="VisualEncoder" />
+    <plugin name="Webcam" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,9 @@
 
   <icon file="Steganography.png" />
 
+  <relevantPlugins>
+    <plugin name="FileInputClass" />
+    <plugin name="StegoInsertion" />
+  </relevantPlugins>
+
 </sample>

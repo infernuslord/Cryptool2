@@ -13,4 +13,10 @@
 
   <icon file="Zeroknowledge.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="ZeroKnowledgeChecked" />
+    <plugin name="ZeroKnowledgeChecker" />
+  </relevantPlugins>
+
 </sample>

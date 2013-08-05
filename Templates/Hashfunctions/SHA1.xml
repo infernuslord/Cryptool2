@@ -13,7 +13,7 @@
 
   <icon file="SHA1.png" />
   <relevantPlugins>
-    <plugin name="SHA1" />
+    <plugin name="SHA" />
   </relevantPlugins>
 
 </sample>

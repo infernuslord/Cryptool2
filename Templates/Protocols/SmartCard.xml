@@ -13,4 +13,9 @@
 
   <icon file="SmartCard.png" />
 
+  <relevantPlugins>
+    <plugin name="SmartCard" />
+    <plugin name="SmartInterpreter" />
+  </relevantPlugins>
+
 </sample>

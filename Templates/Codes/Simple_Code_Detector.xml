@@ -13,4 +13,9 @@
 
   <icon file="Simple_Code_Detector.png" />
 
+  <relevantPlugins>
+    <plugin name="VisualDecoder" />
+    <plugin name="Webcam" />
+  </relevantPlugins>
+
 </sample>

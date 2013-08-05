@@ -13,6 +13,7 @@
 
   <icon file="WordPatterns.png" />
   <relevantPlugins>
+    <plugin name="CryptoolDictionary" />
     <plugin name="WordPatterns" />
   </relevantPlugins>
 

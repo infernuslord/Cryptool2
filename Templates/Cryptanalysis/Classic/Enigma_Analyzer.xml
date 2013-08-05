@@ -14,6 +14,8 @@
   <icon file="Enigma_Analyzer.png" />
   <relevantPlugins>
     <plugin name="Enigma" />
+    <plugin name="FrequencyTest" />
+    <plugin name="FriedmanTest" />
   </relevantPlugins>
 
 </sample>

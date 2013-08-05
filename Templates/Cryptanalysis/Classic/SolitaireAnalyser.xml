@@ -13,8 +13,8 @@
 
   <icon file="solitaireanalyser.jpg" />
   <relevantPlugins>
-    <plugin name="Solitaire Analyser" />
-    <plugin name="Dictionary" />
+    <plugin name="CryptoolDictionary" />
+    <plugin name="SolitaireAnalyser" />
   </relevantPlugins>
 
 </sample>

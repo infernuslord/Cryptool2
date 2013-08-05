@@ -13,4 +13,8 @@
 
   <icon file="Berlekamp-Massey.png" />
 
+  <relevantPlugins>
+    <plugin name="BerlekampMassey" />
+  </relevantPlugins>
+
 </sample>

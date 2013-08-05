@@ -14,6 +14,7 @@
   <icon file="Keccak.png" />
   <relevantPlugins>
     <plugin name="Keccak" />
+    <plugin name="Xor" />
   </relevantPlugins>
 
 </sample>

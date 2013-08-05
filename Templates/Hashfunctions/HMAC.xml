@@ -13,7 +13,10 @@
 
   <icon file="HMAC.png" />
   <relevantPlugins>
+    <plugin name="Concatenate" />
     <plugin name="HMAC" />
+    <plugin name="MD5" />
+    <plugin name="Xor" />
   </relevantPlugins>
 
 </sample>

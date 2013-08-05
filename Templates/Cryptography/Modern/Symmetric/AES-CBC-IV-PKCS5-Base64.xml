@@ -28,6 +28,10 @@ Quellen:<newline />
   <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="AES" />
+    <plugin name="BooleanInput" />
+    <plugin name="Gate" />
+    <plugin name="PKCS5" />
+    <plugin name="RandomInput" />
   </relevantPlugins>
 
 </sample>

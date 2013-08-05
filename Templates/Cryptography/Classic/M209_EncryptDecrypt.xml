@@ -13,4 +13,8 @@
 
   <icon file="M209_EncryptDecrypt.jpg" />
 
+  <relevantPlugins>
+    <plugin name="M209" />
+  </relevantPlugins>
+
 </sample>

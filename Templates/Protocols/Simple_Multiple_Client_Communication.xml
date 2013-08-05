@@ -13,4 +13,9 @@
 
   <icon file="Simple_Multiple_Client_Communication.png" />
 
+  <relevantPlugins>
+    <plugin name="NetworkInput" />
+    <plugin name="NetworkReceiver" />
+  </relevantPlugins>
+
 </sample>

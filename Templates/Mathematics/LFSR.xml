@@ -13,4 +13,8 @@
 
   <icon file="LFSR.png" />
 
+  <relevantPlugins>
+    <plugin name="LFSR" />
+  </relevantPlugins>
+
 </sample>

@@ -13,4 +13,9 @@
 
   <icon file="Decimalization.png" />
 
+  <relevantPlugins>
+    <plugin name="Decimalization" />
+    <plugin name="RandomInput" />
+  </relevantPlugins>
+
 </sample>

@@ -13,8 +13,13 @@
 
   <icon file="DictionaryAttack.png" />
   <relevantPlugins>
-    <plugin name="Dictionary" />
-    <plugin name="SHA256" />
+    <plugin name="ArrayIndexer" />
+    <plugin name="CryptoolDictionary" />
+    <plugin name="Gate" />
+    <plugin name="LengthOf" />
+    <plugin name="Progress" />
+    <plugin name="SHA" />
+    <plugin name="StreamComparator" />
   </relevantPlugins>
 
 </sample>

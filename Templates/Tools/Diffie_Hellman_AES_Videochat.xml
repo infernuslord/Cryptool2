@@ -15,4 +15,16 @@
 
   <icon file="Diffie_Hellman_AES_Videochat.png" />
 
+  <relevantPlugins>
+    <plugin name="AES" />
+    <plugin name="NetworkInput" />
+    <plugin name="NetworkReceiver" />
+    <plugin name="PKCS5" />
+    <plugin name="PictureOutput" />
+    <plugin name="PrimesGenerator" />
+    <plugin name="VariableLoad" />
+    <plugin name="VariableStore" />
+    <plugin name="Webcam" />
+  </relevantPlugins>
+
 </sample>

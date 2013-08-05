@@ -12,4 +12,11 @@
   <keywords lang="de">AES, Chat, Netzwerk, UDP, TCP</keywords>
 
   <icon file="SimpleAESChat.png" />
+  <relevantPlugins>
+    <plugin name="AES" />
+    <plugin name="NetworkInput" />
+    <plugin name="NetworkReceiver" />
+    <plugin name="SHA" />
+  </relevantPlugins>
+
 </sample>

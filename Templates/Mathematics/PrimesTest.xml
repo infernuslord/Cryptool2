@@ -13,4 +13,9 @@
 
   <icon file="Factorization.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="PrimeTest" />
+  </relevantPlugins>
+
 </sample>

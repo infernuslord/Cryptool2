@@ -13,4 +13,11 @@
 
   <icon file="math.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanBinaryOperators" />
+    <plugin name="Comparators" />
+    <plugin name="Gate" />
+    <plugin name="IncDec" />
+  </relevantPlugins>
+
 </sample>

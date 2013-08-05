@@ -13,8 +13,9 @@
 
   <icon file="KeySearcher.png" />
   <relevantPlugins>
-    <plugin name="KeySearcher" />
     <plugin name="AES" />
+    <plugin name="CostFunction" />
+    <plugin name="KeySearcher" />
   </relevantPlugins>
 
 </sample>

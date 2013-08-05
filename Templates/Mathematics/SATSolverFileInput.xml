@@ -13,6 +13,7 @@
 
   <icon file="SATSolver.png" />
   <relevantPlugins>
+    <plugin name="FileInputClass" />
     <plugin name="SATSolver" />
   </relevantPlugins>
 

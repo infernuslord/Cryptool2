@@ -13,7 +13,10 @@
 
   <icon file="MD5.png" />
   <relevantPlugins>
+    <plugin name="BooleanOutput" />
+    <plugin name="Concatenate" />
     <plugin name="MD5" />
+    <plugin name="StreamComparator" />
   </relevantPlugins>
 
 </sample>

@@ -13,4 +13,8 @@
 
   <icon file="Steganography.png" />
 
+  <relevantPlugins>
+    <plugin name="StegoPermutation" />
+  </relevantPlugins>
+
 </sample>

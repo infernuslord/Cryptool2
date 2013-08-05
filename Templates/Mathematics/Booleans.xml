@@ -13,4 +13,10 @@
 
   <icon file="Booleans.png" />
 
+  <relevantPlugins>
+    <plugin name="BooleanBinaryOperators" />
+    <plugin name="BooleanInput" />
+    <plugin name="BooleanOutput" />
+  </relevantPlugins>
+
 </sample>

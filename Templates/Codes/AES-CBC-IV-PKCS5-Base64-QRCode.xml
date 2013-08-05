@@ -41,8 +41,16 @@ Quellen:<newline />
   <keywords lang="de">Daemen, Rijmen, Rijndael, symmetrisch, nist, pkcs, password, base64</keywords>
 
   <icon file="AES.png" />
+
   <relevantPlugins>
     <plugin name="AES" />
+    <plugin name="BooleanInput" />
+    <plugin name="Gate" />
+    <plugin name="PKCS5" />
+    <plugin name="RandomInput" />
+    <plugin name="VisualDecoder" />
+    <plugin name="VisualEncoder" />
+    <plugin name="Webcam" />
   </relevantPlugins>
 
 </sample>
