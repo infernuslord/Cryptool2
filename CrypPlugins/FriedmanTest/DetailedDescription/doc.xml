@@ -2,31 +2,54 @@
 
 <documentation>
   <language culture="en"/>
-  <!--<language culture="de-DE"/>-->
+  <language culture="de-DE"/>
 
   <introduction lang="en">
-  The Friedman Test allows you to calculate a probable key length of a polyalphabetic substitution cipher.
-  William F. Friedman was a cryptologist who developed a method of calculating the key-length of the Vigenère cipher. He used the index of coincidence, which measures the unevenness of the cipher letter frequencies. By knowing the probability κp that any two randomly chosen source-language letters are the same (around 0.067 for monocase English) and the probability of a coincidence for a uniform random selection from the alphabet κr (1/26 = 0.0385 for English), the key length can be estimated as:<newline/>
-  <newline/>
-  <img src="FriedmanTest/DetailedDescription/Images/formula1.png" /><newline/>
-  <newline/>
-  where k – key-length; n – size of the text; IC – observed index of coincidence; kr and kp as mentioned above. The Index of Coincidence is calculated as:<newline/>
-  <newline/>
-  <img src="FriedmanTest/DetailedDescription/Images/formula2.png" /><newline/>
-  <newline/>
-  where N is the length of the text and n1 through nc are the frequencies (as integers) of the "c" letters of the alphabet.
+    The Friedman Test allows you to calculate a probable key length of a polyalphabetic substitution cipher.
+    William F. Friedman was a cryptologist who developed a method of calculating the key-length of the Vigenère cipher. He used the index of coincidence, which measures the unevenness of the cipher letter frequencies.
+    By knowing the probability κp that any two randomly chosen source-language letters are the same (around 0.067 for monocase English) and the probability of a coincidence for a uniform random selection from the alphabet κr
+    (1/26 = 0.0385 for English), the key length can be estimated as:<newline/>
+    <newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/formula1.png" /><newline/>
+    <newline/>
+    where k – key-length; n – size of the text; IC – observed index of coincidence; κr and κp as mentioned above.
+    <newline/><newline/>
+    The Index of Coincidence is calculated as:
+    <newline/><newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/formula2.png" /><newline/>
+    <newline/>
+    where N is the length of the text and n1 through nc are the frequencies (as integers) of the "c" letters of the alphabet.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Mit dem Friedman-Test kann man die wahrscheinliche Schlüssellänge einer polyalphabetischen Substitutionsverschlüsselung berechnen.
+    Der Kryptologe William F. Friedman entwickelte eine Methode, mit der man die Schlüssellänge einer Vigenère-Verschlüsselung berechnen kann. Er verwendete hierfür den Koinzidenzindex, der ein Maß für die Zufälligkeit
+    der Buchstabenhäufigkeiten eines gegebenen Textes ist.
+    Wenn κp die Wahrscheinlichkeit ist, dass zwei zufällig ausgewählte Buchstaben eines Textes in einer gegebenen Sprache gleich sind (etwa 0.067 bei englischen Texten), und die Wahrscheinlichkeit κr der Übereinstimmung
+    bei zwei zufällig ausgewählten Buchstaben des Alphabets 1/26 = 0.0385 beträgt, kann die Schlüssellänge folgendermaßen abgeschätzt werden:
+    <newline/>
+    <newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/formula1.png" /><newline/>
+    <newline/>
+    wobei k die Schlüssellänge ist, n die Länge des Textes, IC der Koinzidenzindex des Textes sowie κr und κp wie oben definiert sind.
+    <newline/><newline/>
+    Der Koinzidenzindex eines Textes wird so berechnet:<newline/>
+    <newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/formula2.png" /><newline/>
+    <newline/>
+    wobei N die Länge des Textes ist und n1 bis nc die absoluten Häufigkeiten der Buchstaben des Alphabets im Text darstellen.
   </introduction>
 
   <usage lang="en">
-  The frequencies are supplied by the <docRef item="Cryptool.FrequencyTest.FrequencyTest"/> component. A typical usage scenario looks like this:<newline/>
-  <newline/>
-  <img src="FriedmanTest/DetailedDescription/Images/usage.png" />
+    The frequencies are supplied by the <docRef item="Cryptool.FrequencyTest.FrequencyTest"/> component. A typical usage scenario looks like this:<newline/>
+    <newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/usage.png" />
   </usage>
 
   <usage lang="de-DE">
+    Die benötgten Buchstabenhäufigkeiten erhält man mit der Komponente <docRef item="Cryptool.FrequencyTest.FrequencyTest"/>. Ein typisches Anwendungsszenario sieht folgendermaßen aus:
+    <newline/><newline/>
+    <img src="FriedmanTest/DetailedDescription/Images/usage.png" />
   </usage>
   
   <presentation lang="en">
@@ -34,7 +57,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Friedman_test" lang="en" />
+      <caption lang="en">Friedman test (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Friedman-Test_(Kryptologie)" lang="de-DE" />
+      <caption lang="en">Friedman-Test (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

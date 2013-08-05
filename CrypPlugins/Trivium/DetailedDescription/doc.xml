@@ -21,7 +21,26 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code" lang="en" />
+      <caption lang="en">Hash-based message authentication code (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Trivium_(Algorithmus)" lang="de-DE" />
+      <caption lang="en">Trivium (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="ecrypt">
+      <link url="http://www.ecrypt.eu.org/stream/triviumpf.html" lang="en" />
+      <caption lang="en">Trivium at the eSTREAM Project</caption>
+      <link url="http://www.ecrypt.eu.org/stream/triviumpf.html" lang="de-DE" />
+      <caption lang="en">Trivium beim eSTREAM Project (englisch)</caption>
+    </linkReference>
+    <linkReference id="ecryptpdf">
+      <link url="http://www.ecrypt.eu.org/stream/p3ciphers/trivium/trivium_p3.pdf" lang="en" />
+      <caption lang="en">Trivium Specifications (PDF)</caption>
+      <link url="http://www.ecrypt.eu.org/stream/p3ciphers/trivium/trivium_p3.pdf" lang="de-DE" />
+      <caption lang="en">Trivium Specifications (PDF, englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

@@ -21,7 +21,20 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Data_Encryption_Standard" lang="en" />
+      <caption lang="en">Data Encryption Standard (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Data_Encryption_Standard" lang="de-DE" />
+      <caption lang="de-DE">Data Encryption Standard (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="NIST">
+      <link url="http://csrc.nist.gov/publications/fips/fips46-3/fips46-3.pdf" lang="en" />
+      <caption lang="en">DES Specification by NIST (PDF)</caption>
+      <link url="http://csrc.nist.gov/publications/fips/fips46-3/fips46-3.pdf" lang="de-DE" />
+      <caption lang="de-DE">DES-Spezifikation des NIST (englisch, PDF)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

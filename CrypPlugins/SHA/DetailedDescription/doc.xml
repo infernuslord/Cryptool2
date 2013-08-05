@@ -23,5 +23,18 @@
   </presentation>
   
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://de.wikipedia.org/wiki/Secure_Hash_Algorithm" lang="en" />
+      <caption lang="en">Secure Hash Algorithm (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Secure_Hash_Algorithm" lang="de-DE" />
+      <caption lang="de-DE">Secure Hash Algorithm (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="fips">
+      <link url="http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf" lang="en" />
+      <caption lang="en">FIPS: Secure Hash Standard (PDF)</caption>
+      <link url="http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf" lang="de-DE" />
+      <caption lang="de-DE">FIPS: Secure Hash Standard (PDF, englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

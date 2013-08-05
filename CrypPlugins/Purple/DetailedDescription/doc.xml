@@ -18,13 +18,12 @@
 	  Drei der Vermittlungsschalter haben 20 Ein- und Ausgänge und einer hat 6 Ein- und Ausgänge.
 	  Nachdem ein Buchstabe über die Tastatur eingegeben wurde, wird er zuerst einer Eingangspermutation unterworfen. Wird er durch diese auf einen der Buchstaben "AEIOUY" abgebildet, so wird er als nächstes an den 6er-Vermittlungsschalter und dessen Ausgabe dann an die Ausgangspermutation weitergegeben. Die Ausgangspermutation ist hierbei stets die Umkehrung der Eingangspermutation.
 	  <newline /><newline />
-	  Bildet die Eingangspermutation die Eingabe auf einen anderen Buchstaben als "AEIOUY" ab, so wird der Buchstabe durch die drei 20er-Vermittlungsschalter geleitet, und zwar immer in derselben Reihenfolge: erst durch Schalter #1, dessen Ausgabe durch Schalter #2, und dann durch Schalter #3. Die Ausgabe von Schalter #3 geht dann wieder durch die Ausgabepermutation.
+	  Bildet die Eingangspermutation die Eingabe auf einen anderen Buchstaben als "AEIOUY" ab, so wird der Buchstabe durch die drei 20er-Vermittlungsschalter geleitet, und zwar immer in derselben Reihenfolge: erst durch Schalter #1, dessen Ausgabe durch Schalter #2, und dann durch Schalter #3. Die Ausgabe von Schalter #3 geht dann wieder durch die Ausgangspermutation.
 	  <newline /><newline />
 	  Nach jedem Tastendruck werden die Vermittlungsschalter nach gewissen Regeln weitergeschaltet. Wenn ein Schalter weitergeschaltet wird, so springt er von Position n zur Position n+1 und realisiert dadurch eine neue Permutation. Ist er bei Position 25 angelangt, so springt er beim nächsten Mal zur Position 1 zurück.
 	  <newline /><newline />
-	  Die Vermittlungsschalter werden in unterschiedlichen Geschwindigkeiten weitergeschaltet: Der 6er-Schalter wird nach jedem Tastendruck weitergeschaltet, während von den drei 20er-Schaltern einer schnell (nach jedem Tastendruck), einer mit mittlerer Geschwindigkeit (nach jedem Überlauf des schnellen) und einer langsam (nach jedem Überlauf des mittleren) weiterschaltet. Da der Benutzer selbst bestimmen kann, wie die drei Geschwindigkeiten den drei 20er-Schaltern zugeordnet werden sollen, ist dies ebenso Teil des Schlüssels wie die Startpositionen aller vier Schalter sowie die durch ein Steckerbrett realisierte Eingangs- und Ausgangpermutation.
-	  <newline />
-	  <newline />
+	  Die Vermittlungsschalter werden in unterschiedlichen Geschwindigkeiten weitergeschaltet: Der 6er-Schalter wird nach jedem Tastendruck weitergeschaltet, während von den drei 20er-Schaltern einer schnell (nach jedem Tastendruck), einer mit mittlerer Geschwindigkeit (nach jedem Überlauf des schnellen) und einer langsam (nach jedem Überlauf des mittleren) weiterschaltet. Da der Benutzer selbst bestimmen kann, wie die drei Geschwindigkeiten den drei 20er-Schaltern zugeordnet werden sollen, ist dies ebenso Teil des Schlüssels wie die Startpositionen aller vier Schalter sowie die durch ein Steckerbrett realisierte Eingangs- und Ausgangspermutation.
+	  <newline /><newline />
 	  Die Entschlüsselung der <i>Purple</i> gelang dem amerikanischen Kryptologen William Friedman und seinen Mitarbeitern und wird als eine der größten Leistungen in der Kryptologie angesehen, da es ihnen gelang, ohne Kenntnis des inneren Aufbaus der <i>Purple</i> das Verschlüsselungsprinzip alleine aus den aufgefangenen Geheimtexten zu rekonstruieren und die Maschine nachzubauen. Der Name <i>Purple</i> ist hierbei nur der von den amerikanischen Kryptologen verwendete Codename. Die japanischen Konstrukteure nannten die Maschine "<i>97-shiki O-bun In-ji-ki</i>" (Alphabetische Schreibmaschine 97). 
   </introduction>
 
@@ -32,25 +31,20 @@
   </usage>
 
   <usage lang="de-DE">
-	  Die <i>Purple</i>-Komponente hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins gewählt werden kann.
-	  In der Betriebsart <i>Verschlüsselung</i> wird der zu verschlüsselnde Klartext als Zeichenfolge am Eingang der Komponente angelegt, in der Betriebsart <i>Entschlüsselung</i> der verschlüsselte Geheimtext.
-	  <newline />
-	  <newline />
-	 In den Einstellungen wird auch der zu verwendende Schlüssel eingegeben: Im Textfeld <i>Alphabet</i> wird eine Permutation der 26 Buchstaben erwartet, die die durch das Steckerbrett realisierte Eingangspermutation definiert. Die ersten 6 Buchstaben der hier angegebenen Zeichenfolge werden auf die Buchstaben "AEIOUY" abgebildet und durchlaufen bei der Verschlüsselung den 6er-Vermittlungsschalter. Die restlichen Buchstaben werden daher durch die drei 20er-Vermittlungsschalter verschlüsselt. 
-	  <newline />
-	  <newline />
-	  In der Rubrik <i>Position</i> können die Startpositionen der vier Vermittlungsschalter festgelegt werden, wobei jeder Schalter 25 Positionen hat, die von 1 bis 25 durchnummeriert sind.
-	  <newline />
-	  <newline />
-	  In der Rubrik <i>Geschwindigkeit</i> kann angegeben werden, mit welcher Geschwindigkeit die drei 20er-Schalter weitergeschaltet werden sollen. Als Eingabe wird hier eine Permutation der Zahlen 1, 2 und 3 erwartet, wobei "1" langsame Geschwindigkeit bedeutet, "2" mittlere Geschwindigkeit und "3" schnelle Geschwindigkeit. Die Eingabe "231" heisst dann, dass der Vermittlungsschalter #1 mit mittlerer Geschwindigkeit ("2") betrieben wird, Vermittlungsschalter #2 schnell ("3") und Vermittlungsschalter #3 langsam ("1").
-	  <newline />
-	  <newline />
-	 In der Rubrik <i>Text-Optionen</i> kann eingestellt werden, wie auf Zeichen in der Eingabe reagiert werden soll, die nicht Bestandteil des von der <i>Purple</i> verwendeten Standardalphabets A-Z sind. Werden unbekannte Zeichen ignoriert, so werden die Vermittlungsschalter beim Lesen dieses Zeichens nicht weitergeschaltet. Wird "kopieren" gewählt, so wird das unbekannte Zeichen unverändert an die Ausgabe weitergegeben und die Vermittlungsschalter werden um eine Position weitergeschaltet. Dies ist nützlich, wenn ein zu entschlüsselnder Geheimtext unleserliche Zeichen enthält, die z.B. durch ein "?" dargestellt werden. Würde dieses bei der Entschlüsselung einfach ignoriert werden, so würde der Geheimtext ab dem weggelassenen Zeichen falsch dekodiert werden. Schließlich gibt es noch die Option, ein unbekanntes Zeichen in der Ausgabe durch ein Platzhalterzeichen zu ersetzen.
-	 <newline/>
-	 <newline/>
-	 Unter dem Punkt <i>Ausgabeformatierung</i> kann ausgewählt werden, wie die Ausgabe der Komponente aufbearbeitet werden soll. Es gibt die Möglichkeit, entweder die Formatierung des Eingabetextes beizubehalten, alle Leerraumzeichen (Leerzeichen, Tabulator, Zeilenumbruch) zu löschen oder die Ausgabe in Blöcken zu 5 Zeichen zu formatieren.
-    <newline/><newline/>
-	 Schließlich kann noch die Behandlung der Groß-/Kleinschreibung gewählt werden. Man kann die Ausgabe komplett in Groß- oder Kleinbuchstaben konvertieren oder die Schreibweise des Eingangstextes beibehalten.
+    Die <i>Purple</i>-Komponente hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins gewählt werden kann.
+    In der Betriebsart <i>Verschlüsselung</i> wird der zu verschlüsselnde Klartext als Zeichenfolge am Eingang der Komponente angelegt, in der Betriebsart <i>Entschlüsselung</i> der verschlüsselte Geheimtext.
+    <newline /><newline />
+    In den Einstellungen wird auch der zu verwendende Schlüssel eingegeben: Im Textfeld <i>Alphabet</i> wird eine Permutation der 26 Buchstaben erwartet, die die durch das Steckerbrett realisierte Eingangspermutation definiert. Die ersten 6 Buchstaben der hier angegebenen Zeichenfolge werden auf die Buchstaben "AEIOUY" abgebildet und durchlaufen bei der Verschlüsselung den 6er-Vermittlungsschalter. Die restlichen Buchstaben werden daher durch die drei 20er-Vermittlungsschalter verschlüsselt. 
+    <newline /><newline />
+    In der Rubrik <i>Position</i> können die Startpositionen der vier Vermittlungsschalter festgelegt werden, wobei jeder Schalter 25 Positionen hat, die von 1 bis 25 durchnummeriert sind.
+    <newline /><newline />
+    In der Rubrik <i>Geschwindigkeit</i> kann angegeben werden, mit welcher Geschwindigkeit die drei 20er-Schalter weitergeschaltet werden sollen. Als Eingabe wird hier eine Permutation der Zahlen 1, 2 und 3 erwartet, wobei "1" langsame Geschwindigkeit bedeutet, "2" mittlere Geschwindigkeit und "3" schnelle Geschwindigkeit. Die Eingabe "231" heisst dann, dass der Vermittlungsschalter #1 mit mittlerer Geschwindigkeit ("2") betrieben wird, Vermittlungsschalter #2 schnell ("3") und Vermittlungsschalter #3 langsam ("1").
+    <newline /><newline />
+    In der Rubrik <i>Text-Optionen</i> kann eingestellt werden, wie auf Zeichen in der Eingabe reagiert werden soll, die nicht Bestandteil des von der <i>Purple</i> verwendeten Standardalphabets A-Z sind. Werden unbekannte Zeichen ignoriert, so werden die Vermittlungsschalter beim Lesen dieses Zeichens nicht weitergeschaltet. Wird "kopieren" gewählt, so wird das unbekannte Zeichen unverändert an die Ausgabe weitergegeben und die Vermittlungsschalter werden um eine Position weitergeschaltet. Dies ist nützlich, wenn ein zu entschlüsselnder Geheimtext unleserliche Zeichen enthält, die z.B. durch ein "?" dargestellt werden. Würde dieses bei der Entschlüsselung einfach ignoriert werden, so würde der Geheimtext ab dem weggelassenen Zeichen falsch dekodiert werden. Schließlich gibt es noch die Option, ein unbekanntes Zeichen in der Ausgabe durch ein Platzhalterzeichen zu ersetzen.
+    <newline /><newline />
+    Unter dem Punkt <i>Ausgabeformatierung</i> kann ausgewählt werden, wie die Ausgabe der Komponente aufbearbeitet werden soll. Es gibt die Möglichkeit, entweder die Formatierung des Eingabetextes beizubehalten, alle Leerraumzeichen (Leerzeichen, Tabulator, Zeilenumbruch) zu löschen oder die Ausgabe in Blöcken zu 5 Zeichen zu formatieren.
+    <newline /><newline />
+    Schließlich kann noch die Behandlung der Groß-/Kleinschreibung gewählt werden. Man kann die Ausgabe komplett in Groß- oder Kleinbuchstaben konvertieren oder die Schreibweise des Eingangstextes beibehalten.
   </usage>
   
   <presentation lang="en">
