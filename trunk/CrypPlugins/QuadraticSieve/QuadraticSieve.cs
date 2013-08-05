@@ -870,16 +870,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     count++;
                     var spf = pf.ToString();
-                    var bitcount = Math.Ceiling(BigInteger.Log(pf, 2));
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(
-                        typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + " " + count + " : " + spf + " (" + GetDigitNumber(spf.Length) + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                    var bitcount = (int)Math.Ceiling(BigInteger.Log(pf, 2));
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(String.Format("{0} {1} : {2} ({3} / {4})", Resources.Prime_Factor, count, spf, GetDigitNumber(spf.Length), GetBitNumber(bitcount)));
                 }
                 foreach (BigInteger cf in compositeFactors)
                 {
                     var scf = cf.ToString();
-                    var bitcount = Math.Ceiling(BigInteger.Log(cf, 2));
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(
-                        typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + scf + " (" + GetDigitNumber(scf.Length) + " / " + bitcount + " " + typeof(QuadraticSieve).GetPluginStringResource("Bits") + ")");
+                    var bitcount = (int)Math.Ceiling(BigInteger.Log(cf, 2));
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add(String.Format("{0} : {1} ({2} / {3})", Resources.Composite_Factor, scf, GetDigitNumber(scf.Length), GetBitNumber(bitcount)));
                 }
                 quadraticSieveQuickWatchPresentation.SelectFirstComposite();
             }, null);
@@ -887,14 +885,12 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private string GetDigitNumber(int length)
         {
-            if (length != 1)
-            {
-                return length + " " + typeof (QuadraticSieve).GetPluginStringResource("Digits");
-            }
-            else
-            {
-                return length + " " + typeof(QuadraticSieve).GetPluginStringResource("Digit");
-            }
+            return length + " " + ((length == 1) ? Resources.Digit : Resources.Digits);
+        }
+
+        private string GetBitNumber(int length)
+        {
+            return length + " " + ((length == 1) ? Resources.Bit : Resources.Bits);
         }
 
         /// <summary>
