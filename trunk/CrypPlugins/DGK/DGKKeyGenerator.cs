@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.DGK
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
-    [PluginInfo("DGK.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "DGK/Image/DGKKey.png")]
+    [PluginInfo("DGK.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "DGK/DetailedDescription/doc.xml", "DGK/Image/DGKKey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
