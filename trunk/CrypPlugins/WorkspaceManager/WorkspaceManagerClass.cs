@@ -292,9 +292,18 @@ namespace WorkspaceManager
 
         private void doCopy()
         {
-            var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
-            var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
-            var elementsToCopy = CopyOperation.SelectConnections(list);
+            List<VisualElementModel> elementsToCopy = new List<VisualElementModel>();
+            if(WorkspaceSpaceEditorView.SelectedItems != null)
+            {
+                var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
+                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
+                elementsToCopy.Concat(CopyOperation.SelectConnections(list));
+            }
+            if (WorkspaceSpaceEditorView.SelectedText != null)
+                elementsToCopy.Add(WorkspaceSpaceEditorView.SelectedText.Model);
+            if (WorkspaceSpaceEditorView.SelectedImage != null)
+                elementsToCopy.Add(WorkspaceSpaceEditorView.SelectedImage.Model);
+
             copy = new CopyOperation(new SerializationWrapper() { elements = elementsToCopy });
         }
 
@@ -309,12 +318,14 @@ namespace WorkspaceManager
 
         public void Copy()
         {
-            if (WorkspaceSpaceEditorView.SelectedItems != null && !WorkspaceSpaceEditorView.IsFullscreenOpen)
+            if (!WorkspaceSpaceEditorView.IsFullscreenOpen)
             {
                 doCopy();
                 //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
         }
+        
+        
 
         public IList<PluginModel> CurrentCopies = new List<PluginModel>();
         public void Paste()
