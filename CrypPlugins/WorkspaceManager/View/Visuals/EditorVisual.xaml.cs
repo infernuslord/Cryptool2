@@ -25,6 +25,7 @@ using WorkspaceManager.Base.Sort;
 using System.Windows.Controls.Primitives;
 using WorkspaceManager.View.VisualComponents.CryptoLineView;
 using WorkspaceManagerModel.Model.Tools;
+using System.Windows.Documents;
 
 namespace WorkspaceManager.View.Visuals
 {
@@ -940,10 +941,7 @@ namespace WorkspaceManager.View.Visuals
         {
             try
             {
-                var bin = new TextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation()));
-                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
-                VisualCollection.Add(bin);
-                SelectedText = bin;
+               Model.ModifyModel(new NewTextModelOperation());
             }
             catch (Exception e)
             {
@@ -1014,15 +1012,18 @@ namespace WorkspaceManager.View.Visuals
 
                 foreach (var img in m.GetAllImageModels())
                 {
-                    this.VisualCollection.Add(new ImageVisual(img));
+                    var visual = new ImageVisual(img);
+                    visual.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
+                    this.VisualCollection.Add(visual);
                 }
 
                 foreach (var txt in m.GetAllTextModels())
                 {
-
                     try
                     {
-                        this.VisualCollection.Add(new TextVisual(txt));
+                        var visual = new TextVisual(txt);
+                        visual.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
+                        this.VisualCollection.Add(visual);
                     }
                     catch (Exception e)
                     {
@@ -1228,6 +1229,13 @@ namespace WorkspaceManager.View.Visuals
                     if (!VisualCollection.Contains(img))
                         VisualCollection.Add(img);
                 }
+                else
+                {
+                    var bin = new ImageVisual(((ImageModel)args.EffectedModelElement));
+                    bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
+                    SelectedImage = bin;
+                    VisualCollection.Add(bin);
+                }
             }
             else if (args.EffectedModelElement is TextModel)
             {
@@ -1236,6 +1244,15 @@ namespace WorkspaceManager.View.Visuals
                     TextVisual txt = (TextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
                     if (!VisualCollection.Contains(txt))
                         VisualCollection.Add(txt);
+                }
+                else
+                {
+                    var bin = new TextVisual(((TextModel)args.EffectedModelElement));
+                    bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
+                    var p = new Paragraph();
+                    bin.mainRTB.Document.Blocks.Add(p);
+                    SelectedText = bin;
+                    VisualCollection.Add(bin);
                 }
             }
         }
