@@ -19,7 +19,7 @@
     einzelne Teile entnommen werden oder mehrere Zeichenketten als eine zusammengefasst werden (Konkatenation). Außerdem
     ermöglichen die Zeichenketten-Operationen die Bestimmung der Länge einer übergebenen Zeichenkette. Es kann der Index, also
     die Position, einer Zeichenkette innerhalb einer anderen bestimmt werden. Teile einer Zeichenkette können durch eine weitere
-    Zeichenkette ersetzt werden (auch mittels eines regulären Ausdruckes). Zeichenketten können mittels eines Trennstrings in Teilstrings zerlegt werden.
+    Zeichenkette ersetzt werden (auch mittels eines regulären Ausdrucks). Zeichenketten können mittels eines Trennstrings in Teilstrings zerlegt werden.
     Außerdem kann man überprüfen, ob zwei übergebene Zeichenketten identisch sind, und die Zeichenkette umkehren.
   </introduction>
 

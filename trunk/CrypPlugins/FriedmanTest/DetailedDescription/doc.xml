@@ -5,14 +5,14 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The Friedman Test allows you to calculate a probable key length of a polyalphabetic substitution cipher.
-    William F. Friedman was a cryptologist who developed a method of calculating the key-length of the Vigenère cipher. He used the index of coincidence, which measures the unevenness of the cipher letter frequencies.
-    By knowing the probability κp that any two randomly chosen source-language letters are the same (around 0.067 for monocase English) and the probability of a coincidence for a uniform random selection from the alphabet κr
+    The Friedman test allows you to calculate a probable key length of a polyalphabetic substitution cipher.
+    William F. Friedman was a cryptologist who developed a method of calculating the key length of the Vigenère cipher. He used the index of coincidence, which measures the unevenness of the cipher letter frequencies.
+    By knowing the probability κp that any two randomly chosen source language letters are the same (around 0.067 for monocase English) and the probability of a coincidence for a uniform random selection from the alphabet κr
     (1/26 = 0.0385 for English), the key length can be estimated as:<newline/>
     <newline/>
     <img src="FriedmanTest/DetailedDescription/Images/formula1.png" /><newline/>
     <newline/>
-    where k – key-length; n – size of the text; IC – observed index of coincidence; κr and κp as mentioned above.
+    where k – key length; n – size of the text; IC – observed index of coincidence; κr and κp as mentioned above.
     <newline/><newline/>
     The Index of Coincidence is calculated as:
     <newline/><newline/>
