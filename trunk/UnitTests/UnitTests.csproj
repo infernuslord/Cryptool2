@@ -90,6 +90,7 @@
     <Compile Include="AESTest.cs" />
     <Compile Include="CaesarTest.cs" />
     <Compile Include="CRCTest.cs" />
+    <Compile Include="KeccakTest.cs" />
     <Compile Include="MorseCodeTest.cs" />
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
@@ -189,6 +190,10 @@
     <ProjectReference Include="..\CrypPlugins\HMAC\HMAC.csproj">
       <Project>{9DC8FE92-6839-4837-8AAA-D7456F2B288F}</Project>
       <Name>HMAC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Keccak\Keccak.csproj">
+      <Project>{54BCDECE-C7DE-454B-8991-901C238FE591}</Project>
+      <Name>Keccak</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
