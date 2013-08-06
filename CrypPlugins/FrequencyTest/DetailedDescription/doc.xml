@@ -32,7 +32,7 @@
     <newline/>
     <img src="FrequencyTest/DetailedDescription/Images/usage.png" /><newline/>
     <newline/>
-    The gramm length option gives the possibility to count and output statistical data for groups of characters with the selected size. The default value is: 1. Non alphabetic characters option is proposing the possibilities to consider or not
+    The gram length option gives the possibility to count and output statistical data for groups of characters with the selected size. The default value is: 1. Non alphabetic characters option is proposing the possibilities to consider or not
     the characters which are not in the English alphabet. The default value is: Don’t count. Case sensitivity option gives the choice if the uppercase and lowercase letters should be considered equal or not. Default value is: Case insensitive.
   </usage>
 
