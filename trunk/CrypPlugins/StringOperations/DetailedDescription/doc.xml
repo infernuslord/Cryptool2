@@ -27,20 +27,20 @@
     The StringOperations has two text inputs and two number inputs. Depending on the used function these inputs have different usage.
     It has also a text output, a text array output and a number output.
     <enum>
-      <item>Concatenate: Needs only the text inputs. Merges the given textes to one new</item>
-      <item>Substring: Needs the first text inputs and both number inputs (X,Y).Returns the substring from X with length Y at the text output</item>
-      <item>To-Lowercase: Converts the given text of the first text input to a text with only lowercase characters</item>
-      <item>To-Uppercase: Converts the given text of the first text input to a text with only uppercase characters</item>
-      <item>LengthOf: Returns the length of the text of the first text input at the number output</item>
-      <item>CompareTo: Compares both given texts. Returns 0 if they are equal. Returns a negative number if text one is smaller than text two. Otherwise returns a positive number</item>
-      <item>Trim: Removes whitespaces from beginning and end (tab, Leerzeichen) of the text of text input one and returns this text in the text output</item>
-      <item>IndexOf: Gives the first index of the occurance of the text of text input two in the text of text input one in the number output</item>
-      <item>Equals: Returns a 1 at the number output if the texts are equal. Otherwise returns a 0</item>
-      <item>Replace: Replaces all substrings of the first input string which are equal to the second input string by the third input string and returns the new string</item>
-      <item>RegexReplace: Replaces all substrings of the first input string which match to the regular expression provided by the second input string by the third input string and returns the new string</item>
-      <item>Split: Splits the text of the first input at the string given at the second text input (or on newlines, if input is empty) and returns the resulting substrings at the output array</item>
-      <item>Block: Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
-      <item>Reverse: Reverses the given text of the first text input</item>
+		<item><b>Concatenate:</b> Needs only the text inputs. Merges the given textes to one new</item>
+		<item><b>Substring:</b> Needs the first text inputs and both number inputs (X,Y). Returns the substring from X with length Y at the text output</item>
+		<item><b>To-Lowercase:</b> Converts the given text of the first text input to a text with only lowercase characters</item>
+		<item><b>To-Uppercase:</b> Converts the given text of the first text input to a text with only uppercase characters</item>
+		<item><b>LengthOf:</b> Returns the length of the text of the first text input at the number output</item>
+		<item><b>CompareTo:</b> Compares both given texts and returns 0 if they are equal, -1 if text one is 'smaller' than text two, and 1 if text one is 'bigger' than text two</item>
+		<item><b>Trim:</b> Removes whitespaces from beginning and end (tab, Leerzeichen) of the text of text input one and returns this text in the text output</item>
+		<item><b>IndexOf:</b> Gives the first index of the occurance of the text of text input two in the text of text input one in the number output</item>
+		<item><b>Equals:</b> Returns 1 at the number output if the texts are equal, otherwise 0</item>
+		<item><b>Replace:</b> Replaces all substrings of the first input string which are equal to the second input string by the third input string and returns the new string</item>
+		<item><b>RegexReplace:</b> Replaces all substrings of the first input string which match to the regular expression provided by the second input string by the third input string and returns the new string</item>
+		<item><b>Split:</b> Splits the text of the first input at the string given at the second text input (or on newlines, if input is empty) and returns the resulting substrings at the output array</item>
+		<item><b>Block:</b> Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
+		<item><b>Reverse:</b> Reverses the given text of the first text input</item>
     </enum>
   </usage>
 
@@ -48,20 +48,20 @@
     Die Zeichenketten-Operationen verfügen über zwei Texteingänge und zwei Zahleneingänge. Je nach gewählter Funktion werden diese Eingänge
     unterschiedlich verwendet. Außerdem besitzt die Komponente einen Textausgang, einen Text-Array-Ausgang und einen Zahlenausgang.
     <enum>
-      <item>Konkatenieren: Benötigt nur die beiden Texteingänge. Verbindet die beiden Zeichenketten zu einer und gibt diese beim Textausgang aus</item>
-      <item>Teilstring: Benötigt den ersten Texteingang sowie beide Zahleneingänge (X,Y). Gibt die Zeichenkette von X der Länge Y beim Textausgang aus</item>
-      <item>Kleinbuchstaben: Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Kleinbuchstaben besteht</item>
-      <item>Großbuchstaben: Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Großbuchstaben besteht</item>
-      <item>Länge: Gibt die Textlänge (Anzahl der Zeichen) des Textes des ersten Textingangs beim Zahlenausgang aus</item>
-      <item>Vergleichen: Vergleicht die in beiden Texteingängen eingegeben Texte und gibt 0 aus, falls diese identisch sind. Ist die Zahl kleiner als 0, so ist der erste Text "kleiner" als der zweite. Ist die Zahl größer als 0, so ist der erste Text "größer" als der zweite</item>
-      <item>Trimmen: Entfernt sogenannte Whitespaces (tab, Leerzeichen) vom Anfang und Ende des Textes, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
-      <item>IndexVon: Gibt den ersten Index des Vorkommens vom Text des Texteingangs zwei des Texteingangs eins am Zahlenausgang aus</item>
-      <item>Vergleich: Gibt 1 aus, wenn beide Texte identisch sind. Gibt ansonsten 0 aus</item>
-      <item>Ersetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
-      <item>RegexErsetzen: Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
-      <item>Trennen: Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
-      <item>Block: Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
-      <item>Umkehren: Kehrt die Zeichenkette des ersten Texteingangs um</item>
+		<item><b>Konkatenieren:</b> Benötigt nur die beiden Texteingänge. Verbindet die beiden Zeichenketten zu einer und gibt diese beim Textausgang aus</item>
+		<item><b>Teilstring:</b> Benötigt den ersten Texteingang sowie beide Zahleneingänge (X,Y). Gibt die Zeichenkette von X der Länge Y beim Textausgang aus</item>
+		<item><b>Kleinbuchstaben:</b> Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Kleinbuchstaben besteht</item>
+		<item><b>Großbuchstaben:</b> Wandelt den übergebenen Text des ersten Texteingangs in einen Text um, der nur aus Großbuchstaben besteht</item>
+		<item><b>Länge:</b> Gibt die Textlänge (Anzahl der Zeichen) des Textes des ersten Textingangs beim Zahlenausgang aus</item>
+		<item><b>Vergleichen:</b> Vergleicht die in beiden Texteingängen eingegebenen Texte und gibt 0 aus, falls diese identisch sind, -1, wenn der erste Text "kleiner" als der zweite ist, und 1, wenn der erste Text "größer" als der zweite ist</item>
+		<item><b>Trimmen:</b> Entfernt sogenannte Whitespaces (tab, Leerzeichen) vom Anfang und Ende des Textes, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
+		<item><b>IndexVon:</b> Gibt den ersten Index des Vorkommens vom Text des Texteingangs zwei des Texteingangs eins am Zahlenausgang aus</item>
+		<item><b>Vergleich:</b> Gibt 1 aus, wenn beide Texte identisch sind, andernfalls 0</item>
+		<item><b>Ersetzen:</b> Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
+		<item><b>RegexErsetzen:</b> Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
+		<item><b>Trennen:</b> Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
+		<item><b>Block:</b> Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
+		<item><b>Umkehren:</b> Kehrt die Zeichenkette des ersten Texteingangs um</item>
     </enum>    
   </usage>
   
@@ -79,4 +79,5 @@
       <caption lang="de-DE">Zeichenkette</caption>
     </linkReference>
   </references>
+  
 </documentation>
