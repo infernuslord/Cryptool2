@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Decode QR code file</title>
+  <title lang="de">Dekodiere QR-Code-Datei</title>
+
+  <summary lang="en">Decodes a QR code file</summary>
+  <summary lang="de">Dekodiert eine QR-Code-Datei</summary>
+
+  <description lang="en">Decodes a picture file which contains a QR code.</description>
+  <description lang="de">Dekodiert eine Bild-Datei welche einen QR-Code beinhaltet.</description> 
+
+  <keywords>qr, qrcode, code</keywords>
+
+  <icon file="Decode QR file.png" />
+
+  <relevantPlugins>
+    <plugin name="VisualDecoder" />
+  </relevantPlugins>
+
+</sample>
