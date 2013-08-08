@@ -196,5 +196,15 @@ namespace Cryptool.CrypWin.Helper
             if (RequestDistractionFreeOnOffEvent != null)
                 RequestDistractionFreeOnOffEvent.Invoke(this, null);
         }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            if (!(Tag is ToolTip))
+                return;
+
+            var tp = Tag as ToolTip;
+
+            Clipboard.SetText(tp.ToString());
+        }
     }
 }
