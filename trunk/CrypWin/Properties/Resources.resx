@@ -940,4 +940,7 @@
   <data name="SI_ValidCertificate" xml:space="preserve">
     <value>Valid Certificate</value>
   </data>
+  <data name="ToolTip_Copy" xml:space="preserve">
+    <value>Copy Tooltip</value>
+  </data>
 </root>

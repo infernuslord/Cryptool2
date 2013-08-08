@@ -919,4 +919,7 @@
   <data name="SI_PublicKey" xml:space="preserve">
     <value>Öffentlicher Schlüssel des Antragstellers</value>
   </data>
+  <data name="ToolTip_Copy" xml:space="preserve">
+    <value>Kurzinfo kopieren</value>
+  </data>
 </root>
