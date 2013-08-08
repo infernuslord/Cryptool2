@@ -36,10 +36,16 @@ namespace FileInput
 
         public void makeUnaccesAble(Boolean b)
         {
-            hexBox.makeUnAccesable(b);
-            hexBox.IsEnabled = b;
-            hexBox.IsManipulationEnabled = b;
-        }
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+                                                                                       {
+                                                                                           hexBox.makeUnAccesable(b);
+                                                                                           hexBox.IsEnabled = b;
+                                                                                           hexBox.
+                                                                                               IsManipulationEnabled
+                                                                                               = b;
+                                                                                       }, null
+        );
+    }
 
         public void CloseFileToGetFileStreamForExecution()
         {
