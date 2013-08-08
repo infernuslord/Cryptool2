@@ -160,7 +160,7 @@ namespace HexBox
             
             _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
-            this.Loaded += new RoutedEventHandler(HexBox_Loaded);
+            //this.Loaded += new RoutedEventHandler(HexBox_Loaded);
         }
 
         void HexBox_Loaded(object sender, RoutedEventArgs e)
@@ -1563,6 +1563,26 @@ namespace HexBox
         {
             _dyfipro.Dispose();
 
+            canvas1.MouseLeftButtonDown += ht_MouseDown;
+            canvas1.MouseLeftButtonUp += ht_MouseUp;
+            canvas1.MouseMove += ht_MouseMove;
+            canvas2.MouseLeftButtonDown += st_MouseDown;
+            canvas2.MouseMove += st_MouseMove;
+            canvas2.MouseLeftButtonUp += st_MouseUp;
+
+
+            canvas1.MouseLeftButtonDown += canvas1_MouseDown;
+            canvas2.MouseLeftButtonDown += canvas2_MouseDown;
+
+            cursor.PreviewKeyDown += KeyInputHexField;
+            cursor2.PreviewKeyDown += KeyInputASCIIField;
+
+            cursor2.TextInput += ASCIIField_TextInput;
+            cursor.TextInput += HexBox_TextInput;
+
+            scoview.ScrollChanged += scoview_ScrollChanged;
+            fileSlider.ValueChanged += MyManipulationCompleteEvent;
+
             if (fileName != "" && fileName != " " && File.Exists(fileName))
             {
                 FileName.Text = fileName;
@@ -1603,6 +1623,32 @@ namespace HexBox
         public void closeFile(Boolean clear) // closes file
         {
             _dyfipro.Dispose();
+            
+
+
+            canvas1.MouseLeftButtonDown -= ht_MouseDown;
+            canvas1.MouseLeftButtonUp -= ht_MouseUp;
+            canvas1.MouseMove -= ht_MouseMove;
+            canvas2.MouseLeftButtonDown -= st_MouseDown;
+            canvas2.MouseMove -= st_MouseMove;
+            canvas2.MouseLeftButtonUp -= st_MouseUp;
+
+
+            canvas1.MouseLeftButtonDown -= canvas1_MouseDown;
+            canvas2.MouseLeftButtonDown -= canvas2_MouseDown;
+
+            cursor.PreviewKeyDown -= KeyInputHexField;
+            cursor2.PreviewKeyDown -= KeyInputASCIIField;
+
+            cursor2.TextInput -= ASCIIField_TextInput;
+            cursor.TextInput -= HexBox_TextInput;
+
+            scoview.ScrollChanged -= scoview_ScrollChanged;
+            fileSlider.ValueChanged -= MyManipulationCompleteEvent;
+
+            this.Loaded -= new RoutedEventHandler(HexBox_Loaded);
+            
+                
         }
 
         public Boolean saveData(Boolean ask, Boolean saveas) // saves changed data to file
@@ -2230,7 +2276,7 @@ namespace HexBox
 
             FileName.Text = "";
 
-            closeFile(true);
+            closeFile(false);
             Stream s = new MemoryStream();
             _dyfipro = new DynamicFileByteProvider(s);
             _dyfipro.LengthChanged += dyfipro_LengthChanged;
