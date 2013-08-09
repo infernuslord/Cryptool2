@@ -296,8 +296,9 @@ namespace WorkspaceManager
             if(WorkspaceSpaceEditorView.SelectedItems != null)
             {
                 var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
-                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList();
-                elementsToCopy.Concat(CopyOperation.SelectConnections(list));
+                var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList<VisualElementModel>();
+                elementsToCopy = elementsToCopy.Concat(CopyOperation.SelectConnections(list)).ToList<VisualElementModel>();
+                elementsToCopy = elementsToCopy.Concat(list).ToList<VisualElementModel>();
             }
             if (WorkspaceSpaceEditorView.SelectedText != null)
                 elementsToCopy.Add(WorkspaceSpaceEditorView.SelectedText.Model);
