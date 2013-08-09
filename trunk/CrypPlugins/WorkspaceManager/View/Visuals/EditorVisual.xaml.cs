@@ -1371,26 +1371,33 @@ namespace WorkspaceManager.View.Visuals
                 if (SelectedItems != null)
                 {
                     var delta = e.PosDelta;
-                    foreach (var element in SelectedItems.OfType<ComponentVisual>().OrderBy(x => x.Position.X ).ThenBy(y => y.Position.Y))
+                    var outerLeftElement = SelectedItems.OfType<ComponentVisual>().OrderBy(x => x.Position.X).ToArray()[0];
+                    var outerTopElement = SelectedItems.OfType<ComponentVisual>().OrderBy(x => x.Position.Y).ToArray()[0];
+
+                    var mostOuterPoint = new Point(outerLeftElement.Position.X, outerTopElement.Position.Y);
+                    var transformedPoint = mostOuterPoint + delta;
+                    var maxDeltaX = mostOuterPoint.X;
+                    var maxDeltaY = mostOuterPoint.Y;
+
+                    foreach (var element in SelectedItems.OfType<ComponentVisual>())
                     {
-                        var bin = (ComponentVisual)element;
-                        var val = bin.Position + delta;
+                        Point binPoint = new Point(0, 0);
 
-                        delta = val.X < 0 ? new Vector(0, delta.Y) : delta;
-                        delta = val.Y < 0 ? new Vector(delta.X, 0) : delta;
-                        val = bin.Position + delta;
+                        binPoint.X = transformedPoint.X >= 0 ? element.Position.X + delta.X : element.Position.X - maxDeltaX;
+                        binPoint.Y = transformedPoint.Y >= 0 ? element.Position.Y + delta.Y : element.Position.Y - maxDeltaY;
 
-                        list.Add(new MoveModelElementOperation(bin.Model, val));
+                        list.Add(new MoveModelElementOperation(element.Model, binPoint));
                     }
                     this.Model.ModifyModel(new MultiOperation(list));
                 }
-                return;
             }
-
-            senderPos.X = senderPos.X < 0 ? 0 : senderPos.X;
-            senderPos.Y = senderPos.Y < 0 ? 0 : senderPos.Y;
-            list.Add(new MoveModelElementOperation(e.Model, senderPos));
-            this.Model.ModifyModel(new MultiOperation(list));
+            else 
+            {
+                senderPos.X = senderPos.X < 0 ? 0 : senderPos.X;
+                senderPos.Y = senderPos.Y < 0 ? 0 : senderPos.Y;
+                list.Add(new MoveModelElementOperation(e.Model, senderPos));
+                this.Model.ModifyModel(new MultiOperation(list));
+            }
         }
 
         private void ExecuteEvent(object sender, EventArgs e)
@@ -1456,11 +1463,11 @@ namespace WorkspaceManager.View.Visuals
 
         private static void OnIsLinkingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            EditorVisual b = (EditorVisual)d;
-            if (b.IsLinking)
-            {
+            //EditorVisual b = (EditorVisual)d;
+            //if (b.IsLinking)
+            //{
 
-            }
+            //}
         }
 
         private static void OnZoomLevelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -322,12 +322,9 @@ namespace WorkspaceManager
             if (!WorkspaceSpaceEditorView.IsFullscreenOpen)
             {
                 doCopy();
-                //PartialCopyHelper.Copy(list, this.WorkspaceModel);
             }
         }
         
-        
-
         public IList<PluginModel> CurrentCopies = new List<PluginModel>();
         public void Paste()
         {
