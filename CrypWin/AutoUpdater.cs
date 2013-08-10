@@ -127,6 +127,8 @@ namespace Cryptool.CrypWin
         {
             switch (AssemblyHelper.BuildType)
             {
+                case Ct2BuildType.Developer:
+                    return "developer";
                 case Ct2BuildType.Nightly:
                     return "nightly";
                 case Ct2BuildType.Beta:
@@ -173,26 +175,26 @@ namespace Cryptool.CrypWin
                 switch (newStatus)
                 {
                     case State.Idle:
-                        presentation.button1.Visibility = Visibility.Visible;
-                        presentation.button1.IsEnabled = true;
-                        presentation.button1.Content = Properties.Resources.Check_for_updates_now;
+                        presentation.updateButton.Visibility = Visibility.Visible;
+                        presentation.updateButton.IsEnabled = true;
+                        presentation.updateButton.Content = Properties.Resources.Check_for_updates_now;
                         presentation.label1.Content = serverAvailable ?
                             Properties.Resources.You_have_currently_the_latest_version_installed_ :
                             string.Format(Properties.Resources.Checking_failed__cannot_contact_server__0, serverNotAvailableMessage);
                         presentation.smallRightImage.Visibility = Visibility.Collapsed;
                         break;
                     case State.Checking:
-                        presentation.button1.Visibility = Visibility.Collapsed;
-                        presentation.button1.IsEnabled = false;
+                        presentation.updateButton.Visibility = Visibility.Collapsed;
+                        presentation.updateButton.IsEnabled = false;
                         presentation.label1.Content = Properties.Resources.Checking_for_updates___;
                         break;
                     case State.UpdateAvailable:
-                        presentation.button1.IsEnabled = true;
-                        presentation.button1.Content = Properties.Resources.Download_update_now;
+                        presentation.updateButton.IsEnabled = true;
+                        presentation.updateButton.Content = Properties.Resources.Download_update_now;
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Update_available_ :
                             string.Format(Properties.Resources.Update_available___0, updateName);
-                        presentation.button1.Visibility = Visibility.Visible;
+                        presentation.updateButton.Visibility = Visibility.Visible;
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
                         presentation.smallRightImage.Source = (ImageSource)presentation.FindResource("Update");
                         presentation.smallRightImage.Visibility = Visibility.Visible;
@@ -200,8 +202,8 @@ namespace Cryptool.CrypWin
                         FillRSS(presentation);
                         break;
                     case State.Downloading:
-                        presentation.button1.IsEnabled = false;
-                        presentation.button1.Visibility = Visibility.Collapsed;
+                        presentation.updateButton.IsEnabled = false;
+                        presentation.updateButton.Visibility = Visibility.Collapsed;
                         presentation.progressBar1.Visibility = Visibility.Visible;
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Downloading_update___ :
@@ -212,9 +214,9 @@ namespace Cryptool.CrypWin
                         FillRSS(presentation);
                         break;
                     case State.UpdateReady:
-                        presentation.button1.IsEnabled = true;
-                        presentation.button1.Content = Properties.Resources.Restart_and_install_now;
-                        presentation.button1.Visibility = Visibility.Visible;
+                        presentation.updateButton.IsEnabled = true;
+                        presentation.updateButton.Content = Properties.Resources.Restart_and_install_now;
+                        presentation.updateButton.Visibility = Visibility.Visible;
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Update_ready_to_install_ :
@@ -234,13 +236,29 @@ namespace Cryptool.CrypWin
 
         private void FillRSS(UpdaterPresentation presentation)
         {
-            if (changelog != null && AssemblyHelper.BuildType == Ct2BuildType.Nightly)
+            switch (AssemblyHelper.BuildType)
             {
-                presentation.ReadAndFillRSSChangelog(changelog);
-            }
-            else if (changelogText != null && (AssemblyHelper.BuildType == Ct2BuildType.Beta) || (AssemblyHelper.BuildType == Ct2BuildType.Stable))
-            {
-                presentation.FillChangelogText(changelogText);
+                // for Developer and Nightly fill the presentation with the SVN-changelog
+                case Ct2BuildType.Developer:
+                case Ct2BuildType.Nightly:
+                    if (changelog != null)
+                    {
+                        presentation.ReadAndFillRSSChangelog(changelog);
+                    }
+                    break;
+
+                // for Beta and Stable use dedicated text in presentation
+                case Ct2BuildType.Beta:
+                case Ct2BuildType.Stable:
+                    if (changelogText != null)
+                    {
+                        presentation.FillChangelogText(changelogText);
+                    }
+                    break;
+                
+                default:
+                // Unknown build type - do nothing.
+                    break;
             }
         }
 
@@ -296,6 +314,9 @@ namespace Cryptool.CrypWin
             try
             {
                 CurrentState = State.Checking;
+
+                GuiLogMessage("AutoUpdate: Checking online for new updates ...", NotificationLevel.Info);
+
                 ReadXml(reference); // sets onlineUpdateVersion
 
                 Version downloadedVersion = ReadDownloadedUpdateVersion();
@@ -317,6 +338,8 @@ namespace Cryptool.CrypWin
                         File.Delete(FilePath);
 
                     CurrentState = State.UpdateAvailable;
+                    GuiLogMessage("AutoUpdate: New version found online: " + updateName, NotificationLevel.Info);
+                    GuiLogMessage("A new version of CrypTool 2.0 is available: " + updateName, NotificationLevel.Balloon);
                 }
                 else if (IsUpdateReady) // downloaded update ready
                 {
@@ -326,6 +349,7 @@ namespace Cryptool.CrypWin
                         {
                             changelog = changelogTemplate.Replace("§", downloadedVersion.Build.ToString());
                             updateName = downloadedVersion.ToString();
+                            GuiLogMessage("AutoUpdate: Found already downloaded update ready to install: " + updateName, NotificationLevel.Info);
                         }
                         else
                             // may happen with ZIP update, but is unusual -- ZIP updates are mostly installed at startup or redownloaded again
@@ -335,16 +359,18 @@ namespace Cryptool.CrypWin
                         }
 
                         CurrentState = State.UpdateReady;
+                        
                     }
                 }
                 else
                 {
+                    GuiLogMessage("AutoUpdate: No updates found - you are on the most current version.", NotificationLevel.Info);
                     CurrentState = State.Idle;
                 }
             }
             catch (Exception ex)
             {
-                GuiLogMessage("AutoUpdate: Error occured while checking: "+ex.Message, NotificationLevel.Error);
+                GuiLogMessage("AutoUpdate: Error occured while checking for updates: "+ex.Message, NotificationLevel.Error);
             }
         }
 
@@ -383,23 +409,38 @@ namespace Cryptool.CrypWin
 
                 onlineUpdateVersions = xml.Element("x86");
 
-                Version.TryParse(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("version").Value, out onlineUpdateVersion);
-                
+                // In the future we could provid a dummy entry in the online xml for the developer version
+                if (AssemblyHelper.InstallationType == Ct2InstallationType.Developer)
+                {
+                    // The developer version has currently no entry in the online xml, hence don't check for anything, but terminate gracefully
+                    GuiLogMessage("AutoUpdate: In order to update the developer edition, you must update the sources from our SVN repository!", NotificationLevel.Debug);
+
+                    // In the developer the online version is set to a minimal version number, such that the updater never dowloads a new version.
+                    // Set this to a version higher than the developer version, in order to simulate/test the dowload of new version with the developer edition.
+                    onlineUpdateVersion = new Version(1,0,0,0);
+                }
+                else
+                {
+                    Version.TryParse(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("version").Value, out onlineUpdateVersion);
+                }
+
                 if (!serverAvailable)
                 {
                     serverAvailable = true;
                     serverNotAvailableMessage = null;
                     GuiLogMessage("AutoUpdate: Checking for updates successful, connection to server available.", NotificationLevel.Debug);
                 }
+                
             }
             catch (Exception ex)
             {
                 if (serverAvailable)
                 {
-                    serverAvailable = false;
-                    serverNotAvailableMessage = ex.Message;
-                    GuiLogMessage("AutoUpdate: Cannot check for updates, no connection to server.", NotificationLevel.Warning);
+                    serverAvailable = false;   
                 }
+
+                serverNotAvailableMessage = ex.Message;
+                GuiLogMessage("AutoUpdate: Cannot check for updates:" + ex.Message, NotificationLevel.Warning);
             }
         }
 
@@ -439,7 +480,12 @@ namespace Cryptool.CrypWin
                     case Ct2InstallationType.ZIP:
                         downloadUri = new Uri(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("zipdownload").Value);
                         break;
+                    case Ct2InstallationType.Developer:
+                        GuiLogMessage("AutoUpdate: For the developer version online updates are not supported.", NotificationLevel.Info);
+                        CurrentState = State.Idle;
+                        return;
                     default:
+                        GuiLogMessage("AutoUpdate: Unknown installation type ("+AssemblyHelper.InstallationType.ToString()+"). Cannot download appropiate update package.", NotificationLevel.Error);
                         return;
                 }
 
