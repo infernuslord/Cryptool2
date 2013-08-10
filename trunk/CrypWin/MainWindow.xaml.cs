@@ -252,7 +252,7 @@ namespace Cryptool.CrypWin
         private bool IsUpdaterEnabled
         {
             get { return AssemblyHelper.BuildType != Ct2BuildType.Developer && !IsCommandParameterGiven("-noupdate"); }
-            // just for testing
+            // for testing the autoupdater with the developer edition comment the above line and uncomment the following
             //get { return true; }
         }
 
@@ -537,14 +537,17 @@ namespace Cryptool.CrypWin
             //Install validation callback
             try
             {
-                serverTlsCertificate1 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
-                serverTlsCertificate2 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.old_www_cryptool_org);
+                // 18.12.12, AW: Not needed anymore.
+                //serverTlsCertificate1 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.www_cryptool_org);
+                //serverTlsCertificate2 = new System.Security.Cryptography.X509Certificates.X509Certificate(global::Cryptool.CrypWin.Properties.Resources.old_www_cryptool_org);
 
                 ServicePointManager.ServerCertificateValidationCallback = UpdateServerCertificateValidationCallback;
+      
             }
             catch (Exception ex)
             {
-                GuiLogMessage(string.Format("Error occured while loading certificates: {0}", ex), NotificationLevel.Error);
+                //GuiLogMessage(string.Format("Error occured while loading certificates: {0}", ex), NotificationLevel.Error);
+                GuiLogMessage(string.Format("Error while initializing the certificate callback: {0}", ex), NotificationLevel.Error);
             }
         }
 
@@ -682,41 +685,49 @@ namespace Cryptool.CrypWin
         {
             if (certificate == null)
             {
-                GuiLogMessage("CrypWin: Could not validate certificate, as it is null", NotificationLevel.Error);
+                GuiLogMessage("CrypWin: Could not validate certificate, as it is null! Aborting connection.", NotificationLevel.Error);
                 return false;
             }
 
             if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNotAvailable)
             {
-                GuiLogMessage("CrypWin: Could not validate TLS certificate, as the server did not provide one", NotificationLevel.Error);
+                GuiLogMessage("CrypWin: Could not validate TLS certificate, as the server did not provide one! Aborting connection.", NotificationLevel.Error);
                 return false;
             }
 
 
             if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateNameMismatch)
             {
-                GuiLogMessage("CrypWin: Certificate name mismatch (certificate not for www.cryptool.org?)", NotificationLevel.Error);
+                GuiLogMessage("CrypWin: Certificate name mismatch (certificate not for www.cryptool.org?). Aborting connection.", NotificationLevel.Error);
                 return false;
             }
 
-            //Catch any other SSLPoliy errors
-            //if (sslPolicyErrors != SslPolicyErrors.None)
-            //{
-            //    GuiLogMessage("AutoUpdate: SSL/TLS error: " + sslPolicyErrors.ToString(), NotificationLevel.Error);
-            //    return false;
-            //}
+            if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
+            {
+                GuiLogMessage("CrypWin: Certificat-chain could not be validated (using self-signed certificate?)! Aborting connection.", NotificationLevel.Error);
+                return false;
+            }
 
+            // Catch any other SSLPoliy errors - should never happen, as all oerror are captured before, but to be on the safe side.
+            if (sslPolicyErrors != SslPolicyErrors.None)
+            {
+                GuiLogMessage("CrypWin: General SSL/TLS policy error: " + sslPolicyErrors.ToString() + " Aborting connection.", NotificationLevel.Error);
+                return false;
+            }
+
+            // 18.12.2012, AW: Decided to skip the following check. It is not required, as we use official certifcates with valid chains, hence wrong 
+            // certificates should be detected with the checks above.
 
             // Why do we check this?
             // Check equality of remote and local certificate
             // check for current and new certificate, in case server-certificate is changed
-            if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
-            {
-                GuiLogMessage("CrypWin: Received TLS certificate is not a valid certificate: Equality check failed", NotificationLevel.Error);
-                return false;
-            }
+            //if (!(certificate.Equals(this.serverTlsCertificate1) | certificate.Equals(this.serverTlsCertificate2)))
+            //{
+            //    GuiLogMessage("CrypWin: Received TLS certificate is not the expected certificate: Equality check failed!", NotificationLevel.Error);
+            //    return false;
+            //}
 
-            //GuiLogMessage("CrypWin: SSL fine for " + ((HttpWebRequest)sender).Address.ToString() + ", got valid certificate ("+certificate.Subject+").", NotificationLevel.Info);
+            GuiLogMessage("CrypWin: The webserver serving the URL " + ((HttpWebRequest)sender).Address.ToString() + " provided a valid SSL/TLS certificate (" + certificate.Subject + "). We trust it.", NotificationLevel.Debug);
             return true;
         }
 

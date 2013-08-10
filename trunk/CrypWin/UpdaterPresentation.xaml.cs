@@ -36,16 +36,28 @@ namespace Cryptool.CrypWin
         {
             InitializeComponent();
             Tag = FindResource("NoUpdate");
-            
-            if (AssemblyHelper.BuildType == Ct2BuildType.Nightly)
+
+            switch (AssemblyHelper.BuildType)
             {
-                ChangelogTextViewer.Visibility = Visibility.Collapsed;
-                ChangelogList.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ChangelogTextViewer.Visibility = Visibility.Visible;
-                ChangelogList.Visibility = Visibility.Collapsed;
+                // For the developer and the nightly show the SVN-changelog (RSS-feed)
+                case Ct2BuildType.Developer:
+                case Ct2BuildType.Nightly:
+                    ChangelogTextViewer.Visibility = Visibility.Collapsed;
+                    ChangelogList.Visibility = Visibility.Visible;
+                    break;
+
+                // For Beta and stable show the specific written text as changelog
+                case Ct2BuildType.Beta:
+                case Ct2BuildType.Stable:
+                    ChangelogTextViewer.Visibility = Visibility.Visible;
+                    ChangelogList.Visibility = Visibility.Collapsed;
+                    break;
+
+                    // This should never happen, just to be on the safe side collapse/hide both controls
+                default:
+                    ChangelogTextViewer.Visibility = Visibility.Collapsed;
+                    ChangelogList.Visibility = Visibility.Collapsed;
+                    break;
             }
         }
 
@@ -56,7 +68,7 @@ namespace Cryptool.CrypWin
             return singleton;
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void updateButton_Click(object sender, RoutedEventArgs e)
         {
             switch (AutoUpdater.GetSingleton().CurrentState)
             {
