@@ -77,6 +77,7 @@
     </comboBox>
 
 	 <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch"  visibleLines="1" regex="([0-9a-fA-F]{2}[\s-]*){16,}">
+      <storage key="key" showLoadAddButtons="true" />
       <description lang="en">Key (hex values):</description>
       <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
       <defaultvalue>FD E8 F7 A9 B8 6C 3B FF 07 C0 D3 9D 04 60 5E DD</defaultvalue>
@@ -171,6 +172,7 @@
     </comboBox>
 
 	 <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch"  visibleLines="1" regex="([0-9a-fA-F]{2}[\s-]*){8}">
+      <storage key="key" showLoadAddButtons="true" />
       <description lang="en">Key (hex values):</description>
       <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
       <defaultvalue>A1 B1 C1 11 11 11 11 11</defaultvalue>
@@ -367,6 +369,7 @@
     </comboBox>
 
 	 <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch"  visibleLines="1" regex="([0-9a-fA-F]{2}[\s-]*){16,}">
+      <storage key="key" showLoadAddButtons="true" />
       <description lang="en">Key (hex values):</description>
       <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
 		<defaultvalue>0F 1E 2D 3C 4B 5A 69 78 87 96 A5 B4 C3 D2 E1 F0</defaultvalue>
@@ -469,6 +472,7 @@
     </comboBox>
 
 	 <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch" visibleLines="1" regex="([0-9a-fA-F]{2}[\s-]*){16}">
+      <storage key="key" showLoadAddButtons="true" />
       <description lang="en">Key (hex values):</description>
       <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
       <defaultvalue>00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F</defaultvalue>
@@ -578,6 +582,7 @@
     </comboBox>
 
 	 <inputBox plugin="Key (Hex values)" property="Text" alignment="Stretch"  visibleLines="1" regex="([0-9a-fA-F]{2}[\s-]*){16,}">
+      <storage key="key" showLoadAddButtons="true" />
       <description lang="en">Key (hex values):</description>
       <description lang="de">Schlüssel (in hexadezimaler Notation):</description>
 		<defaultvalue>0F 1E 2D 3C 4B 5A 69 78 87 96 A5 B4 C3 D2 E1 F0</defaultvalue>
