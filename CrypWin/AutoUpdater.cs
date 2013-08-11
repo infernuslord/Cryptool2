@@ -79,6 +79,7 @@ namespace Cryptool.CrypWin
                         return Path.Combine(TempPath, "CT2Update.msi");
                     case Ct2InstallationType.NSIS:
                         return Path.Combine(TempPath, "CT2Update.exe");
+                    //case Ct2InstallationType.Developer: // uncomment this for letting the updater succeed with the developer version - NOTE: after a successfull (test) update, you must clean your build directory!
                     case Ct2InstallationType.ZIP:
                         return Path.Combine(TempPath, "CT2Update.zip");
                     default:
@@ -116,9 +117,10 @@ namespace Cryptool.CrypWin
         }
 
         private AutoUpdater()
-        {           
-            changelogTemplate = changelogTemplate.Replace("$", (currentlyRunningVersion.Build + 1).ToString()); // show only changes newer than current version
-
+        {
+            // show only changes newer than the current version
+            changelogTemplate = changelogTemplate.Replace("$", (currentlyRunningVersion.Build + 1).ToString()); 
+            
             // listen for system suspend/resume
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         }
@@ -128,7 +130,8 @@ namespace Cryptool.CrypWin
             switch (AssemblyHelper.BuildType)
             {
                 case Ct2BuildType.Developer:
-                    return "developer";
+                    // for testing/simulating autoupdater with the developer edition use nightly, beta or stable here
+                    return "nightly";
                 case Ct2BuildType.Nightly:
                     return "nightly";
                 case Ct2BuildType.Beta:
@@ -321,6 +324,16 @@ namespace Cryptool.CrypWin
 
                 Version downloadedVersion = ReadDownloadedUpdateVersion();
 
+                // if this is the developer version, prepare the rss-changelog with the last 10 entries:
+                if (AssemblyHelper.BuildType == Ct2BuildType.Developer)
+                {
+                    // replace the detected fileversion with a version, which is 10 builds older than the online version in the template for retrieving the rss
+                    changelogTemplate = changelogTemplate.Replace((currentlyRunningVersion.Build + 1).ToString(), (onlineUpdateVersion.Build - 10).ToString());
+                    //artificially make this version older than the online update, hence an update is always detected
+                    currentlyRunningVersion = new Version(2,0,onlineUpdateVersion.Build - 10); 
+                }
+
+
                 if (IsOnlineUpdateAvailable(downloadedVersion))
                 {
                     changelog = changelogTemplate.Replace("§", onlineUpdateVersion.Build.ToString());
@@ -337,7 +350,7 @@ namespace Cryptool.CrypWin
                     if (File.Exists(FilePath))
                         File.Delete(FilePath);
 
-                    CurrentState = State.UpdateAvailable;
+                    CurrentState = State.UpdateAvailable; // this also starts the download
                     GuiLogMessage("AutoUpdate: New version found online: " + updateName, NotificationLevel.Info);
                     GuiLogMessage("A new version of CrypTool 2.0 is available: " + updateName, NotificationLevel.Balloon);
                 }
@@ -409,20 +422,8 @@ namespace Cryptool.CrypWin
 
                 onlineUpdateVersions = xml.Element("x86");
 
-                // In the future we could provid a dummy entry in the online xml for the developer version
-                if (AssemblyHelper.InstallationType == Ct2InstallationType.Developer)
-                {
-                    // The developer version has currently no entry in the online xml, hence don't check for anything, but terminate gracefully
-                    GuiLogMessage("AutoUpdate: In order to update the developer edition, you must update the sources from our SVN repository!", NotificationLevel.Debug);
-
-                    // In the developer the online version is set to a minimal version number, such that the updater never dowloads a new version.
-                    // Set this to a version higher than the developer version, in order to simulate/test the dowload of new version with the developer edition.
-                    onlineUpdateVersion = new Version(1,0,0,0);
-                }
-                else
-                {
-                    Version.TryParse(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("version").Value, out onlineUpdateVersion);
-                }
+                // Retrieve the current version from the server (for nightly, beta and stable)
+                Version.TryParse(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("version").Value, out onlineUpdateVersion);
 
                 if (!serverAvailable)
                 {
@@ -481,7 +482,12 @@ namespace Cryptool.CrypWin
                         downloadUri = new Uri(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("zipdownload").Value);
                         break;
                     case Ct2InstallationType.Developer:
-                        GuiLogMessage("AutoUpdate: For the developer version online updates are not supported.", NotificationLevel.Info);
+                        // For testing dowloads uncomment the next three codelines and comment the 3 codelins afterwards
+                        //GuiLogMessage("AutoUpdate: Downloading the ZIP package for testing purpose (this is the developer edition..)", NotificationLevel.Info);
+                        //downloadUri = new Uri(onlineUpdateVersions.Element(GetBuildTypeXmlString()).Attribute("zipdownload").Value);
+                        //break;
+
+                        GuiLogMessage("AutoUpdate: Not downloading anything for the developer version. For testing the download comment this in AutoUpdates.cs!", NotificationLevel.Info);
                         CurrentState = State.Idle;
                         return;
                     default:

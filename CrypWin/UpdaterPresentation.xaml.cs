@@ -142,7 +142,7 @@ namespace Cryptool.CrypWin
             var items = from x in XDocument.Load(rssFeedURL).Descendants("channel").Descendants("item")
                         select new RssItem()
                         {
-                            Title = x.Descendants("title").Single().Value,
+                            Title = x.Descendants("title").Single().Value.Split(new char[] {':'},2)[0].Replace("Revision ",""),
                             Message = x.Descendants("description").Single().Value.Replace("[", "(").Replace("]", ")")
                                                                                  .Replace('<', '[').Replace('>', ']'),
                             PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
