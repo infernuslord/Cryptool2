@@ -253,7 +253,7 @@ namespace Cryptool.CrypWin
         {
             get { return AssemblyHelper.BuildType != Ct2BuildType.Developer && !IsCommandParameterGiven("-noupdate"); }
             // for testing the autoupdater with the developer edition comment the above line and uncomment the following
-            //get { return true; }
+            //get { return !IsCommandParameterGiven("-noupdate"); }
         }
 
         #region Init
@@ -704,7 +704,7 @@ namespace Cryptool.CrypWin
 
             if (sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
             {
-                GuiLogMessage("CrypWin: Certificat-chain could not be validated (using self-signed certificate?)! Aborting connection.", NotificationLevel.Error);
+                GuiLogMessage("CrypWin: Certificate-chain could not be validated (using self-signed certificate?)! Aborting connection.", NotificationLevel.Error);
                 return false;
             }
 
@@ -727,7 +727,11 @@ namespace Cryptool.CrypWin
             //    return false;
             //}
 
-            GuiLogMessage("CrypWin: The webserver serving the URL " + ((HttpWebRequest)sender).Address.ToString() + " provided a valid SSL/TLS certificate (" + certificate.Subject + "). We trust it.", NotificationLevel.Debug);
+            GuiLogMessage("CrypWin: The webserver serving the URL " + ((HttpWebRequest)sender).Address.ToString() + " provided a valid SSL/TLS certificate. We trust it." + Environment.NewLine + 
+                "Certificate:  " + certificate.Subject + Environment.NewLine +
+                "Issuer: " + certificate.Issuer, 
+                NotificationLevel.Debug);
+            
             return true;
         }
 
