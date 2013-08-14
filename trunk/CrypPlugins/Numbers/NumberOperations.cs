@@ -159,10 +159,13 @@ namespace Cryptool.Plugins.Numbers
         /// </summary>
         public void Execute()
         {
+            BigInteger result = 0;
+
             //First checks if both inputs are set
             if (input1 != null && input2 != null)
             {
                 ProgressChanged(0.5, 1.0);
+
                 try
                 {
                     //As the user changes the operation different outputs are calculated.
@@ -170,73 +173,64 @@ namespace Cryptool.Plugins.Numbers
                     {
                         // x + y
                         case 0:
-                            if (Mod != 0)
-                                Output = (Input1 + Input2) % Mod;
-                            else
-                                Output = Input1 + Input2;
+                            result = Input1 + Input2;
                             break;
                         // x - y
                         case 1:
-                            if (Mod != 0)
-                                Output = (Input1 - Input2) % Mod;
-                            else
-                                Output = Input1 - Input2;
+                            result = Input1 - Input2;
                             break;
                         //x * y
                         case 2:
-                            if (Mod != 0)
-                                Output = (Input1 * Input2) % Mod;
-                            else
-                                Output = Input1 * Input2;
+                            result = Input1 * Input2;
                             break;
                         // x / y
                         case 3:
-                            if (Mod != 0)
-                                Output = (Input1 / Input2) % Mod;
-                            else
-                                Output = Input1 / Input2;
+                            result = Input1 / Input2;
                             break;
                         // x ^ y
                         case 4:
                             if (Mod != 0)
                             {
                                 if (Input2 >= 0)
-                                    Output = BigInteger.ModPow(Input1, Input2, Mod);
+                                    result = BigInteger.ModPow(Input1, Input2, Mod);
                                 else
-                                    Output = BigInteger.ModPow(BigIntegerHelper.ModInverse(Input1, Mod), -Input2, Mod);
+                                    result = BigInteger.ModPow(BigIntegerHelper.ModInverse(Input1, Mod), -Input2, Mod);
                             }
                             else
                             {
-                                Output = BigInteger.Pow(Input1, (int)Input2);
+                                result = BigInteger.Pow(Input1, (int)Input2);
                             }
                             break;
                         // gcd(x,y)
                         case 5:
-                            Output = Input1.GCD(Input2);
+                            result = Input1.GCD(Input2);
                             break;
                         // lcm(x,y)
                         case 6:
-                            Output = Input1.LCM(Input2);
+                            result = Input1.LCM(Input2);
                             break;
                         // sqrt(x,y)
                         case 7:
-                            Output = Input1.Sqrt();
+                            result = Input1.Sqrt();
                             break;
                         // modinv(x,y)
                         case 8:
-                            Output = BigIntegerHelper.ModInverse(Input1, Input2);
+                            result = BigIntegerHelper.ModInverse(Input1, Input2);
                             break;
                         // phi(x)
                         case 9:
-                            Output = Input1.Phi();
+                            result = Input1.Phi();
                             break;
                     }
+
+                    Output = (Mod == 0) ? result : (((result % Mod) + Mod) % Mod); 
                 }
                 catch (Exception e)
                 {
                     GuiLogMessage("Big Number fail: " + e.Message, NotificationLevel.Error);
                     return;
                 }
+
                 ProgressChanged(1.0, 1.0);
             }
         }

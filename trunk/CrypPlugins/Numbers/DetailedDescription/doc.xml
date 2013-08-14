@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  
+
   <language culture="en" />
-  
+
   <introduction lang="en">
     Using the component <b>NumberInput</b> the user may enter numbers of arbitrary length. To calculate with these numbers use the <b>NumberOperations</b> component.
   </introduction>
-  
+
   <usage lang="en">
     The <b>NumberInput</b> component can be used to enter numbers in decimal form (for example 1746) or in hexadecimal form
     (for example #0A10FF or h0A10FF or x0A10FF &#8211; with prefix '#', 'x' or 'h'). The user may also
@@ -21,33 +21,35 @@
     be used for calculating. The third input accepts a third number which will be used to calculate the modulo of the
     outcome of the arithmetic operation. The output provides the final result of the 2-operator-operation and of the modulo operation.
   </usage>
+  
   <presentation lang="en">
     The <b>NumberInput</b> component provides a text field in its presentation which can be used to enter numbers either in number form
     or described by arithmetic expressions.<newline /><newline />
     The <b>NumberOperations</b> component has no special presentation but shows the actual operation using a special icon for each operation type.
   </presentation>
-  
+
   <language culture="de-DE" />
-  
+
   <introduction lang="de-DE">
     Mit der Komponente <b>Zahleneingabe</b> können ganze Zahlen beliebiger Größe eingegeben werden. Um mit diesen rechnen zu können, steht die Komponente <b>Rechenoperationen</b> zur Verfügung.
   </introduction>
-  
+
   <usage lang="de-DE">
-    Die Zahleneingabe kann genutzt werden, um ganze Zahlen entweder in dezimaler Form (z.B. 1746) oder hexadezimaler Form (z.B. #0A10FF oder h0A10FF oder x0A10FF &#8211; mit vorgestelltem '#', 'x' oder 'h') 
+    Die Zahleneingabe kann genutzt werden, um ganze Zahlen entweder in dezimaler Form (z.B. 1746) oder hexadezimaler Form (z.B. #0A10FF oder h0A10FF oder x0A10FF &#8211; mit vorgestelltem '#', 'x' oder 'h')
     einzugeben oder diese als arithmetische Ausdrücke zu beschreiben (z.B. 127 + 56 * 2^100). Bei der Eingabe als arithmetischer Ausdruck wird dieser durch Anwendung der mathematischen Gesetze (Assoziativ-, Kommutativ-, und Distributivgesetz)
-    in eine ganze Zahl ausgewertet.<newline /><newline /> 
-    Die Rechenoperationen unterstützen die Addition, die Subtraktion, die Multiplikation, die Division, das Potenzieren und die Berechnung des kleinsten gemeinsamen Teilers zweier Zahlen. <newline /><newline /> 
+    in eine ganze Zahl ausgewertet.<newline /><newline />
+    Die Rechenoperationen unterstützen die Addition, die Subtraktion, die Multiplikation, die Division, das Potenzieren und die Berechnung des kleinsten gemeinsamen Teilers zweier Zahlen. <newline /><newline />
     Die Zahleneingabe wird einfach auf die Arbeitsfläche gezogen. Sie verfügt über keine Einstellmöglichkeiten. Die Zahlen können über ihre Präsentation eingegeben werden. Ein einziger Ausgang leitet die eingegebene Zahl innerhalb des Arbeitsbereiches
     weiter.<newline /><newline />
     Die Rechenoperation verfügt über eine Einstellung, in der ihre auszuführende Operation eingestellt werden kann. Sie besitzt drei Eingänge und einen Ausgang. Die zwei ersten Eingänge nehmen die Operanden für die
     eingestellte Operation entgegen. Mittels des dritten Eingangs kann eine weitere Zahl angegeben werden, die modulo des Ergebnisses der Operation gerechnet werden soll. Der einzige Ausgang leitet das Endergebnis innerhalb des Arbeitsplatzes weiter.
   </usage>
+  
   <presentation lang="de-DE">
     Die Zahleneingabe verfügt über ein Textfeld innerhalb ihrer Präsentation, in der Zahlen entweder als Ziffern oder als arithmetische Ausdrücke eingegeben werden können.<newline /><newline />
     Die Rechenoperationen verfügen über keine spezielle Präsentation, zeigen ihre aktuell eingestellte Operation allerdings mittels eines zur Operation passenden Icons.
   </presentation>
-  
+
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Arithmetic" lang="en" />
@@ -56,5 +58,5 @@
       <caption lang="de-DE">Arithmetik in der deutschen Wikipedia</caption>
     </linkReference>
   </references>
-  
+
 </documentation>
