@@ -31,7 +31,7 @@ namespace RandomInput
     private int keepRND = 0; //0 = each stream / array will be filled with fresh random NumNumbers
     private int _numNumbers = 1;
 
-    [TaskPane( "BytesCaption", "BytesTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
+    [TaskPane("BytesCaption", "BytesTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, RandomInput.maxByteArraySize)]
     public int Bytes
     {
       get { return this.bytes; }
@@ -42,7 +42,7 @@ namespace RandomInput
       }
     }
 
-    [TaskPane("NumNumbersCaption", "NumNumbersTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
+    [TaskPane("NumNumbersCaption", "NumNumbersTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, RandomInput.maxNumListSize)]
     public int NumNumbers
     {
         get { return this._numNumbers; }

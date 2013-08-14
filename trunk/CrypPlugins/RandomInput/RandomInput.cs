@@ -40,8 +40,14 @@ namespace RandomInput
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class RandomInput : ContextBoundObject, ICrypComponent
   {
-    private int maxByteArraySize = 10496000;
+    public const int maxByteArraySize = 10000000;
+    public const int maxNumListSize = 1000000;
+
     private byte[] rndArray;
+    private int[] rndNumberArray;
+    private byte[] rndBool = new byte[1];
+    private byte[] rndNumber = new byte[4];
+
     private RandomInputSettings settings;
     private RNGCryptoServiceProvider sRandom = new RNGCryptoServiceProvider();
 
@@ -53,7 +59,7 @@ namespace RandomInput
 
     public RandomInput()
     {
-      this.settings = new RandomInputSettings();
+        this.settings = new RandomInputSettings();
     }
 
     private void getRand()
@@ -63,6 +69,7 @@ namespace RandomInput
         if (settings.KeepRND == 0 || rndArray == null || (UInt64)rndArray.Length != settings.NumBytes)
         {
           Progress(50, 100);
+
           rndArray = new byte[Math.Min((UInt64)settings.NumBytes, (UInt64)maxByteArraySize)];
           sRandom.GetBytes(rndArray);
 
@@ -130,14 +137,10 @@ namespace RandomInput
     {
         get
         {
-            var byt = new byte[1];
-            sRandom.GetBytes(byt);
+            if (settings.KeepRND == 0)
+                sRandom.GetBytes(rndBool);
             Progress(1.0, 1.0);
-            if (byt[0] < 128)
-            {
-                return true;
-            }
-            return false;     
+            return (rndBool[0] & 1) == 1;  
         }
         set { } // readonly
     }
@@ -147,13 +150,10 @@ namespace RandomInput
     {
         get
         {
-            var byt = new byte[4];
-            sRandom.GetBytes(byt);
+            if (settings.KeepRND == 0)
+                sRandom.GetBytes(rndNumber);
             Progress(1.0, 1.0);
-            var number = BitConverter.ToInt32(byt, 0);
-            if (number < 0)
-                number *= -1;
-            return number;
+            return BitConverter.ToInt32(rndNumber, 0) & 0x7fffffff;
         }
         set { } // readonly
     }
@@ -163,17 +163,22 @@ namespace RandomInput
     {
         get
         {
-            int[] numbers = new int[settings.NumNumbers];
-            for (int i = 0; i < settings.NumNumbers; i++)
+            if (settings.KeepRND == 0 || rndNumberArray == null || rndNumberArray.Length != settings.NumNumbers)
             {
-                var byt = new byte[4];
-                sRandom.GetBytes(byt);
-                numbers[i] = BitConverter.ToInt32(byt, 0);
-                if (numbers[i] < 0)
-                    numbers[i] *= -1;
+                Progress(50, 100);
+
+                rndNumberArray = new int[Math.Min(settings.NumNumbers, maxNumListSize)];
+                byte[] byt = new byte[4];
+                for (int i = 0; i < rndNumberArray.Length; i++)
+                {
+                    sRandom.GetBytes(byt);
+                    rndNumberArray[i] = BitConverter.ToInt32(byt, 0) & 0x7fffffff;
+                }
+                GuiMessage("Generated " + rndNumberArray.Length + " random integers.", NotificationLevel.Info);
             }
+
             Progress(1.0, 1.0);
-            return numbers;
+            return rndNumberArray;
         }
         set { } // readonly
     }
@@ -220,13 +225,13 @@ namespace RandomInput
       get { return null; }
     }
 
-      public void Execute()
+    public void Execute()
     {
       getRand();
       Progress(1.0, 1.0);
     }
 
-      #endregion
+    #endregion
 
 
     #region INotifyPropertyChanged Members

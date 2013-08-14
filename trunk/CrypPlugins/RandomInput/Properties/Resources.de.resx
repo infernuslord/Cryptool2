@@ -136,10 +136,10 @@
     <value>Ausgabedaten als Byte-Array der angegebenen Größe</value>
   </data>
   <data name="BytesCaption" xml:space="preserve">
-    <value>Anzahl</value>
+    <value>Anzahl der Bytes</value>
   </data>
   <data name="BytesTooltip" xml:space="preserve">
-    <value>Anzahl der zu erzeugenden Zufalls-Bytes (1 - 10496000)</value>
+    <value>Anzahl der zu erzeugenden Zufalls-Bytes</value>
   </data>
   <data name="KeepRNDCaption" xml:space="preserve">
     <value>Statisch</value>
@@ -170,5 +170,11 @@
   </data>
   <data name="NumNumbersTooltip" xml:space="preserve">
     <value>Wie viele Zahlen soll die Zahlenliste beinhalten</value>
+  </data>
+  <data name="BooleanOutputCaption" xml:space="preserve">
+    <value>Ausgabe Boolescher Wert</value>
+  </data>
+  <data name="BooleanOutputTooltip" xml:space="preserve">
+    <value>Ausgabe eines zufälligen booleschen Wertes (wahr oder falsch)</value>
   </data>
 </root>
