@@ -5,39 +5,70 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This plugin produces a sequence of random bytes.
+    This component produces various kinds of random values.
   </introduction>
 
   <introduction lang="de-DE">
-    Dieses Plugin erzeugt eine Folge beliebiger Länge von zufälligen Bytes.
+    Diese Komponente erzeugt verschiedene Arten von Zufallswerten.
   </introduction>
 
   <usage lang="en">
-    This plugin generates a variable number of random bytes.
-    The number of bytes to produce can be determined in the settings tab of the plugin.
-    <newline/><newline/>
-    The plugin has a dynamic and a static operating mode. When the dynamic mode is selected, the plugin
-    creates a new sequence of random bytes every time it is started. When the static mode is selected, the
-    random numbers are only created once and reused in subsequent starts of the plugin. The operating mode
-    can be selected in the settings tab of the plugin.
-    <newline/><newline/>
-    The random values that were produced are presented at the two outputs of the plugin. 
-    Depending on the output used, they can be read out as an array of bytes or as a datastream.
+    The component offers the following kinds of random values on its outputs:
+
+    <list>
+      <item>
+        A sequence of random bytes is available at the outputs <b>ByteArray Output</b> and <b>Stream Output</b>. The length of the sequence can be determined in the settings of the component. It must lie between 1 and 10.000.000.
+      </item>
+      <item>
+        A random boolean value (<i>true</i> or <i>false</i>) is provided at the <b>Boolean Output</b>.
+      </item>
+      <item>
+        A random integer value from the interval [0,2147483647] is provided at the <b>Number Output</b>.
+      </item>
+      <item>
+        A list of random numbers from the interval [0,2147483647] is provided at the <b>Number List Output</b>. The length of the list can be determined in the settings of the component. It must lie between 1 and 1.000.000.
+      </item>
+    </list>
+
+    The component has a dynamic and a static operating mode. When the dynamic mode is selected, the component
+    creates a new random values every time it is started. When the static mode is selected, the
+    random values are only created once and reused in subsequent starts of the component. The operating mode
+    can be selected in the settings tab of the component.
   </usage>
 
   <usage lang="de-DE">
-    Das Plugin erzeugt eine variable Anzahl von Zufallsbytes.
-    Die Anzahl der zu erzeugenden Zufallsbytes kann in den Einstellungen des Plugins festgelegt werden.
-    <newline/><newline/>
-    Das Plugin hat eine statische und eine dynamische Betriebsart. In der dynamischen Betriebsart werden
-    die Zufallszahlen bei jedem Start des Plugins neu generiert und das Plugin liefert daher jedes Mal neue
-    Zufallszahlen. In der statischen Betriebsart werden die einmal erzeugten Werte beibehalten und bei jedem
-    Start des Plugins erneut ausgegeben. Die Betriebsart kann in den Plugin-Einstellungen gewählt werden.
-    <newline/><newline/>
-    Die erzeugten Zufallswerte werden an den beiden Ausgängen des Plugins zur Verfügung gestellt. Sie werden,
-    abhängig vom verwendeten Ausgang, entweder als Array von Bytes oder als Datenstrom ausgegeben.
-  </usage>
+    An den Ausgängen dieser Komponente liegen folgende Zufallswerte an:
     
+    <list>
+      <item>
+        An den Ausgängen <b>Ausgabedaten als Byte-Array</b> und <b>Ausgabedatenstrom</b> wird eine Folge von Zufallsbytes ausgegeben. Die Anzahl der zu erzeugenden Bytes kann in den Einstellungen festgelegt werden und muss
+        zwischen 1 und 10.000.000 liegen.
+      </item>
+      <item>
+        Am Ausgang <b>Ausgabe Boolescher Wert</b> wird ein zufälliger boolescher Wert (also <i>wahr</i> oder <i>falsch</i>) ausgegeben.
+      </item>
+      <item>
+        Am Ausgang <b>Zahlausgabe</b> wird eine Zufallszahl aus dem Intervall [0,2147483647] ausgegeben.
+      </item>
+      <item>
+        Am Ausgang <b>Zahlenlisteausgabe</b> wird eine Liste von Zufallszahlen aus dem Intervall [0,2147483647] ausgegeben. Die Anzahl der zu erzeugenden Zahlen kann in den Einstellungen festgelegt werden und muss
+        zwischen 1 und 1.000.000 liegen.
+      </item>
+    </list>
+
+    Die Komponente hat eine statische und eine dynamische Betriebsart. In der dynamischen Betriebsart werden
+    die Zufallszahlen bei jedem Start der Komponente neu generiert und die Komponente liefert daher jedes Mal neue
+    Zufallszahlen. In der statischen Betriebsart werden die einmal erzeugten Werte beibehalten und bei jedem
+    Start der Komponente erneut ausgegeben. Die Betriebsart kann in den Einstellungen der Komponente gewählt werden.
+  </usage>
+ 
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Random_number_generation" lang="en" />
+      <caption lang="en">Random number generation</caption>
+      <link url="http://de.wikipedia.org/wiki/Zufallszahlengenerator" lang="de-DE" />
+      <caption lang="de-DE">Zufallszahlengenerator</caption>
+    </linkReference>
   </references>
+
 </documentation>

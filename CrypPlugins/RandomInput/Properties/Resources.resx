@@ -127,19 +127,19 @@
     <value>Stream Output</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Memory stream of given length.</value>
+    <value>Memory stream of given length</value>
   </data>
   <data name="ByteArrayOutputCaption" xml:space="preserve">
     <value>ByteArray Output</value>
   </data>
   <data name="ByteArrayOutputTooltip" xml:space="preserve">
-    <value>Byte array of given length.</value>
+    <value>Byte array of given length</value>
   </data>
   <data name="BytesCaption" xml:space="preserve">
-    <value>Counter</value>
+    <value>Number of Bytes</value>
   </data>
   <data name="BytesTooltip" xml:space="preserve">
-    <value>Number of random bytes to be created. (1 - 10496000)</value>
+    <value>Number of random bytes to be created</value>
   </data>
   <data name="KeepRNDCaption" xml:space="preserve">
     <value>Static</value>
@@ -170,5 +170,11 @@
   </data>
   <data name="NumNumbersTooltip" xml:space="preserve">
     <value>How many numbers should the number list contain</value>
+  </data>
+  <data name="BooleanOutputCaption" xml:space="preserve">
+    <value>Boolean Output</value>
+  </data>
+  <data name="BooleanOutputTooltip" xml:space="preserve">
+    <value>A random boolean value (true or false)</value>
   </data>
 </root>
