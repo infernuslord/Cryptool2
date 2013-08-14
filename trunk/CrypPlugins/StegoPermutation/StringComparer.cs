@@ -1,4 +1,4 @@
-﻿/* HOWTO: Set year, author name and organization.
+﻿/* 
    Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,54 +44,32 @@ namespace Cryptool.Plugins.StegoPermutation
             String strX = x as String;
             String strY = y as String;
 
-            if (strX == strY) {
-                return 0;
-            } else if (strX == null) {
-                return -1;
-            } else if (strY == null) {
-                return 1;
-            } else {
+            if (strX == strY) return 0;
+            if (strX == null) return -1;
+            if (strY == null) return 1;
 
-                if (strX.Length == 0) {
-                    return -1;
-                } else if (strY.Length == 0) {
-                    return 1;
-                } else {
+            if (strX.Length == 0) return -1;
+            if (strY.Length == 0) return 1;
 
-                    //both values contain strings
+            //both values contain strings
 
-                    int result = 0;
-                    int length = (strX.Length < strY.Length) ? strX.Length : strY.Length;
+            int length = (strX.Length < strY.Length) ? strX.Length : strY.Length;
 
-                    for (int charIndex = 0; (charIndex < length) && (result == 0); charIndex++) {
-                        //compare character until a difference is found
-                        int indexX = alphabet.IndexOf(strX[charIndex]);
-                        if (indexX < 0) {
-                            //character not found on alphabet - try to find lowerase
-                            indexX = alphabet.ToLower().IndexOf(strX.ToLower()[charIndex]);
-                        }
+            for (int i = 0; i < length; i++)
+            {
+                //compare character until a difference is found
+                int indexX = alphabet.IndexOf(strX[i]);
+                int indexY = alphabet.IndexOf(strY[i]);
 
-                        int indexY = alphabet.IndexOf(strY[charIndex]);
-                        if (indexY < 0) {
-                            //character not found on alphabet - try to find lowerase
-                            indexY = alphabet.ToLower().IndexOf(strY.ToLower()[charIndex]);
-                        }
+                int result = (indexX < 0)
+                    ? ((indexY < 0) ? String.CompareOrdinal(strX, i, strY, i, 1) : 1)
+                    : ((indexY < 0) ? -1 : indexX.CompareTo(indexY));
 
-                        result = indexX.CompareTo(indexY);
-                    }
-
-                    if (result == 0) {
-                        //no difference found - compare length
-                        if (strX.Length < strY.Length) {
-                            result = -1;
-                        } else if (strY.Length < strX.Length) {
-                            result = 1;
-                        }
-                    }
-
-                    return result;
-                }
+                if (result != 0) return result;
             }
+
+            //no difference found - compare lengths
+            return strX.Length.CompareTo(strY.Length);
         }
     }
 }

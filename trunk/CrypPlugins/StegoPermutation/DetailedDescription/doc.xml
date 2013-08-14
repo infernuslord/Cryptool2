@@ -5,47 +5,76 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
+    <b>Steganography</b> is the science of transmitting secret data in such a way, that an unsuspecting observer and possible attacker
+    does not realize, that besides the harmless looking carrier message, there is an additional secret message being transmitted.
+    <newline/><newline/>
+    The basic steganographical principle of this component is to convert the secret message, that is to be transmitted, into a number
+    (e.g. by converting the single letters of the message into their ASCII values). This number is then transmitted by ordering
+    the elements of some set of objects (in this case words) in a way that lets the receiver reconstruct the number, and thus the message.
+    <newline/><newline/>
+    Every set of objects, that can be ordered in a well defined way, can be used to encode a message.
+    The elements of a set with <b>N</b> objects can be ordered in exactly <b>N! = 1*2*...*(N-1)*N</b> different ways.
+    These <b>N!</b> possible arrangements (permutations) can be numbered from <b>0</b> to <b>N!-1</b>.
+    If the objects of the set are transmitted in a certain order, the receiver can immeadiately deduce the number that is associated with this permutation
+    and thus recover the message, that it represents.
   </introduction>
 
   <introduction lang="de-DE">
-    Unter <i>Steganographie</i> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
+    Unter <b>Steganographie</b> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
     uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
     noch eine zusätzliche, versteckte Nachricht übermittelt wird.
     <newline/><newline/>
-    Das Grundprinzip der steganographischen Technik dieses Plugins ist, die zu übertragende Nachricht in eine Zahl
+    Das Grundprinzip der steganographischen Technik dieser Komponente ist, die zu übertragende Nachricht in eine Zahl
     zu verwandeln (durch Konvertierung der Buchstaben in ihre ASCII-Werte) und diese Zahl durch die Anordnung
     einer Menge von Grundobjekten (in diesem Fall Worten) an den Empfänger zu übermitteln.
     <newline/><newline/>
     Jede Menge von Grundobjekten, die in eine wohldefinierte Reihenfolge gebracht werden können, kann dazu verwendet werden,
-    eine Nachricht zu kodieren. Die Elemente einer Menge mit <i>N</i> Objekten lassen sich auf genau <i>N! = 1*2*...*(N-1)*N</i> verschiedene
-    Arten in einer Reihenfolge anordnen. Diese <i>N!</i> Möglichkeiten (Permutationen) lassen sich von <i>0</i> bis <i>(N!-1)</i> durchnummerieren.
+    eine Nachricht zu kodieren. Die Elemente einer Menge mit <b>N</b> Objekten lassen sich auf genau <b>N! = 1*2*...*(N-1)*N</b> verschiedene
+    Arten in einer Reihenfolge anordnen. Diese <b>N!</b> Möglichkeiten (Permutationen) lassen sich von <b>0</b> bis <b>N!-1</b> durchnummerieren.
     Wird nun eine bestimmte Reihenfolge der Grundobjekte übertragen, so kann der Empfänger aus ihrer Anordnung sofort auf die
     Nummer dieser Permutation schließen und die auf diese Weise übermittelte Zahl wieder in die lesbare Nachricht
     zurückverwandeln.
   </introduction>
 
   <usage lang="en">
+    This component has the two operating modes <b>Encryption</b> and <b>Decryption</b>, which can be chosen in the settings of the component.
+    <newline/><newline/>
+    In <b>Encryption</b> mode, the component expects the secret message, that is to be hidden, on the input labeled <b>Message</b>,
+    and a list of words on the input labeled <b>Carrier list</b>. Such a list is for example provided by the Dictionary component.
+    The order, in which this list is sent to the output labeled <b>Carrier list</b>, encodes the secret message.
+    <newline/><newline/>
+    In <b>Decryption</b> mode, the component expects a list of words on the input labeled <b>Carrier list</b>, which encodes the secret message.
+    The decoded message is sent to the output labeled <b>Result message</b>.
+    <newline/><newline/>
+    As a finite list of objects only allows for a finite number of permutations, the length of the message, that can be hidden
+    by the permutations, is limited. If the entered message is too long for the entered list, the component prints a warning and
+    cuts off that part of the message, that exceeds the capacity of the carrier list.
+    <newline/><newline/>
+    The order of the words in the carrier list relies on the lexicographical order of the alphabet.
+    In the settings of the component, you can change this order by providing an own alphabet in the text field <b>Alphabet</b>.
+    As different alphabets result in differently sorted carrier lists, this alphabet also acts as a password for encrypting
+    or decrypting the secret message.
   </usage>
 
   <usage lang="de-DE">
-    Das Plugin hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins
+    Die Komponente hat zwei Betriebsarten, <b>Verschlüsselung</b> und <b>Entschlüsselung</b>, zwischen denen in den Einstellungen der Komponente
     gewählt werden kann.
     <newline/><newline/>
-    Bei der <i>Verschlüsselung</i> erwartet das Plugin am Eingang <i>"Nachricht"</i> die zu versteckende Textnachricht und am
-    Eingang <i>"Trägerliste"</i> eine durch Kommas getrennte Liste von Worten. Die Anordnung, in der diese
-    Worte am Ausgang <i>"Trägerliste"</i> des Plugins ausgegeben werden, kodiert die zu versteckende Nachricht.
+    Bei der <b>Verschlüsselung</b> erwartet die Komponente am Eingang <b>Nachricht</b> die zu versteckende Textnachricht und am
+    Eingang <b>Trägerliste</b> eine Liste von Worten, wie sie z.B. von der Wörterbuch-Komponente geliefert wird. Die Anordnung, in der diese
+    Worte am Ausgang <b>Trägerliste</b> der Komponente ausgegeben werden, kodiert die zu versteckende Nachricht.
     <newline/><newline/>
-    Bei der <i>Entschlüsselung</i> erwartet das Plugin am Eingang <i>"Trägerliste"</i> eine durch Kommas getrennte Liste von Worten, deren
+    Bei der <b>Entschlüsselung</b> erwartet die Komponente am Eingang <b>Trägerliste</b> eine Liste von Worten, deren
     Reihenfolge die versteckte Nachricht kodiert. Die dekodierte Nachricht wird dann am entsprechenden Ausgang zur Verfügung
     gestellt.
     <newline/><newline/>
     Da eine endliche Liste von Objekten auch nur eine endliche Zahl von Permutationen zulässt, ist die Länge der Nachricht, die
-    durch die Permutation versteckt werden kann, begrenzt. Ist die eingegbene Nachricht zu lang, so gibt das Plugin eine
+    durch die Permutation versteckt werden kann, begrenzt. Ist die eingegbene Nachricht zu lang, so gibt die Komponente eine
     Warnung aus und schneidet den Teil der Nachricht ab, der die Kapazität der Trägerliste übersteigt.
     <newline/><newline/>
     Die Sortierung der Worte der Trägerliste beruht auf der natürlichen lexikograhischen Reihenfolge des Alphabets.
-    Die Einstellungen des Plugins bieten die Möglichkeit, diese Reihenfolge durch eine selbst definierte Reihenfolge
-    abzuändern. Dazu wird in das Textfeld <i>"Alphabet"</i> in den Einstellungen des Plugins das den Trägerworten zugrunde liegende
+    Die Einstellungen der Komponente bieten die Möglichkeit, diese Reihenfolge durch eine selbst definierte Reihenfolge
+    abzuändern. Dazu wird in das Textfeld <b>Alphabet</b> in den Einstellungen der Komponente das den Trägerworten zugrunde liegende
     Alphabet in einer frei wählbaren Reihenfolge eingegeben. Da unterschiedliche Alphabete unterschiedlich sortierte
     Listen von Trägerworten ergeben, fungiert dieses Alphabet zusätzlich als Passwort für die Ver-/Entschlüsselung der Nachricht.
   </usage>
