@@ -102,6 +102,7 @@ namespace Cryptool.Plugins.StegoPermutation
                     for (int n = 1; n < list.Count; n++)
                     {
                         text += "," + ListItemToChar(n);
+                        if (text.Length > 100) break;
                     }
                     return text;
                 }

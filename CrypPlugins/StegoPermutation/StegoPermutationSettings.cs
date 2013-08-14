@@ -1,4 +1,4 @@
-﻿/* HOWTO: Set year, author name and organization.
+﻿/* 
    Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,13 +28,12 @@ namespace Cryptool.Plugins.StegoPermutation
         #region Private Variables
 
         private int selectedAction = 0;
-        private string alphabet = "!§$%&/()=/{}<>|_-01234526789abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private string alphabet = "!§$%&/()=/{}<>|_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         #endregion
 
         #region TaskPane Settings
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {

@@ -1,4 +1,4 @@
-﻿/* HOWTO: Set year, author name and organization.
+﻿/* 
    Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ using System.Threading;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
-    [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
+    [Author("Corinna John, Armin Krauß", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
     [PluginInfo("StegoPermutation.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoPermutation/DetailedDescription/doc.xml", "StegoPermutation/Images/StegoPermutation.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoPermutation : ICrypComponent
@@ -49,7 +49,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// Message to be encoded.
         /// </summary>
         [PropertyInfo(Direction.InputData, "InputMessageCaption", "InputMessageTooltip")]
-        public string InputMessage
+        public byte[] InputMessage
         {
             get;
             set;
@@ -59,31 +59,50 @@ namespace Cryptool.Plugins.StegoPermutation
         /// List of words to be sorted.
         /// </summary>
         [PropertyInfo(Direction.InputData, "InputListCaption", "InputListTooltip")]
-        public string InputList
+        public string[] InputList
         {
             get
             {
-                return string.Join(",", this.inputList);
+                return inputList.ToArray();
             }
             set
             {
-                string[] valueParts = value.Split(',');
+                string[] valueParts = value;
                 this.inputList = new Collection<string>();
+                HashSet<string> isPresent = new HashSet<string>();  // use HashSet for faster lookup
+                HashSet<string> duplicates = new HashSet<string>();
                 foreach (string s in valueParts)
                 {
-                    if (this.inputList.IndexOf(s) < 0)
+                    if( !isPresent.Contains(s) )
                     {
                         this.inputList.Add(s);
+                        isPresent.Add(s);
                     }
                     else
                     {
                         // duplicate item found
-                        GuiLogMessage("Duplicate item removed from the list: "+s, NotificationLevel.Warning);
+                        duplicates.Add(s);
                     }
                 }
 
+                // print the found duplicates, but combine them in one message if there are too many
+
+                if (duplicates.Count <= 10)
+                {
+                    foreach (var s in duplicates)
+                        GuiLogMessage("Duplicate item removed from the list: " + s, NotificationLevel.Warning);
+                }
+                else
+                {
+                    Array dup = duplicates.ToArray();
+                    Array.Sort(dup);
+                    String s = String.Join(",", dup.Cast<String>());
+                    if (s.Length > 500) s = s.Substring(0, 500) + "...";
+                    GuiLogMessage("Duplicate items removed from the list: " + s, NotificationLevel.Warning);
+                }
+
                 this.sorter = new Sorter<string>(this.inputList);
-                GuiLogMessage("Maximum length of message text: " + this.sorter.Capacity.ToString(), NotificationLevel.Info);
+                GuiLogMessage(String.Format("The list has {0} elements, so the maximum length of the message text is {1} bytes.", this.inputList.Count, this.sorter.Capacity), NotificationLevel.Info);
             }
         }
 
@@ -91,7 +110,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// Sorted output list.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip")]
-        public string OutputList
+        public string[] OutputList
         {
             get;
             set;
@@ -101,7 +120,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// Decoded message.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputMessageCaption", "OutputMessageTooltip")]
-        public string OutputMessage
+        public byte[] OutputMessage
         {
             get;
             set;
@@ -116,10 +135,6 @@ namespace Cryptool.Plugins.StegoPermutation
             get { return settings; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide a custom (tabbed) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
         public UserControl Presentation
         {
             get { return presentation; }
@@ -129,9 +144,6 @@ namespace Cryptool.Plugins.StegoPermutation
         {
         }
 
-        /// <summary>
-        /// HOWTO: Enter the algorithm you'd like to implement in this method.
-        /// </summary>
         public void Execute()
         {
             SendOrPostCallback updatePresentationInputListDelegate = (SendOrPostCallback)delegate
@@ -146,38 +158,49 @@ namespace Cryptool.Plugins.StegoPermutation
 
             ProgressChanged(0, 1);
 
-            if (sorter == null)
+            if (sorter == null || InputList == null || InputList.Length == 0)
             {
                 GuiLogMessage("Input list required.", NotificationLevel.Error);
+                return;
             }
-            else if (settings.Action == 0)
-            {
-                if (sorter.Capacity < Encoding.UTF8.GetByteCount(InputMessage))
+
+            if (settings.Action == 0)
+            {   // encode
+                
+                if (InputMessage == null)
                 {
-                    GuiLogMessage("List too short for message. Only the beginning will be encoded, the tail will get lost.", NotificationLevel.Warning);
-                    InputMessage = InputMessage.Substring(0, sorter.Capacity);
+                    GuiLogMessage("Please provide the message to encode.", NotificationLevel.Error);
+                    return;
+                } 
+
+                if (sorter.Capacity < InputMessage.Length)
+                {
+                    GuiLogMessage(String.Format("The list is too short for this message of {0} bytes. Only the first {1} bytes will be encoded, the tail will get lost.", InputMessage.Length, sorter.Capacity), NotificationLevel.Warning);
+                    byte[] tmp = new byte[sorter.Capacity];
+                    Array.Copy(InputMessage, tmp, tmp.Length);
+                    InputMessage = tmp;
                 }
 
-                using (MemoryStream messageStream = new MemoryStream(Encoding.UTF8.GetBytes(InputMessage)))
+                using (MemoryStream messageStream = new MemoryStream(InputMessage))
                 {
-                    Collection<string> result = sorter.Encode(messageStream, settings.Alphabet, presentation);
-                    OutputList = string.Join<string>(",", result);
+                    Collection<string> result = sorter.Encode(messageStream, settings.Alphabet, presentation, this);
+                    OutputList = result.ToArray();
                     OnPropertyChanged("OutputList");
                 }
             }
             else
-            {
+            {   // decode
+
                 using (MemoryStream messageStream = new MemoryStream())
                 {
-                    sorter.Decode(messageStream, settings.Alphabet, presentation);
+                    sorter.Decode(messageStream, settings.Alphabet, presentation, this);
                     messageStream.Position = 0;
-                    using (StreamReader reader = new StreamReader(messageStream))
-                    {
-                        OutputMessage = reader.ReadToEnd();
-                        OnPropertyChanged("OutputMessage");
-                    }
+                    Array buf = messageStream.ToArray();
+                    OutputMessage = (byte[])buf;
+                    OnPropertyChanged("OutputMessage");
                 }
             }
+
             ProgressChanged(1, 1);
         }
 
@@ -219,7 +242,7 @@ namespace Cryptool.Plugins.StegoPermutation
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
-        private void ProgressChanged(double value, double max)
+        public void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }

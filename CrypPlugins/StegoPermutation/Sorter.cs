@@ -1,4 +1,4 @@
-/* HOWTO: Set year, author name and organization.
+/*
    Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,10 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Numerics;
-using Cryptool.PluginBase.Miscellaneous;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Threading;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
@@ -33,9 +34,23 @@ namespace Cryptool.Plugins.StegoPermutation
         {
 			get
 			{
-                BigInteger capacity = ((BigInteger)source.Count).Factorial();
-                int byteCapacity = (capacity.BitCount() / 8) - 1;
-            	return byteCapacity;
+                int bits;
+
+                if (source.Count <= 100)
+                {
+                    // explicitly calculate the factorial
+                    BigInteger capacity = ((BigInteger)source.Count).Factorial();
+                    bits = capacity.BitCount();
+                }
+                else
+                {
+                    // approximate factorial with the Stirling formula
+                    double n = source.Count;
+                    double ldStirling = 0.5 * Math.Log(2 * Math.PI * n, 2) + n * Math.Log(n / Math.E, 2);
+                    bits = (int)ldStirling;
+                }
+
+                return bits/8;
 			}
         }
 			
@@ -44,75 +59,105 @@ namespace Cryptool.Plugins.StegoPermutation
 			this.source = source;
 		}
 
-        public Collection<T> Encode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation)
+        public T[] sortItems(string alphabet)
+        {
+            T[] sortedItems = new T[source.Count];
+            source.CopyTo(sortedItems, 0);
+
+            if (alphabet == null || alphabet.Length == 0)
+            {
+                StringComparer comparer = new StringComparer("");
+                Array.Sort(sortedItems, comparer);
+            }
+            else
+            {
+                StringComparer comparer = new StringComparer(alphabet);
+                Array.Sort(sortedItems, comparer);
+            }
+
+            return sortedItems;
+        }
+
+        public Collection<T> Encode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation, StegoPermutation stego)
         {
             Collection<T> result = new Collection<T>();
-			T[] sortedItems = new T[source.Count];
-            source.CopyTo(sortedItems, 0);
-            
-			if(alphabet == null || alphabet.Length == 0) {
-				Array.Sort(sortedItems);
-			} else {
-				StringComparer comparer = new StringComparer(alphabet);
-				Array.Sort(sortedItems, comparer);
-			}
-            
+
+            stego.ProgressChanged(10, 100);
+
+            T[] sortedItems = sortItems(alphabet);
+
+            stego.ProgressChanged(20, 100);
+
             // initialize message
             messageStream.Position = 0;
             byte[] buffer = new byte[messageStream.Length];
             messageStream.Read(buffer, 0, buffer.Length);
-            BigInteger message = new BigInteger(buffer);
+            BigInteger message = 0;
+            for (int i = 0; i < buffer.Length; i++)
+                message = message * 256 + buffer[buffer.Length-1-i];
             
             // initialize carrier
-            Collection<int> freeIndexes = new Collection<int>();
             result.Clear();
             for (int n = 0; n < source.Count; n++)
-            {
-                freeIndexes.Add(n);
                 result.Add(null);
-			}
 
             // update presentation control
             SendOrPostCallback updatePresentationResultListDelegate = (SendOrPostCallback)delegate
             {
                 presentation.UpdateResultList(result);
             };
+
             if (presentation.IsVisible)
             {
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultListDelegate, null);
             }
 
-            int skip = 0;
-            for (int indexSource = 0; indexSource < source.Count; indexSource++)
+            try
             {
-                skip = (int)(message % freeIndexes.Count);
-                message = message / freeIndexes.Count;
-                int resultIndex = freeIndexes[skip];
-                result[resultIndex] = sortedItems[indexSource];
-                freeIndexes.RemoveAt(skip);
+                LRArray lr = new LRArray((ulong)source.Count);
+                lr.set_all();
 
-                if (presentation.IsVisible)
+                int skip = 0;
+                for (int indexSource = 0; indexSource < source.Count; indexSource++)
                 {
-                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultListDelegate, null);
-                    Thread.Sleep(500);
+                    int cnt = source.Count - indexSource;
+                    skip = (int)(message % cnt);
+                    message = message / cnt;
+                    int resultIndex = (int)lr.get_set_idx_chg((ulong)skip);
+                    result[resultIndex] = sortedItems[indexSource];
+
+                    stego.ProgressChanged(indexSource+1, source.Count);
+
+                    if (presentation.IsVisible)
+                    {
+                        presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultListDelegate, null);
+                        Thread.Sleep(500);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
             }
 			
 			return result;
         }
 
-        public void Decode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation)
+        public void Decode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation, StegoPermutation stego)
         {
-            T[] sortedItems = new T[source.Count];
-            source.CopyTo(sortedItems, 0);
+            Dictionary<T, ulong> string2index = new Dictionary<T, ulong>();
+            ulong[] numList = new ulong[source.Count];
+            ulong[] numListInv = new ulong[source.Count];
+            ulong[] values = new ulong[source.Count];
 
-			StringComparer comparer = null;
-			if(alphabet == null || alphabet.Length == 0) {
-				Array.Sort(sortedItems);
-			} else {
-				comparer = new StringComparer(alphabet);
-				Array.Sort(sortedItems, comparer);
-			}
+            stego.ProgressChanged(10, 100);
+
+            T[] sortedItems = sortItems(alphabet);
+
+            for (int i = 0; i < sortedItems.Length; i++) string2index[sortedItems[i]] = (ulong)i;
+            for (int i = 0; i < numList.Length; i++) numList[i] = string2index[source[i]];
+            for (int i = 0; i < numList.Length; i++) numListInv[numList[i]] = (ulong)i;
+
+            stego.ProgressChanged(20, 100);
 
             BigInteger message = new BigInteger(0);
             BigIntegerClass messageWrapper = new BigIntegerClass(message);
@@ -122,50 +167,50 @@ namespace Cryptool.Plugins.StegoPermutation
             {
                 presentation.UpdateResultNumber(messageWrapper);
             };
+
             if (presentation.IsVisible)
             {
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultNumberDelegate, null);
             }
 
-            for (int carrierIndex = 0; carrierIndex < source.Count; carrierIndex++)
+            LRArray lr = new LRArray((ulong)source.Count);
+            lr.set_all();
+
+            try
             {
-                int skip = 0;
-                for (int countIndex = 0; countIndex < carrierIndex; countIndex++)
+                for (int carrierIndex = source.Count - 1; carrierIndex >= 0; carrierIndex--)
                 {
-					
-					int compResult = 0; 
-					if(comparer == null){
-						compResult = source[countIndex].CompareTo(source[carrierIndex]);
-					}else{
-						compResult = comparer.DoCompare(source[countIndex], source[carrierIndex]);
-					}
-					
-                    if (compResult > 0)
-                    {   // There is a bigger item to the left. It's place
-                        // must have been skipped by the current item.
-                        skip++;
+                    ulong v = lr.num_SRE(numList[carrierIndex]);
+                    values[carrierIndex] = lr.num_SRE(numList[carrierIndex]);
+                    lr.get_set_idx_chg((ulong)carrierIndex - v);
+                }
+
+                stego.ProgressChanged(30, 100);
+
+                message = 0;
+                for (int i = 1; i <= source.Count; i++)
+                {
+                    message = i * message + values[numListInv[source.Count - i]];
+
+                    stego.ProgressChanged(i, source.Count+1);
+
+                    if (presentation.IsVisible)
+                    {
+                        messageWrapper.BigIntegerStruct = message;
+                        presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultNumberDelegate, null);
+                        Thread.Sleep(500);
                     }
                 }
-
-                // Revert the division that resulted in this skip value
-                int itemOrdinal = Array.IndexOf(sortedItems, source[carrierIndex])+1;
-                BigInteger value = new BigInteger(skip);
-                for (int countIndex = 1; countIndex < itemOrdinal; countIndex++)
-                {
-                    value *= (source.Count - countIndex + 1);
-                }
-                message += value;
-
-                if (presentation.IsVisible)
-                {
-                    messageWrapper.BigIntegerStruct = message;
-                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultNumberDelegate, null);
-                    Thread.Sleep(500);
-                }
+            }
+            catch (Exception ex)
+            {
             }
 
+            // convert message to stream
             byte[] messageBytes = message.ToByteArray();
-            messageStream.Write(messageBytes, 0, messageBytes.Length);
+            int cnt = messageBytes.Length;
+            if (messageBytes[cnt - 1] == 0) cnt--;
+            messageStream.Write(messageBytes, 0, cnt);
             messageStream.Position = 0;
         }
     }
