@@ -21,7 +21,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/NLFSR" lang="en" />
+      <caption lang="en">Non-Linear Feedback Shift Register (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/NLFSR" lang="de-DE" />
+      <caption lang="de-DE">Non-Linear Feedback Shift Register (Wikipedia, englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

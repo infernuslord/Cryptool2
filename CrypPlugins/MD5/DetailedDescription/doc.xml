@@ -37,7 +37,20 @@
     In der Präsentationsansicht der MD5-Komponente kann man die Teilschritte der Hash-Erzeugung nachvollziehen.
     Zu diesem Zwecke muss der Benutzer die Berechnung manuell weiterschalten.
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="https://en.wikipedia.org/wiki/MD5" lang="en" />
+      <caption lang="en">Message-Digest Algorithm 5 (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Message-Digest_Algorithm_5" lang="de-DE" />
+      <caption lang="de-DE">Message-Digest Algorithm 5 (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="rfc">
+      <link url="http://tools.ietf.org/html/rfc1321" lang="en" />
+      <caption lang="en">RFC1321: The MD5 Message-Digest Algorithm</caption>
+      <link url="http://tools.ietf.org/html/rfc1321" lang="de-DE" />
+      <caption lang="de-DE">RFC1321: The MD5 Message-Digest Algorithm (englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

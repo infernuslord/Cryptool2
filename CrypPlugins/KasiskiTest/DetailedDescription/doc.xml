@@ -21,7 +21,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Kasiski_examination" lang="en" />
+      <caption lang="en">Kasiski's Test (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Kasiski-Test" lang="de-DE" />
+      <caption lang="de-DE">Kasiski-Test (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>
