@@ -78,6 +78,7 @@ namespace StringOperations
                         OnPropertyChanged("OutputString");
                         break;
                     case StringOperationType.Substring:
+                        if (_string1.Length > 0 && _value1<0 && _value1>=-_string1.Length) _value1 = (_value1 + _string1.Length) % _string1.Length;
                         _outputString = _string1.Substring(_value1, _value2);
                         OnPropertyChanged("OutputString");
                         break;

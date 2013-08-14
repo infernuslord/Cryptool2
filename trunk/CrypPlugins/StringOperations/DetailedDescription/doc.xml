@@ -56,7 +56,7 @@
 		<item><b>Vergleichen:</b> Vergleicht die in beiden Texteingängen eingegebenen Texte und gibt 0 aus, falls diese identisch sind, -1, wenn der erste Text "kleiner" als der zweite ist, und 1, wenn der erste Text "größer" als der zweite ist</item>
 		<item><b>Trimmen:</b> Entfernt sogenannte Whitespaces (tab, Leerzeichen) vom Anfang und Ende des Textes, der am ersten Texteingang übergeben wurde und gibt diesen beim Textausgang aus</item>
 		<item><b>IndexVon:</b> Gibt den ersten Index des Vorkommens vom Text des Texteingangs zwei des Texteingangs eins am Zahlenausgang aus</item>
-		<item><b>Vergleich:</b> Gibt 1 aus, wenn beide Texte identisch sind, andernfalls 0</item>
+		<item><b>Gleichheit:</b> Gibt 1 aus, wenn beide Texte identisch sind, andernfalls 0</item>
 		<item><b>Ersetzen:</b> Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese Teile gleich dem Text des Textes des zweiten Texteingangs sind</item>
 		<item><b>RegexErsetzen:</b> Ersetzt alle Teiltexte des ersten Texteingangs mit dem Text des dritten Texteingangs, falls diese den regulären Ausdruck des zweiten Texteingangs erfüllen</item>
 		<item><b>Trennen:</b> Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
