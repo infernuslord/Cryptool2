@@ -169,7 +169,7 @@
     <value>IndexVon</value>
   </data>
   <data name="OperationList9" xml:space="preserve">
-    <value>Vergleich</value>
+    <value>Gleichheit</value>
   </data>
   <data name="OutputStringArrayCaption" xml:space="preserve">
     <value>Ausgabe des Zeichenketten-Arrays</value>
