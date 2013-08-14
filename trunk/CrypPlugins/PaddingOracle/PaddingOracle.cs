@@ -27,12 +27,8 @@ using System;
 
 namespace Cryptool.Plugins.PaddingOracle
 {
-    // HOWTO: Change author name, email address, organization and URL.
-    [Author("alex", "alex@juettner-online.com", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Padding Oracle", "Decrypts a cipher text, checks if the Padding is correct, and returns true or false", "PaddingOracle/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
+    [Author("Alexander Juettner", "alex@juettner-online.com", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
+    [PluginInfo("PluginCaption", "PluginTooltip", "PaddingOracle/DetailedDescription/doc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class PaddingOracle : ICrypComponent
@@ -71,7 +67,7 @@ namespace Cryptool.Plugins.PaddingOracle
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PaddingResult", "PaddingResultTooltip")]
+        [PropertyInfo(Direction.OutputData, "PaddingResultCaption", "PaddingResultTooltip")]
         public bool PaddingResult
         {
             get;
@@ -141,7 +137,7 @@ namespace Cryptool.Plugins.PaddingOracle
                 }
                 else //padding length is valid
                 {
-                    //go through all supposedly padding bytes and check if they all have the correct value
+                    //go through all supposed padding bytes and check if they all have the correct value
                     int wordCounter = 1;
                     while (validPadding && wordCounter < paddingLength)
                     {
