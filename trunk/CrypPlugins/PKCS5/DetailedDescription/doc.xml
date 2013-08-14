@@ -21,7 +21,20 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/PKCS" lang="en" />
+      <caption lang="en">PKCS (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/PKCS" lang="de-DE" />
+      <caption lang="de-DE">PKCS (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="rfc">
+      <link url="http://tools.ietf.org/html/rfc2898" lang="en" />
+      <caption lang="en">RFC2898: PKCS #5 - Password-Based Cryptography Specification</caption>
+      <link url="http://tools.ietf.org/html/rfc3447" lang="de-DE" />
+      <caption lang="de-DE">RFC2898: PKCS #5 - Password-Based Cryptography Specification (englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

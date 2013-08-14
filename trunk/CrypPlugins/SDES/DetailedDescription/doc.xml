@@ -68,5 +68,20 @@
     Die Mitte beinhaltet die Visualisierung der Unterschlüssel-Generierung und auf der rechten Seite ist die Entschlüsselung sichtbar. <newline/>
     Die angezeigten Richtungen sind: Verschlüsselung von oben nach unten, Unterschlüssel-Generierung von oben nach unten und Entschlüsselung von unten nach oben.
   </presentation>
+
+  <references>
+    <linkReference>
+      <link url="http://elc.cu.edu.eg/elcmoodledata/90/moddata/scorm/288/01.htm" lang="en" />
+      <caption lang="en">Simplified Data Encryption Standard (S-DES)</caption>
+      <link url="http://elc.cu.edu.eg/elcmoodledata/90/moddata/scorm/288/01.htm" lang="de-DE" />
+      <caption lang="de-DE">Simplified Data Encryption Standard (S-DES, englisch)</caption>
+    </linkReference>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Data_Encryption_Standard" lang="en" />
+      <caption lang="en">Data Encryption Standard (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Data_Encryption_Standard" lang="de-DE" />
+      <caption lang="de-DE">Data Encryption Standard (Wikipedia)</caption>
+    </linkReference>
+  </references>
   
 </documentation>

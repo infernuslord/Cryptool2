@@ -21,7 +21,20 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Whirlpool_(cryptography)" lang="en" />
+      <caption lang="en">Whirlpool (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Whirlpool_(Algorithmus)" lang="de-DE" />
+      <caption lang="de-DE">Whirlpool (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="pbarreto">
+      <link url="http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html" lang="en" />
+      <caption lang="en">The WHIRLPOOL Hash Function</caption>
+      <link url="http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html" lang="de-DE" />
+      <caption lang="de-DE">The WHIRLPOOL Hash Function (englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

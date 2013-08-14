@@ -21,7 +21,20 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/RIPEMD" lang="en" />
+      <caption lang="en">RIPEMD (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/RIPEMD-160" lang="de-DE" />
+      <caption lang="de-DE">RIPEMD-160 (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="rfc">
+      <link url="http://homes.esat.kuleuven.be/~bosselae/ripemd160.html" lang="en" />
+      <caption lang="en">The hash function RIPEMD-160</caption>
+      <link url="http://homes.esat.kuleuven.be/~bosselae/ripemd160.html" lang="de-DE" />
+      <caption lang="de-DE">The hash function RIPEMD-160 (englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

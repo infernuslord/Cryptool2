@@ -22,7 +22,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Morse_code" lang="en" />
+      <caption lang="en">Morse code (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Morsezeichen" lang="de-DE" />
+      <caption lang="de-DE">Morsezeichen (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

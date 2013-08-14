@@ -23,5 +23,18 @@
   </presentation>
   
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/PKCS_♯1" lang="en" />
+      <caption lang="en">PKCS ♯1 (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/PKCS" lang="de-DE" />
+      <caption lang="de-DE">PKCS (Wikipedia)</caption>
+    </linkReference>
+    <linkReference id="rfc">
+      <link url="http://tools.ietf.org/html/rfc3447" lang="en" />
+      <caption lang="en">RFC3447: Public-Key Cryptography Standards (PKCS) #1</caption>
+      <link url="http://tools.ietf.org/html/rfc3447" lang="de-DE" />
+      <caption lang="de-DE">RFC3447: Public-Key Cryptography Standards (PKCS) #1 (englisch)</caption>
+    </linkReference>
   </references>
+  
 </documentation>
