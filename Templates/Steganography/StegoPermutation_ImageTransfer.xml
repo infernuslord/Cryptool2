@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Steganography Permutation Image Transfer</title>
+  <summary lang="en">Hidden transfer of an image with the steganography component <i>StegoPermutation</i></summary>
+  <description lang="en">This template shows how to secretly transfer an image using the steganography component <i>StegoPermutation</i>.</description>
+  <keywords>Steganography, hidden, Permutation</keywords>
+
+  <title lang="de">Steganographie Permutation Bildübertragung</title>
+  <summary lang="de">Versteckte Übertragung eines Bildes mit der Steganographie-Komponente <i>StegoPermutation</i></summary>
+  <description lang="de">Diese Vorlage zeigt, wie man mit der Steganographie-Komponente <i>StegoPermutation</i> ein Bild versteckt übertragen kann.</description>
+  <keywords lang="de">Steganographie, verstecken</keywords>
+
+  <icon file="Steganography.png" />
+
+  <relevantPlugins>
+    <plugin name="FileInputClass" />
+    <plugin name="StegoPermutation" />
+  </relevantPlugins>
+
+</sample>
