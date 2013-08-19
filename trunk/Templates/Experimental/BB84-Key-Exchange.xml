@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">BB84 Key Exchange</title>
+  <summary lang="en">Usage of the <i>BB84 Key Exchange</i></summary>
+  <description lang="en">BB84 Key Exchange is a photon-based method of exchanging cryptographic keys.
+  It is one of the earliest practical examples of key exchange implemented within the field of cryptography.
+  The BB84-Protocol is one of the most recent cryptographic procedures on the base of quantum physics. A key is sent through unsecure channel via polarized photons.  
+  This key can then be used to encrypt subsequent communications using a symmetric key cipher.<newline /><newline />
+  Source: <external ref="http://en.wikipedia.org/wiki/BB84" /></description>
+  <keywords>protocol, bennet, brassard, 1984, photon, photons, polarization, light, quantum, physics, alice, bob, eve</keywords>
+
+  <title lang="de">BB84-Schlüsselaustausch</title>
+  <summary lang="de">Anwenden des <i>B84-Schlüsselaustauschs</i></summary>
+  <description lang="de">Das BB84-Protokoll stellt eines der modernsten kryptographischen Verfahren auf Basis der Quantenphysik dar. Mit Hilfe von polarisierten Photonen wird ein Schlüssel über einen öffentlichen, 
+  unsicheren Kanal ausgetauscht. Dieser Schlüssel kann im Anschluss für die Anwendung einer symmetrischen Chiffre verwendet werden. <newline /><newline />
+  Quelle: <external ref="http://de.wikipedia.org/wiki/Quantenschl%C3%BCsselaustausch" /></description>
+  <keywords lang="de">protokoll, schlüssel, photonen, polarisation, licht, quanten, physik, alice, bob, eve</keywords>
+
+  <icon file="BB84-Key-Exchange.png" />
+
+  <relevantPlugins>
+    <plugin name="BB84ErrorDetector" />
+    <plugin name="BB84KeyGenerator" />
+    <plugin name="BB84ManInTheMiddle" />
+    <plugin name="BB84PhotonDecoder" />
+	<plugin name="BB84PhotonEncoder" />
+	<plugin name="BB84PhotonbaseGenerator" />
+  </relevantPlugins>
+
+</sample>
