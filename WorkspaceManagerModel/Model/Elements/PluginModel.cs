@@ -505,7 +505,7 @@ namespace WorkspaceManager.Model
                     {
                         try
                         {
-                            if(connectorModel.DataQueue.Count == 0 && connectorModel.LastData == null)
+                            if((connectorModel.DataQueue.Count == 0 && connectorModel.LastData == null) || connectorModel.InputConnections.Count == 0)
                             {
                                 continue;
                             }
