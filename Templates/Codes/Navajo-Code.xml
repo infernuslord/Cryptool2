@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Navajo Code</title>
+  <summary lang="en">Navajo indians code</summary>
+  <description lang="en">This templates shows how Navajo indians used their language to encrypt and decrypt messages in the WW2.</description>
+  <keywords>navajo, code, ww2, talkers,</keywords>
+
+  <title lang="de">Navajo-Code</title>
+  <summary lang="de">Navajo-Indianer-Code</summary>
+  <description lang="de">Diese Vorlage zeigt wie die Navajo Indianer ihre Sprache im 2. Weltkrieg genutzt haben, um Nachrichten zu verschlüsseln und zu entschlüsseln.</description>
+  <keywords lang="de">Navajo, Code, 2. Weltkrieg</keywords>
+
+  <icon file="Navajo-Code.png" />
+  <relevantPlugins>
+    <plugin name="Substitution" />
+  </relevantPlugins>
+
+</sample>
