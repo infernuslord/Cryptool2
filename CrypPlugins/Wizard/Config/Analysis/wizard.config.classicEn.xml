@@ -53,7 +53,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
       <item content="Spanish" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="Caesar" file="Cryptanalysis\Classic\Caesar_Analysis.cwm">
+    <sampleViewer image="Caesar" file="Cryptanalysis\Classic\Caesar_Analysis_Using-character-frequencies.cwm">
       <name lang="en">Caesar Analysis Output</name>
       <name lang="de">Caesar-Analyse: Ausgabe</name>
       <description lang="en">Caesar Analysis Output</description>
@@ -69,7 +69,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
         <description lang="de">Geheimtext:</description>
       </inputBox>
 
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
+      <outputBox plugin="Decrypted Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
