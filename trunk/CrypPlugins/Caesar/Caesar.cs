@@ -89,7 +89,7 @@ namespace Cryptool.Caesar
         [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", false)]
         public int ShiftKey
         {
-          get { return settings.ShiftValue; }
+          get { return settings.ShiftKey; }
           set 
           {
               settings.SetKeyByValue(value,false);
@@ -143,7 +143,7 @@ namespace Cryptool.Caesar
         }
 
         public void PreExecution()
-        {
+        {            
         }
 
         #endregion
@@ -212,10 +212,10 @@ namespace Cryptool.Caesar
 		                switch (settings.Action)
 		                {
 		                    case CaesarSettings.CaesarMode.Encrypt:
-                                cpos = (ppos + settings.ShiftValue) % alphabet.Length;
+                                cpos = (ppos + settings.ShiftKey) % alphabet.Length;
 		                        break;
 		                    case CaesarSettings.CaesarMode.Decrypt:
-                                cpos = (ppos - settings.ShiftValue + alphabet.Length) % alphabet.Length;
+                                cpos = (ppos - settings.ShiftKey + alphabet.Length) % alphabet.Length;
 		                        break;
 		                }
 
