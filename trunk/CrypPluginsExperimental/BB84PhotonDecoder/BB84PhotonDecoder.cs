@@ -183,17 +183,19 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             if (inputPhotons[inputPhotons.Length-1].Equals('L'))
             {
                 listened = true;
+                inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
             }
             else if (inputPhotons[inputPhotons.Length-1].Equals('S'))
             {
                 listened = false;
+                inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
             }
             else
             {
-                throw new Exception("Fatal Error");
+                listened = false;
             }
 
-            inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
+            
             
         }
 
