@@ -95,19 +95,20 @@ namespace BB84KeyGenerator
                 givenKey = inputKey;
             }
 
-            
-            string commonKey = "";
+
+            StringBuilder commonKeyBuilder = new StringBuilder();
             for (int i = 0; i < firstBases.Length; i++)
             {
                 if (firstBases[i].Equals(secondBases[i]))
                 {
-                    commonKey += givenKey[i];
+                    commonKeyBuilder.Append(givenKey[i]);
                 }
                 else
                 {
-                    commonKey += " ";
+                    commonKeyBuilder.Append(" ");
                 }
             }
+            
   
 
             if (inputBasesFirst.Length > maxLengthStrings)
@@ -115,14 +116,14 @@ namespace BB84KeyGenerator
                 firstBasesBox.Text = firstBases + " ...";
                 secondBasesBox.Text = secondBases + " ...";
                 inputKeyBox.Text = givenKey + " ...";
-                commonKeyBox.Text = commonKey + " ...";
+                commonKeyBox.Text = commonKeyBuilder.ToString() + " ...";
             }
             else
             {
                 firstBasesBox.Text = firstBases;
                 secondBasesBox.Text = secondBases;
                 inputKeyBox.Text = givenKey;
-                commonKeyBox.Text = commonKey;
+                commonKeyBox.Text = commonKeyBuilder.ToString();
             }
         }
 
