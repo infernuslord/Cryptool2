@@ -31,9 +31,11 @@ namespace Sigaba
         private ObservableCollection<string> _cipherControlRotorStrings = new ObservableCollection<string>();
         private ObservableCollection<string> _indexRotorStrings = new ObservableCollection<string>();
 
-        private string _cipherKey = "OOOOO";
-        private string _controlKey = "OOOOO";
-        private string _indexKey = "00000";
+        public string _cipherKey = "OOOOO";
+        public string _controlKey = "OOOOO";
+        public string _indexKey = "00000";
+
+        private int _presentationSpeed = 100;
 
         private int _unknownSymbolHandling = 0;
         private int _caseHandling = 0;
@@ -216,6 +218,21 @@ namespace Sigaba
             }
         }
 
+        [PropertySaveOrder(10)]
+        [TaskPane("PresentationSpeedCaption", "PresentationSpeedTooltip", "PresentationGroup", 6, true, ControlType.Slider, 100, 4000)]
+        public int PresentationSpeed
+        {
+            get { return (int)_presentationSpeed; }
+            set
+            {
+                if ((value) != _presentationSpeed)
+                {
+                    this._presentationSpeed = value;
+                    OnPropertyChanged("PresentationSpeed");
+                }
+            }
+        }
+
         #endregion
 
         #region Used rotor settings
@@ -267,7 +284,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor2ReserveCaption", "Rotor2ReserveTooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
             "CipherGroup", 8, false, ControlType.CheckBox, "Reverse")]
         public Boolean CipherRotor2Reverse
         {
@@ -282,7 +299,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor3Caption", "Rotor3Tooltip",
+        [TaskPane("CipherRotor3Caption", "CipherRotor3Tooltip",
             "CipherGroup", 9, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int CipherRotor3
         {
@@ -298,7 +315,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor3ReserveCaption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
             "CipherGroup", 10, false, ControlType.CheckBox, "Reverse")]
         public Boolean CipherRotor3Reverse
         {
@@ -313,7 +330,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor4Caption", "Rotor4Tooltip",
+        [TaskPane("CipherRotor4Caption", "CipherRotor4Tooltip",
             "CipherGroup", 11, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int CipherRotor4
         {
@@ -327,8 +344,8 @@ namespace Sigaba
                 }
             }
         }
-        
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
             "CipherGroup", 12, false, ControlType.CheckBox, "Reverse")]
         public Boolean CipherRotor4Reverse
         {
@@ -343,7 +360,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor5Caption", "Rotor5Tooltip",
+        [TaskPane("CipherRotor5Caption", "CipherRotor5Tooltip",
             "CipherGroup", 13, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int CipherRotor5
         {
@@ -358,7 +375,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
             "CipherGroup", 14, false, ControlType.CheckBox, "Reverse")]
         public Boolean CipherRotor5Reverse
         {
@@ -437,7 +454,7 @@ namespace Sigaba
         }
 
 
-        [TaskPane("Rotor3Caption", "Rotor3Tooltip",
+        [TaskPane("ControlRotor3Caption", "ControlRotor3Tooltip",
             "ControlGroup", 19, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int ControlRotor3
         {
@@ -453,7 +470,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "ControlGroup", 20, false, ControlType.CheckBox, "Reverse")]
         public Boolean ControlRotor3Reverse
         {
@@ -468,7 +485,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor4Caption", "Rotor4Tooltip",
+        [TaskPane("ControlRotor4Caption", "ControlRotor4Tooltip",
             "ControlGroup", 21, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int ControlRotor4
         {
@@ -483,7 +500,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "ControlGroup", 22, false, ControlType.CheckBox, "Reverse")]
         public Boolean ControlRotor4Reverse
         {
@@ -498,7 +515,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor5Caption", "Rotor5Tooltip",
+        [TaskPane("ControlRotor5Caption", "ControlRotor5Tooltip",
             "ControlGroup", 23, false, ControlType.DynamicComboBox, new string[] { "CipherControlRotorStrings" })]
         public int ControlRotor5
         {
@@ -513,7 +530,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "ControlGroup", 24, false, ControlType.CheckBox, "Reverse")]
         public Boolean ControlRotor5Reverse
         {
@@ -528,7 +545,7 @@ namespace Sigaba
             }
         }
         
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("IndexRotor1Caption", "IndexRotor1Tooltip",
           "IndexGroup", 25, false, ControlType.DynamicComboBox, new string[] { "IndexRotorStrings" })]
         public int IndexRotor1
         {
@@ -544,7 +561,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "IndexGroup", 26, false, ControlType.CheckBox, "Reverse")]
         public Boolean IndexRotor1Reverse
         {
@@ -559,7 +576,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("IndexRotor2Caption", "Rotor2Tooltip",
           "IndexGroup", 27, false, ControlType.DynamicComboBox, new string[] { "IndexRotorStrings" })]
         public int IndexRotor2
         {
@@ -575,7 +592,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "IndexGroup", 28, false, ControlType.CheckBox, "Reverse")]
         public Boolean IndexRotor2Reverse
         {
@@ -590,7 +607,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("IndexRotor3Caption", "IndexRotor3Tooltip",
           "IndexGroup", 29, false, ControlType.DynamicComboBox, new string[] { "IndexRotorStrings" })]
         public int IndexRotor3
         {
@@ -606,7 +623,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "IndexGroup", 30, false, ControlType.CheckBox, "Reverse")]
         public Boolean IndexRotor3Reverse
         {
@@ -621,7 +638,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("IndexRotor4Caption", "IndexRotor4Tooltip",
           "IndexGroup", 31, false, ControlType.DynamicComboBox, new string[] { "IndexRotorStrings" })]
         public int IndexRotor4
         {
@@ -637,7 +654,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "IndexGroup", 32, false, ControlType.CheckBox, "Reverse")]
         public Boolean IndexRotor4Reverse
         {
@@ -652,7 +669,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("IndexRotor5Caption", "IndexRotor5Tooltip",
           "IndexGroup", 33, false, ControlType.DynamicComboBox, new string[] { "IndexRotorStrings" })]
         public int IndexRotor5
         {
@@ -668,7 +685,7 @@ namespace Sigaba
             }
         }
 
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip",
+        [TaskPane("CipherRotor1ReverseCaption", "CipherRotor2ReverseTooltip",
         "IndexGroup", 34, false, ControlType.CheckBox, "Reverse")]
         public Boolean IndexRotor5Reverse
         {

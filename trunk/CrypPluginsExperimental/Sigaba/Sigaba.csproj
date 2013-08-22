@@ -63,6 +63,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -77,6 +79,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Rotor3Index.xaml.cs">
+      <DependentUpon>Rotor3Index.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationIndex.xaml.cs">
+      <DependentUpon>PresentationIndex.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationRotor.xaml.cs">
+      <DependentUpon>PresentationRotor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -88,9 +99,16 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Rotor.cs" />
+    <Compile Include="Rotor2.cs" />
+    <Compile Include="Rotor3.xaml.cs">
+      <DependentUpon>Rotor3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Sigaba.cs" />
     <Compile Include="SigabaConstants.cs" />
     <Compile Include="SigabaCore.cs" />
+    <Compile Include="SigabaPresentation.xaml.cs">
+      <DependentUpon>SigabaPresentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SigabaSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -132,7 +150,28 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Rotor3Index.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PresentationIndex.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationRotor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Rotor3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SigabaPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icon.png" />
   </ItemGroup>

@@ -123,6 +123,21 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Choose the mode of opertation</value>
   </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Case handling</value>
+  </data>
+  <data name="CaseHandlingList1" xml:space="preserve">
+    <value>Preserve case</value>
+  </data>
+  <data name="CaseHandlingList2" xml:space="preserve">
+    <value>Convert to upper</value>
+  </data>
+  <data name="CaseHandlingList3" xml:space="preserve">
+    <value>Convert to lower</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>What should be done with upper and lower case letters?</value>
+  </data>
   <data name="CipherGroup" xml:space="preserve">
     <value>Cipher rotor bank</value>
   </data>
@@ -133,7 +148,7 @@
     <value>Defines the positions of the cipher rotors</value>
   </data>
   <data name="CipherRotor1Caption" xml:space="preserve">
-    <value>Cipher rotor 1 (most left)</value>
+    <value>Cipher rotor 1 (most right)</value>
   </data>
   <data name="CipherRotor1ReverseCaption" xml:space="preserve">
     <value>Reverse</value>
@@ -150,6 +165,24 @@
   <data name="CipherRotor2Tooltip" xml:space="preserve">
     <value>Defines the typ of the second cipher rotor</value>
   </data>
+  <data name="CipherRotor3Caption" xml:space="preserve">
+    <value>Cipher Rotor 3</value>
+  </data>
+  <data name="CipherRotor3ToolTip" xml:space="preserve">
+    <value>Defines the type of the third cipher rotor</value>
+  </data>
+  <data name="CipherRotor4Caption" xml:space="preserve">
+    <value>Cipher Rotor 4</value>
+  </data>
+  <data name="CipherRotor4Tooltip" xml:space="preserve">
+    <value>Defines the type of the fourth cipher rotor</value>
+  </data>
+  <data name="CipherRotor5Caption" xml:space="preserve">
+    <value>Cipher Rotor 5 (most left)</value>
+  </data>
+  <data name="CipherRotor5Tooltip" xml:space="preserve">
+    <value>Defines the type of the fith cipher rotor</value>
+  </data>
   <data name="ControlGroup" xml:space="preserve">
     <value>Control rotor bank</value>
   </data>
@@ -160,7 +193,7 @@
     <value>Defines the positions of the control rotors</value>
   </data>
   <data name="ControlRotor1Caption" xml:space="preserve">
-    <value>Control rotor 1 (most left)</value>
+    <value>Control rotor 1 (most right)</value>
   </data>
   <data name="ControlRotor1ReverseCaption" xml:space="preserve">
     <value>Reverse</value>
@@ -177,6 +210,24 @@
   <data name="ControlRotor2Tooltip" xml:space="preserve">
     <value>Defines the typ of the second control rotor</value>
   </data>
+  <data name="ControlRotor3Caption" xml:space="preserve">
+    <value>Control rotor 3</value>
+  </data>
+  <data name="ControlRotor3Tooltip" xml:space="preserve">
+    <value>Defines the type of the third control rotor</value>
+  </data>
+  <data name="ControlRotor4Caption" xml:space="preserve">
+    <value>Control rotor 4</value>
+  </data>
+  <data name="ControlRotor4ToolTip" xml:space="preserve">
+    <value>Defines the type of the fourth control rotor</value>
+  </data>
+  <data name="ControlRotor5Caption" xml:space="preserve">
+    <value>Control rotor 5 (most left)</value>
+  </data>
+  <data name="ControlRotor5ToolTip" xml:space="preserve">
+    <value>Defines the type of the fith control rotor</value>
+  </data>
   <data name="IndexGroup" xml:space="preserve">
     <value>Index rotor bank</value>
   </data>
@@ -185,6 +236,36 @@
   </data>
   <data name="IndexKeyTooltip" xml:space="preserve">
     <value>Defines the positions of the index rotors</value>
+  </data>
+  <data name="IndexRotor1Caption" xml:space="preserve">
+    <value>Index Rotor 1 (most left)</value>
+  </data>
+  <data name="IndexRotor1Tooltip" xml:space="preserve">
+    <value>Defines the type of the first index rotor</value>
+  </data>
+  <data name="IndexRotor2Caption" xml:space="preserve">
+    <value>Index Rotor 2</value>
+  </data>
+  <data name="IndexRotor2Tooltip" xml:space="preserve">
+    <value>Defines the type of the second index rotor</value>
+  </data>
+  <data name="IndexRotor3Caption" xml:space="preserve">
+    <value>Index Rotor 3</value>
+  </data>
+  <data name="IndexRotor3Tooltip" xml:space="preserve">
+    <value>Defines the type of the third index rotor</value>
+  </data>
+  <data name="IndexRotor4Caption" xml:space="preserve">
+    <value>Index Rotor 4</value>
+  </data>
+  <data name="IndexRotor4Tooltip" xml:space="preserve">
+    <value>Defines the type of the fourth index rotor</value>
+  </data>
+  <data name="IndexRotor5Caption" xml:space="preserve">
+    <value>Index Rotor 5  (most right)</value>
+  </data>
+  <data name="IndexRotor5Tooltip" xml:space="preserve">
+    <value>Defines the type of the fith index rotor</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Sigaba</value>
@@ -197,5 +278,23 @@
   </data>
   <data name="SigabaSettings_SigabaSettings_Decipher" xml:space="preserve">
     <value>Decrypt</value>
+  </data>
+  <data name="TextOptionsGroup" xml:space="preserve">
+    <value>Text options</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Unknown symbol handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with 'X'</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
   </data>
 </root>
