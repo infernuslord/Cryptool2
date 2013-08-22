@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Timers;
 
 
 namespace Sigaba
@@ -9,18 +12,28 @@ namespace Sigaba
 
         private readonly Sigaba _facade;
         private readonly SigabaSettings _settings;
+        private readonly SigabaPresentation _sigpa;
 
-        private Rotor[] ControlRotors { get; set; }
-        private Rotor[] CipherRotors { get; set; }
-        private Rotor[] IndexRotors { get; set; }
+        public Rotor[] ControlRotors { get; set; }
+        public Rotor[] CipherRotors { get; set; }
+        public Rotor[] IndexRotors { get; set; }
 
-        public SigabaCore(Sigaba facade)
+        public int[,] PresentationLetters = new int[5,20];
+
+        public System.Timers.Timer aTimer = new System.Timers.Timer();
+
+       
+        public Boolean b2 = true;
+
+        public SigabaCore(Sigaba facade, SigabaPresentation sigpa)
         {
+            _sigpa = sigpa;
             _facade = facade;
             _settings = (SigabaSettings)_facade.Settings;
             CipherRotors = new Rotor[5];
             ControlRotors = new Rotor[5];
             IndexRotors = new Rotor[5];
+            
 
         }
 
@@ -52,6 +65,55 @@ namespace Sigaba
             }
 
             UpdateSettings();
+            return repeat;
+        }
+
+        public string EncryptPresentation(String cipher)
+        {
+            Boolean b2 = true;
+
+            string repeat = "";
+
+            foreach (char c in cipher)
+            {
+                if(!b2)
+                {
+                    break;
+                }
+                string s = "";
+
+                repeat = String.Concat(repeat, (char)(CipherPresentation(c - 65) + 65) + "");
+
+                foreach (int i in ControlPresentation().Distinct().ToArray())
+                {
+                    s = String.Concat(s, i);
+                    CipherRotors[i].IncrementPosition();
+                }
+
+                if (ControlRotors[2].Position == 14)
+                {
+                    if (ControlRotors[1].Position == 14)
+                    {
+                        ControlRotors[3].IncrementPosition();
+                    }
+                    ControlRotors[1].IncrementPosition();
+                }
+                ControlRotors[2].IncrementPosition();
+
+                _sigpa.fillPresentation(PresentationLetters);
+                
+
+                _sigpa.Callback = true;
+
+                while(_sigpa.Callback && b2)  //primitve escape routine
+                {
+                    
+                }
+                UpdateSettings();
+                
+            }
+
+           
             return repeat;
         }
 
@@ -97,10 +159,10 @@ namespace Sigaba
             ControlRotors[4] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor5], _settings.ControlKey[4] - 65, _settings.ControlRotor5Reverse);
 
             IndexRotors[0] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[0] - 48, _settings.IndexRotor1Reverse);
-            IndexRotors[1] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[1] - 48, _settings.IndexRotor2Reverse);
-            IndexRotors[2] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[2] - 48, _settings.IndexRotor3Reverse);
-            IndexRotors[3] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[3] - 48, _settings.IndexRotor4Reverse);
-            IndexRotors[4] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[4] - 48, _settings.IndexRotor5Reverse);
+            IndexRotors[1] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor2], _settings.IndexKey[1] - 48, _settings.IndexRotor2Reverse);
+            IndexRotors[2] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor3], _settings.IndexKey[2] - 48, _settings.IndexRotor3Reverse);
+            IndexRotors[3] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor4], _settings.IndexKey[3] - 48, _settings.IndexRotor4Reverse);
+            IndexRotors[4] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor5], _settings.IndexKey[4] - 48, _settings.IndexRotor5Reverse);
         }
 
         public int[] Control()
@@ -123,8 +185,6 @@ namespace Sigaba
             temph = SigabaConstants.Transform[temph];
             tempi = SigabaConstants.Transform[tempi];
 
-            
-
             foreach (var rotor in IndexRotors)
             {
                 if (tempf != -1)
@@ -137,12 +197,57 @@ namespace Sigaba
                     tempi = rotor.Ciph(tempi);
             }
 
-            //   Console.WriteLine(tempf +""+ tempg +""+ temph + "" + tempi + "test");
-
             tempf = SigabaConstants.Transform2[tempf];
             tempg = SigabaConstants.Transform2[tempg];
             temph = SigabaConstants.Transform2[temph];
             tempi = SigabaConstants.Transform2[tempi];
+
+            int[] back = { tempf, tempg, temph, tempi };
+
+            return back;
+        }
+
+        public int[] ControlPresentation()
+        {
+            int tempf = 'F' - 65;
+            int tempg = 'G' - 65;
+            int temph = 'H' - 65;
+            int tempi = 'I' - 65;
+
+            PresentationLetters[0,0] = tempf;
+            PresentationLetters[1,0] = tempg;
+            PresentationLetters[2,0] = temph;
+            PresentationLetters[3,0] = tempi;
+
+            for (int i = 0; i < ControlRotors.Length; i++)
+            {
+                PresentationLetters[0, i+1] = tempf = ControlRotors[i].DeCiph(tempf);
+                PresentationLetters[1, i+1] = tempg = ControlRotors[i].DeCiph(tempg);
+                PresentationLetters[2, i+1] = temph = ControlRotors[i].DeCiph(temph);
+                PresentationLetters[3, i+1] = tempi = ControlRotors[i].DeCiph(tempi);
+            }
+
+            PresentationLetters[0, ControlRotors.Length + 2] = tempf = SigabaConstants.Transform[tempf];
+            PresentationLetters[1, ControlRotors.Length + 2] = tempg = SigabaConstants.Transform[tempg];
+            PresentationLetters[2, ControlRotors.Length + 2] = temph = SigabaConstants.Transform[temph];
+            PresentationLetters[3, ControlRotors.Length + 2] = tempi = SigabaConstants.Transform[tempi];
+
+            for (int i = 0; i < IndexRotors.Length;i++ )
+            {
+                if (tempf != -1)
+                    PresentationLetters[0, ControlRotors.Length + i + 3] = tempf = IndexRotors[i].Ciph(tempf);
+                if (tempg != -1)
+                    PresentationLetters[1, ControlRotors.Length + i + 3] = tempg = IndexRotors[i].Ciph(tempg);
+                if (temph != -1)
+                    PresentationLetters[2, ControlRotors.Length + i + 3] = temph = IndexRotors[i].Ciph(temph);
+                if (tempi != -1)
+                    PresentationLetters[3, ControlRotors.Length + i + 3] = tempi = IndexRotors[i].Ciph(tempi);
+            }
+
+            PresentationLetters[0, ControlRotors.Length + IndexRotors.Length + 4] = tempf = SigabaConstants.Transform2[tempf];
+            PresentationLetters[1, ControlRotors.Length + IndexRotors.Length + 4] = tempg = SigabaConstants.Transform2[tempg];
+            PresentationLetters[2, ControlRotors.Length + IndexRotors.Length + 4] = temph = SigabaConstants.Transform2[temph];
+            PresentationLetters[3, ControlRotors.Length + IndexRotors.Length + 4] = tempi = SigabaConstants.Transform2[tempi];
 
             int[] back = { tempf, tempg, temph, tempi };
 
@@ -159,14 +264,58 @@ namespace Sigaba
             }
             if (_settings.Action == 1)
             {
-                /*for (int i = _cipherRotors.Count() - 1; i > -1; i--)
-                {
-                    temp = _cipherRotors[i].DeCiph(temp);
-                }*/
                 temp = CipherRotors.Reverse().Aggregate(temp, (current, rotor) => rotor.DeCiph(current));
             }
 
             return temp;
         }
+
+        public int CipherPresentation(int c)
+        {
+            int temp = c;
+
+            
+
+            /*if (_settings.Action == 0)
+            {
+                temp = CipherRotors.Aggregate(temp, (current, rotor) => rotor.Ciph(current));
+            }
+            if (_settings.Action == 1)
+            {
+                temp = CipherRotors.Reverse().Aggregate(temp, (current, rotor) => rotor.DeCiph(current));
+            }*/
+
+            if (_settings.Action == 0)
+            {
+                PresentationLetters[4, 5] = c;
+                for (int i = 0; i < CipherRotors.Length; i++)
+                {
+                    PresentationLetters[4, CipherRotors.Length - i -1] = temp = CipherRotors[i].Ciph(temp);
+                }
+            }
+            if (_settings.Action == 1)
+            {
+                PresentationLetters[4, 0] = c;
+                for (int i = CipherRotors.Length - 1; i > -1; i--)
+                {
+                    PresentationLetters[4, i + 1] = temp = CipherRotors[i].DeCiph(temp);
+                }
+            }
+            return temp;
+        }
+
+        public void stop()
+        {
+            b2 = false;
+            _sigpa.stop();
+
+        }
+
+        public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            _sigpa.st.SetSpeedRatio( 4000 / _settings.PresentationSpeed);
+            _sigpa.SpeedRatio = 4000 / _settings.PresentationSpeed;
+        }
+
     }
 }

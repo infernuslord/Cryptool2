@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sigaba
 {
-    class Rotor
+   public class Rotor
     {
         public int Position { get; set; }
 

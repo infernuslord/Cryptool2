@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -37,8 +38,15 @@ namespace Sigaba
         #region Constructor 
         public Sigaba()
         {
-            _core = new SigabaCore(this);
+            
+            SigabaPresentation sigpa = new SigabaPresentation(this,_settings);
+            Presentation = sigpa;
+            this._settings.PropertyChanged += sigpa.settings_OnPropertyChange;
+            
+            _core = new SigabaCore(this, sigpa);
             _keys = new string[5];
+
+            this._settings.PropertyChanged += _core.settings_OnPropertyChange;
         }
 
         #endregion
@@ -93,7 +101,8 @@ namespace Sigaba
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -120,11 +129,14 @@ namespace Sigaba
             _settings.ControlKey = _keys[2].ToUpper();
             
             _core.SetKeys();
-
-
-
-            SomeOutput = postFormatOutput(_core.Encrypt(preFormatInput(SomeInput)));
-            
+            if(false)
+            {
+                SomeOutput = postFormatOutput(_core.Encrypt(preFormatInput(SomeInput)));
+            }
+            else
+            {
+                SomeOutput = postFormatOutput(_core.EncryptPresentation(preFormatInput(SomeInput)));
+            }
             OnPropertyChanged("SomeOutput");
 
             ProgressChanged(1, 1);
@@ -138,6 +150,10 @@ namespace Sigaba
             _settings.CipherKey = _keys[0].ToUpper();
             _settings.IndexKey = _keys[1].ToUpper();
             _settings.ControlKey = _keys[2].ToUpper();
+
+             _core.stop();
+            ((SigabaPresentation)Presentation).clearPresentation();
+
         }
 
         /// <summary>
@@ -146,6 +162,8 @@ namespace Sigaba
         /// </summary>
         public void Stop()
         {
+            _core.stop();   
+            ((SigabaPresentation)Presentation).clearPresentation();
         }
 
         /// <summary>
@@ -293,6 +311,7 @@ namespace Sigaba
         private void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+            
         }
 
         private void ProgressChanged(double value, double max)
