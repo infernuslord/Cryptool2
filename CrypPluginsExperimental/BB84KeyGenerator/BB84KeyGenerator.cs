@@ -21,6 +21,7 @@ using BB84KeyGenerator;
 using System.Windows.Threading;
 using System.Threading;
 using System;
+using System.Text;
 
 namespace Cryptool.Plugins.BB84KeyGenerator
 {
@@ -73,16 +74,16 @@ namespace Cryptool.Plugins.BB84KeyGenerator
 
         private string filterValidInput(string value)
         {
-            string outputString = "";
+            StringBuilder outputString = new StringBuilder();
             for (int i = 0; i < value.Length; i++)
             {
                 if (value[i].Equals('0') || value[i].Equals('1'))
                 {
-                    outputString += value[i];
+                    outputString.Append(value[i]);
                 }
             }
 
-            return outputString;
+            return outputString.ToString();
         }
 
         [PropertyInfo(Direction.InputData, "res_InputFirstBasesCaption", "res_InputFirstBasesTooltip")]
@@ -172,7 +173,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator
         {
             ProgressChanged(0, 1);
 
-            string tempOutput = "";
+            StringBuilder tempOutput = new StringBuilder();
 
             char[] tempBasesFirst = inputBasesFirst.ToCharArray();
             char[] tempBasesSecond = inputBasesSecond.ToCharArray();
@@ -182,12 +183,12 @@ namespace Cryptool.Plugins.BB84KeyGenerator
             {
                 if (tempBasesFirst[i].Equals(tempBasesSecond[i]))
                 {
-                    tempOutput += tempKey[i];
+                    tempOutput.Append(tempKey[i]);
                 }
             }
 
             ProgressChanged(1, 1);
-            outputCommonKey = tempOutput;
+            outputCommonKey = tempOutput.ToString();
 
             if (Presentation.IsVisible)
             {
