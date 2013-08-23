@@ -493,14 +493,21 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            if (SelectedPluginsList != null && SelectedPluginsList.Count() != 0)
+            try
             {
-                ComponentVisual element = SelectedPluginsList.ElementAt(0);
-                OnlineHelp.InvokeShowDocPage(element.Model.PluginType);
+                if (SelectedPluginsList != null && SelectedPluginsList.Count() != 0)
+                {
+                    ComponentVisual element = SelectedPluginsList.ElementAt(0);
+                    OnlineHelp.InvokeShowDocPage(element.Model.PluginType);
+                }
+                else
+                {
+                    OnlineHelp.InvokeShowDocPage(typeof(WorkspaceManagerClass));
+                }
             }
-            else
+            catch (Exception e)
             {
-                OnlineHelp.InvokeShowDocPage(typeof(WorkspaceManagerClass));
+                GuiLogMessage(e.ToString(), NotificationLevel.Error)
             }
         }
 
@@ -509,14 +516,22 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowSelectedEntityHelp()
         {
-            if (selectedPluginsList.Count > 0)      //This doesn't work!
+
+            try
             {
-                var plugin = selectedPluginsList[0];
-                //OnlineHelp.InvokeShowDocPage(plugin.cont);
+                if (selectedPluginsList.Count > 0)      //This doesn't work!
+                {
+                    var plugin = selectedPluginsList[0];
+                    OnlineHelp.InvokeShowDocPage(plugin.Model.PluginType);
+                }
+                else
+                {
+                    ShowHelp();
+                }
             }
-            else
+            catch (Exception e)
             {
-                ShowHelp();
+                GuiLogMessage(e.ToString(), NotificationLevel.Error)
             }
         }
 
