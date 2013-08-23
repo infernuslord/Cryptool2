@@ -107,14 +107,23 @@ namespace CSVReader
                 string columnSeperator = ProcessEscapeSymbols(_settings.ColumnSeparator);
                 StringBuilder output = new StringBuilder();
                 string[] rows = _csv.Split(rowSeperator.ToArray(),StringSplitOptions.RemoveEmptyEntries);
-                
+
+                int noColumnCounter = 0;
                 int rowid = 0;
                 foreach (String row in rows)
                 {
                     string[] columns = row.Split(columnSeperator.ToArray(),StringSplitOptions.RemoveEmptyEntries);
                     if (columns.Length - 1 < _settings.ComlumnID)
                     {
-                        GuiLogMessage(string.Format("Row {0} has not column with id {1}.", rowid, _settings.ComlumnID), NotificationLevel.Warning);
+                        noColumnCounter++;
+                        if (noColumnCounter < 10)
+                        {
+                            GuiLogMessage(string.Format("Row {0} has no column with id {1}.", rowid, _settings.ComlumnID), NotificationLevel.Warning);
+                        }
+                        else if(noColumnCounter == 10)
+                        {
+                            GuiLogMessage(string.Format("More than 10 rows have no column with id {0}.", _settings.ComlumnID), NotificationLevel.Warning);
+                        }                        
                     }
                     else
                     {
@@ -123,7 +132,6 @@ namespace CSVReader
                     }
                     rowid++;
                 }
-
                 OutputData = output.ToString();
             }
             catch (Exception ex)
