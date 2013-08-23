@@ -507,7 +507,7 @@ namespace WorkspaceManager
             }
             catch (Exception e)
             {
-                GuiLogMessage(e.ToString(), NotificationLevel.Error)
+                GuiLogMessage(e.ToString(), NotificationLevel.Error);
             }
         }
 
@@ -531,7 +531,7 @@ namespace WorkspaceManager
             }
             catch (Exception e)
             {
-                GuiLogMessage(e.ToString(), NotificationLevel.Error)
+                GuiLogMessage(e.ToString(), NotificationLevel.Error);
             }
         }
 
