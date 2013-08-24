@@ -41,6 +41,7 @@
 		<item><b>Split:</b> Splits the text of the first input at the string given at the second text input (or on newlines, if input is empty) and returns the resulting substrings at the output array</item>
 		<item><b>Block:</b> Formats the given string into blocks (using the setting "Block size") after removing all whitespace characters</item>
 		<item><b>Reverse:</b> Reverses the given text of the first text input</item>
+    <item><b>Password Replace:</b> Adds a password in front or tail of the string and removes all occuring characters of this password in the rest of the string</item>
     </enum>
   </usage>
 
@@ -62,6 +63,7 @@
 		<item><b>Trennen:</b> Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
 		<item><b>Block:</b> Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
 		<item><b>Umkehren:</b> Kehrt die Zeichenkette des ersten Texteingangs um</item>
+    <item><b>Passwortersetzung:</b>Fügt einem Text ein Passwort am Anfang oder Ende hinzu und entfernt alle Zeichen des Passworts aus dem restlichen Text</item>
     </enum>    
   </usage>
   

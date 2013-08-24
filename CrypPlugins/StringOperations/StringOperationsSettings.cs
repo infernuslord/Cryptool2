@@ -27,6 +27,7 @@ namespace StringOperations
     {
         private StringOperationType _stringOperationType;
         private int _blockSize = 5;
+        private int _passwordPosition = 0;
         private readonly Dictionary<StringOperationType, List<string>> _operationVisibility = new Dictionary<StringOperationType, List<string>>();
         private readonly List<string> _operationList = new List<string>();  
 
@@ -43,12 +44,14 @@ namespace StringOperations
                 _operationVisibility[name] = new List<string>();
             }
             _operationList.Add("Blocksize");
+            _operationList.Add("PasswordPosition");
             _operationVisibility[StringOperationType.Block].Add("Blocksize");
+            _operationVisibility[StringOperationType.PasswordReplace].Add("PasswordPosition");
             UpdateTaskPaneVisibility();
         }
 
         [TaskPane("OperationCaption", "OperationCaptionToolTip", null, 1, false, ControlType.ComboBox,
-            new[] { "OperationList1", "OperationList2", "OperationList3", "OperationList4", "OperationList5", "OperationList6", "OperationList7", "OperationList8", "OperationList9", "OperationList10", "OperationList11", "OperationList12", "OperationList13", "OperationList14" })]
+            new[] { "OperationList1", "OperationList2", "OperationList3", "OperationList4", "OperationList5", "OperationList6", "OperationList7", "OperationList8", "OperationList9", "OperationList10", "OperationList11", "OperationList12", "OperationList13", "OperationList14", "OperationList15" })]
         public StringOperationType Operation
         {
             get
@@ -66,7 +69,7 @@ namespace StringOperations
             }
         }
         
-        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 3, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
         public int Blocksize
         {
             get
@@ -77,6 +80,20 @@ namespace StringOperations
             {
                 _blockSize = value;
                 OnPropertyChanged("Blocksize");
+            }
+        }
+
+        [TaskPane("PasswordPositionCaption", "PasswordPositionTooltip", null, 4, false, ControlType.ComboBox, new[] { "Head", "Tail" })]
+        public int PasswordPosition
+        {
+            get
+            {
+                return _passwordPosition;
+            }
+            set
+            {
+                _passwordPosition = value;
+                OnPropertyChanged("PasswordPosition");
             }
         }
 
@@ -117,6 +134,7 @@ namespace StringOperations
         RegexReplace,
         Split,
         Block,
-        Reverse
+        Reverse,
+        PasswordReplace
     }
 }

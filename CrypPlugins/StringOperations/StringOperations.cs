@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using StringOperations.Properties;
+using System.Collections.Generic;
 
 namespace StringOperations
 {
@@ -150,6 +151,49 @@ namespace StringOperations
                         char[] arr = _string1.ToCharArray();
 	                    Array.Reverse(arr);
                         _outputString = new string(arr);
+                        OnPropertyChanged("OutputString");
+                        break;
+                    case StringOperationType.PasswordReplace:
+
+                        //1: Generate password which does not contain any character twice:
+                        StringBuilder passwordBuilder = new StringBuilder();
+                        HashSet<char> passwordCharacters = new HashSet<char>();
+                        foreach (char c in _string2)
+                        {
+                            if(!passwordCharacters.Contains(c))
+                            {
+                                passwordCharacters.Add(c);
+                                passwordBuilder.Append(c);
+                            }
+                        }
+                        string password = passwordBuilder.ToString();
+
+                        //2: Generate new string which contains ("password" + str) or (str + "password")
+                        //   where str does not contain any password char
+
+                        StringBuilder output = new StringBuilder();
+                        if (_settings.PasswordPosition == 0) //Password should appear in the head
+                        {
+                            output.Append(password);
+                        }
+
+                        //append text without password characters
+                        foreach (char c in _string1)
+                        {
+                            if (!passwordCharacters.Contains(c))
+                            {
+                                output.Append(c);
+                            }
+                        }
+
+                        if (_settings.PasswordPosition == 1) //Password should appear in the tail
+                        {
+                            output.Append(password);
+                        }
+
+                        //3: return the result:
+
+                        _outputString = output.ToString();
                         OnPropertyChanged("OutputString");
                         break;
                 }
