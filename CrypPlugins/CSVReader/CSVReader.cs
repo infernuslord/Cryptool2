@@ -146,7 +146,7 @@ namespace CSVReader
 
         private string ProcessEscapeSymbols(string p)
         {
-            return p.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\", "\\").Replace("\\b", "\b").Replace("\\t", "\t").Replace("\\v", "\v");
+            return p.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\b", "\b").Replace("\\t", "\t").Replace("\\v", "\v").Replace("\\", "\\");
         }
 
         public void Stop()
