@@ -151,6 +151,24 @@ namespace CSVReader.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result Separator.
+        /// </summary>
+        internal static string ResultSeparatorCaption {
+            get {
+                return ResourceManager.GetString("ResultSeparatorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The separator symbol to separate the result.
+        /// </summary>
+        internal static string ResultSeparatorTooltip {
+            get {
+                return ResourceManager.GetString("ResultSeparatorTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Row Separator.
         /// </summary>
         internal static string RowSeparatorCaption {

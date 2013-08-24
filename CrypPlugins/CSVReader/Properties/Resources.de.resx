@@ -147,6 +147,12 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Liesst eine Spalte einer CSV aus</value>
   </data>
+  <data name="ResultSeparatorCaption" xml:space="preserve">
+    <value>Ergebnistrenner</value>
+  </data>
+  <data name="ResultSeparatorTooltip" xml:space="preserve">
+    <value>Der Trenner, der genutzt werden soll, um das Ergebnis zu trennen</value>
+  </data>
   <data name="RowSeparatorCaption" xml:space="preserve">
     <value>Reihentrenner</value>
   </data>

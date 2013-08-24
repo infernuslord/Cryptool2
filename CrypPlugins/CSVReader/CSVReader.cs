@@ -128,7 +128,10 @@ namespace CSVReader
                     else
                     {
                         output.Append(columns[_settings.ComlumnID]);
-                        output.Append(Environment.NewLine);
+                        if (rowid < rows.Length - 1)
+                        {
+                            output.Append(ProcessEscapeSymbols(_settings.ResultSeparator));
+                        }
                     }
                     rowid++;
                 }
