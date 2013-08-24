@@ -33,7 +33,9 @@ namespace CSVReader
         private int _columndID = 0;
         private string _rowSeparator = ";";
         private string _columnSeparator = ",";
-      
+        private string _resultSeparator = "\\n";
+
+
         [TaskPane("RowSeparatorCaption", "RowSeparatorTooltip", null, 0, false, ControlType.TextBox)]
         public string RowSeparator
         {
@@ -76,6 +78,19 @@ namespace CSVReader
             }
         }
 
+        [TaskPane("ResultSeparatorCaption", "ResultSeparatorTooltip", null, 3, false, ControlType.TextBox)]
+        public string ResultSeparator
+        {
+            get { return _resultSeparator; }
+            set
+            {
+                if (value != _resultSeparator)
+                {
+                    _resultSeparator = value;
+                    OnPropertyChanged("ResultSeparator");
+                }
+            }
+        }
 
         #region INotifyPropertyChanged Member
 

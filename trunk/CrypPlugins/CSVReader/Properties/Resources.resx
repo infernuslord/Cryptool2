@@ -147,6 +147,12 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Reads a column of a CSV file</value>
   </data>
+  <data name="ResultSeparatorCaption" xml:space="preserve">
+    <value>Result Separator</value>
+  </data>
+  <data name="ResultSeparatorTooltip" xml:space="preserve">
+    <value>The separator symbol to separate the result</value>
+  </data>
   <data name="RowSeparatorCaption" xml:space="preserve">
     <value>Row Separator</value>
   </data>
