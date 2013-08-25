@@ -2,13 +2,22 @@
 <sample>
 
   <title lang="en">Navajo Code</title>
-  <summary lang="en">Navajo indians code</summary>
-  <description lang="en">This templates shows how Navajo indians used their language to encrypt and decrypt messages in the WW2.</description>
+  <summary lang="en">This templates shows how <i>Navajo</i> Indians used their language to encrypt and decrypt messages in WW2. </summary>
+  <description lang="en">With this template we illustrate the encryption of a plaintext by means of a <b>codebook</b>. The codebook -- in this case the Navajo codebook -- contains codewords for many commonly used words from the English language. Additionally, there are also codewords for each letter in order to encrypt words, which are not in the codebook. Therefore, it is also called a <b>nomenclature code</b>.
+	<newline />
+	<newline />
+The Navajo code was used during World War II (WW2) by the Americans, and it was never broken. As the name suggests it is based on the language of the Navajo Indians. It's success is based on the fact, that the Navajo language has no common roots with any other spoken or written language during the time of WW2 -- and it was completely unknown to the enemy. 
+
+  </description>
   <keywords>navajo, code, ww2, talkers,</keywords>
 
   <title lang="de">Navajo-Code</title>
-  <summary lang="de">Navajo-Indianer-Code</summary>
-  <description lang="de">Diese Vorlage zeigt wie die Navajo Indianer ihre Sprache im 2. Weltkrieg genutzt haben, um Nachrichten zu verschlüsseln und zu entschlüsseln.</description>
+  <summary lang="de">Diese Vorlage zeigt wie die <i>Navajo</i> Indianer ihre Sprache im 2. Weltkrieg genutzt haben, um Nachrichten zu verschlüsseln und zu entschlüsseln.</summary>
+  <description lang="de">Mit dieser Vorlage wird die Verwendung eines <b>Codebuches</b> zur Verschlüsselung von geheimen Nachrichten aufgezeigt. Ein Codebuch -- in diesem Fall das Navajo-Codebuch -- enthält Codewörter für viele häufig genutzte Worte der Englischen Sprache. Darüber hinaus enthält das Navajo-Codebuch auch Codewörter für jeden Buchstaben damit auch Wörter, die nicht im Codebuch enthalten sind,  verschlüsselt werden können. Man spricht daher auch von einem <b>Nomenclature-Code</b>.
+	<newline />
+	<newline />
+Der Navajo-Code wurde von den Amerikaner während des 2.ten Weltkrieges angewendet und nie gebrochen. Wie der Name schon vermuten lässt, basiert der Navajo-Code auf der Sprache der Navajo-Indianer. Der Erfolg des Codes basiert auf der Tatsache, dass die Navajo Sprache keine Gemeinsamkeit mit jeglicher gesprochener oder geschriebener Sprache aus der damaligen Zeit hat. Darüber hinaus war sie den feindlichen Mächten völlig unbekannt.
+  </description>
   <keywords lang="de">Navajo, Code, 2. Weltkrieg</keywords>
 
   <icon file="Navajo-Code.png" />
