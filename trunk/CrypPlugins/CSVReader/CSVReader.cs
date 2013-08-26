@@ -118,7 +118,7 @@ namespace CSVReader
                         noColumnCounter++;
                         if (noColumnCounter < 10)
                         {
-                            GuiLogMessage(string.Format("Row {0} has no column with id {1}.", rowid, _settings.ComlumnID), NotificationLevel.Warning);
+                            GuiLogMessage(string.Format("Row {0} has no column with id {1}: \"{2}\"", rowid, _settings.ComlumnID, row), NotificationLevel.Warning);
                         }
                         else if(noColumnCounter == 10)
                         {
