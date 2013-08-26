@@ -153,47 +153,29 @@ namespace StringOperations
                         _outputString = new string(arr);
                         OnPropertyChanged("OutputString");
                         break;
-                    case StringOperationType.PasswordReplace:
-
-                        //1: Generate password which does not contain any character twice:
-                        StringBuilder passwordBuilder = new StringBuilder();
-                        HashSet<char> passwordCharacters = new HashSet<char>();
-                        foreach (char c in _string2)
+                    case StringOperationType.Sort:
+                        char[] sortarr = _string1.ToCharArray();
+                        Array.Sort(sortarr);
+                        if (_settings.Order == 1)
                         {
-                            if(!passwordCharacters.Contains(c))
-                            {
-                                passwordCharacters.Add(c);
-                                passwordBuilder.Append(c);
-                            }
+                            Array.Reverse(sortarr);
                         }
-                        string password = passwordBuilder.ToString();
+                        _outputString = new string(sortarr);
+                        OnPropertyChanged("OutputString");
+                        break;
+                    case StringOperationType.Distinct:
+                        StringBuilder builder = new StringBuilder();
+                        HashSet<char> chars = new HashSet<char>();
 
-                        //2: Generate new string which contains ("password" + str) or (str + "password")
-                        //   where str does not contain any password char
-
-                        StringBuilder output = new StringBuilder();
-                        if (_settings.PasswordPosition == 0) //Password should appear in the head
-                        {
-                            output.Append(password);
-                        }
-
-                        //append text without password characters
                         foreach (char c in _string1)
                         {
-                            if (!passwordCharacters.Contains(c))
+                            if (!chars.Contains(c))
                             {
-                                output.Append(c);
+                                chars.Add(c);
+                                builder.Append(c);
                             }
                         }
-
-                        if (_settings.PasswordPosition == 1) //Password should appear in the tail
-                        {
-                            output.Append(password);
-                        }
-
-                        //3: return the result:
-
-                        _outputString = output.ToString();
+                        _outputString = builder.ToString();
                         OnPropertyChanged("OutputString");
                         break;
                 }
