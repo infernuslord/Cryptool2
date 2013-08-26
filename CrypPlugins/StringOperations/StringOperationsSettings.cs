@@ -27,7 +27,7 @@ namespace StringOperations
     {
         private StringOperationType _stringOperationType;
         private int _blockSize = 5;
-        private int _passwordPosition = 0;
+        private int _order = 0;
         private readonly Dictionary<StringOperationType, List<string>> _operationVisibility = new Dictionary<StringOperationType, List<string>>();
         private readonly List<string> _operationList = new List<string>();  
 
@@ -44,14 +44,14 @@ namespace StringOperations
                 _operationVisibility[name] = new List<string>();
             }
             _operationList.Add("Blocksize");
-            _operationList.Add("PasswordPosition");
+            _operationList.Add("Order");
             _operationVisibility[StringOperationType.Block].Add("Blocksize");
-            _operationVisibility[StringOperationType.PasswordReplace].Add("PasswordPosition");
+            _operationVisibility[StringOperationType.Sort].Add("Order");
             UpdateTaskPaneVisibility();
         }
 
         [TaskPane("OperationCaption", "OperationCaptionToolTip", null, 1, false, ControlType.ComboBox,
-            new[] { "OperationList1", "OperationList2", "OperationList3", "OperationList4", "OperationList5", "OperationList6", "OperationList7", "OperationList8", "OperationList9", "OperationList10", "OperationList11", "OperationList12", "OperationList13", "OperationList14", "OperationList15" })]
+            new[] { "OperationList1", "OperationList2", "OperationList3", "OperationList4", "OperationList5", "OperationList6", "OperationList7", "OperationList8", "OperationList9", "OperationList10", "OperationList11", "OperationList12", "OperationList13", "OperationList14", "OperationList15", "OperationList16" })]
         public StringOperationType Operation
         {
             get
@@ -83,17 +83,17 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("PasswordPositionCaption", "PasswordPositionTooltip", null, 4, false, ControlType.ComboBox, new[] { "Head", "Tail" })]
-        public int PasswordPosition
+        [TaskPane("OrderCaption", "OrderTooltip", null, 4, false, ControlType.ComboBox, new[] { "Ascending", "Descending" })]
+        public int Order
         {
             get
             {
-                return _passwordPosition;
+                return _order;
             }
             set
             {
-                _passwordPosition = value;
-                OnPropertyChanged("PasswordPosition");
+                _order = value;
+                OnPropertyChanged("Order");
             }
         }
 
@@ -127,7 +127,7 @@ namespace StringOperations
         ToUppercase,
         Length,
         CompareTo,
-        Trim, 
+        Trim,
         IndexOf,
         Equals,
         Replace,
@@ -135,6 +135,7 @@ namespace StringOperations
         Split,
         Block,
         Reverse,
-        PasswordReplace
+        Sort,
+        Distinct
     }
 }

@@ -117,14 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Ascending" xml:space="preserve">
+    <value>Aufsteigend</value>
+  </data>
   <data name="BlocksizeCaption" xml:space="preserve">
     <value>Blockgröße</value>
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
     <value>Größe der Blöcke in die diese Zeichenkette aufgeteilt werden soll.</value>
   </data>
-  <data name="Head" xml:space="preserve">
-    <value>Kopf</value>
+  <data name="Descending" xml:space="preserve">
+    <value>Absteigend</value>
   </data>
   <data name="OperationCaption" xml:space="preserve">
     <value>Funktion</value>
@@ -151,7 +154,10 @@
     <value>Umkehren</value>
   </data>
   <data name="OperationList15" xml:space="preserve">
-    <value>Passwortersetzung</value>
+    <value>Sortierung</value>
+  </data>
+  <data name="OperationList16" xml:space="preserve">
+    <value>Eindeutig</value>
   </data>
   <data name="OperationList2" xml:space="preserve">
     <value>Teilstring</value>
@@ -177,6 +183,12 @@
   <data name="OperationList9" xml:space="preserve">
     <value>Gleichheit</value>
   </data>
+  <data name="OrderCaption" xml:space="preserve">
+    <value>Reihenfolge</value>
+  </data>
+  <data name="OrderTooltip" xml:space="preserve">
+    <value>Soll der Text aufsteigend oder absteigend sortiert werden?</value>
+  </data>
   <data name="OutputStringArrayCaption" xml:space="preserve">
     <value>Ausgabe des Zeichenketten-Arrays</value>
   </data>
@@ -194,12 +206,6 @@
   </data>
   <data name="OutputValueTooltip" xml:space="preserve">
     <value>Der Ausgabewert der gewählten Funktion</value>
-  </data>
-  <data name="PasswordPositionCaption" xml:space="preserve">
-    <value>Passwortposition</value>
-  </data>
-  <data name="PasswordPositionTooltip" xml:space="preserve">
-    <value>Wo soll das Passwort in der Ausgabe vorkommen?</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Zeichenketten-Operationen</value>
@@ -227,9 +233,6 @@
   </data>
   <data name="StringOperations_Execute_Could_not_execute_operation___0______1_" xml:space="preserve">
     <value>Konnte Operation '{0}' nicht ausführen: {1}</value>
-  </data>
-  <data name="Tail" xml:space="preserve">
-    <value>Ende</value>
   </data>
   <data name="Value1Caption" xml:space="preserve">
     <value>erster Funktionsparameter</value>

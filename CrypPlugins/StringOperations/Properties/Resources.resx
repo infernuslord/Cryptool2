@@ -228,19 +228,22 @@
   <data name="OperationList9" xml:space="preserve">
     <value>Equals</value>
   </data>
-  <data name="Head" xml:space="preserve">
-    <value>Head</value>
-  </data>
   <data name="OperationList15" xml:space="preserve">
-    <value>Password Replace</value>
+    <value>Sort</value>
   </data>
-  <data name="PasswordPositionCaption" xml:space="preserve">
-    <value>Password Position</value>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
   </data>
-  <data name="PasswordPositionTooltip" xml:space="preserve">
-    <value>Where should the password appear in the output?</value>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
   </data>
-  <data name="Tail" xml:space="preserve">
-    <value>Tail</value>
+  <data name="OrderCaption" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="OrderTooltip" xml:space="preserve">
+    <value>Should the string be sorted ascending or descending?</value>
+  </data>
+  <data name="OperationList16" xml:space="preserve">
+    <value>Distinct</value>
   </data>
 </root>
