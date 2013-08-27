@@ -180,4 +180,16 @@
   <data name="SymbolChoiceTooltip" xml:space="preserve">
     <value>The method for chosing symbols in a homophone substitution</value>
   </data>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Encrypt or decrypt?</value>
+  </data>
+  <data name="Decrypt" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="Encrypt" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
 </root>

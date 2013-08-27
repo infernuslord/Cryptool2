@@ -109,8 +109,17 @@ namespace Cryptool.Substitution
         public void Execute()
         {
             ProgressChanged(0,1);
-            var dict = GenerateSubstitutionDictionary(SourceAlphabet.Replace(Environment.NewLine, String.Empty), 
-                                                      DestinationAlphabet.Replace(Environment.NewLine, String.Empty));
+
+            Dictionary<String, String> dict = new Dictionary<string, string>();
+            if (_settings.Action == 0) // Encrypt
+            {
+                dict = GenerateSubstitutionDictionary(SourceAlphabet.Replace(Environment.NewLine, String.Empty), DestinationAlphabet.Replace(Environment.NewLine, String.Empty));
+            }
+            else //Decrypt
+            {
+                dict = GenerateSubstitutionDictionary(DestinationAlphabet.Replace(Environment.NewLine, String.Empty), SourceAlphabet.Replace(Environment.NewLine, String.Empty));
+            }
+
             GeneratePresentationMapping(dict);
 
             if (((SubstitutionSettings) Settings).SymbolChoice == SymbolChoice.Random)

@@ -135,7 +135,7 @@ namespace Cryptool.Caesar
         }
         
         [PropertySaveOrder(5)]
-        [TaskPane("ShiftValueCaption", "ShiftValueTooltip", null, 2, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane("ShiftValueCaption", "ShiftValueTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
         public int ShiftKey
         {
             get { return shiftValue; }
