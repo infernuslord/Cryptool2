@@ -117,79 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActionCaption" xml:space="preserve">
-    <value>Aktion</value>
+  <data name="AlphabetPermutatorCaption" xml:space="preserve">
+    <value>Alphabet Permutator</value>
   </data>
-  <data name="ActionTooltip" xml:space="preserve">
-    <value>Verschlüsseln oder entschlüsseln?</value>
+  <data name="AlphabetPermutatorTooltip" xml:space="preserve">
+    <value>Component to permutate an alphabet using a password</value>
   </data>
-  <data name="Decrypt" xml:space="preserve">
-    <value>Entschlüsseln</value>
+  <data name="Ascending" xml:space="preserve">
+    <value>Ascending</value>
   </data>
-  <data name="DestinationAlphabetCaption" xml:space="preserve">
-    <value>Zielalphabet</value>
+  <data name="Descending" xml:space="preserve">
+    <value>Descending</value>
   </data>
-  <data name="DestinationAlphabetTooltip" xml:space="preserve">
-    <value>Das Alphabet des Ausgabeetextes</value>
+  <data name="LeaveAsIs" xml:space="preserve">
+    <value>Leave as is</value>
   </data>
-  <data name="Encrypt" xml:space="preserve">
-    <value>Verschlüsseln</value>
+  <data name="OffsetCaption" xml:space="preserve">
+    <value>Offset</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabetext</value>
+  <data name="OffsetTooltip" xml:space="preserve">
+    <value>The offset which should be used to put the password in the destination alphabet</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Eingabetext welcher mit der Substition verarbeitet werden soll</value>
+  <data name="OrderCaption" xml:space="preserve">
+    <value>Order</value>
   </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabetext</value>
+  <data name="OrderTooltip" xml:space="preserve">
+    <value>The order which should be used to sort the destination alphabet</value>
   </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Der substituierte Text</value>
+  <data name="PasswordCaption" xml:space="preserve">
+    <value>Password</value>
   </data>
-  <data name="PluginCaption" xml:space="preserve">
-    <value>Substitution</value>
-  </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Klassische Substitution</value>
-  </data>
-  <data name="ReplacementSymbolCaption" xml:space="preserve">
-    <value>Ersetzung unbekannter Symbole</value>
-  </data>
-  <data name="ReplacementSymbolTooltip" xml:space="preserve">
-    <value>Mit welchem Symbol sollen unbekannte Symbole ersetzt werden</value>
+  <data name="PasswordTooltip" xml:space="preserve">
+    <value>The password which should be used for the permutation</value>
   </data>
   <data name="SourceAlphabetCaption" xml:space="preserve">
-    <value>Quellalphabet</value>
+    <value>Source Alphabet</value>
   </data>
   <data name="SourceAlphabetTooltip" xml:space="preserve">
-    <value>Das Alphabet des Eingabetextes</value>
-  </data>
-  <data name="SymbolChoiceCaption" xml:space="preserve">
-    <value>Symbol Auswahl</value>
-  </data>
-  <data name="SymbolChoiceList1" xml:space="preserve">
-    <value>Sequentiell</value>
-  </data>
-  <data name="SymbolChoiceList2" xml:space="preserve">
-    <value>Zufällig</value>
-  </data>
-  <data name="SymbolChoiceTooltip" xml:space="preserve">
-    <value>Die Methode um Symbole bei homophen Substitutionen auszuwählen</value>
-  </data>
-  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
-    <value>Behandlung unbekannter Symbole</value>
-  </data>
-  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Übernehmen</value>
-  </data>
-  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
-    <value>Ersetzen</value>
-  </data>
-  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
-    <value>Entfernen</value>
-  </data>
-  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Was soll mit unbekannten Symbolen geschehen?</value>
+    <value>The source alphabet which should be permutated</value>
   </data>
 </root>

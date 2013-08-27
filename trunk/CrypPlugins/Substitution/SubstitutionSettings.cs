@@ -29,6 +29,7 @@ namespace Cryptool.Substitution
         private UnknownSymbolHandling _unknownSymbolHandling;
         private SymbolChoice _symbolChoice;
         private string _replacementSymbol = "?";
+        private int _action = 0;
 
         [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public UnknownSymbolHandling UnknownSymbolHandling
@@ -88,6 +89,20 @@ namespace Cryptool.Substitution
                 default:
                     TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ReplacementSymbol", Visibility.Collapsed)));
                     break;
+            }
+        }
+
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new[] { "Encrypt", "Decrypt" })]
+        public int Action
+        {
+            get
+            {
+                return _action;
+            }
+            set
+            {
+                _action = value;
+                OnPropertyChanged("Action");
             }
         }
 
