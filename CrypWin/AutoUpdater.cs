@@ -51,6 +51,10 @@ namespace Cryptool.CrypWin
         private System.Timers.Timer checkTimer = new System.Timers.Timer(1000 * 60 * Settings.Default.CheckInterval);
         private System.Timers.Timer progressTimer;
 
+        private DateTime lastTime = DateTime.Now;
+        private DateTime lastGuiUpdateTime = DateTime.Now;
+        double bytesReceived = 0;
+
         private int downloadRetry = 0;
 
         private State currentState = State.Idle;
@@ -199,6 +203,7 @@ namespace Cryptool.CrypWin
                             string.Format(Properties.Resources.Update_available___0, updateName);
                         presentation.updateButton.Visibility = Visibility.Visible;
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
+                        presentation.text.Visibility = Visibility.Collapsed;
                         presentation.smallRightImage.Source = (ImageSource)presentation.FindResource("Update");
                         presentation.smallRightImage.Visibility = Visibility.Visible;
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
@@ -208,6 +213,7 @@ namespace Cryptool.CrypWin
                         presentation.updateButton.IsEnabled = false;
                         presentation.updateButton.Visibility = Visibility.Collapsed;
                         presentation.progressBar1.Visibility = Visibility.Visible;
+                        presentation.text.Visibility = Visibility.Visible;
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Downloading_update___ :
                             string.Format(Properties.Resources.Downloading_update___0_____, updateName);
@@ -221,6 +227,7 @@ namespace Cryptool.CrypWin
                         presentation.updateButton.Content = Properties.Resources.Restart_and_install_now;
                         presentation.updateButton.Visibility = Visibility.Visible;
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
+                        presentation.text.Visibility = Visibility.Collapsed;
                         presentation.label1.Content = (updateName == null) ?
                             Properties.Resources.Update_ready_to_install_ :
                             string.Format(Properties.Resources.Update___0___ready_to_install_, updateName);
@@ -495,10 +502,14 @@ namespace Cryptool.CrypWin
                         return;
                 }
 
+                lastTime = DateTime.Now;
+                lastGuiUpdateTime = DateTime.Now;
+                bytesReceived = 0;
+
                 wc.DownloadFileAsync(downloadUri, FilePathTemporary);
 
                 CurrentState = State.Downloading;
-
+                
                 progressTimer.Start();
 
                 GuiLogMessage("AutoUpdate: Downloading update...", NotificationLevel.Info);
@@ -531,13 +542,42 @@ namespace Cryptool.CrypWin
 
         private void wc_DownloadProgressChanged(object sender, System.Net.DownloadProgressChangedEventArgs e)
         {
+            OnUpdateDownloadProgressChanged(e.ProgressPercentage);
             try
-            {
-                progressTimer.Stop();
-                OnUpdateDownloadProgressChanged(e.ProgressPercentage);
+            {                
+                progressTimer.Stop();                
                 UpdaterPresentation.GetSingleton().Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    UpdaterPresentation.GetSingleton().progressBar1.Value = e.ProgressPercentage;
+                    try
+                    {
+                        UpdaterPresentation.GetSingleton().progressBar1.Value = e.ProgressPercentage;                        
+                        if (DateTime.Now > lastGuiUpdateTime.AddMilliseconds(750))
+                        {
+                            double interval = DateTime.Now.Subtract(lastTime).TotalMilliseconds;
+                            lastTime = DateTime.Now;
+                            double bytes = e.BytesReceived - bytesReceived;
+                            bytesReceived = e.BytesReceived;
+                            double bytesPerSecond = (bytes / interval ) * 1000.1;
+                            
+                            if (bytesPerSecond < 1024)
+                            {
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} bytes/sec", bytesPerSecond);
+                            }
+                            else if (bytesPerSecond / 1024 < 1024)
+                            {
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} kb/sec", (bytesPerSecond / 1024.0));
+                            }
+                            else
+                            {
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} MB/sec", (bytesPerSecond / (1024.0 * 1024.0)));
+                            }
+                            lastGuiUpdateTime = DateTime.Now;
+                        }                        
+                    }
+                    catch (Exception ex)
+                    {
+                        //wtf?
+                    }
                 }, e.ProgressPercentage);
                 if (wc.IsBusy)
                     progressTimer.Start();
