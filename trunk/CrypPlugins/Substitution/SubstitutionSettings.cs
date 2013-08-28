@@ -30,6 +30,8 @@ namespace Cryptool.Substitution
         private SymbolChoice _symbolChoice;
         private string _replacementSymbol = "?";
         private int _action = 0;
+        private string _inputSeparatorSymbol = "";
+        private string _outputSeparatorSymbol = "";
 
         [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public UnknownSymbolHandling UnknownSymbolHandling
@@ -46,7 +48,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [TaskPane("SymbolChoiceCaption", "SymbolChoiceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SymbolChoiceList1", "SymbolChoiceList2" })]
+        [TaskPane("SymbolChoiceCaption", "SymbolChoiceTooltip", null, 2, false, ControlType.ComboBox, new string[] { "SymbolChoiceList1", "SymbolChoiceList2" })]
         public SymbolChoice SymbolChoice
         {
             get { return _symbolChoice; }
@@ -60,7 +62,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [TaskPane("ReplacementSymbolCaption", "ReplacementSymbolTooltip", null, 1, false, ControlType.TextBox)]
+        [TaskPane("ReplacementSymbolCaption", "ReplacementSymbolTooltip", null, 3, false, ControlType.TextBox)]
         public string ReplacementSymbol
         {
             get { return _replacementSymbol; }
@@ -70,6 +72,34 @@ namespace Cryptool.Substitution
                 {
                     _replacementSymbol = value;
                     OnPropertyChanged("ReplacementSymbol");
+                }
+            }
+        }
+
+        [TaskPane("InputSeparatorSymbolCaption", "InputSeparatorSymbolTooltip", null, 4, false, ControlType.TextBox)]
+        public string InputSeparatorSymbol
+        {
+            get { return _inputSeparatorSymbol; }
+            set
+            {
+                if (_inputSeparatorSymbol != value)
+                {
+                    _inputSeparatorSymbol = value;
+                    OnPropertyChanged("InputSeparatorSymbol");
+                }
+            }
+        }
+
+        [TaskPane("OutputSeparatorSymbolCaption", "OutputSeparatorSymbolTooltip", null, 5, false, ControlType.TextBox)]
+        public string OutputSeparatorSymbol
+        {
+            get { return _outputSeparatorSymbol; }
+            set
+            {
+                if (_outputSeparatorSymbol != value)
+                {
+                    _outputSeparatorSymbol = value;
+                    OnPropertyChanged("OutputSeparatorSymbol");
                 }
             }
         }

@@ -135,11 +135,23 @@
   <data name="Encrypt" xml:space="preserve">
     <value>Verschlüsseln</value>
   </data>
+  <data name="InputSeparatorSymbolCaption" xml:space="preserve">
+    <value>Eingabesymboltrenner</value>
+  </data>
+  <data name="InputSeparatorSymbolTooltip" xml:space="preserve">
+    <value>Das Zeichen das genutzt werden soll, die Eingabe zu trennen.</value>
+  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Eingabetext</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
     <value>Eingabetext welcher mit der Substition verarbeitet werden soll</value>
+  </data>
+  <data name="OutputSeparatorSymbolCaption" xml:space="preserve">
+    <value>Ausgabesymboltrenner</value>
+  </data>
+  <data name="OutputSeparatorSymbolTooltip" xml:space="preserve">
+    <value>Das Zeichen das genutzt werden soll, die Ausgabe zu trennen.</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabetext</value>
