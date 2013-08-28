@@ -192,7 +192,7 @@ namespace Cryptool.Substitution
                             fromRectangle.SetValue(Grid.RowProperty, 0);
                             fromRectangle.SetValue(Grid.ColumnProperty, fromColumnCounter);
                             TextBlock fromText = new TextBlock();
-                            fromText.Text = from.Length > 8 ? from.Substring(0,5 % from.Length) + "..." : from;
+                            fromText.Text = from.Length >= 8 ? from.Substring(0,5 % from.Length) + "..." : from;
                             fromText.ToolTip = from;
                             fromText.FontSize = 11;
                             fromText.VerticalAlignment = VerticalAlignment.Center;
@@ -219,7 +219,7 @@ namespace Cryptool.Substitution
                             toRectangle.SetValue(Grid.RowProperty, 2);
                             toRectangle.SetValue(Grid.ColumnProperty, toColumnCounter);
                             TextBlock toText = new TextBlock();
-                            toText.Text = to.Length > 8 ? to.Substring(0, 5 % to.Length) + "..." : to;
+                            toText.Text = to.Length >= 8 ? to.Substring(0, 5 % to.Length) + "..." : to;
                             toText.ToolTip = to;
                             toText.FontSize = 11;
                             toText.VerticalAlignment = VerticalAlignment.Center;
