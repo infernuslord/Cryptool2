@@ -124,11 +124,26 @@ namespace Cryptool.Substitution
 
             if (((SubstitutionSettings) Settings).SymbolChoice == SymbolChoice.Random)
             {
-                OutputString = Substitute(InputString, dict);
+                if(!string.IsNullOrEmpty(((SubstitutionSettings) Settings).InputSeparatorSymbol))
+                {
+                    OutputString = Substitute(InputString, dict, ProcessEscapeSymbols(((SubstitutionSettings)Settings).InputSeparatorSymbol));
+                }
+                else
+                {
+                    OutputString = Substitute(InputString, dict);
+                }
             }
             else
             {
-                OutputString = Substitute(InputString, dict, false);
+                if(!string.IsNullOrEmpty(((SubstitutionSettings) Settings).InputSeparatorSymbol))
+                {
+                    OutputString = Substitute(InputString, dict, ProcessEscapeSymbols(((SubstitutionSettings)Settings).InputSeparatorSymbol), false);
+                }
+                else
+                {
+                    OutputString = Substitute(InputString, dict, false);
+                }
+                
             }
             OnPropertyChanged("OutputString");
             ProgressChanged(1, 1);
@@ -168,6 +183,7 @@ namespace Cryptool.Substitution
                             Rectangle fromRectangle = new Rectangle();
                             SolidColorBrush fromsolidBrushColor = new SolidColorBrush();
                             fromsolidBrushColor.Color = Color.FromArgb(255, 100, 255, 100);
+                            fromRectangle.ToolTip = from;
                             fromRectangle.Fill = fromsolidBrushColor;
                             fromRectangle.StrokeThickness = 2;
                             fromRectangle.Stroke = Brushes.Black;
@@ -176,8 +192,9 @@ namespace Cryptool.Substitution
                             fromRectangle.SetValue(Grid.RowProperty, 0);
                             fromRectangle.SetValue(Grid.ColumnProperty, fromColumnCounter);
                             TextBlock fromText = new TextBlock();
-                            fromText.Text = from;
-                            fromText.FontSize = 12;
+                            fromText.Text = from.Length > 8 ? from.Substring(0,5 % from.Length) + "..." : from;
+                            fromText.ToolTip = from;
+                            fromText.FontSize = 11;
                             fromText.VerticalAlignment = VerticalAlignment.Center;
                             fromText.HorizontalAlignment = HorizontalAlignment.Center;
                             fromText.SetValue(Grid.RowProperty, 0);
@@ -193,6 +210,7 @@ namespace Cryptool.Substitution
                             Rectangle toRectangle = new Rectangle();
                             SolidColorBrush tosolidBrushColor = new SolidColorBrush();
                             tosolidBrushColor.Color = Color.FromArgb(255, 255, 100, 100);
+                            toRectangle.ToolTip = to;
                             toRectangle.Fill = tosolidBrushColor;
                             toRectangle.StrokeThickness = 2;
                             toRectangle.Stroke = Brushes.Black;
@@ -201,8 +219,9 @@ namespace Cryptool.Substitution
                             toRectangle.SetValue(Grid.RowProperty, 2);
                             toRectangle.SetValue(Grid.ColumnProperty, toColumnCounter);
                             TextBlock toText = new TextBlock();
-                            toText.Text = to;
-                            toText.FontSize = 12;
+                            toText.Text = to.Length > 8 ? to.Substring(0, 5 % to.Length) + "..." : to;
+                            toText.ToolTip = to;
+                            toText.FontSize = 11;
                             toText.VerticalAlignment = VerticalAlignment.Center;
                             toText.HorizontalAlignment = HorizontalAlignment.Center;
                             toText.SetValue(Grid.RowProperty, 2);
@@ -366,9 +385,17 @@ namespace Cryptool.Substitution
                         {
                             case UnknownSymbolHandling.LeaveAsIs:
                                 substitution.Append(actualCharacter);
+                                if (!string.IsNullOrEmpty(((SubstitutionSettings)Settings).OutputSeparatorSymbol) && position < text.Length)
+                                {
+                                    substitution.Append(ProcessEscapeSymbols(((SubstitutionSettings)Settings).OutputSeparatorSymbol));
+                                }
                                 break;
                             case UnknownSymbolHandling.Replace:
                                 substitution.Append(((SubstitutionSettings) Settings).ReplacementSymbol);
+                                if (!string.IsNullOrEmpty(((SubstitutionSettings)Settings).OutputSeparatorSymbol) && position < text.Length)
+                                {
+                                    substitution.Append(ProcessEscapeSymbols(((SubstitutionSettings)Settings).OutputSeparatorSymbol));
+                                }
                                 break;
                             case UnknownSymbolHandling.Remove:
                                 break;
@@ -403,11 +430,92 @@ namespace Cryptool.Substitution
                             }
                         }
                         substitution.Append(substitutionCharacter);
+                        if (!string.IsNullOrEmpty(((SubstitutionSettings)Settings).OutputSeparatorSymbol) && position < text.Length)
+                        {
+                            substitution.Append(ProcessEscapeSymbols(((SubstitutionSettings)Settings).OutputSeparatorSymbol));
+                        }
                         break;
                     }                    
                 }
                 ProgressChanged(position, text.Length);
             }           
+            return substitution.ToString();
+        }
+
+
+        /// <summary>
+        /// Substitute a given Text using a dictionary which contains the mapping
+        /// this method also uses a input separator which makes the substitution easier and faster
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="substitutionDictionary"></param>
+        /// <param name="randomDistribution"></param>
+        /// <returns></returns>
+        private string Substitute(string text, Dictionary<string, string> substitutionDictionary, string inputSeparator, bool randomDistribution = true)
+        {
+            var substitution = new StringBuilder();
+            var random = new Random();
+
+            string[] tokens = text.Split(inputSeparator.ToArray(),StringSplitOptions.RemoveEmptyEntries);
+            int counter = 0;
+
+            var polyCounterDictionary = new Dictionary<string, int>();
+            foreach (string token in tokens)
+            {
+                var substitutionCharacter = GetSubstitutionValue(substitutionDictionary, token);
+                
+                if (substitutionCharacter.Contains("|"))
+                {
+                    var substitutionCharacters = substitutionCharacter.Split(new[] { '|', '[', ']' });
+                    //choose a random character from the substitution array
+                    if (randomDistribution)
+                    {
+                        var randomCharacterNumber = random.Next(substitutionCharacters.Length);
+                        substitutionCharacter = substitutionCharacters[randomCharacterNumber];
+                    }
+                    else
+                    //choose the next character from the substitution array
+                    {
+                        if (polyCounterDictionary.ContainsKey(token))
+                        {
+                            polyCounterDictionary[token] = (polyCounterDictionary[token] + 1) %
+                                                                     substitutionCharacters.Length;
+                        }
+                        else
+                        {
+                            polyCounterDictionary.Add(token, 0);
+                        }
+                        substitutionCharacter = substitutionCharacters[polyCounterDictionary[token]];
+                    }
+                }
+
+                if(!ExistsSubstitionMapping(substitutionDictionary,token))
+                {
+                    switch (((SubstitutionSettings)Settings).UnknownSymbolHandling)
+                    {
+                        case UnknownSymbolHandling.LeaveAsIs:
+                            substitution.Append(token);
+                            break;
+                        case UnknownSymbolHandling.Replace:
+                            substitution.Append(((SubstitutionSettings)Settings).ReplacementSymbol);
+                            break;
+                        case UnknownSymbolHandling.Remove:
+                            break;
+                    }  
+                }
+                else
+                {
+                    substitution.Append(substitutionCharacter);                    
+                }
+
+                if (!string.IsNullOrEmpty(((SubstitutionSettings)Settings).OutputSeparatorSymbol) && counter < tokens.Length)
+                {
+                    substitution.Append(ProcessEscapeSymbols(((SubstitutionSettings)Settings).OutputSeparatorSymbol));
+                }
+
+                counter++;
+                ProgressChanged(counter, tokens.Length);
+            }                        
             return substitution.ToString();
         }
 
@@ -467,6 +575,16 @@ namespace Cryptool.Substitution
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Replaces the escape symbols of a string a user entered with "real" escape symbols
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        private string ProcessEscapeSymbols(string p)
+        {
+            return p.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\b", "\b").Replace("\\t", "\t").Replace("\\v", "\v").Replace("\\", "\\");
         }
     }
 }

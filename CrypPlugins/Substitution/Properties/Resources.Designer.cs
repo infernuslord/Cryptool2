@@ -115,6 +115,24 @@ namespace Substitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input Separator Symbol ähnelt.
+        /// </summary>
+        internal static string InputSeparatorSymbolCaption {
+            get {
+                return ResourceManager.GetString("InputSeparatorSymbolCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The symbol which should be used to split the input into tokens. ähnelt.
+        /// </summary>
+        internal static string InputSeparatorSymbolTooltip {
+            get {
+                return ResourceManager.GetString("InputSeparatorSymbolTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text input ähnelt.
         /// </summary>
         internal static string InputStringCaption {
@@ -129,6 +147,24 @@ namespace Substitution.Properties {
         internal static string InputStringTooltip {
             get {
                 return ResourceManager.GetString("InputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output Separator Symbol ähnelt.
+        /// </summary>
+        internal static string OutputSeparatorSymbolCaption {
+            get {
+                return ResourceManager.GetString("OutputSeparatorSymbolCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The symbol which should be used to split the output into tokens. ähnelt.
+        /// </summary>
+        internal static string OutputSeparatorSymbolTooltip {
+            get {
+                return ResourceManager.GetString("OutputSeparatorSymbolTooltip", resourceCulture);
             }
         }
         

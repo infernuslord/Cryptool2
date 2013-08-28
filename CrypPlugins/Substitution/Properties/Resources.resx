@@ -192,4 +192,16 @@
   <data name="Encrypt" xml:space="preserve">
     <value>Encrypt</value>
   </data>
+  <data name="InputSeparatorSymbolCaption" xml:space="preserve">
+    <value>Input Separator Symbol</value>
+  </data>
+  <data name="InputSeparatorSymbolTooltip" xml:space="preserve">
+    <value>The symbol which should be used to split the input into tokens.</value>
+  </data>
+  <data name="OutputSeparatorSymbolCaption" xml:space="preserve">
+    <value>Output Separator Symbol</value>
+  </data>
+  <data name="OutputSeparatorSymbolTooltip" xml:space="preserve">
+    <value>The symbol which should be used to split the output into tokens.</value>
+  </data>
 </root>
