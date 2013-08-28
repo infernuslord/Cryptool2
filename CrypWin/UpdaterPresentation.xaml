@@ -58,6 +58,7 @@
             
             <Button Height="30" Name="updateButton" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="5" Click="updateButton_Click" IsDefault="True" />
             <ProgressBar Height="30" Name="progressBar1" ToolTip="{Loc Downloading_update___}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Margin="5" Visibility="Collapsed"/>
+            <TextBlock  Height="15" Name="text" ToolTip="{Loc Downloading_update___}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Visibility="Collapsed" Margin="5" />
             <!-- wander 2011-12-29: hidden by default, will be turned visible by AutoUpdater -->
             <Image Height="{Binding ElementName=label1, Path=ActualHeight}" HorizontalAlignment="Right" Name="smallRightImage" Stretch="Fill" VerticalAlignment="Center" Width="{Binding ElementName=smallRightImage, Path=ActualHeight}" Grid.Column="2" Source="{StaticResource NoUpdate}" Visibility="Collapsed" />
         </Grid>
