@@ -298,7 +298,14 @@ namespace WorkspaceManager
                 var filter = System.Linq.Enumerable.OfType<ComponentVisual>(WorkspaceSpaceEditorView.SelectedItems);
                 var list = filter.Select(visual => visual.Model).OfType<VisualElementModel>().ToList<VisualElementModel>();
                 elementsToCopy = elementsToCopy.Concat(CopyOperation.SelectConnections(list)).ToList<VisualElementModel>();
-                elementsToCopy = elementsToCopy.Concat(list).ToList<VisualElementModel>();
+                //elementsToCopy = elementsToCopy.Concat(list).ToList<VisualElementModel>();
+                    //Nils Kopal 28.08.2013: I removed this line because it lead to the following bug:
+                    // Copy an component: You had 2! components in the list
+                    // Paste the component - only one component appears on workspace
+                    // save + load the workspace
+                    // delete or move the "copied" component
+                    // a "ghost" component appears at the same place, the copy was
+                    // => workspace was corrupt
             }
             if (WorkspaceSpaceEditorView.SelectedText != null)
                 elementsToCopy.Add(WorkspaceSpaceEditorView.SelectedText.Model);
