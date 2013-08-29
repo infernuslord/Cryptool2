@@ -68,49 +68,56 @@ namespace Cryptool.CrypWin
         /// <param name="fileName"></param>
         private void OpenProject(string fileName, FileLoadedHandler OnLoaded)
         {
-            if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
+            try
             {
-                listPluginsAlreadyInitialized.Clear();
-
-                var ext = new FileInfo(fileName).Extension;
-                if (ext.Length < 2)
+                if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
                 {
-                    return;
-                }
+                    listPluginsAlreadyInitialized.Clear();
 
-                ext = ext.Remove(0, 1);
-                if (ComponentInformations.EditorExtension.ContainsKey(ext))
-                {
-                    Type editorType = ComponentInformations.EditorExtension[ext];
-
-                    var editor = AddEditorDispatched(editorType);
-                    if (editor == null)
+                    var ext = new FileInfo(fileName).Extension;
+                    if (ext.Length < 2)
                     {
                         return;
                     }
 
-                    if (OnLoaded != null)
+                    ext = ext.Remove(0, 1);
+                    if (ComponentInformations.EditorExtension.ContainsKey(ext))
                     {
-                        editor.OnFileLoaded += OnLoaded;
-                        editor.OnFileLoaded += delegate { editor.OnFileLoaded -= OnLoaded; };
+                        Type editorType = ComponentInformations.EditorExtension[ext];
+
+                        var editor = AddEditorDispatched(editorType);
+                        if (editor == null)
+                        {
+                            return;
+                        }
+
+                        if (OnLoaded != null)
+                        {
+                            editor.OnFileLoaded += OnLoaded;
+                            editor.OnFileLoaded += delegate { editor.OnFileLoaded -= OnLoaded; };
+                        }
+
+                        editor.Open(fileName);
+                        if (editor.Presentation != null)
+                        {
+                            editor.Presentation.ToolTip = fileName;
+                        }
+
+                        SetCurrentEditorAsDefaultEditor();
+                        this.ProjectFileName = fileName;
+
+                        recentFileList.AddRecentFile(fileName);
                     }
-
-                    editor.Open(fileName);
-                    if (editor.Presentation != null)
-                    {
-                        editor.Presentation.ToolTip = fileName;
-                    }
-
-                    SetCurrentEditorAsDefaultEditor();
-                    this.ProjectFileName = fileName;
-
-                    recentFileList.AddRecentFile(fileName);
+                }
+                else
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.File__0__doesn_t_exist_, fileName), Properties.Resources.Error_loading_file);
+                    recentFileList.RemoveFile(fileName);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Properties.Resources.File__0__doesn_t_exist_, fileName), Properties.Resources.Error_loading_file);
-                recentFileList.RemoveFile(fileName);
+                GuiLogMessage(string.Format("Couldn't open project file {0}:{1}", fileName, ex.Message), NotificationLevel.Error);
             }
         }
 
