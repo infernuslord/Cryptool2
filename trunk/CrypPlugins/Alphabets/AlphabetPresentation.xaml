@@ -223,7 +223,7 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="auto" MaxWidth="18"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="1" Background="#7fe383" CornerRadius="3" Margin="4,0,4,0" BorderBrush="White" BorderThickness="1,1,0,1" x:Name="Active" Visibility="Collapsed">
+                                <!--<Border Grid.Column="1" Background="#7fe383" CornerRadius="3" Margin="4,0,4,0" BorderBrush="White" BorderThickness="1,1,0,1" x:Name="Active" Visibility="Collapsed">
                                     <Border>
                                         <Border.Background>
                                             <ImageBrush Opacity="0.1" ImageSource="progress_bg.png" TileMode="Tile" 
@@ -239,7 +239,7 @@
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>
                                     </Border>
-                                </Border>
+                                </Border>-->
                                 <Grid Grid.Column="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -254,28 +254,31 @@
                                         <RowDefinition></RowDefinition>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="12" Grid.Column="0"
+                                    <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="17" Grid.Column="0"
                                                 FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Background="#aaffffff" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Path=Upper}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
-                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    <Grid Grid.Row="1" Grid.ColumnSpan="1" Background="#aaffffff">
+                                        <WrapPanel  Orientation="Horizontal"  HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding Path=Upper}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="17" 
+                                                FontFamily="Courier New" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                            <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
 
-                                        <TextBlock Text="{Binding Path=Lower}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
-                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="{Binding Path=Lower}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="17" 
+                                                FontFamily="Courier New" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                            <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
 
-                                        <TextBlock Text="{Binding Path=Numeric}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9" 
-                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="{Binding Path=Numeric}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="17" 
+                                                FontFamily="Courier New" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
-                                        <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
+                                            <TextBlock Foreground="#111" Text="|" Margin="2,0,2,0"></TextBlock>
 
-                                        <TextBlock Text="{Binding Path=Special}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="9"
-                                                FontFamily="Verdana" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                    </WrapPanel>
+                                            <TextBlock Text="{Binding Path=Special}" TextTrimming="WordEllipsis" Foreground="#333333" FontSize="17"
+                                                FontFamily="Courier New" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                        </WrapPanel>
+                                    </Grid>
+
                                     
                                     <Border Background="#55ffffff" Margin="5" Grid.Column="1">
                                         <Button Style="{StaticResource ResourceKey=ButtonStyleSec}" 
@@ -316,7 +319,7 @@
                                                         Path=IsSelected}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7fe383"></Setter>
                                 <Setter TargetName="Border" Property="BorderThickness" Value="5"></Setter>
-                                <Setter TargetName="Active" Property="Visibility" Value="Visible"></Setter>
+                                <!--<Setter TargetName="Active" Property="Visibility" Value="Visible"></Setter>-->
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundIsSelected}"></Setter>
                             </DataTrigger>
                         </DataTemplate.Triggers>
@@ -380,7 +383,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBox Grid.Row="1" Text="{Binding Path=SelectedAlphabet.Title, Mode=TwoWay}" Style="{StaticResource ResourceKey=TextBoxStyle}" Foreground="#222"
-                         FontFamily="Verdana" FontSize="19" TextAlignment="Center"
+                         FontFamily="Courier New" FontSize="19" TextAlignment="Center"
                          Background="Transparent">
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
@@ -396,7 +399,7 @@
 
                             <TextBox Grid.Row="2" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Upper, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             FontFamily="Verdana" FontSize="14">
+                             FontFamily="Courier New" FontSize="14">
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
@@ -412,7 +415,7 @@
 
                             <TextBox Grid.Row="2" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Lower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             FontFamily="Verdana" FontSize="14">
+                             FontFamily="Courier New" FontSize="14">
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
@@ -426,7 +429,7 @@
 
                             <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Numeric, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             TextWrapping="Wrap" FontFamily="Verdana" FontSize="14">
+                             TextWrapping="Wrap" FontFamily="Courier New" FontSize="14">
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
@@ -442,58 +445,12 @@
                                    Text="Special Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                             <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Special, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                             TextWrapping="Wrap" FontFamily="Verdana" FontSize="14">
+                             TextWrapping="Wrap" FontFamily="Courier New" FontSize="14">
                             </TextBox>
                         </Grid>
                     </Grid>
                 </Border>
             </Grid>
-            
-
-            <!--<Border Grid.Column="2" Grid.Row="1" Visibility="Collapsed">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="1" Style="{StaticResource ResourceKey=ConfigStyle}">
-                        <Border>
-                            <StackPanel Margin="5">
-                                <TextBlock Text="Working Alphabet" Padding="7" FontFamily="Verdana" FontSize="13"></TextBlock>
-                                <ComboBox SelectedIndex="0" ItemsSource="{Binding Path=Basic}" FontFamily="Verdana" FontSize="12">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Path=Name}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ComboBox}},
-                                                                Path=DataContext.IsActive}" Value="True">
-                                                            <Setter Property="Foreground" Value="Navy"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="Add Lowercase" Padding="5" Margin="5"></Button>
-                                    <Button Content="Add Uppercase" Padding="5" Margin="5"></Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <StackPanel Orientation="Vertical" Margin="5">
-
-                            <Button Content="To Lowercase" Padding="5" Margin="0,5,0,0"></Button>
-                            <Button Content="To Uppercase" Padding="5" Margin="0,5,0,0"></Button>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-
-            </Border>-->
         </Grid>
 
 
