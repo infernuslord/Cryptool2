@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             }
         }
 
-        [TaskPane("Animation Speed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 2.0)]
+        [TaskPane("Animation Speed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 3.0)]
         public double SpeedSetting
         {
             get
