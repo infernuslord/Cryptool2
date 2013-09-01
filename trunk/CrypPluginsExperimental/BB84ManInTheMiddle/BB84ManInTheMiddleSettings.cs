@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             }
         }
 
-        [TaskPane("res_AnimationSpeedCaption", "res_AnimationSpeedTooltip", null, 5, false, ControlType.Slider, 0.5, 2.0)]
+        [TaskPane("res_AnimationSpeedCaption", "res_AnimationSpeedTooltip", null, 5, false, ControlType.Slider, 0.5, 3.0)]
         public double SpeedSetting
         {
             get
