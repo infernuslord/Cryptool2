@@ -33,6 +33,8 @@ namespace Cryptool.Progress
     {
         private int _value;
         private int _max;
+        private int _lastValue = 0;
+
         private ProgressPresentation _progressPresentation = new ProgressPresentation();
 
         /// <summary>
@@ -104,6 +106,7 @@ namespace Cryptool.Progress
 
         public void PreExecution()
         {
+            _lastValue = 0;
             _progressPresentation.Set(0, 1);
         }
 
@@ -113,8 +116,12 @@ namespace Cryptool.Progress
 
         public void Execute()
         {
-            _progressPresentation.Set(Value, Max);
-            ProgressChange(Value,Max);
+            if ((int)(((double)Value / Max) * 1000) != _lastValue)
+            {
+                _lastValue = (int)(((double)Value / Max) * 1000);
+                _progressPresentation.Set(Value, Max);                
+            }
+            ProgressChange(Value, Max);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
