@@ -11,7 +11,7 @@
   <description lang="de">Diese Vorlage zeigt den Unterschied zwischen den Block Mode Electronic Code Book (ECB) und Cipher Block Chaining (CBC) von symmetrischen Chiffren wie DES oder AES mittels verschiedener Bilder.</description>
   <keywords lang="de">block modi,block modus, verkettung, Kette, ECB, CBC</keywords>
 
-  <icon file="Chaning Modes.png" />
+  <icon file="Chaining Modes.png" />
   <relevantPlugins>
     <plugin name="DES" />
     <plugin name="PictureOutput" />
