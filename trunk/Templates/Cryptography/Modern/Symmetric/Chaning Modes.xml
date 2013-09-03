@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Block Modes of Symmetric Ciphers</title>
+  <summary lang="en">Shows ECB and CBC block modes as pictures.</summary>
+  <description lang="en">This template shows the difference between the chaining modes Electronic Code Book (ECB) and Cipher Block Chaining (CBC) of symmetric ciphers like DES or AES using different pictures.</description>
+  <keywords>block mode, block modes, chaining, chain, ECB, CBC</keywords>
+
+  <title lang="de">Block-Modi von Symmetrischen Chiffren</title>
+  <summary lang="de">Zeigt ECB and CBC Block Modi als Bilder</summary>
+  <description lang="de">Diese Vorlage zeigt den Unterschied zwischen den Block Mode Electronic Code Book (ECB) und Cipher Block Chaining (CBC) von symmetrischen Chiffren wie DES oder AES mittels verschiedener Bilder.</description>
+  <keywords lang="de">block modi,block modus, verkettung, Kette, ECB, CBC</keywords>
+
+  <icon file="Chaning Modes.png" />
+  <relevantPlugins>
+    <plugin name="DES" />
+    <plugin name="PictureOutput" />
+  </relevantPlugins>
+
+</sample>
