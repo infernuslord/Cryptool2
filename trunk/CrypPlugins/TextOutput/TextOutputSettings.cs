@@ -28,7 +28,7 @@ namespace TextOutput
   {
     #region Private variables
 
-    const int maxmaxLength = 10000000;
+    const int maxmaxLength = int.MaxValue;
     private int maxLength = 65536; //64kB
     private TextOutput myTextOutput;
 
