@@ -33,7 +33,7 @@ using PaddingOracleAttack.Properties;
 namespace Cryptool.Plugins.PaddingOracleAttack
 {
     [Author("Alexander Juettner", "alex@juettner-online.com", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("Resources", "Padding Oracle Attack", "Attack an encrypted message using a Padding Oracle", "PaddingOracleAttack/Documentation/doc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("PaddingOracleAttack.Properties.Resources", "PluginCaption", "PluginTooltip", "PaddingOracleAttack/Documentation/doc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class PaddingOracleAttack : ICrypComponent
@@ -93,21 +93,21 @@ namespace Cryptool.Plugins.PaddingOracleAttack
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "PaddingOracleInput", "PaddingOracleInputTooltip", false)]
+        [PropertyInfo(Direction.InputData, "PaddingOracleInputCaption", "PaddingOracleInputTooltip", false)]
         public bool PaddingOracleInput
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "CipherInput", "CipherInputTooltip", true)]
+        [PropertyInfo(Direction.InputData, "CipherInputCaption", "CipherInputTooltip", true)]
         public ICryptoolStream CipherInput
         {
             get;
             set;
         }
         
-        [PropertyInfo(Direction.OutputData, "ResultOutput", "ResultOutputTooltip")]
+        [PropertyInfo(Direction.OutputData, "ResultOutputCaption", "ResultOutputTooltip")]
         public ICryptoolStream PaddingOracleOutput
         {
             get
@@ -799,7 +799,7 @@ namespace Cryptool.Plugins.PaddingOracleAttack
             if (inputLength < 2 * blockSize)
             {
                 curState = STATES.ERROR;
-                GuiLogMessage("Input Message to short. Please check if the Block Size is correct (in the Plugin Settings).", NotificationLevel.Error);
+                GuiLogMessage("Input Message too short. Please check if the Block Size is correct (in the Plugin Settings).", NotificationLevel.Error);
             }
             else if (inputLength > 2 * blockSize)
             {

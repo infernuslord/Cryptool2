@@ -133,6 +133,6 @@
     <value>Padding Oracle</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Decrypts a cipher text and checks if the padding is correct.</value>
+    <value>Checks if the padding of a plain text block is correct.</value>
   </data>
 </root>

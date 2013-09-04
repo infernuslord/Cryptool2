@@ -6,9 +6,9 @@
   <description lang="en">This template shows a padding oracle attack on <i>AES</i>.</description>
   <keywords>padding, oracle, attack, AES</keywords>
 
-  <title lang="de">Padding-Oracle-Angriff auf AES</title>
-  <summary lang="de">Padding-Oracle-Angriff auf <i>AES</i></summary>
-  <description lang="de">Diese Vorlage zeigt einen Padding-Oracle-Angriff auf die <i>AES</i>-Verschlüsselung.</description>
+  <title lang="de">Padding-Orakel-Angriff auf AES</title>
+  <summary lang="de">Padding-Orakel-Angriff auf <i>AES</i></summary>
+  <description lang="de">Diese Vorlage zeigt einen Padding-Orakel-Angriff auf die <i>AES</i>-Verschlüsselung.</description>
   <keywords lang="de">padding, oracle, orakel, angriff, AES</keywords>
 
   <relevantPlugins>
