@@ -250,7 +250,7 @@ namespace Cryptool.Caesar
 		            ProgressChanged(i, InputString.Length - 1);
 
 		        }
-		        OutputString = output.ToString();
+                OutputString = settings.CaseSensitive | settings.MemorizeCase ? output.ToString() : output.ToString().ToUpper();
 		        OnPropertyChanged("OutputString");
 		    }
         }

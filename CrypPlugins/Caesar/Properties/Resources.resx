@@ -223,4 +223,13 @@
   <data name="AlphabetCaseList2" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="AlphabetGroup" xml:space="preserve">
+    <value>Alphabet Parameters</value>
+  </data>
+  <data name="MemorizeCaseCaption" xml:space="preserve">
+    <value>Output contains Source Case</value>
+  </data>
+  <data name="MemorizeCaseTooltip" xml:space="preserve">
+    <value>Even the lowercase letters where mapped to uppercase letters (so that an "a" is processed like an "A") the old spelling of the letters remains</value>
+  </data>
 </root>
