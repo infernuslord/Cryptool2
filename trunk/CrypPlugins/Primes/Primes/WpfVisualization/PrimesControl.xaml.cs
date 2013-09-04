@@ -338,6 +338,10 @@ namespace Primes.WpfVisualization
             {
                 action = Primes.OnlineHelp.OnlineHelpActions.Generation_SieveOfAtkin;
             }
+            else if (m_ActualControl.GetType() == typeof(NumberTheoryControl))
+            {
+                action = Primes.OnlineHelp.OnlineHelpActions.Numbertheory_Numbertheory;
+            }
 
             e.Handled = true;
             OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(action);

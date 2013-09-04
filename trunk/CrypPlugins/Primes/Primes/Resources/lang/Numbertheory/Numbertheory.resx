@@ -264,6 +264,9 @@
   <data name="proot_wronginterval" xml:space="preserve">
     <value>Die erste Zahl des Intervalls {0} muss kleiner sein als die zweite.</value>
   </data>
+  <data name="secondparametermissing" xml:space="preserve">
+    <value>Sie haben eine Funktion ausgewählt, die den zweiten Parameter benötigt.</value>
+  </data>
   <data name="sigma" xml:space="preserve">
     <value>Summe der Teiler</value>
   </data>

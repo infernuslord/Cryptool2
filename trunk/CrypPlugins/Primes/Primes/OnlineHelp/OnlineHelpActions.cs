@@ -43,6 +43,7 @@ namespace Primes.OnlineHelp
         Distribution_Distribution,
         Distribution_Numbergrid,
         Modular_Exponentiation,
+        Numbertheory_Numbertheory,
         Numbertheoretic_Functions,
         PrimitivRoot_PrimitivRoot,
         PrimitivRoot_Input,

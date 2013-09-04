@@ -78,11 +78,15 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
             irc.Execute += new Primes.WpfControls.Components.ExecuteDelegate(irc_Execute);
             irc.Cancel += new VoidDelegate(irc_Cancel);
 
-            //irc.AddValueValidator(InputRangeControl.SecondParameter, new BigIntegerMinValueValidator(null, PrimesBigInteger.Zero));
+            irc.IntervalSizeCanBeZero = true;
 
-            InputValidator<PrimesBigInteger> ivSecond = new InputValidator<PrimesBigInteger>();
-            ivSecond.Validator = new PositiveBigIntegerValidator();
-            irc.AddInputValidator(InputRangeControl.SecondParameter, ivSecond);
+            InputValidator<PrimesBigInteger> iv = new InputValidator<PrimesBigInteger>();
+            iv.Validator = new PositiveBigIntegerValidator();
+            irc.AddInputValidator(InputRangeControl.SecondParameter, iv);
+            irc.AddInputValidator(InputRangeControl.FreeFrom, iv);
+            irc.AddInputValidator(InputRangeControl.CalcFromFactor, iv);
+            irc.AddInputValidator(InputRangeControl.CalcFromBase, iv);
+            irc.AddInputValidator(InputRangeControl.CalcFromExp, iv);
 
             //irc.SecondParameterPresent = NeedsSecondParameter;
             irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
@@ -434,6 +438,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
             //irc.SecondParameterPresent = NeedsSecondParameter;
             irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
+            irc.lblInfoSecond.Text = NeedsSecondParameter ? Primes.Resources.lang.Numbertheory.Numbertheory.secondparametermissing : "";
         }
 
         private void RemoveFunction(INTFunction function)
@@ -446,6 +451,7 @@ namespace Primes.WpfControls.NumberTheory.NumberTheoryFunctions
 
                 //irc.SecondParameterPresent = NeedsSecondParameter;
                 irc.pnlSecondParameter.IsEnabled = NeedsSecondParameter;
+                irc.lblInfoSecond.Text = NeedsSecondParameter ? Primes.Resources.lang.Numbertheory.Numbertheory.secondparametermissing : "";
             }
         }
 
