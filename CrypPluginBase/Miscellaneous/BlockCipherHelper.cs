@@ -37,6 +37,10 @@ namespace Cryptool.PluginBase.Miscellaneous
                 if (l % blocksize != 0) throw new Exception("Input must be a multiple of blocksize ("+blocksize+" bytes) if no padding is used.");
                 return input;
             }
+            else if (paddingtype == PaddingType.Zeros)
+            {
+                l %= blocksize; // add no zeros if message length is multiple of blocksize
+            }
 
             byte[] buf = new byte[input.Length + l];
             Array.Copy(input, buf, input.Length);
