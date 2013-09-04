@@ -642,6 +642,7 @@ namespace Primes.WpfControls.Components
             PrimesBigInteger second = null;
 
             GetValue(ref from, ref to);
+            if (to == null) to = from;
 
             if (Execute == null || !doExecute) return;
             if (from == null || to == null) return;
