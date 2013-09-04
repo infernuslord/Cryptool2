@@ -160,10 +160,10 @@
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Groß-/Kleinschreibung</value>
+    <value>Groß-/Kleinschreibung unterscheiden</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
-    <value>Sollen Groß- und Kleinbuchstaben gleich behandelt werden?</value>
+    <value>Bei einer Unterscheidung wächst das Alphabet von 26 auf 52 Zeichen. Ohne Unterscheidung werden vor der Verschlüsselung die Kleinbuchstaben den Großbuchstaben zugeordnet.</value>
   </data>
   <data name="AlphabetSymbolsCaption" xml:space="preserve">
     <value>Alphabet</value>
@@ -203,5 +203,14 @@
   </data>
   <data name="ShiftStringTooltip" xml:space="preserve">
     <value>Zeigt die Zeichenzuordnung für ein einzelnes Zeichen des Eingabe-Alphabetes für die angegebene Verschiebung.</value>
+  </data>
+  <data name="AlphabetGroup" xml:space="preserve">
+    <value>Alphabet Parameter</value>
+  </data>
+  <data name="MemorizeCaseCaption" xml:space="preserve">
+    <value>Ausgabeanzeige kennt ursprüngliche Groß-/Kleinschreibung</value>
+  </data>
+  <data name="MemorizeCaseTooltip" xml:space="preserve">
+    <value>Obwohl die Kleinbuchstaben vor der Verschlüsselung einander zu geordnet wurden (so dass ein "a" wie ein "A" behandelt wird), merkt sich das Programm, welche Schreibweise der Buchstabe hatte und stellt ihn in der Ausgabe entsprechend dar</value>
   </data>
 </root>

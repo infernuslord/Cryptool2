@@ -56,6 +56,7 @@ namespace Cryptool.Caesar
         private string shiftString;
         private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private bool caseSensitiveSensitive = false;
+        private bool memorizeCase = false;
 
         public CaesarSettings()
         {
@@ -100,6 +101,10 @@ namespace Cryptool.Caesar
         {
             // making sure the shift value lies within the alphabet range      
             shiftValue = offset % alphabet.Length;
+            if (shiftValue < 0)
+            {
+                shiftValue = alphabet.Length - 1;
+            }
             shiftString = "A -> " + alphabet[shiftValue];
 
             // Anounnce this to the settings pane
@@ -117,7 +122,7 @@ namespace Cryptool.Caesar
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(4)]
-        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
+        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public CaesarMode Action
         {
             get
@@ -135,7 +140,7 @@ namespace Cryptool.Caesar
         }
         
         [PropertySaveOrder(5)]
-        [TaskPane("ShiftValueCaption", "ShiftValueTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane("ShiftValueCaption", "ShiftValueTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, -1, 100)]        
         public int ShiftKey
         {
             get { return shiftValue; }
@@ -153,7 +158,7 @@ namespace Cryptool.Caesar
         }
 
         [PropertySaveOrder(7)]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 4, true, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "AlphabetGroup", 4, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public UnknownSymbolHandlingMode UnknownSymbolHandling
         {
             get { return this.unknownSymbolHandling; }
@@ -169,7 +174,7 @@ namespace Cryptool.Caesar
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(9)]
-        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", null, 6, true, ControlType.TextBox, "")]
+        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", "AlphabetGroup", 6, false, ControlType.TextBoxReadOnly, "")]
         public string AlphabetSymbols
         {
           get { return this.alphabet; }
@@ -195,7 +200,7 @@ namespace Cryptool.Caesar
         /// </summary>   
         //[SettingsFormat(1, "Normal")]
         [PropertySaveOrder(8)]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 7, true, ControlType.CheckBox)]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", "AlphabetGroup", 7, false, ControlType.CheckBox)]
         public bool CaseSensitive
         {
             get { return this.caseSensitiveSensitive; }
@@ -203,6 +208,12 @@ namespace Cryptool.Caesar
             {
                 if (value == caseSensitiveSensitive)
                     return;
+
+                if (value == true)
+                {
+                    memorizeCase = false;
+                    OnPropertyChanged("MemorizeCase");
+                }
 
                 this.caseSensitiveSensitive = value;
                 if (value)
@@ -241,6 +252,29 @@ namespace Cryptool.Caesar
                 }
 
                 OnPropertyChanged("CaseSensitive");
+            }
+        }
+
+        /// <summary>
+        /// Visible setting how to deal with alphabet case. false = case insensitive, true = case sensitive
+        /// </summary>   
+        //[SettingsFormat(1, "Normal")]
+        [PropertySaveOrder(9)]
+        [TaskPane("MemorizeCaseCaption", "MemorizeCaseTooltip", "AlphabetGroup", 8, false, ControlType.CheckBox)]
+        public bool MemorizeCase
+        {
+            get {return memorizeCase;}
+            set
+            {
+                if (CaseSensitive == true)
+                {
+                    memorizeCase = false;
+                }
+                else
+                {
+                    memorizeCase = value;
+                }                
+                OnPropertyChanged("MemorizeCase");
             }
         }
 
