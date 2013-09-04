@@ -130,9 +130,9 @@
     <value>Ist das Padding korrekt?</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Padding Orakel</value>
+    <value>Padding-Orakel</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Entschlüsselt einen Geheimtext und testet das Padding auf Korrektheit.</value>
+    <value>Testet das Padding eines Klartextblockes auf Korrektheit.</value>
   </data>
 </root>

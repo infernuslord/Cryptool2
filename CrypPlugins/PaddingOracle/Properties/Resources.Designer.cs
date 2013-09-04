@@ -106,7 +106,7 @@ namespace PaddingOracle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Decrypts a cipher text and checks if the padding is correct. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Checks if the padding of a plain text block is correct. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

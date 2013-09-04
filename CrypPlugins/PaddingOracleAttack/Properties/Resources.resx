@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blocksize</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>Enter the used block size.</value>
+  </data>
   <data name="btnAll" xml:space="preserve">
     <value>Decrypt completely</value>
   </data>
@@ -155,6 +161,12 @@
   </data>
   <data name="btnNext" xml:space="preserve">
     <value>Next</value>
+  </data>
+  <data name="CipherInputCaption" xml:space="preserve">
+    <value>Cipher Input</value>
+  </data>
+  <data name="CipherInputTooltip" xml:space="preserve">
+    <value>Input of the cipher text</value>
   </data>
   <data name="descDone" xml:space="preserve">
     <value>Plaintext Recovered. Attack completed successfully.</value>
@@ -209,6 +221,24 @@
   </data>
   <data name="langCheck" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="PaddingOracleInputCaption" xml:space="preserve">
+    <value>Padding Valid</value>
+  </data>
+  <data name="PaddingOracleInputTooltip" xml:space="preserve">
+    <value>Validity of the padding</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Padding Oracle Attack</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Attack an encrypted message using a Padding Oracle</value>
+  </data>
+  <data name="ResultOutputCaption" xml:space="preserve">
+    <value>Manipulated Cipher Output</value>
+  </data>
+  <data name="ResultOutputTooltip" xml:space="preserve">
+    <value>Output of the manipulated cipher</value>
   </data>
   <data name="ttBtnAll" xml:space="preserve">
     <value>Automatically decrypt the complete message.</value>

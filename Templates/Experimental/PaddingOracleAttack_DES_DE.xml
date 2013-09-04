@@ -6,9 +6,9 @@
   <description lang="en">This template shows a padding oracle attack on <i>DES</i>.</description>
   <keywords>padding, oracle, attack, DES</keywords>
 
-  <title lang="de">Padding-Oracle-Angriff auf DES</title>
-  <summary lang="de">Padding-Oracle-Angriff auf <i>DES</i></summary>
-  <description lang="de">Diese Vorlage zeigt einen Padding-Oracle-Angriff auf die <i>DES</i>-Verschlüsselung.</description>
+  <title lang="de">Padding-Orakel-Angriff auf DES</title>
+  <summary lang="de">Padding-Orakel-Angriff auf <i>DES</i></summary>
+  <description lang="de">Diese Vorlage zeigt einen Padding-Orakel-Angriff auf die <i>DES</i>-Verschlüsselung.</description>
   <keywords lang="de">padding, oracle, orakel, angriff, DES</keywords>
 
   <relevantPlugins>

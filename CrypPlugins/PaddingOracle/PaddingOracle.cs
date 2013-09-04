@@ -28,7 +28,7 @@ using System;
 namespace Cryptool.Plugins.PaddingOracle
 {
     [Author("Alexander Juettner", "alex@juettner-online.com", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("PluginCaption", "PluginTooltip", "PaddingOracle/DetailedDescription/doc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("PaddingOracle.Properties.Resources", "PluginCaption", "PluginTooltip", "PaddingOracle/DetailedDescription/doc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class PaddingOracle : ICrypComponent

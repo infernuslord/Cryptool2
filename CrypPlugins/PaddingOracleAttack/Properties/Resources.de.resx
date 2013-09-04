@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blockgröße</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>Geben Sie die verwendete Blockgröße an.</value>
+  </data>
   <data name="btnAll" xml:space="preserve">
     <value>Alles entschlüsseln</value>
   </data>
@@ -156,6 +162,12 @@
   <data name="btnNext" xml:space="preserve">
     <value>Weiter</value>
   </data>
+  <data name="CipherInputCaption" xml:space="preserve">
+    <value>Geheimtext</value>
+  </data>
+  <data name="CipherInputTooltip" xml:space="preserve">
+    <value>Eingabe des Geheimtextes</value>
+  </data>
   <data name="descDone" xml:space="preserve">
     <value>Klartext erhalten. Der Angriff wurde erfolgreich beendet!</value>
   </data>
@@ -169,7 +181,7 @@
     <value>Phase 1: Finde eine Nachricht mit einem gültigen Padding. Schicke die unveränderte Nachricht, um zu überprüfen, ob schon ein gültiges Padding existiert.</value>
   </data>
   <data name="descP1Task" xml:space="preserve">
-    <value>Das Padding ist falsch. Ändere das letzte Byte bis das Padding gültig ist.</value>
+    <value>Das Padding ist falsch. Ändere das letzte Byte, bis das Padding gültig ist.</value>
   </data>
   <data name="descP2Done" xml:space="preserve">
     <value>Phase 2 beendet! Das erste Padding-Byte wurde gefunden. Paddinglänge:</value>
@@ -181,7 +193,7 @@
     <value>Phase 2: Finde das erste Padding-Byte. Ändere die Bytes des Geheimtextes von links nach rechts. Wenn das Padding ungültig wird, muss ein Padding-Byte geändert worden sein.</value>
   </data>
   <data name="descP2Task" xml:space="preserve">
-    <value>Das geändert Byte gehörte anscheinend nicht zum Padding. Probiere das nächste Byte aus!</value>
+    <value>Das geänderte Byte gehörte anscheinend nicht zum Padding. Probiere das nächste Byte aus!</value>
   </data>
   <data name="descP3Dec" xml:space="preserve">
     <value>Byte entschlüsselt! Erhöhe das Padding, um die Entschlüsselung fortzusetzen.</value>
@@ -190,7 +202,7 @@
     <value>Das Byte wurde entschlüsselt. Erhöhe das Padding, um die Entschlüsselung fortzusetzen.</value>
   </data>
   <data name="descP3DecPadDone" xml:space="preserve">
-    <value>Alle Padding Bytes wurden entschlüsselt! Erhöhe das Padding um die Entschlüsselung fortzusetzen.</value>
+    <value>Alle Padding-Bytes wurden entschlüsselt! Erhöhe das Padding, um die Entschlüsselung fortzusetzen.</value>
   </data>
   <data name="descP3Done" xml:space="preserve">
     <value>Die Nachricht wurde komplett entschlüsselt! Klicke auf den "Weiter"-Button, um den Klartext zu erhalten.</value>
@@ -202,16 +214,34 @@
     <value>Aufgabe: Ändere das ausgewählte Byte so lange, bis der gewünschte Wert gefunden wurde. Wenn der Wert gefunden wurde, wird das Padding automatisch gültig.</value>
   </data>
   <data name="descP3Init" xml:space="preserve">
-    <value>Phase 3: Entschlüsseln Sie die Nachricht. Beginne mit der Entschlüsselung der Padding Bytes.</value>
+    <value>Phase 3: Entschlüssle die Nachricht. Beginne mit der Entschlüsselung der Padding-Bytes.</value>
   </data>
   <data name="descPadIn" xml:space="preserve">
-    <value>Antwort vom Padding Oracle</value>
+    <value>Antwort vom Padding-Orakel</value>
   </data>
   <data name="langCheck" xml:space="preserve">
     <value>Deutsch</value>
   </data>
+  <data name="PaddingOracleInputCaption" xml:space="preserve">
+    <value>Padding gültig</value>
+  </data>
+  <data name="PaddingOracleInputTooltip" xml:space="preserve">
+    <value>Gültigkeit des Paddings</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Padding-Orakel-Angriff</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Angriff auf eine verschlüsselte Nachricht mit einem Padding-Orakel</value>
+  </data>
+  <data name="ResultOutputCaption" xml:space="preserve">
+    <value>Manipulierter Geheimtext</value>
+  </data>
+  <data name="ResultOutputTooltip" xml:space="preserve">
+    <value>Ausgabe des manipulierten Geheimtextes</value>
+  </data>
   <data name="ttBtnAll" xml:space="preserve">
-    <value>Entschlüssel automatisch die komplette Nachricht.</value>
+    <value>Entschlüssle automatisch die komplette Nachricht.</value>
   </data>
   <data name="ttBtnAuto" xml:space="preserve">
     <value>Suche automatisch nach dem nächsten gültigen Wert.</value>
@@ -247,7 +277,7 @@
     <value>Anzahl gesendeter Anfragen an den Server.</value>
   </data>
   <data name="ttViewByte" xml:space="preserve">
-    <value>Es können nur 8 byte gleichzeitig dargestellt werden. Sollt die Blocklänge größer als 8 sein, so können die anderen Bytes mit Hilfe des Scrollbalkens angezeigt werden.</value>
+    <value>Es können nur 8 byte gleichzeitig dargestellt werden. Sollte die Blocklänge größer als 8 sein, so können die anderen Bytes mit Hilfe des Scrollbalkens angezeigt werden.</value>
   </data>
   <data name="ttViewByteDesc" xml:space="preserve">
     <value>Angezeigte Bytes</value>

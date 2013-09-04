@@ -87,7 +87,7 @@
 
   <introduction lang="de-de">
     Dieses Plugin ist eine Implementierung des side-channel und man-in-the-middle Angriffes, der 2002 von Serge Vaudenay
-    entdeckt wurde. Dieser Angriff nutzt Informationen aus, die von einem Padding Oracle offenbart werden. Padding Oracles
+    entdeckt wurde. Dieser Angriff nutzt Informationen aus, die von einem Padding-Orakel offenbart werden. Padding-Orakel
     geben Auskunft über die Gültigkeit des Paddings einer Nachricht. Dieses Verhalten wurde in Bezug auf
     <external ref="http://de.wikipedia.org/wiki/Information_Disclosure">Information Leakage</external>
     lange Zeit als unbedeutend angesehen. Dieses Plugin illustriert, wie diese Gültigkeits-Information ausgenutzt werden kann,
@@ -112,7 +112,7 @@
       In der ersten Phase geht es darum, eine Geheimtext-Nachricht zu finden, die entschlüsselt ein gültiges Padding hat.
       Der ursprüngliche Geheimtextblock <b>C1</b> wird dazu mit Hilfe des Overlays <b>O</b> angepasst. Im CBC-Modus wird
       der Klartext <b>P2</b> erzeugt, indem man das XOR aus dem entschlüsselten Geheimtext <b>D2</b> und <b>C1</b>
-      berechnet. Anschließend wird das Padding vom Padding Oracle überprüft. So lange das Padding ungültig ist, wird das letzte
+      berechnet. Anschließend wird das Padding vom Padding-Orakel überprüft. So lange das Padding ungültig ist, wird das letzte
       Byte vom Overlay <b>O</b> angepasst und eine neue Nachricht, bestehend aus zwei Geheimtextblöcken an den Server
       geschickt. Der erste Block besteht dabei aus dem XOR aus <b>O</b> und <b>C1</b>, während der zweite Block aus dem
       unveränderten Block <b>C2</b> besteht. Wenn das Padding gültig wird, muss C1 XOR O XOR D2 entweder mit '01' oder '02 02'
@@ -122,7 +122,7 @@
       An dieser Stelle haben wir einen Geheimtext, der ein gültiges Padding hat. Der nächste Schritt ist nun die Ermittlung
       der Padding-Länge, indem das erste Padding-Byte gesucht wird. Die Padding-Bytes befinden sich immer am Ende des Klartext-Blockes.
       Wenn die Position des ersten Padding-Bytes bekannt ist, kann man dadurch sehr leicht auf die Länge des Paddings
-      schließen. Die Position des ersten Padding-Bytes lässt sich wieder mit Hilfe des Padding Oracles ermitteln.
+      schließen. Die Position des ersten Padding-Bytes lässt sich wieder mit Hilfe des Padding-Orakels ermitteln.
       Dieses Mal wird das erste Byte des Overlays <b>O</b> verändert. Wenn das Padding immer noch gültig ist, dann gehört das
       geänderte Byte nicht zum Padding. In diesem Fall wird das zweite Byte von <b>O</b> geändert. Dieser Prozess wird solange
       fortgesetzt, bis das Padding ungültig wird. Wenn das Padding ungültig wird, muss ein Padding-Byte geändert worden sein. Das
@@ -154,11 +154,11 @@
   </usage>
 
   <usage lang="de-de">
-    Das Padding Oracle Attack Plugin (POA) hat mehrere Voraussetzungen:
+    Das Plugin Padding-Orakel-Angriff (POA) hat mehrere Voraussetzungen:
     <list>
       <item>Zwei 8 Byte lange Geheimtextblöcke als Input</item>
       <item>CBC-Modus: Die Chiffre selbst, der Schlüssel und der IV können frei gewählt werden, aber die Chiffre muss in CBC Modus laufen, damit der Angriff funktioniert</item>
-      <item>Padding Oracle: Der Output des POAs muss entschlüsselt werden und dann an das Padding Oracle Plugin weitergeleitet werden. Der Output des Padding Oracles dient dabei wiederum als Inputfaktor für das POA.</item>
+      <item>Padding-Orakel: Der Output des POAs muss entschlüsselt werden und dann an das Padding-Orakel-Plugin weitergeleitet werden. Der Output des Padding-Orakels dient dabei wiederum als Inputfaktor für das POA.</item>
     </list>
   </usage>
 
@@ -196,10 +196,10 @@
 
   <presentation lang="de-de">
     Die präsentation ist in drei Teile unterteilt: Input, Angriffslogik und Output.<newline/>
-    1. Die Input-Sektion enthält die abgefangenen Geheimtext-Blöcke <b>C1</b> und <b>C2</b> und die Antwort vom Padding Oracle.
+    1. Die Input-Sektion enthält die abgefangenen Geheimtext-Blöcke <b>C1</b> und <b>C2</b> und die Antwort vom Padding-Orakel.
     Während des Angriffs werden nur 2 Geheimtext-Blöcke betrachtet. Der zweite Block <b>C2</b> enthält einen Klartext, den der
     Angreifer ermitteln möchte. Der erste Block <b>C1</b> wird während des Angriffes modifiziert, um die Generierung des
-    Klartext-Blockes <b>P2</b> zu beeinflussen. Die Antwort des Padding Oracles ist der einzige Input, der sich im Laufe des
+    Klartext-Blockes <b>P2</b> zu beeinflussen. Die Antwort des Padding-Orakels ist der einzige Input, der sich im Laufe des
     Angriffes ändert; die Geheimtext-Blöcke bleiben konstant.
     <newline/>
     2. Die Angriffslogik zeigt die für den Angriff relevanten Datenblöcke. Dies umfasst den entschlüsselten Geheimtext-Block <b>D2</b>,
@@ -218,8 +218,7 @@
     zum Beginn der aktuellen Phase zurückgeht.
     <newline/>
     3. Die Output-Sektion enthält den ersten Geheimtext-Block <b>C1</b> mit den aktuellen Modifikationen
-    (<b>C1</b> XOR <b>O</b>) und den unveränderter Geheimtext-Block <b>C2</b>. Ein Zähler stellt die Anzahl der Padding
-    Oracle Anfragen (Requests) dar.
+    (<b>C1</b> XOR <b>O</b>) und den unveränderter Geheimtext-Block <b>C2</b>. Ein Zähler stellt die Anzahl der Padding-Orakel-Anfragen (Requests) dar.
   </presentation>
 
   <references>

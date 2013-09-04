@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.PaddingOracleAttack
 
         #region TaskPane Settings
 
-        [TaskPane("Blocksize", "The used block size", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
         public int BlockSize
         {
             get { return blockSize; }
