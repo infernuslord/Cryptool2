@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="res_KeyUnsecure" xml:space="preserve">
-    <value>Fehlerrate:{0} \n Zu viele Fehler gefunden. Der Schlüssel erscheint nicht sicher!</value>
+    <value>Fehlerrate: {0}% - Zu viele Fehler gefunden. Der Schlüssel erscheint nicht sicher!</value>
   </data>
   <data name="res_KeySecure" xml:space="preserve">
-    <value>%\nSchlüssel erscheint sicher</value>
+    <value>Fehlerrate: {0}% - Schlüssel erscheint sicher</value>
   </data>
   <data name="res_EndIndexTooltip" xml:space="preserve">
     <value>Letzter Index des Schlüsselvergleichs</value>

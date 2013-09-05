@@ -144,24 +144,30 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
 
             for (int i = 0; i < inputKey.Length; i++)
             {
-               
 
-                if (tempBases[i].Equals('+')){
-                    if (tempKey[i].Equals('0'))
-                    {    
-                            tempOutput += getPlusBasePhoton(settings.PlusZeroEncoding);
-                    }
-                    else if (tempKey[i].Equals('1'))
+                if (tempBases.Length > i && tempKey.Length > i)
+                {
+                    if (tempBases[i].Equals('+'))
                     {
-                        tempOutput += getPlusBasePhoton(settings.PlusOneEncoding);
+                        if (tempKey[i].Equals('0'))
+                        {
+                            tempOutput += getPlusBasePhoton(settings.PlusZeroEncoding);
+                        }
+                        else if (tempKey[i].Equals('1'))
+                        {
+                            tempOutput += getPlusBasePhoton(settings.PlusOneEncoding);
+                        }
                     }
-                }
-                else if (tempBases[i].Equals('x')){
-                   if (tempKey[i].Equals('0')){
-                       tempOutput += getExBasePhoton(settings.XZeroEncoding);
-                    }
-                    else if (tempKey[i].Equals('1')){
-                        tempOutput += getExBasePhoton(settings.XOneEncoding);
+                    else if (tempBases[i].Equals('x'))
+                    {
+                        if (tempKey[i].Equals('0'))
+                        {
+                            tempOutput += getExBasePhoton(settings.XZeroEncoding);
+                        }
+                        else if (tempKey[i].Equals('1'))
+                        {
+                            tempOutput += getExBasePhoton(settings.XOneEncoding);
+                        }
                     }
                 }
             }
@@ -171,10 +177,24 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
 
             if (Presentation.IsVisible)
             {
-               
-                Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    myPresentation.StartPresentation(inputKey, photonOutput, inputBases); }, null);
+                
+                
+                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        try
+                        {
+                            if (!myPresentation.hasFinished)
+                            {
+                                myPresentation.StopPresentation();
+                            }
+
+                            myPresentation.StartPresentation(inputKey, photonOutput, inputBases);
+                        }
+                        catch (Exception e)
+                        {
+                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                        }
+                    }, null);
 
                 if (!synchron)
                 {
@@ -211,13 +231,31 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         public void PostExecution()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Stop()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Initialize()

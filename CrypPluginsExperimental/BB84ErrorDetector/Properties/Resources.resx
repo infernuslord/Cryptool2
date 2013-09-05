@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="res_KeyUnsecure" xml:space="preserve">
-    <value>%\n Too much errors were detected! Key might not be safe to use!</value>
+    <value>Error ratio: {0}% - key might not be safe to use!</value>
   </data>
   <data name="res_KeySecure" xml:space="preserve">
-    <value>%\n Key seems to be safe</value>
+    <value>Error ratio: {0}% - key seems to be safe!</value>
   </data>
   <data name="res_EndIndexTooltip" xml:space="preserve">
     <value>Last index of key comparism</value>

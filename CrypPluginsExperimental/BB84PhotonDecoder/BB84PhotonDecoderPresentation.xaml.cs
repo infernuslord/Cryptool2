@@ -64,7 +64,7 @@ namespace BB84PhotonDecoder
             char[] photonStringChars = photonString.ToCharArray();
             char[] baseStringChars = baseString.ToCharArray();
 
-            if (photonStringChars.Length >= 2)
+            if (baseStringChars.Length >= 2)
             {
                 
                 if (baseStringChars[1].Equals('+'))
@@ -84,7 +84,7 @@ namespace BB84PhotonDecoder
                 baseQueuePlus2.Visibility = Visibility.Hidden;
             }
 
-            if (photonStringChars.Length >= 3)
+            if (baseStringChars.Length >= 3)
             {
                 
                 if (baseStringChars[2].Equals('+'))
@@ -164,7 +164,8 @@ namespace BB84PhotonDecoder
                     imageLeftTopRightDiagonal.Visibility = Visibility.Visible;
                 }
                 
-
+            }
+            if (animationRepeats < baseString.Length){
 
                 if (baseString.ElementAt(animationRepeats).Equals('+'))
                 {
@@ -243,9 +244,9 @@ namespace BB84PhotonDecoder
 
         private void updateQueues()
         {
-            char[] keyStringChars = keyString.ToCharArray();
+
             char[] baseStringChars = baseString.ToCharArray();
-            if (animationRepeats + 1 < keyStringChars.Length)
+            if ( animationRepeats + 1 < baseStringChars.Length)
             {
 
                 if (baseStringChars[animationRepeats + 1].Equals('+'))
@@ -265,7 +266,7 @@ namespace BB84PhotonDecoder
                 baseQueuePlus1.Visibility = Visibility.Hidden;
             }
 
-            if (animationRepeats + 2 < keyStringChars.Length)
+            if (animationRepeats + 2 < baseStringChars.Length)
             {   
                 if (baseStringChars[animationRepeats + 2].Equals('+'))
                 {
@@ -291,11 +292,9 @@ namespace BB84PhotonDecoder
 
         private void initializeSecondImages()
         {
-
+ 
             
-            
-            
-            if (animationRepeats < photonString.Length)
+            if (animationRepeats < photonString.Length && animationRepeats < baseString.Length)
             {
 
                 if (baseString.ElementAt(animationRepeats).Equals('+'))
@@ -314,7 +313,9 @@ namespace BB84PhotonDecoder
                         imageError.Visibility = Visibility.Visible;
                     }
                 }
+            }
 
+            if (animationRepeats < keyString.Length){
                 if (keyString.ElementAt(animationRepeats).Equals('0'))
                 {
                     imageRightZero.Visibility = Visibility.Visible;
@@ -389,8 +390,7 @@ namespace BB84PhotonDecoder
             mainCanvas.Visibility = Visibility.Hidden;
             
             hasFinished = true;
-            Thread.Sleep(10);
-            hasFinished = false;
+
             if (frameTimer != null)
             { frameTimer.Stop(); }
         }
@@ -423,10 +423,9 @@ namespace BB84PhotonDecoder
 
         private void updateThirdQueue()
         {
-            char[] keyStringChars = keyString.ToCharArray();
             char[] baseStringChars = baseString.ToCharArray();
 
-            if (animationRepeats + 3 < keyStringChars.Length)
+            if (animationRepeats+3 < baseString.Length)
             { 
                 if (baseStringChars[animationRepeats + 3].Equals('+'))
                 {

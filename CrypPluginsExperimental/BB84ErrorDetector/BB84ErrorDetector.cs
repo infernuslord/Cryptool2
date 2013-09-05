@@ -139,7 +139,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector
             }
             else
             {
-                message = "Fehlerrate: "+Math.Round(errorRatio, 3) * 100 + "%\n Nachricht erschein sicher";
+                message = String.Format(Properties.Resources.res_KeySecure, Math.Round(errorRatio, 3) * 100);
             }
 
             return message;
@@ -152,10 +152,13 @@ namespace Cryptool.Plugins.BB84ErrorDetector
 
             
             for (int i = mySettings.StartIndex; i <= mySettings.EndIndex; i++)
-            {              
-                if (!firstKey[i].Equals(secondKey[i]))
+            {
+                if (firstKey.Length > i && secondKey.Length > i)
                 {
-                    errors++;
+                    if (!firstKey[i].Equals(secondKey[i]))
+                    {
+                        errors++;
+                    }
                 }
                 count++;
             }

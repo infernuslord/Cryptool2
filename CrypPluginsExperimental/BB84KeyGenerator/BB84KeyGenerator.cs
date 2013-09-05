@@ -181,9 +181,12 @@ namespace Cryptool.Plugins.BB84KeyGenerator
 
             for (int i = 0; i < inputKey.Length; i++)
             {
-                if (tempBasesFirst[i].Equals(tempBasesSecond[i]))
+                if (tempBasesFirst.Length > i && tempBasesSecond.Length > i && tempKey.Length > i)
                 {
-                    tempOutput.Append(tempKey[i]);
+                    if (tempBasesFirst[i].Equals(tempBasesSecond[i]))
+                    {
+                        tempOutput.Append(tempKey[i]);
+                    }
                 }
             }
 
@@ -193,8 +196,47 @@ namespace Cryptool.Plugins.BB84KeyGenerator
             if (Presentation.IsVisible)
             {
                 Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        try
+                        {
+                            if (!myPresentation.hasFinished)
+                            {
+                                myPresentation.StopPresentation();
+                            }
+                            myPresentation.StartPresentation(inputBasesFirst, inputBasesSecond, inputKey);
+                        }
+                        catch (Exception e)
+                        {
+                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                        }
+                    }, null);
+                /*
+                while (!myPresentation.hasFinished)
                 {
-                    myPresentation.StartPresentation(inputBasesFirst, inputBasesSecond, inputKey);
+                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        try
+                        {
+                            myPresentation.StopPresentation();
+                        }
+                        catch (Exception e)
+                        {
+                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                        }
+                    }, null);
+
+                }
+
+                Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    try
+                    {
+                        myPresentation.StartPresentation(inputBasesFirst, inputBasesSecond, inputKey);
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                    }
                 }, null);
             
 
@@ -202,7 +244,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator
                 {
                 
                 }
-
+                */
             }
             OnPropertyChanged("OutputCommonKey");
         }
@@ -211,13 +253,31 @@ namespace Cryptool.Plugins.BB84KeyGenerator
         public void PostExecution()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Stop()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
 

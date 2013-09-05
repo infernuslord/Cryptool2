@@ -184,46 +184,36 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
            
             if (Presentation.IsVisible)
             {
-
-                if (synchron)
-                {
-                    inputPhotons = "W" + inputPhotons;
-                    inputBases = "W" + inputBases;
-                    outputPhotons = "W" + outputPhotons;
-                }
-
-                if (settings.IsListening == 0)
-                {
-                        Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate{
-                            myPresentation.StartPresentation(inputPhotons, inputBases, outputPhotons, true);}, null);
-
-                        if (!synchron)
+                Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        try 
                         {
-                            while (!myPresentation.hasFinished)
+                            if (!myPresentation.hasFinished)
                             {
-                                ProgressChanged(myPresentation.animationRepeats, inputBases.Length);
+                                myPresentation.StopPresentation();
+                            }
+
+                            if (synchron)
+                            {
+                                inputPhotons = "W" + inputPhotons;
+                                inputBases = "W" + inputBases;
+                                outputPhotons = "W" + outputPhotons;
+                            }
+                            if (settings.IsListening == 0)
+                            {
+                                myPresentation.StartPresentation(inputPhotons, inputBases, outputPhotons, true);
+                            }
+                            else
+                            {
+                                myPresentation.StartPresentation(inputPhotons, inputBases, outputPhotons, false);
                             }
                         }
-            }
-                else
-                {
-                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        myPresentation.StartPresentation(inputPhotons, inputBases, outputPhotons, false);
-                    }, null);
-
-                    if (!synchron)
-                    {
-                        while (!myPresentation.hasFinished)
+                        catch (Exception e)
                         {
-                            ProgressChanged(myPresentation.animationRepeats, inputBases.Length);
+                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
                         }
-                    }
-                }
-
-                
+                    }, null);     
                }
-            
         }
 
         
@@ -237,7 +227,10 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
 
             for (int i = 0; i < inputPhotons.Length; i++)
             {
-               listenedKey.Append(decodePhoton(inputPhotons[i], inputBases[i]));
+                if (inputPhotons.Length > i && inputBases.Length > i)
+                {
+                    listenedKey.Append(decodePhoton(inputPhotons[i], inputBases[i]));
+                }
             }
 
             outputKey = listenedKey.ToString();
@@ -296,7 +289,10 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             String photonsToSend = "";
             for (int i = 0; i < outputKey.Length; i++)
             {
-                photonsToSend += getPhotonFromBit(outputKey[i], inputBases[i]);
+                if (outputKey.Length > i && inputBases.Length > i)
+                {
+                    photonsToSend += getPhotonFromBit(outputKey[i], inputBases[i]);
+                }
             }
 
             outputPhotons = photonsToSend;
@@ -355,13 +351,31 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
         public void PostExecution()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Stop()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Initialize()
