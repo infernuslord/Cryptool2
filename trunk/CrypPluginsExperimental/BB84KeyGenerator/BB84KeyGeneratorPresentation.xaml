@@ -14,26 +14,26 @@
                 <TextBlock Name="firstBasesBox" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="365" Height="30" TextAlignment="Left"  FontFamily="Lucida Console" FontSize="25" FontWeight="Bold" Canvas.Top="35"></TextBlock>
                 <TextBlock Name="secondBasesBox" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="365" Height="30" TextAlignment="Left"  FontFamily="Lucida Console" FontSize="25" FontWeight="Bold" Canvas.Top="70"></TextBlock>
                 <TextBlock Name="commonKeyBox" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Stretch" Width="365" Height="30"  TextAlignment="Left"  FontFamily="Lucida Console" FontSize="25" FontWeight="Bold" Canvas.Top="105"></TextBlock>
-                <TextBlock Name="messageBox" Canvas.Left="-10" Text="res_NoCommonBasesMessage" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Width="365" Height="30"  TextAlignment="Center"  FontFamily="Lucida Console" FontSize="25" FontWeight="Bold" Visibility="Hidden" Canvas.Top="105"></TextBlock>
+                <TextBlock Name="messageBox" Canvas.Left="-10" Text="{Loc res_NoCommonBasesMessage}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Center" Width="365" Height="30"  TextAlignment="Center"  FontFamily="Lucida Console" FontSize="25" FontWeight="Bold" Visibility="Hidden" Canvas.Top="105"></TextBlock>
             </Canvas>
 
             <Canvas x:Name="overlayCanvas" Canvas.Top="5" Canvas.Left="1" Visibility="Hidden">
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="10"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="25.6"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="41.2"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="56.8"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="72.4"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="88"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="103.6"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="119.2"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="10"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="25.6"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="41.2"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="56.8"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="72.4"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="88"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="103.6"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="119.2"></Rectangle>
 
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="134.8"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="150.4"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="166"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="181.6"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="197.2"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="212.8"></Rectangle>
-                <Rectangle Width="14" Height="100" Fill="Red" Opacity="0.3" Canvas.Left="228.4"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="134.8"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="150.4"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="166"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="181.6"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="197.2"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="212.8"></Rectangle>
+                <Rectangle Width="14" Height="100" Fill="Green" Opacity="0.3" Canvas.Left="228.4"></Rectangle>
             </Canvas>
         </Canvas>
     </Canvas>

@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die %\n Key seems to be safe ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ratio: {0}% - key seems to be safe! ähnelt.
         /// </summary>
         internal static string res_KeySecure {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die %\n Too much errors were detected! Key might not be safe to use! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ratio: {0}% - key might not be safe to use! ähnelt.
         /// </summary>
         internal static string res_KeyUnsecure {
             get {

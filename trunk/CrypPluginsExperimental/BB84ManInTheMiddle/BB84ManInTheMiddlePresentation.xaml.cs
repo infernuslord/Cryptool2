@@ -39,6 +39,7 @@ namespace BB84ManInTheMiddle
             InitializeComponent();
             SizeChanged += sizeChanged;
             hideEverything();
+            hasFinished = true;
         }
 
         private void setSpeed()
@@ -102,9 +103,12 @@ namespace BB84ManInTheMiddle
 
         private void animationPhaseOne()
         {
-            if (!receivedPhotonString[animationRepeats].Equals('W'))
+            if (receivedPhotonString.Length > animationRepeats)
             {
-                mainCanvas.Visibility = Visibility.Visible;
+                if (!receivedPhotonString[animationRepeats].Equals('W'))
+                {
+                    mainCanvas.Visibility = Visibility.Visible;
+                }
             }
 
             initializeFirstImages();
@@ -139,7 +143,7 @@ namespace BB84ManInTheMiddle
             imageTopVertical.Visibility = Visibility.Hidden;
             
 
-            if (animationRepeats < receivedPhotonString.Length)
+            if (animationRepeats < receivedPhotonString.Length && animationRepeats < baseString.Length)
             {
                 if (receivedPhotonString.ElementAt(animationRepeats).Equals('/'))
                 {
@@ -199,8 +203,7 @@ namespace BB84ManInTheMiddle
             sleepMessage.Visibility = Visibility.Visible;
 
             hasFinished = true;
-            Thread.Sleep(10);
-            hasFinished = false;
+           
             if (frameTimer != null)
             { frameTimer.Stop(); }
         }
@@ -245,7 +248,7 @@ namespace BB84ManInTheMiddle
 
         private void initializeSecondImages()
         {
-            if (animationRepeats < receivedPhotonString.Length)
+            if (animationRepeats < receivedPhotonString.Length && photonOutputString.Length > animationRepeats)
             {
                 if (photonOutputString[animationRepeats].Equals('|'))
                 {
@@ -305,7 +308,7 @@ namespace BB84ManInTheMiddle
 
         private void initializeThirdImages()
         {
-            if (animationRepeats < receivedPhotonString.Length)
+            if (animationRepeats < receivedPhotonString.Length && animationRepeats < photonOutputString.Length)
             {
                 if (photonOutputString[animationRepeats].Equals('|'))
                 {

@@ -140,10 +140,12 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
                 doDecodingWithErrors();
             }
 
-    
+            OnPropertyChanged("OutputKey");
+
+
             showPresentationIfVisible();
 
-            OnPropertyChanged("OutputKey");
+            
 
             ProgressChanged(1, 1);
         }
@@ -152,28 +154,41 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         {
             if (Presentation.IsVisible)
             {
-                if (synchron)
-                {
-                    outputKey = "WW" + outputKey;
-                    inputPhotons = "WW" + inputPhotons;
-                    inputBases = "WW" + inputBases;
-                }
-
-
                 Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    myPresentation.StartPresentation(outputKey, inputPhotons, inputBases);
-                }, null);
+                    {
+                        try
+                        {
+                            if (!myPresentation.hasFinished)
+                            {
+                                myPresentation.StopPresentation();
+                            }
 
+                            if (synchron)
+                            {
+                                myPresentation.StartPresentation("WW" + outputKey, "WW" + inputPhotons, "WW" + inputBases);
+                            }
+                            else
+                            {
+                                myPresentation.StartPresentation(outputKey, inputPhotons, inputBases);
+                            }
+
+                            
+
+                        }
+                        catch (Exception e)
+                        {
+                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                        }
+                
+                    }, null);
+
+                
                 while (!myPresentation.hasFinished)
                 {
                     ProgressChanged(myPresentation.animationRepeats, inputBases.Length);
                 }
 
-                if (synchron)
-                {
-                    outputKey = outputKey.Substring(2);
-                }
+                
 
             }
         }
@@ -218,7 +233,52 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
                 }
                 else
                 {
+                    if (tempBases.Length > i && tempPhotons.Length > i)
+                    {
+                        if (tempBases[i].Equals('+'))
+                        {
+                            if (tempPhotons[i].Equals('|'))
+                            {
+                                tempOutput.Append(settings.PlusVerticallyDecoding);
+                            }
+                            else if (tempPhotons[i].Equals('-'))
+                            {
+                                tempOutput.Append(settings.PlusHorizontallyDecoding);
+                            }
+                            else
+                                tempOutput.Append(getRandomBinary());
+                        }
+                        else if (tempBases[i].Equals('x'))
+                        {
+                            if (tempPhotons[i].Equals('\\'))
+                            {
+                                tempOutput.Append(settings.XTopLeftDiagonallyDecoding);
+                            }
+                            else if (tempPhotons[i].Equals('/'))
+                            {
+                                tempOutput.Append(settings.XTopRightDiagonallyDecoding);
+                            }
+                            else
+                                tempOutput.Append(getRandomBinary());
+                        }
+                    }
+                }
+            }
+            this.outputKey = tempOutput.ToString();
+        }
 
+        private void doNormalDecoding()
+        {
+            StringBuilder tempOutput= new StringBuilder();
+            newRandom = new System.Random(DateTime.Now.Millisecond);
+            newRandom.Next(2);
+            char[] tempBases = inputBases.ToCharArray();
+            char[] tempPhotons = inputPhotons.ToCharArray();
+
+            for (int i = 0; i < inputPhotons.Length; i++)
+            {
+                if (tempBases.Length > i && tempPhotons.Length > i)
+                {
                     if (tempBases[i].Equals('+'))
                     {
                         if (tempPhotons[i].Equals('|'))
@@ -250,47 +310,6 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             this.outputKey = tempOutput.ToString();
         }
 
-        private void doNormalDecoding()
-        {
-            StringBuilder tempOutput= new StringBuilder();
-            newRandom = new System.Random(DateTime.Now.Millisecond);
-            newRandom.Next(2);
-            char[] tempBases = inputBases.ToCharArray();
-            char[] tempPhotons = inputPhotons.ToCharArray();
-
-            for (int i = 0; i < inputPhotons.Length; i++)
-            {
-
-                if (tempBases[i].Equals('+'))
-                {
-                    if (tempPhotons[i].Equals('|'))
-                    {
-                        tempOutput.Append(settings.PlusVerticallyDecoding);
-                    }
-                    else if (tempPhotons[i].Equals('-'))
-                    {
-                        tempOutput.Append(settings.PlusHorizontallyDecoding);
-                    }
-                    else
-                        tempOutput.Append(getRandomBinary());
-                }
-                else if (tempBases[i].Equals('x'))
-                {
-                    if (tempPhotons[i].Equals('\\'))
-                    {
-                        tempOutput.Append(settings.XTopLeftDiagonallyDecoding);
-                    }
-                    else if (tempPhotons[i].Equals('/'))
-                    {
-                        tempOutput.Append(settings.XTopRightDiagonallyDecoding);
-                    }
-                    else
-                        tempOutput.Append(getRandomBinary());
-                }
-            }
-            this.outputKey = tempOutput.ToString();
-        }
-
         private string getRandomBinary()
         {     
                 sRandom = new RNGCryptoServiceProvider();
@@ -305,13 +324,32 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         public void PostExecution()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Stop()
         {
             Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            { myPresentation.StopPresentation(); }, null);
+            {
+                try
+                {
+                    myPresentation.StopPresentation();
+                }
+                catch (Exception e)
+                {
+                    GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                }
+            }, null);
+            
         }
 
         public void Initialize()

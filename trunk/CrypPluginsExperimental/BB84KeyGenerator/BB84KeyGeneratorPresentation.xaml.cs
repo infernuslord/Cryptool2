@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 
 namespace BB84KeyGenerator
 {
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.Plugins.BB84KeyGenerator.Properties.Resources")]
     public partial class BB84KeyGeneratorPresentation : UserControl
     {
         private string firstBases;
@@ -36,7 +37,7 @@ namespace BB84KeyGenerator
             firstBases = "";
             secondBases = "";
             givenKey = "";
-            hasFinished = false;
+            hasFinished = true;
             SizeChanged += sizeChanged;
         }
 
@@ -99,13 +100,16 @@ namespace BB84KeyGenerator
             StringBuilder commonKeyBuilder = new StringBuilder();
             for (int i = 0; i < firstBases.Length; i++)
             {
-                if (firstBases[i].Equals(secondBases[i]))
+                if (givenKey.Length > i && firstBases.Length > i && secondBases.Length > i)
                 {
-                    commonKeyBuilder.Append(givenKey[i]);
-                }
-                else
-                {
-                    commonKeyBuilder.Append(" ");
+                    if (firstBases[i].Equals(secondBases[i]))
+                    {
+                        commonKeyBuilder.Append(givenKey[i]);
+                    }
+                    else
+                    {
+                        commonKeyBuilder.Append(" ");
+                    }
                 }
             }
             
@@ -152,10 +156,13 @@ namespace BB84KeyGenerator
             overlayCanvas.Visibility = Visibility.Visible;
             for (int i = 0; i < firstBases.Length; i++)
             {
-                if (firstBases[i].Equals(secondBases[i]))
+                if (secondBases.Length > i)
                 {
-                    overlayCanvas.Children[i].Visibility = Visibility.Visible;
-                    commonBases = true;
+                    if (firstBases[i].Equals(secondBases[i]))
+                    {
+                        overlayCanvas.Children[i].Visibility = Visibility.Visible;
+                        commonBases = true;
+                    }
                 }
             }
             
@@ -181,12 +188,11 @@ namespace BB84KeyGenerator
             hasFinished = true;
         }
 
-        internal void StopPresentation()
+        internal bool StopPresentation()
         {
             hideAndStopEverything();
             hasFinished = true;
-            Thread.Sleep(10);
-            hasFinished = false;
+            return hasFinished;
         }
 
         private void sizeChanged(Object sender, EventArgs eventArgs)

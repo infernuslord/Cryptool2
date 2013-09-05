@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         
         public BB84PhotonEncoderPresentation()
         {
-            hasFinished = false;
+            hasFinished = true;
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
             resetRepeats();
             InitializeComponent();
@@ -192,7 +192,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             char[] keyStringChars = keyString.ToCharArray();
             char[] baseStringChars = baseString.ToCharArray();
 
-            if (keyStringChars.Length >= 2)
+            if (keyStringChars.Length >= 2 && baseStringChars.Length >= 2)
             {
                 if (keyStringChars[1].Equals('0'))
                 {
@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
                 baseQueuePlus2.Visibility = Visibility.Hidden;
             }
 
-            if (keyStringChars.Length >= 3)
+            if (keyStringChars.Length >= 3 && baseStringChars.Length >= 3)
             {
                 if (keyStringChars[2].Equals('0'))
                 {
@@ -259,7 +259,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         {
             char[] keyStringChars = keyString.ToCharArray();
             char[] baseStringChars = baseString.ToCharArray();
-            if (animationRepeats + 1 < keyStringChars.Length)
+            if (animationRepeats + 1 < keyStringChars.Length && animationRepeats +1 < baseStringChars.Length)
             {
                 if (keyStringChars[animationRepeats+1].Equals('0'))
                 {
@@ -292,7 +292,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
                 baseQueuePlus1.Visibility = Visibility.Hidden;
             }
 
-            if (animationRepeats + 2 < keyStringChars.Length)
+            if (animationRepeats + 2 < keyStringChars.Length && animationRepeats + 2 < baseStringChars.Length)
             {
                 if (keyStringChars[animationRepeats+2].Equals('0'))
                 {
@@ -344,7 +344,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
 
         private void initializeSecondImages()
         {
-            if (animationRepeats < keyString.Length)
+            if (animationRepeats < keyString.Length && animationRepeats < baseString.Length && animationRepeats < photonString.Length)
             {
                 if (baseString.ElementAt(animationRepeats).Equals('+'))
                 {
@@ -458,7 +458,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             char[] keyStringChars = keyString.ToCharArray();
             char[] baseStringChars = baseString.ToCharArray();
 
-            if (animationRepeats + 3 < keyStringChars.Length)
+            if (animationRepeats + 3 < keyStringChars.Length && animationRepeats + 3 < baseStringChars.Length)
             {
                 if (keyStringChars[animationRepeats + 3].Equals('0'))
                 {
@@ -496,8 +496,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             resetRepeats();
             mainCanvas.Visibility = Visibility.Hidden;
             hasFinished = true;
-            Thread.Sleep(10);
-            hasFinished = false;
+            
             if (frameTimer != null)
             { frameTimer.Stop(); }
             
