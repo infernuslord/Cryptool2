@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             set { destinationFileName = value; }
         }
 
-        /// <summary>Returns or sets the plain text that has been extracted from this image.</summary>
+        /// <summary>Returns or sets the plaintext that has been extracted from this image.</summary>
         public string TextMessage
         {
             get { return textMessage; }

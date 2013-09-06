@@ -21,7 +21,7 @@
       <newline/><newline/>
       Let us for now assume, the above described homomorphism $f$ is the decryption function of a known cryptosystem. This means that we can perform certain algebraic operations in the ciphertext space, knowing which effects this will have on their plaintexts. Following the above given example:
       <newline/><newline/>
-      $Y$ corresponds to the set of cipher texts, $X$ is the set of plaintexts.
+      $Y$ corresponds to the set of ciphertexts, $X$ is the set of plaintexts.
       For two plaintexts $x_1, x_2$ with corresponding ciphertexts $y_1, y_2$ it holds:
       <newline/><newline/>
       $$f(y_1  * y_2) = f(y_1) + f(y_2) = x_1  + x_2$$

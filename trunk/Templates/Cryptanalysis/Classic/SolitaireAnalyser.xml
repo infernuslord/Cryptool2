@@ -3,7 +3,7 @@
 
   <title lang="en">Solitaire Brute-force Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Solitaire</i> cipher using brute-force</summary>
-  <description lang="en">This template shows how to analyse a cipher text encrypted with the <i>Solitaire</i> cipher using a dictionary attack. Any dictionary can be used for both the passwords to try as well as for the word recognition.</description>
+  <description lang="en">This template shows how to analyse a ciphertext encrypted with the <i>Solitaire</i> cipher using a dictionary attack. Any dictionary can be used for both the passwords to try as well as for the word recognition.</description>
   <keywords>solitaire, cipher, decryption, analysis, dictionary, attack</keywords>
 
   <title lang="de">Solitaire Brute-Force-Analyse</title>

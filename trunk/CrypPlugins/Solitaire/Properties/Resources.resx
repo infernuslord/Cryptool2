@@ -243,7 +243,7 @@ The minimum setting is 3 cards, a single card and 2 jokers.</value>
     <value>Input Text</value>
   </data>
   <data name="labelOutputText" xml:space="preserve">
-    <value>Cipher Text</value>
+    <value>Ciphertext</value>
   </data>
   <data name="labelStep1" xml:space="preserve">
     <value>Step 1</value>
