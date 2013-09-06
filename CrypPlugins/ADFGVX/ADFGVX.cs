@@ -133,7 +133,7 @@ namespace Cryptool.ADFGVX
                 char upChar = char.ToUpperInvariant(c);
                 if (!cipherAlphabet.Contains(upChar))
                 {
-                    ADFGVX_LogMessage(string.Format("Cipher text contains invalid character: {0}", c), NotificationLevel.Error);
+                    ADFGVX_LogMessage(string.Format("Ciphertext contains invalid character: {0}", c), NotificationLevel.Error);
                     return;
                 }
 

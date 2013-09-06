@@ -98,7 +98,7 @@ namespace Cryptool.Plugins.M209
             Diese Methode Verschlüsselt einen einzelnen Buchstaben
         
             In Cipher mode, the output is printed in groups of five letters. 
-            Use the letter Z in the plain text to replace spaces between words. 
+            Use the letter Z in the plaintext to replace spaces between words. 
          
             In Decipher mode, the output is printed continuously. If the deciphered plaintext letter is
             Z, a space is printed.

@@ -448,7 +448,7 @@ namespace Cryptool.VigenereAnalyser
                     double friedmanKey = friedmanInput;
                     int[] kasiskiFactors = kasiskiInput;
                     string workString = stringInput;
-                    //Convert the cipher text into a format suitable for analysing i.e. remove all non-plaintext characters. //TO DO alphabet input...
+                    //Convert the ciphertext into a format suitable for analysing i.e. remove all non-plaintext characters. //TO DO alphabet input...
                     
                     string strValidChars = new string(validchars);
                     StringBuilder workstring1 = new StringBuilder();
@@ -598,7 +598,7 @@ namespace Cryptool.VigenereAnalyser
                     }
                     //Now we have a good idea of the keylength used to encrypt the ciphertext recived on the stringInput.
                     //Let's start with the analysis of the Vigenere cipher proper.
-                    //First we need to divide the cipher text into columns. The number of columns must be equal to the probableKeylength.
+                    //First we need to divide the ciphertext into columns. The number of columns must be equal to the probableKeylength.
                     //Create an array of strings. Just a container for the columns. 
                     char[] cipherTextChars = cipherText.ToCharArray();
                     int l = 0;

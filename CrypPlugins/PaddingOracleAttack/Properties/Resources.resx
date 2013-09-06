@@ -166,7 +166,7 @@
     <value>Cipher Input</value>
   </data>
   <data name="CipherInputTooltip" xml:space="preserve">
-    <value>Input of the cipher text</value>
+    <value>Input of the ciphertext</value>
   </data>
   <data name="descDone" xml:space="preserve">
     <value>Plaintext Recovered. Attack completed successfully.</value>

@@ -25,7 +25,7 @@ using System.Windows.Forms;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
-    /// <summary>Displays extracted regions and plain text for one carrier image.</summary>
+    /// <summary>Displays extracted regions and plaintext for one carrier image.</summary>
     public partial class RegionExtractForm : Form
     {
         private System.Windows.Forms.PictureBox picImage;
