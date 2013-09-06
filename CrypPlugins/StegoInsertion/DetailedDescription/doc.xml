@@ -4,40 +4,64 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en"></introduction>
+  <introduction lang="en">
+    <b>Steganography</b> is the science of transmitting secret data in such a way, that an unsuspecting observer and possible attacker
+    does not realize, that besides the harmless looking carrier message, there is an additional secret message being transmitted.
+    <newline/><newline/>
+    The basic steganographical principle of this component is to hide the secret message, that is to be transmitted, inside a MIDI file.
+    The MIDI protocol saves control commands for electronic musical instruments.
+    One of the possible commands is the "Program Change" command, that changes the current instrument.
+    If one adds one or more instrument changes directly in front of a regular instrument change, these will have no effect and go unnoticed when the
+    MIDI file is played. Inside each of the added control blocks for an instrument change, several bits can be hidden. 
+    In this way, the entire message can be secretly spread over the MIDI file.
+  </introduction>
 
   <introduction lang="de-DE">
     Unter <i>Steganographie</i> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
     uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
     noch eine zusätzliche, versteckte Nachricht übermittelt wird.
     <newline/><newline/>
-    Das Grundprinzip der steganographischen Technik dieses Plugins ist, die zu übertragende Nachricht in einer
-	 MIDI-Datei zu verstecken. Das MIDI-Protokoll speichert Steuerinformationen zur Kontrolle elekronischer Musikinstrumente.
-	 Unter anderem kann durch einen "Program Change"-Befehl das aktuelle Instrument geändert werden.
-	 Werden direkt vor einem regulären Instrumentenwechsel in der MIDI-Datei weitere Instrumentenwechsel eingefügt,
-	 so haben diese keine Auswirkung und bleiben beim Abspielen unbemerkt. Man kann in jedem hinzugefügten Kontrollblock für
-	 den Instrumentenwechsel einige Bits verstecken und so die zu versteckende Nachricht auf die MIDI-Datei verteilen.
+    Das Grundprinzip der steganographischen Technik dieser Komponente ist, die zu übertragende Nachricht in einer
+    MIDI-Datei zu verstecken. Das MIDI-Protokoll speichert Steuerinformationen zur Kontrolle elekronischer Musikinstrumente.
+    Unter anderem kann durch einen "Program Change"-Befehl das aktuelle Instrument geändert werden.
+    Werden direkt vor einem regulären Instrumentenwechsel in der MIDI-Datei weitere Instrumentenwechsel eingefügt,
+    so haben diese keine Auswirkung und bleiben beim Abspielen unbemerkt. Man kann in jedem hinzugefügten Kontrollblock für
+    den Instrumentenwechsel einige Bits verstecken und so die zu versteckende Nachricht auf die MIDI-Datei verteilen.
   </introduction>
 
-  <usage lang="en"></usage>
+  <usage lang="en">
+    This component has the two operating modes <b>Encryption</b> and <b>Decryption</b>, which can be chosen in the settings of the component.
+    <newline/><newline/>
+    In <b>Encryption</b> mode, the component expects the secret message, that is to be hidden, on the input labeled <b>Message</b>,
+    and the MIDI file, inside which to hide the secret message, on the input labeled <b>Carrier file</b>.
+    (The MIDI file can be provided using the FileInput component.)
+    The modified MIDI file containing the secret message is sent to the output labeled <b>Carrier file</b>.
+    <newline />
+    The component can hide 4 bits inside each inserted "Program Change" command.
+    In the settings of the component you can determine, how many additional "Program Change" commands per regular "Program Change" command should be inserted.
+    In order to be able to hide the entire message in the carrier file, it can be necessary to increase this number and thus increase the capacity of the carrier file.
+    <newline/><newline/>
+    In <b>Decryption</b> mode, the component expects a MIDI file prepared with a secret message on the input labeled <b>Carrier file</b>.
+    The component extracts the message and sends it to the output labeled <b>Message</b>.
+    The additional "Program Change" commands are deleted from the MIDI file and the "clean" MIDI file is sent to the output labeled <b>Carrier file</b>.
+  </usage>
 
   <usage lang="de-DE">
-    Das Plugin hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins
+    Die Komponente hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen der Komponente
     gewählt werden kann.
     <newline/><newline/>
-    Bei der <i>Verschlüsselung</i> erwartet das Plugin am Eingang <i>"Nachricht"</i> die zu versteckende Textnachricht und am
-	 Eingang <i>"Trägerdatei"</i> eine MIDI-Datei als Datenstrom, in welcher die Nachricht versteckt werden soll.
-	 (Die MIDI-Datei kann zum Beispiel über das Dateieingabe-Plugin eingelesen werden.)
-	 Am Ausgang <i>"Trägerdatei"</i> wird dann die präparierte MIDI-Datei ausgegeben, die die versteckte Nachricht enthält.
-	 <newline />
-	 Das Plugin kann in jedem zusätzlich eingefügten "Program Change"-Befehl 4 Bits kodieren. 
-	 In den Einstellungen des Plugins kann man angeben, wie viele zusätzliche "Program Change"-Befehle pro regulärem "Program Change" eingefügt
-	 werden sollen. Um die gesamte Nachricht zu kodieren kann es notwendig sein, diese Anzahl zu erhöhen.
+    Bei der <i>Verschlüsselung</i> erwartet die Komponente am Eingang <i>"Nachricht"</i> die zu versteckende Textnachricht und am
+    Eingang <i>"Trägerdatei"</i> eine MIDI-Datei als Datenstrom, in welcher die Nachricht versteckt werden soll.
+    (Die MIDI-Datei kann zum Beispiel über die Dateieingabe-Komponente eingelesen werden.)
+    Am Ausgang <i>"Trägerdatei"</i> wird dann die präparierte MIDI-Datei ausgegeben, die die versteckte Nachricht enthält.
+    <newline />
+    Die Komponente kann in jedem zusätzlich eingefügten "Program Change"-Befehl 4 Bits kodieren.
+    In den Einstellungen der Komponente kann man angeben, wie viele zusätzliche "Program Change"-Befehle pro regulärem "Program Change" eingefügt
+    werden sollen. Um die gesamte Nachricht zu kodieren kann es notwendig sein, diese Anzahl zu erhöhen und somit die Kapazität der Trägerdatei zu erhöhen.
     <newline/><newline/>
-	 Bei der <i>Entschlüsselung</i> erwartet das Plugin am Eingang <i>"Trägerdatei"</i> eine mit einer versteckten Nachricht präparierte
-	 MIDI-Datei. Das Plugin extrahiert die Nachricht und gibt diese am Ausgang <i>"Nachricht"</i> aus. Am Ausgang <i>"Trägerdatei"</i> wird
-	 die von den überflüssigen "Program Change"-Befehlen bereinigte MIDI-Datei zur Verfügung gestellt.
-    <newline/><newline/>
+    Bei der <i>Entschlüsselung</i> erwartet die Komponente am Eingang <i>"Trägerdatei"</i> eine mit einer versteckten Nachricht präparierte
+    MIDI-Datei. Die Komponente extrahiert die Nachricht und gibt diese am Ausgang <i>"Nachricht"</i> aus. Am Ausgang <i>"Trägerdatei"</i> wird
+    die von den überflüssigen "Program Change"-Befehlen bereinigte MIDI-Datei zur Verfügung gestellt.
   </usage>
   
   <references>
@@ -59,5 +83,12 @@
       <link lang="de-DE" url="http://www.steganografie.eu/index.php?article=5"/>
       <caption lang="de-DE">Steganographie mit MIDI-Dateien</caption>
     </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/MIDI"/>
+      <caption lang="en">MIDI (Wikipedia)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Musical_Instrument_Digital_Interface"/>
+      <caption lang="de-DE">MIDI (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>
