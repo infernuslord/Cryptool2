@@ -564,14 +564,6 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-	 <comboBox plugin="RC2" property="KeySize" alignment="Left" defaultValue="0">
-      <description lang="en">Key size:</description>
-      <description lang="de">Schlüsselgröße:</description>
-      <item content="128 Bit"/>
-      <item content="192 Bit"/>
-      <item content="256 Bit"/>
-    </comboBox>
-
 	 <comboBox plugin="RC2" property="Mode" alignment="Left" defaultValue="0">
       <description lang="en">Chaining mode:</description>
       <description lang="de">Verkettungsmodus:</description>
