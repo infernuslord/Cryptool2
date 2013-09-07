@@ -40,7 +40,7 @@ namespace Tests.TemplateAndPluginTests
             var scenario = new PluginTestScenario(pluginInstance, new[] { "ShiftKey", "InputAlphabet", "InputString", ".CaseSensitive" }, new[] { "OutputString" });
             
             //Test 1:
-            if (!scenario.Test(new object[] { 24, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "Franz jagt im komplett verwahrlosten Taxi quer durch Bayern", false }, new[] { "Dpylx hyer gk imknjcrr tcpuyfpjmqrcl Ryvg oscp bspaf Zywcpl" }))
+            if (!scenario.Test(new object[] { 24, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "Franz jagt im komplett verwahrlosten Taxi quer durch Bayern", false }, new[] { "Dpylx hyer gk imknjcrr tcpuyfpjmqrcl Ryvg oscp bspaf Zywcpl".ToUpper() }))
             {
                 TestHelpers.TestFail(1);
             }
