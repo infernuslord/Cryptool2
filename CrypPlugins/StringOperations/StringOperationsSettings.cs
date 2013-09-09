@@ -30,9 +30,9 @@ namespace StringOperations
         private int _order = 0;
         private readonly Dictionary<StringOperationType, List<string>> _operationVisibility = new Dictionary<StringOperationType, List<string>>();
         private readonly List<string> _operationList = new List<string>();
-        private string _string1 = null;
-        private string _string2 = null;
-        private string _string3 = null;
+        private string _string1 = String.Empty;
+        private string _string2 = String.Empty;
+        private string _string3 = String.Empty;
         private int _value1 = int.MinValue;
         private int _value2 = int.MinValue;
 
