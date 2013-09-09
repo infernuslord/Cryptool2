@@ -326,11 +326,11 @@ namespace Cryptool.Plugins.NetworkSender
                             presentation.RefreshMetaData(++packageCount);
                             SendDataSize += packetData.Length;
                             //updates the presentation
+                            var length = packetData.Length % 100;
                             presentation.AddPresentationPackage(new PresentationPackage
                             {
-
                                 IPFrom = endPoint.Address.ToString(),
-                                Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
+                                Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData,0,length) : BitConverter.ToString(packetData,0,length)),
                                 PackageSize = generateSizeString(packetData.Length) + "yte"
                             });
 

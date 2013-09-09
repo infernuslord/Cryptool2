@@ -187,14 +187,14 @@ namespace Cryptool.Plugins.NetworkReceiver
 
 
                 // create Package
+                var length = data.Length % 100;
                 var packet = new PresentationPackage
                 {
                     PackageSize = generateSizeString(data.Length) + "yte", // 42B + "yte"
-                    IPFrom = ipFrom,
-
+                    IPFrom = ipFrom,                    
                     Payload = (settings.ByteAsciiSwitch
-                         ? Encoding.ASCII.GetString(data)
-                         : BitConverter.ToString(data))
+                         ? Encoding.ASCII.GetString(data, 0, length)
+                         : BitConverter.ToString(data, 0, length))
                 };
 
                 // update Presentation
