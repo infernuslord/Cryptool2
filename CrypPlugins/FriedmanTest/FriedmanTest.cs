@@ -108,8 +108,8 @@ namespace FriedmanTest
             if (arrayInput != null)
             {
                 double Kp; //Kappa "language"
-				long cipherTextLength = 0; //n
-				long countDoubleCharacters = 0;
+				double cipherTextLength = 0; //n
+				double countDoubleCharacters = 0;
                 string ciphermode = "monoalphabetic/cleartext";
 
 				//Now we set the Kappa plain-text coefficient. Default is English.
@@ -145,7 +145,7 @@ namespace FriedmanTest
                 ShowStatusBarMessage(String.Format("Input analyzed: Got {0} different letters in a text of total length {1}.",arrayInput.Length,cipherTextLength), NotificationLevel.Debug);
 
 				kappaCiphertext = ((double)countDoubleCharacters / (double)(cipherTextLength * (cipherTextLength - 1)));
-                keyLength = 0.0377 * cipherTextLength / (((cipherTextLength - 1) * kappaCiphertext) - (0.0385 * cipherTextLength) + Kp);
+                keyLength = (0.0377 * cipherTextLength) / ( (cipherTextLength - 1.0) * kappaCiphertext - (0.0385 * cipherTextLength) + 0.0762 );
 
                 if (Math.Abs(Kp - kappaCiphertext) > 0.01)
                 {
