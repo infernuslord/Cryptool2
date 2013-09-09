@@ -118,7 +118,7 @@ namespace Cryptool.Plugins.Webcam
             ProgressChanged(0, 1);
             if (CapDevice.DeviceMonikers.Length > 0)
             {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -171,7 +171,7 @@ namespace Cryptool.Plugins.Webcam
         {
             if (CapDevice.DeviceMonikers.Length > 0)
             {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+                presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
                 {
                     try
                     {
@@ -242,7 +242,7 @@ namespace Cryptool.Plugins.Webcam
         /// <param name="e"></param>
         private void GrabOutputPictureTick(object sender, EventArgs e)
         {
-            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)(state =>
+            presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)(state =>
             {
                 try
                 {

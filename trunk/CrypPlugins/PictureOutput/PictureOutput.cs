@@ -74,14 +74,15 @@ namespace PictureOutput
                     _data = reader.ReadFully();
                 }
 
-                _presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                _presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
                 {
                     try{
-                        var decoder = BitmapDecoder.Create( new MemoryStream(_data),
-                        BitmapCreateOptions.PreservePixelFormat,
-                        BitmapCacheOption.None);
 
-                        if (decoder != null && decoder.Frames.Count > 0)
+                        var decoder = BitmapDecoder.Create(new MemoryStream(_data),
+                                BitmapCreateOptions.PreservePixelFormat,
+                                BitmapCacheOption.None);
+                        
+                        if (decoder.Frames.Count > 0)
                         {
                             _presentation.Picture.Source = decoder.Frames[0];
                         }
