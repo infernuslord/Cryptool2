@@ -3,9 +3,9 @@ Many new components found their way into this beta release.
 For a detailed overview of new components please use the list beneath this text. We hope you have as much fun 
 using CrypTool 2.0 Beta 10 as we had creating it. If you find any bugs please do not hesitate using our bug 
 reporting form at https://www.cryptool.org/trac/CrypTool2/newticket or use the contact form on the upper 
-right side under the "about" menue in the CrypTool 2.0 application.
+right side under the "About" menue in the CrypTool 2.0 application.
 
-[b]New components added:[/b]
+[b]New components:[/b]
 - VisualEncoder
 - VisualDecoder
 - Webcam
@@ -26,11 +26,11 @@ right side under the "about" menue in the CrypTool 2.0 application.
   - Added Reichsbahn ("Rocket")
 - Wizard
   - Added functionality to load/store "variables"
-- Primes
+- World of Primes
   - Several changes/bugfixes
 - Alphabets
   - Redesigned completely
-- Subsitution
+- Substitution
   - Redesigned completely
 - CrypWin
   - Signing-Certificate information is now displayed in the info overview window
@@ -42,7 +42,7 @@ New category added: Codes
 Added new templates:
 - Simple_Multiple_Client_Communication
 - AES Videochat
-- Diffie-Hellmann AES Videochat
+- Diffie-Hellman AES Videochat
 - ISBN-13
 - ISBN-10
 - Keccak
