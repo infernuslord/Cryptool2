@@ -87,12 +87,28 @@ namespace Cryptool.Playfair
             {
                 if (value != null && value.ToUpper() != key)
                 {
-                    this.key = value.ToUpper();
+                    this.key = Distinct(value.ToUpper());
                     setKeyMatrix();
                     OnPropertyChanged("Key");
                     OnPropertyChanged("AlphabetMatrix");
                 }
             }
+        }
+
+        private String Distinct(string str)
+        {
+            StringBuilder builder = new StringBuilder();
+            HashSet<char> chars = new HashSet<char>();
+
+            foreach (char c in str)
+            {
+                if (!chars.Contains(c))
+                {
+                    chars.Add(c);
+                    builder.Append(c);
+                }
+            }
+            return builder.ToString();
         }
 
         [PropertySaveOrder(4)]
