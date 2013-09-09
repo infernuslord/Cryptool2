@@ -422,11 +422,11 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         /// <summary>
-        /// Calculates the Index of Coincidence multiplied with 100 of
+        /// Calculates the Index of Coincidence of
         /// a given byte array
         /// 
-        /// for example a German text has about 7.62
-        ///           an English text has about 6.61
+        /// for example a German text has about 0.0762
+        ///           an English text has about 0.0661
         /// </summary>
         /// <param name="text">text to use</param>
         /// <param name="text">bytesToUse</param>
@@ -457,7 +457,7 @@ namespace Cryptool.Plugins.CostFunction
             coindex = coindex / (bytesToUse);
             coindex = coindex / (bytesToUse - 1);
 
-            return coindex * 100;
+            return coindex;
 
         }//end calculateIndexOfCoincidence
 
@@ -785,8 +785,8 @@ namespace Cryptool.Plugins.CostFunction
                 + "result += distr[i] * (distr[i] - 1) ; \n "
                 + "} \n "
                 + string.Format("result /= {0}.0f; \n", bytesToUse)
-                + string.Format("result /= {0}.0f; \n", (bytesToUse-1))
-                + "result *= 100.0f; \n" );
+                + string.Format("result /= {0}.0f; \n", (bytesToUse-1)));                
+                //+ "result *= 100.0f; \n" );
 
             return code;
         }
