@@ -65,11 +65,40 @@ namespace StringOperations
 
         public void PreExecution()
         {
-            
+            _string1 = null;
+            _string2 = null;
+            _string3 = null;
+            _value1 = int.MinValue;
+            _value2 = int.MinValue;
+
         }
 
         public void Execute()
         {
+
+            //If connector values are not set, maybe the user set these values in the settings
+            //So we replace the connector values with the setting values:
+            if (string.IsNullOrEmpty(_string1))
+            {
+                _string1 = _settings.String1;
+            }
+            if (string.IsNullOrEmpty(_string2))
+            {
+                _string2 = _settings.String2;
+            }
+            if (string.IsNullOrEmpty(_string3))
+            {
+                _string3 = _settings.String3;
+            }
+            if (_value1 == int.MaxValue)
+            {
+                _value1 = _settings.Value1;
+            }
+            if (_value2 == int.MaxValue)
+            {
+                _value2 = _settings.Value2;
+            }
+
             try
             {
                 switch (_settings.Operation)
@@ -78,7 +107,7 @@ namespace StringOperations
                         _outputString = String.Concat(_string1,_string2);
                         OnPropertyChanged("OutputString");
                         break;
-                    case StringOperationType.Substring:
+                    case StringOperationType.Substring:                        
                         if (_string1.Length > 0 && _value1<0 && _value1>=-_string1.Length) _value1 = (_value1 + _string1.Length) % _string1.Length;
                         _outputString = _string1.Substring(_value1, _value2);
                         OnPropertyChanged("OutputString");
