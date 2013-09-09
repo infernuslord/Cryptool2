@@ -34,7 +34,7 @@ namespace Tests
             CostFunction cf = new CostFunction();
             
             //Index of Conincidence
-            double target = 7.38051470588235;
+            double target = 0.0738051470588235;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             testContextInstance.WriteLine(enc.GetString(cf.InputText));
