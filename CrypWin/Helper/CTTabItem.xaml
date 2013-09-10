@@ -139,7 +139,9 @@
                                             Name="Border3"
                                             Background="{StaticResource ResourceKey=linear}"
                                             CornerRadius="2,12,0,0" ></Border>
-                                            <DockPanel MouseDown="DockPanel_MouseDown" ToolTip="{TemplateBinding Tag}" ToolTipService.ShowDuration="{x:Static Member=System:Int32.MaxValue}">
+                                            <DockPanel MouseDown="DockPanel_MouseDown" 
+                                                       ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CTTabItem}}, Path=HeaderTooltip,Mode=OneWay}" 
+                                                       ToolTipService.ShowDuration="{x:Static Member=System:Int32.MaxValue}">
                                                 <Image VerticalAlignment="Center" MaxWidth="18" MaxHeight="18" Margin="2">
                                                     <Image.Style>
                                                         <Style TargetType="Image">

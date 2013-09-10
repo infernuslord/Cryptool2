@@ -31,6 +31,7 @@ using Cryptool.PluginBase.Editor;
 using System.Windows.Controls;
 using StartCenter;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using Cryptool.CrypWin.Helper;
 
 namespace Cryptool.CrypWin
 {
@@ -116,7 +117,7 @@ namespace Cryptool.CrypWin
             if (MainTab == null)
                 return;
 
-            var tab = (TabItem) (MainTab.SelectedItem);
+            var tab = (CTTabItem) (MainTab.SelectedItem);
             if (tab == null)
                 return;
 
@@ -140,7 +141,7 @@ namespace Cryptool.CrypWin
             if (MainTab == null)
                 return;
 
-            var tab = (TabItem)(MainTab.SelectedItem);
+            var tab = (CTTabItem)(MainTab.SelectedItem);
             if (tab == null)
                 return;
 
@@ -505,7 +506,7 @@ namespace Cryptool.CrypWin
         private void AutoUpdater_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             UpdaterPresentation updaterPresentation = UpdaterPresentation.GetSingleton();
-            OpenTab(updaterPresentation, Properties.Resources.CrypTool_2_0_Update, null).IsSelected = true;
+            OpenTab(updaterPresentation, new TabInfo() { Title = Properties.Resources.CrypTool_2_0_Update }, null).IsSelected = true;
         }
 
         # endregion P2P
@@ -519,7 +520,7 @@ namespace Cryptool.CrypWin
         private void Settings_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SettingsPresentation settingsPresentation = SettingsPresentation.GetSingleton();
-            OpenTab(settingsPresentation, Properties.Resources.Settings, null).IsSelected = true;
+            OpenTab(settingsPresentation, new TabInfo() { Title = Properties.Resources.Settings }, null).IsSelected = true;
         }
 
         #endregion Settings

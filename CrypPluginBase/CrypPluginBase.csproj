@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Miscellaneous\Hex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabInfo.cs" />
     <Compile Include="Utils\Graphics\Diagrams\Histogram\HistogramChart.xaml.cs">
       <DependentUpon>HistogramChart.xaml</DependentUpon>
     </Compile>

@@ -129,4 +129,10 @@
   <data name="plugin_extension_error_get_image" xml:space="preserve">
     <value>Fehler bei der Abfrage eines Bildes von Plugin: {0}. Exception ist: {1}</value>
   </data>
+  <data name="This_is_a_standalone_component_" xml:space="preserve">
+    <value>Dies ist eine alleinstehende Komponente.</value>
+  </data>
+  <data name="This_is_a_WorkspaceManager_file_" xml:space="preserve">
+    <value>Dies ist eine Datei des Workspace-Editors.</value>
+  </data>
 </root>

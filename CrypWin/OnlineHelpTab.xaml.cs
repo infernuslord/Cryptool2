@@ -10,6 +10,7 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Attributes;
 using System.Diagnostics;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
+using System.Windows.Documents;
 
 namespace Cryptool.CrypWin
 {
@@ -48,10 +49,8 @@ namespace Cryptool.CrypWin
                 Type editorType = ComponentInformations.EditorExtension["cwm"];
                 string filename = e.Uri.LocalPath;
                 string title = Path.GetFileNameWithoutExtension(filename);
-                var editor = OnOpenEditor(editorType, title, filename);
-                editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
+                var editor = OnOpenEditor(editorType, new TabInfo() { Filename = new FileInfo(filename), Title = title });
                 editor.Open(filename);
-                OnOpenTab(editor, title, null);
                 e.Cancel = true;
             }
             if(e.Uri.AbsoluteUri.EndsWith("?external"))

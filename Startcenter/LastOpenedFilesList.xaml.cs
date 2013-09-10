@@ -27,6 +27,7 @@ namespace Startcenter
         public event OpenTabHandler OnOpenTab;
         private readonly List<RecentFileInfo> _recentFileInfos = new List<RecentFileInfo>();
         private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
+        public event EventHandler<TemplateOpenEventArgs> TemplateLoaded;
 
         public LastOpenedFilesList()
         {
@@ -124,7 +125,7 @@ namespace Startcenter
                         {
                             File = rfile,
                             Title = title,
-                            Description = new TextBlock(description) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400},
+                            Description = description,
                             Icon = image, 
                             EditorType = editorType
                         });
@@ -144,29 +145,14 @@ namespace Startcenter
                 return;
 
             var selectedItem = (RecentFileInfo) RecentFileListBox.SelectedItem;
-            IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
 
-            if (selectedItem.Description != null)
+            if (TemplateLoaded != null)
             {
-                var tooltipInline = selectedItem.Description.Inlines.FirstOrDefault();
-                if (tooltipInline != null)
+                var info = new TabInfo()
                 {
-                    editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
-                }
-            }
-            if (editor.Presentation.ToolTip == null && selectedItem.File != null)
-            {
-                editor.Presentation.ToolTip = selectedItem.File;
-            }
-            if (selectedItem.Icon != null)
-            {
-                editor.Presentation.Tag = selectedItem.Icon;
-            }
-
-            editor.Open(selectedItem.File);
-            if (selectedItem.Title != null)
-            {
-                OnOpenTab(editor, selectedItem.Title, null); //rename tab header
+                    Filename = new FileInfo(selectedItem.File)
+                };
+                TemplateLoaded.Invoke(this, new TemplateOpenEventArgs() { Info = info });
             }
             _recentFileList.AddRecentFile(selectedItem.File);
         }
@@ -192,7 +178,7 @@ namespace Startcenter
     {
         public string File { get; set; }
         public string Title { get; set; }
-        public TextBlock Description { get; set; }
+        public Span Description { get; set; }
         public ImageSource Icon { get; set; }
         public Type EditorType { get; set; }
     }

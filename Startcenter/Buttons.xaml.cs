@@ -39,7 +39,7 @@ namespace Startcenter
 
         private void WizardButton_Click(object sender, RoutedEventArgs e)
         {
-            OnOpenEditor(typeof(Wizard.Wizard), null, null);
+            OnOpenEditor(typeof(Wizard.Wizard), null);
         }
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
@@ -49,12 +49,12 @@ namespace Startcenter
 
         private void WorkspaceButton_Click(object sender, RoutedEventArgs e)
         {
-            OnOpenEditor(typeof(WorkspaceManager.WorkspaceManagerClass), null, null);
+            OnOpenEditor(typeof(WorkspaceManager.WorkspaceManagerClass), null);
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            OnOpenEditor(typeof(P2PEditor), null, null);
+            OnOpenEditor(typeof(P2PEditor), null);
         }
 
         private void WebpageButton_Click(object sender, RoutedEventArgs e)

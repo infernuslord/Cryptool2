@@ -36,14 +36,24 @@ namespace Startcenter
         public event OpenEditorHandler OnOpenEditor;
         public event OpenTabHandler OnOpenTab;
         public event StartcenterEditor.StartupBehaviourChangedHandler StartupBehaviourChanged;
+        public event EventHandler<TemplateOpenEventArgs> TemplateLoaded;
 
         public Startcenter()
         {
             InitializeComponent();
-            ((Buttons)buttons.Content).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            ((Buttons)buttons.Content).OnOpenEditor += (content, info) => OnOpenEditor(content, info);
             _panelsObj = ((Panels)panels.Children[0]);
-            _panelsObj.OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
-            _panelsObj.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+            _panelsObj.OnOpenEditor += (content, info) => OnOpenEditor(content, info);
+            _panelsObj.OnOpenTab += (content, info, parent) => OnOpenTab(content, info, parent);
+            _panelsObj.TemplateLoaded += new EventHandler<TemplateOpenEventArgs>(templateLoaded);
+        }
+
+        void templateLoaded(object sender, TemplateOpenEventArgs e)
+        {
+            if (TemplateLoaded != null)
+            {
+                TemplateLoaded.Invoke(sender, e);
+            }
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
