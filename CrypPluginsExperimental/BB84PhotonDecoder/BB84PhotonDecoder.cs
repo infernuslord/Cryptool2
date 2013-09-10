@@ -38,6 +38,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         public bool synchron;
 
         public bool listened;
+        public bool faster;
 
         private readonly BB84PhotonDecoderSettings settings = new BB84PhotonDecoderSettings();
         private string inputPhotons;
@@ -165,7 +166,14 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
 
                             if (synchron)
                             {
-                                myPresentation.StartPresentation("WW" + outputKey, "WW" + inputPhotons, "WW" + inputBases);
+                                if (!faster)
+                                {
+                                    myPresentation.StartPresentation("WW" + outputKey, "WW" + inputPhotons, "WW" + inputBases);
+                                }
+                                else
+                                {
+                                    myPresentation.StartPresentation("W" + outputKey, "W" + inputPhotons, "W" + inputBases);
+                                }
                             }
                             else
                             {
@@ -198,17 +206,22 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             if (inputPhotons[inputPhotons.Length-1].Equals('L'))
             {
                 listened = true;
+                faster = false;
                 inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
             }
             else if (inputPhotons[inputPhotons.Length-1].Equals('S'))
             {
                 listened = false;
+                faster = false;
                 inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
             }
-            else
+            else if (inputPhotons[inputPhotons.Length - 1].Equals('X'))
             {
                 listened = false;
+                faster = true;
             }
+
+           
 
             
             
