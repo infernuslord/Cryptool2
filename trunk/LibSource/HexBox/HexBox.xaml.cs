@@ -54,9 +54,9 @@ namespace HexBox
 
         
 
-        public Boolean InReadOnlyMode = false;
-        public string Pfad = string.Empty;
-        public event EventHandler OnFileChanged;
+        public Boolean InReadOnlyMode = false;              // Option for checking the mode of the Hexbox   
+        public string Pfad = string.Empty;                  // Path of the file
+        public event EventHandler OnFileChanged;            // Event fired when file changes data
 
         #endregion
 
@@ -150,29 +150,27 @@ namespace HexBox
             scoview.ScrollChanged += scoview_ScrollChanged;
             fileSlider.ValueChanged += MyManipulationCompleteEvent;
 
-            
-
             mainPanel.MouseWheel += MainWindow_MouseWheel;
-
             Stream s = new MemoryStream();
 
             _dyfipro = new DynamicFileByteProvider(s);
-            
             _dyfipro.LengthChanged += dyfipro_LengthChanged;
 
-            //this.Loaded += new RoutedEventHandler(HexBox_Loaded);
+            mainPanel.Loaded += HexBox_Loaded;                                // something has to throw this event in order to calculate the offset of the HexBox
+
         }
 
         void HexBox_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            window = Window.GetWindow(this);
+            scoview_ScrollChanged(this, null);
+
+            /*window = Window.GetWindow(this); //old code to catch mouse button events in window mode, was later fixed by core
             if (window == null)
             {
                 return;
             }
 
-            window.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(window_MouseLeftButtonDown);
+            window.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(window_MouseLeftButtonDown);*/
         }
 
         private void window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1449,6 +1447,9 @@ namespace HexBox
             Line.Text = _cursorpositionText/16 + 1 + "";
 
             long end = _dyfipro.Length - position*16;
+            if (end < 0)
+                end = 0;
+
             int max = Constants._numberOfCells;
 
             _st.Text = "";
