@@ -69,7 +69,7 @@ namespace Startcenter
         /// <summary>
         /// Constructor only for files
         /// </summary>
-        public CTTreeViewItem(FileInfo file, string title, Inline tooltip, ImageSource image)
+        public CTTreeViewItem(FileInfo file, string title, Span tooltip, ImageSource image)
         {
             this.File = file;
             this.Order = -1;
@@ -79,7 +79,7 @@ namespace Startcenter
             this.Tag = new KeyValuePair<string, string>(file.FullName, title);
             var tooltipBlock = new TextBlock(tooltip) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
             this.ToolTip = tooltipBlock;
-
+            this.MetaTooltip = tooltip;
             InitializeComponent();
         }
 
@@ -106,5 +106,7 @@ namespace Startcenter
             }
             InitializeComponent();
         }
+
+        public Span MetaTooltip { get; set; }
     }
 }

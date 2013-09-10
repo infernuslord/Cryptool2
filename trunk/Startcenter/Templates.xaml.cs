@@ -296,6 +296,10 @@ namespace Startcenter
             ListBoxItem navItem = new ListBoxItem();
             navItem.Content = stackPanel;
             navItem.Tag = new KeyValuePair<string, string>(file.FullName, title);
+            ((FrameworkElement)navItem.Content).Tag = new TabInfo()
+            {
+                Filename = file,
+            };
 
             navItem.MouseDoubleClick += TemplateItemDoubleClick;
             if (tooltip != null)
@@ -308,6 +312,8 @@ namespace Startcenter
             return navItem;
         }
 
+        public event EventHandler<TemplateOpenEventArgs> TemplateLoaded;
+
         private void TemplateItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var infos = ((KeyValuePair<string, string>)((FrameworkElement)sender).Tag);
@@ -317,33 +323,39 @@ namespace Startcenter
                 if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
                 {
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
-                    string filename = infos.Key;
-                    string title = infos.Value;
-                    var editor = OnOpenEditor(editorType, title, filename);
-                    editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
+                    TabInfo info = new TabInfo();
                     if (sender is CTTreeViewItem)
                     {
                         var templateItem = (CTTreeViewItem)sender;
-                        editor.Presentation.Tag = templateItem.Icon;
-                        var tooltipInline = ((TextBlock) templateItem.ToolTip).Inlines.FirstOrDefault();
-                        if (tooltipInline != null)
+
+                        info = new TabInfo()
                         {
-                            editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
-                        }
+                            Filename = templateItem.File,
+                        };
+                        //var tooltipInline = ((TextBlock) templateItem.ToolTip).Inlines.FirstOrDefault();
+                        //if (tooltipInline != null)
+                        //{
+                        //    editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+                        //}
                     }
                     else if (sender is ListBoxItem)
                     {
                         var searchItem = (ListBoxItem) sender;
-                        var tooltipInline = ((TextBlock)searchItem.ToolTip).Inlines.FirstOrDefault();
-                        if (tooltipInline != null)
-                        {
-                            editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
-                        }
-                        editor.Presentation.Tag = ((Image)((StackPanel)searchItem.Content).Children[0]).Source;
+                        info = (TabInfo)((FrameworkElement)searchItem.Content).Tag;
+
+                        //var tooltipInline = ((TextBlock)searchItem.ToolTip).Inlines.FirstOrDefault();
+                        //if (tooltipInline != null)
+                        //{
+                        //    editor.Presentation.ToolTip = new TextBlock(tooltipInline) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+                        //}
+                        //editor.Presentation.Tag = ((Image)((StackPanel)searchItem.Content).Children[0]).Source;
                     }
 
-                    editor.Open(infos.Key);
-                    OnOpenTab(editor, title, null);     //rename tab header
+                    if (TemplateLoaded != null)
+                    {
+                        TemplateLoaded.Invoke(this, new TemplateOpenEventArgs() { Info = info, Type = editorType });
+                    }
+                    //OnOpenTab(editor, info, null);     //rename tab header
                     _recentFileList.AddRecentFile(infos.Key);
                 }
             }
@@ -542,5 +554,12 @@ namespace Startcenter
             var rel = GetRelativePathBySubtracting(_templatesDir, infos.Key);
             OnlineHelp.InvokeShowDocPage(new OnlineHelp.TemplateType(rel));
         }
+    }
+
+    public class TemplateOpenEventArgs : EventArgs
+    {
+        public TabInfo Info { get; set; }
+
+        public Type Type { get; set; }
     }
 }

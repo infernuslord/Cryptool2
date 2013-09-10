@@ -28,7 +28,7 @@ namespace Wizard
 
         public Wizard()
         {
-            wizardControl.OnOpenEditor += (editor, title, filename) => OnOpenEditor(editor, title, filename);
+            wizardControl.OnOpenEditor += (editor, info) => OnOpenEditor(editor, info);
             wizardControl.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             wizardControl.OnGuiLogNotificationOccured += (sender, args) => OnGuiLogNotificationOccured(this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
             Presentation.ToolTip = Properties.Resources.PluginTooltip;

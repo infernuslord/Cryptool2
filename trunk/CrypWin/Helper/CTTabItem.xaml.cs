@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Collections;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase;
 
 namespace Cryptool.CrypWin.Helper
 {
@@ -56,6 +57,22 @@ namespace Cryptool.CrypWin.Helper
             set
             {
                 SetValue(HasChangesProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty HeaderTooltipProperty =
+            DependencyProperty.Register(
+            "HeaderTooltip",
+            typeof(FrameworkElement),
+            typeof(CTTabItem),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public FrameworkElement HeaderTooltip
+        {
+            get { return (FrameworkElement)GetValue(HeaderTooltipProperty); }
+            set
+            {
+                SetValue(HeaderTooltipProperty, value);
             }
         }
 
@@ -102,6 +119,21 @@ namespace Cryptool.CrypWin.Helper
         public CTTabItem(PluginBase.Editor.IEditor parent)
         {
             this.Editor = parent;
+            InitializeComponent();
+        }
+
+        public CTTabItem(TabInfo info)
+        {
+            // TODO: Complete member initialization
+            this.Info = null;
+            
+            this.Info = info;
+            if(info.Icon != null)
+                this.Icon = info.Icon;
+            if (info.Title != null)
+                this.Header = info.Title;
+            if (info.Tooltip != null)
+                this.ToolTip = new TextBlock(info.Tooltip) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap };
             InitializeComponent();
         }
 
@@ -205,6 +237,33 @@ namespace Cryptool.CrypWin.Helper
             var tp = Tag as ToolTip;
 
             Clipboard.SetText(tp.ToString());
+        }
+
+        private TabInfo info;
+        public TabInfo Info 
+        { 
+            get 
+            {
+                return info; 
+            }
+            set 
+            {
+                info = value;
+                if (info == null)
+                    return;
+                if (info.Icon != null)
+                    this.Icon = info.Icon;
+                if (info.Title != null)
+                    this.Header = info.Title;
+                if (info.Tooltip != null)
+                    this.HeaderTooltip = new TextBlock(info.Tooltip) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap };
+            } 
+        }
+
+        internal void SetTabInfo(TabInfo info)
+        {
+            this.Info = info;
+
         }
     }
 }

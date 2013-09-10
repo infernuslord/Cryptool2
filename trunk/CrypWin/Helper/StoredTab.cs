@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cryptool.PluginBase;
 
 namespace Cryptool.CrypWin.Helper
 {
     [Serializable()]
     public abstract class StoredTab
     {
-        public string Title { get; private set; }
+        public TabInfo Info { get; set; }
 
-        protected StoredTab(string title)
+        protected StoredTab(TabInfo info)
         {
-            Title = title;
+            Info = info;
         }
     }
 
@@ -21,7 +22,9 @@ namespace Cryptool.CrypWin.Helper
     {
         public Type EditorType { get; private set; }
 
-        public EditorTypeStoredTab(string title, Type editorType) : base(title)
+
+        public EditorTypeStoredTab(TabInfo info, Type editorType)
+            : base(info)
         {
             EditorType = editorType;
         }
@@ -32,7 +35,8 @@ namespace Cryptool.CrypWin.Helper
     {
         public Type Type { get; private set; }
 
-        public CommonTypeStoredTab(string title, Type type) : base(title)
+        public CommonTypeStoredTab(TabInfo info, Type type)
+            : base(info)
         {
             Type = type;
         }
@@ -43,7 +47,7 @@ namespace Cryptool.CrypWin.Helper
     {
         public string Filename { get; private set; }
 
-        public EditorFileStoredTab(string title, string filename) : base(title)
+        public EditorFileStoredTab(TabInfo info, string filename) : base(info)
         {
             Filename = filename;
         }

@@ -1165,7 +1165,7 @@ namespace Wizard
                 //load sample:
                 if (openTab)
                 {
-                    currentManager = (WorkspaceManager.WorkspaceManagerClass) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManagerClass), null, null);
+                    currentManager = (WorkspaceManager.WorkspaceManagerClass) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManagerClass), null);
                     currentManager.Open(model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
@@ -1205,7 +1205,7 @@ namespace Wizard
             if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate && currentManager.CanExecute)
                 currentManager.Execute();
             currentManager.OnFileLoaded -= NewEditorOnFileLoaded;
-            OnOpenTab(currentManager, _title, null);
+            OnOpenTab(currentManager, new TabInfo() { Title = _title }, null);
         }
 
         private void OnFileLoaded(IEditor editor, string filename)

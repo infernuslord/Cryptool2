@@ -88,8 +88,8 @@ namespace Cryptool.CrypWin
         private Dictionary<string, List<Type>> loadedTypes;
         private int numberOfLoadedTypes = 0;
         private int initCounter;
-        private Dictionary<TabItem, object> tabToContentMap = new Dictionary<TabItem, object>();
-        private Dictionary<object, TabItem> contentToTabMap = new Dictionary<object, TabItem>();
+        private Dictionary<CTTabItem, object> tabToContentMap = new Dictionary<CTTabItem, object>();
+        private Dictionary<object, CTTabItem> contentToTabMap = new Dictionary<object, CTTabItem>();
         private Dictionary<object, IEditor> contentToParentMap = new Dictionary<object, IEditor>();
         private TabItem lastTab = null;
         private System.Windows.Forms.NotifyIcon notifyIcon;
@@ -144,7 +144,7 @@ namespace Cryptool.CrypWin
                     return null;
                 if (MainSplitPanel.Children.Count == 0)
                     return null;
-                TabItem selectedTab = (TabItem)(MainTab.SelectedItem);
+                CTTabItem selectedTab = (CTTabItem)(MainTab.SelectedItem);
                 if (selectedTab == null)
                     return null;
 
@@ -177,7 +177,7 @@ namespace Cryptool.CrypWin
                     return null;
                 if (MainSplitPanel.Children.Count == 0)
                     return null;
-                TabItem selectedTab = (TabItem)(MainTab.SelectedItem);
+                CTTabItem selectedTab = (CTTabItem)(MainTab.SelectedItem);
                 if (selectedTab == null)
                     return null;
 
@@ -1079,7 +1079,7 @@ namespace Cryptool.CrypWin
             if (content == null)
                 return;
 
-            OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
+            //OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
             //content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
         }
 
@@ -1482,7 +1482,7 @@ namespace Cryptool.CrypWin
                     if (File.Exists(file))
                     {
                         this.OpenProject(file, null);
-                        OpenTab(ActiveEditor, lastOpenedTab.Title, null);
+                        OpenTab(ActiveEditor, lastOpenedTab.Info, null);
                         hasOpenedProject = true;
                     }
                     else
@@ -1494,55 +1494,55 @@ namespace Cryptool.CrypWin
                 {
                     var editorType = ((EditorTypeStoredTab) lastOpenedTab).EditorType;
                     var editor = AddEditorDispatched(editorType);
-                    string title = null;
+                    TabInfo info = new TabInfo();
 
                     try
                     {
                         if (editorType == typeof(P2PEditor.P2PEditor))
-                            title = P2PEditor.Properties.Resources.P2PEditor_Tab_Caption;
+                            info.Title = P2PEditor.Properties.Resources.P2PEditor_Tab_Caption;
                         else if (editorType == typeof(WorkspaceManager.WorkspaceManagerClass))
-                            title = WorkspaceManager.Properties.Resources.unnamed_project;
+                            info.Title = WorkspaceManager.Properties.Resources.unnamed_project;
                         else
-                            title = editorType.GetPluginInfoAttribute().Caption;
+                            info.Title = editorType.GetPluginInfoAttribute().Caption;
                     }
                     catch (Exception ex)
                     {
-                        title = lastOpenedTab.Title;
+                        info = lastOpenedTab.Info;
                     }
 
-                    OpenTab(editor, title, null);     //rename
+                    OpenTab(editor, info, null);     //rename
                 }
                 else if (lastOpenedTab is CommonTypeStoredTab)
                 {
                     object tabContent = null;
-                    string title = null;
+                    TabInfo info = null;
 
                     var type = ((CommonTypeStoredTab) lastOpenedTab).Type;
 
                     if (type == typeof(OnlineHelpTab))
                     {
                         tabContent = OnlineHelpTab.GetSingleton(this);
-                        title = Properties.Resources.Online_Help;
+                        info.Title = Properties.Resources.Online_Help;
                     }
                     else if (type == typeof(SettingsPresentation))
                     {
                         tabContent = SettingsPresentation.GetSingleton();
-                        title = Properties.Resources.Settings;
+                        info.Title = Properties.Resources.Settings;
                     }
                     else if (type == typeof(UpdaterPresentation))
                     {
                         tabContent = UpdaterPresentation.GetSingleton();
-                        title = Properties.Resources.CrypTool_2_0_Update;
+                        info.Title = Properties.Resources.CrypTool_2_0_Update;
                     }
                     else if (type == typeof(SystemInfos))
                     {
                         tabContent = systemInfos;
-                        title = Properties.Resources.System_Infos;
+                        info.Title = Properties.Resources.System_Infos;
                     }
                     else if (type == typeof(LicensesTab))
                     {
                         tabContent = licenses;
-                        title = Properties.Resources.Licenses;
+                        info.Title = Properties.Resources.Licenses;
                     }
                     else
                     {
@@ -1557,17 +1557,17 @@ namespace Cryptool.CrypWin
 
                         try
                         {
-                            title = type.GetPluginInfoAttribute().Caption;
+                            info.Title = type.GetPluginInfoAttribute().Caption;
                         }
                         catch (Exception ex)
                         {
-                            title = lastOpenedTab.Title;
+                            info = lastOpenedTab.Info;
                         }
                     }
 
-                    if (tabContent != null && title != null)
+                    if (tabContent != null && info != null)
                     {
-                        OpenTab(tabContent, title, null);
+                        OpenTab(tabContent, info, null);
                     }
                 }
             }
@@ -1610,13 +1610,14 @@ namespace Cryptool.CrypWin
             if (editor.Presentation != null)
             {
                 ToolTipService.SetIsEnabled(editor.Presentation, false);
-                editor.Presentation.Tag = type.GetImage(0).Source;   
+                //editor.Presentation.Tag = type.GetImage(0).Source;   
             }
             editor.SamplesDir = defaultTemplatesDirectory;
 
             if (editor is StartCenter.StartcenterEditor)
             {
                 ((StartCenter.StartcenterEditor) editor).ShowOnStartup = Properties.Settings.Default.ShowStartcenter;
+                ((Startcenter.Startcenter)((StartCenter.StartcenterEditor)editor).Presentation).TemplateLoaded += new EventHandler<Startcenter.TemplateOpenEventArgs>(MainWindow_TemplateLoaded);
             }
 
             if (this.Dispatcher.CheckAccess())
@@ -1631,6 +1632,13 @@ namespace Cryptool.CrypWin
                 }, null);
             }
             return editor;
+        }
+
+        void MainWindow_TemplateLoaded(object sender, Startcenter.TemplateOpenEventArgs e)
+        {
+            var editor = OpenEditor(e.Type, e.Info);
+            editor.Open(e.Info.Filename.FullName);
+            OpenTab(editor, e.Info, null);
         }
 
         private void AddEditor(IEditor editor)
@@ -1652,7 +1660,7 @@ namespace Cryptool.CrypWin
 
             editor.OnProjectTitleChanged += EditorProjectTitleChanged;
             
-            OpenTab(editor, editor.GetType().Name, null);
+            OpenTab(editor, new TabInfo(){Title = editor.GetType().Name, Icon = editor.GetImage(0).Source}, null);
 
             editor.Initialize();
 
@@ -1661,13 +1669,13 @@ namespace Cryptool.CrypWin
             editor.Presentation.Focus();
         }
 
-        private IEditor OpenEditor(Type editorType, string title, string filename)
+        private IEditor OpenEditor(Type editorType, TabInfo info)
         {
             var editor = AddEditorDispatched(editorType);
-            if (filename != null)
-                this.ProjectFileName = filename;
-            if (title != null)
-                OpenTab(editor, title, null);
+            if (info.Filename.FullName != null)
+                this.ProjectFileName = info.Filename.FullName;
+            if (info != null)
+                OpenTab(editor, info, null);
             return editor;
         }
 
@@ -1695,12 +1703,13 @@ namespace Cryptool.CrypWin
         /// </summary>
         /// <param name="content">The content to be shown in the tab</param>
         /// <param name="title">Title of the tab</param>
-        TabItem OpenTab(object content, string title, IEditor parent)
+        TabItem OpenTab(object content, TabInfo info,IEditor parent)
         {
             if (contentToTabMap.ContainsKey(content))
             {
                 var tab = contentToTabMap[content];
-                tab.Header = title.Replace("_", "__");
+                tab.SetTabInfo(info);
+                //tab.Header = title.Replace("_", "__");
                 tab.IsSelected = true;
                 SaveSession();
                 return tab;
@@ -1708,7 +1717,7 @@ namespace Cryptool.CrypWin
 
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
             lastTab = (TabItem) tabs.SelectedItem;
-            CTTabItem tabitem = new CTTabItem();
+            CTTabItem tabitem = new CTTabItem(info);
             tabitem.RequestDistractionFreeOnOffEvent += new EventHandler(tabitem_RequestDistractionFreeOnOffEvent);
             tabitem.RequestHideMenuOnOffEvent += new EventHandler(tabitem_RequestHideMenuOnOffEvent);
             tabitem.RequestBigViewFrame += handleMaximizeTab;
@@ -1735,20 +1744,20 @@ namespace Cryptool.CrypWin
             //Create the tab header:
             //StackPanel tabheader = new StackPanel();
             //tabheader.Orientation = Orientation.Horizontal;
-            TextBlock tablabel = new TextBlock();
-            tablabel.Text = title.Replace("_", "__");
-            tablabel.Name = "Text";
+            //TextBlock tablabel = new TextBlock();
+            //tablabel.Text = title.Replace("_", "__");
+            //tablabel.Name = "Text";
             //tabheader.Children.Add(tablabel);
 
             // set icon for CrypTutorials
             if (content is ICrypTutorial && content != null)
                 (content as ICrypTutorial).Presentation.Tag = content.GetType().GetImage(0).Source;
 
-            Binding bind = new Binding();
-            bind.Source = tabitem.Content;
-            bind.Path = new PropertyPath("Tag");
-            tabitem.SetBinding(CTTabItem.IconProperty, bind);
-            tabitem.Header = tablabel.Text;
+            //Binding bind = new Binding();
+            //bind.Source = tabitem.Content;
+            //bind.Path = new PropertyPath("Tag");
+            //tabitem.SetBinding(CTTabItem.IconProperty, bind);
+            //tabitem.Header = tablabel.Text;
 
             //give the tab header his individual color:
             var colorAttr = Attribute.GetCustomAttribute(content.GetType(), typeof(TabColorAttribute));
@@ -1772,24 +1781,23 @@ namespace Cryptool.CrypWin
                 contentToParentMap.Add(content, parent);
 
             //bind content tooltip to tabitem header tooltip:
-            var headerTooltip = new ToolTip();
-            tabitem.Tag = headerTooltip;
-            if (content is ICrypTutorial)
-            {
-                headerTooltip.Content = ((ICrypTutorial)content).GetPluginInfoAttribute().ToolTip;
-            }
-            else
-            {
-                Binding tooltipBinding = new Binding("ToolTip");
-                tooltipBinding.Source = tabitem.Content;
-                tooltipBinding.Mode = BindingMode.OneWay;
-                headerTooltip.SetBinding(ContentProperty, tooltipBinding);
-            }
+            //var headerTooltip = new ToolTip();
+            //tabitem.Tag = headerTooltip;
+            //if (content is ICrypTutorial)
+            //{
+            //    headerTooltip.Content = ((ICrypTutorial)content).GetPluginInfoAttribute().ToolTip;
+            //}
+            //else
+            //{
+            //    Binding tooltipBinding = new Binding("ToolTip");
+            //    tooltipBinding.Source = tabitem.Content;
+            //    tooltipBinding.Mode = BindingMode.OneWay;
+            //    headerTooltip.SetBinding(ContentProperty, tooltipBinding);
+            //}
 
             tabs.SelectedItem = tabitem;
 
             SaveSession();
-
             return tabitem;
         }
 
@@ -1803,7 +1811,7 @@ namespace Cryptool.CrypWin
             doHandleMaxTab();
         }
 
-        private void CloseTab(object content, TabControl tabs, TabItem tabitem)
+        private void CloseTab(object content, TabControl tabs, CTTabItem tabitem)
         {
             if (Settings.Default.FixedWorkspace)
                 return;
@@ -1878,15 +1886,15 @@ namespace Cryptool.CrypWin
             {
                 if (c.Value is IEditor && !string.IsNullOrEmpty(((IEditor)c.Value).CurrentFile))
                 {
-                    session.Add(new EditorFileStoredTab((string)c.Key.Header, ((IEditor)c.Value).CurrentFile));
+                    session.Add(new EditorFileStoredTab(c.Key.Info, ((IEditor)c.Value).CurrentFile));
                 }
                 else if (c.Value is IEditor)
                 {
-                    session.Add(new EditorTypeStoredTab((string)c.Key.Header, c.Value.GetType()));
+                    session.Add(new EditorTypeStoredTab(c.Key.Info, c.Value.GetType()));
                 }
                 else
                 {
-                    session.Add(new CommonTypeStoredTab((string)c.Key.Header, c.Value.GetType()));
+                    session.Add(new CommonTypeStoredTab(c.Key.Info, c.Value.GetType()));
                 }
             }
             Settings.Default.LastOpenedTabs = session;
@@ -2327,7 +2335,7 @@ namespace Cryptool.CrypWin
         private void buttonSysInfo_Click(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            OpenTab(systemInfos, Properties.Resources.System_Infos, null);
+            OpenTab(systemInfos, new TabInfo() { Title = Properties.Resources.System_Infos }, null);
         }
 
         private void buttonContactUs_Click(object sender, RoutedEventArgs e)
@@ -2351,7 +2359,7 @@ namespace Cryptool.CrypWin
         private void buttonLicenses_Click(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            OpenTab(licenses, Properties.Resources.Licenses, null);
+            OpenTab(licenses, new TabInfo() { Title = Properties.Resources.Licenses }, null);
             
         }
 
@@ -2580,7 +2588,7 @@ namespace Cryptool.CrypWin
             }
 
             //show tab:
-            TabItem tab = OpenTab(onlineHelpTab, Properties.Resources.Online_Help, null);
+            TabItem tab = OpenTab(onlineHelpTab, new TabInfo() { Title = Properties.Resources.Online_Help }, null);
             if (tab != null)
                 tab.IsSelected = true;
         }

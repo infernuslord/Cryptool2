@@ -55,7 +55,7 @@ namespace StartCenter
         public void Initialize()
         {
             _startcenter.StartupBehaviourChanged += (showOnStartup) => StartupBehaviourChanged(showOnStartup);
-            _startcenter.OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            _startcenter.OnOpenEditor += (content, info) => OnOpenEditor(content, info);
             _startcenter.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             _startcenter.TemplatesDir = _samplesDir;
 
