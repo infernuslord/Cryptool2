@@ -160,27 +160,11 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             {
                 decodeIncomingPhotons();
                 forwardListenedPhotons();
-                if (Presentation.IsVisible)
-                {
-                    outputPhotons += "L";
-                }
-                else
-                {
-                    outputPhotons += "X";
-                }
             }
             else 
             {
                 forwardReceivedPhotons();
                 displaySleepMessage();
-                if (Presentation.IsVisible)
-                {
-                    outputPhotons += "S";
-                }
-                else
-                {
-                    outputPhotons += "X";
-                }
             }
 
             
