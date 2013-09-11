@@ -198,4 +198,7 @@
   <data name="StartTemplate" xml:space="preserve">
     <value>Diesen Eintrag starten</value>
   </data>
+  <data name="Follow_us_on_Facebook_" xml:space="preserve">
+    <value>Besuchen Sie uns auf Facebook</value>
+  </data>
 </root>

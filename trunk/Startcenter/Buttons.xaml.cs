@@ -61,5 +61,10 @@ namespace Startcenter
         {
             System.Diagnostics.Process.Start("http://www.cryptool2.vs.uni-due.de");
         }
+
+        private void FacebookButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.facebook.de/cryptool20");
+        }
     }
 }
