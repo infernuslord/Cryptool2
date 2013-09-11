@@ -260,11 +260,20 @@ namespace Startcenter
                     }
                 }
 
+                System.Collections.ArrayList list = new System.Collections.ArrayList();
+                list.Add(new TabInfo()
+                {
+                    Filename = file,
+                });
+
                 ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, summary1, image);
+
                 if (internationalizedKeywords.Count > 0)
                 {
-                    ((StackPanel)searchItem.Content).Tag = internationalizedKeywords;
+                    list.Add(internationalizedKeywords);
                 }
+
+                ((StackPanel)searchItem.Content).Tag = list;
                 TemplatesListBox.Items.Add(searchItem);
 
                 CTTreeViewItem item = new CTTreeViewItem(file, title, summary2, image) { Background = bg };
@@ -296,10 +305,7 @@ namespace Startcenter
             ListBoxItem navItem = new ListBoxItem();
             navItem.Content = stackPanel;
             navItem.Tag = new KeyValuePair<string, string>(file.FullName, title);
-            ((FrameworkElement)navItem.Content).Tag = new TabInfo()
-            {
-                Filename = file,
-            };
+
 
             navItem.MouseDoubleClick += TemplateItemDoubleClick;
             if (tooltip != null)
@@ -341,7 +347,7 @@ namespace Startcenter
                     else if (sender is ListBoxItem)
                     {
                         var searchItem = (ListBoxItem) sender;
-                        info = (TabInfo)((FrameworkElement)searchItem.Content).Tag;
+                        info = (TabInfo)((System.Collections.ArrayList)((FrameworkElement)searchItem.Content).Tag)[0];
 
                         //var tooltipInline = ((TextBlock)searchItem.ToolTip).Inlines.FirstOrDefault();
                         //if (tooltipInline != null)
@@ -442,11 +448,11 @@ namespace Startcenter
 
         private string AppendTextWithHitKeywords(ListBoxItem item, List<string> searchWords, string text, ref bool hit)
         {
-            var tag = ((StackPanel) item.Content).Tag;
-            if (tag != null)
+            var tag = ((System.Collections.ArrayList)((FrameworkElement)item.Content).Tag);
+            if (tag.Count == 2)
             {
                 List<string> hitKeywords = new List<string>();
-                var internationalizedKeywords = (Dictionary<string, List<string>>) tag;
+                var internationalizedKeywords = (Dictionary<string, List<string>>)tag[1];
                 string lang = null;
                 if (internationalizedKeywords.ContainsKey(CultureInfo.CurrentCulture.TextInfo.CultureName))
                 {

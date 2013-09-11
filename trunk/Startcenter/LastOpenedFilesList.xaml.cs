@@ -120,13 +120,13 @@ namespace Startcenter
                     if (iconFile == null || !File.Exists(iconFile))
                         iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
                     var image = File.Exists(iconFile) ? ImageLoader.LoadImage(new Uri(iconFile)) : editorType.GetImage(0).Source;
-                    
+
                     _recentFileInfos.Add(new RecentFileInfo()
                         {
                             File = rfile,
                             Title = title,
-                            Description = description,
-                            Icon = image, 
+                            Description = new TextBlock(description) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap},
+                            Icon = image,
                             EditorType = editorType
                         });
                 }
@@ -152,7 +152,7 @@ namespace Startcenter
                 {
                     Filename = new FileInfo(selectedItem.File)
                 };
-                TemplateLoaded.Invoke(this, new TemplateOpenEventArgs() { Info = info });
+                TemplateLoaded.Invoke(this, new TemplateOpenEventArgs() { Type = typeof(WorkspaceManager.WorkspaceManagerClass), Info = info });
             }
             _recentFileList.AddRecentFile(selectedItem.File);
         }
@@ -178,7 +178,7 @@ namespace Startcenter
     {
         public string File { get; set; }
         public string Title { get; set; }
-        public Span Description { get; set; }
+        public TextBlock Description { get; set; }
         public ImageSource Icon { get; set; }
         public Type EditorType { get; set; }
     }

@@ -248,22 +248,41 @@ namespace Cryptool.CrypWin.Helper
             }
             set 
             {
-                info = value;
-                if (info == null)
+                if (value == null)
                     return;
-                if (info.Icon != null)
-                    this.Icon = info.Icon;
-                if (info.Title != null)
-                    this.Header = info.Title;
-                if (info.Tooltip != null)
-                    this.HeaderTooltip = new TextBlock(info.Tooltip) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap };
+
+                if (info == null)
+                    info = new TabInfo();
+
+                if (value.Icon != null) 
+                {
+                    this.Icon = value.Icon;
+                    info.Icon = value.Icon;
+                }
+
+                if (value.Title != null)
+                {
+                    this.Header = value.Title.Replace("_", " ");
+                    info.Title = value.Title;
+                }
+
+                if (value.Tooltip != null)
+                {
+                    this.HeaderTooltip = new TextBlock(value.Tooltip) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap };
+                    info.Tooltip = value.Tooltip;
+                }
+
+                if (value.Filename != null)
+                {
+                    info.Filename = value.Filename;
+                }
+
             } 
         }
 
         internal void SetTabInfo(TabInfo info)
         {
             this.Info = info;
-
         }
     }
 }

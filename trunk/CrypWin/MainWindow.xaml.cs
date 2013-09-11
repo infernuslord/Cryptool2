@@ -1672,7 +1672,10 @@ namespace Cryptool.CrypWin
         private IEditor OpenEditor(Type editorType, TabInfo info)
         {
             var editor = AddEditorDispatched(editorType);
-            if (info.Filename.FullName != null)
+            if (info == null)
+                info = new TabInfo();
+
+            if (info.Filename != null)
                 this.ProjectFileName = info.Filename.FullName;
             if (info != null)
                 OpenTab(editor, info, null);
