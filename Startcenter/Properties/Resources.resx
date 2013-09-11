@@ -204,4 +204,7 @@
   <data name="StartTemplate" xml:space="preserve">
     <value>Start this entry</value>
   </data>
+  <data name="Follow_us_on_Facebook_" xml:space="preserve">
+    <value>Like us on Facebook</value>
+  </data>
 </root>
