@@ -30,6 +30,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         private string plusHorizontallyDecoding;
         private double durationSetting;
         private bool errorsEnabled;
+        private int waitingIterations;
         #endregion
 
         #region TaskPane Settings
@@ -185,6 +186,24 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
                 }
             }
         }
+        
+        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 2)] 
+        public int WaitingIterations
+        {
+            get
+            {
+                return waitingIterations;
+            }
+            set
+            {
+                if (waitingIterations != value)
+                {
+                    waitingIterations = value;
+                    OnPropertyChanged("WaitingIterations");
+                }
+            }
+        }
+        
         #endregion
 
         #region Events

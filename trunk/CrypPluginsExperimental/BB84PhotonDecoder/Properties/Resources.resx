@@ -183,4 +183,13 @@
   <data name="res_Setting4Tooltip" xml:space="preserve">
     <value>Change Mode for decoding on X-Base</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Waiting Cycles</value>
+  </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>the number of animationcycles the plugin will wait (for synchronisation issues)</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
 </root>

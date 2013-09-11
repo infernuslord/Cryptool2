@@ -37,8 +37,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
 
         public bool synchron;
 
-        public bool listened;
-        public bool faster;
+        int waitingIterations = 2;
 
         private readonly BB84PhotonDecoderSettings settings = new BB84PhotonDecoderSettings();
         private string inputPhotons;
@@ -126,10 +125,9 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         public void Execute()
         {
             ProgressChanged(0, 1);
-           
-            checkIfListened();
-           
 
+            waitingIterations = settings.WaitingIterations;
+  
             if (settings.ErrorsEnabled == 0 || (int)Math.Round(inputPhotons.Length * errorRatio) == 0)
             {
                 doNormalDecoding();
@@ -166,13 +164,17 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
 
                             if (synchron)
                             {
-                                if (!faster)
+                                if (waitingIterations == 2)
                                 {
                                     myPresentation.StartPresentation("WW" + outputKey, "WW" + inputPhotons, "WW" + inputBases);
                                 }
-                                else
+                                else if (waitingIterations == 1)
                                 {
                                     myPresentation.StartPresentation("W" + outputKey, "W" + inputPhotons, "W" + inputBases);
+                                }
+                                else
+                                {
+                                    myPresentation.StartPresentation(outputKey, inputPhotons, inputBases);
                                 }
                             }
                             else
@@ -201,31 +203,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             }
         }
 
-        private void checkIfListened()
-        {
-            if (inputPhotons[inputPhotons.Length-1].Equals('L'))
-            {
-                listened = true;
-                faster = false;
-                inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
-            }
-            else if (inputPhotons[inputPhotons.Length-1].Equals('S'))
-            {
-                listened = false;
-                faster = false;
-                inputPhotons = inputPhotons.Substring(0, inputPhotons.Length - 1);
-            }
-            else if (inputPhotons[inputPhotons.Length - 1].Equals('X'))
-            {
-                listened = false;
-                faster = true;
-            }
-
-           
-
-            
-            
-        }
+        
 
         private void doDecodingWithErrors()
         {
@@ -372,6 +350,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             settings.XTopLeftDiagonallyDecoding = "1";
             settings.PlusHorizontallyDecoding = "1";
             settings.SpeedSetting = 1;
+            settings.WaitingIterations = 2;
         }
 
         public void Dispose()

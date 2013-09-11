@@ -183,4 +183,10 @@
   <data name="res_Setting4Tooltip" xml:space="preserve">
     <value>Ändert die Dekodierung auf X-Basis</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Wartezyklen</value>
+  </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>Die Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
+  </data>
 </root>
