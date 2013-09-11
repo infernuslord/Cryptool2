@@ -1165,6 +1165,7 @@ namespace Wizard
                 //load sample:
                 if (openTab)
                 {
+                    ImageSource ims = null;
                     currentManager = (WorkspaceManager.WorkspaceManagerClass) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManagerClass), null);
                     currentManager.Open(model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
@@ -1174,13 +1175,12 @@ namespace Wizard
                     
                     if (element.Attribute("image") != null)
                     {
-                        ImageSource ims = (ImageSource)TryFindResource(element.Attribute("image").Value);
-                        if (ims != null)
-                        {
-                            currentManager.Presentation.Tag = ims;
-                        }
+                        ims = (ImageSource)TryFindResource(element.Attribute("image").Value);
                     }
                     currentManager.Presentation.ToolTip = _title;
+                    var tooltip = new Span();
+                    tooltip.Inlines.Add(new Run(_title));
+                    OnOpenTab(currentManager, new TabInfo() { Title = _title,  Tooltip = tooltip, Icon = ims }, null);
                 }
                 else
                 {

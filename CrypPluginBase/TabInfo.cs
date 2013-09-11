@@ -139,7 +139,7 @@ namespace Cryptool.PluginBase
             var info = GenerateTabInfo(filename);
             this.Icon = info.Icon;
             this.Title = info.Title;
-            this.Tooltip = Tooltip;
+            this.Tooltip = info.Tooltip;
         }
     }
 }

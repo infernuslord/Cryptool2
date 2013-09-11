@@ -25,6 +25,7 @@ using Cryptool.CrypWin.Properties;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
 using Microsoft.Win32;
+using System.Windows.Documents;
 
 namespace Cryptool.CrypWin
 {
@@ -222,7 +223,7 @@ namespace Cryptool.CrypWin
             }
 
             this.ActiveEditor.Save(this.ProjectFileName);
-            ActiveEditor.Presentation.ToolTip = this.ProjectFileName;
+            OpenTab(ActiveEditor, new TabInfo() { Tooltip = new Span(new Run(this.ProjectFileName)) }, null);
             recentFileList.AddRecentFile(this.ProjectFileName);
             return FileOperationResult.Continue;
         }
