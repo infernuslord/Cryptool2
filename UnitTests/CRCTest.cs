@@ -15,26 +15,43 @@ namespace Tests.TemplateAndPluginTests
         {
         }
 
+        // convert stream to ulong
+        private ulong stream2ulong(ICryptoolStream s)
+        {
+            byte[] tmpbuf = s.ToByteArray();
+            Array.Reverse(tmpbuf);
+
+            byte[] buf = new byte[8];
+            for (int i = 0; i < 8; i++) buf[i] = 0;
+            for (int i = 0; i < tmpbuf.Length; i++) buf[i] = tmpbuf[i];
+
+            return BitConverter.ToUInt64(buf, 0);
+        }
+
         [TestMethod]
         public void CRCTestMethod()
         {
             var pluginInstance = TestHelpers.GetPluginInstance("CRC");
-            var scenario = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".Width", ".Polynomial", ".Init", ".XorOut", ".RefIn", ".RefOut" }, new[] { "OutputStream" });
+            var scenario1 = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".Width", ".Polynomial", ".Init", ".XorOut", ".RefIn", ".RefOut" }, new[] { "OutputStream" });
+            var scenario2 = new PluginTestScenario(pluginInstance, new[] { "InputStream", ".CRCMethod" }, new[] { "OutputStream" });
             object[] output;
 
             var input = "313233343536373839".HexToStream(); // "123456789" as Stream
-            byte[] buf = new byte[8];
+            ulong check;
 
-            foreach (TestVector vector in testvectors)
+            for (int method = 0; method < testvectors.Length; method++)
             {
-                output = scenario.GetOutputs(new object[] { input, vector.width, vector.polynomial.ToString("x"), vector.init.ToString("x"), vector.xorout.ToString("x"), vector.refin, vector.refout });
-                // convert output stream to ulong
-                var outbuf = ((ICryptoolStream)output[0]).ToByteArray();
-                Array.Reverse(outbuf);
-                for (int i = 0; i < 8; i++) buf[i] = 0;
-                for (int i = 0; i < outbuf.Length; i++) buf[i] = outbuf[i];
-                ulong check = BitConverter.ToUInt64(buf, 0);
-                Assert.AreEqual(vector.check, check, "Unexpected value in test '" + vector.name + "'.");
+                TestVector vector = testvectors[method];
+
+                // set CRC parameters individually
+                output = scenario1.GetOutputs(new object[] { input, vector.width, vector.polynomial.ToString("x"), vector.init.ToString("x"), vector.xorout.ToString("x"), vector.refin, vector.refout });
+                check = stream2ulong(output[0] as ICryptoolStream);
+                Assert.AreEqual(vector.check.ToString("x"), check.ToString("x"), "Unexpected value in test '" + vector.name + "'.");
+
+                // set CRC parameters by selecting a CRCMethod
+                output = scenario2.GetOutputs(new object[] { input, method });
+                check = stream2ulong(output[0] as ICryptoolStream);
+                Assert.AreEqual(vector.check.ToString("x"), check.ToString("x"), "Unexpected value in test '" + vector.name + "'.");
             }
         }
 

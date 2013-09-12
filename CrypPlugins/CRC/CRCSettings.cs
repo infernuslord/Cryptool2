@@ -126,7 +126,7 @@ namespace Cryptool.CRC
         #region taskpane
 
         private int _CRCMethod;
-        [TaskPane("CRCMethodCaption", "CRCMethodTooltip", null, 1, true, ControlType.ComboBox, new string[] { 
+        [TaskPane("CRCMethodCaption", "CRCMethodTooltip", null, 1, false, ControlType.ComboBox, new string[] { 
             "CRC-1/Partiy", "CRC-3/ROHC", "CRC-4/ITU", "CRC-5/EPC", "CRC-5/ITU", "CRC-5/USB", "CRC-6/DARC", "CRC-6/ITU", "CRC-7", "CRC-7/ROHC", "CRC-8", "CRC-8/ITU", "CRC-8/ROHC", "CRC-8/DARC", "CRC-8/I-CODE", "CRC-8/J1850", "CRC-8/MAXIM",
             "CRC-8/WCDMA", "CRC-8/CCITT", "CRC-8/EBU", "CRC-10", "CRC-11", "CRC-12/3GPP", "CRC-12/DECT", "CRC-14/DARC", "CRC-15", "CRC-15/MPT1327", "CRC-16", "CRC-16/AUG-CCITT", "CRC-16/BUYPASS", "CRC-16/CCITT-FALSE", "CRC-16/DDS-110",
             "CRC-16/DECT-R", "CRC-16/DECT-X", "CRC-16/DNP", "CRC-16/EN-13757", "CRC-16/GENIBUS", "CRC-16/MAXIM", "CRC-16/MCRF4XX", "CRC-16/RIELLO", "CRC-16/T10-DIF", "CRC-16/TELEDISK", "CRC-16/TMS37157", "CRC-16/USB", "CRC-A", "KERMIT",

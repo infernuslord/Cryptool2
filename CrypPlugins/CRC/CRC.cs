@@ -41,9 +41,7 @@ namespace Cryptool.CRC
         private Boolean integrity;
 
         private UInt64[] table = new UInt64[256];
-
-        bool isRunning = false;
-        
+                        
         #endregion
 
         #region Public interface
@@ -52,17 +50,14 @@ namespace Cryptool.CRC
         {
             this.settings = new CRCSettings();
             //this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
-            this.settings.PropertyChanged += settings_OnPropertyChange;
+            //this.settings.PropertyChanged += settings_OnPropertyChange;
         }
 
-        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
-        {
-            Initialize();
-            if (!isRunning) return;
-
-            if (e.PropertyName == "CRCMethod")
-                Execute();
-        }
+        //private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "CRCMethod")
+        //        Execute();
+        //}
 
         public ISettings Settings
         {
@@ -120,13 +115,10 @@ namespace Cryptool.CRC
 
         public void Execute()
         {
-            isRunning = true;
-
             Initialize();
+            printInfo();
 
             ProgressChanged(0.0, 1.0);
-
-            //Initialize();
 
             if (InputStream == null)
             {
@@ -290,9 +282,12 @@ namespace Cryptool.CRC
         }
 
         public void PreExecution()
-        {            
-            // print infos about the used CRC method
+        {
+        }
 
+        // print infos about the used CRC method
+        public void printInfo()
+        {
             string fmt = "x" + ((crcspec.width + 3) / 4);
             string msg = String.Format("generator polynomial: (normal=0x{0} reversed=0x{1} reversed reciprocal=0x{2}) init=0x{3} xorout=0x{4} refin={5} refout={6}",
                 crcspec.polynomial.ToString(fmt), crcspec.polynomial_reversed.ToString(fmt), crcspec.polynomial_reversedreciprocal.ToString(fmt),
@@ -302,7 +297,6 @@ namespace Cryptool.CRC
 
         public void Stop()
         {
-            isRunning = false;
         }
 
         public System.Windows.Controls.UserControl Presentation
