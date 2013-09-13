@@ -29,9 +29,22 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
         private string xTopRightDiagonallyDecoding;
         private string xTopLeftDiagonallyDecoding;
         private string plusHorizontallyDecoding;
-        private double durationSetting;
         private bool isListening;
         #endregion
+
+        public BB84ManInTheMiddleSettings()
+        {
+            Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Default_PropertyChanged);
+        }
+
+        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName.Equals("BB84_AnimationSpeed"))
+            {
+                OnPropertyChanged("SpeedSetting");
+            }
+        }
+
 
         #region TaskPane Settings
 
@@ -170,19 +183,19 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             }
         }
 
-        [TaskPane("res_AnimationSpeedCaption", "res_AnimationSpeedTooltip", null, 5, false, ControlType.Slider, 0.5, 3.0)]
+        [TaskPane("res_AnimationSpeedCaption", "res_AnimationSpeedTooltip", null, 5, false, ControlType.Slider, 0.5, 10.0)]
         public double SpeedSetting
         {
             get
             {
-                return durationSetting;
+                return Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed;
             }
             set
             {
-                if (durationSetting != (value))
+                if (Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed != value)
                 {
-                    durationSetting = (value);
-                    OnPropertyChanged("DurationSetting");
+                    Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed = value;
+                    OnPropertyChanged("SpeedSetting");
                 }
             }
         }

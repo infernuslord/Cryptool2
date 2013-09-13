@@ -28,11 +28,22 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         private int plusOneEncoding;
         private int xZeroEncoding;
         private int xOneEncoding;
-        private double durationSetting;
-
 
 
         #endregion
+
+        public BB84PhotonEncoderSettings()
+        {
+            Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += new PropertyChangedEventHandler(Default_PropertyChanged);
+        }
+
+        private void Default_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName.Equals("BB84_AnimationSpeed"))
+            {
+                OnPropertyChanged("SpeedSetting");
+            }
+        }
 
 
         #region TaskPane Settings
@@ -142,19 +153,19 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             }
         }
 
-        [TaskPane("Animation Speed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 3.0)]
+        [TaskPane("Animation Speed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 10.0)]
         public double SpeedSetting
         {
             get
             {
-                return durationSetting;
+                return Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed;
             }
             set
             {
-                if (durationSetting != (value))
+                if (Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed != value)
                 {
-                    durationSetting = (value);
-                    OnPropertyChanged("DurationSetting");
+                    Cryptool.PluginBase.Properties.Settings.Default.BB84_AnimationSpeed = value;
+                    OnPropertyChanged("SpeedSetting");
                 }
             }
         }
