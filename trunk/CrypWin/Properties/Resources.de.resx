@@ -299,7 +299,7 @@
     <value>Suche jetzt nach Updates</value>
   </data>
   <data name="You_have_currently_the_latest_version_installed_" xml:space="preserve">
-    <value>Sie haben derzeit die neuste Version installiert.</value>
+    <value>Sie haben derzeit die neuste Version von CrypTool 2 installiert.</value>
   </data>
   <data name="Checking_failed__cannot_contact_server__0" xml:space="preserve">
     <value>Suche fehlgeschlagen, kann den Server nicht kontaktieren: {0}</value>
