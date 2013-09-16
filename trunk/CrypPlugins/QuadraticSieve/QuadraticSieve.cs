@@ -88,6 +88,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         public event PluginProgressChangedEventHandler OnPluginProcessChanged;
+        
+        private CultureInfo _cultureInfo;
+        private CultureInfo _cultureUiInfo;
 
         #endregion
 
@@ -121,6 +124,10 @@ namespace Cryptool.Plugins.QuadraticSieve
                     quadraticSieveQuickWatchPresentation.coresUsed.Content = "-";
                 }
                 , null);
+
+                _cultureInfo = Thread.CurrentThread.CurrentCulture;
+                _cultureUiInfo = Thread.CurrentThread.CurrentUICulture;
+                
             }
             catch (Exception ex)
             {
@@ -172,6 +179,9 @@ namespace Cryptool.Plugins.QuadraticSieve
             
             try
             {
+                Thread.CurrentThread.CurrentCulture = _cultureInfo;
+                Thread.CurrentThread.CurrentUICulture = _cultureUiInfo;
+
                 usePeer2Peer = settings.UsePeer2Peer;
                 if (usePeer2Peer && !P2PManager.IsConnected && P2PManager.IsConnecting)
                 {
@@ -620,6 +630,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void showProgressPresentation(int max_relations, int num_relations, int start_relations, DateTime start_sieving_time)
         {
+            Thread.CurrentThread.CurrentCulture = _cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = _cultureUiInfo;
             double msleft = 0;
 
             //calculate global performance in relations per ms:
