@@ -1079,7 +1079,9 @@ namespace Cryptool.CrypWin
             if (content == null)
                 return;
 
-            //OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
+            OpenTab(content, new TabInfo() { Title = type.GetPluginInfoAttribute().Caption, 
+                Icon = content.GetType().GetImage(0).Source,
+                Tooltip = new Span(new Run(content.GetPluginInfoAttribute().ToolTip))}, null);
             //content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
         }
 
@@ -1515,7 +1517,7 @@ namespace Cryptool.CrypWin
                 else if (lastOpenedTab is CommonTypeStoredTab)
                 {
                     object tabContent = null;
-                    TabInfo info = null;
+                    TabInfo info = new TabInfo();
 
                     var type = ((CommonTypeStoredTab) lastOpenedTab).Type;
 
@@ -1543,6 +1545,12 @@ namespace Cryptool.CrypWin
                     {
                         tabContent = licenses;
                         info.Title = Properties.Resources.Licenses;
+                    } if (typeof(ICrypTutorial).IsAssignableFrom(type))
+                    {
+                        tabContent = type.GetConstructor(new Type[0]).Invoke(new object[0]);
+                        info.Title = type.GetPluginInfoAttribute().Caption;
+                        info.Icon = type.GetImage(0).Source;
+                        info.Tooltip = new Span(new Run(type.GetPluginInfoAttribute().ToolTip));
                     }
                     else
                     {
@@ -1751,10 +1759,6 @@ namespace Cryptool.CrypWin
             //tablabel.Text = title.Replace("_", "__");
             //tablabel.Name = "Text";
             //tabheader.Children.Add(tablabel);
-
-            // set icon for CrypTutorials
-            if (content is ICrypTutorial && content != null)
-                (content as ICrypTutorial).Presentation.Tag = content.GetType().GetImage(0).Source;
 
             //Binding bind = new Binding();
             //bind.Source = tabitem.Content;
