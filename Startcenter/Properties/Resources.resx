@@ -142,7 +142,7 @@
     <value>Access the main functions in the Startcenter</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>Recently Opened Files</value>
+    <value>Recently Opened Templates</value>
   </data>
   <data name="Templates" xml:space="preserve">
     <value>Templates</value>
@@ -190,7 +190,7 @@
     <value>      Search</value>
   </data>
   <data name="ClearList" xml:space="preserve">
-    <value>Clear recently opened file list.</value>
+    <value>Clear recently opened templates list.</value>
   </data>
   <data name="RSS_error_Message" xml:space="preserve">
     <value>RSS error</value>

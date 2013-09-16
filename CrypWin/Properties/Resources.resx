@@ -296,7 +296,7 @@
     <value>Check for updates now</value>
   </data>
   <data name="You_have_currently_the_latest_version_installed_" xml:space="preserve">
-    <value>You have currently the latest version installed.</value>
+    <value>You have currently installed the latest version of CrypTool 2.</value>
   </data>
   <data name="Checking_failed__cannot_contact_server__0" xml:space="preserve">
     <value>Checking failed, cannot contact server: {0}</value>
