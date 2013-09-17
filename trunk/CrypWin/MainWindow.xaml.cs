@@ -1545,18 +1545,23 @@ namespace Cryptool.CrypWin
                     {
                         tabContent = licenses;
                         info.Title = Properties.Resources.Licenses;
-                    } if (typeof(ICrypTutorial).IsAssignableFrom(type))
+                    } 
+                    else if (typeof(ICrypTutorial).IsAssignableFrom(type))
                     {
-                        tabContent = type.GetConstructor(new Type[0]).Invoke(new object[0]);
+                        var constructorInfo = type.GetConstructor(new Type[0]);
+                        if (constructorInfo != null)
+                            tabContent = constructorInfo.Invoke(new object[0]);
                         info.Title = type.GetPluginInfoAttribute().Caption;
                         info.Icon = type.GetImage(0).Source;
                         info.Tooltip = new Span(new Run(type.GetPluginInfoAttribute().ToolTip));
                     }
-                    else
+                    else if(type != null)
                     {
                         try
                         {
-                            tabContent = type.GetConstructor(new Type[0]).Invoke(new object[0]);
+                            var constructorInfo = type.GetConstructor(new Type[0]);
+                            if (constructorInfo != null)
+                                tabContent = constructorInfo.Invoke(new object[0]);
                         }
                         catch (Exception ex)
                         {
