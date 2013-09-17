@@ -213,7 +213,7 @@
   <data name="hours" xml:space="preserve">
     <value>Stunden</value>
   </data>
-  <data name="Information_" xml:space="preserve">
+  <data name="State_" xml:space="preserve">
     <value>Status:</value>
   </data>
   <data name="Local_Sieving_" xml:space="preserve">
