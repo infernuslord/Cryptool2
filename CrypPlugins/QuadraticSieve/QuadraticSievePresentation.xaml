@@ -81,11 +81,11 @@
                     <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,-3,125,3" />
                     <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="125,-3,4,3" HorizontalAlignment="Left"/>
                     <Label Content="{Loc Needed_Relations_}" HorizontalAlignment="Left" Grid.Column="2" Margin="0,-3,0,3" />
-                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="130,-3,0,3"  HorizontalAlignment="Left"/>
+                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="120,-3,0,3"  HorizontalAlignment="Left"/>
                     <Label Content="{Loc Cores_used_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Margin="0,-3,0,3" />
                     <Label Name="coresUsed" Margin="125,-3,3,3" Grid.Column="1" Content="-" Grid.Row="1" HorizontalAlignment="Left" />
-                    <Label Content="{Loc Information_}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Margin="0,-3,0,3" Grid.ColumnSpan="2" />
-                    <Label Name="information" Grid.Column="2" Content="-" Margin="70,-3,0,3" Grid.Row="1" HorizontalAlignment="Left"/>
+                    <Label Content="{Loc State_}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" Margin="0,-3,0,3" Grid.ColumnSpan="2" />
+                    <Label Name="information" Grid.Column="2" Content="-" Margin="45,-3,0,3" Grid.Row="1" HorizontalAlignment="Left"/>
                 </Grid>
             </Border>
 

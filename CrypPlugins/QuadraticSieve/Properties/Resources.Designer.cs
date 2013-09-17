@@ -268,15 +268,6 @@ namespace QuadraticSieve.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Information: ähnelt.
-        /// </summary>
-        internal static string Information_ {
-            get {
-                return ResourceManager.GetString("Information_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input too big. ähnelt.
         /// </summary>
         internal static string Input_too_big_ {
@@ -570,6 +561,15 @@ namespace QuadraticSieve.Properties {
         internal static string Starting_quadratic_sieve {
             get {
                 return ResourceManager.GetString("Starting_quadratic_sieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die State: ähnelt.
+        /// </summary>
+        internal static string State_ {
+            get {
+                return ResourceManager.GetString("State_", resourceCulture);
             }
         }
         
