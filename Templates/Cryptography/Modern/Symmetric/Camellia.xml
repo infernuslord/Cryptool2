@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Camellia Cipher</title>
+  <summary lang="en">Usage of the <i>Camellia</i> cipher</summary>
+  <description lang="en">Camellia is a 128-bit block cipher jointly developed by Mitsubishi and NTT of Japan. The cipher has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project. <newline /><newline />
+Source: <external ref="http://en.wikipedia.org/wiki/Camellia_%28cipher%29" /></description>
+  <keywords>symmetric, japan, mitsubishi, NTT</keywords>
+
+  <title lang="de">Camellia-Chiffre</title>
+  <summary lang="de">Benutzung der <i>Camellia</i>-Chiffre</summary>
+  <description lang="de">Camellia ist eine symmetrische Blockchiffre, die im Jahr 2000 in Zusammenarbeit von Mitsubishi und NTT entwickelt wurde. Camellia wurde vom europäischen NESSIE-Projekt und dem japanischen CRYPTREC-Projekt als einer ihrer empfohlenen Algorithmen ausgewählt.<newline /><newline />
+Quelle: <external ref="http://de.wikipedia.org/wiki/Camellia_%28Algorithmus%29" /></description>
+  <keywords lang="de">symmetrisch</keywords>
+
+  <icon file="Camellia.png" />
+  <relevantPlugins>
+    <plugin name="Camellia" />
+  </relevantPlugins>
+
+</sample>
