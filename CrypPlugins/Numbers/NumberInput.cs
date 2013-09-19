@@ -110,7 +110,7 @@ namespace Cryptool.Plugins.Numbers
                 }
                 string digitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
                 string bitText = (bits == 1) ? Properties.Resources.Bit : Properties.Resources.Bits;
-                _presentation.StatusBar.Content = string.Format(" {0:#,0} {1} - {2} {3}", digits, digitText, bits, bitText);
+                _presentation.StatusBar.Content = string.Format(" {0:#,0} {1}, {2} {3}", digits, digitText, bits, bitText);
             }
             else
             {
