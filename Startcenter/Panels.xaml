@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <!--<ColumnDefinition Width="5" />
-            <ColumnDefinition Width="*" />-->
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Expander IsExpanded="True" Header="{Loc Templates}" Grid.Column="0" Grid.Row="0">
@@ -27,16 +27,16 @@
             </Border>
         </Expander>
 
-        <!--<GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
+        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
         <Expander IsExpanded="True" Header="{Loc News}" Grid.Column="2" Grid.Row="0">
             <Expander.Tag>
-                <BitmapImage UriSource="/Startcenter;component/rssicon.png"/>
+                <BitmapImage UriSource="/Startcenter;component/facebook_small.png"/>
             </Expander.Tag>
             <Border>
                 <Startcenter:RSSViewer/>
             </Border>
-        </Expander>-->
+        </Expander>
 
         <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" VerticalContentAlignment="Center" />
 
