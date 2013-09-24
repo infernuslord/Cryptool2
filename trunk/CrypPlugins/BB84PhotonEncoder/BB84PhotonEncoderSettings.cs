@@ -48,7 +48,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
 
         #region TaskPane Settings
 
-        [TaskPane("Bit \"0\", Base \"+\": ", "Change Mode for Encoding on PLUS-Base", null, 1, false, ControlType.ComboBox, new string[] { "Vertical", "Horizontal" })]
+        [TaskPane("res_settings1", "Change Mode for Encoding on PLUS-Base", null, 1, false, ControlType.ComboBox, new string[] { "|", "-" })]
         public int PlusZeroEncoding
         {
             get
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
                 }
             }
         }
-        [TaskPane("Bit \"1\", Base \"+\": ", "Change Mode for Encoding on PLUS-Base", null, 2, false, ControlType.ComboBox, new string[] { "Vertical", "Horizontal" })]
+        [TaskPane("res_settings2", "Change Mode for Encoding on PLUS-Base", null, 2, false, ControlType.ComboBox, new string[] { "|", "-" })]
         public int PlusOneEncoding
         {
             get
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
                 }
             }
         }
-        [TaskPane("Bit \"0\", Base \"x\": ", "Change Mode for Encoding on EX-Base", null, 3, false, ControlType.ComboBox, new string[] { "\\", "/" })]
+        [TaskPane("res_settings3", "Change Mode for Encoding on EX-Base", null, 3, false, ControlType.ComboBox, new string[] { "\\", "/" })]
         public int XZeroEncoding
         {
             get
@@ -126,7 +126,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
                 }
             }
         }
-        [TaskPane("Bit \"1\", Base \"x\": ", "Change Mode for Encoding on EX-Base", null, 4, false, ControlType.ComboBox, new string[] { "\\", "/" })]
+        [TaskPane("res_settings4", "Change Mode for Encoding on EX-Base", null, 4, false, ControlType.ComboBox, new string[] { "\\", "/" })]
         public int XOneEncoding
         {
             get
@@ -153,7 +153,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
             }
         }
 
-        [TaskPane("Animation Speed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 10.0)]
+        [TaskPane("res_animationSpeed", "Sets the Speed of Presentation-Animation", null, 5, false, ControlType.Slider, 0.5, 10.0)]
         public double SpeedSetting
         {
             get

@@ -135,4 +135,10 @@
   <data name="res_InputKeyTooltip" xml:space="preserve">
     <value>Relating Key just for the number of bases to generate</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Waiting Cycles</value>
+  </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>the number of animationcycles the plugin will wait (for synchronisation issues)</value>
+  </data>
 </root>

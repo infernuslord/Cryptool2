@@ -20,20 +20,19 @@ using Cryptool.PluginBase.Miscellaneous;
 using System;
 using System.Windows.Threading;
 using System.Threading;
+using System.Text;
 
 namespace Cryptool.Plugins.BB84PhotonEncoder
 {
     
     [Author("Benedict Beuscher", "benedict. beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
-    [PluginInfo("Cryptool.Plugins.BB84PhotonEncoder.Properties.Resources", "res_photonEncodingCaption", "res_photonEncodingTooltip", "BB84PhotonEncoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84PhotonEncoder.Properties.Resources", "res_photonEncodingCaption", "res_photonEncodingTooltip", "BB84PhotonEncoder/userdoc.xml", new[] { "BB84PhotonEncoder/images/icon.png" })]
     
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BB84PhotonEncoder : ICrypComponent
     {
-        #region Private Variables
-
-        public bool synchron;
+        #region Private Variables and Constructor
 
         private readonly BB84PhotonEncoderSettings settings = new BB84PhotonEncoderSettings();
         private string inputKey;
@@ -42,23 +41,20 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         private BB84PhotonEncoderPresentation myPresentation;
         private int duration;
 
-
-        #endregion
-
         public BB84PhotonEncoder()
         {
-            synchron = true;
             myPresentation = new BB84PhotonEncoderPresentation();
             myPresentation.UpdateProgess += new EventHandler(update_progress);
             Presentation = myPresentation;
-           
         }
 
         private void update_progress(object sender, EventArgs e)
         {
             ProgressChanged(myPresentation.Progress, 3000);
         }
+        #endregion
 
+        
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "res_keyInputCaption", "res_keyInputTooltip")]
@@ -137,82 +133,83 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         public void Execute()
         {
             ProgressChanged(0, 1);
-           
-            string tempOutput = "";
-            char[] tempBases = inputBases.ToCharArray();
-            char[] tempKey = inputKey.ToCharArray();
+ 
+            encodeKeyIntoPhotons();
 
-            for (int i = 0; i < inputKey.Length; i++)
-            {
+            startPresentationIfVisible();
 
-                if (tempBases.Length > i && tempKey.Length > i)
-                {
-                    if (tempBases[i].Equals('+'))
-                    {
-                        if (tempKey[i].Equals('0'))
-                        {
-                            tempOutput += getPlusBasePhoton(settings.PlusZeroEncoding);
-                        }
-                        else if (tempKey[i].Equals('1'))
-                        {
-                            tempOutput += getPlusBasePhoton(settings.PlusOneEncoding);
-                        }
-                    }
-                    else if (tempBases[i].Equals('x'))
-                    {
-                        if (tempKey[i].Equals('0'))
-                        {
-                            tempOutput += getExBasePhoton(settings.XZeroEncoding);
-                        }
-                        else if (tempKey[i].Equals('1'))
-                        {
-                            tempOutput += getExBasePhoton(settings.XOneEncoding);
-                        }
-                    }
-                }
-            }
-            this.photonOutput = tempOutput;
+            notifyOutput();
 
-
-
-            if (Presentation.IsVisible)
-            {
-                
-                
-                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        try
-                        {
-                            if (!myPresentation.hasFinished)
-                            {
-                                myPresentation.StopPresentation();
-                            }
-
-                            myPresentation.StartPresentation(inputKey, photonOutput, inputBases);
-                        }
-                        catch (Exception e)
-                        {
-                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
-                        }
-                    }, null);
-
-                if (!synchron)
-                {
-                    while (!myPresentation.hasFinished)
-                    {
-                        ProgressChanged(myPresentation.animationRepeats, inputBases.Length);
-                    }
-                }
-                
-                
-            }
-            OnPropertyChanged("PhotonOutput");
             ProgressChanged(1, 1);
         }
 
         
+        private void encodeKeyIntoPhotons()
+        {
+            StringBuilder tempOutput = new StringBuilder();
 
-        private string getExBasePhoton(int p)
+            for (int i = 0; i < inputKey.Length; i++)
+            {
+                if (inputBases.Length > i && inputKey.Length > i)
+                {
+                    if (inputBases[i].Equals('+'))
+                    {
+                        if (inputKey[i].Equals('0'))
+                        {
+                            tempOutput.Append(getPlusBasePhoton(settings.PlusZeroEncoding));
+                        }
+                        else if (inputKey[i].Equals('1'))
+                        {
+                            tempOutput.Append(getPlusBasePhoton(settings.PlusOneEncoding));
+                        }
+                    }
+                    else if (inputBases[i].Equals('x'))
+                    {
+                        if (inputKey[i].Equals('0'))
+                        {
+                            tempOutput.Append(getXBasePhoton(settings.XZeroEncoding));
+                        }
+                        else if (inputKey[i].Equals('1'))
+                        {
+                            tempOutput.Append(getXBasePhoton(settings.XOneEncoding));
+                        }
+                    }
+                }
+                ProgressChanged(i/(inputKey.Length-1), 1);
+            }
+            this.photonOutput = tempOutput.ToString();
+        }
+
+        private void startPresentationIfVisible()
+        {
+            if (Presentation.IsVisible)
+            {
+                Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    try
+                    {
+                        if (!myPresentation.hasFinished)
+                        {
+                            myPresentation.StopPresentation();
+                        }
+
+                        myPresentation.StartPresentation(inputKey, photonOutput, inputBases);
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
+                    }
+                }, null);
+            }
+        }
+
+
+        private void notifyOutput()
+        {
+            OnPropertyChanged("PhotonOutput");
+        }
+
+        private string getXBasePhoton(int p)
         {
             if (p == 0)
                 return "\\";

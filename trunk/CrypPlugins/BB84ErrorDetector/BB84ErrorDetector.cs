@@ -23,7 +23,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector
 {
     [Author("Benedict Beuscher", "benedict. beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
-    [PluginInfo("Cryptool.Plugins.BB84ErrorDetector.Properties.Resources", "res_ErrorDetectorCaption", "res_ErrorDetectorTooltip", "BB84ErrorDetector/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84ErrorDetector.Properties.Resources", "res_ErrorDetectorCaption", "res_ErrorDetectorTooltip", "BB84ErrorDetector/userdoc.xml", new[] { "BB84ErrorDetector/images/icon.png" })]
    
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BB84ErrorDetector : ICrypComponent
@@ -33,6 +33,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector
         private string firstKey;
         private string secondKey;
         private string detectionMessage;
+        private double errorRatio;
 
 
         private BB84ErrorDetectorSettings mySettings = new BB84ErrorDetectorSettings();
@@ -110,28 +111,32 @@ namespace Cryptool.Plugins.BB84ErrorDetector
         public void Execute()
         {
             ProgressChanged(0, 1);
-
-            setBounds();
-
-            detectionMessage = generateDetectionMessage();
-
-            OnPropertyChanged("DetectionMessage");
-
+            setSequenceBounds();
+            calculateErrorRatio();
+            generateDetectionMessage();
+            notifyOutput();
             ProgressChanged(1, 1);
         }
 
-        private void setBounds()
+      
+
+        private void setSequenceBounds()
         {
             if (mySettings.EndIndex >= firstKey.Length)
             {
                 mySettings.EndIndex = firstKey.Length - 1;
             }
+
+            if (mySettings.StartIndex >= firstKey.Length - 1)
+            {
+                mySettings.StartIndex = firstKey.Length - 1;
+            }
         }
 
-        private string generateDetectionMessage()
+        private void generateDetectionMessage()
         {
             string message = "";
-            double errorRatio = calculateErrorRate();
+            
             if (errorRatio > ((double)mySettings.ThresholdValue)/100)
             {
 
@@ -142,15 +147,13 @@ namespace Cryptool.Plugins.BB84ErrorDetector
                 message = String.Format(Properties.Resources.res_KeySecure, Math.Round(errorRatio, 3) * 100);
             }
 
-            return message;
+            detectionMessage = message;
         }
 
-        private double calculateErrorRate()
+        private void calculateErrorRatio()
         {
             double count = 0;
-            double errors = 0;
-
-            
+            double errors = 0;    
             for (int i = mySettings.StartIndex; i <= mySettings.EndIndex; i++)
             {
                 if (firstKey.Length > i && secondKey.Length > i)
@@ -162,9 +165,12 @@ namespace Cryptool.Plugins.BB84ErrorDetector
                 }
                 count++;
             }
+            errorRatio = errors/count;
+        }
 
-            double errorRate = errors/count;
-            return errorRate;
+        private void notifyOutput()
+        {
+            OnPropertyChanged("DetectionMessage");
         }
 
         public void PostExecution()

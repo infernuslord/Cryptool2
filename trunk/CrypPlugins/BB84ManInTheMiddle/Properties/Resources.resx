@@ -192,4 +192,7 @@
   <data name="res_StatusTooltip" xml:space="preserve">
     <value>Sets if man in the middle is listening</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Waiting Iterations</value>
+  </data>
 </root>

@@ -113,5 +113,23 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
                 return ResourceManager.GetString("res_InputKeyTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting Cycles ähnelt.
+        /// </summary>
+        internal static string res_WaitingIterationsCaption {
+            get {
+                return ResourceManager.GetString("res_WaitingIterationsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die the number of animationcycles the plugin will wait (for synchronisation issues) ähnelt.
+        /// </summary>
+        internal static string res_WaitingIterationsTooltip {
+            get {
+                return ResourceManager.GetString("res_WaitingIterationsTooltip", resourceCulture);
+            }
+        }
     }
 }
