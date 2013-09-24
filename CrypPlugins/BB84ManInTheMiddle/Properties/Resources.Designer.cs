@@ -284,5 +284,14 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
                 return ResourceManager.GetString("res_StatusTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting Iterations ähnelt.
+        /// </summary>
+        internal static string res_WaitingIterationsCaption {
+            get {
+                return ResourceManager.GetString("res_WaitingIterationsCaption", resourceCulture);
+            }
+        }
     }
 }

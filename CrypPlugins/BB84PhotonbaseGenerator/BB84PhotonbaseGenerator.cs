@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
     
     [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
-    [PluginInfo("Cryptool.Plugins.BB84PhotonbaseGenerator.Properties.Resources","res_BaseGeneratorCaption", "res_BaseGeneratorTooltip", "BB84PhotonbaseGenerator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84PhotonbaseGenerator.Properties.Resources", "res_BaseGeneratorCaption", "res_BaseGeneratorTooltip", "BB84PhotonbaseGenerator/userdoc.xml", new[] { "BB84PhotonbaseGenerator/images/icon.png" })]
 
     [ComponentCategory(ComponentCategory.Protocols)]
 
@@ -64,7 +64,6 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
                 }
                 else if (inputKey is string)
                 {
-
                     string temp = (string)inputKey;
                     temp = filterValidInput(temp);
                     this.keyLength = temp.Length;
@@ -159,21 +158,13 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
         public void Execute()
         {
             ProgressChanged(0, 100);
-
-            generateRandomBase();
-
-            ProgressChanged(50, 100);
-
+            generateRandomBases();
             notifyAllOutputs();
-
             ProgressChanged(100, 100);  
         }
 
-        private void generateRandomBase()
+        private void generateRandomBases()
         {
-            
-            
-
             for (int i = 0; i < generatedRandom.Length; i++)
             {
                 sRandom = new RNGCryptoServiceProvider();
@@ -181,6 +172,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
                 sRandom.GetBytes(buffer);
                 int result = BitConverter.ToInt32(buffer, 0);
                 generatedRandom[i] = new Random(result).Next(2);
+                ProgressChanged(i / (generatedRandom.Length-1), (generatedRandom.Length-1));
             }
         
         }

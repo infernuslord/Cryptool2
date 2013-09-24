@@ -201,7 +201,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             }
         }
         
-        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 2)] 
+        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)] 
         public int WaitingIterations
         {
             get

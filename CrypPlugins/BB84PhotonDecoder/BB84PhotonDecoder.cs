@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
 {
     [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
-    [PluginInfo("Cryptool.Plugins.BB84PhotonDecoder.Properties.Resources", "res_photonDecodingCaption", "res_photonDecodingTooltip", "BB84PhotonDecoder/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84PhotonDecoder.Properties.Resources", "res_photonDecodingCaption", "res_photonDecodingTooltip", "BB84PhotonDecoder/userdoc.xml", new[] { "BB84PhotonDecoder/images/icon.png" })]
     
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BB84PhotonDecoder : ICrypComponent
@@ -36,8 +36,6 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         #region Private Variables
 
         public bool synchron;
-
-        int waitingIterations = 2;
 
         private readonly BB84PhotonDecoderSettings settings = new BB84PhotonDecoderSettings();
         private string inputPhotons;
@@ -125,31 +123,21 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         public void Execute()
         {
             ProgressChanged(0, 1);
-
-            waitingIterations = settings.WaitingIterations;
-  
             if (settings.ErrorsEnabled == 0 || (int)Math.Round(inputPhotons.Length * errorRatio) == 0)
             {
-                doNormalDecoding();
-                
-            }
-                
+                doNormalDecoding();           
+            }                
             else
             {
                 doDecodingWithErrors();
             }
 
             OnPropertyChanged("OutputKey");
-
-
-            showPresentationIfVisible();
-
-            
-
+            startPresentationIfVisible();
             ProgressChanged(1, 1);
         }
 
-        private void showPresentationIfVisible()
+        private void startPresentationIfVisible()
         {
             if (Presentation.IsVisible)
             {
@@ -162,28 +150,18 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
                                 myPresentation.StopPresentation();
                             }
 
-                            if (synchron)
+                            
+                            StringBuilder waitingStringBuilder = new StringBuilder();
+                            for (int i = 0; i < settings.WaitingIterations; i++)
                             {
-                                if (waitingIterations == 2)
-                                {
-                                    myPresentation.StartPresentation("WW" + outputKey, "WW" + inputPhotons, "WW" + inputBases);
-                                }
-                                else if (waitingIterations == 1)
-                                {
-                                    myPresentation.StartPresentation("W" + outputKey, "W" + inputPhotons, "W" + inputBases);
-                                }
-                                else
-                                {
-                                    myPresentation.StartPresentation(outputKey, inputPhotons, inputBases);
-                                }
-                            }
-                            else
-                            {
-                                myPresentation.StartPresentation(outputKey, inputPhotons, inputBases);
+                                waitingStringBuilder.Append('W');
                             }
 
+                            string waitingString = waitingStringBuilder.ToString();
                             
 
+                            myPresentation.StartPresentation(waitingString + outputKey, waitingString + inputPhotons, waitingString + inputBases);
+                                
                         }
                         catch (Exception e)
                         {
@@ -350,7 +328,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             settings.XTopLeftDiagonallyDecoding = "1";
             settings.PlusHorizontallyDecoding = "1";
             settings.SpeedSetting = 1;
-            settings.WaitingIterations = 2;
+            //settings.WaitingIterations = 2;
         }
 
         public void Dispose()

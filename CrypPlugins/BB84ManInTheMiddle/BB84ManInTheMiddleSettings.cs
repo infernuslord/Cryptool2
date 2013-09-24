@@ -30,6 +30,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
         private string xTopLeftDiagonallyDecoding;
         private string plusHorizontallyDecoding;
         private bool isListening;
+        private int waitingIterations;
         #endregion
 
         public BB84ManInTheMiddleSettings()
@@ -199,6 +200,24 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
                 }
             }
         }
+
+        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        public int WaitingIterations
+        {
+            get
+            {
+                return waitingIterations;
+            }
+            set
+            {
+                if (waitingIterations != value)
+                {
+                    waitingIterations = value;
+                    OnPropertyChanged("WaitingIterations");
+                }
+            }
+        }
+
         #endregion
 
         #region Events

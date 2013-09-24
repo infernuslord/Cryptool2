@@ -20,7 +20,6 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.BB84KeyGenerator
 {
-    // HOWTO: rename class (click name, press F2)
     public class BB84KeyGeneratorSettings : ISettings
     {
         #region Private Variables
@@ -31,10 +30,6 @@ namespace Cryptool.Plugins.BB84KeyGenerator
 
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
         [TaskPane("res_AnimationSpeedCaption", "res_AnimationSpeedTooltip", null, 1, false, ControlType.Slider, 0.5, 2.5)]
         public double SpeedSetting
         {

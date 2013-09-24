@@ -29,14 +29,12 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
     [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
 
-    [PluginInfo("Cryptool.Plugins.BB84ManInTheMiddle.Properties.Resources","res_MITMCaption", "res_MITMTooltip", "BB84ManInTheMiddle/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84ManInTheMiddle.Properties.Resources", "res_MITMCaption", "res_MITMTooltip", "BB84ManInTheMiddle/userdoc.xml", new[] { "BB84ManInTheMiddle/images/icon.png" })]
     
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BB84ManInTheMiddle : ICrypComponent
     {
-        #region Private Variables
-
-        public bool synchron;
+        #region Private Variables and Constructor
 
         private string inputPhotons;
         private string inputBases;
@@ -48,12 +46,8 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
 
         private readonly BB84ManInTheMiddleSettings settings = new BB84ManInTheMiddleSettings();
 
-        #endregion
-
         public BB84ManInTheMiddle()
         {
-            synchron = true;
-
             myPresentation = new BB84ManInTheMiddlePresentation();
             myPresentation.UpdateProgress += new EventHandler(update_progress);
             Presentation = myPresentation;
@@ -64,7 +58,9 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             ProgressChanged(myPresentation.Progress, 3000);
         }
 
+        #endregion
 
+       
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "res_PhotonInputCaption", "res_PhotonInputTooltip",true)]
@@ -154,7 +150,6 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
         public void Execute()
         {       
             ProgressChanged(0, 1);
-
             
             if (settings.IsListening == 0)
             {
@@ -167,18 +162,15 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
                 displaySleepMessage();
             }
 
+            notifyOutputs();
             
-
-            OnPropertyChanged("OutputPhotons");
-            OnPropertyChanged("OutputKey");
-
-
-            showPresentationIfVisible();
+            startPresentationIfVisible();
 
             ProgressChanged(1, 1);
         }
 
-        private void showPresentationIfVisible()
+
+        private void startPresentationIfVisible()
         {
            
             if (Presentation.IsVisible)
@@ -192,12 +184,23 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
                                 myPresentation.StopPresentation();
                             }
 
-                            if (synchron)
+                            if (settings.WaitingIterations != 0)
                             {
-                                inputPhotons = "W" + inputPhotons;
-                                inputBases = "W" + inputBases;
-                                outputPhotons = "W" + outputPhotons;
+                                StringBuilder waitingStringBuilder = new StringBuilder();
+                                for (int i = 0; i < settings.WaitingIterations; i++)
+                                {
+                                    waitingStringBuilder.Append('W');
+                                }
+
+                                string waitingString = waitingStringBuilder.ToString();
+
+                                inputPhotons = waitingString + inputPhotons;
+                                inputBases = waitingString + inputBases;
+                                outputPhotons = waitingString + outputPhotons;
+                            
                             }
+
+
                             if (settings.IsListening == 0)
                             {
                                 myPresentation.StartPresentation(inputPhotons, inputBases, outputPhotons, true);
@@ -345,6 +348,12 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             outputKey = "Man in the middle is sleeping!";
         }
 
+
+        private void notifyOutputs()
+        {
+            OnPropertyChanged("OutputPhotons");
+            OnPropertyChanged("OutputKey");
+        }
       
 
         public void PostExecution()
@@ -384,6 +393,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle
             settings.XTopLeftDiagonallyDecoding = "1";
             settings.PlusHorizontallyDecoding = "1";
             settings.SpeedSetting = 1;
+            settings.WaitingIterations = 1;
         }
 
         public void Dispose()

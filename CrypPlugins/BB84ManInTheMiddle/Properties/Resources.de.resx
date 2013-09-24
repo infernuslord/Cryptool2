@@ -195,4 +195,7 @@
   <data name="res_StatusTooltip" xml:space="preserve">
     <value>Stellt den Lauschangriff ein oder aus</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Wartezyklen</value>
+  </data>
 </root>

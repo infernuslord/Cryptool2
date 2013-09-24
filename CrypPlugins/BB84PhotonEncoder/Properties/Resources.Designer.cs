@@ -61,6 +61,15 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Animation Speed ähnelt.
+        /// </summary>
+        internal static string res_animationSpeed {
+            get {
+                return ResourceManager.GetString("res_animationSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die bases input ähnelt.
         /// </summary>
         internal static string res_basesInputCaption {
@@ -129,6 +138,42 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         internal static string res_photonOutputTooltip {
             get {
                 return ResourceManager.GetString("res_photonOutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;0&quot;, Base &quot;+&quot;: ähnelt.
+        /// </summary>
+        internal static string res_settings1 {
+            get {
+                return ResourceManager.GetString("res_settings1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;1&quot;, Base &quot;+&quot;: ähnelt.
+        /// </summary>
+        internal static string res_settings2 {
+            get {
+                return ResourceManager.GetString("res_settings2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;0&quot;, Base &quot;x&quot;: ähnelt.
+        /// </summary>
+        internal static string res_settings3 {
+            get {
+                return ResourceManager.GetString("res_settings3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;1&quot;, Base &quot;x&quot;: ähnelt.
+        /// </summary>
+        internal static string res_settings4 {
+            get {
+                return ResourceManager.GetString("res_settings4", resourceCulture);
             }
         }
     }

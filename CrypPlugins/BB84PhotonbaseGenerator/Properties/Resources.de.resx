@@ -135,4 +135,10 @@
   <data name="res_InputKeyTooltip" xml:space="preserve">
     <value>Dient zum Einstellen der Menge an zu generierenden Bases</value>
   </data>
+  <data name="res_WaitingIterationsCaption" xml:space="preserve">
+    <value>Wartezyklen</value>
+  </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>Die Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
+  </data>
 </root>

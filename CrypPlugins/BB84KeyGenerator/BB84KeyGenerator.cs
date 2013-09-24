@@ -27,7 +27,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator
 {
     [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
-    [PluginInfo("Cryptool.Plugins.BB84KeyGenerator.Properties.Resources","res_GeneratorCaption", "res_GeneratorTooltip", "BB84KeyGenerator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.BB84KeyGenerator.Properties.Resources", "res_GeneratorCaption", "res_GeneratorTooltip", "BB84KeyGenerator/userdoc.xml", new[] { "BB84KeyGenerator/images/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BB84KeyGenerator : ICrypComponent
     {
@@ -172,65 +172,42 @@ namespace Cryptool.Plugins.BB84KeyGenerator
         public void Execute()
         {
             ProgressChanged(0, 1);
+            generateCommonKey();
+            showPresentationIfVisible();
+            notifyOutput();
+            ProgressChanged(1, 1);
+        }
 
+
+        private void generateCommonKey()
+        {
             StringBuilder tempOutput = new StringBuilder();
-
-            char[] tempBasesFirst = inputBasesFirst.ToCharArray();
-            char[] tempBasesSecond = inputBasesSecond.ToCharArray();
-            char[] tempKey = inputKey.ToCharArray();
 
             for (int i = 0; i < inputKey.Length; i++)
             {
-                if (tempBasesFirst.Length > i && tempBasesSecond.Length > i && tempKey.Length > i)
+                if (inputBasesFirst.Length > i && inputBasesSecond.Length > i && inputKey.Length > i)
                 {
-                    if (tempBasesFirst[i].Equals(tempBasesSecond[i]))
+                    if (inputBasesFirst[i].Equals(inputBasesSecond[i]))
                     {
-                        tempOutput.Append(tempKey[i]);
+                        tempOutput.Append(inputKey[i]);
                     }
                 }
             }
-
-            ProgressChanged(1, 1);
             outputCommonKey = tempOutput.ToString();
+        }
 
+        private void showPresentationIfVisible()
+        {
             if (Presentation.IsVisible)
             {
-                Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        try
-                        {
-                            if (!myPresentation.hasFinished)
-                            {
-                                myPresentation.StopPresentation();
-                            }
-                            myPresentation.StartPresentation(inputBasesFirst, inputBasesSecond, inputKey);
-                        }
-                        catch (Exception e)
-                        {
-                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
-                        }
-                    }, null);
-                /*
-                while (!myPresentation.hasFinished)
-                {
-                    Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        try
-                        {
-                            myPresentation.StopPresentation();
-                        }
-                        catch (Exception e)
-                        {
-                            GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
-                        }
-                    }, null);
-
-                }
-
                 Presentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     try
                     {
+                        if (!myPresentation.hasFinished)
+                        {
+                            myPresentation.StopPresentation();
+                        }
                         myPresentation.StartPresentation(inputBasesFirst, inputBasesSecond, inputKey);
                     }
                     catch (Exception e)
@@ -238,17 +215,15 @@ namespace Cryptool.Plugins.BB84KeyGenerator
                         GuiLogMessage("Problem beim Ausführen des Dispatchers :" + e.Message, NotificationLevel.Error);
                     }
                 }, null);
-            
-
-                while (!myPresentation.hasFinished)
-                {
-                
-                }
-                */
             }
-            OnPropertyChanged("OutputCommonKey");
+            
         }
 
+
+        private void notifyOutput()
+        {
+            OnPropertyChanged("OutputCommonKey");
+        }   
        
         public void PostExecution()
         {
