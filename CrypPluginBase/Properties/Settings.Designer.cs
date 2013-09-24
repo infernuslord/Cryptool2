@@ -322,7 +322,7 @@ namespace Cryptool.PluginBase.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://raspberry.vs.uni-due.de:8080/ct2/videos.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.cryptool.org/ct2download/Tutorials/videos.xml")]
         public string CrypVideoTutorials_URL {
             get {
                 return ((string)(this["CrypVideoTutorials_URL"]));
@@ -334,7 +334,7 @@ namespace Cryptool.PluginBase.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://raspberry.vs.uni-due.de:8080/ct2/cat.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.cryptool.org/ct2download/Tutorials/cat.xml")]
         public string CrypVideoTutorials_CatURL {
             get {
                 return ((string)(this["CrypVideoTutorials_CatURL"]));

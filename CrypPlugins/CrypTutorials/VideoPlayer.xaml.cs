@@ -12,31 +12,30 @@ namespace Cryptool.CrypTutorials
 
     public partial class VideoPlayer : UserControl
     {
-        private double curTime = 0;
+        private double _curTime;
         public VideoPlayer()
         {
-            this.DataContext = this;
+            DataContext = this;
             InitializeComponent();
-            myMediaElement.Volume = (double)0.5;
-            myMediaElement.SpeedRatio = (double)1;
+            myMediaElement.Volume = 0.5;
+            myMediaElement.SpeedRatio = 1;
 
-            myMediaElement.BufferingStarted += new RoutedEventHandler(myMediaElement_BufferingStarted);
-            myMediaElement.BufferingEnded += new RoutedEventHandler(myMediaElement_BufferingEnded);
-            myMediaElement.MediaFailed += new EventHandler<ExceptionRoutedEventArgs>(myMediaElement_MediaFailed);
+            myMediaElement.BufferingStarted += myMediaElement_BufferingStarted;
+            myMediaElement.BufferingEnded += myMediaElement_BufferingEnded;
+            myMediaElement.MediaFailed += myMediaElement_MediaFailed;
 
-            PreviewMouseMove += new MouseEventHandler(VideoPlayer_PreviewMouseMove);
+            PreviewMouseMove += VideoPlayer_PreviewMouseMove;
 
-
-            timer.Tick += delegate(object o, EventArgs args)
+            _timer.Tick += delegate(object o, EventArgs args)
             {
-                double seSliderValue = (double)myMediaElement.Position.TotalSeconds;
+                var seSliderValue = (double)myMediaElement.Position.TotalSeconds;
                 timelineSlider.Value = seSliderValue;
             };
 
-            timer2.Tick += delegate(object o, EventArgs args)
+            _timer2.Tick += delegate(object o, EventArgs args)
             {
                 Controls.Visibility = Visibility.Collapsed;
-                timer2.Stop();
+                _timer2.Stop();
             };
 
         }
@@ -44,7 +43,7 @@ namespace Cryptool.CrypTutorials
         void VideoPlayer_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             Controls.Visibility = Visibility.Visible;
-            timer2.Start();
+            _timer2.Start();
         }
 
         void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
@@ -83,8 +82,8 @@ namespace Cryptool.CrypTutorials
         }
 
         public static readonly DependencyProperty IsPlayingProperty =
-    DependencyProperty.Register("IsPlaying", typeof(bool),
-    typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsPlaying));
+            DependencyProperty.Register("IsPlaying", typeof(bool),
+            typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsPlaying));
 
         public bool IsPlaying
         {
@@ -92,15 +91,18 @@ namespace Cryptool.CrypTutorials
             set { SetValue(IsPlayingProperty, value); }
         }
 
-        private DispatcherTimer timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 3) }; 
-        private DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) }; 
+        private readonly DispatcherTimer _timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 3) }; 
+        private readonly DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) }; 
         private static void OnIsPlaying(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-            VideoPlayer player = (VideoPlayer)sender;
+            var player = (VideoPlayer)sender;
             if (player.IsPlaying)
-                player.timer.Start();
-            else
-                player.timer.Stop();
+            {
+                player._timer.Start();
+            }
+            else{
+                player._timer.Stop();
+            }
         }
 
         private static void OnIsActive(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
@@ -112,13 +114,13 @@ namespace Cryptool.CrypTutorials
         {
             try
             {
-                VideoPlayer player = (VideoPlayer)sender;
-                string uriString = eventArgs.NewValue.ToString();
+                var player = (VideoPlayer)sender;
+                var uriString = eventArgs.NewValue.ToString();
                 player.myMediaElement.Source = new Uri(uriString);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                
+                //wtf ?   
             }
         }
 
@@ -148,49 +150,21 @@ namespace Cryptool.CrypTutorials
 
         }
 
-        // Pause the media.
-        void PauseClick(object sender, RoutedEventArgs args)
-        {
-
-            // The Pause method pauses the media if it is currently running.
-            // The Play method can be used to resume.
-            myMediaElement.Pause();
-
-        }
-
-        // Stop the media.
-        void StopClick(object sender, RoutedEventArgs args)
-        {
-
-            // The Stop method stops and resets the media to be played from
-            // the beginning.
-            Stop();
-
-        }
-
         public void Stop()
         {
             myMediaElement.Stop();
-            IsPlaying = false;
+            IsPlaying = false;            
         }
 
         public void Close()
         {
+            if (_fullScreen.IsVisible)
+            {
+                CloseFullscreen();
+            }
             myMediaElement.Close();
             IsPlaying = false;
         }
-
-        // Change the volume of the media.
-        private void ChangeMediaVolume(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            //myMediaElement.Volume = (double)volumeSlider.Value;
-        }
-
-        //// Change the speed of the media.
-        //private void ChangeMediaSpeedRatio(object sender, RoutedPropertyChangedEventArgs<double> args)
-        //{
-        //    myMediaElement.SpeedRatio = (double)speedRatioSlider.Value;
-        //}
 
         // When the media opens, initialize the "Seek To" slider maximum value
         // to the total number of miliseconds in the length of the media clip.
@@ -207,11 +181,11 @@ namespace Cryptool.CrypTutorials
 
         void seek()
         {
-            int SliderValue = (int)timelineSlider.Value;
+            var sliderValue = (int)timelineSlider.Value;
 
             // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
             // Create a TimeSpan with miliseconds equal to the slider value.
-            TimeSpan ts = TimeSpan.FromSeconds(SliderValue);
+            var ts = TimeSpan.FromSeconds(sliderValue);
             myMediaElement.Position = ts;
         }
 
@@ -225,62 +199,67 @@ namespace Cryptool.CrypTutorials
             myMediaElement.Position = ts;
         }
 
-        // Jump to different parts of the media (seek to). 
-        private void SeekToMediaPosition(object sender, RoutedPropertyChangedEventArgs<double> args)
-        {
-            seek();
-        }
-
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var x = sender as FrameworkElement;
             double value = double.Parse(x.Tag.ToString(), CultureInfo.InvariantCulture);
 
-            if (myMediaElement.Volume == value)
-                myMediaElement.Volume = 0;
-            else
-                myMediaElement.Volume = value;
+            if (myMediaElement != null)
+            {
+                if (myMediaElement.Volume == value)
+                {
+                    myMediaElement.Volume = 0;
+                }
+                else
+                {
+                    myMediaElement.Volume = value;
+                }
+            }
         }
 
-        private Panel preMaximizedVisualParent;
-        private Window fullScreen = new Window() { WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, WindowState = WindowState.Maximized };
+        private Panel _preMaximizedVisualParent;
+        private readonly Window _fullScreen = new Window() { WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, WindowState = WindowState.Maximized };
 
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (preMaximizedVisualParent != null)
+            if (_preMaximizedVisualParent != null)
             {
-                if (IsPlaying) 
-                {
-                    curTime = myMediaElement.Position.TotalSeconds;
-                    myMediaElement.Stop();
-                }
-
-
-                fullScreen.Content = null;
-                fullScreen.Hide();
-                preMaximizedVisualParent.Children.Add(this);
-                if (IsPlaying)
-                {
-                    myMediaElement.Play();
-                    seek(curTime);
-                }
-                preMaximizedVisualParent = null;
+                CloseFullscreen();
             }
             else
             {
                 if (IsPlaying)
                 {
-                    curTime = myMediaElement.Position.TotalSeconds;
+                    _curTime = myMediaElement.Position.TotalSeconds;
                     myMediaElement.Stop();
                 }
 
-                preMaximizedVisualParent = (Panel)this.VisualParent;
-                preMaximizedVisualParent.Children.Remove(this);
-                fullScreen.Content = this;
-                fullScreen.Show();
+                _preMaximizedVisualParent = (Panel)this.VisualParent;
+                _preMaximizedVisualParent.Children.Remove(this);
+                _fullScreen.Content = this;
+                _fullScreen.Show();
 
-                fullScreen.ContentRendered += new EventHandler(fullScreen_ContentRendered);
+                _fullScreen.ContentRendered += fullScreen_ContentRendered;
             }
+        }
+
+        private void CloseFullscreen()
+        {
+            if (IsPlaying)
+            {
+                _curTime = myMediaElement.Position.TotalSeconds;
+                myMediaElement.Stop();
+            }
+
+            _fullScreen.Content = null;
+            _fullScreen.Hide();
+            _preMaximizedVisualParent.Children.Add(this);
+            if (IsPlaying)
+            {
+                myMediaElement.Play();
+                seek(_curTime);
+            }
+            _preMaximizedVisualParent = null;
         }
 
         void fullScreen_ContentRendered(object sender, EventArgs e)
@@ -288,10 +267,12 @@ namespace Cryptool.CrypTutorials
             if (IsPlaying)
             {
                 myMediaElement.Play();
-                seek(curTime);
+                seek(_curTime);
             }
 
-            (sender as Window).ContentRendered -= fullScreen_ContentRendered;
+            var window = sender as Window;
+            if (window != null) window.ContentRendered -= fullScreen_ContentRendered;
+
         }
 
         private void SeekToMediaPosition(object sender, MouseButtonEventArgs e)
@@ -304,14 +285,21 @@ namespace Cryptool.CrypTutorials
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var x = (double)value;
+            var x = (double) value;
 
             var y = Double.Parse(parameter.ToString(), CultureInfo.InvariantCulture);
 
             if (x >= y)
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#00a8ff"));
-            else
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ccc"));
+            {
+                var fromString = ColorConverter.ConvertFromString("#00a8ff");
+                if (fromString != null)
+                {
+                    return new SolidColorBrush((Color) fromString);
+                }
+            }
+
+            var convertFromString = ColorConverter.ConvertFromString("#ccc");
+            return convertFromString != null ? new SolidColorBrush((Color)convertFromString) : null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
