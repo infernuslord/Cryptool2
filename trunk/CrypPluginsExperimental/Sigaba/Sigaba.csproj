@@ -79,6 +79,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ORing.xaml.cs">
+      <DependentUpon>ORing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ORing2.xaml.cs">
+      <DependentUpon>ORing2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Rotor3Index.xaml.cs">
       <DependentUpon>Rotor3Index.xaml</DependentUpon>
     </Compile>
@@ -151,6 +157,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ORing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ORing2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Rotor3Index.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

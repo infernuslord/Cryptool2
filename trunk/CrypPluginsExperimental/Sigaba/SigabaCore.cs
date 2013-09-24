@@ -74,6 +74,8 @@ namespace Sigaba
 
             string repeat = "";
 
+            _sigpa.SetCipher(cipher);
+
             foreach (char c in cipher)
             {
                 if(!b2)
@@ -100,9 +102,8 @@ namespace Sigaba
                 }
                 ControlRotors[2].IncrementPosition();
 
-                _sigpa.fillPresentation(PresentationLetters);
+                _sigpa.FillPresentation(PresentationLetters);
                 
-
                 _sigpa.Callback = true;
 
                 while(_sigpa.Callback && b2)  //primitve escape routine
@@ -307,13 +308,13 @@ namespace Sigaba
         public void stop()
         {
             b2 = false;
-            _sigpa.stop();
+            _sigpa.Stop();
 
         }
 
         public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            _sigpa.st.SetSpeedRatio( 4000 / _settings.PresentationSpeed);
+            _sigpa.St.SetSpeedRatio( 4000 / _settings.PresentationSpeed);
             _sigpa.SpeedRatio = 4000 / _settings.PresentationSpeed;
         }
 
