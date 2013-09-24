@@ -190,6 +190,7 @@ namespace Cryptool.CrypTutorials
 
         public void Dispose()
         {
+            ((CrypTutorialsPresentation)Presentation).Player.Close();
         }
 
 
