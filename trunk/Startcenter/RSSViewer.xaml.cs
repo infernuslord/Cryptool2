@@ -21,7 +21,8 @@ namespace Startcenter
     public partial class RSSViewer : UserControl
     {
         private List<RssItem> _rssItems;
-        private const string RSSUrl = "https://www.cryptool.org/trac/CrypTool2/timeline?ticket=on&changeset=on&wiki=on&max=50&authors=&daysback=90&format=rss";
+        //private const string RSSUrl = "https://www.cryptool.org/trac/CrypTool2/timeline?ticket=on&changeset=on&wiki=on&max=50&authors=&daysback=90&format=rss";
+        private const string RSSUrl = "http://www.facebook.com/feeds/page.php?id=243959195696509&format=rss20";
 
         public static readonly DependencyProperty IsUpdatingProperty =
             DependencyProperty.Register("IsUpdating",
@@ -84,14 +85,14 @@ namespace Startcenter
                 var rep = req.GetResponse();
                 var reader = XmlReader.Create(rep.GetResponseStream());
 
-                var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item")
+                var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item") where !(String.IsNullOrEmpty(x.Descendants("title").Single().Value.Trim()) || String.IsNullOrEmpty(x.Descendants("description").Single().Value.Trim()))
                             select new RssItem()
                                        {
-                                           Title = x.Descendants("title").Single().Value,
+                                           Title = x.Descendants("title").Single().Value.Trim(),
                                            Message = x.Descendants("description").Single().Value.Replace("[", "(").Replace("]", ")")
-                                                                                                .Replace('<', '[').Replace('>', ']'),
+                                                                                                .Replace('<', '[').Replace('>', ']').Trim(),
                                            PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
-                                           URL = x.Descendants("link").Single().Value
+                                           URL = x.Descendants("link").Single().Value.Trim()
                                        };
                 return items.ToList();
             }
