@@ -40,23 +40,23 @@ namespace Sigaba
         private int _unknownSymbolHandling = 0;
         private int _caseHandling = 0;
 
-        private int _cipherRotor1 = 2;
+        private int _cipherRotor1 = 1;
         private int _cipherRotor2 = 2;
-        private int _cipherRotor3 = 2;
-        private int _cipherRotor4 = 2;
-        private int _cipherRotor5 = 2;
+        private int _cipherRotor3 = 3;
+        private int _cipherRotor4 = 4;
+        private int _cipherRotor5 = 5;
 
-        private int _controlRotor1 = 2;
-        private int _controlRotor2 = 2;
-        private int _controlRotor3 = 2;
-        private int _controlRotor4 = 2;
-        private int _controlRotor5 = 2;
+        private int _controlRotor1 = 6;
+        private int _controlRotor2 = 7;
+        private int _controlRotor3 = 8;
+        private int _controlRotor4 = 9;
+        private int _controlRotor5 = 10;
 
-        private int _indexRotor1 = 2;
+        private int _indexRotor1 = 1;
         private int _indexRotor2 = 2;
-        private int _indexRotor3 = 2;
-        private int _indexRotor4 = 2;
-        private int _indexRotor5 = 2;
+        private int _indexRotor3 = 3;
+        private int _indexRotor4 = 4;
+        private int _indexRotor5 = 5;
 
         private Boolean _cipherRotor1Reverse = false;
         private Boolean _cipherRotor2Reverse = false;
@@ -87,7 +87,7 @@ namespace Sigaba
         {
             SetList(_actionStrings, "SigabaSettings_SigabaSettings_Cipher", Resources.SigabaSettings_SigabaSettings_Decipher);
             SetList(_cipherControlRotorStrings, "TestRotor", "RotorA1", "RotorA2", "RotorA3", "RotorA4", "RotorA5", "RotorA6", "RotorA7", "RotorA8", "RotorA9","RotorA10");
-            SetList(_indexRotorStrings, "RotorB1", "RotorB2", "RotorB3", "RotorB4", "RotorB5");
+            SetList(_indexRotorStrings, "TestRotor","RotorB1", "RotorB2", "RotorB3", "RotorB4", "RotorB5");
          
         }
         #endregion

@@ -23,7 +23,7 @@ namespace Sigaba
                                                       };
 
         public static readonly int[][] IndexRotors = new int[][]
-                                                          {
+                                                            { new int[] {0,1,2,3,4,5,6,7,8,9},
                                                               new int[] {7,5,9,1,4,8,2,6,3,0},          // actual wirings of the real csp 889, see reference http://maritime.org/tech/ecmapp.txt
                                                               new int[] {3,8,1,0,5,9,2,7,6,4},
                                                               new int[] {4,0,8,6,1,5,3,2,9,7},

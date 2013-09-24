@@ -66,8 +66,8 @@ namespace Sigaba
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description")]
-        public string SomeInput
+        [PropertyInfo(Direction.InputData, "(De)Cipher", "Sets the (De)Cipher as input")]
+        public string InputString
         {
             get;
             set;
@@ -77,8 +77,8 @@ namespace Sigaba
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
-        public string SomeOutput
+        [PropertyInfo(Direction.OutputData, "(De)Cipher", "Sets the (De)Cipher as output")]
+        public string OutputString
         {
             get;
             set;
@@ -129,15 +129,15 @@ namespace Sigaba
             _settings.ControlKey = _keys[2].ToUpper();
             
             _core.SetKeys();
-            if(false)
+            if(!Presentation.IsVisible)
             {
-                SomeOutput = postFormatOutput(_core.Encrypt(preFormatInput(SomeInput)));
+                OutputString = postFormatOutput(_core.Encrypt(preFormatInput(InputString)));
             }
             else
             {
-                SomeOutput = postFormatOutput(_core.EncryptPresentation(preFormatInput(SomeInput)));
+                OutputString = postFormatOutput(_core.EncryptPresentation(preFormatInput(InputString)));
             }
-            OnPropertyChanged("SomeOutput");
+            OnPropertyChanged("OutputString");
 
             ProgressChanged(1, 1);
         }
@@ -152,7 +152,7 @@ namespace Sigaba
             _settings.ControlKey = _keys[2].ToUpper();
 
              _core.stop();
-            ((SigabaPresentation)Presentation).clearPresentation();
+            ((SigabaPresentation)Presentation).ClearPresentation();
 
         }
 
@@ -163,7 +163,7 @@ namespace Sigaba
         public void Stop()
         {
             _core.stop();   
-            ((SigabaPresentation)Presentation).clearPresentation();
+            ((SigabaPresentation)Presentation).ClearPresentation();
         }
 
         /// <summary>
@@ -184,14 +184,6 @@ namespace Sigaba
 
         #region ConnectorProperties
         
-        [ PropertyInfo ( Direction . InputData , " Text input ", " Input a string to be processed by the Caesar cipher ", false )]
-         public string InputString
-         {
-                get ;
-                set ;
-         }
-        
-
         #endregion
 
         #region Tools 

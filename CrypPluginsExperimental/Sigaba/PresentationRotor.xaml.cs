@@ -32,11 +32,9 @@ namespace Sigaba
 
         public PresentationRotor()
         {
-            
-
             InitializeComponent();
             
-            LinearGradientBrush myBrush = new LinearGradientBrush();
+            var myBrush = new LinearGradientBrush();
             GradientStop1 = new GradientStop(Colors.Transparent, 0.0);
             GradientStop2 = new GradientStop(Colors.Black, 0.1);
             GradientStop3 = new GradientStop(Colors.Transparent, 0.2);
@@ -51,7 +49,6 @@ namespace Sigaba
         public void SetPosition(char c)
         {
             double height = Rotor0815.Children[0].RenderSize.Height;
-
 
             if(!Reversed)
             {
@@ -70,16 +67,12 @@ namespace Sigaba
 
         public void Reverse(Boolean b)
         {
-
-
             if(this.Reversed == false && b)
             {
                 Rotor0815.RenderTransform = new RotateTransform(180);
                 Canvas.SetTop(Rotor0815, ((33 - (26-(Position - 65))) * 16));
                 Canvas.SetLeft(Rotor0815, 12);
             }
-
-            
 
             if (this.Reversed == true && !b)
             {

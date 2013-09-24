@@ -31,69 +31,111 @@
         
     </UserControl.Resources>
 
-    <Grid Height="600" Width="600"  Background="AliceBlue">
-        <Canvas Name="MainCanvas" Height="600" Width="600"  Background="AliceBlue">
-            <Canvas Canvas.Left="153" Canvas.Top="44" Height="126" Name="canvas1" Width="28" >
+    <ScrollViewer Height="700" Width="1200"  Background="AliceBlue" VerticalScrollBarVisibility="Disabled" >
+        <Canvas Name="MainCanvas" Height="700" Width="1200"  >
+            <Canvas Background="AliceBlue">
+            <ScrollViewer Canvas.Left="153" Canvas.Top="44" Height="131" Width="28" VerticalScrollBarVisibility="Disabled" BorderBrush="Transparent" BorderThickness="0">
+                <Canvas Name="canvas1" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="223" Canvas.Top="44" Height="131"  Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas2">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="293" Canvas.Top="44" Height="131" Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas3" >
                 <Border Style="{StaticResource Border1}"></Border>
                 <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="223" Canvas.Top="44" Height="126" Name="canvas2" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="293" Canvas.Top="44" Height="126" Name="canvas3" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="363" Canvas.Top="44" Height="126" Name="canvas4" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="433" Canvas.Top="44" Height="126" Name="canvas5" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="363" Canvas.Top="44" Height="131" Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas4" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="433" Canvas.Top="44" Height="131" Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas5" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
 
-            <Canvas Canvas.Left="153" Canvas.Top="267" Height="126" Name="canvas7" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="223" Canvas.Top="267" Height="126" Name="canvas8" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="293" Canvas.Top="267" Height="126" Name="canvas9" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="363" Canvas.Top="267" Height="126" Name="canvas10" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="433" Canvas.Top="267" Height="126" Name="canvas11" Width="28">
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="153" Canvas.Top="416" Height="126" Name="canvas6" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="223" Canvas.Top="416" Height="126" Name="canvas12" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="293" Canvas.Top="416" Height="126" Name="canvas13" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="363" Canvas.Top="416" Height="126" Name="canvas14" Width="28" >
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
-            <Canvas Canvas.Left="433" Canvas.Top="416" Height="126" Name="canvas15" Width="28">
-                <Border Style="{StaticResource Border1}"></Border>
-                <Border Style="{StaticResource Border3}"></Border>
-            </Canvas>
+            <ScrollViewer Canvas.Left="153" Canvas.Top="267" Height="131" Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas7" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Name ="border7" Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+
+            <ScrollViewer Canvas.Left="223" Canvas.Top="267" Height="131"  Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas8">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="293" Canvas.Top="267" Height="131"  Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas9">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Canvas.Left="363" Canvas.Top="267" Height="131"  Width="28" >
+                <Canvas Name="canvas10">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Canvas.Left="433" Canvas.Top="267" Height="131"  Width="28">
+                <Canvas Name="canvas11">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer Canvas.Left="153" Canvas.Top="416" Height="131" Width="28" VerticalScrollBarVisibility="Disabled">
+                <Canvas Name="canvas6" >
+                <Border Style="{StaticResource Border1}">
+                    
+                </Border>
+                <Border Name ="border6" Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Canvas.Left="223" Canvas.Top="416" Height="131"  Width="28" >
+                <Canvas Name="canvas12">
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Canvas.Left="293" Canvas.Top="416" Height="131" Width="28" >
+                <Canvas Name="canvas13" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" Canvas.Left="363" Canvas.Top="416" Height="131" Width="28" >
+                <Canvas Name="canvas14" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled"  Canvas.Left="433" Canvas.Top="416" Height="131" Width="28">
+                <Canvas Name="canvas15" >
+                    <Border Style="{StaticResource Border1}"></Border>
+                    <Border Style="{StaticResource Border3}"></Border>
+                </Canvas>
+            </ScrollViewer>
+            <Line Canvas.Left="85" Canvas.Top="416" Stroke="Black" StrokeThickness="4" X1="0 " X2="20" Y1="0" Y2="0" />
+            <Line Canvas.Left="85" Canvas.Top="396" Stroke="Black" StrokeThickness="4" X1="0 " X2="20" Y1="0" Y2="0" />
+
+            <Border BorderBrush="Black" BorderThickness="4" Canvas.Left="27" Canvas.Top="389">
+                <Rectangle Fill="LightGray" Height="25" Name="textBlock60" Width="50" />
+            </Border>
+
             <Line Canvas.Left="461" Canvas.Top="434" X1="0 " Y1="0" X2="50" Y2="0" Stroke="Black" StrokeThickness="4" />
             <Line Canvas.Left="509" Canvas.Top="434" X1="0 " Y1="0" X2="0" Y2="150" Stroke="Black" StrokeThickness="4" />
             <Line Canvas.Left="461" Canvas.Top="464" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
@@ -143,11 +185,14 @@
             <Line Canvas.Left="103" Canvas.Top="464" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
             <Line Canvas.Left="103" Canvas.Top="494" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
             <Line Canvas.Left="103" Canvas.Top="524" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
-            <Line Canvas.Left="103" Canvas.Top="284" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="0" Y2="242" />
+            <Line Canvas.Left="103" Canvas.Top="284" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="0" Y2="112" />
+            <Line Canvas.Left="103" Canvas.Top="414" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="0" Y2="112" />
             <Canvas Canvas.Left="153" Canvas.Top="198" Height="46" Name="canvas16" Width="308" >
                 <Border Style="{StaticResource Border2}"></Border>
             </Canvas>
-            <Line Canvas.Left="509" Canvas.Top="228" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="-9" Y2="150" />
+            
+            <Line Canvas.Left="509" Canvas.Top="218" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="0" Y2="19" />
+            <Line Canvas.Left="509" Canvas.Top="253" Stroke="Black" StrokeThickness="4" X1="0 " X2="0" Y1="0" Y2="125" />
             <Line Canvas.Left="460" Canvas.Top="286" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
             <Line Canvas.Left="460" Canvas.Top="316" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
             <Line Canvas.Left="460" Canvas.Top="346" Stroke="Black" StrokeThickness="4" X1="0 " X2="50" Y1="0" Y2="0" />
@@ -335,7 +380,67 @@
             <Border BorderBrush="Black" BorderThickness="4" Canvas.Left="395" Canvas.Top="204">
                 <TextBlock Background="Orange" FontSize="19" Height="25" Name="textBlock59" Text="A" TextAlignment="Center" Width="25" />
             </Border>
-            
+            <Line Canvas.Left="510" Canvas.Top="255" Stroke="Black" StrokeThickness="4" X1="0 " X2="20" Y1="0" Y2="0" />
+            <Line Canvas.Left="510" Canvas.Top="235" Stroke="Black" StrokeThickness="4" X1="0 " X2="20" Y1="0" Y2="0" />
+            <Border BorderBrush="Black" BorderThickness="4" Canvas.Left="528" Canvas.Top="228">
+                <Rectangle Fill="LightGray" Height="25" Name="textBlock61" Width="50" />
+            </Border>
+            <StackPanel Canvas.Right="20" Canvas.Top="284">
+                <Label Height="45" Width="250" >
+                    <TextBlock FontSize="25">Symbols:</TextBlock> 
+                </Label>
+                <StackPanel Orientation="Horizontal" Height="100">
+                    
+                    <Canvas  Width="50">
+                        <Border Height="100" Style="{StaticResource Border1}"></Border>
+                        <Border Height="30" Canvas.Top="35"  Style="{StaticResource Border3}"></Border>
+                    </Canvas>
+
+                        <Label Width="30">
+
+                        </Label>
+
+                        <TextBlock Height="100" Width="200" FontSize="25" VerticalAlignment="Bottom">
+                        Rotor
+                    </TextBlock>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="70">
+
+                    <Canvas  Width="50">
+                        <Border BorderBrush="Black" BorderThickness="4" Canvas.Top="20">
+                            <TextBlock Background="Orange" FontSize="19" Height="25" Text="A" TextAlignment="Center" Width="25" />
+                        </Border>
+                    </Canvas>
+
+                        <Label Width="30">
+
+                        </Label>
+
+                        <TextBlock Height="100" Width="200" FontSize="25" TextWrapping="Wrap">
+                        Substitution Indexer
+                    </TextBlock>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="70">
+                    <Border BorderBrush="Black"  Height="25" Width="50"  BorderThickness="4" >
+                        <Rectangle Fill="LightGray" Height="25" Width="50" />
+                    </Border>
+                        <Label Width="30">
+                            
+                        </Label>
+                    <TextBlock  Height="100" Width="200" FontSize="25" TextWrapping="Wrap" LineHeight="1">
+                        Group Translation Stator
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
         </Canvas>
-    </Grid>
+            <WrapPanel Name="LeftPanel"  Width="450" Height="100" Canvas.Bottom="0" >
+                
+            </WrapPanel>
+            <WrapPanel Name="RightPanel" Width="450" Height="100"  Canvas.Bottom="0" Canvas.Right="0">
+            </WrapPanel>
+        </Canvas>
+        
+    </ScrollViewer>
 </UserControl>
