@@ -189,7 +189,7 @@
         </Style>
 
         <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5"
-                CornerRadius="3" Margin="2" Background="#edf5ff">
+                CornerRadius="3" Margin="2" Background="#edf5ff" MaxWidth="300">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
