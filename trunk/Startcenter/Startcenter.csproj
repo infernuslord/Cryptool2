@@ -171,6 +171,11 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\CrypTutorials\CrypTutorials.csproj">
+      <Project>{5678C444-B0EF-4211-BF38-3CC7FBCEEE65}</Project>
+      <Name>CrypTutorials</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\LibSource\HtmlTextBlock\HtmlTextBlock.csproj">
       <Project>{8E67C36F-4403-4724-96D4-AF6E05744688}</Project>
       <Name>HtmlTextBlock</Name>
@@ -194,6 +199,7 @@
     <ProjectReference Include="..\OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj">
       <Project>{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}</Project>
       <Name>OnlineDocumentationGenerator</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +227,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="facebook_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="cryptutorials.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

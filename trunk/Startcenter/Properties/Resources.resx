@@ -207,4 +207,7 @@
   <data name="Follow_us_on_Facebook_" xml:space="preserve">
     <value>Like us on Facebook</value>
   </data>
+  <data name="CrypTutorials" xml:space="preserve">
+    <value>Watch videos about CrypTool 2</value>
+  </data>
 </root>
