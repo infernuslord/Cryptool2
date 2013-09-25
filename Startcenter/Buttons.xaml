@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="430" d:DesignWidth="500">
+             d:DesignHeight="500" d:DesignWidth="500">
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button">
@@ -15,6 +15,7 @@
             </Style>
         </Grid.Resources>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -40,32 +41,39 @@
             </Button.Content>
         </Button>
         <TextBlock Grid.Column="1" Grid.Row="1" Text="{Loc Create_a_new_workspace_with_the_graphical_editor_}" VerticalAlignment="Center" TextWrapping="Wrap"/>
-        
-        <Button Grid.Column="0" Grid.Row="2" Click="HelpButton_Click">
+
+        <Button Grid.Column="0" Grid.Row="2" Click="CrypTutorialsButton_Click">
+            <Button.Content>
+                <Image Source="/Startcenter;component/cryptutorials.png" />
+            </Button.Content>
+        </Button>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Loc CrypTutorials}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+
+        <Button Grid.Column="0" Grid.Row="3" Click="HelpButton_Click">
             <Button.Content>
                 <Image Source="/Startcenter;component/help32.png" />
             </Button.Content>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Loc Read_the_online_documentation_}" VerticalAlignment="Center" TextWrapping="Wrap"/>        
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Loc Read_the_online_documentation_}" VerticalAlignment="Center" TextWrapping="Wrap"/>        
 
-        <Button Grid.Column="0" Grid.Row="3" Click="ConnectButton_Click" Name="DistCompButton">
+        <Button Grid.Column="0" Grid.Row="4" Click="ConnectButton_Click" Name="DistCompButton">
             <Button.Content>
                 <Image Stretch="Fill" Source="/Startcenter;component/peer2peer-disconnect.png" />
             </Button.Content>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Loc Connect_to_the_distributed_computing_platform_}" VerticalAlignment="Center" Name="DistCompLabel" TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="1" Grid.Row="4" Text="{Loc Connect_to_the_distributed_computing_platform_}" VerticalAlignment="Center" Name="DistCompLabel" TextWrapping="Wrap"/>
 
-        <Button Grid.Column="0" Grid.Row="4" Click="WebpageButton_Click">
+        <Button Grid.Column="0" Grid.Row="5" Click="WebpageButton_Click">
             <Button.Content>
                 <Image Stretch="Fill" Source="/Startcenter;component/browser.png" />
             </Button.Content>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="4" Text="{Loc Visit_the_official_CrypTool_2_0_website_}" VerticalAlignment="Center" TextWrapping="Wrap"/>
-        <Button Grid.Column="0" Grid.Row="5" Click="FacebookButton_Click">
+        <TextBlock Grid.Column="1" Grid.Row="5" Text="{Loc Visit_the_official_CrypTool_2_0_website_}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        <Button Grid.Column="0" Grid.Row="6" Click="FacebookButton_Click">
             <Button.Content>
                 <Image Stretch="Fill" Source="/Startcenter;component/facebook.png" />
             </Button.Content>
         </Button>
-        <TextBlock Grid.Column="1" Grid.Row="5" Text="{Loc Follow_us_on_Facebook_}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+        <TextBlock Grid.Column="1" Grid.Row="6" Text="{Loc Follow_us_on_Facebook_}" VerticalAlignment="Center" TextWrapping="Wrap"/>
     </Grid>
 </UserControl>

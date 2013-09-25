@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.CrypTutorials;
 using Cryptool.P2P;
 using Cryptool.P2PEditor;
 using Cryptool.PluginBase;
@@ -42,6 +43,11 @@ namespace Startcenter
             OnOpenEditor(typeof(Wizard.Wizard), null);
         }
 
+        private void CrypTutorialsButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnOpenEditor(typeof(CrypTutorials), null);
+        }
+            
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
             OnlineHelp.InvokeShowDocPage(null);
