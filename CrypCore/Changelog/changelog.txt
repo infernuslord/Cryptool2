@@ -18,6 +18,7 @@ right side under the "About" menu in the CrypTool 2.0 application.
 - MorseCode
 - AlphabetPermutator
 - CSVReader
+- Camellia
 
 [b]Components updated/fixed:[/b]
 - WorkspaceManager
