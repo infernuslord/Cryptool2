@@ -159,4 +159,19 @@
   <data name="res_settings4" xml:space="preserve">
     <value>Bit "1", Basis "x":</value>
   </data>
+  <data name="res_settings1Tooltip" xml:space="preserve">
+    <value>Ändert die Kodierung auf PLUS-Basis</value>
+  </data>
+  <data name="res_settings2Tooltip" xml:space="preserve">
+    <value>Ändert die Kodierung auf PLUS-Basis</value>
+  </data>
+  <data name="res_settings3Tooltip" xml:space="preserve">
+    <value>Ändert die Kodierung auf X-Basis</value>
+  </data>
+  <data name="res_settings4Tooltip" xml:space="preserve">
+    <value>Ändert die Kodierung auf X-Basis</value>
+  </data>
+  <data name="res_animationSpeedTooltip" xml:space="preserve">
+    <value>Ändert die Animationsgeschwindigkeit</value>
+  </data>
 </root>

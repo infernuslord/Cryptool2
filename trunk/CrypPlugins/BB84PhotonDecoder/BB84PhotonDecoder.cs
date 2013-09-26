@@ -44,7 +44,6 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         private System.Random newRandom;
         private BB84PhotonDecoderPresentation myPresentation;
         
-        private double errorRatio;
         private RNGCryptoServiceProvider sRandom;
 
         #endregion
@@ -54,8 +53,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             synchron = true;
             myPresentation = new BB84PhotonDecoderPresentation();
             myPresentation.UpdateProgess += new EventHandler(update_progress);
-            Presentation = myPresentation;
-            errorRatio = 0.12; //###
+            Presentation = myPresentation;     
         }
         private void update_progress(object sender, EventArgs e)
         {
@@ -63,7 +61,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         }
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "res_photonInputCaption", "res_photonInputTooltip")]
+        [PropertyInfo(Direction.InputData, "res_photonInputCaption", "res_photonInputTooltip",true)]
         public string InputPhotons
         {
             get
@@ -76,7 +74,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             }
         }
 
-        [PropertyInfo(Direction.InputData, "res_basesInputCaption", "res_basesInputTooltip")]
+        [PropertyInfo(Direction.InputData, "res_basesInputCaption", "res_basesInputTooltip",true)]
         public string InputBases
         {
             get
@@ -89,7 +87,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "res_keyOutputCaption", "res_keyOutputTooltip")]
+        [PropertyInfo(Direction.OutputData, "res_keyOutputCaption", "res_keyOutputTooltip",true)]
         public string OutputKey
         {
             get
@@ -123,7 +121,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         public void Execute()
         {
             ProgressChanged(0, 1);
-            if (settings.ErrorsEnabled == 0 || (int)Math.Round(inputPhotons.Length * errorRatio) == 0)
+            if (settings.ErrorsEnabled == 0 || (int)Math.Round(inputPhotons.Length * (((double)settings.ErrorRatio)/100)) == 0)
             {
                 doNormalDecoding();           
             }                
@@ -191,14 +189,42 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
             char[] tempBases = inputBases.ToCharArray();
             char[] tempPhotons = inputPhotons.ToCharArray();
 
-            int fail = (int)Math.Round(inputPhotons.Length * errorRatio);
-
+           // int fail = (int)Math.Round(inputPhotons.Length * (((double)settings.ErrorRatio)/100));
+            int fail = 100 / settings.ErrorRatio;
             for (int i = 0; i < inputPhotons.Length; i++)
             {
 
                 if (i % fail == 0)
                 {
-                    tempOutput.Append(getRandomBinary());
+                    if (tempBases.Length > i && tempPhotons.Length > i)
+                    {
+                        if (tempBases[i].Equals('+'))
+                        {
+                            if (tempPhotons[i].Equals('|'))
+                            {
+                                tempOutput.Append(settings.PlusHorizontallyDecoding);
+                            }
+                            else if (tempPhotons[i].Equals('-'))
+                            {
+                                tempOutput.Append(settings.PlusVerticallyDecoding);
+                            }
+                            else
+                                tempOutput.Append(getRandomBinary());
+                        }
+                        else if (tempBases[i].Equals('x'))
+                        {
+                            if (tempPhotons[i].Equals('\\'))
+                            {
+                                tempOutput.Append(settings.XTopRightDiagonallyDecoding);
+                            }
+                            else if (tempPhotons[i].Equals('/'))
+                            {
+                                tempOutput.Append(settings.XTopLeftDiagonallyDecoding);
+                            }
+                            else
+                                tempOutput.Append(getRandomBinary());
+                        }
+                    }
                 }
                 else
                 {

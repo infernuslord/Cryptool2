@@ -195,4 +195,7 @@
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
     <value>Waiting Iterations</value>
   </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>Sets the amount of iterations before animation starts</value>
+  </data>
 </root>

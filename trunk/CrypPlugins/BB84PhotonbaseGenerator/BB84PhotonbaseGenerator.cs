@@ -47,11 +47,11 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "res_InputKeyCaption", "res_inputKeyTooltip", true)]
+        [PropertyInfo(Direction.InputData, "res_InputKeyCaption", "res_inputKeyTooltip", false)]
         public Object InputKey
         {
             get
-            {
+            {  
                 return this.inputKey;
             }
             set
@@ -62,13 +62,20 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
                     BigInteger temp = (BigInteger)inputKey;
                     this.keyLength = Int32.Parse(temp.ToString());
                 }
+                else if (inputKey is int)
+                {
+                    int temp = (int)inputKey;
+                    this.keyLength = int.Parse(temp.ToString());
+                }
+
                 else if (inputKey is string)
                 {
                     string temp = (string)inputKey;
                     temp = filterValidInput(temp);
                     this.keyLength = temp.Length;
                 }
-                else if (inputKey is int[]){
+                else if (inputKey is int[])
+                {
                     int[] temp = (int[])inputKey;
                     this.keyLength = temp.Length;
                 }

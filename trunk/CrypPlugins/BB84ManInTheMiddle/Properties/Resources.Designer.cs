@@ -293,5 +293,14 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
                 return ResourceManager.GetString("res_WaitingIterationsCaption", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the amount of iterations before animation starts ähnelt.
+        /// </summary>
+        internal static string res_WaitingIterationsTooltip {
+            get {
+                return ResourceManager.GetString("res_WaitingIterationsTooltip", resourceCulture);
+            }
+        }
     }
 }

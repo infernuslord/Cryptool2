@@ -189,7 +189,10 @@
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
     <value>the number of animationcycles the plugin will wait (for synchronisation issues)</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="res_ErrorRatioCaption" xml:space="preserve">
+    <value>Error ratio</value>
+  </data>
+  <data name="res_ErrorRatioTooltip" xml:space="preserve">
+    <value>sets the amount of occuring errors, if errors are enabled</value>
   </data>
 </root>
