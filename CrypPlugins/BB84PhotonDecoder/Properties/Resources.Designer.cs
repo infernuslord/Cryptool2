@@ -115,6 +115,24 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ratio ähnelt.
+        /// </summary>
+        internal static string res_ErrorRatioCaption {
+            get {
+                return ResourceManager.GetString("res_ErrorRatioCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die sets the amount of occuring errors, if errors are enabled ähnelt.
+        /// </summary>
+        internal static string res_ErrorRatioTooltip {
+            get {
+                return ResourceManager.GetString("res_ErrorRatioTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Sets if errors occur ähnelt.
         /// </summary>
         internal static string res_ErrorsTooltip {
@@ -273,15 +291,6 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         internal static string res_WaitingIterationsTooltip {
             get {
                 return ResourceManager.GetString("res_WaitingIterationsTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

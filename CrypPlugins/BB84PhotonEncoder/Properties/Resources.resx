@@ -120,6 +120,9 @@
   <data name="res_animationSpeed" xml:space="preserve">
     <value>Animation Speed</value>
   </data>
+  <data name="res_animationSpeedTooltip" xml:space="preserve">
+    <value>Sets the Speed of Presentation-Animation</value>
+  </data>
   <data name="res_basesInputCaption" xml:space="preserve">
     <value>bases input</value>
   </data>
@@ -147,13 +150,25 @@
   <data name="res_settings1" xml:space="preserve">
     <value>Bit "0", Base "+":</value>
   </data>
+  <data name="res_settings1Tooltip" xml:space="preserve">
+    <value>Change Mode for Encoding on PLUS-Base</value>
+  </data>
   <data name="res_settings2" xml:space="preserve">
     <value>Bit "1", Base "+":</value>
+  </data>
+  <data name="res_settings2Tooltip" xml:space="preserve">
+    <value>Change Mode for Encoding on PLUS-Base</value>
   </data>
   <data name="res_settings3" xml:space="preserve">
     <value>Bit "0", Base "x":</value>
   </data>
+  <data name="res_settings3Tooltip" xml:space="preserve">
+    <value>Change Mode for Encoding on X-Base</value>
+  </data>
   <data name="res_settings4" xml:space="preserve">
     <value>Bit "1", Base "x":</value>
+  </data>
+  <data name="res_settings4Tooltip" xml:space="preserve">
+    <value>Change Mode for Encoding on X-Base</value>
   </data>
 </root>

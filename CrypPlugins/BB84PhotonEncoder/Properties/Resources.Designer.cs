@@ -70,6 +70,15 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the Speed of Presentation-Animation ähnelt.
+        /// </summary>
+        internal static string res_animationSpeedTooltip {
+            get {
+                return ResourceManager.GetString("res_animationSpeedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die bases input ähnelt.
         /// </summary>
         internal static string res_basesInputCaption {
@@ -151,11 +160,29 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on PLUS-Base ähnelt.
+        /// </summary>
+        internal static string res_settings1Tooltip {
+            get {
+                return ResourceManager.GetString("res_settings1Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;1&quot;, Base &quot;+&quot;: ähnelt.
         /// </summary>
         internal static string res_settings2 {
             get {
                 return ResourceManager.GetString("res_settings2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on PLUS-Base ähnelt.
+        /// </summary>
+        internal static string res_settings2Tooltip {
+            get {
+                return ResourceManager.GetString("res_settings2Tooltip", resourceCulture);
             }
         }
         
@@ -169,11 +196,29 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on X-Base ähnelt.
+        /// </summary>
+        internal static string res_settings3Tooltip {
+            get {
+                return ResourceManager.GetString("res_settings3Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bit &quot;1&quot;, Base &quot;x&quot;: ähnelt.
         /// </summary>
         internal static string res_settings4 {
             get {
                 return ResourceManager.GetString("res_settings4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on X-Base ähnelt.
+        /// </summary>
+        internal static string res_settings4Tooltip {
+            get {
+                return ResourceManager.GetString("res_settings4Tooltip", resourceCulture);
             }
         }
     }

@@ -198,4 +198,7 @@
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
     <value>Wartezyklen</value>
   </data>
+  <data name="res_WaitingIterationsTooltip" xml:space="preserve">
+    <value>Die Anzahl der Zyklen bevor die Animation startet</value>
+  </data>
 </root>

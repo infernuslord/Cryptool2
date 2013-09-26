@@ -24,12 +24,27 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
     {
         #region Private Variables
 
-
+        private int inputKey;
 
         #endregion
 
         #region TaskPane Settings
-
+        [TaskPane("res_BasesCountCaption", "res_BasesCountTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+        public int InputKey
+        {
+            get
+            {
+                return inputKey;
+            }
+            set
+            {
+                if (inputKey != value)
+                {
+                    inputKey = value;
+                    OnPropertyChanged("InputKey");
+                }
+            }
+        }
         
         #endregion
 

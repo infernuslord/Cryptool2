@@ -29,6 +29,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
         private string xTopLeftDiagonallyDecoding;
         private string plusHorizontallyDecoding;
         private bool errorsEnabled;
+        private int errorRatio;
         private int waitingIterations;
         #endregion
 
@@ -200,8 +201,25 @@ namespace Cryptool.Plugins.BB84PhotonDecoder
                 }
             }
         }
+
+        [TaskPane("res_ErrorRatioCaption", "res_ErrorRatioTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        public int ErrorRatio
+        {
+            get
+            {
+                return errorRatio;
+            }
+            set
+            {
+                if (errorRatio != value)
+                {
+                    errorRatio = value;
+                    OnPropertyChanged("ErrorRatio");
+                }
+            }
+        }
         
-        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)] 
+        [TaskPane("res_WaitingIterationsCaption", "res_WaitingIterationsTooltip", null, 7, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)] 
         public int WaitingIterations
         {
             get
