@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="res_AnimationSpeedCaption" xml:space="preserve">
-    <value>Animation Speed</value>
+    <value>Animation speed</value>
   </data>
   <data name="res_AnimationSpeedTooltip" xml:space="preserve">
     <value>Changes the speed of animation</value>
@@ -139,7 +139,7 @@
     <value>BB84 Man in the Middle</value>
   </data>
   <data name="res_MITMTooltip" xml:space="preserve">
-    <value>Tries to spy exchanged Key in BB84-Protocol</value>
+    <value>Tries to spy exchanged Key in BB84 protocol</value>
   </data>
   <data name="res_PhotonInputCaption" xml:space="preserve">
     <value>Photon input</value>
@@ -154,19 +154,19 @@
     <value>Photons which are tried to be forwarded</value>
   </data>
   <data name="res_Setting3Tooltip" xml:space="preserve">
-    <value>Change mode for decoding on EX-Base</value>
+    <value>Change mode for decoding on EX base</value>
   </data>
   <data name="res_Settings1Caption" xml:space="preserve">
     <value>Photon "|" : </value>
   </data>
   <data name="res_Settings1Tooltip" xml:space="preserve">
-    <value>Change mode for decoding on PLUS-Base</value>
+    <value>Change mode for decoding on PLUS base</value>
   </data>
   <data name="res_Settings2Caption" xml:space="preserve">
     <value>Photon "-" :  </value>
   </data>
   <data name="res_Settings2Tooltip" xml:space="preserve">
-    <value>Change mode for decoding on PLUS-Base</value>
+    <value>Change mode for decoding on PLUS base</value>
   </data>
   <data name="res_Settings3Caption" xml:space="preserve">
     <value>Photon "/" : </value>
@@ -175,7 +175,7 @@
     <value>Photon "\" :  </value>
   </data>
   <data name="res_Settings4Tooltip" xml:space="preserve">
-    <value>Change Mode for decoding on EX-Base</value>
+    <value>Change Mode for decoding on EX base</value>
   </data>
   <data name="res_SleepingMessage" xml:space="preserve">
     <value>Man in the Middle is SLEEPING</value>

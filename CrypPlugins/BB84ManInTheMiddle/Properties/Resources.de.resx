@@ -199,6 +199,6 @@
     <value>Wartezyklen</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
-    <value>Die Anzahl der Zyklen bevor die Animation startet</value>
+    <value>Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
   </data>
 </root>

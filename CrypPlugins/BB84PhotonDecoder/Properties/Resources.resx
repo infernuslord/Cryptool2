@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="res_AnimationSpeedCaption" xml:space="preserve">
-    <value>Animation Speed</value>
+    <value>Animation speed</value>
   </data>
   <data name="res_AnimationSpeedTooltip" xml:space="preserve">
-    <value>Sets the Speed of Presentation-Animation</value>
+    <value>Sets the speed of presentation animation</value>
   </data>
   <data name="res_basesInputCaption" xml:space="preserve">
-    <value>bases input</value>
+    <value>Bases input</value>
   </data>
   <data name="res_basesInputTooltip" xml:space="preserve">
-    <value>input for the photon bases</value>
+    <value>Input for the photon bases</value>
   </data>
   <data name="res_Disabled" xml:space="preserve">
     <value>Disabled</value>
@@ -142,57 +142,57 @@
     <value>Errors</value>
   </data>
   <data name="res_keyOutputCaption" xml:space="preserve">
-    <value>key output</value>
+    <value>Key output</value>
   </data>
   <data name="res_keyOutputTooltip" xml:space="preserve">
-    <value>output for the decoded key</value>
+    <value>Output for the decoded key</value>
   </data>
   <data name="res_photonDecodingCaption" xml:space="preserve">
     <value>BB84 Photon Decoder</value>
   </data>
   <data name="res_photonDecodingTooltip" xml:space="preserve">
-    <value>decodes message by polarized photons</value>
+    <value>Decodes message by polarized photons</value>
   </data>
   <data name="res_photonInputCaption" xml:space="preserve">
-    <value>photons input</value>
+    <value>Photon input</value>
   </data>
   <data name="res_photonInputTooltip" xml:space="preserve">
-    <value>input for the photon-stream to decode</value>
+    <value>Input for the photon-stream to decode</value>
   </data>
   <data name="res_Setting1Caption" xml:space="preserve">
     <value>Photon "|" :  </value>
   </data>
   <data name="res_Setting1Tooltip" xml:space="preserve">
-    <value>Change Mode for decoding on PLUS-Base</value>
+    <value>Change mode for decoding on PLUS base</value>
   </data>
   <data name="res_Setting2Caption" xml:space="preserve">
     <value>Photon "-" : </value>
   </data>
   <data name="res_Setting2Tooltip" xml:space="preserve">
-    <value>Change Mode for decoding on PLUS-Base</value>
+    <value>Change mode for decoding on PLUS base</value>
   </data>
   <data name="res_Setting3Caption" xml:space="preserve">
     <value>Photon "/" : </value>
   </data>
   <data name="res_Setting3Tooltip" xml:space="preserve">
-    <value>Change Mode for decoding on X-Base</value>
+    <value>Change mode for decoding on X base</value>
   </data>
   <data name="res_Setting4Caption" xml:space="preserve">
     <value>Photon "\" : </value>
   </data>
   <data name="res_Setting4Tooltip" xml:space="preserve">
-    <value>Change Mode for decoding on X-Base</value>
+    <value>Change mode for decoding on X base</value>
   </data>
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
     <value>Waiting Cycles</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
-    <value>the number of animationcycles the plugin will wait (for synchronisation issues)</value>
+    <value>Amount of animation cycles the plugin will wait (for synchronisation issues)</value>
   </data>
   <data name="res_ErrorRatioCaption" xml:space="preserve">
     <value>Error ratio</value>
   </data>
   <data name="res_ErrorRatioTooltip" xml:space="preserve">
-    <value>sets the amount of occuring errors, if errors are enabled</value>
+    <value>Sets the amount of occuring errors, if errors are enabled</value>
   </data>
 </root>

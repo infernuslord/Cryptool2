@@ -187,7 +187,7 @@
     <value>Wartezyklen</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
-    <value>Die Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
+    <value>Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
   </data>
   <data name="res_ErrorRatioCaption" xml:space="preserve">
     <value>Fehlerrate</value>

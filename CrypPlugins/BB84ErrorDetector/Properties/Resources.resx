@@ -133,10 +133,10 @@
     <value>Detects the error ratio of shared key</value>
   </data>
   <data name="res_ErrorR" xml:space="preserve">
-    <value>Error-Ratio:</value>
+    <value>Error ratio:</value>
   </data>
   <data name="res_FirstKeyCaption" xml:space="preserve">
-    <value>First Key</value>
+    <value>First key</value>
   </data>
   <data name="res_FirstKeyTooltip" xml:space="preserve">
     <value>Input of the first key</value>
@@ -148,7 +148,7 @@
     <value>The message showing if key seems secure</value>
   </data>
   <data name="res_SecondKeyCaption" xml:space="preserve">
-    <value>Second Key</value>
+    <value>Second key</value>
   </data>
   <data name="res_SecondKeyTooltip" xml:space="preserve">
     <value>Input of the second key</value>
@@ -157,7 +157,7 @@
     <value>First index of key comparism</value>
   </data>
   <data name="res_ThresholdCaption" xml:space="preserve">
-    <value>Error Threshold Value in %</value>
+    <value>Error threshold value in %</value>
   </data>
   <data name="res_ThresholdTooltip" xml:space="preserve">
     <value>The maximal tolerated error rating</value>

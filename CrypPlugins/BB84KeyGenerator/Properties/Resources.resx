@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="res_AnimationSpeedCaption" xml:space="preserve">
-    <value>Animation Speed</value>
+    <value>Animation speed</value>
   </data>
   <data name="res_AnimationSpeedTooltip" xml:space="preserve">
     <value>Sets the speed of the animation</value>
@@ -127,28 +127,28 @@
     <value>BB84 Key Generator</value>
   </data>
   <data name="res_GeneratorTooltip" xml:space="preserve">
-    <value>Calculates the commom key in bb84-protocol</value>
+    <value>Calculates commom key in the bb84 protocol</value>
   </data>
   <data name="res_CommonKeyCaption" xml:space="preserve">
-    <value>Common Key</value>
+    <value>Common key</value>
   </data>
   <data name="res_CommonKeyTooltip" xml:space="preserve">
     <value>The calculated commom key</value>
   </data>
   <data name="res_InputFirstBasesCaption" xml:space="preserve">
-    <value>Input First Bases</value>
+    <value>Input first Bases</value>
   </data>
   <data name="res_InputFirstBasesTooltip" xml:space="preserve">
     <value>The first series of photon bases</value>
   </data>
   <data name="res_InputKeyCaption" xml:space="preserve">
-    <value>Input Key</value>
+    <value>Input key</value>
   </data>
   <data name="res_InputKeyTooltip" xml:space="preserve">
     <value>The key received via photon transmition</value>
   </data>
   <data name="res_InputSecondBasesCaption" xml:space="preserve">
-    <value>Input Second Bases</value>
+    <value>Input second bases</value>
   </data>
   <data name="res_InputSecondBaseTooltip" xml:space="preserve">
     <value>The second series of photon bases</value>
@@ -157,7 +157,7 @@
     <value>NO COMMON BASES</value>
   </data>
   <data name="res_PhotonInputCaption" xml:space="preserve">
-    <value>Photon Input</value>
+    <value>Photon input</value>
   </data>
   <data name="res_PhotonInputTooltip" xml:space="preserve">
     <value>Photon input (for timing issues)</value>

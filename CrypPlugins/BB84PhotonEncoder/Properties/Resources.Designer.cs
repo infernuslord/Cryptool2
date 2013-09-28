@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the Speed of Presentation-Animation ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the speed of presentation animation ähnelt.
         /// </summary>
         internal static string res_animationSpeedTooltip {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die bases input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bases input ähnelt.
         /// </summary>
         internal static string res_basesInputCaption {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die input for the photon bases ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the photon bases ähnelt.
         /// </summary>
         internal static string res_basesInputTooltip {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die key input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key input ähnelt.
         /// </summary>
         internal static string res_keyInputCaption {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die input for the key to encode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the key to encode ähnelt.
         /// </summary>
         internal static string res_keyInputTooltip {
             get {
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die photon output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Photon output ähnelt.
         /// </summary>
         internal static string res_photonOutputCaption {
             get {
@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output for the encoded phototons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output for the encoded phototons ähnelt.
         /// </summary>
         internal static string res_photonOutputTooltip {
             get {
@@ -160,7 +160,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for encoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_settings1Tooltip {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for encoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_settings2Tooltip {
             get {
@@ -196,7 +196,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on X-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for encoding on X base ähnelt.
         /// </summary>
         internal static string res_settings3Tooltip {
             get {
@@ -214,7 +214,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for Encoding on X-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for encoding on X base ähnelt.
         /// </summary>
         internal static string res_settings4Tooltip {
             get {

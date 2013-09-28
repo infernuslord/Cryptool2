@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Animation Speed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Animation speed ähnelt.
         /// </summary>
         internal static string res_AnimationSpeedCaption {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to spy exchanged Key in BB84-Protocol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to spy exchanged Key in BB84 protocol ähnelt.
         /// </summary>
         internal static string res_MITMTooltip {
             get {
@@ -169,7 +169,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on EX-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on EX base ähnelt.
         /// </summary>
         internal static string res_Setting3Tooltip {
             get {
@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_Settings1Tooltip {
             get {
@@ -205,7 +205,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_Settings2Tooltip {
             get {
@@ -232,7 +232,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on EX-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on EX base ähnelt.
         /// </summary>
         internal static string res_Settings4Tooltip {
             get {
