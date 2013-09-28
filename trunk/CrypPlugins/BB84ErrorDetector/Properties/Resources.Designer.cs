@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Error-Ratio: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error ratio: ähnelt.
         /// </summary>
         internal static string res_ErrorR {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die First Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die First key ähnelt.
         /// </summary>
         internal static string res_FirstKeyCaption {
             get {
@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Second Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Second key ähnelt.
         /// </summary>
         internal static string res_SecondKeyCaption {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Error Threshold Value in % ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error threshold value in % ähnelt.
         /// </summary>
         internal static string res_ThresholdCaption {
             get {

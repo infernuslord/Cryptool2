@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Animation Speed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Animation speed ähnelt.
         /// </summary>
         internal static string res_AnimationSpeedCaption {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Common Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Common key ähnelt.
         /// </summary>
         internal static string res_CommonKeyCaption {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates the commom key in bb84-protocol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates commom key in the bb84 protocol ähnelt.
         /// </summary>
         internal static string res_GeneratorTooltip {
             get {
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input First Bases ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input first Bases ähnelt.
         /// </summary>
         internal static string res_InputFirstBasesCaption {
             get {
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input key ähnelt.
         /// </summary>
         internal static string res_InputKeyCaption {
             get {
@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input Second Bases ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input second bases ähnelt.
         /// </summary>
         internal static string res_InputSecondBasesCaption {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Photon Input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Photon input ähnelt.
         /// </summary>
         internal static string res_PhotonInputCaption {
             get {

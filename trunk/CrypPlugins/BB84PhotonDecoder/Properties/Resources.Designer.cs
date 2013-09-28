@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Animation Speed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Animation speed ähnelt.
         /// </summary>
         internal static string res_AnimationSpeedCaption {
             get {
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the Speed of Presentation-Animation ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the speed of presentation animation ähnelt.
         /// </summary>
         internal static string res_AnimationSpeedTooltip {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die bases input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bases input ähnelt.
         /// </summary>
         internal static string res_basesInputCaption {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die input for the photon bases ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the photon bases ähnelt.
         /// </summary>
         internal static string res_basesInputTooltip {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die sets the amount of occuring errors, if errors are enabled ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets the amount of occuring errors, if errors are enabled ähnelt.
         /// </summary>
         internal static string res_ErrorRatioTooltip {
             get {
@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die key output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key output ähnelt.
         /// </summary>
         internal static string res_keyOutputCaption {
             get {
@@ -160,7 +160,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output for the decoded key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output for the decoded key ähnelt.
         /// </summary>
         internal static string res_keyOutputTooltip {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die decodes message by polarized photons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Decodes message by polarized photons ähnelt.
         /// </summary>
         internal static string res_photonDecodingTooltip {
             get {
@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die photons input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Photon input ähnelt.
         /// </summary>
         internal static string res_photonInputCaption {
             get {
@@ -196,7 +196,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die input for the photon-stream to decode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the photon-stream to decode ähnelt.
         /// </summary>
         internal static string res_photonInputTooltip {
             get {
@@ -214,7 +214,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_Setting1Tooltip {
             get {
@@ -232,7 +232,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on PLUS-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on PLUS base ähnelt.
         /// </summary>
         internal static string res_Setting2Tooltip {
             get {
@@ -250,7 +250,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on X-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on X base ähnelt.
         /// </summary>
         internal static string res_Setting3Tooltip {
             get {
@@ -268,7 +268,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change Mode for decoding on X-Base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change mode for decoding on X base ähnelt.
         /// </summary>
         internal static string res_Setting4Tooltip {
             get {
@@ -286,7 +286,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die the number of animationcycles the plugin will wait (for synchronisation issues) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Amount of animation cycles the plugin will wait (for synchronisation issues) ähnelt.
         /// </summary>
         internal static string res_WaitingIterationsTooltip {
             get {

@@ -124,21 +124,21 @@
     <value>Generates photonbases of random type</value>
   </data>
   <data name="res_BaseOutputCaption" xml:space="preserve">
-    <value>Base output as String</value>
+    <value>Base output as string</value>
   </data>
   <data name="res_BaseOutputTooltip" xml:space="preserve">
-    <value>The String refering to the type of randomly generated base</value>
+    <value>The string refering to the type of randomly generated base</value>
   </data>
   <data name="res_InputKeyCaption" xml:space="preserve">
-    <value>Input Key</value>
+    <value>Input key</value>
   </data>
   <data name="res_InputKeyTooltip" xml:space="preserve">
-    <value>Relating Key just for the number of bases to generate</value>
+    <value>Relating key just for the number of bases to generate</value>
   </data>
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
-    <value>Waiting Cycles</value>
+    <value>Waiting cycles</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
-    <value>the number of animationcycles the plugin will wait (for synchronisation issues)</value>
+    <value>The number of animationcycles the plugin will wait (for synchronisation issues)</value>
   </data>
 </root>

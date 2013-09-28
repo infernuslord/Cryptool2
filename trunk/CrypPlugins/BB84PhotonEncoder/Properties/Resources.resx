@@ -121,19 +121,19 @@
     <value>Animation Speed</value>
   </data>
   <data name="res_animationSpeedTooltip" xml:space="preserve">
-    <value>Sets the Speed of Presentation-Animation</value>
+    <value>Sets the speed of presentation animation</value>
   </data>
   <data name="res_basesInputCaption" xml:space="preserve">
-    <value>bases input</value>
+    <value>Bases input</value>
   </data>
   <data name="res_basesInputTooltip" xml:space="preserve">
-    <value>input for the photon bases</value>
+    <value>Input for the photon bases</value>
   </data>
   <data name="res_keyInputCaption" xml:space="preserve">
-    <value>key input</value>
+    <value>Key input</value>
   </data>
   <data name="res_keyInputTooltip" xml:space="preserve">
-    <value>input for the key to encode</value>
+    <value>Input for the key to encode</value>
   </data>
   <data name="res_photonEncodingCaption" xml:space="preserve">
     <value>BB84 Photon Encoder</value>
@@ -142,33 +142,33 @@
     <value>Encodes an key by refering photonbases into polarized photons</value>
   </data>
   <data name="res_photonOutputCaption" xml:space="preserve">
-    <value>photon output</value>
+    <value>Photon output</value>
   </data>
   <data name="res_photonOutputTooltip" xml:space="preserve">
-    <value>output for the encoded phototons</value>
+    <value>Output for the encoded phototons</value>
   </data>
   <data name="res_settings1" xml:space="preserve">
     <value>Bit "0", Base "+":</value>
   </data>
   <data name="res_settings1Tooltip" xml:space="preserve">
-    <value>Change Mode for Encoding on PLUS-Base</value>
+    <value>Change mode for encoding on PLUS base</value>
   </data>
   <data name="res_settings2" xml:space="preserve">
     <value>Bit "1", Base "+":</value>
   </data>
   <data name="res_settings2Tooltip" xml:space="preserve">
-    <value>Change Mode for Encoding on PLUS-Base</value>
+    <value>Change mode for encoding on PLUS base</value>
   </data>
   <data name="res_settings3" xml:space="preserve">
     <value>Bit "0", Base "x":</value>
   </data>
   <data name="res_settings3Tooltip" xml:space="preserve">
-    <value>Change Mode for Encoding on X-Base</value>
+    <value>Change mode for encoding on X base</value>
   </data>
   <data name="res_settings4" xml:space="preserve">
     <value>Bit "1", Base "x":</value>
   </data>
   <data name="res_settings4Tooltip" xml:space="preserve">
-    <value>Change Mode for Encoding on X-Base</value>
+    <value>Change mode for encoding on X base</value>
   </data>
 </root>

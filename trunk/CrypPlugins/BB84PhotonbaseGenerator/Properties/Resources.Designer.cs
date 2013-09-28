@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Base output as String ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Base output as string ähnelt.
         /// </summary>
         internal static string res_BaseOutputCaption {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The String refering to the type of randomly generated base ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The string refering to the type of randomly generated base ähnelt.
         /// </summary>
         internal static string res_BaseOutputTooltip {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input Key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input key ähnelt.
         /// </summary>
         internal static string res_InputKeyCaption {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Relating Key just for the number of bases to generate ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Relating key just for the number of bases to generate ähnelt.
         /// </summary>
         internal static string res_InputKeyTooltip {
             get {
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting Cycles ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting cycles ähnelt.
         /// </summary>
         internal static string res_WaitingIterationsCaption {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die the number of animationcycles the plugin will wait (for synchronisation issues) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The number of animationcycles the plugin will wait (for synchronisation issues) ähnelt.
         /// </summary>
         internal static string res_WaitingIterationsTooltip {
             get {
