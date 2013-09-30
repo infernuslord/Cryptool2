@@ -196,7 +196,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the photon-stream to decode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input for the photon stream to decode ähnelt.
         /// </summary>
         internal static string res_photonInputTooltip {
             get {

@@ -121,24 +121,30 @@
     <value>BB84-Photonenbasis-Generator</value>
   </data>
   <data name="res_BaseGeneratorTooltip" xml:space="preserve">
-    <value>Generiert eine Menge an zufälligen Photonenbases</value>
+    <value>Generiert eine Menge an zufälligen Photonenbasen</value>
   </data>
   <data name="res_BaseOutputCaption" xml:space="preserve">
-    <value>Base-Ausgabe als String</value>
+    <value>Basenausgabe</value>
   </data>
-  <data name="res_BaseOutputTooltip" xml:space="preserve">
-    <value>Der String aus zufällig generierten Photonenbases</value>
+  <data name="res_baseOutputTooltip" xml:space="preserve">
+    <value>Der String aus zufällig generierten Photonenbasen</value>
   </data>
   <data name="res_InputKeyCaption" xml:space="preserve">
-    <value>Schlüsseleingabe</value>
+    <value>Längeneingabe</value>
   </data>
-  <data name="res_InputKeyTooltip" xml:space="preserve">
-    <value>Dient zum Einstellen der Menge an zu generierenden Bases</value>
+  <data name="res_inputKeyTooltip" xml:space="preserve">
+    <value>Dient zum Einstellen der Menge an zu generierenden Basen</value>
   </data>
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
     <value>Wartezyklen</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
     <value>Die Anzahl der zu wartenden Animationszyklen (für Synchronität erforderlich)</value>
+  </data>
+  <data name="res_BasesCountCaption" xml:space="preserve">
+    <value>Basenmenge</value>
+  </data>
+  <data name="res_BasesCountTooltip" xml:space="preserve">
+    <value>Bestimmt die Anzahl der zur erstellenden Basen</value>
   </data>
 </root>

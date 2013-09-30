@@ -136,7 +136,7 @@
     <value>The calculated commom key</value>
   </data>
   <data name="res_InputFirstBasesCaption" xml:space="preserve">
-    <value>Input first Bases</value>
+    <value>Input first bases</value>
   </data>
   <data name="res_InputFirstBasesTooltip" xml:space="preserve">
     <value>The first series of photon bases</value>

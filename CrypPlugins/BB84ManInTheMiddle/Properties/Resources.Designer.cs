@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to spy exchanged Key in BB84 protocol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tries to spy on exchanged key in BB84 protocol ähnelt.
         /// </summary>
         internal static string res_MITMTooltip {
             get {
@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.BB84ManInTheMiddle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The photons caught from the public channel ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Photons caught from the public channel ähnelt.
         /// </summary>
         internal static string res_PhotonInputTooltip {
             get {
