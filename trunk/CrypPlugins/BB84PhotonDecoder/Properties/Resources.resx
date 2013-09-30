@@ -157,7 +157,7 @@
     <value>Photon input</value>
   </data>
   <data name="res_photonInputTooltip" xml:space="preserve">
-    <value>Input for the photon-stream to decode</value>
+    <value>Input for the photon stream to decode</value>
   </data>
   <data name="res_Setting1Caption" xml:space="preserve">
     <value>Photon "|" :  </value>

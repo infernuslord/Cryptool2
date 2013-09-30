@@ -139,13 +139,13 @@
     <value>BB84 Man in the Middle</value>
   </data>
   <data name="res_MITMTooltip" xml:space="preserve">
-    <value>Tries to spy exchanged Key in BB84 protocol</value>
+    <value>Tries to spy on exchanged key in BB84 protocol</value>
   </data>
   <data name="res_PhotonInputCaption" xml:space="preserve">
     <value>Photon input</value>
   </data>
   <data name="res_PhotonInputTooltip" xml:space="preserve">
-    <value>The photons caught from the public channel</value>
+    <value>Photons caught from the public channel</value>
   </data>
   <data name="res_PhotonOutputCaption" xml:space="preserve">
     <value>Photons output</value>

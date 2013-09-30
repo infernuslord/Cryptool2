@@ -5,22 +5,41 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">   
+The BB84 Photonbase Generator is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates the device that creates a sequence of photon bases which
+are used for encoding and decoding of photons. These bases are represented by chars put together as one string. The symbol '+' describes a base of one horizontal
+and one vertical photon filter and 'x' a base of two diagonal filters.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">  
+Der BB84-Photonenbasis-Generator ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er stellt das Gerät dar, welches eine Reihe von Photonenbasen erzeugt, 
+mit deren Hilfe Photonen kodiert oder dekodiert werden können. Diese Basen werden durch Chars beschrieben, die zusammen als ein String ausgegeben werden. 
+Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem vertikalen Filter, 'x' eine Basis aus zwei diagonalen Filtern.  
   </introduction>
 
   <usage lang="en">
+  To create a base string the plugin first needs to know how many bases are needed. This amount can either be changed in the setting of the plugin or the input 
+  connector named "Input length" must be used. In this case a text input can be used - the plugin will then count all characters and set this as the amount of
+  bases - or number input to set the amount directly. When running the plugin a string of the defined length filled with random 'x' and 'x' characters will be
+  created and send to the "Base output" connector.
+  For correct usage of the BB84 Protocol this plugin can be used along with the BB84 Photon Encoder, the BB84 Photon Decoder and the BB84 Man In The Middle.
   </usage>
 
   <usage lang="de-DE">
+  Um den Basis-String ausgeben zu können, muss das Plugin zunächst die Anzahl der zu generiernden Basen wissen. Hierzu steht wahlweise ein Setting bereit, 
+  in welchem die Anzahl eingestellt werden kann, oder es muss der Eingabekonnektor mit der Bezeichnung "Längeneingabe" benutzt werden. In letzterem Fall wird,
+  wenn ein Textfeld an den Konnektor angebunden wird, die Anzahl der enthaltenen Zeichen als Stringlänge festgelegt. Wird hingegen eine Zahleneingabe gewählt, 
+  wird die eingegebene Zahl direkt als Länge verwendet. Wird das Plugin ausgeführt, wird ein String mit der festgelegten Größe zufällig mit 'x'- und '+'-Zeichen gefüllt und 
+  über den Konnektor "Basenausgabe" ausgegeben.
+  Innerhalb des BB84-Protokolls kann dieses Plugin im Zusammenhang mit dem BB84-Photonenkodierer, dem BB84-Photonendekodierer und dem BB84-Mittelsmann verwendet werden.
   </usage>
   
   <presentation lang="en">
+  No presentation is implemented.
   </presentation>
   
   <presentation lang="de-DE">
+  Eine Präsentation ist nicht vorhanden.
   </presentation>
   
   <references>

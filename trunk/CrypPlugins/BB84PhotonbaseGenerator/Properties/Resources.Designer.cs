@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Base output as string ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Base output ähnelt.
         /// </summary>
         internal static string res_BaseOutputCaption {
             get {
@@ -97,7 +97,25 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Amount of bases ähnelt.
+        /// </summary>
+        internal static string res_BasesCountCaption {
+            get {
+                return ResourceManager.GetString("res_BasesCountCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sets how many bases will be created ähnelt.
+        /// </summary>
+        internal static string res_BasesCountTooltip {
+            get {
+                return ResourceManager.GetString("res_BasesCountTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input length ähnelt.
         /// </summary>
         internal static string res_InputKeyCaption {
             get {

@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input first Bases ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input first bases ähnelt.
         /// </summary>
         internal static string res_InputFirstBasesCaption {
             get {

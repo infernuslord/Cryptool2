@@ -124,13 +124,19 @@
     <value>Generates photonbases of random type</value>
   </data>
   <data name="res_BaseOutputCaption" xml:space="preserve">
-    <value>Base output as string</value>
+    <value>Base output</value>
   </data>
   <data name="res_BaseOutputTooltip" xml:space="preserve">
     <value>The string refering to the type of randomly generated base</value>
   </data>
+  <data name="res_BasesCountCaption" xml:space="preserve">
+    <value>Amount of bases</value>
+  </data>
+  <data name="res_BasesCountTooltip" xml:space="preserve">
+    <value>Sets how many bases will be created</value>
+  </data>
   <data name="res_InputKeyCaption" xml:space="preserve">
-    <value>Input key</value>
+    <value>Input length</value>
   </data>
   <data name="res_InputKeyTooltip" xml:space="preserve">
     <value>Relating key just for the number of bases to generate</value>
