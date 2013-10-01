@@ -9,18 +9,37 @@
   </introduction>
 
   <introduction lang="de-DE">    
+	Der BB84-Schlüsselgenerator ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert die Berechnung des gemeinsamen Schlüssels 
+	zwischen den beiden Parteien des Protokolls und sollte auch auf beiden Seiten eingefügt werden. 
   </introduction>
 
   <usage lang="en">
+	This plugin needs bit string as input describing either Alices or Bobs key. Furthermore it needs the base strings of both sides. When executing
+	the parts of the key where the corresponding parts in both base strings match are written in a new string. This string is then sent to the output of the plugin. 
+	If there weren't any errors the execution of this plugin results in the same key for both Alice and Bob.
   </usage>
 
   <usage lang="de-DE">
+	Als Eingabe benötigt dieses Plugin einen String aus Bits, welcher entweder den von Alice gesendeten oder den von Bob empfangenden Schlüssel darstellt.
+	Außerdem werden die Basen-Strings beider Parteien benötigt. Bei der Ausführung werden die Stellen des Schlüssels, bei denen die entsprechenden Stellen 
+	in den Basen-Strings übereinstimmen, in einen neuen String übertragen, welcher letztlich ausgegeben wird. Somit haben Alice und Bob bei fehlerloser 
+	Übertragung nach der Ausführung dieses Plugins die gleichen Schlüssel.
   </usage>
   
   <presentation lang="en">
+	When in presentation mode the plugin shows an animation which visualizes the progress of the executed algorithm. At first, the key string is shown, 
+	below it the base strings of both parties fade in. The columns where two bases are equal get then highlighted green and the resulting final key appears below.
+	In the case of no common bases a message appears describing that error. <newline/>
+	The animation speed can be changed in the plugin settings.
   </presentation>
   
   <presentation lang="de-DE">
+	Im Präsentationsmodus wird im Plugin eine Animation abgespielt, welche die Vorgehensweise des ausgeführten Algorithmus verbildlicht. 
+	Zuerst wird die Zeichenfolge des Schlüssels aufgeführt, darunter die der Photonenbasen beider Parteien. Die Stellen, an denen die Basen übereinstimmen, 
+	werden im Anschluss grün eingefärbt und der daraus resultierende finale Schlüssel wird eingeblendet. Im unwahrscheinlichen Fall, dass keine gemeinsamen 
+	Basen vorhanden sind, erscheint eine Fehlermeldung, die diesen Fehler Beschreibt.<newline/>
+	In den Einstellungen kann die Animationsgeschwindigkeit der Präsentation verändert werden.
+
   </presentation>
   
   <references>

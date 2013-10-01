@@ -5,22 +5,48 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">   
+	The BB84 Man In The Middle is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates how an attacker tries to listen to the photon channel,
+	eventually changes a part of the photons and forwards them to the receiver. The listened key is also sent to an output.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">   
+	Der BB84-Mittelsmann ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Das Plugin simuliert die Handlung eines Angreifers, der die Photonen vom Sendekanal 
+	abhört, dabei eventuell unabsichtig verändert und anschließend weiterschickt. Den abgefangenen Schlüssel gibt er ebenfalls aus. 
   </introduction>
 
   <usage lang="en">
-  </usage>
+	This plugin can be put between the BB84 Photon Encoder and the BB84 Photon Decoder. For input it needs both the sent photons from the encoder and its own
+	randomly generated photon bases which are normally created by the BB84 Photonbase Generator plugin. Both inputs are given as strings. When executing the 
+	plugin decodes the received photons via its translation table defined in its settings. Then it sends its received key to an output and forwards the (eventually
+	changed) photons via another one. <newline/>
+	This plugin can also be set to an inactive state in its settings, which yields in no changes to the photon channel. Also it is important to set the correct
+	amount of waiting cycles to the number of the previous animation containing plugins. The standard value is 1 because normally only the photon encoder is preceding.
+   </usage>
 
   <usage lang="de-DE">
+	Dieses Plugin wird bei Bedarf zwischen den BB84-Photonenkodierer und den BB84-Photonendekodierer gesetzt. Als Eingang benötigt es zum einen die von Kodierer
+	gesendeten Photonen, zum anderen auch die zufälligen Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-Generator erzeugt werden. Beide Eingaben 
+	erfolgen dabei als String. Beim Ausführen dekodiert das Plugin die empfangenen Photonen nach der Tabelle, die in seinen Einstellungen festgelegt ist. Anschließend
+	gibt er über einen Ausgang seinen abgefangenen Schlüssel aus, über den anderen werden die Photonen weitergeleitet, wobei durch die Dekodierung Fehler entstanden
+	sein können. <newline/>
+	Das Plugin kann in den Einstellungen auch inaktiv gesetzt werden, sodass es keinerlei Änderungen am Photonenkanal vornimmt. Außerdem ist es wichtig, die Anzahl
+	der Wartezyklen auf die Menge der vorhergeschalteten Animationplugins zu setzen. Standartmäßig ist dies 1, da sich üblicherweise nur der Photonenkodierer vorher
+	befindet.
   </usage>
   
   <presentation lang="en">
+	If the status of the plugin is set to "inactive" the animation shows only how photons are moving through the channel. Otherwise you see how every single 
+	photon is sensed by a random photon base, eventually changed, copied and forwarded. In this way the user can see all cases where an error accured. The animation
+	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders an men in the middle to ensure synchronity.
   </presentation>
   
   <presentation lang="de-DE">
+	Steht der Status des Plugins in den Einstellungen auf "inaktiv", so ist in der Animation nur zu sehen, wie sich die Photonen durch den Kanal bewegen. Bei
+	aktivem Status jedoch zeigt sich, wie jedes Photon mit einer zufälligen Basis gemessen, eventuell verändert, kopiert und weitergeleitet wird. So wird für den
+	Beobachter sichtbar, an welcher Stelle ein Fehler bei der Dekodierung aufgetreten ist. Die Animationsgeschwindigkeit kann in den Einstellungen
+	des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
+	um Synchronität zu gewährleisten.
   </presentation>
   
   <references>

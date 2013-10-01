@@ -5,22 +5,45 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">  
+	The BB84 Photon Decoder is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates the process of receiving and decoding photons by randomly 
+	generated photon bases into bits. These bits are sent to the output.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+	Der BB84-Photonendekodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert, wie die kodierten Photonen empfangen und durch
+	zufällig erzeugte Photonenbasen wieder in Bits umgewandelt werden. Diese Bits werden anschließend ausgegeben.
   </introduction>
 
   <usage lang="en">
+	This plugin needs the sent photons from the encoder as input as well as the randomly generated photon bases which are normally created by the 
+	BB84 Photonbase Generator plugin. Both inputs are given as strings. When executing the plugin decodes the received photons via its translation table 
+	defined in its settings. Then it sends the decoded bits to an output connector. To simulate a disturbance in the photon channel or the inaccuracy of the
+	photon detector an error ratio can be set in the plugin settings. Also, the amount of waiting cycles must be set to the number of the previous animation 
+	containing plugins. This could e.g. be "1" if only the photon encoder is preceding or "2" if there is a man in the middle involved, too.
   </usage>
 
   <usage lang="de-DE">
+	Als Eingaben benötigt dieses Plugin zum Einen den Photonenstring, der vom Photonenkodierer erzeugt wurde und zum Anderen den String aus zufällig generierten
+	Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-generator erzeugt werden. Beim Ausführen dekodiert das Plugin die empfangenen Photonen nach 
+	der Tabelle, die in seinen Einstellungen festgelegt ist. Außerdem kann eine Fehlerrate eingestellt werden, die dafür sorgt, dass einige Photonen
+	falsch dekodiert werden. Dies simuliert eine Störung der Leitung oder des Detektors selbst. Neben den genannten Optionen können in den Einstellungen 
+	noch die Anzahl der zu wartenden Zyklen vor Animationsbeginn festgelegt werden werden. Diese Zahl sollte der Anzahl der vorherigen Animationsplugins entsprechen; bei vorgeschaltetem
+	Kodierer wäre es "1", bei Kodierer und Mittelsmann entsprechend "2". Letztlich wird der erzeugte Bit-String an den Ausgang weitergegeben.
   </usage>
   
   <presentation lang="en">
+	When presentation mode is enabled an animation shows how the polarized photons are moving to the centered photon filter. The random photon bases are inserted
+	and die process of decoding is visualized by fading out the photons and fading in the corresponding bits. The received bit then moves to the right side of the plugin. The animation
+	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders an men in the middle to ensure synchronity.
   </presentation>
   
   <presentation lang="de-DE">
+	Ist der Präsentationsmodus eingeschaltet, so wird gezeigt, wie die polarisierten Photonen sich zum in der Mitte dargestellten Filter bewegen, welcher mit 
+	einer der zufälligen Photonenbasen gefüllt wird. Anschließend wird der Dekodierungsvorgang durch Aus- und Einblendung animiert. Das jeweils erhaltene Bit
+	Bewegt sich anschließend zum rechten Rand des Plugins. Die Animationsgeschwindigkeit kann in den Einstellungen des Plugins verändert werden, wobei 
+	diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
+	um Synchronität zu gewährleisten.
   </presentation>
   
   <references>

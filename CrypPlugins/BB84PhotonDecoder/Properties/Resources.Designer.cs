@@ -178,7 +178,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Decodes message by polarized photons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Decodes a sequence of polarized photons ähnelt.
         /// </summary>
         internal static string res_photonDecodingTooltip {
             get {
@@ -277,7 +277,7 @@ namespace Cryptool.Plugins.BB84PhotonDecoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting Cycles ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Waiting cycles ähnelt.
         /// </summary>
         internal static string res_WaitingIterationsCaption {
             get {

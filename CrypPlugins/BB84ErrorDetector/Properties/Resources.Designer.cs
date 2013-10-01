@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.BB84ErrorDetector.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Detects the error ratio of shared key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Detects the error ratio of a shared key ähnelt.
         /// </summary>
         internal static string res_ErrorDetectorTooltip {
             get {

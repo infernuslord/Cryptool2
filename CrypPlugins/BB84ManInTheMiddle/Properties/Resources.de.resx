@@ -133,7 +133,7 @@
     <value>Schlüsselausgabe</value>
   </data>
   <data name="res_KeyOutputTooltip" xml:space="preserve">
-    <value>Zeigt den abgefangenen Schlüssel</value>
+    <value>Ausgabe des abgefangenen Schlüssels</value>
   </data>
   <data name="res_MITMCaption" xml:space="preserve">
     <value>BB84-Mittelsmann</value>
@@ -151,7 +151,7 @@
     <value>Photonenausgabe</value>
   </data>
   <data name="res_PhotonOutputTooltip" xml:space="preserve">
-    <value>Die Photonen, die versucht werden, weiterzuleiten</value>
+    <value>Ausgabe der weitergeleiteten Photonen</value>
   </data>
   <data name="res_Setting3Tooltip" xml:space="preserve">
     <value>Ändert Modus für Dekodierung auf PLUS-Basis</value>

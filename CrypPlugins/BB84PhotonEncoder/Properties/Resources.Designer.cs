@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.BB84PhotonEncoder.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Encodes an key by refering photonbases into polarized photons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encodes a key by refering photonbases into polarized photons ähnelt.
         /// </summary>
         internal static string res_photonEncodingTooltip {
             get {

@@ -127,13 +127,13 @@
     <value>BB84 Key Generator</value>
   </data>
   <data name="res_GeneratorTooltip" xml:space="preserve">
-    <value>Calculates commom key in the bb84 protocol</value>
+    <value>Calculates the common key in BB84 Protocol</value>
   </data>
   <data name="res_CommonKeyCaption" xml:space="preserve">
     <value>Common key</value>
   </data>
   <data name="res_CommonKeyTooltip" xml:space="preserve">
-    <value>The calculated commom key</value>
+    <value>The calculated common key</value>
   </data>
   <data name="res_InputFirstBasesCaption" xml:space="preserve">
     <value>Input first bases</value>
