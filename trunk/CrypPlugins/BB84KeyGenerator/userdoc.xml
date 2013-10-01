@@ -14,9 +14,9 @@
   </introduction>
 
   <usage lang="en">
-	This plugin needs bit string as input describing either Alices or Bobs key. Furthermore it needs the base strings of both sides. When executing
-	the parts of the key where the corresponding parts in both base strings match are written in a new string. This string is then sent to the output of the plugin. 
-	If there weren't any errors the execution of this plugin results in the same key for both Alice and Bob.
+	This plugin needs a bit string as input describing either the key Alice sent or the one Bob received. Furthermore, it needs the base strings of both sides. When executing
+	the parts of the key where the corresponding parts in both base strings match are written into a new string. This string is then sent to the output of the plugin. 
+	If there weren't any errors the execution of this plugin results in the same key for both, Alice and Bob. 
   </usage>
 
   <usage lang="de-DE">
@@ -37,7 +37,7 @@
 	Im Präsentationsmodus wird im Plugin eine Animation abgespielt, welche die Vorgehensweise des ausgeführten Algorithmus verbildlicht. 
 	Zuerst wird die Zeichenfolge des Schlüssels aufgeführt, darunter die der Photonenbasen beider Parteien. Die Stellen, an denen die Basen übereinstimmen, 
 	werden im Anschluss grün eingefärbt und der daraus resultierende finale Schlüssel wird eingeblendet. Im unwahrscheinlichen Fall, dass keine gemeinsamen 
-	Basen vorhanden sind, erscheint eine Fehlermeldung, die diesen Fehler Beschreibt.<newline/>
+	Basen vorhanden sind, erscheint eine Fehlermeldung, die diesen Fehler beschreibt.<newline/>
 	In den Einstellungen kann die Animationsgeschwindigkeit der Präsentation verändert werden.
 
   </presentation>

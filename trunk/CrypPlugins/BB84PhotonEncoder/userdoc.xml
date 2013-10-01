@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">  
-	The BB84 Photon Encoder is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates the device which encodes the bits into photons and puts them 
+	The BB84 Photon Encoder is part of the B84 protocol implemented in CrypTool 2.0. It simulates the device which encodes the bits into photons and puts them 
 	in the photon channel. Photons are represented by the following chars:
 	<enum>
 		<item> '|' : vertical photon </item>
@@ -49,8 +49,8 @@
   
   <presentation lang="en">	
 	In presentation mode the encoding of the key is visualized by an animation. Bits are moved from a queue to the photon filter and the corresponding photon is 
-	created. These photons then move to the right side of the plugin box where the animation can be continued by a BB84 Photon Decoder or a BB84 Man In The Middle.
-	In the plugin settings the presentation speed can be changed, which also affects the speed of all other photon encoders, decoders an men in the middle to ensure synchronity.
+	created. These photons then move to the right side of the plugin box where the animation can be continued by a BB84 Photon Decoder or a BB84 Man-in-the-Middle.
+	In the plugin settings the presentation speed can be changed, which also affects the speed of all other photon encoders, decoders and men-in-the-middle to ensure synchronity.
   </presentation>
   
   <presentation lang="de-DE">

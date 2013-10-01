@@ -6,13 +6,13 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">   
-	The BB84 Man In The Middle is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates how an attacker tries to listen to the photon channel,
-	eventually changes a part of the photons and forwards them to the receiver. The listened key is also sent to an output.
+	The BB84-Man-in-the-Middle is part of the BB84 protocol implemented in CrypTool 2.0. It simulates how an attacker tries to listen to the photon channel,
+	eventually changes a part of the photons and forwards them to the receiver. The intercepted key is also sent to an output. 
   </introduction>
 
   <introduction lang="de-DE">   
 	Der BB84-Mittelsmann ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Das Plugin simuliert die Handlung eines Angreifers, der die Photonen vom Sendekanal 
-	abhört, dabei eventuell unabsichtig verändert und anschließend weiterschickt. Den abgefangenen Schlüssel gibt er ebenfalls aus. 
+	abhört, dabei eventuell unabsichtlich verändert und anschließend weiter schickt. Den abgefangenen Schlüssel gibt er ebenfalls aus.  
   </introduction>
 
   <usage lang="en">
@@ -28,17 +28,17 @@
 	Dieses Plugin wird bei Bedarf zwischen den BB84-Photonenkodierer und den BB84-Photonendekodierer gesetzt. Als Eingang benötigt es zum einen die von Kodierer
 	gesendeten Photonen, zum anderen auch die zufälligen Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-Generator erzeugt werden. Beide Eingaben 
 	erfolgen dabei als String. Beim Ausführen dekodiert das Plugin die empfangenen Photonen nach der Tabelle, die in seinen Einstellungen festgelegt ist. Anschließend
-	gibt er über einen Ausgang seinen abgefangenen Schlüssel aus, über den anderen werden die Photonen weitergeleitet, wobei durch die Dekodierung Fehler entstanden
+	gibt es über einen Ausgang seinen abgefangenen Schlüssel aus, über den anderen werden die Photonen weitergeleitet, wobei durch die Dekodierung Fehler entstanden
 	sein können. <newline/>
 	Das Plugin kann in den Einstellungen auch inaktiv gesetzt werden, sodass es keinerlei Änderungen am Photonenkanal vornimmt. Außerdem ist es wichtig, die Anzahl
-	der Wartezyklen auf die Menge der vorhergeschalteten Animationplugins zu setzen. Standartmäßig ist dies 1, da sich üblicherweise nur der Photonenkodierer vorher
+	der Wartezyklen auf die Menge der vorhergeschalteten Animationplugins zu setzen. Standardmäßig ist dies 1, da sich üblicherweise nur der Photonenkodierer vorher
 	befindet.
   </usage>
   
   <presentation lang="en">
 	If the status of the plugin is set to "inactive" the animation shows only how photons are moving through the channel. Otherwise you see how every single 
-	photon is sensed by a random photon base, eventually changed, copied and forwarded. In this way the user can see all cases where an error accured. The animation
-	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders an men in the middle to ensure synchronity.
+	photon is sensed by a random photon base, eventually changed, copied and forwarded. In this way the user can see all cases where an error occured. The animation
+	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders and men-in-the-middle to ensure synchronity. 
   </presentation>
   
   <presentation lang="de-DE">

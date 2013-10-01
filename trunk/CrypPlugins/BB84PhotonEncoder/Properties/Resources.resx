@@ -139,7 +139,7 @@
     <value>BB84 Photon Encoder</value>
   </data>
   <data name="res_photonEncodingTooltip" xml:space="preserve">
-    <value>Encodes a key by refering photonbases into polarized photons</value>
+    <value>Encodes a key by referring photonbases into polarized photons</value>
   </data>
   <data name="res_photonOutputCaption" xml:space="preserve">
     <value>Photon output</value>
