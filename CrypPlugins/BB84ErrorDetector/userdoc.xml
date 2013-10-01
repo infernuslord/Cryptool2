@@ -6,8 +6,8 @@
   <language culture="de-DE"/>
 
   <introduction lang="en"> 
-	The BB84 Error Detector is part of the in CrypTool 2.0 implemented BB84 protocol. After the key exchange is performed it checks both received common keys
-	for errors by comparing a part of them. By using a set error threshold it tells if it is likely that an attack has been performed.
+	The BB84 Error Detector is part of the BB84 protocol implemented in CrypTool 2.0. After the key exchange is performed it checks the common keys
+	for errors by comparing a part of them. Using a given error threshold the Error Detector determines if it is likely that an attack has been performed or not. 
   </introduction>
 
   <introduction lang="de-DE">    
@@ -17,10 +17,10 @@
   </introduction>
 
   <usage lang="en">
-	The calculated common keys of both parties are needed as input for this plugin. The user can now set a start- and end-index for the substring that will be
+	The calculated common keys of both parties are needed as input for this plugin. The user can now set a start and an end index for the substring that will be
 	compared. This represents the fact that in reality the full key will never be exchanged via a public channel. Just a part of it is transmitted and will be
-	deleted from the key after the check. The Plugin now calculates the error ratio by comparing both key parts. Then it checks if the error ratio is greater 
-	than the threshold that can be entered in the settings. If so, it puts out a warning as a string. If not, a security message is shown instead.
+	deleted from the key after the check. The plugin now calculates the error ratio by comparing both key parts. Then, it checks if the error ratio is greater  
+	than the threshold that can be entered in the settings. If so, it puts out a warning as a string. If not, a security confirmation is shown, instead. 
   </usage>
 
   <usage lang="de-DE">

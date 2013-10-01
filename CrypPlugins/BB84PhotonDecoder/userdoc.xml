@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">  
-	The BB84 Photon Decoder is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates the process of receiving and decoding photons by randomly 
+	The BB84 Photon Decoder is part of the BB84 protocol implemented in CrypTool 2.0. It simulates the process of receiving and decoding photons by randomly  
 	generated photon bases into bits. These bits are sent to the output.
   </introduction>
 
@@ -20,7 +20,7 @@
 	BB84 Photonbase Generator plugin. Both inputs are given as strings. When executing the plugin decodes the received photons via its translation table 
 	defined in its settings. Then it sends the decoded bits to an output connector. To simulate a disturbance in the photon channel or the inaccuracy of the
 	photon detector an error ratio can be set in the plugin settings. Also, the amount of waiting cycles must be set to the number of the previous animation 
-	containing plugins. This could e.g. be "1" if only the photon encoder is preceding or "2" if there is a man in the middle involved, too.
+	containing plugins. This could e.g. be "1" if only the photon encoder is preceding, or "2" if there is a man-in-the-middle involved too. 
   </usage>
 
   <usage lang="de-DE">
@@ -35,13 +35,13 @@
   <presentation lang="en">
 	When presentation mode is enabled an animation shows how the polarized photons are moving to the centered photon filter. The random photon bases are inserted
 	and die process of decoding is visualized by fading out the photons and fading in the corresponding bits. The received bit then moves to the right side of the plugin. The animation
-	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders an men in the middle to ensure synchronity.
+	speed can be changed in the settings, which also affects the speed of all other photon encoders, decoders and men-in-the-middle to ensure synchronity.
   </presentation>
   
   <presentation lang="de-DE">
 	Ist der Präsentationsmodus eingeschaltet, so wird gezeigt, wie die polarisierten Photonen sich zum in der Mitte dargestellten Filter bewegen, welcher mit 
 	einer der zufälligen Photonenbasen gefüllt wird. Anschließend wird der Dekodierungsvorgang durch Aus- und Einblendung animiert. Das jeweils erhaltene Bit
-	Bewegt sich anschließend zum rechten Rand des Plugins. Die Animationsgeschwindigkeit kann in den Einstellungen des Plugins verändert werden, wobei 
+	bewegt sich anschließend zum rechten Rand des Plugins. Die Animationsgeschwindigkeit kann in den Einstellungen des Plugins verändert werden, wobei 
 	diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
 	um Synchronität zu gewährleisten.
   </presentation>

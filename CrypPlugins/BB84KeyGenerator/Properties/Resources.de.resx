@@ -154,7 +154,7 @@
     <value>Die zweite Serie an Photonenbases</value>
   </data>
   <data name="res_NoCommonBasesMessage" xml:space="preserve">
-    <value>KEINE GEMEINSAMEN BASES</value>
+    <value>KEINE GEMEINSAMEN BASEN</value>
   </data>
   <data name="res_PhotonInputCaption" xml:space="preserve">
     <value>Photonen Eingang</value>
