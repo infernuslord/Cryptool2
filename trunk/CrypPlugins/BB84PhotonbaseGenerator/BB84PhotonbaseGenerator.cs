@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "res_InputKeyCaption", "res_inputKeyTooltip", false)]
+        [PropertyInfo(Direction.InputData, "res_InputKeyCaption", "res_InputKeyTooltip", false)]
         public Object InputKey
         {
             get
@@ -117,7 +117,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
         }
 
 
-        [PropertyInfo(Direction.OutputData, "res_BaseOutputCaption", "res_baseOutputTooltip", false)]
+        [PropertyInfo(Direction.OutputData, "res_BaseOutputCaption", "res_BaseOutputTooltip", false)]
         public string OutputString
         {
             get

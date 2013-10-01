@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The calculated commom key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The calculated common key ähnelt.
         /// </summary>
         internal static string res_CommonKeyTooltip {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.BB84KeyGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates commom key in the bb84 protocol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates the common key in BB84 Protocol ähnelt.
         /// </summary>
         internal static string res_GeneratorTooltip {
             get {

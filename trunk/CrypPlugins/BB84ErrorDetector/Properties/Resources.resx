@@ -130,7 +130,7 @@
     <value>BB84 Error Detector</value>
   </data>
   <data name="res_ErrorDetectorTooltip" xml:space="preserve">
-    <value>Detects the error ratio of shared key</value>
+    <value>Detects the error ratio of a shared key</value>
   </data>
   <data name="res_ErrorR" xml:space="preserve">
     <value>Error ratio:</value>

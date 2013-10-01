@@ -25,7 +25,7 @@ using System.Text;
 namespace Cryptool.Plugins.BB84PhotonEncoder
 {
     
-    [Author("Benedict Beuscher", "benedict. beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
+    [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
     [PluginInfo("Cryptool.Plugins.BB84PhotonEncoder.Properties.Resources", "res_photonEncodingCaption", "res_photonEncodingTooltip", "BB84PhotonEncoder/userdoc.xml", new[] { "BB84PhotonEncoder/images/icon.png" })]
     

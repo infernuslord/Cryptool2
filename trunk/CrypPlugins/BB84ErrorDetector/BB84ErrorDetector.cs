@@ -21,7 +21,7 @@ using System;
 
 namespace Cryptool.Plugins.BB84ErrorDetector
 {
-    [Author("Benedict Beuscher", "benedict. beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
+    [Author("Benedict Beuscher", "benedict.beuscher@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
 
     [PluginInfo("Cryptool.Plugins.BB84ErrorDetector.Properties.Resources", "res_ErrorDetectorCaption", "res_ErrorDetectorTooltip", "BB84ErrorDetector/userdoc.xml", new[] { "BB84ErrorDetector/images/icon.png" })]
    

@@ -151,7 +151,7 @@
     <value>BB84 Photon Decoder</value>
   </data>
   <data name="res_photonDecodingTooltip" xml:space="preserve">
-    <value>Decodes message by polarized photons</value>
+    <value>Decodes a sequence of polarized photons</value>
   </data>
   <data name="res_photonInputCaption" xml:space="preserve">
     <value>Photon input</value>
@@ -184,7 +184,7 @@
     <value>Change mode for decoding on X base</value>
   </data>
   <data name="res_WaitingIterationsCaption" xml:space="preserve">
-    <value>Waiting Cycles</value>
+    <value>Waiting cycles</value>
   </data>
   <data name="res_WaitingIterationsTooltip" xml:space="preserve">
     <value>Amount of animation cycles the plugin will wait (for synchronisation issues)</value>

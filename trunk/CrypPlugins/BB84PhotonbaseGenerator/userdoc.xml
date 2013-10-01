@@ -18,11 +18,11 @@ Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem 
   </introduction>
 
   <usage lang="en">
-  To create a base string the plugin first needs to know how many bases are needed. This amount can either be changed in the setting of the plugin or the input 
-  connector named "Input length" must be used. In this case a text input can be used - the plugin will then count all characters and set this as the amount of
-  bases - or number input to set the amount directly. When running the plugin a string of the defined length filled with random 'x' and 'x' characters will be
-  created and send to the "Base output" connector.
-  For correct usage of the BB84 Protocol this plugin can be used along with the BB84 Photon Encoder, the BB84 Photon Decoder and the BB84 Man In The Middle.
+  To create a base string the plugin first needs to know how many bases are needed. This amount of bases can either be changed in the setting of the plugin, or the input 
+  connector named "Input length" must be used. In the second case a text input can be used -- the plugin will then count all characters, and set this as the amount of
+  bases -- or number input to set the amount directly. When running the plugin a string of the defined length filled with random 'x' and 'x' characters will be
+  created and sent to the "Base output" connector.
+  For correct usage of the BB84 protocol this plugin can be used along with the BB84 Photon Encoder, the BB84 Photon Decoder, and the BB84-Man-In-The-Middle. 
   </usage>
 
   <usage lang="de-DE">
@@ -35,11 +35,11 @@ Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem 
   </usage>
   
   <presentation lang="en">
-  No presentation is implemented.
+  No presentation is implemented for this plugin.
   </presentation>
   
   <presentation lang="de-DE">
-  Eine Präsentation ist nicht vorhanden.
+  Für dieses Plugin ist keine Präsentation implementiert.
   </presentation>
   
   <references>
