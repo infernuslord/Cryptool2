@@ -121,7 +121,7 @@
     <value>Transpositions-Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin führt eine Brute-Force-Analyse der spaltenweisen Transposition durch.</value>
+    <value>Diese Komponente führt verschiedene Angriffe auf die spaltenweise Transposition durch.</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe</value>
