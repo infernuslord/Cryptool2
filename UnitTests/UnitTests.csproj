@@ -108,6 +108,7 @@
     <Compile Include="NihilistTest.cs" />
     <Compile Include="PlayfairTest.cs" />
     <Compile Include="PRESENTTest.cs" />
+    <Compile Include="PrimesGeneratorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
     <Compile Include="PurpleTest.cs" />
@@ -242,6 +243,14 @@
     <ProjectReference Include="..\CrypPlugins\PRESENT\PRESENT.csproj">
       <Project>{55E20598-2415-474B-BDD7-4BE042C0CCA8}</Project>
       <Name>PRESENT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\PrimesGenerator\PrimesGenerator.csproj">
+      <Project>{C9BDBD03-DA86-408F-81A0-548D279A1BD8}</Project>
+      <Name>PrimesGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\PrimeTest\PrimeTest.csproj">
+      <Project>{A91DE3E2-DF16-42E1-B164-7B02F4B2665F}</Project>
+      <Name>PrimeTest</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Purple\Purple.csproj">
       <Project>{3010F13F-4664-4231-9D98-99E85EBB82AE}</Project>
