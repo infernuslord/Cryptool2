@@ -23,7 +23,7 @@ Sources:<newline />
 
   <title lang="de">Textcodierung (z.B. Base-64)</title>
   <summary lang="de"><i>Codierung von Text</i> in verschiedene Formate (Base-64, Hexadezimal, ...)</summary>
-  <description lang="de">Mit dieser Vorlage können verschiedene Codierungstechniken angewendet werden. Mit den voreingestellten Parameter wird der eingegebene Text (ASCII) in Base-64 umcodiert [1]. Dafür werden die Zeichen des Textes zunächst anhand der ASCII-Zeichencodierung [2] in Bytes gewandelt. Diese Bytes werden daraufhin mit Base-64 codiert (und wieder als Text ausgegeben).<newline />
+  <description lang="de">Mit dieser Vorlage können verschiedene Codierungstechniken angewendet werden. Mit den voreingestellten Parametern wird der eingegebene Text (ASCII) in Base-64 umcodiert [1]. Dafür werden die Zeichen des Textes zunächst anhand der ASCII-Zeichencodierung [2] in Bytes gewandelt. Diese Bytes werden daraufhin mit Base-64 codiert (und wieder als Text ausgegeben).<newline />
 
 Für andere Codierungen müssen die Parameter der <b>Decoder</b>- und/oder <b>Encoder</b>-Komponenten angepasst werden. Derzeit unterstützt die <b>Decoder</b>-Komponente Eingaben in den folgenden Formaten: <i>Text</i>, <i>Binär</i> [3], <i>Oktal</i> [4], <i>Dezimal</i> [5], <i>Hexadezimal</i> [6] und <i>Base-64</i> [1]. Die <b>Encoder</b>-Komponete unterstützt die gleichen Format für die Ausgabe. Beide Komponenten unterstützen bei der Auswahl "Text" folgende Zeichencodierungen (d.h. wie einzelne Zeichen in Bytes codiert werden): <i>UTF-7</i> [7], <i>UTF-8</i> [8], <i>UTF-16</i> [9], <i>UTF-32</i> [10], <i>ASCII</i> [2], <i>ISO8859-15</i> [11] und <i>Windows-1252</i> [12].<newline /><newline />
 Quellen:<newline />

@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Transposition Genetic Analysis</title>
-  <summary lang="en">Usage of the <i>Transposition Analyser</i> using a genetic algorithm</summary>
-  <description lang="en">This template shows the usage of the <i>Transposition Analyser</i> using a genetic algorithm.</description>
+  <summary lang="en">Cryptanalysis of the <i>Transposition</i> cipher using a genetic algorithm</summary>
+  <description lang="en">This template shows the cryptanalysis of the single <i>Transposition</i> cipher with the <i>Transposition Analyser</i> using a genetic algorithm. It is a ciphertext-only attack, as no part of the plaintext is known in advance.</description>
   <keywords>Analysis, Transposition, Permutation, genetic</keywords>
 
   <title lang="de">Transposition Genetische Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem genetischen Algorithmus</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem genetischen Algorithmus.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der einstufigen <i>Transpositionsverschlüsselung</i> mit der Komponente <i>Transpositions-Analyse</i> mit einem genetischen Algorithmus. Es handelt sich hierbei um eine Ciphertext-only-Analyse, da keine Informationen über den Klartext bekannt sind.</description>
   <keywords lang="de">genetisch, Analyse, Transposition, Permutation</keywords>
 
   <icon file="Transposition.png" />

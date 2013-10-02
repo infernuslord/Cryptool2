@@ -7,7 +7,7 @@
   
   <title lang="de">Zufällige Dezimalzahl</title>
   <summary lang="de">Erzeugen einer <i>zufälligen Dezimalzahl</i></summary>
-  <description lang="de">Mit dieser Vorlage können Sie eine zufällig Dezimalzahl erstellen. Dafür werden zunächst eine Menge von zufälligen Bytes erstellt (voreingestellt auf <i>1000</i>). Diese Bytes werden anschließend mit Hilfer der <b>Dezimalisierungs</b>-Komponente auf Basis der <i>Modulo</i>-Methode in eine Dezimalzahl mit fester Anzahl von Stellen (voreingestellt auf <i>100</i>) umgewandelt. Weitere Details zu diesem Ansatz finden Sie in der Hilfe zu der Dezimalisierungs-Komponente.</description>
+  <description lang="de">Mit dieser Vorlage können Sie eine zufällige Dezimalzahl erstellen. Dafür werden zunächst eine Menge von zufälligen Bytes erstellt (voreingestellt auf <i>1000</i>). Diese Bytes werden anschließend mit Hilfer der <b>Dezimalisierungs</b>-Komponente auf Basis der <i>Modulo</i>-Methode in eine Dezimalzahl mit fester Anzahl von Stellen (voreingestellt auf <i>100</i>) umgewandelt. Weitere Details zu diesem Ansatz finden Sie in der Hilfe zu der Dezimalisierungs-Komponente.</description>
   <keywords lang="de">Zufall, Zahl, Dezimal</keywords>
   
   

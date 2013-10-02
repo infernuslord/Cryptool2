@@ -8,7 +8,7 @@
   <summary lang="de">Dekodiert eine QR-Code-Datei</summary>
 
   <description lang="en">Decodes a picture file which contains a QR code.</description>
-  <description lang="de">Dekodiert eine Bild-Datei welche einen QR-Code beinhaltet.</description> 
+  <description lang="de">Dekodiert eine Bild-Datei, die einen QR-Code enthält.</description> 
 
   <keywords>qr, qrcode, code</keywords>
 

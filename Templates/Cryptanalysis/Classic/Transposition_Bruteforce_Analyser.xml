@@ -3,12 +3,12 @@
 
   <title lang="en">Transposition Brute-force Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Transposition</i> cipher using brute-force</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>Transposition</i> using brute-force.</description>
+  <description lang="en">This template shows the cryptanalysis of the single <i>Transposition</i> cipher with the <i>Transposition Analyser</i> using brute-force. It is a ciphertext-only attack, as no part of the plaintext is known in advance.</description>
   <keywords>Transposition, Permutation, Analysis, Bruteforce, Brute-force</keywords>
 
   <title lang="de">Transposition Brute-Force-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit Brute-Force</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit Brute-Force.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der einstufigen <i>Transpositionsverschlüsselung</i> mit der Komponente <i>Transpositions-Analyse</i> mittels Brute-Force. Es handelt sich hierbei um eine Ciphertext-only-Analyse, da keine Informationen über den Klartext bekannt sind.</description>
   <keywords lang="de">Analyse</keywords>
 
   <icon file="Transposition.png" />
