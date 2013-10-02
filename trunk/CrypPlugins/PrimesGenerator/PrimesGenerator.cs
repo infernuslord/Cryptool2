@@ -106,6 +106,15 @@ namespace Cryptool.PrimesGenerator
                         return false;
                     }
                     break;
+                case 3: // search previous prime
+                    if (n <= 2)
+                    {
+                        FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 2");
+                        return false;
+                    }
+                    break;
+                case 4: // search next prime
+                    break;
             }
         }
         catch
@@ -142,7 +151,13 @@ namespace Cryptool.PrimesGenerator
                 OutputString = this.RandomPrimeMSBSet((int)n);
                 break;
             case 2:   // create prime <= m_Input
-                OutputString = BigIntegerHelper.RandomPrimeLimit( n + 1 );
+                OutputString = BigIntegerHelper.RandomPrimeLimit(n + 1);
+                break;
+            case 3:   // search biggest prime < m_Input
+                OutputString = this.PreviousProbablePrime(n-1);
+                break;
+            case 4:   // search smallest prime > m_Input
+                OutputString = this.NextProbablePrime(n+1);
                 break;
         }
 
@@ -188,7 +203,7 @@ namespace Cryptool.PrimesGenerator
         // at this point n mod 6 = 5
 
         int expectedtries = (int)(BigInteger.Log(n) / 6);
-        int tries=0;          // number of actual tries
+        int tries = 0;          // number of actual tries
 
         while (true)
         {
@@ -199,6 +214,33 @@ namespace Cryptool.PrimesGenerator
             n += 2;
             if (n.IsProbablePrime()) return n;
             n += 4;
+        }
+    }
+
+    private BigInteger PreviousProbablePrime(BigInteger n)
+    {
+        if (n < 2) throw new ArithmeticException("PreviousProbablePrime cannot be called on value < 2");
+        if (n == 2) return 2;
+        if (n.IsEven) n--;
+        if (n == 3) return 3;
+        BigInteger r = n % 6;
+        if (r == 3) n -= 2;
+        if (r == 1) { if (n.IsProbablePrime()) return n; else n -= 4; }
+
+        // at this point n mod 6 = 1
+
+        int expectedtries = (int)(BigInteger.Log(n) / 6);
+        int tries = 0;          // number of actual tries
+
+        while (true)
+        {
+            ProgressChanged((int)(tries * 100.0 / expectedtries), 100);
+            if (tries + 1 < expectedtries) tries++;
+
+            if (n.IsProbablePrime()) return n;
+            n -= 2;
+            if (n.IsProbablePrime()) return n;
+            n -= 4;
         }
     }
 

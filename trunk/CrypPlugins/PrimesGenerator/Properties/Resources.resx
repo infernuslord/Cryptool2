@@ -156,4 +156,10 @@
   <data name="nTooltip" xml:space="preserve">
     <value>Size of the prime number</value>
   </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Search next smaller prime number</value>
+  </data>
+  <data name="ModeList5" xml:space="preserve">
+    <value>Search next bigger prime number</value>
+  </data>
 </root>

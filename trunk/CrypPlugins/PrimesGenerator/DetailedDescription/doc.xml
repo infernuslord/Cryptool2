@@ -5,11 +5,11 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This plugin generates a random prime number of an assignable magnitude.
+    This plugin generates a random prime number of an assignable magnitude or searches for the prime number immediately preceding or following a given number.
   </introduction>
 
   <introduction lang="de-DE">
-    Dieses Plugin erzeugt eine zufällige Primzahl einer vorgebbaren Größenordnung und gibt diese am Ausgang aus.
+    Dieses Plugin erzeugt eine zufällige Primzahl einer vorgebbaren Größenordnung oder sucht die einer gegebenen Zahl unmittelbar vorhergehenden oder folgenden Primzahl und gibt diese am Ausgang aus.
   </introduction>
 
   <usage lang="en">
@@ -26,6 +26,9 @@
     <newline/><newline/>
     When you choose 'prime number less than or equal to n', the parameter n is an upper limit for the generated prime.
     The result is then a random prime that is smaller than or equal to n, i.e. a random prime in the interval [ 2, n ].
+    <newline/><newline/>
+    When you choose 'Search next smaller prime number', the biggest prime number that is smaller than the given number n, is sent to the output.
+    Analogously, the smallest prime number that is bigger than the given number n, is output if you choose 'Search next bigger prime number'.
   </usage>
 
   <usage lang="de-DE">
@@ -42,6 +45,9 @@
     <newline/><newline/>
     Wählt man die Methode 'Primzahl kleiner oder gleich n', so stellt der Parameter n eine obere Schranke für die zu erzeugende
     Primzahl dar. Die resultierende Primzahl ist dann eine zufällige Primzahl, die höchstens gleich n ist und somit im Intervall [ 2, n ] liegt.
+    <newline/><newline/>
+    Wählt man die Methode 'Suche nächstkleinere Primzahl', so wird die größte Primzahl, die kleiner als die angegebene Zahl n ist, ausgegeben.
+    Analog wird die kleinste Primzahl, die größer als die angegebene Zahl n ist, ausgegeben, wenn man die Methode 'Suche nächstgrößere Primzahl' wählt.
   </usage>
   
   <references>
