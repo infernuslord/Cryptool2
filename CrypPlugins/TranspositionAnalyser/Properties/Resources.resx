@@ -121,7 +121,7 @@
     <value>Transposition Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Bruteforces the columnar transposition.</value>
+    <value>This component performs several kinds of attacks against the columnar transposition.</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Input</value>
