@@ -8,15 +8,12 @@ namespace Cryptool.PrimesGenerator
 {
   public class PrimesGeneratorSettings: ISettings
   {
-    public const string MODE = "Mode";
-    public const string INPUT = "Input";
-
     #region Properties
 
     private int m_SelectedMode = 0;
     [PropertySaveOrder(1)]
-    [ContextMenu("ModeCaption", "ModeTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
-    [TaskPane("ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
+    [ContextMenu("ModeCaption", "ModeTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4", "ModeList5" })]
+    [TaskPane("ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4", "ModeList5" })]
     public int Mode
     {
       get { return this.m_SelectedMode; }
@@ -25,7 +22,7 @@ namespace Cryptool.PrimesGenerator
         if (value != m_SelectedMode)
         {
             this.m_SelectedMode = value;
-            FirePropertyChangedEvent(MODE);   
+            FirePropertyChangedEvent("Mode");   
         }
       }
     }
@@ -41,7 +38,7 @@ namespace Cryptool.PrimesGenerator
         if (value != m_Input)
         {
             this.m_Input = value;
-            FirePropertyChangedEvent(INPUT);   
+            FirePropertyChangedEvent("Input");   
         }
       }
     }

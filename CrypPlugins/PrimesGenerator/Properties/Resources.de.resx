@@ -156,4 +156,10 @@
   <data name="nTooltip" xml:space="preserve">
     <value>Größe der zu erzeugenden Primzahl</value>
   </data>
+  <data name="ModeList4" xml:space="preserve">
+    <value>Suche nächstkleinere Primzahl</value>
+  </data>
+  <data name="ModeList5" xml:space="preserve">
+    <value>Suche nächstgrößere Primzahl</value>
+  </data>
 </root>
