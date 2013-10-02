@@ -475,6 +475,28 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         }
 
+        public static BigInteger PreviousProbablePrime(this BigInteger n)
+        {
+            if (n < 2) throw new ArithmeticException("PreviousProbablePrime cannot be called on value < 2");
+            if (n == 2) return 2;
+            if (n.IsEven) n--;
+            if (n == 3) return 3;
+            BigInteger r = n % 6;
+            if (r == 3) n -= 2;
+            if (r == 5) { if (IsProbablePrime(n)) return n; else n -= 4; }
+
+            // at this point n mod 6 = 1
+
+            while (true)
+            {
+                if (IsProbablePrime(n)) return n;
+                n -= 2;
+                if (IsProbablePrime(n)) return n;
+                n -= 4;
+            }
+
+        }
+
         /*
          * This code is heavily inspired by the code from the BigInteger class written by Chew Keong TAN
          */
