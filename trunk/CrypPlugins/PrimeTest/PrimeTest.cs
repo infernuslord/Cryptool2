@@ -5,7 +5,6 @@ using System.Text;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using Primes.Bignum;
 using System.Numerics;
 
 namespace PrimeTest
@@ -61,8 +60,8 @@ namespace PrimeTest
     {
         ProgressChanged(0, 100);
 
-        if (m_Value != null)
-            Output = m_Value.IsProbablePrime(10);
+        if (InputNumber != null)
+            Output = InputNumber.IsProbablePrime();
         else
             Output = false;
 
@@ -98,7 +97,6 @@ namespace PrimeTest
 
     #region Properties
     private BigInteger m_InputNumber;
-    PrimesBigInteger m_Value = null;
     [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip", true)]
     public BigInteger InputNumber
     {
@@ -110,7 +108,6 @@ namespace PrimeTest
           try
           {
             this.m_InputNumber = value;
-            m_Value = new PrimesBigInteger(m_InputNumber.ToString());
             FirePropertyChangeEvent("InputString");
           }
           catch 
@@ -122,7 +119,6 @@ namespace PrimeTest
     }
 
     private bool m_Output;
-    // [QuickWatch(QuickWatchFormat.Text, null)]
     [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false)]
     public bool Output
     {
