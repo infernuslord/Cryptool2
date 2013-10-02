@@ -11,6 +11,7 @@
   <description lang="de">Diese Vorlage zeigt einen Padding-Orakel-Angriff auf die <i>AES</i>-Verschlüsselung.</description>
   <keywords lang="de">padding, oracle, orakel, angriff, AES</keywords>
 
+  <icon file="PaddingOracleAttack.png" />
   <relevantPlugins>
     <plugin name="AES" />
     <plugin name="PaddingOracle" />

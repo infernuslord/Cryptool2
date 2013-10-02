@@ -3,12 +3,12 @@
 
   <title lang="en">Berlekamp-Massey</title>
   <summary lang="en">Usage of the <i>Berlekamp-Massey</i> component</summary>
-  <description lang="en">This template shows the usage of the <i>Berlekamp-Massey</i> component.</description>
+  <description lang="en">This template shows the usage of the <i>Berlekamp-Massey</i> component. The <i>Berlekamp-Massey</i> algorithm is an algorithm that will find the shortest linear feedback shift register (LFSR) for a given binary output sequence.</description>
   <keywords>Berlekamp-Massey, feedback, shift, register, minimal</keywords>
 
   <title lang="de">Berlekamp-Massey</title>
   <summary lang="de">Benutzung der <i>Berlekamp-Massey</i>-Komponente</summary>
-  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Berlekamp-Massey</i>-Komponente.</description>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Berlekamp-Massey</i>-Komponente. Der <i>Berlekamp-Massey</i>-Algorithmus dient dazu, das kürzeste linear rückgekoppelte Schieberegister (LFSR) zu finden, das eine gegebene Folge von Nullen und Einsen ausgibt.</description>
   <keywords lang="de">Berlekamp-Massey, rückkopplung</keywords>
 
   <icon file="Berlekamp-Massey.png" />

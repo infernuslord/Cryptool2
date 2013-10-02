@@ -8,7 +8,7 @@
 
   <title lang="de">One-Time-Pad-Fehlbenutzung</title>
   <summary lang="de">Fehlbenutzung des One-Time-Pads</summary>
-  <description lang="de">Diese Vorlage zeigt warum ein One-Time-Pad immer nur genau einmal benutzt werden sollte und nicht öfter.</description>
+  <description lang="de">Diese Vorlage zeigt, warum ein One-Time-Pad immer nur genau einmal benutzt werden sollte und nicht öfter.</description>
   <keywords lang="de">One time pad, perfekte Sicherheit, XOR, Fehlbenutzung</keywords>
 
   <icon file="One time pad misusagepng" />

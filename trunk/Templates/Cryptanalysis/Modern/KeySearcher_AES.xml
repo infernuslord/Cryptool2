@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">AES Analysis using Entropy</title>
-  <summary lang="en">Cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> and an entropy function.</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> and an entropy function.</description>
+  <title lang="en">AES Analysis using Entropy (2)</title>
+  <summary lang="en">Cryptanalysis of <i>AES</i> using the <i>KeySearcher</i> and an entropy function.</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> and an entropy function. For this purpose, a given plaintext is encrypted with <i>AES</i> and the resulting ciphertext is sent to the <i>Keysearcher</i>. The <i>KeySearcher</i> now tries all keys of the given keyspace and evaluates the resulting plaintexts with the entropy function. The plaintext with the best score is sent to the output and should be identical to the original paintext.</description>
   <keywords>advanced, Daemen, symmetric, nist, Rijmen, Rijndael, keysearcher</keywords>
 
   <title lang="de">AES Analyse per Entropie (2)</title>
   <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySearcher</i> und einer Entropie-Funktion</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySearcher</i> und einer Entropie-Funktion.</description>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels <i>KeySearcher</i> und einer Entropie-Funktion. Hierzu wird ein gegebener Klartext mit <i>AES</i> verschlüsselt und der entstehende Geheimtext an den <i>Keysearcher</i> weitergeleitet. Der <i>KeySearcher</i> probiert nun alle Schlüssel des angegebenen Schlüsselraumes und bewertet die resultierenden Klartexte mittels der Entropie-Funktion. Der Klartext mit der besten Bewertung wird ausgegeben und sollte dem ursprünglichen Klartext entsprechen.</description>
   <keywords lang="de">asymmetrisch, Daemen, nist, Rijmen, Rijndael, keysearcher</keywords>
 
   <icon file="KeySearcher.png" />

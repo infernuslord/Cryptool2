@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Non-Linear Feedback Shift Register (NFSR)</title>
+  <title lang="en">Non-Linear Feedback Shift Register (NLFSR)</title>
   <summary lang="en">Usage of the <i>Non-Linear Feedback Shift Register</i></summary>
   <description lang="en">This template shows the usage of the <i>Non-Linear Feedback Shift Register</i>.</description>
   <keywords>shift, register, feedback</keywords>
 
-  <title lang="de">Nichtlinear rückgekoppeltes Schieberegister (NFSR)</title>
+  <title lang="de">Nichtlinear rückgekoppeltes Schieberegister (NLFSR)</title>
   <summary lang="de">Benutzung des <i>Nichtlinear rückgekoppelten Schieberegisters</i></summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung des <i>Nichtlinear rückgekoppelten Schieberegisters</i>.</description>
   <keywords lang="de">shift, register, rückkopplung</keywords>
