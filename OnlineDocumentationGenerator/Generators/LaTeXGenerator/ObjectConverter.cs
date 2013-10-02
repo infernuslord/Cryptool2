@@ -218,8 +218,6 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             sb.AppendLine("\\caption{" + Helper.EscapeLaTeX(caption) + "}");
             sb.AppendLine("\\end{figure}");
             return sb.ToString();
-
-
         }
 
         internal string GetImagePath(BitmapFrame imageSource, string filename)
@@ -248,7 +246,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         }
 
         /// <summary>
-        /// Converts the given xelement, which is from the xml doc file, into an LaTex formated representation.
+        /// Converts the given xelement, which is from the xml doc file, into a LaTeX formatted representation.
         /// </summary>
         /// <param name="xelement"></param>
         /// <param name="entityDocumentationPage"></param>
