@@ -32,10 +32,12 @@ namespace Cryptool.Plugins.CostFunction
     {
         #region private variables
         private int functionType;
-        private String bytesToUse = "256";
+        private String bytesToUse = "256";        
         private int bytesToUseInteger = 256;
+        private String blocksize = "1";
+        private int blocksizeInteger = 1;
         private String bytesOffset = "0";
-        private int bytesOffsetInteger = 0;
+        private int bytesOffsetInteger;        
         #endregion
 
         public void Initialize()
@@ -55,7 +57,28 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [TaskPane( "BytesToUseCaption", "BytesToUseTooltip", null, 4, false, ControlType.TextBox)]
+        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 2, false, ControlType.TextBox)]
+        public String Blocksize
+        {
+            get
+            {
+                return blocksize;
+            }
+            set
+            {
+                var old = blocksizeInteger;
+                if (!int.TryParse(value, out blocksizeInteger))
+                {
+                    blocksizeInteger = old;
+                }
+                else
+                    blocksize = value;
+
+                OnPropertyChanged("Blocksize");
+            }
+        }
+
+        [TaskPane( "BytesToUseCaption", "BytesToUseTooltip", null, 3, false, ControlType.TextBox)]
         public String BytesToUse
         {
             get
@@ -81,7 +104,12 @@ namespace Cryptool.Plugins.CostFunction
             get { return bytesToUseInteger; }
         }
 
-        [TaskPane("BytesOffsetCaption", "BytesOffsetTooltip", null, 5, false, ControlType.TextBox)]
+        public int BlocksizeToUseInteger
+        {
+            get { return blocksizeInteger; }
+        }
+
+        [TaskPane("BytesOffsetCaption", "BytesOffsetTooltip", null, 4, false, ControlType.TextBox)]
         public String BytesOffset
         {
             get
@@ -107,7 +135,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customFilePath;
         public int statisticscorpus = 0;
-        [TaskPane("StatisticsCorpusCaption", "StatisticsCorpusTooltip", null, 7, false, ControlType.ComboBox, new string[] { "StatisticsCorpusList1", "StatisticsCorpusList2", "StatisticsCorpusList3" })]
+        [TaskPane("StatisticsCorpusCaption", "StatisticsCorpusTooltip", null, 5, false, ControlType.ComboBox, new string[] { "StatisticsCorpusList1", "StatisticsCorpusList2", "StatisticsCorpusList3" })]
         public int StatisticsCorpus
         {
             get
@@ -140,7 +168,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
         public int entropyselect;
-        [TaskPane("entropyCaption", "entropyTooltip", null, 9, false, ControlType.ComboBox, new string[] { "entropyList1", "entropyList2" })]
+        [TaskPane("entropyCaption", "entropyTooltip", null, 6, false, ControlType.ComboBox, new string[] { "entropyList1", "entropyList2" })]
         public int entropy
         {
             get
@@ -157,7 +185,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customfwtpath;
         public int fwt = 0; //fwt = fitness weight table
-        [TaskPane("weighttableCaption", "weighttableTooltip", null, 8, false, ControlType.ComboBox, new string[] { "weighttableList1", "weighttableList2", "weighttableList3" })]
+        [TaskPane("weighttableCaption", "weighttableTooltip", null, 7, false, ControlType.ComboBox, new string[] { "weighttableList1", "weighttableList2", "weighttableList3" })]
         public int weighttable
         {
             get
@@ -242,6 +270,15 @@ namespace Cryptool.Plugins.CostFunction
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("entropy", Visibility.Collapsed)));
+            }
+
+            if (functionType.Equals(0))
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Blocksize", Visibility.Visible)));
+            }
+            else
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Blocksize", Visibility.Collapsed)));
             }
         }
 

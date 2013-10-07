@@ -3,12 +3,12 @@
 
   <title lang="en">Dictionary Attack</title>
   <summary lang="en">Implementation of a dictionary attack</summary>
-  <description lang="en">This template shows how a dictionary attack can be implemented and carried out in CrypTool using a dictionary and a hash function.</description>
+  <description lang="en">This template shows how a dictionary attack can be implemented and carried out in CrypTool 2.0 using a dictionary and a hash function.</description>
   <keywords>Hash, Attack, Dictionary, SHA256</keywords>
 
   <title lang="de">Wörterbuchangriff</title>
   <summary lang="de">Durchführung eines Wörterbuchangriffes</summary>
-  <description lang="de">Diese Vorlage zeigt, wie in CrypTool ein Wörterbuchangriff mit Hilfe eines Wörterbuchs und einer Hash-Funktion implementiert und durchgeführt werden kann.</description>
+  <description lang="de">Diese Vorlage zeigt, wie in CrypTool 2.0 ein Wörterbuchangriff mit Hilfe eines Wörterbuchs und einer Hash-Funktion implementiert und durchgeführt werden kann.</description>
   <keywords lang="de">Hash, Angriff, Wörterbuch, SHA256</keywords>
 
   <icon file="DictionaryAttack.png" />

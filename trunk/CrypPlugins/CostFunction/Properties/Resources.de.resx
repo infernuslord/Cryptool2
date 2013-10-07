@@ -246,4 +246,10 @@
   <data name="weighttableList3" xml:space="preserve">
     <value>benutzerdefinierte Gewichtung (*.csv)</value>
   </data>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blockgröße</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>Wieviele Buchstaben sollen zu einem Zeichen (Block) zusammengefasst werden?</value>
+  </data>
 </root>
