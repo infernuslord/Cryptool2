@@ -377,16 +377,10 @@ namespace TranspositionAnalyser
                             i++;
                             ResultEntry entry = new ResultEntry();
                             entry.Ranking = i.ToString();
-
-
-                            String dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
-                            if (dec.Length > 2500) // Short strings need not to be cut off
-                            {
-                                dec = dec.Substring(0, 2500);
-                            }
+                            String dec = Encoding.ASCII.GetString(linkedListNode.Value.decryption);                                                        
                             entry.Text = dec;
-                            entry.Key = linkedListNode.Value.key;
-                            entry.Value = Math.Round(linkedListNode.Value.value, 2) + "";
+                            entry.Key = linkedListNode.Value.key.Substring(0, linkedListNode.Value.key.Length-2); // remove trailing ,
+                            entry.Value = Math.Round(linkedListNode.Value.value, 5) + "";
 
 
                             ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);

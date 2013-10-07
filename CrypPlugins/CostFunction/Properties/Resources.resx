@@ -246,4 +246,10 @@
   <data name="weighttableList3" xml:space="preserve">
     <value>Custom Weight table (*.csv)</value>
   </data>
+  <data name="BlocksizeCaption" xml:space="preserve">
+    <value>Blocksize</value>
+  </data>
+  <data name="BlocksizeTooltip" xml:space="preserve">
+    <value>How many character should be combined to one letter (block)?</value>
+  </data>
 </root>

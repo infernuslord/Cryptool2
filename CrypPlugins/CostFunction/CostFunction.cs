@@ -193,7 +193,7 @@ namespace Cryptool.Plugins.CostFunction
                 switch (settings.FunctionType)
                 {
                     case 0: // Index of Coincidence
-                        this.Value = calculateIndexOfCoincidence(array);
+                        this.Value = calculateIndexOfCoincidence(array,settings.BlocksizeToUseInteger);
                         break;
 
                     case 1: // Entropy
@@ -416,9 +416,9 @@ namespace Cryptool.Plugins.CostFunction
         /// </summary>
         /// <param name="text">text to use</param>
         /// <returns>Index of Coincidence</returns>
-        public double calculateIndexOfCoincidence(byte[] text)
+        public double calculateIndexOfCoincidence(byte[] text, int blocksize = 1)
         {
-            return calculateIndexOfCoincidence(text, text.Length);
+            return calculateIndexOfCoincidence(text, text.Length, blocksize);
         }
 
         /// <summary>
@@ -431,31 +431,44 @@ namespace Cryptool.Plugins.CostFunction
         /// <param name="text">text to use</param>
         /// <param name="text">bytesToUse</param>
         /// <returns>Index of Coincidence</returns>
-        public double calculateIndexOfCoincidence(byte[] text, int bytesToUse)
+        /// <summary>
+        /// Calculates the Index of Coincidence of
+        /// a given byte array
+        /// 
+        /// for example a German text has about 0.0762
+        ///           an English text has about 0.0661
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <param name="text">bytesToUse</param>
+        /// <returns>Index of Coincidence</returns>
+        public double calculateIndexOfCoincidence(byte[] text, int bytesToUse, int blocksize = 1)
         {
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 
-            double[] n = new double[256];
-            //count all ASCII symbols 
-            int counter = 0;
-            foreach (byte b in text)
+            Dictionary<String, int> n = new Dictionary<String, int>();
+            for (int i = 0; i < bytesToUse / blocksize; i++)
             {
-                n[b]++;
-                counter++;
-                if (counter == bytesToUse)
-                    break;
+                byte[] b = new byte[blocksize];
+                Array.Copy(text, i * blocksize, b, 0, blocksize);
+                String key = Encoding.ASCII.GetString(b);
+
+                if (!n.Keys.Contains(key))
+                {
+                    n.Add(key, 0);
+                }
+                n[key] = n[key] + 1;
             }
 
             double coindex = 0;
             //sum them
-            for (int i = 0; i < n.Length; i++)
+            for (int i = 0; i < n.Count; i++)
             {
-                coindex = coindex + n[i] * (n[i] - 1);
+                coindex = coindex + n.Values.ElementAt(i) * (n.Values.ElementAt(i) - 1);
             }
 
-            coindex = coindex / (bytesToUse);
-            coindex = coindex / (bytesToUse - 1);
+            coindex = coindex / ((double)bytesToUse/blocksize);
+            coindex = coindex / ((double)bytesToUse / blocksize - 1);
 
             return coindex;
 
@@ -878,7 +891,7 @@ namespace Cryptool.Plugins.CostFunction
             switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
-                    return plugin.calculateIndexOfCoincidence(text, bytesToUse());
+                    return plugin.calculateIndexOfCoincidence(text, bytesToUse(), ((CostFunctionSettings)plugin.Settings).BlocksizeToUseInteger);
                 case 1: //Entropy
                     return plugin.calculateEntropy(text, bytesToUse());
                 case 2: // Bigrams: log 2
