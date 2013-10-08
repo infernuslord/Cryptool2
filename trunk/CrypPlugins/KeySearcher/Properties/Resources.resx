@@ -286,7 +286,7 @@
     <value>Encrypted Data</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
-    <value>Finished brute force attack on key pattern '</value>
+    <value>Finished brute-force attack on key pattern '</value>
   </data>
   <data name="Endgame_Mode_" xml:space="preserve">
     <value>Endgame mode</value>
@@ -445,7 +445,7 @@
     <value>Key Searcher</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Performs a brute force attack on a ciphertext.</value>
+    <value>Performs a brute-force attack on a ciphertext.</value>
   </data>
   <data name="PortCaption" xml:space="preserve">
     <value>Port</value>
@@ -523,7 +523,7 @@
     <value>Start:</value>
   </data>
   <data name="Start_bruteforcing_pattern__" xml:space="preserve">
-    <value>Starting brute force attack on key pattern '</value>
+    <value>Starting brute-force attack on key pattern '</value>
   </data>
   <data name="Static_" xml:space="preserve">
     <value>Static</value>
@@ -628,7 +628,7 @@
     <value>Use selected device</value>
   </data>
   <data name="UseOpenCLTooltip" xml:space="preserve">
-    <value>If checked, the selected OpenCL device is used for brute force attack.</value>
+    <value>If checked, the selected OpenCL device is used for brute-force attack.</value>
   </data>
   <data name="Waiting_for_external_client_" xml:space="preserve">
     <value>Waiting for external client!</value>

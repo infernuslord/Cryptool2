@@ -5,30 +5,29 @@
 
   <introduction lang="en">
     The <b>Transposition Analyser</b> component offers three different methods for the computer aided analysis of ciphertexts that were generated with the <b>Transposition</b> component:
-    the "Brute Force Algorithm", the "Crib Analysis" and the "Genetic Algorithm".
+    the "Brute-Force Algorithm", the "Crib Analysis", and the "Genetic Algorithm".
     All three methods offer settings for the connected <b>Transposition</b> component and list the results in a table.
     Moreover, the results are evaluated by a <b>CostFunction</b> component that can be connected to this component, and the results are then ordered according to their cost value.
     Please read the descriptions of these components for further informations.
 
-    <section headline="Brute Force Algorithm">
-      The brute force method is one of the easiest methods when trying to decode an encrypted message.
+    <section headline="Brute-Force Algorithm">
+      The brute-force method is one of the easiest methods when trying to decode an encrypted message.
       Its principle is to decode the ciphertext with every possible key and assign a score value to the resulting plaintext. Then the text with the best score is in most cases the original plaintext.
       <newline />
-      As the brute force method tries all possible keys, the correct key is certain to be among them. But there is a disadvantage: in most cases the key space is too big, so that the search would take way too much time, even for modern comuters.
+      As the brute-force method tries all possible keys, the correct key is certainly among them. But there is a disadvantage: In most cases, the key space is too big, so that the search would take way too much time, even for modern comuters.
       For a columnar transposition with n columns, there are for example n! different keys.
     </section>
 
     <section headline="Crib Analysis">
-      A "crib" is a short piece of the plaintext that is already known to the attacker. Thus the "Crib Analysis" belongs to the category of the known plaintext attacks. By analysing the text with the crib, it is possible
+      A "crib" is a short piece of the plaintext that is already known to the attacker. Thus, the "Crib Analysis" belongs to the category of the known-plaintext attacks. By analyzing the text with the crib, it is possible
       to greatly reduce the key space. By how much the key space can be reduced depends on the quality of the crib.
       This component requires a crib of arbitrary length, that is certain to be included in the plaintext message.
     </section>
 
     <section headline="Genetic Algorithm">
       The genetic algorithm simulates an "evolution" of keys. From a starting population of keys new keys will be generated and, according to Darwins "Theory of Evolution", only the fittest will survive into the next generation.
-      The genetic algorithm starts by creating N random keys of length P, which are stored in the list MAXLIST. Now the ciphertext that is to be analysed is decoded with each key from MAXLIST and its cost value is calculated.
-      Subsequently, the keys are ordered according to their cost values. The worst N/2 keys are deleted from MAXLIST. All the remaining keys are paired up into key pairs. From the two keys of each key pair (Par1,Par2) are then
-      created two new identical keys Child1 and Child2, which are then altered in the following way:<newline />
+      The genetic algorithm starts by creating N random keys of length P, which are stored in the list MAXLIST. Now the ciphertext that is to be analyzed is decoded with each key from MAXLIST and its cost value is calculated.
+		Subsequently, the keys are ordered according to their cost values. The worst N/2 keys are deleted from MAXLIST. All the remaining keys are paired up into key pairs. Then, from the two keys of each key pair (Par1, Par2) there are two new identical keys Child1 and Child2 created, which are then altered in the following way:<newline /> 
 
       <enum>
         <item>
@@ -52,14 +51,14 @@
   </introduction>
 
   <usage lang="en">
-    The component has one output for the result with the best score. It has two inputs, one for the text that is to be analysed, and one for a "crib". The "crib" input is only relevant if the crib analysis mode is selected.
+    The component has one output for the result with the best score. It has two inputs, one for the text that is to be analyzed, and one for a "crib". The "crib" input is only relevant if the crib analysis mode is selected.
     The analysis works both for texts, whose length is not a multiple of the key length, as for texts, that have been padded to reach a length that is a multiple of the key length.
     <newline />
     You must choose the analysis mode in the settings of the component. As each mode has a different set of parameters, the settings panel will change dynamically after changing the mode selector.
     <newline />
 
-    <section headline="Brute Force Algorithm">
-      If you select the brute force algorithm, you must provide the key size, up to which the algorithm is supposed to search.
+    <section headline="Brute-Force Algorithm">
+      If you select the brute-force algorithm, you must provide the key size, up to which the algorithm is supposed to search.
       Moreover, you can select against which kinds of transpositions the algorithm should check.
     </section>
 
@@ -74,7 +73,7 @@
   </usage>
 
   <presentation lang="en">
-    In the upper region, the presentation shows status informations for the component: starting time, expected end time, remaining time, elapsed time, and how many keys per second are being checked.
+    In the upper region, the presentation shows status information for the component: starting time, expected end time, remaining time, elapsed time, and how many keys per second are being checked.
     <newline />
     Below that is a table with the ten best results. The first column shows the ranking number under "#". In the column "Value" you see the score value that the cost function assigns to this entry.
     In the "Key" column you see the key that produced this result, and finally the "Text" column contains the plaintext that resulted from this key.
@@ -97,11 +96,11 @@
 		<newline />
 		Da bei der Brute-Force-Attacke alle möglichen Schlüssel ausprobiert werden, ist auf jeden Fall auch der richtige Schlüssel dabei. Der Nachteil ist allerdings, dass der Schlüsselraum meist so groß ist, dass die Suche selbst für moderne
     Computer viel zu lange dauern würde.
-		Besipielsweise müssen für eine Spaltentransposition mit n Spalten bereits n! (Fakultät) verschiedene Schlüssel getestet werden.
+		Beispielsweise müssen für eine Spaltentransposition mit n Spalten bereits n! (Fakultät) verschiedene Schlüssel getestet werden.
 		</section>
 
 		<section headline="Crib-Analyse">
-		Das Wort "crib" bezeichnet bei dieser Methode ein Stück des Klartextes, der dem Angreifer bereits bekannt ist. Die Crib-Analyse gehört daher zur Kategorie der Known-Plaintext-Angriffe. Durch die Analyse des Textes mit Hilfe des "cribs"
+		Das Wort "crib" bezeichnet bei dieser Methode ein Stück des Klartextes, das dem Angreifer bereits bekannt ist. Die Crib-Analyse gehört daher zur Kategorie der Known-Plaintext-Angriffe. Durch die Analyse des Textes mit Hilfe des "cribs"
     ist es möglich, den in Frage kommenden Schlüsselraum um ein Vielfaches zu reduzieren. Wie hoch dieser Vorteil gegenüber dem Brute-Force-Algorithmus ist, hängt stark von der Qualität des "cribs" ab.
 		Die hier vorgestellte Komponente benötigt ein "crib" beliebiger Länge, das mit einer Wahrscheinlichkeit von 100% in der Nachricht enthalten ist.
 		</section>
@@ -138,7 +137,7 @@
     Die Analyse funktioniert sowohl für Texte, deren Länge kein Vielfaches der Schlüssellänge ist, als auch für Texte, die durch Anhängen von Füllzeichen auf ein Vielfaches der Schlüssellänge verlängert wurden (Padding).
     Der zweite Eingang ist für die Eingabe eines "cribs" und daher nur für den Crib-Analyse-Algorithmus relevant.
 		<newline />
-		In den Einstellungen der Komponente kann zunächst der Analyse-Algorithmus gewählt werden. Da diese jeweils andere Einstellungen benötigen, verändert sich das Menü dementsprechend dynamisch nach der Eingabe.
+		In den Einstellungen der Komponente kann zunächst der Analyse-Algorithmus gewählt werden. Da diese Algorithmen jeweils andere Einstellungen benötigen, verändert sich das Menü entsprechend dynamisch nach der Eingabe.
 		<newline />
 
 		<section headline="Brute-Force-Algorithmus">

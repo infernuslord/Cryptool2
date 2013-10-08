@@ -158,7 +158,7 @@
 
     <section headline="Ausgabe">
     <b>Ausgabe</b><newline />
-    Es gibt zwei Anschlüsse für die Ausgabe: Die Konsolenausgabe (1) und die Ergebnisausgabe (2). Beide Ausgaben müssen mittes des <i>String-Kodierer</i>-Plugins in Strings umgewandelt werden, damit sie darstellbar sind.
+    Es gibt zwei Anschlüsse für die Ausgabe: Die Konsolenausgabe (1) und die Ergebnisausgabe (2). Beide Ausgaben müssen mittes des <i>String-Codierer</i>-Plugins in Strings umgewandelt werden, damit sie darstellbar sind.
     <enum>
       <item>Die Konsolenausgabe zeigt Statistiken über den Solver-Prozess an.</item>
       <item>Die Ergebnisausgabe gibt entweder <i>UNSAT</i> aus, falls das Problem nicht gelöst werden konnte, oder <i>SAT</i> und die Variablenbelegung, welche die Formel erfüllbar macht. Die Ergebnisausgabe wird erst geschrieben wenn der Solver-Prozess abgeschlossen ist.</item>

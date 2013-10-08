@@ -19,8 +19,8 @@
   </introduction>
 
   <introduction lang="de-DE">   
-	Der BB84-Photonenkodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert das Gerät, welches die zu versendenden Bits in Photonen
-	kodiert und in den Sendekanal schickt. Die Photonen werden durch folgende Zeichen beschrieben:
+	Der BB84-Photonencodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert das Gerät, welches die zu versendenden Bits in Photonen
+	codiert und in den Sendekanal schickt. Die Photonen werden durch folgende Zeichen beschrieben:
 	<enum>
 		<item> '|' : vertikales Photon </item>
 		<item> '-' : horizontales Photon </item>
@@ -40,9 +40,9 @@
   </usage>
 
   <usage lang="de-DE">
-	Um die Kodierung durchzuführen, benötigt das Plugin zuerst den zu kodierenden Schlüssel als Zeichenkette aus '0' und '1'. Hierfür kann ein Texteingabe-Plugin
+	Um die Codierung durchzuführen, benötigt das Plugin zuerst den zu codierenden Schlüssel als Zeichenkette aus '0' und '1'. Hierfür kann ein Texteingabe-Plugin
 	verwendet werden. Außerdem wird für jedes Bit eine Photonenbasis benötigt; diese können vom BB84-Photonenbasis-Generator erzeugt werden.<newline/>
-	In den Einstellungen des Plugins kann außerdem die Kodierungstabelle verändert werden, wobei zu beachten ist, dass sie mit der des BB84-Photonendekodierers 
+	In den Einstellungen des Plugins kann außerdem die Codierungstabelle verändert werden, wobei zu beachten ist, dass sie mit der des BB84-Photonendecodierers 
 	übereinstimmen sollte. Beim Ausführen des Plugins wird ein neuer String erzeugt, in dem jedes einzelne Bit-Zeichen durch das entsprechende Photonenzeichen
 	ersetzt wird. Dieser String wird anschließend ausgegeben.
   </usage>
@@ -54,10 +54,10 @@
   </presentation>
   
   <presentation lang="de-DE">
-  Im Präsentationsmodus wird der Kodierungsvorgang in einer Animation dargestellt. Es ist zu sehen, wie die Bits aus einer Warteschlange zum jeweiligen Filter
-  bewegt und dort in das entsprechende Photon kodiert werden. Die entstandenen Photonen fliegen anschließend zum rechten Rand des Plugins, wo entweder
-  ein BB84-Mittelsmann oder ein BB84-Photonendekodierer zum Fortführen der Animation benutzt werden kann. Die Animationsgeschwindigkeit kann in den Einstellungen
-  des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
+  Im Präsentationsmodus wird der Codierungsvorgang in einer Animation dargestellt. Es ist zu sehen, wie die Bits aus einer Warteschlange zum jeweiligen Filter
+  bewegt und dort in das entsprechende Photon codiert werden. Die entstandenen Photonen fliegen anschließend zum rechten Rand des Plugins, wo entweder
+  ein BB84-Mittelsmann oder ein BB84-Photonendecodierer zum Fortführen der Animation benutzt werden kann. Die Animationsgeschwindigkeit kann in den Einstellungen
+  des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonencodierer, Photonendecodierer und Mittelsmänner gleichzeitig verändert,
 	um Synchronität zu gewährleisten.
   </presentation>
   

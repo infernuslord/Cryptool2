@@ -130,7 +130,7 @@
     <value>Wähle eine Codeart, oder benutze die Automatisch-Erkennen-Funktion.</value>
   </data>
   <data name="DimCodeLabel" xml:space="preserve">
-    <value>Visueller Dekodierer</value>
+    <value>Visueller Decodierer</value>
   </data>
   <data name="OutputData" xml:space="preserve">
     <value>Inhalt des Codes</value>
@@ -154,7 +154,7 @@
     <value>Die Komponente wird aufhören, wenn es erfolgreich einen visuellen Code entschlüsselt hat.</value>
   </data>
   <data name="VisualDecoderCaption" xml:space="preserve">
-    <value>Visueller Dekodierer</value>
+    <value>Visueller Decodierer</value>
   </data>
   <data name="VisualDecoderCaptionTooltip" xml:space="preserve">
     <value>Diese Komponente decodiert unterschiedliche ein- und zweidimensionale, visuelle Codes.</value>

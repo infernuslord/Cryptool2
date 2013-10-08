@@ -13,7 +13,7 @@
   </introduction>
 
   <usage lang="en">
-    The input to the component is the number whose primality is to check. First it uses trial division to check if the number has
+    The input to the component is the number whose primality is to be checked. First, it uses trial division to check if the number has
     a small prime factor. If it has no small factor, it then uses the Miller-Rabin primality test, that
     can determine whether a given number is a prime number with a very high probability. The result of the test is presented
     as a boolean value at the output of the component. When the result is 'false', the number is definitely composite.

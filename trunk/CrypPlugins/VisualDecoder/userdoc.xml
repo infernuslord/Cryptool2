@@ -51,7 +51,7 @@
   <usage lang="de-DE">
 		Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können Sie in den Einstellungen eine Code Art auswählen oder die Komponente selbstständig diese bestimmen lassen.
 		 <newline/>
-		Die Komponente wird nun versuchen das anliegende Bild zu dekodieren.
+		Die Komponente wird nun versuchen das anliegende Bild zu decodieren.
   </usage>
   
   <presentation lang="en">

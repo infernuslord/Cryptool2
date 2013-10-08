@@ -136,7 +136,7 @@ aller Buchstaben.</value>
   </data>
   <data name="C128_STARTEND_DISC" xml:space="preserve">
     <value>Es gibt drei unterschiedliche
-Kodierungsarten. Das Startmuster gib an 
+Codierungsarten. Das Startmuster gib an 
 welche benutzt wurde. Das Endmuster ist 
 immer gleich.</value>
   </data>
@@ -161,7 +161,7 @@ er falsch herum liegt.</value>
     <value>Start- und Endesymbol</value>
   </data>
   <data name="VisualEncoderCaption" xml:space="preserve">
-    <value>Visueller Kodierer</value>
+    <value>Visueller Codierer</value>
   </data>
   <data name="VisualEncoderTooltip" xml:space="preserve">
     <value>Diese Komponente erzeugt unterschiedliche ein- und zweidimensionale visuelle Codes.</value>
