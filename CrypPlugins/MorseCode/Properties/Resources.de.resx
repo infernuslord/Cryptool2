@@ -124,22 +124,22 @@
     <value>Die Aktion die durchgeführt werden soll</value>
   </data>
   <data name="Decode" xml:space="preserve">
-    <value>Dekodieren</value>
+    <value>Decodieren</value>
   </data>
   <data name="Encode" xml:space="preserve">
-    <value>Enkodieren</value>
+    <value>Encodieren</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
     <value>Eingabetext</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>Der Text der enkodiert oder dekodiert werden soll</value>
+    <value>Der Text der encodiert oder decodiert werden soll</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
     <value>Ausgabetext</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Der enkodierte oder dekodierte Text</value>
+    <value>Der encodierte oder decodierte Text</value>
   </data>
   <data name="Play" xml:space="preserve">
     <value>Abspielen</value>
@@ -148,6 +148,6 @@
     <value>Morsecode</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Enkodiert einen Text in einen Morsecode oder dekodiert einen Morsecode in einen Text</value>
+    <value>Encodiert einen Text in einen Morsecode oder decodiert einen Morsecode in einen Text</value>
   </data>
 </root>

@@ -105,7 +105,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
-      <headline lang="en">AES - Known Plaintext Analysis</headline>
+      <headline lang="en">AES - Known-Plaintext Analysis</headline>
       <headline lang="de">AES - Known-Plaintext-Analyse</headline>
       <task lang="en">Please input the ciphertext and known plaintext.</task>
       <task lang="de">Bitte geben Sie den Geheimtext und den bekannten Klartext ein.</task>
@@ -145,12 +145,12 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
       </comboBox>
 
       <sampleViewer image="AES" file="Cryptanalysis\Modern\AES_Analyzer_KnownPlaintext.cwm">
-        <name lang="en">Known Plaintext Analysis</name>
+        <name lang="en">Known-Plaintext Analysis</name>
         <name lang="de">Known-Plaintext-Analyse</name>
-        <description lang="en">Known Plaintext Analysis Output</description>
+        <description lang="en">Known-Plaintext Analysis Output</description>
         <description lang="de">Known-Plaintext-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Known Plaintext Analysis Output</headline>
+        <headline lang="en">AES Known-Plaintext Analysis Output</headline>
         <headline lang="de">Known-Plaintext-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the AES analysis.</task>
         <task lang="de">Hier können Sie die AES-Analyse sehen.</task>
@@ -260,7 +260,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
       <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
-      <headline lang="en">DES - Known Plaintext Analysis</headline>
+      <headline lang="en">DES - Known-Plaintext Analysis</headline>
       <headline lang="de">DES - Known-Plaintext-Analyse</headline>
       <task lang="en">Please input the ciphertext and known plaintext.</task>
       <task lang="de">Bitte geben Sie den Geheimtext und den bekannten Klartext ein.</task>
@@ -291,12 +291,12 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
       </comboBox>
 
       <sampleViewer image="DES" file="Cryptanalysis\Modern\DES_Analyzer_KnownPlaintext.cwm">
-        <name lang="en">Known Plaintext Analysis</name>
+        <name lang="en">Known-Plaintext Analysis</name>
         <name lang="de">Known-Plaintext-Analyse</name>
-        <description lang="en">Known Plaintext Analysis Output</description>
+        <description lang="en">Known-Plaintext Analysis Output</description>
         <description lang="de">Known-Plaintext-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Known Plaintext Analysis Output</headline>
+        <headline lang="en">AES Known-Plaintext Analysis Output</headline>
         <headline lang="de">Known-Plaintext-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the DES analysis.</task>
         <task lang="de">Hier können Sie die DES-Analyse sehen.</task>
@@ -405,7 +405,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
       <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
-      <headline lang="en">SDES - Known Plaintext Analysis</headline>
+      <headline lang="en">SDES - Known-Plaintext Analysis</headline>
       <headline lang="de">SDES - Known-Plaintext-Analyse</headline>
       <task lang="en">Please input the ciphertext and known plaintext.</task>
       <task lang="de">Bitte geben Sie den Geheimtext und den bekannten Klartext ein.</task>
@@ -435,12 +435,12 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
       </comboBox>
 
       <sampleViewer image="SDES" file="Cryptanalysis\Modern\SDES_Analyzer_KnownPlaintext.cwm">
-        <name lang="en">Known Plaintext Analysis</name>
+        <name lang="en">Known-Plaintext Analysis</name>
         <name lang="de">Known-Plaintext-Analyse</name>
-        <description lang="en">Known Plaintext Analysis Output</description>
+        <description lang="en">Known-Plaintext Analysis Output</description>
         <description lang="de">Known-Plaintext-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Known Plaintext Analysis Output</headline>
+        <headline lang="en">AES Known-Plaintext Analysis Output</headline>
         <headline lang="de">Known-Plaintext-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the SDES analysis.</task>
         <task lang="de">Hier können Sie die SDES-Analyse sehen.</task>

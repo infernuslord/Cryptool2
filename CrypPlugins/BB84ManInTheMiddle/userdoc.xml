@@ -25,13 +25,13 @@
    </usage>
 
   <usage lang="de-DE">
-	Dieses Plugin wird bei Bedarf zwischen den BB84-Photonenkodierer und den BB84-Photonendekodierer gesetzt. Als Eingang benötigt es zum einen die von Kodierer
+	Dieses Plugin wird bei Bedarf zwischen den BB84-Photonencodierer und den BB84-Photonendecodierer gesetzt. Als Eingang benötigt es zum einen die von Codierer
 	gesendeten Photonen, zum anderen auch die zufälligen Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-Generator erzeugt werden. Beide Eingaben 
-	erfolgen dabei als String. Beim Ausführen dekodiert das Plugin die empfangenen Photonen nach der Tabelle, die in seinen Einstellungen festgelegt ist. Anschließend
-	gibt es über einen Ausgang seinen abgefangenen Schlüssel aus, über den anderen werden die Photonen weitergeleitet, wobei durch die Dekodierung Fehler entstanden
+	erfolgen dabei als String. Beim Ausführen decodiert das Plugin die empfangenen Photonen nach der Tabelle, die in seinen Einstellungen festgelegt ist. Anschließend
+	gibt es über einen Ausgang seinen abgefangenen Schlüssel aus, über den anderen werden die Photonen weitergeleitet, wobei durch die Decodierung Fehler entstanden
 	sein können. <newline/>
 	Das Plugin kann in den Einstellungen auch inaktiv gesetzt werden, sodass es keinerlei Änderungen am Photonenkanal vornimmt. Außerdem ist es wichtig, die Anzahl
-	der Wartezyklen auf die Menge der vorhergeschalteten Animationplugins zu setzen. Standardmäßig ist dies 1, da sich üblicherweise nur der Photonenkodierer vorher
+	der Wartezyklen auf die Menge der vorhergeschalteten Animationplugins zu setzen. Standardmäßig ist dies 1, da sich üblicherweise nur der Photonencodierer vorher
 	befindet.
   </usage>
   
@@ -44,8 +44,8 @@
   <presentation lang="de-DE">
 	Steht der Status des Plugins in den Einstellungen auf "inaktiv", so ist in der Animation nur zu sehen, wie sich die Photonen durch den Kanal bewegen. Bei
 	aktivem Status jedoch zeigt sich, wie jedes Photon mit einer zufälligen Basis gemessen, eventuell verändert, kopiert und weitergeleitet wird. So wird für den
-	Beobachter sichtbar, an welcher Stelle ein Fehler bei der Dekodierung aufgetreten ist. Die Animationsgeschwindigkeit kann in den Einstellungen
-	des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
+	Beobachter sichtbar, an welcher Stelle ein Fehler bei der Decodierung aufgetreten ist. Die Animationsgeschwindigkeit kann in den Einstellungen
+	des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonencodierer, Photonendecodierer und Mittelsmänner gleichzeitig verändert,
 	um Synchronität zu gewährleisten.
   </presentation>
   

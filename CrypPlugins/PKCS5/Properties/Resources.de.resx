@@ -154,10 +154,10 @@
     <value>Dieser Wert bestimmt, wie oft die Hashfunktion angewandt wird. Empfohlen ist ein Wert größer als 1000.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Datenstrom-Kodierung</value>
+    <value>Datenstrom-Codierung</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die erwartete Zeichenkodierung für die Ein- und Ausgabe.</value>
+    <value>Wählen Sie die erwartete Zeichencodierung für die Ein- und Ausgabe.</value>
   </data>
   <data name="LengthCaption" xml:space="preserve">
     <value>Länge des Ausgabeschlüssels</value>
@@ -178,7 +178,7 @@
     <value>Wählen Sie eine Hashfunktion (MD5, eine Funktion der SHA-Familie, TIGER oder WHIRLPOOL)</value>
   </data>
   <data name="EncodingSettingList1" xml:space="preserve">
-    <value>Standardkodierung</value>
+    <value>Standardcodierung</value>
   </data>
   <data name="EncodingSettingList2" xml:space="preserve">
     <value>Unicode</value>

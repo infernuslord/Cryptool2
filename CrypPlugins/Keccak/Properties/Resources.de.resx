@@ -247,7 +247,7 @@
     <value>Eingabeblock #{0} wird auf den r-Bit-Anteil des States geXORed. Bei genauerer Betrachtung des States kann man sehen, dass der Capacity-Anteil (unterer Teil des States) nicht verändert wird.</value>
   </data>
   <data name="PresAbsorbingPhaseText" xml:space="preserve">
-    <value>Jeder Block p der gepaddeten Eingabedaten wird mit einer XOR-Operation von dem Sponge-State "aufgesaugt". Die Eingabeblöcke betreffen die {0} Bits des r-bit-Anteils. Der c-bit-Anteil wird nicht beeinflusst. Nach dem Aufsaugen wird die Keccak Permutation (Keccak-f) ausgeführt, um die State-Bits zu vermischen.</value>
+    <value>Jeder Block p der gepaddeten Eingabedaten wird mit einer XOR-Operation von dem Sponge-State "aufgesaugt". Die Eingabeblöcke betreffen die {0} Bits des r-bit-Anteils. Der c-bit-Anteil wird nicht beeinflusst. Nach dem Aufsaugen wird die Keccak-Permutation (Keccak-f) ausgeführt, um die State-Bits zu vermischen.</value>
   </data>
   <data name="PresChiPhaseText" xml:space="preserve">
     <value>Chi iteriert über jede Zeile des States.</value>

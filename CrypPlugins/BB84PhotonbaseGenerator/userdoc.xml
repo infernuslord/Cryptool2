@@ -13,7 +13,7 @@ and one vertical photon filter and 'x' a base of two diagonal filters.
 
   <introduction lang="de-DE">  
 Der BB84-Photonenbasis-Generator ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er stellt das Gerät dar, welches eine Reihe von Photonenbasen erzeugt, 
-mit deren Hilfe Photonen kodiert oder dekodiert werden können. Diese Basen werden durch Chars beschrieben, die zusammen als ein String ausgegeben werden. 
+mit deren Hilfe Photonen codiert oder decodiert werden können. Diese Basen werden durch Chars beschrieben, die zusammen als ein String ausgegeben werden. 
 Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem vertikalen Filter, 'x' eine Basis aus zwei diagonalen Filtern.  
   </introduction>
 
@@ -31,7 +31,7 @@ Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem 
   wenn ein Textfeld an den Konnektor angebunden wird, die Anzahl der enthaltenen Zeichen als Stringlänge festgelegt. Wird hingegen eine Zahleneingabe gewählt, 
   wird die eingegebene Zahl direkt als Länge verwendet. Wird das Plugin ausgeführt, wird ein String mit der festgelegten Größe zufällig mit 'x'- und '+'-Zeichen gefüllt und 
   über den Konnektor "Basenausgabe" ausgegeben.
-  Innerhalb des BB84-Protokolls kann dieses Plugin im Zusammenhang mit dem BB84-Photonenkodierer, dem BB84-Photonendekodierer und dem BB84-Mittelsmann verwendet werden.
+  Innerhalb des BB84-Protokolls kann dieses Plugin im Zusammenhang mit dem BB84-Photonencodierer, dem BB84-Photonendecodierer und dem BB84-Mittelsmann verwendet werden.
   </usage>
   
   <presentation lang="en">

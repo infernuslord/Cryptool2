@@ -142,10 +142,10 @@
     <value>Wählen Sie den Typ der Ausgabe</value>
   </data>
   <data name="InputEncodingSettingCaption" xml:space="preserve">
-    <value>Zeichenkodierung Eingabe</value>
+    <value>Zeichencodierung Eingabe</value>
   </data>
   <data name="InputEncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die erwartete Zeichenkodierung der Eingabe (falls Byte-Array oder Datenstrom).</value>
+    <value>Wählen Sie die erwartete Zeichencodierung der Eingabe (falls Byte-Array oder Datenstrom).</value>
   </data>
   <data name="FormatAmerCaption" xml:space="preserve">
     <value>Fließkomma-Format</value>
@@ -226,10 +226,10 @@
     <value>Windows-1252</value>
   </data>
   <data name="OutputEncodingSettingCaption" xml:space="preserve">
-    <value>Zeichenkodierung Ausgabe</value>
+    <value>Zeichencodierung Ausgabe</value>
   </data>
   <data name="OutputEncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die Zeichenkodierung der Ausgabe (falls Byte-Array oder Datenstrom).</value>
+    <value>Wählen Sie die Zeichencodierung der Ausgabe (falls Byte-Array oder Datenstrom).</value>
   </data>
   <data name="TypesList1" xml:space="preserve">
     <value>string</value>

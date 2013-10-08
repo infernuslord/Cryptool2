@@ -29,7 +29,7 @@
     einer Menge von Grundobjekten (in diesem Fall Worten) an den Empfänger zu übermitteln.
     <newline/><newline/>
     Jede Menge von Grundobjekten, die in eine wohldefinierte Reihenfolge gebracht werden können, kann dazu verwendet werden,
-    eine Nachricht zu kodieren. Die Elemente einer Menge mit <b>N</b> Objekten lassen sich auf genau <b>N! = 1*2*...*(N-1)*N</b> verschiedene
+    eine Nachricht zu codieren. Die Elemente einer Menge mit <b>N</b> Objekten lassen sich auf genau <b>N! = 1*2*...*(N-1)*N</b> verschiedene
     Arten in einer Reihenfolge anordnen. Diese <b>N!</b> Möglichkeiten (Permutationen) lassen sich von <b>0</b> bis <b>N!-1</b> durchnummerieren.
     Wird nun eine bestimmte Reihenfolge der Grundobjekte übertragen, so kann der Empfänger aus ihrer Anordnung sofort auf die
     Nummer dieser Permutation schließen und die auf diese Weise übermittelte Zahl wieder in die lesbare Nachricht
@@ -62,10 +62,10 @@
     <newline/><newline/>
     Bei der <b>Verschlüsselung</b> erwartet die Komponente am Eingang <b>Nachricht</b> die zu versteckende Textnachricht und am
     Eingang <b>Trägerliste</b> eine Liste von Worten, wie sie z.B. von der Wörterbuch-Komponente geliefert wird. Die Anordnung, in der diese
-    Worte am Ausgang <b>Trägerliste</b> der Komponente ausgegeben werden, kodiert die zu versteckende Nachricht.
+    Worte am Ausgang <b>Trägerliste</b> der Komponente ausgegeben werden, codiert die zu versteckende Nachricht.
     <newline/><newline/>
     Bei der <b>Entschlüsselung</b> erwartet die Komponente am Eingang <b>Trägerliste</b> eine Liste von Worten, deren
-    Reihenfolge die versteckte Nachricht kodiert. Die dekodierte Nachricht wird dann am entsprechenden Ausgang zur Verfügung
+    Reihenfolge die versteckte Nachricht codiert. Die decodierte Nachricht wird dann am entsprechenden Ausgang zur Verfügung
     gestellt.
     <newline/><newline/>
     Da eine endliche Liste von Objekten auch nur eine endliche Zahl von Permutationen zulässt, ist die Länge der Nachricht, die

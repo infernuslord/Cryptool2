@@ -154,31 +154,31 @@
     <value>Ausgabe der weitergeleiteten Photonen</value>
   </data>
   <data name="res_Setting3Tooltip" xml:space="preserve">
-    <value>Ändert Modus für Dekodierung auf PLUS-Basis</value>
+    <value>Ändert Modus für Decodierung auf PLUS-Basis</value>
   </data>
   <data name="res_Settings1Caption" xml:space="preserve">
     <value>Photon "|" : </value>
   </data>
   <data name="res_Settings1Tooltip" xml:space="preserve">
-    <value>Ändert Modus für Dekodierung auf PLUS-Basis</value>
+    <value>Ändert Modus für Decodierung auf PLUS-Basis</value>
   </data>
   <data name="res_Settings2Caption" xml:space="preserve">
     <value>Photon "-" :  </value>
   </data>
   <data name="res_Settings2Tooltip" xml:space="preserve">
-    <value>Ändert Modus für Dekodierung auf PLUS-Basis</value>
+    <value>Ändert Modus für Decodierung auf PLUS-Basis</value>
   </data>
   <data name="res_Settings3Caption" xml:space="preserve">
     <value>Photon "/" : </value>
   </data>
   <data name="res_Settings3Tooltip" xml:space="preserve">
-    <value>Ändert Modus für Dekodierung auf X-Basis</value>
+    <value>Ändert Modus für Decodierung auf X-Basis</value>
   </data>
   <data name="res_Settings4Caption" xml:space="preserve">
     <value>Photon "\" :  </value>
   </data>
   <data name="res_Settings4Tooltip" xml:space="preserve">
-    <value>Ändert Modus für Dekodierung auf X-Basis</value>
+    <value>Ändert Modus für Decodierung auf X-Basis</value>
   </data>
   <data name="res_SleepingMessage" xml:space="preserve">
     <value>Mittelsmann schläft...</value>

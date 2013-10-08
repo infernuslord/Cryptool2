@@ -133,13 +133,13 @@
     <value>Schlüsseleingabe</value>
   </data>
   <data name="res_keyInputTooltip" xml:space="preserve">
-    <value>Eingabe des zu kodierenden Schlüssels</value>
+    <value>Eingabe des zu codierenden Schlüssels</value>
   </data>
   <data name="res_photonEncodingCaption" xml:space="preserve">
-    <value>BB84-Photonenkodierer</value>
+    <value>BB84-Photonencodierer</value>
   </data>
   <data name="res_photonEncodingTooltip" xml:space="preserve">
-    <value>Kodiert einen Schlüssel mit eingehenden Basen zu polarisierten Photonen</value>
+    <value>Codiert einen Schlüssel mit eingehenden Basen zu polarisierten Photonen</value>
   </data>
   <data name="res_photonOutputCaption" xml:space="preserve">
     <value>Photonenausgabe</value>
@@ -160,16 +160,16 @@
     <value>Bit "1", Basis "x":</value>
   </data>
   <data name="res_settings1Tooltip" xml:space="preserve">
-    <value>Ändert die Kodierung auf PLUS-Basis</value>
+    <value>Ändert die Codierung auf PLUS-Basis</value>
   </data>
   <data name="res_settings2Tooltip" xml:space="preserve">
-    <value>Ändert die Kodierung auf PLUS-Basis</value>
+    <value>Ändert die Codierung auf PLUS-Basis</value>
   </data>
   <data name="res_settings3Tooltip" xml:space="preserve">
-    <value>Ändert die Kodierung auf X-Basis</value>
+    <value>Ändert die Codierung auf X-Basis</value>
   </data>
   <data name="res_settings4Tooltip" xml:space="preserve">
-    <value>Ändert die Kodierung auf X-Basis</value>
+    <value>Ändert die Codierung auf X-Basis</value>
   </data>
   <data name="res_animationSpeedTooltip" xml:space="preserve">
     <value>Ändert die Animationsgeschwindigkeit</value>

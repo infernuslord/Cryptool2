@@ -7,7 +7,7 @@
   <name lang="en" >Tools</name>
   <name lang="de" >Werkzeuge</name>
   <description lang="en" >Here you can quickly perform specific tasks, e.g. encryption of a message with a password or encoding text to base64.</description>
-  <description lang="de" >Hier können Sie schnell spezifische Aufgaben ausführen (z.B. Verschlüsseln eines Textes mit einem Passwort oder Base64-Kodierungen).</description>
+  <description lang="de" >Hier können Sie schnell spezifische Aufgaben ausführen (z.B. Verschlüsseln eines Textes mit einem Passwort oder Base64-Codierungen).</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Tools Selection</headline>
@@ -86,7 +86,7 @@
       </task>
       <task lang="de">
         <condition plugin="AES;Switch" property="Action" value="0">
-          Hier sehen Sie Ihre verschlüsselte Nachricht. Die verschlüsselte Nachricht ist zusätzlich in Base64 kodiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.
+          Hier sehen Sie Ihre verschlüsselte Nachricht. Die verschlüsselte Nachricht ist zusätzlich in Base64 codiert, wodurch ein einfaches Kopieren in z.B. eine E-Mail möglich ist. Der Empfänger kann mit der gleichen Auswahl (und natürlich dem gleichen Passwort) die empfangene Nachricht entschlüsseln.
         </condition>
         <condition plugin="AES;Switch" property="Action" value="1">
           Hier sehen Sie Ihre entschlüsselte Nachricht.

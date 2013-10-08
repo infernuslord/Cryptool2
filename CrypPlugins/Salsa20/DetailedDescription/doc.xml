@@ -8,7 +8,7 @@
     Salsa20 is one of seven symmetric stream ciphers that was chosen for the final eSTREAM portfolio of the ECRYPT Stream Cipher Project.
     It requires a 64 bits initialization vector (IV) and either a 128 or 256 bits secret key. The cipher is based on a strong cryptographic hash function that
     generates hash values consisting of 64 bytes.
-    For each IV Salsa20 produces a sequence of at most 2^64 hash values. Thus the maximum length of the key stream that Salsa20 can generate per IV is 64 * 2^64 = 2^70 bytes long.
+    For each IV Salsa20 produces a sequence of at most 2^64 hash values. Thus, the maximum length of the key stream that Salsa20 can generate per IV is 64 * 2^64 = 2^70 bytes long.
     No attack faster than brute-force has been identified so far.
   </introduction>
 

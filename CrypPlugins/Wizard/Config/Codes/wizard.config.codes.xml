@@ -5,24 +5,24 @@
 
 <category image="Codes">
   <name lang="en" >Codes</name>
-  <name lang="de-DE" >Kodierungen</name>
+  <name lang="de-DE" >Codierungen</name>
   <description lang="en" >Selecting this allows you to use common codes. You can choose which algorithm you want to use for doing this.</description>  
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Kodierungen zu arbeiten. Das zu verwendende Kodierungsverfahren kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Codierungen zu arbeiten. Das zu verwendende Codierungsverfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Code Selection</headline>
-  <headline lang="de-DE">Kodierungsauswahl</headline>
+  <headline lang="de-DE">Codierungsauswahl</headline>
 
   <!-- This is the step's description. -->
   <task lang="en" >Select the algorithm for en- or decoding you want to use.</task>
-  <task lang="de-DE" >Wählen Sie ein Kodierungs- oder Dekodierungsverfahren aus.</task>
+  <task lang="de-DE" >Wählen Sie ein Codierungs- oder Decodierungsverfahren aus.</task>
 
   <!-- Crosscoding input -->
   <input image="Enc" >
     <name lang="en" >Encoding</name>
-    <name lang="de" >Kodierung</name>
+    <name lang="de" >Codierung</name>
     <description lang="en" >Select this to encode/decode texts to/from base-64, hexadecimal, octal, decimal or binary.</description>
-    <description lang="de" >Hier können Sie einen Text von/zu Base-64, hexadezimaler, oktaler, dezimaler oder binärer Darstellung dekodieren/kodieren.</description>
+    <description lang="de" >Hier können Sie einen Text von/zu Base-64, hexadezimaler, oktaler, dezimaler oder binärer Darstellung decodieren/codieren.</description>
     <headline lang="en" >Text Input</headline>
     <headline lang="de" >Texteingabe</headline>
     <task lang="en">
@@ -30,13 +30,13 @@
       According the chosen input encoding the text is initially decoded to bytes. These bytes are then encoded according to the chosen output encoding. The selected character encoding is always used when "Text" is selected either as input or as output. It controls how characters are encoded as bytes.
     </task>
     <task lang="de">
-      Hier können Sie den zu kodierenden Text und das gewünschte Ausgabeformat angeben.
-      Die Eingabe wird zunächst gemäß der gewählten Eingabekodierung in Bytes dekodiert. Aus diesen Bytes wird danach die Ausgabe in dem eingestellen Ausagebeformat kodiert. Die eingestellte Zeichenkodierung wird immer verwendet, wenn als Ein- oder Ausgabe "Text" gewählt wurde. Diese Einstellung steuert, wie die einzelnen Zeichen in Bytes kodiert werden.
+      Hier können Sie den zu codierenden Text und das gewünschte Ausgabeformat angeben.
+      Die Eingabe wird zunächst gemäß der gewählten Eingabecodierung in Bytes decodiert. Aus diesen Bytes wird danach die Ausgabe in dem eingestellen Ausagebeformat codiert. Die eingestellte Zeichencodierung wird immer verwendet, wenn als Ein- oder Ausgabe "Text" gewählt wurde. Diese Einstellung steuert, wie die einzelnen Zeichen in Bytes codiert werden.
     </task>
 
     <comboBox plugin="Decoder;Encoder" property="Encoding" alignment="Left" width="30%" group="1" defaultValue="4">
       <description lang="en">Used character encoding:</description>
-      <description lang="de">Verwendete Zeichenkodierung:</description>
+      <description lang="de">Verwendete Zeichencodierung:</description>
       <item content="UTF-8"/>
       <item content="UTF-7"/>
       <item content="UTF-16"/>
@@ -48,7 +48,7 @@
 
     <comboBox plugin="Decoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="0">
       <description lang="en">What encoding does the input text have?</description>
-      <description lang="de">In welcher Kodierung liegt die Eingabe vor?</description>
+      <description lang="de">In welcher Codierung liegt die Eingabe vor?</description>
       <item lang="en" content="Text"/>
       <item lang="de" content="Text"/>
       <item lang="en" content="Binary"/>
@@ -65,7 +65,7 @@
 
     <comboBox plugin="Encoder" property="PresentationFormatSetting" alignment="Left" width="30%" group="1" defaultValue="5">
       <description lang="en">The output should be encoded as:</description>
-      <description lang="de">Wie soll die Ausgabe kodiert werden?</description>
+      <description lang="de">Wie soll die Ausgabe codiert werden?</description>
       <item lang="en" content="Text"/>
       <item lang="de" content="Text"/>
       <item lang="en" content="Binary"/>
@@ -93,9 +93,9 @@
       <description lang="de" >-</description>
 
       <headline lang="en" >Coding result</headline>
-      <headline lang="de" >Kodierungsergebnis</headline>
+      <headline lang="de" >Codierungsergebnis</headline>
       <task lang="en">Here you see again your input, the used bytes in hexadecimal representation and the resulting representation in the chosen encoding. You still can change your input while observing the direct effects on the used bytes and the chosen encoding.</task>
-      <task lang="de">Hier sehen Sie nochmal Ihre Eingabe, die dafür verwendeten Bytes in hexadezimaler Darstellung und die resultierende Darstellung in der gewählten Kodierung. Sie können dabei die Eingabe weiterhin verändern und die direkten Auswirkungen auf die verwendeten Bytes und die gewählte Kodierung beobachten.</task>
+      <task lang="de">Hier sehen Sie nochmal Ihre Eingabe, die dafür verwendeten Bytes in hexadezimaler Darstellung und die resultierende Darstellung in der gewählten Codierung. Sie können dabei die Eingabe weiterhin verändern und die direkten Auswirkungen auf die verwendeten Bytes und die gewählte Codierung beobachten.</task>
 
       <inputBox plugin="Input" property="Text" alignment="Stretch" width="100%">
         <description lang="en">Input:</description>
@@ -124,16 +124,16 @@
       The Morse Code is a method to transmit letters and characters.<newline/>To do that, a constant signal is switched on and off.<newline/> It consists of three symbols: a short signal, a long signal and a pause.
     </description>
     <description lang="de" >
-      Der Morsecode oder Morsekode, manchmal auch Morsealphabet genannt, ist ein Verfahren zur Übermittlung von Buchstaben und Zeichen.<newline/> Dabei wird ein konstantes Signal ein- und ausgeschaltet.<newline/> Es besteht aus drei Symbolen: kurzes Signal, langes Signal und Pause.
+      Der Morsecode oder Morsecode, manchmal auch Morsealphabet genannt, ist ein Verfahren zur Übermittlung von Buchstaben und Zeichen.<newline/> Dabei wird ein konstantes Signal ein- und ausgeschaltet.<newline/> Es besteht aus drei Symbolen: kurzes Signal, langes Signal und Pause.
     </description>
 
     <comboBox plugin="Morse Encoder" property="Action" alignment="Left" width="20%">
       <description lang="en">Encode or decode:</description>
-      <description lang="de">Enkodieren oder Dekodieren:</description>
+      <description lang="de">Encodieren oder Decodieren:</description>
       <item lang="en" content="Encode"/>
-      <item lang="de" content="Enkodieren"/>
+      <item lang="de" content="Encodieren"/>
       <item lang="en" content="Decode"/>
-      <item lang="de" content="Dekodieren"/>
+      <item lang="de" content="Decodieren"/>
     </comboBox>
 
     <inputBox plugin="Cleartext to send" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
@@ -147,10 +147,10 @@
       </description>
       <description lang="de">
         <condition plugin="Morse Encoder" property="Action" value="0">
-          Zu <b>enkodierende</b> Nachricht:
+          Zu <b>encodierende</b> Nachricht:
         </condition>
         <condition plugin="Morse Encoder" property="Action" value="1">
-          Zu <b>dekodierende</b> Nachricht:
+          Zu <b>decodierende</b> Nachricht:
         </condition>
       </description>
       <defaultvalue lang="en">Input your message here.</defaultvalue>
@@ -177,10 +177,10 @@
         </description>
         <description lang="de">
           <condition plugin="Morse Encoder" property="Action" value="0">
-            Zu enkodierende Nachricht:
+            Zu encodierende Nachricht:
           </condition>
           <condition plugin="Morse Encoder" property="Action" value="1">
-            Zu dekodierende Nachricht:
+            Zu decodierende Nachricht:
           </condition>
         </description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
@@ -229,7 +229,7 @@
           Message to <b>encode</b>:     
       </description>
       <description lang="de">
-          Zu <b>enkodierende</b> Nachricht:
+          Zu <b>encodierende</b> Nachricht:
       </description>
       <defaultvalue lang="en">Geben Sie hier ihre Nachricht ein!</defaultvalue>
       <defaultvalue lang="de">Please enter your message here!</defaultvalue>
@@ -249,7 +249,7 @@
             Message to encode:         
         </description>
         <description lang="de">         
-            Zu enkodierende Nachricht:         
+            Zu encodierende Nachricht:         
         </description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
         <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
@@ -257,7 +257,7 @@
 
       <presentation plugin="Encoder" width="50%" height="50%">
         <description lang="en">Encoder:</description>
-        <description lang="de">Enkodierer:</description>
+        <description lang="de">Encodierer:</description>
       </presentation>
 
     </sampleViewer>
@@ -267,7 +267,7 @@
   <!-- Decode Visual Code -->
   <input image="VisualCode">
     <name lang="en" >Decode visual code</name>
-    <name lang="de" >Dekodiere Visuellen Code</name>
+    <name lang="de" >Decodiere Visuellen Code</name>
     <description lang="en" >
       A visual code is a one or two dimensional code which can be read for example by a smart phone or special code scanners.
     </description>
@@ -317,12 +317,12 @@
 
       <presentation plugin="Decoder" width="50%" height="50%">
         <description lang="en">Decoder:</description>
-        <description lang="de">Dekodierer:</description>
+        <description lang="de">Decodierer:</description>
       </presentation>
 
       <outputBox plugin="Text" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Decoded Text:</description>
-        <description lang="de">Dekodierter Text:</description>
+        <description lang="de">Decodierter Text:</description>
       </outputBox>
 
     </sampleViewer>    

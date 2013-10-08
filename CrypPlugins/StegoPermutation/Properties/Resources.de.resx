@@ -145,24 +145,24 @@
     <value>Nachricht</value>
   </data>
   <data name="InputMessageTooltip" xml:space="preserve">
-    <value>Eingabe der zu kodierenden Nachricht</value>
+    <value>Eingabe der zu codierenden Nachricht</value>
   </data>
   <data name="OutputListCaption" xml:space="preserve">
     <value>Trägerliste</value>
   </data>
   <data name="OutputListTooltip" xml:space="preserve">
-    <value>Trägerliste mit der kodierten Nachricht</value>
+    <value>Trägerliste mit der codierten Nachricht</value>
   </data>
   <data name="OutputMessageCaption" xml:space="preserve">
     <value>Nachricht</value>
   </data>
   <data name="OutputMessageTooltip" xml:space="preserve">
-    <value>Ausgabe der dekodierten Nachricht</value>
+    <value>Ausgabe der decodierten Nachricht</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Permutations-Steganographie</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Kodiert eine Nachricht durch die Permutation einer Liste</value>
+    <value>Codiert eine Nachricht durch die Permutation einer Liste</value>
   </data>
 </root>

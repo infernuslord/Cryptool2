@@ -6,7 +6,7 @@
   
   <introduction lang="en">
     The T-310/50 is a historic cipher machine that has been used by German Democratic Republic (Deutsche Demokratische Republik). It uses a 240 bit key (30 bytes) grouped into 10 times 24 bit. Each group must have an odd parity,
-    i.e. the sum of the 24 bits modulo 2 must be equal to 1. Thus the key has an entropy (effective value) of 10 times 23 = 230 bit.
+    i.e. the sum of the 24 bits modulo 2 must be equal to 1. Thus, the key has an entropy (effective value) of 10 times 23 = 230 bit.
     Unlike electro-mechanical machines like Enigma, the encryption function of T-310/50 is realized in electronics.
   </introduction>
   

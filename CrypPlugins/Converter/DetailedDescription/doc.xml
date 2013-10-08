@@ -114,7 +114,7 @@
     interpretiert und die resultierende Zahl in ihrer Byte-Darstellung ausgegeben werden soll. Für das Format der Eingabe gilt hierbei dasselbe
     wie im Punkt 'Konvertierung in eine Ganzzahl'.
     <newline/>
-    Wird die Zeichenfolge nicht numerisch interpretiert, so kann man die Kodierung wählen, welche für die Konvertierung
+    Wird die Zeichenfolge nicht numerisch interpretiert, so kann man die Codierung wählen, welche für die Konvertierung
     der Eingabe in ein Byte-Array verwendet werden soll.
   </usage>
   

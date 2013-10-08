@@ -55,9 +55,9 @@
     (Die MIDI-Datei kann zum Beispiel über die Dateieingabe-Komponente eingelesen werden.)
     Am Ausgang <i>"Trägerdatei"</i> wird dann die präparierte MIDI-Datei ausgegeben, die die versteckte Nachricht enthält.
     <newline />
-    Die Komponente kann in jedem zusätzlich eingefügten "Program Change"-Befehl 4 Bits kodieren.
+    Die Komponente kann in jedem zusätzlich eingefügten "Program Change"-Befehl 4 Bits codieren.
     In den Einstellungen der Komponente kann man angeben, wie viele zusätzliche "Program Change"-Befehle pro regulärem "Program Change" eingefügt
-    werden sollen. Um die gesamte Nachricht zu kodieren kann es notwendig sein, diese Anzahl zu erhöhen und somit die Kapazität der Trägerdatei zu erhöhen.
+    werden sollen. Um die gesamte Nachricht zu codieren kann es notwendig sein, diese Anzahl zu erhöhen und somit die Kapazität der Trägerdatei zu erhöhen.
     <newline/><newline/>
     Bei der <i>Entschlüsselung</i> erwartet die Komponente am Eingang <i>"Trägerdatei"</i> eine mit einer versteckten Nachricht präparierte
     MIDI-Datei. Die Komponente extrahiert die Nachricht und gibt diese am Ausgang <i>"Nachricht"</i> aus. Am Ausgang <i>"Trägerdatei"</i> wird

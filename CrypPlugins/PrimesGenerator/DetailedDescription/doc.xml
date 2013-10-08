@@ -5,11 +5,11 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This plugin generates a random prime number of an assignable magnitude or searches for the prime number immediately preceding or following a given number.
+    This plugin generates either a random prime number of an assignable magnitude or the prime number immediately preceding or following a given number.
   </introduction>
 
   <introduction lang="de-DE">
-    Dieses Plugin erzeugt eine zufällige Primzahl einer vorgebbaren Größenordnung oder sucht die einer gegebenen Zahl unmittelbar vorhergehende oder folgende Primzahl und gibt diese am Ausgang aus.
+    Dieses Plugin erzeugt entweder eine zufällige Primzahl einer vorgebbaren Größenordnung oder die einer gegebenen Zahl unmittelbar vorhergehende oder nachfolgende Primzahl.
   </introduction>
 
   <usage lang="en">

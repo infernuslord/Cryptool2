@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>String-Kodierer</value>
+    <value>String-Codierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Konvertiert einen Datenstrom oder ein Byte-Array in einen String.</value>
@@ -133,13 +133,13 @@
     <value>Eingabedatenstrom</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Der Eingabedatenstrom wird in einen String mit der in den Einstellungen gewählten Zeichenkodierung konvertiert.</value>
+    <value>Der Eingabedatenstrom wird in einen String mit der in den Einstellungen gewählten Zeichencodierung konvertiert.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Zeichenkodierung der Eingabe</value>
+    <value>Zeichencodierung der Eingabe</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die erwartete Kodierung des Eingabedatenstroms.</value>
+    <value>Wählen Sie die erwartete Codierung des Eingabedatenstroms.</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
     <value>Maximale Länge</value>
@@ -196,6 +196,6 @@
     <value>Eingabe als Byte-Array</value>
   </data>
   <data name="InputBytesTooltip" xml:space="preserve">
-    <value>Das eingegebene Byte-Array wird in einen String mit der in den Einstellungen gewählten Zeichenkodierung konvertiert.</value>
+    <value>Das eingegebene Byte-Array wird in einen String mit der in den Einstellungen gewählten Zeichencodierung konvertiert.</value>
   </data>
 </root>

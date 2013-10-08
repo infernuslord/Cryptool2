@@ -11,7 +11,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-	Der BB84-Photonendekodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert, wie die kodierten Photonen empfangen und durch
+	Der BB84-Photonendecodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert, wie die codierten Photonen empfangen und durch
 	zufällig erzeugte Photonenbasen wieder in Bits umgewandelt werden. Diese Bits werden anschließend ausgegeben.
   </introduction>
 
@@ -24,12 +24,12 @@
   </usage>
 
   <usage lang="de-DE">
-	Als Eingaben benötigt dieses Plugin zum Einen den Photonenstring, der vom Photonenkodierer erzeugt wurde und zum Anderen den String aus zufällig generierten
-	Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-generator erzeugt werden. Beim Ausführen dekodiert das Plugin die empfangenen Photonen nach 
+	Als Eingaben benötigt dieses Plugin zum Einen den Photonenstring, der vom Photonencodierer erzeugt wurde und zum Anderen den String aus zufällig generierten
+	Photonenbasen, die normalerweise vom Plugin BB84-Photonenbasis-generator erzeugt werden. Beim Ausführen decodiert das Plugin die empfangenen Photonen nach 
 	der Tabelle, die in seinen Einstellungen festgelegt ist. Außerdem kann eine Fehlerrate eingestellt werden, die dafür sorgt, dass einige Photonen
-	falsch dekodiert werden. Dies simuliert eine Störung der Leitung oder des Detektors selbst. Neben den genannten Optionen können in den Einstellungen 
+	falsch decodiert werden. Dies simuliert eine Störung der Leitung oder des Detektors selbst. Neben den genannten Optionen können in den Einstellungen 
 	noch die Anzahl der zu wartenden Zyklen vor Animationsbeginn festgelegt werden werden. Diese Zahl sollte der Anzahl der vorherigen Animationsplugins entsprechen; bei vorgeschaltetem
-	Kodierer wäre es "1", bei Kodierer und Mittelsmann entsprechend "2". Letztlich wird der erzeugte Bit-String an den Ausgang weitergegeben.
+	Codierer wäre es "1", bei Codierer und Mittelsmann entsprechend "2". Letztlich wird der erzeugte Bit-String an den Ausgang weitergegeben.
   </usage>
   
   <presentation lang="en">
@@ -40,9 +40,9 @@
   
   <presentation lang="de-DE">
 	Ist der Präsentationsmodus eingeschaltet, so wird gezeigt, wie die polarisierten Photonen sich zum in der Mitte dargestellten Filter bewegen, welcher mit 
-	einer der zufälligen Photonenbasen gefüllt wird. Anschließend wird der Dekodierungsvorgang durch Aus- und Einblendung animiert. Das jeweils erhaltene Bit
+	einer der zufälligen Photonenbasen gefüllt wird. Anschließend wird der Decodierungsvorgang durch Aus- und Einblendung animiert. Das jeweils erhaltene Bit
 	bewegt sich anschließend zum rechten Rand des Plugins. Die Animationsgeschwindigkeit kann in den Einstellungen des Plugins verändert werden, wobei 
-	diese Einstellung die Geschwindigkeit aller Photonenkodierer, Photonendekodierer und Mittelsmänner gleichzeitig verändert,
+	diese Einstellung die Geschwindigkeit aller Photonencodierer, Photonendecodierer und Mittelsmänner gleichzeitig verändert,
 	um Synchronität zu gewährleisten.
   </presentation>
   
