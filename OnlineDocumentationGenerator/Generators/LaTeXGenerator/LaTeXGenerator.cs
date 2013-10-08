@@ -40,11 +40,16 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             _objectConverter = new ObjectConverter(DocPages, OutputDir);
             var tableCode = GenerateTemplateOverviewTableCode(_lang);
             var descriptionCode = GenerateTemplateDescriptionCode(_lang);
-
-            var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", string.Format("{0}\n{1}", tableCode, descriptionCode));
             var versionString = GetVersion();
+
+            // write template description file
+            var latexCode = Properties.Resources.LaTeXTemplate.Replace("$CONTENT$", tableCode + "\n" + descriptionCode);
             latexCode = latexCode.Replace("$VERSION$", versionString);
             StoreLaTeX(latexCode, "templates-"+_lang+".tex");
+
+            // write appendix for CT2 script
+            latexCode = Properties.Resources.LaTeXAppendix.Replace("$CONTENT$", tableCode);
+            StoreLaTeX(latexCode, "appendix-" + _lang + ".tex");
 
             //var componentDoc = GenerateComponentIndexPages();
             //StoreLaTeX(componentDoc, "components-" + _lang + ".tex");
