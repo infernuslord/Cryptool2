@@ -117,6 +117,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\LaTeXAppendix.txt" />
     <Resource Include="StaticDocs\Images\CT2-Paillier.png" />
     <Resource Include="StaticDocs\Images\Voting-Example.jpeg" />
     <Resource Include="Generators\HtmlGenerator\editors.png" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Generators\LaTeXGenerator\LaTeXTemplate-en.tex" />
+    <Resource Include="Generators\LaTeXGenerator\LaTeXAppendix.tex" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
