@@ -3,7 +3,7 @@
 
   <title lang="en">Caesar Brute-force Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Caesar</i> cipher using brute-force</summary>
-  <description lang="en">Since there are only a limited number of possible shifts (26 in English) using the caesar chipher, they can each be tested in turn in a brute force attack. One way to do this is to write
+  <description lang="en">Since there are only a limited number of possible shifts (26 in English) using the caesar chipher, they can each be tested in turn in a brute-force attack. One way to do this is to write
 out a snippet of the ciphertext in a table of all possible shifts — a technique sometimes known as "completing the plain component". The example given is for
 the a ciphertext; the plaintext is instantly recognisable by eye. Another way of viewing this method is that, under each letter
 of the ciphertext, the entire alphabet is written out in reverse starting at that letter. This attack can be accelerated using a set of strips prepared with the alphabet

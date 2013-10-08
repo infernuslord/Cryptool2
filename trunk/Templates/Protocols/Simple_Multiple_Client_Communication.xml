@@ -3,7 +3,7 @@
 
   <title lang="en">Simple Multi Client Communication</title>
   <summary lang="en">Usage of the <i>Simple Multi Client Communication</i></summary>
-  <description lang="en">The data packets will be transmitted asynchronous via the TCP/IP protocol.</description>
+  <description lang="en">The data packets will be transmitted asynchronously via the TCP/IP protocol.</description>
   <keywords>protocol, asynchronous, tcp, tcp/ip</keywords>
 
   <title lang="de">Einfache Multi-Client-Kommunikation</title>

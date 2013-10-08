@@ -2,13 +2,13 @@
 <sample>
 
   <title lang="en">Decode QR code file</title>
-  <title lang="de">Dekodiere QR-Code-Datei</title>
+  <title lang="de">Decodiere QR-Code-Datei</title>
 
   <summary lang="en">Decodes a QR code file</summary>
-  <summary lang="de">Dekodiert eine QR-Code-Datei</summary>
+  <summary lang="de">Decodiert eine QR-Code-Datei</summary>
 
   <description lang="en">Decodes a picture file which contains a QR code.</description>
-  <description lang="de">Dekodiert eine Bild-Datei, die einen QR-Code enthält.</description> 
+  <description lang="de">Decodiert eine Bild-Datei, die einen QR-Code enthält.</description> 
 
   <keywords>qr, qrcode, code</keywords>
 

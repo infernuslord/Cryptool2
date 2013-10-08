@@ -11,7 +11,7 @@ Sources:<newline />
   </description>
   <keywords>advanced, Daemen, Rijmen, Rijndael, symmetric, nist, pkcs, password, base64</keywords>
 
-  <title lang="de">AES (EBC) mit PKCS#5</title>
+  <title lang="de">AES (ECB) mit PKCS#5</title>
   <summary lang="de">Benutzung der <i>AES</i>-Chiffre, wobei der Sitzungsschlüssel per <i>PKCS#5</i> aus einem Passwort erzeugt wird und der Geheimtext in Base-64 ausgegeben wird</summary>
   <description lang="de">Mit dieser Vorlage ist es möglich, einen Eingabetext mit Hilfe eines Passwortes zu verschlüsseln. Für die Verschlüsselung wird dabei AES [1] verwendet; und um aus dem Passwort einen geeigneten AES-Schlüssel zu generieren, wird PKCS#5 [2] verwendet. Das verschlüsselte Ergebnis wird in textueller Form als Base-64-Codierung ausgegeben &#8211; dadurch kann die Ausgabe sehr einfach z.B. in eine E-Mail kopiert werden.<newline /><newline />
 	  Auch das Entschlüsseln einer solchen Nachricht ist mit dieser Vorlage möglich: Der Base-64-codierte Text muss dafür in die <b>Input</b>-Komponente kopiert werden. Danach muss die AES-<b>Komponente</b> auf "Entschlüsseln" und die <b>Switch</b>-Komponente auf <i>Wahr</i> geschaltet werden. Mit Hilfe der <b>Switch</b>-Komponente wird der Datenpfad für das Ver- bzw. Entschlüsseln jeweils entsprechend angepasst: Bei der Entschlüsselung muss die Eingabe zunächst Base-64-decodiert und bei der Verschlüsselung muss die Ausgabe noch Base-64-codiert werden.

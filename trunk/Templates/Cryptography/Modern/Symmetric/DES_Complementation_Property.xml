@@ -3,7 +3,7 @@
 
   <title lang="en">DES Complementation Property</title>
   <summary lang="en">Shows the complementation property of the <i>DES</i> cipher</summary>
-  <description lang="en">The complementation property of DES means that the work for a brute force attack could be reduced by a factor of 2 (or a single bit) under a chosen-plaintext assumption. By definition, this property also applies also to 3DES cipher. The template demonstrates the property.</description>
+  <description lang="en">The complementation property of DES means that the work for a brute-force attack could be reduced by a factor of 2 (or a single bit) under a chosen-plaintext assumption. By definition, this property also applies also to 3DES cipher. The template demonstrates the property.</description>
   <keywords>DES, complementation</keywords>
 
   <title lang="de">DES Komplement-Eigenschaft</title>

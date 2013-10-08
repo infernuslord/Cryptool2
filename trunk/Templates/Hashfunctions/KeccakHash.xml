@@ -6,7 +6,7 @@
   <description lang="en">This template shows how the <i>Keccak</i> component can be used as a hash function.</description>
   <keywords>keccak, hash, sha, sha-3, hash algorithm, hash function</keywords>
 
-  <title lang="de">Keccak Hash (SHA-3)</title>
+  <title lang="de">Keccak-Hash (SHA-3)</title>
   <summary lang="de">Benutzung von <i>Keccak</i> als Hash-Funktion (SHA-3)</summary>
   <description lang="de">Diese Vorlage zeigt, wie die <i>Keccak</i>-Komponente als Hash-Funktion eingesetzt werden kann.</description>
   <keywords lang="de">keccak, hash, sha, sha-3, hashfunktion</keywords>

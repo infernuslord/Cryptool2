@@ -4,13 +4,13 @@
   <title lang="en">Decimalization</title>
   <summary lang="en">Usage of the <i>Decimalization</i></summary>
   <description lang="en"><i>Decimalization</i> is the process of creating a decimal number from a binary number. Furthermore certain characteristics of the binary data should be transferred to the decimal, e. g. a uniform distribution and unpredictability.<newline /><newline />
-This template presents two scenarios of creating decimals from binary data: The first scenario uses a random number generator to generate binary data for the component. The second scenario allows manual input of the binary data using the <i>TextInput</i> component. The <i>Decimalization</i> components transform the data to decimals. The results can be found inside the text boxes.</description>
+This template presents two scenarios of creating decimals from binary data: The first scenario uses a random number generator to generate binary data for the component. The second scenario allows manual input of the binary data using the <i>TextInput</i> component. The <i>Decimalization</i> component transforms the data to decimals. The results can be found inside the text boxes.</description>
   <keywords>Decimalization</keywords>
 
   <title lang="de">Dezimalisierung</title>
   <summary lang="de">Benutzung der <i>Dezimalisierung</i></summary>
   <description lang="de"><i>Dezimalisierung</i> nennt man den Prozess, wie Dezimalzahlen aus binären Zahlen erzeugt werden. Dabei sollen gewisse Eigenschaften der Binärzahlen (beispielsweise Gleichverteilung oder Nichtvorhersagbarkeit der Ziffern) auf die Dezimalzahl übertragen werden.<newline /><newline />
-Diese Vorlage enthält zwei Dezimalisierungsszenarien: Im ersten Szenario werden die binären Eingabedaten mit einem Zufallszahlengenerator erzeugt. Das zweite Szenario ermöglicht die manuelle Eingabe der Binärdaten mit Hilfe eines Textfeldes. Die Dezimalisierungs-Komponenten transformieren die binären Daten in eine Dezimalzahl und senden die Ausgabe an die Textfelder.</description>
+Diese Vorlage enthält zwei Dezimalisierungsszenarien: Im ersten Szenario werden die binären Eingabedaten mit einem Zufallszahlengenerator erzeugt. Das zweite Szenario ermöglicht die manuelle Eingabe der Binärdaten mit Hilfe eines Textfeldes. Die Dezimalisierungs-Komponente transformiert die binären Daten in eine Dezimalzahl und sendet die Ausgabe an die Textfelder.</description>
   <keywords lang="de">Dezimalisierung</keywords>
 
   <icon file="Decimalization.png" />
