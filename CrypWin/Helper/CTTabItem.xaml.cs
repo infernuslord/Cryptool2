@@ -126,14 +126,7 @@ namespace Cryptool.CrypWin.Helper
         {
             // TODO: Complete member initialization
             this.Info = null;
-            
             this.Info = info;
-            if(info.Icon != null)
-                this.Icon = info.Icon;
-            if (info.Title != null)
-                this.Header = info.Title;
-            if (info.Tooltip != null)
-                this.ToolTip = new TextBlock(info.Tooltip) { MaxWidth = 400, TextWrapping = TextWrapping.Wrap };
             InitializeComponent();
         }
 
