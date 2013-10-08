@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">DES Known Plaintext Analysis</title>
-  <summary lang="en">Cryptanalysis of the <i>DES</i> algorithm using the <i>KeySearcher</i> and a known plaintext</summary>
-  <description lang="en">This template shows the cryptanalysis of the <i>DES</i> algorithm using the <i>KeySearcher</i> and a known plaintext.</description>
+  <title lang="en">DES Known-Plaintext Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>DES</i> algorithm using the <i>KeySearcher</i> component and a known plaintext</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>DES</i> algorithm using the <i>KeySearcher</i> component and a known plaintext.</description>
   <keywords>Data Encryption Standard, symmetric, 56, NSA, standard, keysearcher</keywords>
 
   <title lang="de">DES Known-Plaintext-Analyse</title>
-  <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes</summary>
-  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels <i>KeySearcher</i> und eines bekannten Klartextes.</description>
+  <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Klartextes</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Klartextes.</description>
   <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
 
   <icon file="DES.png" />

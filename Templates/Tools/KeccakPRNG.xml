@@ -6,9 +6,9 @@
   <description lang="en">This template shows how the <i>Keccak</i> component can be used as a pseudorandom number generator.</description>
   <keywords>keccak, prng, random</keywords>
 
-  <title lang="de">Keccak PRNG</title>
+  <title lang="de">Keccak-PRNG</title>
   <summary lang="de">Benutzung von <i>Keccak</i> als PRNG</summary>
-  <description lang="de">Diese Vorlage zeigt, wie die <i>Keccak</i>-Komponente als Pseudozufallsgenerator eingesetzt werden kann.</description>
+  <description lang="de">Diese Vorlage zeigt, wie die <i>Keccak</i>-Komponente als Pseudozufallszahlengenerator eingesetzt werden kann.</description>
   <keywords lang="de">keccak, prng, random</keywords>
 
   <icon file="Keccak.png" />

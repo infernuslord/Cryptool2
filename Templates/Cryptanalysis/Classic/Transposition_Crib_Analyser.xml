@@ -3,7 +3,7 @@
 
   <title lang="en">Transposition Crib Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Transposition</i> cipher using a crib</summary>
-  <description lang="en">This template shows the cryptanalysis of the single <i>Transposition</i> cipher with the <i>Transposition Analyser</i> using a crib. It is a known-plaintext attack, as part of the plaintext is known in advance.</description>
+  <description lang="en">This template shows the cryptanalysis of the single <i>Transposition</i> cipher with the <i>Transposition Analyser</i> using a crib. It is a known-plaintext attack, as a part of the plaintext is known in advance.</description>
   <keywords>Transposition, Analysis, Crib, Permutation</keywords>
 
   <title lang="de">Transposition Crib-Analyse</title>
