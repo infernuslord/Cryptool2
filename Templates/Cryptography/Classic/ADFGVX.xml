@@ -10,7 +10,7 @@ Source: <external ref="http://en.wikipedia.org/wiki/ADFGVX_cipher" /></descripti
   <title lang="de">ADFGVX-Chiffre</title>
   <summary lang="de">Benutzung der <i>ADFGVX</i>-Chiffre</summary>
   <description lang="de">ADFGX und ADFGVX sind Verschlüsselungsverfahren, die das deutsche Militär im Ersten Weltkrieg einsetzte. Sie dienten dazu, Nachrichten mittels drahtloser Telegrafie geheim zu übermitteln. Die Verschlüsselung geschieht zweistufig und basiert auf einer Substitution (Ersetzung von Zeichen durch andere), gefolgt von einer Transposition (Vertauschung der Anordnung der Zeichen).<newline /><newline />
-Beide Verfahren wurden vom deutschen Nachrichtenoffizier Fritz Nebel (1891–1967) erfunden. ADFGX wurde zum ersten Mal am 1. März 1918 an der deutschen Westfront eingesetzt. ADFGVX ist der Nachfolger von ADFGX und wurde ab dem 1. Juni 1918 benutzt. Gebrochen wurden die beiden Chiffren von dem französischen Offizier Georges Painvin.<newline /><newline />
+Beide Verfahren wurden vom deutschen Nachrichtenoffizier Fritz Nebel (1891–1967) erfunden. ADFGX wurde zum ersten Mal am 1. März 1918 an der deutschen Westfront eingesetzt. ADFGVX ist der Nachfolger von ADFGX und wurde ab dem 1. Juni 1918 benutzt. Beide Chiffren wurden von dem französischen Offizier Georges Painvin gebrochen.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/ADFGX" /></description>
   <keywords lang="de">Weltkrieg, Krieg, Reihe, Spalte, Quadrat</keywords>
 
