@@ -54,7 +54,7 @@
       <Value Profile="(Default)">YellowGreen</Value>
     </Setting>
     <Setting Name="ProtocolColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">130, 100, 200</Value>
+      <Value Profile="(Default)">DarkOrange</Value>
     </Setting>
   </Settings>
 </SettingsFile>
