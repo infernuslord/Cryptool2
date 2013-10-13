@@ -130,7 +130,7 @@
     <value>Homophonen-Tabelle</value>
   </data>
   <data name="HomophonesTooltip" xml:space="preserve">
-    <value>Dieser Parameter enthält 90 Nummern im Bereich von 01-99 oder 10-99. Diese Zahlen werden bei der "Verschlüsselung" und "Entschlüsselung" verwendet. Zu jedem Buchstabe wird drei oder vier Nummern zugewiesen</value>
+    <value>Dieser Parameter enthält 90 or 99 zwei Ziffern Nummern im Bereich von 10-99 oder 01-99. Diese Zahlen werden bei der "Verschlüsselung" und "Entschlüsselung" verwendet. Zu jedem Buchstabe wird drei oder vier Nummern zugewiesen</value>
   </data>
   <data name="input" xml:space="preserve">
     <value>Eingabe</value>
@@ -190,10 +190,10 @@
     <value>Zufällige Homophonen-Tabelle</value>
   </data>
   <data name="TableOne" xml:space="preserve">
-    <value>Homophonen-Tabelle A</value>
+    <value>90 Homophonen (10-99)</value>
   </data>
   <data name="TableTwo" xml:space="preserve">
-    <value>Homophonen-Tabelle B</value>
+    <value>99 Homophonen (01-99)</value>
   </data>
   <data name="Letters27" xml:space="preserve">
     <value>Spanish Alphabet (27 Buchstaben)</value>

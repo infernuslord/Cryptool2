@@ -130,13 +130,13 @@
     <value>Homophones table</value>
   </data>
   <data name="HomophonesTooltip" xml:space="preserve">
-    <value>This parameter contains 90 numbers in the range of 01-99 or 10-99. These numbers are used during encryption and decryption. To each letter is assigned three or four numbers</value>
+    <value>This parameter contains 90 or 99 two digits numbers in the range of 10-99 or 01-99. These numbers are used during encryption and decryption. To each letter is assigned three or four numbers</value>
   </data>
   <data name="input" xml:space="preserve">
     <value>Input</value>
   </data>
   <data name="InputTooltip" xml:space="preserve">
-    <value>If Action "Encryption" is selected: Insert plaintext to be encrypted. If Action "Decryption" is selected: Insert ciphertext to be decrypted</value>
+    <value>If action "Encryption" is selected: Insert plaintext to be encrypted. If action "Decryption" is selected: Insert ciphertext to be decrypted</value>
   </data>
   <data name="Keyword" xml:space="preserve">
     <value>Keyword</value>
@@ -178,7 +178,7 @@
     <value>Spanish alphabet  ordered randomly. The random order is defined by the Keyword.</value>
   </data>
   <data name="HomophonesTables" xml:space="preserve">
-    <value>Homophones Tables</value>
+    <value>Homophones tables</value>
   </data>
   <data name="HomophonesTablesTooltip" xml:space="preserve">
     <value>Please select an homophones table</value>
@@ -187,10 +187,10 @@
     <value>Random homophones table</value>
   </data>
   <data name="TableOne" xml:space="preserve">
-    <value>Homophones table A </value>
+    <value>90 homophones (10-99)</value>
   </data>
   <data name="TableTwo" xml:space="preserve">
-    <value>Homophones table B</value>
+    <value>99 homophones (01-99)</value>
   </data>
   <data name="Letters27" xml:space="preserve">
     <value>Spanish alphabet (27 letters)</value>
@@ -199,6 +199,6 @@
     <value>Spanish alphabet (29 letters - CH and LL included )</value>
   </data>
   <data name="AlphabetsTooltip" xml:space="preserve">
-    <value>Select an Alphabet</value>
+    <value>Select an alphabet</value>
   </data>
 </root>
