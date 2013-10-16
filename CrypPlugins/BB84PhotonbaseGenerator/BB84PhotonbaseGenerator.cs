@@ -160,6 +160,7 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
       
         public void PreExecution()
         {
+            generatedRandom = null;
         }
      
         public void Execute()
@@ -172,6 +173,12 @@ namespace Cryptool.Plugins.BB84PhotonbaseGenerator
 
         private void generateRandomBases()
         {
+            if (generatedRandom == null)
+            {
+                this.keyLength = settings.InputKey;
+                generatedRandom = new int[keyLength];
+            }
+
             for (int i = 0; i < generatedRandom.Length; i++)
             {
                 sRandom = new RNGCryptoServiceProvider();
