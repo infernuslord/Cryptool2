@@ -196,7 +196,7 @@
     <value>Spanish alphabet (27 letters)</value>
   </data>
   <data name="Letters29" xml:space="preserve">
-    <value>Spanish alphabet (29 letters - CH and LL included )</value>
+    <value>Spanish alphabet (29 letters - CH and LL included)</value>
   </data>
   <data name="AlphabetsTooltip" xml:space="preserve">
     <value>Select an alphabet</value>
