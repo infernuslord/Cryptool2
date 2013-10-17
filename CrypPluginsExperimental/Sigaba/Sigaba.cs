@@ -21,7 +21,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
+using SigabaBruteforce.Cryptool.PluginBase.Control;
+
 
 namespace Sigaba
 {
@@ -35,6 +38,9 @@ namespace Sigaba
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class Sigaba : ICrypComponent
     {
+        public readonly SigabaSettings _settings = new SigabaSettings();
+        public readonly SigabaCore _core;
+
         #region Constructor 
         public Sigaba()
         {
@@ -54,8 +60,6 @@ namespace Sigaba
         #region Private Variables
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly SigabaSettings _settings = new SigabaSettings();
-        private readonly SigabaCore _core;
         private string[] _keys;
 
         #endregion
@@ -110,16 +114,23 @@ namespace Sigaba
         /// </summary>
         public void PreExecution()
         {
-            _core.SetInternalConfig();
-            _keys[0] = _settings.CipherKey;
-            _keys[1] = _settings.IndexKey;
-            _keys[2] = _settings.ControlKey;
+            if (controlSlave == null)
+            {
+                _core.SetInternalConfig();
+                _keys[0] = _settings.CipherKey;
+                _keys[1] = _settings.IndexKey;
+                _keys[2] = _settings.ControlKey;
+            }
 
         }
 
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
         /// </summary>
+        /// 
+        
+
+        
         public void Execute()
         {
             ProgressChanged(0, 1);
@@ -135,6 +146,7 @@ namespace Sigaba
             }
             else
             {
+                
                 OutputString = postFormatOutput(_core.EncryptPresentation(preFormatInput(InputString)));
             }
             OnPropertyChanged("OutputString");
@@ -147,12 +159,14 @@ namespace Sigaba
         /// </summary>
         public void PostExecution()
         {
-            _settings.CipherKey = _keys[0].ToUpper();
-            _settings.IndexKey = _keys[1].ToUpper();
-            _settings.ControlKey = _keys[2].ToUpper();
+            if (controlSlave == null)
+            {
+                _settings.CipherKey = _keys[0].ToUpper();
+                _settings.IndexKey = _keys[1].ToUpper();
+                _settings.ControlKey = _keys[2].ToUpper();
+            }
 
-             _core.stop();
-            ((SigabaPresentation)Presentation).ClearPresentation();
+
 
         }
 
@@ -163,7 +177,7 @@ namespace Sigaba
         public void Stop()
         {
             _core.stop();   
-            ((SigabaPresentation)Presentation).ClearPresentation();
+            
         }
 
         /// <summary>
@@ -178,6 +192,54 @@ namespace Sigaba
         /// </summary>
         public void Dispose()
         {
+        }
+
+        public void changeSettings(string setting, object value)
+        {
+
+
+            if (setting.Equals("CipherKey")) _settings.CipherKey = (string)value;
+            else if (setting.Equals("ControlKey")) _settings.ControlKey = (string)value;
+            else if (setting.Equals("IndexKey")) _settings.IndexKey = (string)value;
+
+            else if (setting.Equals("IndexKey")) _settings.Action = (int) value;
+
+            else if (setting.Equals("CipherRotor1")) _settings.CipherRotor1 = (int)value;
+            else if (setting.Equals("CipherRotor2")) _settings.CipherRotor2 = (int)value;
+            else if (setting.Equals("CipherRotor3")) _settings.CipherRotor3 = (int)value;
+            else if (setting.Equals("CipherRotor4")) _settings.CipherRotor4 = (int)value;
+            else if (setting.Equals("CipherRotor5")) _settings.CipherRotor5 = (int)value;
+            
+            else if (setting.Equals("ControlRotor1")) _settings.ControlRotor1 = (int)value;
+            else if (setting.Equals("ControlRotor2")) _settings.ControlRotor2 = (int)value;
+            else if (setting.Equals("ControlRotor3")) _settings.ControlRotor3 = (int)value;
+            else if (setting.Equals("ControlRotor4")) _settings.ControlRotor4 = (int)value;
+            else if (setting.Equals("ControlRotor5")) _settings.ControlRotor5 = (int)value;
+
+            else if (setting.Equals("IndexRotor1")) _settings.IndexRotor1 = (int)value;
+            else if (setting.Equals("IndexRotor2")) _settings.IndexRotor2 = (int)value;
+            else if (setting.Equals("IndexRotor3")) _settings.IndexRotor3 = (int)value;
+            else if (setting.Equals("IndexRotor4")) _settings.IndexRotor4 = (int)value;
+            else if (setting.Equals("IndexRotor5")) _settings.IndexRotor5 = (int)value;
+
+            else if (setting.Equals("CipherRotor1Reverse")) _settings.CipherRotor1Reverse = (bool)value;
+            else if (setting.Equals("CipherRotor2Reverse")) _settings.CipherRotor2Reverse = (bool)value;
+            else if (setting.Equals("CipherRotor3Reverse")) _settings.CipherRotor3Reverse = (bool)value;
+            else if (setting.Equals("CipherRotor4Reverse")) _settings.CipherRotor4Reverse = (bool)value;
+            else if (setting.Equals("CipherRotor5Reverse")) _settings.CipherRotor5Reverse = (bool)value;
+
+            else if (setting.Equals("ControlRotor1Reverse")) _settings.ControlRotor1Reverse = (bool)value;
+            else if (setting.Equals("ControlRotor2Reverse")) _settings.ControlRotor2Reverse = (bool)value;
+            else if (setting.Equals("ControlRotor3Reverse")) _settings.ControlRotor3Reverse = (bool)value;
+            else if (setting.Equals("ControlRotor4Reverse")) _settings.ControlRotor4Reverse = (bool)value;
+            else if (setting.Equals("ControlRotor5Reverse")) _settings.ControlRotor5Reverse = (bool)value;
+
+            else if (setting.Equals("IndexRotor1Reverse")) _settings.IndexRotor1Reverse = (bool)value;
+            else if (setting.Equals("IndexRotor2Reverse")) _settings.IndexRotor2Reverse = (bool)value;
+            else if (setting.Equals("IndexRotor3Reverse")) _settings.IndexRotor3Reverse = (bool)value;
+            else if (setting.Equals("IndexRotor4Reverse")) _settings.IndexRotor4Reverse = (bool)value;
+            else if (setting.Equals("IndexRotor5Reverse")) _settings.IndexRotor5Reverse = (bool)value;
+            
         }
 
         #endregion
@@ -208,7 +270,7 @@ namespace Sigaba
         IList<UnknownToken> unknownList = new List<UnknownToken>();
         IList<UnknownToken> lowerList = new List<UnknownToken>();
 
-        private string preFormatInput(string text)
+        public string preFormatInput(string text)
         {
             StringBuilder result = new StringBuilder();
             bool newToken = true;
@@ -255,7 +317,7 @@ namespace Sigaba
 
         }
 
-        private string postFormatOutput(string text)
+        public string postFormatOutput(string text)
         {
             StringBuilder workstring = new StringBuilder(text);
             foreach (UnknownToken token in unknownList)
@@ -312,5 +374,69 @@ namespace Sigaba
         }
 
         #endregion
+
+        private IControlSigabaEncryption controlSlave;
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip")]
+        public IControlSigabaEncryption ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new SigabaControl(this);
+                return controlSlave;
+            }
+        }
+
     }
+
+    public class SigabaControl : IControlSigabaEncryption
+    {
+        private Sigaba plugin;
+
+        public SigabaControl(Sigaba plugin)
+        {
+            this.plugin = plugin;
+        }
+
+        public string postFormatOutput(string text)
+        {
+            return plugin.postFormatOutput(text);
+        }
+
+        public string preFormatInput(string text)
+        {
+            return plugin.preFormatInput(text);
+        }
+
+        public string Decrypt(string ciphertext)
+        {
+            String s = "";
+            s = plugin._core.Encrypt(ciphertext);
+            return s;
+        }
+
+        public void setInternalConfig()
+        {
+            plugin._core.SetInternalConfig();
+        }
+
+        public void onStatusChanged()
+        {
+            if (OnStatusChanged != null)
+                OnStatusChanged(this, true);
+        }
+
+        public void changeSettings(string setting, object value)
+        {
+            plugin.changeSettings(setting, value);
+        }
+
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+
+        public void Dispose()
+        {
+
+        }
+    }
+
 }

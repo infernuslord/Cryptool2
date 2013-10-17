@@ -45,9 +45,9 @@ namespace Sigaba
             for (int i = 0; i < lineArray.Length; i++)
                 {
                     //lineArray[i].Y1 = (SigabaConstants.ControlCipherRotors[Type][i]-65)*33 - i*33 + 16;
-                    if(Ciph)
+                   /* if(Ciph)
                         lineArray[i].Y1 = (_rotor.Ciph(i))*33 - i*33 + 16;
-                    else
+                    else*/
                         lineArray[i].Y1 = (_rotor.DeCiph(i)) * 33 - i * 33 + 16;
                 }
             

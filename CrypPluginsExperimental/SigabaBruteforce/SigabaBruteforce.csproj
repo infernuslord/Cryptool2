@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{29520D81-911D-4FCD-9A6B-670625D6E0A1}</ProjectGuid>
+    <ProjectGuid>{BA8664C2-53B0-43F1-B8E3-FE91E4DD0C9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sigaba</RootNamespace>
-    <AssemblyName>Sigaba</AssemblyName>
+    <RootNamespace>SigabaBruteforce</RootNamespace>
+    <AssemblyName>SigabaBruteforce</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -79,21 +79,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ORing.xaml.cs">
-      <DependentUpon>ORing.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ORing2.xaml.cs">
-      <DependentUpon>ORing2.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Rotor3Index.xaml.cs">
-      <DependentUpon>Rotor3Index.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PresentationIndex.xaml.cs">
-      <DependentUpon>PresentationIndex.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PresentationRotor.xaml.cs">
-      <DependentUpon>PresentationRotor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -104,18 +89,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Rotor.cs" />
-    <Compile Include="Rotor2.cs" />
-    <Compile Include="Rotor3.xaml.cs">
-      <DependentUpon>Rotor3.xaml</DependentUpon>
+    <Compile Include="SigabaBruteforce.cs" />
+    <Compile Include="SigabaBruteforceQuickWatchPresentation.xaml.cs">
+      <DependentUpon>SigabaBruteforceQuickWatchPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sigaba.cs" />
-    <Compile Include="SigabaConstants.cs" />
-    <Compile Include="SigabaCore.cs" />
-    <Compile Include="SigabaPresentation.xaml.cs">
-      <DependentUpon>SigabaPresentation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SigabaSettings.cs" />
+    <Compile Include="SigabaBruteforceSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,10 +101,6 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\SigabaBruteforce\SigabaBruteforce.csproj">
-      <Project>{BA8664C2-53B0-43F1-B8E3-FE91E4DD0C9F}</Project>
-      <Name>SigabaBruteforce</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -161,37 +135,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ORing.xaml">
+    <Page Include="SigabaBruteforceQuickWatchPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ORing2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Rotor3Index.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PresentationIndex.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PresentationRotor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Rotor3.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SigabaPresentation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

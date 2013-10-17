@@ -27,6 +27,7 @@ namespace Sigaba
     {
         #region Private Variables
 
+        private ObservableCollection<string> _typeStrings = new ObservableCollection<string>();
         private ObservableCollection<string> _actionStrings = new ObservableCollection<string>();
         private ObservableCollection<string> _cipherControlRotorStrings = new ObservableCollection<string>();
         private ObservableCollection<string> _indexRotorStrings = new ObservableCollection<string>();
@@ -34,6 +35,8 @@ namespace Sigaba
         public string _cipherKey = "OOOOO";
         public string _controlKey = "OOOOO";
         public string _indexKey = "00000";
+
+        public int _type = 0;
 
         private int _presentationSpeed = 100;
 
@@ -85,6 +88,7 @@ namespace Sigaba
         #region Initialisation / Contructor
         public SigabaSettings()
         {
+            SetList(_typeStrings,"CSP888/889","CSP2800");
             SetList(_actionStrings, "SigabaSettings_SigabaSettings_Cipher", Resources.SigabaSettings_SigabaSettings_Decipher);
             SetList(_cipherControlRotorStrings, "TestRotor", "RotorA1", "RotorA2", "RotorA3", "RotorA4", "RotorA5", "RotorA6", "RotorA7", "RotorA8", "RotorA9","RotorA10");
             SetList(_indexRotorStrings, "TestRotor","RotorB1", "RotorB2", "RotorB3", "RotorB4", "RotorB5");
@@ -105,6 +109,21 @@ namespace Sigaba
             foreach (string key in keys)
                 coll.Add(typeof(Sigaba).GetPluginStringResource(key));
         }
+
+         [TaskPane("TypeCaption", "TypeTooltip",
+             null, 0, false, ControlType.DynamicComboBox, new string[] { "TypeStrings" })]
+         public int Type
+         {
+             get { return this._type; }
+             set
+             {
+                 if (((int)value) != _type)
+                 {
+                     this._type = (int)value;
+                     OnPropertyChanged("Type");
+                 }
+             }
+         }
 
          [TaskPane("ActionCaption", "ActionTooltip",
             null, 0, false, ControlType.DynamicComboBox, new string[] { "ActionStrings" })]
@@ -204,6 +223,21 @@ namespace Sigaba
             }
         }
 
+
+        [PropertySaveOrder(11)]
+        public ObservableCollection<string> TypeStrings
+        {
+            get { return _typeStrings; }
+            set
+            {
+                if (value != _typeStrings)
+                {
+                    _typeStrings = value;
+                    OnPropertyChanged("TypeStrings");
+                }
+            }
+        }
+
         [PropertySaveOrder(9)]
         public ObservableCollection<string> ActionStrings
         {
@@ -219,7 +253,7 @@ namespace Sigaba
         }
 
         [PropertySaveOrder(10)]
-        [TaskPane("PresentationSpeedCaption", "PresentationSpeedTooltip", "PresentationGroup", 6, true, ControlType.Slider, 100, 4000)]
+        [TaskPane("PresentationSpeedCaption", "PresentationSpeedTooltip", "PresentationGroup", 6, true, ControlType.Slider, 1, 40)]
         public int PresentationSpeed
         {
             get { return (int)_presentationSpeed; }

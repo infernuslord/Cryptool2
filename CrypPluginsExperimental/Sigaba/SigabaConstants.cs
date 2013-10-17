@@ -31,7 +31,10 @@ namespace Sigaba
                                                               new int[] {6,4,9,7,1,3,5,2,8,0}
                                                           };
 
-        public static readonly int[] Transform = { 9, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8 };
+        public static readonly int[][] Transform = {    new int[] {9, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8 },
+                                                        new int[] {9, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 9, 9, 9, 7, 7, 0, 0, 8, 8, 8, 8 }
+                                                   };
+        
         public static readonly int[] Transform2 = { 0, 4, 4, 3, 3, 2, 2, 1, 1, 0 };
 
     }

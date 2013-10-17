@@ -39,6 +39,8 @@ namespace Sigaba
             for (int i = 0; i < lineArray.Length; i++)
             {
                 //lineArray[i].Y1 = (SigabaConstants.ControlCipherRotors[Type][i]-65)*33 - i*33 + 16;
+                //int j = (i+2)%26;
+
                 lineArray[i].X1 = (_oring[i]) * 33 - i * 33 + 16 + 231;
             }
 

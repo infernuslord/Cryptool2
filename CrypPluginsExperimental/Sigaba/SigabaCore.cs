@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace Sigaba
 {
-    class SigabaCore
+    public class SigabaCore
     {
 
         private readonly Sigaba _facade;
@@ -71,14 +71,14 @@ namespace Sigaba
         public string EncryptPresentation(String cipher)
         {
             Boolean b2 = true;
-
+            _sigpa.stopPresentation = false;
             string repeat = "";
 
             _sigpa.SetCipher(cipher);
 
             foreach (char c in cipher)
             {
-                if(!b2)
+                if(!b2 || _sigpa.stopPresentation)
                 {
                     break;
                 }
@@ -103,12 +103,10 @@ namespace Sigaba
                 ControlRotors[2].IncrementPosition();
 
                 _sigpa.FillPresentation(PresentationLetters);
-                
                 _sigpa.Callback = true;
-
-                while(_sigpa.Callback && b2)  //primitve escape routine
+                while(b2 && _sigpa.Callback)
                 {
-                    
+
                 }
                 UpdateSettings();
                 
@@ -181,10 +179,10 @@ namespace Sigaba
                 tempi = rotor.DeCiph(tempi);
             }
 
-            tempf = SigabaConstants.Transform[tempf];
-            tempg = SigabaConstants.Transform[tempg];
-            temph = SigabaConstants.Transform[temph];
-            tempi = SigabaConstants.Transform[tempi];
+            tempf = SigabaConstants.Transform[_settings.Type][tempf];
+            tempg = SigabaConstants.Transform[_settings.Type][tempg];
+            temph = SigabaConstants.Transform[_settings.Type][temph];
+            tempi = SigabaConstants.Transform[_settings.Type][tempi];
 
             foreach (var rotor in IndexRotors)
             {
@@ -228,11 +226,13 @@ namespace Sigaba
                 PresentationLetters[3, i+1] = tempi = ControlRotors[i].DeCiph(tempi);
             }
 
-            PresentationLetters[0, ControlRotors.Length + 2] = tempf = SigabaConstants.Transform[tempf];
-            PresentationLetters[1, ControlRotors.Length + 2] = tempg = SigabaConstants.Transform[tempg];
-            PresentationLetters[2, ControlRotors.Length + 2] = temph = SigabaConstants.Transform[temph];
-            PresentationLetters[3, ControlRotors.Length + 2] = tempi = SigabaConstants.Transform[tempi];
+            Console.WriteLine(tempf+"  "+ tempg + "  "+ temph + "  "+ tempi);
 
+            PresentationLetters[0, ControlRotors.Length + 2] = tempf = SigabaConstants.Transform[_settings.Type][tempf];
+            PresentationLetters[1, ControlRotors.Length + 2] = tempg = SigabaConstants.Transform[_settings.Type][tempg];
+            PresentationLetters[2, ControlRotors.Length + 2] = temph = SigabaConstants.Transform[_settings.Type][temph];
+            PresentationLetters[3, ControlRotors.Length + 2] = tempi = SigabaConstants.Transform[_settings.Type][tempi];
+            Console.WriteLine(tempf + "  " + tempg + "  " + temph + "  " + tempi);
             for (int i = 0; i < IndexRotors.Length;i++ )
             {
                 if (tempf != -1)
@@ -243,12 +243,15 @@ namespace Sigaba
                     PresentationLetters[2, ControlRotors.Length + i + 3] = temph = IndexRotors[i].Ciph(temph);
                 if (tempi != -1)
                     PresentationLetters[3, ControlRotors.Length + i + 3] = tempi = IndexRotors[i].Ciph(tempi);
+                Console.WriteLine(tempf + "  " + tempg + "  " + temph + "  " + tempi);
             }
-
+            Console.WriteLine(tempf + "  " + tempg + "  " + temph + "  " + tempi);
             PresentationLetters[0, ControlRotors.Length + IndexRotors.Length + 4] = tempf = SigabaConstants.Transform2[tempf];
             PresentationLetters[1, ControlRotors.Length + IndexRotors.Length + 4] = tempg = SigabaConstants.Transform2[tempg];
             PresentationLetters[2, ControlRotors.Length + IndexRotors.Length + 4] = temph = SigabaConstants.Transform2[temph];
             PresentationLetters[3, ControlRotors.Length + IndexRotors.Length + 4] = tempi = SigabaConstants.Transform2[tempi];
+
+            Console.WriteLine(PresentationLetters[0, 14] + "  " + PresentationLetters[1, 14] + "  " + PresentationLetters[2, 14] + "  " + PresentationLetters[3, 14]);
 
             int[] back = { tempf, tempg, temph, tempi };
 
@@ -309,13 +312,14 @@ namespace Sigaba
         {
             b2 = false;
             _sigpa.Stop();
+            
 
         }
 
         public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            _sigpa.St.SetSpeedRatio( 4000 / _settings.PresentationSpeed);
-            _sigpa.SpeedRatio = 4000 / _settings.PresentationSpeed;
+            _sigpa.St.SetSpeedRatio((double) 50 / _settings.PresentationSpeed);
+            _sigpa.SpeedRatio = (double)50 / _settings.PresentationSpeed;
         }
 
     }
