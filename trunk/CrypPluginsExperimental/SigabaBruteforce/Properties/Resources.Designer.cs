@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sigaba.Properties {
+namespace SigabaBruteforce.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Sigaba.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sigaba.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SigabaBruteforce.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -507,6 +507,15 @@ namespace Sigaba.Properties {
         public static string IndexRotor5Tooltip {
             get {
                 return ResourceManager.GetString("IndexRotor5Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H.
+        /// </summary>
+        public static string LetterH {
+            get {
+                return ResourceManager.GetString("LetterH", resourceCulture);
             }
         }
         

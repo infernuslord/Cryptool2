@@ -61,7 +61,7 @@ namespace Sigaba
             for (int i = 0; i < Rotor0815.Children.Count; i++)
             {
                 TextBlock tb = (TextBlock) Rotor0815.Children[i];
-                tb.Text = (i + 7) % 10 + 10 * (t+1) + "";
+                tb.Text = (i + 7) % 10 + 10 * (t) + "";
             }
 
             Index = t;

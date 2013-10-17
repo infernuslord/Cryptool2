@@ -267,6 +267,9 @@
   <data name="IndexRotor5Tooltip" xml:space="preserve">
     <value>Defines the type of the fith index rotor</value>
   </data>
+  <data name="LetterH" xml:space="preserve">
+    <value>H</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Sigaba</value>
   </data>
