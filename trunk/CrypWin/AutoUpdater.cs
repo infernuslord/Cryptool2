@@ -577,15 +577,15 @@ namespace Cryptool.CrypWin
                             
                             if (bytesPerSecond < 1024)
                             {
-                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} bytes/sec", bytesPerSecond);
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} Bytes/sec", bytesPerSecond);
                             }
                             else if (bytesPerSecond / 1024 < 1024)
                             {
-                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} kb/sec", (bytesPerSecond / 1024.0));
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} KiB/sec", (bytesPerSecond / 1024.0));
                             }
                             else
                             {
-                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} MB/sec", (bytesPerSecond / (1024.0 * 1024.0)));
+                                UpdaterPresentation.GetSingleton().text.Text = string.Format("{0:0.00} MiB/sec", (bytesPerSecond / (1024.0 * 1024.0)));
                             }
                             lastGuiUpdateTime = DateTime.Now;
                         }                        
