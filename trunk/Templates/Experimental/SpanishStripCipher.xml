@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Spanish Strip Cipher</title>
+  <summary lang="en">Usage of the <i>Spanish Strip Cipher</i> </summary>
+  <description lang="en">This template shows the usage of the Spanish Strip Cipher plug-in</description>
+  <keywords></keywords>
+
+  <title lang="de">Spanische Strip-Chiffre</title>
+  <summary lang="de">Benutzung der <i>Spanische Strip-Chiffre</i></summary>
+  <description lang="de">Diese Vorlage zeigt der Benutzung des Spanische Strip-Chiffre Plug-in</description>
+  <keywords lang="de"></keywords>
+
+  <icon file="SpanishStripCipher.png" />
+  <relevantPlugins>
+    <plugin name="SpanishStripCipher" />
+  </relevantPlugins>
+
+</sample>
