@@ -101,6 +101,14 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\LibSource\LibVLC\LibVLC.NET.Presentation\LibVLC.NET.Presentation.csproj">
+      <Project>{6757603C-3613-4CD6-86CC-5A25CF023CFA}</Project>
+      <Name>LibVLC.NET.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LibSource\LibVLC\LibVLC.NET\LibVLC.NET.csproj">
+      <Project>{BB06DFF7-4F41-4B9D-A3C3-3B6D2B8702B6}</Project>
+      <Name>LibVLC.NET</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="CrypTutorialsPresentation.xaml">
