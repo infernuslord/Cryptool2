@@ -104,6 +104,9 @@ namespace Cryptool.Scytale
                     EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Got an invalid stick size of " + settings.StickSize + "! Reverting to 1.", this, NotificationLevel.Warning));
                     settings.StickSize = 1;
                 }
+                
+                //remove line breaks since they do not make any sense in the scytale
+                inputString = inputString.Replace("\r", "").Replace("\n","");
 
                 CharsPerRow = inputString.Length / settings.StickSize + 1;
                 outputString = string.Empty;
