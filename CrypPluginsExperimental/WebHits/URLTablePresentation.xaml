@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Cryptool.Plugins.WebHits.URLTablePresentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="26" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <ListView Name="urlsListView" Background="#AFE2FFCE"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" Height="250" Grid.ColumnSpan="2" Margin="0,25" ItemsSource="{Binding}" MouseDoubleClick="urlsListView_MouseDoubleClick">
+            
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="#" DisplayMemberBinding="{Binding Ranking}" Width="50" />
+                    <GridViewColumn Header="URL" DisplayMemberBinding="{Binding HitURL}" />        
+                </GridView>
+            </ListView.View>           
+        </ListView>
+        <Label Content="WPF Context Menu and List View Remove Item" Height="28" Margin="142,24,107,332" Name="label1" VerticalAlignment="Center" FontWeight="Bold" FontSize="15" />
+    </Grid>
+</UserControl>
