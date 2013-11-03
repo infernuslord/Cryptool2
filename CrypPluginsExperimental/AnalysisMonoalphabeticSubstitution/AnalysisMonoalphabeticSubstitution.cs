@@ -49,7 +49,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private LanguageDictionary langDic = null;
         private Text cText = null;
         private Text refText = null;
-        private Boolean inputOK = true;
         private Boolean caseSensitive = false;
         private String wordSeparator;
 
@@ -94,7 +93,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 //this.ciphertext_has_changed = true;
             }
         }
-
+        /*
         [PropertyInfo(Direction.InputData, "PropCiphertextalphabetCaption", "PropCiphertextalphabetTooltip", false)]
         public String Ciphertext_Alphabet
         {
@@ -124,7 +123,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 //this.reference_text_has_changed = true;
             }
         }
-
+        */
         [PropertyInfo(Direction.InputData, "PropDictionaryCaption", "PropDictionaryTooltip", false)]
         public ICryptoolStream Language_Dictionary
         {
@@ -179,7 +178,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void PreExecution()
         {
+        }
+
+        public void Execute()
+        {
             String alpha = "";
+            Boolean inputOK = true;
 
             // Prepare the cryptanalysis of the ciphertext
 
@@ -189,7 +193,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set ciphertext and plaintext alphabet
                 if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
                 {
-                    alpha = detAlphabet(settings.boAlphabet,settings.boCaseSensitive);
+                    alpha = detAlphabet(settings.boAlphabet, settings.boCaseSensitive);
                     this.ptAlphabet = new Alphabet(alpha, 1);
                     this.ctAlphabet = new Alphabet(alpha, 1);
                     this.caseSensitive = settings.boCaseSensitive;
@@ -207,13 +211,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     alpha = detAlphabet(settings.ptAlphabet, settings.ptCaseSensitive);
                     this.ptAlphabet = new Alphabet(alpha, 1);
-                    
+
                 }
                 else if (settings.ptAlphabet == 2)
                 {
                     //this.PTAlphabet = this.plainAlphabet;  
                 }
-                
+
                 // Set ciphertext alphabet
                 if (settings.ctAlphabet == 0 || settings.ctAlphabet == 1)
                 {
@@ -226,7 +230,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     // this.CTAlphabet = this.cipherAlphabet;
                 }
             }
-            
+
             // N-gram probabilities 
             if (settings.SeparateAlphabets == false)
             {
@@ -305,20 +309,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 if (settings.boAlphabet == 0)
                 {
-                   try
-                   {
-                        this.langDic = new LanguageDictionary("dictionary_english.txt",' ');
-                   }
-                   catch
-                   {
+                    try
+                    {
+                        this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
+                    }
+                    catch
+                    {
                         GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
-                   }
+                    }
                 }
                 else if (settings.boAlphabet == 1)
                 {
-                   try 
+                    try
                     {
-                        this.langDic = new LanguageDictionary("dictionary_german.txt",' ');
+                        this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
                     }
                     catch
                     {
@@ -398,7 +402,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 this.cText = new Text(helper1, this.ctAlphabet, this.caseSensitive);
             }
-            else 
+            else
             {
                 this.cText = null;
             }
@@ -425,19 +429,19 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             if (this.ptAlphabet == null)
             {
                 GuiLogMessage("No plaintext alphabet is set", NotificationLevel.Error);
-                this.inputOK = false;
+                inputOK = false;
             }
             // CTAlphabet correct?
             if (this.ctAlphabet == null)
             {
                 GuiLogMessage("No ciphertext alphabet is set", NotificationLevel.Error);
-                this.inputOK = false;
+                inputOK = false;
             }
             // Ciphertext correct?
             if (this.ciphertext == null)
             {
                 GuiLogMessage("No ciphertext is set", NotificationLevel.Error);
-                this.inputOK = false;
+                inputOK = false;
             }
             // Dictionary correct?
             if (this.langDic == null)
@@ -448,22 +452,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             if (this.langFreq == null)
             {
                 GuiLogMessage("No language frequencies available.", NotificationLevel.Error);
-                this.inputOK = false;
+                inputOK = false;
             }
             // Check length of ciphertext and plaintext alphabet
             if (this.ctAlphabet.Length != this.ptAlphabet.Length)
             {
                 GuiLogMessage("Length of ciphertext alphabet and plaintext alphabet is different.", NotificationLevel.Error);
-                this.inputOK = false;
+                inputOK = false;
             }
-        }
 
-        public void Execute()
-        {
+
             // If input incorrect return
-            if (this.inputOK == false)
+            if (inputOK == false)
             {
-                this.inputOK = true;
+                inputOK = true;
                 return;
             }
 
@@ -476,7 +478,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.analyzer.Ciphertext_Alphabet = this.ctAlphabet;
             this.analyzer.Plaintext_Alphabet = this.ptAlphabet;
             this.analyzer.Language_Frequencies = this.langFreq;
-            this.analyzer.Language_Dictionary = this.langDic;
+            this.analyzer.Language_Dictionary = null; // this.langDic;
             this.analyzer.WordSeparator = this.wordSeparator;
             this.analyzer.SetPluginProgressCallback(ProgressChanged);
             

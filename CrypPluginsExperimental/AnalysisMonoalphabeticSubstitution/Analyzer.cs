@@ -20,7 +20,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Genetic algorithm parameters
         private const int population_size = 300;
-        private const int mutateProbability = 100;
+        private const int mutateProbability = 80;
         private const int maxGenerations = 40;
         private const double changeBorder = 0.001;
         private int repetitions = 1;
@@ -210,14 +210,58 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
+            //WorkOnBestCandidate(bestkeys[best_fit_index]);
+
             this.plaintext = DecryptCiphertext(bestkeys[best_fit_index], this.ciphertext, this.ciphertext_alphabet);
             this.best_key = bestkeys[best_fit_index];
             this.total_keys_tested += this.currun_keys_tested;
         }
 
-        public void ResetInnerState()
+        public void WorkOnBestCandidate(int[] key)
         {
-            // Clear banlist
+            int max = 300000;
+            int count = 0;
+
+            int l1;
+            int l2;
+            double fit1;
+            double fit2;
+
+            int[] key2 = new int[key.Length];
+            for (int i=0;i<key.Length;i++)
+            {
+                key2[i] = key[i];
+            }
+
+            for (int i = 0; i < max; i++)
+            {
+                fit1 = CalculateFitness(DecryptCiphertext(key, this.ciphertext, this.ciphertext_alphabet));
+
+                for (int t = 0; t < key.Length; t++)
+                {
+                    key2[t] = key[t];
+                }
+
+                for (int j = 0; j < 3; j++)
+                {
+                    l1 = Analyzer.rnd.Next(26);
+                    l2 = Analyzer.rnd.Next(26);
+
+                    int helper = key2[l1];
+                    key2[l1] = key2[l2];
+                    key2[l2] = helper;
+                }
+
+                fit2 = CalculateFitness(DecryptCiphertext(key2, this.ciphertext, this.ciphertext_alphabet));
+
+                if (fit2 > fit1)
+                {
+                    for (int x = 0; x < key.Length; x++)
+                    {
+                        key[x] = key2[x];
+                    }       
+                }
+            }
         }
 
         public void AddKeyToBanlist(int[] key)
@@ -413,22 +457,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 this.repetitions = 20;
             }
-            else if ((textlength >= 60) && (textlength < 70))
+            else if (textlength < 70)
             {
                 this.repetitions = 30;
             }
-            else if ((textlength >= 50) && (textlength < 60))
-            {
-                this.repetitions = 40;
-            }
-            else if ((textlength >= 0) && (textlength < 50))
-            {
-                this.repetitions = 50;
-            }
-
-            // Change parameters according to used ngrams
-            int value = (8 - this.language_frequencies.NGram)*5;
-            this.repetitions += value;
         }
 
         #endregion
