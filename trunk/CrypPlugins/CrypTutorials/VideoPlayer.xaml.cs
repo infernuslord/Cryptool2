@@ -6,64 +6,21 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Globalization;
 using System.Windows.Threading;
+using Vlc.DotNet.Core;
+using Vlc.DotNet.Core.Medias;
+using Vlc.DotNet.Wpf;
+using Microsoft.Win32;
+using System.Linq;
 
 namespace Cryptool.CrypTutorials
 {
 
     public partial class VideoPlayer : UserControl
     {
-        private double _curTime;
-        public VideoPlayer()
-        {
-            DataContext = this;
-            InitializeComponent();
-            myMediaElement.Volume = 0.5;
-            myMediaElement.SpeedRatio = 1;
-
-            myMediaElement.BufferingStarted += myMediaElement_BufferingStarted;
-            myMediaElement.BufferingEnded += myMediaElement_BufferingEnded;
-            myMediaElement.MediaFailed += myMediaElement_MediaFailed;
-
-            PreviewMouseMove += VideoPlayer_PreviewMouseMove;
-
-            _timer.Tick += delegate(object o, EventArgs args)
-            {
-                var seSliderValue = (double)myMediaElement.Position.TotalSeconds;
-                timelineSlider.Value = seSliderValue;
-            };
-
-            _timer2.Tick += delegate(object o, EventArgs args)
-            {
-                Controls.Visibility = Visibility.Collapsed;
-                _timer2.Stop();
-            };
-
-        }
-
-        void VideoPlayer_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            Controls.Visibility = Visibility.Visible;
-            _timer2.Start();
-        }
-
-        void myMediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            
-        }
-
-        void myMediaElement_BufferingEnded(object sender, RoutedEventArgs e)
-        {
-            LoadingVisual.Visibility = Visibility.Collapsed;
-        }
-
-        void myMediaElement_BufferingStarted(object sender, RoutedEventArgs e)
-        {
-            LoadingVisual.Visibility = Visibility.Visible;
-        }
 
         public static readonly DependencyProperty UrlProperty =
-        DependencyProperty.Register("Url", typeof(string),
-        typeof(VideoPlayer), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUrlChanged));
+            DependencyProperty.Register("Url", typeof(string),
+            typeof(VideoPlayer), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUrlChanged));
 
         public string Url
         {
@@ -81,6 +38,26 @@ namespace Cryptool.CrypTutorials
             set { SetValue(IsActiveProperty, value); }
         }
 
+        public static readonly DependencyProperty VideoSourceProperty =
+            DependencyProperty.Register("VideoSource", typeof(ImageSource),
+            typeof(VideoPlayer), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public ImageSource VideoSource
+        {
+            get { return (ImageSource)GetValue(VideoSourceProperty); }
+            set { SetValue(VideoSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty VolumeProperty =
+            DependencyProperty.Register("Volume", typeof(int),
+            typeof(VideoPlayer), new FrameworkPropertyMetadata(40, FrameworkPropertyMetadataOptions.AffectsRender, OnVolumeChanged));
+
+        public int Volume
+        {
+            get { return (int)GetValue(VolumeProperty); }
+            set { SetValue(VolumeProperty, value); }
+        }
+
         public static readonly DependencyProperty IsPlayingProperty =
             DependencyProperty.Register("IsPlaying", typeof(bool),
             typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsPlaying));
@@ -91,8 +68,8 @@ namespace Cryptool.CrypTutorials
             set { SetValue(IsPlayingProperty, value); }
         }
 
-        private readonly DispatcherTimer _timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 3) }; 
-        private readonly DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) }; 
+        private readonly DispatcherTimer _timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 3) };
+        private readonly DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
         private static void OnIsPlaying(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
             var player = (VideoPlayer)sender;
@@ -100,7 +77,8 @@ namespace Cryptool.CrypTutorials
             {
                 player._timer.Start();
             }
-            else{
+            else
+            {
                 player._timer.Stop();
             }
         }
@@ -112,28 +90,83 @@ namespace Cryptool.CrypTutorials
 
         private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-            try
+
+        }
+
+        private static void OnVolumeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            VideoPlayer player = (VideoPlayer)sender;
+            if (player.MyVlcControl != null)
             {
-                var player = (VideoPlayer)sender;
-                var uriString = eventArgs.NewValue.ToString();
-                player.myMediaElement.Source = new Uri(uriString);
-            }
-            catch (Exception)
-            {
-                //wtf ?   
+                player.MyVlcControl.AudioProperties.Volume = player.Volume;
             }
         }
+
+        private VlcControl myVlcControl;
+        public VlcControl MyVlcControl { get { return myVlcControl; } set { myVlcControl = value; VideoSource = value.VideoSource; } }
+       
+
+        public VideoPlayer()
+        {
+            VlcLoad.VlcInitialized += new EventHandler(VlcInitializedHandler);
+            DataContext = this;
+
+            PreviewMouseMove += VideoPlayer_PreviewMouseMove;
+
+            _timer.Tick += delegate(object o, EventArgs args)
+            {
+                var seSliderValue = (double)myVlcControl.Time.TotalSeconds;
+                timelineSlider.Value = seSliderValue;
+                timelineSlider.Maximum = MyVlcControl.Media.Duration.TotalSeconds;
+            };
+
+            _timer2.Tick += delegate(object o, EventArgs args)
+            {
+                Controls.Visibility = Visibility.Collapsed;
+                _timer2.Stop();
+            };
+
+        }
+
+        void VlcInitializedHandler(object sender, EventArgs e)
+        {
+            MyVlcControl = new VlcControl();
+            InitializeComponent();
+        }
+
+        void media_StateChanged(MediaBase sender, VlcEventArgs<Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States> e)
+        {
+            switch (e.Data)
+            {
+                case Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States.Buffering:
+                    LoadingVisual.Visibility = Visibility.Visible;
+                    break;
+                case Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States.Playing:
+                    LoadingVisual.Visibility = Visibility.Collapsed;
+                    break;
+                case Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States.NothingSpecial:
+                    break;
+            }
+        }
+
+
+        void VideoPlayer_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            Controls.Visibility = Visibility.Visible;
+            _timer2.Start();
+        }
+
 
         public void PlayOrPause()
         {
             if (IsPlaying)
             {
-                myMediaElement.Pause();
+                Pause();
                 IsPlaying = false;
             }
             else
             {
-                myMediaElement.Play();
+                Play();
                 IsPlaying = true;
             }
         }
@@ -152,8 +185,46 @@ namespace Cryptool.CrypTutorials
 
         public void Stop()
         {
-            myMediaElement.Stop();
-            IsPlaying = false;            
+            MyVlcControl.Stop();
+            IsPlaying = false;
+        }
+
+        public void Pause()
+        {
+            MyVlcControl.Pause();
+            IsPlaying = false;
+        }
+
+        public void Play(LocationMedia media)
+        {
+            if (MyVlcControl.Media != null)
+            {
+                MyVlcControl.Media.StateChanged -= new VlcEventHandler<MediaBase, Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States>(media_StateChanged);
+                MyVlcControl.Media.DurationChanged -= new VlcEventHandler<MediaBase, long>(Media_DurationChanged);
+                MyVlcControl.Media.Dispose();
+            }
+
+            MyVlcControl.Media = media;
+            MyVlcControl.Media.StateChanged += new VlcEventHandler<MediaBase, Vlc.DotNet.Core.Interops.Signatures.LibVlc.Media.States>(media_StateChanged);
+            MyVlcControl.Media.DurationChanged += new VlcEventHandler<MediaBase, long>(Media_DurationChanged);
+            MyVlcControl.Play(media);
+            IsPlaying = true;
+        }
+
+        void Media_DurationChanged(MediaBase sender, VlcEventArgs<long> e)
+        {
+            timelineSlider.Maximum = MyVlcControl.Media.Duration.TotalSeconds;
+        }
+
+        public void Play(string p)
+        {
+            Play(new LocationMedia(p));
+        }
+
+        public void Play()
+        {
+            MyVlcControl.Play();
+            IsPlaying = true;
         }
 
         public void Close()
@@ -162,22 +233,10 @@ namespace Cryptool.CrypTutorials
             {
                 CloseFullscreen();
             }
-            myMediaElement.Close();
+            Stop();
             IsPlaying = false;
         }
 
-        // When the media opens, initialize the "Seek To" slider maximum value
-        // to the total number of miliseconds in the length of the media clip.
-        private void Element_MediaOpened(object sender, EventArgs e)
-        {
-            timelineSlider.Maximum = myMediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-        }
-
-        // When the media playback is finished. Stop() the media to seek to media start.
-        private void Element_MediaEnded(object sender, EventArgs e)
-        {
-            myMediaElement.Stop();
-        }
 
         void seek()
         {
@@ -186,7 +245,7 @@ namespace Cryptool.CrypTutorials
             // Overloaded constructor takes the arguments days, hours, minutes, seconds, miniseconds.
             // Create a TimeSpan with miliseconds equal to the slider value.
             var ts = TimeSpan.FromSeconds(sliderValue);
-            myMediaElement.Position = ts;
+            MyVlcControl.Time = ts;
         }
 
         void seek(double time)
@@ -196,25 +255,18 @@ namespace Cryptool.CrypTutorials
             // Create a TimeSpan with miliseconds equal to the slider value.
 
             TimeSpan ts = TimeSpan.FromSeconds(time);
-            myMediaElement.Position = ts;
+            MyVlcControl.Time = ts;
         }
 
         private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var x = sender as FrameworkElement;
-            double value = double.Parse(x.Tag.ToString(), CultureInfo.InvariantCulture);
+            int value = int.Parse(x.Tag.ToString(), CultureInfo.InvariantCulture);
 
-            if (myMediaElement != null)
-            {
-                if (myMediaElement.Volume == value)
-                {
-                    myMediaElement.Volume = 0;
-                }
-                else
-                {
-                    myMediaElement.Volume = value;
-                }
-            }
+            if (Volume == value)
+                Volume = 0;
+            else
+                Volume = value;
         }
 
         private Panel _preMaximizedVisualParent;
@@ -230,8 +282,8 @@ namespace Cryptool.CrypTutorials
             {
                 if (IsPlaying)
                 {
-                    _curTime = myMediaElement.Position.TotalSeconds;
-                    myMediaElement.Stop();
+                    //_curTime = MyVlcControl.Time.TotalSeconds;
+                    MyVlcControl.Pause();
                 }
 
                 _preMaximizedVisualParent = (Panel)this.VisualParent;
@@ -245,19 +297,13 @@ namespace Cryptool.CrypTutorials
 
         private void CloseFullscreen()
         {
-            if (IsPlaying)
-            {
-                _curTime = myMediaElement.Position.TotalSeconds;
-                myMediaElement.Stop();
-            }
-
             _fullScreen.Content = null;
             _fullScreen.Hide();
             _preMaximizedVisualParent.Children.Add(this);
             if (IsPlaying)
             {
-                myMediaElement.Play();
-                seek(_curTime);
+                Play();
+                //seek(_curTime);
             }
             _preMaximizedVisualParent = null;
         }
@@ -266,8 +312,8 @@ namespace Cryptool.CrypTutorials
         {
             if (IsPlaying)
             {
-                myMediaElement.Play();
-                seek(_curTime);
+                Play();
+                //seek(_curTime);
             }
 
             var window = sender as Window;
@@ -279,15 +325,15 @@ namespace Cryptool.CrypTutorials
         {
             seek();
         }
+
     }
 
     public class VolumeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var x = (double) value;
-
-            var y = Double.Parse(parameter.ToString(), CultureInfo.InvariantCulture);
+            var x = (int) value;
+            var y = int.Parse(parameter.ToString(), CultureInfo.InvariantCulture);
 
             if (x >= y)
             {
