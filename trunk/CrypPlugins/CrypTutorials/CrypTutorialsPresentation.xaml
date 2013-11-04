@@ -500,8 +500,8 @@
         <Border x:Name="VLCInitError" Visibility="Collapsed" Background="{StaticResource ResourceKey=Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Border Background="#44ffffff">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -510,9 +510,9 @@
                                    Foreground="#f79300" Text="VLC not found" HorizontalAlignment="Center"></TextBlock>
                         <TextBlock FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="33"
                                    Foreground="#745a34" HorizontalAlignment="Center">
-                            Please Install the newest version of VLC at 
+                            Please Install VLC-Player to Continue 
                             <Hyperlink NavigateUri="http://www.videolan.org/index.html" RequestNavigate="Hyperlink_RequestNavigate">
-                                www.videolan.org
+                                - www.videolan.org -
                             </Hyperlink>
                             
                         </TextBlock>
@@ -523,7 +523,7 @@
                         <Image Source="/CrypTutorials;component/Crystal_folder.png" Width="64" Height="64" HorizontalAlignment="Center" SnapsToDevicePixels="True" Grid.Row="0"></Image>
                     </Border>
                     <TextBlock FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="50" VerticalAlignment="Center" Padding="5"
-                                   Foreground="#745a34" Text="Select working Directory Manually" HorizontalAlignment="Center"></TextBlock>
+                                   Foreground="#745a34" Text="Or Select Working Directory Manually" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
             </Grid>
 
