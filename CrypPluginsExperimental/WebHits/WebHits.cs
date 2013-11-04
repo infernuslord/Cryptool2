@@ -136,7 +136,7 @@ namespace Cryptool.Plugins.WebHits
                 ProgressChanged(0, 100);
                 urls.Clear();
                 GoogleSearch();                                          
-                OnPropertyChanged("Number");                
+                //OnPropertyChanged("Number");                
                 ProgressChanged(100, 100);
             }
             catch (System.Exception ex)
@@ -166,20 +166,21 @@ namespace Cryptool.Plugins.WebHits
 
                 DataContractJsonSerializer jsonSer = new DataContractJsonSerializer(typeof(RootObject));
                 MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
-                RootObject obj = (RootObject)jsonSer.ReadObject(stream);
+                RootObject obj = (RootObject)jsonSer.ReadObject(stream);               
 
-                int i = 1;
-                ResultEntry re;
+                //int i = 1;
+                //ResultEntry re;
 
-                foreach (Item item in obj.items)
-                {
-                    re = new ResultEntry();
-                    re.Ranking = i;
-                    re.HitURL = item.link;
-                    urls.Add(re);
-                    i++;
-                }
-                this.presentation.Assign_Values(urls);
+                //foreach (Item item in obj.items)
+                //{
+                //    re = new ResultEntry();
+                //    re.Ranking = i;
+                //    re.HitURL = item.link;
+                //    urls.Add(re);
+                //    i++;
+                //}
+                
+                this.presentation.Assign_Values(obj, SearchTerm);
 
                 Number = Convert.ToInt32(obj.searchInformation.totalResults);
             }
