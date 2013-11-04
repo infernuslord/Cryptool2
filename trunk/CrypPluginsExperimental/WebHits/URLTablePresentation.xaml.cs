@@ -24,7 +24,8 @@ namespace Cryptool.Plugins.WebHits
     /// </summary>
     public partial class URLTablePresentation : UserControl
     {
-        List<ResultEntry> urls = new List<ResultEntry>();
+        //List<ResultEntry> urls = new List<ResultEntry>();
+        
         ResultEntry selectedURL;
         
         public URLTablePresentation()
@@ -32,21 +33,40 @@ namespace Cryptool.Plugins.WebHits
             InitializeComponent();                               
         }
 
-        public void Assign_Values(List<ResultEntry> urls)
+        public void Assign_Values(RootObject obj, string searchVal)
         {            
-            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate { loadURLList(urls); }, null);
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate { loadURLList(obj, searchVal); }, null);
         }
 
         //fill the table with urls
-        public void loadURLList(List<ResultEntry> urls)
+        public void loadURLList(RootObject obj, string searchVal)
         {
             //remove old items
             urlsListView.Items.Clear();
             urlsListView.Items.Refresh();
-            foreach (ResultEntry url in urls)
+            
+            
+            //add infomration to the result table
+            searchValue.Text = searchVal;
+            searchTime.Text = obj.searchInformation.formattedSearchTime + " seconds";
+            totalResults.Text = obj.searchInformation.formattedTotalResults;
+
+
+            //add urls from the first Google page to the result table table
+            ResultEntry re;
+            int i = 1;
+            foreach (Item item in obj.items)
             {
-                urlsListView.Items.Add(url);
+                re = new ResultEntry();
+                re.Ranking = i;
+                re.HitURL = item.link;
+                urlsListView.Items.Add(re);
+                i++;
             }
+            //foreach (ResultEntry url in urls)
+            //{
+            //    urlsListView.Items.Add(url);
+            //}
         }
 
         public void HandleDoubleClick(Object sender, EventArgs eventArgs)
@@ -63,6 +83,11 @@ namespace Cryptool.Plugins.WebHits
                 selectedURL = (ResultEntry)urlsListView.SelectedItem;
                 Process.Start(selectedURL.HitURL);
             }
+        }
+
+        private void urlsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //todo
         }
     }
 }
