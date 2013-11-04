@@ -42,12 +42,22 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core">
+      <HintPath>..\..\Lib\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops">
+      <HintPath>..\..\Lib\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Wpf">
+      <HintPath>..\..\Lib\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -101,14 +111,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\LibSource\LibVLC\LibVLC.NET.Presentation\LibVLC.NET.Presentation.csproj">
-      <Project>{6757603C-3613-4CD6-86CC-5A25CF023CFA}</Project>
-      <Name>LibVLC.NET.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LibSource\LibVLC\LibVLC.NET\LibVLC.NET.csproj">
-      <Project>{BB06DFF7-4F41-4B9D-A3C3-3B6D2B8702B6}</Project>
-      <Name>LibVLC.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="CrypTutorialsPresentation.xaml">
@@ -142,6 +144,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="full.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="largeVLC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Crystal_folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

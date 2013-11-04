@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d" RenderTransformOrigin="0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-    xmlns:visuals="clr-namespace:Cryptool.CrypTutorials" d:DesignHeight="500" d:DesignWidth="500">
+    xmlns:visuals="clr-namespace:Cryptool.CrypTutorials" d:DesignHeight="500" d:DesignWidth="500"
+    xmlns:vlc="clr-namespace:Vlc.DotNet.Wpf;assembly=Vlc.DotNet.Wpf">
     <UserControl.RenderTransform>
         <TransformGroup>
             <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -206,13 +207,23 @@
     </UserControl.Resources>
     <Border Background="#dd678a9c" CornerRadius="5">
         <Grid>
+            <!--<vlc:VlcControl x:Name="myVlcControl"></vlc:VlcControl>-->
             <Grid x:Name="Root" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <!-- To interactively stop, pause, and play the media, the LoadedBehavior 
            property of the MediaElement must be set to "Manual". -->
                 <Border CornerRadius="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <MediaElement Name="myMediaElement" Source="{Binding Url}"
-                LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" StretchDirection="Both" 
-                MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>
+                    <Grid>
+                        <Grid.Background>
+                            <VisualBrush Stretch="Uniform">
+                                <VisualBrush.Visual>
+                                    <Image Source="{Binding Path=MyVlcControl.VideoSource, Mode=OneWay}" />
+                                </VisualBrush.Visual>
+                            </VisualBrush >
+                        </Grid.Background>
+                    </Grid>
+                    <!--<MediaElement Name="myMediaElement" Source="{Binding Url}"
+                            LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Uniform" StretchDirection="Both" 
+                            MediaOpened="Element_MediaOpened" MediaEnded="Element_MediaEnded"/>-->
                 </Border>
 
                 <Grid x:Name="Controls" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -259,16 +270,21 @@
 
                             <!-- Volume slider. This slider allows a Volume range between 0 and 1. -->
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Margin="8,0,0,0">
-                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="0.2" 
-                                   Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=0.2, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
-                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="0.4"
-                                   Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=0.4, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
-                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="0.6"
-                                   Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=0.6, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
-                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="0.8"
-                                   Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=0.8, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
-                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="1"
-                                   Fill="{Binding ElementName=myMediaElement, Path=Volume, ConverterParameter=1, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
+                                
+                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="20" 
+                                   Fill="{Binding Path=Volume, ConverterParameter=20, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
+                                
+                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="40"
+                                   Fill="{Binding Path=Volume, ConverterParameter=40, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
+                                
+                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="60"
+                                   Fill="{Binding Path=Volume, ConverterParameter=60, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
+                                
+                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="80"
+                                   Fill="{Binding Path=Volume, ConverterParameter=80, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
+                                
+                                <Rectangle MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" Tag="100"
+                                   Fill="{Binding Path=Volume, ConverterParameter=100, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
                             </StackPanel>
 
                             <Image MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" LayoutTransform="{x:Null}" Grid.Column="2" Source="/CrypTutorials;component/full.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="25"></Image>
@@ -291,7 +307,7 @@
                     <TextBlock.RenderTransform>
                         <ScaleTransform ScaleY="0.5"></ScaleTransform>
                     </TextBlock.RenderTransform>
-                </TextBlock>      
+                </TextBlock>
             </Grid>
         </Grid>
         

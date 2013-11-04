@@ -463,6 +463,10 @@
                     </StackPanel>
                 </Border>
             </Grid>
+
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
+            <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
             <Grid Grid.RowSpan="3" Grid.ColumnSpan="4" Visibility="{Binding ElementName=Player, Path=Visibility}" Background="#01ffffff">
 
                 <tut:VideoPlayer x:Name="Player" Grid.Row="1" Visibility="Collapsed">
@@ -474,11 +478,6 @@
                     </Button.Tag>
                 </Button>
             </Grid>
-
-
-            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
-            <GridSplitter Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Right" Background="#01ffffff"></GridSplitter>
-            <Rectangle Grid.Row="1" Grid.Column="1" Width="1" HorizontalAlignment="Right" Fill="#22222222"></Rectangle>
         </Grid>
         <Border x:Name="NetworkErrorPanel" Visibility="Collapsed" Background="#88555555" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Could not connect to server" FontSize="70" Foreground="#aaa"
@@ -496,6 +495,38 @@
                     <DropShadowEffect BlurRadius="5" ShadowDepth="1" Opacity="0.2" ></DropShadowEffect>
                 </TextBlock.Effect>
             </TextBlock>
+        </Border>
+
+        <Border x:Name="VLCInitError" Visibility="Collapsed" Background="{StaticResource ResourceKey=Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Background="#44ffffff">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="/CrypTutorials;component/largeVLC.png" Width="250" Height="250" HorizontalAlignment="Center" SnapsToDevicePixels="True" Grid.Row="0"></Image>
+                        <TextBlock FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="100" 
+                                   Foreground="#f79300" Text="VLC not found" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="33"
+                                   Foreground="#745a34" HorizontalAlignment="Center">
+                            Please Install the newest version of VLC at 
+                            <Hyperlink NavigateUri="http://www.videolan.org/index.html" RequestNavigate="Hyperlink_RequestNavigate">
+                                www.videolan.org
+                            </Hyperlink>
+                            
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
+                    <Border Padding="10" BorderBrush="#bbb" Background="#ccc" CornerRadius="10" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+                        <Image Source="/CrypTutorials;component/Crystal_folder.png" Width="64" Height="64" HorizontalAlignment="Center" SnapsToDevicePixels="True" Grid.Row="0"></Image>
+                    </Border>
+                    <TextBlock FontFamily="pack://application:,,,/CrypPluginBase;component/Miscellaneous/#Yanone Kaffeesatz" FontSize="50" VerticalAlignment="Center" Padding="5"
+                                   Foreground="#745a34" Text="Select working Directory Manually" HorizontalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </Grid>
+
         </Border>
     </Grid>
 </UserControl>

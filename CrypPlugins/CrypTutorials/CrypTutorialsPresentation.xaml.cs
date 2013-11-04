@@ -11,6 +11,10 @@ using System.Collections;
 using System.Windows.Threading;
 using System.Threading;
 using System.IO;
+using Microsoft.Win32;
+using Vlc.DotNet.Core;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Cryptool.CrypTutorials
 {
@@ -54,8 +58,7 @@ namespace Cryptool.CrypTutorials
                 else
                 {
                     Player.Visibility = Visibility.Visible;
-                    Player.Url = playingItem.Url;
-                    Player.PlayOrPause();
+                    Player.Play(playingItem.Url);
                 }
 
                 OnPropertyChanged("PlayingItem");
@@ -77,17 +80,26 @@ namespace Cryptool.CrypTutorials
         {
             DataContext = this;       
             InitializeComponent();
+
+            VLCInitError.Visibility = Visibility.Visible;
+            VlcLoad.VlcInitialized += new EventHandler(VlcInitializedHandler);
             //_crypTutorials = crypTutorials;
 
             _tutorialVideosManager.OnVideosFetched += _tutorialVideosManager_OnVideosFetched;
             _tutorialVideosManager.OnCategoriesFetched += new EventHandler<CategoriesFetchedEventArgs>(_tutorialVideosManager_OnCategoriesFetched);
             _tutorialVideosManager.OnVideosFetchErrorOccured += new EventHandler<ErrorEventArgs>(_tutorialVideosManager_OnVideosFetchErrorOccured);
+
             //has to be replaced later on by "GetVideoInformationFromServer"
             //_tutorialVideosManager.GenerateTestData("http://localhost/ct2/videos.xml", 16);
             _tutorialVideosManager.GetVideoInformationFromServer();
             _videosView = CollectionViewSource.GetDefaultView(Videos) as ListCollectionView;
             _videosView.CustomSort = new VideoSorter();
             _videosView.Filter = videoFilter;
+        }
+
+        void VlcInitializedHandler(object sender, EventArgs e)
+        {
+             VLCInitError.Visibility = Visibility.Collapsed;
         }
 
         void _tutorialVideosManager_OnVideosFetchErrorOccured(object sender, ErrorEventArgs e)
@@ -263,6 +275,135 @@ namespace Cryptool.CrypTutorials
                 return;
 
             SelectedCategory = cat;
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string folderPath = "";
+            System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                folderPath = folderBrowserDialog1.SelectedPath;
+                VlcLoad.retry(folderPath);
+            }
+        }
+    }
+
+    public static class VlcLoad
+    {
+        internal static bool debug = false;
+        private static string vlcRegPath64 = @"SOFTWARE\Wow6432Node\VideoLAN\VLC";
+        private static string vlcRegPath32 = @"SOFTWARE\VideoLAN\VLC";
+        private static readonly DispatcherTimer _timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
+
+
+        private static EventHandler vlcInitialized;
+        public static event EventHandler VlcInitialized
+        {
+            add
+            {
+                vlcInitialized += value;
+                if (VlcContext.IsInitialized) {
+                    value(null, null);
+                }
+            }
+
+            remove
+            {
+                if (vlcInitialized == null || !vlcInitialized.GetInvocationList().Contains(value))
+                    throw new InvalidOperationException("No Subs");
+                vlcInitialized -= value;
+            }
+        }
+
+        private static void InvokeVlcInitializedEvent()
+        {
+            if (vlcInitialized != null)
+                vlcInitialized.Invoke(null, null);
+        }
+
+        static string checkVlcRegistries()
+        {
+            //64bit
+            using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(vlcRegPath64))
+            {
+                if (key != null)
+                    return key.GetValue("InstallDir") as string;
+            }
+
+            //32bit
+            using (Microsoft.Win32.RegistryKey key = Registry.LocalMachine.OpenSubKey(vlcRegPath32))
+            {
+                if (key != null)
+                    return key.GetValue("InstallDir") as string;
+                else
+                    return null;
+            }
+        }
+
+        public static bool retry()
+        {
+            if (VlcContext.IsInitialized)
+                return true;
+
+            return Init(checkVlcRegistries());
+        }
+
+        public static bool retry(string path)
+        {
+            if (VlcContext.IsInitialized)
+                return true;
+
+            return Init(path);
+        }
+
+        static bool Init(string path)
+        {
+            if (path == null)
+            {
+                _timer.Start();
+                return false;
+            }
+
+            try
+            {
+                //Set libvlc.dll and libvlccore.dll directory path
+                VlcContext.LibVlcDllsPath = path;
+                //Set the vlc plugins directory path
+                VlcContext.LibVlcPluginsPath = path + @"\plugins";
+
+                if (debug)
+                {
+                    VlcContext.StartupOptions.LogOptions.LogInFile = true;
+                    VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+                    VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+                }
+
+                VlcContext.Initialize();
+                InvokeVlcInitializedEvent();
+                _timer.Stop();
+                return true;
+            }
+            catch (Exception)
+            {
+                _timer.Start();
+                return false;
+            }
+        }
+
+        static VlcLoad()
+        {
+            _timer.Tick += delegate(object o, EventArgs args)
+            {
+                retry();
+            };
+            Init(checkVlcRegistries());
         }
     }
 
