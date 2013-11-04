@@ -287,7 +287,7 @@
                                    Fill="{Binding Path=Volume, ConverterParameter=100, Converter={StaticResource ResourceKey=VolumeConverter}, Mode=OneWay, FallbackValue=#ccc}"></Rectangle>
                             </StackPanel>
 
-                            <Image MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" LayoutTransform="{x:Null}" Grid.Column="2" Source="/CrypTutorials;component/full.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="25"></Image>
+                            <Image MouseLeftButtonDown="DoFullscreen" LayoutTransform="{x:Null}" Grid.Column="2" Source="/CrypTutorials;component/full.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Height="25"></Image>
 
 
                             <!--<Slider Name="volumeSlider" VerticalAlignment="Center" ValueChanged="ChangeMediaVolume" 

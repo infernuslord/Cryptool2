@@ -18,36 +18,6 @@ namespace Cryptool.CrypTutorials
     public partial class VideoPlayer : UserControl
     {
 
-        public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof(string),
-            typeof(VideoPlayer), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUrlChanged));
-
-        public string Url
-        {
-            get { return (string)GetValue(UrlProperty); }
-            set { SetValue(UrlProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof(bool),
-            typeof(VideoPlayer), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnIsActive));
-
-        public bool IsActive
-        {
-            get { return (bool)GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
-        }
-
-        public static readonly DependencyProperty VideoSourceProperty =
-            DependencyProperty.Register("VideoSource", typeof(ImageSource),
-            typeof(VideoPlayer), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public ImageSource VideoSource
-        {
-            get { return (ImageSource)GetValue(VideoSourceProperty); }
-            set { SetValue(VideoSourceProperty, value); }
-        }
-
         public static readonly DependencyProperty VolumeProperty =
             DependencyProperty.Register("Volume", typeof(int),
             typeof(VideoPlayer), new FrameworkPropertyMetadata(40, FrameworkPropertyMetadataOptions.AffectsRender, OnVolumeChanged));
@@ -83,16 +53,6 @@ namespace Cryptool.CrypTutorials
             }
         }
 
-        private static void OnIsActive(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
-        {
-
-        }
-
-        private static void OnUrlChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
-        {
-
-        }
-
         private static void OnVolumeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs eventArgs)
         {
             VideoPlayer player = (VideoPlayer)sender;
@@ -103,7 +63,7 @@ namespace Cryptool.CrypTutorials
         }
 
         private VlcControl myVlcControl;
-        public VlcControl MyVlcControl { get { return myVlcControl; } set { myVlcControl = value; VideoSource = value.VideoSource; } }
+        public VlcControl MyVlcControl { get { return myVlcControl; } set { myVlcControl = value; } }
        
 
         public VideoPlayer()
@@ -234,7 +194,6 @@ namespace Cryptool.CrypTutorials
                 CloseFullscreen();
             }
             Stop();
-            IsPlaying = false;
         }
 
 
@@ -272,7 +231,7 @@ namespace Cryptool.CrypTutorials
         private Panel _preMaximizedVisualParent;
         private readonly Window _fullScreen = new Window() { WindowStyle = WindowStyle.None, ResizeMode = ResizeMode.NoResize, WindowState = WindowState.Maximized };
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DoFullscreen(object sender, MouseButtonEventArgs e)
         {
             if (_preMaximizedVisualParent != null)
             {
@@ -280,12 +239,6 @@ namespace Cryptool.CrypTutorials
             }
             else
             {
-                if (IsPlaying)
-                {
-                    //_curTime = MyVlcControl.Time.TotalSeconds;
-                    MyVlcControl.Pause();
-                }
-
                 _preMaximizedVisualParent = (Panel)this.VisualParent;
                 _preMaximizedVisualParent.Children.Remove(this);
                 _fullScreen.Content = this;
@@ -300,32 +253,19 @@ namespace Cryptool.CrypTutorials
             _fullScreen.Content = null;
             _fullScreen.Hide();
             _preMaximizedVisualParent.Children.Add(this);
-            if (IsPlaying)
-            {
-                Play();
-                //seek(_curTime);
-            }
             _preMaximizedVisualParent = null;
         }
 
         void fullScreen_ContentRendered(object sender, EventArgs e)
         {
-            if (IsPlaying)
-            {
-                Play();
-                //seek(_curTime);
-            }
-
             var window = sender as Window;
             if (window != null) window.ContentRendered -= fullScreen_ContentRendered;
-
         }
 
         private void SeekToMediaPosition(object sender, MouseButtonEventArgs e)
         {
             seek();
         }
-
     }
 
     public class VolumeConverter : IValueConverter

@@ -231,7 +231,6 @@ namespace Cryptool.CrypTutorials
             if (VideoListView.SelectedItem != null)
             {
                 PlayingItem = (VideoInfo)VideoListView.SelectedItem;
-                //Player.
             }
         }
 
