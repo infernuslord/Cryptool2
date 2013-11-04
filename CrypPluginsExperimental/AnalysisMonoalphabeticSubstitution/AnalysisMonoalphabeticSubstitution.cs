@@ -193,10 +193,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set ciphertext and plaintext alphabet
                 if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
                 {
-                    alpha = detAlphabet(settings.boAlphabet, settings.boCaseSensitive);
+                    alpha = detAlphabet(settings.boAlphabet, settings.bo_caseSensitive);
                     this.ptAlphabet = new Alphabet(alpha, 1);
                     this.ctAlphabet = new Alphabet(alpha, 1);
-                    this.caseSensitive = settings.boCaseSensitive;
+                    this.caseSensitive = settings.bo_caseSensitive;
                 }
                 else if (settings.boAlphabet == 2)
                 {
@@ -209,7 +209,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set plaintext alphabet
                 if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
                 {
-                    alpha = detAlphabet(settings.ptAlphabet, settings.ptCaseSensitive);
+                    alpha = detAlphabet(settings.ptAlphabet, settings.pt_caseSensitive);
                     this.ptAlphabet = new Alphabet(alpha, 1);
 
                 }
@@ -221,9 +221,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 // Set ciphertext alphabet
                 if (settings.ctAlphabet == 0 || settings.ctAlphabet == 1)
                 {
-                    alpha = detAlphabet(settings.ctAlphabet, settings.ctCaseSensitive);
+                    alpha = detAlphabet(settings.ctAlphabet, settings.ct_caseSensitive);
                     this.ctAlphabet = new Alphabet(alpha, 1);
-                    this.caseSensitive = settings.ctCaseSensitive;
+                    this.caseSensitive = settings.ct_caseSensitive;
                 }
                 else if (settings.ctAlphabet == 2)
                 {

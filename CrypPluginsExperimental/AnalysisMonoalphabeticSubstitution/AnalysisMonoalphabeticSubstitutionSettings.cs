@@ -35,13 +35,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private const String specChars = ",;.:-_<>#+*!$%/{([)]}=?";
         // "Alphabet" variables
         private int bo_alphabet = 0;
-        private Boolean bo_caseSensitive = false;
+        public Boolean bo_caseSensitive = false;
         // "PTAlphabet" variables
         private int pt_alphabet = 0;
-        private Boolean pt_caseSensitive = false;
+        public Boolean pt_caseSensitive = false;
         // "CTAlphabet" variables
         private int ct_alphabet = 0;
-        private Boolean ct_caseSensitive = false;
+        public Boolean ct_caseSensitive = false;
         // Advanced settings variables
         private Boolean separateAlphabets = false;
         private Boolean useDefaultWordSeparator = true;
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Settings if plaintext alphabet equals ciphertext alphabet
         [TaskPane("ChooseAlphabetCaption", "ChooseAlphabetTooltip", "AlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2", "ChooseAlphabetList3" })]
+            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2"})]
         public int boAlphabet
         {
             get { return bo_alphabet; }
@@ -102,16 +102,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
         }
+        /*
         [TaskPane("CaseSensitiveCaption", "CaseSensitiveTooltip", "AlphabetGroup", 2, false, ControlType.CheckBox, null)]
         public Boolean boCaseSensitive
         {
             get { return bo_caseSensitive; }
             set { bo_caseSensitive = value; }
         }
-
+        */
         // Settings for plaintext alphabet
         [TaskPane("PTChooseAlphabetCaption", "PTChooseAlphabetTooltip","PTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2", "ChooseAlphabetList3" })]
+            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2" })]
         public int ptAlphabet
         {
             get { return pt_alphabet; }
@@ -130,16 +131,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
         }
+        /*
         [TaskPane("PTCaseSensitiveCaption", "PTCaseSensitiveTooltip", "PTAlphabetGroup", 2, false, ControlType.CheckBox, null)]
         public Boolean ptCaseSensitive
         {
             get { return pt_caseSensitive; }
             set { pt_caseSensitive = value; }
-        }
+        }*/
       
         // Settings for ciphertext alphabet
         [TaskPane("CTChooseAlphabetCaption", "CTChooseAlphabetTooltip", "CTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2", "ChooseAlphabetList3"})]
+            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2"})]
         public int ctAlphabet
         {
             get { return ct_alphabet; }
@@ -157,12 +159,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
         }
+
+        /*
         [TaskPane("CTCaseSensitiveCaption", "CTCaseSensitiveTooltip","CTAlphabetGroup", 2, false, ControlType.CheckBox,null)]
         public Boolean ctCaseSensitive
         {
             get { return ct_caseSensitive; }
             set { ct_caseSensitive = value; }
-        }
+        }*/
      
         // Advanced settings
         [TaskPane("SeparateAlphabetsCaption", "SeparateAlphabetsTooltip", "AdvancedSettingsGroup", 1, false, ControlType.CheckBox, null)]
