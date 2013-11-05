@@ -120,6 +120,7 @@
     <Compile Include="ScytaleTest.cs" />
     <Compile Include="SHATest.cs" />
     <Compile Include="SosemanukTest.cs" />
+    <Compile Include="StegoLSBTest.cs" />
     <Compile Include="TemplateAndPluginTests\PluginTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateAndPluginTests.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateTestScenario.cs" />
@@ -291,6 +292,10 @@
     <ProjectReference Include="..\CrypPlugins\Sosemanuk\Sosemanuk.csproj">
       <Project>{00135C5E-F976-42DC-9BB3-CD6053341E20}</Project>
       <Name>Sosemanuk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\StegoLeastSignificantBit\StegoLeastSignificantBit.csproj">
+      <Project>{0E103FFB-C981-4B2A-A0C6-8924163C8A73}</Project>
+      <Name>StegoLeastSignificantBit</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\StringDecoder\StringDecoder.csproj">
       <Project>{A7A16F8B-2616-442F-8B8E-8AD0E2EDB7FF}</Project>
