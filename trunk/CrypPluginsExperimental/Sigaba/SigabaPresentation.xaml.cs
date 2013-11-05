@@ -155,14 +155,26 @@ namespace Sigaba
             stas.KeyFrames.Add(desc2);
 
             t.Background = s;
-            ((TextBlock)LeftPanel.Children[RightPanel.Children.Count-1]).Background = s2;
+
+            if(_settings.Action==0)
+                ((TextBlock)LeftPanel.Children[RightPanel.Children.Count-1]).Background = s2;
+            else
+                ((TextBlock)RightPanel.Children[LeftPanel.Children.Count - 1]).Background = s2;
 
             Storyboard.SetTarget(stas, t);
             Storyboard.SetTargetProperty(stas, new PropertyPath("(Text)"));
+            if (_settings.Action == 0)
+            {
+                Storyboard.SetTarget(colani2, (TextBlock) LeftPanel.Children[RightPanel.Children.Count - 1]);
+                Storyboard.SetTargetProperty(colani2, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
+            }
 
-            Storyboard.SetTarget(colani2, (TextBlock)LeftPanel.Children[RightPanel.Children.Count-1]);
-            Storyboard.SetTargetProperty(colani2, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
+            else
+            {
+                Storyboard.SetTarget(colani2, (TextBlock)RightPanel.Children[LeftPanel.Children.Count - 1]);
+                Storyboard.SetTargetProperty(colani2, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
 
+            }
             Storyboard.SetTarget(colani, t);
             Storyboard.SetTargetProperty(colani, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
 
@@ -310,12 +322,11 @@ namespace Sigaba
                                                                                            else
                                                                                            {
                                                                                                FillStoryBoard((char)(s[4, 0] + 65), textBlock6, true);
-                                                                                               FillStoryBoard((char)(s[4, 1] + 65), textBlock1, true);
-                                                                                               FillStoryBoard((char)(s[4, 2] + 65), textBlock3, true);
+                                                                                               FillStoryBoard((char)(s[4, 5] + 65), textBlock1, true);
+                                                                                               FillStoryBoard((char)(s[4, 4] + 65), textBlock3, true);
                                                                                                FillStoryBoard((char)(s[4, 3] + 65), textBlock4, true);
-                                                                                               FillStoryBoard((char)(s[4, 4] + 65), textBlock5, true);
-                                                                                               FillStoryBoard((char)(s[4, 5] + 65), textBlock7, true);
-                                                                                           
+                                                                                               FillStoryBoard((char)(s[4, 2] + 65), textBlock5, true);
+                                                                                               FillStoryBoard((char)(s[4, 1] + 65), textBlock7, true);
                                                                                            }
 
                                                                                            if (_settings.Action == 0)
@@ -328,7 +339,7 @@ namespace Sigaba
                                                                                            {
                                                                                                TextBlock t = new TextBlock() { FontSize = 24 };
                                                                                                LeftPanel.Children.Add(t);
-                                                                                               FillStoryBoard2((char)(s[4, 5] + 65), t);
+                                                                                               FillStoryBoard2((char)(s[4, 1] + 65), t);
                                                                                            }
 
                                                                                            FillStoryBoard((char)(s[0, 1] + 65), textBlock36, false);
@@ -447,17 +458,17 @@ namespace Sigaba
                                                                                                _pr13.Index = settings.ControlRotor4;
                                                                                                _pr14.Index = settings.ControlRotor5;
 
-                                                                                               _pr0.Reverse(settings.CipherRotor5Reverse);
-                                                                                               _pr1.Reverse(settings.CipherRotor4Reverse);
+                                                                                               _pr0.Reverse(settings.CipherRotor1Reverse);
+                                                                                               _pr1.Reverse(settings.CipherRotor2Reverse);
                                                                                                _pr2.Reverse(settings.CipherRotor3Reverse);
-                                                                                               _pr3.Reverse(settings.CipherRotor2Reverse);
-                                                                                               _pr4.Reverse(settings.CipherRotor1Reverse);
+                                                                                               _pr3.Reverse(settings.CipherRotor4Reverse);
+                                                                                               _pr4.Reverse(settings.CipherRotor5Reverse);
 
-                                                                                               _pr14.Reverse(settings.ControlRotor1Reverse);
-                                                                                               _pr13.Reverse(settings.ControlRotor2Reverse);
+                                                                                               _pr14.Reverse(settings.ControlRotor5Reverse);
+                                                                                               _pr13.Reverse(settings.ControlRotor4Reverse);
                                                                                                _pr12.Reverse(settings.ControlRotor3Reverse);
-                                                                                               _pr11.Reverse(settings.ControlRotor4Reverse);
-                                                                                               _pr10.Reverse(settings.ControlRotor5Reverse);
+                                                                                               _pr11.Reverse(settings.ControlRotor2Reverse);
+                                                                                               _pr10.Reverse(settings.ControlRotor1Reverse);
 
                                                                                                _pri0.Reverse(settings.IndexRotor1Reverse);
                                                                                                _pri1.Reverse(settings.IndexRotor2Reverse);

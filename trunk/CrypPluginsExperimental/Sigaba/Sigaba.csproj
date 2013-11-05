@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConstantsByte.cs" />
     <Compile Include="ORing.xaml.cs">
       <DependentUpon>ORing.xaml</DependentUpon>
     </Compile>
@@ -109,9 +110,11 @@
     <Compile Include="Rotor3.xaml.cs">
       <DependentUpon>Rotor3.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RotorByte.cs" />
     <Compile Include="Sigaba.cs" />
     <Compile Include="SigabaConstants.cs" />
     <Compile Include="SigabaCore.cs" />
+    <Compile Include="SigabaCoreFast.cs" />
     <Compile Include="SigabaPresentation.xaml.cs">
       <DependentUpon>SigabaPresentation.xaml</DependentUpon>
     </Compile>

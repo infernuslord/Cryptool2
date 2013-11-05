@@ -15,6 +15,8 @@
 */
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Numerics;
 using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -33,32 +35,52 @@ namespace SigabaBruteforce
         private int cipherRotor1From = 0;
         private int cipherRotor1To = 25;
 
+        private int cipherRotor1Rev = 0;
+
         private int cipherRotor2From = 0;
         private int cipherRotor2To = 25;
+
+        private int cipherRotor2Rev = 0;
 
         private int cipherRotor3From = 0;
         private int cipherRotor3To = 25;
 
+        private int cipherRotor3Rev = 0;
+
         private int cipherRotor4From = 0;
         private int cipherRotor4To = 25;
+
+        private int cipherRotor4Rev = 0;
 
         private int cipherRotor5From = 0;
         private int cipherRotor5To = 25;
 
+        private int cipherRotor5Rev = 0;
+
         private int controlRotor1From = 0;
         private int controlRotor1To = 25;
+
+        private int controlRotor1Rev = 0;
 
         private int controlRotor2From = 0;
         private int controlRotor2To = 25;
 
+        private int controlRotor2Rev = 0;
+
         private int controlRotor3From = 0;
         private int controlRotor3To = 25;
+
+        private int controlRotor3Rev = 0;
 
         private int controlRotor4From = 0;
         private int controlRotor4To = 25;
 
+        private int controlRotor4Rev = 0;
+
         private int controlRotor5From = 0;
         private int controlRotor5To = 25;
+
+        private int controlRotor5Rev = 0;
 
         private int indexRotor1From = 0;
         private int indexRotor1To = 9;
@@ -235,8 +257,8 @@ namespace SigabaBruteforce
         private bool index5AnalysisUseRotor3 = true;
         private bool index5AnalysisUseRotor4 = true;
         private bool index5AnalysisUseRotor5 = true;
-        
 
+        private string keySpace = "0";
         #endregion
 
         public SigabaBruteforceSettings()
@@ -248,32 +270,29 @@ namespace SigabaBruteforce
             setSettingsVisibility();
         }
 
+
+
         #region TaskPane Settings
 
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("Cipher Rotor 1: From", "PlugBoardATooltip", "PositionOptionsGroup", 1, false, ControlType.ComboBox,
-            new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
-        public int CipherRotor1From
+        [TaskPane("KeyspaceCaption", "AnalyzeRotorsTooltip",
+            "", 0, false, ControlType.TextBoxReadOnly, "", null)]
+        public string KeySpace
         {
-            get
-            {
-                return this.cipherRotor1From;
-            }
+            get { return keySpace; }
             set
             {
-
-                this.cipherRotor1From = (int)value;
-                OnPropertyChanged("CipherRotor1From");
-                setSettingsVisibility();
-
-                if (value > cipherRotor1To)
-                {
-                    CipherRotor1To = value;
-
-
-                }
+                
             }
         }
+
+        [TaskPane("CalculateKeypaceCaption", "CalculateKeypaceTooltip", "", 1, false, ControlType.Button)]
+        public void CalculateKeySpace()
+        {
+            setKeyspace("");
+            
+        }
+
+        
 
         #region on/off cipherrotor
 
@@ -527,22 +546,41 @@ namespace SigabaBruteforce
 
         #endregion
 
-
         #region Cipher Bank
 
-        
+        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
+        [TaskPane("CipherRotor1From", "PlugBoardATooltip", "PositionOptionsGroup", 1, false, ControlType.ComboBox,
+            new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
+        public int CipherRotor1From
+        {
+            get
+            {
+                return this.cipherRotor1From;
+            }
+            set
+            {
 
-        
+                this.cipherRotor1From = (int)value;
+                OnPropertyChanged("CipherRotor1From");
+                setSettingsVisibility();
+
+                if (value > cipherRotor1To)
+                {
+                    CipherRotor1To = value;
+
+
+                }
+            }
+        }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 2, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor1To
         {
             get { return cipherRotor1To; }
             set
             {
-                
                     cipherRotor1To = value;
                     OnPropertyChanged("CipherRotor1To");
                     setSettingsVisibility();
@@ -550,10 +588,26 @@ namespace SigabaBruteforce
                 {
                     CipherRotor1From = value;
                 }
-
+                    
             }
         }
 
+        [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 3, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int CipherRotor1Rev
+        {
+             get { return cipherRotor1Rev; }
+            set
+            {
+                
+                if (value != cipherRotor1Rev)
+                {
+                    cipherRotor1Rev = value;
+                    OnPropertyChanged("CipherRotor1Rev");
+                }
+                
+            }
+        }
+    
         #region Rotor choice
 
         [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
@@ -563,11 +617,13 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor1; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor1)
                 {
                     cipher1AnalysisUseRotor1 = value;
                     OnPropertyChanged("Cipher1AnalysisUseRotor1");
                 }
+                
             }
         }
 
@@ -579,6 +635,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor2 ; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor2 )
                 {
                     cipher1AnalysisUseRotor2  = value;
@@ -595,6 +652,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor3; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor3)
                 {
                     cipher1AnalysisUseRotor3 = value;
@@ -611,6 +669,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor4; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor4)
                 {
                     cipher1AnalysisUseRotor4 = value;
@@ -628,6 +687,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor5; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor5)
                 {
                     cipher1AnalysisUseRotor5 = value;
@@ -644,6 +704,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor6; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor6)
                 {
                     cipher1AnalysisUseRotor6 = value;
@@ -659,6 +720,7 @@ namespace SigabaBruteforce
             get { return cipher1AnalysisUseRotor7; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor7)
                 {
                     cipher1AnalysisUseRotor7 = value;
@@ -667,13 +729,14 @@ namespace SigabaBruteforce
             }
         }
         
-        [TaskPane("AnalysisUseRotor8Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "AnalysisUseRotorVIIITooltip",
             "Cipher1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher1AnalysisUseRotor8
         {
             get { return cipher1AnalysisUseRotor8; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor8)
                 {
                     cipher1AnalysisUseRotor8 = value;
@@ -682,13 +745,14 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("AnalysisUseRotor9Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "AnalysisUseRotorVIIITooltip",
             "Cipher1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher1AnalysisUseRotor9
         {
             get { return cipher1AnalysisUseRotor9; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor9)
                 {
                     cipher1AnalysisUseRotor9 = value;
@@ -696,13 +760,14 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("AnalysisUseRotor10Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "AnalysisUseRotorVIIITooltip",
             "Cipher1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher1AnalysisUseRotor0
         {
             get { return cipher1AnalysisUseRotor0; }
             set
             {
+                
                 if (value != cipher1AnalysisUseRotor0)
                 {
                     cipher1AnalysisUseRotor0 = value;
@@ -713,13 +778,14 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("Cipher Rotor 2: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("CipherRotor2FromCaption", "PlugBoardATooltip", "PositionOptionsGroup", 4, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor2From
         {
             get { return cipherRotor2From; }
             set
             {
+                
                 cipherRotor2From = value;
                 OnPropertyChanged("CipherRotor2From");
                 setSettingsVisibility();
@@ -734,14 +800,14 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 5, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor2To
         {
             get { return cipherRotor2To; }
             set
             {
-
+                
                 cipherRotor2To = value;
                 OnPropertyChanged("CipherRotor2To");
                 setSettingsVisibility();
@@ -750,6 +816,22 @@ namespace SigabaBruteforce
                     CipherRotor2From = value;
                 }
 
+            }
+        }
+
+        [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 6, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int CipherRotor2Rev
+        {
+             get { return cipherRotor2Rev; }
+            set
+            {
+                
+                if (value != cipherRotor2Rev)
+                {
+                    cipherRotor2Rev = value;
+                    OnPropertyChanged("CipherRotor2Rev");
+                }
+                
             }
         }
 
@@ -762,6 +844,7 @@ namespace SigabaBruteforce
             get { return cipher2AnalysisUseRotor1; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor1)
                 {
                     cipher2AnalysisUseRotor1 = value;
@@ -771,13 +854,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher2AnalysisUseRotorIICaption", "Cipher2AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Cipher2AnalysisUseRotorIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor2
         {
             get { return cipher2AnalysisUseRotor2; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor2)
                 {
                     cipher2AnalysisUseRotor2 = value;
@@ -787,13 +871,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher2AnalysisUseRotorIIICaption", "Cipher2AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Cipher2AnalysisUseRotorIIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor3
         {
             get { return cipher2AnalysisUseRotor3; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor3)
                 {
                     cipher2AnalysisUseRotor3 = value;
@@ -803,13 +888,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher2AnalysisUseRotorIVCaption", "Cipher2AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Cipher2AnalysisUseRotorIVTooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor4
         {
             get { return cipher2AnalysisUseRotor4; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor4)
                 {
                     cipher2AnalysisUseRotor4 = value;
@@ -820,13 +906,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher2AnalysisUseRotorVCaption", "Cipher2AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Cipher2AnalysisUseRotorVTooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor5
         {
             get { return cipher2AnalysisUseRotor5; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor5)
                 {
                     cipher2AnalysisUseRotor5 = value;
@@ -836,13 +923,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher2AnalysisUseRotorVICaption", "Cipher2AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Cipher2AnalysisUseRotorVITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor6
         {
             get { return cipher2AnalysisUseRotor6; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor6)
                 {
                     cipher2AnalysisUseRotor6 = value;
@@ -853,13 +941,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher2AnalysisUseRotorVIICaption", "Cipher2AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Cipher2AnalysisUseRotorVIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor7
         {
             get { return cipher2AnalysisUseRotor7; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor7)
                 {
                     cipher2AnalysisUseRotor7 = value;
@@ -870,13 +959,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher2AnalysisUseRotor8Caption", "Cipher2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Cipher2AnalysisUseRotorVIIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor8
         {
             get { return cipher2AnalysisUseRotor8; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor8)
                 {
                     cipher2AnalysisUseRotor8 = value;
@@ -885,13 +975,14 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Cipher2AnalysisUseRotor9Caption", "Cipher2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Cipher2AnalysisUseRotorVIIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor9
         {
             get { return cipher2AnalysisUseRotor9; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor9)
                 {
                     cipher2AnalysisUseRotor9 = value;
@@ -899,13 +990,14 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Cipher2AnalysisUseRotor10Caption", "Cipher2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Cipher2AnalysisUseRotorVIIITooltip",
             "Cipher2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher2AnalysisUseRotor0
         {
             get { return cipher2AnalysisUseRotor0; }
             set
             {
+                
                 if (value != cipher2AnalysisUseRotor0)
                 {
                     cipher2AnalysisUseRotor0 = value;
@@ -916,13 +1008,14 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("Cipher Rotor 3: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Cipher Rotor 3: From", "PlugBoardATooltip", "PositionOptionsGroup", 7, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor3From
         {
             get { return cipherRotor3From; }
             set
             {
+                
                 cipherRotor3From = value;
                 OnPropertyChanged("CipherRotor3From");
                 setSettingsVisibility();
@@ -937,14 +1030,14 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 8, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor3To
         {
             get { return cipherRotor3To; }
             set
             {
-
+                
                 cipherRotor3To = value;
                 OnPropertyChanged("CipherRotor3To");
                 setSettingsVisibility();
@@ -953,6 +1046,22 @@ namespace SigabaBruteforce
                     CipherRotor3From = value;
                 }
 
+            }
+        }
+
+       [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 9, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int CipherRotor3Rev
+        {
+             get { return cipherRotor3Rev; }
+            set
+            {
+                
+                if (value != cipherRotor3Rev)
+                {
+                    cipherRotor3Rev = value;
+                    OnPropertyChanged("CipherRotor3Rev");
+                }
+                
             }
         }
 
@@ -965,6 +1074,7 @@ namespace SigabaBruteforce
             get { return cipher3AnalysisUseRotor1; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor1)
                 {
                     cipher3AnalysisUseRotor1 = value;
@@ -974,13 +1084,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher3AnalysisUseRotorIICaption", "Cipher3AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Cipher3AnalysisUseRotorIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor2
         {
             get { return cipher3AnalysisUseRotor2; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor2)
                 {
                     cipher3AnalysisUseRotor2 = value;
@@ -990,13 +1101,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher3AnalysisUseRotorIIICaption", "Cipher3AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Cipher3AnalysisUseRotorIIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor3
         {
             get { return cipher3AnalysisUseRotor3; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor3)
                 {
                     cipher3AnalysisUseRotor3 = value;
@@ -1006,13 +1118,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher3AnalysisUseRotorIVCaption", "Cipher3AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Cipher3AnalysisUseRotorIVTooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor4
         {
             get { return cipher3AnalysisUseRotor4; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor4)
                 {
                     cipher3AnalysisUseRotor4 = value;
@@ -1023,13 +1136,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher3AnalysisUseRotorVCaption", "Cipher3AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Cipher3AnalysisUseRotorVTooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor5
         {
             get { return cipher3AnalysisUseRotor5; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor5)
                 {
                     cipher3AnalysisUseRotor5 = value;
@@ -1039,13 +1153,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher3AnalysisUseRotorVICaption", "Cipher3AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Cipher3AnalysisUseRotorVITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor6
         {
             get { return cipher3AnalysisUseRotor6; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor6)
                 {
                     cipher3AnalysisUseRotor6 = value;
@@ -1056,13 +1171,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher3AnalysisUseRotorVIICaption", "Cipher3AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Cipher3AnalysisUseRotorVIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor7
         {
             get { return cipher3AnalysisUseRotor7; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor7)
                 {
                     cipher3AnalysisUseRotor7 = value;
@@ -1073,13 +1189,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher3AnalysisUseRotor8Caption", "Cipher3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Cipher3AnalysisUseRotorVIIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor8
         {
             get { return cipher3AnalysisUseRotor8; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor8)
                 {
                     cipher3AnalysisUseRotor8 = value;
@@ -1088,13 +1205,14 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Cipher3AnalysisUseRotor9Caption", "Cipher3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Cipher3AnalysisUseRotorVIIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor9
         {
             get { return cipher3AnalysisUseRotor9; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor9)
                 {
                     cipher3AnalysisUseRotor9 = value;
@@ -1102,13 +1220,14 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Cipher3AnalysisUseRotor10Caption", "Cipher3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Cipher3AnalysisUseRotorVIIITooltip",
             "Cipher3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher3AnalysisUseRotor0
         {
             get { return cipher3AnalysisUseRotor0; }
             set
             {
+                
                 if (value != cipher3AnalysisUseRotor0)
                 {
                     cipher3AnalysisUseRotor0 = value;
@@ -1119,13 +1238,14 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("Cipher Rotor 4: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Cipher Rotor 4: From", "PlugBoardATooltip", "PositionOptionsGroup", 10, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor4From
         {
             get { return cipherRotor4From; }
             set
             {
+                
                 cipherRotor4From = value;
                 OnPropertyChanged("CipherRotor4From");
                 setSettingsVisibility();
@@ -1140,14 +1260,14 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 11, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor4To
         {
             get { return cipherRotor4To; }
             set
             {
-
+                
                 cipherRotor4To = value;
                 OnPropertyChanged("CipherRotor4To");
                 setSettingsVisibility();
@@ -1156,6 +1276,22 @@ namespace SigabaBruteforce
                     CipherRotor4From = value;
                 }
 
+            }
+        }
+
+       [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 12, false, ControlType.RadioButton, new String[]{"undefinedCaption","normalCaption","reverseCaption"} )]
+        public int CipherRotor4Rev
+        {
+             get { return cipherRotor4Rev; }
+            set
+            {
+                
+                if (value != cipherRotor4Rev)
+                {
+                    cipherRotor4Rev = value;
+                    OnPropertyChanged("CipherRotor4Rev");
+                }
+                
             }
         }
 
@@ -1168,6 +1304,7 @@ namespace SigabaBruteforce
             get { return cipher4AnalysisUseRotor1; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor1)
                 {
                     cipher4AnalysisUseRotor1 = value;
@@ -1177,13 +1314,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher4AnalysisUseRotorIICaption", "Cipher4AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Cipher4AnalysisUseRotorIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor2
         {
             get { return cipher4AnalysisUseRotor2; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor2)
                 {
                     cipher4AnalysisUseRotor2 = value;
@@ -1193,13 +1331,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher4AnalysisUseRotorIIICaption", "Cipher4AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Cipher4AnalysisUseRotorIIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor3
         {
             get { return cipher4AnalysisUseRotor3; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor3)
                 {
                     cipher4AnalysisUseRotor3 = value;
@@ -1209,13 +1348,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher4AnalysisUseRotorIVCaption", "Cipher4AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Cipher4AnalysisUseRotorIVTooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor4
         {
             get { return cipher4AnalysisUseRotor4; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor4)
                 {
                     cipher4AnalysisUseRotor4 = value;
@@ -1226,13 +1366,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher4AnalysisUseRotorVCaption", "Cipher4AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Cipher4AnalysisUseRotorVTooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor5
         {
             get { return cipher4AnalysisUseRotor5; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor5)
                 {
                     cipher4AnalysisUseRotor5 = value;
@@ -1242,13 +1383,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher4AnalysisUseRotorVICaption", "Cipher4AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Cipher4AnalysisUseRotorVITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor6
         {
             get { return cipher4AnalysisUseRotor6; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor6)
                 {
                     cipher4AnalysisUseRotor6 = value;
@@ -1259,13 +1401,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher4AnalysisUseRotorVIICaption", "Cipher4AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Cipher4AnalysisUseRotorVIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor7
         {
             get { return cipher4AnalysisUseRotor7; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor7)
                 {
                     cipher4AnalysisUseRotor7 = value;
@@ -1276,13 +1419,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher4AnalysisUseRotor8Caption", "Cipher4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Cipher4AnalysisUseRotorVIIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor8
         {
             get { return cipher4AnalysisUseRotor8; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor8)
                 {
                     cipher4AnalysisUseRotor8 = value;
@@ -1291,13 +1435,14 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Cipher4AnalysisUseRotor9Caption", "Cipher4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Cipher4AnalysisUseRotorVIIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor9
         {
             get { return cipher4AnalysisUseRotor9; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor9)
                 {
                     cipher4AnalysisUseRotor9 = value;
@@ -1305,13 +1450,14 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Cipher4AnalysisUseRotor10Caption", "Cipher4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Cipher4AnalysisUseRotorVIIITooltip",
             "Cipher4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher4AnalysisUseRotor0
         {
             get { return cipher4AnalysisUseRotor0; }
             set
             {
+                
                 if (value != cipher4AnalysisUseRotor0)
                 {
                     cipher4AnalysisUseRotor0 = value;
@@ -1322,13 +1468,14 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fünf")]
-        [TaskPane("Cipher Rotor 5: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Cipher Rotor 5: From", "PlugBoardATooltip", "PositionOptionsGroup", 13, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor5From
         {
             get { return cipherRotor5From; }
             set
             {
+                
                 cipherRotor5From = value;
                 OnPropertyChanged("CipherRotor5From");
                 setSettingsVisibility();
@@ -1343,14 +1490,14 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fünf")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 14, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int CipherRotor5To
         {
             get { return cipherRotor5To; }
             set
             {
-
+                
                 cipherRotor5To = value;
                 OnPropertyChanged("CipherRotor5To");
                 setSettingsVisibility();
@@ -1359,6 +1506,22 @@ namespace SigabaBruteforce
                     CipherRotor5From = value;
                 }
 
+            }
+        }
+
+                [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 15, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int CipherRotor5Rev
+        {
+             get { return cipherRotor5Rev; }
+            set
+            {
+                
+                if (value != cipherRotor5Rev)
+                {
+                    cipherRotor5Rev = value;
+                    OnPropertyChanged("CipherRotor5Rev");
+                }
+                
             }
         }
 
@@ -1371,6 +1534,7 @@ namespace SigabaBruteforce
             get { return cipher5AnalysisUseRotor1; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor1)
                 {
                     cipher5AnalysisUseRotor1 = value;
@@ -1380,13 +1544,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher5AnalysisUseRotorIICaption", "Cipher5AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Cipher5AnalysisUseRotorIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor2
         {
             get { return cipher5AnalysisUseRotor2; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor2)
                 {
                     cipher5AnalysisUseRotor2 = value;
@@ -1396,13 +1561,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher5AnalysisUseRotorIIICaption", "Cipher5AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Cipher5AnalysisUseRotorIIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor3
         {
             get { return cipher5AnalysisUseRotor3; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor3)
                 {
                     cipher5AnalysisUseRotor3 = value;
@@ -1412,13 +1578,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher5AnalysisUseRotorIVCaption", "Cipher5AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Cipher5AnalysisUseRotorIVTooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor4
         {
             get { return cipher5AnalysisUseRotor4; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor4)
                 {
                     cipher5AnalysisUseRotor4 = value;
@@ -1429,13 +1596,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher5AnalysisUseRotorVCaption", "Cipher5AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Cipher5AnalysisUseRotorVTooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor5
         {
             get { return cipher5AnalysisUseRotor5; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor5)
                 {
                     cipher5AnalysisUseRotor5 = value;
@@ -1445,13 +1613,14 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Cipher5AnalysisUseRotorVICaption", "Cipher5AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Cipher5AnalysisUseRotorVITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor6
         {
             get { return cipher5AnalysisUseRotor6; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor6)
                 {
                     cipher5AnalysisUseRotor6 = value;
@@ -1462,13 +1631,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher5AnalysisUseRotorVIICaption", "Cipher5AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Cipher5AnalysisUseRotorVIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor7
         {
             get { return cipher5AnalysisUseRotor7; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor7)
                 {
                     cipher5AnalysisUseRotor7 = value;
@@ -1479,13 +1649,14 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Cipher5AnalysisUseRotor8Caption", "Cipher5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Cipher5AnalysisUseRotorVIIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor8
         {
             get { return cipher5AnalysisUseRotor8; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor8)
                 {
                     cipher5AnalysisUseRotor8 = value;
@@ -1494,13 +1665,14 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Cipher5AnalysisUseRotor9Caption", "Cipher5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Cipher5AnalysisUseRotorVIIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor9
         {
             get { return cipher5AnalysisUseRotor9; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor9)
                 {
                     cipher5AnalysisUseRotor9 = value;
@@ -1508,13 +1680,14 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Cipher5AnalysisUseRotor10Caption", "Cipher5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Cipher5AnalysisUseRotorVIIITooltip",
             "Cipher5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Cipher5AnalysisUseRotor0
         {
             get { return cipher5AnalysisUseRotor0; }
             set
             {
+                
                 if (value != cipher5AnalysisUseRotor0)
                 {
                     cipher5AnalysisUseRotor0 = value;
@@ -1530,7 +1703,7 @@ namespace SigabaBruteforce
 
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("Control Rotor 1: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Control Rotor 1: From", "PlugBoardATooltip", "PositionOptionsGroup", 16, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor1From
         {
@@ -1552,7 +1725,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 17, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor1To
         {
@@ -1568,6 +1741,26 @@ namespace SigabaBruteforce
                     ControlRotor1From = value;
                 }
 
+            }
+        }
+
+       [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 18, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int ControlRotor1Rev
+        {
+             get
+             {
+                 return controlRotor1Rev;
+             }
+            set
+            {
+                
+                if (value != controlRotor1Rev)
+                {
+                    OnPropertyChanged("ControlRotor1Rev");
+                    controlRotor1Rev = value;
+                    
+                }
+                
             }
         }
 
@@ -1688,7 +1881,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("AnalysisUseRotor8Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "AnalysisUseRotorVIIITooltip",
             "Control1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control1AnalysisUseRotor8
         {
@@ -1703,7 +1896,7 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("AnalysisUseRotor9Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "AnalysisUseRotorVIIITooltip",
             "Control1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control1AnalysisUseRotor9
         {
@@ -1717,7 +1910,7 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("AnalysisUseRotor10Caption", "AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "AnalysisUseRotorVIIITooltip",
             "Control1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control1AnalysisUseRotor0
         {
@@ -1734,7 +1927,7 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("Control Rotor 2: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Control Rotor 2: From", "PlugBoardATooltip", "PositionOptionsGroup", 19, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor2From
         {
@@ -1755,7 +1948,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 20, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor2To
         {
@@ -1771,6 +1964,22 @@ namespace SigabaBruteforce
                     ControlRotor2From = value;
                 }
 
+            }
+        }
+
+               [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 21, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int ControlRotor2Rev
+        {
+             get { return controlRotor2Rev; }
+            set
+            {
+                
+                if (value != controlRotor2Rev)
+                {
+                    controlRotor2Rev = value;
+                    OnPropertyChanged("ControlRotor2Rev");
+                }
+                
             }
         }
 
@@ -1792,7 +2001,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control2AnalysisUseRotorIICaption", "Control2AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Control2AnalysisUseRotorIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor2
         {
@@ -1808,7 +2017,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control2AnalysisUseRotorIIICaption", "Control2AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Control2AnalysisUseRotorIIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor3
         {
@@ -1824,7 +2033,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control2AnalysisUseRotorIVCaption", "Control2AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Control2AnalysisUseRotorIVTooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor4
         {
@@ -1841,7 +2050,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control2AnalysisUseRotorVCaption", "Control2AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Control2AnalysisUseRotorVTooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor5
         {
@@ -1857,7 +2066,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control2AnalysisUseRotorVICaption", "Control2AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Control2AnalysisUseRotorVITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor6
         {
@@ -1874,7 +2083,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control2AnalysisUseRotorVIICaption", "Control2AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Control2AnalysisUseRotorVIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor7
         {
@@ -1891,7 +2100,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control2AnalysisUseRotor8Caption", "Control2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Control2AnalysisUseRotorVIIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor8
         {
@@ -1906,7 +2115,7 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Control2AnalysisUseRotor9Caption", "Control2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Control2AnalysisUseRotorVIIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor9
         {
@@ -1920,7 +2129,7 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Control2AnalysisUseRotor10Caption", "Control2AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Control2AnalysisUseRotorVIIITooltip",
             "Control2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control2AnalysisUseRotor0
         {
@@ -1937,7 +2146,7 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("Control Rotor 3: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Control Rotor 3: From", "PlugBoardATooltip", "PositionOptionsGroup", 22, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor3From
         {
@@ -1958,7 +2167,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 23, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor3To
         {
@@ -1974,6 +2183,22 @@ namespace SigabaBruteforce
                     ControlRotor3From = value;
                 }
 
+            }
+        }
+
+               [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 24, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int ControlRotor3Rev
+        {
+             get { return controlRotor3Rev; }
+            set
+            {
+                
+                if (value != controlRotor3Rev)
+                {
+                    controlRotor3Rev = value;
+                    OnPropertyChanged("ControlRotor3Rev");
+                }
+                
             }
         }
 
@@ -1995,7 +2220,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control3AnalysisUseRotorIICaption", "Control3AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Control3AnalysisUseRotorIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor2
         {
@@ -2011,7 +2236,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control3AnalysisUseRotorIIICaption", "Control3AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Control3AnalysisUseRotorIIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor3
         {
@@ -2027,7 +2252,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control3AnalysisUseRotorIVCaption", "Control3AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Control3AnalysisUseRotorIVTooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor4
         {
@@ -2044,7 +2269,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control3AnalysisUseRotorVCaption", "Control3AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Control3AnalysisUseRotorVTooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor5
         {
@@ -2060,7 +2285,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control3AnalysisUseRotorVICaption", "Control3AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Control3AnalysisUseRotorVITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor6
         {
@@ -2077,7 +2302,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control3AnalysisUseRotorVIICaption", "Control3AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Control3AnalysisUseRotorVIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor7
         {
@@ -2094,7 +2319,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control3AnalysisUseRotor8Caption", "Control3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Control3AnalysisUseRotorVIIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor8
         {
@@ -2109,7 +2334,7 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Control3AnalysisUseRotor9Caption", "Control3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Control3AnalysisUseRotorVIIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor9
         {
@@ -2123,7 +2348,7 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Control3AnalysisUseRotor10Caption", "Control3AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Control3AnalysisUseRotorVIIITooltip",
             "Control3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control3AnalysisUseRotor0
         {
@@ -2140,7 +2365,7 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("Control Rotor 4: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Control Rotor 4: From", "PlugBoardATooltip", "PositionOptionsGroup", 25, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor4From
         {
@@ -2161,7 +2386,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 26, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor4To
         {
@@ -2177,6 +2402,22 @@ namespace SigabaBruteforce
                     ControlRotor4From = value;
                 }
 
+            }
+        }
+
+               [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 27, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int ControlRotor4Rev
+        {
+             get { return controlRotor4Rev; }
+            set
+            {
+                
+                if (value != controlRotor4Rev)
+                {
+                    controlRotor4Rev = value;
+                    OnPropertyChanged("ControlRotor4Rev");
+                }
+                
             }
         }
 
@@ -2198,7 +2439,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control4AnalysisUseRotorIICaption", "Control4AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Control4AnalysisUseRotorIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor2
         {
@@ -2214,7 +2455,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control4AnalysisUseRotorIIICaption", "Control4AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Control4AnalysisUseRotorIIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor3
         {
@@ -2230,7 +2471,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control4AnalysisUseRotorIVCaption", "Control4AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Control4AnalysisUseRotorIVTooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor4
         {
@@ -2247,7 +2488,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control4AnalysisUseRotorVCaption", "Control4AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Control4AnalysisUseRotorVTooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor5
         {
@@ -2263,7 +2504,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control4AnalysisUseRotorVICaption", "Control4AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Control4AnalysisUseRotorVITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor6
         {
@@ -2280,7 +2521,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control4AnalysisUseRotorVIICaption", "Control4AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Control4AnalysisUseRotorVIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor7
         {
@@ -2297,7 +2538,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control4AnalysisUseRotor8Caption", "Control4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Control4AnalysisUseRotorVIIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor8
         {
@@ -2312,7 +2553,7 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Control4AnalysisUseRotor9Caption", "Control4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Control4AnalysisUseRotorVIIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor9
         {
@@ -2326,7 +2567,7 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Control4AnalysisUseRotor10Caption", "Control4AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Control4AnalysisUseRotorVIIITooltip",
             "Control4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control4AnalysisUseRotor0
         {
@@ -2343,7 +2584,7 @@ namespace SigabaBruteforce
         #endregion
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zehn")]
-        [TaskPane("Control Rotor 5: From", "PlugBoardATooltip", "PositionOptionsGroup", 40, false, ControlType.ComboBox,
+        [TaskPane("Control Rotor 5: From", "PlugBoardATooltip", "PositionOptionsGroup", 28, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor5From
         {
@@ -2364,7 +2605,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zehn")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.ComboBox,
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 29, false, ControlType.ComboBox,
             new String[] { "LetterA", "LetterB", "LetterC", "LetterD", "LetterE", "LetterF", "LetterG", "LetterH", "LetterI", "LetterJ", "LetterK", "LetterL", "LetterM", "LetterN", "LetterO", "LetterP", "LetterQ", "LetterR", "LetterS", "LetterT", "LetterU", "LetterV", "LetterW", "LetterX", "LetterY", "LetterZ" })]
         public int ControlRotor5To
         {
@@ -2380,6 +2621,22 @@ namespace SigabaBruteforce
                     ControlRotor5From = value;
                 }
 
+            }
+        }
+
+               [TaskPane("RevCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 30, false, ControlType.RadioButton, new String[] { "undefinedCaption", "normalCaption", "reverseCaption" })]
+        public int ControlRotor5Rev
+        {
+             get { return controlRotor5Rev; }
+            set
+            {
+                
+                if (value != controlRotor5Rev)
+                {
+                    controlRotor5Rev = value;
+                    OnPropertyChanged("ControlRotor5Rev");
+                }
+                
             }
         }
 
@@ -2401,7 +2658,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control5AnalysisUseRotorIICaption", "Control5AnalysisUseRotorIITooltip",
+        [TaskPane("AnalysisUseRotorIICaption", "Control5AnalysisUseRotorIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor2
         {
@@ -2417,7 +2674,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control5AnalysisUseRotorIIICaption", "Control5AnalysisUseRotorIIITooltip",
+        [TaskPane("AnalysisUseRotorIIICaption", "Control5AnalysisUseRotorIIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor3
         {
@@ -2433,7 +2690,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control5AnalysisUseRotorIVCaption", "Control5AnalysisUseRotorIVTooltip",
+        [TaskPane("AnalysisUseRotorIVCaption", "Control5AnalysisUseRotorIVTooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor4
         {
@@ -2450,7 +2707,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control5AnalysisUseRotorVCaption", "Control5AnalysisUseRotorVTooltip",
+        [TaskPane("AnalysisUseRotorVCaption", "Control5AnalysisUseRotorVTooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor5
         {
@@ -2466,7 +2723,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Control5AnalysisUseRotorVICaption", "Control5AnalysisUseRotorVITooltip",
+        [TaskPane("AnalysisUseRotorVICaption", "Control5AnalysisUseRotorVITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor6
         {
@@ -2483,7 +2740,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control5AnalysisUseRotorVIICaption", "Control5AnalysisUseRotorVIITooltip",
+        [TaskPane("AnalysisUseRotorVIICaption", "Control5AnalysisUseRotorVIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor7
         {
@@ -2500,7 +2757,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Control5AnalysisUseRotor8Caption", "Control5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorVIIICaption", "Control5AnalysisUseRotorVIIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor8
         {
@@ -2515,7 +2772,7 @@ namespace SigabaBruteforce
             }
         }
 
-        [TaskPane("Control5AnalysisUseRotor9Caption", "Control5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorIXCaption", "Control5AnalysisUseRotorVIIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor9
         {
@@ -2529,7 +2786,7 @@ namespace SigabaBruteforce
                 }
             }
         }
-        [TaskPane("Control5AnalysisUseRotor10Caption", "Control5AnalysisUseRotorVIIITooltip",
+        [TaskPane("AnalysisUseRotorXCaption", "Control5AnalysisUseRotorVIIITooltip",
             "Control5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Control5AnalysisUseRotor0
         {
@@ -2570,7 +2827,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Elf")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
         public int IndexRotor1To
         {
             get { return indexRotor1To; }
@@ -2590,7 +2847,7 @@ namespace SigabaBruteforce
 
         #region Rotor choice
 
-        [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
+        [TaskPane("IndexAnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
             "Index1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index1AnalysisUseRotor1
         {
@@ -2606,7 +2863,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("AnalysisUseRotorIICaption", "AnalysisUseRotorIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIICaption", "AnalysisUseRotorIITooltip",
             "Index1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index1AnalysisUseRotor2
         {
@@ -2622,7 +2879,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("AnalysisUseRotorIIICaption", "AnalysisUseRotorIIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIIICaption", "AnalysisUseRotorIIITooltip",
             "Index1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index1AnalysisUseRotor3
         {
@@ -2638,7 +2895,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("AnalysisUseRotorIVCaption", "AnalysisUseRotorIVTooltip",
+        [TaskPane("IndexAnalysisUseRotorIVCaption", "AnalysisUseRotorIVTooltip",
             "Index1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index1AnalysisUseRotor4
         {
@@ -2655,7 +2912,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("AnalysisUseRotorVCaption", "AnalysisUseRotorVTooltip",
+        [TaskPane("IndexAnalysisUseRotorVCaption", "AnalysisUseRotorVTooltip",
             "Index1AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index1AnalysisUseRotor5
         {
@@ -2694,7 +2951,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwölf")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
         public int IndexRotor2To
         {
             get { return indexRotor2To; }
@@ -2714,7 +2971,7 @@ namespace SigabaBruteforce
 
         #region Rotor choice
 
-        [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
+        [TaskPane("IndexAnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
             "Index2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index2AnalysisUseRotor1
         {
@@ -2730,7 +2987,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index2AnalysisUseRotorIICaption", "Index2AnalysisUseRotorIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIICaption", "Index2AnalysisUseRotorIITooltip",
             "Index2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index2AnalysisUseRotor2
         {
@@ -2746,7 +3003,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index2AnalysisUseRotorIIICaption", "Index2AnalysisUseRotorIIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIIICaption", "Index2AnalysisUseRotorIIITooltip",
             "Index2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index2AnalysisUseRotor3
         {
@@ -2762,7 +3019,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index2AnalysisUseRotorIVCaption", "Index2AnalysisUseRotorIVTooltip",
+        [TaskPane("IndexAnalysisUseRotorIVCaption", "Index2AnalysisUseRotorIVTooltip",
             "Index2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index2AnalysisUseRotor4
         {
@@ -2779,7 +3036,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Index2AnalysisUseRotorVCaption", "Index2AnalysisUseRotorVTooltip",
+        [TaskPane("IndexAnalysisUseRotorVCaption", "Index2AnalysisUseRotorVTooltip",
             "Index2AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index2AnalysisUseRotor5
         {
@@ -2815,7 +3072,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "DreiZehn")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
         public int IndexRotor3To
         {
             get { return indexRotor3To; }
@@ -2835,7 +3092,7 @@ namespace SigabaBruteforce
 
         #region Rotor choice
 
-        [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
+        [TaskPane("IndexAnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
             "Index3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index3AnalysisUseRotor1
         {
@@ -2851,7 +3108,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index3AnalysisUseRotorIICaption", "Index3AnalysisUseRotorIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIICaption", "Index3AnalysisUseRotorIITooltip",
             "Index3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index3AnalysisUseRotor2
         {
@@ -2867,7 +3124,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index3AnalysisUseRotorIIICaption", "Index3AnalysisUseRotorIIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIIICaption", "Index3AnalysisUseRotorIIITooltip",
             "Index3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index3AnalysisUseRotor3
         {
@@ -2883,7 +3140,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index3AnalysisUseRotorIVCaption", "Index3AnalysisUseRotorIVTooltip",
+        [TaskPane("IndexAnalysisUseRotorIVCaption", "Index3AnalysisUseRotorIVTooltip",
             "Index3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index3AnalysisUseRotor4
         {
@@ -2900,7 +3157,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Index3AnalysisUseRotorVCaption", "Index3AnalysisUseRotorVTooltip",
+        [TaskPane("IndexAnalysisUseRotorVCaption", "Index3AnalysisUseRotorVTooltip",
             "Index3AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index3AnalysisUseRotor5
         {
@@ -2938,7 +3195,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "VierZehn")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
         public int IndexRotor4To
         {
             get { return indexRotor4To; }
@@ -2958,7 +3215,7 @@ namespace SigabaBruteforce
 
         #region Rotor choice
 
-        [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
+        [TaskPane("IndexAnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
             "Index4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index4AnalysisUseRotor1
         {
@@ -2974,7 +3231,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index4AnalysisUseRotorIICaption", "Index4AnalysisUseRotorIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIICaption", "Index4AnalysisUseRotorIITooltip",
             "Index4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index4AnalysisUseRotor2
         {
@@ -2990,7 +3247,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index4AnalysisUseRotorIIICaption", "Index4AnalysisUseRotorIIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIIICaption", "Index4AnalysisUseRotorIIITooltip",
             "Index4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index4AnalysisUseRotor3
         {
@@ -3006,7 +3263,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index4AnalysisUseRotorIVCaption", "Index4AnalysisUseRotorIVTooltip",
+        [TaskPane("IndexAnalysisUseRotorIVCaption", "Index4AnalysisUseRotorIVTooltip",
             "Index4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index4AnalysisUseRotor4
         {
@@ -3023,7 +3280,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Index4AnalysisUseRotorVCaption", "Index4AnalysisUseRotorVTooltip",
+        [TaskPane("IndexAnalysisUseRotorVCaption", "Index4AnalysisUseRotorVTooltip",
             "Index4AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index4AnalysisUseRotor5
         {
@@ -3062,7 +3319,7 @@ namespace SigabaBruteforce
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "FünfZehn")]
-        [TaskPane("To", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
+        [TaskPane("ToCaption", "PlugBoardBTooltip", "PositionOptionsGroup", 41, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 9)]
         public int IndexRotor5To
         {
             get { return indexRotor5To; }
@@ -3082,7 +3339,7 @@ namespace SigabaBruteforce
 
         #region Rotor choice
 
-        [TaskPane("AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
+        [TaskPane("IndexAnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
             "Index5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index5AnalysisUseRotor1
         {
@@ -3098,7 +3355,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index5AnalysisUseRotorIICaption", "Index5AnalysisUseRotorIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIICaption", "Index5AnalysisUseRotorIITooltip",
             "Index5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index5AnalysisUseRotor2
         {
@@ -3114,7 +3371,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index5AnalysisUseRotorIIICaption", "Index5AnalysisUseRotorIIITooltip",
+        [TaskPane("IndexAnalysisUseRotorIIICaption", "Index5AnalysisUseRotorIIITooltip",
             "Index5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index5AnalysisUseRotor3
         {
@@ -3130,7 +3387,7 @@ namespace SigabaBruteforce
         }
 
 
-        [TaskPane("Index5AnalysisUseRotorIVCaption", "Index5AnalysisUseRotorIVTooltip",
+        [TaskPane("IndexAnalysisUseRotorIVCaption", "Index5AnalysisUseRotorIVTooltip",
             "Index5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index5AnalysisUseRotor4
         {
@@ -3147,7 +3404,7 @@ namespace SigabaBruteforce
 
 
 
-        [TaskPane("Index5AnalysisUseRotorVCaption", "Index5AnalysisUseRotorVTooltip",
+        [TaskPane("IndexAnalysisUseRotorVCaption", "Index5AnalysisUseRotorVTooltip",
             "Index5AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool Index5AnalysisUseRotor5
         {
@@ -3168,6 +3425,413 @@ namespace SigabaBruteforce
 
         #endregion
 
+        public double setKeyspace(String s)
+        {
+
+            double summax = Math.Log((CipherRotor1To + 1 - CipherRotor1From) *
+                         (CipherRotor2To + 1 - CipherRotor2From) *
+                         (CipherRotor3To + 1 - CipherRotor3From) *
+                         (CipherRotor4To + 1 - CipherRotor4From) *
+                         (CipherRotor5To + 1 - CipherRotor5From) ,2)+
+                         Math.Log(
+                         (ControlRotor1To + 1 - ControlRotor1From) *
+                         (ControlRotor2To + 1 - ControlRotor2From) *
+                         (ControlRotor3To + 1 - ControlRotor3From) *
+                         (ControlRotor4To + 1 - ControlRotor4From) *
+                         (ControlRotor5To + 1 - ControlRotor5From),2) +
+                         Math.Log(
+                         (IndexRotor1To + 1 - IndexRotor1From) *
+                         (IndexRotor2To + 1 - IndexRotor2From) *
+                         (IndexRotor3To + 1 - IndexRotor3From) *
+                         (IndexRotor4To + 1 - IndexRotor4From) *
+                         (IndexRotor5To + 1 - IndexRotor5From),2)
+                         ;
+
+            int[][] indexarr = indexRotorSettings();
+            int[][] controlarr = rotorSettings();
+
+            long sumkeyspace = 0;
+
+            int[] arr = setStartingArr(indexarr);
+
+            while (NextPermutation(arr, indexarr))
+            {
+                sumkeyspace++;
+            }
+
+            if (Math.Log(sumkeyspace, 2) > 0)
+            summax += Math.Log(sumkeyspace, 2);
+
+            long sumkeyspace2 = 0;
+            int[] arr2 = setStartingArr(controlarr);
+            while (NextPermutation(arr2, controlarr))
+            {
+                sumkeyspace2++;
+            }
+            if (Math.Log(sumkeyspace2, 2) > 0)
+            summax += Math.Log(sumkeyspace2, 2);
+
+            keySpace = summax+"";
+            OnPropertyChanged("KeySpace");
+            return summax;
+        }
+
+        public BigInteger getKeyspaceAsLong()
+        {
+            BigInteger bi = new BigInteger();
+            bi = 1;
+
+            bi *= (CipherRotor1To + 1 - CipherRotor1From);
+            bi *= (CipherRotor2To + 1 - CipherRotor2From);
+            bi *= (CipherRotor3To + 1 - CipherRotor3From);
+            bi *= (CipherRotor4To + 1 - CipherRotor4From);
+            bi *= (CipherRotor5To + 1 - CipherRotor5From);
+            bi *= (ControlRotor1To + 1 - ControlRotor1From);
+            bi *= (ControlRotor2To + 1 - ControlRotor2From);
+            bi *= (ControlRotor3To + 1 - ControlRotor3From);
+            bi *= (ControlRotor4To + 1 - ControlRotor4From);
+            bi *= (ControlRotor5To + 1 - ControlRotor5From);
+            bi *= (IndexRotor1To + 1 - IndexRotor1From);
+            bi *= (IndexRotor2To + 1 - IndexRotor2From);
+            bi *= (IndexRotor3To + 1 - IndexRotor3From);
+            bi *= (IndexRotor4To + 1 - IndexRotor4From);
+            bi *= (IndexRotor5To + 1 - IndexRotor5From);
+
+            int[][] indexarr = indexRotorSettings();
+            int[][] controlarr = rotorSettings();
+
+             long sumkeyspace = 0;
+
+            int[] arr = setStartingArr(indexarr);
+
+            while (NextPermutation(arr, indexarr))
+            {
+                sumkeyspace++;
+            }
+
+            long sumkeyspace2 = 0;
+            int[] arr2 = setStartingArr(controlarr);
+            while (NextPermutation(arr2, controlarr))
+            {
+                sumkeyspace2++;
+            }
+            
+
+
+            if(sumkeyspace>0)
+                bi *= sumkeyspace;
+
+            if(sumkeyspace2>0)
+                bi *= sumkeyspace2;
+
+            return bi;
+        }
+
+        public bool NextPermutation(int[] numList, int[][] controlarr)
+        {
+            /*
+             * 
+             * http://stackoverflow.com/questions/11208446/generating-permutations-of-a-set-most-efficiently
+             Knuths
+             1. Find the largest index j such that a[j] < a[j + 1]. If no such index exists, the permutation is the last permutation.
+             2. Find the largest index l such that a[j] < a[l]. Since j + 1 is such an index, l is well defined and satisfies j < l.
+             3. Swap a[j] with a[l].
+             4. Reverse the sequence from a[j + 1] up to and including the final element a[n].
+
+             */
+
+            Boolean b = true;
+            while (b)
+            {
+
+                var largestIndex = -1;
+                for (var i = numList.Length - 2; i >= 0; i--)
+                {
+                    if (numList[i] < numList[i + 1])
+                    {
+                        largestIndex = i;
+                        break;
+                    }
+                }
+
+                if (largestIndex < 0) return false;
+
+                var largestIndex2 = -1;
+                for (var i = numList.Length - 1; i >= 0; i--)
+                {
+                    if (numList[largestIndex] < numList[i])
+                    {
+                        largestIndex2 = i;
+                        break;
+                    }
+                }
+
+                var tmp = numList[largestIndex];
+                numList[largestIndex] = numList[largestIndex2];
+                numList[largestIndex2] = tmp;
+
+                for (int i = largestIndex + 1, j = numList.Length - 1; i < j; i++, j--)
+                {
+                    tmp = numList[i];
+                    numList[i] = numList[j];
+                    numList[j] = tmp;
+                }
+
+                for (int i = 0; i < numList.Length; i++)
+                {
+                    if (!controlarr[i].Contains(numList[i]))
+                    {
+                        break;
+                    }
+                    if (i == numList.Length - 1)
+                    {
+                        b = false;
+                    }
+
+                }
+            }
+            return true;
+        }
+
+        public int[] setStartingArr(int[][] indexarr)
+        {
+
+            int[] arr2 = new int[indexarr.GetLength(0)];
+            for (int i = 0; i < indexarr.GetLength(0);i++  )
+            {
+                arr2[i] = i+1;
+            }
+
+            for (int i = 0; i < arr2.Length; i++)
+                {
+                    for (int ix = 0; ix < indexarr[i].Length; ix++)
+                    {
+                        if (indexarr[i][ix] != -1)
+                        {
+                            Boolean notbefore = false;
+                            for (int j = 0; j < i; j++)
+                            {
+
+                                if (arr2[j] == indexarr[i][ix])
+                                {
+                                    break;
+                                }
+                                if(j == i-1)
+                                {
+                                    notbefore = true;
+                                }
+
+                            }
+                            if (notbefore)
+                            {
+                                arr2[i] = indexarr[i][ix];
+                                break;
+                            }
+                        }
+                    }
+                }
+            return arr2;
+        }
+
+        public int[][] indexRotorSettings()
+        {
+            int[][] value = new int[][]
+                                {
+                                    new int[]
+                                        {
+                                            Index1AnalysisUseRotor1 ? 1 : -1,
+                                            Index1AnalysisUseRotor2 ? 2 : -1,
+                                            Index1AnalysisUseRotor3 ? 3 : -1,
+                                            Index1AnalysisUseRotor4 ? 4 : -1,
+                                            Index1AnalysisUseRotor5 ? 5 : -1,
+                                        },
+                                    new int[]
+                                        {
+                                            Index2AnalysisUseRotor1 ? 1 : -1,
+                                            Index2AnalysisUseRotor2 ? 2 : -1,
+                                            Index2AnalysisUseRotor3 ? 3 : -1,
+                                            Index2AnalysisUseRotor4 ? 4 : -1,
+                                            Index2AnalysisUseRotor5 ? 5 : -1,
+                                        },
+                                    new int[]
+                                        {
+                                            Index3AnalysisUseRotor1 ? 1 : -1,
+                                            Index3AnalysisUseRotor2 ? 2 : -1,
+                                            Index3AnalysisUseRotor3 ? 3 : -1,
+                                            Index3AnalysisUseRotor4 ? 4 : -1,
+                                            Index3AnalysisUseRotor5 ? 5 : -1
+                                        },
+                                    new int[]
+                                        {
+                                            Index4AnalysisUseRotor1 ? 1 : -1,
+                                            Index4AnalysisUseRotor2 ? 2 : -1,
+                                            Index4AnalysisUseRotor3 ? 3 : -1,
+                                            Index4AnalysisUseRotor4 ? 4 : -1,
+                                            Index4AnalysisUseRotor5 ? 5 : -1
+                                            
+                                        },
+                                    new int[]
+                                        {
+                                            Index5AnalysisUseRotor1 ? 1 : -1,
+                                            Index5AnalysisUseRotor2 ? 2 : -1,
+                                            Index5AnalysisUseRotor3 ? 3 : -1,
+                                            Index5AnalysisUseRotor4 ? 4 : -1,
+                                            Index5AnalysisUseRotor5 ? 5 : -1
+                                        }
+                                };
+
+
+            return value;
+        }
+
+        public int[][] rotorSettings()
+        {
+            int[][] value = new int[][]
+                                {
+                                    new int[]
+                                        {
+                                            
+                                            Cipher1AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher1AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher1AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher1AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher1AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher1AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher1AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher1AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher1AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher1AnalysisUseRotor0 ? 10 : -1,
+                                        },
+                                    new int[]
+                                        {
+                                            Cipher2AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher2AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher2AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher2AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher2AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher2AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher2AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher2AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher2AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher2AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher3AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher3AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher3AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher3AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher3AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher3AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher3AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher3AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher3AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher3AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher4AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher4AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher4AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher4AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher4AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher4AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher4AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher4AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher4AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher4AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher5AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher5AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher5AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher5AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher5AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher5AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher5AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher5AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher5AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher5AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Control1AnalysisUseRotor1 ? 1 : -1,
+                                            Control1AnalysisUseRotor2 ? 2 : -1,
+                                            Control1AnalysisUseRotor3 ? 3 : -1,
+                                            Control1AnalysisUseRotor4 ? 4 : -1,
+                                            Control1AnalysisUseRotor5 ? 5 : -1,
+                                            Control1AnalysisUseRotor6 ? 6 : -1,
+                                            Control1AnalysisUseRotor7 ? 7 : -1,
+                                            Control1AnalysisUseRotor8 ? 8 : -1,
+                                            Control1AnalysisUseRotor9 ? 9 : -1,
+                                            Control1AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Control2AnalysisUseRotor1 ? 1 : -1,
+                                            Control2AnalysisUseRotor2 ? 2 : -1,
+                                            Control2AnalysisUseRotor3 ? 3 : -1,
+                                            Control2AnalysisUseRotor4 ? 4 : -1,
+                                            Control2AnalysisUseRotor5 ? 5 : -1,
+                                            Control2AnalysisUseRotor6 ? 6 : -1,
+                                            Control2AnalysisUseRotor7 ? 7 : -1,
+                                            Control2AnalysisUseRotor8 ? 8 : -1,
+                                            Control2AnalysisUseRotor9 ? 9 : -1,
+                                            Control2AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            Control3AnalysisUseRotor1 ? 1 : -1,
+                                            Control3AnalysisUseRotor2 ? 2 : -1,
+                                            Control3AnalysisUseRotor3 ? 3 : -1,
+                                            Control3AnalysisUseRotor4 ? 4 : -1,
+                                            Control3AnalysisUseRotor5 ? 5 : -1,
+                                            Control3AnalysisUseRotor6 ? 6 : -1,
+                                            Control3AnalysisUseRotor7 ? 7 : -1,
+                                            Control3AnalysisUseRotor8 ? 8 : -1,
+                                            Control3AnalysisUseRotor9 ? 9 : -1,
+                                            Control3AnalysisUseRotor9 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Control4AnalysisUseRotor1 ? 1 : -1,
+                                            Control4AnalysisUseRotor2 ? 2 : -1,
+                                            Control4AnalysisUseRotor3 ? 3 : -1,
+                                            Control4AnalysisUseRotor4 ? 4 : -1,
+                                            Control4AnalysisUseRotor5 ? 5 : -1,
+                                            Control4AnalysisUseRotor6 ? 6 : -1,
+                                            Control4AnalysisUseRotor7 ? 7 : -1,
+                                            Control4AnalysisUseRotor8 ? 8 : -1,
+                                            Control4AnalysisUseRotor9 ? 9 : -1,
+                                            Control4AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Control5AnalysisUseRotor1 ? 1 : -1,
+                                            Control5AnalysisUseRotor2 ? 2 : -1,
+                                            Control5AnalysisUseRotor3 ? 3 : -1,
+                                            Control5AnalysisUseRotor4 ? 4 : -1,
+                                            Control5AnalysisUseRotor5 ? 5 : -1,
+                                            Control5AnalysisUseRotor6 ? 6 : -1,
+                                            Control5AnalysisUseRotor7 ? 7 : -1,
+                                            Control5AnalysisUseRotor8 ? 8 : -1,
+                                            Control5AnalysisUseRotor9 ? 9 : -1,
+                                            Control5AnalysisUseRotor0 ? 10: -1
+                                        }
+                                };
+
+
+            return value;
+        }
+
         private void setSettingsVisibility()
         {
             #region Cipher
@@ -3183,8 +3847,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Cipher1AnalysisUseRotor8");
                 hideSettingsElement("Cipher1AnalysisUseRotor9");
                 hideSettingsElement("Cipher1AnalysisUseRotor0");
-                hideSettingsElement("CipherRotor1From");
-                hideSettingsElement("CipherRotor1To");
+                //hideSettingsElement("CipherRotor1From");
+                //hideSettingsElement("CipherRotor1To");
             }
             else
             {
@@ -3198,8 +3862,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Cipher1AnalysisUseRotor8");
                 showSettingsElement("Cipher1AnalysisUseRotor9");
                 showSettingsElement("Cipher1AnalysisUseRotor0");
-                showSettingsElement("CipherRotor1From");
-                showSettingsElement("CipherRotor1To");
+                //showSettingsElement("CipherRotor1From");
+                //showSettingsElement("CipherRotor1To");
             }
 
             if (!cipherRotor2Rotors)
@@ -3214,8 +3878,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Cipher2AnalysisUseRotor8");
                 hideSettingsElement("Cipher2AnalysisUseRotor9");
                 hideSettingsElement("Cipher2AnalysisUseRotor0");
-                hideSettingsElement("CipherRotor2From");
-                hideSettingsElement("CipherRotor2To");
+                //hideSettingsElement("CipherRotor2From");
+                //hideSettingsElement("CipherRotor2To");
             }
             else
             {
@@ -3229,8 +3893,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Cipher2AnalysisUseRotor8");
                 showSettingsElement("Cipher2AnalysisUseRotor9");
                 showSettingsElement("Cipher2AnalysisUseRotor0");
-                showSettingsElement("CipherRotor2From");
-                showSettingsElement("CipherRotor2To");
+                //showSettingsElement("CipherRotor2From");
+                //showSettingsElement("CipherRotor2To");
             }
 
 
@@ -3246,8 +3910,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Cipher3AnalysisUseRotor8");
                 hideSettingsElement("Cipher3AnalysisUseRotor9");
                 hideSettingsElement("Cipher3AnalysisUseRotor0");
-                hideSettingsElement("CipherRotor3From");
-                hideSettingsElement("CipherRotor3To");
+                //hideSettingsElement("CipherRotor3From");
+                //hideSettingsElement("CipherRotor3To");
             }
             else
             {
@@ -3261,8 +3925,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Cipher3AnalysisUseRotor8");
                 showSettingsElement("Cipher3AnalysisUseRotor9");
                 showSettingsElement("Cipher3AnalysisUseRotor0");
-                showSettingsElement("CipherRotor3From");
-                showSettingsElement("CipherRotor3To");
+                //showSettingsElement("CipherRotor3From");
+                //showSettingsElement("CipherRotor3To");
             }
 
             if (!cipherRotor4Rotors)
@@ -3277,8 +3941,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Cipher4AnalysisUseRotor8");
                 hideSettingsElement("Cipher4AnalysisUseRotor9");
                 hideSettingsElement("Cipher4AnalysisUseRotor0");
-                hideSettingsElement("CipherRotor4From");
-                hideSettingsElement("CipherRotor4To");
+                //hideSettingsElement("CipherRotor4From");
+                //hideSettingsElement("CipherRotor4To");
             }
             else
             {
@@ -3292,8 +3956,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Cipher4AnalysisUseRotor8");
                 showSettingsElement("Cipher4AnalysisUseRotor9");
                 showSettingsElement("Cipher4AnalysisUseRotor0");
-                showSettingsElement("CipherRotor4From");
-                showSettingsElement("CipherRotor4To");
+                //showSettingsElement("CipherRotor4From");
+                //showSettingsElement("CipherRotor4To");
             }
 
             if (!cipherRotor5Rotors)
@@ -3308,8 +3972,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Cipher5AnalysisUseRotor8");
                 hideSettingsElement("Cipher5AnalysisUseRotor9");
                 hideSettingsElement("Cipher5AnalysisUseRotor0");
-                hideSettingsElement("CipherRotor5From");
-                hideSettingsElement("CipherRotor5To");
+                //hideSettingsElement("CipherRotor5From");
+                //hideSettingsElement("CipherRotor5To");
             }
             else
             {
@@ -3323,8 +3987,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Cipher5AnalysisUseRotor8");
                 showSettingsElement("Cipher5AnalysisUseRotor9");
                 showSettingsElement("Cipher5AnalysisUseRotor0");
-                showSettingsElement("CipherRotor5From");
-                showSettingsElement("CipherRotor5To");
+                //showSettingsElement("CipherRotor5From");
+                //showSettingsElement("CipherRotor5To");
             }
             #endregion 
 
@@ -3341,8 +4005,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Control1AnalysisUseRotor8");
                 hideSettingsElement("Control1AnalysisUseRotor9");
                 hideSettingsElement("Control1AnalysisUseRotor0");
-                hideSettingsElement("ControlRotor1From");
-                hideSettingsElement("ControlRotor1To");
+                //hideSettingsElement("ControlRotor1From");
+                //hideSettingsElement("ControlRotor1To");
             }
             else
             {
@@ -3356,8 +4020,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Control1AnalysisUseRotor8");
                 showSettingsElement("Control1AnalysisUseRotor9");
                 showSettingsElement("Control1AnalysisUseRotor0");
-                showSettingsElement("ControlRotor1From");
-                showSettingsElement("ControlRotor1To");
+                //showSettingsElement("ControlRotor1From");
+                //showSettingsElement("ControlRotor1To");
             }
 
             if (!controlRotor2Rotors)
@@ -3372,8 +4036,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Control2AnalysisUseRotor8");
                 hideSettingsElement("Control2AnalysisUseRotor9");
                 hideSettingsElement("Control2AnalysisUseRotor0");
-                hideSettingsElement("ControlRotor2From");
-                hideSettingsElement("ControlRotor2To");
+                //hideSettingsElement("ControlRotor2From");
+                //hideSettingsElement("ControlRotor2To");
             }
             else
             {
@@ -3387,8 +4051,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Control2AnalysisUseRotor8");
                 showSettingsElement("Control2AnalysisUseRotor9");
                 showSettingsElement("Control2AnalysisUseRotor0");
-                showSettingsElement("ControlRotor2From");
-                showSettingsElement("ControlRotor2To");
+                //showSettingsElement("ControlRotor2From");
+                //showSettingsElement("ControlRotor2To");
             }
 
 
@@ -3404,8 +4068,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Control3AnalysisUseRotor8");
                 hideSettingsElement("Control3AnalysisUseRotor9");
                 hideSettingsElement("Control3AnalysisUseRotor0");
-                hideSettingsElement("ControlRotor3From");
-                hideSettingsElement("ControlRotor3To");
+                //hideSettingsElement("ControlRotor3From");
+                //hideSettingsElement("ControlRotor3To");
             }
             else
             {
@@ -3419,8 +4083,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Control3AnalysisUseRotor8");
                 showSettingsElement("Control3AnalysisUseRotor9");
                 showSettingsElement("Control3AnalysisUseRotor0");
-                showSettingsElement("ControlRotor3From");
-                showSettingsElement("ControlRotor3To");
+                //showSettingsElement("ControlRotor3From");
+                //showSettingsElement("ControlRotor3To");
             }
 
             if (!controlRotor4Rotors)
@@ -3435,8 +4099,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Control4AnalysisUseRotor8");
                 hideSettingsElement("Control4AnalysisUseRotor9");
                 hideSettingsElement("Control4AnalysisUseRotor0");
-                hideSettingsElement("ControlRotor4From");
-                hideSettingsElement("ControlRotor4To");
+                //hideSettingsElement("ControlRotor4From");
+                //hideSettingsElement("ControlRotor4To");
             }
             else
             {
@@ -3450,8 +4114,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Control4AnalysisUseRotor8");
                 showSettingsElement("Control4AnalysisUseRotor9");
                 showSettingsElement("Control4AnalysisUseRotor0");
-                showSettingsElement("ControlRotor4From");
-                showSettingsElement("ControlRotor4To");
+                //showSettingsElement("ControlRotor4From");
+                //showSettingsElement("ControlRotor4To");
             }
 
             if (!controlRotor5Rotors)
@@ -3466,8 +4130,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Control5AnalysisUseRotor8");
                 hideSettingsElement("Control5AnalysisUseRotor9");
                 hideSettingsElement("Control5AnalysisUseRotor0");
-                hideSettingsElement("ControlRotor5From");
-                hideSettingsElement("ControlRotor5To");
+                //hideSettingsElement("ControlRotor5From");
+                //hideSettingsElement("ControlRotor5To");
             }
             else
             {
@@ -3481,8 +4145,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Control5AnalysisUseRotor8");
                 showSettingsElement("Control5AnalysisUseRotor9");
                 showSettingsElement("Control5AnalysisUseRotor0");
-                showSettingsElement("ControlRotor5From");
-                showSettingsElement("ControlRotor5To");
+                //showSettingsElement("ControlRotor5From");
+                //showSettingsElement("ControlRotor5To");
             }
             #endregion 
 
@@ -3494,13 +4158,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Index1AnalysisUseRotor3");
                 hideSettingsElement("Index1AnalysisUseRotor4");
                 hideSettingsElement("Index1AnalysisUseRotor5");
-                hideSettingsElement("Index1AnalysisUseRotor6");
-                hideSettingsElement("Index1AnalysisUseRotor7");
-                hideSettingsElement("Index1AnalysisUseRotor8");
-                hideSettingsElement("Index1AnalysisUseRotor9");
-                hideSettingsElement("Index1AnalysisUseRotor0");
-                hideSettingsElement("IndexRotor1From");
-                hideSettingsElement("IndexRotor1To");
+                //hideSettingsElement("IndexRotor1From");
+                //hideSettingsElement("IndexRotor1To");
             }
             else
             {
@@ -3509,13 +4168,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Index1AnalysisUseRotor3");
                 showSettingsElement("Index1AnalysisUseRotor4");
                 showSettingsElement("Index1AnalysisUseRotor5");
-                showSettingsElement("Index1AnalysisUseRotor6");
-                showSettingsElement("Index1AnalysisUseRotor7");
-                showSettingsElement("Index1AnalysisUseRotor8");
-                showSettingsElement("Index1AnalysisUseRotor9");
-                showSettingsElement("Index1AnalysisUseRotor0");
-                showSettingsElement("IndexRotor1From");
-                showSettingsElement("IndexRotor1To");
+                //showSettingsElement("IndexRotor1From");
+                //showSettingsElement("IndexRotor1To");
             }
 
             if (!indexRotor2Rotors)
@@ -3525,13 +4179,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Index2AnalysisUseRotor3");
                 hideSettingsElement("Index2AnalysisUseRotor4");
                 hideSettingsElement("Index2AnalysisUseRotor5");
-                hideSettingsElement("Index2AnalysisUseRotor6");
-                hideSettingsElement("Index2AnalysisUseRotor7");
-                hideSettingsElement("Index2AnalysisUseRotor8");
-                hideSettingsElement("Index2AnalysisUseRotor9");
-                hideSettingsElement("Index2AnalysisUseRotor0");
-                hideSettingsElement("IndexRotor2From");
-                hideSettingsElement("IndexRotor2To");
+                //hideSettingsElement("IndexRotor2From");
+                //hideSettingsElement("IndexRotor2To");
             }
             else
             {
@@ -3540,13 +4189,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Index2AnalysisUseRotor3");
                 showSettingsElement("Index2AnalysisUseRotor4");
                 showSettingsElement("Index2AnalysisUseRotor5");
-                showSettingsElement("Index2AnalysisUseRotor6");
-                showSettingsElement("Index2AnalysisUseRotor7");
-                showSettingsElement("Index2AnalysisUseRotor8");
-                showSettingsElement("Index2AnalysisUseRotor9");
-                showSettingsElement("Index2AnalysisUseRotor0");
-                showSettingsElement("IndexRotor2From");
-                showSettingsElement("IndexRotor2To");
+                //showSettingsElement("IndexRotor2From");
+                //showSettingsElement("IndexRotor2To");
             }
 
 
@@ -3557,13 +4201,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Index3AnalysisUseRotor3");
                 hideSettingsElement("Index3AnalysisUseRotor4");
                 hideSettingsElement("Index3AnalysisUseRotor5");
-                hideSettingsElement("Index3AnalysisUseRotor6");
-                hideSettingsElement("Index3AnalysisUseRotor7");
-                hideSettingsElement("Index3AnalysisUseRotor8");
-                hideSettingsElement("Index3AnalysisUseRotor9");
-                hideSettingsElement("Index3AnalysisUseRotor0");
-                hideSettingsElement("IndexRotor3From");
-                hideSettingsElement("IndexRotor3To");
+                //hideSettingsElement("IndexRotor3From");
+                //hideSettingsElement("IndexRotor3To");
             }
             else
             {
@@ -3573,12 +4212,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Index3AnalysisUseRotor4");
                 showSettingsElement("Index3AnalysisUseRotor5");
                 showSettingsElement("Index3AnalysisUseRotor6");
-                showSettingsElement("Index3AnalysisUseRotor7");
-                showSettingsElement("Index3AnalysisUseRotor8");
-                showSettingsElement("Index3AnalysisUseRotor9");
-                showSettingsElement("Index3AnalysisUseRotor0");
-                showSettingsElement("IndexRotor3From");
-                showSettingsElement("IndexRotor3To");
+                //showSettingsElement("IndexRotor3From");
+                //showSettingsElement("IndexRotor3To");
             }
 
             if (!indexRotor4Rotors)
@@ -3588,13 +4223,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Index4AnalysisUseRotor3");
                 hideSettingsElement("Index4AnalysisUseRotor4");
                 hideSettingsElement("Index4AnalysisUseRotor5");
-                hideSettingsElement("Index4AnalysisUseRotor6");
-                hideSettingsElement("Index4AnalysisUseRotor7");
-                hideSettingsElement("Index4AnalysisUseRotor8");
-                hideSettingsElement("Index4AnalysisUseRotor9");
-                hideSettingsElement("Index4AnalysisUseRotor0");
-                hideSettingsElement("IndexRotor4From");
-                hideSettingsElement("IndexRotor4To");
+                //hideSettingsElement("IndexRotor4From");
+                //hideSettingsElement("IndexRotor4To");
             }
             else
             {
@@ -3603,13 +4233,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Index4AnalysisUseRotor3");
                 showSettingsElement("Index4AnalysisUseRotor4");
                 showSettingsElement("Index4AnalysisUseRotor5");
-                showSettingsElement("Index4AnalysisUseRotor6");
-                showSettingsElement("Index4AnalysisUseRotor7");
-                showSettingsElement("Index4AnalysisUseRotor8");
-                showSettingsElement("Index4AnalysisUseRotor9");
-                showSettingsElement("Index4AnalysisUseRotor0");
-                showSettingsElement("IndexRotor4From");
-                showSettingsElement("IndexRotor4To");
+                //showSettingsElement("IndexRotor4From");
+                //showSettingsElement("IndexRotor4To");
             }
 
             if (!indexRotor5Rotors)
@@ -3619,13 +4244,8 @@ namespace SigabaBruteforce
                 hideSettingsElement("Index5AnalysisUseRotor3");
                 hideSettingsElement("Index5AnalysisUseRotor4");
                 hideSettingsElement("Index5AnalysisUseRotor5");
-                hideSettingsElement("Index5AnalysisUseRotor6");
-                hideSettingsElement("Index5AnalysisUseRotor7");
-                hideSettingsElement("Index5AnalysisUseRotor8");
-                hideSettingsElement("Index5AnalysisUseRotor9");
-                hideSettingsElement("Index5AnalysisUseRotor0");
-                hideSettingsElement("IndexRotor5From");
-                hideSettingsElement("IndexRotor5To");
+                //hideSettingsElement("IndexRotor5From");
+                //hideSettingsElement("IndexRotor5To");
             }
             else
             {
@@ -3634,13 +4254,8 @@ namespace SigabaBruteforce
                 showSettingsElement("Index5AnalysisUseRotor3");
                 showSettingsElement("Index5AnalysisUseRotor4");
                 showSettingsElement("Index5AnalysisUseRotor5");
-                showSettingsElement("Index5AnalysisUseRotor6");
-                showSettingsElement("Index5AnalysisUseRotor7");
-                showSettingsElement("Index5AnalysisUseRotor8");
-                showSettingsElement("Index5AnalysisUseRotor9");
-                showSettingsElement("Index5AnalysisUseRotor0");
-                showSettingsElement("IndexRotor5From");
-                showSettingsElement("IndexRotor5To");
+                //showSettingsElement("IndexRotor5From");
+                //showSettingsElement("IndexRotor5To");
             }
             #endregion 
         }
