@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Steganography Least Significant Bit Data Transfer</title>
+  <summary lang="en">Data transfer with the steganography component <i>StegoLSB</i></summary>
+  <description lang="en">This template shows the usage of the steganography component <i>StegoLSB</i> for transfering a secret message with an image.</description>
+  <keywords>Steganography, LSB, hidden</keywords>
+
+  <title lang="de">Steganographie Niedrigstwertiges Bit Datenübertragung</title>
+  <summary lang="de">Datenübertragung mit der Steganographie-Komponente <i>StegoLSB</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der Steganographie-Komponente <i>StegoLSB</i> zur Übertragung einer geheimen Nachricht in einer Bilddatei.</description>
+  <keywords lang="de">Steganographie, verstecken</keywords>
+
+  <icon file="Steganography.png" />
+
+  <relevantPlugins>
+    <plugin name="FileInputClass" />
+    <plugin name="StegoLeastSignificantBit" />
+  </relevantPlugins>
+
+</sample>
