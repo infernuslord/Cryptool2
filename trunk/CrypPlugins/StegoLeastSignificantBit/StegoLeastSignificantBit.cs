@@ -35,11 +35,13 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
+using System.Threading;
+using System.Globalization;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
-    [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
+    [Author("Corinna John, Armin Krauß", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
+    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/doc.xml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoLeastSignificantBit : ICrypComponent
     {
@@ -61,13 +63,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         #region Private Variables
 
         private readonly StegoLeastSignificantBitSettings settings = new StegoLeastSignificantBitSettings();
-        private int noisePercent = 0;
         private int currentColorComponent = 0;
         private ImageInfo imageInfo;
         private const int PixelSize = 3;
         private StegoLeastSignificantBitPresentation presentation = new StegoLeastSignificantBitPresentation();
         SendOrPostCallback updatePresentationPixelsDelegate;
-        
+        RegionExtractForm extractdialog;
+        RegionHideForm hidedialog;
+        CultureInfo culture;
+
         #endregion
 
         #region Data Properties
@@ -86,6 +90,20 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             set;
         }
 
+        [PropertyInfo(Direction.InputData, "InputPasswordCaption", "InputPasswordTooltip")]
+        public ICryptoolStream InputPassword
+        {
+            get;
+            set;
+        }
+
+        //[PropertyInfo(Direction.InputData, "BitCountCaption", "BitCountTooltip")]
+        //public byte BitCount
+        //{
+        //    get;
+        //    set;
+        //}
+
         [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip")]
         public ICryptoolStream OutputData
         {
@@ -95,20 +113,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip")]
         public ICryptoolStream OutputCarrier
-        {
-            get;
-            set;
-        }
-
-        [PropertyInfo(Direction.InputData, "PasswordStreamCaption", "PasswordStreamTooltip")]
-        public ICryptoolStream PasswordStream
-        {
-            get;
-            set;
-        }
-
-        [PropertyInfo(Direction.InputData, "BitCountCaption", "BitCountTooltip")]
-        public byte BitCount
         {
             get;
             set;
@@ -137,7 +141,30 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         /// </summary>
         public void Execute()
         {
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             ProgressChanged(0, 1);
+
+            if (InputCarrier == null)
+            {
+                GuiLogMessage("Please provide an input carrier.", NotificationLevel.Error);
+                return;
+            } 
+            
+            if (InputPassword == null || InputPassword.Length==0)
+            {
+                GuiLogMessage("Please provide a password.", NotificationLevel.Error);
+                return;
+            }
+
+            if (InputData == null && settings.Action==0)
+            {
+                GuiLogMessage("Please provide a message.", NotificationLevel.Error);
+                return;
+            }
+
+            currentColorComponent = 0;
 
             using (CStreamReader reader = InputCarrier.CreateReader())
             {
@@ -145,33 +172,50 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 {
                     switch (settings.Action)
                     {
-                        case 0:
+                        case 0: // hide message
+                            this.imageInfo = null;
+
                             if (settings.CustomizeRegions)
                             {
-                                RegionHideForm dialog = new RegionHideForm(bitmap, (int)InputData.Length);
-                                dialog.ShowDialog();
-                                this.imageInfo = dialog.ImageInfo;
+                                hidedialog = new RegionHideForm(bitmap, (int)InputData.Length);
+                                if (hidedialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
+                                this.imageInfo = hidedialog.ImageInfo;
                             }
-                            else
+
+                            if (this.imageInfo == null)
                             {
                                 CreateDefaultImageInfo(bitmap);
+
+                                if (imageInfo.Capacity < InputData.Length)
+                                {
+                                    GuiLogMessage("The defined regions can only hold " + imageInfo.Capacity + " bytes of information, but the input consists of " + InputData.Length + " bytes.", NotificationLevel.Error);
+                                    return;
+                                }
+
+                                GuiLogMessage("The carrier image can hide " + imageInfo.Capacity + " bytes of information.", NotificationLevel.Info);
                             }
-                            
-                            Hide(bitmap, InputData.CreateReader(), PasswordStream.CreateReader());
+
+                            Hide(bitmap, InputData.CreateReader(), InputPassword.CreateReader());
                             OnPropertyChanged("OutputCarrier");
                             break;
-                        case 1:
-                            Extract(bitmap, PasswordStream.CreateReader());
-                            OnPropertyChanged("OutputString");
 
-                            if (settings.CustomizeRegions)
+                        case 1: // extract message
+                            try
                             {
-                                RegionExtractForm dialog = new RegionExtractForm(this.imageInfo);
-                                dialog.ShowDialog();
-                            }
+                                Extract(bitmap, InputPassword.CreateReader());
+                                OnPropertyChanged("OutputData");
 
-                            break;
-                        default:
+                                if (settings.ShowRegions)
+                                {
+                                    extractdialog = new RegionExtractForm(this.imageInfo);
+                                    extractdialog.ShowDialog();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                GuiLogMessage("Wrong key or nothing hidden in the picture", NotificationLevel.Warning);
+                                return;
+                            }
                             break;
                     }
                 }
@@ -182,18 +226,35 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         public void PostExecution()
         {
+
         }
+
+        delegate void CloseDelegate();
 
         public void Stop()
         {
+            try
+            {
+                if (extractdialog != null) extractdialog.Invoke((CloseDelegate)extractdialog.Close);
+                if (hidedialog != null) hidedialog.Invoke((CloseDelegate)hidedialog.Close);
+            }
+            catch (Exception ex)
+            { 
+            }
         }
 
         public void Initialize()
         {
+            // This is a workaround: Initialize() gets called with the correct culture, but Execute() with the wrong culture.
+            // So save the correct culture for later use in Execute().
+            culture = Thread.CurrentThread.CurrentCulture;
+
+            settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
-        {
+        {            
+
         }
 
         #endregion
@@ -533,6 +594,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             {
                 presentation.AddPixel((Int32)state);
             };
+            
+            currentColorComponent = 0;
 
             //make sure that the image is in RGB format
             Bitmap image = PaletteToRGB(bitmap);
@@ -565,6 +628,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             int firstPixelInRegions = image.Width * image.Height;
             MemoryStream regionData = new MemoryStream();
             BinaryWriter regionDataWriter = new BinaryWriter(regionData);
+
             foreach (RegionInfo regionInfo in this.imageInfo.RegionInfo)
             {
                 regionInfo.PixelIndices.Sort();
@@ -579,6 +643,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 regionDataWriter.Write(regionInfo.CountUsedBitsPerPixel);
                 regionDataWriter.Write(regionBytes);
             }
+
             //go to the beginning of the stream
             regionDataWriter.Flush();
             regionData.Seek(0, SeekOrigin.Begin);
@@ -968,31 +1033,29 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             //extract region header
 
             regionReader.BaseStream.Seek(0, SeekOrigin.Begin);
-            do
+            try
             {
-                //If the program crashes here,
-                //the image is damaged,
-                //it contains no hidden data,
-                //or you tried to use a wrong key.
-                try
+                do
                 {
+                    //If the program crashes here, the image is damaged,
+                    //contains no hidden data, or you tried to use a wrong key.
                     int regionLength = regionReader.ReadInt32();
                     int regionCapacity = regionReader.ReadInt32();
                     byte regionBitsPerPixel = regionReader.ReadByte();
                     byte[] regionContent = regionReader.ReadBytes(regionLength);
-                
+
                     Point[] regionPoints = BytesToPoints(regionContent);
                     GraphicsPath regionPath = new GraphicsPath();
                     regionPath.AddPolygon(regionPoints);
                     Region region = new Region(regionPath);
                     regions.Add(new RegionInfo(region, regionCapacity, regionBitsPerPixel, bitmap.Size));
-                }
-                catch
-                {
-                    GuiLogMessage("Wrong key or nothing hidden in the picture", NotificationLevel.Warning);
-                    throw;
-                }
-            } while (regionData.Position < regionData.Length);
+                } while (regionData.Position < regionData.Length);
+            }
+            finally
+            {
+                regionReader.Close();
+                regionData.Close();
+            }
 
             return regions;
         }
@@ -1006,9 +1069,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         #endif
         Stream Extract(Bitmap bitmap, CStreamReader key)
         {
-            //Bitmap image = bitmap;
-
             Collection<RegionInfo> regionInfos = ExtractRegionData(bitmap, key);
+
             this.imageInfo = new ImageInfo(bitmap, regionInfos);
 
             BitmapData bitmapData = bitmap.LockBits(
@@ -1093,7 +1155,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             imageInfo.TextMessage = reader.ReadToEnd();
 
             messageStream.Position = 0;
-            byte[] outputBuffer = new byte[imageInfo.TextMessage.Length];
+            byte[] outputBuffer = new byte[messageStream.Length];
+            //byte[] outputBuffer = new byte[imageInfo.TextMessage.Length];
             messageStream.Read(outputBuffer, 0, outputBuffer.Length);
             OutputData = new CStreamWriter(outputBuffer);
             this.OnPropertyChanged("OutputData");

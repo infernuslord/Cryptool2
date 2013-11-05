@@ -154,16 +154,22 @@
     <value>Eingabe des Trägers (bei Verschlüsselung) bzw. des Trägers mit den versteckten Daten (bei Entschlüsselung)</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
-    <value>Klartext</value>
+    <value>Nachricht</value>
   </data>
   <data name="InputDataTooltip" xml:space="preserve">
     <value>Die in der Trägerdatei zu versteckenden Daten.</value>
+  </data>
+  <data name="InputPasswordCaption" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="InputPasswordTooltip" xml:space="preserve">
+    <value>Passwort als Datenstrom</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
     <value>Ausgabe der Trägerdatei</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
-    <value>Trägerdatei, in der die Eingabedaten versteckt wurden, bzw. die von den versteckten Daten bereinigt wurde.</value>
+    <value>Trägerdatei, in der die Eingabedaten versteckt wurden.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
     <value>Datenausgabe</value>
@@ -186,16 +192,94 @@
   <data name="OutputFileFormatTooltip" xml:space="preserve">
     <value>Nur für die Verschlüsselung: Das Dateiformat der auszugebenden Bilddatei.</value>
   </data>
-  <data name="PasswordStreamCaption" xml:space="preserve">
-    <value>Passwort als Datenstrom</value>
-  </data>
-  <data name="PasswordStreamTooltip" xml:space="preserve">
-    <value>Passwort als Datenstrom</value>
-  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>LSB-Steganographie</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verstecke Daten in den niederwertigen Bits einer Bilddatei.</value>
+  </data>
+  <data name="RegionCancel" xml:space="preserve">
+    <value>abbrechen</value>
+  </data>
+  <data name="RegionDelete" xml:space="preserve">
+    <value>entfernen</value>
+  </data>
+  <data name="RegionErrorCapacity" xml:space="preserve">
+    <value>Gesamtkapazität muss größer oder gleich wie die Nachrichtenlänge sein.</value>
+  </data>
+  <data name="RegionErrorHidden" xml:space="preserve">
+    <value>Die Zahl der versteckten Bytes muss größer oder gleich wie die Nachrichtenlänge sein.</value>
+  </data>
+  <data name="RegionExtractClose" xml:space="preserve">
+    <value>schliessen</value>
+  </data>
+  <data name="RegionExtractMessage" xml:space="preserve">
+    <value>Versteckte Nachricht:</value>
+  </data>
+  <data name="RegionExtractRegions" xml:space="preserve">
+    <value>Regionen:</value>
+  </data>
+  <data name="RegionExtractTitle" xml:space="preserve">
+    <value>Inhalt des Trägermediums</value>
+  </data>
+  <data name="RegionHeaderSize" xml:space="preserve">
+    <value>Headerlänge:</value>
+  </data>
+  <data name="RegionHeaderSpace" xml:space="preserve">
+    <value>Platz für Header:</value>
+  </data>
+  <data name="RegionHideTitle" xml:space="preserve">
+    <value>Definiere die Regionen des Bildes</value>
+  </data>
+  <data name="RegionLabel2" xml:space="preserve">
+    <value>Bitmap und Regionen - Klicken, um eine Region zu definieren, Doppelklick zum Beenden:</value>
+  </data>
+  <data name="RegionLabel3" xml:space="preserve">
+    <value>Übersicht über die Regionen (keine Interaktion möglich):</value>
+  </data>
+  <data name="RegionLabel4" xml:space="preserve">
+    <value>Bitte konfigurieren Sie die Regionen und stellen Sie sicher, dass die Summe der versteckten Bytes der Nachrichtenlänge entspricht:</value>
+  </data>
+  <data name="RegionListLabel1" xml:space="preserve">
+    <value>Anteil des Bildes</value>
+  </data>
+  <data name="RegionListLabel2" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="RegionListLabel3" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="RegionListLabel4" xml:space="preserve">
+    <value>Versteckte Bytes</value>
+  </data>
+  <data name="RegionListLabel5" xml:space="preserve">
+    <value>Kapazität</value>
+  </data>
+  <data name="RegionMaxRegion" xml:space="preserve">
+    <value>Maximale Region</value>
+  </data>
+  <data name="RegionMessageSize" xml:space="preserve">
+    <value>Nachrichtenlänge:</value>
+  </data>
+  <data name="RegionOneRegion" xml:space="preserve">
+    <value>Bitte definieren Sie eine oder mehrere Regionen.</value>
+  </data>
+  <data name="RegionPixel" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="RegionPixels" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="RegionRemoveTopmost" xml:space="preserve">
+    <value>Bitte entfernen Sie die oberste Region.</value>
+  </data>
+  <data name="RegionSummary" xml:space="preserve">
+    <value>Summe:</value>
+  </data>
+  <data name="ShowRegionsCaption" xml:space="preserve">
+    <value>Regionen anzeigen</value>
+  </data>
+  <data name="ShowRegionsTooltip" xml:space="preserve">
+    <value>Öffnet ein Dialogfenster, das die Regionen des Bildes anzeigt, in denen die Daten versteckt sind.</value>
   </data>
 </root>

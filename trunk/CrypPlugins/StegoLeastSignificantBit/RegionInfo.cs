@@ -55,6 +55,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             set { capacity = value; }
         }
 
+        /// <summary>Returns or sets the region's maximum capacity.</summary>
+        public int MaximumCapacity
+        {
+            get
+            {
+                return Math.Max(( (int)(CountPixels * CountUsedBitsPerPixel) / 8 ) - 1, 0 );
+            }
+        }
+
 		/// <summary>Returns or sets the usable bits per pixel for this region.</summary>
 		public byte CountUsedBitsPerPixel
         {
@@ -125,7 +134,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     }
                 }
             }
-			pixels.Sort();
+            //pixels.Sort();
         }
 
         private int GetPixelIndex(int x, int y)

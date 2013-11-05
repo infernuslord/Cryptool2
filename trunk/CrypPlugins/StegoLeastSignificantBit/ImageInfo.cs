@@ -69,5 +69,18 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             this.image = image;
             this.regionInfo = regionInfo;
         }
+
+        /// <summary>Returns the combined capacity (in bytes) of the defined regions.</summary>
+        public int Capacity
+        {
+            get {
+                int capacity = 0;
+
+                foreach (RegionInfo region in regionInfo)
+                    capacity += region.MaximumCapacity;
+
+                return capacity;
+            }
+        }
     }
 }

@@ -145,31 +145,37 @@
     <value>Customize regions</value>
   </data>
   <data name="CustomizeRegionsTooltip" xml:space="preserve">
-    <value>Opens a dialog that lets the user define where in the picture the data will be hidden</value>
+    <value>Opens a dialog that lets the user define where in the picture the data will be hidden.</value>
   </data>
   <data name="InputCarrierCaption" xml:space="preserve">
-    <value>Text input as a stream</value>
+    <value>Carrier image input</value>
   </data>
   <data name="InputCarrierTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Input of the carrier image in which to hide data (Encryption) or from which to extract the hidden data (Decryption)</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
-    <value>Text input as a stream</value>
+    <value>Message</value>
   </data>
   <data name="InputDataTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Input of the data that is to be hidden in the carrier image</value>
+  </data>
+  <data name="InputPasswordCaption" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="InputPasswordTooltip" xml:space="preserve">
+    <value>Password as a stream</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
-    <value>Carrier output</value>
+    <value>Carrier image output</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
-    <value>Encryption result</value>
+    <value>Output of the carrier image with the hidden data.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>CryptoolStream output</value>
+    <value>Data output</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Output of the secrect data that was extracted from the carrier image.</value>
   </data>
   <data name="OutputFileFormatCaption" xml:space="preserve">
     <value>Output File Format</value>
@@ -186,16 +192,94 @@
   <data name="OutputFileFormatTooltip" xml:space="preserve">
     <value>Only for Encryption: The file format of the output image.</value>
   </data>
-  <data name="PasswordStreamCaption" xml:space="preserve">
-    <value>Password as a stream</value>
-  </data>
-  <data name="PasswordStreamTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
-  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>LSB Steganography</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Hide a message in the least significant bits of a picture.</value>
+  </data>
+  <data name="RegionCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="RegionDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="RegionErrorCapacity" xml:space="preserve">
+    <value>Overall capacity must be equal to or greater than the message length.</value>
+  </data>
+  <data name="RegionErrorHidden" xml:space="preserve">
+    <value>The number of hidden bytes must be equal to or greater than the message length.</value>
+  </data>
+  <data name="RegionExtractClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="RegionExtractMessage" xml:space="preserve">
+    <value>Hidden message:</value>
+  </data>
+  <data name="RegionExtractRegions" xml:space="preserve">
+    <value>Regions:</value>
+  </data>
+  <data name="RegionExtractTitle" xml:space="preserve">
+    <value>Content of the carrier image</value>
+  </data>
+  <data name="RegionHeaderSize" xml:space="preserve">
+    <value>Header length:</value>
+  </data>
+  <data name="RegionHeaderSpace" xml:space="preserve">
+    <value>Space for header:</value>
+  </data>
+  <data name="RegionHideTitle" xml:space="preserve">
+    <value>Define the Regions of the Image</value>
+  </data>
+  <data name="RegionLabel2" xml:space="preserve">
+    <value>Bitmap and regions - Click to draw a region, double-click to finish it:</value>
+  </data>
+  <data name="RegionLabel3" xml:space="preserve">
+    <value>Only regions, just for your information:</value>
+  </data>
+  <data name="RegionLabel4" xml:space="preserve">
+    <value>Please configure the regions and make sure the sum of the hidden bytes matches the message length:</value>
+  </data>
+  <data name="RegionListLabel1" xml:space="preserve">
+    <value>Percent of Image</value>
+  </data>
+  <data name="RegionListLabel2" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="RegionListLabel3" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="RegionListLabel4" xml:space="preserve">
+    <value>Hidden bytes</value>
+  </data>
+  <data name="RegionListLabel5" xml:space="preserve">
+    <value>Capacity</value>
+  </data>
+  <data name="RegionMaxRegion" xml:space="preserve">
+    <value>Maximum Region</value>
+  </data>
+  <data name="RegionMessageSize" xml:space="preserve">
+    <value>Message length:</value>
+  </data>
+  <data name="RegionOneRegion" xml:space="preserve">
+    <value>Please define one or more regions.</value>
+  </data>
+  <data name="RegionPixel" xml:space="preserve">
+    <value>Pixel</value>
+  </data>
+  <data name="RegionPixels" xml:space="preserve">
+    <value>Pixels</value>
+  </data>
+  <data name="RegionRemoveTopmost" xml:space="preserve">
+    <value>Please remove the topmost region.</value>
+  </data>
+  <data name="RegionSummary" xml:space="preserve">
+    <value>Summary:</value>
+  </data>
+  <data name="ShowRegionsCaption" xml:space="preserve">
+    <value>Show regions</value>
+  </data>
+  <data name="ShowRegionsTooltip" xml:space="preserve">
+    <value>Opens a dialog that displays where in the picture the data is hidden.</value>
   </data>
 </root>

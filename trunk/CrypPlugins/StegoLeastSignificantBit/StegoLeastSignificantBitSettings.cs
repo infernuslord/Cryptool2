@@ -29,15 +29,13 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         private int selectedAction = 0;
         private int outputFileFormat = 0;
-        private int bitCount = 1;
-        //private int noisePercent = 0;
         private bool customizeRegions = false;
+        private bool showRegions = false;
 
         #endregion
 
         #region TaskPane Settings
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
@@ -56,41 +54,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [TaskPane("BitCountSettingsCaption", "BitCountSettingsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int BitCount
-        {
-            get
-            {
-                return bitCount;
-            }
-            set
-            {
-                if (bitCount != value)
-                {
-                    bitCount = value;
-                    OnPropertyChanged("BitCount");
-                }
-            }
-        }
-
-        /* TODO: Enable this property only if Action==Encrypt
-         * [TaskPane("Noise", "Percentage of the carrier that will be covered with noise", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int NoisePercent
-        {
-            get
-            {
-                return noisePercent;
-            }
-            set
-            {
-                if (noisePercent != value)
-                {
-                    noisePercent = value;
-                    OnPropertyChanged("NoisePercent");
-                }
-            }
-        }*/
-
         [TaskPane("CustomizeRegionsCaption", "CustomizeRegionsTooltip", null, 1, false, ControlType.CheckBox)]
         public bool CustomizeRegions
         {
@@ -108,7 +71,23 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [ContextMenu("OutputFileFormatCaption", "OutputFileFormatTooltip", 1, ContextMenuControlType.ComboBox, null, "OutputFileFormatList1", "OutputFileFormatList2", "OutputFileFormatList3")]
+        [TaskPane("ShowRegionsCaption", "ShowRegionsTooltip", null, 1, false, ControlType.CheckBox)]
+        public bool ShowRegions
+        {
+            get
+            {
+                return showRegions;
+            }
+            set
+            {
+                if (showRegions != value)
+                {
+                    showRegions = value;
+                    OnPropertyChanged("ShowRegions");
+                }
+            }
+        }
+
         [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 1, true, ControlType.ComboBox, new string[] { "OutputFileFormatList1", "OutputFileFormatList2", "OutputFileFormatList3" })]
         public int OutputFileFormat
         {
@@ -128,25 +107,25 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         internal void UpdateTaskPaneVisibility()
         {
-            if (TaskPaneAttributeChanged == null)
-                return;
-
             switch (Action)
             {
                 case 0: // Encryption
                     settingChanged("OutputFileFormat", Visibility.Visible);
-                    settingChanged("BitCount", Visibility.Visible);
+                    settingChanged("CustomizeRegions", Visibility.Visible);
+                    settingChanged("ShowRegions", Visibility.Collapsed);
                     break;
                 case 1: // Decryption
                     settingChanged("OutputFileFormat", Visibility.Collapsed);
-                    settingChanged("BitCount", Visibility.Collapsed);
+                    settingChanged("CustomizeRegions", Visibility.Collapsed);
+                    settingChanged("ShowRegions", Visibility.Visible);
                     break;
             }
         }
 
         private void settingChanged(string setting, Visibility vis)
         {
-            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
+            if (TaskPaneAttributeChanged != null)
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
         }
 
         #endregion

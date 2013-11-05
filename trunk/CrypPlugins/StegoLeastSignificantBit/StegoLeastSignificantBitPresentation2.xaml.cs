@@ -55,22 +55,25 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         public void AddPixel(Int32 offsetToScan0)
         {
-            int pixelIndex = offsetToScan0 - originalBitmapScan0;
-            int y = (int)Math.Truncate((double)pixelIndex / this.bitmap.Width);
+            int pixelIndex = (offsetToScan0 - originalBitmapScan0) / 3;
+            //int y = (int)Math.Truncate((double)pixelIndex / this.bitmap.Width);
+            int y = pixelIndex / this.bitmap.Width;
             int x = pixelIndex % this.bitmap.Width;
- 
+            int r = 2;
+
             using (Graphics graphics = Graphics.FromImage(this.bitmap))
             {
                 graphics.FillEllipse(
                         new SolidBrush(System.Drawing.Color.Red),
-                        x-5, y-5,
-                        10, 10);
+                        x-r, y-r,
+                        2*r, 2*r);
 
                 graphics.DrawEllipse(
-                        new System.Drawing.Pen(System.Drawing.Color.Black, 2),
-                        x-5, y-5,
-                        10, 10);
+                        new System.Drawing.Pen(System.Drawing.Color.Black, 1),
+                        x - r, y - r,
+                        2 * r, 2 * r);
             }
+
             ShowPicture();       
         }
 

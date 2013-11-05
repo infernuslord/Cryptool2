@@ -74,6 +74,40 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+
+            this.label1.Text = Properties.Resources.RegionListLabel1;
+            this.label2.Text = Properties.Resources.RegionListLabel2;
+            this.label3.Text = Properties.Resources.RegionListLabel3;
+            this.label4.Text = Properties.Resources.RegionListLabel4;
+            this.label5.Text = Properties.Resources.RegionListLabel5;
+        }
+
+        /// <summary>Returns the combined maximum capacity of all regions.</summary>
+        public int MaximumCapacity
+        {
+            get
+            {
+                int maximumCapacity = 0;
+
+                foreach (RegionInfoListItem item in items)
+                    maximumCapacity += item.RegionInfo.MaximumCapacity;
+
+                return maximumCapacity;
+            }
+        }        
+        
+        /// <summary>Returns the combined number of hidden bytes in all regions.</summary>
+        public int HiddenBytes
+        {
+            get
+            {
+                int hiddenBytes = 0;
+
+                foreach (RegionInfoListItem item in items)
+                    hiddenBytes += item.RegionInfo.Capacity;
+
+                return hiddenBytes;
+            }
         }
 
 		/// <summary>Adds an item to the list.</summary>
@@ -99,6 +133,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     break;
                 }
             }
+
+            UpdateContent();
         }
 
 		/// <summary>Selects an item.</summary>
@@ -107,18 +143,24 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             foreach (RegionInfoListItem item in items)
             {
                 if (item.RegionInfo == info)
-                {
                     item.SelectItem();
-                    break;
-                }
                 else
-                {
                     item.DeselectItem();
-                }
             }
         }
 
-		/// <summary>Updates all items.</summary>
+        /// <summary>Updates all items.</summary>
+        public void UpdateContent()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].Index = i;
+                items[i].Location = new Point(0, (i + 1) * items[i].Height);
+                items[i].UpdateContent();
+            }
+        }
+
+		/// <summary>Updates one item.</summary>
 		public void UpdateContent(RegionInfo info)
         {
             foreach (RegionInfoListItem item in items)
@@ -145,6 +187,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         {
             RegionInfoListItem senderItem = (RegionInfoListItem)sender;
             DeleteRegion(senderItem);
+            UpdateContent();
             OnDelete(senderItem);
         }
 

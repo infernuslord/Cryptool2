@@ -45,6 +45,8 @@
         <Span xml:lang="en-gb">In noisy areas of the picture any changes are less obvious than in smooth areas.
             The option </Span>
         <Span FontWeight="Bold" xml:lang="en-gb">Customize Regions</Span>
-        <Span xml:lang="en-gb" xml:space="preserve">lets you draw the outlines of areas in which the message should be hidden. In decryption mode, this option makes a dialog open which displays the regions again. The outlines are hidden in the first few pixel of the carrier image like a header. The actual message is hidden inside those regions. When extracting a message, the outlines are extracted first, then the message is extracted from the regions.</Span>
+        <Span xml:lang="en-gb" xml:space="preserve">lets you draw the outlines of areas in which the message should be hidden. In decryption mode, this option makes a dialog open which displays the regions again.
+            The outlines are hidden in the first few pixel of the carrier image like a header. The actual message is hidden inside those regions.
+            When extracting a message, the outlines are extracted first, then the message is extracted from the regions.</Span>
     </Paragraph>
 </FlowDocument>
