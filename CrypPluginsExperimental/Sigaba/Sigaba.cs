@@ -40,6 +40,7 @@ namespace Sigaba
     {
         public readonly SigabaSettings _settings = new SigabaSettings();
         public readonly SigabaCore _core;
+        public readonly SigabaCoreFast _fastCore;
 
         #region Constructor 
         public Sigaba()
@@ -50,6 +51,7 @@ namespace Sigaba
             this._settings.PropertyChanged += sigpa.settings_OnPropertyChange;
             
             _core = new SigabaCore(this, sigpa);
+            _fastCore = new SigabaCoreFast();
             _keys = new string[5];
 
             this._settings.PropertyChanged += _core.settings_OnPropertyChange;
@@ -415,9 +417,50 @@ namespace Sigaba
             return s;
         }
 
+        public byte[] DecryptFast(byte[] ciphertext, int[] a, byte[] positions)
+        {
+
+            return plugin._fastCore.Encrypt(ciphertext, a, positions);
+        }
+
         public void setInternalConfig()
         {
             plugin._core.SetInternalConfig();
+        }
+
+        public void setCipherRotors(int i, byte a)
+        {
+            plugin._fastCore.setCipherRotors(i,a);
+        }
+
+        public void setControlRotors(byte i, byte b)
+        {
+            plugin._fastCore.setControlRotors(i,b);
+        }
+
+        public void setIndexRotors(byte i, byte c)
+        {
+            plugin._fastCore.setIndexRotors(i, c);
+        }
+
+        public void setBool(byte ix, byte i, bool rev)
+        {
+            plugin._fastCore.setBool(ix,i,rev);
+        }
+
+        public void setIndexMaze()
+        {
+            plugin._fastCore.setIndexMaze();
+        }
+
+        public void setPositionsControl(byte ix, byte i, byte position)
+        {
+            plugin._fastCore.setPositionsControl(ix,i,position);
+        }
+
+        public void setPositionsIndex(byte ix, byte i, byte position)
+        {
+            plugin._fastCore.setPositionsIndex(ix, i, position);
         }
 
         public void onStatusChanged()
@@ -426,6 +469,10 @@ namespace Sigaba
                 OnStatusChanged(this, true);
         }
 
+        public RotorByte[] CipherRotors ()
+        {
+            return plugin._fastCore.CipherRotors;
+        }
         public void changeSettings(string setting, object value)
         {
             plugin.changeSettings(setting, value);

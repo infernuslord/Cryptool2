@@ -71,7 +71,42 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{Loc KeyHeader}" DisplayMemberBinding="{Binding Path=Key}">
+                                <GridViewColumn Header="{Loc CipherKeyHeader}" DisplayMemberBinding="{Binding Path=CipherKey}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{Loc CipherRotorsHeader}" DisplayMemberBinding="{Binding Path=CipherRotors}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{Loc ControlKeyHeader}" DisplayMemberBinding="{Binding Path=ControlKey}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{Loc ControlRotorsHeader}" DisplayMemberBinding="{Binding Path=ControlRotors}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{Loc IndexKeyHeader}" DisplayMemberBinding="{Binding Path=IndexKey}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{Loc IndexRotorHeader}" DisplayMemberBinding="{Binding Path=IndexRotors}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>

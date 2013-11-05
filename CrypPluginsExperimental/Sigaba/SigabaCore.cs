@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Timers;
 
@@ -18,6 +19,8 @@ namespace Sigaba
         public Rotor[] CipherRotors { get; set; }
         public Rotor[] IndexRotors { get; set; }
 
+        public Rotor[] CodeWheels { get; set; }
+
         public int[,] PresentationLetters = new int[5,20];
 
         public System.Timers.Timer aTimer = new System.Timers.Timer();
@@ -30,6 +33,9 @@ namespace Sigaba
             _sigpa = sigpa;
             _facade = facade;
             _settings = (SigabaSettings)_facade.Settings;
+
+            CodeWheels = new Rotor[15];
+
             CipherRotors = new Rotor[5];
             ControlRotors = new Rotor[5];
             IndexRotors = new Rotor[5];
@@ -39,17 +45,19 @@ namespace Sigaba
 
         public string Encrypt(String cipher)
         {
-            string repeat = "";
+            StringBuilder repeat = new StringBuilder();
 
             foreach (char c in cipher)
             {
-                string s = "";
+                //StringBuilder s = new StringBuilder();
 
-                repeat = String.Concat(repeat, (char)(Cipher(c - 65) + 65) + "");
+                //repeat = String.Concat(repeat, (char)(Cipher(c - 65) + 65) + "");
+
+                repeat.Append((char) (Cipher(c - 65) + 65));
 
                 foreach (int i in Control().Distinct().ToArray())
                 {
-                    s = String.Concat(s, i);
+                    //s.Append(i);
                     CipherRotors[i].IncrementPosition();
                 }
 
@@ -65,7 +73,7 @@ namespace Sigaba
             }
 
             UpdateSettings();
-            return repeat;
+            return repeat.ToString();
         }
 
         public string EncryptPresentation(String cipher)
@@ -118,6 +126,9 @@ namespace Sigaba
 
         private void UpdateSettings()
         {
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+
             _settings.CipherKey = CipherRotors.Aggregate("", (current, r) => String.Concat(current, (char) (r.Position + 65)));
             _settings.ControlKey = ControlRotors.Aggregate("", (current, r) => String.Concat(current, (char)(r.Position + 65)));
         }
@@ -143,6 +154,8 @@ namespace Sigaba
             ControlRotors[4].Position = _settings.ControlKey[4]-65;
         }
 
+
+
         public void SetInternalConfig()
         {
             CipherRotors[0] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.CipherRotor1], _settings.CipherKey[0] - 65, _settings.CipherRotor1Reverse);
@@ -166,10 +179,10 @@ namespace Sigaba
 
         public int[] Control()
         {
-            int tempf = 'F' - 65;
-            int tempg = 'G' - 65;
-            int temph = 'H' - 65;
-            int tempi = 'I' - 65;
+            int tempf = 5;
+            int tempg = 6;
+            int temph = 7;
+            int tempi = 8;
 
             foreach (var rotor in ControlRotors)
             {
