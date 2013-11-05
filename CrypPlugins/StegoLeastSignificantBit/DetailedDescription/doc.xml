@@ -5,25 +5,130 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    Least Significant Bit Steganography hides a bitstream by replacing bits in certain pixels of an image by bits of the message.
+    <b>Steganography</b> is the science of transmitting secret data in such a way, that an unsuspecting observer and possible attacker
+    does not realize, that besides the harmless looking carrier message, there is an additional secret message being transmitted.
+    <newline/><newline/>
+    The basic steganographical principle of this component is to replace the least significant bits of certain pixels of a carrier image by the bits of the secret message.
+    The resulting color changes are too subtle to be detected with the naked eye. An unsuspecting viewer of the altered image will thus not expect any hidden messages.
   </introduction>
 
   <introduction lang="de-DE">
-    Least Significant Bit Steganografie versteckt einen Bitstrom, indem Bits bestimmter Pixel eines Bildes durch Bits der Nachricht ersetzt werden.
+    Unter <b>Steganographie</b> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
+    uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
+    noch eine zusätzliche versteckte Nachricht übermittelt wird.
+    <newline/><newline/>
+    Das Grundprinzip der steganographischen Technik dieser Komponente ist, die niederwertigsten
+    Bits bestimmter Pixel einer Bilddatei durch die Bits der zu übertragenden geheimen Nachricht zu ersetzen.
+    Die dadurch entstehenden minimalen Farbänderungen können mit bloßem Auge nicht erkannt werden. Ein nicht eingeweihter
+    Betrachter des präparierten Bildes wird daher keine versteckte Nachricht vermuten.
   </introduction>
 
   <usage lang="en">
+    This component has the two operating modes <b>Encryption</b> and <b>Decryption</b>, which can be chosen in the settings of the component.
+
+    <section headline="Encryption">
+      If the operating mode is set to <b>Encryption</b>, the component expects three inputs.
+      <newline/><newline/>
+      The text that is to be hidden must be provided on the input labeled <b>Message</b>. Of course you can also enter any binary data here, not only text.
+      <newline/>
+      On the input labeled <b>Carrier image input</b> you have to provide the carrier image in which to hide the message. This is usually done by connecting a <b>File Input</b> component.
+      <newline/>
+      Finally the component needs a password, which must be provided as a datastream on the input labeled <b>Password</b>.
+      The password is used as seed value for a random number generator that controls, which pixels of the carrier image are selected for storing the message bits.
+      The default setting is to use the entire area of the image for the pixel selection process.
+      <newline/>
+      But you can also define custom regions to restrict the modifications to certain areas of the carrier image.
+      To do so, the checkbox <b>Customize regions</b> in the settings of the component has to be checked. When the component is started, it then displays a dialog window. The dialog window shows on the left the carrier image
+      overlayed with the defined regions, and only the defined regions on the right. You can add a new region by single clicking into the image and thus adding points to a polygon. A double click ends the definition of the polygon and
+      adds it to the list of regions, provided it does not overlap with already existing regions and it is not a degenerate polygon.
+      The number of message bytes that can be hidden in a region depends on the area of the region. If you define multiple regions, the message bytes must be spread on these regions. This can be done in the list of regions, which
+      provides an overview of the capacities of the regions and the distribution of message bytes to the regions.
+      <newline/>
+      The definition of the regions is stored at the beginning of the carrier image. Sometimes a region may overlap with this header space leaving not enough space for the region definitions. In this case the uppermost region
+      has to be deleted.
+      <newline/><newline/>
+      The component has created a new image that contains the hidden message and provides it at the output labeled <b>Carrier image output</b>.
+      In the settings you can determine the format of the image file: TIFF, PNG or BMP. All of these 3 formats use lossless compression, which is critical for
+      the operation of this component, as a lossy compression of the image would destroy the message.
+    </section>
+
+    <section headline="Decryption">
+      If the operating mode is set to <b>Decryption</b>, the component expects two inputs.
+      <newline/><newline/>
+      On the input labeled <b>Carrier image input</b> the carrier image with the hidden message must be provided and the password which was used for creating the carrier image must be given on the input <b>Password</b>.
+      If the password is wrong, it is impossible to determine which pixels carry the information about the region definitions and the hidden message.
+      When you activate the checkbox <b>Show regions</b>, a dialog window will be opened after the start of the component. It displays the defined regions and the hidden message.
+      The extracted message is also sent to the output labeled <b>Data output</b> as a data stream.
+    </section>
   </usage>
 
   <usage lang="de-DE">
+      Die Komponente hat zwei Betriebsarten, <b>Verschlüsselung</b> und <b>Entschlüsselung</b>, zwischen denen in den Einstellungen der Komponente gewählt werden kann.
+      
+    <section headline="Verschlüsselung">
+      In der Betriebsart <b>Verschlüsselung</b> werden drei Eingaben erwartet.
+      <newline/><newline/>
+      Am Eingang <b>Nachricht</b> muss der zu versteckende Text als Datenstrom zur Verfügung gestellt werden. Natürlich lassen sich neben
+      Texten auch beliebige Binärdaten verstecken.
+      <newline/>
+      Am Eingang <b>Eingabe der Trägerdatei</b> muss das Bild, in dem die Nachricht versteckt werden soll, anliegen.
+      Üblicherweise wird hierzu der Eingang mit einer Instanz der Komponente <b>Dateieingabe</b> verbunden.
+      <newline/>
+      Schliesslich benötigt die Komponente noch ein <b>Passwort</b>, das als Datenstrom am entsprechenden Eingang angelegt wird. 
+      Das Passwort wird als Startwert für einen Zufallszahlengenerator verwendet, der die Auswahl der zu verändernden Pixel der Bilddatei steuert.
+      Die Voreinstellung ist, dass die zu verändernden Pixel aus der gesamten Fläche des Bildes ausgewählt werden.
+      <newline/>
+      Man kann aber auch eigene Bildregionen definieren und so die Modifikationen am Trägerbild
+      auf bestimmte Bereiche beschränken. Hierzu muss in den Einstellungen der Komponente das Kontrollkästchen <b>Regionen definieren</b> aktiviert werden. Wird die Komponente gestartet, so erscheint ein Dialogfenster.
+      In diesem werden links das Trägerbild mit den definierten Regionen und rechts nur die definierten Regionen dargestellt. Man kann eine neue Region hinzufügen, indem man mit einfachem Klick in das Bild Punkte zu einem
+      Polygon hinzufügt. Ein Doppelklick beendet die Definition des Polygons und fügt es der Liste der Regionen hinzu, falls es keine Überschneidungen mit bestehenden Polygonen gibt und das Polygon nicht degeneriert ist.
+      Die Anzahl der Nachrichtenbytes, die eine Region verstecken kann, hängt von deren Größe ab. Wenn mehrere Regionen definiert werden, müssen die Nachrichtenbytes auf die Regionen verteilt werden. Dies kann in der
+      Aufzählung der Regionen gemacht werden, die einen Überblick über die Kapazitäten der Regionen und die bereits verteilten Nachrichtenbytes gibt.
+      <newline/>
+      Die Information über die definierten Regionen wird am Beginn der Trägerdatei versteckt. Es kann vorkommen, dass eine definierte Region in diesen Bereich hineinragt und für die Regioneninformationen daher zu wenig Platz bleibt.
+      In diesem Fall muss die oberste Region gelöscht werden.
+      <newline/><newline/>
+      Als Ausgabe liefert die Komponente eine neue Bilddatei als Datenstrom am Ausgang <b>Ausgabe der Trägerdatei</b>, die die versteckte Nachricht enthält.
+      In den Einstellungen kann das Format der Bilddatei gewählt werden: TIFF, PNG oder BMP. Es ist zu beachten, dass alle drei Formate verlustfreie Datenkompression
+      verwenden. Dies ist von entscheidender Wichtigkeit, da eine verlustbehaftete Komprimierung der Bilddaten die versteckte Nachricht zerstören würde.
+    </section>
+
+    <section headline="Entschlüsselung">
+      In der Betriebsart <b>Entschlüsselung</b> werden zwei Eingaben erwartet.
+      <newline/><newline/>
+      Am Eingang <b>Eingabe der Trägerdatei</b> muss das Bild mit der versteckten Nachricht anliegen, am Eingang <b>Passwort</b> das bei der Verschlüsselung verwendete Passwort. Ist dieses falsch, so ist es nicht möglich
+      diejenigen Pixel zu bestimmen, die die Regioneninformationen und die versteckte Nachricht tragen. Wird in den Einstellungen der Komponente das Kontrollkästchen <b>Regionen anzeigen</b> aktiviert, so wird nach dem Start der Komponente
+      ein Dialogfenster geöffnet, das die definierten Regionen und die darin versteckte Nachricht anzeigt. Am Ausgang <b>Datenausgabe</b> wird die aus der Trägerdatei extrahierte Nachricht als Datenstrom ausgegeben.
+    </section>
   </usage>
   
   <presentation lang="en">
+    If the presentation view of the component is opened in encryption mode, it displays the carrier image and marks every pixel that contains a bit of the secret message with a red circle.
   </presentation>
   
   <presentation lang="de-DE">
+    Ist die Präsentationsansicht der Komponente geöffnet, so wird bei der Verschlüsselung die Trägerdatei angezeigt und jedes durch Verstecken der geheimen Nachricht veränderte Pixel durch einen roten Kreis markiert.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Steganography"/>
+      <caption lang="en">Steganography in the English wikipedia</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Steganographie"/>
+      <caption lang="de-DE">Steganographie in der deutschen Wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.codeproject.com/Articles/62290/Steganography-19-The-Order-of-the-Code"/>
+      <caption lang="en">Steganography at CodeProject</caption>
+      <link lang="de-DE" url="http://www.codeproject.com/Articles/62290/Steganography-19-The-Order-of-the-Code"/>
+      <caption lang="de-DE">Steganographie bei CodeProject</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://www.steganografie.eu"/>
+      <caption lang="en">http://www.steganografie.eu</caption>
+      <link lang="de-DE" url="http://www.steganografie.eu"/>
+      <caption lang="de-DE">http://www.steganografie.eu</caption>
+    </linkReference>
   </references>
+  
 </documentation>

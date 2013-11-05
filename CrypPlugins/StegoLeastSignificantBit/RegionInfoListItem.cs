@@ -36,6 +36,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private System.Windows.Forms.Label lblCountPixels;
         private System.Windows.Forms.Label lblRegionName;
         private System.Windows.Forms.Label lblPercentPixels;
+        private System.Windows.Forms.Label lblRegionCapacity;
         private System.Windows.Forms.Button btnDelete;
 
         private RegionInfo regionInfo;
@@ -73,6 +74,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+            this.btnDelete.Text = Properties.Resources.RegionDelete;
 
             this.regionInfo = regionInfo;
 
@@ -86,15 +88,17 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
             lblRegionName.Text = "Region " + (index + 1).ToString();
             lblCountPixels.Text = regionInfo.CountPixels.ToString();
-            lblPercentPixels.Text = regionInfo.PercentOfImage.ToString("###.##");
+            lblPercentPixels.Text = String.Format("{0:F2} %", regionInfo.PercentOfImage);
             numCountUsedBitsPerPixel.Value = regionInfo.CountUsedBitsPerPixel;
             UpdateCapacity();
+            lblRegionCapacity.Text = numCapacity.Maximum.ToString();
 
             isUpdating = false;
         }
 
-        private void UpdateCapacity() {
-            numCapacity.Maximum = (int)Math.Floor(((decimal)(regionInfo.CountPixels * regionInfo.CountUsedBitsPerPixel)) / 8) - 1;
+        private void UpdateCapacity()
+        {
+            numCapacity.Maximum = regionInfo.MaximumCapacity;
 
             if (numCapacity.Maximum == 0) {
                 //the region is too small to hide any data
@@ -104,7 +108,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 numCapacity.Enabled = false;
             } else {
                 numCapacity.Enabled = true;
-                numCapacity.Minimum = 1;
+                numCapacity.Minimum = 0;
                 if (regionInfo.Capacity <= numCapacity.Maximum) {
                     numCapacity.Value = regionInfo.Capacity;
                 } else {
@@ -165,11 +169,16 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             OnSelected();
         }
 
-
         private void NumCountUsedBitsPerPixelValueChanged(object sender, System.EventArgs e)
         {
             regionInfo.CountUsedBitsPerPixel = (byte)numCountUsedBitsPerPixel.Value;
             UpdateCapacity();
+            OnSelected();
+        }
+
+        private void numCapacity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            regionInfo.Capacity = (int)numCapacity.Value;
             OnSelected();
         }
 

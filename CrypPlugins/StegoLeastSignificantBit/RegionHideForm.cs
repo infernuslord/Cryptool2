@@ -32,10 +32,10 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
     partial class RegionHideForm : Form
     {
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ContextMenu contextmenuImage;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ContextMenu contextmenuImage;
         private System.Windows.Forms.PictureBox picMap;
         private System.Windows.Forms.MenuItem mnuDeleteRegion;
         private System.Windows.Forms.PictureBox picImage;
@@ -43,8 +43,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         /// <summary>true: a region is being drawn at the moment</summary>
         private bool isDrawing = false;
-        /// <summary>true: ignore the next MouseUp event</summary>
-        private bool isDoubleClicked = false;
 
         /// <summary>Contains the new image when drawing a new region</summary>
         private Image bufferImage;
@@ -74,7 +72,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 			set
 			{
 				messageLength = value;
-				lblMessageSize.Text = messageLength.ToString();
+				lblMessageSize.Text = messageLength.ToString() + (messageLength==1?" Byte":" Bytes");
 				UpdateSummary();
 			}
 		}
@@ -86,88 +84,137 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             //
             InitializeComponent();
 
+            this.Text = Properties.Resources.RegionHideTitle;
+            this.label2.Text = Properties.Resources.RegionLabel2;
+            this.label3.Text = Properties.Resources.RegionLabel3;
+            this.label4.Text = Properties.Resources.RegionLabel4;
+            this.labelHeaderLength.Text = Properties.Resources.RegionHeaderSize;
+            this.labelHeaderSpace.Text = Properties.Resources.RegionHeaderSpace;
+            this.labelMessageLength.Text = Properties.Resources.RegionMessageSize;
+            this.labelSummary.Text = Properties.Resources.RegionSummary;
+            this.btnCancel.Text = Properties.Resources.RegionCancel;
+            this.btnMaxRegion.Text = Properties.Resources.RegionMaxRegion;
+            this.mnuDeleteRegion.Text = Properties.Resources.RegionDelete;
+
 			OpenImage(bitmap);
             this.MessageLength = messageLength;
         }
 
-        private void picImage_MouseDown(object sender, MouseEventArgs e)
+        private RegionInfo FindRegion(int x, int y)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                foreach (RegionInfo info in drawnRegions)
-                {
-                    if (info.Region.IsVisible(e.X, e.Y))
-                    { //the point is inside the region
-                        selectedRegionInfo = info;
-                        ctlRegions.SelectItem(info);
-                        picImage_DoubleClick(null, null);
-                        contextmenuImage.Show(picImage, new Point(e.X, e.Y));
-                        ReDrawImages(false);
-                        break;
-                    }
-                }
-            }
+            foreach (RegionInfo info in drawnRegions)
+                if (info.Region.IsVisible(x,y)) 
+                    return info;
+
+            return null;
         }
 
-        private void picImage_MouseUp(object sender, MouseEventArgs e)
+        private void SelectRegion(RegionInfo region)
         {
-            if (e.Button == MouseButtons.Left)
+            selectedRegionInfo = region;
+            ctlRegions.SelectItem(region);
+            ReDrawImages(false);
+        }
+
+        private void picImage_Click(object sender, EventArgs e)
+        {
+            MouseEventArgs me = e as MouseEventArgs;
+
+            RegionInfo info = FindRegion(me.X, me.Y);   // did we click inside a region?
+
+            if (me.Button == MouseButtons.Left)
             {
-
-                if (isDoubleClicked)
+                if (info != null)
                 {
-                    isDoubleClicked = false;
+                    if (!isDrawing) SelectRegion(info); // select the clicked region
+                    return;
                 }
-                else
-                {
 
-                    if (!isDrawing)
-                    {
-                        //start a new region
-                        isDrawing = true;
-                        drawingPoints = new ArrayList();
-                        cleanImage = picImage.Image;
-                        bufferImage = new Bitmap(cleanImage.Width, cleanImage.Height);
-                    }
+                if (!isDrawing)
+                {   //start a new region
+                    isDrawing = true;
+                    drawingPoints = new ArrayList();
+                    cleanImage = picImage.Image;
+                    bufferImage = new Bitmap(cleanImage.Width, cleanImage.Height);
+                }
 
-                    AddPoint(e.X, e.Y);
+                AddPoint(me.X, me.Y);
+            }
+            else if (me.Button == MouseButtons.Right)
+            {
+                if (info != null)
+                {   //the point is inside a region
+                    SelectRegion(info);
+                    isDrawing = false;
+                    contextmenuImage.Show(picImage, new Point(me.X, me.Y));
                 }
             }
         }
 
         private void picImage_DoubleClick(object sender, EventArgs e)
         {
+            MouseEventArgs me = e as MouseEventArgs;
+
+            if (!isDrawing) return;
+            if (FindRegion(me.X, me.Y) != null) return;
+
 			this.Cursor = Cursors.WaitCursor;
-			try
-			{
-				if (drawingPoints.Count > 2)
-				{
-					isDrawing = false;
-					isDoubleClicked = true;
 
+            try
+            {
+                isDrawing = false;
 
-					Point[] points = (Point[])drawingPoints.ToArray(typeof(Point));
-					GraphicsPath path = new GraphicsPath();
-					path.AddPolygon(points);
+                if (drawingPoints.Count > 2)
+                    AddRegion((Point[])drawingPoints.ToArray(typeof(Point)));
 
-					if (!UniteWithIntersectedRegions(path, points))
-					{
-						RegionInfo info = new RegionInfo(path, points, picImage.Image.Size);
-						drawnRegions.Add(info);
-						ctlRegions.Add(new RegionInfoListItem(info));
-					}
+                ReDrawImages(true);
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+        
+        private bool AddRegion(Point[] points)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddPolygon(points);
 
-					ReDrawImages(true);
-				}
-			}
-			finally
-			{
-				this.Cursor = Cursors.Default;
-			}
+            if (!UniteWithIntersectedRegions(path, points))
+            {
+                RegionInfo info = new RegionInfo(path, points, picImage.Image.Size);
+                if (info.CountPixels > 0)
+                {
+                    int nothidden = Math.Max(messageLength - ctlRegions.HiddenBytes,0);
+                    info.Capacity = Math.Min(nothidden, info.MaximumCapacity);
+                    drawnRegions.Add(info);
+                    ctlRegions.Add(new RegionInfoListItem(info));
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void AddMaximumRegion()
+        {
+            // how many lines do we need to hide the region info
+            int countLines = (int)Math.Ceiling((double)ImageInfo.EffectiveSize * 8 / baseImage.Width);
+            Point[] points = new Point[4] { new Point(0, countLines), new Point(baseImage.Width, countLines), new Point(baseImage.Width, baseImage.Height), new Point(0, baseImage.Height) };
+            AddRegion(points);
+        }
+
+        private void DeleteAllRegions()
+        {
+            isDrawing = false;
+            ctlRegions.Clear();
+            drawnRegions.Clear();
+            ReDrawImages(true);
         }
 
         private void mnuDeleteRegion_Click(object sender, EventArgs e)
         {
+            isDrawing = false;
             drawnRegions.Remove(selectedRegionInfo);
             ctlRegions.DeleteItem(selectedRegionInfo);
             ReDrawImages(true);
@@ -177,66 +224,87 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         {
             bool isOkay = true;
 
-            long countPixels = 0; //count of selected pixels
-            int capacity = 0; //capacity of all regions
-            long mapStreamLength = 65; //Int32 beginning of first region + Int32 regions length + Byte bits per pixel
-            int firstPixelInRegions = baseImage.Width * baseImage.Height; //first pixel inside a region
-            RegionInfo firstRegion = null; //topmost region
-            foreach (RegionInfo info in drawnRegions) {
+            long countPixels = 0;       // count of selected pixels
+            int capacity = 0;           // capacity of all regions
+            int hiddenbytes = 0;        // number of hidden bytes in all regions
+            long mapStreamLength = 65;  // Int32 beginning of first region + Int32 regions length + Byte bits per pixel
+            int firstPixelInRegions = baseImage.Width * baseImage.Height; // first pixel inside a region
+            RegionInfo firstRegion = null; // topmost region
+
+            foreach (RegionInfo info in drawnRegions)
+            {
                 countPixels += info.CountPixels;
-                capacity += info.Capacity;
+                capacity += info.MaximumCapacity;
+                hiddenbytes += info.Capacity;
 
                 mapStreamLength += 64; //Int32 RegionData Length + Int32 Capacity
                 mapStreamLength += info.Points.Length * 8; //length of the points stream
 
-                if ((int)info.PixelIndices[0] < firstPixelInRegions) {
+                if (info.CountPixels > 0 && (int)info.PixelIndices[0] < firstPixelInRegions)
+                {
                     firstPixelInRegions = (int)info.PixelIndices[0];
                     firstRegion = info;
                 }
             }
 
             //selected pixels
-            lblSelectedPixels.Text = countPixels.ToString();
+            lblSelectedPixels.Text = countPixels.ToString() + " " + (countPixels == 1 ? Properties.Resources.RegionPixel : Properties.Resources.RegionPixel);
 
             //percent of image
-            lblPercent.Text = (100 * (decimal)countPixels / (baseImage.Width*baseImage.Height)).ToString("###.##");
+            lblPercent.Text = String.Format("{0:F2} %", (100.0 * countPixels) / (baseImage.Width * baseImage.Height));
+
+            //hidden bytes
+            lblHidden.Text = hiddenbytes.ToString() + (hiddenbytes == 1 ? " Byte" : " Bytes");
 
             //capacity
-            lblCapacity.Text = capacity.ToString();
-			//if (capacity == messageLength) {
+            lblCapacity.Text = capacity.ToString() + (capacity == 1 ? " Byte" : " Bytes");
+
 			if(capacity < messageLength)
 			{
 			    SetControlColor(lblCapacity, true);
-			    errors.SetError(lblCapacity, "Overall capacity must be equal to or greater than the message's length.");
-			    isOkay = false;
-			}else{
-				SetControlColor(lblCapacity, false);
-				errors.SetError(lblCapacity, String.Empty);
-			}
-			//} else {
-			//    SetControlColor(lblCapacity, true);
-			//    errors.SetError(lblCapacity, "Overall capacity must be equal to the message's length.");
-			//    isOkay = false;
-			//}
+                errors.SetError(lblCapacity, Properties.Resources.RegionErrorCapacity);
+                isOkay = false;
+            }
+            else
+            {
+                SetControlColor(lblCapacity, false);
+                errors.SetError(lblCapacity, String.Empty);
+            }
+            
+            if (hiddenbytes < messageLength)
+            {
+                SetControlColor(lblHidden, true);
+                errors.SetError(lblHidden, Properties.Resources.RegionErrorHidden);
+                isOkay = false;
+            }
+            else
+            {
+                SetControlColor(lblHidden, false);
+                errors.SetError(lblHidden, String.Empty);
+            }
 
             //header size
-            lblHeaderSize.Text = mapStreamLength.ToString() + " Bits";
+            lblHeaderSize.Text = mapStreamLength.ToString() + (mapStreamLength == 1 ? " Bit" : " Bits");
 
             //first pixel inside a region
-            if (firstRegion != null) {
+            if (firstRegion != null)
+            {
+                String firstPixel = firstPixelInRegions.ToString() + (firstPixelInRegions == 1 ? " Bit" : " Bits");
+
                 if (firstPixelInRegions > mapStreamLength) {
-                    lblHeaderSpace.Text = firstPixelInRegions.ToString() + " Pixels";
+                    lblHeaderSpace.Text = firstPixel;
                     SetControlColor(lblHeaderSpace, false);
                 } else {
                     isOkay = false;
-                    lblHeaderSpace.Text = String.Format("{0} Pixels - Please remove the topmost region.", firstPixelInRegions);
+                    lblHeaderSpace.Text = firstPixel + " - " + Properties.Resources.RegionRemoveTopmost;
                     SetControlColor(lblHeaderSpace, true);
                     selectedRegionInfo = firstRegion;
                     ctlRegions.SelectItem(firstRegion);
                     ReDrawImages(false);
                 }
             } else {
-                lblHeaderSpace.Text = "0 - Please define one or more regions";
+                int picsize = baseImage.Width * baseImage.Height;
+                lblHeaderSpace.Text = picsize.ToString() + (picsize == 1 ? " Bit" : " Bits") + " - " + Properties.Resources.RegionOneRegion;
                 SetControlColor(lblHeaderSpace, true);
             }
 
@@ -273,7 +341,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 tempRegion.Intersect(path);
                 if (!tempRegion.IsEmpty(graphics))
                 {	
-					
+                    return true;
 					// Intersect/IsEmpty does not work in mono 2.6
 					// Workaround: Check bounds of intersection
 					RectangleF bounds = tempRegion.GetBounds(graphics);
@@ -311,25 +379,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             //draw regions
             foreach (RegionInfo info in drawnRegions)
             {
-
                 PathGradientBrush brush = new PathGradientBrush(info.Points, WrapMode.Clamp);
                 brush.CenterColor = Color.Transparent;
-                
-                if (info == selectedRegionInfo)
-                {
-                    brush.SurroundColors = new Color[1] { Color.Green };
-                }
-                else
-                {
-                    brush.SurroundColors = new Color[1] { Color.Red };
-                }
-
-                graphicsWithBackground.DrawPolygon(new Pen(Color.Black, 4), info.Points);
-                graphicsNoBackground.DrawPolygon(new Pen(Color.Black, 4), info.Points);
+                brush.SurroundColors = new Color[1] { info == selectedRegionInfo ?  Color.Green : Color.Red };
 
                 graphicsWithBackground.FillRegion(brush, info.Region);
-                graphicsNoBackground.FillRegion(brush, info.Region);
+                graphicsWithBackground.DrawPolygon(new Pen(Color.Black, 4), info.Points);
 
+                graphicsNoBackground.FillRegion(brush, info.Region);
+                graphicsNoBackground.DrawPolygon(new Pen(Color.Black, 4), info.Points);
             }
 
             //clean up
@@ -413,6 +471,19 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+
+            int remaining = messageLength;
+            Collection<RegionInfo> usedRegions = new Collection<RegionInfo>();
+            foreach (RegionInfo info in drawnRegions)
+            {
+                if (remaining == 0) break;
+                if (remaining < info.Capacity)
+                    info.Capacity = remaining;
+                remaining -= info.Capacity;
+                usedRegions.Add(info);
+            }
+
+            drawnRegions = usedRegions;
         }
 
         /// <summary>Get the source image and all specified regions</summary>
@@ -428,7 +499,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			this.DialogResult = DialogResult.Cancel;
-			this.Close();
+            this.Close();
 		}
+
+        private void btnMaxRegion_Click(object sender, EventArgs e)
+        {
+            DeleteAllRegions();
+            AddMaximumRegion();
+            SelectRegion(drawnRegions[0]);
+            ReDrawImages(true);
+        }
     }
 }

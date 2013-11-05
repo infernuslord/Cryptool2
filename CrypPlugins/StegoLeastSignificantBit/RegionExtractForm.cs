@@ -41,6 +41,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             //
             InitializeComponent();
 
+            this.label1.Text = Properties.Resources.RegionExtractRegions;
+            this.label2.Text = Properties.Resources.RegionExtractMessage;
+            this.btnClose.Text = Properties.Resources.RegionExtractClose;
+            this.Text = Properties.Resources.RegionExtractTitle;
+
             DrawRegions(imageInfo);
             txtMessage.Text = imageInfo.TextMessage;
         }
