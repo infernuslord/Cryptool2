@@ -113,6 +113,8 @@ namespace WorkspaceManager.Execution
                     threads.Add(thread);
                     thread.IsBackground = true;
                     i++;
+                    thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+                    thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
                     thread.Start(this);
                 }
 
