@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             ShowPicture();
         }
 
-        private void ShowPicture()
+        public void ShowPicture()
         {
             image1.Source = null;
             
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             image1.Source = bmpimg;
         }
 
-        public void AddPixel(Int32 offsetToScan0)
+        public void AddPixel(Int32 offsetToScan0, Boolean showPicture=false)
         {
             int pixelIndex = (offsetToScan0 - originalBitmapScan0) / 3;
             //int y = (int)Math.Truncate((double)pixelIndex / this.bitmap.Width);
@@ -74,7 +74,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                         2 * r, 2 * r);
             }
 
-            ShowPicture();       
+            if(showPicture)
+                ShowPicture();       
         }
 
         public StegoLeastSignificantBitPresentation()

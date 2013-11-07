@@ -430,7 +430,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Percent of Image ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Percent of image ähnelt.
         /// </summary>
         internal static string RegionListLabel1 {
             get {
@@ -475,7 +475,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum Region ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum region ähnelt.
         /// </summary>
         internal static string RegionMaxRegion {
             get {

@@ -27,16 +27,15 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Threading;
-using Cryptool.PluginBase;
-using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
-using System.Threading;
+using System.ComponentModel;
 using System.Globalization;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
@@ -68,9 +67,9 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private const int PixelSize = 3;
         private StegoLeastSignificantBitPresentation presentation = new StegoLeastSignificantBitPresentation();
         SendOrPostCallback updatePresentationPixelsDelegate;
+        SendOrPostCallback showPictureDelegate;
         RegionExtractForm extractdialog;
         RegionHideForm hidedialog;
-        CultureInfo culture;
 
         #endregion
 
@@ -141,9 +140,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         /// </summary>
         public void Execute()
         {
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-
             ProgressChanged(0, 1);
 
             if (InputCarrier == null)
@@ -175,16 +171,19 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                         case 0: // hide message
                             this.imageInfo = null;
 
+                            //make sure that the image is in RGB format
+                            Bitmap image = PaletteToRGB(bitmap);
+
                             if (settings.CustomizeRegions)
                             {
-                                hidedialog = new RegionHideForm(bitmap, (int)InputData.Length);
+                                hidedialog = new RegionHideForm(image, (int)InputData.Length);
                                 if (hidedialog.ShowDialog() != System.Windows.Forms.DialogResult.OK) return;
                                 this.imageInfo = hidedialog.ImageInfo;
                             }
 
                             if (this.imageInfo == null)
                             {
-                                CreateDefaultImageInfo(bitmap);
+                                CreateDefaultImageInfo(image);
 
                                 if (imageInfo.Capacity < InputData.Length)
                                 {
@@ -195,7 +194,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                                 GuiLogMessage("The carrier image can hide " + imageInfo.Capacity + " bytes of information.", NotificationLevel.Info);
                             }
 
-                            Hide(bitmap, InputData.CreateReader(), InputPassword.CreateReader());
+                            Hide(image, InputData.CreateReader(), InputPassword.CreateReader());
                             OnPropertyChanged("OutputCarrier");
                             break;
 
@@ -245,10 +244,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         public void Initialize()
         {
-            // This is a workaround: Initialize() gets called with the correct culture, but Execute() with the wrong culture.
-            // So save the correct culture for later use in Execute().
-            culture = Thread.CurrentThread.CurrentCulture;
-
             settings.UpdateTaskPaneVisibility();
         }
 
@@ -498,10 +493,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
                 // update presentation
                 if (this.presentation.IsVisible)
-                {
                     ShowPixelInPresentation(pixelPosition);
-                }
             }
+
+            if (this.presentation.IsVisible)
+                ShowPicture();
         }
 
         /// <summary>Updates the presentation to mark the pixel</summary>
@@ -509,6 +505,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private void ShowPixelInPresentation(IntPtr pixel)
         {
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationPixelsDelegate, pixel.ToInt32());
+        }
+
+        private void ShowPicture()
+        {
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, showPictureDelegate, null);
         }
 
         /// <summary>Changes one component of a color</summary>
@@ -579,7 +580,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         #if Use_Unsafe_Pointers
             unsafe
         #endif
-        void Hide(Bitmap bitmap, CStreamReader message, CStreamReader key)
+        void Hide(Bitmap image, CStreamReader message, CStreamReader key)
         {
             // start presentation
             /*SendOrPostCallback updatePresentationPictureDelegate = (SendOrPostCallback)delegate
@@ -594,11 +595,13 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             {
                 presentation.AddPixel((Int32)state);
             };
-            
-            currentColorComponent = 0;
 
-            //make sure that the image is in RGB format
-            Bitmap image = PaletteToRGB(bitmap);
+            showPictureDelegate = (SendOrPostCallback)delegate(Object state)
+            {
+                presentation.ShowPicture();
+            };
+
+            currentColorComponent = 0;
 
             int pixelOffset = 0;
             int maxOffset = 0;
@@ -710,10 +713,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 #endif
 
                     if (presentation.IsVisible)
-                    {
                         ShowPixelInPresentation(pixelPosition);
-                    }
                 }
+
+                if (presentation.IsVisible)
+                    ShowPicture();
             }
 
             // ----------------------------------------- Hide the Message
@@ -781,10 +785,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 #endif
 
                         if (presentation.IsVisible)
-                        {
                             ShowPixelInPresentation(pixelPosition);
-                        }
                     }
+
+                    if (presentation.IsVisible)
+                        ShowPicture();
                 }
             }
 
@@ -1045,10 +1050,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     byte[] regionContent = regionReader.ReadBytes(regionLength);
 
                     Point[] regionPoints = BytesToPoints(regionContent);
-                    GraphicsPath regionPath = new GraphicsPath();
-                    regionPath.AddPolygon(regionPoints);
-                    Region region = new Region(regionPath);
-                    regions.Add(new RegionInfo(region, regionCapacity, regionBitsPerPixel, bitmap.Size));
+                    regions.Add(new RegionInfo(regionPoints, regionCapacity, regionBitsPerPixel, bitmap.Size));
                 } while (regionData.Position < regionData.Length);
             }
             finally

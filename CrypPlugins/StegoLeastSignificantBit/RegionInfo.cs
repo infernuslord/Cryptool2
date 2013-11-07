@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -102,9 +103,12 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         }
 
 		/// <summary>Constructor.</summary>
-		public RegionInfo(Region region, int capacity, byte bitsPerPixel, Size imageSize)
+        public RegionInfo(Point[] regionPoints, int capacity, byte bitsPerPixel, Size imageSize)
         {
-            this.region = region;
+            this.points = regionPoints;
+            GraphicsPath path = new GraphicsPath();
+            path.AddPolygon(points);
+            this.region = new Region(path);
             this.capacity = capacity;
             this.countUsedBitsPerPixel = bitsPerPixel;
             this.imageSize = imageSize;
@@ -124,9 +128,14 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 		public void UpdateCountPixels()
         {
             pixels.Clear();
-            for (int y = 0; y < imageSize.Height; y++)
+
+            Rectangle bbox = GetBBox(points);
+
+            //for (int y = 0; y < imageSize.Height; y++)
+            for (int y = bbox.Top; y < bbox.Bottom; y++)
             {
-                for (int x = 0; x < imageSize.Width; x++)
+                //for (int x = 0; x < imageSize.Width; x++)
+                for (int x = bbox.Left; x < bbox.Right; x++)
                 {
                     if (region.IsVisible(x, y))
                     {
@@ -134,7 +143,30 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     }
                 }
             }
+
             //pixels.Sort();
+        }
+
+        public Rectangle GetBBox(Point[] points)
+        {
+            if (points==null || points.Length == 0) return new Rectangle(new Point(0,0), new Size(0,0));
+
+            List<Point> lst = new List<Point>(points);
+
+            var minX = points[0].X;
+            var maxX = points[0].X;
+            var minY = points[0].Y;
+            var maxY = points[0].Y;
+
+            foreach (var p in points)
+            {
+                minX = Math.Min(minX, p.X);
+                maxX = Math.Max(maxX, p.X);
+                minY = Math.Min(minY, p.Y);
+                maxY = Math.Max(maxY, p.Y);
+            }
+
+            return new Rectangle(new Point(minX, minY), new Size(maxX - minX, maxY - minY));
         }
 
         private int GetPixelIndex(int x, int y)
