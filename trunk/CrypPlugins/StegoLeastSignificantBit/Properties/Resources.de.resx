@@ -211,7 +211,7 @@
     <value>Die Zahl der versteckten Bytes muss größer oder gleich wie die Nachrichtenlänge sein.</value>
   </data>
   <data name="RegionExtractClose" xml:space="preserve">
-    <value>schliessen</value>
+    <value>schließen</value>
   </data>
   <data name="RegionExtractMessage" xml:space="preserve">
     <value>Versteckte Nachricht:</value>

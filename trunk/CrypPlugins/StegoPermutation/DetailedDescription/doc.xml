@@ -21,7 +21,7 @@
 
   <introduction lang="de-DE">
     Unter <b>Steganographie</b> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
-    uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
+    uneingeweihten Betrachter und möglichen Angreifer verschleiert, dass neben einer unverfänglichen Trägernachricht auch
     noch eine zusätzliche, versteckte Nachricht übermittelt wird.
     <newline/><newline/>
     Das Grundprinzip der steganographischen Technik dieser Komponente ist, die zu übertragende Nachricht in eine Zahl

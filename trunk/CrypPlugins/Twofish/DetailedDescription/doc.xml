@@ -28,7 +28,7 @@
       In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext als Datenstrom am Eingang "Eingabedatenstrom". 
       Twofish arbeitet mit einer Blockgröße von 128 Bits (16 Bytes). Ist die Länge der Eingabe kein Vielfaches von 16 Bytes, so müssen vor der Verschlüsselung so viele Bytes
       angehängt werden, bis sie ohne Rest in 16-Bytes-Blöcke zerlegt werden kann. Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen
-      Padding-Methoden wählen. Es ist wichtig, daß bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der
+      Padding-Methoden wählen. Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der
       Verschlüsselung verwendet wurde.
       Der Schlüssel wird als Datenstrom am Eingang "Schlüssel" erwartet. In den Einstellungen kann
       die Größe des zu verwendenden Schlüssels bestimmt werden: 128 Bits, 192 Bits oder 256 Bits. Stimmt die Größe des eingegebenen
