@@ -252,6 +252,7 @@ namespace Cryptool.CrypWin
                 if (editor != null)
                 {
                     var editorThread = new Thread(editor.Execute);
+                    editorThread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
                     editorThread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
                     editorThread.Start();
                 }
