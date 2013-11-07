@@ -14,7 +14,7 @@
 
   <introduction lang="de-DE">
     Unter <b>Steganographie</b> versteht man die Übermittlung von geheimzuhaltenden Informationen in einer Form, die dem
-    uneingeweihten Betrachter und möglichen Angreifer verschleiert, daß neben einer unverfänglichen Trägernachricht auch
+    uneingeweihten Betrachter und möglichen Angreifer verschleiert, dass neben einer unverfänglichen Trägernachricht auch
     noch eine zusätzliche versteckte Nachricht übermittelt wird.
     <newline/><newline/>
     Das Grundprinzip der steganographischen Technik dieser Komponente ist, die niederwertigsten
@@ -33,7 +33,7 @@
       <newline/>
       On the input labeled <b>Carrier image input</b> you have to provide the carrier image in which to hide the message. This is usually done by connecting a <b>File Input</b> component.
       <newline/>
-      Finally the component needs a password, which must be provided as a datastream on the input labeled <b>Password</b>.
+      Finally, the component needs a password which must be provided as a datastream on the input labeled <b>Password</b>.
       The password is used as seed value for a random number generator that controls, which pixels of the carrier image are selected for storing the message bits.
       The default setting is to use the entire area of the image for the pixel selection process.
       <newline/>
@@ -41,7 +41,7 @@
       To do so, the checkbox <b>Customize regions</b> in the settings of the component has to be checked. When the component is started, it then displays a dialog window. The dialog window shows on the left the carrier image
       overlayed with the defined regions, and only the defined regions on the right. You can add a new region by single clicking into the image and thus adding points to a polygon. A double click ends the definition of the polygon and
       adds it to the list of regions, provided it does not overlap with already existing regions and it is not a degenerate polygon.
-      The number of message bytes that can be hidden in a region depends on the area of the region. If you define multiple regions, the message bytes must be spread on these regions. This can be done in the list of regions, which
+      The number of message bytes that can be hidden in a region depends on the size of the region. If you define multiple regions, the message bytes must be spread on these regions. This can be done in the list of regions, which
       provides an overview of the capacities of the regions and the distribution of message bytes to the regions.
       <newline/>
       The definition of the regions is stored at the beginning of the carrier image. Sometimes a region may overlap with this header space leaving not enough space for the region definitions. In this case the uppermost region
@@ -55,7 +55,7 @@
     <section headline="Decryption">
       If the operating mode is set to <b>Decryption</b>, the component expects two inputs.
       <newline/><newline/>
-      On the input labeled <b>Carrier image input</b> the carrier image with the hidden message must be provided and the password which was used for creating the carrier image must be given on the input <b>Password</b>.
+      On the input labeled <b>Carrier image input</b> the carrier image with the hidden message must be provided, and the password which was used for creating the carrier image must be given on the input <b>Password</b>.
       If the password is wrong, it is impossible to determine which pixels carry the information about the region definitions and the hidden message.
       When you activate the checkbox <b>Show regions</b>, a dialog window will be opened after the start of the component. It displays the defined regions and the hidden message.
       The extracted message is also sent to the output labeled <b>Data output</b> as a data stream.
@@ -74,7 +74,7 @@
       Am Eingang <b>Eingabe der Trägerdatei</b> muss das Bild, in dem die Nachricht versteckt werden soll, anliegen.
       Üblicherweise wird hierzu der Eingang mit einer Instanz der Komponente <b>Dateieingabe</b> verbunden.
       <newline/>
-      Schliesslich benötigt die Komponente noch ein <b>Passwort</b>, das als Datenstrom am entsprechenden Eingang angelegt wird. 
+      Schließlich benötigt die Komponente noch ein <b>Passwort</b>, das als Datenstrom am entsprechenden Eingang angelegt wird. 
       Das Passwort wird als Startwert für einen Zufallszahlengenerator verwendet, der die Auswahl der zu verändernden Pixel der Bilddatei steuert.
       Die Voreinstellung ist, dass die zu verändernden Pixel aus der gesamten Fläche des Bildes ausgewählt werden.
       <newline/>

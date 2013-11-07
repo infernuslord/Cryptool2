@@ -241,7 +241,7 @@
     <value>Please configure the regions and make sure the sum of the hidden bytes matches the message length:</value>
   </data>
   <data name="RegionListLabel1" xml:space="preserve">
-    <value>Percent of Image</value>
+    <value>Percent of image</value>
   </data>
   <data name="RegionListLabel2" xml:space="preserve">
     <value>Pixel</value>
@@ -256,7 +256,7 @@
     <value>Capacity</value>
   </data>
   <data name="RegionMaxRegion" xml:space="preserve">
-    <value>Maximum Region</value>
+    <value>Maximum region</value>
   </data>
   <data name="RegionMessageSize" xml:space="preserve">
     <value>Message length:</value>
