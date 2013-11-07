@@ -49,6 +49,9 @@ namespace Cryptool.CrypTutorials
             get { return playingItem; }
             set
             {
+                if (!VlcContext.IsInitialized)
+                    return;
+
                 playingItem = value;
                 if (playingItem == null)
                 {
