@@ -546,7 +546,7 @@
         </StatusBar>
 
         <DockPanel LastChildFill="True">
-            <dc:Ribbon DockPanel.Dock="Top" Name="AppRibbon" LicenseKey="{proprietary:LicenseKey}" >
+            <dc:Ribbon DockPanel.Dock="Top" Name="AppRibbon" LicenseKey="{proprietary:LicenseKey}" SelectionChanged="AppRibbon_SelectionChanged">
                 <!--CrypTool Menu-->
                 <dc:Ribbon.ApplicationMenu>
                     <dc:ApplicationMenu dc:Ribbon.KeyTip="F">
@@ -602,7 +602,7 @@
                 </dc:Ribbon.QuickAccessToolbar>
 
                 <!--RibbonTab Home-->
-                <dc:RibbonTab Header="{Loc Home}" Name="ribbonTabHome" dc:Ribbon.KeyTip="H">
+                <dc:RibbonTab Header="{Loc Home}" Name="ribbonTabHome" dc:Ribbon.KeyTip="H" >
 
                     <dc:RibbonBarPanel Height="89" x:Name="ToolBarPanel">
                         <DockPanel LastChildFill="True">
@@ -706,8 +706,10 @@
             -->
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc RBHeader_Demo}" ToolTip="{Loc In_demo_mode_a_selected_set_of_samples_is_repeatedly_executed_}" Name="ribbonDemoMode" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="DM" Visibility="Collapsed">
-                                <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PD" Command="cw:CrypWinCommands.PlayDemo" ToolTip="{Loc Select_samples_and_start_demo_mode_}">
+                            <dc:RibbonBar Header="{Loc RBHeader_Demo}" ToolTip="{Loc In_demo_mode_a_selected_set_of_samples_is_repeatedly_executed_}" 
+                                          Name="ribbonDemoMode" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="DM" Visibility="Collapsed">
+                                <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" 
+                                                   dc:Ribbon.KeyTip="PD" Command="cw:CrypWinCommands.PlayDemo" ToolTip="{Loc Select_samples_and_start_demo_mode_}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/test/play.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -717,7 +719,9 @@
                                 </dc:ButtonDropDown>
 
                                 <StackPanel Name="stackPanel1" Width="60">
-                                    <de:IntegerInput ShowCheckBox="false" ShowClearButton="true" ShowUpDown="true" Name="demoInterval" Value="{Binding Source={x:Static properties:Settings.Default},Path=DemoInterval,Mode=Twoway,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Loc How_long_should_a_sample_be_kept_running_before_opening_next_one_}" MinValue="5" />
+                                    <de:IntegerInput ShowCheckBox="false" ShowClearButton="true" ShowUpDown="true" Name="demoInterval" 
+                                                     Value="{Binding Source={x:Static properties:Settings.Default},Path=DemoInterval,Mode=Twoway,UpdateSourceTrigger=PropertyChanged}" 
+                                                     ToolTip="{Loc How_long_should_a_sample_be_kept_running_before_opening_next_one_}" MinValue="5" />
                                     <Label HorizontalAlignment="Center" Content="{Loc Interval}"/>
                                 </StackPanel>
 
@@ -731,72 +735,77 @@
                                 </dc:ButtonDropDown>
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Visibility="Hidden">
-                            </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc RBHeader_Extras}" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" Name="ribbonManagement" HorizontalAlignment="Right" >
+                            <Grid x:Name="ManagementRootMain" HorizontalAlignment="Right">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform X="8"></TranslateTransform>
+                                </Grid.RenderTransform>
+                                <dc:RibbonBar Header="{Loc RBHeader_Extras}" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" x:Name="ribbonManagement" >
+                                    <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="HO" Command="cw:CrypWinCommands.Startcenter" ToolTip="{Loc Startcenter_Tooltip}">
+                                        <dc:ButtonDropDown.Image>
+                                            <Image Source="/Startcenter;component/startcenter.png" Height="40" Width="40" />
+                                        </dc:ButtonDropDown.Image>
+                                        <dc:ButtonDropDown.ImageSmall>
+                                            <Image Source="/Startcenter;component/startcenter.png" Height="16" Width="16"/>
+                                        </dc:ButtonDropDown.ImageSmall>
+                                    </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="HO" Command="cw:CrypWinCommands.Startcenter" ToolTip="{Loc Startcenter_Tooltip}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="/Startcenter;component/startcenter.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="/Startcenter;component/startcenter.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
+                                    <dc:ButtonDropDown Name="p2pButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PP" 
+                                                   Command="cw:CrypWinCommands.P2P" ToolTip="{Loc Manages_the_integrated_network_connection_}" 
+                                                   Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=cw:MainWindow, AncestorLevel=1}, Path=P2PButtonVisibility}">
+                                        <dc:ButtonDropDown.Image>
+                                            <Image Name="P2PIconImageBig" Source="images/peer2peer-connect.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <RotateTransform x:Name="P2PBigIconImageRotate"/>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                        </dc:ButtonDropDown.Image>
+                                        <dc:ButtonDropDown.ImageSmall>
+                                            <Image Name="P2PIconImageSmall" Source="images/peer2peer-connect.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <RotateTransform x:Name="P2PSmallIconImageRotate"/>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                        </dc:ButtonDropDown.ImageSmall>
+                                    </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="p2pButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PP" Command="cw:CrypWinCommands.P2P" ToolTip="{Loc Manages_the_integrated_network_connection_}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=cw:MainWindow, AncestorLevel=1}, Path=P2PButtonVisibility}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Name="P2PIconImageBig" Source="images/peer2peer-connect.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="P2PBigIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Name="P2PIconImageSmall" Source="images/peer2peer-connect.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="P2PSmallIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
+                                    <dc:ButtonDropDown Name="autoUpdateButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="AU" Command="cw:CrypWinCommands.AutoUpdater">
+                                        <dc:ButtonDropDown.Image>
+                                            <Image Source="images/noUpdate.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <RotateTransform x:Name="AutoUpdaterBigIconImageRotate"/>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                        </dc:ButtonDropDown.Image>
+                                        <dc:ButtonDropDown.ImageSmall>
+                                            <Image Source="images/noUpdate.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
+                                                <Image.RenderTransform>
+                                                    <RotateTransform x:Name="AutoUpdaterSmallIconImageRotate"/>
+                                                </Image.RenderTransform>
+                                            </Image>
+                                        </dc:ButtonDropDown.ImageSmall>
+                                    </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="autoUpdateButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="AU" Command="cw:CrypWinCommands.AutoUpdater">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/noUpdate.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="AutoUpdaterBigIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/noUpdate.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="AutoUpdaterSmallIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
+                                    <dc:ButtonDropDown Name="settingsButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="S" Command="cw:CrypWinCommands.Settings" ToolTip="{Loc SettingsTooltip}">
+                                        <dc:ButtonDropDown.Image>
+                                            <Image Source="images/settings.png" Height="40" Width="40" />
+                                        </dc:ButtonDropDown.Image>
+                                        <dc:ButtonDropDown.ImageSmall>
+                                            <Image Source="images/settings.png" Height="16" Width="16"/>
+                                        </dc:ButtonDropDown.ImageSmall>
+                                    </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="settingsButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="S" Command="cw:CrypWinCommands.Settings" ToolTip="{Loc SettingsTooltip}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/settings.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/settings.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-
-                                <dc:ButtonDropDown Header="{Loc Help}" Click="ButtonHelp_Click" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PR" Name="helpMenu" ToolTip="{Loc Help_for_CrypTool_2_}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/help32.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/help32.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-                            </dc:RibbonBar>
+                                    <dc:ButtonDropDown Header="{Loc Help}" Click="ButtonHelp_Click" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PR" Name="helpMenu" ToolTip="{Loc Help_for_CrypTool_2_}">
+                                        <dc:ButtonDropDown.Image>
+                                            <Image Source="images/help32.png" Height="40" Width="40" />
+                                        </dc:ButtonDropDown.Image>
+                                        <dc:ButtonDropDown.ImageSmall>
+                                            <Image Source="images/help32.png" Height="16" Width="16"/>
+                                        </dc:ButtonDropDown.ImageSmall>
+                                    </dc:ButtonDropDown>
+                                </dc:RibbonBar>
+                            </Grid>
+                            
                         </DockPanel>
                     </dc:RibbonBarPanel>
                 </dc:RibbonTab>
@@ -805,98 +814,117 @@
                 <dc:RibbonTab Header="{Loc Edit}" Name="ribbonTabEdit" dc:Ribbon.KeyTip="E">
 
                     <dc:RibbonBarPanel Height="89">
+                        <DockPanel LastChildFill="True">
+                            <DockPanel.Width>
+                                <Binding ElementName="AppRibbon" Path="ActualWidth" Mode="OneWay" Converter="{StaticResource PanelWidthConverter}"/>
+                            </DockPanel.Width>
+                            <dc:RibbonBar Header="{Loc RBHeader_RedoUndo}" ToolTip="{Loc Redo_or_Undo_your_last_changes_}" Name="ribbonEditorRU" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU" DockPanel.Dock="left">
 
-                        <dc:RibbonBar Header="{Loc RBHeader_RedoUndo}" ToolTip="{Loc Redo_or_Undo_your_last_changes_}" Name="ribbonEditorRU" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="UD" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Undo" ToolTip="{Loc Undo}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/undo.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/undo.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="UD" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Undo" ToolTip="{Loc Undo}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/undo.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/undo.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="RD" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Redo" ToolTip="{Loc Redo}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/redo.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/redo.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="RD" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Redo" ToolTip="{Loc Redo}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/redo.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/redo.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
+                            </dc:RibbonBar>
 
-                        </dc:RibbonBar>
+                            <dc:RibbonBar Header="{Loc RBHeader_Editing}" ToolTip="{Loc RBTooltip_Editing}" Name="ribbonEditorEditing" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU" DockPanel.Dock="left">
 
-                        <dc:RibbonBar Header="{Loc RBHeader_Editing}" ToolTip="{Loc RBTooltip_Editing}" Name="ribbonEditorEditing" Padding="7" ResizeOrderIndex="7" dc:Ribbon.KeyTip="RU">
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="CT" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Cut" ToolTip="{Loc Cut}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/cut32.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/cut32.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="CT" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Cut" ToolTip="{Loc Cut}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/cut32.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/cut32.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="CP" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Copy" ToolTip="{Loc Copy}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/copy32.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/copy32.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="CP" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Copy" ToolTip="{Loc Copy}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/copy32.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/copy32.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="PA" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Paste" ToolTip="{Loc Paste}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/paste32.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/paste32.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="PA" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Paste" ToolTip="{Loc Paste}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/paste32.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/paste32.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
+                                <dc:ButtonDropDown dc:Ribbon.KeyTip="RE" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Remove" ToolTip="{Loc Remove}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/remove32.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/remove32.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
+                            </dc:RibbonBar>
+                            <dc:RibbonBar Header="{Loc RBHeader_Add}" ToolTip="{Loc RBTooltip_Add}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
 
-                            <dc:ButtonDropDown dc:Ribbon.KeyTip="RE" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="Top" Command="cw:CrypWinCommands.Remove" ToolTip="{Loc Remove}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/remove32.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/remove32.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-                        </dc:RibbonBar>
-                        <dc:RibbonBar Header="{Loc RBHeader_Add}" ToolTip="{Loc RBTooltip_Add}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
+                                <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" 
+                                                   Command="cw:CrypWinCommands.AddImage" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddImg}" DockPanel.Dock="left">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/addimg-big.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/addimg-big.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown Name="addimg" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddImage" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddImg}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/addimg-big.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/addimg-big.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-
-                            <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddText" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddText}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/addtxt-big.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/addtxt-big.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-                        </dc:RibbonBar>
-
+                                <dc:ButtonDropDown Name="addtxt" dc:Ribbon.KeyTip="D" Height="65" Style="{DynamicResource AppMenuCommandButton}" Command="cw:CrypWinCommands.AddText" ImagePosition="Top" ToolTip="{Loc RBTooltip_AddText}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/addtxt-big.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/addtxt-big.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
+                            </dc:RibbonBar>
+                            <Grid x:Name="ManagementRootEdit" HorizontalAlignment="Right">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform X="8"></TranslateTransform>
+                                </Grid.RenderTransform>
+                            </Grid>
+                        </DockPanel>
                     </dc:RibbonBarPanel>
 
                 </dc:RibbonTab>
 
                 <!-- RibbonTab CrypTutorials -->
-                <dc:RibbonTab Header="{Loc CrypTutorial}" Name="ribbonTabView" dc:Ribbon.KeyTip="T" Visibility="Collapsed">
+                <dc:RibbonTab Header="{Loc CrypTutorial}" Name="ribbonTabView" dc:Ribbon.KeyTip="T" Visibility="Collapsed" >
                     <dc:RibbonBarPanel Height="89" >
-                        <dc:RibbonBar Name="ribbonBarTutorial" Header="{Loc RBHeader_CrypTutorial}" ToolTip="{Loc RBTooltip_CrypTutorial}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
-                            <!-- filled automatically by InitCrypTutorials(...) -->
-                        </dc:RibbonBar>
+                        <DockPanel LastChildFill="True">
+                            <DockPanel.Width>
+                                <Binding ElementName="AppRibbon" Path="ActualWidth" Mode="OneWay" Converter="{StaticResource PanelWidthConverter}"/>
+                            </DockPanel.Width>
+                            <dc:RibbonBar Name="ribbonBarTutorial" Header="{Loc RBHeader_CrypTutorial}" ToolTip="{Loc RBTooltip_CrypTutorial}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT" DockPanel.Dock="Left">
+                                <!-- filled automatically by InitCrypTutorials(...) -->
+                            </dc:RibbonBar>
+                            <Grid x:Name="ManagementRootTutorials" HorizontalAlignment="Right">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform X="8"></TranslateTransform>
+                                </Grid.RenderTransform>
+                            </Grid>
+                        </DockPanel>
                     </dc:RibbonBarPanel>
                 </dc:RibbonTab>
 

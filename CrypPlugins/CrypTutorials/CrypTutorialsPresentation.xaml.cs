@@ -366,7 +366,8 @@ namespace Cryptool.CrypTutorials
         {
             if (path == null)
             {
-                _timer.Start();
+                if(!_timer.IsEnabled)
+                    _timer.Start();
                 return false;
             }
 
@@ -391,7 +392,8 @@ namespace Cryptool.CrypTutorials
             }
             catch (Exception)
             {
-                _timer.Start();
+                if (!_timer.IsEnabled)
+                    _timer.Start();
                 return false;
             }
         }
