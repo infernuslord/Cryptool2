@@ -2699,6 +2699,37 @@ namespace Cryptool.CrypWin
             }
             Clipboard.SetText(sb.ToString());
         }
+
+        private void clearManagement()
+        {
+            ManagementRootEdit.Children.Clear();
+            ManagementRootTutorials.Children.Clear();
+            ManagementRootMain.Children.Clear();
+        }
+
+        private void AppRibbon_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ribbonTabHome.IsSelected)
+            {
+                clearManagement();
+                ManagementRootMain.Children.Add(ribbonManagement);
+                return;
+            }
+
+            if (ribbonTabEdit.IsSelected)
+            {
+                clearManagement();
+                ManagementRootEdit.Children.Add(ribbonManagement);
+                return;
+            }
+
+            if (ribbonTabView.IsSelected)
+            {
+                clearManagement();
+                ManagementRootTutorials.Children.Add(ribbonManagement);
+                return;
+            }
+        }
     }
 
     # region helper class
