@@ -244,7 +244,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Initialize()
         {
-            settings.Initialize();
+            
         }
 
         public void Dispose()

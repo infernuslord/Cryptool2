@@ -58,6 +58,10 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

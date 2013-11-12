@@ -132,6 +132,10 @@ namespace Cryptool.BooleanFunctionParser
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 

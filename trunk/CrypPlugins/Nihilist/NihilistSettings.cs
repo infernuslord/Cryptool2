@@ -66,6 +66,10 @@ namespace Nihilist
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string name)
         {

@@ -77,6 +77,10 @@ namespace Cryptool.Plugins.StegoPermutation
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string prop)
         {

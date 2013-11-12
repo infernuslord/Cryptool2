@@ -763,6 +763,10 @@ namespace WorkspaceManagerModel.Model.Operations
                     {
                         pluginModel.Plugin.Initialize();
                         pluginModel.PercentageFinished = 0;
+                        if (pluginModel.Plugin.Settings != null)
+                        {
+                            pluginModel.Plugin.Settings.Initialize();
+                        }
                     }
                     catch (Exception ex)
                     {

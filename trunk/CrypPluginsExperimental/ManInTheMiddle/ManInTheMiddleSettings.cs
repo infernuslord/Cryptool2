@@ -47,6 +47,11 @@ namespace ManInTheMiddle
         #region INotifyPropertyChanged Member
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));

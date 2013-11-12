@@ -20,5 +20,11 @@ namespace Cryptool.PluginBase
 {
     public interface ISettings : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Initialize initalizes the settings of a component. it is called directly after the call of the Initialize call of the component.
+        /// This method should be used for example to hide settings values which are disabled by default (for instance at the enigma some
+        /// settings are hidden if the enigma is set to analyse mode
+        /// </summary>
+        void Initialize();
     }
 }

@@ -224,6 +224,10 @@ namespace Cryptool.Plugins.NetworkReceiver
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
     
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

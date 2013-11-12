@@ -135,6 +135,10 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         protected void OnPropertyChanged(string name)
         {

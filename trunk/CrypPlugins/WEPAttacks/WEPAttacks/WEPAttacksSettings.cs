@@ -125,6 +125,11 @@ namespace Cryptool.WEPAttacks
         #region INotifyPropertyChanged Member
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

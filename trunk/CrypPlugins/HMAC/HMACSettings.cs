@@ -45,6 +45,10 @@ namespace Cryptool.HMAC
 
 #pragma warning disable 67
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 #pragma warning restore
 
         protected void OnPropertyChanged(string name)

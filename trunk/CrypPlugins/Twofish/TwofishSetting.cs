@@ -130,8 +130,12 @@ namespace Twofish
     #region INotifyPropertyChanged Member
 
     public event PropertyChangedEventHandler  PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    /// <summary>
+      /// <summary>
     /// Called when [property changed].
     /// </summary>
     /// <param name="name">The name.</param>

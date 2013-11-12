@@ -55,6 +55,10 @@ namespace SolitaireAnalyser
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string property)
         {

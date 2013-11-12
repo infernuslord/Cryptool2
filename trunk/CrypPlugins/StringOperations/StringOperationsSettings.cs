@@ -39,6 +39,10 @@ namespace StringOperations
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
 

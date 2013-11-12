@@ -25,6 +25,10 @@ namespace Cryptool.Plugins.HC128
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

@@ -130,8 +130,12 @@ namespace TextOutput
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    public void OnPropertyChanged(string name)
+      public void OnPropertyChanged(string name)
     {
       if (PropertyChanged != null)
       {

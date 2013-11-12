@@ -346,7 +346,12 @@ namespace Soap
         #region INotifyPropertyChanged Member
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
+      public void Initialize()
+      {
+          
+      }
+
+      protected void OnPropertyChanged(string name)
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }

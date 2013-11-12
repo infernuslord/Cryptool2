@@ -64,6 +64,10 @@ namespace WordPatterns
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
     }

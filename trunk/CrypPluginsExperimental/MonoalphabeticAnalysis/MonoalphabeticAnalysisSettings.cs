@@ -421,6 +421,10 @@ namespace Cryptool.MonoalphabeticAnalysis
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         protected void OnPropertyChanged(string name)
         {

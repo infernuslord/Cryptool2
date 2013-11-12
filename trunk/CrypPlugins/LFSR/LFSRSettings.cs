@@ -227,6 +227,10 @@ namespace Cryptool.LFSR
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         // this event is for disabling stuff in the settings pane
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;

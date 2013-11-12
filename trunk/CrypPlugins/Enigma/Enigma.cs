@@ -560,7 +560,6 @@ namespace Cryptool.Enigma
         public void Initialize()
         {
             LogMessage("Initializing..", NotificationLevel.Debug);
-            this.settings.Initialize();
         }
 
         public void Dispose()

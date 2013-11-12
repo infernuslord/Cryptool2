@@ -38,6 +38,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #region events
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         #endregion

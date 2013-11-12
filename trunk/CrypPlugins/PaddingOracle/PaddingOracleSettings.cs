@@ -64,6 +64,11 @@ namespace Cryptool.Plugins.PaddingOracle
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void Initialize()
+        {
+            
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);

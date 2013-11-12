@@ -170,6 +170,10 @@ namespace WorkspaceManager.Model
                 try
                 {
                     pluginModel.Plugin.Initialize();
+                    if (pluginModel.Plugin.Settings != null)
+                    {
+                        pluginModel.Plugin.Settings.Initialize();
+                    }
                     pluginModel.PercentageFinished = 0;
                 }
                 catch (Exception ex)

@@ -176,6 +176,10 @@ namespace Cryptool.Plugins.BB84PhotonEncoder
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

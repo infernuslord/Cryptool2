@@ -112,8 +112,12 @@ namespace SmartCard
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    protected void OnPropertyChanged(string name)
+      protected void OnPropertyChanged(string name)
     {
       EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
     }

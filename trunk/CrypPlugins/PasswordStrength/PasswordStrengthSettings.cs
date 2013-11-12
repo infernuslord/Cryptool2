@@ -23,6 +23,10 @@ namespace Cryptool.Plugins.Tools
     public class PasswordStrengthSettings : ISettings
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
     }
 
 }

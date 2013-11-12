@@ -55,6 +55,10 @@ namespace RegularExpressions
         #region INotifyPropertyChanged Member
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
     }

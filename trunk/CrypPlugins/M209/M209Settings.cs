@@ -721,6 +721,11 @@ namespace Cryptool.Plugins.M209
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

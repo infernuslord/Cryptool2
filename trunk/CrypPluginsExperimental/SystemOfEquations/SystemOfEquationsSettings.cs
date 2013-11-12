@@ -62,6 +62,11 @@ namespace Cryptool.SystemOfEquations
         #endregion
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         protected void OnPropertyChanged(String name)
         {
             if (PropertyChanged != null)
