@@ -75,6 +75,9 @@ namespace NativeCryptography {
 
 		AES_KEY aeskey;
 		DES_key_schedule deskey;
+		DES_key_schedule deskey2;
+		DES_key_schedule deskey3;
+
 		if (mode == 2)	//CFB
 		{			
 			unsigned char block[16];	//16 is enough for AES and DES
@@ -97,16 +100,51 @@ namespace NativeCryptography {
 			
 			if (method == cryptMethod::methodAES)
 				AES_set_encrypt_key(key, bits, &aeskey);
+			else if(method == cryptMethod::methodDES)
+				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);			
 			else
-				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
+			{
+				array<unsigned char>^ Key1 = gcnew array<unsigned char>(8);
+				array<unsigned char>^ Key2 = gcnew array<unsigned char>(8);
+				array<unsigned char>^ Key3 = gcnew array<unsigned char>(8);
 
-			encrypt(iv, block, method, &aeskey, &deskey);
+				for(int i=0;i<8;i++){
+					Key1[i] = Key[i];
+					Key2[i] = Key[8+i];
+					Key3[i] = Key[16+i];
+				}
+
+				pin_ptr<unsigned char> key1 = &Key1[0];
+				pin_ptr<unsigned char> key2 = &Key2[0];
+				pin_ptr<unsigned char> key3 = &Key3[0];
+
+				DES_set_key_unchecked((const_DES_cblock*)key1, &deskey);
+				DES_set_key_unchecked((const_DES_cblock*)key2, &deskey2);
+				DES_set_key_unchecked((const_DES_cblock*)key3, &deskey3);
+			}	
+
+			if(method == cryptMethod::method3DES){
+				encrypt(iv, block, cryptMethod::methodDES, &aeskey, &deskey);
+				decrypt(block, block, cryptMethod::methodDES, &aeskey, &deskey2);
+				encrypt(block, block, cryptMethod::methodDES, &aeskey, &deskey3);					
+			}else{
+				encrypt(iv, block, method, &aeskey, &deskey);
+			}
+
 			unsigned char leftmost = block[0];
 			outp[0] = leftmost ^ input[0];
 
 			for (int i = 1; i < length; i++)
 			{
-				encrypt(shiftregister, block, method, &aeskey, &deskey);
+				
+				if(method == cryptMethod::method3DES){
+					encrypt(shiftregister, block, cryptMethod::methodDES, &aeskey, &deskey);
+					decrypt(block, block, cryptMethod::methodDES, &aeskey, &deskey2);
+					encrypt(block, block, cryptMethod::methodDES, &aeskey, &deskey3);
+				}else{
+					encrypt(shiftregister, block, method, &aeskey, &deskey);
+				}
+
 				leftmost = block[0];
 				outp[i] = leftmost ^ input[i];
 				
@@ -129,15 +167,52 @@ namespace NativeCryptography {
 		{
 			if (method == cryptMethod::methodAES)
 				AES_set_decrypt_key(key, bits, &aeskey);
-			else
+			else if(method == cryptMethod::methodDES)
 				DES_set_key_unchecked((const_DES_cblock*)key, &deskey);
+			else
+			{
+				array<unsigned char>^ Key1 = gcnew array<unsigned char>(8);
+				array<unsigned char>^ Key2 = gcnew array<unsigned char>(8);
+				array<unsigned char>^ Key3 = gcnew array<unsigned char>(8);
 
-			decrypt(input, outp, method, &aeskey, &deskey);				
+				for(int i=0;i<8;i++){
+					Key1[i] = Key[i];
+					Key2[i] = Key[8+i];
+					Key3[i] = Key[16+i];
+				}
+
+				pin_ptr<unsigned char> key1 = &Key1[0];
+				pin_ptr<unsigned char> key2 = &Key2[0];
+				pin_ptr<unsigned char> key3 = &Key3[0];
+
+				DES_set_key_unchecked((const_DES_cblock*)key1, &deskey);
+				DES_set_key_unchecked((const_DES_cblock*)key2, &deskey2);
+				DES_set_key_unchecked((const_DES_cblock*)key3, &deskey3);
+			}	
+
+			if(method == cryptMethod::method3DES){
+				decrypt(input, outp, cryptMethod::methodDES, &aeskey, &deskey3);
+				encrypt(outp, outp, cryptMethod::methodDES, &aeskey, &deskey2);
+				decrypt(outp, outp, cryptMethod::methodDES, &aeskey, &deskey);
+			}else{
+				decrypt(input, outp, method, &aeskey, &deskey);
+			}	
+
 			if (mode == 1 && !noIV)		//CBC
 				xorblock(outp, iv, method);	
 			for (int c = 1; c < numBlocks; c++)
 			{
-				decrypt(input+c*blockSize, outp+c*blockSize, method, &aeskey, &deskey);
+
+				if(method == cryptMethod::method3DES)
+				{
+					decrypt(input+c*blockSize, outp+c*blockSize, cryptMethod::methodDES, &aeskey, &deskey3);
+					encrypt(outp+c*blockSize, outp+c*blockSize, cryptMethod::methodDES, &aeskey, &deskey2);
+					decrypt(outp+c*blockSize, outp+c*blockSize, cryptMethod::methodDES, &aeskey, &deskey);
+				}
+				else
+				{
+					decrypt(input+c*blockSize, outp+c*blockSize, method, &aeskey, &deskey);
+				}
 				if (mode == 1)		//CBC
 					xorblock(outp+c*blockSize, input+(c-1)*blockSize, method);				
 			}

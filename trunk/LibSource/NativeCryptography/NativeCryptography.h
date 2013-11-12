@@ -12,7 +12,7 @@ namespace NativeCryptography {
 	public ref class Crypto
 	{
 	private:
-		enum class cryptMethod {methodAES, methodDES};
+		enum class cryptMethod {methodAES, methodDES, method3DES};
 
 		static array<unsigned char>^ zeroIV8 = gcnew array<unsigned char>(8);
 		static array<unsigned char>^ zeroIV16 = gcnew array<unsigned char>(16);
@@ -45,22 +45,8 @@ namespace NativeCryptography {
 
 		static array<unsigned char>^ decryptTripleDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int length, const int mode)
 		{
-			const int blockSize = 8;
-			
-			array<unsigned char>^ Key1 = gcnew array<unsigned char>(8);
-			array<unsigned char>^ Key2 = gcnew array<unsigned char>(8);
-			array<unsigned char>^ Key3 = gcnew array<unsigned char>(8);
-
-			for(int i=0;i<8;i++){
-				Key1[i] = Key[i];
-				Key2[i] = Key[8+i];
-				Key3[i] = Key[16+i];
-			}
-
-			array<unsigned char>^ plain1 = decryptAESorDES(Input, Key3, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			array<unsigned char>^ plain2 = encryptAESorDES(plain1, Key2, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			array<unsigned char>^ plain3 = decryptAESorDES(plain2, Key1, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			return plain3;
+			const int blockSize = 8;			
+			return decryptAESorDES(Input, Key, IV, 0, length, mode, blockSize, cryptMethod::method3DES);
 		}
 
 		static array<unsigned char>^ encryptAES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int bits, const int length, const int mode)
@@ -73,27 +59,7 @@ namespace NativeCryptography {
 		{
 			const int blockSize = 8;
 			return encryptAESorDES(Input, Key, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-		}
-
-		static array<unsigned char>^ encryptTripleDES(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int length, const int mode)
-		{
-			const int blockSize = 8;
-			
-			array<unsigned char>^ Key1 = gcnew array<unsigned char>(8);
-			array<unsigned char>^ Key2 = gcnew array<unsigned char>(8);
-			array<unsigned char>^ Key3 = gcnew array<unsigned char>(8);
-
-			for(int i=0;i<8;i++){
-				Key1[i] = Key[i];
-				Key2[i] = Key[8+i];
-				Key3[i] = Key[16+i];
-			}
-
-			array<unsigned char>^ cipher1 = encryptAESorDES(Input, Key1, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			array<unsigned char>^ cipher2 = decryptAESorDES(cipher1, Key2, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			array<unsigned char>^ cipher3 = encryptAESorDES(cipher2, Key3, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
-			return cipher3;
-		}
+		}		
 
 		static array<unsigned char>^ decryptRC2(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int length, const int mode)
 		{
