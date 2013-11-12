@@ -33,6 +33,10 @@ namespace Cryptool.Plugins.BooleanOperators
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
     }

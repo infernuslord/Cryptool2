@@ -403,7 +403,7 @@ namespace KeySearcher
 
         public void Initialize()
         {
-            settings.Initialize();
+            
         }
 
         public void Dispose()

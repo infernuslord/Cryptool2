@@ -179,6 +179,10 @@ namespace Cryptool.Plugins.NetworkSender
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string propertyName)
         {

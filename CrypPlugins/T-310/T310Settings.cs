@@ -61,6 +61,10 @@ namespace Cryptool.Plugins.T310
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         public void OnPropertyChanged(string name)
         {

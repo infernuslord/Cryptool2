@@ -44,6 +44,10 @@ namespace Cryptool.Plugins.RSA
         #region events
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
 

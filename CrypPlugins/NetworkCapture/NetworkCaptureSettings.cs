@@ -65,6 +65,10 @@ namespace Cryptool.Plugins.NetworkCapture
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         protected void OnPropertyChanged(string name)
         {

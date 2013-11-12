@@ -14,6 +14,10 @@ namespace Cryptool.Plugins.RegularExpressions
         #region INotifyPropertyChanged Member
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
     }

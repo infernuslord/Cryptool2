@@ -132,6 +132,11 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         

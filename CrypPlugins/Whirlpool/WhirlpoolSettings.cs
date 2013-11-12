@@ -57,8 +57,12 @@ namespace Whirlpool
     #region INotifyPropertyChanged Member
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    /// <summary>
+      /// <summary>
     /// Called when [property changed].
     /// </summary>
     /// <param name="name">The name.</param>

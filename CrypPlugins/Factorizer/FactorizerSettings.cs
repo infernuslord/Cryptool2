@@ -72,6 +72,10 @@ namespace Factorizer
         }
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void FirePropertyChangedEvent(string propertyName)
         {

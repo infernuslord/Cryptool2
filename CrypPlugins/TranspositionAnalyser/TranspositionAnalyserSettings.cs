@@ -231,6 +231,10 @@ namespace TranspositionAnalyser
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string name)
         {

@@ -53,6 +53,10 @@ namespace FileInput
         #region ISettings Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
 

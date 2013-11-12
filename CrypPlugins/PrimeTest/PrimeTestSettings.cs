@@ -15,7 +15,12 @@ namespace PrimeTest
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-    private void FirePropertyChangeEvent(string propertyName)
+      public void Initialize()
+      {
+          
+      }
+
+      private void FirePropertyChangeEvent(string propertyName)
     {
       if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
     }

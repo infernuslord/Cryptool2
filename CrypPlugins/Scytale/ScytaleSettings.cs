@@ -55,6 +55,10 @@ namespace Cryptool.Scytale
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string name)
         {

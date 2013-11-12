@@ -48,8 +48,12 @@ namespace Cryptool.PrimesGenerator
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    private void FirePropertyChangedEvent(string propertyName)
+      private void FirePropertyChangedEvent(string propertyName)
     {
       if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
     }

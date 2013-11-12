@@ -84,6 +84,11 @@ namespace Cryptool.Internet_frame_generator
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         public void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

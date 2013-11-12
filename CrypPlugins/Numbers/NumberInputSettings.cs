@@ -63,6 +63,10 @@ namespace Cryptool.Plugins.Numbers
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string p)
         {

@@ -512,6 +512,11 @@ namespace Cryptool.Plugins.SpanishStripCipher
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);

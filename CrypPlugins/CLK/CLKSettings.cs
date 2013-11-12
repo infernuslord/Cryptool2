@@ -130,8 +130,12 @@ namespace Cryptool.CLK
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+      public void Initialize()
+      {
+          
+      }
 
-    // this event is for disabling stuff in the settings pane
+      // this event is for disabling stuff in the settings pane
     public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
     public void OnPropertyChanged(string name)

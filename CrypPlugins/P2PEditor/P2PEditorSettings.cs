@@ -87,6 +87,10 @@ namespace Cryptool.P2PEditor
         #region ISettings Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         #endregion
 

@@ -261,6 +261,10 @@ namespace Cryptool.CRC
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         protected void OnPropertyChanged(string name)
         {

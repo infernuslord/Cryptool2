@@ -37,6 +37,10 @@ namespace Cryptool.Plugins.UserCode
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+        public void Initialize()
+        {
+            
+        }
 
         private void OnPropertyChanged(string p)
         {
