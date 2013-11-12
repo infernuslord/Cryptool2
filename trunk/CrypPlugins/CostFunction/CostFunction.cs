@@ -423,35 +423,26 @@ namespace Cryptool.Plugins.CostFunction
 
         /// <summary>
         /// Calculates the Index of Coincidence of
-        /// a given byte array
+        /// a given byte array using different "block sizes"
+        /// block size means that a block of symbols is used as if it would be a single symbol
+        /// This can be used for example for breaking the ADFGVX where bigrams count as a single symbol
         /// 
         /// for example a German text has about 0.0762
         ///           an English text has about 0.0661
         /// </summary>
         /// <param name="text">text to use</param>
-        /// <param name="text">bytesToUse</param>
-        /// <returns>Index of Coincidence</returns>
-        /// <summary>
-        /// Calculates the Index of Coincidence of
-        /// a given byte array
-        /// 
-        /// for example a German text has about 0.0762
-        ///           an English text has about 0.0661
-        /// </summary>
-        /// <param name="text">text to use</param>
-        /// <param name="text">bytesToUse</param>
         /// <returns>Index of Coincidence</returns>
         public double calculateIndexOfCoincidence(byte[] text, int bytesToUse, int blocksize = 1)
         {
             if (bytesToUse > text.Length)
                 bytesToUse = text.Length;
 
-            Dictionary<String, int> n = new Dictionary<String, int>();
-            for (int i = 0; i < bytesToUse / blocksize; i++)
+            var n = new Dictionary<String, int>();
+            for (var i = 0; i < bytesToUse / blocksize; i++)
             {
-                byte[] b = new byte[blocksize];
+                var b = new byte[blocksize];
                 Array.Copy(text, i * blocksize, b, 0, blocksize);
-                String key = Encoding.ASCII.GetString(b);
+                var key = Encoding.ASCII.GetString(b);
 
                 if (!n.Keys.Contains(key))
                 {
@@ -462,18 +453,57 @@ namespace Cryptool.Plugins.CostFunction
 
             double coindex = 0;
             //sum them
-            for (int i = 0; i < n.Count; i++)
+            for (var i = 0; i < n.Count; i++)
             {
                 coindex = coindex + n.Values.ElementAt(i) * (n.Values.ElementAt(i) - 1);
             }
 
-            coindex = coindex / ((double)bytesToUse/blocksize);
-            coindex = coindex / ((double)bytesToUse / blocksize - 1);
+            coindex = coindex / (bytesToUse / (double)blocksize);
+            coindex = coindex / ((bytesToUse / (double)blocksize) - 1);
 
             return coindex;
 
         }//end calculateIndexOfCoincidence
 
+        /// <summary>
+        /// Calculates the Index of Coincidence of
+        /// a given byte array only for single letters
+        /// (Fast implementation)
+        /// 
+        /// for example a German text has about 0.0762
+        ///           an English text has about 0.0661
+        /// </summary>
+        /// <param name="text">text to use</param>
+        /// <returns>Index of Coincidence</returns>
+        public double calculateFastIndexOfCoincidence(byte[] text, int bytesToUse)
+        {
+            if (bytesToUse > text.Length)
+                bytesToUse = text.Length;
+
+            var n = new double[256];
+            //count all ASCII symbols 
+            int counter = 0;
+            foreach (byte b in text)
+            {
+                n[b]++;
+                counter++;
+                if (counter == bytesToUse)
+                    break;
+            }
+
+            double coindex = 0;
+            //sum them
+            for (int i = 0; i < n.Length; i++)
+            {
+                coindex = coindex + n[i] * (n[i] - 1);
+            }
+
+            coindex = coindex / (bytesToUse);
+            coindex = coindex / (bytesToUse - 1);
+
+            return coindex;
+
+        }//end calculateFastIndexOfCoincidence
 
         private int lastUsedSize = -1;
         private float[] xlogx;
@@ -891,6 +921,10 @@ namespace Cryptool.Plugins.CostFunction
             switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
+                    if (((CostFunctionSettings)plugin.Settings).BlocksizeToUseInteger == 1)
+                    {
+                        return  plugin.calculateFastIndexOfCoincidence(text, bytesToUse());
+                    }                  
                     return plugin.calculateIndexOfCoincidence(text, bytesToUse(), ((CostFunctionSettings)plugin.Settings).BlocksizeToUseInteger);
                 case 1: //Entropy
                     return plugin.calculateEntropy(text, bytesToUse());
