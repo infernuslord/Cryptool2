@@ -86,17 +86,16 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="BouncyCastle.CryptoExt">
       <HintPath>..\..\Lib\BouncyCastle.CryptoExt.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ExtendedNTL, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\ExtendedNTL.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
@@ -365,6 +364,7 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
