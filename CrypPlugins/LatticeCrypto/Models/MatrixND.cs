@@ -579,6 +579,19 @@ namespace LatticeCrypto.Models
             return matStr;
         }
 
+        public override bool Equals(object obj)
+        {
+            MatrixND m = (MatrixND) obj;
+            if (cols != m.cols || rows != m.rows)
+                return false;
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    if (this[i, j] != m[i, j])
+                        return false;
+            return true;
+        }
+
 
 
         //   O P E R A T O R S
@@ -596,6 +609,9 @@ namespace LatticeCrypto.Models
         { return StrassenMultiply(m1, m2); }
 
         public static MatrixND operator *(double n, MatrixND m)
+        { return Multiply(n, m); }
+
+        public static MatrixND operator *(MatrixND m, double n)
         { return Multiply(n, m); }
 
         public static MatrixND operator %(MatrixND m, int q)
