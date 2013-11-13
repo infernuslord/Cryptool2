@@ -7,10 +7,11 @@ namespace LatticeCrypto.Models
     {
         public int n;
         public int m;
+        public int l;
         public int q;
-        public MatrixND s;
+        public MatrixND S;
         public MatrixND A;
-        public MatrixND b;
+        public MatrixND B;
         public MatrixND e;
         public MatrixND r;
         public MatrixND u;
@@ -20,16 +21,18 @@ namespace LatticeCrypto.Models
         public LWEModel ()
         {}
 
-        public LWEModel (int n, int q, bool isSquare)
+        public LWEModel (int n, int l, int q, bool isSquare)
         {
             this.n = n;
             m = isSquare ? n : (int)Math.Round(1.1*n*Math.Log(q));
+            this.l = l;
             this.q = q;
             Random random = new Random();
             
-            s = new MatrixND(n, 1);
+            S = new MatrixND(n, l);
             for (int i = 0; i < n; i++)
-                s[i, 0] = random.Next(q);
+                for (int j = 0; j < l; j++)
+                S[i, j] = random.Next(q);
             
             A = new MatrixND(m,n);
             for (int i = 0; i < m; i++)
@@ -39,11 +42,12 @@ namespace LatticeCrypto.Models
             alpha = 1/(Math.Sqrt(n)*Math.Pow(Math.Log(n), 2));
             std = (alpha * q) / Math.Sqrt(2 * Math.PI);
 
-            e = new MatrixND(m, 1);
+            e = new MatrixND(m, l);
             for (int i = 0; i < m; i++)
-                e[i, 0] = (int)Math.Round(random.NextGaussian(0, std));
+                for (int j = 0; j < l; j++)
+                    e[i, j] = (int)Math.Round(random.NextGaussian(0, std)) % q;
 
-            b = (A*s + e) % q;
+            B = (A*S + e) % q;
         }
 
         public void GenerateNewRandomVector()
@@ -55,30 +59,33 @@ namespace LatticeCrypto.Models
             u = r * A;
         }
 
-        public EncryptLWETupel Encrypt(int bit)
+        public EncryptLWETupel Encrypt(MatrixND message)
         {
-            double c = (r*b)[0, 0] + bit * Math.Floor((double)q/2);
-            return new EncryptLWETupel(((int) c) % q, u % q);
+            MatrixND c = r * B + message * Math.Floor((double)q / 2);
+            return new EncryptLWETupel(c % q, u % q);
         }
 
-        public int Decrypt (EncryptLWETupel enc)
+        public MatrixND Decrypt(EncryptLWETupel enc)
         {
-            double result = (enc.c - (enc.u*s)[0,0]) % q;
-            if (result < 0)
-                result += q;
+            MatrixND result = (enc.c - (enc.u * S)) % q;
+            MatrixND message = new MatrixND(1, l);
 
-            double disZero = Math.Min(Math.Abs(q - result), result);
-            double disOne = Math.Abs((Math.Floor((double) q/2) - result) % q);
-            return disOne < disZero ? 1 : 0;
+            for (int i = 0; i < l; i++)
+            {
+                double disZero = Math.Min(Math.Abs(q - result[0,i]), result[0,i]);
+                double disOne = Math.Abs((Math.Floor((double) q/2) - result[0,i])%q);
+                message[0, i] = disOne < disZero ? 1 : 0;
+            }
+            return message;
         }
     }
 
     public class EncryptLWETupel
     {
-        public int c;
+        public MatrixND c;
         public MatrixND u;
 
-        public EncryptLWETupel(int c, MatrixND u)
+        public EncryptLWETupel(MatrixND c, MatrixND u)
         {
             this.c = c;
             this.u = u;

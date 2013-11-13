@@ -22,19 +22,19 @@ namespace LatticeCrypto.ViewModels
         {
             UiServices.SetBusyState();
 
-            LWE = new LWEModel(dim, q, true);
+            LWE = new LWEModel(dim, 1, q, true);
             LWE.GenerateNewRandomVector();
 
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyS)));
-            paragraph.Inlines.Add(" " + LWE.s + "\r\n");
+            paragraph.Inlines.Add(" " + LWE.S + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyA)));
             paragraph.Inlines.Add(" " + LWE.A + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelAlpha)));
-            paragraph.Inlines.Add(" " + LWE.alpha + "\r\n");
+            paragraph.Inlines.Add(" " + Util.FormatDoubleLog(LWE.alpha) + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB2)));
-            paragraph.Inlines.Add(" " + LWE.b + "\r\n");
+            paragraph.Inlines.Add(" " + LWE.B + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelModuloQ)));
             paragraph.Inlines.Add(" " + LWE.q + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelRandomVectorR)));
@@ -84,7 +84,9 @@ namespace LatticeCrypto.ViewModels
                     parameter1 =>
                     {
                         UiServices.SetBusyState();
-                        cipher = LWE.Encrypt(int.Parse(message));
+                        MatrixND mesMat = new MatrixND(1,1);
+                        mesMat[0, 0] = int.Parse(message);
+                        cipher = LWE.Encrypt(mesMat);
 
                         Paragraph paragraph = new Paragraph();
                         paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
@@ -114,7 +116,7 @@ namespace LatticeCrypto.ViewModels
                         Paragraph paragraph = new Paragraph();
                         try
                         {
-                            Message = LWE.Decrypt(cipher).ToString();
+                            Message = LWE.Decrypt(cipher)[0, 0].ToString();
                             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
                             paragraph.Inlines.Add(" " + Cipher + "\r\n");
@@ -144,21 +146,27 @@ namespace LatticeCrypto.ViewModels
         {
             GridS.RowDefinitions.Clear();
             GridS.ColumnDefinitions.Clear();
-            GridS.ColumnDefinitions.Add(new ColumnDefinition());
             GridS.Children.Clear();
 
             for (int i = 0; i < LWE.n; i++)
+                GridS.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
+            for (int i = 0; i < LWE.l; i++)
+                GridS.ColumnDefinitions.Add(new ColumnDefinition());
+
+            for (int i = 0; i < LWE.n; i++)
             {
-                GridS.RowDefinitions.Add(new RowDefinition {Height = new GridLength(35)});
-                TextBlock textBlock = new TextBlock
-                        {
-                            Text = LWE.s[i,0].ToString(),
-                            Margin = new Thickness(10, 0, 10, 0),
-                            TextAlignment = TextAlignment.Right
-                        };
-                Grid.SetColumn(textBlock, 0);
-                Grid.SetRow(textBlock, i);
-                GridS.Children.Add(textBlock);
+                for (int j = 0; j < LWE.l; j++)
+                {
+                    TextBlock textBlock = new TextBlock
+                    {
+                        Text = LWE.S[i, j].ToString(),
+                        Margin = new Thickness(10, 0, 10, 0),
+                        TextAlignment = TextAlignment.Right
+                    };
+                    Grid.SetColumn(textBlock, j);
+                    Grid.SetRow(textBlock, i);
+                    GridS.Children.Add(textBlock);
+                }
             }
 
             GridA.RowDefinitions.Clear();
@@ -188,21 +196,27 @@ namespace LatticeCrypto.ViewModels
 
             GridB.RowDefinitions.Clear();
             GridB.ColumnDefinitions.Clear();
-            GridB.ColumnDefinitions.Add(new ColumnDefinition());
             GridB.Children.Clear();
 
             for (int i = 0; i < LWE.m; i++)
-            {
                 GridB.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                TextBlock textBlock = new TextBlock
+            for (int i = 0; i < LWE.n; i++)
+                GridB.ColumnDefinitions.Add(new ColumnDefinition());
+
+            for (int i = 0; i < LWE.m; i++)
+            {
+                for (int j = 0; j < LWE.l; j++)
                 {
-                    Text = LWE.b[i, 0].ToString(),
-                    Margin = new Thickness(10, 0, 10, 0),
-                    TextAlignment = TextAlignment.Right
-                };
-                Grid.SetColumn(textBlock, 0);
-                Grid.SetRow(textBlock, i);
-                GridB.Children.Add(textBlock);
+                    TextBlock textBlock = new TextBlock
+                    {
+                        Text = LWE.B[i, j].ToString(),
+                        Margin = new Thickness(10, 0, 10, 0),
+                        TextAlignment = TextAlignment.Right
+                    };
+                    Grid.SetColumn(textBlock, j);
+                    Grid.SetRow(textBlock, i);
+                    GridB.Children.Add(textBlock);
+                }
             }
         }
 
@@ -220,7 +234,7 @@ namespace LatticeCrypto.ViewModels
         {
             get
             {
-                return cipher == null ? "" : cipher.c.ToString();
+                return cipher == null ? "" : cipher.c[0, 0].ToString();
             }
         }
 

@@ -447,4 +447,7 @@
   <data name="tabSVP" xml:space="preserve">
     <value>Shortest Vector Problem</value>
   </data>
+  <data name="labelBlockSizeL" xml:space="preserve">
+    <value>Block size l:</value>
+  </data>
 </root>

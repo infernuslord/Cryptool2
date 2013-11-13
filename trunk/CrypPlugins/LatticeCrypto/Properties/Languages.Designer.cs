@@ -403,6 +403,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blocklänge l: ähnelt.
+        /// </summary>
+        public static string labelBlockSizeL {
+            get {
+                return ResourceManager.GetString("labelBlockSizeL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Geheimtext: ähnelt.
         /// </summary>
         public static string labelCiphertext {
