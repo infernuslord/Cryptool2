@@ -1241,83 +1241,102 @@ namespace WorkspaceManager.View.Visuals
                 child.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                 child.Arrange(new Rect(child.DesiredSize));
 
-                if (child is TextBlock || child is Expander)
+                if (child is TextBlock)
+                {
+                    TextBlock caption = child as TextBlock;
+                    if (child.Visibility == Visibility.Visible || overRun)
                     {
-                        TextBlock caption = child as TextBlock;
-                        if (child.Visibility == Visibility.Visible || overRun)
+                        if (caption != null)
                         {
-                            if (caption != null)
-                            {
-                                FormattedText formattedText = new FormattedText(
-                                    caption.Text,
-                                    CultureInfo.GetCultureInfo("en-us"),
-                                    FlowDirection.LeftToRight,
-                                    new Typeface(caption.FontFamily.ToString()),
-                                    caption.FontSize,
-                                    Brushes.Black);
+                            FormattedText formattedText = new FormattedText(
+                                "1234567890123456789012345678901234567890",
+                                CultureInfo.GetCultureInfo("en-us"),
+                                FlowDirection.LeftToRight,
+                                new Typeface(caption.FontFamily.ToString()),
+                                caption.FontSize,
+                                Brushes.Black);
 
-                                if (formattedText.WidthIncludingTrailingWhitespace > maxSizeCaption)
-                                {
-                                    maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace + 10;
-                                }
+                            if (formattedText.WidthIncludingTrailingWhitespace > maxSizeCaption)
+                            {
+                                maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace + 10;
                             }
                         }
                     }
-                    else if (child is Grid)
+                }
+                else if (child is KeyTextBox.KeyTextBox)
+                {
+                    var keyTextBlock = child as KeyTextBox.KeyTextBox;
+                    if (child.Visibility == Visibility.Visible || overRun)
                     {
-
-                        if (maxGrid.Width < (child as Grid).DesiredSize.Width)
+                        if (keyTextBlock != null)
                         {
-                            maxGrid = child as Grid;
+                            FormattedText formattedText = new FormattedText(
+                                "1234567890123456789012345678901234567890",
+                                CultureInfo.GetCultureInfo("en-us"),
+                                FlowDirection.LeftToRight,
+                                new Typeface(keyTextBlock.FontFamily.ToString()),
+                                keyTextBlock.FontSize,
+                                Brushes.Black);
 
-                        }
-
-                    }
-                    else if (child is CheckBox)
-                    {
-                        if (child.DesiredSize.Width > maxSizeCB)
-                        {
-                            if (child.DesiredSize.Width != 0)
-                                maxSizeCB = child.DesiredSize.Width;
-                        }
-
-                    }
-                    else if (child is ComboBox)
-                    {
-                        double comboSize = SettingsVisual.getComboBoxMaxSize(child as ComboBox);
-                        if (comboSize > maxSizeContent)
-                        {
-                            if (comboSize != 0)
-                                maxSizeContent = comboSize;
+                            if (formattedText.WidthIncludingTrailingWhitespace > maxSizeCaption)
+                            {
+                                maxSizeCaption = formattedText.WidthIncludingTrailingWhitespace + 10;
+                            }
                         }
                     }
+                }
+                else if (child is Grid)
+                {
 
-                    else if (child is IntegerUpDown)
+                    if (maxGrid.Width < (child as Grid).DesiredSize.Width)
                     {
-                        IntegerUpDown intUD = child as IntegerUpDown;
-                        String s = intUD.Maximum + "";
-                        int intInput = 0;
-                        FormattedText ft = new FormattedText(s, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(intUD.FontFamily, intUD.FontStyle, intUD.FontWeight, intUD.FontStretch), intUD.FontSize, Brushes.Black);
+                        maxGrid = child as Grid;
+
+                    }
+
+                }
+                else if (child is CheckBox)
+                {
+                    if (child.DesiredSize.Width > maxSizeCB)
+                    {
+                        if (child.DesiredSize.Width != 0)
+                            maxSizeCB = child.DesiredSize.Width;
+                    }
+
+                }
+                else if (child is ComboBox)
+                {
+                    double comboSize = SettingsVisual.getComboBoxMaxSize(child as ComboBox);
+                    if (comboSize > maxSizeContent)
+                    {
+                        if (comboSize != 0)
+                            maxSizeContent = comboSize;
+                    }
+                }
+
+                else if (child is IntegerUpDown)
+                {
+                    IntegerUpDown intUD = child as IntegerUpDown;
+                    String s = intUD.Maximum + "";
+                    int intInput = 0;
+                    FormattedText ft = new FormattedText(s, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(intUD.FontFamily, intUD.FontStyle, intUD.FontWeight, intUD.FontStretch), intUD.FontSize, Brushes.Black);
                         
-                        if (ft.WidthIncludingTrailingWhitespace > maxSizeContent)
-                        {
-                            if (ft.WidthIncludingTrailingWhitespace != 0)
-                                maxSizeContent = ft.WidthIncludingTrailingWhitespace;
-                        }
-                    }
-
-
-                    else
+                    if (ft.WidthIncludingTrailingWhitespace > maxSizeContent)
                     {
-                        child.Measure(new Size(10, 10));
-                        if (child.DesiredSize.Width > maxSizeContent)
-                        {
-                            
-                            if (child.DesiredSize.Width != 0)
-                                maxSizeContent = child.DesiredSize.Width;
-                        }
+                        if (ft.WidthIncludingTrailingWhitespace != 0)
+                            maxSizeContent = ft.WidthIncludingTrailingWhitespace;
                     }
-                
+                }
+                else
+                {
+                    child.Measure(new Size(10, 10));
+                    if (child.DesiredSize.Width > maxSizeContent)
+                    {
+                            
+                        if (child.DesiredSize.Width != 0)
+                            maxSizeContent = child.DesiredSize.Width;
+                    }
+                }                
             }
 
             
