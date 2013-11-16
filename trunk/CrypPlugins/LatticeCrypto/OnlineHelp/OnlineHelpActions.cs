@@ -10,6 +10,7 @@
         MerkleHellman,
         RSA,
         GGH,
+        LWE,
         Codomain,
         CodomainLLL,
         DimensionLLL,

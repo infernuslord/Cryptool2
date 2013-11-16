@@ -313,6 +313,18 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;LWE-Kryptosystem&lt;/h2&gt;
+        ///&lt;p&gt;
+        ///    Todo&lt;/p&gt;
+        /// ähnelt.
+        /// </summary>
+        public static string LWE {
+            get {
+                return ResourceManager.GetString("LWE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Merkle-Hellman-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
         ///    Todo&lt;/p&gt;
