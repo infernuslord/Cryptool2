@@ -158,6 +158,10 @@ namespace LatticeCrypto.Views
             {
                 action = OnlineHelp.OnlineHelpActions.GGH;
             }
+            else if (m_ActualControl.GetType() == typeof(LWEView))
+            {
+                action = OnlineHelp.OnlineHelpActions.LWE;
+            }
 
             e.Handled = true;
             OnlineHelp.OnlineHelpAccess.ShowOnlineHelp(action);

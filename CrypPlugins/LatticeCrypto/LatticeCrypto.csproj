@@ -398,6 +398,9 @@
     <Content Include="OnlineHelp\HelpFiles\de\GGH.html">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="OnlineHelp\HelpFiles\de\LWE.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="OnlineHelp\HelpFiles\de\TargetPoint.html">
       <SubType>Designer</SubType>
     </Content>
@@ -444,6 +447,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="OnlineHelp\HelpFiles\en\GGH.html">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OnlineHelp\HelpFiles\en\LWE.html">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="OnlineHelp\HelpFiles\en\LengthVector.html">
