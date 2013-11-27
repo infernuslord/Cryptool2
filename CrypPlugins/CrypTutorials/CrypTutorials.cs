@@ -6,6 +6,7 @@ using Cryptool.CrypTutorials.Properties;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
+using Vlc.DotNet.Core;
 
 namespace Cryptool.CrypTutorials
 {
@@ -190,6 +191,8 @@ namespace Cryptool.CrypTutorials
 
         public void Dispose()
         {
+            if (!VlcContext.IsInitialized)
+                return;
             ((CrypTutorialsPresentation)Presentation).Player.Close();
         }
 
