@@ -118,7 +118,6 @@
         
         -->
 
-
         <Style  TargetType="Border" x:Key="border1" >
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="BorderBrush" Value="LightSeaGreen"/>
@@ -212,7 +211,7 @@
             <StackPanel>
                 <WrapPanel Name="myWrap"  Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}" >
 
-            </WrapPanel>
+                </WrapPanel>
             <StackPanel Name="myStack" Orientation="Vertical" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             </StackPanel>

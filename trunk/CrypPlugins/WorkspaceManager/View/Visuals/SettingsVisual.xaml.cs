@@ -351,7 +351,7 @@ namespace WorkspaceManager.View.Visuals
 
                 parameterPanel.Name = "border1";
 
-                parameterPanel.Margin = new Thickness(2);
+                parameterPanel.Margin = new Thickness(5);
 
                 Binding dataBinding = new Binding("ActualWidth");
                 dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
@@ -1226,6 +1226,7 @@ namespace WorkspaceManager.View.Visuals
         public ParameterPanel(Boolean isSideBar)
         {
             this.isSideBar = isSideBar;
+            this.VerticalAlignment = System.Windows.VerticalAlignment.Top;
             SizeChanged += new SizeChangedEventHandler(TestPanel_SizeChanged);
         }
 
@@ -1472,165 +1473,33 @@ namespace WorkspaceManager.View.Visuals
             foreach (UIElement child in Children)
             {
                 child.Measure(new Size(this.ActualWidth, double.PositiveInfinity));
+                var element = child as FrameworkElement;
 
-                if (child is CheckBox)
+                if (child is StackPanel || child is Button || child is TextBlock || child is CheckBox || child is Grid)
                 {
-                    CheckBox dummyTextBox = child as CheckBox;
-
+                    FrameworkElement dummyTextBox = child as FrameworkElement;
                     dummyTextBox.MinWidth = 0;
-
                     dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is Slider)
-                {
-                    Slider dummyTextBox = child as Slider;
-
-                    dummyTextBox.MinWidth = 0;
-
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummyTextBox.MaxWidth = maxSizeContent;
-                    }
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is StackPanel)
-                {
-                    StackPanel dummyTextBox = child as StackPanel;
-
-                    dummyTextBox.MinWidth = 0;
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is IntegerUpDown)
-                {
-                    IntegerUpDown dummyTextBox = child as IntegerUpDown;
-
-                    dummyTextBox.MinWidth = 0;
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
-                    }
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is Button)
-                {
-                    Button dummyTextBox = child as Button;
-
-                    dummyTextBox.MinWidth = 0;
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is TextBlock)
-                {
-
-                    TextBlock dummyTextBox = child as TextBlock;
-
-                    dummyTextBox.MinWidth = 0;
-
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is TextBox)
-                {
-
-                    TextBox dummyTextBox = child as TextBox;
-                    dummyTextBox.MinWidth = 0;
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
-                    }
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is PasswordBox)
-                {
-
-                    PasswordBox dummyTextBox = child as PasswordBox;
-                    dummyTextBox.MinWidth = 0;
-
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
-                    }
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is Grid)
-                {
-
-                    Grid dummyTextBox = child as Grid;
-                    dummyTextBox.MinWidth = 0;
-
-                    dummyTextBox.Width = this.ActualWidth;
-                }
-
-                if (child is KeyTextBox.KeyTextBox)
-                {
-
-                    var dummykeyTextBox = child as KeyTextBox.KeyTextBox;
-                    dummykeyTextBox.MinWidth = 0;
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummykeyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummykeyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
-                    }
-
-                    dummykeyTextBox.Width = this.ActualWidth;
+                    continue;
                 }
 
                 if (child is Expander)
                 {
-
                     Expander dummyTextBox = child as Expander;
                     dummyTextBox.Width = this.ActualWidth;
+                    continue;
                 }
 
-                if (child is ComboBox)
+                if(element != null)
                 {
+                    element.MinWidth = 0;
+                   // if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                        element.MaxWidth = Double.MaxValue;
+                    //else
+                    //   element.MaxWidth = maxSizeContent;
 
-                    ComboBox dummyTextBox = child as ComboBox;
-                    dummyTextBox.MinWidth = 0;
-                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
-                    {
-                        dummyTextBox.MaxWidth = Double.MaxValue;
-                    }
-                    else
-                    {
-                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption;
-                    }
-                    dummyTextBox.Width = this.ActualWidth;
+                    element.Width = this.ActualWidth;
                 }
-
-
-
             }
         }
 
@@ -1654,13 +1523,13 @@ namespace WorkspaceManager.View.Visuals
                     //  b = true;
                 }
 
-                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b)
-                { //Wrap to next line
+                //if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b)
+                //{ //Wrap to next line
 
                     curY += curLineHeight + 2;
                     curX = 0;
                     curLineHeight = 0;
-                }
+                //}
 
                 curX += maxSize;
                 if (child.DesiredSize.Height > curLineHeight)
@@ -1689,7 +1558,7 @@ namespace WorkspaceManager.View.Visuals
             TranslateTransform trans = null;
             double curX = 0, curY = 0, curLineHeight = 0;
 
-            bool b = !(finalSize.Width > maxSize);
+            //bool b = !(finalSize.Width > maxSize);
 
             foreach (UIElement child in Children)
             {
@@ -1706,13 +1575,13 @@ namespace WorkspaceManager.View.Visuals
                     // b = true;
                 }
 
-                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b || Children.IndexOf(child) % 2 == 0)
-                { //Wrap to next line
+                //if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b || Children.IndexOf(child) % 2 == 0)
+                //{ //Wrap to next line
 
                     curY += curLineHeight + 2;
                     curX = 0;
                     curLineHeight = 0;
-                }
+                //}
 
                 child.Arrange(new Rect(0, 0, child.DesiredSize.Width, child.DesiredSize.Height));
 
@@ -1727,13 +1596,9 @@ namespace WorkspaceManager.View.Visuals
             }
 
             curY += curLineHeight;
-            curY += 0;
 
             this.Height = curY;
-
-
             return finalSize;
-
         }
     }
 
