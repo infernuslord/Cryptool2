@@ -220,6 +220,12 @@ namespace Cryptool.Plugins.Converter
             return result;
         }
 
+        private double StringToDouble(string s, string cultureString = "en")
+        {
+            System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(cultureString);
+            return Convert.ToDouble(s, culture.NumberFormat);
+        }
+
         private Type GetType(OutputTypes t)
         {
             switch (t)
@@ -673,10 +679,8 @@ namespace Cryptool.Plugins.Converter
                     {
                         try // can be read as double?
                         {
-                            String cleanInputString = DoubleCleanup(inpString); // apply user settings concerning input format
-                            Output = Convert.ToDouble(cleanInputString);
-
-                            GuiLogMessage("Converting String to double is not safe. Digits may have been cut off  ", NotificationLevel.Warning);
+                            Output = StringToDouble(inpString, this.settings.FormatAmer ? "en" : "de");
+                            GuiLogMessage("Converting String to double is not safe. Digits may have been cut off.", NotificationLevel.Warning);
                             return true;
                         }
                         catch (Exception e)
@@ -735,12 +739,12 @@ namespace Cryptool.Plugins.Converter
 
                             try // can be read as double
                             {
-                                double tempDouble = Convert.ToDouble(DoubleCleanup(inpString));
+                                double tempDouble = StringToDouble(inpString, this.settings.FormatAmer ? "en" : "de");
                                 byte[] temp = BitConverter.GetBytes(tempDouble);
                                 Output = temp;
 
                                 double test = BitConverter.ToDouble(temp, 0);
-                                GuiLogMessage("Converting String to double is not safe. Digits may have been cut off " + test.ToString(), NotificationLevel.Warning);
+                                GuiLogMessage("Converting String to double is not safe. Digits may have been cut off: " + test.ToString(), NotificationLevel.Warning);
 
                                 return true;
                             }
