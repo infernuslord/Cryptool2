@@ -121,7 +121,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("String2Caption", "String2Tooltip", null, 2, false, ControlType.TextBox)]
+        [TaskPane("String3Caption", "String3Tooltip", null, 2, false, ControlType.TextBox)]
         public string String3
         {
             get
