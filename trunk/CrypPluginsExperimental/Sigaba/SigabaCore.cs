@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -43,9 +44,10 @@ namespace Sigaba
 
         }
 
-        public string Encrypt(String cipher)
+        public object[] Encrypt(String cipher)
         {
             StringBuilder repeat = new StringBuilder();
+            List<int[]> repeatList = new List<int[]>();
 
             foreach (char c in cipher)
             {
@@ -55,10 +57,15 @@ namespace Sigaba
 
                 repeat.Append((char) (Cipher(c - 65) + 65));
 
+                int[] controlarr = Control().Distinct().ToArray();
+
+                repeatList.Add(controlarr);
+
                 foreach (int i in Control().Distinct().ToArray())
                 {
                     //s.Append(i);
                     CipherRotors[i].IncrementPosition();
+                    
                 }
 
                 if (ControlRotors[2].Position == 14)
@@ -70,10 +77,24 @@ namespace Sigaba
                     ControlRotors[1].IncrementPosition();
                 }
                 ControlRotors[2].IncrementPosition();
+
+
             }
 
+            foreach (int[] intse in repeatList)
+            {
+                foreach (int i in intse)
+                {
+                    Console.Write(i+",");        
+                }
+                Console.Write("}, new int[] {");        
+            }
+            Console.WriteLine();
             UpdateSettings();
-            return repeat.ToString();
+
+
+
+            return new object[] {repeat.ToString(), repeatList.ToArray()} ;
         }
 
         public string EncryptPresentation(String cipher)
@@ -84,6 +105,8 @@ namespace Sigaba
 
             _sigpa.SetCipher(cipher);
 
+            List<int[]> repeatList = new List<int[]>();
+
             foreach (char c in cipher)
             {
                 if(!b2 || _sigpa.stopPresentation)
@@ -93,6 +116,10 @@ namespace Sigaba
                 string s = "";
 
                 repeat = String.Concat(repeat, (char)(CipherPresentation(c - 65) + 65) + "");
+
+                int[] controlarr = Control().Distinct().ToArray();
+
+                repeatList.Add(controlarr);
 
                 foreach (int i in ControlPresentation().Distinct().ToArray())
                 {
@@ -120,6 +147,15 @@ namespace Sigaba
                 
             }
 
+            foreach (int[] intse in repeatList)
+            {
+                foreach (int i in intse)
+                {
+                    Console.Write(i + ",");
+                }
+                Console.Write("}, new int[] {");
+            }
+            Console.WriteLine();
            
             return repeat;
         }
@@ -130,7 +166,7 @@ namespace Sigaba
             StringBuilder sb2 = new StringBuilder();
 
             _settings.CipherKey = CipherRotors.Aggregate("", (current, r) => String.Concat(current, (char) (r.Position + 65)));
-            _settings.ControlKey = ControlRotors.Aggregate("", (current, r) => String.Concat(current, (char)(r.Position + 65)));
+            _settings.ControlKey = ControlRotors.Reverse().Aggregate("", (current, r) => String.Concat(current, (char)(r.Position + 65)));
         }
 
         public void SetKeys()
@@ -147,11 +183,11 @@ namespace Sigaba
             IndexRotors[3].Position = _settings.IndexKey[3]-48;
             IndexRotors[4].Position = _settings.IndexKey[4]-48;
 
-            ControlRotors[0].Position = _settings.ControlKey[0]-65; 
-            ControlRotors[1].Position = _settings.ControlKey[1]-65;
+            ControlRotors[4].Position = _settings.ControlKey[0]-65; 
+            ControlRotors[3].Position = _settings.ControlKey[1]-65;
             ControlRotors[2].Position = _settings.ControlKey[2]-65;
-            ControlRotors[3].Position = _settings.ControlKey[3]-65;
-            ControlRotors[4].Position = _settings.ControlKey[4]-65;
+            ControlRotors[1].Position = _settings.ControlKey[3]-65;
+            ControlRotors[0].Position = _settings.ControlKey[4]-65;
         }
 
 
@@ -164,11 +200,11 @@ namespace Sigaba
             CipherRotors[3] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.CipherRotor4], _settings.CipherKey[3] - 65, _settings.CipherRotor4Reverse);
             CipherRotors[4] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.CipherRotor5], _settings.CipherKey[4] - 65, _settings.CipherRotor5Reverse);
 
-            ControlRotors[0] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor1], _settings.ControlKey[0] - 65, _settings.ControlRotor1Reverse);
-            ControlRotors[1] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor2], _settings.ControlKey[1] - 65, _settings.ControlRotor2Reverse);
+            ControlRotors[4] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor5], _settings.ControlKey[0] - 65, _settings.ControlRotor5Reverse);
+            ControlRotors[3] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor4], _settings.ControlKey[1] - 65, _settings.ControlRotor4Reverse);
             ControlRotors[2] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor3], _settings.ControlKey[2] - 65, _settings.ControlRotor3Reverse);
-            ControlRotors[3] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor4], _settings.ControlKey[3] - 65, _settings.ControlRotor4Reverse);
-            ControlRotors[4] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor5], _settings.ControlKey[4] - 65, _settings.ControlRotor5Reverse);
+            ControlRotors[1] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor2], _settings.ControlKey[3] - 65, _settings.ControlRotor2Reverse);
+            ControlRotors[0] = new Rotor(SigabaConstants.ControlCipherRotors[_settings.ControlRotor1], _settings.ControlKey[4] - 65, _settings.ControlRotor1Reverse);
 
             IndexRotors[0] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor1], _settings.IndexKey[0] - 48, _settings.IndexRotor1Reverse);
             IndexRotors[1] = new Rotor(SigabaConstants.IndexRotors[_settings.IndexRotor2], _settings.IndexKey[1] - 48, _settings.IndexRotor2Reverse);

@@ -90,6 +90,13 @@ namespace Sigaba
             set;
         }
 
+        [PropertyInfo(Direction.OutputData, "Survivor Array", "Sets the (De)Cipher as output")]
+        public object[] SurvivorArray
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -142,15 +149,22 @@ namespace Sigaba
             _settings.ControlKey = _keys[2].ToUpper();
             
             _core.SetKeys();
+
+            object[] repeat = _core.Encrypt(preFormatInput(InputString));
+
             if(!Presentation.IsVisible)
             {
-                OutputString = postFormatOutput(_core.Encrypt(preFormatInput(InputString)));
+                OutputString = postFormatOutput((string) repeat[0]);
+                SurvivorArray = new object[] {_keys[0].ToUpper() , new int[] { _settings.CipherRotor1, _settings.CipherRotor2, _settings.CipherRotor3, _settings.CipherRotor4, _settings.CipherRotor5, }, repeat[1] as int[][] };
+                OnPropertyChanged("SurvivorArray");
             }
             else
             {
-                
                 OutputString = postFormatOutput(_core.EncryptPresentation(preFormatInput(InputString)));
             }
+
+            
+
             OnPropertyChanged("OutputString");
 
             ProgressChanged(1, 1);
@@ -413,7 +427,7 @@ namespace Sigaba
         public string Decrypt(string ciphertext)
         {
             String s = "";
-            s = plugin._core.Encrypt(ciphertext);
+            s = (string)plugin._core.Encrypt(ciphertext)[0];
             return s;
         }
 
