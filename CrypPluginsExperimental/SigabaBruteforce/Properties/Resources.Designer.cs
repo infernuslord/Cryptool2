@@ -1078,7 +1078,7 @@ namespace SigabaBruteforce.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to L.
+        ///   Looks up a localized string similar to K.
         /// </summary>
         public static string LetterK {
             get {

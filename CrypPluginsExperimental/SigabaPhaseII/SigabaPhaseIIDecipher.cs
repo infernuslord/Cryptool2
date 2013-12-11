@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media.Imaging;
 
-namespace Sigaba
+
+namespace SigabaPhaseII
 {
-    public class SigabaCoreFast
+    public class SigabaPhaseIIDecipher
     {
 
         public RotorByte[] ControlRotors;
@@ -15,7 +16,7 @@ namespace Sigaba
         public byte[] IndexMaze = new byte[26];
         public RotorByte[] CodeWheels;
 
-       public SigabaCoreFast()
+       public SigabaPhaseIIDecipher()
        {
            InitializeRotors();
        }
@@ -25,13 +26,11 @@ namespace Sigaba
             return CipherRotors.Aggregate(c, (current, rotor) => rotor.DeCiph(current));
         }
 
-
-
-        public byte[] Encrypt(byte[] cipher, int[] types, byte[] positions)
+        public byte[] Encrypt(byte[] cipher, int[] a, byte[] positions)
         {
             byte[] repeat = new byte[cipher.Length];
 
-            setInternalConfig(types,positions);
+            setInternalConfig(a,positions);
 
             var incremented = new bool[CipherRotors.Length];
 
@@ -70,88 +69,6 @@ namespace Sigaba
 
             
             return repeat;
-        }
-
-        public byte[] PseudoEncrypt(byte[] cipher, int[] types, byte[] positions)
-        {
-            byte[] repeat = new byte[cipher.Length];
-
-            setInternalConfig(types, positions);
-
-            var incremented = new bool[CipherRotors.Length];
-
-            for (int ix = 0; ix < cipher.Length; ix++)
-            {
-                //StringBuilder s = new StringBuilder();
-
-                //repeat = String.Concat(repeat, (char)(Cipher(c - 65) + 65) + "");
-
-                repeat[ix] = (byte)(Cipher((byte)(cipher[ix] - 65)) + 65);
-
-                //Set all incremented booleans to false
-                for (int i = 0; i < incremented.Length; i++)
-                {
-                    incremented[i] = false;
-                }
-
-
-                foreach (int i in Control())
-                {
-                    if (incremented[i] == false)
-                    {
-                        CipherRotors[4 - i].IncrementPosition();
-                        incremented[i] = true; // we incremented this rotor in this run
-                    }
-                }
-
-
-
-                if (ControlRotors[2].Position == 14)
-                {
-                    if (ControlRotors[1].Position == 14)
-                    {
-                        ControlRotors[3].IncrementPosition();
-                    }
-                    ControlRotors[1].IncrementPosition();
-                }
-                ControlRotors[2].IncrementPosition();
-            }
-
-
-            return repeat;
-        }
-
-        public int[] PseudoControl()
-        {
-            byte tempf = 5;
-            byte tempg = 6;
-            byte temph = 7;
-            byte tempi = 8;
-
-            for (int i = 0; i < 4; i++)
-            {
-                //tempf = ControlRotors[i].DeCiph(tempf);
-                //tempg = ControlRotors[i].DeCiph(tempg);
-                //temph = ControlRotors[i].DeCiph(temph);
-                //tempi = ControlRotors[i].DeCiph(tempi);
-                //converted to:
-                if (ControlRotors[i].Reverse)
-                {
-                    tempf = ControlRotors[i].RotSubMatRevBack[ControlRotors[i].Position, tempf];
-                    tempg = ControlRotors[i].RotSubMatRevBack[ControlRotors[i].Position, tempg];
-                    temph = ControlRotors[i].RotSubMatRevBack[ControlRotors[i].Position, temph];
-                    tempi = ControlRotors[i].RotSubMatRevBack[ControlRotors[i].Position, tempi];
-                }
-                else
-                {
-                    tempf = ControlRotors[i].RotSubMatBack[ControlRotors[i].Position, tempf];
-                    tempg = ControlRotors[i].RotSubMatBack[ControlRotors[i].Position, tempg];
-                    temph = ControlRotors[i].RotSubMatBack[ControlRotors[i].Position, temph];
-                    tempi = ControlRotors[i].RotSubMatBack[ControlRotors[i].Position, tempi];
-                }
-
-            }
-            return new int[] { IndexMaze[tempf], IndexMaze[tempg], IndexMaze[temph], IndexMaze[tempi] };
         }
 
         public int[] Control()
@@ -286,6 +203,11 @@ namespace Sigaba
 
                 IndexMaze[i] = ConstantsByte.Transform2[tempf];
             }
+        }
+
+        public void setPseudoRotor(byte[] pseudo)
+        {
+            IndexMaze = pseudo;
         }
 
         public void InitializeRotors()

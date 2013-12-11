@@ -14,6 +14,7 @@
    limitations under the License.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
@@ -3471,9 +3472,87 @@ namespace SigabaBruteforce
             if (Math.Log(sumkeyspace2, 2) > 0)
             summax += Math.Log(sumkeyspace2, 2);
 
+            summax *= getWhiteList().Length;
+
             keySpace = summax+"";
+
+            
+
             OnPropertyChanged("KeySpace");
+
             return summax;
+        }
+
+        public int[] getWhiteList()
+        {
+            int[] getSettings = new[]
+                            {
+                                CipherRotor1Rev, CipherRotor2Rev, CipherRotor3Rev,
+                                CipherRotor4Rev, CipherRotor5Rev, ControlRotor1Rev,
+                                ControlRotor2Rev, ControlRotor3Rev, ControlRotor4Rev,
+                                ControlRotor5Rev
+                            };
+
+            List<int> value = new List<int>();
+
+            for (int r = 0; r < 1024; r++)
+            {
+            start:
+
+                if (r == 1024)
+                    break;
+                string bin = GetIntBinaryString(r);
+                //reversekey = bin.Replace('1', 'R').Replace('0', ' ');
+
+                bool b = true;
+                for (int i = 0; i < bin.Length; i++)
+                {
+                    if (getSettings[i] == 1 && bin[i] == '1')
+                    {
+                        r++;
+                        goto start;
+                    }
+                    if (getSettings[i] == 2 && bin[i] == '0')
+                    {
+                        r++;
+                        goto start;
+                    }
+
+
+                }
+                value.Add(r);
+            }
+
+            int[] ret = new int[value.Count];
+
+            for (int i = 0; i < value.Count; i++)
+            {
+                ret[i] = value[i];
+            }
+
+            return ret;
+        }
+
+        private static string GetIntBinaryString(int n)
+        {
+            var b = new char[10];
+            int pos = 9;
+            int i = 0;
+
+            while (i < 10)
+            {
+                if ((n & (1 << i)) != 0)
+                {
+                    b[pos] = '1';
+                }
+                else
+                {
+                    b[pos] = '0';
+                }
+                pos--;
+                i++;
+            }
+            return new string(b);
         }
 
         public BigInteger getKeyspaceAsLong()

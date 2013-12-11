@@ -365,7 +365,7 @@ namespace SigabaBruteforce
 
             return value;
         }
-
+        /*
         private int[] getWhiteList()
         {
             int[] getSettings = new[]
@@ -415,7 +415,7 @@ namespace SigabaBruteforce
 
             return ret;
         }
-
+        */
         private static string GetIntBinaryString(int n)
         {
             var b = new char[10];
@@ -444,13 +444,16 @@ namespace SigabaBruteforce
             DateTime starttime = DateTime.Now;
             BigInteger isummax = _settings.getKeyspaceAsLong();
             BigInteger icount = 0;
+            List<double> bestlist = new List<double>();
             
             double best = Double.MinValue;
+            bestlist.Add(Double.MinValue);
 
             int[][] indexarr = indexRotorSettings();
             int[][] controlarr = rotorSettings();
 
-            int[] whitelist = getWhiteList();
+            int[] whitelist = _settings.getWhiteList();
+
             int[] arr2 = _settings.setStartingArr(indexarr);
 
             string input = controlMaster.preFormatInput(Input);
@@ -464,6 +467,7 @@ namespace SigabaBruteforce
             if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 best = Double.MaxValue;
+                bestlist.Add(Double.MaxValue);
             }
 
             isummax *= whitelist.Length;
@@ -610,8 +614,16 @@ namespace SigabaBruteforce
                                                                                             GetRelationOperator() ==
                                                                                         RelationOperator.LessThen)
                                                                                     {
-                                                                                        if (val <= best)
+                                                                                        if (val <= bestlist.Last() )
                                                                                         {
+                                                                                            bestlist.Add(val);
+                                                                                            bestlist.Sort();
+                                                                                            
+                                                                                            if (bestlist.Count > 10)
+                                                                                                bestlist.RemoveAt(10);
+
+
+
                                                                                             var valkey =
                                                                                                 new ValueKey();
                                                                                             String keyStr = "";
@@ -703,8 +715,16 @@ namespace SigabaBruteforce
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        if (val >= best)
+                                                                                        if (val >= bestlist.Last() )
                                                                                         {
+                                                                                            bestlist.Add(val);
+                                                                                            bestlist.Sort();
+                                                                                            bestlist.Reverse();
+
+                                                                                            if (bestlist.Count > 10)
+                                                                                                bestlist.RemoveAt(10);
+
+
                                                                                             var valkey =
                                                                                                 new ValueKey();
                                                                                             String keyStr = "";
