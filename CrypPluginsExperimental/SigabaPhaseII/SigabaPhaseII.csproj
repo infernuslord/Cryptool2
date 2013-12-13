@@ -84,7 +84,6 @@
     <Compile Include="SigabaPhaseIIPresentation.xaml.cs">
       <DependentUpon>SigabaPhaseIIPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SigabaPhaseIIDecipher.cs" />
     <Compile Include="SigabaPhaseII.cs" />
     <Compile Include="SigabaPhaseIICore.cs" />
     <Compile Include="SigabaPhaseIISettings.cs" />
@@ -95,6 +94,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\SigabaBruteforce\SigabaBruteforce.csproj">
+      <Project>{BA8664C2-53B0-43F1-B8E3-FE91E4DD0C9F}</Project>
+      <Name>SigabaBruteforce</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

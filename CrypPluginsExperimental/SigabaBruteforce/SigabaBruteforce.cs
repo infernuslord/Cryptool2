@@ -1326,6 +1326,8 @@ namespace SigabaBruteforce
 
             void setIndexMaze();
 
+            void setIndexMaze(int[] indexmaze);
+
             void setBool(byte ix, byte i, bool rev);
 
             void setPositionsControl(byte ix, byte i, byte position);

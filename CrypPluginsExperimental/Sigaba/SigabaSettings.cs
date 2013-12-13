@@ -86,6 +86,7 @@ namespace Sigaba
         #endregion
 
         #region Initialisation / Contructor
+        
         public SigabaSettings()
         {
             SetList(_typeStrings,"CSP888/889","CSP2800");
@@ -94,6 +95,7 @@ namespace Sigaba
             SetList(_indexRotorStrings, "TestRotor","RotorB1", "RotorB2", "RotorB3", "RotorB4", "RotorB5");
          
         }
+
         #endregion
 
         #region TaskPane Settings
@@ -373,6 +375,7 @@ namespace Sigaba
             {
                 if (((int)value) != _cipherRotor4)
                 {
+                    CheckRotorChange(4, _cipherRotor4, value);
                     _cipherRotor4 = (int)value;
                     OnPropertyChanged("CipherRotor4");
                 }
@@ -403,6 +406,7 @@ namespace Sigaba
             {
                 if (((int)value) != _cipherRotor5)
                 {
+                    CheckRotorChange(5, _cipherRotor5, value);
                     _cipherRotor5 = (int)value;
                     OnPropertyChanged("CipherRotor5");
                 }
@@ -433,7 +437,7 @@ namespace Sigaba
             {
                 if (((int)value) != _controlRotor1)
                 {
-                    CheckRotorChange(1, _controlRotor1, value);
+                    CheckRotorChange(6, _controlRotor1, value);
                     _controlRotor1 = value;
                     OnPropertyChanged("ControlRotor1");
                 }
@@ -465,7 +469,7 @@ namespace Sigaba
             {
                 if (((int)value) != _controlRotor2)
                 {
-                    CheckRotorChange(2, _controlRotor2, value);
+                    CheckRotorChange(7, _controlRotor2, value);
                     _controlRotor2 = (int)value;
                     OnPropertyChanged("ControlRotor2");
                 }
@@ -497,7 +501,7 @@ namespace Sigaba
             {
                 if (((int)value) != _controlRotor3)
                 {
-                    CheckRotorChange(3, _controlRotor3, value);
+                    CheckRotorChange(8, _controlRotor3, value);
                     _controlRotor3 = (int)value;
                     OnPropertyChanged("ControlRotor3");
                 }
@@ -528,6 +532,7 @@ namespace Sigaba
             {
                 if (((int)value) != _controlRotor4)
                 {
+                    CheckRotorChange(9, _controlRotor4, value);
                     _controlRotor4 = (int)value;
                     OnPropertyChanged("ControlRotor4");
                 }
@@ -558,6 +563,7 @@ namespace Sigaba
             {
                 if (((int)value) != _controlRotor5)
                 {
+                    CheckRotorChange(10, _controlRotor5, value);
                     _controlRotor5 = (int)value;
                     OnPropertyChanged("ControlRotor5");
                 }
@@ -588,7 +594,7 @@ namespace Sigaba
             {
                 if (((int)value) != _indexRotor1)
                 {
-                    CheckRotorChange(1, _indexRotor1, value);
+                    CheckIndexChange(1, _indexRotor1, value);
                     _indexRotor1 = value;
                     OnPropertyChanged("IndexRotor1");
                 }
@@ -619,7 +625,7 @@ namespace Sigaba
             {
                 if (((int)value) != _indexRotor2)
                 {
-                    CheckRotorChange(1, _indexRotor2, value);
+                    CheckIndexChange(2, _indexRotor2, value);
                     _indexRotor2 = value;
                     OnPropertyChanged("IndexRotor2");
                 }
@@ -650,7 +656,7 @@ namespace Sigaba
             {
                 if (((int)value) != _indexRotor3)
                 {
-                    CheckRotorChange(1, _indexRotor3, value);
+                    CheckIndexChange(3, _indexRotor3, value);
                     _indexRotor3 = value;
                     OnPropertyChanged("IndexRotor1");
                 }
@@ -681,7 +687,7 @@ namespace Sigaba
             {
                 if (((int)value) != _indexRotor4)
                 {
-                    CheckRotorChange(1, _indexRotor4, value);
+                    CheckIndexChange(4, _indexRotor4, value);
                     _indexRotor4 = value;
                     OnPropertyChanged("IndexRotor4");
                 }
@@ -712,7 +718,7 @@ namespace Sigaba
             {
                 if (((int)value) != _indexRotor5)
                 {
-                    CheckRotorChange(1, _indexRotor5, value);
+                    CheckIndexChange(5, _indexRotor5, value);
                     _indexRotor5 = value;
                     OnPropertyChanged("IndexRotor5");
                 }
@@ -734,24 +740,164 @@ namespace Sigaba
             }
         }
 
+        private void CheckIndexChange(int rotor, int was, int becomes)
+        {
+            if (becomes != 0)
+                switch (rotor)
+                {
+                    case 1:
+                        if (_indexRotor2 == becomes) { _indexRotor2 = was; OnPropertyChanged("IndexRotor2"); }
+                        if (_indexRotor3 == becomes) { _indexRotor3 = was; OnPropertyChanged("IndexRotor3"); }
+                        if (_indexRotor4 == becomes) { _indexRotor4 = was; OnPropertyChanged("IndexRotor4"); }
+                        if (_indexRotor5 == becomes) { _indexRotor5 = was; OnPropertyChanged("IndexRotor5"); }
+                        break;
+                    case 2:
+                        if (_indexRotor1 == becomes) { _indexRotor1 = was; OnPropertyChanged("IndexRotor1"); }
+                        if (_indexRotor3 == becomes) { _indexRotor3 = was; OnPropertyChanged("IndexRotor3"); }
+                        if (_indexRotor4 == becomes) { _indexRotor4 = was; OnPropertyChanged("IndexRotor4"); }
+                        if (_indexRotor5 == becomes) { _indexRotor5 = was; OnPropertyChanged("IndexRotor5"); }
+                        
+                        break;
+                    case 3:
+                        if (_indexRotor2 == becomes) { _indexRotor2 = was; OnPropertyChanged("IndexRotor2"); }
+                        if (_indexRotor1 == becomes) { _indexRotor1 = was; OnPropertyChanged("IndexRotor1"); }
+                        if (_indexRotor4 == becomes) { _indexRotor4 = was; OnPropertyChanged("IndexRotor4"); }
+                        if (_indexRotor5 == becomes) { _indexRotor5 = was; OnPropertyChanged("IndexRotor5"); }
+                        break;
+                    case 4:
+                        if (_indexRotor2 == becomes) { _indexRotor2 = was; OnPropertyChanged("IndexRotor2"); }
+                        if (_indexRotor1 == becomes) { _indexRotor1 = was; OnPropertyChanged("IndexRotor1"); }
+                        if (_indexRotor3 == becomes) { _indexRotor3 = was; OnPropertyChanged("IndexRotor3"); }
+                        if (_indexRotor5 == becomes) { _indexRotor5 = was; OnPropertyChanged("IndexRotor5"); }
+                        break;
+                    case 5:
+                        if (_indexRotor2 == becomes) { _indexRotor2 = was; OnPropertyChanged("IndexRotor2"); }
+                        if (_indexRotor1 == becomes) { _indexRotor1 = was; OnPropertyChanged("IndexRotor1"); }
+                        if (_indexRotor4 == becomes) { _indexRotor4 = was; OnPropertyChanged("IndexRotor4"); }
+                        if (_indexRotor3 == becomes) { _indexRotor3 = was; OnPropertyChanged("IndexRotor3"); }
+                        break;
+                }
+        }
+
         private void CheckRotorChange(int rotor, int was, int becomes)
-        {/*
+        {
+            if(becomes!=0)
             switch (rotor)
             {
                 case 1:
-                    if (rotor2 == becomes) { rotor2 = was; OnPropertyChanged("Rotor2"); }
-                    if (rotor3 == becomes) { rotor3 = was; OnPropertyChanged("Rotor3"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+
                     break;
                 case 2:
-                    if (rotor1 == becomes) { rotor1 = was; OnPropertyChanged("Rotor1"); }
-                    if (rotor3 == becomes) { rotor3 = was; OnPropertyChanged("Rotor3"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
                     break;
                 case 3:
-                    if (rotor1 == becomes) { rotor1 = was; OnPropertyChanged("Rotor1"); }
-                    if (rotor2 == becomes) { rotor2 = was; OnPropertyChanged("Rotor2"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
                     break;
+                case 4:
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 5:
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 6:
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 7:
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 8:
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 9:
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    if (_controlRotor5 == becomes) { _controlRotor5 = was; OnPropertyChanged("ControlRotor5"); }
+                    break;
+                case 10:
+                    if (_cipherRotor5 == becomes) { _cipherRotor5 = was; OnPropertyChanged("CipherRotor5"); }
+                    if (_cipherRotor2 == becomes) { _cipherRotor2 = was; OnPropertyChanged("CipherRotor2"); }
+                    if (_cipherRotor1 == becomes) { _cipherRotor1 = was; OnPropertyChanged("CipherRotor1"); }
+                    if (_cipherRotor4 == becomes) { _cipherRotor4 = was; OnPropertyChanged("CipherRotor4"); }
+                    if (_cipherRotor3 == becomes) { _cipherRotor3 = was; OnPropertyChanged("CipherRotor3"); }
+                    if (_controlRotor2 == becomes) { _controlRotor2 = was; OnPropertyChanged("ControlRotor2"); }
+                    if (_controlRotor3 == becomes) { _controlRotor3 = was; OnPropertyChanged("ControlRotor3"); }
+                    if (_controlRotor4 == becomes) { _controlRotor4 = was; OnPropertyChanged("ControlRotor4"); }
+                    if (_controlRotor1 == becomes) { _controlRotor1 = was; OnPropertyChanged("ControlRotor1"); }
+                    break;
+
             }
-          */
+         
         }
         
 
