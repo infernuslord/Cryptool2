@@ -9,16 +9,15 @@ namespace SigabaPhaseII
     {
         SigabaPhaseII facade;
         RotorByte[] CodeWheels = new RotorByte[5];
+        int[] realWheels = new int[5];
+
         string[] keys;
 
         public SigabaPhaseIICore(SigabaPhaseII facade) 
         {
             this.facade = facade;
-            
         }
-
-        
-            
+    
         public void setCodeWheels(int[] phase1Wheels, string[] keys)
         {
             int count = 0; 
@@ -26,7 +25,8 @@ namespace SigabaPhaseII
             {
                 if(!phase1Wheels.Contains(ccr))
                 {
-                    CodeWheels[count] = new RotorByte(ConstantsByte.ControlCipherRotors[ccr], 0, false); ;
+                    CodeWheels[count] = new RotorByte(ConstantsByte.ControlCipherRotors[ccr], 0, false);
+                    realWheels[count] = ccr;
                     count++;
                 }
             }
@@ -68,9 +68,9 @@ namespace SigabaPhaseII
                     ControlRotors[0] = CodeWheels[arr[0]];
                     ControlRotors[1] = CodeWheels[arr[1]];
                     ControlRotors[2] = CodeWheels[arr[2]];
-                    Console.Write(arr[0]);
-                    Console.Write(arr[1]);
-                    Console.WriteLine(arr[2]);
+                    Console.Write(realWheels[arr[0]]);
+                    Console.Write(realWheels[arr[1]]);
+                    Console.WriteLine(realWheels[arr[2]]);
 
                     Console.WriteLine("Combis.count");
 
@@ -230,6 +230,21 @@ namespace SigabaPhaseII
                                                                                    ControlRotors[2].Reverse
                                                                                },
                                                 RotorType = new int[] { arr[0], arr[1], arr[2] },
+                                                RotorTypeReal = new int[] { realWheels[arr[0]], realWheels[arr[1]], realWheels[arr[2]] },
+                                                Pseudo = pseudo
+                                            };
+
+                                            Candidate winnerReal = new Candidate()
+                                            {
+                                                Positions = new int[] { co1, co2, co3 },
+                                                Reverse =
+                                                    new bool[]
+                                                                               {
+                                                                                   ControlRotors[0].Reverse,
+                                                                                   ControlRotors[1].Reverse,
+                                                                                   ControlRotors[2].Reverse
+                                                                               },
+                                                RotorType = new int[] { realWheels[arr[0]], realWheels[arr[1]], realWheels[arr[2]] },
                                                 Pseudo = pseudo
                                             };
 
@@ -239,8 +254,11 @@ namespace SigabaPhaseII
 
                                             //facade.AddPresentationEntry(winner);
 
+                                            facade.AddEntryCandidate(winner);
+
                                            if( WinnerConfirmCompact(input2, winner,temp));
                                             {
+                                                
                                                 Console.WriteLine("WCC");
                                             }
                                             //winnerList.Add(winner);
@@ -398,6 +416,9 @@ namespace SigabaPhaseII
                                                       " Rotor3: " + winner.RotorType[2] + " REverse: " +
                                                       winner.Reverse[2] + " POsition: " + winner.Positions[2]);
                                     */
+
+                                    facade.AddEntryConfirmed(winner,realWheels[rest[re]],realWheels[rest[re==0? 1:0]]);
+
                                     if (!winnerList2.Contains(winner))
                                     {
                                         winnerList2.Add(winner);
@@ -405,7 +426,7 @@ namespace SigabaPhaseII
                                         {
                                             Console.WriteLine("SCC");
                                         }
-                                        ;
+                                        
                                     }
                                     
                                     break;
@@ -617,12 +638,12 @@ namespace SigabaPhaseII
                                 }
 
                             }
-                        for (int rev = 0; rev < 2; rev++)
+                        for (int rev1 = 0; rev1 < 2; rev1++)
                         {
-                            testRotor[0].Reverse = (rev == 1);
-                            for (int rev1 = 0; rev1 < 2; rev1++)
+                            testRotor[0].Reverse = (rev1 == 1);
+                            for (int rev2 = 0; rev2 < 2; rev2++)
                             {
-                                testRotor[1].Reverse = (rev1 == 1);
+                                testRotor[1].Reverse = (rev2 == 1);
                                 for (int pos = 0; pos < 26; pos++)
                                 {
                                     for (int pos2 = 0; pos2 < 26; pos2++)
@@ -717,6 +738,8 @@ namespace SigabaPhaseII
                                                                       " Rotor5: " + rest[1] + " REverse: " +
                                                                       testRotor[1].Reverse + " POsition: " + pos2
                                                         );*/
+                                                    facade.AddEntryComplete(winner, steppingmaze, pos, pos2, realWheels[rest[re]], realWheels[rest[re == 0 ? 1 : 0]],rev1==1,rev2==1);
+
                                                     break;
                                                     }
 
@@ -1683,6 +1706,7 @@ namespace SigabaPhaseII
     {
         private int[] positions = new int[3];
         private int[] rotortype = new int[3];
+        private int[] rotortypereal = new int[3];
         private bool[] reverse = new bool[3];
         private int[][] pseudo = new int[26][];
 
@@ -1711,6 +1735,15 @@ namespace SigabaPhaseII
                 return rotortype;
             }
             set { rotortype = value; }
+        }
+
+        public int[] RotorTypeReal
+        {
+            get
+            {
+                return rotortypereal;
+            }
+            set { rotortypereal = value; }
         }
 
         public bool[] Reverse

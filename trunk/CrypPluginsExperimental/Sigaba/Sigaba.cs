@@ -148,14 +148,17 @@ namespace Sigaba
             _settings.IndexKey = _keys[1].ToUpper();
             _settings.ControlKey = _keys[2].ToUpper();
             
+            
+
             _core.SetKeys();
 
-            object[] repeat = _core.Encrypt(preFormatInput(InputString));
+            
 
             if(!Presentation.IsVisible)
             {
+                object[] repeat = _core.Encrypt(preFormatInput(InputString));
                 OutputString = postFormatOutput((string) repeat[0]);
-                SurvivorArray = new object[] {_keys[0].ToUpper() , new int[] { _settings.CipherRotor1, _settings.CipherRotor2, _settings.CipherRotor3, _settings.CipherRotor4, _settings.CipherRotor5, }, repeat[1] as int[][] };
+                SurvivorArray = new object[] { _keys[0].ToUpper(), new int[] { _settings.CipherRotor1, _settings.CipherRotor2, _settings.CipherRotor3, _settings.CipherRotor4, _settings.CipherRotor5, }, repeat[1] as int[][], new[] { _settings.CipherRotor1Reverse, _settings.CipherRotor2Reverse, _settings.CipherRotor3Reverse, _settings.CipherRotor4Reverse, _settings.CipherRotor5Reverse} };
                 OnPropertyChanged("SurvivorArray");
             }
             else
@@ -181,9 +184,6 @@ namespace Sigaba
                 _settings.IndexKey = _keys[1].ToUpper();
                 _settings.ControlKey = _keys[2].ToUpper();
             }
-
-
-
         }
 
         /// <summary>
@@ -465,6 +465,11 @@ namespace Sigaba
         public void setIndexMaze()
         {
             plugin._fastCore.setIndexMaze();
+        }
+
+        public void setIndexMaze(int[] indexmaze)
+        {
+            plugin._fastCore.setIndexMaze(indexmaze);
         }
 
         public void setPositionsControl(byte ix, byte i, byte position)

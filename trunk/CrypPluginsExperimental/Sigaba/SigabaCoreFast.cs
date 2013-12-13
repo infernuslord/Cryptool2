@@ -288,6 +288,30 @@ namespace Sigaba
             }
         }
 
+        public void setIndexMaze(int[] steppingmaze)
+        {
+
+            for (byte i = 0; i < 26; i++)
+            {
+                byte tempf = i;
+
+                //tempf = ControlRotors[4].DeCiph(tempf);
+                //converted to:
+                if (ControlRotors[4].Reverse)
+                {
+                    tempf = ControlRotors[4].RotSubMatRevBack[ControlRotors[4].Position, tempf];
+                }
+                else
+                {
+                    tempf = ControlRotors[4].RotSubMatBack[ControlRotors[4].Position, tempf];
+                }
+
+                tempf = ConstantsByte.Transform[0][tempf];
+
+                IndexMaze[i] = (byte)steppingmaze[(int)tempf];
+            }
+        }
+
         public void InitializeRotors()
         {
             CodeWheels = new RotorByte[16];

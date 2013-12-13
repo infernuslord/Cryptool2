@@ -26,6 +26,10 @@ namespace SigabaPhaseII
         #region Private Variables
 
         private int _plainText = 0;
+        private int _unknownSymbolHandling = 0;
+        private int _caseHandling = 0;
+
+        private string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         private bool _all = true;
 
@@ -38,7 +42,6 @@ namespace SigabaPhaseII
 
         #region TaskPane Settings
 
-        
         [TaskPane("Amount of plain text", "The amount of plain text that is uesed by the component", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
         public int PlainText
         {
@@ -79,6 +82,16 @@ namespace SigabaPhaseII
         private void OnPropertyChanged(string propertyName)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
+        }
+
+        #endregion
+
+        #region Public properties
+
+        public string Alphabet
+        {
+            get { return _alphabet; }
+            set { _alphabet = value; }
         }
 
         #endregion
