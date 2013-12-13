@@ -680,7 +680,7 @@
                                     </dc:ButtonDropDown.ImageSmall>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}"  ToolTip="{Loc RBTooltip_Log}">
+                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="69" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}"  ToolTip="{Loc RBTooltip_Log}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/log.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
