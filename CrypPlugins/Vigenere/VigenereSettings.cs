@@ -134,26 +134,35 @@ namespace Cryptool.Vigenere
         /// <param name="offset"></param>
         public void setKeyByValue(int[] offset)
         {
-            //making sure the shift value lies within the alphabet range
-            for (int i = 0; i < offset.Length; i++)
-                offset[i] = offset[i] % alphabet.Length;
+            try
+            {
+                //making sure the shift value lies within the alphabet range
+                for (int i = 0; i < offset.Length; i++)
+                    offset[i] = offset[i]%alphabet.Length;
 
-            //set the new shiftChar
-            keyChars = new char[offset.Length];
-            for (int i = 0; i < offset.Length; i++)
-                keyChars[i] = alphabet[offset[i]];
+                //set the new shiftChar
+                keyChars = new char[offset.Length];
+                for (int i = 0; i < offset.Length; i++)
+                    keyChars[i] = alphabet[offset[i]];
 
-            //set the new shiftValue
-            keyShiftValues = new int[offset.Length];
-            for (int i = 0; i < offset.Length; i++)
-                keyShiftValues[i] = offset[i];
+                //set the new shiftValue
+                keyShiftValues = new int[offset.Length];
+                for (int i = 0; i < offset.Length; i++)
+                    keyShiftValues[i] = offset[i];
 
-            //Anounnce this to the settings pane
-            OnPropertyChanged("ShiftValue");
-            OnPropertyChanged("ShiftChar");
+                //Anounnce this to the settings pane
+                OnPropertyChanged("ShiftValue");
+                OnPropertyChanged("ShiftChar");
 
-            //print some info in the log.
-            LogMessage("Accepted new shift values " + intArrayToString(offset) + "! (Adjusted key to '" + charArrayToString(keyChars) + "\'", NotificationLevel.Info);
+                //print some info in the log.
+                LogMessage(
+                    "Accepted new shift values " + intArrayToString(offset) + "! (Adjusted key to '" +
+                    charArrayToString(keyChars) + "\'", NotificationLevel.Info);
+            }
+            catch (Exception ex)
+            {
+                LogMessage("Bad shift value \"" + intArrayToString(offset) + "!", NotificationLevel.Error);
+            }
         }
 
         private void setKeyByCharacter(string value)
