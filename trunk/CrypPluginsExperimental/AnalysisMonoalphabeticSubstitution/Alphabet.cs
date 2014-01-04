@@ -323,6 +323,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return res;
         }
 
+        /// <summary>
+        /// Get number of letters
+        /// </summary>
+        public int GetAlphabetQuantity()
+        {
+            return this.alphabet.Count;
+        }
+
         #endregion Methods
 
         #region Enumerator

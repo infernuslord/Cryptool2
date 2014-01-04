@@ -8,13 +8,11 @@
     <Grid AllowDrop="False" Background="White" Height="Auto" Width="Auto">
         <ScrollViewer Width="{Binding ActualWidth,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"                   
                       Height="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}" 
-                      HorizontalAlignment="Left" Name="scrollViewer1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+                      HorizontalAlignment="Left" Name="scrollViewer1" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto" Margin="12,0,0,0">
         <Grid Name="grid1" Margin="0,0,30,12" Width="467" Height="391" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Label Content="Assignment of ciphertext letters to plaintext letters" Height="28" HorizontalAlignment="Left" Margin="6,12,104,0" Name="label1" VerticalAlignment="Top" Width="373" FontWeight="SemiBold" FontSize="14" />
-                <Button Content="Start again" Height="23" HorizontalAlignment="Left" Margin="354,104,0,0" Name="btnRestart" VerticalAlignment="Top" Width="108" Click="button1_Click" />
-                <Button Content="Update ciphertext" Height="23" HorizontalAlignment="Left" Margin="354,46,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="108" Click="button2_Click" />
-                <Grid Height="350" HorizontalAlignment="Left" Margin="0,40,0,0" Name="grid2" VerticalAlignment="Top" Width="348">
-                    <DataGrid AutoGenerateColumns="True" Height="Auto" HorizontalAlignment="Left" Name="dataGrid1" VerticalAlignment="Top" Width="326" ColumnHeaderHeight="30" EnableColumnVirtualization="True" AlternatingRowBackground="#31000000" CanUserReorderColumns="False" CanUserSortColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Single" SelectionUnit="Cell" Margin="6,6,0,0" Grid.ColumnSpan="2" AllowDrop="True" MouseLeftButtonUp="dataGrid1_MouseLeftButtonUp"></DataGrid>
+                <Label Content="Plaintext candidates" Height="28" HorizontalAlignment="Left" Margin="6,12,104,0" Name="label1" VerticalAlignment="Top" Width="373" FontWeight="SemiBold" FontSize="14" />
+                <Grid Height="350" HorizontalAlignment="Left" Margin="0,40,0,0" Name="grid2" VerticalAlignment="Top" Width="467">
+                    <DataGrid AutoGenerateColumns="True" Height="Auto" HorizontalAlignment="Left" Name="dataGrid1" VerticalAlignment="Top" Width="414" ColumnHeaderHeight="30" EnableColumnVirtualization="True" AlternatingRowBackground="#31000000" CanUserReorderColumns="False" CanUserSortColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" Margin="6,6,0,0" AllowDrop="True" SelectionChanged="dataGrid1_SelectionChanged"></DataGrid>
                 </Grid>
         </Grid>
         </ScrollViewer> 

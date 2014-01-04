@@ -23,6 +23,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private int size;
         private int ngram;
 
+        private CalculateFitness calculateFitnessOfKey;
+
         #endregion
 
         #region Constructor
@@ -82,6 +84,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public double[][][][][][][] Prob7Gram
         {
             get { return this.prob7gram; }
+            set { ; }
+        }
+
+        public CalculateFitness CalculateFitnessOfKey
+        {
+            get { return this.calculateFitnessOfKey; }
             set { ; }
         }
 
@@ -374,26 +382,124 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 case 1:
                     ReadProbabilities1Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness1gram;
                     break;
                 case 2:
                     ReadProbabilities2Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness2gram;
                     break;
                 case 3:
                     ReadProbabilities3Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness3gram;
                     break;
                 case 4:
                     ReadProbabilities4Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness4gram;
                     break;
                 case 5:
                     ReadProbabilities5Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness5gram;
                     break;
                 case 6:
                     ReadProbabilities6Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness6gram;
                     break;
                 case 7:
                     ReadProbabilities7Gram(filename);
+                    this.calculateFitnessOfKey = this.CalculateFitness7gram;
                     break;
             }
+        }
+
+        private double CalculateFitness1gram(Text plaintext)
+        {
+            double res = 0;
+            double[] prob = this.Prob1Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length; pos0++)
+            {
+                res += prob[text[pos0]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness2gram(Text plaintext)
+        {
+            double res = 0;
+            double[][] prob = this.Prob2Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 1; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness3gram(Text plaintext)
+        {
+            double res = 0;
+            double[][][] prob = this.Prob3Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 2; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness4gram(Text plaintext)
+        {
+            double res = 0;
+            double[][][][] prob = this.Prob4Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 3; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness5gram(Text plaintext)
+        {
+            double res = 0;
+            double[][][][][] prob = this.Prob5Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 4; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness6gram(Text plaintext)
+        {
+            double res = 0;
+            double[][][][][][] prob = this.Prob6Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 5; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]][text[pos0 + 5]];
+            }
+            return res;
+        }
+
+        private double CalculateFitness7gram(Text plaintext)
+        {
+            double res = 0;
+            double[][][][][][][] prob = this.Prob7Gram;
+            int[] text = plaintext.ValidLetterArray;
+
+            for (int pos0 = 0; pos0 < text.Length - 6; pos0++)
+            {
+                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]][text[pos0 + 4]][text[pos0 + 5]][text[pos0 + 5]];
+            }
+            return res;
         }
 
         #endregion

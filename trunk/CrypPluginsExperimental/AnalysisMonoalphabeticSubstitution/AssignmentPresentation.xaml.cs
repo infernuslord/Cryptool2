@@ -20,28 +20,29 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     /// </summary>
     public partial class AssignmentPresentation : UserControl
     {
-        #region Global Variables
+        #region Variables
 
         // Delegates
-        private UpdateOutputCiphertext updateOutput;
-        private RestartSearch restartSearch;
+        private UpdateOutput updateOutputFromUserChoice;
 
         // Data Source for DataGrid
-        private List<LetterPair> data;
-
-        // Switch Letters
-        private DataGridCell swapCell = null;
-        private DataGridRow swapRow = null;
-        private Style swapStyle = null;
+        private List<KeyCandidate> keyCandidates;
+        private List<PlainDisplay> keyCandidatePlaintexts;
 
         #endregion
 
         #region Properties
 
-        public List<LetterPair> Data
+        public List<KeyCandidate> KeyCandidates
         {
-            get { return this.data; }
-            set { this.data = value; }
+            get { return this.keyCandidates; }
+            set { this.keyCandidates = value; }
+        }
+
+        public UpdateOutput UpdateOutputFromUserChoice
+        {
+            get { return this.updateOutputFromUserChoice; }
+            set { this.updateOutputFromUserChoice = value; }
         }
 
         #endregion
@@ -51,6 +52,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public AssignmentPresentation()
         {
             InitializeComponent();
+            this.keyCandidatePlaintexts = new List<PlainDisplay>();
+            this.ConnectDataSource();
         }
 
         #endregion
@@ -59,160 +62,56 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void RefreshGUI()
         {
+            this.keyCandidatePlaintexts.RemoveRange(0,this.keyCandidatePlaintexts.Count);
+            for (int i=0;i< this.keyCandidates.Count;i++)
+            {
+                PlainDisplay pd = new PlainDisplay();
+                pd.Rank = i;
+                pd.Plaintext = this.keyCandidates[i].Plaintext;
+                this.keyCandidatePlaintexts.Add(pd);
+            }
             this.Dispatcher.Invoke((Action)(() =>
             {
                 dataGrid1.Items.Refresh();
             }));
         }
+ 
+        #endregion
 
-        public void ConnectDataSource()
+        #region Helper Methods
+
+        private void ConnectDataSource()
         {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                dataGrid1.ItemsSource = this.data;
+                dataGrid1.ItemsSource = this.keyCandidatePlaintexts;
             }));
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            BackgroundWorker bgWorker = new BackgroundWorker();
-            bgWorker.DoWork += new DoWorkEventHandler(updateOutput_DoWork);
-            bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(updateOutput_RunWorkerCompleted);
-            bgWorker.RunWorkerAsync();
-        }
-
-        private void updateOutput_DoWork(object sender, DoWorkEventArgs e)
-        {
-            DisableGUI();
-            updateOutput(this.data);
-        }
-
-        private void updateOutput_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            EnableGUI();
-            RefreshGUI();
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-            BackgroundWorker bgWorker = new BackgroundWorker();
-            bgWorker.DoWork += new DoWorkEventHandler(restartSearch_DoWork);
-            bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(restartSearch_RunWorkerCompleted);
-            bgWorker.RunWorkerAsync();
-        }
-
-        private void restartSearch_DoWork(object sender, DoWorkEventArgs e)
-        {
-            DisableGUI();
-            restartSearch();
-        }
-
-        private void restartSearch_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            EnableGUI();
-            RefreshGUI();
-        }
-
-        public void SetUpdateOutputCiphertext(UpdateOutputCiphertext method)
-        {
-            this.updateOutput = method;
-        }
-
-        public void SetRestartSearch(RestartSearch method)
-        {
-            this.restartSearch = method;
-        }
-
-        public void DisableGUI()
-        {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                btnRestart.IsEnabled = false;
-                btnUpdate.IsEnabled = false;
-                dataGrid1.IsEnabled = false;
-            }));
-        }
-
-        public void EnableGUI()
-        {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                btnRestart.IsEnabled = true;
-                btnUpdate.IsEnabled = true;
-                dataGrid1.IsEnabled = true;
-            }));
+            DataGrid dg = (DataGrid)sender;
+            DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(dg.SelectedItem);
+            
+            updateOutputFromUserChoice(row.GetIndex());
         }
 
         #endregion
 
-        #region Swap Letters
-
-        private void dataGrid1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        class PlainDisplay
         {
-            DependencyObject dep = (DependencyObject)e.OriginalSource;
-            
-            while ((dep != null) && !(dep is DataGridCell))
+            public int Rank
             {
-                dep = VisualTreeHelper.GetParent(dep);
+                get;
+                set;
             }
 
-            if (dep == null)
+            public String Plaintext
             {
-                return;
+                get;
+                set;
             }
-
-            DataGridCell cell = dep as DataGridCell;
-
-            if (this.swapCell == null && cell.Column.DisplayIndex == 1)
-            {
-                // Store cell infos
-                this.swapCell = cell;
-                while ((dep != null) && !(dep is DataGridRow))
-                {
-                    dep = VisualTreeHelper.GetParent(dep);
-                }
-                this.swapRow = dep as DataGridRow;
-                this.swapStyle = cell.Style;
-                
-                // Set new style
-                Style style = new Style(typeof(DataGridCell));
-                Setter setter = new Setter(DataGridCell.BackgroundProperty, Brushes.LightGreen);
-                style.Setters.Add(setter);
-                cell.Style = style;
-                
-            }
-            else if (this.swapCell != null && cell.Column.DisplayIndex == 1)
-            {
-                // Get object of second cell
-                while ((dep != null) && !(dep is DataGridRow))
-                {
-                    dep = VisualTreeHelper.GetParent(dep);
-                }
-
-                DataGridRow row = dep as DataGridRow;
-                
-                LetterPair p1 = this.swapRow.Item as LetterPair;
-                LetterPair p2 = row.Item as LetterPair;
-
-                string h = p1.Plaintext_letter;
-                p1.Plaintext_letter = p2.Plaintext_letter;
-                p2.Plaintext_letter = h;
-
-                // Reset after swapped finished
-                this.swapCell.Style = this.swapStyle;
-                this.swapCell = null;
-
-                RefreshGUI();
-            }
-            
-
         }
 
-        #endregion
     }
 }

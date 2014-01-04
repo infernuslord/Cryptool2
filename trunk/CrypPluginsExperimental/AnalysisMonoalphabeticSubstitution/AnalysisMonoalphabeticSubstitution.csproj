@@ -80,19 +80,23 @@
     <Compile Include="Alphabet.cs" />
     <Compile Include="AnalysisMonoalphabeticSubstitution.cs" />
     <Compile Include="AnalysisMonoalphabeticSubstitutionSettings.cs" />
-    <Compile Include="Analyzer.cs" />
+    <Compile Include="GeneticAttacker.cs" />
     <Compile Include="AssignmentPresentation.xaml.cs">
       <DependentUpon>AssignmentPresentation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DictionaryAttacker.cs" />
+    <Compile Include="KeyCandidate.cs" />
+    <Compile Include="Mapping.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Frequencies.cs" />
-    <Compile Include="LanguageDictionary.cs" />
+    <Compile Include="Dictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Word.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -125,20 +129,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AnalysisMonoalphabeticSubstitution_dic_ger.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AnalysisMonoalphabeticSubstitution_ref_eng.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="AnalysisMonoalphabeticSubstitution_ref_ger.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="dictionary_english.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="AssignmentPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,6 +145,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="en-4gram-nocs.lm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="en-small.dic">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
