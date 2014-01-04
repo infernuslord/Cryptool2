@@ -28,8 +28,7 @@ using System.Diagnostics;
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
     public delegate void PluginProgress(double current, double maximum);
-    public delegate void UpdateOutputCiphertext(List<LetterPair> lp);
-    public delegate void RestartSearch();
+    public delegate void UpdateOutput(int rank);
     delegate double CalculateFitness(Text plaintext);
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
@@ -46,11 +45,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Alphabet ptAlphabet = null;
         private Alphabet ctAlphabet = null;
         private Frequencies langFreq = null;
-        private LanguageDictionary langDic = null;
+        private Dictionary langDic = null;
         private Text cText = null;
         private Text refText = null;
         private Boolean caseSensitive = false;
         private String wordSeparator;
+        private List<KeyCandidate> keyCandidates;
 
         // Statistics
         private TimeSpan total_time = new TimeSpan();
@@ -75,10 +75,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private const String capEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const String smallGer = "abcdefghijklmnopqrstuvwxyzöäüß";
         private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
-
-        // Key for presentation
-        private Analyzer analyzer = new Analyzer();
-        private List<LetterPair> pairs = new List<LetterPair>();
 
         #endregion
 
@@ -311,7 +307,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     try
                     {
-                        this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
+                        this.langDic = new Dictionary("en-small.dic");
                     }
                     catch
                     {
@@ -322,7 +318,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     try
                     {
-                        this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
+                        this.langDic = new Dictionary("de-small.dic");
                     }
                     catch
                     {
@@ -342,7 +338,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     if (helper != null)
                     {
-                        this.langDic = new LanguageDictionary(helper, ' ');
+                        this.langDic = new Dictionary(helper);
                     }
                 }
             }
@@ -352,7 +348,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     try
                     {
-                        this.langDic = new LanguageDictionary("dictionary_english.txt", ' ');
+                        this.langDic = new Dictionary("en-small.dic");
                     }
                     catch
                     {
@@ -363,7 +359,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     try
                     {
-                        this.langDic = new LanguageDictionary("dictionary_german.txt", ' ');
+                        this.langDic = new Dictionary("de-small.dic");
                     }
                     catch
                     {
@@ -383,7 +379,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     if (helper != null)
                     {
-                        this.langDic = new LanguageDictionary(helper, ' ');
+                        this.langDic = new Dictionary(helper);
                     }
                 }
             }
@@ -462,71 +458,45 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
 
-            // If input incorrect return
+            // If input incorrect return otherwise execute analysis
             if (inputOK == false)
             {
                 inputOK = true;
                 return;
             }
-
-            // Create new analyzer
-            this.analyzer = new Analyzer();
-            this.pairs.Clear();
-            
-            // Initialize analyzer
-            this.analyzer.Ciphertext = this.cText;
-            this.analyzer.Ciphertext_Alphabet = this.ctAlphabet;
-            this.analyzer.Plaintext_Alphabet = this.ptAlphabet;
-            this.analyzer.Language_Frequencies = this.langFreq;
-            this.analyzer.Language_Dictionary = null; // this.langDic;
-            this.analyzer.WordSeparator = this.wordSeparator;
-            this.analyzer.SetPluginProgressCallback(ProgressChanged);
-            
-            // Conduct analysis
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            this.analyzer.Analyze();
-            watch.Stop();
-            this.total_time = watch.Elapsed;
-            this.currun_time = watch.Elapsed;
-
-            // Show result
-            this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
-            OnPropertyChanged("Plaintext");
-
-            // Set letter assignment in user interface
-            int[] key = this.analyzer.Key;
-            String alpha_output = "";
-            for (int i = 0; i < this.ctAlphabet.Length; i++)
+            else
             {
-                LetterPair lp = new LetterPair
+                this.keyCandidates = new List<KeyCandidate>();
+                if (this.langDic == null)
                 {
-                    Ciphertext_letter = this.ctAlphabet.GetLetterFromPosition(i),
-                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
-                };
-                pairs.Add(lp);
-                alpha_output += lp.Plaintext_letter + ";";
-                
+                    AnalyzeGenetic();
+                }
+                else
+                {
+                    AnalyzeDictionary();
+                    AnalyzeGenetic();
+                }
             }
 
-            // Show plaintext alphabet
-            this.plaintext_alphabet_output = alpha_output;
+            this.masPresentation.UpdateOutputFromUserChoice = this.UpdateOutput;
+            this.masPresentation.KeyCandidates = this.keyCandidates;
+            this.keyCandidates.Sort(new KeyCandidateComparer());
+            this.masPresentation.RefreshGUI();
+
+            // Display output
+            this.plaintext = this.keyCandidates[0].Plaintext;
+            OnPropertyChanged("Plaintext");
+
+            this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key,this.ctAlphabet);
             OnPropertyChanged("Plaintext_Alphabet_Output");
 
             // Refresh GUI
             this.masPresentation.RefreshGUI();
-            this.masPresentation.EnableGUI();
-
-            string totalTime = String.Format("{0:00}:{1:00}:{2:00}", this.total_time.Minutes, this.total_time.Seconds, this.total_time.Milliseconds / 10);
-            string curTime = String.Format("{0:00}:{1:00}:{2:00}", this.currun_time.Minutes, this.currun_time.Seconds, this.currun_time.Milliseconds / 10);
-
-            GuiLogMessage("Current analysis time: " + curTime + "   Total analysis time: " + totalTime, NotificationLevel.Info);
-            GuiLogMessage("Current number of tested keys: " + this.analyzer.Currun_Keys + "   Total number of tested keys: " + this.analyzer.Total_Keys, NotificationLevel.Info);
         }
 
         public void PostExecution()
         {
-            this.masPresentation.DisableGUI();
+
         }
 
         public void Pause()
@@ -540,80 +510,86 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void Initialize()
         {
             this.settings.Initialize();
-            this.masPresentation.SetRestartSearch(RestartSearch);
-            this.masPresentation.SetUpdateOutputCiphertext(UpdateCiphertext);
-            this.masPresentation.DisableGUI();
-            this.masPresentation.Data = this.pairs;
-            this.masPresentation.ConnectDataSource();
-            this.masPresentation.RefreshGUI();
         }
 
         public void Dispose()
         {
         }
 
-        public void UpdateCiphertext(List<LetterPair> lp)
+        private void AnalyzeDictionary()
         {
-            int[] key = new int[this.ctAlphabet.Length];
-            String alpha_output = "";
-
-            for (int i = 0; i < key.Length; i++)
-            {
-                key[i] = this.ptAlphabet.GetPositionOfLetter(lp[i].Plaintext_letter);
-                alpha_output += lp[i].Plaintext_letter+";";
-            }
-            
-            this.plaintext = this.analyzer.DecryptCiphertext(key);
-            OnPropertyChanged("Plaintext");
-            this.plaintext_alphabet_output = alpha_output;
-            OnPropertyChanged("Plaintext_Alphabet_Output");
-        }
-
-        public void RestartSearch()
-        {
-            // Conduct analysis
-            this.analyzer.Language_Dictionary = null;
-
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            this.analyzer.Analyze();
-            watch.Stop();
-            this.total_time.Add(watch.Elapsed);
-            this.currun_time = watch.Elapsed;
 
-            // Show result
-            this.plaintext = this.analyzer.Plaintext.ToString(this.ptAlphabet);
-            OnPropertyChanged("Plaintext");
+            ////////////////////// Create keys with dictionary attacker
+            // Initialize dictionary attacker
+            DictionaryAttacker dicAttacker = new DictionaryAttacker();
+            dicAttacker.ciphertext = this.cText;
+            dicAttacker.languageDictionary = this.langDic;
+            dicAttacker.frequencies = this.langFreq;
+            dicAttacker.ciphertext_alphabet = this.ctAlphabet;
+            dicAttacker.plaintext_alphabet = this.ptAlphabet;
+            dicAttacker.PluginProgressCallback = this.ProgressChanged;
 
-            // Set letter assignment in user interface
-            this.pairs.Clear();
-            int[] key = this.analyzer.Key;
-            String alpha_output = "";
-            for (int i = 0; i < this.ctAlphabet.Length; i++)
+            // Prepare text
+            dicAttacker.PrepareAttack();
+
+            // Deterministic search
+            // Try to find full solution with all words enabled
+            dicAttacker.SolveDeterministicFull();
+
+            // Try to find solution with disabled words
+            if (!dicAttacker.CompleteKey)
             {
-                LetterPair lp = new LetterPair
+                dicAttacker.SolveDeterministicWithDisabledWords();
+
+                // Randomized search;
+                if (!dicAttacker.PartialKey)
                 {
-                    Ciphertext_letter = this.ctAlphabet.GetLetterFromPosition(i),
-                    Plaintext_letter = this.ptAlphabet.GetLetterFromPosition(key[i])
-                };
-                pairs.Add(lp);
-                alpha_output += lp.Plaintext_letter + ";";
+                    dicAttacker.SolveRandomized();
+                }
+            }       
+
+            watch.Stop();
+
+            foreach (KeyCandidate keyCan in dicAttacker.Keys)
+            {
+                this.keyCandidates.Add(keyCan);
             }
-            // Show plaintext alphabet
-            this.plaintext_alphabet_output = alpha_output;
-            OnPropertyChanged("Plaintext_Alphabet_Output");
 
-            // Refresh GUI
-            this.masPresentation.RefreshGUI();
-            this.masPresentation.EnableGUI();
+            string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds / 10);
+            GuiLogMessage("Dictionary attack finished in " + curTime, NotificationLevel.Info);
+        }
 
-            ProgressChanged(1, 1);
+        private void AnalyzeGenetic()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
 
-            string totalTime = String.Format("{0:00}:{1:00}:{2:00}", this.total_time.Minutes, this.total_time.Seconds, this.total_time.Milliseconds / 10);
-            string curTime = String.Format("{0:00}:{1:00}:{2:00}", this.currun_time.Minutes, this.currun_time.Seconds, this.currun_time.Milliseconds / 10);
+            ////////////////// Create keys with genetic attacker
+            GeneticAttacker genAttacker = new GeneticAttacker();
 
-            GuiLogMessage("Current analysis time: " + curTime + "   Total analysis time: " + totalTime, NotificationLevel.Info);
-            GuiLogMessage("Current number of tested keys: " + this.analyzer.Currun_Keys + "   Total number of tested keys: " + this.analyzer.Total_Keys, NotificationLevel.Info);
+            // Initialize analyzer
+            genAttacker.Ciphertext = this.cText;
+            genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
+            genAttacker.Plaintext_Alphabet = this.ptAlphabet;
+            genAttacker.Language_Frequencies = this.langFreq;
+            genAttacker.WordSeparator = this.wordSeparator;
+            genAttacker.SetPluginProgressCallback(ProgressChanged);
+
+            genAttacker.Analyze();
+            
+            watch.Stop();
+
+            // Add keys to key candidates
+            foreach (KeyCandidate keyCan in genAttacker.Keys)
+            {
+                this.keyCandidates.Add(keyCan);
+            }
+
+            string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds / 10);
+            GuiLogMessage("Genetic attack finished in " + curTime, NotificationLevel.Info);
+            GuiLogMessage("Number of tested keys with genetic attack: " + genAttacker.Currun_Keys, NotificationLevel.Info);
         }
 
         #endregion
@@ -736,12 +712,29 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return null;
         }
 
-        #endregion
-    }
+        private void UpdateOutput(int number)
+        {
+            // Plaintext
+            this.plaintext = this.keyCandidates[number].Plaintext;
+            OnPropertyChanged("Plaintext");
 
-    public class LetterPair
-    {
-        public string Ciphertext_letter { get; set; }
-        public string Plaintext_letter { get; set; }
+            // Alphabet
+            this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[number].Key, this.ctAlphabet);
+            OnPropertyChanged("Plaintext_Alphabet_Output");
+        }
+
+        private String CreateAlphabetOutput(int[] key, Alphabet ciphertext_alphabet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < key.Length; i++)
+            {
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i])+";");
+            }
+
+            return sb.ToString();
+        }
+
+        #endregion
     }
 }
