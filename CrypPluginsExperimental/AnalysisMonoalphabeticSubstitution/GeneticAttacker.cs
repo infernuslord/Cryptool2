@@ -43,6 +43,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Delegate
         private PluginProgress PluginProgress;
+        private UpdateKeyDisplay updateKeyDisplay;
 
         // Class for a population
         private class Population
@@ -130,6 +131,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             private set { }
         }
 
+        public UpdateKeyDisplay UpdateKeyDisplay
+        {
+            get { return this.updateKeyDisplay; }
+            set { this.updateKeyDisplay = value; }
+        }
+
         #endregion
 
         #region Main Methods
@@ -172,16 +179,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 
                 bestkeys[curRep] = nextGen.keys[0];
                 bestkeys_fit[curRep] = nextGen.fitness[0];
-            }
 
-            String plain;
-            Text plainTxt;
-            this.keys = new List<KeyCandidate>();
-            for (int i = 0; i < bestkeys.Length; i++)
-            {
-                plainTxt = DecryptCiphertext(bestkeys[i], this.ciphertext, this.ciphertext_alphabet);
-                plain = plainTxt.ToString(this.plaintext_alphabet);
-                this.keys.Add(new KeyCandidate(bestkeys[i],bestkeys_fit[i],plain));
+                Text plainTxt = DecryptCiphertext(bestkeys[curRep], this.ciphertext, this.ciphertext_alphabet);
+                String plain = plainTxt.ToString(this.plaintext_alphabet);
+                this.updateKeyDisplay(new KeyCandidate(bestkeys[curRep], bestkeys_fit[curRep], plain));
             }
         }
 

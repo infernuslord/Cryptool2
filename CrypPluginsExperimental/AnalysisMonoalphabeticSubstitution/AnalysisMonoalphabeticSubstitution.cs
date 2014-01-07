@@ -30,6 +30,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     public delegate void PluginProgress(double current, double maximum);
     public delegate void UpdateOutput(int rank);
     delegate double CalculateFitness(Text plaintext);
+    delegate void UpdateKeyDisplay(KeyCandidate keyCan);
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
     [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
@@ -457,7 +458,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 inputOK = false;
             }
 
-
             // If input incorrect return otherwise execute analysis
             if (inputOK == false)
             {
@@ -466,7 +466,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
             else
             {
+                this.masPresentation.UpdateOutputFromUserChoice = this.UpdateOutput;
                 this.keyCandidates = new List<KeyCandidate>();
+                this.masPresentation.KeyCandidates = this.keyCandidates;
                 if (this.langDic == null)
                 {
                     AnalyzeGenetic();
@@ -477,21 +479,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     AnalyzeGenetic();
                 }
             }
-
-            this.masPresentation.UpdateOutputFromUserChoice = this.UpdateOutput;
-            this.masPresentation.KeyCandidates = this.keyCandidates;
-            this.keyCandidates.Sort(new KeyCandidateComparer());
-            this.masPresentation.RefreshGUI();
-
-            // Display output
-            this.plaintext = this.keyCandidates[0].Plaintext;
-            OnPropertyChanged("Plaintext");
-
-            this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key,this.ctAlphabet);
-            OnPropertyChanged("Plaintext_Alphabet_Output");
-
-            // Refresh GUI
-            this.masPresentation.RefreshGUI();
+            // Enable GUI
+            this.masPresentation.EnableGUI();
         }
 
         public void PostExecution()
@@ -505,6 +494,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Stop()
         {
+            this.masPresentation.DisableGUI();
         }
 
         public void Initialize()
@@ -530,6 +520,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             dicAttacker.ciphertext_alphabet = this.ctAlphabet;
             dicAttacker.plaintext_alphabet = this.ptAlphabet;
             dicAttacker.PluginProgressCallback = this.ProgressChanged;
+            dicAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
 
             // Prepare text
             dicAttacker.PrepareAttack();
@@ -552,11 +543,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             watch.Stop();
 
-            foreach (KeyCandidate keyCan in dicAttacker.Keys)
-            {
-                this.keyCandidates.Add(keyCan);
-            }
-
             string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds / 10);
             GuiLogMessage("Dictionary attack finished in " + curTime, NotificationLevel.Info);
         }
@@ -576,20 +562,34 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             genAttacker.Language_Frequencies = this.langFreq;
             genAttacker.WordSeparator = this.wordSeparator;
             genAttacker.SetPluginProgressCallback(ProgressChanged);
+            genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
 
+            // Start attack
             genAttacker.Analyze();
             
             watch.Stop();
 
-            // Add keys to key candidates
-            foreach (KeyCandidate keyCan in genAttacker.Keys)
-            {
-                this.keyCandidates.Add(keyCan);
-            }
-
             string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Minutes, watch.Elapsed.Seconds, watch.Elapsed.Milliseconds / 10);
             GuiLogMessage("Genetic attack finished in " + curTime, NotificationLevel.Info);
             GuiLogMessage("Number of tested keys with genetic attack: " + genAttacker.Currun_Keys, NotificationLevel.Info);
+        }
+
+        private void UpdateKeyDisplay(KeyCandidate keyCan)
+        {
+            // Add key if key does not already exists
+            if (!this.keyCandidates.Contains(keyCan))
+            {
+                this.keyCandidates.Add(keyCan);
+                this.keyCandidates.Sort(new KeyCandidateComparer());
+                this.masPresentation.RefreshGUI();
+
+                // Display output
+                this.plaintext = this.keyCandidates[0].Plaintext;
+                OnPropertyChanged("Plaintext");
+
+                this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key, this.ctAlphabet);
+                OnPropertyChanged("Plaintext_Alphabet_Output");
+            }
         }
 
         #endregion
@@ -701,7 +701,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 casesen = "cs";
             }
 
-            for (int i = 7; i > 0; i--)
+            for (int i = 4; i > 2; i--)
             {
                 name = lang + "-" + i.ToString() + "gram-" + casesen + ".lm";
                 if (File.Exists(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, name)))
