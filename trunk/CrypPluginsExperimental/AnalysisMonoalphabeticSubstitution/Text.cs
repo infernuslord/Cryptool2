@@ -146,6 +146,30 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return res;
         }
 
+        public List<Byte[]> ToSingleWords(Alphabet alpha)
+        {
+            List<Byte[]> result = new List<Byte[]>();
+
+            List<Byte> word = new List<Byte>();
+            for (int i = 0; i < this.text.Count; i++)
+            {
+                if (this.text[i] >= 0)
+                {
+                    word.Add((byte)this.text[i]);
+                }
+                else
+                {
+                    if (word != null && word.Count != 0)
+                    {
+                        result.Add(word.ToArray());
+                        word = new List<Byte>();
+                    }
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Get letter at position
         /// </summary>

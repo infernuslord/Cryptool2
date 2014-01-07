@@ -9,7 +9,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     {
         #region Variables
 
-        String text;
         byte[] byteValue;
         byte[] pattern;
         Candidate[] candidates;
@@ -24,9 +23,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         }
 
-        public Word(String text, int wordnum, byte[] byteValue)
+        public Word(int wordnum, byte[] byteValue)
         {
-	        this.text = text;
 	        this.byteValue = byteValue;
 
 	        this.pattern = makePattern(byteValue);
@@ -44,12 +42,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #endregion
        
         #region Properties
-
-        public String Text
-        {
-            get { return this.text; }
-            set { ; }
-        }
 
         public Byte[] ByteValue
         {
@@ -139,20 +131,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     {
         public int Compare(Word a, Word b)
         {
-            int i = Word.compareArrays(a.Pattern, b.Pattern);
-            if (i != 0)
-            {
-                return i;
-            }
-            return a.Text.CompareTo(b.Text);
-        }
-    }
-
-    class TextComparer : IComparer<Word>
-    {
-        public int Compare(Word a, Word b)
-        {
-            return a.Text.CompareTo(b.Text);
+            return Word.compareArrays(a.Pattern, b.Pattern);
         }
     }
 

@@ -19,9 +19,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Alphabet palpha;
 
         // Output Variables
-        private List<KeyCandidate> keys;
         private bool completeKey = false;
         private bool partialKey = false;
+        private UpdateKeyDisplay updateKeyDisplay;
 
         // Working Variables
         private List<int[]> result;
@@ -31,7 +31,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Random random;
         private DetermineNextSubstitution DetermineNextSubstitution;
         private PluginProgress pluginProgress;
-        private const int startProgress = 50; 
+        private int currentProgress;
+        private int maxProgressIt; 
 
         // Parameter dictionary attack
         private const int maxIterations = 100;
@@ -92,12 +93,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             set { ; }
         }
 
-        public List<KeyCandidate> Keys
-        {
-            get { return this.keys; }
-            set { ; }
-        }
-
         public bool CompleteKey
         {
             get { return this.completeKey; }
@@ -116,6 +111,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             set { this.pluginProgress = value; }
         }
 
+        public UpdateKeyDisplay UpdateKeyDisplay
+        {
+            get { return this.updateKeyDisplay; }
+            set { this.updateKeyDisplay = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -128,17 +129,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 return;
             }
 
-            // Split ciphertext in single words
-            String text = this.ctext.ToString(this.calpha);
-            
-            // More sophisticated word separation algorithm should be developed!!!!!
-            String[] text_in_words = text.Split(' '); 
+            List<Byte[]> text_in_words = this.ctext.ToSingleWords(this.calpha);
 
             // Add only unigue words
             WordComparer word_comparer = new WordComparer();
-            for (int i=0;i<text_in_words.Length;i++)
+            for (int i=0;i<text_in_words.Count;i++)
             {
-                Word w = new Word(text_in_words[i],i,CipherTextToCipherBytes(text_in_words[i]));
+                Word w = new Word(i,text_in_words[i]);
                 bool vorhanden = false;
                 for (int j=0;j<this.words.Count;j++)
                 {
@@ -199,6 +196,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
+            int nr = this.words.Count;
+            this.maxProgressIt = 30000 + 100 + nr * 100 + nr * nr * 100 + nr * nr * nr * 100;
         }
 
         public void SolveDeterministicFull()
@@ -211,7 +210,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             this.ReenableWords();
             this.Solve();
-            this.PrepareResult();
         }
 
         public void SolveDeterministicWithDisabledWords()
@@ -264,8 +262,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            this.PrepareResult();
         }
 
         public void SolveRandomized()
@@ -280,8 +276,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 this.Solve();
             }
-
-            this.PrepareResult();
         }
 
         private void Solve()
@@ -320,6 +314,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             do
             {
                 rounds++;
+
+                // Set progress
+                this.currentProgress++;
+                this.PluginProgressCallback(((double)this.currentProgress) / this.maxProgressIt, 100.0);
 
                 //// Store new data object to stack
                 SolveData data = stack.Peek().Copy();
@@ -468,26 +466,105 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Double CalculateWordCandidateFitness(byte[] candidate)
         {
             double fitness = 0.0;
-            this.freq.
-            if (this.freq.NGram > candidate.Length)
-            {
-                // TODO
-            }
-            else
-            {
-                int l1 = candidate[0];
-                int l2 = candidate[1];
-                int l3 = candidate[2];
-                int l4 = candidate[3];
 
-                for (int i = 4; i < candidate.Length; i++)
+            if (this.freq.NGram == 3)
+            {
+                if (candidate.Length == 1)
                 {
-                    fitness += this.freq.Prob4Gram[l1][l2][l3][l4];
+                    int count = 0;
+                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    {
+                        for (int j = 0; j < this.freq.Prob4Gram[i].Length; j++)
+                        {
+                            fitness += this.freq.Prob3Gram[candidate[0]][i][j];
+                            count++;
+                        }
+                    }
+                    fitness = fitness / count;
+                }
+                else if (candidate.Length == 2)
+                {
+                    int count = 0;
+                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    {
+                        fitness += this.freq.Prob3Gram[candidate[0]][candidate[1]][i];
+                        count++;
+                    }
+                    fitness = fitness / count;
+                }
+                else
+                {
+                    int l1 = candidate[0];
+                    int l2 = candidate[1];
+                    int l3 = candidate[2];
 
-                    l1 = l2;
-                    l2 = l3;
-                    l3 = l4;
-                    l4 = candidate[i];
+                    for (int i = 3; i < candidate.Length; i++)
+                    {
+                        fitness += this.freq.Prob3Gram[l1][l2][l3];
+
+                        l1 = l2;
+                        l2 = l3;
+                        l3 = candidate[i];
+                    }
+                }
+            }
+            else if (this.freq.NGram == 4)
+            {
+                if (candidate.Length == 1)
+                {
+                    int count = 0;
+                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    {
+                        for (int j = 0; j < this.freq.Prob4Gram[i].Length; j++)
+                        {
+                            for (int t = 0; t < this.freq.Prob4Gram[i][j].Length; t++)
+                            {
+                                fitness += this.freq.Prob4Gram[candidate[0]][i][j][t];
+                                count++;
+                            }
+                        }
+                    }
+                    fitness = fitness / count;
+                }
+                else if (candidate.Length == 2)
+                {
+                    int count = 0;
+                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    {
+                        for (int j = 0; j < this.freq.Prob4Gram[i].Length; j++)
+                        {
+                            fitness += this.freq.Prob4Gram[candidate[0]][candidate[1]][i][j];
+                            count++;
+                        }
+                    }
+                    fitness = fitness / count;
+                }
+                else if (candidate.Length == 3)
+                {
+                    int count = 0;
+                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    {
+                        fitness += this.freq.Prob4Gram[candidate[0]][candidate[1]][candidate[2]][i];
+                        count++;
+                    }
+                    fitness = fitness / count;
+                }
+                else
+                {
+                    int l1 = candidate[0];
+                    int l2 = candidate[1];
+                    int l3 = candidate[2];
+                    int l4 = candidate[3];
+
+                    for (int i = 4; i < candidate.Length; i++)
+                    {
+                        fitness += this.freq.Prob4Gram[l1][l2][l3][l4];
+
+                        l1 = l2;
+                        l2 = l3;
+                        l3 = l4;
+                        l4 = candidate[i];
+                    }
                 }
             }
 
@@ -504,57 +581,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
         }
-
-        private byte[] CipherTextToCipherBytes(String word)
-        {
-            byte[] res = new byte[word.Length];
-
-            for (int i = 0; i < word.Length; i++)
-            {
-                res[i] = (byte)this.calpha.GetPositionOfLetter(word[i]+"");
-            }
-
-            return res;
-        }
-
-        private void PrepareResult()
-        {
-            if (this.keys == null)
-            {
-                this.keys = new List<KeyCandidate>();
-            }
-
-            foreach (int[] key in this.result)
-            {
-                // Test if key is already in list
-                // ToDO
-
-                // Create fitness and plaintext
-                Text plaintext = this.DecryptCiphertext(key, this.ctext, this.calpha);
-                string plain = plaintext.ToString(this.palpha);
-                double fit = this.freq.CalculateFitnessOfKey(plaintext);
-                KeyCandidate keyCan = new KeyCandidate(key, fit, plain);
-
-                // Add at right position
-                if (this.keys.Count == 0)
-                {
-                    this.keys.Add(keyCan);
-                }
-                else
-                {
-                    for (int i = 0; i < this.keys.Count; i++)
-                    {
-                        KeyCandidate cur = this.keys[i];
-                        if (cur.Fitness > keyCan.Fitness)
-                        {
-                            this.keys.Insert(i - 1, keyCan);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
+   
         private Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
         {
             int index = -1;
@@ -582,8 +609,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 this.partialKey = true;
             }
-            this.result.Add(this.MakeKeyComplete(map.DeriveKey()));
-           
+
+            int[] key = this.MakeKeyComplete(map.DeriveKey());
+            Text plaintext = this.DecryptCiphertext(key, this.ctext, this.calpha);
+            string plain = plaintext.ToString(this.palpha);
+            double fit = this.freq.CalculateFitnessOfKey(plaintext);
+            KeyCandidate keyCan = new KeyCandidate(key, fit, plain);
+            this.updateKeyDisplay(keyCan);
         }
 
         private int[] MakeKeyComplete(int[] key)

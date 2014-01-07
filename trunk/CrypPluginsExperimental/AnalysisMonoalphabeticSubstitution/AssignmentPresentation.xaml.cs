@@ -62,20 +62,39 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void RefreshGUI()
         {
-            this.keyCandidatePlaintexts.RemoveRange(0,this.keyCandidatePlaintexts.Count);
-            for (int i=0;i< this.keyCandidates.Count;i++)
+            if (!(this.keyCandidates == null))
             {
-                PlainDisplay pd = new PlainDisplay();
-                pd.Rank = i;
-                pd.Plaintext = this.keyCandidates[i].Plaintext;
-                this.keyCandidatePlaintexts.Add(pd);
+                this.keyCandidatePlaintexts.RemoveRange(0, this.keyCandidatePlaintexts.Count);
+                for (int i = 0; i < this.keyCandidates.Count; i++)
+                {
+                    PlainDisplay pd = new PlainDisplay();
+                    pd.Rank = i;
+                    pd.Plaintext = this.keyCandidates[i].Plaintext;
+                    this.keyCandidatePlaintexts.Add(pd);
+                }
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    dataGrid1.Items.Refresh();
+                }));
             }
+        }
+
+        public void DisableGUI()
+        {
             this.Dispatcher.Invoke((Action)(() =>
             {
-                dataGrid1.Items.Refresh();
+                dataGrid1.IsEnabled = false;
             }));
         }
- 
+
+        public void EnableGUI()
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                dataGrid1.IsEnabled = true;
+            }));
+        }
+
         #endregion
 
         #region Helper Methods
@@ -90,10 +109,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DataGrid dg = (DataGrid)sender;
-            DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(dg.SelectedItem);
-            
-            updateOutputFromUserChoice(row.GetIndex());
+            int index = 0;
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                DataGrid dg = (DataGrid)sender;
+                DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(dg.SelectedItem);
+                if (row != null)
+                {
+                    index = row.GetIndex();
+                }
+            }));
+
+            updateOutputFromUserChoice(index);
         }
 
         #endregion
