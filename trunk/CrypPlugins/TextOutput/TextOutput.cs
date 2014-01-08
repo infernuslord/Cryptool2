@@ -197,12 +197,12 @@ namespace TextOutput
                 byte[] byteArray = ConvertStreamToByteArray((ICryptoolStream)value);
                 fillValue = BitConverter.ToString(byteArray).Replace("-", " ");
             }
-            else if (value is Array)
+            else if (value is System.Collections.IEnumerable)
             {
-                Array array = (Array)value;
+                var enumerable = value as System.Collections.IEnumerable;
                 StringBuilder sb = new StringBuilder();
 
-                foreach (object obj in array)
+                foreach (var obj in enumerable)
                 {
                     sb.AppendLine(obj == null ? "null" : obj.ToString());
                 }
@@ -210,7 +210,7 @@ namespace TextOutput
             }
             else
             {
-                fillValue = value.ToString();
+                    fillValue = value.ToString();
             }
 
             if (fillValue.Length > settings.MaxLength)
