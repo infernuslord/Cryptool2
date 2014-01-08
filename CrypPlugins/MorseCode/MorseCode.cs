@@ -249,7 +249,7 @@ namespace Cryptool.Plugins.MorseCode
             {
                 if (_mapping.ContainsKey(uppertext[i]))
                 {
-                    //we found a correspinding morse code and put it into the output
+                    //we found a corresponding morse code and put it into the output
                     builder.Append(_mapping[uppertext[i]]);
                     builder.Append(" ");
                 }
@@ -278,7 +278,8 @@ namespace Cryptool.Plugins.MorseCode
         private void Decode()
         {
             var builder = new StringBuilder();
-            string[] tokens = InputText.Split(' ');
+
+            string[] tokens = Regex.Replace(InputText.Trim(), @" +", " ").Split(' ');
             int tokennumber = 0;
             foreach(string token in tokens)
             {
