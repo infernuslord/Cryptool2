@@ -254,8 +254,18 @@ namespace Transposition
             }
 
             running = true;
-            
-            ProcessTransposition();
+
+            try
+            {
+                ProcessTransposition();
+            }
+            catch (Exception)
+            {
+                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                Output = null;
+                return;
+            }
+
             if (controlSlave is object && Input is object)
             {
                 ((TranspositionControl)controlSlave).onStatusChanged();
@@ -328,36 +338,25 @@ namespace Transposition
 
         private void ProcessTransposition()
         {
-            try
+            if (keyword.Contains(','))
             {
-                if (keyword.Contains(','))
-                {
-                    key = get_Keyword_Array(keyword);
-                }
-
-                else
-                {
-                    key = sortKey(keyword);
-                }
-                
-                switch (settings.Action)
-                {
-                    case 0:
-                        this.output = encrypt(InputToCharacterArray, key);
-                        break;
-                    case 1:
-                        this.output = decrypt(InputToCharacterArray, key);
-                        break;
-                    default:
-                        break;
-                }
-                
+                key = get_Keyword_Array(keyword);
+            }
+            else
+            {
+                key = sortKey(keyword);
             }
 
-            catch (Exception)
+            switch (settings.Action)
             {
-                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
-                Output = null;
+                case 0:
+                    this.output = encrypt(InputToCharacterArray, key);
+                    break;
+                case 1:
+                    this.output = decrypt(InputToCharacterArray, key);
+                    break;
+                default:
+                    break;
             }
         }
 
