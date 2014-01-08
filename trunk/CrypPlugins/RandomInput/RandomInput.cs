@@ -73,7 +73,7 @@ namespace RandomInput
           rndArray = new byte[Math.Min((UInt64)settings.NumBytes, (UInt64)maxByteArraySize)];
           sRandom.GetBytes(rndArray);
 
-          GuiMessage("Generated " + rndArray.Length + " bytes of random data.", NotificationLevel.Info);
+          GuiMessage("Generated " + rndArray.Length + " bytes of random data.", NotificationLevel.Debug);
           Progress(100, 100);
         }
 
@@ -174,7 +174,7 @@ namespace RandomInput
                     sRandom.GetBytes(byt);
                     rndNumberArray[i] = BitConverter.ToInt32(byt, 0) & 0x7fffffff;
                 }
-                GuiMessage("Generated " + rndNumberArray.Length + " random integers.", NotificationLevel.Info);
+                GuiMessage("Generated " + rndNumberArray.Length + " random integers.", NotificationLevel.Debug);
             }
 
             Progress(1.0, 1.0);
