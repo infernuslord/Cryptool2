@@ -15,7 +15,6 @@
 
   <relevantPlugins>
     <plugin name="BooleanOutput" />
-    <plugin name="GeneratePrimeWithInput" />
     <plugin name="IncDec" />
     <plugin name="RSA" />
     <plugin name="RSAKeyGenerator" />

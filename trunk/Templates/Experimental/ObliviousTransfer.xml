@@ -16,7 +16,6 @@
   <relevantPlugins>
     <plugin name="ObliviousTransfer1" />
     <plugin name="ObliviousTransfer2" />
-    <plugin name="ObliviousTransfer3" />
     <plugin name="RSAKeyGenerator" />
     <plugin name="RandomMessageGenerator" />
   </relevantPlugins>
