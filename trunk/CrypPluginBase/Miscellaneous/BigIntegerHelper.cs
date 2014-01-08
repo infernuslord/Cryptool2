@@ -396,7 +396,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// </summary>
         public static BigInteger RandomIntLimit(this BigInteger limit)
         {
-            if (limit < 0) throw new ArithmeticException("Enter a positive limit");
+            if (limit <= 0) throw new ArithmeticException("Enter a positive limit");
 
             byte[] buffer = limit.ToByteArray();
             int n = buffer.Length;
