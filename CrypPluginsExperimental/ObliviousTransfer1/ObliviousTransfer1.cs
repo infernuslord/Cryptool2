@@ -24,80 +24,62 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.ObliviousTransfer1
 {
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Oblivious Transfer 1", "Plugin for oblivious transfer protocol", "ObliviousTransfer1/userdoc.xml", new[] { "ObliviousTransfer1/icon.png" })]
-    
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("ObliviousTransfer1.Properties.Resources", "PluginCaption", "PluginTooltip", "ObliviousTransfer1/userdoc.xml", new[] { "ObliviousTransfer1/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class ObliviousTransfer1 : ICrypComponent
     {
-        #region Private Variables
-
-
-        private readonly ObliviousTransfer1Settings settings = new ObliviousTransfer1Settings();
-
-        #endregion
-
         #region Data Properties
 
-        BigInteger k;
-
-
-        [PropertyInfo(Direction.InputData, "x", "N bit generated random number")]
-        public List<BigInteger> x
+        [PropertyInfo(Direction.InputData, "xCaption", "xTooltip")]
+        public BigInteger[] x
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "b", "index of wanted message")]
+        [PropertyInfo(Direction.InputData, "bCaption", "bTooltip")]
         public int b
         {
             get;
             set;
         }
-  
-        [PropertyInfo(Direction.InputData, "e", "public RSA key")]
-        public int e
+
+        [PropertyInfo(Direction.InputData, "eCaption", "eTooltip")]
+        public BigInteger e
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.InputData, "N", "public RSA key")]
-        public int N
+        [PropertyInfo(Direction.InputData, "NCaption", "NTooltip")]
+        public BigInteger N
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "v", "encrypted message")]
+        [PropertyInfo(Direction.OutputData, "vCaption", "vTooltip")]
         public BigInteger v
         {
             get;
             set;
         }
-        [PropertyInfo(Direction.OutputData, "k", "key for encryption")]
+        [PropertyInfo(Direction.OutputData, "kCaption", "kTooltip")]
         public BigInteger K
         {
             get;
             set;
         }
 
-
-
         #endregion
 
         #region IPlugin Members
 
-
         public ISettings Settings
         {
-            get { return settings; }
+            get { return null; }
         }
-
 
         public UserControl Presentation
         {
@@ -108,36 +90,24 @@ namespace Cryptool.Plugins.ObliviousTransfer1
         {
         }
 
-
         public void Execute()
         {
-
             ProgressChanged(0, 1);
 
-            if (b >= x.Count)
+            if (b<0 || b >= x.Length)
             {
-                GuiLogMessage("Ammount of message parameter is lesser than 1", NotificationLevel.Error);
+                GuiLogMessage("Requested message index "+b+" is illegal, it must be bigger than 0 and smaller than "+x.Length, NotificationLevel.Error);
+                return;
             }
-            else
-            {
 
-                
-                k = BigIntegerHelper.RandomIntLimit(settings.KLimit);
-                if (k >= N)
-                {
-                    GuiLogMessage("Public key N is too small, RSA failed", NotificationLevel.Error);
-                }
-                else
-                {
-                    v = (x[b] + BigInteger.Pow(k, e)) % N;
-                    OnPropertyChanged("v");
-                    K = k;
-                    OnPropertyChanged("K");
-                    ProgressChanged(1, 1);
-                }
-            }
+            K = BigIntegerHelper.RandomIntLimit(N);
+            v = (x[b] + BigInteger.ModPow(K, e, N)) % N;
+
+            OnPropertyChanged("K");
+            OnPropertyChanged("v");
+
+            ProgressChanged(1, 1);
         }
-
 
         public void PostExecution()
         {
@@ -147,11 +117,9 @@ namespace Cryptool.Plugins.ObliviousTransfer1
         {
         }
 
-
         public void Initialize()
         {
         }
-
 
         public void Dispose()
         {

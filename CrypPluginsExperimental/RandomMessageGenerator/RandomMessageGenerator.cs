@@ -17,49 +17,38 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Numerics;
 using System.Collections.Generic;
-
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-
 namespace Cryptool.Plugins.RandomMessageGenerator
 {
-
     [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Random message generator", "Generate random messages", "RandomMessageGenerator/userdoc.xml", new[] { "RandomMessageGenerator/icon.png" })]
-   
+    [PluginInfo("RandomMessageGenerator.Properties.Resources", "PluginCaption", "PluginTooltip", "RandomMessageGenerator/userdoc.xml", new[] { "RandomMessageGenerator/icon.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class RandomMessageGenerator : ICrypComponent
     {
-        #region Private Variables
-
-        BigInteger maximum;
-
-       
-        private readonly RandomMessageGeneratorSettings settings = new RandomMessageGeneratorSettings();
-
-        #endregion
-
         #region Data Properties
 
-        
-        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description")]
-        public int AmmountOfMessage
+        [PropertyInfo(Direction.InputData, "NumberOfNumbersCaption", "NumberOfNumbersTooltip")]
+        public int NumberOfNumbers
         {
             get;
             set;
         }
 
-       
-        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
-        public List<BigInteger> Messages
+        [PropertyInfo(Direction.InputData, "MaximumCaption", "MaximumTooltip")]
+        public BigInteger Maximum
         {
             get;
             set;
         }
 
-
+        [PropertyInfo(Direction.OutputData, "ListCaption", "ListTooltip")]
+        public BigInteger[] List
+        {
+            get;
+            set;
+        }
 
         #endregion
 
@@ -67,42 +56,42 @@ namespace Cryptool.Plugins.RandomMessageGenerator
 
         public ISettings Settings
         {
-            get { return settings; }
+            get { return null; }
         }
 
-     
         public UserControl Presentation
         {
             get { return null; }
         }
 
-     
         public void PreExecution()
         {
-            Messages = new List<BigInteger>();
         }
 
         public void Execute()
         {            
             ProgressChanged(0, 1);
 
-            Messages = new List<BigInteger>();
-            maximum = new BigInteger(settings.MessageLimit);
-            if (AmmountOfMessage < 1)
+            if (NumberOfNumbers <= 0)
             {
-                GuiLogMessage("Ammount of message parameter is lesser than 1", NotificationLevel.Error);
+                GuiLogMessage("The number of numbers must be greater than 0.", NotificationLevel.Error);
+                return;
             }
-            else
+
+            if (Maximum <= 0)
             {
-                for (int i = 0; i < AmmountOfMessage; i++)
-                {
-                    Messages.Add(BigIntegerHelper.RandomIntLimit(maximum));
-                }
-                OnPropertyChanged("Messages");
-                ProgressChanged(1, 1);
+                GuiLogMessage("The maximum value must be greater than 0.", NotificationLevel.Error);
+                return;
             }
-            
-            
+
+            List = new BigInteger[NumberOfNumbers];
+
+            for (int i = 0; i < NumberOfNumbers; i++)
+                List[i] = BigIntegerHelper.RandomIntLimit(Maximum);
+
+            OnPropertyChanged("List");
+
+            ProgressChanged(1, 1);            
         }
 
         public void PostExecution()
@@ -110,17 +99,14 @@ namespace Cryptool.Plugins.RandomMessageGenerator
             Dispose();
         }
 
-     
         public void Stop()
         {
         }
 
-      
         public void Initialize()
         {
         }
 
-      
         public void Dispose()
         {
         }

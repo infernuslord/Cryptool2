@@ -16,73 +16,56 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Numerics;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Yao2
 {
-
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Yao 2", "Plugin for Yao´s Millionaire Problem", "Yao2/userdoc.xml", new[] { "Yao2/icon.png" })]
- 
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("Yao2.Properties.Resources", "PluginCaption", "PluginTooltip", "Yao2/userdoc.xml", new[] { "Yao2/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class Yao2 : ICrypComponent
     {
-        #region Private Variables
-
-      
-
-        int z;
-
-        #endregion
-
         #region Data Properties
 
+        List<BigInteger> Ys = new List<BigInteger>();
+        bool messageflag = false;
 
-        List<int> Ys = new List<int>();
-
-        int count;
-
-        [PropertyInfo(Direction.InputData, "Y", "Y")]
-        public int Y
+        [PropertyInfo(Direction.InputData, "YCaption", "YTooltip")]
+        public BigInteger Y
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Max money", "Maximal ammount of money")]
+        [PropertyInfo(Direction.InputData, "maxMoneyCaption", "maxMoneyTooltip")]
         public int maxMoney
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.InputData, "p", "p")]
-        public int p
-        {
-            get;
-            set;
-        }
-        [PropertyInfo(Direction.InputData, "I", "Alice´s ammount of money")]
-        public int I
+        [PropertyInfo(Direction.InputData, "pCaption", "pTooltip")]
+        public BigInteger p
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "Z", "Z")]
-        public List<int> Zs
+        [PropertyInfo(Direction.InputData, "ACaption", "ATooltip")]
+        public int A
         {
             get;
             set;
         }
 
-
-        
-
+        [PropertyInfo(Direction.OutputData, "ZCaption", "ZTooltip")]
+        public List<BigInteger> Zs
+        {
+            get;
+            set;
+        }
 
         #endregion
 
@@ -93,7 +76,6 @@ namespace Cryptool.Plugins.Yao2
             get { return null; }
         }
 
-
         public UserControl Presentation
         {
             get { return null; }
@@ -101,56 +83,46 @@ namespace Cryptool.Plugins.Yao2
 
         public void PreExecution()
         {
-            Ys = new List<int>();
-            Zs = new List<int>();
-            count = 0;
+            Ys = new List<BigInteger>();
+            Zs = new List<BigInteger>();
+            messageflag = false;
         }
-
 
         public void Execute()
         {
+            ProgressChanged(0, maxMoney);
 
-            ProgressChanged(0, 1);
-            Ys.Add(Y);
-            count++;
-            
-            if (count == maxMoney)
+            if (A >= maxMoney)
             {
-                
-                for (int i = 0; i < maxMoney; i++)
-                {
-                    z = Ys[i] % p;
-                    if (i >= I)
-                    {                        
-                        Zs.Add(z + 1);
-                    }
-                    else
-                    {
-                        Zs.Add(z);
-                    }
-                    OnPropertyChanged("Zs");
-                }
-
-                ProgressChanged(1, 1);
-                 
+                if(!messageflag)
+                GuiLogMessage("A's amount of money (" + A + ") must be smaller than the maximum amount (" + maxMoney + ").", NotificationLevel.Error);
+                messageflag = true;
+                return;
             }
 
+            Ys.Add(Y);
 
-            
-                
-                
+            if (Ys.Count == maxMoney)
+            {
+                for (int i = 0; i < maxMoney; i++)
+                {
+                    BigInteger z = Ys[i] % p;
+                    Zs.Add(i <= A ? z : z + 1);
+                }
+
+                OnPropertyChanged("Zs");
+            }
+
+            ProgressChanged(Ys.Count, maxMoney);
         }
-
 
         public void PostExecution()
         {
         }
 
-
         public void Stop()
         {
         }
-
 
         public void Initialize()
         {

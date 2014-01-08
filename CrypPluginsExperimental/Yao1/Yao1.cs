@@ -15,58 +15,43 @@
 */
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Numerics;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Yao1
 {
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-    [PluginInfo("Yao 1", "Plugin for Yao´s Millionaire Problem", "Yao1/userdoc.xml", new[] { "Yao1/icon.png" })]
-
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("Yao1.Properties.Resources", "PluginCaption", "PluginTooltip", "Yao1/userdoc.xml", new[] { "Yao1/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class Yao1 : ICrypComponent
     {
-        #region Private Variables
-
-
-        int Count = 0;
-
-
-
-
-        #endregion
-
         #region Data Properties
 
-
-        [PropertyInfo(Direction.InputData, "C", "C")]
-        public int C
+        [PropertyInfo(Direction.InputData, "D", "D")]
+        public BigInteger D
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Max money", "Maximal ammount of money")]
+        [PropertyInfo(Direction.InputData, "maxMoneyCaption", "maxMoneyTooltip")]
         public int maxMoney
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "Y", "Y")]
-        public int Y
+        [PropertyInfo(Direction.OutputData, "YCaption", "YTooltip")]
+        public BigInteger Y
         {
             get;
             set;
         }
 
-  
-
         #endregion
 
         #region IPlugin Members
-
 
         public ISettings Settings
         {
@@ -78,27 +63,25 @@ namespace Cryptool.Plugins.Yao1
             get { return null; }
         }
 
-
         public void PreExecution()
         {
         }
 
-
         public void Execute()
         {
+            ProgressChanged(0, maxMoney);
 
-            ProgressChanged(0, 1);
             for (int i = 0; i < maxMoney; i++)
             {
-                Y = C + i;
+                Y = D + i;
                 OnPropertyChanged("Y");
-
+                // The queue in ConnectorModel.cs only holds 10 property changes.
+                // If too many property changes per time unit are generated, they are thrown away, which is fatal for this component.
+                // Waiting a short time span between property changes fixes this problem.
+                System.Threading.Thread.Sleep(5);
+                ProgressChanged(i+1, maxMoney);
             }
-
-
-            ProgressChanged(1, 1);
         }
-
 
         public void PostExecution()
         {
@@ -108,11 +91,9 @@ namespace Cryptool.Plugins.Yao1
         {
         }
 
-
         public void Initialize()
         {
         }
-
 
         public void Dispose()
         {

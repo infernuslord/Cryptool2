@@ -117,46 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="bCaption" xml:space="preserve">
-    <value>b</value>
+  <data name="CoinFlipACaption" xml:space="preserve">
+    <value>As Münzwurf</value>
   </data>
-  <data name="bTooltip" xml:space="preserve">
-    <value>Index of the requested message</value>
+  <data name="CoinFlipATooltip" xml:space="preserve">
+    <value>Resultat des Münzwurfes von A</value>
   </data>
-  <data name="eCaption" xml:space="preserve">
-    <value>e</value>
+  <data name="CoinFlipBCaption" xml:space="preserve">
+    <value>Bs Vermutung</value>
   </data>
-  <data name="eTooltip" xml:space="preserve">
-    <value>Public RSA key</value>
+  <data name="CoinFlipBTooltip" xml:space="preserve">
+    <value>Bs Vermutung für den Münzwurf von A</value>
   </data>
-  <data name="kCaption" xml:space="preserve">
-    <value>k</value>
+  <data name="CoinResultCaption" xml:space="preserve">
+    <value>Ergebnis des Münzwurfes</value>
   </data>
-  <data name="kTooltip" xml:space="preserve">
-    <value>Random value</value>
-  </data>
-  <data name="NCaption" xml:space="preserve">
-    <value>N</value>
-  </data>
-  <data name="NTooltip" xml:space="preserve">
-    <value>RSA modulus</value>
+  <data name="CoinResultTooltip" xml:space="preserve">
+    <value>Ergebnis des Münzwurfes von A. (hängt von As Ehrlichkeit ab)</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Oblivious Transfer 1</value>
+    <value>Münzwurf</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>First component for the Oblivious Transfer Protocol</value>
+    <value>Komponente für das Coin Flipping-Protokoll (Münzwurf)</value>
   </data>
-  <data name="vCaption" xml:space="preserve">
-    <value>v</value>
+  <data name="SettingsHonestCaption" xml:space="preserve">
+    <value>Ehrlich?</value>
   </data>
-  <data name="vTooltip" xml:space="preserve">
-    <value>Blinded value from random list</value>
+  <data name="SettingsHonestList1" xml:space="preserve">
+    <value>Nein</value>
   </data>
-  <data name="xCaption" xml:space="preserve">
-    <value>x</value>
+  <data name="SettingsHonestList2" xml:space="preserve">
+    <value>Ja</value>
   </data>
-  <data name="xTooltip" xml:space="preserve">
-    <value>List of random numbers</value>
+  <data name="SettingsHonestTooltip" xml:space="preserve">
+    <value>Ist A ehrlich, wenn er den Wert seines Münzwurfes bekanntgibt?</value>
+  </data>
+  <data name="SuccessCaption" xml:space="preserve">
+    <value>Erfolg</value>
+  </data>
+  <data name="SuccessTooltip" xml:space="preserve">
+    <value>War Bs Vermutung richtig? (hängt von As Ehrlichkeit ab)</value>
   </data>
 </root>

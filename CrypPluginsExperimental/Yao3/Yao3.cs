@@ -16,131 +16,100 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Numerics;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Yao3
 {
-
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Yao 3", "Plugin for Yao´s Millionaire Problem", "Yao3/userdoc.xml", new[] { "Yao3/icon.png" })]
-
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("Yao3.Properties.Resources", "PluginCaption", "PluginTooltip", "Yao3/userdoc.xml", new[] { "Yao3/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class Yao3 : ICrypComponent
     {
-        #region Private Variables
-
-
-        #endregion
-
         #region Data Properties
 
-        
-
-        int count;
-
-
-        [PropertyInfo(Direction.InputData, "p", "N/2 bit random prime")]
-        public int p
+        [PropertyInfo(Direction.InputData, "pCaption", "pTooltip")]
+        public BigInteger p
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.InputData, "Z", "Z")]
-        public List<int> Zs
+        [PropertyInfo(Direction.InputData, "ZCaption", "ZTooltip")]
+        public List<BigInteger> Zs
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "x", "x")]
-        public int x
+        [PropertyInfo(Direction.InputData, "xCaption", "xTooltip")]
+        public BigInteger x
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.InputData, "J", "J")]
-        public int J
+        [PropertyInfo(Direction.InputData, "BCaption", "BTooltip")]
+        public int B
         {
             get;
             set;
         }
 
-
-        
-        [PropertyInfo(Direction.OutputData, "BIsRicher?", "Is Bob richer than Alice?")]
+        [PropertyInfo(Direction.OutputData, "BisRicherCaption", "BisRicherTooltip")]
         public bool BisRicher
         {
             get;
             set;
         }
 
-
-
         #endregion
 
         #region IPlugin Members
-
 
         public ISettings Settings
         {
             get { return null; }
         }
 
-       
         public UserControl Presentation
         {
             get { return null; }
         }
 
-
         public void PreExecution()
         {
-            count = 0;
         }
-
 
         public void Execute()
         {
-           
-            ProgressChanged(0, 1);            
-                        
-            if (Zs[J - 1] != x % p)
-            {
-                BisRicher = true;
-            }
-            else
-            {
-                BisRicher = false;
-            }
-         
+            ProgressChanged(0, 1);
 
+            if (B >= Zs.Count)
+            {
+                GuiLogMessage("B's amount of money (" + B + ") must be smaller than the maximum amount (" + Zs.Count + ").", NotificationLevel.Error);
+                return;
+            }
+
+            BisRicher = (Zs[B] != x % p);
             OnPropertyChanged("BisRicher");
   
             ProgressChanged(1, 1);
         }
 
-      
         public void PostExecution()
         {
         }
 
-        
         public void Stop()
         {
         }
 
-       
         public void Initialize()
         {
         }
 
- 
         public void Dispose()
         {
         }

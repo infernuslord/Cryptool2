@@ -13,8 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System.ComponentModel;
+using System;
 using System.Numerics;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -22,70 +23,50 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.ObliviousTransfer2
 {
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Oblivious Transfer 2", "Plugin for oblivious transfer protocol", "ObliviousTransfer2/userdoc.xml", new[] { "ObliviousTransfer2/icon.png" })]
-   
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("ObliviousTransfer2.Properties.Resources", "PluginCaption", "PluginTooltip", "ObliviousTransfer2/userdoc.xml", new[] { "ObliviousTransfer2/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class ObliviousTransfer2 : ICrypComponent
     {
-        #region Private Variables
-
-
- 
-
-        #endregion
-
-
-        List<BigInteger> messages;
-        BigInteger k;
-        int count;
-
         #region Data Properties
 
-
-
-        [PropertyInfo(Direction.InputData, "message", "message that Alice want to send")]
-        public BigInteger message
-        {
-            get;
-            set;
-        }
-        [PropertyInfo(Direction.InputData, "Count", "ammount of messages")]
-        public int Count
+        [PropertyInfo(Direction.InputData, "MessagesCaption", "MessagesTooltip")]
+        public string[] Messages
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "x", "random messagess")]
-        public List<BigInteger> x
-        {
-            get;
-            set;
-        }
-        [PropertyInfo(Direction.InputData, "v", "encrypted k")]
-        public int v
-        {
-            get;
-            set;
-        }
-        [PropertyInfo(Direction.InputData, "d", "private RSA key")]
-        public int d
-        {
-            get;
-            set;
-        }
-        [PropertyInfo(Direction.InputData, "N", "public RSA key")]
-        public int N
+        [PropertyInfo(Direction.InputData, "xCaption", "xTooltip")]
+        public BigInteger[] x
         {
             get;
             set;
         }
 
+        [PropertyInfo(Direction.InputData, "vCaption", "vTooltip")]
+        public BigInteger v
+        {
+            get;
+            set;
+        }
 
-        [PropertyInfo(Direction.OutputData, "ecryptedMessages", "encrypted messages, encryptable with right k")]
-        public  List<BigInteger> cryptedMessages
+        [PropertyInfo(Direction.InputData, "dCaption", "dTooltip")]
+        public BigInteger d
+        {
+            get;
+            set;
+        }
+
+        [PropertyInfo(Direction.InputData, "NCaption", "NTooltip")]
+        public BigInteger N
+        {
+            get;
+            set;
+        }
+
+        [PropertyInfo(Direction.OutputData, "EncryptedMessagesCaption", "EncryptedMessagesTooltip")]
+        public  BigInteger[] EncryptedMessages
         {
             get;
             set;
@@ -94,7 +75,6 @@ namespace Cryptool.Plugins.ObliviousTransfer2
         #endregion
 
         #region IPlugin Members
-
 
         public ISettings Settings
         {
@@ -106,58 +86,58 @@ namespace Cryptool.Plugins.ObliviousTransfer2
             get { return null; }
         }
 
-
         public void PreExecution()
         {
-            messages = new List<BigInteger>();
-            count = 0;
-            k = new BigInteger();
-            cryptedMessages = new List<BigInteger>();
         }
-
 
         public void Execute()
         {
-            
+            BigInteger m,k;
+
             ProgressChanged(0, 1);
 
-
-            
-            messages.Add(message);
-            count++;
-
-            if (count == Count)
+            if (x == null || Messages == null)
             {
-                for (int i = 0; i < messages.Count; i++)
-                {
-                    if ((v - x[i]) >= N)
-                    {
-                        GuiLogMessage("Public key N is too small, RSA failed", NotificationLevel.Error);
-                    }
-                    k = BigInteger.Pow(v - x[i], d) % N;
-                    cryptedMessages.Add(messages[i] + k);                    
-                }
-                OnPropertyChanged("cryptedMessages");
-
-
-                
+                GuiLogMessage("Illegal array 'x' or 'messages'.", NotificationLevel.Error);
+                return;
             }
 
-            
-            
-            ProgressChanged(1, 1);
-        }
+            if (x.Length != Messages.Length)
+            {
+                GuiLogMessage("Arrays 'x' and 'messages' must have the same number of entries.", NotificationLevel.Error);
+                return;
+            }
 
+            EncryptedMessages = new BigInteger[x.Length];
+
+            for (int i = 0; i < Messages.Length; i++)
+            {
+                try // can be read as parseable expression?
+                {
+                    m = BigIntegerHelper.ParseExpression(Messages[i]);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Error while converting '" + Messages[i] + "' to a number.", NotificationLevel.Error);
+                    return;
+                }
+
+                k = BigInteger.ModPow(((v - x[i]) % N + N) % N, d, N);
+                EncryptedMessages[i] = (m + k) % N;
+
+                ProgressChanged(i + 1, Messages.Length);
+            }
+
+            OnPropertyChanged("EncryptedMessages");
+        }
 
         public void PostExecution()
         {
         }
 
-
         public void Stop()
         {
         }
-
 
         public void Initialize()
         {

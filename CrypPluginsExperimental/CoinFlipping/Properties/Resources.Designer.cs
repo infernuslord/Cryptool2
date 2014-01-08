@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ObliviousTransfer1.Properties {
+namespace CoinFlipping.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ObliviousTransfer1.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ObliviousTransfer1.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CoinFlipping.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,79 +61,61 @@ namespace ObliviousTransfer1.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die b ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A&apos;s flipped coin ähnelt.
         /// </summary>
-        internal static string bCaption {
+        internal static string CoinFlipACaption {
             get {
-                return ResourceManager.GetString("bCaption", resourceCulture);
+                return ResourceManager.GetString("CoinFlipACaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Index of the requested message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value of A&apos;s flipped coin ähnelt.
         /// </summary>
-        internal static string bTooltip {
+        internal static string CoinFlipATooltip {
             get {
-                return ResourceManager.GetString("bTooltip", resourceCulture);
+                return ResourceManager.GetString("CoinFlipATooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die e ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die B&apos;s guess ähnelt.
         /// </summary>
-        internal static string eCaption {
+        internal static string CoinFlipBCaption {
             get {
-                return ResourceManager.GetString("eCaption", resourceCulture);
+                return ResourceManager.GetString("CoinFlipBCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public RSA key ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die B&apos;s guess for A&apos;s value ähnelt.
         /// </summary>
-        internal static string eTooltip {
+        internal static string CoinFlipBTooltip {
             get {
-                return ResourceManager.GetString("eTooltip", resourceCulture);
+                return ResourceManager.GetString("CoinFlipBTooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die k ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Flipped coin value ähnelt.
         /// </summary>
-        internal static string kCaption {
+        internal static string CoinResultCaption {
             get {
-                return ResourceManager.GetString("kCaption", resourceCulture);
+                return ResourceManager.GetString("CoinResultCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Random value ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value of A&apos;s coin flip. (depends on A&apos;s honesty) ähnelt.
         /// </summary>
-        internal static string kTooltip {
+        internal static string CoinResultTooltip {
             get {
-                return ResourceManager.GetString("kTooltip", resourceCulture);
+                return ResourceManager.GetString("CoinResultTooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die N ähnelt.
-        /// </summary>
-        internal static string NCaption {
-            get {
-                return ResourceManager.GetString("NCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die RSA modulus ähnelt.
-        /// </summary>
-        internal static string NTooltip {
-            get {
-                return ResourceManager.GetString("NTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Oblivious Transfer 1 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Coin Flipping ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -142,7 +124,7 @@ namespace ObliviousTransfer1.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die First component for the Oblivious Transfer Protocol ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Component for the Coin Flipping protocol ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
@@ -151,38 +133,56 @@ namespace ObliviousTransfer1.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die v ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Honest? ähnelt.
         /// </summary>
-        internal static string vCaption {
+        internal static string SettingsHonestCaption {
             get {
-                return ResourceManager.GetString("vCaption", resourceCulture);
+                return ResourceManager.GetString("SettingsHonestCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Blinded value from random list ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ähnelt.
         /// </summary>
-        internal static string vTooltip {
+        internal static string SettingsHonestList1 {
             get {
-                return ResourceManager.GetString("vTooltip", resourceCulture);
+                return ResourceManager.GetString("SettingsHonestList1", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die x ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes ähnelt.
         /// </summary>
-        internal static string xCaption {
+        internal static string SettingsHonestList2 {
             get {
-                return ResourceManager.GetString("xCaption", resourceCulture);
+                return ResourceManager.GetString("SettingsHonestList2", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die List of random numbers ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Is party A honest when she reveals the result of her coin toss? ähnelt.
         /// </summary>
-        internal static string xTooltip {
+        internal static string SettingsHonestTooltip {
             get {
-                return ResourceManager.GetString("xTooltip", resourceCulture);
+                return ResourceManager.GetString("SettingsHonestTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Success ähnelt.
+        /// </summary>
+        internal static string SuccessCaption {
+            get {
+                return ResourceManager.GetString("SuccessCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Was B&apos;s guess correct? (depends on A&apos;s honesty) ähnelt.
+        /// </summary>
+        internal static string SuccessTooltip {
+            get {
+                return ResourceManager.GetString("SuccessTooltip", resourceCulture);
             }
         }
     }
