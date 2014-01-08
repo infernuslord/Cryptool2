@@ -560,8 +560,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
             genAttacker.Plaintext_Alphabet = this.ptAlphabet;
             genAttacker.Language_Frequencies = this.langFreq;
-            genAttacker.WordSeparator = this.wordSeparator;
-            genAttacker.SetPluginProgressCallback(ProgressChanged);
+            genAttacker.PluginProgressCallback = this.ProgressChanged;
             genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
 
             // Start attack

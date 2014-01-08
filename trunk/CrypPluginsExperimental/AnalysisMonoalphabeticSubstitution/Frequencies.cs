@@ -443,9 +443,29 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             double[][][] prob = this.Prob3Gram;
             int[] text = plaintext.ValidLetterArray;
 
-            for (int pos0 = 0; pos0 < text.Length - 2; pos0++)
+            if (text.Length == 1)
             {
-                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]];
+                for (int i = 0; i < this.alpha.Length; i++)
+                {
+                    for (int j = 0; j < this.alpha.Length; j++)
+                    {
+                        res += prob[text[0]][i][j];
+                    }
+                }
+            }
+            else if (text.Length == 2)
+            {
+                for (int i=0; i < this.alpha.Length; i++)
+                {
+                    res += prob[text[0]][text[1]][i];
+                }
+            }
+            else
+            {
+                for (int pos0 = 0; pos0 < text.Length - 2; pos0++)
+                {
+                    res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]];
+                }
             }
             return res;
         }
@@ -456,9 +476,42 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             double[][][][] prob = this.Prob4Gram;
             int[] text = plaintext.ValidLetterArray;
 
-            for (int pos0 = 0; pos0 < text.Length - 3; pos0++)
+            if (text.Length == 1)
             {
-                res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]];
+                for (int i = 0; i < this.alpha.Length; i++)
+                {
+                    for (int j = 0; j < this.alpha.Length; j++)
+                    {
+                        for (int t=0; t < this.alpha.Length; t++)
+                        {
+                            res += prob[text[0]][i][j][t];
+                        }
+                    }
+                }
+            }
+            else if (text.Length == 2)
+            {
+                for (int i = 0; i < this.alpha.Length; i++)
+                {
+                    for (int j = 0; j < this.alpha.Length; j++)
+                    {
+                        res += prob[text[0]][text[1]][i][j];
+                    }
+                }
+            }
+            else if (text.Length == 3)
+            {
+                for (int i = 0; i < this.alpha.Length; i++)
+                {
+                    res += prob[text[0]][text[1]][text[2]][i];
+                }
+            }
+            else
+            {
+                for (int pos0 = 0; pos0 < text.Length - 3; pos0++)
+                {
+                    res += prob[text[pos0]][text[pos0 + 1]][text[pos0 + 2]][text[pos0 + 3]];
+                }
             }
             return res;
         }

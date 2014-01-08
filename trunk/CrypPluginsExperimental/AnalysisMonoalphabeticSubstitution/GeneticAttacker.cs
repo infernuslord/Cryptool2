@@ -32,17 +32,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Text ciphertext = null;
         private Frequencies language_frequencies = null;
         private Boolean standardAlphabet = false;
-        private string word_separator = " ";
         
         // Output Property Variables
         private Text plaintext = null;
         private int[] best_key = null;
-        private int total_keys_tested = 0;
         private int currun_keys_tested = 0;
-        private List<KeyCandidate> keys;
 
         // Delegate
-        private PluginProgress PluginProgress;
+        private PluginProgress pluginProgress;
         private UpdateKeyDisplay updateKeyDisplay;
 
         // Class for a population
@@ -98,11 +95,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             set { this.standardAlphabet = value; }
         }
 
-        public String WordSeparator
-        {
-            get { return this.word_separator; }
-            set { this.word_separator = value; }
-        }
         #endregion
 
         #region Output Properties
@@ -110,18 +102,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public Text Plaintext
         {
             get { return this.plaintext; }
-            private set { }
-        }
-
-        public List<KeyCandidate> Keys
-        {
-            get { return this.keys; }
-            set { ; }
-        }
-
-        public int Total_Keys
-        {
-            get { return this.total_keys_tested; }
             private set { }
         }
 
@@ -135,6 +115,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             get { return this.updateKeyDisplay; }
             set { this.updateKeyDisplay = value; }
+        }
+
+        public PluginProgress PluginProgressCallback
+        {
+            get { return this.pluginProgress; }
+            set { this.pluginProgress = value; }
         }
 
         #endregion
@@ -152,7 +138,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             double[] bestkeys_fit = new double[this.repetitions];
 
             // Execute analysis
-            int statusBarProgress = 0;
             for (int curRep = 0; curRep < this.repetitions; curRep++)
             {
                 Population population = new Population();
@@ -169,8 +154,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, false);
                     change = nextGen.dev;
                     curGen++;
-                    statusBarProgress++;
-                    PluginProgress(statusBarProgress, this.repetitions*GeneticAttacker.maxGenerations);
                 }
 
                 nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, true);
@@ -179,6 +162,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 
                 bestkeys[curRep] = nextGen.keys[0];
                 bestkeys_fit[curRep] = nextGen.fitness[0];
+
+                this.pluginProgress(50.0 + (((double)(curRep+1) * GeneticAttacker.maxGenerations)/(this.repetitions*GeneticAttacker.maxGenerations))/2*100, 100.0);
 
                 Text plainTxt = DecryptCiphertext(bestkeys[curRep], this.ciphertext, this.ciphertext_alphabet);
                 String plain = plainTxt.ToString(this.plaintext_alphabet);
@@ -467,6 +452,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private Text DecryptCiphertext(int[] key, Text ciphertext, Alphabet ciphertext_alphabet)
         {
+            this.currun_keys_tested++;
             int index = -1;
             Text plaintext = ciphertext.CopyTo();
 
@@ -538,11 +524,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return res;
-        }
-
-        public void SetPluginProgressCallback(PluginProgress method)
-        {
-            this.PluginProgress = new PluginProgress(method);
         }
 
         #endregion
