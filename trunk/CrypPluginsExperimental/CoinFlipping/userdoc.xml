@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de"/>
+
+  <introduction lang="en">
+    In cryptography, a commitment scheme is designed so that in the communication of two parties, one party can choose a certain value without revealing it immediately to the other party.
+    In order to bind the first party to her choice and prevent her from changing it later, she must commit to her choice and give the second party the chance to check her honesty.
+    <newline/>
+    <newline/>
+    The Coin Flipping protocol is an example for a commitment scheme:
+    Alice and Bob want to settle an argument by flipping a coin. Alice flips a coin, and if Bob can correctly guess the outcome, he wins. Otherwise, Alice wins. Unfortunately, they are not in the same room and can only
+    communicate over the telephone. When Bob tells Alice his guess, she could simply lie and say that her coin showed the other side, making her the winner. But if Alice could somehow be committed to her value, this would
+    prevent her from cheating. The Coin Flipping Protocol commits Alice to her coin flip and allows Bob to detect, whether Alice was honest, by following these steps:
+
+    <enum>
+      <item>
+        Alice flips a coin.
+      </item>
+      <item>
+        Alice chooses a random string as her secret key and appends the result of her coin flip to it. She then applies a cryptographic one-way function (for example SHA) to the concatenated string and sends the resulting hash code to Bob.
+        She has now commited to her coin flip result.
+      </item>
+      <item>
+        Bob sends his guess about the result of Alice's coin flip to Alice.
+      </item>
+      <item>
+        Alice receives Bob's guess. If his guess is wrong, Alice can declare herself the winner. If Bob's guess is correct, Alice can either be honest and declare Bob the winner,
+        or she can cheat and again declare herself the winner.
+      </item>
+      <item>
+        Alice gives Bob the opportunity to check her honesty by telling him her secret key and her (alleged) coin flip result.
+      </item>
+      <item>
+        Bob applies the same one-way function to Alice's secret key and announced coin flip result and compares it to the hash code Alice sent him before.
+        If they are equal, Bob knows that Alice was honest. If they differ, he knows that Alice has cheated by altering the coin flip result to which she has commited herself.
+      </item>
+    </enum>
+  </introduction>
+
+  <introduction lang="de">
+    In der Kryptographie bietet ein "Commitment Scheme" bei der Kommunikation zweier Parteien die Möglichkeit, dass sich eine Partei für einen bestimmten Wert entscheiden kann, ohne der
+    anderen Partei ihre Wahl gleich mitteilen zu müssen. Um die erste Partei an ihre einmal getroffene Wahl zu binden und zu verhindern, dass sie diese später nochmals, unbemerkt von der anderen Partei,
+    verändern kann, muss sie sich auf ihre Wahl verbindlich festlegen und der zweiten Partei die Möglichkeit geben, ihre Ehrlichkeit zu überprüfen.
+    <newline/>
+    <newline/>
+    Das Münzwurf-Protokoll (Coin Flipping Protocol) ist ein Beispiel für ein "Commitment Scheme":
+    Alice und Bob wollen eine Meinungsverschiedenheit durch einen Münzwurf beilegen. Alice wirft eine Münze, und wenn Bob das Ergebnis korrekt vorhersagen kann, gewinnt er, andernfalls gewinnt Alice. Leider sind die beiden
+    nicht im selben Raum und können nur über das Telephon kommunizieren. Wenn Bob Alice seine Vorhersage mitteilt, könnte Alice einfach lügen und behaupten, ihre Münze zeige die andere Seite, wodurch Alice der Gewinner wäre.
+    Wenn es eine Möglichkeit gäbe, dass Alice sich auf das Ergebnis ihres Münzwurfes festlegt, bevor sie Bobs Vermutung erfährt, würde dies ein Betrügen verhindern.
+    Durch die folgenden Schritte ermöglicht das Münzwurf-Protokoll die verbindliche Festlegung von Alice auf ihren Münzwurf und das Feststellen von Alices Ehrlichkeit durch Bob:
+
+    <enum>
+      <item>
+        Alice wirft eine Münze.
+      </item>
+      <item>
+        Alice wählt eine beliebige Zeichenkette als geheimen Schlüssel und hängt das Ergebnis ihres Münzwurfes an die Zeichenkette an. Auf diese neue Zeichenkette wendet sie dann eine kryptographische Einwegfunktion an (z.B. SHA)
+        und sendet den resultierenden Hashwert an Bob. Damit hat sie sich auf ihren Münzwurf festgelegt.
+      </item>
+      <item>
+        Bob teilt Alice seine Vermutung über den Ausgang ihres Münzwurfes mit.
+      </item>
+      <item>
+        Alice empfängt Bobs Vermutung. Wenn sie falsch ist, kann Alice sich zum Gewinner erklären. Wenn Bob richtig geraten hat, kann Alice entweder ehrlich sein und Bob zum Gewinner erklären,
+        oder sie kann betrügen und sich selbst zum Gewinner erklären.
+      </item>
+      <item>
+        Alice gibt Bob die Möglichkeit, ihre Ehrlichkeit zu überprüfen, indem sie ihm ihren geheimen Schlüssel und das (angebliche) Resultat ihres Münzwurfes mitteilt.
+      </item>
+      <item>
+        Bob bildet aus dem Schlüssel und Alices Ergebnis eine Zeichenkette und wendet dieselbe Einwegfunktion darauf an. Er vergleicht den resultierenden Hashcode mit dem Hashcode, den Alice ihm zuvor mitgeteilt hat.
+        Wenn sie übereinstimmen weiss Bob, dass Alice ehrlich war. Wenn sie unterschiedlich sind, weiss er, dass Alice ihm einen anderen Wert als den, auf den sie sich festgelegt hat, zugeschickt und somit betrogen hat.
+      </item>
+    </enum>
+  </introduction>
+
+  <usage lang="en">
+    This component implements Alice's action in step 4 of the protocol, all other steps can be implemented with regular CrypTool components.
+    <newline/>
+    <newline/>
+    It has two inputs: "A's flipped coin", where the result of Alice's coin flip is expected as a boolean value, and "B's guess", which must provide Bob's guess as a boolen value.
+    <newline/>
+    <newline/>
+    In the settings, you must select the behaviour of Alice: honest or dishonest. If she is honest, she will compare Bob's guess with her real coin flip result, the one she has committed to.
+    If she is dishonest, she will alter the result of her coin flip so, that she is the winner. But of course Bob can then detect this change, as Alice has committed to the real result of her coin flip.
+    <newline/>
+    <newline/>
+    The component has two outputs. On the output labeled "Success", Alice declares the winner of the coin toss as a boolean value: if Bob wins, the output is "true", otherwise it is "false". On the output labeled "Flipped coin value", Alice tells
+    Bob the (alleged) result of her coin flip. Of course both output values depend on Alice's honesty.
+  </usage>
+  
+  <usage lang="de">
+    Diese Komponente implementiert Alices Vorgehen in Schritt 4 des Protokolls, alle anderen Schritte können mit regulären CrypTool-Komponenten realisiert werden.
+    <newline/>
+    <newline/>
+    Sie hat zwei Eingänge: "As Münzwurf", an welchem das Resultat von Alices Münzwurf als ein boolescher Wert erwartet wird, und "Bs Vermutung", an welchem Bobs Vermutung über Alices Münzwurf als boolescher Wert anliegen muss.
+    <newline/>
+    <newline/>
+    In den Einstellungen der Komponente können Sie Alices Verhalten bestimmen: ehrlich oder unehrlich. Wenn Alice ehrlich ist, wird sie Bobs Vermutung mit dem tatsächlichen Ergebnis ihres eigenen Münzwurfes vergleichen, dem Wert also, auf den sie
+    sich verpflichtend festgelegt hat. Wenn sie unehrlich ist, wird sie das Ergebnis ihres Münzwurfes so abändern, dass sie der Gewinner ist. Aber da sich Alice auf ihren ursprünglichen Wert festgelegt hat, kann Bob diese Änderung feststellen und
+    wissen, dass Alice betrogen hat.
+    <newline/>
+    <newline/>
+    Die Komponente hat zwei Ausgänge. Am Ausgang mit der Bezeichnung "Erfolg" gibt Alice den Gewinner des Münzwurf-Spiels in Form eines booleschen Wertes aus: wenn Bob gewinnt, liegt am Ausgang "wahr" an, sonst "falsch".
+    Am Ausgang mit der Bezeichnung "Ergebnis des Münzwurfes" gibt Alice Bob das (angebliche) Ergebnis ihres Münzwurfes bekannt. Natürlich hängen beide Ausgabewerte von Alices Ehrlichkeit ab.
+  </usage>
+
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de">
+  </presentation>
+
+  <references>
+    <linkReference>
+      <link url="http://dm.ing.unibs.it/giuzzi/corsi/Support/papers-cryptography/Coin_flipping.pdf" lang="en" />
+      <caption lang="en">Coin Flipping Protocol (PDF)</caption>
+      <link url="http://dm.ing.unibs.it/giuzzi/corsi/Support/papers-cryptography/Coin_flipping.pdf" lang="de" />
+      <caption lang="de">Coin Flipping Protocol (PDF, englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Commitment_scheme" lang="de" />
+      <caption lang="en">Commitment Scheme</caption>
+      <link url="http://de.wikipedia.org/wiki/Commitment-Verfahren" lang="de" />
+      <caption lang="de">Commitment-Verfahren</caption>
+    </linkReference>
+  </references>
+
+</documentation>

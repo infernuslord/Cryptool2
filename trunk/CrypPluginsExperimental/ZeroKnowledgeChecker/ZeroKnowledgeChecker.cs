@@ -20,72 +20,60 @@ using Cryptool.PluginBase;
 using System;
 using System.Numerics;
 using Cryptool.PluginBase.Miscellaneous;
-
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.Plugins.ZeroKnowledgeChecker
 {
-   
     [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Zero Knowledge Checker", "Plugin for Zero Knowledge protocol", "ZeroKnowledgeChecker/userdoc.xml", new[] { "ZeroKnowledgeChecker/icon.png" })]
-    
+    [PluginInfo("ZeroKnowledgeChecker.Properties.Resources", "PluginCaption", "PluginTooltip", "ZeroKnowledgeChecker/userdoc.xml", new[] { "ZeroKnowledgeChecker/icon.png" })]
+    [AutoAssumeFullEndProgress(false)]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class ZeroKnowledgeChecker : ICrypComponent
     {
         #region Private Variables
 
-
         private readonly ZeroKnowledgeCheckerSettings settings = new ZeroKnowledgeCheckerSettings();
 
-        private int numberOfAttempt = 0;
-
-        private BigInteger attempt;
-
-
-      
-
+        private int currentAttempt;
 
         #endregion
 
         #region Data Properties
 
-        
-        [PropertyInfo(Direction.InputData, "Input", "Checked value")]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
         public BigInteger Input
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "AmmountOfOptions", "Ammount of options")]
-        public int AmmountOfOptions
-        {
-            get;
-            set;
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputRandom", "Output of random value")]
+        [PropertyInfo(Direction.OutputData, "OutputRandomCaption", "OutputRandomTooltip")]
         public BigInteger OutputRandom
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Success", "Does Alice know secret?")]
+        [PropertyInfo(Direction.OutputData, "AmountOfOptionsCaption", "AmountOfOptionsTooltip")]
+        public BigInteger AmountOfOptions
+        {
+            get;
+            set;
+        }
+
+        [PropertyInfo(Direction.OutputData, "SuccessCaption", "SuccessTooltip")]
         public bool Success
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "RateOfSuccess", "RateOfSuccessTooltip")]
-        public int RateOfSuccess
+        [PropertyInfo(Direction.OutputData, "RateOfSuccessCaption", "RateOfSuccessTooltip")]
+        public double RateOfSuccess
         {
             get;
             set;
         }
-
 
         #endregion
 
@@ -96,74 +84,57 @@ namespace Cryptool.Plugins.ZeroKnowledgeChecker
             get { return settings; }
         }
 
-       
         public UserControl Presentation
         {
             get { return null; }
         }
 
-       
         public void PreExecution()
         {
-            numberOfAttempt = 0;
-            AmmountOfOptions = settings.AmmountOfOptions;            
+            currentAttempt = 0;
             Success = true;
+
+            AmountOfOptions = settings._AmountOfOptions;
+
+            ProgressChanged(0, 1);
         }
 
-        
         public void Execute()
         {
-            ProgressChanged(0, 1);
-
-            
-            
-            if (numberOfAttempt != 0)
+            if (currentAttempt == 0)
             {
-                if (attempt != Input)
-                {
-                    Success = false;
-                }
-
-            }
-            
-
-            BigInteger bigint = new BigInteger(settings.AmmountOfOptions);
-
-            attempt = BigIntegerHelper.RandomIntLimit(bigint);
-            OutputRandom = attempt;
-            
-            if (numberOfAttempt < settings.AmmountOfAttempts)
-            {
-                OnPropertyChanged("OutputRandom");
-                OnPropertyChanged("AmmountOfOptions");
-            }
-            else
-            {
-                
-                double rate = Math.Pow(1 / (double) settings.AmmountOfOptions, settings.AmmountOfAttempts);
-                RateOfSuccess = (int) Math.Ceiling(rate * 100);
-                OnPropertyChanged("Success");
+                RateOfSuccess = Math.Pow(settings._AmountOfOptions, -settings.AmountOfAttempts);
                 OnPropertyChanged("RateOfSuccess");
             }
 
-            numberOfAttempt++;
+            if (currentAttempt > 0 && OutputRandom != Input)
+                Success = false;
 
-            ProgressChanged(numberOfAttempt, 10);
+            if (currentAttempt >= settings.AmountOfAttempts || !Success)
+            {
+                OnPropertyChanged("Success");
+                ProgressChanged(1, 1);
+                return;
+            }
+
+            OutputRandom = BigIntegerHelper.RandomIntLimit(settings._AmountOfOptions);
+            OnPropertyChanged("AmountOfOptions");
+            OnPropertyChanged("OutputRandom");
+
+            currentAttempt++;
+            ProgressChanged(currentAttempt, settings.AmountOfAttempts);
         }
-        
+
         public void PostExecution()
         {
         }
-
 
         public void Stop()
         {
         }
 
- 
         public void Initialize()
         {
-
         }
 
         public void Dispose()

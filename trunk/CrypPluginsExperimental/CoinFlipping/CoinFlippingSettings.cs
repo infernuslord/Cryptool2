@@ -18,34 +18,40 @@ using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.CoinFlipping1
+namespace Cryptool.Plugins.CoinFlipping
 {
-
-    public class CoinFlipping1Settings : ISettings
+    public class CoinFlippingSettings : ISettings
     {
         #region Private Variables
 
-        private string key = "";
+        private int settingsHonest = 0;
+
+        #endregion
+
+        #region Private init
+
+        public void Initialize()
+        {
+        }
 
         #endregion
 
         #region TaskPane Settings
 
-
-        [TaskPane("Key", "Key to hash", null, 3, false, ControlType.TextBox)]
-        public string Key
+        [TaskPane("SettingsHonestCaption", "SettingsHonestTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SettingsHonestList1", "SettingsHonestList2" })]
+        public int SettingsHonest
         {
             get
             {
-                return key;
+                return settingsHonest;
             }
             set
             {
-                if (key != value)
+                if (settingsHonest != value)
                 {
-                    key = value;
-
-                    OnPropertyChanged("Key");
+                    settingsHonest = value;
+                   
+                    OnPropertyChanged("SettingsHonest");
                 }
             }
         }

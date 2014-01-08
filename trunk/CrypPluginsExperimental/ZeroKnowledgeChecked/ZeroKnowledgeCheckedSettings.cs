@@ -20,7 +20,6 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.ZeroKnowledgeChecked
 {
-    
     public class ZeroKnowledgeCheckedSettings : ISettings
     {
         #region Private Variables
@@ -29,10 +28,17 @@ namespace Cryptool.Plugins.ZeroKnowledgeChecked
 
         #endregion
 
+        #region Private init
+
+        public void Initialize()
+        {
+        }
+
+        #endregion
+
         #region TaskPane Settings
 
-       
-        [TaskPane("Secret", "Secret is known", null, 1, false, ControlType.ComboBox, new string[] { "No", "Yes" })]
+        [TaskPane("SecretCaption", "SecretTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SecretList1", "SecretList2" })]
         public bool Secret
         {
             get

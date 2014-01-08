@@ -14,68 +14,62 @@
    limitations under the License.
 */
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace Cryptool.Plugins.CoinFlipping1
+namespace Cryptool.Plugins.CoinFlipping
 {
-
-    [Author("Ondřej Skowronek", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
-
-    [PluginInfo("Coin Flipping 1", "Plugin for Coin Flipping protocol", "CoinFlipping1/userdoc.xml", new[] { "CoinFlipping1/icon.png" })]
- 
+    [Author("Ondřej Skowronek, Armin Krauß", "xskowr00@stud.fit.vutbr.cz", "Brno University of Technology", "https://www.vutbr.cz")]
+    [PluginInfo("CoinFlipping.Properties.Resources", "PluginCaption", "PluginTooltip", "CoinFlipping/userdoc.xml", new[] { "CoinFlipping/icon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
-    public class CoinFlipping1 : ICrypComponent
+    public class CoinFlipping : ICrypComponent
     {
         #region Private Variables
 
-     
-        private readonly CoinFlipping1Settings settings = new CoinFlipping1Settings();
+        private readonly CoinFlippingSettings settings = new CoinFlippingSettings();
 
         #endregion
 
         #region Data Properties
 
-
-        [PropertyInfo(Direction.InputData, "CoinFlip", "Value of flipped coin")]
-        public bool FlipCoin
+        [PropertyInfo(Direction.InputData, "CoinFlipACaption", "CoinFlipATooltip", true)]
+        public bool CoinFlipA
         {
             get;
             set;
         }
 
-
-        [PropertyInfo(Direction.OutputData, "ValuedKey", "Value of flipped coin concatenated with key")]
-        public string ValuedKey
+        [PropertyInfo(Direction.InputData, "CoinFlipBCaption", "CoinFlipBTooltip", true)]
+        public bool CoinFlipB
         {
             get;
             set;
         }
-         
 
-
-        [PropertyInfo(Direction.OutputData, "Key", "Key")]
-        public string Key
+        [PropertyInfo(Direction.OutputData, "SuccessCaption", "SuccessTooltip")]
+        public bool Success
         {
             get;
             set;
         }
-        
+
+        [PropertyInfo(Direction.OutputData, "CoinResultCaption", "CoinResultTooltip")]
+        public bool CoinResult
+        {
+            get;
+            set;
+        }
 
         #endregion
 
         #region IPlugin Members
 
-
         public ISettings Settings
         {
             get { return settings; }
         }
-         
 
-    
         public UserControl Presentation
         {
             get { return null; }
@@ -83,45 +77,37 @@ namespace Cryptool.Plugins.CoinFlipping1
 
         public void PreExecution()
         {
-            
         }
-
 
         public void Execute()
         {
-
             ProgressChanged(0, 1);
 
-            if (FlipCoin)
+            if (settings.SettingsHonest == 1)
             {
-                ValuedKey = settings.Key + "1";
+                CoinResult = CoinFlipA;             // Alice honestly announces her result
+                Success = (CoinFlipA == CoinFlipB); // Bob wins if he correctly predicts Alices result
             }
             else
             {
-                ValuedKey = settings.Key + "0";
+                CoinResult = !CoinFlipB;            // Alice manipulates her result to her advantage
+                Success = false;                    // Bob looses always
             }
-
-            Key = settings.Key;
-            OnPropertyChanged("ValuedKey");           
-            OnPropertyChanged("Key");
-           
             
+            OnPropertyChanged("CoinResult");
+            OnPropertyChanged("Success");
 
-            
             ProgressChanged(1, 1);
         }
 
-  
         public void PostExecution()
         {
         }
-
 
         public void Stop()
         {
         }
 
- 
         public void Initialize()
         {
         }

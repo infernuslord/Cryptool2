@@ -20,68 +20,57 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Numerics;
 namespace Cryptool.Plugins.ZeroKnowledgeChecker
 {
-   
+
     public class ZeroKnowledgeCheckerSettings : ISettings
     {
         #region Private Variables
 
-        private int ammountOfAttempts = 0;
+        private int amountOfAttempts = 10;
+        private int amountOfOptions = 2;
 
-        private int ammountOfOptions = 1;
+        #endregion
 
+        #region Private init
+
+        public void Initialize()
+        {
+        }
 
         #endregion
 
         #region TaskPane Settings
 
-        
-        [TaskPane("AmmountOfAttempts", "Ammount of attempts", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int AmmountOfAttempts
+        [TaskPane("AmountOfAttemptsCaption", "AmountOfAttemptsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+        public int AmountOfAttempts
         {
             get
             {
-                return ammountOfAttempts;
+                return amountOfAttempts;
             }
             set
             {
-                if (ammountOfAttempts != value)
+                if (amountOfAttempts != value)
                 {
-                    if (value < 0)
-                    {
-                        ammountOfAttempts = 0;
-                    }
-                    else
-                    {
-                        ammountOfAttempts = value;
-                    }
-                  
-                    OnPropertyChanged("AmmountOfAttempts");
+                    amountOfAttempts = Math.Max(value, 0);
+                    OnPropertyChanged("AmountOfAttempts");
                 }
             }
         }
 
 
-        [TaskPane("AmmountOfOptions", "Ammount of options", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int AmmountOfOptions
+        [TaskPane("_AmountOfOptionsCaption", "_AmountOfOptionsTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, Int32.MaxValue)]
+        public int _AmountOfOptions
         {
             get
             {
-                return ammountOfOptions;
+                return amountOfOptions;
             }
             set
             {
-                if (ammountOfOptions != value)
+                if (amountOfOptions != value)
                 {
-                    if (value < 1)
-                    {
-                        ammountOfOptions = 1;
-                    }
-                    else
-                    {
-                        ammountOfOptions = value;
-                    }
-                   
-                    OnPropertyChanged("AmmountOfOptions");
+                    amountOfOptions = Math.Max(value, 1);
+                    OnPropertyChanged("_AmountOfOptions");
                 }
             }
         }
