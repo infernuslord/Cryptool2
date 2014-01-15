@@ -22,7 +22,7 @@
   <introduction lang="de-DE">
     Dieses Plugin überprüft, ob eine Nachricht ein gültiges (PKCS#7-konformes) Padding hat.<newline/>
     Bei diesem Padding-Schema wird das Padding an das Ende der Nachricht gehängt. Es werden so viele
-    Padding-Bytes hinzugefügt, bis es nur volle Nachrichten-Blöcke gibt. Die Werte der Padding-Bytes
+    Padding-Bytes hinzugefügt, dass es nur volle Nachrichten-Blöcke gibt. Die Werte der Padding-Bytes
     entsprechen dabei der Gesamt-Padding-Länge. Als Beispiel gehen wir davon aus, dass wir die Nachricht
     61 62 63 padden müssen, um eine 8-Byte lange Nachricht zu erhalten. Da wir dazu 5 Padding-Bytes brauchen,
     lautet die gepaddete Nachricht 61 62 63 05 05 05 05 05.
@@ -44,14 +44,14 @@
 
   <presentation lang="en">
     The presentation view displays the second half (second block) of the input message. It also adds a green border to display which bytes should have the same value, according to the last byte.
-    The validity of the padding is also displayed in the UI.
-    The UI can only display 8 bytes at a time. If the message exceeds this value, the plugin allows the user to view all bytes by providing a scroll-functionality.
+    The validity of the padding is also displayed in the presentation.
+    The presentation can only display 8 bytes at a time. If the message exceeds this value, the plugin allows the user to view all bytes by providing a scroll-functionality.
   </presentation>
 
   <presentation lang="de-DE">
-    Die Präsentations-Schicht zeigt die zweite hälfte bzw. den zweiten Block der Input-Nachricht an. Es fügt zusätzlich einen grünen Rahmen hinzu, der darstellt, welche Bytes den selben Wert haben
-    sollten. Diese Information basiert auf dem Wert des letzten Bytes. Die Gültigkeit des Paddings ist auch in der UI dargestellt.
-    Die UI kann nur 8 Bytes gleichzeitig darstellen. Sollte die Nachricht diese Länge überschreiten, so kann der User trotzdem alle Bytes durch die Scroll-Funktion betrachten.
+    Die Präsentations-Ansicht zeigt die zweite Hälfte bzw. den zweiten Block der Input-Nachricht an. Es fügt zusätzlich einen grünen Rahmen hinzu, der darstellt, welche Bytes denselben Wert haben
+    sollten. Diese Information basiert auf dem Wert des letzten Bytes. Die Gültigkeit des Paddings ist auch in der Präsentation dargestellt.
+    Die Präsentation kann nur 8 Bytes gleichzeitig darstellen. Sollte die Nachricht diese Länge überschreiten, so kann der User trotzdem alle Bytes durch die Scroll-Funktion betrachten.
   </presentation>
 
   <references>

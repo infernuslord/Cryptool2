@@ -22,7 +22,7 @@ namespace PaddingOracle.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PaddingOracle.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PaddingOracle.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace PaddingOracle.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace PaddingOracle.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
         /// </summary>
-        internal static string InputDecCaption {
+        public static string InputDecCaption {
             get {
                 return ResourceManager.GetString("InputDecCaption", resourceCulture);
             }
@@ -72,16 +72,43 @@ namespace PaddingOracle.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input of the data to examine ähnelt.
         /// </summary>
-        internal static string InputDecTooltip {
+        public static string InputDecTooltip {
             get {
                 return ResourceManager.GetString("InputDecTooltip", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die INVALID ähnelt.
+        /// </summary>
+        public static string lblInvalid {
+            get {
+                return ResourceManager.GetString("lblInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die VALID ähnelt.
+        /// </summary>
+        public static string lblValid {
+            get {
+                return ResourceManager.GetString("lblValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Currently Viewing Bytes ähnelt.
+        /// </summary>
+        public static string lblViewingBytes {
+            get {
+                return ResourceManager.GetString("lblViewingBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Padding Result ähnelt.
         /// </summary>
-        internal static string PaddingResultCaption {
+        public static string PaddingResultCaption {
             get {
                 return ResourceManager.GetString("PaddingResultCaption", resourceCulture);
             }
@@ -90,7 +117,7 @@ namespace PaddingOracle.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Is the padding correct? ähnelt.
         /// </summary>
-        internal static string PaddingResultTooltip {
+        public static string PaddingResultTooltip {
             get {
                 return ResourceManager.GetString("PaddingResultTooltip", resourceCulture);
             }
@@ -99,16 +126,16 @@ namespace PaddingOracle.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Padding Oracle ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Checks if the padding of a plain text block is correct. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Checks if the padding of a plaintext block is correct. ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }

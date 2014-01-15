@@ -22,7 +22,7 @@ namespace PaddingOracleAttack.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PaddingOracleAttack.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PaddingOracleAttack.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace PaddingOracleAttack.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Blocksize ähnelt.
         /// </summary>
-        internal static string BlocksizeCaption {
+        public static string BlocksizeCaption {
             get {
                 return ResourceManager.GetString("BlocksizeCaption", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the used block size. ähnelt.
         /// </summary>
-        internal static string BlocksizeTooltip {
+        public static string BlocksizeTooltip {
             get {
                 return ResourceManager.GetString("BlocksizeTooltip", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Decrypt completely ähnelt.
         /// </summary>
-        internal static string btnAll {
+        public static string btnAll {
             get {
                 return ResourceManager.GetString("btnAll", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Auto search ähnelt.
         /// </summary>
-        internal static string btnAuto {
+        public static string btnAuto {
             get {
                 return ResourceManager.GetString("btnAuto", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Change Byte ähnelt.
         /// </summary>
-        internal static string btnLblP1 {
+        public static string btnLblP1 {
             get {
                 return ResourceManager.GetString("btnLblP1", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Go to Phase 2 ähnelt.
         /// </summary>
-        internal static string btnLblP1End {
+        public static string btnLblP1End {
             get {
                 return ResourceManager.GetString("btnLblP1End", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Send Request ähnelt.
         /// </summary>
-        internal static string btnLblP1Init {
+        public static string btnLblP1Init {
             get {
                 return ResourceManager.GetString("btnLblP1Init", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Next byte ähnelt.
         /// </summary>
-        internal static string btnLblP2 {
+        public static string btnLblP2 {
             get {
                 return ResourceManager.GetString("btnLblP2", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Go to Phase 3 ähnelt.
         /// </summary>
-        internal static string btnLblP2End {
+        public static string btnLblP2End {
             get {
                 return ResourceManager.GetString("btnLblP2End", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start Search ähnelt.
         /// </summary>
-        internal static string btnLblP2Init {
+        public static string btnLblP2Init {
             get {
                 return ResourceManager.GetString("btnLblP2Init", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Decrypt Byte ähnelt.
         /// </summary>
-        internal static string btnLblP3Decrypt {
+        public static string btnLblP3Decrypt {
             get {
                 return ResourceManager.GetString("btnLblP3Decrypt", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Recover Plaintext ähnelt.
         /// </summary>
-        internal static string btnLblP3End {
+        public static string btnLblP3End {
             get {
                 return ResourceManager.GetString("btnLblP3End", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Change Current Byte ähnelt.
         /// </summary>
-        internal static string btnLblP3Find {
+        public static string btnLblP3Find {
             get {
                 return ResourceManager.GetString("btnLblP3Find", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Increase Padding ähnelt.
         /// </summary>
-        internal static string btnLblP3IncPad {
+        public static string btnLblP3IncPad {
             get {
                 return ResourceManager.GetString("btnLblP3IncPad", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Next ähnelt.
         /// </summary>
-        internal static string btnNext {
+        public static string btnNext {
             get {
                 return ResourceManager.GetString("btnNext", resourceCulture);
             }
@@ -198,16 +198,16 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cipher Input ähnelt.
         /// </summary>
-        internal static string CipherInputCaption {
+        public static string CipherInputCaption {
             get {
                 return ResourceManager.GetString("CipherInputCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input of the cipher text ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input of the ciphertext ähnelt.
         /// </summary>
-        internal static string CipherInputTooltip {
+        public static string CipherInputTooltip {
             get {
                 return ResourceManager.GetString("CipherInputTooltip", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Plaintext Recovered. Attack completed successfully. ähnelt.
         /// </summary>
-        internal static string descDone {
+        public static string descDone {
             get {
                 return ResourceManager.GetString("descDone", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Please wait while the message is being decrypted. ähnelt.
         /// </summary>
-        internal static string descFinishAll {
+        public static string descFinishAll {
             get {
                 return ResourceManager.GetString("descFinishAll", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 1 finished! Valid padding found. ähnelt.
         /// </summary>
-        internal static string descP1Done {
+        public static string descP1Done {
             get {
                 return ResourceManager.GetString("descP1Done", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 1: Find a message that decrypts to a valid padding. Send the unchanged message to see if a valid padding already exists. ähnelt.
         /// </summary>
-        internal static string descP1Init {
+        public static string descP1Init {
             get {
                 return ResourceManager.GetString("descP1Init", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Task: Change the last byte until the padding is valid. ähnelt.
         /// </summary>
-        internal static string descP1Task {
+        public static string descP1Task {
             get {
                 return ResourceManager.GetString("descP1Task", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 2 finished! First padding byte found! Padding length: ähnelt.
         /// </summary>
-        internal static string descP2Done {
+        public static string descP2Done {
             get {
                 return ResourceManager.GetString("descP2Done", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 2 finished! The first 7 bytes did not affect the padding, so the padding length must be 1! ähnelt.
         /// </summary>
-        internal static string descP2DoneSpecial {
+        public static string descP2DoneSpecial {
             get {
                 return ResourceManager.GetString("descP2DoneSpecial", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 2: Find first padding byte. Change the bytes from left to right. If the padding turns invalid, a padding byte must have been changed. ähnelt.
         /// </summary>
-        internal static string descP2Init {
+        public static string descP2Init {
             get {
                 return ResourceManager.GetString("descP2Init", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The changed byte does not belong to the padding. Try the next byte! ähnelt.
         /// </summary>
-        internal static string descP2Task {
+        public static string descP2Task {
             get {
                 return ResourceManager.GetString("descP2Task", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Byte Decrypted! Increase the padding to continue the decryption. ähnelt.
         /// </summary>
-        internal static string descP3Dec {
+        public static string descP3Dec {
             get {
                 return ResourceManager.GetString("descP3Dec", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The byte was decrypted. Increase the padding to continue the decryption. ähnelt.
         /// </summary>
-        internal static string descP3DecDone {
+        public static string descP3DecDone {
             get {
                 return ResourceManager.GetString("descP3DecDone", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die All Padding Bytes Decrypted. Increase the padding to continue the decryption. ähnelt.
         /// </summary>
-        internal static string descP3DecPadDone {
+        public static string descP3DecPadDone {
             get {
                 return ResourceManager.GetString("descP3DecPadDone", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Message was decrypted! Click to see the original plaintext. ähnelt.
         /// </summary>
-        internal static string descP3Done {
+        public static string descP3Done {
             get {
                 return ResourceManager.GetString("descP3Done", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Valid padding found! Byte can be decrypted. ähnelt.
         /// </summary>
-        internal static string descP3FindDone {
+        public static string descP3FindDone {
             get {
                 return ResourceManager.GetString("descP3FindDone", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Task: Change the byte until the message decrypts to the desired value! If the correct value is found, the padding will turn valid. ähnelt.
         /// </summary>
-        internal static string descP3FindTask {
+        public static string descP3FindTask {
             get {
                 return ResourceManager.GetString("descP3FindTask", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Phase 3: Decrypt the message. Start with decrypting the padding bytes. ähnelt.
         /// </summary>
-        internal static string descP3Init {
+        public static string descP3Init {
             get {
                 return ResourceManager.GetString("descP3Init", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Response from the Padding Oracle ähnelt.
         /// </summary>
-        internal static string descPadIn {
+        public static string descPadIn {
             get {
                 return ResourceManager.GetString("descPadIn", resourceCulture);
             }
@@ -369,16 +369,79 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die English ähnelt.
         /// </summary>
-        internal static string langCheck {
+        public static string langCheck {
             get {
                 return ResourceManager.GetString("langCheck", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Attack Logic ähnelt.
+        /// </summary>
+        public static string lblAttackLogic {
+            get {
+                return ResourceManager.GetString("lblAttackLogic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die COMPLETE ähnelt.
+        /// </summary>
+        public static string lblComplete {
+            get {
+                return ResourceManager.GetString("lblComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        public static string lblInput {
+            get {
+                return ResourceManager.GetString("lblInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die INVALID ähnelt.
+        /// </summary>
+        public static string lblInvalid {
+            get {
+                return ResourceManager.GetString("lblInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        /// </summary>
+        public static string lblOutput {
+            get {
+                return ResourceManager.GetString("lblOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Requests: ähnelt.
+        /// </summary>
+        public static string lblRequests {
+            get {
+                return ResourceManager.GetString("lblRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die VALID ähnelt.
+        /// </summary>
+        public static string lblValid {
+            get {
+                return ResourceManager.GetString("lblValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Padding Valid ähnelt.
         /// </summary>
-        internal static string PaddingOracleInputCaption {
+        public static string PaddingOracleInputCaption {
             get {
                 return ResourceManager.GetString("PaddingOracleInputCaption", resourceCulture);
             }
@@ -387,7 +450,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Validity of the padding ähnelt.
         /// </summary>
-        internal static string PaddingOracleInputTooltip {
+        public static string PaddingOracleInputTooltip {
             get {
                 return ResourceManager.GetString("PaddingOracleInputTooltip", resourceCulture);
             }
@@ -396,7 +459,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Padding Oracle Attack ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
@@ -405,7 +468,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Attack an encrypted message using a Padding Oracle ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
@@ -414,7 +477,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Manipulated Cipher Output ähnelt.
         /// </summary>
-        internal static string ResultOutputCaption {
+        public static string ResultOutputCaption {
             get {
                 return ResourceManager.GetString("ResultOutputCaption", resourceCulture);
             }
@@ -423,7 +486,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output of the manipulated cipher ähnelt.
         /// </summary>
-        internal static string ResultOutputTooltip {
+        public static string ResultOutputTooltip {
             get {
                 return ResourceManager.GetString("ResultOutputTooltip", resourceCulture);
             }
@@ -432,7 +495,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Automatically decrypt the complete message. ähnelt.
         /// </summary>
-        internal static string ttBtnAll {
+        public static string ttBtnAll {
             get {
                 return ResourceManager.GetString("ttBtnAll", resourceCulture);
             }
@@ -441,7 +504,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Search automatically for the next valid value. ähnelt.
         /// </summary>
-        internal static string ttBtnAuto {
+        public static string ttBtnAuto {
             get {
                 return ResourceManager.GetString("ttBtnAuto", resourceCulture);
             }
@@ -450,7 +513,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Perform the next step. ähnelt.
         /// </summary>
-        internal static string ttBtnNext {
+        public static string ttBtnNext {
             get {
                 return ResourceManager.GetString("ttBtnNext", resourceCulture);
             }
@@ -459,7 +522,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Undo the last performed action. ähnelt.
         /// </summary>
-        internal static string ttBtnReturn {
+        public static string ttBtnReturn {
             get {
                 return ResourceManager.GetString("ttBtnReturn", resourceCulture);
             }
@@ -468,7 +531,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Return to the beginning of the current phase. ähnelt.
         /// </summary>
-        internal static string ttBtnReturnPhase {
+        public static string ttBtnReturnPhase {
             get {
                 return ResourceManager.GetString("ttBtnReturnPhase", resourceCulture);
             }
@@ -477,7 +540,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The encrypted informationblock. ähnelt.
         /// </summary>
-        internal static string ttCipherBlock {
+        public static string ttCipherBlock {
             get {
                 return ResourceManager.GetString("ttCipherBlock", resourceCulture);
             }
@@ -486,7 +549,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The corrupted initializationblock (original C1 XOR O). ähnelt.
         /// </summary>
-        internal static string ttCorruptedBlock {
+        public static string ttCorruptedBlock {
             get {
                 return ResourceManager.GetString("ttCorruptedBlock", resourceCulture);
             }
@@ -495,7 +558,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The decrypted initializationblock (is completely known at the end). XORd with the original initializationblock C1 results in the plaintext P2. ähnelt.
         /// </summary>
-        internal static string ttDecBlock {
+        public static string ttDecBlock {
             get {
                 return ResourceManager.GetString("ttDecBlock", resourceCulture);
             }
@@ -504,7 +567,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The overlay used to modify the initializationblock. ähnelt.
         /// </summary>
-        internal static string ttOverlayBlock {
+        public static string ttOverlayBlock {
             get {
                 return ResourceManager.GetString("ttOverlayBlock", resourceCulture);
             }
@@ -513,7 +576,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The resulting plaintext when XORing D2 with the original initializationblock C1 and O. ähnelt.
         /// </summary>
-        internal static string ttPlainBlock {
+        public static string ttPlainBlock {
             get {
                 return ResourceManager.GetString("ttPlainBlock", resourceCulture);
             }
@@ -522,7 +585,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The encrypted initializationblock. ähnelt.
         /// </summary>
-        internal static string ttPrelBlock {
+        public static string ttPrelBlock {
             get {
                 return ResourceManager.GetString("ttPrelBlock", resourceCulture);
             }
@@ -531,7 +594,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Amount of requests sent to the server ähnelt.
         /// </summary>
-        internal static string ttSentRequests {
+        public static string ttSentRequests {
             get {
                 return ResourceManager.GetString("ttSentRequests", resourceCulture);
             }
@@ -540,7 +603,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The plugin only displays 8 bytes at a time. If the block size exceeds 8 bytes, hidden bytes can be displayed by using the scrollbar. ähnelt.
         /// </summary>
-        internal static string ttViewByte {
+        public static string ttViewByte {
             get {
                 return ResourceManager.GetString("ttViewByte", resourceCulture);
             }
@@ -549,7 +612,7 @@ namespace PaddingOracleAttack.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Currently Viewing Bytes ähnelt.
         /// </summary>
-        internal static string ttViewByteDesc {
+        public static string ttViewByteDesc {
             get {
                 return ResourceManager.GetString("ttViewByteDesc", resourceCulture);
             }
