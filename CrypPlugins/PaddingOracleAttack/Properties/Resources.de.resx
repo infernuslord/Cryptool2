@@ -282,4 +282,25 @@
   <data name="ttViewByteDesc" xml:space="preserve">
     <value>Angezeigte Bytes</value>
   </data>
+  <data name="lblAttackLogic" xml:space="preserve">
+    <value>Angriffslogik</value>
+  </data>
+  <data name="lblComplete" xml:space="preserve">
+    <value>FERTIG</value>
+  </data>
+  <data name="lblInput" xml:space="preserve">
+    <value>Eingabe</value>
+  </data>
+  <data name="lblInvalid" xml:space="preserve">
+    <value>UNGÜLTIG</value>
+  </data>
+  <data name="lblOutput" xml:space="preserve">
+    <value>Ausgabe</value>
+  </data>
+  <data name="lblRequests" xml:space="preserve">
+    <value>Durchgänge:</value>
+  </data>
+  <data name="lblValid" xml:space="preserve">
+    <value>GÜLTIG</value>
+  </data>
 </root>

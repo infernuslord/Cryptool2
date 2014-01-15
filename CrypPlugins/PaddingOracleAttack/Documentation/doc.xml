@@ -10,8 +10,8 @@
     validity of a message. For a long time, this was considered insignificant in terms of
     <external ref="http://en.wikipedia.org/wiki/Information_leakage">Information Leakage</external>.
     This plugin illustrates how this validity information can be misused to allow the attacker to decrypt
-    ciphertext blocks. In order to work, the plugin requires several other plugins. Further information are
-    available in section 2. Usage.
+    ciphertext blocks. In order to work, the plugin requires several other plugins. Further informations are
+    available in the section 'Usage'.
     <section headline="Setup">
       A client tries to send a message to the server. This message was encrypted in
       <external ref="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">CBC mode</external>
@@ -86,13 +86,13 @@
   </introduction>
 
   <introduction lang="de-de">
-    Dieses Plugin ist eine Implementierung des side-channel und man-in-the-middle Angriffes, der 2002 von Serge Vaudenay
+    Dieses Plugin ist eine Implementierung des "Side-channel"- und "Man-in-the-middle"-Angriffes, der 2002 von Serge Vaudenay
     entdeckt wurde. Dieser Angriff nutzt Informationen aus, die von einem Padding-Orakel offenbart werden. Padding-Orakel
     geben Auskunft über die Gültigkeit des Paddings einer Nachricht. Dieses Verhalten wurde in Bezug auf
     <external ref="http://de.wikipedia.org/wiki/Information_Disclosure">Information Leakage</external>
     lange Zeit als unbedeutend angesehen. Dieses Plugin illustriert, wie diese Gültigkeits-Information ausgenutzt werden kann,
-    damit ein Angreifer verschlüsselte Geheimtext-Blöcke entschlüsseln kann. Dieses Plugin benötigt mehrere Plugins um korrekt
-    zu funktionieren. Weitere Informationen dazu erhalten Sie unter Sektion 2. Benutzung.
+    damit ein Angreifer verschlüsselte Geheimtext-Blöcke entschlüsseln kann. Dieses Plugin benötigt mehrere Plugins, um korrekt
+    zu funktionieren. Weitere Informationen dazu erhalten Sie im Abschnitt "Benutzung".
 
     <section headline="Aufbau">
       Der Client versucht eine Nachricht zum Server zu schicken. Diese Nachricht wurde im

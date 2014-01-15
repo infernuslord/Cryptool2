@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:properties="clr-namespace:PaddingOracleAttack.Properties"
         mc:Ignorable="d" 
         d:DesignHeight="406" d:DesignWidth="582">
     <Grid>
@@ -16,10 +17,14 @@
         <Image Name="phase2" Source="img/phase2.png" Width="196" Margin="193,-11,193,96" Visibility="Hidden"></Image>
         <Image Name="phase3" Source="img/phase3.png" Width="196" Margin="385,-7,1,100" Visibility="Hidden"></Image>
 
-        <Image Name="inPadValid" Source="img/valid.png" Height="25" Margin="14,91,465,24" Visibility="Hidden"></Image>
-        <Image Name="inPadInvalid" Source="img/invalid.png" Height="25" Margin="14,91,465,24" Visibility="Hidden"></Image>
-        <Label Name="inPadLbl" Margin="125,92,203,16" Content="{Loc descPadIn}"></Label>
+        <Label Name="inputLabel" Content="{x:Static properties:Resources.lblInput}" FontFamily="Arial Bold" FontSize="15" Height="32" Margin="8,37,0,71" HorizontalAlignment="Left" Width="97" />
+        <Label Name="outputLabel" Content="{x:Static properties:Resources.lblOutput}" FontFamily="Arial Bold" FontSize="15" Height="32" Margin="12,199,0,35" HorizontalAlignment="Left" Width="97" Grid.Row="1" />
+        <Label Name="attackLabel" Content="{x:Static properties:Resources.lblAttackLogic}" FontFamily="Arial Bold" FontSize="15" Height="32" Margin="7,125,0,249" HorizontalAlignment="Left" Width="118" Grid.RowSpan="2" />
         
+        <Label Name="inPadInvalid" Margin="14,95,464,24" Content="{x:Static properties:Resources.lblInvalid}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF8B0000" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontSize="14" Padding="0" Visibility="Hidden"></Label>
+        <Label Name="inPadValid" Margin="14,95,464,24" Content="{x:Static properties:Resources.lblValid}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF008000" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontSize="14" Padding="0" Visibility="Hidden"></Label>
+        <Label Name="inPadLbl" Margin="125,92,203,16" Content="{x:Static properties:Resources.descPadIn}"></Label>
+
         <!-- Input Blocks-->
         <!-- <Label Name="inPrelBlock" Content="" FontFamily="Courier New" FontSize="16" Height="32" Margin="42,62,310,46" Width="230" ToolTip="{Loc ttPrelBlock}"/> -->
         <TextBlock Name="inPrelBlock" Text="" FontFamily="Courier New" FontSize="16" Margin="44,69,312,52" Width="225" ToolTip="{Loc ttPrelBlock}" />
@@ -34,7 +39,7 @@
         <!-- Output Blocks-->
         <TextBlock Name="outCorruptedBlock" Text="" FontFamily="Courier New" FontSize="16" Margin="44,231,308,15" Width="230"  ToolTip="{Loc ttCorruptedBlock}" Grid.Row="1" />
         <TextBlock Name="outCipherBlock" Text="" FontFamily="Courier New" FontSize="16" Margin="309,231,43,11" Width="230"  ToolTip="{Loc ttCipherBlock}" Grid.Row="1" />
-        <Label Name="outCounterLabel" Content="Requests:" FontFamily="Courier New" FontSize="16" Height="32" Margin="430,194,0,40" HorizontalAlignment="Left" Width="97"  ToolTip="ttSentRequests" Grid.Row="1" />
+        <Label Name="outCounterLabel" Content="{x:Static properties:Resources.lblRequests}" FontFamily="Courier New" FontSize="16" Height="32" Margin="386,194,0,40" HorizontalAlignment="Left" Width="141"  ToolTip="ttSentRequests" Grid.Row="1" HorizontalContentAlignment="Right" />
         <Label Name="outCounter" Content="0" FontFamily="Courier New" FontSize="16" Height="32" Margin="529,194,0,40"   ToolTip="ttSentRequests" Grid.Row="1" />
 
         <!-- Tooltips-->
@@ -51,13 +56,14 @@
         <!-- Description-->
         <Border Name="descBorder" BorderBrush="Gray" BorderThickness="1" Margin="323,132,12,156" Visibility="Visible" Grid.RowSpan="2" />
         <TextBox Background="Transparent" Name="descTask" TextWrapping="Wrap" Margin="324,132,13,157" FontFamily="Cambria" FontSize="16" Text="" IsReadOnly="True" Grid.RowSpan="2" />
-        <Image Name="imgComplete" Source="img/complete.png" Margin="375,46,66,163" Grid.Row="1" Visibility="Hidden"></Image>
-        
+        <!--<Image Name="imgComplete" Source="img/complete.png" Margin="375,46,66,163" Grid.Row="1" Visibility="Hidden"></Image>-->
+        <Label Name="imgComplete" Content="{x:Static properties:Resources.lblComplete}" FontFamily="Arial Bold" FontSize="20" Height="32" Margin="386,61,78,173" Width="118" Grid.Row="1" Foreground="#FF00B050" FontWeight="Normal" Visibility="Hidden" HorizontalContentAlignment="Center" />
+
         <!-- ViewByte-->
         <StackPanel Name="viewBytePanel" Margin="323,115,7,123" Grid.Row="1" ToolTip="{Loc ttViewByte}">
             <Border Name="viewBorder" BorderBrush="Gray" BorderThickness="1" Margin="-5,0,0,-25" Visibility="Visible" Grid.Row="1" Width="247" Height="27" />
             <ScrollBar Name="viewByteScroller" Margin="223,-1,0,0" Grid.Row="1" Width="17" Height="25" />
-            <Label Background="Transparent" Name="descByte" Margin="-80,-25,0,0" FontFamily="Cambria" FontSize="14" Content="{Loc ttViewByteDesc}" Grid.Row="1" Height="26" Width="161" BorderBrush="Transparent"/>
+            <Label Background="Transparent" Name="descByte" Margin="-80,-25,0,0" FontFamily="Cambria" FontSize="14" Content="{x:Static properties:Resources.ttViewByteDesc}" Grid.Row="1" Height="26" Width="161" BorderBrush="Transparent"/>
             <Label Background="Transparent" Name="descShownBytes" Margin="120,-26,0,0" FontFamily="Cambria" FontSize="14" Content="1..8" Grid.Row="1" Height="26" Width="48" BorderBrush="Transparent"/>
         </StackPanel>
             
@@ -68,10 +74,10 @@
         <StackPanel Name="buttonPanel" Margin="0,151,0,71" Orientation="Horizontal" Grid.Row="1">
             <Button Name="btnReturnPhase" Width="25" Height="26" Margin="5,-2,-12,4" Content="&lt;&lt;" FontSize="14" IsEnabled="True" ToolTip="{Loc ttBtnReturnPhase}"></Button>
             <Button Name="btnReturn" Width="25" Height="26" Margin="15,-2,-12,4" Content="&lt;" FontSize="14" IsEnabled="True" ToolTip="{Loc ttBtnReturn}"></Button>
-            <Button Name="btnNext" Width="80" Height="26" Margin="15,-2,0,4" Content="{Loc btnNext}" FontSize="14" IsEnabled="True" ToolTip="{Loc ttBtnNext}"></Button>
+            <Button Name="btnNext" Width="80" Height="26" Margin="15,-2,0,4" Content="{x:Static properties:Resources.btnNext}" FontSize="14" IsEnabled="True" ToolTip="{Loc ttBtnNext}"></Button>
             <Label Name="btnNextLbl" Width="142" Height="26" Margin="1,-2,-5,4" Content=""></Label>
-            <Button Name="btnRun" Width="140" Height="26" Margin="5,-2,53,4" Content="{Loc btnAuto}" FontSize="14" ToolTip="{Loc ttBtnAuto}"></Button>
-            <Button Name="btnFinish" Width="140" Height="26" Margin="-45,-2,58,4" Content="{Loc btnAll}" FontSize="14" ToolTip="{Loc ttBtnAll}"></Button>
+            <Button Name="btnRun" Width="140" Height="26" Margin="5,-2,53,4" Content="{x:Static properties:Resources.btnAuto}" FontSize="14" ToolTip="{Loc ttBtnAuto}"></Button>
+            <Button Name="btnFinish" Width="140" Height="26" Margin="-45,-2,58,4" Content="{x:Static properties:Resources.btnAll}" FontSize="14" ToolTip="{Loc ttBtnAll}"></Button>
         </StackPanel>
         
     </Grid>

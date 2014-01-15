@@ -123,6 +123,15 @@
   <data name="InputDecTooltip" xml:space="preserve">
     <value>Input of the data to examine</value>
   </data>
+  <data name="lblInvalid" xml:space="preserve">
+    <value>INVALID</value>
+  </data>
+  <data name="lblValid" xml:space="preserve">
+    <value>VALID</value>
+  </data>
+  <data name="lblViewingBytes" xml:space="preserve">
+    <value>Currently Viewing Bytes</value>
+  </data>
   <data name="PaddingResultCaption" xml:space="preserve">
     <value>Padding Result</value>
   </data>
