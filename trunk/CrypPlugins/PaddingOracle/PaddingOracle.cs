@@ -91,11 +91,8 @@ namespace Cryptool.Plugins.PaddingOracle
         public void PreExecution()
         {
             PaddingResult = false;
-
             plainBlockStr = "";
-
             firstViewBytePos = 1;
-
             OnPropertyChanged("PaddingResult");
         }
 
@@ -251,34 +248,25 @@ namespace Cryptool.Plugins.PaddingOracle
 
         private void setPadPointer()
         {
-            int viewMode; //0 = all bytes, 1 = no bytes, 2 = mix
-
             //set pad range (how many bytes shall be included in the pointer)
-            if (paddingLength > blockSize || paddingLength < 1)
-            {
-                padRange = 1;
-            }
-            else
-            {
-                padRange = paddingLength;
-            }
+            padRange = (paddingLength > blockSize || paddingLength < 1) ? 1 : paddingLength;
 
-            
-            if (firstViewBytePos >= blockSize - 7) //all padding bytes are in view
-            {
-                viewMode = 0;
-            }
-            else if (firstViewBytePos <= blockSize - 7 - padRange) //no padding bytes in view
-            {
-                viewMode = 1;
-                padRange = 0;
-            }
-            else //mix
-            {
-                viewMode = 2;
-                padRange = paddingLength - (blockSize - 7 - firstViewBytePos);
-            }
+            int lastViewBytePos = firstViewBytePos + 7;
+            int padStart = blockSize - padRange + 1;
+            int padEnd = blockSize;
+            bool startVisible = (firstViewBytePos <= padStart) && (padStart <= lastViewBytePos);
+            bool endVisible = (firstViewBytePos <= padEnd) && (padEnd <= lastViewBytePos);
 
+            //0 = padding range is full visible
+            //1 = ony start of padding range is not visible
+            //2 = start and end of padding range are not visible, but range overlaps with viewport
+            //3 = only end of padding range is not visible
+            //4 = padding range has no overlap with viewport
+            int viewMode = endVisible
+                         ? (startVisible ? 0 : 1)
+                         : ((padStart > lastViewBytePos) ? 4 : startVisible ? 3 : 2);
+
+            padRange = Math.Max(Math.Min(lastViewBytePos - padStart + 1, 8), 0);
 
             Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {

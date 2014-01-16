@@ -10,7 +10,7 @@
     validity of a message. For a long time, this was considered insignificant in terms of
     <external ref="http://en.wikipedia.org/wiki/Information_leakage">Information Leakage</external>.
     This plugin illustrates how this validity information can be misused to allow the attacker to decrypt
-    ciphertext blocks. In order to work, the plugin requires several other plugins. Further informations are
+    ciphertext blocks. In order to work, the plugin requires several other plugins. Further information is
     available in the section 'Usage'.
     <section headline="Setup">
       A client tries to send a message to the server. This message was encrypted in

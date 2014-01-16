@@ -299,7 +299,7 @@
     <value>Output</value>
   </data>
   <data name="lblRequests" xml:space="preserve">
-    <value>Requests:</value>
+    <value>Oracle Requests:</value>
   </data>
   <data name="lblValid" xml:space="preserve">
     <value>VALID</value>

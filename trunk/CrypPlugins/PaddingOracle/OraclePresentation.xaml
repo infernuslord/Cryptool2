@@ -14,7 +14,7 @@
 
         <!--<Label Name="decryptedBlock" Margin="60,17,12,112" Content="" FontFamily="Courier New" FontSize="16"></Label>
         <Label Margin="60,51,12,78" Name="cipherBlock" Content="" FontFamily="Courier New" FontSize="16" />-->
-        <Label Margin="38,13,48,84" Name="plainBlock" Content="" FontFamily="Courier New" FontSize="16" />
+        <Label Margin="39,13,0,0" Name="plainBlock" Content="" FontFamily="Courier New" FontSize="16" HorizontalAlignment="Left" Width="235" Height="27" VerticalAlignment="Top" />
 
         <StackPanel Name="viewBytePanel" Margin="-13,76,32,13" >
             <ScrollBar Name="viewByteScroller" Margin="233,0,0,0" Grid.Row="1" Width="17" Height="27" />
@@ -22,6 +22,6 @@
             <Label Background="Transparent" Name="descByte" Margin="-95,-25,0,0" FontFamily="Cambria" FontSize="14" Content="{x:Static properties:Resources.lblViewingBytes}"  Grid.Row="1" Height="27" Width="184" BorderBrush="Transparent" HorizontalContentAlignment="Right" />
         </StackPanel>
 
-        <Border BorderBrush="Green" BorderThickness="2,2,1,2" Height="29" HorizontalAlignment="Left" Margin="268,9,0,0" Name="padPointer" VerticalAlignment="Top" Width="2" Visibility="Hidden" />
+        <Border BorderBrush="Green" BorderThickness="2,2,1,2" Height="29.5" HorizontalAlignment="Left" Margin="268,10,0,0" Name="padPointer" VerticalAlignment="Top" Width="2" Visibility="Hidden" />
     </Grid>
 </UserControl>

@@ -71,18 +71,12 @@ namespace Cryptool.Plugins.PaddingOracleAttack
             }
             else
             {
-                this.bytePointer.Width = 23;
+                this.bytePointer.Width = 24;
                 pos = position;
             }
 
-
-
-            System.Windows.Thickness thick = new System.Windows.Thickness(78 + 29 * pos, 9, 0, 0);
-
-            
-
             this.bytePointer.Visibility = vis;
-            this.bytePointer.Margin = thick;
+            this.bytePointer.Margin = new System.Windows.Thickness(attDecBlock.Margin.Left - 2 + (230 * pos)/8, bytePointer.Margin.Top, 0, 0);
         }
 
         Image[] imgPhase = new Image[3];
@@ -106,6 +100,11 @@ namespace Cryptool.Plugins.PaddingOracleAttack
             {
                 this.descBorder.BorderBrush = Brushes.Gray;
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
         /*
         private void Test_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
