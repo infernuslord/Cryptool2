@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using System.Net;
 
 namespace Startcenter
 {
@@ -88,9 +89,10 @@ namespace Startcenter
                 var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item") where !(String.IsNullOrEmpty(x.Descendants("title").Single().Value.Trim()) || String.IsNullOrEmpty(x.Descendants("description").Single().Value.Trim()))
                             select new RssItem()
                                        {
-                                           Title = x.Descendants("title").Single().Value.Trim(),
-                                           Message = x.Descendants("description").Single().Value.Replace("[", "(").Replace("]", ")")
-                                                                                                .Replace('<', '[').Replace('>', ']').Trim(),
+                                           Title = WebUtility.HtmlDecode( x.Descendants("title").Single().Value.Trim() ),
+                                           Message = WebUtility.HtmlDecode( x.Descendants("description").Single().Value
+                                                                             .Replace("[", "(").Replace("]", ")")
+                                                                             .Replace('<', '[').Replace('>', ']').Trim() ),
                                            PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
                                            URL = x.Descendants("link").Single().Value.Trim()
                                        };
