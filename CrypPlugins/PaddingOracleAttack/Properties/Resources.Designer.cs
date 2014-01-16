@@ -421,7 +421,7 @@ namespace PaddingOracleAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Requests: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Oracle Requests: ähnelt.
         /// </summary>
         public static string lblRequests {
             get {

@@ -41,34 +41,30 @@ namespace Cryptool.Plugins.PaddingOracle
                 this.padValid.Visibility = Visibility.Hidden;
                 this.padInvalid.Visibility = Visibility.Visible;
             }
-            
         }
 
         public void setPadPointer(int padLen, int viewMode)
         {
-            int showLen = padLen;
+            if (viewMode == 4)
+            {
+                this.padPointer.Width = 3; 
+                this.padPointer.BorderThickness = new System.Windows.Thickness(3);
+            }
+            else
+            {
+                switch (viewMode)
+                {
+                    case 0: this.padPointer.BorderThickness = new System.Windows.Thickness(3); break;
+                    case 1: this.padPointer.BorderThickness = new System.Windows.Thickness(0, 3, 3, 3); break;
+                    case 2: this.padPointer.BorderThickness = new System.Windows.Thickness(0, 3, 0, 3); break;
+                    case 3: this.padPointer.BorderThickness = new System.Windows.Thickness(3, 3, 0, 3); break;
+                }
 
+                this.padPointer.Width = -1 + 29 * padLen;
+            }
+
+            this.padPointer.Margin = new System.Windows.Thickness(270 - 29 * padLen, padPointer.Margin.Top, 0, 0);
             this.padPointer.Visibility = Visibility.Visible;
-
-            System.Windows.Thickness marginThick = new System.Windows.Thickness(268 - 29 * showLen, 9, 0, 0);
-            this.padPointer.Margin = marginThick;
-
-            System.Windows.Thickness borderThick;
-
-            if (viewMode == 0) //0 = all bytes
-            {
-                borderThick = new System.Windows.Thickness(2);
-                this.padPointer.BorderThickness = borderThick;
-
-                this.padPointer.Width = -1 + 29 * showLen;
-            }
-            else //1 = no bytes, 2 = mix
-            {
-                borderThick = new System.Windows.Thickness(2, 2, 1, 2);
-                this.padPointer.BorderThickness = borderThick;
-
-                this.padPointer.Width = 2 + 29 * showLen;
-            }
-        }
+        } 
     }
 }

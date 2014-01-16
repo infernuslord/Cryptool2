@@ -298,7 +298,7 @@
     <value>Ausgabe</value>
   </data>
   <data name="lblRequests" xml:space="preserve">
-    <value>Durchgänge:</value>
+    <value>Orakel-Anfragen:</value>
   </data>
   <data name="lblValid" xml:space="preserve">
     <value>GÜLTIG</value>
