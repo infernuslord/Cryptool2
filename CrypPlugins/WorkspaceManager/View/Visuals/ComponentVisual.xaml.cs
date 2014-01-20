@@ -871,7 +871,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
                 }
                 catch (Exception ex)
                 {
-                    Console.Out.WriteLine(ex.ToString());
+                    
                 }
             }
         }
@@ -970,8 +970,7 @@ typeof(SettingsVisual), typeof(ComponentVisual), new FrameworkPropertyMetadata(n
             {
                 WindowHeight += e.VerticalChange;
                 WindowWidth += e.HorizontalChange;
-                Console.Out.WriteLine(e.HorizontalChange);
-                Console.Out.WriteLine(e.VerticalChange);
+                
             }
 
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));

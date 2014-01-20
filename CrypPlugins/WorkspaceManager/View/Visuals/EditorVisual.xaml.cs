@@ -1809,7 +1809,7 @@ namespace WorkspaceManager.View.Visuals
 
         void ExecutionEngine_OnPluginProgressChanged(IPlugin sender, PluginProgressEventArgs args)
         {
-            Console.Out.WriteLine(args.Value * 100);
+            
         }
 
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)
