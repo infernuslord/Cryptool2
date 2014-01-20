@@ -1,9 +1,10 @@
-#include "NTL_Wrapper.h"
 #include "NTL/LLL.h"
 #include <iostream>
+#include <vector>
 using namespace System::Numerics; 
 using namespace std;
 using namespace System;
+using namespace System::Collections::Generic; 
 
 namespace NTL
 {
@@ -18,14 +19,47 @@ namespace NTL
 		{    
 		}
 
+		//Obsolet
 		array<BigInteger,2>^ LLLReduce (array<BigInteger,2>^ matrix, long dim, double delta)
 		{
-			return LLLReduce (matrix, dim, dim, delta);
+			mat_ZZ B, U;	
+			vector<mat_ZZ> S;
+
+			B.SetDims(dim, dim);
+
+			for (int i = 1; i <= dim; i++)
+			{
+				for (int j = 1; j <= dim; j++) 
+				{		
+					B(i,j) = conv<ZZ>((char *) System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(matrix[i - 1,j - 1].ToString()).ToPointer());
+				}
+			}
+
+			LLL_FP(B, U, S, delta);
+
+			for (int i = 1; i <= dim; i++)
+			{
+				for (int j = 1; j <= dim; j++) 
+				{	
+					matrix[i-1,j-1] = ConvertFromZZToBigInt(B(i,j));
+				}
+			}
+
+			array<BigInteger,2>^ transMatrix  = gcnew array<BigInteger,2>(dim, dim);
+			for (int i = 1; i <= dim; i++)
+			{
+				for (int j = 1; j <= dim; j++) 
+				{	
+					transMatrix[i-1,j-1] = ConvertFromZZToBigInt(U(i,j));
+				}
+			}
+			return transMatrix;
 		}
 
-		array<BigInteger,2>^ LLLReduce (array<BigInteger,2>^ matrix, long n, long m, double delta)
+		void LLLReduce (array<BigInteger,2>^ matrix,  array<BigInteger,2>^ transMatrix, List<array<BigInteger,2>^>^ steps, long n, long m, double delta)
 		{
-			mat_ZZ B, U;					
+			mat_ZZ B, U;
+			vector<mat_ZZ> S;
 
 			B.SetDims(n, m);
 
@@ -37,7 +71,7 @@ namespace NTL
 				}
 			}
 
-			LLL_FP(B, U, delta);
+			LLL_FP(B, U, S, delta);
 
 			for (int i = 1; i <= n; i++)
 			{
@@ -47,8 +81,6 @@ namespace NTL
 				}
 			}
 
-			array<BigInteger,2>^ transMatrix  = gcnew array<BigInteger,2>(n, n);
-			
 			for (int i = 1; i <= n; i++)
 			{
 				for (int j = 1; j <= n; j++) 
@@ -56,7 +88,21 @@ namespace NTL
 					transMatrix[i-1, j-1] = ConvertFromZZToBigInt(U(i, j));
 				}
 			}
-			return transMatrix;
+
+			for (int k = 0; k < S.size(); k++)
+			{
+				mat_ZZ step = S[k];
+				array<BigInteger,2>^ stepMatrix = gcnew array<BigInteger,2>(n, m);
+				
+				for (int i = 1; i <= n; i++)
+				{
+					for (int j = 1; j <= m; j++) 
+					{	
+						stepMatrix[i-1, j-1] = ConvertFromZZToBigInt(step(i, j));
+					}
+				}
+				steps->Add(stepMatrix);
+			}
 		}
 
 		BigInteger ConvertFromZZToBigInt(ZZ zz)
