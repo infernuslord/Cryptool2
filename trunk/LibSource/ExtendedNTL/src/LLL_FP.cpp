@@ -2,7 +2,7 @@
 #include <NTL/LLL.h>
 #include <NTL/fileio.h>
 #include <NTL/vec_double.h>
-
+#include <vector>
 
 #include <NTL/new.h>
 
@@ -649,7 +649,7 @@ void ComputeGS(const mat_ZZ& B, mat_RR& mu, vec_RR& c)
 
 
 static
-long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep, 
+long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, vector<mat_ZZ>* S, double delta, long deep, 
            LLLCheckFct check, double **B1, double **mu, 
            double *b, double *c,
            long m, long init_k, long &quit)
@@ -783,7 +783,7 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
 
 
       do {
-         // size reduction
+         // size reduction	  
 
          counter++;
          if ((counter & 127) == 0) {
@@ -880,7 +880,7 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
 
                RowTransform(B(k), B(j), MU, B1[k], B1[j], in_vec,
                             max_b[k], max_b[j], in_float);
-               if (U) RowTransform((*U)(k), (*U)(j), MU);
+               if (U) RowTransform((*U)(k), (*U)(j), MU);			   
             }
          }
 
@@ -904,7 +904,10 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
 
             rst = k;
          }
+		 
       } while (Fc1 || start_over);
+
+	  if (S && (S->size() == 0 || S->back() != B)) S->push_back(B);
 
       if (check && (*check)(B(k))) 
          quit = 1;
@@ -916,8 +919,8 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
             tp = B1[i]; B1[i] = B1[i+1]; B1[i+1] = tp;
             t1 = b[i]; b[i] = b[i+1]; b[i+1] = t1;
             t1 = max_b[i]; max_b[i] = max_b[i+1]; max_b[i+1] = t1;
-            if (U) swap((*U)(i), (*U)(i+1));
-         }
+            if (U) swap((*U)(i), (*U)(i+1));			
+         }		 
 
          for (i = k; i <= m+1; i++) st[i] = 1;
          if (k < rr_st) rr_st = k;
@@ -926,6 +929,8 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
          if (quit) break;
          continue;
       }
+
+	  if (S && (S->size() == 0 || S->back() != B)) S->push_back(B);
 
       if (quit) break;
 
@@ -950,7 +955,9 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
                t1 = b[i]; b[i] = b[i-1]; b[i-1] = t1;
                t1 = max_b[i]; max_b[i] = max_b[i-1]; max_b[i-1] = t1;
                if (U) swap((*U)(i), (*U)(i-1));
-            }
+            }	
+
+			if (S && (S->size() == 0 || S->back() != B)) S->push_back(B);
    
             k = l;
             NumSwaps++;
@@ -958,6 +965,8 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
             continue;
          }
       } // end deep insertions
+
+	  if (S && (S->size() == 0 || S->back() != B)) S->push_back(B);
 
       // test LLL reduction condition
 
@@ -981,6 +990,7 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
          // cout << "+\n";
       }
 
+	  if (S && (S->size() == 0 || S->back() != B)) S->push_back(B);
    }
 
    if (verbose) {
@@ -999,7 +1009,7 @@ long ll_LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
 
 
 static
-long LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep, 
+long LLL_FP(mat_ZZ& B, mat_ZZ* U, vector<mat_ZZ>* S, double delta, long deep, 
            LLLCheckFct check)
 {
    long m = B.NumRows();
@@ -1059,7 +1069,7 @@ long LLL_FP(mat_ZZ& B, mat_ZZ* U, double delta, long deep,
       CheckFinite(&b[i]);
    }
 
-   new_m = ll_LLL_FP(B, U, delta, deep, check, B1, mu, b, c, m, 1, quit);
+   new_m = ll_LLL_FP(B, U, S, delta, deep, check, B1, mu, b, c, m, 1, quit);
    dep = m - new_m;
    m = new_m;
 
@@ -1109,10 +1119,10 @@ long LLL_FP(mat_ZZ& B, double delta, long deep, LLLCheckFct check,
 
    if (delta < 0.50 || delta >= 1) Error("LLL_FP: bad delta");
    if (deep < 0) Error("LLL_FP: bad deep");
-   return LLL_FP(B, 0, delta, deep, check);
+   return LLL_FP(B, 0, 0, delta, deep, check);
 }
 
-long LLL_FP(mat_ZZ& B, mat_ZZ& U, double delta, long deep, 
+long LLL_FP(mat_ZZ& B, mat_ZZ& U, vector<mat_ZZ>& S, double delta, long deep, 
            LLLCheckFct check, long verb)
 {
    verbose = verb;
@@ -1125,7 +1135,7 @@ long LLL_FP(mat_ZZ& B, mat_ZZ& U, double delta, long deep,
 
    if (delta < 0.50 || delta >= 1) Error("LLL_FP: bad delta");
    if (deep < 0) Error("LLL_FP: bad deep");
-   return LLL_FP(B, &U, delta, deep, check);
+   return LLL_FP(B, &U, &S, delta, deep, check);
 }
 
 
@@ -1261,7 +1271,7 @@ void BKZStatus(double tt, double enum_time, unsigned long NumIterations,
 
 
 static
-long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta, 
+long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, vector<mat_ZZ>* S, double delta, 
          long beta, long prune, LLLCheckFct check)
 {
 
@@ -1383,7 +1393,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta,
 
 
 
-   m = ll_LLL_FP(B, U, delta, 0, check, B1, mu, b, c, m, 1, quit);
+   m = ll_LLL_FP(B, U, S, delta, 0, check, B1, mu, b, c, m, 1, quit);
 
    double tt;
 
@@ -1570,7 +1580,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta,
                }
    
                // cerr << "special case\n";
-               new_m = ll_LLL_FP(B, U, delta, 0, check, 
+               new_m = ll_LLL_FP(B, U, S, delta, 0, check, 
                                 B1, mu, b, c, h, jj, quit);
                if (new_m != h) Error("BKZ_FP: internal error");
                if (quit) break;
@@ -1615,7 +1625,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta,
                // remove linear dependencies
    
                // cerr << "general case\n";
-               new_m = ll_LLL_FP(B, U, delta, 0, 0, B1, mu, b, c, kk+1, jj, quit);
+               new_m = ll_LLL_FP(B, U, S, delta, 0, 0, B1, mu, b, c, kk+1, jj, quit);
               
                if (new_m != kk) Error("BKZ_FP: internal error"); 
 
@@ -1643,7 +1653,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta,
                if (h > kk) {
                   // extend reduced basis
    
-                  new_m = ll_LLL_FP(B, U, delta, 0, check, 
+                  new_m = ll_LLL_FP(B, U, S, delta, 0, check, 
                                    B1, mu, b, c, h, h, quit);
    
                   if (new_m != h) Error("BKZ_FP: internal error");
@@ -1661,7 +1671,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ* UU, double delta,
 
             if (!clean) {
                new_m = 
-                  ll_LLL_FP(B, U, delta, 0, check, B1, mu, b, c, h, h, quit);
+                  ll_LLL_FP(B, U, S, delta, 0, check, B1, mu, b, c, h, h, quit);
                if (new_m != h) Error("BKZ_FP: internal error");
                if (quit) break;
             }
@@ -1741,7 +1751,7 @@ long BKZ_FP(mat_ZZ& BB, mat_ZZ& UU, double delta,
    if (delta < 0.50 || delta >= 1) Error("BKZ_FP: bad delta");
    if (beta < 2) Error("BKZ_FP: bad block size");
 
-   return BKZ_FP(BB, &UU, delta, beta, prune, check);
+   return BKZ_FP(BB, &UU, 0, delta, beta, prune, check);
 }
 
 long BKZ_FP(mat_ZZ& BB, double delta, 
@@ -1758,7 +1768,7 @@ long BKZ_FP(mat_ZZ& BB, double delta,
    if (delta < 0.50 || delta >= 1) Error("BKZ_FP: bad delta");
    if (beta < 2) Error("BKZ_FP: bad block size");
 
-   return BKZ_FP(BB, 0, delta, beta, prune, check);
+   return BKZ_FP(BB, 0, 0, delta, beta, prune, check);
 }
 
 

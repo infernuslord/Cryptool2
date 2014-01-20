@@ -11,17 +11,17 @@ namespace NTL {
 	/// <summary>
 	/// Zusammenfassung für ZZWrapper
 	/// </summary>
-	public ref class ZZWrapper :  public System::ComponentModel::Component
+	public ref class NTL_Wrapper :  public System::ComponentModel::Component
 	{
 	public:
-		ZZWrapper(void)
+		NTL_Wrapper(void)
 		{
 			InitializeComponent();
 			//
 			//TODO: Konstruktorcode hier hinzufügen.
 			//
 		}
-		ZZWrapper(System::ComponentModel::IContainer ^container)
+		NTL_Wrapper(System::ComponentModel::IContainer ^container)
 		{
 			/// <summary>
 			/// Erforderlich für die Unterstützung des Windows.Forms-Klassenkompositions-Designers
@@ -35,7 +35,7 @@ namespace NTL {
 		/// <summary>
 		/// Verwendete Ressourcen bereinigen.
 		/// </summary>
-		~ZZWrapper()
+		~NTL_Wrapper()
 		{
 			if (components)
 			{

@@ -3,6 +3,9 @@
 
 #include <NTL/mat_ZZ.h>
 #include <NTL/mat_RR.h>
+#include <vector>
+
+using namespace std;
 
 NTL_OPEN_NNS
 
@@ -35,7 +38,7 @@ extern char *LLLDumpFile;
 long LLL_FP(mat_ZZ& B, double delta = 0.99,
 	    long deep = 0, LLLCheckFct check = 0, long verbose = 0);
 
-long LLL_FP(mat_ZZ& B, mat_ZZ& U, double delta = 0.99, long deep = 0,
+long LLL_FP(mat_ZZ& B, mat_ZZ& U, vector<mat_ZZ>& S, double delta = 0.99, long deep = 0,
            LLLCheckFct check = 0, long verbose = 0);
 
 
