@@ -237,7 +237,7 @@ namespace DragDropListBox
 				{
 					this.insertionIndex--;
 				}
-                Console.Out.WriteLine(targetItemsControl.Name);
+                
 				Utilities.InsertItemInItemsControl(this.targetItemsControl, draggedItem, this.insertionIndex);
 
 				RemoveDraggedAdorner();
