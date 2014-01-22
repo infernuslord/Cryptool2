@@ -145,7 +145,7 @@
     <value>Dictionary output</value>
   </data>
   <data name="DictionaryOutputTooltip" xml:space="preserve">
-    <value>Found grams and their quantities in different scalings</value>
+    <value>Found n-grams and their quantities in different scalings</value>
   </data>
   <data name="AutozoomCaption" xml:space="preserve">
     <value>Autozoom</value>
@@ -157,13 +157,13 @@
     <value>Word boundary fragments</value>
   </data>
   <data name="BoundaryFragmentsTooltip" xml:space="preserve">
-    <value>Include additional fragments with whitespaces at word boundary? Only relevant for gramlength &gt;= 2.</value>
+    <value>Include additional fragments with whitespaces at word boundary? Only relevant for gram length &gt;= 2.</value>
   </data>
   <data name="CaseSensitivityCaption" xml:space="preserve">
     <value>Alphabet case sensitivity</value>
   </data>
   <data name="CaseSensitivityTooltip" xml:space="preserve">
-    <value>Should upper and lower case be treated differently? (Should a == A)</value>
+    <value>Should upper and lower case be treated differently? (Should a == A?)</value>
   </data>
   <data name="ChartHeightCaption" xml:space="preserve">
     <value>Chart height</value>
@@ -172,7 +172,7 @@
     <value>This is the chart height, if autozoom is disabled</value>
   </data>
   <data name="GrammLengthCaption" xml:space="preserve">
-    <value>Enter the length of the gramms to be investigated.</value>
+    <value>Enter the length of the n-grams to be investigated.</value>
   </data>
   <data name="GrammLengthTooltip" xml:space="preserve">
     <value>Groups of how many characters should be checked?</value>

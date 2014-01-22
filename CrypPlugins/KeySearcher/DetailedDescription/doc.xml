@@ -1,21 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
+  
   <language culture="en" />
+  
   <introduction lang="en">The KeySearcher can be used to brute-force symmetric algorithms. Brute-forcing means to test every existing key of a key space to obtain the correct key to break a cipher. Currently the KeySearcher supports AES, DES and SDES for brute-forcing.
     <section headline="Technical background">
-      This component uses the new implemented technology called IControl. IControls are special nodes on a CrypTool 2 component. Compated to the normal inputs and output the IControl uses direct method calls to communicate with other components. This is much faster than the normal inputs and outputs because the CrypTool environment does not need to copy data from one to another component. The KeySearcher is able to communicate with AES, DES and SDES and with the CostFunction component through ICOntrol interfaces. So the key-searching can be speeded up enormous.
+      This component uses the new implemented technology called IControl. IControls are special nodes on a CrypTool 2 component. Compared to the normal inputs and output the IControl uses direct method calls to communicate with other components. This is much faster than the normal inputs and outputs because the CrypTool environment does not need to copy data from one component to another. The KeySearcher is able to communicate with AES, DES and SDES and with the CostFunction component through IControl interfaces. So the key-searching process can be sped up considerably.
     </section>
   </introduction>
     
   <usage lang="en">
-    The component has two IControl interfaces. The first one has to be connected to the algorithm wich should be brute-forced (currently AES, DES or SDES). The second one has to be connected to a CostFunction component. The KeySearcher now can control the decryptopn algorithm and uses the cost function to generate an output list of the most probable keys. In the configration bar the user can enter a KeyPattern. This Pattern is a regular expression representing the key space to brute-force. Exampl: 1-1-1-1-1-**-**-** for SDES means that the KeySearcher set the first 6 bits of a SDES key to 1 and changes only the * (* is a wildcard in a KeyPattern). Depending on the connected algorithm the KeyPattern will be set to the default pattern for the algorithm automatically. The second important thing the user can set in the configuration bar is the amount of cores which the KeySearcher is allowed to use.
+    The component has two IControl interfaces. The first one has to be connected to the algorithm which should be brute-forced (currently AES, DES or SDES). The second one has to be connected to a CostFunction component. The KeySearcher can now control the decryption algorithm and uses the cost function to generate an output list of the most probable keys. In the configuration bar the user can enter a KeyPattern. This pattern is a regular expression representing the key space to brute-force. Example: 1-1-1-1-1-**-**-** for SDES means that the KeySearcher sets the first 6 bits of a SDES key to 1 and changes only the * (* is a wildcard in a KeyPattern). Depending on the connected algorithm, the KeyPattern will be set to the default pattern for the algorithm automatically. The second important thing the user can set in the configuration bar is the amount of cores which the KeySearcher is allowed to use.
     <section headline="Peer-to-Peer distribution">
       This component can also be used to demonstrate a distributed attack on any supported symmetric algorithm. To use this feature, enable it in the settings pane by clicking "Use Peer-to-Peer network". The key space will then be equally distributed among participating CrypTool 2.0 instances. Keys are calculated in so-called chunks, whose size you can choose before starting the job. The chunk size specifies the amount of keys calculated in each turn. If you are an experienced user, you can display Peer-to-peer network related information by clicking "Display verbose information". You may find further information about the Peer-to-peer network, how to use it and what it is capable of, in the P2PEditor section. It can be opened by clicking the button with a globe icon labelled P2P in the top pane.
     </section>
   </usage>
   
   <presentation lang="en">
-    The KeySearcher component offers a QuickWatch showing the "Keys per second" and the probable end-time of the brute-forcing. It also shows a list with the best results in decrypting (using the connected cost-function to calculate a value). If you enable the Peer-to-peer-based KeySearcher, the visualization will be expanded and display additional information about the distributed calculation and its results.
+    The KeySearcher component offers a presentation showing the "Keys per second" and the expected ending time of the brute-forcing. It also shows a list with the best decryption results (using the connected cost-function to calculate a value). If you enable the Peer-to-peer-based KeySearcher, the visualization will be expanded and display additional information about the distributed calculation and its results.
   </presentation>
     
   <references>
@@ -28,4 +30,5 @@
       <caption lang="en">Cost-Function (optimization) in wikipedia</caption>
     </linkReference>
   </references>
+  
 </documentation>

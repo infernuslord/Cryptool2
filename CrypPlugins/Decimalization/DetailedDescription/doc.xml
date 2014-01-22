@@ -96,6 +96,8 @@
     of decimal digits. The rounded down result is the decimal output.
     The plugin sends an error notification to the CrypTool 2 environment if the binary input or an intermediate result
     exceeds the range of the used BigInteger implementation.
+    <newline />
+    <newline />
     <u>Example</u><newline /><newline />
     Binary Number: 1011 1001 0100 0101 1111 1010<newline />
     Integer: 12142074<newline />
@@ -213,7 +215,8 @@
     Dezimalzahl ausgegeben. <newline />
     Überschreiten die binären Eingabedaten den Wertebereich der genutzten BigInteger Implementierung
     oder wird während einer Berechnung dieser Wertebereich überschritten, wird der CrypTool 2-Umgebung eine Fehlermeldung gesendet.
-    <newline /><newline />
+    <newline />
+    <newline />
     <u>Beispiel</u><newline /><newline />
     Binärzahl: 1011 1001 0100 0101 1111 1010 <newline />
     Ganzzahl: 12142074 <newline />

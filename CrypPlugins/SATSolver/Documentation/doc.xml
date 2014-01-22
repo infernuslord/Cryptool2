@@ -15,7 +15,6 @@
       <item>Feeding the SAT solver with the transformed problem</item>
       <item>Interpreting the output of the solver</item>
     </enum>
-    <newline />
     
     <section headline="Conjunctive normal form">
     The conjunctive normal form (CNF) is a special normal form into which a boolean formula can be transformed and which greatly simplifies the solving process. A CNF consists of:<newline />
@@ -26,8 +25,6 @@
     </list>
     Example: (a &#8744; b) &#8743; (&#172;b &#8744; c) &#8743; (a &#8744; c &#8744; &#172;d)
     </section>
-    <newline />
-    <newline />
     
     <section headline="DIMACS CNF">
     DIMACS CNF is the input-format accepted by a SAT solver. It provides a few rules which must be followed:<newline />
@@ -46,7 +43,6 @@
 	1 3 -4 0<newline />
     </section>
     
-    <newline />
     The SAT solver tries to find a variable assignment which satisfies each clause of the CNF such that the whole formula evaluates to <i>true</i>. The solver will then mark the equation as <i>SATISFIABLE</i> and return this variable assignment as solution to the problem. If it can not find a valid variable assignment, the solver will return <i>UNSATISFIABLE</i>.<newline />
   </introduction>
   
@@ -60,7 +56,6 @@
       <item>Eingabe des transformierten Problems in den SAT-Solver.</item>
       <item>Interpretation der Ausgabe des Solvers.</item>
     </enum>
-    <newline />
     
     <section headline="Konjunktive Normalform">
     Die <i>Konjunktive Normalform</i> (CNF von englisch <i>conjunctive normal form</i>) ist eine spezielle Normalform, in die jede boolsche Formel transformiert werden kann. Diese Form vereinfacht den Solver-Prozess stark. Eine CNF besteht aus:<newline />
@@ -72,8 +67,6 @@
     <newline />
     Beispiel: (a &#8744; b) &#8743; (&#172;b &#8744; c) &#8743; (a &#8744; c &#8744; &#172;d)
     </section>
-    <newline />
-    <newline />
     
     <section headline="DIMACS CNF">
     Das DIMACS CNF Format ist das Standard-Eingabeformat für SAT-Solver. Es legt folgende Regeln fest:<newline />
@@ -92,7 +85,7 @@
     -2 3 0<newline />
 	1 3 -4 0<newline />
     </section>
-    <newline />
+    
     Der SAT-Solver versucht eine Variablenbelegung zu finden, welche jede Klausel erfüllt und damit die gesamte Formel erfüllbar macht. Findet der Solver eine solche Variablenbelegung, wird diese als Ergebnis mit dem Status <i>SATISFIABLE</i> ausgegeben. Wird keine Lösung gefunden, gibt der Solver <i>UNSATISFIABLE</i> aus.<newline />    
   </introduction>
   
@@ -106,7 +99,6 @@
       <item>In this case, the user has to provide a textual representation of a problem in DIMACS CNF format. The output of the Text Input plugin can be directly connected to the SAT Solver input (the warning about different types can be ignored).</item>
     </enum>
     </section>
-    <newline />
 
     <section headline="Output">
     There are two output connectors: The console output (1) and the result output (2). Both outputs have to be converted into Strings via the <i>String Encoder</i> plugin to be presented in readable form.
@@ -115,9 +107,7 @@
       <item>The result output returns either <i>UNSAT</i> if the problem could not be solved, or <i>SAT</i> and a valid variable assignment, if the given formula is satisfiable. This output is written not until the solver process has finished.</item>
     </enum>
     </section>
-    In the <b>Templates</b> section, there are two templates that show the usage. One for the text input method and one for the file input method. To use the file input template, a cnf-File has to be created on your local disk or downloaded from the internet, which can be opened with the File Input plugin. The text input template can be used directly, since an example DIMACS CNF is included.<newline />
-    <newline />
-    <newline />
+    In the <b>Templates</b> section, there are two templates that show the usage. One for the text input method and one for the file input method. To use the file input template, a cnf-File has to be created on your local disk or downloaded from the internet, which can be opened with the File Input plugin. The text input template can be used directly, since an example DIMACS CNF is included.
     
     <section headline="Finding further solutions">
     In general, a SAT solver returns the first valid variable assignment it finds. However, there could be more than one solution to the problem. The user has to follow a few steps in order to obtain a different solution:
@@ -154,7 +144,6 @@
       <item>In diesem Fall kann die Repräsentation eines Problems in Textform, welche dem DIMACS CNF Format entspricht, angegeben werden. Die Ausgabe des Texteingabe-Plugins kann direkt mit der Eingabe des SAT-Solver-Plugins verbunden werden (die Warnung wegen verschiedener Typen kann ignoriert werden).</item>      
     </enum>
     </section>
-    <newline />
 
     <section headline="Ausgabe">
     <b>Ausgabe</b><newline />
@@ -164,9 +153,7 @@
       <item>Die Ergebnisausgabe gibt entweder <i>UNSAT</i> aus, falls das Problem nicht gelöst werden konnte, oder <i>SAT</i> und die Variablenbelegung, welche die Formel erfüllbar macht. Die Ergebnisausgabe wird erst geschrieben wenn der Solver-Prozess abgeschlossen ist.</item>
     </enum>
     </section>
-    Unter <b>Vorlagen</b> gibt es zwei Templates, welche die Nutzung des SAT-Solver-Plugins demonstrieren. Ein Template benutzt das Dateieingabe-Plugin, das andere das Texteingabe-Plugin zur Eingabe. Um das Dateieingabe-Template benutzen zu können, muss zuvor noch eine cnf-Datei lokal erzeugt werden oder heruntergeladen werden, damit diese im Dateieingabe-Plugin geöffnet werden kann. Im Texteingabe-Plugin ist bereits eine Beispiel DIMACS CNF enthalten.<newline />
-    <newline />
-    <newline />
+    Unter <b>Vorlagen</b> gibt es zwei Templates, welche die Nutzung des SAT-Solver-Plugins demonstrieren. Ein Template benutzt das Dateieingabe-Plugin, das andere das Texteingabe-Plugin zur Eingabe. Um das Dateieingabe-Template benutzen zu können, muss zuvor noch eine cnf-Datei lokal erzeugt werden oder heruntergeladen werden, damit diese im Dateieingabe-Plugin geöffnet werden kann. Im Texteingabe-Plugin ist bereits eine Beispiel DIMACS CNF enthalten.
 
     <section headline="Alternative Lösungen finden">
     Der SAT-Solver gibt eine gültige Variablenbelegung an, sobald sie gefunden wurde. Trotzdem können mehrere Lösungen für das Problem existieren. Um weitere Lösungen zu erhalten, muss der Benutzer lediglich folgende Schritte durchführen:

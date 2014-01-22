@@ -7,53 +7,52 @@
  <introduction lang="en">
    Visual codes are a common way to provide information that should be easily read by machines. 
 		 <newline/>
-		The first visual codes was patented in 1952 by Norman Joseph Woodland[1] and based on the Morse code. 
+		The first visual code was patented in 1952 by Norman Joseph Woodland[1] and was based on Morse code. 
 		 <newline/> <newline/>
-		There are two main types of visual codes, one and two-dimensional.
-		 <newline/>
+   There are two main types of visual codes: one-dimensional and two-dimensional.
+   <newline/>
 		One-dimensional codes are also known as "Barcodes". They are mostly very limited in the amount of information they can provide. 
-		Therefore, they are usually containing a number that should identify something (e.g.: product in a supermarket).
+		Therefore, they are usually containing a number that should identify something (e.g.: a product in a supermarket).
 		 <newline/>
-    The applications of two-dimensional visual codes are widely distributed, due to their ability to provide much more Information. 
+    The applications of two-dimensional visual codes are widely distributed due to their ability to provide much more information. 
 		They can save a simple link to a website or entire contact information (see the Vcard template). 
 		Other applications are advertisement (e.g.: providing additional information) or proof of payment (e.g.: train tickets, post stamps).
 		 <newline/> <newline/>
-    But be aware visual codes can also contain harmful content such as a link to a malicious website[2] or malicious code (e.g.: SQL-Injections).
-		Beside the fact, that there are simple ways to authenticate the origin of a visual code (See "RSA signed QRCode" template), almost all visual codes are not signed.
+    But be aware that visual codes can also contain harmful content, such as a link to a malicious website[2] or malicious code (e.g.: SQL-Injections).
+		Though there are simple ways to authenticate the origin of a visual code (see the template "RSA signed QRCode"), almost all visual codes are not signed.
  </introduction>
 
-  
   <introduction lang="de-DE">
     Visuelle Codes sind eine verbreitete Methode um Informationen, die einfach von Maschinen gelesen werden sollen, bereitzustellen. 
 		 <newline/>
 		Der erste visuelle Code wurde 1952 von Norman Joseph Woodland patentiert[1] und basierte auf dem Morsecode.
 		 <newline/> <newline/>
-		Es gibt zwei Haupttypen von visuellen Codes, ein und zwei Dimensionale.
+		Es gibt zwei Haupttypen von visuellen Codes, ein- und zweidimensionale.
 		 <newline/>
-		Ein-dimensionale Codes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
+		Eindimensionale Codes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
 		 <newline/>
-		Das Einsatzgebiet von zwei-dimensionalen visuellen Codes ist, da sie mehr Informationen speichern können, weit gefächert.
+		Das Einsatzgebiet von zweidimensionalen visuellen Codes ist, da sie mehr Informationen speichern können, weit gefächert.
 		Sie können einen einfachen Link zu einer Webseite oder ganze Kontaktinformationen (siehe Vcard Vorlage) enthalten.
-		Andere Anwendungen sind Werbung(z.B.: Um zusätzliche Informationen bereitzustellen) oder als Zahlungsnachweis (z.B.: Bahntickets, Briefmarken).
+		Andere Anwendungen sind Werbung (z.B. um zusätzliche Informationen bereitzustellen) oder als Zahlungsnachweis (z.B. Bahntickets, Briefmarken).
 		 <newline/> <newline/>
-    Aber seien Sie sich bewusst, dass ein visueller Code auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injections).
-		Und neben der Tatsache, dass es das es einfache Möglichkeiten gibt die Herkunft eines visuellen Codes zu authentifizieren (siehe "RSA signierter QRCode" Vorlage), sind fast alle visuellen Codes nicht signiert.
+    Aber seien Sie sich bewusst, dass ein visueller Code auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injektionen).
+		Und trotz der Tatsache, dass es das es einfache Möglichkeiten gibt, die Herkunft eines visuellen Codes zu authentifizieren (siehe die Vorlage "RSA signierter QRCode"), sind fast alle visuellen Codes unsigniert.
   </introduction>
 
   <usage lang="en">
-	After you drag the component onto your workspace, you have to select the type of the visual codes you want to create in the settings of the component.
+	After you drag the component onto your workspace, you have to select the type of the visual code you want to create in the settings of the component.
 	 <newline/>
- The component will now generate a visual code from your input.
+  The component will now generate a visual code from your input.
   </usage>
 
   <usage lang="de-DE">
 	 Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, müssen Sie in den Einstellungen die Art des Visuellen Codes wählen, den sie erstellen möchten.
 	  <newline/>
-	 Die Komponente wird nun aus Ihrer Eingabe einen Visuellen Code generieren.
+	 Die Komponente wird nun aus Ihrer Eingabe einen visuellen Code generieren.
   </usage>
   
   <presentation lang="en">
-	The Presentation shows you the generated barcode.
+	The presentation displays the generated barcode.
 	 <newline/>
   If you would like additional information about the structure of the current barcode, you can simply press the "Explain"-button.  
   </presentation>
@@ -61,7 +60,7 @@
   <presentation lang="de-DE">
 	Die Präsentation zeigt Ihnen den generierten Barcode. 
 	 <newline/>
-  Zusätzliche Informationen über den Aufbau des aktuellen Barcodes erhalten Sie einfach durch Drücken des "Erklären"-Knopfes.
+  Zusätzliche Informationen über den Aufbau des aktuellen Barcodes erhalten Sie durch Drücken des "Erklären"-Knopfes.
   </presentation>
   
   <references>
@@ -87,10 +86,9 @@
       <link url="http://www.securitytube.net/video/190" lang="de-DE" />
       <caption lang="de-DE">
         "Toying with Barcodes" auf der Defcon 16.
-        Felix "FX" Lindner demonstriert Sicherheitslücken in existierenden Barcode Anwendungen.
+        Felix "FX" Lindner demonstriert Sicherheitslücken in existierenden Barcode-Anwendungen.
       </caption>
     </linkReference>
-    
-       
   </references>
+  
 </documentation>
