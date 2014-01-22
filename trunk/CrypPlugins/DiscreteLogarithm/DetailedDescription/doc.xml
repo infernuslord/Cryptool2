@@ -35,7 +35,7 @@
     Berechnung einer Potenz y:  y = b^x mod n (b, n fix; x = unabhängige Variable)<newline/>
     Umkehrfunktion: Berechnung des Exponenten x:  x = log_b (y) mod n  (b, n fix; y = unabhängige Variable)<newline/>
     <newline/>
-    Bsp mit b=2 und n=11:<newline/>
+    Beispiel mit b=2 und n=11:<newline/>
     y = 3 = 2^8 mod 11<newline/>
     x = 8 = log_2 (3) mod 11<newline/>
   </usage>

@@ -14,15 +14,19 @@
 
   <usage lang="en">    
     <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic3.JPG"/>
-    <newline/>
-    As seen above the component has three inputs and one output. The output delivers the most likely keyword your text was encrypted with. To find the most likely key letters for each column of the cipher, the component uses "the sum of least squares" method. To calculate this key only a ciphertext and a guess about the language is required. <newline/>
+    
+    As seen above the component has three inputs and one output. The output delivers the most likely keyword your text was encrypted with. To find the most likely key letters for each column of the cipher,
+    the component uses "the sum of least squares" method. To calculate this key only a ciphertext and a guess about the language is required. <newline/>
 
     <section headline="Configuring the component">
-      The first input requires the ciphertext that needs to be analyzed, however the other two inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with. Instead of using these two optional inputs you can just select a language in the task pane on the right side of your CrypTool window:
+      The first input requires the ciphertext that needs to be analyzed, however the other two inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a
+      language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with. Instead of using these two optional inputs you can just select a language in the task pane on
+      the right side of your CrypTool window:
       <newline/>
       <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic2.JPG"/>
-      <newline/>
-      Just select the language you assume the original plaintext to be. Also don't forget to select between the two modes of the analyzer whether you try to break an autokey or a classic Vigenère cipher. The alphabet represents all characters the plaintext was most likely shifted with. Normally you don't need to change those characters.
+      
+      Just select the language you assume the original plaintext to be. Also don't forget to select between the two modes of the analyzer whether you try to break an autokey or a classic Vigenère cipher.
+      The alphabet represents all characters the plaintext was most likely shifted with. Normally you don't need to change those characters.
     </section>
 
     <section headline="Using the component">
@@ -30,8 +34,11 @@
       <newline/>
       <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic1.JPG"/>
       <newline/>
-      The quickwatch as seen above will now represent all calculated keys if there was no key length given. If the third input was set, there will only one possible key be seen in here. You can now select one of the keys by double clicking them. The grey key is the most probable one as it gains the highest index of coincidence for all possible plaintexts. If your cipher wasn't encoded correctly, try to use the frequency of another language, or use your own text corpus to help with the analysis.<newline/>
-      This component tries all possible key lengths up until 1/40 of your ciphertext's length if there is no key length set at the third input. To find a most probable key length, use the <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/> component on your ciphertext and connect its output with the third input of this component.
+      The quickwatch as seen above will now represent all calculated keys if there was no key length given. If the third input was set, there will only one possible key be seen in here. You can now select one of
+      the keys by double clicking them. The grey key is the most probable one as it gains the highest index of coincidence for all possible plaintexts. If your cipher wasn't encoded correctly, try to use the frequency
+      of another language, or use your own text corpus to help with the analysis.<newline/>
+      This component tries all possible key lengths up until 1/40 of your ciphertext's length if there is no key length set at the third input. To find a most probable key length,
+      use the <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/> component on your ciphertext and connect its output with the third input of this component.
     </section>
   </usage>
 
@@ -52,4 +59,5 @@
       <caption lang="de">Autokey-Cipher in der englischen Wikipedia</caption>
     </linkReference>
   </references>
+  
 </documentation>

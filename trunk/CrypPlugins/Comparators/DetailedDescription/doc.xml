@@ -6,8 +6,8 @@
 
   <introduction lang="en">
     This component provides different comparators for two inputs. The success of this operation depends on the comparability of
-    the given inputs. If possible the types will be casted automatically (from one object type to a compatible one) and compared afterwards.
-    Otherwise an error will be shown.<newline/>
+    the given inputs. If possible, the types will be cast automatically (from one object type to a compatible one) and compared afterwards.
+    Otherwise, an error will be shown.<newline/>
     <newline/>
     Hint: A "String" and a "CryptoolStream" will be compared using their binary representaion.
   </introduction>
@@ -16,23 +16,23 @@
   </introduction>
 
   <usage lang="en">
-    To use the comparator component the user has to put it onto the workspace. Both inputs have to be connected with compatible types (for example
-    two Strings or a String and a CryptoolStream). The output of the comparation is a boolean value which is true if the comparation succeeded and
-    false if it failed<newline/>
+    To use the comparator component, the user has to put it onto the workspace. Both inputs have to be connected with compatible types (for example
+    two Strings or a String and a CryptoolStream). The output of the comparison is a boolean value which is true, if the comparison succeeded and
+    false, if it failed<newline/>
     <newline/>
-    Within the settings of the component the user may choose which comparation method/operator shall be used:<newline/>
+    Within the settings of the component, the user may choose which comparison method/operator shall be used:<newline/>
     <newline/>
-    == The comparation is true if both given inputs are equal.<newline/>
+    == The comparison is true if both given inputs are equal.<newline/>
     <newline/>
-    != The comparation is true if both given inputs are inequal.<newline/>
+    != The comparison is true if both given inputs are inequal.<newline/>
     <newline/>
-    &gt; The comparation is true if the first input is greater than the second one ("Greater" depends on the input type).<newline/>
+    &gt; The comparison is true if the first input is greater than the second one ("Greater" depends on the input type).<newline/>
     <newline/>
-    &lt; The comparation is true if the first input is smaller than the second one ("Smaller" depends on the input type).<newline/>
+    &lt; The comparison is true if the first input is smaller than the second one ("Smaller" depends on the input type).<newline/>
     <newline/>
-    &gt;= The comparation is true if the first input is greater or equal than the second one ("Greater" depends on the input type).<newline/>
+    &gt;= The comparison is true if the first input is greater or equal than the second one ("Greater" depends on the input type).<newline/>
     <newline/>
-    &lt;= The comparation is true if the first input is smaller or equal than the second one ("Smaller" depends on the input type).<newline/>
+    &lt;= The comparison is true if the first input is smaller or equal than the second one ("Smaller" depends on the input type).<newline/>
   </usage>
 
   <usage lang="de-DE">

@@ -127,7 +127,7 @@
     <value>Wörterbuch</value>
   </data>
   <data name="DictionaryInputStringTooltip" xml:space="preserve">
-    <value>Die einzelnen Wörter des Wörtebuches werden durch das angegebene Trennzeichen getrennt.</value>
+    <value>Die einzelnen Wörter des Wörterbuches werden durch das angegebene Trennzeichen getrennt.</value>
   </data>
   <data name="FireNextCaption" xml:space="preserve">
     <value>Steuerungseingang</value>
