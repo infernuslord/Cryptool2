@@ -26,56 +26,47 @@ namespace BooleanOperators
 
         public event EventHandler StatusChanged;
 
-
-
         public ButtonInputPresentation()
         {
             InitializeComponent();
         }
+
         /// <summary>
         /// Current value of the button
         /// </summary>
         public Boolean Value { get; set; }
-        
+
+        private void setButton()
+        {
+            if (Value)
+            {
+                this.myButton.Background = Brushes.LawnGreen;
+                this.myButton.Content = Properties.Resources.True;
+            }
+            else
+            {
+                this.myButton.Background = Brushes.Tomato;
+                this.myButton.Content = Properties.Resources.False;
+            }
+        }
+
         public void update() 
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                this.myButton.Content = Value;
-
-                if (Value)
-                { 
-                    this.myButton.Background = Brushes.LawnGreen;
-                    this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("True");
-                }
-                else
-                {
-                    this.myButton.Background = Brushes.Tomato;
-                    this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("False");
-                }
+                setButton();
             }, null);
         }
 
         public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
         {
-            if (Value)
-            {
-                this.myButton.Background = Brushes.Tomato;
-                this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("False");
-                Value = false;
-            }
-            else
-            {
-                this.myButton.Background = Brushes.LawnGreen;
-                this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("True");
-                Value = true;
-            }
+            Value = !Value;
+            setButton();
 
             if (StatusChanged != null)
             {
                 StatusChanged(this, EventArgs.Empty);
             }
-
         }
     }
 }
