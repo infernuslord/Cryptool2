@@ -39,49 +39,36 @@ namespace Cryptool.Plugins.BooleanOperators
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanInput : ICrypComponent
     {
-
-        private Boolean output = true;
         private BooleanInputSettings settings;
-        private ButtonInputPresentation myButton;
-        private Boolean setorbut = false;
+        private ButtonInputPresentation presentation;
 
         public BooleanInput()
         {
             this.settings = new BooleanInputSettings();
-            myButton = new ButtonInputPresentation();
-            Presentation = myButton;
-            myButton.StatusChanged += new EventHandler(myButton_StatusChanged);
+            this.presentation = new ButtonInputPresentation();
+
+            this.presentation.StatusChanged += new EventHandler(presentation_StatusChanged);
             this.settings.PropertyChanged += settings_OnPropertyChange;
         }
+
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            setorbut = true;
-            Execute();
-        }
-        private void myButton_StatusChanged(object sender, EventArgs e)
-        {
-            setorbut = false;
             Execute();
         }
 
+        private void presentation_StatusChanged(object sender, EventArgs e)
+        {
+            settings.Value = presentation.Value ? 1 : 0;
+        }
 
         [PropertyInfo(Direction.OutputData, "BI_OutputCaption", "BI_OutputTooltip", false)]
         public Boolean Output
         {
-            get
-            {
-                return this.output;
-            }
-            set
-            {
-                this.output = value;
-                OnPropertyChange("Output");
-            }
+            get;
+            set;
         }
 
         #region IPlugin Member
-
-
 
         public void Dispose()
         {
@@ -89,45 +76,16 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Execute()
         {
-            if (!setorbut)
-            {
-                Output = myButton.Value;
-
-                if (myButton.Value)
-                {
-                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-                    settings.Value = 1;
-                }else{
-                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-                    settings.Value = 0;
-                }
-
-            }else{
-
-                Output = (settings.Value == 1);
-
-                if (settings.Value == 1)
-                {
-                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-                    myButton.Value = true;
-                    myButton.update();
-                }else{
-                    settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-                    myButton.Value = false;
-                    myButton.update();
-                }
-            }
-
-            ProgressChanged(1, 1);
+            Initialize();
+            OnPropertyChange("Output");
         }
 
         public void Initialize()
         {
-            if (settings.Value == 1){
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 1));
-            }else{
-                settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
-            }
+            Output = (settings.Value == 1);
+            presentation.Value = Output;
+            presentation.update();
+            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
         }
 
         public void PostExecution()
@@ -140,8 +98,8 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public UserControl Presentation
         {
-            get;
-            private set;
+            get { return this.presentation; }
+            private set { this.presentation = (ButtonInputPresentation)value; }
         }
 
         public ISettings Settings
@@ -184,6 +142,5 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
         #endregion
-
     }
 }
