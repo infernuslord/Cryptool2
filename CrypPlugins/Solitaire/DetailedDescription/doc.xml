@@ -5,7 +5,7 @@
   <language culture="de-DE" />
 
   <introduction lang="en">
-    The Solitaire cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book <i>Cryptonomicon</i>.
+    The Solitaire cipher was designed by Bruce Schneier upon a request of Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book <i>Cryptonomicon</i>.
     <newline />
     Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools".
     For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html.
@@ -50,7 +50,7 @@
     After each step, the deck will be updated and the cards that have changed position are displayed in bold font.
     <newline />
     Each series of five steps generates a single cipher character. The same amount as characters in the input text must be generated to perform encryption or decryption.
-    If all steps are clear, the user can chose to generated the remaining characters automatically by clicking this button.
+    If all steps are clear, the user can choose to generated the remaining characters automatically by clicking this button.
   </presentation>
 
   <presentation lang="de-DE"></presentation>

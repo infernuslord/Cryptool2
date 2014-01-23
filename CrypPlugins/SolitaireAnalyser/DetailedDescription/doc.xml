@@ -2,7 +2,7 @@
 <documentation>
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en">The Solitaire Cipher was designed by Bruce Schneier upon request by Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book Cryptonomicon. 
+  <introduction lang="en">The Solitaire Cipher was designed by Bruce Schneier upon a request of Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book Cryptonomicon. 
 Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools". For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html. <newline />
 This plugin attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute-force attack is too complex, a dictionary attack on the original password is implemented. Thus this only works if the initial deck for encryption was created using a password!
 </introduction>

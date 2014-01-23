@@ -75,7 +75,7 @@
     </section>
     <section headline="Encryption">
       As shown in Figure 1, under each letter of the random alphabet there are three or four homophones. The encryption is performed by substituting each letter of the plaintext by one of these homophones.
-      For instance, if we encrypt the plaintext “SPANISH STRIP CIPHER” using the homophones table depicted on Figure 1, then a possible result would be: 10 31 27 22 14 37 34 61 33 12 43 74 35 69 80 42 17 56.
+      For instance, if we encrypt the plaintext “SPANISH STRIP CIPHER” using the homophones table depicted in Figure 1, then a possible result would be: 10 31 27 22 14 37 34 61 33 12 43 74 35 69 80 42 17 56.
     </section>
     <section headline="Decryption">
       The decryption is the reverse process of encryption. For instance the homophones 10, 37, 61, and 81 would be decrypted as the letter S as shown in Figure 1.
@@ -117,7 +117,7 @@
 
   <introduction lang="de-DE">
     Die Spanische Strip-Chiffre, auch bekannt als "Spanische Offizielle Methode", ist eine Variation der Homophonen-Chiffre (weitere Informationen zur Homophonen-Chiffre finden Sie hier: <ref id="wikipedia-Homophonic"/>).
-    Dieses Verfahren wurde während des Spanischen Bürgerkriegs (1936-1939) bei Republikaner und Nationalisten eingesetzt.
+    Dieses Verfahren wurde während des Spanischen Bürgerkriegs (1936-1939) bei Republikanern und Nationalisten eingesetzt.
     <newline />
     <section headline="Elemente">
       Die Spanische Strip-Chiffre besteht aus den folgenden vier Elementen:
