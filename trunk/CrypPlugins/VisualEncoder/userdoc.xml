@@ -31,12 +31,12 @@
 		 <newline/>
 		Eindimensionale Codes sind auch als Barcodes bekannt. Sie können nur wenig Informationen speichern und beinhalten deswegen meist nur eine Nummer, die zur Identifikation dient (z.B.: Produkte im Supermarkt).
 		 <newline/>
-		Das Einsatzgebiet von zweidimensionalen visuellen Codes ist, da sie mehr Informationen speichern können, weit gefächert.
-		Sie können einen einfachen Link zu einer Webseite oder ganze Kontaktinformationen (siehe Vcard Vorlage) enthalten.
-		Andere Anwendungen sind Werbung (z.B. um zusätzliche Informationen bereitzustellen) oder als Zahlungsnachweis (z.B. Bahntickets, Briefmarken).
+		Das Einsatzgebiet von zweidimensionalen visuellen Codes ist weit gefächert, da sie mehr Informationen speichern können.
+		Sie können einen einfachen Link zu einer Webseite oder vollständige Kontaktinformationen (siehe Vcard-Vorlage) enthalten. 
+		Weitere Anwendungen sind Werbung (z.B. um zusätzliche Informationen bereitzustellen) oder Zahlungsnachweis (z.B. Bahntickets, Briefmarken).
 		 <newline/> <newline/>
     Aber seien Sie sich bewusst, dass ein visueller Code auch schädliche Inhalte enthalten kann, wie zum Beispiel einen Link zu einer bösartigen Webseite [2] oder bösartigen Code (z.B.: SQL-Injektionen).
-		Und trotz der Tatsache, dass es das es einfache Möglichkeiten gibt, die Herkunft eines visuellen Codes zu authentifizieren (siehe die Vorlage "RSA signierter QRCode"), sind fast alle visuellen Codes unsigniert.
+	 Trotz der Tatsache, dass es sehr einfache Möglichkeiten gibt, die Herkunft eines visuellen Codes zu authentifizieren (siehe die Vorlage "RSA signierter QRCode"), sind fast alle visuellen Codes unsigniert. 
   </introduction>
 
   <usage lang="en">

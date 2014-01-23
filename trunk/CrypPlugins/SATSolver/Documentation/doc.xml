@@ -107,7 +107,7 @@
       <item>The result output returns either <i>UNSAT</i> if the problem could not be solved, or <i>SAT</i> and a valid variable assignment, if the given formula is satisfiable. This output is written not until the solver process has finished.</item>
     </enum>
     </section>
-    In the <b>Templates</b> section, there are two templates that show the usage. One for the text input method and one for the file input method. To use the file input template, a cnf-File has to be created on your local disk or downloaded from the internet, which can be opened with the File Input plugin. The text input template can be used directly, since an example DIMACS CNF is included.
+    In the <b>Templates</b> section, there are two templates which show the usage. One for the text input method and one for the file input method. To use the file input template, a cnf file has to be created on your local disc or downloaded from the internet, which can be opened with the File Input plugin. The text input template can be used directly, since an example DIMACS.CNF is included.
     
     <section headline="Finding further solutions">
     In general, a SAT solver returns the first valid variable assignment it finds. However, there could be more than one solution to the problem. The user has to follow a few steps in order to obtain a different solution:

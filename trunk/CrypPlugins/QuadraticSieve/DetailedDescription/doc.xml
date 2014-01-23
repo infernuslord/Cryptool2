@@ -23,8 +23,8 @@
     This component has a BigNumber input. Here the user has to enter a BigNumber. He can use a <docRef item="Cryptool.Plugins.Numbers.NumberInput"/> component and enter a number or an arithmetic expression like $2^{12}+17+2^{32}$.
     However, the input number must consist of less than 275 decimal digits, otherwise the component will reject it.
     The component has only one output. The component puts an array of BigIntegers (the prime factors) to this output. In the configuration bar the user can set the number of CPUs to be used by the quadratic sieve component
-    (It is only possible to select as much CPUs as the users system offers).
-    The quadratic sieve caches found relations of the number.
+    (It is only possible to select as many CPUs as the user's system offers).
+    The quadratic sieve caches the found relations of the number.
     The user can choose if this cache should be deleted at a new startup or not by using the check box in the configuration bar.
   </usage>
 
