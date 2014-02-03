@@ -14,6 +14,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     {
         #region Variables
 
+        // Stop flag
+        private bool stopFlag;
+
         // Genetic algorithm parameters
         private const int population_size = 300;
         private const int mutateProbability = 80;
@@ -95,6 +98,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             set { this.standardAlphabet = value; }
         }
 
+        public Boolean StopFlag
+        {
+            get { return this.stopFlag; }
+            set { this.stopFlag = value; } 
+        }
+
         #endregion
 
         #region Output Properties
@@ -140,6 +149,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             // Execute analysis
             for (int curRep = 0; curRep < this.repetitions; curRep++)
             {
+                if (this.stopFlag == true)
+                {
+                    break;
+                }
+
                 Population population = new Population();
                 SetUpEnvironment(population, GeneticAttacker.population_size);
 
@@ -151,6 +165,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
                 while ((change > GeneticAttacker.changeBorder) && (curGen < GeneticAttacker.maxGenerations))
                 {
+                    if (this.stopFlag == true)
+                    {
+                        break;
+                    }
+
                     nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, false);
                     change = nextGen.dev;
                     curGen++;

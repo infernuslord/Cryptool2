@@ -74,8 +74,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         // Alphabet constants
         private const String smallEng = "abcdefghijklmnopqrstuvwxyz";
         private const String capEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private const String smallGer = "abcdefghijklmnopqrstuvwxyzöäüß";
+        private const String smallGer = "abcdefghijklmnopqrstuvwxyz";
         private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
+
+        // Attackers
+        private DictionaryAttacker dicAttacker;
+        private GeneticAttacker genAttacker;
 
         #endregion
 
@@ -120,7 +124,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 //this.reference_text_has_changed = true;
             }
         }
-        */
+        
         [PropertyInfo(Direction.InputData, "PropDictionaryCaption", "PropDictionaryTooltip", false)]
         public ICryptoolStream Language_Dictionary
         {
@@ -129,7 +133,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.language_dictionary = value;
                 //this.language_dictionary_has_changed = true;
             }
-        }
+        }*/
 
         [PropertyInfo(Direction.OutputData, "PropPlaintextCaption", "PropPlaintextTooltip", true)]
         public String Plaintext
@@ -191,8 +195,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
                 {
                     alpha = detAlphabet(settings.boAlphabet, settings.bo_caseSensitive);
-                    this.ptAlphabet = new Alphabet(alpha, 1);
-                    this.ctAlphabet = new Alphabet(alpha, 1);
+                    this.ptAlphabet = new Alphabet(alpha, 1, settings.boAlphabet);
+                    this.ctAlphabet = new Alphabet(alpha, 1, settings.boAlphabet);
                     this.caseSensitive = settings.bo_caseSensitive;
                 }
                 else if (settings.boAlphabet == 2)
@@ -207,7 +211,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
                 {
                     alpha = detAlphabet(settings.ptAlphabet, settings.pt_caseSensitive);
-                    this.ptAlphabet = new Alphabet(alpha, 1);
+                    this.ptAlphabet = new Alphabet(alpha, 1, settings.ptAlphabet);
 
                 }
                 else if (settings.ptAlphabet == 2)
@@ -219,7 +223,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 if (settings.ctAlphabet == 0 || settings.ctAlphabet == 1)
                 {
                     alpha = detAlphabet(settings.ctAlphabet, settings.ct_caseSensitive);
-                    this.ctAlphabet = new Alphabet(alpha, 1);
+                    this.ctAlphabet = new Alphabet(alpha, 1, settings.ptAlphabet);
                     this.caseSensitive = settings.ct_caseSensitive;
                 }
                 else if (settings.ctAlphabet == 2)
@@ -405,6 +409,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             // Check word separator
+            /*
             if (settings.UseDefaultWordSeparator == true)
             {
                 this.wordSeparator = " ";
@@ -419,7 +424,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     this.wordSeparator = settings.DefaultWordSeparator;
                 }
-            }
+            }*/
 
 
             // PTAlphabet correct?
@@ -495,6 +500,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void Stop()
         {
             this.masPresentation.DisableGUI();
+            this.dicAttacker.StopFlag = true;
+            this.genAttacker.StopFlag = true;
         }
 
         public void Initialize()
@@ -513,31 +520,31 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             ////////////////////// Create keys with dictionary attacker
             // Initialize dictionary attacker
-            DictionaryAttacker dicAttacker = new DictionaryAttacker();
-            dicAttacker.ciphertext = this.cText;
-            dicAttacker.languageDictionary = this.langDic;
-            dicAttacker.frequencies = this.langFreq;
-            dicAttacker.ciphertext_alphabet = this.ctAlphabet;
-            dicAttacker.plaintext_alphabet = this.ptAlphabet;
-            dicAttacker.PluginProgressCallback = this.ProgressChanged;
-            dicAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+            this.dicAttacker = new DictionaryAttacker();
+            this.dicAttacker.ciphertext = this.cText;
+            this.dicAttacker.languageDictionary = this.langDic;
+            this.dicAttacker.frequencies = this.langFreq;
+            this.dicAttacker.ciphertext_alphabet = this.ctAlphabet;
+            this.dicAttacker.plaintext_alphabet = this.ptAlphabet;
+            this.dicAttacker.PluginProgressCallback = this.ProgressChanged;
+            this.dicAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
 
             // Prepare text
-            dicAttacker.PrepareAttack();
+            this.dicAttacker.PrepareAttack();
 
             // Deterministic search
             // Try to find full solution with all words enabled
-            dicAttacker.SolveDeterministicFull();
+            this.dicAttacker.SolveDeterministicFull();
 
             // Try to find solution with disabled words
-            if (!dicAttacker.CompleteKey)
+            if (!this.dicAttacker.CompleteKey)
             {
-                dicAttacker.SolveDeterministicWithDisabledWords();
+                this.dicAttacker.SolveDeterministicWithDisabledWords();
 
                 // Randomized search;
-                if (!dicAttacker.PartialKey)
+                if (!this.dicAttacker.PartialKey)
                 {
-                    dicAttacker.SolveRandomized();
+                    this.dicAttacker.SolveRandomized();
                 }
             }       
 
@@ -553,18 +560,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             watch.Start();
 
             ////////////////// Create keys with genetic attacker
-            GeneticAttacker genAttacker = new GeneticAttacker();
+            this.genAttacker = new GeneticAttacker();
 
             // Initialize analyzer
-            genAttacker.Ciphertext = this.cText;
-            genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
-            genAttacker.Plaintext_Alphabet = this.ptAlphabet;
-            genAttacker.Language_Frequencies = this.langFreq;
-            genAttacker.PluginProgressCallback = this.ProgressChanged;
-            genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+            this.genAttacker.Ciphertext = this.cText;
+            this.genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
+            this.genAttacker.Plaintext_Alphabet = this.ptAlphabet;
+            this.genAttacker.Language_Frequencies = this.langFreq;
+            this.genAttacker.PluginProgressCallback = this.ProgressChanged;
+            this.genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
 
             // Start attack
-            genAttacker.Analyze();
+            this.genAttacker.Analyze();
             
             watch.Stop();
 

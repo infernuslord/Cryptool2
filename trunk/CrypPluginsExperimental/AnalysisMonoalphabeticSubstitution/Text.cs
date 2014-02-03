@@ -26,9 +26,22 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             string curString = "";
             string c = "";
 
+            string prep_text = text;
+            // text prep !!! Must be changed somehow
+            if (alpha.Identifier == 1)
+            {
+                prep_text = prep_text.Replace("ä","ae");
+                prep_text = prep_text.Replace("ö", "oe");
+                prep_text = prep_text.Replace("ü", "ue");
+                prep_text = prep_text.Replace("Ä", "Ae");
+                prep_text = prep_text.Replace("Ö", "Oe");
+                prep_text = prep_text.Replace("Ü", "Ue");
+            }
+
+
             if (this.caseSensitive == false)
             {
-                for (int i = 0; i < text.Length; i++)
+                for (int i = 0; i < prep_text.Length; i++)
                 {                 
                     bool status = false;
 
@@ -36,7 +49,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     do
                     {
                         j++;
-                        curString = text.Substring(i, j);
+                        curString = prep_text.Substring(i, j);
 
                         c = curString;
                         if (char.IsUpper(c.ToCharArray()[0]))
@@ -63,13 +76,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
             else
             {
-                for (int i = 0; i < text.Length; i++)
+                for (int i = 0; i < prep_text.Length; i++)
                 {
                     int j = 0;
                     do
                     {
                         j++;
-                        curString = text.Substring(i, j);
+                        curString = prep_text.Substring(i, j);
                         c = curString;
                     }
                     while (alpha.GetNumberOfLettersStartingWith(c) > 1);

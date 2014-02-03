@@ -5,11 +5,19 @@ using System.Text;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
+    /**
+     *  Dictionary attacker is based on the Decrypto project and "Robust Dictionary Attack of Short Simple
+     *  Substitution Ciphers" of Edwin Olson
+     **/
+
     delegate int DetermineNextSubstitution(bool[] solvedWords, Mapping map, out int index, SolveData data);
 
     class DictionaryAttacker
     {
         #region Variables
+
+        // Stop Flag
+        private bool stopFlag;
 
         // Input Variables
         private Dictionary lDic;
@@ -115,6 +123,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             get { return this.updateKeyDisplay; }
             set { this.updateKeyDisplay = value; }
+        }
+
+        public Boolean StopFlag
+        {
+            get { return this.stopFlag; }
+            set { this.stopFlag = value; }
         }
 
         #endregion
@@ -225,6 +239,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
+                    if (this.stopFlag == true)
+                    {
+                        break;
+                    }
+
                     this.ReenableWords();
                     this.words[i].Enabled = false;
                     this.Solve();
@@ -235,8 +254,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
+                    if (this.stopFlag == true)
+                    {
+                        break;
+                    }
+
                     for (int j = i + 1; j < this.words.Count; j++)
                     {
+                        if (this.stopFlag == true)
+                        {
+                            break;
+                        }
+
                         this.ReenableWords();
                         this.words[i].Enabled = false;
                         this.words[j].Enabled = false;
@@ -249,10 +278,25 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
+                    if (this.stopFlag == true)
+                    {
+                        break;
+                    }
+
                     for (int j = i + 1; j < this.words.Count; j++)
                     {
+                        if (this.stopFlag == true)
+                        {
+                            break;
+                        }
+
                         for (int x = j + 1; x < this.words.Count; x++)
                         {
+                            if (this.stopFlag == true)
+                            {
+                                break;
+                            }
+
                             this.ReenableWords();
                             this.words[i].Enabled = false;
                             this.words[j].Enabled = false;
@@ -274,6 +318,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             for (int i = 0; i < DictionaryAttacker.maxRandomIterations; i++)
             {
+                if (this.stopFlag == true)
+                {
+                    break;
+                }
+
                 this.Solve();
             }
         }
@@ -313,6 +362,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             do
             {
+                if (this.stopFlag == true)
+                {
+                    break;
+                }
+
                 rounds++;
 
                 // Set progress

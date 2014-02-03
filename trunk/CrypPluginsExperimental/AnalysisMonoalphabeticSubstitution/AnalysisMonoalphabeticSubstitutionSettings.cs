@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Settings if plaintext alphabet equals ciphertext alphabet
         [TaskPane("ChooseAlphabetCaption", "ChooseAlphabetTooltip", "AlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2"})]
+            new string[] { "ChooseAlphabetList1"})]
         public int boAlphabet
         {
             get { return bo_alphabet; }
@@ -112,7 +112,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         */
         // Settings for plaintext alphabet
         [TaskPane("PTChooseAlphabetCaption", "PTChooseAlphabetTooltip","PTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2" })]
+            new string[] { "ChooseAlphabetList1"})]
         public int ptAlphabet
         {
             get { return pt_alphabet; }
@@ -141,7 +141,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
       
         // Settings for ciphertext alphabet
         [TaskPane("CTChooseAlphabetCaption", "CTChooseAlphabetTooltip", "CTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1", "ChooseAlphabetList2"})]
+            new string[] { "ChooseAlphabetList1"})]
         public int ctAlphabet
         {
             get { return ct_alphabet; }
@@ -196,7 +196,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
         }
-
+        /*
         [TaskPane("UseDefaultWordSeparatorCaption", "UseDefaultWordSeparatorTooltip", "AdvancedSettingsGroup", 2, false, ControlType.CheckBox, null)]
         public Boolean UseDefaultWordSeparator
         {
@@ -225,7 +225,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 defaultWordSeparator = value;
                 OnPropertyChanged("DefaultWordSeparator");
             }
-        }
+        }*/
 
         #endregion
 

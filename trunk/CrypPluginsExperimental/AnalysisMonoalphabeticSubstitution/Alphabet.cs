@@ -15,13 +15,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private Dictionary<int,string> alphabet = new Dictionary<int,string>();
         private Dictionary<string, int> re_alphabet = new Dictionary<string, int>();
-        private string identifier = "";
+        private int identifier;
 
         #endregion
 
         #region Properties
 
-        public string Identifier
+        public int Identifier
         {
             get { return this.identifier; }
             set { this.identifier = value; }
@@ -40,10 +40,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// <summary>
         /// Regularly split string after length characters 
         /// </summary>
-        public Alphabet(string alphabet,int length=1)
+        public Alphabet(string alphabet,int length, int id)
         {
             int index = 0;
             string cur= "";
+            this.identifier = id;
 
             for (int i = 0; i < alphabet.Length; i = i + length)
             {
