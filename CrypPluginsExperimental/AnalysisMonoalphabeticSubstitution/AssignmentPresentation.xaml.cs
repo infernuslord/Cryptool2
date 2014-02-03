@@ -64,7 +64,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             if (!(this.keyCandidates == null))
             {
-                this.keyCandidatePlaintexts.RemoveRange(0, this.keyCandidatePlaintexts.Count);
+                //this.keyCandidatePlaintexts.RemoveRange(0, this.keyCandidatePlaintexts.Count);
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    dataGrid1.ItemsSource = null;
+                }));
+
+                this.keyCandidatePlaintexts = new List<PlainDisplay>();
+
                 for (int i = 0; i < this.keyCandidates.Count; i++)
                 {
                     PlainDisplay pd = new PlainDisplay();
@@ -72,11 +79,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     pd.Plaintext = this.keyCandidates[i].Plaintext;
                     this.keyCandidatePlaintexts.Add(pd);
                 }
+
                 this.Dispatcher.Invoke((Action)(() =>
                 {
+                    dataGrid1.ItemsSource = this.keyCandidatePlaintexts;
                     dataGrid1.Items.Refresh();
                 }));
             }
+            
         }
 
         public void DisableGUI()

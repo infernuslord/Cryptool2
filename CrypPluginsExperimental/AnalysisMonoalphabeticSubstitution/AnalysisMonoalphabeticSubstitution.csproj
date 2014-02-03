@@ -141,6 +141,9 @@
     <None Include="de-4gram-nocs.lm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="de-small.dic">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="en-3gram-nocs.lm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
