@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">CBC-Attack</title>
+  <summary lang="en">This template shows an attack on the cipher block chaining (CBC) mode of block ciphers.</summary>
+  <description lang="en">This template shows an attack on the cipher block chaining (CBC) mode of block ciphers. Blocks are replaced by arbitrary content.</description>
+  <keywords>cipher block chaining, attack, mode</keywords>
+
+  <title lang="de">CBC-Angriff</title>
+  <summary lang="de">Diese Vorlage zeigt einen Angriff auf den Cipher Block Chaining (CBC) Modus von Blockchiffren.</summary>
+  <description lang="de">Diese Vorlage zeigt einen Angriff auf den Cipher Block Chaining (CBC) Modus von Blockchiffren. Blöcke werden durch beliebigen Inhalt ersetzt.</description>
+  <keywords lang="de">Cipher Block Chaning, Angriff, Modus</keywords>
+
+  <icon file="CBC_Attack.png" />
+  <relevantPlugins>
+    <plugin name="AES" />
+    <plugin name="XOR" />
+  </relevantPlugins>
+</sample>
