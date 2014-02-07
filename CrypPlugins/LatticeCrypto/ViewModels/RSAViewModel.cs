@@ -36,7 +36,11 @@ namespace LatticeCrypto.ViewModels
             paragraph.Inlines.Add(" " + ExpD + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicExponentE)));
             paragraph.Inlines.Add(" " + ExpE + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
             NotifyPropertyChanged("PrimP");
             NotifyPropertyChanged("PrimQ");
@@ -65,7 +69,11 @@ namespace LatticeCrypto.ViewModels
                             paragraph.Inlines.Add(" " + Message + "\r\n");
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
                             paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            History.Document.Blocks.Add(paragraph);
+
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
                             
                             decryptCommand.RaiseCanExecuteChanged();
                             cryptanalysisCommand.RaiseCanExecuteChanged();
@@ -92,7 +100,11 @@ namespace LatticeCrypto.ViewModels
                             paragraph.Inlines.Add(" " + Cipher + "\r\n");
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
                             paragraph.Inlines.Add(" " + Message + "\r\n");
-                            History.Document.Blocks.Add(paragraph);
+
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
 
                             NotifyPropertyChanged("Message");
                         }, parameter2 => !string.IsNullOrEmpty(Cipher));
@@ -144,7 +156,10 @@ namespace LatticeCrypto.ViewModels
                             }
                             finally
                             {
-                                History.Document.Blocks.Add(paragraph);
+                                if (History.Document.Blocks.FirstBlock != null)
+                                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                                else
+                                    History.Document.Blocks.Add(paragraph);
                             }
                             
                         }, parameter2 => !string.IsNullOrEmpty(Cipher));

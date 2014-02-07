@@ -101,9 +101,26 @@ namespace LatticeCrypto.Utilities
 
         public static LatticeND ConvertStringToLatticeND (string str)
         {
-            string adjustedLine = str.Contains(Environment.NewLine) ? str.Remove(str.IndexOf(Environment.NewLine, StringComparison.Ordinal)) : str;
-            adjustedLine = adjustedLine.Where(IsCharFigureOrSeparator).Aggregate("", (current, c) => current + c).Trim(' ');
+            string adjustedLine;
+            if (str.Contains(Environment.NewLine))
+                adjustedLine = str.Remove(str.IndexOf(Environment.NewLine, StringComparison.Ordinal));
+            else if (str.Contains(" "))
+                adjustedLine = str.Replace(" ", "");
+            else adjustedLine = str;
 
+            if (adjustedLine.StartsWith(Languages.labelLatticeBasis))
+                adjustedLine = adjustedLine.Substring(Languages.labelLatticeBasis.Length + 1);
+
+            if (!IsCharFigureOrSeparator(adjustedLine[1]))
+            {
+                adjustedLine = adjustedLine.Substring(1);
+                adjustedLine = adjustedLine.Remove(adjustedLine.Length - 1);
+            }
+
+            int columns = adjustedLine.Count(t => t == adjustedLine[0]);
+
+            adjustedLine = adjustedLine.Where(IsCharFigureOrSeparator).Aggregate("", (current, c) => current + c).Trim(' ');
+            
             if (adjustedLine.Contains(";"))
                 adjustedLine = adjustedLine.Replace(';', ',');
             else if (adjustedLine.Contains(" "))
@@ -112,14 +129,15 @@ namespace LatticeCrypto.Utilities
                 adjustedLine = adjustedLine.Replace('\t', ',');
             string[] splittedLine = adjustedLine.Split(',');
 
-            int dim = (int)Math.Sqrt(splittedLine.Length);
-            VectorND[] vectors = new VectorND[dim];
-            for (int i = 0; i < dim; i++)
+            int rows = splittedLine.Length/columns;
+
+            VectorND[] vectors = new VectorND[columns];
+            for (int i = 0; i < columns; i++)
             {
-                vectors[i] = new VectorND(dim);
-                for (int j = 0; j < dim; j++)
+                vectors[i] = new VectorND(rows);
+                for (int j = 0; j < rows; j++)
                 {
-                    vectors[i].values[j] = BigInteger.Parse(splittedLine[dim * i + j]);
+                    vectors[i].values[j] = BigInteger.Parse(splittedLine[rows * i + j]);
                 }
             }
             return new LatticeND(vectors, false);
@@ -137,12 +155,16 @@ namespace LatticeCrypto.Utilities
             var u1 = r.NextDouble();
             var u2 = r.NextDouble();
 
-            var rand_std_normal = Math.Sqrt(-2.0 * Math.Log(u1)) *
-                                Math.Sin(2.0 * Math.PI * u2);
+            var rand_std_normal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
 
             var rand_normal = mu + sigma * rand_std_normal;
 
             return rand_normal;
+        }
+
+        public static int CountChar(string s, char search)
+        {
+            return s.Count(t => t == search);
         }
     }
 }

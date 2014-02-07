@@ -80,38 +80,13 @@ namespace LatticeCrypto.ViewModels
         public SvpGaussViewModel()
         {
             ReductionMethod = ReductionMethods.reduceGauss;
-
-            ////Nur zum Testen
-            //Random r = new Random();
-            //int fehler = 0;
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    int n = r.Next(6, 6);
-            //    int q = r.Next(3, 10);
-            //    LWEModel lwe = new LWEModel(n, q, true);
-            //    int bit = r.NextDouble() < 0.5 ? 1 : 0;
-            //    EncryptLWETupel c = lwe.Encrypt(bit);
-            //    Console.WriteLine("n: " + n);
-            //    Console.WriteLine("m: " + lwe.m);
-            //    Console.WriteLine("q: " + q);
-            //    Console.WriteLine("Verschlüsselt: " + bit);
-            //    int d = lwe.Decrypt(c);
-            //    Console.WriteLine("Entschlüsselt: " + d);
-            //    if (bit != d)
-            //        fehler++;
-            //    Console.WriteLine();
-            //}
-            //Console.WriteLine("Fehler: " + fehler);
         }
 
-        public void GenerateNewLattice(int dim, BigInteger codomainStart, BigInteger codomainEnd)
+        public void GenerateNewLattice(int n, int m, BigInteger codomainStart, BigInteger codomainEnd)
         {
             UiServices.SetBusyState();
-            Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewLattice + " **\r\n"))));
 
-
-            LatticeND newLattice = new LatticeND(dim, false);
+            LatticeND newLattice = new LatticeND(n, m, false);
 
             //Zur Generierung von kritischen Gittern
             //while (Math.Round(newLattice.AngleReducedVectors, 0) != 60)
@@ -130,52 +105,71 @@ namespace LatticeCrypto.ViewModels
             //}
             Lattice = newLattice;
 
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis)));
-            paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLengthBasisVectors)));
-            paragraph.Inlines.Add(" " + Lattice.VectorLengthToString() + "\r\n");
-            if (Lattice.Dim == 2)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleBasisVectors)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleBasisVectors) + "\r\n");
-            }
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis)));
-            paragraph.Inlines.Add(" " + Lattice.LatticeReducedToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelSuccessiveMinima)));
-            paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
-            if (Lattice.Dim == 2)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleReducedVectors)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleReducedVectors) + "\r\n");
-            }
-            if (ReductionMethod == ReductionMethods.reduceGauss)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelDensity)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " \\ " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
-            }
-            else
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix)));
-                paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");
-            }
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelDeterminant)));
-            paragraph.Inlines.Add(" " + Lattice.Determinant + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+            WriteHistoryForNewLattice(Languages.buttonGenerateNewLattice);
 
             NotifyPropertyChanged("Lattice");
         }
 
         public void SetInitialNDLattice()
         {
-            SetLatticeManually(new LatticeND(2, false) { Vectors = new[] { new VectorND(new BigInteger[] { 27, 21 }), new VectorND(new BigInteger[] { 19, 4 }) } });
+            SetLatticeManually(new LatticeND(2, 2, false) { Vectors = new[] { new VectorND(new BigInteger[] { 27, 21 }), new VectorND(new BigInteger[] { 19, 4 }) } });
+        }
+
+        public void WriteHistoryForNewLattice(string firstLine)
+        {
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + firstLine + " **\r\n"))));
+
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis + ":")));
+            paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLengthBasisVectors)));
+            paragraph.Inlines.Add(" " + Lattice.VectorLengthToString() + "\r\n");
+            
+            if (Lattice.N == 2 && Lattice.M == 2)
+            {
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleBasisVectors)));
+                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleBasisVectors) + "\r\n");
+            }
+
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis + ":")));
+            paragraph.Inlines.Add(" " + Lattice.LatticeReducedToString() + "\r\n");
+            
+            List<string> reductionSteps = Lattice.LatticeReductionStepsToString();
+            for (int i = 1; i <= reductionSteps.Count; i++)
+            {
+                paragraph.Inlines.Add(" " + string.Format(Languages.labelReductionStep, i, reductionSteps.Count) + " " + reductionSteps[i - 1] + "\r\n");
+            }
+
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelSuccessiveMinima)));
+            paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
+
+            if (Lattice.N == 2 && Lattice.M == 2)
+            {
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleReducedVectors)));
+                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleReducedVectors) + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelDensity)));
+                paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " \\ " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
+            }
+
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix)));
+            paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");
+
+            if (Lattice.N == Lattice.M)
+            {
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelDeterminant)));
+                paragraph.Inlines.Add(" " + Lattice.Determinant + "\r\n");
+            }
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
         }
 
         public void SetLatticeManually(LatticeND newLattice)
         {
             UiServices.SetBusyState();
-            Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDefineNewLattice + " **\r\n"))));
-
+            
             Lattice = new LatticeND(newLattice.Vectors, newLattice.UseRowVectors);
 
             switch (ReductionMethod)
@@ -188,37 +182,7 @@ namespace LatticeCrypto.ViewModels
                     break;
             }
 
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis)));
-            paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLengthBasisVectors)));
-            paragraph.Inlines.Add(" " + Lattice.VectorLengthToString() + "\r\n");
-            if (Lattice.Dim == 2)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleBasisVectors)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleBasisVectors) + "\r\n");
-            }
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis)));
-            paragraph.Inlines.Add(" " + Lattice.LatticeReducedToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelSuccessiveMinima)));
-            paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
-            if (Lattice.Dim == 2)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleReducedVectors)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleReducedVectors) + "\r\n");
-            }
-            if (ReductionMethod == ReductionMethods.reduceGauss)
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelDensity)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " \\ " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
-            }
-            else
-            {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix)));
-                paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");
-            }
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelDeterminant)));
-            paragraph.Inlines.Add(" " + Lattice.Determinant + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+            WriteHistoryForNewLattice(Languages.buttonDefineNewLattice);
 
             NotifyPropertyChanged("Lattice");
         }
@@ -245,15 +209,16 @@ namespace LatticeCrypto.ViewModels
                                 latticeInfos = Lattice.LatticeReducedToString();
                                 break;
                             case 2:
-                                latticeInfos =
-                                    Languages.labelLatticeBasis + " " + Lattice.LatticeToString() + Environment.NewLine +
-                                    Languages.labelLengthBasisVectors + " " + Lattice.VectorLengthToString() + Environment.NewLine +
-                                    Languages.labelAngleBasisVectors + " " + Lattice.AngleBasisVectors + Environment.NewLine +
-                                    Languages.labelReducedLatticeBasis + " " + Lattice.LatticeReducedToString() + Environment.NewLine +
-                                    Languages.labelSuccessiveMinima + " " + Lattice.VectorReducedLengthToString() + Environment.NewLine +
-                                    Languages.labelAngleReducedVectors + " " + Lattice.AngleReducedVectors + Environment.NewLine +
-                                    Languages.labelDensity + " " + Lattice.Density + " \\ " + Lattice.DensityRelToOptimum + Environment.NewLine +
-                                    Languages.labelDeterminant + " " + Lattice.Determinant;
+                                latticeInfos = "";
+                                List<string> latticeInfosList = Lattice.GetAllLatticeInfosAsStringList();
+
+                                for (int i = 0; i < latticeInfosList.Count; i++)
+                                {
+                                    latticeInfos += latticeInfosList[i];
+                                    if (i != latticeInfosList.Count - 1)
+                                        latticeInfos += Environment.NewLine;
+                                }
+
                                 break;
                         }
 
@@ -289,17 +254,7 @@ namespace LatticeCrypto.ViewModels
                                     latticeInfos = new[] { Lattice.LatticeReducedToString() };
                                     break;
                                 case 2:
-                                    latticeInfos = new[]
-                                    {
-                                        Languages.labelLatticeBasis + " " + Lattice.LatticeToString(),
-                                        Languages.labelLengthBasisVectors + " " + Lattice.VectorLengthToString(),
-                                        Languages.labelAngleBasisVectors + " " + Lattice.AngleBasisVectors,
-                                        Languages.labelReducedLatticeBasis + " " + Lattice.LatticeReducedToString(),
-                                        Languages.labelSuccessiveMinima + " " + Lattice.VectorReducedLengthToString(),
-                                        Languages.labelAngleReducedVectors + " " + Lattice.AngleReducedVectors,
-                                        Languages.labelDensity + " " + Lattice.Density + " \\ " + Lattice.DensityRelToOptimum,
-                                        Languages.labelDeterminant + " " + Lattice.Determinant
-                                    };
+                                    latticeInfos = Lattice.GetAllLatticeInfosAsStringList().ToArray();
                                     break;
                             }
 
@@ -911,6 +866,15 @@ namespace LatticeCrypto.ViewModels
 
         public BigInteger ComputeInterval (int max10base)
         {
+            /*
+             * Folgende Verbesserung wäre möglich:
+             * ->Zoomen anhand der aktuellen Zehnerpotenz, currentZoomX und currentZoomY
+             * ->Anfangen mit maxValueX und maxValueY (nächste Zehnerpotenz oder auch Dezimalzahlen zulassen, vermutlich besser)
+             * ->PixelsPerPoint nun abhängig von currentZoomX und currentZoomY
+             * ->Zur Berechnung der Skalen: Breite/Höhe teilen durch Durchschnittliche Länge der aktuellen Zehnerpotenz 
+             *  und dann schauen, ob 10, 4, 2 oder 1 passt
+             */
+
             BigInteger interval = BigInteger.Pow(10, max10base);
             
             double adjustFactor = 1;

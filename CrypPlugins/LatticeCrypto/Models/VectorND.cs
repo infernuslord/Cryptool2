@@ -130,14 +130,14 @@ namespace LatticeCrypto.Models
 
         public override string ToString()
         {
-            string vector = "{";
+            string vector = FormatSettings.VectorTagOpen;
             for (int i = 0; i < values.Length; i++)
             {
                 vector += values[i];
                 if (i < values.Length - 1)
-                    vector += ", ";
+                    vector += FormatSettings.VectorSeparator + " ";
             }
-            vector += "}";
+            vector += FormatSettings.VectorTagClosed;
             return vector;
         }
     }

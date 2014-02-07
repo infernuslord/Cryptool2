@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Numerics;
 using System.Windows.Documents;
 using LatticeCrypto.Properties;
+using LatticeCrypto.Utilities;
 using LatticeCrypto.Utilities.Arrows;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,12 @@ namespace LatticeCrypto.ViewModels
 {
     public class CvpViewModel : SvpGaussViewModel
     {
+        public void ChangeTargetPointToSelectedPoint(Point point)
+        {
+            TargetVectorX = new BigInteger(Math.Round((point.X - y_line.X1) / PixelsPerPoint / scalingFactorX));
+            TargetVectorY = new BigInteger(Math.Round((x_line.Y1 - point.Y) / PixelsPerPoint / scalingFactorY));
+        }
+
         public void FindClosestVector(Boolean writeHistory)
         {
             //Anmerkung: Man könnte für das Finden eines Closest Vectors die Methode von Babai benutzen.
@@ -62,20 +70,31 @@ namespace LatticeCrypto.ViewModels
                 }
                 break;
             }
-
+            
             if (vectorFound)
                 closestVectorArrow = new ArrowLine { X1 = closestVectorPoint.X, X2 = targetX, Y1 = closestVectorPoint.Y, Y2 = (canvas.ActualHeight - targetY), Stroke = Brushes.DarkOrange, StrokeThickness = 7, ArrowAngle = 65, ArrowLength = 25 + PixelsPerPoint / 10 };
+            else
+                closestVectorArrow = null;
+
+            BigInteger closestVectorPointX = new BigInteger(Math.Round((closestVectorPoint.X - y_line.X1) / pixelsPerPoint / scalingFactorX));
+            BigInteger closestVectorPointY = new BigInteger(Math.Round((x_line.Y1 - closestVectorPoint.Y) / pixelsPerPoint / scalingFactorY));
+
+            double shortestVectorDistance = Math.Sqrt(Math.Pow((double) closestVectorPointX - (double) TargetVectorX, 2) + Math.Pow((double) closestVectorPointY - (double) TargetVectorY, 2));
 
             if (!writeHistory) return;
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonFindClosestVector + " **\r\n"))));
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelTargetPoint)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelTargetPoint + ":")));
             paragraph.Inlines.Add(" {" + TargetVectorX + ", " + TargetVectorY + "}\r\n");
-            paragraph.Inlines.Add(new Bold(new Run("Closest Vector:")));
-            paragraph.Inlines.Add(" {" + (closestVectorPoint.X - y_line.X1) / pixelsPerPoint + ", " + (closestVectorPoint.Y - x_line.Y1) / pixelsPerPoint + "}\r\n");
-            paragraph.Inlines.Add(new Bold(new Run("Closest Distance:")));
-            paragraph.Inlines.Add(" " + String.Format("{0:f}", Math.Sqrt(closestDistance / PixelsPerPoint)) + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelClosestVector)));
+            paragraph.Inlines.Add(" {" + closestVectorPointX + ", " + closestVectorPointY + "}\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelShortestDistance)));
+            paragraph.Inlines.Add(" " + Util.FormatDoubleLog(shortestVectorDistance) + "\r\n");
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
         }
 
         public bool IsPointInPolygon(PointCollection points, Point point)

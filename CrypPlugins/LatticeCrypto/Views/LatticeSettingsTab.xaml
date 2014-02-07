@@ -96,7 +96,7 @@
                     <ComboBoxItem Content="{x:Static Properties:SettingsLanguages.squareBrackets}"/>
                     <ComboBoxItem Content="{x:Static Properties:SettingsLanguages.curlyBrackets}"/>
                     <ComboBoxItem Content="{x:Static Properties:SettingsLanguages.roundBrackets}"/>
-                    <ComboBoxItem Content="{x:Static Properties:SettingsLanguages.noBrackets}"/>
+                    <!--<ComboBoxItem Content="{x:Static Properties:SettingsLanguages.noBrackets}"/>-->
                 </ComboBox>
                 <Label Grid.Row="2" Content="{x:Static Properties:SettingsLanguages.labelVectorSeparator}" />
                 <ComboBox Grid.Row="2" Grid.Column="1" SelectionChanged="ComboBox_SelectionChanged_2" SelectedIndex="{Binding Source={x:Static Properties:Settings.Default}, Path=vectorSeparator, Mode=TwoWay}">

@@ -43,7 +43,7 @@
                         </ScrollBar>
                     </StackPanel>
 
-                    <Button Content="{x:Static Properties:Languages.buttonGenerateNewCryptosystem}" Width="auto" Grid.Row="1" Grid.Column="0" Click="Button_Click"/>
+                    <Button Content="{x:Static Properties:Languages.buttonGenerateNewCryptosystem}" Margin="0,10,0,0" Width="auto" Grid.Row="1" Grid.Column="0" Click="Button_Click"/>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
                         <Label Content="{x:Static Properties:Languages.labelModuloQ}"/>
@@ -112,14 +112,14 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Content="{x:Static Properties:Languages.buttonGenerateNewRandomVector}" Width="auto" Command="{Binding GenerateRandomVectorCommand}"/>
+                    <Button Content="{x:Static Properties:Languages.buttonGenerateNewRandomVector}" Width="auto" Command="{Binding GenerateRandomVectorCommand}" Margin="0,10,0,10"/>
                     <Label Content="{x:Static Properties:Languages.labelRandomVectorR}" Grid.Row="1" Grid.Column="0"/>
                     <TextBox Text="{Binding RandomVectorR, Mode=OneWay}" IsReadOnly="True" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" />
                     <Label Content="{x:Static Properties:Languages.labelSubsetU}" Grid.Row="2" Grid.Column="0"/>
                     <TextBox Text="{Binding SubsetU, Mode=OneWay}" IsReadOnly="True" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" />
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
                     <Button Content="{x:Static Properties:Languages.buttonEncrypt}" Command="{Binding EncryptCommand}"/>
                     <Button Content="{x:Static Properties:Languages.buttonDecrypt}" Command="{Binding DecryptCommand}" Margin="10,0,0,0"/>
                     <!--<Button Content="{x:Static Properties:Languages.buttonCryptanalysis}" Command="{Binding CryptanalysisCommand}" Margin="10,0,0,0"/>-->

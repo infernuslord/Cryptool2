@@ -36,11 +36,14 @@
                     <Image Source="/LatticeCrypto;component/Utilities/Images/clipboard_copy_icon.png" Width="20" Height="20"/>
                 </Button>
                 <Separator Width="2"/>
-                <ToggleButton Name="toggleChangeLattice" Margin="4,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipAdjustLatticeVectors}" IsEnabled="False" Opacity="0.5">
+                <ToggleButton Margin="4,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipAdjustLatticeVectors}" IsEnabled="False" Opacity="0.5">
                     <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_hand.png" Width="20" Height="20" />
                 </ToggleButton>
-                <ToggleButton Name="toggleScrollLattice" IsChecked="True" Margin="2,0,4,0" ToolTip="{x:Static Properties:Languages.tooltipMoveLattice}" IsEnabled="False">
+                <ToggleButton Name="toggleScrollLattice" IsChecked="True" Checked="toggleScrollLattice_Checked" Margin="2,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipMoveLattice}">
                     <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_drag_arrow.png" Width="20" Height="20" />
+                </ToggleButton>
+                <ToggleButton Name="toggleSetTargetPoint" Margin="2,0,4,0" Checked="toggleSetTargetPoint_Checked" ToolTip="{x:Static Properties:Languages.tooltipSetTargetPoint}">
+                    <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_CVP.png" Width="20" Height="20" />
                 </ToggleButton>
                 <Separator Width="2"/>
                 <Button Name="zoomIn" Command="{Binding ZoomInCommand}" Margin="4,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipZoomInLattice}">
@@ -94,7 +97,7 @@
                             <Image Name="btnHelpCodomain" Cursor="Hand"  Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="Button_Help_MouseLeftButtonDown" Source="/LatticeCrypto;component/Utilities/Images/help.png" />
                         </StackPanel>
                     </GroupBox.Header>
-                    <Grid HorizontalAlignment="Center" Height="auto" >
+                    <Grid HorizontalAlignment="Center" Height="auto" Margin="0,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition MinWidth="50"/>
@@ -173,10 +176,13 @@
                                 </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition MinWidth="30"/>
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                                <TextBox Name="textTargetVectorX" Grid.Row="0" Text="{Binding TargetVectorX}"/>
+                            <TextBox Name="textTargetVectorX" Grid.Row="0" Text="{Binding TargetVectorX}"/>
+                            <ScrollBar Name="scrollBarTargetVectorX" Grid.Row="0" Grid.Column="1" Maximum="2000000" Minimum="-2000000" ValueChanged="scrollBarTargetVectorX_ValueChanged"/>
                             <TextBox Name="textTargetVectorY" Grid.Row="1" Text="{Binding TargetVectorY}"/>
-                            </Grid>
+                            <ScrollBar Name="scrollBarTargetVectorY" Grid.Row="1" Grid.Column="1" Maximum="2000000" Minimum="-2000000" ValueChanged="scrollBarTargetVectorY_ValueChanged"/>
+                        </Grid>
                     </GroupBox.Content>
                 </GroupBox>
 

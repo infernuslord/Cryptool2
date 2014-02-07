@@ -142,7 +142,7 @@
     <value>Schlüssellänge:</value>
   </data>
   <data name="labelLatticeBasis" xml:space="preserve">
-    <value>Gegebene Gitterbasis:</value>
+    <value>Gegebene Gitterbasis</value>
   </data>
   <data name="labelModulus" xml:space="preserve">
     <value>Modulus:</value>
@@ -163,10 +163,10 @@
     <value>Öffentlicher Schlüssel:</value>
   </data>
   <data name="labelReducedLatticeBasis" xml:space="preserve">
-    <value>Reduzierte Gitterbasis:</value>
+    <value>Reduzierte Gitterbasis</value>
   </data>
   <data name="labelTargetPoint" xml:space="preserve">
-    <value>Zielpunkt:</value>
+    <value>Zielpunkt</value>
   </data>
   <data name="menuLanguage" xml:space="preserve">
     <value>Sprache</value>
@@ -175,7 +175,7 @@
     <value>Merkle-Hellman Knapsack</value>
   </data>
   <data name="tabAttackRSA" xml:space="preserve">
-    <value>RSA</value>
+    <value>RSA (Angriff auf stereotype Nachrichten)</value>
   </data>
   <data name="tabCryptanalysis" xml:space="preserve">
     <value>Kryptoanalyse</value>
@@ -295,7 +295,7 @@
     <value>Winkel zwischen den reduzierten Vektoren:</value>
   </data>
   <data name="labelCodomain" xml:space="preserve">
-    <value>Wertebereich:</value>
+    <value>Wertebereich</value>
   </data>
   <data name="labelFrom" xml:space="preserve">
     <value>Von:</value>
@@ -385,10 +385,10 @@
     <value>Goldreich–Goldwasser–Halevi (GGH)</value>
   </data>
   <data name="labelPrivateKeyR" xml:space="preserve">
-    <value>Privater Schlüssel R:</value>
+    <value>Privater Schlüssel R</value>
   </data>
   <data name="labelPublicKeyB" xml:space="preserve">
-    <value>Öffentlicher Schlüssel B:</value>
+    <value>Öffentlicher Schlüssel B</value>
   </data>
   <data name="labelErrorVector" xml:space="preserve">
     <value>Störvektor e:</value>
@@ -415,13 +415,13 @@
     <value>Modulo q:</value>
   </data>
   <data name="labelPrivateKeyS" xml:space="preserve">
-    <value>Privater Schlüssel s:</value>
+    <value>Privater Schlüssel s</value>
   </data>
   <data name="labelPublicKeyA" xml:space="preserve">
-    <value>Öffentlicher Schlüssel A:</value>
+    <value>Öffentlicher Schlüssel A</value>
   </data>
   <data name="labelPublicKeyB2" xml:space="preserve">
-    <value>Öffentlicher Schlüssel b:</value>
+    <value>Öffentlicher Schlüssel b</value>
   </data>
   <data name="tabLWE" xml:space="preserve">
     <value>Learning with Errors (LWE)</value>
@@ -449,5 +449,50 @@
   </data>
   <data name="labelBlockSizeL" xml:space="preserve">
     <value>Blocklänge l:</value>
+  </data>
+  <data name="labelEnterNotSquareLattice" xml:space="preserve">
+    <value>Eingabe als m x n Matrix</value>
+  </data>
+  <data name="labelReductionStep" xml:space="preserve">
+    <value>Reduktionsschritt ({0}/{1}):</value>
+  </data>
+  <data name="tooltipSetTargetPoint" xml:space="preserve">
+    <value>Zielpunkt setzen</value>
+  </data>
+  <data name="labelClosestVector" xml:space="preserve">
+    <value>Nächster Vektor:</value>
+  </data>
+  <data name="labelShortestDistance" xml:space="preserve">
+    <value>Kürzeste Entfernung:</value>
+  </data>
+  <data name="labelAllInfosForCurrentLattice" xml:space="preserve">
+    <value>Alle Informationen zum aktuellen Gitter</value>
+  </data>
+  <data name="labelLatticeBasisOnly" xml:space="preserve">
+    <value>Nur die Gitterbasis</value>
+  </data>
+  <data name="labelPleaseChoose" xml:space="preserve">
+    <value>Bitte auswählen:</value>
+  </data>
+  <data name="labelReducedBasisOnly" xml:space="preserve">
+    <value>Nur die reduzierte Gitterbasis</value>
+  </data>
+  <data name="labelSaveCurrentLattice" xml:space="preserve">
+    <value>Speichern des aktuellen Gitters</value>
+  </data>
+  <data name="buttonSetErrorVector" xml:space="preserve">
+    <value>Setze Störvektor e</value>
+  </data>
+  <data name="buttonSetPrivateKeyR" xml:space="preserve">
+    <value>Setze privaten Schlüssel R</value>
+  </data>
+  <data name="buttonSetPublicKeyB" xml:space="preserve">
+    <value>Setze öffentlichen Schlüssel B</value>
+  </data>
+  <data name="errorPrivateAndPublicKeyDoNotFit" xml:space="preserve">
+    <value>Der private und der öffentliche Schlüssel passen nicht zusammen.</value>
+  </data>
+  <data name="errorWrongGGHCryptosystem" xml:space="preserve">
+    <value>Bitte geben Sie ein korrektes GGH-Kryptosystem mit Dimension {0} ein oder lassen Sie sich ein neues generieren.</value>
   </data>
 </root>

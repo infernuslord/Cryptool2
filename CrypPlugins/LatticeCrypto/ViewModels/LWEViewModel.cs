@@ -27,13 +27,13 @@ namespace LatticeCrypto.ViewModels
 
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyS)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyS + ":")));
             paragraph.Inlines.Add(" " + LWE.S + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyA)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyA + ":")));
             paragraph.Inlines.Add(" " + LWE.A + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelAlpha)));
             paragraph.Inlines.Add(" " + Util.FormatDoubleLog(LWE.alpha) + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB2)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB2 + ":")));
             paragraph.Inlines.Add(" " + LWE.B + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelModuloQ)));
             paragraph.Inlines.Add(" " + LWE.q + "\r\n");
@@ -41,7 +41,11 @@ namespace LatticeCrypto.ViewModels
             paragraph.Inlines.Add(" " + MatrixND.Transpose(LWE.r) + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelSubsetU)));
             paragraph.Inlines.Add(" " + MatrixND.Transpose(LWE.u) + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
             NotifyPropertyChanged("RandomVectorR");
             NotifyPropertyChanged("SubsetU");
@@ -65,7 +69,11 @@ namespace LatticeCrypto.ViewModels
                         paragraph.Inlines.Add(" " + MatrixND.Transpose(LWE.r) + "\r\n");
                         paragraph.Inlines.Add(new Bold(new Run(Languages.labelSubsetU)));
                         paragraph.Inlines.Add(" " + MatrixND.Transpose(LWE.u) + "\r\n");
-                        History.Document.Blocks.Add(paragraph);
+
+                        if (History.Document.Blocks.FirstBlock != null)
+                            History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                        else
+                            History.Document.Blocks.Add(paragraph);
 
                         NotifyPropertyChanged("RandomVectorR");
                         NotifyPropertyChanged("SubsetU");
@@ -94,7 +102,11 @@ namespace LatticeCrypto.ViewModels
                         paragraph.Inlines.Add(" " + Message + "\r\n");
                         paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
                         paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                        History.Document.Blocks.Add(paragraph);
+
+                        if (History.Document.Blocks.FirstBlock != null)
+                            History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                        else
+                            History.Document.Blocks.Add(paragraph);
 
                         NotifyPropertyChanged("Cipher");
                         decryptCommand.RaiseCanExecuteChanged();
@@ -134,7 +146,10 @@ namespace LatticeCrypto.ViewModels
                         }
                         finally
                         {
-                            History.Document.Blocks.Add(paragraph);
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
                         }
 
                     }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));

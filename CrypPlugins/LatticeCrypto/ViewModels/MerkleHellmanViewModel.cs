@@ -13,16 +13,11 @@ namespace LatticeCrypto.ViewModels
     {
         public MerkleHellmanModel MerkleHellman { get; set; }
         public RichTextBox History { get; set; }
-        public string message;
-        public VectorND cipher;
 
         public void GenerateNewMerkleHellman (int dim)
         {
             UiServices.SetBusyState();
             MerkleHellman = new MerkleHellmanModel(dim);
-
-            //Für Masterarbeit
-            //MerkleHellman = new MerkleHellmanModel(new BigInteger[] { 3, 11, 23, 46 }, 65, 98);
 
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
@@ -36,7 +31,11 @@ namespace LatticeCrypto.ViewModels
             paragraph.Inlines.Add(" " + R + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelMultiplierInverse)));
             paragraph.Inlines.Add(" " + RI + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
             NotifyPropertyChanged("MerkleHellman");
             NotifyPropertyChanged("PrivateKey");
@@ -64,7 +63,11 @@ namespace LatticeCrypto.ViewModels
                             paragraph.Inlines.Add(" " + Message + "\r\n");
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
                             paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            History.Document.Blocks.Add(paragraph);
+
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
 
                             NotifyPropertyChanged("Cipher");
                             decryptCommand.RaiseCanExecuteChanged();
@@ -92,7 +95,11 @@ namespace LatticeCrypto.ViewModels
                             paragraph.Inlines.Add(" " + Cipher + "\r\n");
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
                             paragraph.Inlines.Add(" " + Message + "\r\n");
-                            History.Document.Blocks.Add(paragraph);
+
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
 
                             NotifyPropertyChanged("Message");
                         }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
@@ -119,7 +126,10 @@ namespace LatticeCrypto.ViewModels
 
                                 Message = MerkleHellman.Cryptanalysis(cipher, paragraph);
 
-                                History.Document.Blocks.Add(paragraph);
+                                if (History.Document.Blocks.FirstBlock != null)
+                                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                                else
+                                    History.Document.Blocks.Add(paragraph);
 
                                 NotifyPropertyChanged("Message");
                             }
@@ -134,9 +144,13 @@ namespace LatticeCrypto.ViewModels
             }
         }
 
+        private string message;
         public string Message
         {
-            get { return message; }
+            get
+            {
+                return message;
+            }
             set 
             {
                 message = value;
@@ -144,11 +158,25 @@ namespace LatticeCrypto.ViewModels
             }
         }
 
+        private VectorND cipher;
         public string Cipher
         {
             get 
             {
                 return cipher == null ? "" : cipher.ToString();
+            }
+            set
+            {
+                try
+                {
+                    cipher = Util.ConvertStringToLatticeND(value).Vectors[0];
+                }
+                catch (Exception)
+                {
+                    cipher = null;
+                }
+                decryptCommand.RaiseCanExecuteChanged();
+                cryptanalysisCommand.RaiseCanExecuteChanged();
             }
         }
 
