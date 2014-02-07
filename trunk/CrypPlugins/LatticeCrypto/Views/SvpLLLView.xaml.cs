@@ -33,16 +33,22 @@ namespace LatticeCrypto.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.GenerateNewLattice((int)scrollBar.Value, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
+            viewModel.GenerateNewLattice((int)scrollBarN.Value, (int)scrollBarM.Value, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
             UpdateTextBoxes();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            LatticeManualInputView inputView = new LatticeManualInputView((int)scrollBar.Value, viewModel.Lattice, false);
+            LatticeManualInputView inputView = new LatticeManualInputView((int)scrollBarN.Value, (int)scrollBarM.Value, viewModel.Lattice, false, false, 0, null);
             if (inputView.ShowDialog() != true) return;
             Cursor = Cursors.Wait;
             viewModel.SetLatticeManually(inputView.returnLattice);
+            
+            scrollBarN.Value = viewModel.Lattice.N;
+            scrollBarM.Value = viewModel.Lattice.M;
+            if (viewModel.Lattice.N == viewModel.Lattice.M)
+                scrollBarDim.Value = viewModel.Lattice.N;
+
             UpdateTextBoxes();
             Cursor = Cursors.Arrow;
         }
@@ -64,7 +70,12 @@ namespace LatticeCrypto.Views
             try
             {
                 viewModel.SetLatticeManually(Util.ConvertStringToLatticeND(firstLine));
-                scrollBar.Value = viewModel.Lattice.Dim;
+
+                scrollBarN.Value = viewModel.Lattice.N;
+                scrollBarM.Value = viewModel.Lattice.M;
+                if (viewModel.Lattice.N == viewModel.Lattice.M)
+                    scrollBarDim.Value = viewModel.Lattice.N;
+
                 UpdateTextBoxes();
             }
             catch (Exception)
@@ -78,7 +89,11 @@ namespace LatticeCrypto.Views
             {
                 String str = Clipboard.GetText();
                 viewModel.SetLatticeManually(Util.ConvertStringToLatticeND(str));
-                scrollBar.Value = viewModel.Lattice.Dim;
+
+                scrollBarN.Value = viewModel.Lattice.N;
+                scrollBarM.Value = viewModel.Lattice.M;
+                if (viewModel.Lattice.N == viewModel.Lattice.M)
+                    scrollBarDim.Value = viewModel.Lattice.N;
                 UpdateTextBoxes();
             }
             catch (Exception)
@@ -89,46 +104,53 @@ namespace LatticeCrypto.Views
 
         public void UpdateTextBoxes()
         {
-            if (leftGrid.RowDefinitions.Count != viewModel.Lattice.Dim)
+            int cols = !viewModel.Lattice.UseRowVectors ? viewModel.Lattice.N : viewModel.Lattice.M;
+            int rows = !viewModel.Lattice.UseRowVectors ? viewModel.Lattice.M : viewModel.Lattice.N;
+
+            if (leftGrid.RowDefinitions.Count != rows|| leftGrid.ColumnDefinitions.Count != cols)
             {
                 leftGrid.RowDefinitions.Clear();
                 leftGrid.ColumnDefinitions.Clear();
                 rightGrid.RowDefinitions.Clear();
                 rightGrid.ColumnDefinitions.Clear();
 
-                for (int i = 0; i < viewModel.Lattice.Dim; i++)
+                for (int i = 0; i < cols; i++)
+                {
+                    leftGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                    rightGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                }
+
+                for (int i = 0; i < rows; i++)
                 {
                     leftGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                    leftGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     rightGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
-                    rightGrid.ColumnDefinitions.Add(new ColumnDefinition());
                 }
 
                 leftGrid.Children.Clear();
                 rightGrid.Children.Clear();
 
-                for (int i = 0; i < viewModel.Lattice.Dim; i++)
+                for (int i = 0; i < cols; i++)
                 {
-                    for (int j = 0; j < viewModel.Lattice.Dim; j++)
+                    for (int j = 0; j < rows; j++)
                     {
                         TextBlock leftTextBlock = new TextBlock
                         {
-                            Text = Util.FormatBigInt(viewModel.Lattice.Vectors[i].values[j]),
+                            Text = Util.FormatBigInt(viewModel.Lattice.Vectors[!viewModel.Lattice.UseRowVectors ? i : j].values[!viewModel.Lattice.UseRowVectors ? j : i]),
                             Margin = new Thickness(10, 0, 10, 0),
                             TextAlignment = TextAlignment.Right
                         };
-                        Grid.SetColumn(leftTextBlock, !viewModel.Lattice.UseRowVectors ? i : j);
-                        Grid.SetRow(leftTextBlock, !viewModel.Lattice.UseRowVectors ? j : i);
+                        Grid.SetColumn(leftTextBlock, i);
+                        Grid.SetRow(leftTextBlock, j);
                         leftGrid.Children.Add(leftTextBlock);
 
                         TextBlock rightTextBlock = new TextBlock
                         {
-                            Text = Util.FormatBigInt(viewModel.Lattice.ReducedVectors[i].values[j]),
+                            Text = Util.FormatBigInt(viewModel.Lattice.ReducedVectors[!viewModel.Lattice.UseRowVectors ? i : j].values[!viewModel.Lattice.UseRowVectors ? j : i]),
                             Margin = new Thickness(10, 0, 10, 0),
                             TextAlignment = TextAlignment.Right
                         };
-                        Grid.SetColumn(rightTextBlock, !viewModel.Lattice.UseRowVectors ? i : j);
-                        Grid.SetRow(rightTextBlock, !viewModel.Lattice.UseRowVectors ? j : i);
+                        Grid.SetColumn(rightTextBlock, i);
+                        Grid.SetRow(rightTextBlock, j);
                         rightGrid.Children.Add(rightTextBlock);
                     }
                 }
@@ -233,6 +255,32 @@ namespace LatticeCrypto.Views
         public void SetTab(int i)
         {
             //throw new System.NotImplementedException();
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            scrollBarM.Value = scrollBarDim.Value;
+            scrollBarN.Value = scrollBarDim.Value;
+        }
+
+        private void checkBoxMxN_Checked(object sender, RoutedEventArgs e)
+        {
+            textDim.IsEnabled = false;
+            scrollBarDim.IsEnabled = false;
+            textM.IsEnabled = true;
+            scrollBarM.IsEnabled = true;
+            textN.IsEnabled = true;
+            scrollBarN.IsEnabled = true;
+        }
+
+        private void checkBoxMxN_Unchecked(object sender, RoutedEventArgs e)
+        {
+            textDim.IsEnabled = true;
+            scrollBarDim.IsEnabled = true;
+            textM.IsEnabled = false;
+            scrollBarM.IsEnabled = false;
+            textN.IsEnabled = false;
+            scrollBarN.IsEnabled = false;
         }
     }
 }

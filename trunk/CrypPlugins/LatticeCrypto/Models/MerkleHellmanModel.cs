@@ -82,7 +82,7 @@ namespace LatticeCrypto.Models
                 paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis)));
                 paragraph.Inlines.Add(" " + lattice.LatticeReducedToString() + "\r\n");
                 paragraph.Inlines.Add(new Bold(new Run(Languages.labelFoundVector)));
-                paragraph.Inlines.Add(" " + vector + "\r\n");
+                paragraph.Inlines.Add(" " + new VectorND(vector) + "\r\n");
 
                 for (int k = 0; k < dim; k++)
                     messageBinary += vector[k];
@@ -149,7 +149,7 @@ namespace LatticeCrypto.Models
 
         public LatticeND TransformToLattice (BigInteger sum)
         {
-            LatticeND lattice = new LatticeND(publicKey.dim + 1, false);
+            LatticeND lattice = new LatticeND(publicKey.dim + 1, publicKey.dim + 1, false);
 
             for (int i = 0; i < publicKey.dim; i++)
             {

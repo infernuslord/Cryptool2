@@ -39,8 +39,11 @@
                 <ToggleButton Name="toggleChangeLattice" Margin="4,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipAdjustLatticeVectors}" IsEnabled="False" Opacity="0.5">
                     <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_hand.png" Width="20" Height="20" />
                 </ToggleButton>
-                <ToggleButton Name="toggleScrollLattice"  Margin="2,0,4,0" ToolTip="{x:Static Properties:Languages.tooltipMoveLattice}" IsEnabled="False" Opacity="0.5">
+                <ToggleButton Name="toggleScrollLattice"  Margin="2,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipMoveLattice}" IsEnabled="False" Opacity="0.5">
                     <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_drag_arrow.png" Width="20" Height="20" />
+                </ToggleButton>
+                <ToggleButton Margin="2,0,4,0" ToolTip="{x:Static Properties:Languages.tooltipSetTargetPoint}" IsEnabled="False" Opacity="0.5">
+                    <Image Source="/LatticeCrypto;component/Utilities/Images/cursor_CVP.png" Width="20" Height="20" />
                 </ToggleButton>
                 <Separator Width="2"/>
                 <Button Name="zoomIn" Margin="4,0,2,0" ToolTip="{x:Static Properties:Languages.tooltipZoomInLattice}" IsEnabled="False" Opacity="0.5">
@@ -121,7 +124,7 @@
                             <Image Name="btnHelpCodomain" Cursor="Hand"  Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="Button_Help_MouseLeftButtonDown" Source="/LatticeCrypto;component/Utilities/Images/help.png" />
                         </StackPanel>
                     </GroupBox.Header>
-                    <Grid HorizontalAlignment="Center" Height="auto" >
+                    <Grid HorizontalAlignment="Center" Height="auto" Margin="0,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition MinWidth="50"/>
@@ -143,8 +146,8 @@
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
                     <Label Content="Dimension: " />
                     <Image Name="btnHelpDimension" Cursor="Hand"  Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="Button_Help_MouseLeftButtonDown" Source="/LatticeCrypto;component/Utilities/Images/help.png" />
-                    <TextBox Text="{Binding ElementName=scrollBar, Path=Value, Mode=TwoWay}" Grid.Column="1"  Width="25" />
-                    <ScrollBar Name="scrollBar" Grid.Column="2" Width="15"  Maximum="25" Minimum="2" Value="2" SmallChange="1" RenderTransformOrigin="0.5,0.5">
+                    <TextBox Name="textDim" Text="{Binding ElementName=scrollBarDim, Path=Value, Mode=TwoWay}" Grid.Column="1"  Width="25" TextChanged="TextBox_TextChanged" />
+                    <ScrollBar Name="scrollBarDim" Grid.Column="2" Width="15"  Maximum="25" Minimum="2" Value="2" SmallChange="1" RenderTransformOrigin="0.5,0.5">
                         <ScrollBar.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -155,9 +158,40 @@
                         </ScrollBar.RenderTransform>
                     </ScrollBar>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Center">
+                    <Label Content="m:"/>
+                    <TextBox Name="textM" Text="{Binding ElementName=scrollBarM, Path=Value, Mode=TwoWay}" Width="25" IsEnabled="False"/>
+                    <ScrollBar Name="scrollBarM" Grid.Column="2" Width="15"  Maximum="25" Minimum="2" Value="2" SmallChange="1" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+                        <ScrollBar.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ScrollBar.RenderTransform>
+                    </ScrollBar>
+                    <Label Content="n:" Margin="10,0,0,0"/>
+                    <TextBox Name="textN" Text="{Binding ElementName=scrollBarN, Path=Value, Mode=TwoWay}" Width="25" IsEnabled="False"/>
+                    <ScrollBar Name="scrollBarN" Grid.Column="2" Width="15"  Maximum="25" Minimum="2" Value="2" SmallChange="1" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+                        <ScrollBar.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </ScrollBar.RenderTransform>
+                    </ScrollBar>
+                </StackPanel>
+                <CheckBox Name="checkBoxMxN" Content="{x:Static Properties:Languages.labelEnterNotSquareLattice}" Margin="0,10,0,0" HorizontalAlignment="Center" Checked="checkBoxMxN_Checked" Unchecked="checkBoxMxN_Unchecked" />
+
                 <Button Name="buttonGenerate" Content="{x:Static Properties:Languages.buttonGenerateNewLattice}" Click="Button_Click" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Margin="0,20,0,0"/>
                 <Button Content="{x:Static Properties:Languages.buttonEnterLatticeManually}" Click= "Button_Click_1" Margin="0,10,0,0" HorizontalAlignment="Center"/>
             </StackPanel>
+
+            
+
         </ScrollViewer>
         <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" Background="DarkGray" MouseDoubleClick="GridSplitter_MouseDoubleClick" ShowsPreview="True"/>
         <Grid Grid.Row="3">

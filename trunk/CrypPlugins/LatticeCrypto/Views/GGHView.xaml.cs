@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Numerics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LatticeCrypto.Utilities;
@@ -74,5 +76,30 @@ namespace LatticeCrypto.Views
         }
 
         #endregion
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            LatticeManualInputView inputView = new LatticeManualInputView((int)scrollBar.Value, (int)scrollBar.Value, 0, viewModel.PrivateKeyR, true, null);
+            if (inputView.ShowDialog() != true) return;
+            viewModel.Dim = (int)scrollBar.Value;
+            viewModel.PrivateKeyR = inputView.returnLattice.ToMatrixND();
+            viewModel.UpdateTextBoxes();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            LatticeManualInputView inputView = new LatticeManualInputView((int)scrollBar.Value, (int)scrollBar.Value, 0, viewModel.PublicKeyB, true, null);
+            if (inputView.ShowDialog() != true) return;
+            viewModel.Dim = (int) scrollBar.Value;
+            viewModel.PublicKeyB = inputView.returnLattice.ToMatrixND();
+            viewModel.UpdateTextBoxes();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            LatticeManualInputView inputView = new LatticeManualInputView((int) scrollBar.Value, 0, viewModel.ErrorVector, new List<BigInteger> {-1, 1});
+            if (inputView.ShowDialog() != true) return;
+            viewModel.ErrorVector = inputView.returnLattice.Vectors[0];
+        }
     }
 }

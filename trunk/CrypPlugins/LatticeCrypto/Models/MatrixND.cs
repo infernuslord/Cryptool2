@@ -33,6 +33,7 @@
 */
 
 using System;
+using System.Numerics;
 
 namespace LatticeCrypto.Models
 {
@@ -577,6 +578,18 @@ namespace LatticeCrypto.Models
 
             matStr = matStr.Replace("|", "\r\n");
             return matStr;
+        }
+
+        public LatticeND ToLatticeND()
+        {
+            LatticeND latticeND = new LatticeND(cols, rows, false);
+            for (int i = 0; i < cols; i++)
+            {
+                latticeND.Vectors[i] = new VectorND(rows);
+                for (int j = 0; j < rows; j++)
+                    latticeND.Vectors[i].values[j] = new BigInteger(mat[j, i]);
+            }
+            return latticeND;
         }
 
         public override bool Equals(object obj)

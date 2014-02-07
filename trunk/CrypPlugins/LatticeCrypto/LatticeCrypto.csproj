@@ -148,6 +148,7 @@
     <Compile Include="Utilities\GuiLogMsgHandOff.cs" />
     <Compile Include="Utilities\ILatticeCryptoUserControl.cs" />
     <Compile Include="Utilities\IntegerValidationRule.cs" />
+    <Compile Include="Utilities\VectorNDValidationRule.cs" />
     <Compile Include="Utilities\NavigationCommandType.cs" />
     <Compile Include="Utilities\ReductionMethods.cs" />
     <Compile Include="Utilities\UiServices.cs" />
@@ -467,6 +468,7 @@
     <Content Include="OnlineHelp\HelpFiles\en\StartControl.html">
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="Utilities\Images\cursor_CVP.png" />
     <Resource Include="OnlineHelp\Resources\ImgAngleVectors.png" />
     <Resource Include="OnlineHelp\Resources\ImgDeterminantLattice.png" />
     <Resource Include="OnlineHelp\Resources\ImgDeterminantLattice2.png" />

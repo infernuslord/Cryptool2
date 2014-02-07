@@ -43,7 +43,7 @@ namespace LatticeCrypto.Models
             
             GenerateLattice();
 
-            if (errorVector == null)
+            if (errorVector == null || errorVector.dim != dim)
                 GenerateErrorVector();
             else
             {
@@ -83,7 +83,35 @@ namespace LatticeCrypto.Models
             privateKeyR = kI+S;
         }
 
-        private void GeneratePublicKey()
+        public void SetPrivateKeyManuallyAndGeneratePublicKey(MatrixND newPrivateKeyR)
+        {
+            privateKeyR = newPrivateKeyR;
+            privateKeyR1 = privateKeyR.Invert();
+
+            do
+            {
+                GeneratePublicKey();
+            } while (publicKeyB.Det() == 0);
+
+            publicKeyB1 = publicKeyB.Invert();
+        }
+
+        public void SetPublicKeyManually(MatrixND newPublicKeyB)
+        {
+            publicKeyB = newPublicKeyB;
+            publicKeyB1 = publicKeyB.Invert();
+        }
+
+        public void SetErrorVectorManually(VectorND newErrorVector)
+        {
+            errorVector = newErrorVector;
+            dim = newErrorVector.dim;
+            errorVectorIntern = new MatrixND(dim, 1);
+            for (int i = 0; i < dim; i++)
+                errorVectorIntern[i, 0] = (int) errorVector.values[i];
+        }
+
+        public void GeneratePublicKey()
         {
             //Generiere zunächst eine unimodulare Matrix mittels einer oberen Dreiecksmatrix
             Random random = new Random();
@@ -104,9 +132,9 @@ namespace LatticeCrypto.Models
             publicKeyB = privateKeyR * transU;
         }
 
-        private void GenerateLattice()
+        public void GenerateLattice()
         {
-            lattice = new LatticeND(dim, false);
+            lattice = new LatticeND(dim, dim, false);
 			
 			//Umwandlung der Matrizeneinträge von double zu BigInt und damit Umwandlung der Matrizen zu einem Gitter
             
@@ -138,7 +166,7 @@ namespace LatticeCrypto.Models
                     transBigInts[j] = new BigInteger(transU[j, i]);
                 transVectors[i] = new VectorND(transBigInts);
             }
-            lattice.TransVectors = transVectors;
+            lattice.UnimodTransVectors = transVectors;
         }
 
         public void GenerateErrorVector()
@@ -206,6 +234,19 @@ namespace LatticeCrypto.Models
             }
 
             return new string(result);
+        }
+
+        public bool DoTheKeysFit()
+        {
+            try
+            {
+                transU = (publicKeyB * privateKeyR1);
+                return Math.Abs(Math.Round(transU.Det(), 5)) == 1.00000;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

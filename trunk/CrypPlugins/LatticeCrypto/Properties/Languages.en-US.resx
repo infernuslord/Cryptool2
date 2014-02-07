@@ -142,7 +142,7 @@
     <value>Key length:</value>
   </data>
   <data name="labelLatticeBasis" xml:space="preserve">
-    <value>Given lattice basis:</value>
+    <value>Given lattice basis</value>
   </data>
   <data name="labelModulus" xml:space="preserve">
     <value>Modulus:</value>
@@ -163,10 +163,10 @@
     <value>Public key:</value>
   </data>
   <data name="labelReducedLatticeBasis" xml:space="preserve">
-    <value>Reduced lattice basis:</value>
+    <value>Reduced lattice basis</value>
   </data>
   <data name="labelTargetPoint" xml:space="preserve">
-    <value>Target point:</value>
+    <value>Target point</value>
   </data>
   <data name="menuLanguage" xml:space="preserve">
     <value>Language</value>
@@ -175,7 +175,7 @@
     <value>Attack on Merkle-Hellman Knapsack</value>
   </data>
   <data name="tabAttackRSA" xml:space="preserve">
-    <value>Attack on RSA</value>
+    <value>Attack on RSA (Coppersmith's Attack)</value>
   </data>
   <data name="tabCryptanalysis" xml:space="preserve">
     <value>Cryptanalysis</value>
@@ -298,7 +298,7 @@
     <value>Angle between the reduced vectors:</value>
   </data>
   <data name="labelCodomain" xml:space="preserve">
-    <value>Codomain:</value>
+    <value>Codomain</value>
   </data>
   <data name="labelFrom" xml:space="preserve">
     <value>From:</value>
@@ -385,10 +385,10 @@
     <value>GGH</value>
   </data>
   <data name="labelPrivateKeyR" xml:space="preserve">
-    <value>Private key R:</value>
+    <value>Private key R</value>
   </data>
   <data name="labelPublicKeyB" xml:space="preserve">
-    <value>Public key B:</value>
+    <value>Public key B</value>
   </data>
   <data name="labelErrorVector" xml:space="preserve">
     <value>Error vector e:</value>
@@ -415,13 +415,13 @@
     <value>Modulo q:</value>
   </data>
   <data name="labelPrivateKeyS" xml:space="preserve">
-    <value>Private key s:</value>
+    <value>Private key s</value>
   </data>
   <data name="labelPublicKeyA" xml:space="preserve">
-    <value>Public key A:</value>
+    <value>Public key A</value>
   </data>
   <data name="labelPublicKeyB2" xml:space="preserve">
-    <value>Public key b:</value>
+    <value>Public key b</value>
   </data>
   <data name="tabLWE" xml:space="preserve">
     <value>Learning with Errors (LWE)</value>
@@ -449,5 +449,50 @@
   </data>
   <data name="labelBlockSizeL" xml:space="preserve">
     <value>Block size l:</value>
+  </data>
+  <data name="labelEnterNotSquareLattice" xml:space="preserve">
+    <value>Input as m x n matrix</value>
+  </data>
+  <data name="labelReductionStep" xml:space="preserve">
+    <value>Reduction step ({0}/{1}):</value>
+  </data>
+  <data name="tooltipSetTargetPoint" xml:space="preserve">
+    <value>Set target point</value>
+  </data>
+  <data name="labelClosestVector" xml:space="preserve">
+    <value>Closest vector:</value>
+  </data>
+  <data name="labelShortestDistance" xml:space="preserve">
+    <value>Shortest distance:</value>
+  </data>
+  <data name="labelAllInfosForCurrentLattice" xml:space="preserve">
+    <value>All information about the current lattice</value>
+  </data>
+  <data name="labelLatticeBasisOnly" xml:space="preserve">
+    <value>Lattice basis only</value>
+  </data>
+  <data name="labelPleaseChoose" xml:space="preserve">
+    <value>Please choose:</value>
+  </data>
+  <data name="labelReducedBasisOnly" xml:space="preserve">
+    <value>Reduced lattice basis only</value>
+  </data>
+  <data name="labelSaveCurrentLattice" xml:space="preserve">
+    <value>Save current lattice</value>
+  </data>
+  <data name="buttonSetErrorVector" xml:space="preserve">
+    <value>Set error vector e</value>
+  </data>
+  <data name="buttonSetPrivateKeyR" xml:space="preserve">
+    <value>Set private key R</value>
+  </data>
+  <data name="buttonSetPublicKeyB" xml:space="preserve">
+    <value>Set public key B</value>
+  </data>
+  <data name="errorPrivateAndPublicKeyDoNotFit" xml:space="preserve">
+    <value>The private key and the public key do not fit.</value>
+  </data>
+  <data name="errorWrongGGHCryptosystem" xml:space="preserve">
+    <value>Please enter a correct GGH-cryptosystem for dimension {0} oder generate a new one.</value>
   </data>
 </root>

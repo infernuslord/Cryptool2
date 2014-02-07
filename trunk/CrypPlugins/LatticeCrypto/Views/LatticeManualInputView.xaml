@@ -10,13 +10,16 @@
     </Window.DataContext>
 
     <StackPanel>
+        <Button HorizontalAlignment="Left" Click="Button_ClipboardInput" Margin="20,15,0,10" ToolTip="{x:Static Properties:Languages.tooltipInsertLatticeFromClipboard}">
+            <Image Source="/LatticeCrypto;component/Utilities/Images/paste.png" Width="20" Height="20"/>
+        </Button>
         <Grid Name="latticeGrid" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="10,0"/>
         <TextBlock Name="errorText" Text="{x:Static Properties:Languages.errorSameLattice}" Width="250" Height="auto" TextWrapping="Wrap" Margin="10,10"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Label Content="{x:Static Properties:Languages.labelRowVectors}" />
             <CheckBox Name="CBRowVectors" VerticalAlignment="Center" Checked="CBRowVectors_Checked" Unchecked="CBRowVectors_Unchecked" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="15,10,15,15">
             <Button Content="OK" Name="buttonOK" Click="ButtonOK_Click" Width="80" HorizontalAlignment="Right" Margin="0,0,20,0"/>
             <Button Content="{x:Static Properties:Languages.buttonTranspose}" Name="ButtonTranspose" Width="90" HorizontalAlignment="Right" Margin="0,0,20,0" Click="ButtonTranspose_Click" />
             <Button Content="{x:Static Properties:Languages.buttonAbort}" Name="ButtonCancel" Click="ButtonCancel_Click" Width="80"/>

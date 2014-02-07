@@ -11,27 +11,29 @@ namespace LatticeCrypto.ViewModels
 
         public LatticeManualEnterViewModel()
         {
-            Lattice = new LatticeND(2, false);
+            Lattice = new LatticeND(2, 2, false);
             NotifyPropertyChanged("Lattice");
         }
 
-        public void NewLattice(int dim)
+        public void NewLattice(int n, int m)
         {
-            Lattice = new LatticeND(dim, false);
+            Lattice = new LatticeND(n, m, false);
             NotifyPropertyChanged("Lattice");
         }
 
         public LatticeND SetLattice(Grid grid, bool useRowVectors)
         {
-            for (int i = 0; i < Lattice.Dim; i++)
-                Lattice.Vectors[i] = new VectorND(Lattice.Dim);
+            for (int i = 0; i < Lattice.N; i++)
+                Lattice.Vectors[i] = new VectorND(Lattice.M);
             foreach (TextBox control in grid.Children.OfType<TextBox>())
                 if (!useRowVectors)
                     Lattice.Vectors[Grid.GetColumn(control) / 2].values[Grid.GetRow(control)] = string.IsNullOrEmpty(control.Text) ? 0 : BigInteger.Parse(control.Text);
                 else
                     Lattice.Vectors[Grid.GetRow(control) / 2].values[Grid.GetColumn(control)] = string.IsNullOrEmpty(control.Text) ? 0 : BigInteger.Parse(control.Text);
-            Lattice.Determinant = Lattice.CalculateDeterminant(Lattice.Vectors);
-            Lattice.AngleBasisVectors = Lattice.Vectors[0].AngleBetween(Lattice.Vectors[1]);
+            
+            if (Lattice.N == Lattice.M)
+                Lattice.Determinant = Lattice.CalculateDeterminant(Lattice.Vectors);
+            //Lattice.AngleBasisVectors = Lattice.Vectors[0].AngleBetween(Lattice.Vectors[1]);
             Lattice.UseRowVectors = useRowVectors;
             return Lattice;
         }

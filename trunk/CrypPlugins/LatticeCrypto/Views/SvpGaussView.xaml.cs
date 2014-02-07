@@ -164,7 +164,7 @@ namespace LatticeCrypto.Views
         {
             try
             {
-                viewModel.GenerateNewLattice(2, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
+                viewModel.GenerateNewLattice(2, 2, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
                 UpdateTextBoxes();
                 if (rowLattice.Height == new GridLength(0)) return;
                 viewModel.ResetCanvasPosition();
@@ -201,7 +201,7 @@ namespace LatticeCrypto.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            LatticeManualInputView inputView = new LatticeManualInputView(2, viewModel.Lattice, true);
+            LatticeManualInputView inputView = new LatticeManualInputView(2, 2, viewModel.Lattice, true, true, 0, null);
             if (inputView.ShowDialog() != true) return;
             viewModel.ResetCanvasPosition();
             viewModel.SetLatticeManually(inputView.returnLattice);

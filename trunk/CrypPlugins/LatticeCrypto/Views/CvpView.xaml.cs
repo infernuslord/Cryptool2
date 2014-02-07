@@ -19,6 +19,8 @@ namespace LatticeCrypto.Views
     {
         private Point point;
         private CvpViewModel viewModel;
+        private double scrollBarXLastValue = 0;
+        private double scrollBarYLastValue = 0;
 
         public CvpView()
         {
@@ -56,7 +58,7 @@ namespace LatticeCrypto.Views
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!Grid.IsMouseCaptured) return;
+            if (!Grid.IsMouseCaptured || toggleScrollLattice.IsChecked == false) return;
 
             viewModel.SetCanvasPosition(point, e.GetPosition(this));
             viewModel.GenerateLatticePoints(false, false);
@@ -67,9 +69,20 @@ namespace LatticeCrypto.Views
 
         private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            viewModel.SetCanvasTransform(canvas.RenderTransform);
-            Grid.ReleaseMouseCapture();
-            Cursor = Cursors.Arrow;
+            if (toggleScrollLattice.IsChecked == true)
+            {
+                viewModel.SetCanvasTransform(canvas.RenderTransform);
+                Grid.ReleaseMouseCapture();
+                Cursor = Cursors.Arrow;
+            }
+            else
+            {
+                viewModel.ChangeTargetPointToSelectedPoint(e.GetPosition(canvas));
+                viewModel.FindClosestVector(true);
+                viewModel.UpdateCanvas();
+                textTargetVectorX.Text = viewModel.TargetVectorX.ToString();
+                textTargetVectorY.Text = viewModel.TargetVectorY.ToString();
+            }
         }
 
         private void ButtonCamera_Click(object sender, RoutedEventArgs e)
@@ -82,7 +95,7 @@ namespace LatticeCrypto.Views
             try
             {
                 viewModel.ResetCanvasPosition();
-                viewModel.GenerateNewLattice(2, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
+                viewModel.GenerateNewLattice(2, 2, BigInteger.Parse(textRangeStart.Text), BigInteger.Parse(textRangeEnd.Text));
                 UpdateTextBoxes();
                 viewModel.CalculatePixelsPerPoint();
                 viewModel.GenerateLatticePoints(true, false);
@@ -105,6 +118,7 @@ namespace LatticeCrypto.Views
 
         private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (toggleScrollLattice.IsChecked != true) return;
             point = e.GetPosition(this);
             Grid.CaptureMouse();
             Cursor = Cursors.SizeAll;
@@ -128,8 +142,8 @@ namespace LatticeCrypto.Views
             
             try
             {
-                viewModel.TargetVectorX = int.Parse(textTargetVectorX.Text);
-                viewModel.TargetVectorY = int.Parse(textTargetVectorY.Text);
+                viewModel.TargetVectorX = BigInteger.Parse(textTargetVectorX.Text);
+                viewModel.TargetVectorY = BigInteger.Parse(textTargetVectorY.Text);
             }
             catch (Exception)
             {
@@ -156,7 +170,7 @@ namespace LatticeCrypto.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            LatticeManualInputView inputView = new LatticeManualInputView(2, viewModel.Lattice, true);
+            LatticeManualInputView inputView = new LatticeManualInputView(2, 2, viewModel.Lattice, true, true, 0, null);
             if (inputView.ShowDialog() != true) return;
             viewModel.ResetCanvasPosition();
             viewModel.SetLatticeManually(inputView.returnLattice);
@@ -297,6 +311,24 @@ namespace LatticeCrypto.Views
             e.Handled = true;
         }
 
+        private void toggleSetTargetPoint_Checked(object sender, RoutedEventArgs e)
+        {
+            if (toggleScrollLattice == null)
+                return;
+            toggleScrollLattice.IsChecked = false;
+            toggleScrollLattice.IsEnabled = true;
+            toggleSetTargetPoint.IsEnabled = false;
+        }
+
+        private void toggleScrollLattice_Checked(object sender, RoutedEventArgs e)
+        {
+            if (toggleSetTargetPoint == null)
+                return;
+            toggleSetTargetPoint.IsChecked = false;
+            toggleSetTargetPoint.IsEnabled = true;
+            toggleScrollLattice.IsEnabled = false;
+        }
+
         #region Implementation of ILatticeCryptoUserControl
 
         public void Dispose()
@@ -315,5 +347,49 @@ namespace LatticeCrypto.Views
         }
 
         #endregion
+
+        private void scrollBarTargetVectorX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ValidateTargetVector(false);
+            if (viewModel.TargetVectorX == null)
+                return;
+
+            if (scrollBarXLastValue > scrollBarTargetVectorX.Value)
+            {
+                viewModel.TargetVectorX--;
+                textTargetVectorX.Text = viewModel.TargetVectorX.ToString();
+            }
+            else
+            {
+                viewModel.TargetVectorX++;
+                textTargetVectorX.Text = viewModel.TargetVectorX.ToString();
+            }
+            scrollBarXLastValue = scrollBarTargetVectorX.Value;
+
+            viewModel.FindClosestVector(true);
+            viewModel.UpdateCanvas();
+        }
+
+        private void scrollBarTargetVectorY_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            ValidateTargetVector(false);
+            if (viewModel.TargetVectorY == null)
+                return;
+
+            if (scrollBarYLastValue > scrollBarTargetVectorY.Value)
+            {
+                viewModel.TargetVectorY--;
+                textTargetVectorY.Text = viewModel.TargetVectorY.ToString();
+            }
+            else
+            {
+                viewModel.TargetVectorY++;
+                textTargetVectorY.Text = viewModel.TargetVectorY.ToString();
+            }
+            scrollBarYLastValue = scrollBarTargetVectorY.Value;
+
+            viewModel.FindClosestVector(true);
+            viewModel.UpdateCanvas();
+        }
     }
 }

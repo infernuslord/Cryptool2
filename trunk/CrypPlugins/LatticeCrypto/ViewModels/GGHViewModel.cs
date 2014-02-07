@@ -10,7 +10,6 @@ namespace LatticeCrypto.ViewModels
 {
     public class GGHViewModel : BaseViewModel
     {
-        public LatticeND Lattice { get; set; }
         public RichTextBox History { get; set; }
         public ReductionMethods ReductionMethod { get; set; }
         public GGHModel GGH { get; set; }
@@ -28,48 +27,110 @@ namespace LatticeCrypto.ViewModels
         {
             UiServices.SetBusyState();
             GGH = GGH != null && GGH.dim == dim ? new GGHModel(dim, l, GGH.errorVector) : new GGHModel(dim, l);
-            //MatrixND privateKey = new MatrixND(3, 3);
-            //privateKey[0, 0] = 7;
-            //privateKey[0, 1] = 0;
-            //privateKey[0, 2] = 0;
-            //privateKey[1, 0] = 0;
-            //privateKey[1, 1] = 5;
-            //privateKey[1, 2] = 0;
-            //privateKey[2, 0] = 0;
-            //privateKey[2, 1] = 0;
-            //privateKey[2, 2] = 3;
-            //MatrixND publicKey = new MatrixND(3, 3);
-            //publicKey[0, 0] = (14);
-            //publicKey[0, 1] = (7);
-            //publicKey[0, 2] = (14);
-            //publicKey[1, 0] = (20);
-            //publicKey[1, 1] = (20);
-            //publicKey[1, 2] = (5);
-            //publicKey[2, 0] = (9);
-            //publicKey[2, 1] = (6);
-            //publicKey[2, 2] = (6);
-            //MatrixND error = new MatrixND(3, 1);
-            //error[0, 0] = 1;
-            //error[1, 0] = -1;
-            //error[2, 0] = 1;
-            //GGH = new GGHModel(3, privateKey, publicKey, error);
             
-            Lattice = GGH.lattice;
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKey)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyR + ":")));
             paragraph.Inlines.Add(" " + Lattice.LatticeReducedToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKey)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB + ":")));
             paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix)));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix + ":")));
             paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelParameterL)));
             paragraph.Inlines.Add(" " + GGH.l + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelErrorVector)));
             paragraph.Inlines.Add(" " + GGH.errorVector + "\r\n");
-            History.Document.Blocks.Add(paragraph);
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
             NotifyPropertyChanged("ErrorVector");
+        }
+
+        public LatticeND Lattice
+        {
+            get { return GGH.lattice; }
+            set { GGH.lattice = value; }
+        }
+
+        public int Dim
+        {
+            get { return GGH != null ? GGH.dim : 2; }
+            set { GGH.dim = value; }
+        }
+
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                message = value.TrimEnd('\0');
+                encryptCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public string Cipher
+        {
+            get
+            {
+                return cipher == null ? "" : cipher.ToString();
+            }
+        }
+
+        public MatrixND PrivateKeyR
+        {
+            get { return GGH.privateKeyR; }
+            set
+            {
+                GGH.SetPrivateKeyManuallyAndGeneratePublicKey(value);
+
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonSetPrivateKeyR + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyR)));
+                paragraph.Inlines.Add(" " + GGH.privateKeyR + "\r\n");
+
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+
+                GGH.GenerateLattice();
+            }
+        }
+
+        public MatrixND PublicKeyB
+        {
+            get { return GGH.publicKeyB; }
+            set
+            {
+                GGH.SetPublicKeyManually(value);
+
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonSetPublicKeyB + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB)));
+                paragraph.Inlines.Add(" " + GGH.publicKeyB + "\r\n");
+
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+
+                GGH.GenerateLattice();
+            }
+        }
+
+        public VectorND ErrorVector
+        {
+            get { return GGH != null ? GGH.errorVector : new VectorND(0); }
+            set
+            {
+                GGH.SetErrorVectorManually(value);
+
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonSetErrorVector + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelErrorVector)));
+                paragraph.Inlines.Add(" " + GGH.errorVector + "\r\n");
+
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+
+                NotifyPropertyChanged("ErrorVector");
+            }
         }
 
         private RelayCommand generateErrorVectorCommand;
@@ -85,18 +146,31 @@ namespace LatticeCrypto.ViewModels
                             GGH.GenerateErrorVector();
 
                             Paragraph paragraph = new Paragraph();
-                            paragraph.Inlines.Add(
-                                new Bold(
-                                    new Underline(new Run("** " + Languages.buttonGenerateNewErrorVector + " **\r\n"))));
+                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewErrorVector + " **\r\n"))));
                             paragraph.Inlines.Add(new Bold(new Run(Languages.labelErrorVector)));
                             paragraph.Inlines.Add(" " + GGH.errorVector + "\r\n");
-                            History.Document.Blocks.Add(paragraph);
-
+                            
+                            History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            
                             NotifyPropertyChanged("ErrorVector");
-
                         });
                 return generateErrorVectorCommand;
             }
+        }
+
+        private bool ValidateCryptosystem()
+        {
+            if (PrivateKeyR.cols != Dim || PublicKeyB.cols != Dim || ErrorVector.dim != Dim)
+            {
+                MessageBox.Show(string.Format(Languages.errorWrongGGHCryptosystem, Dim), Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (!GGH.DoTheKeysFit())
+            {
+                MessageBox.Show(Languages.errorPrivateAndPublicKeyDoNotFit, Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         private RelayCommand encryptCommand;
@@ -108,6 +182,9 @@ namespace LatticeCrypto.ViewModels
                 encryptCommand = new RelayCommand(
                     parameter1 =>
                     {
+                        if(!ValidateCryptosystem())
+                            return;
+
                         UiServices.SetBusyState();
                         cipher = GGH.Encrypt(message);
 
@@ -117,7 +194,8 @@ namespace LatticeCrypto.ViewModels
                         paragraph.Inlines.Add(" " + Message + "\r\n");
                         paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
                         paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                        History.Document.Blocks.Add(paragraph);
+
+                        History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
 
                         NotifyPropertyChanged("Cipher");
                         decryptCommand.RaiseCanExecuteChanged();
@@ -135,6 +213,9 @@ namespace LatticeCrypto.ViewModels
                 decryptCommand = new RelayCommand(
                     parameter1 =>
                     {
+                        if (!ValidateCryptosystem())
+                            return;
+
                         UiServices.SetBusyState();
                         Paragraph paragraph = new Paragraph();
                         try
@@ -157,7 +238,10 @@ namespace LatticeCrypto.ViewModels
                         }
                         finally
                         {
-                            History.Document.Blocks.Add(paragraph);
+                            if (History.Document.Blocks.FirstBlock != null)
+                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                            else
+                                History.Document.Blocks.Add(paragraph);
                         }
                         
                     }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
@@ -167,14 +251,14 @@ namespace LatticeCrypto.ViewModels
 
         public void UpdateTextBoxes()
         {
-            if (LeftGrid.RowDefinitions.Count != Lattice.Dim)
+            if (LeftGrid.RowDefinitions.Count != Lattice.N)
             {
                 LeftGrid.RowDefinitions.Clear();
                 LeftGrid.ColumnDefinitions.Clear();
                 RightGrid.RowDefinitions.Clear();
                 RightGrid.ColumnDefinitions.Clear();
 
-                for (int i = 0; i < Lattice.Dim; i++)
+                for (int i = 0; i < Lattice.N; i++)
                 {
                     LeftGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(35) });
                     LeftGrid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -185,9 +269,9 @@ namespace LatticeCrypto.ViewModels
                 LeftGrid.Children.Clear();
                 RightGrid.Children.Clear();
 
-                for (int i = 0; i < Lattice.Dim; i++)
+                for (int i = 0; i < Lattice.N; i++)
                 {
-                    for (int j = 0; j < Lattice.Dim; j++)
+                    for (int j = 0; j < Lattice.M; j++)
                     {
                         TextBlock leftTextBlock = new TextBlock
                         {
@@ -217,32 +301,6 @@ namespace LatticeCrypto.ViewModels
                     textBlock.Text = Util.FormatBigInt(Lattice.Vectors[Grid.GetColumn(textBlock)].values[Grid.GetRow(textBlock)]);
                 foreach (TextBlock textBlock in RightGrid.Children)
                     textBlock.Text = Util.FormatBigInt(Lattice.ReducedVectors[Grid.GetColumn(textBlock)].values[Grid.GetRow(textBlock)]);
-            }
-        }
-
-        public string Message
-        {
-            get { return message; }
-            set
-            {
-                message = value.TrimEnd('\0');
-                encryptCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public string Cipher
-        {
-            get
-            {
-                return cipher == null ? "" : cipher.ToString();
-            }
-        }
-
-        public string ErrorVector
-        {
-            get
-            {
-                return GGH == null ? "" : GGH.errorVector.ToString();
             }
         }
     }
