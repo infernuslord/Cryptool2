@@ -646,12 +646,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             if (stream == null)
             {
-                return "";
+                return null;
             }
 
             using (CStreamReader reader = stream.CreateReader())
             {
-                res = Encoding.Unicode.GetString(reader.ReadFully());
+                res = Encoding.Default.GetString(reader.ReadFully());
+
+                if (res.Length == 0)
+                {
+                    return null;
+                }
             }
 
             return res;

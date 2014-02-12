@@ -54,19 +54,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void Initialize(){
             if (separateAlphabets==true){
                 hideSettingsElement("boAlphabet");
-                hideSettingsElement("boCaseSensitive");
+                //hideSettingsElement("boCaseSensitive");
                 showSettingsElement("ptAlphabet");
-                showSettingsElement("ptCaseSensitive");
+                //showSettingsElement("ptCaseSensitive");
                 showSettingsElement("ctAlphabet");
-                showSettingsElement("ctCaseSensitive");   
+                //showSettingsElement("ctCaseSensitive");   
             }else{
                 showSettingsElement("boAlphabet");
-                showSettingsElement("boCaseSensitive");
+                //showSettingsElement("boCaseSensitive");
                 hideSettingsElement("ptAlphabet");
-                hideSettingsElement("ptCaseSensitive");
+                //hideSettingsElement("ptCaseSensitive");
                 hideSettingsElement("ctAlphabet");
-                hideSettingsElement("ctCaseSensitive");
+                //hideSettingsElement("ctCaseSensitive");
             }
+            /*
             if (useDefaultWordSeparator == true)
             {
                 hideSettingsElement("DefaultWordSeparator");
@@ -74,7 +75,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             else
             {
                 showSettingsElement("DefaultWordSeparator");
-            }
+            }*/
         }
 
         #endregion
