@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     delegate void UpdateKeyDisplay(KeyCandidate keyCan);
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
-    [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
+    [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", "AnalysisMonoalphabeticSubstitution/Documentation/doc.xml", "CrypWin/images/default.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
 
     public class AnalysisMonoalphabeticSubstitution : ICrypComponent
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private TimeSpan currun_time;
 
         // Input property variables
-        private ICryptoolStream ciphertext;
+        private String ciphertext;
         private String ciphertext_alphabet;
         private String plaintext_alphabet;
         private ICryptoolStream reference_text;
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #region Data Properties
 
         [PropertyInfo(Direction.InputData, "PropCiphertextCaption", "PropCiphertextTooltip", true)]
-        public ICryptoolStream Ciphertext
+        public String Ciphertext
         {
             get { return this.ciphertext; }
             set {
@@ -393,7 +393,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             String helper1 = null;
             try
             {
-                helper1 = returnStreamContent(this.ciphertext);
+                //helper1 = returnStreamContent(this.ciphertext);
+                if (this.ciphertext.Length != 0)
+                {
+                    helper1 = this.ciphertext;
+                }
             }
             catch
             {
@@ -440,7 +444,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 inputOK = false;
             }
             // Ciphertext correct?
-            if (this.ciphertext == null)
+            if (this.cText == null)
             {
                 GuiLogMessage("No ciphertext is set", NotificationLevel.Error);
                 inputOK = false;
@@ -652,7 +656,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             using (CStreamReader reader = stream.CreateReader())
             {
                 res = Encoding.Default.GetString(reader.ReadFully());
-
+               
+               
                 if (res.Length == 0)
                 {
                     return null;
