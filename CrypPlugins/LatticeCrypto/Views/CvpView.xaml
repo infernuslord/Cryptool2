@@ -109,10 +109,10 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" Content="{x:Static Properties:Languages.labelFrom}"/>
-                        <TextBox Grid.Column="1" Name="textRangeStart" Text="-99" TextChanged="ValidateCodomain"/>
-                        <Label Grid.Column="2" Content="{x:Static Properties:Languages.labelTo}"/>
-                        <TextBox Grid.Column="3" Name="textRangeEnd" Text="99" TextChanged="ValidateCodomain"/>
-                        <TextBlock Grid.Row="1" Grid.ColumnSpan="4" Name="errorText" Visibility="Collapsed" TextWrapping="Wrap"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" Name="textRangeStart" Text="-99" TextChanged="ValidateCodomain"/>
+                        <Label Grid.Row="0" Grid.Column="2" Content="{x:Static Properties:Languages.labelTo}"/>
+                        <TextBox Grid.Row="0" Grid.Column="3" Name="textRangeEnd" Text="99" TextChanged="ValidateCodomain"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Name="errorText" Visibility="Collapsed" TextWrapping="Wrap"/>
                     </Grid>
                 </GroupBox>
                 
@@ -180,7 +180,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBox Name="textTargetVectorX" Grid.Row="0" Text="{Binding TargetVectorX}"/>
                             <ScrollBar Name="scrollBarTargetVectorX" Grid.Row="0" Grid.Column="1" Maximum="2000000" Minimum="-2000000" ValueChanged="scrollBarTargetVectorX_ValueChanged"/>
-                            <TextBox Name="textTargetVectorY" Grid.Row="1" Text="{Binding TargetVectorY}"/>
+                            <TextBox Name="textTargetVectorY" Grid.Row="1" Grid.Column="0" Text="{Binding TargetVectorY}"/>
                             <ScrollBar Name="scrollBarTargetVectorY" Grid.Row="1" Grid.Column="1" Maximum="2000000" Minimum="-2000000" ValueChanged="scrollBarTargetVectorY_ValueChanged"/>
                         </Grid>
                     </GroupBox.Content>
@@ -190,8 +190,8 @@
                 <Button Content="{x:Static Properties:Languages.buttonFindClosestVector}" Margin="0,20,0,0" VerticalAlignment="Top"  Click="Button_CVP_Click" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" Background="DarkGray" MouseDoubleClick="GridSplitter_MouseDoubleClick" ShowsPreview="True"/>
-        <Grid Grid.Row="3">
+        <GridSplitter Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" Background="DarkGray" MouseDoubleClick="GridSplitter_MouseDoubleClick" ShowsPreview="True"/>
+        <Grid Grid.Row="3" Grid.Column="0">
             <RichTextBox Name="History" Background="LightGray" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextChanged="History_TextChanged" />
         </Grid>
     </Grid>

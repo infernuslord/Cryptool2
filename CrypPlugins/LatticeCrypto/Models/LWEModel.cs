@@ -59,15 +59,14 @@ namespace LatticeCrypto.Models
             u = r * A;
         }
 
-        public EncryptLWETupel Encrypt(MatrixND message)
+        public MatrixND Encrypt(MatrixND message)
         {
-            MatrixND c = r * B + message * Math.Floor((double)q / 2);
-            return new EncryptLWETupel(c % q, u % q);
+            return (r * B + message * Math.Floor((double)q / 2)) % q;
         }
 
-        public MatrixND Decrypt(EncryptLWETupel enc)
+        public MatrixND Decrypt(MatrixND cipher)
         {
-            MatrixND result = (enc.c - (enc.u * S)) % q;
+            MatrixND result = (cipher - (u * S)) % q;
             MatrixND message = new MatrixND(1, l);
 
             for (int i = 0; i < l; i++)
@@ -80,15 +79,15 @@ namespace LatticeCrypto.Models
         }
     }
 
-    public class EncryptLWETupel
-    {
-        public MatrixND c;
-        public MatrixND u;
+    //public class EncryptLWETupel
+    //{
+    //    public MatrixND c;
+    //    public MatrixND u;
 
-        public EncryptLWETupel(MatrixND c, MatrixND u)
-        {
-            this.c = c;
-            this.u = u;
-        }
-    }
+    //    public EncryptLWETupel(MatrixND c, MatrixND u)
+    //    {
+    //        this.c = c;
+    //        this.u = u;
+    //    }
+    //}
 }

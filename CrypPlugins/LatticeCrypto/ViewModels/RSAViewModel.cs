@@ -15,9 +15,10 @@ namespace LatticeCrypto.ViewModels
         public RichTextBox History { get; set; }
         private string knownMessage;
         private string unknownMessageResult;
-        private int unknownStart;
-        private int unknownLength;
+        public int unknownStart;
+        public int unknownLength;
         private BigInteger cipher;
+        public string Cipher { get; set; }
 
         public void GenerateNewRSA (int bitSize)
         {
@@ -48,122 +49,83 @@ namespace LatticeCrypto.ViewModels
             NotifyPropertyChanged("ExpD");
             NotifyPropertyChanged("ExpE");
             NotifyPropertyChanged("ValidationInfo");
-            encryptCommand.RaiseCanExecuteChanged();
         }
 
-        private RelayCommand encryptCommand;
-        public RelayCommand EncryptCommand
+        public void Encrypt()
         {
-            get
+            UiServices.SetBusyState();
+            Cipher = RSAModel.Encrypt(message).ToString();
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
+
+            NotifyPropertyChanged("Cipher");
+        }
+
+        public void Decrypt ()
+        {
+            UiServices.SetBusyState();
+            Message = RSAModel.Decrypt(cipher);
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
+
+            NotifyPropertyChanged("Message");
+        }
+
+        public void Cryptanalysis ()
+        {
+            UiServices.SetBusyState();
+            Paragraph paragraph = new Paragraph();
+
+            try
             {
-                if (encryptCommand != null) return encryptCommand;
-                encryptCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            UiServices.SetBusyState();
-                            Cipher = RSAModel.Encrypt(message).ToString();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonCryptanalysis + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+                paragraph.Inlines.Add(" " + Cipher + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelKnownPlainText)));
+                paragraph.Inlines.Add(" " + KnownMessage + "\r\n");
 
-                            Paragraph paragraph = new Paragraph();
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+                string left = message.Substring(0, unknownStart);
+                string right = message.Substring(unknownStart + unknownLength);
+                UnknownMessageResult = RSAModel.StereotypedAttack(left, right, unknownLength, cipher, "4");
 
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
-                            
-                            decryptCommand.RaiseCanExecuteChanged();
-                            cryptanalysisCommand.RaiseCanExecuteChanged();
-                        }, parameter2 => !string.IsNullOrEmpty(Message) && !ValidationInfo.Equals(Languages.errorMessageTooLong));
-                return encryptCommand;
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelResultUnknownPlainText)));
+                paragraph.Inlines.Add(" " + UnknownMessageResult + "\r\n");
             }
-        }
-
-        private RelayCommand decryptCommand;
-        public RelayCommand DecryptCommand
-        {
-            get
+            catch (Exception ex)
             {
-                if (decryptCommand != null) return decryptCommand;
-                decryptCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            UiServices.SetBusyState();
-                            Message = RSAModel.Decrypt(cipher);
+                UnknownMessageResult = "";
 
-                            Paragraph paragraph = new Paragraph();
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAbort)));
+                paragraph.Inlines.Add(" " + ex.Message + "\r\n");
 
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
-
-                            NotifyPropertyChanged("Message");
-                        }, parameter2 => !string.IsNullOrEmpty(Cipher));
-                return decryptCommand;
+                MessageBox.Show(ex.Message, Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private RelayCommand cryptanalysisCommand;
-        public RelayCommand CryptanalysisCommand
-        {
-            get
+            finally
             {
-                if (cryptanalysisCommand != null) return cryptanalysisCommand;
-                cryptanalysisCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            UiServices.SetBusyState();
-                            Paragraph paragraph = new Paragraph();
-                            
-                            try
-                            {
-                                if (unknownStart == 0 && unknownLength == 0)
-                                {
-                                    MessageBox.Show(Languages.infoMarkKnownPlaintext, Languages.information, MessageBoxButton.OK, MessageBoxImage.Information);
-                                    return;
-                                }
-                                
-                                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonCryptanalysis + " **\r\n"))));
-                                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                                paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                                paragraph.Inlines.Add(new Bold(new Run(Languages.labelKnownPlainText)));
-                                paragraph.Inlines.Add(" " + KnownMessage + "\r\n");
-
-                                string left = message.Substring(0, unknownStart);
-                                string right = message.Substring(unknownStart + unknownLength);
-                                UnknownMessageResult = RSAModel.StereotypedAttack(left, right, unknownLength, cipher, "4");
-
-                                paragraph.Inlines.Add(new Bold(new Run(Languages.labelResultUnknownPlainText)));
-                                paragraph.Inlines.Add(" " + UnknownMessageResult + "\r\n");
-                            }
-                            catch (Exception ex)
-                            {
-                                UnknownMessageResult = "";
-
-                                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAbort)));
-                                paragraph.Inlines.Add(" " + ex.Message + "\r\n");
-
-                                MessageBox.Show(ex.Message, Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                            finally
-                            {
-                                if (History.Document.Blocks.FirstBlock != null)
-                                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                                else
-                                    History.Document.Blocks.Add(paragraph);
-                            }
-                            
-                        }, parameter2 => !string.IsNullOrEmpty(Cipher));
-                return cryptanalysisCommand;
+                if (History.Document.Blocks.FirstBlock != null)
+                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                else
+                    History.Document.Blocks.Add(paragraph);
             }
         }
 
@@ -203,7 +165,6 @@ namespace LatticeCrypto.ViewModels
             set 
             {
                 message = value;
-                encryptCommand.RaiseCanExecuteChanged();
                 KnownMessage = "";
                 UnknownMessageResult = "";
                 unknownStart = 0;
@@ -234,17 +195,9 @@ namespace LatticeCrypto.ViewModels
             }
         }
 
-        public string Cipher
+        public bool CheckCipherFormat()
         {
-            get
-            {
-                return cipher != 0 ? cipher.ToString() : "";
-            }
-            private set
-            {
-                BigInteger.TryParse(value, out cipher);
-                NotifyPropertyChanged("Cipher");
-            }
+            return BigInteger.TryParse(Cipher, out cipher);
         }
 
         public string ValidationInfo

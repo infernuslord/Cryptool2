@@ -15,8 +15,9 @@ namespace LatticeCrypto.ViewModels
         public Grid GridS { get; set; }
         public Grid GridA { get; set; }
         public Grid GridB { get; set; }
-        private string message;
-        private EncryptLWETupel cipher;
+        private MatrixND cipher;
+        public string Message { get; set; }
+        public string Cipher { get; set; } 
 
         public void GenerateNewLWE(int dim, int q)
         {
@@ -82,78 +83,70 @@ namespace LatticeCrypto.ViewModels
             }
         }
 
-        private RelayCommand encryptCommand;
-        public RelayCommand EncryptCommand
+        public void Encrypt()
         {
-            get
+            UiServices.SetBusyState();
+            MatrixND mesMat = new MatrixND(1, 1);
+            mesMat[0, 0] = int.Parse(Message);
+            Cipher = LWE.Encrypt(mesMat)[0, 0].ToString();
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
+
+            NotifyPropertyChanged("Cipher");
+        }
+
+        public void Decrypt()
+        {
+            UiServices.SetBusyState();
+            Paragraph paragraph = new Paragraph();
+            try
             {
-                if (encryptCommand != null) return encryptCommand;
-                encryptCommand = new RelayCommand(
-                    parameter1 =>
-                    {
-                        UiServices.SetBusyState();
-                        MatrixND mesMat = new MatrixND(1,1);
-                        mesMat[0, 0] = int.Parse(message);
-                        cipher = LWE.Encrypt(mesMat);
+                Message = LWE.Decrypt(cipher)[0, 0].ToString();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+                paragraph.Inlines.Add(" " + Cipher + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+                paragraph.Inlines.Add(" " + Message + "\r\n");
+                NotifyPropertyChanged("Message");
+            }
+            catch (Exception ex)
+            {
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Underline(new Run(Languages.labelAbort))));
+                paragraph.Inlines.Add(" " + ex.Message + "\r\n");
 
-                        Paragraph paragraph = new Paragraph();
-                        paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
-                        paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                        paragraph.Inlines.Add(" " + Message + "\r\n");
-                        paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                        paragraph.Inlines.Add(" " + Cipher + "\r\n");
-
-                        if (History.Document.Blocks.FirstBlock != null)
-                            History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                        else
-                            History.Document.Blocks.Add(paragraph);
-
-                        NotifyPropertyChanged("Cipher");
-                        decryptCommand.RaiseCanExecuteChanged();
-                    }, parameter2 => !string.IsNullOrEmpty(message));
-                return encryptCommand;
+                MessageBox.Show(string.Format(Languages.errorDecryptionError, ex.Message), Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (History.Document.Blocks.FirstBlock != null)
+                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                else
+                    History.Document.Blocks.Add(paragraph);
             }
         }
 
-        private RelayCommand decryptCommand;
-        public RelayCommand DecryptCommand
+        public bool CheckCipherFormat()
         {
-            get
+            try
             {
-                if (decryptCommand != null) return decryptCommand;
-                decryptCommand = new RelayCommand(
-                    parameter1 =>
-                    {
-                        UiServices.SetBusyState();
-                        Paragraph paragraph = new Paragraph();
-                        try
-                        {
-                            Message = LWE.Decrypt(cipher)[0, 0].ToString();
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
-                            NotifyPropertyChanged("Message");
-                        }
-                        catch (Exception ex)
-                        {
-
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelAbort)));
-                            paragraph.Inlines.Add(" " + ex.Message + "\r\n");
-
-                            MessageBox.Show(string.Format(Languages.errorDecryptionError, ex.Message), Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        finally
-                        {
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
-                        }
-
-                    }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
-                return decryptCommand;
+                cipher = new MatrixND(1, 1);
+                cipher[0, 0] = Convert.ToDouble(Cipher);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -232,24 +225,6 @@ namespace LatticeCrypto.ViewModels
                     Grid.SetRow(textBlock, i);
                     GridB.Children.Add(textBlock);
                 }
-            }
-        }
-
-        public string Message
-        {
-            get { return message; }
-            set
-            {
-                message = value;
-                encryptCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public string Cipher
-        {
-            get
-            {
-                return cipher == null ? "" : cipher.c[0, 0].ToString();
             }
         }
 
