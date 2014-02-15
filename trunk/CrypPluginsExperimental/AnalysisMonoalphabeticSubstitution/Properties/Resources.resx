@@ -166,7 +166,8 @@
     <value>Choose ciphertext alphabet</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>AnalysisMonoalphabeticSubstitution</value>
+    <value>Monoalphabetic Substitution Analyzer</value>
+    <comment> </comment>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Cryptanalyze monoalphabetic substitution ciphers</value>
