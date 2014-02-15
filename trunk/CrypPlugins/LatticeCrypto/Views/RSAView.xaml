@@ -89,30 +89,33 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,10">
-                        <Button Content="{x:Static Properties:Languages.buttonEncrypt}" Command="{Binding EncryptCommand}" VerticalAlignment="Center"/>
-                        <Button Content="{x:Static Properties:Languages.buttonDecrypt}" Command="{Binding DecryptCommand}" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                        <Button Content="{x:Static Properties:Languages.buttonCryptanalysis}" Command="{Binding CryptanalysisCommand}" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                        <Label Content="{Binding ValidationInfo}" Margin="10,0,0,0"/>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Label Content="Modus:"/>
+                        <ComboBox Name="cbModus" Margin="10,0,20,0">
+                            <ComboBoxItem Content="{x:Static Properties:Languages.buttonEncrypt}" IsSelected="True"/>
+                            <ComboBoxItem Content="{x:Static Properties:Languages.buttonDecrypt}"/>
+                            <ComboBoxItem Content="{x:Static Properties:Languages.buttonCryptanalysis}"/>
+                        </ComboBox>
+                        <Button Name="btnStart" Content="Starten" Click="btnStart_Click" />
                     </StackPanel>
 
-                    <Label Content="{x:Static Properties:Languages.labelPlainText}" Grid.Row="1"/>
-                    <TextBox Name="message" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsUndoEnabled="True" VerticalScrollBarVisibility="Auto" SelectionChanged="message_SelectionChanged"/>
+                    <Label Content="{x:Static Properties:Languages.labelPlainText}" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Name="message" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsUndoEnabled="True" VerticalScrollBarVisibility="Auto" SelectionChanged="message_SelectionChanged"/>
                     
-                    <Button Name="buttonMarkAsUnknown" Content="{x:Static Properties:Languages.buttonMarkAsUnknown}" Grid.Row="3" Click="ButtonMarkAsUnknown" HorizontalAlignment="Center" IsEnabled="False"/>
+                    <Button Name="buttonMarkAsUnknown" Content="{x:Static Properties:Languages.buttonMarkAsUnknown}" Grid.Row="3" Grid.Column="0" Click="ButtonMarkAsUnknown" HorizontalAlignment="Center" IsEnabled="False"/>
                    
-                    <Label Content="{x:Static Properties:Languages.labelKnownPlainText}" Grid.Row="1" Grid.Column="2"/>
-                    <TextBox Text="{Binding KnownMessage, Mode=OneWay}" Grid.Row="2" Grid.Column="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
-                    <Label Content="{x:Static Properties:Languages.labelResultUnknownPlainText}" Grid.Row="4" Grid.Column="2"/>
-                    <TextBox Text="{Binding UnknownMessageResult, Mode=OneWay}" Grid.Row="5" Grid.Column="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
+                    <Label Content="{x:Static Properties:Languages.labelKnownPlainText}" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Text="{Binding KnownMessage, Mode=OneWay}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
+                    <Label Content="{x:Static Properties:Languages.labelResultUnknownPlainText}" Grid.Row="4" Grid.Column="1"/>
+                    <TextBox Text="{Binding UnknownMessageResult, Mode=OneWay}" Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
                     <Label Content="{x:Static Properties:Languages.labelCiphertext}" Grid.Row="4" Grid.Column="0"/>
-                    <TextBox Text="{Binding Cipher, Mode=OneWay}" IsReadOnly="True" Grid.Row="5" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="5" Grid.Column="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0"/>
                 </Grid>
             </Grid>
         </ScrollViewer>
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" Background="DarkGray" MouseDoubleClick="GridSplitter_MouseDoubleClick" ShowsPreview="True"/>
         <Grid Grid.Row="2">
-            <RichTextBox Name="History" Background="LightGray" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" TextChanged="History_TextChanged" />
+            <RichTextBox Name="History" Background="LightGray" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto" />
         </Grid>
     </Grid>
 </UserControl>

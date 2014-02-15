@@ -495,4 +495,13 @@
   <data name="errorWrongGGHCryptosystem" xml:space="preserve">
     <value>Please enter a correct GGH-cryptosystem for dimension {0} oder generate a new one.</value>
   </data>
+  <data name="errorCipherWrongFormat" xml:space="preserve">
+    <value>The cipher has an invalid format!</value>
+  </data>
+  <data name="errorNoCipher" xml:space="preserve">
+    <value>Please enter a cipher!</value>
+  </data>
+  <data name="errorNoMessage" xml:space="preserve">
+    <value>Please enter a message you want to encrypt!</value>
+  </data>
 </root>

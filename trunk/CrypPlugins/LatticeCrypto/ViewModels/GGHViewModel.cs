@@ -15,8 +15,9 @@ namespace LatticeCrypto.ViewModels
         public GGHModel GGH { get; set; }
         public Grid LeftGrid { get; set; }
         public Grid RightGrid { get; set; }
-        private string message;
+        public string Message { get; set; }
         private VectorND cipher;
+        public string Cipher { get; set; }
 
         public GGHViewModel()
         {
@@ -59,24 +60,6 @@ namespace LatticeCrypto.ViewModels
         {
             get { return GGH != null ? GGH.dim : 2; }
             set { GGH.dim = value; }
-        }
-
-        public string Message
-        {
-            get { return message; }
-            set
-            {
-                message = value.TrimEnd('\0');
-                encryptCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public string Cipher
-        {
-            get
-            {
-                return cipher == null ? "" : cipher.ToString();
-            }
         }
 
         public MatrixND PrivateKeyR
@@ -173,79 +156,71 @@ namespace LatticeCrypto.ViewModels
             return true;
         }
 
-        private RelayCommand encryptCommand;
-        public RelayCommand EncryptCommand
+        public void Encrypt()
         {
-            get
+            if (!ValidateCryptosystem())
+                return;
+
+            UiServices.SetBusyState();
+            Message = Message.TrimEnd('\0');
+            Cipher = GGH.Encrypt(Message).ToString();
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+
+            History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+
+            NotifyPropertyChanged("Cipher");
+        }
+
+        public void Decrypt()
+        {
+            if (!ValidateCryptosystem())
+                return;
+
+            UiServices.SetBusyState();
+            Paragraph paragraph = new Paragraph();
+            try
             {
-                if (encryptCommand != null) return encryptCommand;
-                encryptCommand = new RelayCommand(
-                    parameter1 =>
-                    {
-                        if(!ValidateCryptosystem())
-                            return;
+                Message = GGH.Decrypt(cipher);
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+                paragraph.Inlines.Add(" " + Cipher + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+                paragraph.Inlines.Add(" " + Message + "\r\n");
+                NotifyPropertyChanged("Message");
+            }
+            catch (Exception ex)
+            {
 
-                        UiServices.SetBusyState();
-                        cipher = GGH.Encrypt(message);
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAbort)));
+                paragraph.Inlines.Add(" " + ex.Message + "\r\n");
 
-                        Paragraph paragraph = new Paragraph();
-                        paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
-                        paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                        paragraph.Inlines.Add(" " + Message + "\r\n");
-                        paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                        paragraph.Inlines.Add(" " + Cipher + "\r\n");
-
-                        History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-
-                        NotifyPropertyChanged("Cipher");
-                        decryptCommand.RaiseCanExecuteChanged();
-                    }, parameter2 => !string.IsNullOrEmpty(message));
-                return encryptCommand;
+                MessageBox.Show(string.Format(Languages.errorDecryptionError, ex.Message), Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (History.Document.Blocks.FirstBlock != null)
+                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                else
+                    History.Document.Blocks.Add(paragraph);
             }
         }
 
-        private RelayCommand decryptCommand;
-        public RelayCommand DecryptCommand
+        public bool CheckCipherFormat()
         {
-            get
+            try
             {
-                if (decryptCommand != null) return decryptCommand;
-                decryptCommand = new RelayCommand(
-                    parameter1 =>
-                    {
-                        if (!ValidateCryptosystem())
-                            return;
-
-                        UiServices.SetBusyState();
-                        Paragraph paragraph = new Paragraph();
-                        try
-                        {
-                            Message = GGH.Decrypt(cipher);
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
-                            NotifyPropertyChanged("Message");
-                        }
-                        catch (Exception ex)
-                        {
-
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelAbort)));
-                            paragraph.Inlines.Add(" " + ex.Message + "\r\n");
-
-                            MessageBox.Show(string.Format(Languages.errorDecryptionError, ex.Message), Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                        finally
-                        {
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
-                        }
-                        
-                    }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
-                return decryptCommand;
+                cipher = Util.ConvertStringToLatticeND(Cipher).Vectors[0];
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

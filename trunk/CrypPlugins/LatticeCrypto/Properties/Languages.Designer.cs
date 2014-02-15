@@ -223,6 +223,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Geheimtext hat ein ungültiges Format! ähnelt.
+        /// </summary>
+        public static string errorCipherWrongFormat {
+            get {
+                return ResourceManager.GetString("errorCipherWrongFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Der Wertebereich ist zu klein. ähnelt.
         /// </summary>
         public static string errorCodomainTooSmall {
@@ -286,6 +295,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitten geben Sie einen Geheimtext ein! ähnelt.
+        /// </summary>
+        public static string errorNoCipher {
+            get {
+                return ResourceManager.GetString("errorNoCipher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie einen gültigen Wertebereich ein. ähnelt.
         /// </summary>
         public static string errorNoCodomain {
@@ -300,6 +318,15 @@ namespace LatticeCrypto.Properties {
         public static string errorNoLatticeEntered {
             get {
                 return ResourceManager.GetString("errorNoLatticeEntered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie eine zu verschlüsselnde Nachricht ein! ähnelt.
+        /// </summary>
+        public static string errorNoMessage {
+            get {
+                return ResourceManager.GetString("errorNoMessage", resourceCulture);
             }
         }
         

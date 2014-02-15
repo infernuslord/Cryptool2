@@ -30,15 +30,13 @@ namespace LatticeCrypto.Utilities
         /// <param name="busy">if set to <c>true</c> the application is now busy.</param>
         private static void SetBusyState(bool busy)
         {
-            if (busy != IsBusy)
-            {
-                IsBusy = busy;
-                Mouse.OverrideCursor = busy ? Cursors.Wait : null;
+            if (busy == IsBusy) return;
+            IsBusy = busy;
+            Mouse.OverrideCursor = busy ? Cursors.Wait : null;
 
-                if (IsBusy)
-                {
-                    new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, dispatcherTimer_Tick, Application.Current.Dispatcher);
-                }
+            if (IsBusy)
+            {
+                new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, dispatcherTimer_Tick, Application.Current.Dispatcher);
             }
         }
 

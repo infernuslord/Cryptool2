@@ -154,7 +154,7 @@ namespace LatticeCrypto.Views
             errorText.Text = "";
             buttonOK.IsEnabled = true;
 
-            foreach (TextBox textBox in latticeGrid.Children.Cast<Control>().Where(control => control is TextBox && !((TextBox)control).Text.Equals("")))
+            foreach (TextBox textBox in latticeGrid.Children.Cast<Control>().Where(control => control is TextBox && !((TextBox)control).Text.Equals("")).Cast<TextBox>())
             {
                 BigInteger tryParse;
                 if (!BigInteger.TryParse(textBox.Text, out tryParse))

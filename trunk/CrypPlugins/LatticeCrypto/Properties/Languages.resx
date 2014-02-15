@@ -495,4 +495,13 @@
   <data name="errorWrongGGHCryptosystem" xml:space="preserve">
     <value>Bitte geben Sie ein korrektes GGH-Kryptosystem mit Dimension {0} ein oder lassen Sie sich ein neues generieren.</value>
   </data>
+  <data name="errorCipherWrongFormat" xml:space="preserve">
+    <value>Der Geheimtext hat ein ungültiges Format!</value>
+  </data>
+  <data name="errorNoCipher" xml:space="preserve">
+    <value>Bitten geben Sie einen Geheimtext ein!</value>
+  </data>
+  <data name="errorNoMessage" xml:space="preserve">
+    <value>Bitte geben Sie eine zu verschlüsselnde Nachricht ein!</value>
+  </data>
 </root>

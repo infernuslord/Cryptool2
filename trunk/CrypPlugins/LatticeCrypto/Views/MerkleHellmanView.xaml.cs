@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LatticeCrypto.Properties;
 using LatticeCrypto.Utilities;
 using LatticeCrypto.ViewModels;
 
@@ -70,5 +71,49 @@ namespace LatticeCrypto.Views
         }
 
         #endregion
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            switch(cbModus.SelectedIndex)
+            {
+                //Encrypt
+                case 0:
+                    if (string.IsNullOrEmpty(viewModel.Message))
+                    {
+                        MessageBox.Show(Languages.errorNoMessage, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    viewModel.Encrypt();
+                    break;
+                //Decrypt
+                case 1:
+                    if (string.IsNullOrEmpty(viewModel.Cipher))
+                    {
+                        MessageBox.Show(Languages.errorNoCipher, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    if(!viewModel.CheckCipherFormat())
+                    {
+                        MessageBox.Show(Languages.errorCipherWrongFormat, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    viewModel.Decrypt();
+                    break;
+                //Cryptanalysis
+                case 2:
+                    if (string.IsNullOrEmpty(viewModel.Cipher))
+                    {
+                        MessageBox.Show(Languages.errorNoCipher, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    if (!viewModel.CheckCipherFormat())
+                    {
+                        MessageBox.Show(Languages.errorCipherWrongFormat, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    viewModel.Cryptanalysis();
+                    break;
+            }
+        }
     }
 }

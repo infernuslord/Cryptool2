@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace LatticeCrypto.Models
@@ -209,7 +210,7 @@ namespace LatticeCrypto.Models
 
         public string Decrypt (VectorND cipher)
         {
-            char[] result = new char[cipher.dim];
+            List<char> result = new List<char>();
             int blockCount = cipher.dim/dim;
 
             for (int i = 0; i < blockCount; i++)
@@ -229,11 +230,11 @@ namespace LatticeCrypto.Models
                     int messageInt = (int)Math.Round(messageVector[j, 0]);
                     if (messageInt == 0)
                         break;
-                    result[i * dim + j] = Convert.ToChar(messageInt);
+                    result.Add(Convert.ToChar(messageInt));
                 }
             }
 
-            return new string(result);
+            return new string(result.ToArray());
         }
 
         public bool DoTheKeysFit()

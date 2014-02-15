@@ -45,138 +45,87 @@ namespace LatticeCrypto.ViewModels
             NotifyPropertyChanged("RI");
         }
 
-        private RelayCommand encryptCommand;
-        public RelayCommand EncryptCommand
+        public void Encrypt()
         {
-            get
-            {
-                if (encryptCommand != null) return encryptCommand;
-                encryptCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            UiServices.SetBusyState();
-                            cipher = MerkleHellman.Encrypt(message);
+            UiServices.SetBusyState();
+            Cipher = MerkleHellman.Encrypt(Message).ToString();
 
-                            Paragraph paragraph = new Paragraph();
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonEncrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
 
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
-                            NotifyPropertyChanged("Cipher");
-                            decryptCommand.RaiseCanExecuteChanged();
-                            cryptanalysisCommand.RaiseCanExecuteChanged();
-                        }, parameter2 => !string.IsNullOrEmpty(message));
-                return encryptCommand;
-            }
+            NotifyPropertyChanged("Cipher");
         }
 
-        private RelayCommand decryptCommand;
-        public RelayCommand DecryptCommand
+        public void Decrypt()
         {
-            get
-            {
-                if (decryptCommand != null) return decryptCommand;
-                decryptCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            UiServices.SetBusyState();
-                            Message = MerkleHellman.Decrypt(cipher);
+            UiServices.SetBusyState();
+            Message = MerkleHellman.Decrypt(cipher);
 
-                            Paragraph paragraph = new Paragraph();
-                            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                            paragraph.Inlines.Add(" " + Cipher + "\r\n");
-                            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
-                            paragraph.Inlines.Add(" " + Message + "\r\n");
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonDecrypt + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+            paragraph.Inlines.Add(" " + Cipher + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainText)));
+            paragraph.Inlines.Add(" " + Message + "\r\n");
 
-                            if (History.Document.Blocks.FirstBlock != null)
-                                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                            else
-                                History.Document.Blocks.Add(paragraph);
+            if (History.Document.Blocks.FirstBlock != null)
+                History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+            else
+                History.Document.Blocks.Add(paragraph);
 
-                            NotifyPropertyChanged("Message");
-                        }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
-                return decryptCommand;
-            }
+            NotifyPropertyChanged("Message");
         }
 
-        private RelayCommand cryptanalysisCommand;
-        public RelayCommand CryptanalysisCommand
+        public void Cryptanalysis()
         {
-            get
+            try
             {
-                if (cryptanalysisCommand != null) return cryptanalysisCommand;
-                cryptanalysisCommand = new RelayCommand(
-                    parameter1 =>
-                        {
-                            try
-                            {
-                                UiServices.SetBusyState();
-                                Paragraph paragraph = new Paragraph();
-                                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonCryptanalysis + " **\r\n"))));
-                                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
-                                paragraph.Inlines.Add(" " + Cipher + "\r\n");
+                UiServices.SetBusyState();
+                Paragraph paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonCryptanalysis + " **\r\n"))));
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCiphertext)));
+                paragraph.Inlines.Add(" " + Cipher + "\r\n");
 
-                                Message = MerkleHellman.Cryptanalysis(cipher, paragraph);
+                Message = MerkleHellman.Cryptanalysis(cipher, paragraph);
 
-                                if (History.Document.Blocks.FirstBlock != null)
-                                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
-                                else
-                                    History.Document.Blocks.Add(paragraph);
+                if (History.Document.Blocks.FirstBlock != null)
+                    History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
+                else
+                    History.Document.Blocks.Add(paragraph);
 
-                                NotifyPropertyChanged("Message");
-                            }
-                            catch (Exception)
-                            {
-                                MessageBox.Show(Languages.errorNoSolutionFound, Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                            
-                            NotifyPropertyChanged("Message");
-                        }, parameter2 => cipher != null && !string.IsNullOrEmpty(cipher.ToString()));
-                return cryptanalysisCommand;
+                NotifyPropertyChanged("Message");
             }
+            catch (Exception)
+            {
+                MessageBox.Show(Languages.errorNoSolutionFound, Languages.error, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            NotifyPropertyChanged("Message");
         }
 
-        private string message;
-        public string Message
-        {
-            get
-            {
-                return message;
-            }
-            set 
-            {
-                message = value;
-                encryptCommand.RaiseCanExecuteChanged();
-            }
-        }
+        public string Message { get; set; }
 
         private VectorND cipher;
-        public string Cipher
+        public string Cipher { get; set; }
+
+        public bool CheckCipherFormat()
         {
-            get 
+            try
             {
-                return cipher == null ? "" : cipher.ToString();
+                cipher = Util.ConvertStringToLatticeND(Cipher).Vectors[0];
+                return true;
             }
-            set
+            catch (Exception)
             {
-                try
-                {
-                    cipher = Util.ConvertStringToLatticeND(value).Vectors[0];
-                }
-                catch (Exception)
-                {
-                    cipher = null;
-                }
-                decryptCommand.RaiseCanExecuteChanged();
-                cryptanalysisCommand.RaiseCanExecuteChanged();
+                return false;
             }
         }
 

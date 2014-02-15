@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LatticeCrypto.Properties;
 using LatticeCrypto.Utilities;
 using LatticeCrypto.ViewModels;
 
@@ -100,6 +101,36 @@ namespace LatticeCrypto.Views
             LatticeManualInputView inputView = new LatticeManualInputView((int) scrollBar.Value, 0, viewModel.ErrorVector, new List<BigInteger> {-1, 1});
             if (inputView.ShowDialog() != true) return;
             viewModel.ErrorVector = inputView.returnLattice.Vectors[0];
+        }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            switch (cbModus.SelectedIndex)
+            {
+                //Encrypt
+                case 0:
+                    if (string.IsNullOrEmpty(viewModel.Message))
+                    {
+                        MessageBox.Show(Languages.errorNoMessage, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    viewModel.Encrypt();
+                    break;
+                //Decrypt
+                case 1:
+                    if (string.IsNullOrEmpty(viewModel.Cipher))
+                    {
+                        MessageBox.Show(Languages.errorNoCipher, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    if (!viewModel.CheckCipherFormat())
+                    {
+                        MessageBox.Show(Languages.errorCipherWrongFormat, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    viewModel.Decrypt();
+                    break;
+            }
         }
     }
 }

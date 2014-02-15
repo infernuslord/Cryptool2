@@ -87,23 +87,20 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-                        <!--<Label Content="Modus:"/>
+                        <Label Content="Modus:"/>
                         <ComboBox Name="cbModus" Margin="10,0,20,0">
                             <ComboBoxItem Content="{x:Static Properties:Languages.buttonEncrypt}" IsSelected="True"/>
                             <ComboBoxItem Content="{x:Static Properties:Languages.buttonDecrypt}"/>
                             <ComboBoxItem Content="{x:Static Properties:Languages.buttonCryptanalysis}"/>
                         </ComboBox>
-                        <Button Content="Starten"/>-->
-                        <Button Content="{x:Static Properties:Languages.buttonEncrypt}" Command="{Binding EncryptCommand}"/>
-                        <Button Content="{x:Static Properties:Languages.buttonDecrypt}" Command="{Binding DecryptCommand}" Margin="10,0,0,0"/>
-                        <Button Content="{x:Static Properties:Languages.buttonCryptanalysis}" Command="{Binding CryptanalysisCommand}" Margin="10,0,0,0"/>
+                        <Button Name="btnStart" Content="Starten" Click="btnStart_Click" />
                     </StackPanel>
 
-                    <Label Content="{x:Static Properties:Languages.labelPlainText}" Grid.Row="1"/>
-                    <TextBox Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"  TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto"/>
+                    <Label Content="{x:Static Properties:Languages.labelPlainText}" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto"/>
                     
                     <Label Content="{x:Static Properties:Languages.labelCiphertext}" Grid.Row="1" Grid.Column="1"/>
-                    <TextBox Text="{Binding Cipher, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                    <TextBox Text="{Binding Cipher, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
                     
                     <!--<TextBox.Text>
                             <Binding Path="Cipher" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
