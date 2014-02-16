@@ -67,7 +67,7 @@ namespace LatticeCrypto.ViewModels
             get { return GGH.privateKeyR; }
             set
             {
-                GGH.SetPrivateKeyManuallyAndGeneratePublicKey(value);
+                GGH.SetPrivateKeyManually(value, true);
 
                 Paragraph paragraph = new Paragraph();
                 paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonSetPrivateKeyR + " **\r\n"))));

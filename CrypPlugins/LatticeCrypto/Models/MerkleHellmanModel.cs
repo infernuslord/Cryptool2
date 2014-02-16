@@ -73,16 +73,18 @@ namespace LatticeCrypto.Models
                 if (vector == null)
                     throw new Exception();
 
-                
-                paragraph.Inlines.Add("--------------------\r\n");
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelCurrentBlock)));
-                paragraph.Inlines.Add(" " + value + "\r\n");
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis)));
-                paragraph.Inlines.Add(" " + lattice.LatticeToString() + "\r\n");
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis)));
-                paragraph.Inlines.Add(" " + lattice.LatticeReducedToString() + "\r\n");
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelFoundVector)));
-                paragraph.Inlines.Add(" " + new VectorND(vector) + "\r\n");
+                if (paragraph != null)
+                {
+                    paragraph.Inlines.Add("--------------------\r\n");
+                    paragraph.Inlines.Add(new Bold(new Run(Languages.labelCurrentBlock)));
+                    paragraph.Inlines.Add(" " + value + "\r\n");
+                    paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis)));
+                    paragraph.Inlines.Add(" " + lattice.LatticeToString() + "\r\n");
+                    paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis)));
+                    paragraph.Inlines.Add(" " + lattice.LatticeReducedToString() + "\r\n");
+                    paragraph.Inlines.Add(new Bold(new Run(Languages.labelFoundVector)));
+                    paragraph.Inlines.Add(" " + new VectorND(vector) + "\r\n");
+                }
 
                 for (int k = 0; k < dim; k++)
                     messageBinary += vector[k];
@@ -94,9 +96,12 @@ namespace LatticeCrypto.Models
             if (messageBinary.Length >= maxBitLength && messageBinary.Substring(messageBinary.Length - maxBitLength).IndexOf('1') == -1)
                 messageBinary = messageBinary.Remove(messageBinary.Length - maxBitLength);
 
-            paragraph.Inlines.Add("--------------------\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainTextBinary)));
-            paragraph.Inlines.Add(" " + messageBinary + "\r\n");
+            if (paragraph != null)
+            {
+                paragraph.Inlines.Add("--------------------\r\n");
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainTextBinary)));
+                paragraph.Inlines.Add(" " + messageBinary + "\r\n");
+            }
 
             List<byte> bytes = new List<byte>();
 
@@ -105,8 +110,11 @@ namespace LatticeCrypto.Models
 
             string messageUTF8 = Encoding.UTF8.GetString(bytes.ToArray());
 
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainTextUTF8)));
-            paragraph.Inlines.Add(" " + messageUTF8 + "\r\n");
+            if (paragraph != null)
+            {
+                paragraph.Inlines.Add(new Bold(new Run(Languages.labelPlainTextUTF8)));
+                paragraph.Inlines.Add(" " + messageUTF8 + "\r\n");
+            }
 
             return messageUTF8;
         }

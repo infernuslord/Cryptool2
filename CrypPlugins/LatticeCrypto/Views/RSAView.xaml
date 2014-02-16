@@ -100,7 +100,7 @@
                     </StackPanel>
 
                     <Label Content="{x:Static Properties:Languages.labelPlainText}" Grid.Row="1" Grid.Column="0" />
-                    <TextBox Name="message" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsUndoEnabled="True" VerticalScrollBarVisibility="Auto" SelectionChanged="message_SelectionChanged"/>
+                    <TextBox Name="message" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" IsUndoEnabled="True" VerticalScrollBarVisibility="Auto" SelectionChanged="message_SelectionChanged" TextChanged="message_TextChanged" KeyDown="message_KeyDown" />
                     
                     <Button Name="buttonMarkAsUnknown" Content="{x:Static Properties:Languages.buttonMarkAsUnknown}" Grid.Row="3" Grid.Column="0" Click="ButtonMarkAsUnknown" HorizontalAlignment="Center" IsEnabled="False"/>
                    
