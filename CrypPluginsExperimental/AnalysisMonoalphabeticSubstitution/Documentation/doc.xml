@@ -4,25 +4,25 @@
   <language culture="en"/>
 
   <introduction lang="en">
-  The Monoalphabetic Substitution Analyzer performs a ciphertext only attack on monoalphabetic substitution ciphers. 
-  The component conducts two different approaches to find the plaintext and the corresponding key. At first a dictionary attack
+  The Monoalphabetic Substitution Analyzer performs a ciphertext-only attack on monoalphabetic substitution ciphers. 
+  This component conducts two different approaches to find the plaintext and the corresponding key. At first a dictionary attack
   is executed. Within the dictionary attack words of the assumed plaintext language are mapped to the words in the given ciphertext.
   If a valid mapping is found the according key will be reported. Besides the dictionary attack, a heuristic search based on a genetic algorithm
   and frequencies of letter groups is implemented. This approach is turn-based and creates randomly new key candidates which are evaluated according
   to a cost function. <newline />
-  Further details on the implemeneted algorithms and the usage are presented in the next sections.
+  Further details on the implemented algorithms and the usage are presented in the next sections.
   
   <section headline="Dictionary Attack">
   The dictionary attack is implemented based on an approach of Edwin Olson and the DeCrypto Project. For each word in the ciphertext a list with possible
   candidates from the dictionary is created. The candidates are mapped to the ciphertext words according to the pattern of the words. Subsequently, all combinations
-  of candidates is tried to find appropriate keys. The exact approach is described in the paper of Olson that is listed in the Reference section. 
+  of candidates are tried to find appropriate keys. The exact approach is described in the paper of Olson listed in the Reference section. 
   </section>
 
   <section headline="Genetic Attack">
-  The Genetic Attack is based on a genetic algorithm that is a type of a heuristic search. A population of keys evolves over several generations. Each generation is
+  The Genetic Attack is based on a genetic algorithm which is a type of a heuristic search. A population of keys evolves over several generations. Each generation is
   created from the previous generation where only the fittest keys are selected. Additionally, with a certain probability a key mutates, that means a randomly chosen
   element of the key swapped with an other element. The fitness of a key is calculated with the help of letter group frequencies (n-gram frequencies) on the plaintext 
-  that is the result of the encryption with key. <newline />
+  wich results from encrypting with this key. <newline />
   After the population evolved several generations the fitness of the fittest key does not change anymore. At this point the search is stopped and the key is reported.
   This process is conducted several times during one analysis.
   </section>
@@ -30,8 +30,8 @@
   </introduction>
 
   <usage lang="en">
-  The usage of the Monoalphabetic Substitution Analyzer is very simple due to the few options. Currently, the component is only able to analyze
-  ciphertexts that are based on an English plaintext. As input is the ciphertext required. Furthermore, the outputs are the plaintext and the
+  Using the Monoalphabetic Substitution Analyzer is very simple due to the few options. Currently, the component is only able to analyze
+  ciphertexts based on an English plaintext. The required input is the ciphertext. Furthermore, the outputs are the plaintext and the
   according key.
   </usage>
   
