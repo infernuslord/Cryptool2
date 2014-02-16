@@ -84,10 +84,13 @@ namespace LatticeCrypto.Models
             privateKeyR = kI+S;
         }
 
-        public void SetPrivateKeyManuallyAndGeneratePublicKey(MatrixND newPrivateKeyR)
+        public void SetPrivateKeyManually(MatrixND newPrivateKeyR, bool generatePublicKey)
         {
             privateKeyR = newPrivateKeyR;
             privateKeyR1 = privateKeyR.Invert();
+
+            if (!generatePublicKey)
+                return;
 
             do
             {
@@ -158,6 +161,9 @@ namespace LatticeCrypto.Models
                 publicVectors[i] = new VectorND(publicBigInts);
             }
             lattice.Vectors = publicVectors;
+
+            if(transU == null)
+                return;
 
             VectorND[] transVectors = new VectorND[dim];
             for (int i = 0; i < dim; i++)

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using LatticeCrypto.Properties;
 using LatticeCrypto.Utilities;
@@ -110,29 +111,29 @@ namespace LatticeCrypto.Views
             }
         }
 
-        
-        //private void message_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (((TextBox)sender).Text.Length >= ((RSAViewModel)DataContext).BlockSize)
-        //        e.Handled = true;
-        //}
 
-        //private void message_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    if (((TextBox)sender).Text.Length >= ((RSAViewModel)DataContext).BlockSize)
-        //    {
-        //        ((TextBox)sender).Text = ((TextBox)sender).Text.Substring(0, ((RSAViewModel)DataContext).BlockSize);
-        //        ToolTip toolTip = (ToolTip)((TextBox)sender).ToolTip ?? new ToolTip();
-        //        toolTip.Content = "Für diesen Angriff muss die Nachricht kleiner als N sein!";
-        //        toolTip.IsOpen = true;
-        //        ToolTipService.SetShowDuration(toolTip, 5);
-        //        ((TextBox)sender).ToolTip = toolTip;
-        //    }
-        //    else if (((TextBox)sender).ToolTip != null)
-        //    {
-        //        ((ToolTip)((TextBox)sender).ToolTip).IsOpen = false;
-        //    }
-        //}
+        private void message_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (((TextBox)sender).Text.Length >= ((RSAViewModel)DataContext).BlockSize)
+                e.Handled = true;
+        }
+
+        private void message_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (((TextBox)sender).Text.Length >= ((RSAViewModel)DataContext).BlockSize)
+            {
+                ((TextBox)sender).Text = ((TextBox)sender).Text.Substring(0, ((RSAViewModel)DataContext).BlockSize);
+                ToolTip toolTip = (ToolTip)((TextBox)sender).ToolTip ?? new ToolTip();
+                toolTip.Content = "Für diesen Angriff muss die Nachricht kleiner als N sein!";
+                toolTip.IsOpen = true;
+                ToolTipService.SetShowDuration(toolTip, 5);
+                ((TextBox)sender).ToolTip = toolTip;
+            }
+            else if (((TextBox)sender).ToolTip != null)
+            {
+                ((ToolTip)((TextBox)sender).ToolTip).IsOpen = false;
+            }
+        }
 
         #region Implementation of ILatticeCryptoUserControl
 
