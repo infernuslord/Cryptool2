@@ -50,12 +50,29 @@ namespace LatticeCrypto.Models
             B = (A*S + e) % q;
         }
 
+        public LWEModel(MatrixND S, MatrixND A, MatrixND e, int q, int l)
+        {
+            this.S = S;
+            this.A = A;
+            this.e = e;
+            this.q = q;
+            this.l = l;
+
+            B = (A * S + e) % q;
+        }
+
         public void GenerateNewRandomVector()
         {
             Random random = new Random();
             r = new MatrixND(1, m);
             for (int i = 0; i < m; i++)
                 r[0, i] = random.Next(2);
+            u = r * A;
+        }
+
+        public void SetRandomVector(MatrixND randomVector)
+        {
+            r = randomVector;
             u = r * A;
         }
 

@@ -90,8 +90,8 @@ namespace UnitTests
         public void RSATest()
         {
             //There is no need to test the generation of a RSA cryptosystem, because BouncyCastle is used
-            Random r = new Random();
 
+            Random r = new Random();
             for (int i = 0; i < 10; i++)
             {
                 int bitSize = r.Next(32, 1024);
@@ -111,6 +111,69 @@ namespace UnitTests
                 string unknownMessageResult = rsa.StereotypedAttack(left, right, unknownLength, cipher, "4");
                 Assert.AreEqual(message.Substring(unknownStart, unknownLength), unknownMessageResult);
             }
+        }
+
+        [TestMethod]
+        public void LWETest()
+        {
+            //Test for single bit encryption
+            //Example taken from my own master thesis (sadly in the absence of an alternative example)
+
+            VectorND[] SVectors =
+            {
+                new VectorND(new BigInteger[] {7, 7})
+            };
+            LatticeND S = new LatticeND(SVectors, false);
+
+            VectorND[] AVectors =
+            {
+                new VectorND(new BigInteger[] {4, 3, 4, 0, 5}),
+                new VectorND(new BigInteger[] {3, 3, 0, 7, 1})
+            };
+            LatticeND A = new LatticeND(AVectors, false);
+
+            VectorND[] eVectors =
+            {
+                new VectorND(new BigInteger[] {7, 2, 4, 5, 2})
+            };
+            LatticeND e = new LatticeND(eVectors, false);
+
+            const int q = 9;
+            LWEModel lwe = new LWEModel(S.ToMatrixND(), A.ToMatrixND(), e.ToMatrixND(), q, 1);
+
+            VectorND[] rVectors =
+            {
+                new VectorND(new BigInteger[] {1, 1, 0, 0, 0})
+            };
+            LatticeND r = new LatticeND(rVectors, false);
+            r.Transpose();
+            lwe.SetRandomVector(r.ToMatrixND());
+
+            //Cryptosystem correct?
+            VectorND[] BVectors =
+            {
+                new VectorND(new BigInteger[] {2, 8, 5, 0, 8})
+            };
+            LatticeND B = new LatticeND(BVectors, false);
+            Assert.AreEqual(B.ToMatrixND().ToString(), lwe.B.ToString());
+
+            //Encryption and decryption correct?
+            //Message = 0
+            MatrixND messageMatrix = new MatrixND(1, 1);
+            messageMatrix[0, 0] = 0;
+            MatrixND cipher = lwe.Encrypt(messageMatrix);
+            MatrixND expectedCipherMatrix = new MatrixND(1, 1);
+            expectedCipherMatrix[0, 0] = 1;
+            Assert.AreEqual(cipher.ToString(), expectedCipherMatrix.ToString());
+            MatrixND decryptedMessage = lwe.Decrypt(cipher);
+            Assert.AreEqual(messageMatrix.ToString(), decryptedMessage.ToString());
+            //Message = 1
+            messageMatrix[0, 0] = 1;
+            cipher = lwe.Encrypt(messageMatrix);
+            expectedCipherMatrix[0, 0] = 5;
+            Assert.AreEqual(cipher.ToString(), expectedCipherMatrix.ToString());
+            decryptedMessage = lwe.Decrypt(cipher);
+            Assert.AreEqual(messageMatrix.ToString(), decryptedMessage.ToString());
         }
 
         public string GenerateMessage(int min, int max)
