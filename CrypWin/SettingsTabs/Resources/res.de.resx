@@ -250,7 +250,7 @@
     <value>alle abwählen</value>
   </data>
   <data name="EditorOpeningContent" xml:space="preserve">
-    <value>Verhalten bei Öffnen eines neuen Editors</value>
+    <value>Verhalten bei Öffnen eines neuen Editors:</value>
   </data>
   <data name="HeaderAssembly" xml:space="preserve">
     <value>Assembly</value>

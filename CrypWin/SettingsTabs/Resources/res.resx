@@ -202,13 +202,13 @@
     <value>Hide in background when closing while projects are running</value>
   </data>
   <data name="BackgroundingLabelContent" xml:space="preserve">
-    <value>Backgrounding Options:</value>
+    <value>Backgrounding options:</value>
   </data>
   <data name="BackgroundingToolTip" xml:space="preserve">
     <value>Check to background CT2 when clicking close if there are running tasks.</value>
   </data>
   <data name="PowerModeLabelContent" xml:space="preserve">
-    <value>Power Saving Options:</value>
+    <value>Power saving options:</value>
   </data>
   <data name="SavePowerContent" xml:space="preserve">
     <value>Stop workspaces if power mode is offline</value>
@@ -238,10 +238,10 @@
     <value>Set your preferred language for CrypTool 2 here!</value>
   </data>
   <data name="Startup_Behaviour" xml:space="preserve">
-    <value>Startup Behaviour:</value>
+    <value>Startup behaviour:</value>
   </data>
   <data name="EditorOpeningContent" xml:space="preserve">
-    <value>New editor opening behaviour</value>
+    <value>New editor opening behaviour:</value>
   </data>
   <data name="SelectEditorLabel" xml:space="preserve">
     <value>Select preferred editor</value>
