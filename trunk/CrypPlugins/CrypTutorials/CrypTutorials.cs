@@ -13,7 +13,7 @@ namespace Cryptool.CrypTutorials
     [TabColor("Black")]
     [EditorInfo("cryptutorials", true, false, false, false, true)]
     [Author("Nils Kopal", "kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.CrypTutorials.Properties.Resources", "PluginCaption", "PluginTooltip", null,
+    [PluginInfo("Cryptool.CrypTutorials.Properties.Resources", "PluginCaption", "PluginTooltip", "CrypTutorials/DetailedDescription/doc.xml",
         "CrypTutorials/icon.png")]
     public class CrypTutorials : IEditor
     {
