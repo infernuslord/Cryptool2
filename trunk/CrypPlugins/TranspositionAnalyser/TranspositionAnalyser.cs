@@ -10,6 +10,7 @@ using System.Collections;
 using System.Windows.Threading;
 using System.Threading;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 
 
@@ -377,11 +378,10 @@ namespace TranspositionAnalyser
                             i++;
                             ResultEntry entry = new ResultEntry();
                             entry.Ranking = i.ToString();
-                            String dec = Encoding.ASCII.GetString(linkedListNode.Value.decryption);                                                        
+                            String dec = Encoding.ASCII.GetString(linkedListNode.Value.decryption);
                             entry.Text = dec;
-                            entry.Key = linkedListNode.Value.key.Substring(0, linkedListNode.Value.key.Length-2); // remove trailing ,
+                            entry.Key = Regex.Replace(linkedListNode.Value.key, ", $", ""); // remove trailing ,
                             entry.Value = Math.Round(linkedListNode.Value.value, 5) + "";
-
 
                             ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);
 
@@ -476,9 +476,9 @@ namespace TranspositionAnalyser
 
             int max = settings.MaxLength;
             //GuiLogMessage("Max: " + max, NotificationLevel.Info);
-            if (max <= 1 || max >= 21)
+            if (max < 2 || max > 20)
             {
-                GuiLogMessage("Error: Check transposition bruteforce length. Max length is 20!",
+                GuiLogMessage("Error: Check transposition bruteforce length. Min length is 2, max length is 20!",
                               NotificationLevel.Error);
                 return null;
             }
