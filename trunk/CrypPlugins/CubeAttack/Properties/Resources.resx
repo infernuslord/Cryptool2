@@ -148,25 +148,25 @@
     <value>Select the cube attack modi</value>
   </data>
   <data name="ConstTestCaption" xml:space="preserve">
-    <value>Constant Test</value>
+    <value>Constant test</value>
   </data>
   <data name="ConstTestTooltip" xml:space="preserve">
     <value>Number of tests to check if the superpoly is a constant value or not.</value>
   </data>
   <data name="EnableLogMessagesCaption" xml:space="preserve">
-    <value>Enable Log Messages</value>
+    <value>Enable log messages</value>
   </data>
   <data name="EnableLogMessagesTooltip" xml:space="preserve">
     <value>With this checkbox enabled, a lot of log messages will be shown during preprocessing.</value>
   </data>
   <data name="LinTestCaption" xml:space="preserve">
-    <value>Linearity Test</value>
+    <value>Linearity test</value>
   </data>
   <data name="LinTestTooltip" xml:space="preserve">
     <value>Number of linearity tests to check if the superpoly is linear or not.</value>
   </data>
   <data name="MaxCubeCaption" xml:space="preserve">
-    <value>Max Cube Size</value>
+    <value>Max cube size</value>
   </data>
   <data name="MaxCubeTooltip" xml:space="preserve">
     <value>Maxmium size of the summation cube.</value>
@@ -180,31 +180,31 @@ File structure: superpoly cube-indexes output-bit
 Example: 1+x0+x5 2,6 1</value>
   </data>
   <data name="OutputBitCaption" xml:space="preserve">
-    <value>Output Bit</value>
+    <value>Output bit</value>
   </data>
   <data name="OutputBitTooltip" xml:space="preserve">
     <value>Chooses the output bit of the black box, which should be evaluated.</value>
   </data>
   <data name="PublicVarCaption" xml:space="preserve">
-    <value>Public Bit Size</value>
+    <value>Public bit size</value>
   </data>
   <data name="PublicVarTooltip" xml:space="preserve">
     <value>Public input bits (IV or plaintext) of the attacked cryptosystem.</value>
   </data>
   <data name="ReadSuperpolysFromFileCaption" xml:space="preserve">
-    <value>Read Superpolys From File</value>
+    <value>Read superpolys from file</value>
   </data>
   <data name="ReadSuperpolysFromFileTooltip" xml:space="preserve">
     <value>With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.</value>
   </data>
   <data name="SecretVarCaption" xml:space="preserve">
-    <value>Secret Bit Size</value>
+    <value>Secret bit size</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
     <value>Key size or key length of the attacked cryptosystem.</value>
   </data>
   <data name="SetPublicBitsCaption" xml:space="preserve">
-    <value>Manual Public Bit Input</value>
+    <value>Manual public bit input</value>
   </data>
   <data name="SetPublicBitsTooltip" xml:space="preserve">
     <value>Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).</value>
@@ -216,12 +216,12 @@ Example: 1+x0+x5 2,6 1</value>
     <value>Online</value>
   </data>
   <data name="ActionList3" xml:space="preserve">
-    <value>Manual Public Bit Input</value>
+    <value>Manual public bit input</value>
   </data>
   <data name="EnableLogMessagesList1" xml:space="preserve">
     <value>Enable log messages?</value>
   </data>
   <data name="ReadSuperpolysFromFileList1" xml:space="preserve">
-    <value>Read Superpolys From File</value>
+    <value>Read superpolys from file</value>
   </data>
 </root>
