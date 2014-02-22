@@ -124,7 +124,7 @@
     <value>With this checkbox enabled, output bytes will be displayed in hex.</value>
   </data>
   <data name="HexOutputCaption" xml:space="preserve">
-    <value>Generate Hex output</value>
+    <value>Generate hex output</value>
   </data>
   <data name="InitRoundsTooltip" xml:space="preserve">
     <value>How many init rounds should be done? Default is 1152.</value>
@@ -157,7 +157,7 @@
     <value>Input</value>
   </data>
   <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>How many bits of keystream in bits should be generated? Must be a multiple of 32.</value>
+    <value>How many bits of keystream should be generated? Must be a multiple of 32.</value>
   </data>
   <data name="KeystreamLengthCaption" xml:space="preserve">
     <value>Length of keystream</value>

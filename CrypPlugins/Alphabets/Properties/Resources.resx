@@ -136,7 +136,7 @@
     <value>Use numerals</value>
   </data>
   <data name="OpenFilenameCaption" xml:space="preserve">
-    <value>Filename</value>
+    <value>File name</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
     <value>Select a file with an alphabet.</value>
@@ -154,7 +154,7 @@
     <value>Use space</value>
   </data>
   <data name="TargetFilenameCaption" xml:space="preserve">
-    <value>Target FileName</value>
+    <value>Target file name</value>
   </data>
   <data name="TargetFilenameTooltip" xml:space="preserve">
     <value>File to write alphabet into.</value>
@@ -199,16 +199,16 @@
     <value>Alphabet</value>
   </data>
   <data name="Available_Alphabets" xml:space="preserve">
-    <value>Available Alphabets</value>
+    <value>Available alphabets</value>
   </data>
   <data name="Current_Selected_Alphabet" xml:space="preserve">
-    <value>Current Selected Alphabet</value>
+    <value>Current selected alphabet</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Default</value>
   </data>
   <data name="Manage_Alphabet" xml:space="preserve">
-    <value>Manage Alphabet</value>
+    <value>Manage alphabet</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
