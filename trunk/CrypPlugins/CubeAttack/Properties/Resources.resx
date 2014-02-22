@@ -172,7 +172,7 @@
     <value>Maxmium size of the summation cube.</value>
   </data>
   <data name="OpenFilenameCaption" xml:space="preserve">
-    <value>Filename</value>
+    <value>File name</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
     <value>Select the file you want to open.
@@ -195,7 +195,7 @@ Example: 1+x0+x5 2,6 1</value>
     <value>Read superpolys from file</value>
   </data>
   <data name="ReadSuperpolysFromFileTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.</value>
+    <value>With this checkbox enabled, superpolys will be loaded from the selected file and can be evaluated in the online phase.</value>
   </data>
   <data name="SecretVarCaption" xml:space="preserve">
     <value>Secret bit size</value>
