@@ -289,17 +289,17 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
             bool foundwitness = false;
 
-            int i = 1;
-            for (; m_SystematicBaseFrom <= m_SystematicBaseTo; i++)
+            int rounds = 1;
+            for (; m_SystematicBaseFrom <= m_SystematicBaseTo; rounds++)
             {
-                if (ExecuteWitness(i, m_SystematicBaseFrom)) { foundwitness = true; break; }
+                if (ExecuteWitness(rounds, m_SystematicBaseFrom)) { foundwitness = true; break; }
                 m_SystematicBaseFrom = m_SystematicBaseFrom + 1;
             }
 
             if (foundwitness)
-                log.Info(string.Format((i == 1) ? rsc.Primetest.mr_witnessfound1 : rsc.Primetest.mr_witnessfound2, i, m_Value));
+                log.Info(string.Format((rounds == 1) ? rsc.Primetest.mr_witnessfound1 : rsc.Primetest.mr_witnessfound2, rounds, m_Value));
             else
-                log.Info(string.Format((m_Rounds.IntValue == 1) ? rsc.Primetest.mr_witnessnotfound1 : rsc.Primetest.mr_witnessnotfound2, m_Rounds.IntValue, m_Value));
+                log.Info(string.Format((rounds == 1) ? rsc.Primetest.mr_witnessnotfound1 : rsc.Primetest.mr_witnessnotfound2, rounds, m_Value));
 
             FireEventCancelTest();
         }
