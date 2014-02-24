@@ -1000,7 +1000,17 @@ namespace WorkspaceManager
         /// <param name="args"></param>
         public void onSelectedPluginChanged(PluginChangedEventArgs args)
         {
-            this.OnSelectedPluginChanged(this, args);
+            if (OnSelectedPluginChanged != null)
+            {
+                try
+                {
+                    OnSelectedPluginChanged(this, args);
+                }
+                catch
+                {
+                    //wtf ?
+                }
+            }
         }
 
         #region IEditor Members
