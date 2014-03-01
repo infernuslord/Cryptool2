@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Monoalphabetic Substitution Analyzer</title>
+  <summary lang="en">Cryptanalysis of the monoalphabetic substitution cipher.</summary>
+  <description lang="en">This template shows the cryptanalysis of the monoalphabetic substitutioncipher.</description>
+  <keywords>Monoalphabetic Substitution Cipher, Frequencies, Dictionary Attack</keywords>
+
+  <relevantPlugins>
+    <plugin name="AnalysisMonoalphabeticSubstitution" />
+  </relevantPlugins>
+
+</sample>
