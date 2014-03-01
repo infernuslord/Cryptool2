@@ -14,30 +14,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private List<int> text = new List<int>();
         private List<string> notInAlphabet = new List<string>();
         private List<bool> orgCapital = new List<bool>();
-        private Boolean caseSensitive = false;
+        private int invalidCharProcess;
+        private bool caseSensitive = false;
 
         #endregion
 
         #region Constructor
 
-        public Text(string text, Alphabet alpha, bool caseSense)
+        public Text(string text, Alphabet alpha, int treatmentInvalidChars)
         {
-            this.caseSensitive = caseSense;
+            this.invalidCharProcess = treatmentInvalidChars;
             string curString = "";
             string c = "";
 
             string prep_text = text;
-            // text prep !!! Must be changed somehow
-            if (alpha.Identifier == 1)
-            {
-                prep_text = prep_text.Replace("ä","ae");
-                prep_text = prep_text.Replace("ö", "oe");
-                prep_text = prep_text.Replace("ü", "ue");
-                prep_text = prep_text.Replace("Ä", "Ae");
-                prep_text = prep_text.Replace("Ö", "Oe");
-                prep_text = prep_text.Replace("Ü", "Ue");
-            }
-
 
             if (this.caseSensitive == false)
             {
@@ -103,9 +93,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
         }
 
-        public Text()
+        public Text(int treatmentInvalidChars)
         {
-
+            this.invalidCharProcess = treatmentInvalidChars;
         }
 
         #endregion
@@ -152,7 +142,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
                 else
                 {
-                    res += this.notInAlphabet[(-1)*letter-1];
+                    if (this.invalidCharProcess == 0)
+                    {
+                        res += this.notInAlphabet[(-1) * letter - 1];
+                    }
+                    else if (this.invalidCharProcess == 1)
+                    {
+                        res += " ";
+                    }
+                    else if (this.invalidCharProcess == 2)
+                    {
+                        res += "?";
+                    }
                 }
             }
 
@@ -279,7 +280,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// </summary>
         public Text CopyTo()
         {
-            Text res = new Text();
+            Text res = new Text(this.invalidCharProcess);
             for (int i = 0; i < this.text.Count; i++)
             {
                 res.AddLetter(this.text[i]);

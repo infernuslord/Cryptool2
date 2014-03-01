@@ -7,9 +7,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
     public class KeyCandidate : IEquatable<KeyCandidate>
     {
-        int[] key;
-        double fitness;
-        String plaintext;
+        private int[] key;
+        private double fitness;
+        private String plaintext;
+        private String key_string;
+
+        public String Key_string
+        {
+            get { return this.key_string; }
+            set { this.key_string = value; }
+        }
 
         public int[] Key
         {
@@ -29,11 +36,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             set { ; }
         }
 
-        public KeyCandidate(int[] key, double fitness, String plaintext)
+        public KeyCandidate(int[] key, double fitness, String plaintext, String key_string)
         {
             this.key = key;
             this.fitness = fitness;
             this.plaintext = plaintext;
+            this.key_string = key_string;
         }
 
         public bool Equals(KeyCandidate keyCandidate)
