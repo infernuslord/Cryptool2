@@ -163,6 +163,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     this.words.Add(w);
                 }
+
+                if (this.stopFlag == true)
+                {
+                    return;
+                }
             }
 
             // Look up words with same pattern in dictionary
@@ -668,7 +673,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             Text plaintext = this.DecryptCiphertext(key, this.ctext, this.calpha);
             string plain = plaintext.ToString(this.palpha);
             double fit = this.freq.CalculateFitnessOfKey(plaintext);
-            KeyCandidate keyCan = new KeyCandidate(key, fit, plain);
+            String key_string = CreateAlphabetOutput(key,this.palpha);
+            KeyCandidate keyCan = new KeyCandidate(key, fit, plain, key_string);
             this.updateKeyDisplay(keyCan);
         }
 
@@ -839,6 +845,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return false;
+        }
+
+        private String CreateAlphabetOutput(int[] key, Alphabet ciphertext_alphabet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < key.Length; i++)
+            {
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]) + ";");
+            }
+
+            return sb.ToString();
         }
 
         #endregion

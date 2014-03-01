@@ -36,7 +36,9 @@
   </usage>
   
   <presentation lang="en">
-    fffff
+  The presentation of this component shows in the lower part the keys and the according plaintexts which have been found during the cryptanalysis.
+  Furthermore, the rank of the keys and their cost function values are displayed.<newline />
+  On double click on a row the plaintext and the key is forwarded to the outputs.
   </presentation>
 
   <references>

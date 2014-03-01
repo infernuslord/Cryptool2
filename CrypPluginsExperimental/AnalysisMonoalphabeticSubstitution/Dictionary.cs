@@ -12,6 +12,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #region Variables
 
         Dictionary<byte[], List<byte[]>> dic = new Dictionary<byte[], List<byte[]>>(new ByteArrayComparer());
+        private Boolean stopFlag;
 
         #endregion
 
@@ -34,6 +35,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 while (binReader.BaseStream.Position != binReader.BaseStream.Length)
                 {
+                    if (this.stopFlag == true)
+                    {
+                        break;
+                    }
+
                     // Read length of pattern
                     int len_pattern = binReader.ReadInt32();
                     // Read pattern
@@ -51,6 +57,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     this.dic.Add(pattern, words);
                 }
             }
+        }
+
+        #endregion
+
+        #region Properties
+
+        public Boolean StopFlag
+        {
+            get {return this.stopFlag;}
+            set { this.stopFlag = value; }
         }
 
         #endregion

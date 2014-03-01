@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
@@ -20,24 +23,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     /// </summary>
     public partial class AssignmentPresentation : UserControl
     {
+
+        public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
+        //public event EventHandler doppelClick;
+
         #region Variables
 
-        // Delegates
         private UpdateOutput updateOutputFromUserChoice;
-
-        // Data Source for DataGrid
-        private List<KeyCandidate> keyCandidates;
-        private List<PlainDisplay> keyCandidatePlaintexts;
 
         #endregion
 
         #region Properties
-
-        public List<KeyCandidate> KeyCandidates
-        {
-            get { return this.keyCandidates; }
-            set { this.keyCandidates = value; }
-        }
 
         public UpdateOutput UpdateOutputFromUserChoice
         {
@@ -52,103 +48,47 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public AssignmentPresentation()
         {
             InitializeComponent();
-            this.keyCandidatePlaintexts = new List<PlainDisplay>();
-            this.ConnectDataSource();
+            this.DataContext = entries;
+
         }
 
         #endregion
 
         #region Main Methods
 
-        public void RefreshGUI()
-        {
-            if (!(this.keyCandidates == null))
-            {
-                //this.keyCandidatePlaintexts.RemoveRange(0, this.keyCandidatePlaintexts.Count);
-                this.Dispatcher.Invoke((Action)(() =>
-                {
-                    dataGrid1.ItemsSource = null;
-                }));
-
-                this.keyCandidatePlaintexts = new List<PlainDisplay>();
-
-                for (int i = 0; i < this.keyCandidates.Count; i++)
-                {
-                    PlainDisplay pd = new PlainDisplay();
-                    pd.Rank = i;
-                    pd.Plaintext = this.keyCandidates[i].Plaintext;
-                    this.keyCandidatePlaintexts.Add(pd);
-                }
-
-                this.Dispatcher.Invoke((Action)(() =>
-                {
-                    dataGrid1.ItemsSource = this.keyCandidatePlaintexts;
-                    dataGrid1.Items.Refresh();
-                }));
-            }
-            
-        }
-
         public void DisableGUI()
         {
-            this.Dispatcher.Invoke((Action)(() =>
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                dataGrid1.IsEnabled = false;
-            }));
+                this.ListView.IsEnabled = false;
+            }, null);
         }
 
         public void EnableGUI()
         {
-            this.Dispatcher.Invoke((Action)(() =>
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                dataGrid1.IsEnabled = true;
-            }));
+                this.ListView.IsEnabled = true;
+            }, null);
         }
 
         #endregion
 
         #region Helper Methods
 
-        private void ConnectDataSource()
+        public void HandleDoubleClick(Object sender, EventArgs eventArgs)
         {
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                dataGrid1.ItemsSource = this.keyCandidatePlaintexts;
-            }));
+            ListViewItem lvi = sender as ListViewItem;
+            ResultEntry r = lvi.Content as ResultEntry;
+
+            this.updateOutputFromUserChoice(r.Key, r.Text);
         }
 
-        private void dataGrid1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void HandleSingleClick(Object sender, EventArgs eventArgs)
         {
-            int index = 0;
-            this.Dispatcher.Invoke((Action)(() =>
-            {
-                DataGrid dg = (DataGrid)sender;
-                DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(dg.SelectedItem);
-                if (row != null)
-                {
-                    index = row.GetIndex();
-                }
-            }));
-
-            updateOutputFromUserChoice(index);
+            //this.updateOutputFromUserChoice(0);
         }
 
         #endregion
-
-        class PlainDisplay
-        {
-            public int Rank
-            {
-                get;
-                set;
-            }
-
-            public String Plaintext
-            {
-                get;
-                set;
-            }
-        }
-
     }
 }

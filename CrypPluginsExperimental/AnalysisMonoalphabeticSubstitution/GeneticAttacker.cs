@@ -151,7 +151,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 if (this.stopFlag == true)
                 {
-                    break;
+                    return;
                 }
 
                 Population population = new Population();
@@ -167,7 +167,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     if (this.stopFlag == true)
                     {
-                        break;
+                        return;
                     }
 
                     nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, false);
@@ -186,7 +186,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
                 Text plainTxt = DecryptCiphertext(bestkeys[curRep], this.ciphertext, this.ciphertext_alphabet);
                 String plain = plainTxt.ToString(this.plaintext_alphabet);
-                this.updateKeyDisplay(new KeyCandidate(bestkeys[curRep], bestkeys_fit[curRep], plain));
+                String key_string = CreateAlphabetOutput(bestkeys[curRep], this.plaintext_alphabet);
+                this.updateKeyDisplay(new KeyCandidate(bestkeys[curRep], bestkeys_fit[curRep], plain, key_string));
             }
         }
 
@@ -543,6 +544,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             return res;
+        }
+
+        private String CreateAlphabetOutput(int[] key, Alphabet ciphertext_alphabet)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < key.Length; i++)
+            {
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]) + ";");
+            }
+
+            return sb.ToString();
         }
 
         #endregion
