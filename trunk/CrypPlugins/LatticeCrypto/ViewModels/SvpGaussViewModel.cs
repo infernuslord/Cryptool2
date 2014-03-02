@@ -122,13 +122,16 @@ namespace LatticeCrypto.ViewModels
 
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelLatticeBasis + ":")));
             paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelLengthBasisVectors)));
+            paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelLengthBasisVectors)));
             paragraph.Inlines.Add(" " + Lattice.VectorLengthToString() + "\r\n");
             
             if (Lattice.N == 2 && Lattice.M == 2)
             {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleBasisVectors)));
+                paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelAngleBasisVectors)));
                 paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleBasisVectors) + "\r\n");
+
+                paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelEstimationR)));
+                paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Math.Sqrt(hermiteConstant * (double)Lattice.Determinant)) + "\r\n");
             }
 
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelReducedLatticeBasis + ":")));
@@ -137,19 +140,25 @@ namespace LatticeCrypto.ViewModels
             List<string> reductionSteps = Lattice.LatticeReductionStepsToString();
             for (int i = 1; i <= reductionSteps.Count; i++)
             {
-                paragraph.Inlines.Add(" " + string.Format(Languages.labelReductionStep, i, reductionSteps.Count) + " " + reductionSteps[i - 1] + "\r\n");
+                paragraph.Inlines.Add("    " + string.Format(Languages.labelReductionStep, i, reductionSteps.Count) + " " + reductionSteps[i - 1] + "\r\n");
             }
 
-            paragraph.Inlines.Add(new Bold(new Run(Languages.labelSuccessiveMinima)));
+            paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelSuccessiveMinima)));
             paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
 
             if (Lattice.N == 2 && Lattice.M == 2)
             {
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelAngleReducedVectors)));
+                paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelAngleReducedVectors)));
                 paragraph.Inlines.Add(" " + Util.FormatDoubleLog(Lattice.AngleReducedVectors) + "\r\n");
-                paragraph.Inlines.Add(new Bold(new Run(Languages.labelDensity)));
-                paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " \\ " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
+                paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelDensity)));
+                paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " / " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
             }
+
+            paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelSuccessiveMinima)));
+            paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
+
+            paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelMinimalVector)));
+            paragraph.Inlines.Add(" " + Lattice.GetMinimalReducedVector() + "\r\n");
 
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix)));
             paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");

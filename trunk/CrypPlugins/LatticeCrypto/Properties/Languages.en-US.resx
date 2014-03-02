@@ -304,7 +304,7 @@
     <value>From:</value>
   </data>
   <data name="labelTo" xml:space="preserve">
-    <value>To:</value>
+    <value>to:</value>
   </data>
   <data name="errorNoCodomain" xml:space="preserve">
     <value>Please enter a valid codomain.</value>
@@ -503,5 +503,11 @@
   </data>
   <data name="errorNoMessage" xml:space="preserve">
     <value>Please enter a message you want to encrypt!</value>
+  </data>
+  <data name="labelEstimationR" xml:space="preserve">
+    <value>Estimation for the maximum value r of a vector b with minimum length:</value>
+  </data>
+  <data name="labelMinimalVector" xml:space="preserve">
+    <value>Output of the minimum vector:</value>
   </data>
 </root>
