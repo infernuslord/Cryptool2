@@ -301,7 +301,7 @@
     <value>Von:</value>
   </data>
   <data name="labelTo" xml:space="preserve">
-    <value>Bis:</value>
+    <value>bis:</value>
   </data>
   <data name="errorNoCodomain" xml:space="preserve">
     <value>Bitte geben Sie einen gültigen Wertebereich ein.</value>
@@ -503,5 +503,11 @@
   </data>
   <data name="errorNoMessage" xml:space="preserve">
     <value>Bitte geben Sie eine zu verschlüsselnde Nachricht ein!</value>
+  </data>
+  <data name="labelEstimationR" xml:space="preserve">
+    <value>Abschätzung für Maximalwert r eines Vektors b mit minimaler Länge:</value>
+  </data>
+  <data name="labelMinimalVector" xml:space="preserve">
+    <value>Ausgabe des minimalen Vektors:</value>
   </data>
 </root>

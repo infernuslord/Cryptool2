@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using LatticeCrypto.Properties;
 using LatticeCrypto.Utilities;
@@ -227,7 +228,7 @@ namespace LatticeCrypto.Models
             if (N == 2 && M == 2)
             {
                 latticeInfos.Add(Languages.labelAngleReducedVectors + " " + AngleReducedVectors);
-                latticeInfos.Add(Languages.labelDensity + " " + Density + " \\ " + DensityRelToOptimum);
+                latticeInfos.Add(Languages.labelDensity + " " + Density + " / " + DensityRelToOptimum);
             }
 
             latticeInfos.Add(Languages.labelUnimodularTransformationMatrix + ": " + LatticeTransformationToString());
@@ -372,6 +373,14 @@ namespace LatticeCrypto.Models
                 || vectors[1].Length > vectors[0].Length && vectors[1].Length > 1000 * vectors[0].Length)
                 return false;
             return vectors[0].AngleBetween(vectors[1]) > 5;
+        }
+
+        public VectorND GetMinimalReducedVector()
+        {
+            VectorND minimalVector = ReducedVectors[0];
+            foreach (VectorND reducedVector in ReducedVectors.Where(reducedVector => reducedVector.Length < minimalVector.Length))
+                minimalVector = reducedVector;
+            return minimalVector;
         }
 
         public void Transpose()

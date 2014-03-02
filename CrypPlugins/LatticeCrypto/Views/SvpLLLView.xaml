@@ -146,7 +146,7 @@
                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
                     <Label Content="Dimension: " />
                     <Image Name="btnHelpDimension" Cursor="Hand"  Width="16" Height="16" HorizontalAlignment="Right" MouseLeftButtonDown="Button_Help_MouseLeftButtonDown" Source="/LatticeCrypto;component/Utilities/Images/help.png" />
-                    <TextBox Name="textDim" Text="{Binding ElementName=scrollBarDim, Path=Value, Mode=TwoWay}" Grid.Column="1"  Width="25" TextChanged="TextBox_TextChanged" />
+                    <TextBox Name="textDim" Text="{Binding ElementName=scrollBarDim, Path=Value, Mode=TwoWay}" Width="25" TextChanged="TextBox_TextChanged" />
                     <ScrollBar Name="scrollBarDim" Width="15"  Maximum="25" Minimum="2" Value="2" SmallChange="1" RenderTransformOrigin="0.5,0.5">
                         <ScrollBar.RenderTransform>
                             <TransformGroup>
@@ -189,9 +189,6 @@
                 <Button Name="buttonGenerate" Content="{x:Static Properties:Languages.buttonGenerateNewLattice}" Click="Button_Click" VerticalAlignment="Bottom"  HorizontalAlignment="Center" Margin="0,20,0,0"/>
                 <Button Content="{x:Static Properties:Languages.buttonEnterLatticeManually}" Click= "Button_Click_1" Margin="0,10,0,0" HorizontalAlignment="Center"/>
             </StackPanel>
-
-            
-
         </ScrollViewer>
         <GridSplitter Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" Background="DarkGray" MouseDoubleClick="GridSplitter_MouseDoubleClick" ShowsPreview="True"/>
         <Grid Grid.Row="3" Grid.Column="0">
