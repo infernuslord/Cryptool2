@@ -6,6 +6,11 @@
   <description lang="en">This template shows the cryptanalysis of the monoalphabetic substitutioncipher.</description>
   <keywords>Monoalphabetic Substitution Cipher, Frequencies, Dictionary Attack</keywords>
 
+  <title lang="de">Angriff auf die monoalphabetische Substitution</title>
+  <summary lang="de">Angriff auf die monoalphabetische Substitution</summary>
+  <description lang="de">Kryptoanalyse der monoalphabetische Substitution basierend auf Buchstabenhäufigkeiten und einem Wörterbuchangriff</description>
+  <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Angriff</keywords>
+  
   <relevantPlugins>
     <plugin name="AnalysisMonoalphabeticSubstitution" />
   </relevantPlugins>
