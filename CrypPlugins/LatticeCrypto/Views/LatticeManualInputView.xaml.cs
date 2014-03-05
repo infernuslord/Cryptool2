@@ -153,6 +153,7 @@ namespace LatticeCrypto.Views
         {
             errorText.Text = "";
             buttonOK.IsEnabled = true;
+            buttonCopy.IsEnabled = true;
 
             foreach (TextBox textBox in latticeGrid.Children.Cast<Control>().Where(control => control is TextBox && !((TextBox)control).Text.Equals("")).Cast<TextBox>())
             {
@@ -161,12 +162,14 @@ namespace LatticeCrypto.Views
                 {
                     errorText.Text = Languages.errorOnlyIntegersAllowed;
                     buttonOK.IsEnabled = false;
+                    buttonCopy.IsEnabled = false;
                     return;
                 }
                 if (mod != 0 && tryParse >= mod)
                 {
                     errorText.Text = string.Format("Es sind nur Zahlen bis {0} erlaubt", mod);
                     buttonOK.IsEnabled = false;
+                    buttonCopy.IsEnabled = false;
                     return;
                 }
                 if (allowedNumbers != null && !allowedNumbers.Exists(x => x == tryParse))
@@ -180,6 +183,7 @@ namespace LatticeCrypto.Views
                     }
                     errorText.Text = string.Format("Es sind nur die Zahlen {0} erlaubt", numbers);
                     buttonOK.IsEnabled = false;
+                    buttonCopy.IsEnabled = false;
                     return;
                 }
             }
@@ -187,6 +191,7 @@ namespace LatticeCrypto.Views
             {
                 errorText.Text = Languages.errorNoLatticeEntered;
                 buttonOK.IsEnabled = false;
+                buttonCopy.IsEnabled = false;
                 return;
             }
             LatticeND newLattice = viewModel.SetLattice(latticeGrid, CBRowVectors.IsChecked != null && (bool)CBRowVectors.IsChecked);
@@ -199,6 +204,7 @@ namespace LatticeCrypto.Views
             {
                 errorText.Text = Languages.errorVectorsDependent;
                 buttonOK.IsEnabled = false;
+                buttonCopy.IsEnabled = false;
             }
             if (n > 1 && m > 1 && ((newLattice.Vectors[0].Length > newLattice.Vectors[1].Length && newLattice.Vectors[0].Length > 1000 * newLattice.Vectors[1].Length)
                 || newLattice.Vectors[1].Length > newLattice.Vectors[0].Length && newLattice.Vectors[1].Length > 1000 * newLattice.Vectors[0].Length))
@@ -258,6 +264,12 @@ namespace LatticeCrypto.Views
         {
             useRowVectors = false;
             BuildLatticeGrid(viewModel.SetLattice(latticeGrid, true), false);
+        }
+
+        private void Button_ClipboardOutput(object sender, RoutedEventArgs e)
+        {
+            string latticeInfos = viewModel.SetLattice(latticeGrid, useRowVectors).LatticeToString();
+            Clipboard.SetText(latticeInfos);
         }
     }
 }

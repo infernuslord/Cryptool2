@@ -1015,7 +1015,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Kryptoanalyse ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gitterbasierte Angriffe gegen... ähnelt.
         /// </summary>
         public static string tabCryptanalysis {
             get {
@@ -1024,7 +1024,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Kryptographie ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gitterbasierte Verschlüsselungssysteme ähnelt.
         /// </summary>
         public static string tabCryptography {
             get {
@@ -1033,7 +1033,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Nächster Vektor Problem ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Nächster Vektor Problem (CVP) ähnelt.
         /// </summary>
         public static string tabCVP {
             get {
@@ -1114,7 +1114,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Kürzester Vektor Problem ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kürzester Vektor Problem (SVP) ähnelt.
         /// </summary>
         public static string tabSVP {
             get {

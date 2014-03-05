@@ -172,13 +172,13 @@
     <value>Language</value>
   </data>
   <data name="tabAttackMerkleHellman" xml:space="preserve">
-    <value>Attack on Merkle-Hellman Knapsack</value>
+    <value>Merkle-Hellman Knapsack</value>
   </data>
   <data name="tabAttackRSA" xml:space="preserve">
-    <value>Attack on RSA (Coppersmith's Attack)</value>
+    <value>RSA (Coppersmith's Attack)</value>
   </data>
   <data name="tabCryptanalysis" xml:space="preserve">
-    <value>Cryptanalysis</value>
+    <value>Lattice attacks against...</value>
   </data>
   <data name="tabGaussAlgorithm" xml:space="preserve">
     <value>Gauss algorithm</value>
@@ -379,7 +379,7 @@
     <value>The lattice is very poorly representable, since the lengths of the vectors differ by more than a factor of 1000.</value>
   </data>
   <data name="tabCryptography" xml:space="preserve">
-    <value>Cryptography</value>
+    <value>Lattice-based cryptography</value>
   </data>
   <data name="tabGGH" xml:space="preserve">
     <value>GGH</value>
@@ -442,10 +442,10 @@
     <value>Alpha:</value>
   </data>
   <data name="tabCVP" xml:space="preserve">
-    <value>Closest Vector Problem</value>
+    <value>Closest Vector Problem (CVP)</value>
   </data>
   <data name="tabSVP" xml:space="preserve">
-    <value>Shortest Vector Problem</value>
+    <value>Shortest Vector Problem (SVP)</value>
   </data>
   <data name="labelBlockSizeL" xml:space="preserve">
     <value>Block size l:</value>
