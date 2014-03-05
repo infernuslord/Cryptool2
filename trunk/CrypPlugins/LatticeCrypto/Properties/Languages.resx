@@ -178,7 +178,7 @@
     <value>RSA (Angriff auf stereotype Nachrichten)</value>
   </data>
   <data name="tabCryptanalysis" xml:space="preserve">
-    <value>Kryptoanalyse</value>
+    <value>Gitterbasierte Angriffe gegen...</value>
   </data>
   <data name="tabGaussAlgorithm" xml:space="preserve">
     <value>Gauss-Algorithmus</value>
@@ -379,7 +379,7 @@
     <value>Das Gitter ist sehr schlecht darstellbar, da sich die Längen der Vektoren um mehr als den Faktor 1000 unterscheiden.</value>
   </data>
   <data name="tabCryptography" xml:space="preserve">
-    <value>Kryptographie</value>
+    <value>Gitterbasierte Verschlüsselungssysteme</value>
   </data>
   <data name="tabGGH" xml:space="preserve">
     <value>Goldreich–Goldwasser–Halevi (GGH)</value>
@@ -439,10 +439,10 @@
     <value>Der Einfachheit halber wird immer nur ein einzelnes Bit verschlüsselt.</value>
   </data>
   <data name="tabCVP" xml:space="preserve">
-    <value>Nächster Vektor Problem</value>
+    <value>Nächster Vektor Problem (CVP)</value>
   </data>
   <data name="tabSVP" xml:space="preserve">
-    <value>Kürzester Vektor Problem</value>
+    <value>Kürzester Vektor Problem (SVP)</value>
   </data>
   <data name="labelAlpha" xml:space="preserve">
     <value>Alpha:</value>
