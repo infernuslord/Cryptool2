@@ -415,7 +415,7 @@
     <value>Save File</value>
   </data>
   <data name="Open_File" xml:space="preserve">
-    <value>Open File</value>
+    <value>Open file</value>
   </data>
   <data name="Show_ComponentConnection_Proposition" xml:space="preserve">
     <value>Show component connection propositions</value>

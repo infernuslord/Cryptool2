@@ -161,7 +161,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         }
 
 
-        [TaskPane("Protocol", "ProtocolToolTip", "NetworkConditions", 3, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
+        [TaskPane("Protocol", "ProtocolTooltip", "NetworkConditions", 3, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
         public int Protocol
         {
             get
