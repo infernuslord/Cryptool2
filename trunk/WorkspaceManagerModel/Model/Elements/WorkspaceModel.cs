@@ -726,13 +726,17 @@ namespace WorkspaceManager.Model
                 || ((connectorModelB.ConnectorType.FullName == "System.Int32" || connectorModelB.ConnectorType.FullName == "System.Int64") && connectorModelA.ConnectorType.FullName == "System.Numerics.BigInteger")
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Byte[]")
                 || (connectorModelB.ConnectorType.FullName == "System.Byte[]" && connectorModelA.ConnectorType.FullName == "System.String")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Int32")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Int64")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Numerics.BigInteger")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Boolean")
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream")
                 || (connectorModelB.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream" && connectorModelA.ConnectorType.FullName == "System.String"))
             {
                 return ConversionLevel.Yellow;
             }
-            return ConversionLevel.Red;
 
+            return ConversionLevel.Red;
         }
 
         /// <summary>

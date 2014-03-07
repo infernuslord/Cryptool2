@@ -525,6 +525,7 @@ namespace WorkspaceManager.Model
                             {
                                 continue;
                             }
+
                             //Implicit conversions:
 
                             //Cast from BigInteger -> Integer
@@ -564,12 +565,12 @@ namespace WorkspaceManager.Model
                             else if (connectorModel.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream" && data.GetType().FullName == "System.String")
                             {
                                 var writer = new CStreamWriter();
-                                var str = (string) data;
-                                if(str.Length > MaxStrStreamConversionLength)
+                                var str = (string)data;
+                                if (str.Length > MaxStrStreamConversionLength)
                                 {
                                     str = str.Substring(0, MaxStrStreamConversionLength);
                                 }
-                                var encoding = new UTF8Encoding();                           
+                                var encoding = new UTF8Encoding();
                                 writer.Write(encoding.GetBytes(str));
                                 writer.Close();
                                 data = writer;
@@ -579,7 +580,7 @@ namespace WorkspaceManager.Model
                             else if (connectorModel.ConnectorType.FullName == "System.String" && data.GetType().FullName == "Cryptool.PluginBase.IO.CStreamWriter")
                             {
                                 var writer = (CStreamWriter)data;
-                                using(var reader = writer.CreateReader())
+                                using (var reader = writer.CreateReader())
                                 {
                                     var buffer = new byte[MaxStrStreamConversionLength];
                                     var readamount = reader.Read(buffer, 0, MaxStrStreamConversionLength);
@@ -594,6 +595,18 @@ namespace WorkspaceManager.Model
                                         data = String.Empty;
                                     }
                                 }
+                            }
+                            //Cast to System.String
+                            else if (connectorModel.ConnectorType.FullName == "System.String")
+                            {
+                                //Cast from System.Boolean -> System.String
+                                if (data.GetType().FullName == "System.Boolean") data = ((Boolean)data).ToString();
+                                //Cast from System.Int32 -> System.String
+                                else if (data.GetType().FullName == "System.Int32") data = ((Int32)data).ToString();
+                                //Cast from System.Int64 -> System.String
+                                else if (data.GetType().FullName == "System.Int64") data = ((Int64)data).ToString();
+                                //Cast from System.Numerics.BigInteger -> System.String
+                                else if (data.GetType().FullName == "System.Numerics.BigInteger") data = ((BigInteger)data).ToString();
                             }
 
                             //now set the data                           
