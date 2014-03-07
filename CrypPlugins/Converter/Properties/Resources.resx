@@ -261,4 +261,7 @@
   <data name="FormatTooltip" xml:space="preserve">
     <value>Provide a format string for specifying the conversion of a numeric type in the common .NET format. Leave blank if you don't know what that means.</value>
   </data>
+  <data name="TypesList9" xml:space="preserve">
+    <value>bool</value>
+  </data>
 </root>

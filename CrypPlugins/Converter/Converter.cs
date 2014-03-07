@@ -30,10 +30,10 @@ using System.Text.RegularExpressions;
 
 namespace Cryptool.Plugins.Converter
 {
-    public enum OutputTypes { StringType = 0, IntType, ShortType, ByteType, DoubleType, BigIntegerType, ByteArrayType, CryptoolStreamType };
+    public enum OutputTypes { StringType = 0, IntType, ShortType, ByteType, DoubleType, BigIntegerType, ByteArrayType, CryptoolStreamType, BooleanType };
     
     [Author("Raoul Falk, Dennis Nolte", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Converter.Properties.Resources", "PluginCaption", "PluginTooltip", "Converter/DetailedDescription/doc.xml", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", /*"Converter/icons/tointarray.png",*/ "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
+    [PluginInfo("Converter.Properties.Resources", "PluginCaption", "PluginTooltip", "Converter/DetailedDescription/doc.xml", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", /*"Converter/icons/tointarray.png",*/ "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png", "Converter/icons/toboolean.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class Converter : ICrypComponent
     {
@@ -537,6 +537,10 @@ namespace Cryptool.Plugins.Converter
             {
                 switch (this.settings.Converter)
                 {
+                    case OutputTypes.BooleanType:
+                            Output = input;
+                            return true;
+
                     case OutputTypes.StringType:
                             Output = input.ToString();
                             return true;
@@ -577,6 +581,21 @@ namespace Cryptool.Plugins.Converter
             #endregion
 
             #endregion
+            
+            if (input is string[])
+            {
+                string[] inputarray = (string[])input;
+                if (this.settings.Converter == OutputTypes.BooleanType)
+                {
+                    bool[] result = new bool[inputarray.Length];
+                    for(int i=0;i<inputarray.Length;i++)
+                    {
+                        result[i] = inputarray[i]=="1";
+                    }
+                    Output = result;
+                    return true;
+                }
+            }
 
             // the string representation is used for all upcoming operations
             string inpString = Convert.ToString(input);
