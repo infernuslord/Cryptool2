@@ -149,7 +149,14 @@ namespace StringOperations
                         OnPropertyChanged("OutputString");
                         break;
                     case StringOperationType.Split:
-                        _outputStringArray = _string1.Split((_string2 == null) ? "\r\n".ToCharArray() : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        if (_string2 != null && _string2.Length == 0)
+                        {
+                            var tmp = Regex.Split(_string1, string.Empty);
+                            _outputStringArray = new string[tmp.Length - 2];
+                            Array.Copy(tmp, 1, _outputStringArray, 0, _outputStringArray.Length);  // remove empty entries at beginning and end
+                        }
+                        else
+                            _outputStringArray = _string1.Split((_string2 == null) ? "\r\n".ToCharArray() : _string2.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         OnPropertyChanged("OutputStringArray");
                         _outputValue = (_outputStringArray == null) ? 0 :_outputStringArray.Length;
                         OnPropertyChanged("OutputValue");
