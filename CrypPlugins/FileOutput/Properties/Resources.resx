@@ -136,7 +136,7 @@
     <value>Forget the output file name</value>
   </data>
   <data name="TargetFilenameCaption" xml:space="preserve">
-    <value>Target FileName</value>
+    <value>Target file name</value>
   </data>
   <data name="TargetFilenameTooltip" xml:space="preserve">
     <value>File to write data into.</value>
@@ -190,7 +190,7 @@
     <value>Search Progress</value>
   </data>
   <data name="Target_filename_" xml:space="preserve">
-    <value>Target filename: </value>
+    <value>Target file name: </value>
   </data>
   <data name="AppendCaption" xml:space="preserve">
     <value>Append text input</value>

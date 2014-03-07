@@ -143,7 +143,7 @@
     <value>Close file</value>
   </data>
   <data name="OpenFilenameCaption" xml:space="preserve">
-    <value>Filename</value>
+    <value>File name</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
     <value>Select the file you want to open.</value>
@@ -197,6 +197,6 @@
     <value>Search</value>
   </data>
   <data name="Search_Progress" xml:space="preserve">
-    <value>Search Progress</value>
+    <value>Search progress</value>
   </data>
 </root>
