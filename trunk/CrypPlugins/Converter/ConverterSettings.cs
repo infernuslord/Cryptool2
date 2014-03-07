@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.Converter
 
         #region taskpane
 
-        [TaskPane("ConverterCaption", "ConverterTooltip", null, 1, true, ControlType.ComboBox, new string[] { "TypesList1", "TypesList2", "TypesList3", "TypesList4", "TypesList5", "TypesList6", "TypesList7", "TypesList8" })]
+        [TaskPane("ConverterCaption", "ConverterTooltip", null, 1, true, ControlType.ComboBox, new string[] { "TypesList1", "TypesList2", "TypesList3", "TypesList4", "TypesList5", "TypesList6", "TypesList7", "TypesList8", "TypesList9" })]
         public OutputTypes Converter
         {
             get { return this.converter; }
