@@ -289,9 +289,10 @@ namespace Primes.WpfControls.Primetest.MillerRabin
 
             bool foundwitness = false;
 
-            int rounds = 1;
-            for (; m_SystematicBaseFrom <= m_SystematicBaseTo; rounds++)
+            int rounds = 0;
+            while( m_SystematicBaseFrom <= m_SystematicBaseTo )
             {
+                rounds++;
                 if (ExecuteWitness(rounds, m_SystematicBaseFrom)) { foundwitness = true; break; }
                 m_SystematicBaseFrom = m_SystematicBaseFrom + 1;
             }
