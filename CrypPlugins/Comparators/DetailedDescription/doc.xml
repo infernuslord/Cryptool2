@@ -24,7 +24,7 @@
     <newline/>
     == The comparison is true if both given inputs are equal.<newline/>
     <newline/>
-    != The comparison is true if both given inputs are inequal.<newline/>
+    != The comparison is true if both given inputs are unequal.<newline/>
     <newline/>
     &gt; The comparison is true if the first input is greater than the second one ("Greater" depends on the input type).<newline/>
     <newline/>
