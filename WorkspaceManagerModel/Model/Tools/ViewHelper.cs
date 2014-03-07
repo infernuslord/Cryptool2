@@ -15,7 +15,9 @@
 */
 
 using System;
+using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 using Cryptool.PluginBase.IO;
 
 namespace WorkspaceManagerModel.Model.Tools
@@ -112,10 +114,28 @@ namespace WorkspaceManagerModel.Model.Tools
                 return "null";
             }
 
+            if (data is string)
+            {
+                return data.ToString();
+            }
+
             var value = data as byte[];
             if (value != null)
             {
                 return BitConverter.ToString(value).Replace("-", " ");
+            }
+
+            var stream = data as ICryptoolStream;
+            if (stream != null)
+            {
+                var reader = stream.CreateReader();
+                if (reader.Length > 0)
+                {
+                    var buffer = new byte[reader.Length < MaximumCharactersToShow ? reader.Length : MaximumCharactersToShow];
+                    reader.Read(buffer, 0, buffer.Length);
+                    return ConvertDataPresentation(buffer);
+                }
+                return "null";
             }
 
             var array = data as Array;
@@ -134,7 +154,7 @@ namespace WorkspaceManagerModel.Model.Tools
                         {
                             str += (array.GetValue(i) + ",");
                             counter++;
-                            if(counter==MaxUsedArrayValues)
+                            if (counter == MaxUsedArrayValues)
                             {
                                 return str;
                             }
@@ -144,17 +164,18 @@ namespace WorkspaceManagerModel.Model.Tools
                 }
             }
 
-            var stream = data as ICryptoolStream;
-            if (stream != null)
+            var enumerable = data as System.Collections.IEnumerable;
+            if (enumerable != null)
             {
-                var reader = stream.CreateReader();
-                if(reader.Length > 0)
+                List<string> l = new List<string>();
+
+                foreach (var obj in enumerable)
                 {
-                    var buffer = new byte[reader.Length < MaximumCharactersToShow ? reader.Length : MaximumCharactersToShow];
-                    reader.Read(buffer, 0, (reader.Length < MaximumCharactersToShow ? (int)reader.Length : MaximumCharactersToShow));
-                    return ConvertDataPresentation(buffer);
+                    if (l.Count >= MaxUsedArrayValues) break;
+                    l.Add(obj == null ? "null" : obj.ToString());
                 }
-                return "null";
+
+                return (l.Count == 0) ? "null" : String.Join(",", l);
             }
 
             return data.ToString();
