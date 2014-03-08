@@ -23,7 +23,7 @@ namespace LatticeCrypto.Views
         public LatticeND oldLattice;
         public LatticeND returnLattice;
         private readonly bool allowOnly2x2;
-        private LatticeManualEnterViewModel viewModel;
+        private LatticeManualInputViewModel viewModel;
         private bool useRowVectors;
         private readonly bool notAllowDetZero;
         private readonly List<BigInteger> allowedNumbers;
@@ -49,7 +49,7 @@ namespace LatticeCrypto.Views
 
             Initialized += delegate
             {
-                viewModel = (LatticeManualEnterViewModel)DataContext;
+                viewModel = (LatticeManualInputViewModel)DataContext;
                 viewModel.NewLattice(n, m);
 
                 if (n == currentLattice.N && m == currentLattice.M)

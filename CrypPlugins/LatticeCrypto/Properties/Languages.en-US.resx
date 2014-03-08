@@ -510,4 +510,31 @@
   <data name="labelMinimalVector" xml:space="preserve">
     <value>Output of the minimum vector:</value>
   </data>
+  <data name="buttonDefineNewCryptosystem" xml:space="preserve">
+    <value>Define new cryptosystem.</value>
+  </data>
+  <data name="buttonEnterCryptosystemManually" xml:space="preserve">
+    <value>Enter cryptosystem manually</value>
+  </data>
+  <data name="errorEuclidModR" xml:space="preserve">
+    <value>Modulus and multiplier must be relatively prime.</value>
+  </data>
+  <data name="errorModBiggerSum" xml:space="preserve">
+    <value>The modulus must be greater than the sum of all elements of the private key.</value>
+  </data>
+  <data name="errorNoCryotosystemEntered" xml:space="preserve">
+    <value>Please enter a new cryptosystem.</value>
+  </data>
+  <data name="errorPrivateKeyNotSuperincreasing" xml:space="preserve">
+    <value>The elements of the private key must be superincreasing. Each element must be greater than the sum of its predecessors.</value>
+  </data>
+  <data name="errorSameCryptosystem" xml:space="preserve">
+    <value>This is the same cryptosystem.</value>
+  </data>
+  <data name="errorWrongVectorFormat" xml:space="preserve">
+    <value>The entered private key has an invalid format. Please enter a correct vector.</value>
+  </data>
+  <data name="titleEnterMerkleHellman" xml:space="preserve">
+    <value>New Merkle-Hellman-Cryptosystem</value>
+  </data>
 </root>

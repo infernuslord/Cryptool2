@@ -19,8 +19,8 @@ namespace LatticeCrypto.Views
     {
         private Point point;
         private CvpViewModel viewModel;
-        private double scrollBarXLastValue = 0;
-        private double scrollBarYLastValue = 0;
+        private double scrollBarXLastValue;
+        private double scrollBarYLastValue;
 
         public CvpView()
         {
