@@ -5,11 +5,11 @@ using System.Numerics;
 
 namespace LatticeCrypto.ViewModels
 {
-    public class LatticeManualEnterViewModel : BaseViewModel
+    public class LatticeManualInputViewModel : BaseViewModel
     {
         public LatticeND Lattice { get; set; }
 
-        public LatticeManualEnterViewModel()
+        public LatticeManualInputViewModel()
         {
             Lattice = new LatticeND(2, 2, false);
             NotifyPropertyChanged("Lattice");

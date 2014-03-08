@@ -99,6 +99,23 @@ namespace LatticeCrypto.Utilities
             }
         }
 
+        public static VectorND ConvertStringToVectorND(string str)
+        {
+            string adjustedLine = str.Where(IsCharFigureOrSeparator).Aggregate("", (current, c) => current + c).Trim(' ');
+            
+            adjustedLine = adjustedLine.Replace(';', ',');
+            adjustedLine = adjustedLine.Replace(' ', ',');
+            adjustedLine = adjustedLine.Replace('\t', ',');
+            adjustedLine = adjustedLine.Replace(",,", ",");
+
+            string[] splittedLine = adjustedLine.Split(',');
+            
+            VectorND vector = new VectorND(splittedLine.Length);
+            for (int i = 0; i < splittedLine.Length; i++)
+                vector.values[i] = BigInteger.Parse(splittedLine[i]);
+            return vector;
+        }
+
         public static LatticeND ConvertStringToLatticeND (string str)
         {
             string adjustedLine;

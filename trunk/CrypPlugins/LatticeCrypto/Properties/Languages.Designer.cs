@@ -88,6 +88,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Setze neues Kryptosystem ähnelt.
+        /// </summary>
+        public static string buttonDefineNewCryptosystem {
+            get {
+                return ResourceManager.GetString("buttonDefineNewCryptosystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Setze neues Gitter ähnelt.
         /// </summary>
         public static string buttonDefineNewLattice {
@@ -102,6 +111,15 @@ namespace LatticeCrypto.Properties {
         public static string buttonEncrypt {
             get {
                 return ResourceManager.GetString("buttonEncrypt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manuelle Eingabe ähnelt.
+        /// </summary>
+        public static string buttonEnterCryptosystemManually {
+            get {
+                return ResourceManager.GetString("buttonEnterCryptosystemManually", resourceCulture);
             }
         }
         
@@ -250,6 +268,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Modulus und Multiplikator müssen teilerfremd sein. ähnelt.
+        /// </summary>
+        public static string errorEuclidModR {
+            get {
+                return ResourceManager.GetString("errorEuclidModR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Es konnte leider kein Gitter generiert werden. Bitte vergrößern Sie den Wertebereich. ähnelt.
         /// </summary>
         public static string errorFailedToGenerateLattice {
@@ -295,7 +322,16 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bitten geben Sie einen Geheimtext ein! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Modulus muss größer als die Summe aller Elemente des privaten Schlüssels sein. ähnelt.
+        /// </summary>
+        public static string errorModBiggerSum {
+            get {
+                return ResourceManager.GetString("errorModBiggerSum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie einen Geheimtext ein! ähnelt.
         /// </summary>
         public static string errorNoCipher {
             get {
@@ -309,6 +345,15 @@ namespace LatticeCrypto.Properties {
         public static string errorNoCodomain {
             get {
                 return ResourceManager.GetString("errorNoCodomain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte geben Sie ein neues Kryptosystem ein. ähnelt.
+        /// </summary>
+        public static string errorNoCryotosystemEntered {
+            get {
+                return ResourceManager.GetString("errorNoCryotosystemEntered", resourceCulture);
             }
         }
         
@@ -376,6 +421,24 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Elemente des privaten Schlüssels müssen stark ansteigend sein. Jedes Element muss größer als die Summe seiner Vorgänger sein. ähnelt.
+        /// </summary>
+        public static string errorPrivateKeyNotSuperincreasing {
+            get {
+                return ResourceManager.GetString("errorPrivateKeyNotSuperincreasing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Kryptosystem wurde noch nicht verändert. ähnelt.
+        /// </summary>
+        public static string errorSameCryptosystem {
+            get {
+                return ResourceManager.GetString("errorSameCryptosystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Das Gitter wurde noch nicht verändert. ähnelt.
         /// </summary>
         public static string errorSameLattice {
@@ -408,6 +471,15 @@ namespace LatticeCrypto.Properties {
         public static string errorWrongGGHCryptosystem {
             get {
                 return ResourceManager.GetString("errorWrongGGHCryptosystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der eingegebene private Schlüssel hat ein falsches Format. Bitte geben Sie einen korrekten Vektor ein. ähnelt.
+        /// </summary>
+        public static string errorWrongVectorFormat {
+            get {
+                return ResourceManager.GetString("errorWrongVectorFormat", resourceCulture);
             }
         }
         
@@ -1128,6 +1200,15 @@ namespace LatticeCrypto.Properties {
         public static string titleEnterLattice {
             get {
                 return ResourceManager.GetString("titleEnterLattice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neues Merkle-Hellman-Kryptosystem ähnelt.
+        /// </summary>
+        public static string titleEnterMerkleHellman {
+            get {
+                return ResourceManager.GetString("titleEnterMerkleHellman", resourceCulture);
             }
         }
         

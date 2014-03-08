@@ -4,6 +4,7 @@ using System.Windows.Input;
 using LatticeCrypto.Properties;
 using LatticeCrypto.Utilities;
 using LatticeCrypto.ViewModels;
+using MessageBox = System.Windows.MessageBox;
 
 namespace LatticeCrypto.Views
 {
@@ -114,6 +115,14 @@ namespace LatticeCrypto.Views
                     viewModel.Cryptanalysis();
                     break;
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MerkleHellmanViewManualInputView inputView = new MerkleHellmanViewManualInputView(viewModel.MerkleHellman);
+            if(inputView.ShowDialog() != true)
+                return;
+            viewModel.SetCryptosystemManually(inputView.GetMerkleHellman());
         }
     }
 }

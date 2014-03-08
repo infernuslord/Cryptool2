@@ -282,7 +282,7 @@ namespace LatticeCrypto.Models
             Debug.WriteLine(mod + " " + r + " " + rI);
         }
 
-        private static BigInteger Euclid(BigInteger a, BigInteger b)
+        public static BigInteger Euclid(BigInteger a, BigInteger b)
         {
             while (b != 0)
             {

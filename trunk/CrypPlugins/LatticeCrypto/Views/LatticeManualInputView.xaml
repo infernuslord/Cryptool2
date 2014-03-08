@@ -6,7 +6,7 @@
         Title="{x:Static Properties:Languages.titleEnterLattice}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     
     <Window.DataContext>
-        <ViewModels1:LatticeManualEnterViewModel/>
+        <ViewModels1:LatticeManualInputViewModel/>
     </Window.DataContext>
 
     <StackPanel>

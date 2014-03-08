@@ -157,7 +157,7 @@
     <Compile Include="ViewModels\CvpViewModel.cs" />
     <Compile Include="ViewModels\GGHViewModel.cs" />
     <Compile Include="ViewModels\LWEViewModel.cs" />
-    <Compile Include="ViewModels\LatticeManualEnterViewModel.cs" />
+    <Compile Include="ViewModels\LatticeManualInputViewModel.cs" />
     <Compile Include="ViewModels\RSAViewModel.cs" />
     <Compile Include="ViewModels\SvpGaussViewModel.cs" />
     <Compile Include="ViewModels\MerkleHellmanViewModel.cs" />
@@ -167,6 +167,9 @@
     </Compile>
     <Compile Include="Views\GGHView.xaml.cs">
       <DependentUpon>GGHView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MerkleHellmanManualInputView.xaml.cs">
+      <DependentUpon>MerkleHellmanManualInputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LWEView.xaml.cs">
       <DependentUpon>LWEView.xaml</DependentUpon>
@@ -208,6 +211,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GGHView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MerkleHellmanManualInputView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

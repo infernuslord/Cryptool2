@@ -19,8 +19,34 @@ namespace LatticeCrypto.ViewModels
             UiServices.SetBusyState();
             MerkleHellman = new MerkleHellmanModel(dim);
 
+            WriteHistoryForNewCryptosystem(Languages.buttonGenerateNewLattice);
+            
+            NotifyPropertyChanged("MerkleHellman");
+            NotifyPropertyChanged("PrivateKey");
+            NotifyPropertyChanged("PublicKey");
+            NotifyPropertyChanged("Mod");
+            NotifyPropertyChanged("R");
+            NotifyPropertyChanged("RI");
+        }
+
+        public void SetCryptosystemManually(MerkleHellmanModel newMerkleHellman)
+        {
+            MerkleHellman = newMerkleHellman;
+
+            WriteHistoryForNewCryptosystem(Languages.buttonDefineNewCryptosystem);
+
+            NotifyPropertyChanged("MerkleHellman");
+            NotifyPropertyChanged("PrivateKey");
+            NotifyPropertyChanged("PublicKey");
+            NotifyPropertyChanged("Mod");
+            NotifyPropertyChanged("R");
+            NotifyPropertyChanged("RI");
+        }
+
+        public void WriteHistoryForNewCryptosystem(string firstLine)
+        {
             Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
+            paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + firstLine + " **\r\n"))));
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKey)));
             paragraph.Inlines.Add(" " + PrivateKey + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKey)));
@@ -36,13 +62,6 @@ namespace LatticeCrypto.ViewModels
                 History.Document.Blocks.InsertBefore(History.Document.Blocks.FirstBlock, paragraph);
             else
                 History.Document.Blocks.Add(paragraph);
-
-            NotifyPropertyChanged("MerkleHellman");
-            NotifyPropertyChanged("PrivateKey");
-            NotifyPropertyChanged("PublicKey");
-            NotifyPropertyChanged("Mod");
-            NotifyPropertyChanged("R");
-            NotifyPropertyChanged("RI");
         }
 
         public void Encrypt()

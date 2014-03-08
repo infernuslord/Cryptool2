@@ -499,7 +499,7 @@
     <value>Der Geheimtext hat ein ungültiges Format!</value>
   </data>
   <data name="errorNoCipher" xml:space="preserve">
-    <value>Bitten geben Sie einen Geheimtext ein!</value>
+    <value>Bitte geben Sie einen Geheimtext ein!</value>
   </data>
   <data name="errorNoMessage" xml:space="preserve">
     <value>Bitte geben Sie eine zu verschlüsselnde Nachricht ein!</value>
@@ -509,5 +509,32 @@
   </data>
   <data name="labelMinimalVector" xml:space="preserve">
     <value>Ausgabe des minimalen Vektors:</value>
+  </data>
+  <data name="buttonDefineNewCryptosystem" xml:space="preserve">
+    <value>Setze neues Kryptosystem</value>
+  </data>
+  <data name="buttonEnterCryptosystemManually" xml:space="preserve">
+    <value>Manuelle Eingabe</value>
+  </data>
+  <data name="errorEuclidModR" xml:space="preserve">
+    <value>Modulus und Multiplikator müssen teilerfremd sein.</value>
+  </data>
+  <data name="errorModBiggerSum" xml:space="preserve">
+    <value>Der Modulus muss größer als die Summe aller Elemente des privaten Schlüssels sein.</value>
+  </data>
+  <data name="errorNoCryotosystemEntered" xml:space="preserve">
+    <value>Bitte geben Sie ein neues Kryptosystem ein.</value>
+  </data>
+  <data name="errorPrivateKeyNotSuperincreasing" xml:space="preserve">
+    <value>Die Elemente des privaten Schlüssels müssen stark ansteigend sein. Jedes Element muss größer als die Summe seiner Vorgänger sein.</value>
+  </data>
+  <data name="errorSameCryptosystem" xml:space="preserve">
+    <value>Das Kryptosystem wurde noch nicht verändert.</value>
+  </data>
+  <data name="errorWrongVectorFormat" xml:space="preserve">
+    <value>Der eingegebene private Schlüssel hat ein falsches Format. Bitte geben Sie einen korrekten Vektor ein.</value>
+  </data>
+  <data name="titleEnterMerkleHellman" xml:space="preserve">
+    <value>Neues Merkle-Hellman-Kryptosystem</value>
   </data>
 </root>
