@@ -138,6 +138,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Analyze()
         {
+            //Set progress to 50%
+            this.pluginProgress(50.0, 100.0);
+
             // Adjust analyzer parameters to ciphertext length
             AdjustAnalyzerParameters(this.ciphertext.Length);
             this.currun_keys_tested = 0;
@@ -552,7 +555,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             for (int i = 0; i < key.Length; i++)
             {
-                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]) + ";");
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]));
             }
 
             return sb.ToString();

@@ -55,28 +55,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public void Initialize(){
             if (separateAlphabets==true){
                 hideSettingsElement("boAlphabet");
-                //hideSettingsElement("boCaseSensitive");
                 showSettingsElement("ptAlphabet");
-                //showSettingsElement("ptCaseSensitive");
-                showSettingsElement("ctAlphabet");
-                //showSettingsElement("ctCaseSensitive");   
+                showSettingsElement("ctAlphabet");  
             }else{
                 showSettingsElement("boAlphabet");
-                //showSettingsElement("boCaseSensitive");
                 hideSettingsElement("ptAlphabet");
-                //hideSettingsElement("ptCaseSensitive");
                 hideSettingsElement("ctAlphabet");
-                //hideSettingsElement("ctCaseSensitive");
             }
-            /*
-            if (useDefaultWordSeparator == true)
-            {
-                hideSettingsElement("DefaultWordSeparator");
-            }
-            else
-            {
-                showSettingsElement("DefaultWordSeparator");
-            }*/
         }
 
         #endregion

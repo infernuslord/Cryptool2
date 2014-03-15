@@ -21,6 +21,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     /// <summary>
     /// Interaktionslogik für AssignmentPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("AnalysisMonoalphabeticSubstitution.Properties.Resources")]
     public partial class AssignmentPresentation : UserControl
     {
 
@@ -81,7 +82,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             ListViewItem lvi = sender as ListViewItem;
             ResultEntry r = lvi.Content as ResultEntry;
 
-            this.updateOutputFromUserChoice(r.Key, r.Text);
+            if (r != null)
+            {
+                this.updateOutputFromUserChoice(r.Key, r.Text);
+            }
         }
 
         public void HandleSingleClick(Object sender, EventArgs eventArgs)

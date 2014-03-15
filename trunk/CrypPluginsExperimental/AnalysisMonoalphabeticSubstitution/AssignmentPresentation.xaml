@@ -64,21 +64,21 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}">
+                                <GridViewColumn Header="{Loc ValueHeader}" DisplayMemberBinding="{Binding Path=Value}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}">
+                                <GridViewColumn Header="{Loc KeyHeader}" DisplayMemberBinding="{Binding Path=Key}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Plaintext" DisplayMemberBinding="{Binding Path=Text}">
+                                <GridViewColumn Header="{Loc TextHeader}" DisplayMemberBinding="{Binding Path=Text}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Label/>
