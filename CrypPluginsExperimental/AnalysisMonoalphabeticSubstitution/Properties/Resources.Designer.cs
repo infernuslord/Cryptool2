@@ -250,6 +250,15 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dictionary attack finished in  ähnelt.
+        /// </summary>
+        internal static string dic_attack_finished {
+            get {
+                return ResourceManager.GetString("dic_attack_finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Elapsed: ähnelt.
         /// </summary>
         internal static string ElapsedLabel {
@@ -268,6 +277,51 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Length of ciphertext alphabet and plaintext alphabet is different. ähnelt.
+        /// </summary>
+        internal static string error_alphabet_length {
+            get {
+                return ResourceManager.GetString("error_alphabet_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error while obtaining ciphertext. ähnelt.
+        /// </summary>
+        internal static string error_ciphertext {
+            get {
+                return ResourceManager.GetString("error_ciphertext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error while obtaining English language dictionary file ähnelt.
+        /// </summary>
+        internal static string error_dictionary {
+            get {
+                return ResourceManager.GetString("error_dictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Genetic attack finished in  ähnelt.
+        /// </summary>
+        internal static string gen_attack_finished {
+            get {
+                return ResourceManager.GetString("gen_attack_finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of tested keys with genetic attack:  ähnelt.
+        /// </summary>
+        internal static string gen_attack_testedkeys {
+            get {
+                return ResourceManager.GetString("gen_attack_testedkeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
         /// </summary>
         internal static string KeyHeader {
@@ -282,6 +336,69 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         internal static string LocalLabel {
             get {
                 return ResourceManager.GetString("LocalLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ciphertext is set. ähnelt.
+        /// </summary>
+        internal static string no_ciphertext {
+            get {
+                return ResourceManager.GetString("no_ciphertext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ciphertext alphabet is set. ähnelt.
+        /// </summary>
+        internal static string no_ciphertext_alphabet {
+            get {
+                return ResourceManager.GetString("no_ciphertext_alphabet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No language dictionary is set. ähnelt.
+        /// </summary>
+        internal static string no_dictionary {
+            get {
+                return ResourceManager.GetString("no_dictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No language frequencies are available. ähnelt.
+        /// </summary>
+        internal static string no_lang_freq {
+            get {
+                return ResourceManager.GetString("no_lang_freq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No ngram file is available. ähnelt.
+        /// </summary>
+        internal static string no_ngram_file {
+            get {
+                return ResourceManager.GetString("no_ngram_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No plaintext alphabet is set. ähnelt.
+        /// </summary>
+        internal static string no_plaintext_alphabet {
+            get {
+                return ResourceManager.GetString("no_plaintext_alphabet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No reference text is available. ähnelt.
+        /// </summary>
+        internal static string no_reference_text {
+            get {
+                return ResourceManager.GetString("no_reference_text", resourceCulture);
             }
         }
         
@@ -340,7 +457,7 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Dictioanry ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dictionary ähnelt.
         /// </summary>
         internal static string PropLanguagedictionaryCaption {
             get {

@@ -217,7 +217,7 @@
     <value>Encrypted text</value>
   </data>
   <data name="PropLanguagedictionaryCaption" xml:space="preserve">
-    <value>Dictioanry</value>
+    <value>Dictionary</value>
   </data>
   <data name="PropLanguagedictionaryTooltip" xml:space="preserve">
     <value>Dictionary of assumed plaintext language</value>
@@ -290,5 +290,44 @@
   </data>
   <data name="ValueHeader" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <data name="dic_attack_finished" xml:space="preserve">
+    <value>Dictionary attack finished in </value>
+  </data>
+  <data name="error_alphabet_length" xml:space="preserve">
+    <value>Length of ciphertext alphabet and plaintext alphabet is different.</value>
+  </data>
+  <data name="error_ciphertext" xml:space="preserve">
+    <value>Error while obtaining ciphertext.</value>
+  </data>
+  <data name="error_dictionary" xml:space="preserve">
+    <value>Error while obtaining English language dictionary file</value>
+  </data>
+  <data name="gen_attack_finished" xml:space="preserve">
+    <value>Genetic attack finished in </value>
+  </data>
+  <data name="gen_attack_testedkeys" xml:space="preserve">
+    <value>Number of tested keys with genetic attack: </value>
+  </data>
+  <data name="no_ciphertext" xml:space="preserve">
+    <value>No ciphertext is set.</value>
+  </data>
+  <data name="no_ciphertext_alphabet" xml:space="preserve">
+    <value>No ciphertext alphabet is set.</value>
+  </data>
+  <data name="no_dictionary" xml:space="preserve">
+    <value>No language dictionary is set.</value>
+  </data>
+  <data name="no_lang_freq" xml:space="preserve">
+    <value>No language frequencies are available.</value>
+  </data>
+  <data name="no_ngram_file" xml:space="preserve">
+    <value>No ngram file is available.</value>
+  </data>
+  <data name="no_plaintext_alphabet" xml:space="preserve">
+    <value>No plaintext alphabet is set.</value>
+  </data>
+  <data name="no_reference_text" xml:space="preserve">
+    <value>No reference text is available.</value>
   </data>
 </root>

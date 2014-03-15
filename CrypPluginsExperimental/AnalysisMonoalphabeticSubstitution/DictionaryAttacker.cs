@@ -215,8 +215,31 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
+            // Calculate max progress
             int nr = this.words.Count;
-            this.maxProgressIt = 30000 + 100 + nr * 100 + nr * nr * 100 + nr * nr * nr * 100;
+            int v1 = 0;
+            int v2 = 0;
+            if (nr < 200)
+            {
+                for (int i = 0; i < nr; i++)
+                {
+                    if (nr < 100)
+                    {
+                        for (int j = i + 1; j < nr; j++)
+                        {
+                            if (nr < 30)
+                            {
+                                for (int t = j + 1; t < nr; t++)
+                                {
+                                    v2++;
+                                }
+                            }
+                            v1++;
+                        }
+                    }
+                }
+            }
+            this.maxProgressIt = (1 + nr + v1 + v2 + 300); 
         }
 
         public void SolveDeterministicFull()
@@ -229,6 +252,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             this.ReenableWords();
             this.Solve();
+
+            // Set progress
+            this.currentProgress++;
+            double state = ((double)this.currentProgress) / this.maxProgressIt;
+            this.PluginProgressCallback(state, 200.0);
         }
 
         public void SolveDeterministicWithDisabledWords()
@@ -240,7 +268,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.DetermineNextSubstitution = this.DetermineNextSubstitutionDeterministic;
             // Max 3 disabled words
             // Disable all combinations of 1 word
-            if (this.words.Count >= 2)
+            if (this.words.Count >= 2 && this.words.Count < 200)
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
@@ -252,10 +280,15 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     this.ReenableWords();
                     this.words[i].Enabled = false;
                     this.Solve();
+
+                    // Set progress
+                    this.currentProgress++;
+                    double state = (((double)this.currentProgress) / this.maxProgressIt)*100;
+                    this.PluginProgressCallback(state, 200.0);
                 }
             }
             // Disable all combinations of 2 words
-            if (this.words.Count >= 3)
+            if (this.words.Count >= 3 && this.words.Count < 100)
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
@@ -275,11 +308,16 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         this.words[i].Enabled = false;
                         this.words[j].Enabled = false;
                         this.Solve();
+
+                        // Set progress
+                        this.currentProgress++;
+                        double state = (((double)this.currentProgress) / this.maxProgressIt) * 100;
+                        this.PluginProgressCallback(state, 200.0);
                     }
                 }
             }
             // Disable all combinations of 3 words
-            if (this.words.Count >= 4)
+            if (this.words.Count >= 4 && this.words.Count < 30)
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
@@ -307,6 +345,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                             this.words[j].Enabled = false;
                             this.words[x].Enabled = false;
                             this.Solve();
+
+                            // Set progress
+                            this.currentProgress++;
+                            double state = (((double)this.currentProgress) / this.maxProgressIt) * 100;
+                            this.PluginProgressCallback(state, 200.0);
                         }
                     }
                 }
@@ -329,6 +372,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
 
                 this.Solve();
+
+                // Set progress
+                this.currentProgress++;
+                double state = (((double)this.currentProgress) / this.maxProgressIt) * 100;
+                this.PluginProgressCallback(state, 200.0);
             }
         }
 
@@ -373,10 +421,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
 
                 rounds++;
-
-                // Set progress
-                this.currentProgress++;
-                this.PluginProgressCallback(((double)this.currentProgress) / this.maxProgressIt, 100.0);
 
                 //// Store new data object to stack
                 SolveData data = stack.Peek().Copy();
@@ -531,9 +575,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 if (candidate.Length == 1)
                 {
                     int count = 0;
-                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    for (int i = 0; i < this.freq.Prob3Gram.Length; i++)
                     {
-                        for (int j = 0; j < this.freq.Prob4Gram[i].Length; j++)
+                        for (int j = 0; j < this.freq.Prob3Gram[i].Length; j++)
                         {
                             fitness += this.freq.Prob3Gram[candidate[0]][i][j];
                             count++;
@@ -544,7 +588,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 else if (candidate.Length == 2)
                 {
                     int count = 0;
-                    for (int i = 0; i < this.freq.Prob4Gram.Length; i++)
+                    for (int i = 0; i < this.freq.Prob3Gram.Length; i++)
                     {
                         fitness += this.freq.Prob3Gram[candidate[0]][candidate[1]][i];
                         count++;
@@ -853,7 +897,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             for (int i = 0; i < key.Length; i++)
             {
-                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]) + ";");
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]));
             }
 
             return sb.ToString();

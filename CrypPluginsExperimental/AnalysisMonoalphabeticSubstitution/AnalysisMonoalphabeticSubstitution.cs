@@ -26,6 +26,7 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Threading;
 using System.Threading;
+using AnalysisMonoalphabeticSubstitution.Properties;
 
 namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 {
@@ -45,7 +46,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private readonly AnalysisMonoalphabeticSubstitutionSettings settings = new AnalysisMonoalphabeticSubstitutionSettings();
 
         // StopFlag
-        Boolean stopFlag;
+        StopFlag stopFlag = new StopFlag();
 
         // Working data
         private Alphabet ptAlphabet = null;
@@ -96,10 +97,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public String Ciphertext
         {
             get { return this.ciphertext; }
-            set {
-                this.ciphertext = value;
-                //this.ciphertext_has_changed = true;
-            }
+            set { this.ciphertext = value; }
         }
         /*
         [PropertyInfo(Direction.InputData, "PropCiphertextalphabetCaption", "PropCiphertextalphabetTooltip", false)]
@@ -147,7 +145,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         {
             get { return this.plaintext; }
             set { }
-            //set { this.plaintext = value; }
         }
 
         [PropertyInfo(Direction.OutputData, "PropPlaintextalphabetoutputCaption", "PropPlaintextalphabetoutputTooltip", true)]
@@ -191,8 +188,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         public void Execute()
         {
+            this.genAttacker = new GeneticAttacker();
+            this.dicAttacker = new DictionaryAttacker();
+
             String alpha = "";
             Boolean inputOK = true;
+
+            // Clear presentation
+            ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                ((AssignmentPresentation)Presentation).entries.Clear();
+            }, null);
 
             // Prepare the cryptanalysis of the ciphertext
 
@@ -253,7 +259,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     else
                     {
-                        GuiLogMessage("No ngram file available.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.no_ngram_file, NotificationLevel.Error);
                     }
                 }
                 else if (settings.boAlphabet == 2)
@@ -265,7 +271,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("No reference text as input.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.no_reference_text, NotificationLevel.Error);
                         this.refText = null;
                     }
                     if (helper != null)
@@ -288,7 +294,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     else
                     {
-                        GuiLogMessage("No ngram file available.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.no_ngram_file, NotificationLevel.Error);
                     }
                 }
                 else if (settings.ptAlphabet == 2)
@@ -300,7 +306,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("No reference text as input.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.no_reference_text, NotificationLevel.Error);
                         this.refText = null;
                     }
                     if (helper != null)
@@ -324,7 +330,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                 }
                 else if (settings.boAlphabet == 1)
@@ -335,7 +341,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining German language dictionary file.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                 }
                 else if (settings.boAlphabet == 2)
@@ -347,7 +353,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining language dictionary stream.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                     if (helper != null)
                     {
@@ -365,7 +371,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                 }
                 else if (settings.ptAlphabet == 1)
@@ -376,7 +382,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining English language dictionary file", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                 }
                 else if (settings.ptAlphabet == 2)
@@ -388,7 +394,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                     catch
                     {
-                        GuiLogMessage("Error while obtaining language dictionary stream.", NotificationLevel.Error);
+                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                     }
                     if (helper != null)
                     {
@@ -409,7 +415,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
             catch
             {
-                GuiLogMessage("Error while obtaining ciphertext.", NotificationLevel.Error);
+                GuiLogMessage(Resources.error_ciphertext, NotificationLevel.Error);
             }
             if (helper1 != null)
             {
@@ -425,41 +431,50 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             // PTAlphabet correct?
             if (this.ptAlphabet == null)
             {
-                GuiLogMessage("No plaintext alphabet is set", NotificationLevel.Error);
+                GuiLogMessage(Resources.no_plaintext_alphabet, NotificationLevel.Error);
                 inputOK = false;
             }
             // CTAlphabet correct?
             if (this.ctAlphabet == null)
             {
-                GuiLogMessage("No ciphertext alphabet is set", NotificationLevel.Error);
+                GuiLogMessage(Resources.no_ciphertext_alphabet, NotificationLevel.Error);
                 inputOK = false;
             }
             // Ciphertext correct?
             if (this.cText == null)
             {
-                GuiLogMessage("No ciphertext is set", NotificationLevel.Error);
+                GuiLogMessage(Resources.no_ciphertext, NotificationLevel.Error);
                 inputOK = false;
             }
             // Dictionary correct?
             if (this.langDic == null)
             {
-                GuiLogMessage("No language dictionary is set", NotificationLevel.Warning);
+                GuiLogMessage(Resources.no_dictionary, NotificationLevel.Warning);
             }
             // Language frequencies
             if (this.langFreq == null)
             {
-                GuiLogMessage("No language frequencies available.", NotificationLevel.Error);
+                GuiLogMessage(Resources.no_lang_freq, NotificationLevel.Error);
                 inputOK = false;
             }
             // Check length of ciphertext and plaintext alphabet
             if (this.ctAlphabet.Length != this.ptAlphabet.Length)
             {
-                GuiLogMessage("Length of ciphertext alphabet and plaintext alphabet is different.", NotificationLevel.Error);
+                GuiLogMessage(Resources.error_alphabet_length, NotificationLevel.Error);
                 inputOK = false;
             }
 
             // If input incorrect return otherwise execute analysis
-            if (inputOK == false || this.stopFlag == true)
+            lock (this.stopFlag)
+            {
+                if (this.stopFlag.Stop == true)
+                {
+                    return;
+                }
+            }
+            
+            
+            if (inputOK == false)
             {
                 inputOK = true;
                 return;
@@ -467,7 +482,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             else
             {
                 this.UpdateDisplayStart();
-                this.masPresentation.DisableGUI();
+                //this.masPresentation.DisableGUI();
                 this.masPresentation.UpdateOutputFromUserChoice = this.UpdateOutput;
                 this.keyCandidates = new List<KeyCandidate>();
                 if (this.langDic == null)
@@ -479,14 +494,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     AnalyzeDictionary();
                     AnalyzeGenetic();
                 }
-                this.masPresentation.EnableGUI();
+                //this.masPresentation.EnableGUI();
                 this.UpdateDisplayEnd();
             }
         }
 
         public void PostExecution()
         {
-            this.stopFlag = false;
+            lock(this.stopFlag)
+            {
+                this.stopFlag.Stop = false;
+            }
         }
 
         public void Pause()
@@ -498,20 +516,15 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             this.dicAttacker.StopFlag = true;
             this.genAttacker.StopFlag = true;
             this.langDic.StopFlag = true;
-            this.stopFlag = true;
+            lock(this.stopFlag)
+            {
+                this.stopFlag.Stop = true;
+            }
         }
 
         public void Initialize()
         {
             this.settings.Initialize();
-            ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                ((AssignmentPresentation)Presentation).startLabel.Content = "Start:";
-                ((AssignmentPresentation)Presentation).endLabel.Content = "End:";
-                ((AssignmentPresentation)Presentation).elapsedLabel.Content = "Elapsed:";
-                ((AssignmentPresentation)Presentation).localLabel.Content = "Local";
-                ((AssignmentPresentation)Presentation).topTenLabel.Content = "Top Ten";
-            }, null);
         }
 
         public void Dispose()
@@ -525,33 +538,39 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             ////////////////////// Create keys with dictionary attacker
             // Initialize dictionary attacker
-            if (this.stopFlag == false)
+            lock (this.stopFlag)
             {
-                this.dicAttacker = new DictionaryAttacker();
-                this.dicAttacker.ciphertext = this.cText;
-                this.dicAttacker.languageDictionary = this.langDic;
-                this.dicAttacker.frequencies = this.langFreq;
-                this.dicAttacker.ciphertext_alphabet = this.ctAlphabet;
-                this.dicAttacker.plaintext_alphabet = this.ptAlphabet;
-                this.dicAttacker.PluginProgressCallback = this.ProgressChanged;
-                this.dicAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+                if (this.stopFlag.Stop == true)
+                {
+                    return;
+                }
             }
+            
+                //this.dicAttacker = new DictionaryAttacker();
+            this.dicAttacker.ciphertext = this.cText;
+            this.dicAttacker.languageDictionary = this.langDic;
+            this.dicAttacker.frequencies = this.langFreq;
+            this.dicAttacker.ciphertext_alphabet = this.ctAlphabet;
+            this.dicAttacker.plaintext_alphabet = this.ptAlphabet;
+            this.dicAttacker.PluginProgressCallback = this.ProgressChanged;
+            this.dicAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+            
 
             // Prepare text
-            if (this.stopFlag == false)
+            lock (this.stopFlag)
             {
-                this.dicAttacker.PrepareAttack();
+                if (this.stopFlag.Stop == true)
+                {
+                    return;
+                }
             }
-
-            if (this.stopFlag == true)
-            {
-                return;
-            }
+            
+            this.dicAttacker.PrepareAttack();
+            
 
             // Deterministic search
             // Try to find full solution with all words enabled
-            if (this.stopFlag == false)
-            {
+     
                 this.dicAttacker.SolveDeterministicFull();
 
                 // Try to find solution with disabled words
@@ -565,12 +584,12 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         this.dicAttacker.SolveRandomized();
                     }
                 }
-            }       
+                  
 
             watch.Stop();
 
             string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Hours, watch.Elapsed.Minutes, watch.Elapsed.Seconds);
-            GuiLogMessage("Dictionary attack finished in " + curTime, NotificationLevel.Info);
+            GuiLogMessage(Resources.dic_attack_finished + curTime, NotificationLevel.Info);
         }
 
         private void AnalyzeGenetic()
@@ -579,30 +598,40 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             watch.Start();
 
             ////////////////// Create keys with genetic attacker
-            if (this.stopFlag == false)
+            lock (this.stopFlag)
             {
-                this.genAttacker = new GeneticAttacker();
-
-                // Initialize analyzer
-                this.genAttacker.Ciphertext = this.cText;
-                this.genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
-                this.genAttacker.Plaintext_Alphabet = this.ptAlphabet;
-                this.genAttacker.Language_Frequencies = this.langFreq;
-                this.genAttacker.PluginProgressCallback = this.ProgressChanged;
-                this.genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+                if (this.stopFlag.Stop == true)
+                {
+                    return;
+                }
             }
+
+            // Initialize analyzer
+            this.genAttacker.Ciphertext = this.cText;
+            this.genAttacker.Ciphertext_Alphabet = this.ctAlphabet;
+            this.genAttacker.Plaintext_Alphabet = this.ptAlphabet;
+            this.genAttacker.Language_Frequencies = this.langFreq;
+            this.genAttacker.PluginProgressCallback = this.ProgressChanged;
+            this.genAttacker.UpdateKeyDisplay = this.UpdateKeyDisplay;
+            
 
             // Start attack
-            if (this.stopFlag == false)
+            lock (this.stopFlag)
             {
-                this.genAttacker.Analyze();
+                if (this.stopFlag.Stop == true)
+                {
+                    return;
+                }
             }
+            
+            this.genAttacker.Analyze();
+            
             
             watch.Stop();
 
             string curTime = String.Format("{0:00}:{1:00}:{2:00}", watch.Elapsed.Hours ,watch.Elapsed.Minutes, watch.Elapsed.Seconds);
-            GuiLogMessage("Genetic attack finished in " + curTime, NotificationLevel.Info);
-            GuiLogMessage("Number of tested keys with genetic attack: " + genAttacker.Currun_Keys, NotificationLevel.Info);
+            GuiLogMessage(Resources.gen_attack_finished + curTime, NotificationLevel.Info);
+            GuiLogMessage(Resources.gen_attack_testedkeys + genAttacker.Currun_Keys.ToString("#,##0"), NotificationLevel.Info);
         }
 
         private void UpdateKeyDisplay(KeyCandidate keyCan)
@@ -614,30 +643,37 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 this.keyCandidates.Sort(new KeyCandidateComparer());
                 //this.masPresentation.RefreshGUI();
 
+                if (this.keyCandidates.Count > 20)
+                {
+                    this.keyCandidates.RemoveAt(this.keyCandidates.Count-1);
+                }
+
                 // Display output
                 this.plaintext = this.keyCandidates[0].Plaintext;
                 OnPropertyChanged("Plaintext");
 
                 this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key, this.ctAlphabet);
                 OnPropertyChanged("Plaintext_Alphabet_Output");
-            }
 
-            ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate{
-                ((AssignmentPresentation)Presentation).entries.Clear();
-      
-                for (int i=0; i < this.keyCandidates.Count; i++)
+                ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    KeyCandidate keyCandidate = this.keyCandidates[i];
-                    
-                    ResultEntry entry = new ResultEntry();
-                    entry.Ranking = i.ToString();
-                    entry.Text = keyCandidate.Plaintext;
-                    entry.Key = keyCandidate.Key_string;
-                    entry.Value = Math.Round(keyCandidate.Fitness, 5) + "";
+                    ((AssignmentPresentation)Presentation).entries.Clear();
 
-                    ((AssignmentPresentation)Presentation).entries.Add(entry);
-                }    
-            }, null);
+                    for (int i = 0; i < this.keyCandidates.Count; i++)
+                    {
+                        KeyCandidate keyCandidate = this.keyCandidates[i];
+
+                        ResultEntry entry = new ResultEntry();
+                        entry.Ranking = i.ToString();
+                        entry.Text = keyCandidate.Plaintext;
+                        entry.Key = keyCandidate.Key_string;
+                        double f = Math.Log10(Math.Abs(keyCandidate.Fitness));
+                        entry.Value = string.Format("{0:0.00000} ",f);
+                        ((AssignmentPresentation)Presentation).entries.Add(entry);
+
+                    }
+                }, null);
+            }  
         }  
         
 
@@ -807,7 +843,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             for (int i = 0; i < key.Length; i++)
             {
-                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i])+";");
+                sb.Append(ciphertext_alphabet.GetLetterFromPosition(key[i]));
             }
 
             return sb.ToString();
@@ -823,5 +859,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public string Key { get; set; }
         public string Text { get; set; }
 
+    }
+
+    public class StopFlag
+    {
+        public Boolean Stop { get; set; }
     }
 }

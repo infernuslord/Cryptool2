@@ -180,6 +180,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
+            if (word != null && word.Count != 0)
+            {
+                result.Add(word.ToArray());
+                word = new List<Byte>();
+            }
 
             return result;
         }
