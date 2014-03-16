@@ -118,10 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AttackModeCaption" xml:space="preserve">
-    <value>Attack mode</value>
+    <value>Attack type</value>
   </data>
   <data name="AttackModeTooltip" xml:space="preserve">
-    <value>Specify the attack mode</value>
+    <value>Specify the type of attack</value>
+  </data>
+  <data name="ClearFileNameCaption" xml:space="preserve">
+    <value>Clear file name</value>
+  </data>
+  <data name="ClearFileNameTooltip" xml:space="preserve">
+    <value>Forget the output file name</value>
+  </data>
+  <data name="CnfFileCaption" xml:space="preserve">
+    <value>Save CNF in file</value>
+  </data>
+  <data name="CnfFileTooltip" xml:space="preserve">
+    <value>Choose a file to which the generated CNF will be written</value>
   </data>
   <data name="FileInputCaption" xml:space="preserve">
     <value>File</value>
@@ -129,17 +141,32 @@
   <data name="FileInputTooltip" xml:space="preserve">
     <value>Select the input file</value>
   </data>
+  <data name="GuessBitsCaption" xml:space="preserve">
+    <value>Guess bits</value>
+  </data>
+  <data name="GuessBitsOptions" xml:space="preserve">
+    <value>Guess bits options</value>
+  </data>
+  <data name="GuessBitsTooltip" xml:space="preserve">
+    <value>Check for the option to guess some bits</value>
+  </data>
+  <data name="GuessedBitsCaption" xml:space="preserve">
+    <value>Guessed bits</value>
+  </data>
+  <data name="GuessedBitsTooltip" xml:space="preserve">
+    <value>Guess some of the input bits</value>
+  </data>
   <data name="InputHashValueCaption" xml:space="preserve">
     <value>Hash value</value>
   </data>
   <data name="InputHashValueTooltip" xml:space="preserve">
-    <value>Enter hash value for a preimage or second preimage attack (must be hexadecimal)</value>
+    <value>Enter hash value for a preimage or second preimage attack (prefix 0x for hexadecimal, 0b for binary)</value>
   </data>
   <data name="InputMessageCaption" xml:space="preserve">
-    <value>Message</value>
+    <value>Second preimage</value>
   </data>
   <data name="InputMessageTooltip" xml:space="preserve">
-    <value>Provide a message for a second preimage attack (must be hexadecimal)</value>
+    <value>Provide a second preimage for a second preimage attack (prefix 0x for hexadecimal, 0b for binary)</value>
   </data>
   <data name="InputSelectionCaption" xml:space="preserve">
     <value>Input selection</value>
@@ -151,13 +178,19 @@
     <value>Text input</value>
   </data>
   <data name="InputSelectionTooltip" xml:space="preserve">
-    <value>Select how the code is passed to the SAT Attack component.</value>
+    <value>Select how the code is passed to the SAT Attack component</value>
   </data>
   <data name="MainFunctionCaption" xml:space="preserve">
-    <value>Main function</value>
+    <value>Main function name</value>
   </data>
   <data name="MainFunctionTooltip" xml:space="preserve">
-    <value>Specify the main function if it is not main()</value>
+    <value>Specify the main function name if main() is not the name of the main function</value>
+  </data>
+  <data name="OnlyCnfOutputCaption" xml:space="preserve">
+    <value>CNF output only</value>
+  </data>
+  <data name="OnlyCnfOutputTooltip" xml:space="preserve">
+    <value>Only translate C code to CNF, do not solve with the Sat solver</value>
   </data>
   <data name="OtherAttack" xml:space="preserve">
     <value>Other attack (placeholder)</value>
@@ -166,7 +199,7 @@
     <value>SAT Attack</value>
   </data>
   <data name="PluginDescription" xml:space="preserve">
-    <value>A component for SAT based cryptanalysis</value>
+    <value>A tool for SAT-based cryptanalysis</value>
   </data>
   <data name="PreimageAttack" xml:space="preserve">
     <value>Preimage attack</value>

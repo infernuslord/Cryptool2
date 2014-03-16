@@ -29,12 +29,17 @@ namespace Cryptool.Plugins.SATAttack
         private int inputSelection;
         private string openFilename;
         private string inputHashValue;
-        private string inputMessage;
+        private string secondPreimage;
         private bool showFileInputSelection = false;
         private bool showPreimageAttackSettings = true;
         private bool showSecondPreimageAttackSettings;
         private bool showOtherAttackSettings;
         private string mainFunctionName;
+        private string cnfFileName;
+        private bool onlyCnfOutput = false;
+        private bool guessBits = false;
+        private bool showGuessBitsSettings = false;
+        private string guessedBits;
 
         #endregion
 
@@ -43,7 +48,7 @@ namespace Cryptool.Plugins.SATAttack
         #region General Settings
 
         [TaskPane("AttackModeCaption", "AttackModeTooltip", null, 1, false, ControlType.ComboBox,
-            new string[] { "PreimageAttack", "SecondPreimageAttack", "OtherAttack" })]
+            new string[] { "PreimageAttack", "SecondPreimageAttack"})]
         public int AttackMode
         {
             get
@@ -142,6 +147,66 @@ namespace Cryptool.Plugins.SATAttack
             }
         }
 
+        [TaskPane("CnfFileCaption", "CnfFileTooltip", null, 5, false, ControlType.SaveFileDialog, "All Files (*.*)|*.*")]
+        public string CnfFileName
+        {
+            get { return cnfFileName; }
+            set
+            {
+                cnfFileName = value;
+                OnPropertyChanged("CnfFileName");
+                           
+            }        
+        }
+
+        [TaskPane("ClearFileNameCaption", "ClearFileNameTooltip", null, 6, false, ControlType.Button)]
+        public void ClearFileName()
+        {
+            CnfFileName = null;
+        }
+
+        [TaskPane("OnlyCnfOutputCaption", "OnlyCnfOutputTooltip", null, 7, false, ControlType.CheckBox)]
+        public bool OnlyCnfOutput
+        {
+            get { return onlyCnfOutput; }
+            set
+            {
+                if (value != onlyCnfOutput)
+                {
+                    onlyCnfOutput = value;
+                    OnPropertyChanged("OnlyCnfOutput");
+                }
+            }        
+        }
+
+        [TaskPane("GuessBitsCaption", "GuessBitsTooltip", null, 8, false, ControlType.CheckBox)]
+        public bool GuessBits
+        {
+            get 
+            {
+                return guessBits; 
+            }
+            set
+            {
+                if (value != guessBits)
+                {
+                    guessBits = value;
+                    OnPropertyChanged("GuessBits");
+
+                    if (guessBits == true)
+                    {
+                        showGuessBitsSettings = true;
+                    }
+                    else
+                    {
+                        showGuessBitsSettings = false;                    
+                    }
+
+                    UpdateTaskPaneVisibility();
+                }
+            }
+        }
+
         #endregion
 
         #region Preimage Attack Settings
@@ -168,21 +233,44 @@ namespace Cryptool.Plugins.SATAttack
         #region Second-Preimage Attack Settings
 
         [TaskPane("InputMessageCaption", "InputMessageTooltip", "SecondPreimageAttackOptions", 1, false, ControlType.TextBox)]
-        public string InputMessage
+        public string SecondPreimage
         {
             get
             {
-                return inputMessage;
+                return secondPreimage;
             }
             set
             {
-                if (value != inputMessage)
+                if (value != secondPreimage)
                 {
-                    inputMessage = value;
-                    OnPropertyChanged("InputMessage");
+                    secondPreimage = value;
+                    OnPropertyChanged("SecondPreimage");
                 }
             }
         }
+
+        #endregion
+
+        #region Guess Bits Settings
+
+        [TaskPane("GuessedBitsCaption", "GuessedBitsTooltip", "GuessBitsOptions", 1, false, ControlType.TextBox)]
+        public string GuessedBits
+        {
+            get 
+            {
+                return guessedBits;
+            }
+            set
+            {
+                if (value != guessedBits)
+                {
+                    guessedBits = value;
+                    OnPropertyChanged("GuessedBits");
+                }
+            }
+        
+        }
+
 
         #endregion
 
@@ -205,17 +293,17 @@ namespace Cryptool.Plugins.SATAttack
             if (showPreimageAttackSettings)
             {
                 settingChanged("InputHashValue", Visibility.Visible);
-                settingChanged("InputMessage", Visibility.Collapsed);
+                settingChanged("SecondPreimage", Visibility.Collapsed);
             }
             else if (showSecondPreimageAttackSettings)
             {
                 settingChanged("InputHashValue", Visibility.Visible);
-                settingChanged("InputMessage", Visibility.Visible);
+                settingChanged("SecondPreimage", Visibility.Visible);
             }
             else if (showOtherAttackSettings)
             {
                 settingChanged("InputHashValue", Visibility.Collapsed);
-                settingChanged("InputMessage", Visibility.Collapsed);
+                settingChanged("SecondPreimage", Visibility.Collapsed);
             }
 
             if (showFileInputSelection)
@@ -225,6 +313,15 @@ namespace Cryptool.Plugins.SATAttack
             else if (!showFileInputSelection)
             {
                 settingChanged("InputFile", Visibility.Collapsed);
+            }
+
+            if (showGuessBitsSettings)
+            {
+                settingChanged("GuessedBits", Visibility.Visible);
+            }
+            else if (!showGuessBitsSettings)
+            {
+                settingChanged("GuessedBits", Visibility.Collapsed);            
             }
         }
 
