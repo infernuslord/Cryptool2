@@ -601,7 +601,7 @@ namespace Cryptool.Plugins.SATAttack
 
             if (!IsHexString(hex)) // check if all characters are hex
             {
-                GuiLogMessage("When using the prefix \"0x\" for the hash value, ensure the it is an even amount of regular hex numbers.", NotificationLevel.Error);
+                GuiLogMessage("When using the prefix \"0x\" for the hash value, ensure the hash value is an even amount of regular hex numbers.", NotificationLevel.Error);
                 return null;
             }
             else if (hex.Length % 2 != 0) // hash value must be an even amount of hex values
@@ -929,7 +929,7 @@ namespace Cryptool.Plugins.SATAttack
 
             if (!cnfFileExists)
             {
-                GuiLogMessage(String.Format("Cnf file not found at {0}.", outputCnfFilePath), NotificationLevel.Error);
+                GuiLogMessage(String.Format("CNF file not found at {0}.", outputCnfFilePath), NotificationLevel.Error);
                 return 1;
             }
 
