@@ -18,4 +18,13 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /><
     <plugin name="Caesar" />
   </relevantPlugins>
 
+ <replacements lang="de">
+	<replacement key="$message$" value="Nachricht"/>
+	<replacement key="$result$" value="Ergebnis"/>
+ </replacements>
+ <replacements lang="en">
+	<replacement key="$message$" value="Message"/>
+	<replacement key="$result$" value="Result"/>
+ </replacements>
+
 </sample>

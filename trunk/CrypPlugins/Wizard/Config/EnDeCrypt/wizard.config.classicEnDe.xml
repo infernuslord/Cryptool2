@@ -37,7 +37,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="Message" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
+    <inputBox plugin="$message$" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">
         <condition plugin="Caesar" property="Action" value="0">
           Message to <b>encrypt</b>:
@@ -75,7 +75,7 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
+      <inputBox plugin="$message$" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">
           <condition plugin="Caesar" property="Action" value="0">
             Message to encrypt:
@@ -96,7 +96,7 @@
         <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="$result$" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Caesar Output:</description>
         <description lang="de">Caesar-Ausgabe:</description>
       </outputBox>
