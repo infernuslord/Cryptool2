@@ -18,8 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 using Cryptool.PluginBase;
 using System.IO;
+using Cryptool.PluginBase.Miscellaneous;
 using WorkspaceManagerModel.Properties;
 
 namespace WorkspaceManager.Model
@@ -36,12 +38,15 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public WorkspaceModel loadModel(string filename)
+        public WorkspaceModel loadModel(string filename, bool handleTemplateReplacement = true)
         {
             PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename, true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
-
             restoreSettings(persistantModel, workspacemodel);
+            if (handleTemplateReplacement)
+            {
+                HandleTemplateReplacement(filename, workspacemodel);
+            }            
             workspacemodel.UndoRedoManager.ClearStacks();
             return workspacemodel;
         }
@@ -53,6 +58,31 @@ namespace WorkspaceManager.Model
             restoreSettings(persistantModel, workspacemodel);
             return workspacemodel;
         }
+
+        public void HandleTemplateReplacement(string filename, WorkspaceModel workspacemodel)
+        {
+            string xmlFile = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename) + ".xml");
+
+            if (!File.Exists(xmlFile))
+            {
+                return;
+            }
+
+            var replacements = new Dictionary<string, string>();
+            var xml = XElement.Load(xmlFile);
+            foreach (var replacement in XMLHelper.GetGlobalizedElementFromXML(xml,"replacements").Elements())
+            {
+                replacements.Add(replacement.Attribute("key").Value, replacement.Attribute("value").Value);
+            }
+
+            foreach (var plugin in workspacemodel.AllPluginModels)
+            {
+                if (replacements.ContainsKey(plugin.Name))
+                {
+                    plugin.Name = replacements[plugin.Name];
+                }
+            }
+        }       
 
         private void restoreSettings(PersistantModel persistantModel, WorkspaceModel workspacemodel)
         {

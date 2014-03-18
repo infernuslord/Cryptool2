@@ -1143,7 +1143,7 @@ namespace Wizard
                                                         {
                                                             OnGuiLogNotificationOccured(sender, args);
                                                         };
-                var model = persistance.loadModel(file);
+                var model = persistance.loadModel(file,false);
                 model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
                                                          {
                                                              OnGuiLogNotificationOccured(sender, args);
@@ -1168,6 +1168,7 @@ namespace Wizard
                     ImageSource ims = null;
                     currentManager = (WorkspaceManager.WorkspaceManagerClass) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManagerClass), null);
                     currentManager.Open(model);
+                    persistance.HandleTemplateReplacement(file, model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
                         currentManager.OnFileLoaded += NewEditorOnFileLoaded;
