@@ -45,7 +45,14 @@ namespace WorkspaceManager.Model
             restoreSettings(persistantModel, workspacemodel);
             if (handleTemplateReplacement)
             {
-                HandleTemplateReplacement(filename, workspacemodel);
+                try
+                {
+                    HandleTemplateReplacement(filename, workspacemodel);
+                }
+                catch (Exception ex)
+                {
+                    //wtf?
+                }
             }            
             workspacemodel.UndoRedoManager.ClearStacks();
             return workspacemodel;
@@ -70,6 +77,10 @@ namespace WorkspaceManager.Model
 
             var replacements = new Dictionary<string, string>();
             var xml = XElement.Load(xmlFile);
+            if (XMLHelper.GetGlobalizedElementFromXML(xml, "replacements") == null)
+            {
+                return;
+            }
             foreach (var replacement in XMLHelper.GetGlobalizedElementFromXML(xml,"replacements").Elements())
             {
                 replacements.Add(replacement.Attribute("key").Value, replacement.Attribute("value").Value);
