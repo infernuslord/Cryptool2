@@ -21,10 +21,12 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /><
  <replacements lang="de">
 	<replacement key="$message$" value="Nachricht"/>
 	<replacement key="$result$" value="Ergebnis"/>
+	<replacement key="$text$" value="Franz jagt im komplett verwahrlosten Taxi quer durch Bayern."/>
  </replacements>
  <replacements lang="en">
 	<replacement key="$message$" value="Message"/>
 	<replacement key="$result$" value="Result"/>
+	<replacement key="$text$" value="The quick brown fox jumps over the lazy dog."/>
  </replacements>
 
 </sample>
