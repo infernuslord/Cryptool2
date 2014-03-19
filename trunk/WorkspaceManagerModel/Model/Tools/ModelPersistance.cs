@@ -51,7 +51,7 @@ namespace WorkspaceManager.Model
                 }
                 catch (Exception ex)
                 {
-                    //wtf?
+                    GuiLogMessage(String.Format("Exception while template replacement:{0}",ex.Message),NotificationLevel.Warning);
                 }
             }            
             workspacemodel.UndoRedoManager.ClearStacks();
@@ -88,9 +88,22 @@ namespace WorkspaceManager.Model
 
             foreach (var plugin in workspacemodel.AllPluginModels)
             {
+                //Replace Names of components
                 if (replacements.ContainsKey(plugin.Name))
                 {
                     plugin.Name = replacements[plugin.Name];
+                }
+                //Replace text in TextInputs
+                if (plugin.PluginType.FullName.Equals("Cryptool.TextInput.TextInput"))
+                {
+                    var value = (string)plugin.Plugin.Settings.GetType().GetProperty("Text").GetValue(plugin.Plugin.Settings, null);
+                    if (replacements.ContainsKey(value))
+                    {
+                        GuiLogMessage("Replacing " + value, NotificationLevel.Debug);
+                        plugin.Plugin.Settings.GetType().GetProperty("Text").SetValue(plugin.Plugin.Settings, replacements[value],null);
+                        plugin.Plugin.GetType().GetMethod("Initialize").Invoke(plugin.Plugin, null);
+                        plugin.SettingesHaveChanges = false;
+                    }
                 }
             }
         }       
