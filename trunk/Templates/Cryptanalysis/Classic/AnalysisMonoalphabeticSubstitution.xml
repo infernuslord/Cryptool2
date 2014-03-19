@@ -11,6 +11,7 @@
   <description lang="de">Kryptoanalyse der monoalphabetische Substitution basierend auf Buchstabenhäufigkeiten und einem Wörterbuchangriff</description>
   <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Angriff</keywords>
   
+  <icon file="AnalysisMonoalphabeticSubstitution.png" />
   <relevantPlugins>
     <plugin name="AnalysisMonoalphabeticSubstitution" />
   </relevantPlugins>
