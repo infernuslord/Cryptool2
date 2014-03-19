@@ -41,7 +41,7 @@ namespace Startcenter
             InitializeComponent();
             IsUpdating = true;
             var updateTimer = new Timer(ReadAndFillRSSItems);
-            updateTimer.Change(0, 1000*60);
+            updateTimer.Change(0, 1000*60);            
         }
 
         private void ReadAndFillRSSItems(object state)
@@ -50,28 +50,28 @@ namespace Startcenter
             {
                 _rssItems = ReadRSSItems(RSSUrl);
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                                    {
-                                        try
-                                        {
-                                            IsUpdating = false;
-                                            rssListBox.DataContext = _rssItems;
-                                        }
-                                        catch (Exception)
-                                        {
-                                            //Uncritical failure: Do nothing
-                                        }
-                                    }, null);
+                {
+                    try
+                    {
+                        IsUpdating = false;
+                        rssListBox.DataContext = _rssItems;
+                    }
+                    catch (Exception)
+                    {
+                        //Uncritical failure: Do nothing
+                    }
+                }, null);
             }
             catch (Exception ex)
             {
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
-                                    {
-                                        IsUpdating = false;
-                                        var errorRSSFeed = new List<RssItem>(1);
-                                        errorRSSFeed.Add(new RssItem() {Message = Properties.Resources.RSS_error_Message, Title = Properties.Resources.RSS_error_Message});
-                                        errorRSSFeed.Add(new RssItem() {Message = ex.Message, Title = Properties.Resources.Exception});
-                                        rssListBox.DataContext = errorRSSFeed;
-                                    }, null);
+                {
+                    IsUpdating = false;
+                    var errorRSSFeed = new List<RssItem>(1);
+                    errorRSSFeed.Add(new RssItem() {Message = Properties.Resources.RSS_error_Message, Title = Properties.Resources.RSS_error_Message});
+                    errorRSSFeed.Add(new RssItem() {Message = ex.Message, Title = Properties.Resources.Exception});
+                    rssListBox.DataContext = errorRSSFeed;
+                }, null);
             }
         }
 
