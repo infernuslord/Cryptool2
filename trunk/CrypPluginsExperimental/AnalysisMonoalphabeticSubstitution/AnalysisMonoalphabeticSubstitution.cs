@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     delegate void UpdateKeyDisplay(KeyCandidate keyCan);
 
     [Author("Andreas Grüner", "Andreas.Gruener@web.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
-    [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources","PluginCaption", "PluginTooltip", "AnalysisMonoalphabeticSubstitution/Documentation/doc.xml", "CrypWin/images/default.png")]
+    [PluginInfo("AnalysisMonoalphabeticSubstitution.Properties.Resources", "PluginCaption", "PluginTooltip", "AnalysisMonoalphabeticSubstitution/Documentation/doc.xml", "AnalysisMonoalphabeticSubstitution/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
 
     public class AnalysisMonoalphabeticSubstitution : ICrypComponent
