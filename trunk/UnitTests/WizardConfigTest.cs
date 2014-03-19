@@ -55,7 +55,7 @@ namespace Tests
             var modelLoader = new ModelPersistance();
             modelLoader.OnGuiLogNotificationOccured += (sender, args) => LogHandler(args.NotificationLevel, file);
 
-            var model = modelLoader.loadModel(Path.Combine(_templateDirectory.FullName, file));
+            var model = modelLoader.loadModel(Path.Combine(_templateDirectory.FullName, file), false);
             model.OnGuiLogNotificationOccured += (sender, args) => LogHandler(args.NotificationLevel, file);
 
             /*
