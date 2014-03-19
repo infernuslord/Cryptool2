@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 for (int i = 0; i < nr; i++)
                 {
-                    if (nr < 100)
+                    if (nr < 70)
                     {
                         for (int j = i + 1; j < nr; j++)
                         {
@@ -288,7 +288,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
             // Disable all combinations of 2 words
-            if (this.words.Count >= 3 && this.words.Count < 100)
+            if (this.words.Count >= 3 && this.words.Count < 70)
             {
                 for (int i = 0; i < this.words.Count; i++)
                 {
@@ -818,6 +818,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             }
 
             index = word;
+            if (index == -1)
+            {
+                return -2;
+            }
+
             return 1;
         }
 
