@@ -377,6 +377,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HammingDistance", "CrypPlug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalysisMonoalphabeticSubstitution", "CrypPlugins\AnalysisMonoalphabeticSubstitution\AnalysisMonoalphabeticSubstitution.csproj", "{F6FBBA54-C9ED-418E-A584-E71503EAB13C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIgabaKnownPlaintext", "CrypPluginsExperimental\SIgabaKnownPlaintext\SIgabaKnownPlaintext.csproj", "{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CrypTool 2.0.vsmdi
@@ -1465,6 +1467,12 @@ Global
 		{F6FBBA54-C9ED-418E-A584-E71503EAB13C}.Release|x86.Build.0 = Release|x86
 		{F6FBBA54-C9ED-418E-A584-E71503EAB13C}.Test|x86.ActiveCfg = Debug|x86
 		{F6FBBA54-C9ED-418E-A584-E71503EAB13C}.Test|x86.Build.0 = Debug|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Debug|x86.ActiveCfg = Debug|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Debug|x86.Build.0 = Debug|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Release|x86.ActiveCfg = Release|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Release|x86.Build.0 = Release|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Test|x86.ActiveCfg = Debug|x86
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52}.Test|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1640,6 +1648,7 @@ Global
 		{612E2C3B-B510-4B88-8E63-50950D31FA9E} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{29520D81-911D-4FCD-9A6B-670625D6E0A1} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{BA8664C2-53B0-43F1-B8E3-FE91E4DD0C9F} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+		{DF52AC40-2E2B-492A-9EB0-FF85646A8E52} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
