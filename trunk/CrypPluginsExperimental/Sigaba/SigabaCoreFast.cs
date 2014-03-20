@@ -29,6 +29,7 @@ namespace Sigaba
 
         public byte[] Encrypt(byte[] cipher, int[] types, byte[] positions)
         {
+            
             byte[] repeat = new byte[cipher.Length];
 
             setInternalConfig(types,positions);

@@ -28,7 +28,7 @@ using System.Windows.Threading;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
-using SigabaBruteforce.Cryptool.PluginBase.Control;
+//using SigabaBruteforce.Cryptool.PluginBase.Control;
 
 namespace SigabaBruteforce
 {
@@ -1308,7 +1308,7 @@ namespace SigabaBruteforce
     }
 
 
-    namespace Cryptool.PluginBase.Control
+    /*namespace Cryptool.PluginBase.Control
     {
         public interface IControlSigabaEncryption : IControl, IDisposable
         {
@@ -1337,5 +1337,5 @@ namespace SigabaBruteforce
             string preFormatInput(string text);
             string postFormatOutput(string text);
         }
-    }
+    }*/
 }

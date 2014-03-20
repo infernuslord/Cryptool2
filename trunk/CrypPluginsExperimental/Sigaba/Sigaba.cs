@@ -23,7 +23,7 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
-using SigabaBruteforce.Cryptool.PluginBase.Control;
+using Cryptool.PluginBase.Control;
 
 
 namespace Sigaba
@@ -90,12 +90,12 @@ namespace Sigaba
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Survivor Array", "Sets the (De)Cipher as output")]
+      /*  [PropertyInfo(Direction.OutputData, "Survivor Array", "Sets the (De)Cipher as output")]
         public object[] SurvivorArray
         {
             get;
             set;
-        }
+        }*/
 
         #endregion
 
@@ -130,7 +130,8 @@ namespace Sigaba
                 _keys[1] = _settings.IndexKey;
                 _keys[2] = _settings.ControlKey;
             }
-
+           // _core.quatsch = ((_settings.ControlKey[2]-65)-12+26)%26;
+           // _core.quatsch2 = ((_settings.ControlKey[1] - 65) - 12 + 26) % 26;
         }
 
         /// <summary>
@@ -158,11 +159,12 @@ namespace Sigaba
             {
                 object[] repeat = _core.Encrypt(preFormatInput(InputString));
                 OutputString = postFormatOutput((string) repeat[0]);
-                SurvivorArray = new object[] { _keys[0].ToUpper(), new int[] { _settings.CipherRotor1, _settings.CipherRotor2, _settings.CipherRotor3, _settings.CipherRotor4, _settings.CipherRotor5, }, repeat[1] as int[][], new[] { _settings.CipherRotor1Reverse, _settings.CipherRotor2Reverse, _settings.CipherRotor3Reverse, _settings.CipherRotor4Reverse, _settings.CipherRotor5Reverse} };
+                //SurvivorArray = new object[] { _keys[0].ToUpper(), new int[] { _settings.CipherRotor1, _settings.CipherRotor2, _settings.CipherRotor3, _settings.CipherRotor4, _settings.CipherRotor5, }, repeat[1] as int[][], new[] { _settings.CipherRotor1Reverse, _settings.CipherRotor2Reverse, _settings.CipherRotor3Reverse, _settings.CipherRotor4Reverse, _settings.CipherRotor5Reverse} };
                 OnPropertyChanged("SurvivorArray");
             }
             else
             {
+                
                 OutputString = postFormatOutput(_core.EncryptPresentation(preFormatInput(InputString)));
             }
 
@@ -338,6 +340,7 @@ namespace Sigaba
             StringBuilder workstring = new StringBuilder(text);
             foreach (UnknownToken token in unknownList)
             {
+                
                 workstring.Insert(token.position, token.text);
             }
 
