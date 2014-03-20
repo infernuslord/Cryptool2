@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sigaba
+namespace SigabaKnownPlaintext
 {
-   public class Rotor
+    public class RotorByte
     {
-        public int Position { get; set; }
-
-        public char[] Subalpha { get; set; }
-        public char[] SubalphaRev { get; set; }
-        public char[] SubalphaHu { get; set; }
-        public char[] SubalphaRevHu { get; set; }
-
-        public byte[,] RotSubMat { get; set; }
-        private int _rotSubMatLength0 = -1;  
-        
-        public byte[,] RotSubMatRev { get; set; }
-        public byte[,] RotSubMatBack { get; set; }
-        public byte[,] RotSubMatRevBack { get; set; }
-        
-
+        public int Position;
         public Boolean Reverse;
+
+
+        public char[] Subalpha;
+        public char[] SubalphaRev;
+        public char[] SubalphaHu;
+        public char[] SubalphaRevHu;
+
+        public byte[,] RotSubMat;
+        private int _rotSubMatLength0 = -1;
+        public byte[,] RotSubMatRev;
+        public byte[,] RotSubMatBack;
+        public byte[,] RotSubMatRevBack;
 
         public void IncrementPosition()
         {
@@ -31,48 +29,47 @@ namespace Sigaba
                 _rotSubMatLength0 = RotSubMat.GetLength(0);
             }
 
-            if (!Reverse)
-            {
-                Position = (_rotSubMatLength0 + Position - 1) % _rotSubMatLength0;
-            }
-            else
+            if (Reverse)
             {
                 Position = (Position + 1) % _rotSubMatLength0;
             }
+            else
+            {
+                Position = (_rotSubMatLength0 + Position - 1) % _rotSubMatLength0;
+            }
         }
-       /*
-        public byte Ciph(int input)
-        {
-            if (!Reverse)
-                return RotSubMat[Position, input];
-            return RotSubMatBack[Position, input]; //stamp challenge
-        }
-
-        public byte DeCiph(int input)
-        {
-            if (!Reverse)
-                return RotSubMatBack[Position, input];
-            return RotSubMat[Position, input]; //stamp challenge
-        }
-       */
-       
-        public byte Ciph(int input)
+        /*
+        public byte Ciph(byte input)
         {
             if (!Reverse)
                 return RotSubMat[Position, input];
             return RotSubMatRev[Position, input];
         }
 
-        public byte DeCiph(int input)
+        public byte DeCiph(byte input)
+        {
+            if (!Reverse)
+                return RotSubMatBack[Position, input];
+            return RotSubMat[Position, input];   //stamp
+        }*/
+
+        public byte Ciph(byte input)
+        {
+            if (!Reverse)
+                return RotSubMat[Position, input];
+            return RotSubMatRev[Position, input];
+        }
+
+        public byte DeCiph(byte input)
         {
             if (!Reverse)
                 return RotSubMatBack[Position, input];
             return RotSubMatRevBack[Position, input];
         }
-       
-        public Rotor(int[] subalpha, int position, Boolean reverse)
+
+        public RotorByte(byte[] subalpha, int position, Boolean reverse)
         {
-            int subalphaCount = subalpha.Count();
+            var subalphaCount = subalpha.Count();
             Reverse = reverse;
             Position = position;
 
@@ -80,25 +77,22 @@ namespace Sigaba
             RotSubMatBack = new byte[subalphaCount, subalphaCount];
             RotSubMatRev = new byte[subalphaCount, subalphaCount];
             RotSubMatRevBack = new byte[subalphaCount, subalphaCount];
-            Console.WriteLine("Hello1");
+
             for (int i = 0; i < subalphaCount; i++)
             {
                 for (int j = 0; j < subalphaCount; j++)
                 {
                     RotSubMat[i, j] = (byte)((((subalpha[(i + j) % subalphaCount])) - i + subalphaCount) % subalphaCount);
-                    Console.Write(( RotSubMat[i, j]) + " & ");
                     RotSubMatBack[i, j] = (byte)(((Array.IndexOf(subalpha, (char)((((j + i)) % subalphaCount)))) - i + subalphaCount) % subalphaCount);
                     RotSubMatRev[i, j] = (byte)(((i - Array.IndexOf(subalpha, (char)((((i - j + subalphaCount) % subalphaCount))))) + subalphaCount) % subalphaCount);
                     RotSubMatRevBack[i, j] = (byte)((i - (subalpha[((i - j) + subalphaCount) % subalphaCount]) + subalphaCount) % subalphaCount);
                 }
-                Console.WriteLine();
             }
-            Console.WriteLine("Hello2");
         }
 
-        public Rotor(char[] subalpha, int position, Boolean reverse)
+        public RotorByte(char[] subalpha, byte position, Boolean reverse)
         {
-            int subalphaCount = subalpha.Count();
+            var subalphaCount = subalpha.Count();
             Reverse = reverse;
             Position = position;
 
@@ -111,13 +105,21 @@ namespace Sigaba
             {
                 for (int j = 0; j < subalphaCount; j++)
                 {
-                    RotSubMat[i, j] = (byte)((((subalpha[(i + j) % subalphaCount] - 65)) - i + subalphaCount) % subalphaCount);
-                    
-                    RotSubMatBack[i, j] = (byte)(((Array.IndexOf(subalpha, (char)((((j + i)) % subalphaCount) + 65))) - i + subalphaCount) % subalphaCount);
-                    RotSubMatRev[i, j] = (byte)(((i - Array.IndexOf(subalpha, (char)((((i - j + subalphaCount) % subalphaCount) + 65)))) + subalphaCount) % subalphaCount);
-                    RotSubMatRevBack[i, j] = (byte)((i - (subalpha[((i - j) + subalphaCount) % subalphaCount] - 65) + subalphaCount) % subalphaCount);
+                    RotSubMat[i, j] =
+                        (byte)((((subalpha[(i + j) % subalphaCount] - 65)) - i + subalphaCount) % subalphaCount);
+                    RotSubMatBack[i, j] =
+                        (byte)
+                        (((Array.IndexOf(subalpha, (char)((((j + i)) % subalphaCount) + 65))) - i + subalphaCount) %
+                         subalphaCount);
+                    RotSubMatRev[i, j] =
+                        (byte)
+                        (((i - Array.IndexOf(subalpha, (char)((((i - j + subalphaCount) % subalphaCount) + 65)))) +
+                          subalphaCount) % subalphaCount);
+                    RotSubMatRevBack[i, j] =
+                        (byte)
+                        ((i - (subalpha[((i - j) + subalphaCount) % subalphaCount] - 65) + subalphaCount) %
+                         subalphaCount);
                 }
-                
             }
         }
     }

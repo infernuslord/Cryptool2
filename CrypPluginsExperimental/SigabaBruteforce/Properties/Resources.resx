@@ -561,4 +561,10 @@
   <data name="undefinedCaption" xml:space="preserve">
     <value>undefined</value>
   </data>
+  <data name="LocalLabel" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="TopTenLabel" xml:space="preserve">
+    <value>Top Ten</value>
+  </data>
 </root>
