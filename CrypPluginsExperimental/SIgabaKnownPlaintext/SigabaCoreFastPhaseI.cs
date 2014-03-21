@@ -8,8 +8,8 @@ namespace SigabaKnownPlaintext{
     public class SigabaCoreFastPhaseI
     {
 
-        public int quatsch = 14; //stamp challenge
-        public int quatsch2 = 14; // stamp challenge
+        public int sc = 14; //stamp challenge
+        public int sc2 = 14; // stamp challenge
 
         public RotorByte[] ControlRotors;
         public RotorByte[] CipherRotors;
@@ -136,8 +136,8 @@ namespace SigabaKnownPlaintext{
                     ControlRotors[3].Position = 24;
                     ControlRotors[4].Position = 25;
 
-                    quatsch = (ControlRotors[2].Position - 12 + 26)%26;
-                    quatsch2 = (ControlRotors[1].Position - 12 + 26)%26;
+                    sc = (ControlRotors[2].Position - 12 + 26)%26;
+                    sc2 = (ControlRotors[1].Position - 12 + 26)%26;
 
                     int[][] tmplst = new int[input2.Length][];
 
@@ -226,9 +226,9 @@ namespace SigabaKnownPlaintext{
 
                         tmplst[letters] = new int[] { tempf, tempg, temph, tempi };
 
-                        if (ControlRotors[2].Position == quatsch)
+                        if (ControlRotors[2].Position == sc)
                         {
-                            if (ControlRotors[1].Position == quatsch2)
+                            if (ControlRotors[1].Position == sc2)
                             {
                                 ControlRotors[3].IncrementPosition();
                             }
@@ -410,9 +410,9 @@ namespace SigabaKnownPlaintext{
                     }
                 }
 
-                if (ControlRotors[2].Position == quatsch) // stamp challenge
+                if (ControlRotors[2].Position == sc) // stamp challenge
                 {
-                    if (ControlRotors[1].Position == quatsch2) // stamp challenge
+                    if (ControlRotors[1].Position == sc2) // stamp challenge
                     {
                         ControlRotors[3].IncrementPosition();
                     }
