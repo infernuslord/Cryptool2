@@ -4,12 +4,12 @@
   <title lang="en">Monoalphabetic Substitution Analyzer</title>
   <summary lang="en">Cryptanalysis of the monoalphabetic substitution cipher.</summary>
   <description lang="en">This template shows the cryptanalysis of the monoalphabetic substitutioncipher.</description>
-  <keywords>Monoalphabetic Substitution Cipher, Frequencies, Dictionary Attack</keywords>
+  <keywords>Monoalphabetic Substitution Cipher, Frequencies, Dictionary Attack, Analysis</keywords>
 
   <title lang="de">Angriff auf die monoalphabetische Substitution</title>
   <summary lang="de">Angriff auf die monoalphabetische Substitution</summary>
   <description lang="de">Kryptoanalyse der monoalphabetischen Substitution basierend auf Buchstabenhäufigkeiten und einem Wörterbuchangriff</description>
-  <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Angriff</keywords>
+  <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Angriff, Analyse</keywords>
   
   <icon file="AnalysisMonoalphabeticSubstitution.png" />
   <relevantPlugins>

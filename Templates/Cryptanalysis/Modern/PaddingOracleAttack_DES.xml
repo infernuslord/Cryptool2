@@ -4,12 +4,12 @@
   <title lang="en">Padding Oracle Attack on DES</title>
   <summary lang="en">Padding Oracle Attack on <i>DES</i></summary>
   <description lang="en">This template shows a padding oracle attack on <i>DES</i>.</description>
-  <keywords>padding, oracle, attack, DES</keywords>
+  <keywords>padding, oracle, attack, DES, analysis</keywords>
 
   <title lang="de">Padding-Orakel-Angriff auf DES</title>
   <summary lang="de">Padding-Orakel-Angriff auf <i>DES</i></summary>
   <description lang="de">Diese Vorlage zeigt einen Padding-Orakel-Angriff auf die <i>DES</i>-Verschlüsselung.</description>
-  <keywords lang="de">padding, oracle, orakel, angriff, DES</keywords>
+  <keywords lang="de">Padding, Orakel, Angriff, DES, Analyse</keywords>
 
   <icon file="PaddingOracleAttack.png" />
   <relevantPlugins>
