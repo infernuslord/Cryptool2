@@ -369,60 +369,63 @@ namespace Startcenter
 
         private void TemplateSearchInputChanged(object sender, TextChangedEventArgs e)
         {
-            if (SearchTextBox.Text == "")
+            List<string> searchWords = new List<string>();
+            List<string> hitSearchWords = new List<string>();
+
+            var searchWordsArray = SearchTextBox.Text.ToLower().Split(new char[] { ',', ' ' });
+            foreach (var searchword in searchWordsArray)
+            {
+                var sw = searchword.Trim();
+                if (sw != "" && !searchWords.Contains(sw)) searchWords.Add(sw);
+            }
+
+            if (searchWords.Count == 0)
             {
                 TemplatesListBox.Visibility = Visibility.Collapsed;
                 TemplatesTreeView.Visibility = Visibility.Visible;
+                return;
             }
-            else
+
+            TemplatesListBox.Visibility = Visibility.Visible;
+            TemplatesTreeView.Visibility = Visibility.Collapsed;
+
+            foreach (ListBoxItem item in TemplatesListBox.Items)
             {
-                TemplatesListBox.Visibility = Visibility.Visible;
-                TemplatesTreeView.Visibility = Visibility.Collapsed;
+                TextBlock textBlock = (TextBlock)((Panel)item.Content).Children[1];
+                string title = (string)textBlock.Tag;
 
-                foreach (ListBoxItem item in TemplatesListBox.Items)
+                // search template title for the search words
+                hitSearchWords.Clear();
+                SearchForHitWords(searchWords, hitSearchWords, new List<string>() { title });
+
+                bool allSearchWordsFound = hitSearchWords.Count == searchWords.Count;
+
+                // if the template title doesn't contain all search words, search also the keywords
+                if (!allSearchWordsFound)
                 {
-                    var panel = (Panel)item.Content;
-                    TextBlock textBlock = (TextBlock)panel.Children[1];
-                    string text = (string)textBlock.Tag;
+                    List<string> keywords = SearchMatchingKeywords(item, searchWords, hitSearchWords);
+                    allSearchWordsFound = hitSearchWords.Count == searchWords.Count;
+                    if (allSearchWordsFound)
+                        title += " (" + String.Join(", ", keywords) + ")";
+                }
 
-                    var searchWordsArray = SearchTextBox.Text.ToLower().Split(new char[] {',', ' '});
-                    var searchWords = new List<string>(searchWordsArray);
-                    bool hit = true;
-                    for (int i = searchWords.Count() - 1; i >= 0; i--)
-                    {
-                        var sw = searchWords[i].ToLower().Trim();
-                        if ((sw != "") && (!text.ToLower().Contains(sw)))
-                        {
-                            hit = false;
-                        }
-                        else
-                        {
-                            searchWords.RemoveAt(i);
-                        }
-                    }
-                    if (!hit)
-                    {
-                        text = AppendTextWithHitKeywords(item, searchWords, text, ref hit);
-                    }
+                item.Visibility = allSearchWordsFound ? Visibility.Visible : Visibility.Collapsed;
 
-                    Visibility visibility = hit ? Visibility.Visible : Visibility.Collapsed;
-                    item.Visibility = visibility;
-
-                    if (hit)
+                // display matching text segments in bold font
+                if (allSearchWordsFound)
+                {
+                    textBlock.Inlines.Clear();
+                    int begin = 0;
+                    int length;
+                    int end = IndexOfFirstHit(title, searchWordsArray, begin, out length);
+                    while (end != -1)
                     {
-                        textBlock.Inlines.Clear();
-                        int begin = 0;
-                        int length;
-                        int end = IndexOfFirstHit(text, searchWordsArray, begin, out length);
-                        while (end != -1)
-                        {
-                            textBlock.Inlines.Add(text.Substring(begin, end - begin));
-                            textBlock.Inlines.Add(new Bold(new Italic(new Run(text.Substring(end, length)))));
-                            begin = end + length;
-                            end = IndexOfFirstHit(text, searchWordsArray, begin, out length);
-                        }
-                        textBlock.Inlines.Add(text.Substring(begin, text.Length - begin));
+                        textBlock.Inlines.Add(title.Substring(begin, end - begin));
+                        textBlock.Inlines.Add(new Bold(new Italic(new Run(title.Substring(end, length)))));
+                        begin = end + length;
+                        end = IndexOfFirstHit(title, searchWordsArray, begin, out length);
                     }
+                    textBlock.Inlines.Add(title.Substring(begin, title.Length - begin));
                 }
             }
         }
@@ -446,72 +449,36 @@ namespace Startcenter
             return res;
         }
 
-        private string AppendTextWithHitKeywords(ListBoxItem item, List<string> searchWords, string text, ref bool hit)
+        private List<string> SearchMatchingKeywords(ListBoxItem item, List<string> searchWords, List<string> hitSearchWords)
         {
+            List<string> hitKeyWords = new List<string>();
+
             var tag = ((System.Collections.ArrayList)((FrameworkElement)item.Content).Tag);
+
             if (tag.Count == 2)
             {
-                List<string> hitKeywords = new List<string>();
                 var internationalizedKeywords = (Dictionary<string, List<string>>)tag[1];
-                string lang = null;
-                if (internationalizedKeywords.ContainsKey(CultureInfo.CurrentCulture.TextInfo.CultureName))
-                {
-                    lang = CultureInfo.CurrentCulture.TextInfo.CultureName;
-                }
-                else if (internationalizedKeywords.ContainsKey(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))
-                {
-                    lang = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-                }
-
-                SearchForHitKeywords(searchWords, internationalizedKeywords, lang, hitKeywords);
-                if (lang != "en")
-                {
-                    SearchForHitKeywords(searchWords, internationalizedKeywords, "en", hitKeywords);
-                }
-
-                if (hitKeywords.Count > 0)
-                {
-                    var sb = new StringBuilder();
-                    sb.Append(text);
-                    sb.Append(" (");
-                    foreach (var keyword in hitKeywords)
-                    {
-                        sb.Append(keyword);
-                        sb.Append(", ");
-                    }
-                    sb.Remove(sb.Length - 2, 2);
-                    sb.Append(")");
-                    text = sb.ToString();
-                    hit = true;
-                }
-                return text;
+                List<string> langs = new List<string>() { CultureInfo.CurrentCulture.TextInfo.CultureName, CultureInfo.CurrentCulture.TwoLetterISOLanguageName };
+                if (!langs.Contains("en")) langs.Add("en"); // check english keywords in any case
+                foreach (var lang in langs)
+                    if(lang!=null && internationalizedKeywords.ContainsKey(lang))
+                        SearchForHitWords(searchWords, hitSearchWords, internationalizedKeywords[lang], hitKeyWords);
             }
-            return text;
+
+            return hitKeyWords;
         }
 
-        private void SearchForHitKeywords(List<string> searchWords, Dictionary<string, List<string>> internationalizedKeywords, string lang, List<string> hitKeywords)
+        private void SearchForHitWords(List<string> searchWords, List<string> hitSearchWords, List<string> words, List<string> hitWords=null)
         {
-            List<string> searchWordsLeft = new List<string>(searchWords);
-            if (lang != null)
+            foreach (var searchWord in searchWords)
             {
-                foreach (var keyword in internationalizedKeywords[lang])
-                {
-                    for (int i = searchWordsLeft.Count - 1; i >= 0; i--)
+                if (hitSearchWords.Contains(searchWord)) continue;
+                foreach (var word in words)
+                    if (word.ToLower().Contains(searchWord.ToLower()))
                     {
-                        var sw = searchWordsLeft[i].ToLower().Trim();
-                        if ((sw != "") && (keyword.ToLower().Contains(sw)))
-                        {
-                            hitKeywords.Add(keyword);
-                            searchWordsLeft.RemoveAt(i);
-                            break;
-                        }
+                        if (hitWords != null && !hitWords.Contains(word)) hitWords.Add(word);
+                        if (!hitSearchWords.Contains(searchWord)) hitSearchWords.Add(searchWord);
                     }
-                }
-            }
-
-            if (searchWordsLeft.Count > 0)
-            {
-                hitKeywords.Clear();
             }
         }
 
