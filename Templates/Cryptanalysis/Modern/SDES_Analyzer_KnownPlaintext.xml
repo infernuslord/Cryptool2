@@ -4,12 +4,12 @@
   <title lang="en">SDES Known-Plaintext Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>SDES</i> algorithm using the <i>KeySearcher</i> component and a known plaintext</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>SDES</i> algorithm using the <i>KeySearcher</i> component and a known plaintext.</description>
-  <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
+  <keywords>advanced, standard, NIST, Rijndael, Daemen, Rijmen, symmetric, keysearcher, Attack, Analysis</keywords>
 
   <title lang="de">SDES Known-Plaintext-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Klartextes</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Klartextes.</description>
-  <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, regex, regulärer ausdruck, keysearcher, keysearcher, bekannter klartext</keywords>
+  <keywords lang="de">symmetrisch, NIST, Rijndael, Daemen, Rijmen, Standard, regex, regulärer Ausdruck, Keysearcher, bekannter Klartext, Angriff</keywords>
 
   <icon file="SDES.png" />
   <relevantPlugins>

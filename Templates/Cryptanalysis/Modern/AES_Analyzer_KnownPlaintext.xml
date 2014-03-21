@@ -4,12 +4,12 @@
   <title lang="en">AES Known-Plaintext Analysis (1)</title>
   <summary lang="en">Cryptanalysis of <i>AES</i> using the <i>KeySearcher</i> component and a known plaintext</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> component and a known piece of plaintext (crib). The <i>KeySearcher</i> gets an encrypted text as input and tries all keys of the given keyspace. The resulting plaintexts are then matched against the crib. The plaintext that best matches the crib is sent to the output.</description>
-  <keywords>advanced, Daemen, Rijmen, standard, Rijndael, symmetric, keysearcher</keywords>
+  <keywords>advanced, Daemen, Rijmen, standard, Rijndael, symmetric, keysearcher, Attack, Analysis</keywords>
 
   <title lang="de">AES Known-Plaintext-Analyse (1)</title>
   <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Klartextes</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Abschnittes des Klartextes (Crib). Der <i>KeySearcher</i> erhält hierzu einen verschlüsselten Text als Eingabe und probiert alle Schlüssel des angegebenen Schlüsselraumes. Die resultierenden Klartexte werden dann mit dem Crib verglichen und der Klartext, der dem Crib am besten entspricht, wird ausgegeben.</description>
-  <keywords lang="de">symmetrisch, Daemen, Rijmen, standard, Rijndael, keysearcher</keywords>
+  <keywords lang="de">symmetrisch, Daemen, Rijmen, Standard, Rijndael, Keysearcher, Angriff</keywords>
 
   <icon file="AES.png" />
   <relevantPlugins>

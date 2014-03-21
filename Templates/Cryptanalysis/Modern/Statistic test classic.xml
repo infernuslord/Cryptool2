@@ -4,12 +4,12 @@
   <title lang="en">Statistic Tests for Classical Ciphers</title>
   <summary lang="en">Usage of the <i>Statistic Test</i> for classical ciphers</summary>
   <description lang="en">This template shows the usage of the <i>Statistic Test</i> for classical ciphers.</description>
-  <keywords>Analysis, FrequencyTest, FriedmanTest</keywords>
+  <keywords>FrequencyTest, FriedmanTest, Attack, Analysis</keywords>
 
   <title lang="de">Statistiktests für klassische Chiffren</title>
   <summary lang="de">Benutzung von <i>statistischen Tests</i> für klassische Chiffren</summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung von <i>statistischen Tests</i> für klassische Chiffren.</description>
-  <keywords lang="de">Analyse, Frequenztest, Friedmantest</keywords>
+  <keywords lang="de">Analyse, Frequenztest, Friedmantest, Angriff</keywords>
 
   <icon file="Statistic test classic.png" />
   <relevantPlugins>

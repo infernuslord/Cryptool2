@@ -9,7 +9,7 @@ the a ciphertext; the plaintext is instantly recognisable by eye. Another way of
 of the ciphertext, the entire alphabet is written out in reverse starting at that letter. This attack can be accelerated using a set of strips prepared with the alphabet
 written down them in reverse order. The strips are then aligned to form the ciphertext along one row, and the plaintext should appear in one of the other rows.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></description>
-  <keywords>Caesar, Julius, Analysis, Substitution, monoalphabetic</keywords>
+  <keywords>Caesar, Julius, Attack, Analysis, Substitution, monoalphabetic</keywords>
 
   <title lang="de">Caesar Brute-Force-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Caesar</i>-Verschlüsselung mit Brute-Force</summary>
@@ -21,7 +21,7 @@ Computer oder Rechenmaschine mit geringem Aufwand möglich ist, bestand die Sich
 Geheimhaltung des Schlüssels, sondern im Wesentlichen auf der Geheimhaltung des Verfahrens, und entspricht damit nicht dem im 19. Jahrhundert postulierten
 Prinzip von Auguste Kerckhoffs.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /></description>
-  <keywords lang="de">Analyse, Cäsar, Caesar, monoalphabetisch, brute-force, exhaustive</keywords>
+  <keywords lang="de">Cäsar, Caesar, monoalphabetisch, exhaustive, Angriff</keywords>
 
   <icon file="Caesar_Analysis.png" />
   <relevantPlugins>

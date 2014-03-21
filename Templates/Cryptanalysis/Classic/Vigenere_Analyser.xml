@@ -4,12 +4,12 @@
   <title lang="en">Vigenère Analysis</title>
   <summary lang="en">Usage of the <i>Vigenère</i> Analysis</summary>
   <description lang="en">This template shows the usage of the <i>Vigenère Analysis</i>. It is a ciphertext-only attack, as no part of the plaintext is known in advance.</description>
-  <keywords>Caesar, polyalphabetic, Substitution</keywords>
+  <keywords>Caesar, polyalphabetic, Substitution, Attack, Analysis</keywords>
 
   <title lang="de">Vigenère Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Vigenère</i>-Verschlüsselung</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Vigenère</i>-Verschlüsselung. Es handelt sich hierbei um eine Ciphertext-only-Analyse, da keine Informationen über den Klartext bekannt sind.</description>
-  <keywords lang="de">Caesar, polyalphabetisch, Substitution</keywords>
+  <keywords lang="de">Cäsar, Caesar, polyalphabetisch, Substitution, Angriff</keywords>
 
   <icon file="Vigenere_Analyser.png" />
   <relevantPlugins>

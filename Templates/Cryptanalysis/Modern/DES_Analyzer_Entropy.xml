@@ -4,12 +4,12 @@
   <title lang="en">DES Analysis using Entropy</title>
   <summary lang="en">Cryptanalysis of <i>DES</i> using the <i>KeySearcher</i> component and an entropy function</summary>
   <description lang="en">This template shows the cryptanalysis of <i>DES</i> using the <i>KeySearcher</i> component and an entropy function.</description>
-  <keywords>symmetric, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
+  <keywords>symmetric, Data Encryption Standard, standard, NSA, 56, keysearcher, Attack, Analysis</keywords>
 
   <title lang="de">DES Analyse per Entropie</title>
   <summary lang="de">Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und einer Entropie-Funktion</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und einer Entropie-Funktion.</description>
-  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56, keysearcher</keywords>
+  <keywords lang="de">symmetrisch, Data Encryption Standard, standard, NSA, 56, keysearcher, Angriff</keywords>
 
   <icon file="DES.png" />
   <relevantPlugins>

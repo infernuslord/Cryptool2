@@ -4,12 +4,12 @@
   <title lang="en">AES Analysis using Entropy (1)</title>
   <summary lang="en">Cryptanalysis of <i>AES</i> using the <i>KeySearcher</i> component and an entropy function</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>AES</i> algorithm using the <i>KeySearcher</i> component and an entropy function. The <i>KeySearcher</i> gets an encrypted text as input and tries all keys of the given keyspace. The resulting plaintexts are evaluated with the entropy function and the plaintext with the best score is sent to the output.</description>
-  <keywords>advanced, standard, nist, Rijndael, Daemen, Rijmen, symmetric, keysearcher</keywords>
+  <keywords>advanced, standard, NIST, Rijndael, Daemen, Rijmen, symmetric, keysearcher, Attack, Analysis</keywords>
 
   <title lang="de">AES Analyse per Entropie (1)</title>
   <summary lang="de">Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und einer Entropie-Funktion</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und einer Entropie-Funktion. Der <i>KeySearcher</i> erhält hierzu einen verschlüsselten Text als Eingabe und probiert alle Schlüssel des angegebenen Schlüsselraumes. Die resultierenden Klartexte werden mittels der Entropie-Funktion bewertet, und der Klartext mit der besten Bewertung wird ausgegeben.</description>
-  <keywords lang="de">symmetrisch, nist, Rijndael, Daemen, Rijmen, standard, keysearcher</keywords>
+  <keywords lang="de">symmetrisch, NIST, Rijndael, Daemen, Rijmen, Standard, Keysearcher, Angriff</keywords>
 
   <icon file="AES.png" />
   <relevantPlugins>

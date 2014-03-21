@@ -9,7 +9,7 @@
   <title lang="de">Angriff auf die monoalphabetische Substitution</title>
   <summary lang="de">Angriff auf die monoalphabetische Substitution</summary>
   <description lang="de">Kryptoanalyse der monoalphabetischen Substitution basierend auf Buchstabenhäufigkeiten und einem Wörterbuchangriff</description>
-  <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Angriff, Analyse</keywords>
+  <keywords lang="de">monoalphabetische Substitution, Häufigkeiten, Wörterbuch, Analyse</keywords>
   
   <icon file="AnalysisMonoalphabeticSubstitution.png" />
   <relevantPlugins>
