@@ -4,12 +4,12 @@
   <title lang="en">Wordpattern Analysis</title>
   <summary lang="en">Usage of the <i>Wordpattern Analysis</i></summary>
   <description lang="en">This template shows the usage of the <i>Wordpattern Analysis</i>.</description>
-  <keywords>WordPatterns</keywords>
+  <keywords>WordPatterns, Attack, Analysis</keywords>
 
   <title lang="de">Wortmusteranalyse</title>
   <summary lang="de">Benutzung der <i>Wortmusteranalyse</i></summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Wortmusteranalyse</i>.</description>
-  <keywords lang="de">Wortmuster</keywords>
+  <keywords lang="de">Wortmuster, Angriff</keywords>
 
   <icon file="WordPatterns.png" />
   <relevantPlugins>

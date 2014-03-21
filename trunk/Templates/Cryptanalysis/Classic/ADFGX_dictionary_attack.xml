@@ -4,12 +4,12 @@
   <title lang="en">ADFGVX Cipher dictionary attack</title>
   <summary lang="en">Usage of the <i>ADFGVX</i> cipher</summary>
   <description lang="en">This template shows how a dictionary attack can be implemented and carried out in CrypTool 2.0 using a dictionary and the ADFGVX cipher.</description>
-  <keywords>ADFGX, World War, Telegraphy, Polybius, Square, Column, Row, Polybios, Dictionary, Attack</keywords>
+  <keywords>ADFGX, World War, Telegraphy, Polybius, Square, Column, Row, Polybios, Dictionary, Attack, Analysis</keywords>
 
   <title lang="de">Wörterbuchangriff auf die ADFGVX-Chiffre</title>
   <summary lang="de">Benutzung der <i>ADFGVX</i>-Chiffre</summary>
   <description lang="de">Diese Vorlage zeigt, wie in CrypTool 2.0 ein Wörterbuchangriff mit Hilfe eines Wörterbuchs und der ADFGVX-Chiffre implementiert und durchgeführt werden kann.</description>
-  <keywords lang="de">Weltkrieg, Reihe, Spalte, Quadrat, Angriff, Wörterbuch</keywords>
+  <keywords lang="de">Weltkrieg, Reihe, Spalte, Quadrat, Wörterbuch, Analyse</keywords>
 
   <icon file="ADFGX_dictionary_attack.png" />
   <relevantPlugins>

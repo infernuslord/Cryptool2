@@ -4,12 +4,12 @@
   <title lang="en">Padding Oracle Attack on AES</title>
   <summary lang="en">Padding Oracle Attack on <i>AES</i></summary>
   <description lang="en">This template shows a padding oracle attack on <i>AES</i>.</description>
-  <keywords>padding, oracle, attack, AES, analysis</keywords>
+  <keywords>padding, oracle, AES, Attack, Analysis</keywords>
 
   <title lang="de">Padding-Orakel-Angriff auf AES</title>
   <summary lang="de">Padding-Orakel-Angriff auf <i>AES</i></summary>
   <description lang="de">Diese Vorlage zeigt einen Padding-Orakel-Angriff auf die <i>AES</i>-Verschlüsselung.</description>
-  <keywords lang="de">Padding, Orakel, Angriff, AES, Analyse</keywords>
+  <keywords lang="de">Padding, Orakel, AES, Analyse</keywords>
 
   <icon file="PaddingOracleAttack.png" />
   <relevantPlugins>

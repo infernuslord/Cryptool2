@@ -4,12 +4,12 @@
   <title lang="en">Caesar Analysis using character frequencies</title>
   <summary lang="en">Cryptanalysis of the <i>Caesar</i> cipher using character frequencies</summary>
   <description lang="en">This sample performs a statistical analysis attack on the Caesar cipher. The character frequencies are analyzed and -- based on the result -- the substitution done by the Caesar cipher is reverted.</description>
-  <keywords>Caesar, Julius, Analysis, Substitution, monoalphabetic, frequencies</keywords>
+  <keywords>Caesar, Julius, Substitution, monoalphabetic, frequencies, Attack, Analysis</keywords>
 
   <title lang="de">Caesar Analyse mittels Buchstabenhäufigkeiten</title>
   <summary lang="de">Kryptoanalyse der <i>Caesar</i>-Verschlüsselung mittels Buchstabenhäufigkeiten</summary>
   <description lang="de">Diese Vorlage führt einen statistischen Angriff auf die Caesar-Chiffre durch. Zunächst werden die Buchstabenhäufigkeiten analysiert um dann, auf Grundlage des Ergebnisses der Analyse, die Substitution der Caesar-Chiffre umzukehren.</description>
-  <keywords lang="de">Analyse, Cäsar, Caesar, monoalphabetisch, Häufigkeiten</keywords>
+  <keywords lang="de">Cäsar, Caesar, monoalphabetisch, Häufigkeiten, Angriff</keywords>
 
   <icon file="Caesar_Analysis_Using-character-frequencies.png" />
   <relevantPlugins>

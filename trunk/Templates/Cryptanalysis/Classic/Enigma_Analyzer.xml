@@ -4,12 +4,12 @@
   <title lang="en">Enigma Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Enigma</i> cipher</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>Enigma</i> cipher.</description>
-  <keywords>Machine, Turing, World War, Rotor</keywords>
+  <keywords>Machine, Turing, World War, Rotor, Attack, Analysis</keywords>
 
   <title lang="de">Enigma Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Enigma</i>-Chiffriermaschine</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma</i>-Chiffriermaschine.</description>
-  <keywords lang="de">Maschine, Weltkrieg</keywords>
+  <keywords lang="de">Maschine, Weltkrieg, Angriff</keywords>
 
   <icon file="Enigma_Analyzer.png" />
   <relevantPlugins>

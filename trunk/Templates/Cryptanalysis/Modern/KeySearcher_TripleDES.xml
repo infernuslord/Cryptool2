@@ -4,12 +4,12 @@
   <title lang="en">Triple DES Brute-force Analysis</title>
   <summary lang="en">Cryptanalysis of the <i>Triple DES</i> algorithm using the <i>KeySearcher</i> component</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>Triple DES</i> algorithm using the <i>KeySearcher</i> component.</description>
-  <keywords>standard, advanced, DES, AES, symmetric, keysearcher</keywords>
+  <keywords>standard, advanced, DES, AES, symmetric, keysearcher, Attack, Analysis</keywords>
 
   <title lang="de">Triple-DES Brute-Force-Analyse</title>
   <summary lang="de">Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente.</description>
-  <keywords lang="de">standard, advanced, DES, AES, symmetrisch, keysearcher</keywords>
+  <keywords lang="de">Standard, DES, AES, symmetrisch, Keysearcher, Angriff</keywords>
 
   <icon file="KeySearcher.png" />
   <relevantPlugins>

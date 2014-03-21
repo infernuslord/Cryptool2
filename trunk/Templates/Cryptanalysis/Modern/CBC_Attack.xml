@@ -4,12 +4,12 @@
   <title lang="en">CBC-Attack</title>
   <summary lang="en">This template shows an attack on the cipher block chaining (CBC) mode of block ciphers.</summary>
   <description lang="en">This template shows an attack on the cipher block chaining (CBC) mode of block ciphers. Blocks are replaced by arbitrary content.</description>
-  <keywords>cipher block chaining, attack, mode, analysis</keywords>
+  <keywords>Cipher Block Chaining, Attack, Mode, Analysis</keywords>
 
   <title lang="de">CBC-Angriff</title>
   <summary lang="de">Diese Vorlage zeigt einen Angriff auf den Cipher Block Chaining (CBC) Modus von Blockchiffren.</summary>
   <description lang="de">Diese Vorlage zeigt einen Angriff auf den Cipher Block Chaining (CBC) Modus von Blockchiffren. Blöcke werden durch beliebigen Inhalt ersetzt.</description>
-  <keywords lang="de">Cipher Block Chaning, Angriff, Modus, Analyse</keywords>
+  <keywords lang="de">Modus, Analyse</keywords>
 
   <icon file="CBC_Attack.png" />
   <relevantPlugins>

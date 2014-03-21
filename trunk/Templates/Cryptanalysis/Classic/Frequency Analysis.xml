@@ -4,12 +4,12 @@
   <title lang="en">Frequency Analysis</title>
   <summary lang="en">Usage of the <i>Frequency Analysis</i></summary>
   <description lang="en">This template shows the usage of the <i>Frequency Analysis</i> component.</description>
-  <keywords>frequency, letters, language</keywords>
+  <keywords>frequency, letters, language, Attack, Analysis</keywords>
 
   <title lang="de">Frequenzanalyse</title>
   <summary lang="de">Benutzung der <i>Frequenzanalyse</i></summary>
   <description lang="de">Diese Vorlage zeigt die Benutzung der Frequenzanalyse.</description>
-  <keywords lang="de">Frequenz, Buchstaben, Sprache</keywords>
+  <keywords lang="de">Frequenz, Buchstaben, Sprache, Angriff</keywords>
 
   <icon file="Frequency Analysis.png" />
   <relevantPlugins>

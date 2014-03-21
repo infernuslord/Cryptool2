@@ -4,12 +4,12 @@
   <title lang="en">Wordpattern Analysis with self-defined dictionary</title>
   <summary lang="en">Usage of the <i>Wordpattern Analysis</i> with a self-defined dictionary</summary>
   <description lang="en">This sample demonstrates how to use the WordPatterns component together with a self defined dictionary. The dictionary is provided as a text file where each line defines one entry of the dictionary.</description>
-  <keywords>WordPatterns, pattern, analysis, search, match</keywords>
+  <keywords>WordPatterns, pattern, search, match, Attack, Analysis</keywords>
 
   <title lang="de">Wortmusteranalyse mit selbstdefiniertem Wörterbuch</title>
   <summary lang="de">Benutzung der <i>Wortmusteranalyse</i> mit einem selbstdefinierten Wörterbuch</summary>
   <description lang="de">Diese Vorlage demonstriert, wie die Wortmuster-Komponente in Verbindung mit einem selbstdefinierten Wörterbuch verwendet werden kann. Das Wörterbuch muss als Textdatei vorliegen, wobei jede Zeile der Textdatei als ein Eintrag des Wörterbuches interpretiert wird.</description>
-  <keywords lang="de">Wortmuster, muster, analyse, suche, treffer</keywords>
+  <keywords lang="de">Wortmuster, Suche, Treffer, Angriff</keywords>
 
   <icon file="WordPatterns.png" />
 
