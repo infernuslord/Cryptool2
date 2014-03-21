@@ -5,13 +5,13 @@
   <summary lang="en">Usage of the <i>Enigma</i> cipher machine</summary>
   <description lang="en">An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages. The first Enigma was invented by German engineer Arthur Scherbius at the end of World War I. This model and its variants were used commercially from the early 1920s, and adopted by military and government services of several countries — most notably by Nazi Germany before and during World War II. Several different Enigma models were produced, but the German military models, the Wehrmacht Enigmas, are the ones most commonly discussed.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Enigma_machine" /></description>
-  <keywords>Machine, Turing, War, Rotor</keywords>
+  <keywords>Machine, Turing, World War, Rotor</keywords>
 
   <title lang="de">Enigma-Chiffre</title>
   <summary lang="de">Benutzung der <i>Enigma</i>-Chiffriermaschine</summary>
   <description lang="de">Die ENIGMA ist eine Rotor-Schlüsselmaschine, die im Zweiten Weltkrieg im Nachrichtenverkehr des deutschen Militärs verwendet wurde. Auch andere Dienststellen, wie Polizei, Geheimdienste, diplomatische Dienste, SD, SS, Reichspost und Reichsbahn, setzten sie zur geheimen Kommunikation ein. Das Wort „Enigma“ (αίνιγμα) kommt aus dem Griechischen und bedeutet Rätsel.<newline /><newline />
 Quelle: <external ref="http://de.wikipedia.org/wiki/Enigma_(Maschine)" /></description>
-  <keywords lang="de">Krieg, Maschine, Weltkrieg</keywords>
+  <keywords lang="de">Maschine, Weltkrieg</keywords>
 
   <icon file="Enigma.png" />
   <relevantPlugins>

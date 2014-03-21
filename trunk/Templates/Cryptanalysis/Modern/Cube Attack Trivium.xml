@@ -4,12 +4,12 @@
   <title lang="en">Cube Attack on Trivium</title>
   <summary lang="en">Cryptanalysis of the <i>Trivium</i> cipher using the Cube attack</summary>
   <description lang="en">This template shows the cryptanalysis of the <i>Trivium</i> cipher using the Cube attack.</description>
-  <keywords>stream, Preneel, Canniere, estream</keywords>
+  <keywords>stream, Preneel, Canniere, estream, analysis</keywords>
 
   <title lang="de">Cube-Angriff auf Trivium</title>
   <summary lang="de">Kryptoanalyse der <i>Trivium</i>-Verschlüsselung per Cube-Angriff</summary>
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Trivium</i>-Verschlüsselung per Cube-Angriff.</description>
-  <keywords lang="de">Stromchiffre, Preneel, Canniere, estream</keywords>
+  <keywords lang="de">Stromchiffre, Preneel, Canniere, estream, Analyse</keywords>
 
   <icon file="Cube Attack Trivium.png" />
   <relevantPlugins>
