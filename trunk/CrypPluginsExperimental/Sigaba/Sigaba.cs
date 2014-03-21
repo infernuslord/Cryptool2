@@ -130,8 +130,7 @@ namespace Sigaba
                 _keys[1] = _settings.IndexKey;
                 _keys[2] = _settings.ControlKey;
             }
-           // _core.quatsch = ((_settings.ControlKey[2]-65)-12+26)%26;
-           // _core.quatsch2 = ((_settings.ControlKey[1] - 65) - 12 + 26) % 26;
+           
         }
 
         /// <summary>

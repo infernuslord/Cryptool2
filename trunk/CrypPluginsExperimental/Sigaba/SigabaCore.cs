@@ -11,8 +11,8 @@ namespace Sigaba
 {
     public class SigabaCore
     {
-        public int quatsch = 14; //stamp challenge
-        public int quatsch2 = 14; // stamp challenge
+        public int sc = 14; //stamp challenge
+        public int sc2 = 14; // stamp challenge
 
         private readonly Sigaba _facade;
         private readonly SigabaSettings _settings;
@@ -70,9 +70,9 @@ namespace Sigaba
                     
                 }
 
-                if (ControlRotors[2].Position == quatsch) //stamp challenge
+                if (ControlRotors[2].Position == sc) //stamp challenge
                 {
-                    if (ControlRotors[1].Position == quatsch2) // stamp challenge
+                    if (ControlRotors[1].Position == sc2) // stamp challenge
                     {
                         ControlRotors[3].IncrementPosition();
                     }
