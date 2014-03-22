@@ -157,12 +157,15 @@ namespace LatticeCrypto.Views
 
             foreach (TextBox textBox in latticeGrid.Children.Cast<Control>().Where(control => control is TextBox && !((TextBox)control).Text.Equals("")).Cast<TextBox>())
             {
+                textBox.Background = System.Windows.Media.Brushes.White;
+
                 BigInteger tryParse;
                 if (!BigInteger.TryParse(textBox.Text, out tryParse))
                 {
                     errorText.Text = Languages.errorOnlyIntegersAllowed;
                     buttonOK.IsEnabled = false;
                     buttonCopy.IsEnabled = false;
+                    textBox.Background = System.Windows.Media.Brushes.Red;
                     return;
                 }
                 if (mod != 0 && tryParse >= mod)
@@ -170,6 +173,7 @@ namespace LatticeCrypto.Views
                     errorText.Text = string.Format("Es sind nur Zahlen bis {0} erlaubt", mod);
                     buttonOK.IsEnabled = false;
                     buttonCopy.IsEnabled = false;
+                    textBox.Background = System.Windows.Media.Brushes.Red;
                     return;
                 }
                 if (allowedNumbers != null && !allowedNumbers.Exists(x => x == tryParse))
@@ -184,6 +188,7 @@ namespace LatticeCrypto.Views
                     errorText.Text = string.Format("Es sind nur die Zahlen {0} erlaubt", numbers);
                     buttonOK.IsEnabled = false;
                     buttonCopy.IsEnabled = false;
+                    textBox.Background = System.Windows.Media.Brushes.Red;
                     return;
                 }
             }

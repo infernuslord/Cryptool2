@@ -91,7 +91,8 @@
         <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" VerticalScrollBarVisibility="Auto" Width="290">
             <StackPanel >
                 <Label Content="{x:Static Properties:Languages.labelVisualizationForDim2}" FontWeight="Bold"/>
-                <GroupBox HorizontalAlignment="Center" Margin="0,10,0,0">
+               <Button Name="buttonGenerate" Content="{x:Static Properties:Languages.buttonGenerateNewLattice}" Margin="0,10,0,0"  Click="Button_Click" HorizontalAlignment="Center"/>
+                <GroupBox HorizontalAlignment="Center" Margin="0,20,0,0">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{x:Static Properties:Languages.labelCodomain}" HorizontalAlignment="Center" Background="LightBlue" />
@@ -116,7 +117,6 @@
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Name="errorText" Visibility="Collapsed" TextWrapping="Wrap"/>
                     </Grid>
                 </GroupBox>
-                <Button Name="buttonGenerate" Content="{x:Static Properties:Languages.buttonGenerateNewLattice}" Margin="0,20,0,0"  Click="Button_Click" HorizontalAlignment="Center"/>
                 <Button Content="{x:Static Properties:Languages.buttonEnterLatticeManually}" Margin="0,10,0,0" Click="Button_Click_1" HorizontalAlignment="Center"/>
                 <GroupBox HorizontalAlignment="Center" Margin="0,20,0,0">
                     <GroupBox.Header>

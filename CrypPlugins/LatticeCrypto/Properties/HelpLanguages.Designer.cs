@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace LatticeCrypto.Properties {
-    using System;
-    
-    
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -266,6 +263,16 @@ namespace LatticeCrypto.Properties {
         public static System.Drawing.Bitmap ImgLengthVector {
             get {
                 object obj = ResourceManager.GetObject("ImgLengthVector", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ImgMerkleHellman {
+            get {
+                object obj = ResourceManager.GetObject("ImgMerkleHellman", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

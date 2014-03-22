@@ -27,6 +27,7 @@ namespace LatticeCrypto.Views
                 viewModel.RightGrid = rightGrid;
                 viewModel.GenerateNewGGH((int)scrollBar.Value, (int)scrollBar2.Value);
                 viewModel.UpdateTextBoxes();
+                message.Text = Languages.defaultMessageGGH;
             };
 
             InitializeComponent();

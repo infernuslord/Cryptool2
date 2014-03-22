@@ -130,7 +130,7 @@
     <value>Finde nächsten Vektor</value>
   </data>
   <data name="buttonGenerateNewCryptosystem" xml:space="preserve">
-    <value>Generiere neues Kryptosystem</value>
+    <value>Generiere neue Schlüssel</value>
   </data>
   <data name="buttonGenerateNewLattice" xml:space="preserve">
     <value>Generiere neues Gitter</value>
@@ -536,5 +536,11 @@
   </data>
   <data name="titleEnterMerkleHellman" xml:space="preserve">
     <value>Neues Merkle-Hellman-Kryptosystem</value>
+  </data>
+  <data name="defaultMessageGGH" xml:space="preserve">
+    <value>Dieser Text ist geheim</value>
+  </data>
+  <data name="defaultMessageRSA" xml:space="preserve">
+    <value>Das neue Passwort lautet: 1234</value>
   </data>
 </root>

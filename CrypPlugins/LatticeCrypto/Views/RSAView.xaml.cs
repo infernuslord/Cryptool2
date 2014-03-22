@@ -22,6 +22,7 @@ namespace LatticeCrypto.Views
                 viewModel = (RSAViewModel) DataContext;
                 viewModel.History = History;
                 viewModel.GenerateNewRSA((int)scrollBar.Value);
+                message.Text = Languages.defaultMessageRSA;
             };
 
             InitializeComponent();
