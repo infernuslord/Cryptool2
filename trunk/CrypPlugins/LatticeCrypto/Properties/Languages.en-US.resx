@@ -130,7 +130,7 @@
     <value>Find closest vector</value>
   </data>
   <data name="buttonGenerateNewCryptosystem" xml:space="preserve">
-    <value>Generate new cryptosystem</value>
+    <value>Generate new keys</value>
   </data>
   <data name="buttonGenerateNewLattice" xml:space="preserve">
     <value>Generate new lattice</value>
@@ -536,5 +536,11 @@
   </data>
   <data name="titleEnterMerkleHellman" xml:space="preserve">
     <value>New Merkle-Hellman-Cryptosystem</value>
+  </data>
+  <data name="defaultMessageGGH" xml:space="preserve">
+    <value>This text is secret</value>
+  </data>
+  <data name="defaultMessageRSA" xml:space="preserve">
+    <value>The new password is: 1234</value>
   </data>
 </root>

@@ -142,7 +142,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Generiere neues Kryptosystem ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Generiere neue Schlüssel ähnelt.
         /// </summary>
         public static string buttonGenerateNewCryptosystem {
             get {
@@ -219,6 +219,24 @@ namespace LatticeCrypto.Properties {
         public static string buttonTranspose {
             get {
                 return ResourceManager.GetString("buttonTranspose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dieser Text ist geheim ähnelt.
+        /// </summary>
+        public static string defaultMessageGGH {
+            get {
+                return ResourceManager.GetString("defaultMessageGGH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das neue Passwort lautet: 1234 ähnelt.
+        /// </summary>
+        public static string defaultMessageRSA {
+            get {
+                return ResourceManager.GetString("defaultMessageRSA", resourceCulture);
             }
         }
         

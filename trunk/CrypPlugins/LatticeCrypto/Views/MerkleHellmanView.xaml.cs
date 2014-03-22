@@ -23,6 +23,7 @@ namespace LatticeCrypto.Views
                 viewModel = (MerkleHellmanViewModel) DataContext;
                 viewModel.History = History;
                 viewModel.GenerateNewMerkleHellman((int)scrollBar.Value);
+                message.Text = Languages.defaultMessageGGH;
             };
 
             InitializeComponent();
