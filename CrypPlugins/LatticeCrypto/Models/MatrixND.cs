@@ -34,6 +34,7 @@
 
 using System;
 using System.Numerics;
+using LatticeCrypto.Utilities;
 
 namespace LatticeCrypto.Models
 {
@@ -261,7 +262,7 @@ namespace LatticeCrypto.Models
         //    return matrixNd;
         //}
 
-        public override string ToString()                           // Function returns matrix as a string
+        public override string ToString()
         {
             string matrix = "";
             for (int i = 0; i < cols; i++)
@@ -270,6 +271,25 @@ namespace LatticeCrypto.Models
                 for (int j = 0; j < rows; j++)
                 {
                     matrix += this[j,i];
+                    if (j < rows - 1)
+                        matrix += FormatSettings.CoordinateSeparator;
+                }
+                matrix += FormatSettings.VectorTagClosed;
+                if (i < cols - 1)
+                    matrix += FormatSettings.VectorSeparator;
+            }
+            return FormatSettings.LatticeTagOpen + matrix + FormatSettings.LatticeTagClosed;
+        }
+
+        public string ToStringLog()
+        {
+            string matrix = "";
+            for (int i = 0; i < cols; i++)
+            {
+                matrix += FormatSettings.VectorTagOpen;
+                for (int j = 0; j < rows; j++)
+                {
+                    matrix += Util.FormatDoubleLog(this[j, i]);
                     if (j < rows - 1)
                         matrix += FormatSettings.CoordinateSeparator;
                 }

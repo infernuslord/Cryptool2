@@ -32,9 +32,13 @@ namespace LatticeCrypto.ViewModels
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(new Bold(new Underline(new Run("** " + Languages.buttonGenerateNewCryptosystem + " **\r\n"))));
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyR + ":")));
-            paragraph.Inlines.Add(" " + Lattice.LatticeReducedToString() + "\r\n");
+            paragraph.Inlines.Add(" " + GGH.privateKeyR + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPrivateKeyR1 + ":")));
+            paragraph.Inlines.Add(" " + GGH.privateKeyR1.ToStringLog() + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB + ":")));
-            paragraph.Inlines.Add(" " + Lattice.LatticeToString() + "\r\n");
+            paragraph.Inlines.Add(" " + GGH.publicKeyB + "\r\n");
+            paragraph.Inlines.Add(new Bold(new Run(Languages.labelPublicKeyB1 + ":")));
+            paragraph.Inlines.Add(" " + GGH.publicKeyB1.ToStringLog() + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelUnimodularTransformationMatrix + ":")));
             paragraph.Inlines.Add(" " + Lattice.LatticeTransformationToString() + "\r\n");
             paragraph.Inlines.Add(new Bold(new Run(Languages.labelParameterL)));
