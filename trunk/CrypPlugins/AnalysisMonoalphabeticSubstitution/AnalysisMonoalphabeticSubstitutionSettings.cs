@@ -28,165 +28,31 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
     {
         #region Private Variables
         
-        // General variables
         private bool hasChanges = false;
-        // Language variables
- 
-        //private const String specChars = ",;.:-_<>#+*!$%/{([)]}=?";
-        // "Alphabet" variables
-        private int bo_alphabet = 0;
-        public Boolean bo_caseSensitive = false;
-        // "PTAlphabet" variables
-        private int pt_alphabet = 0;
-        public Boolean pt_caseSensitive = false;
-        // "CTAlphabet" variables
-        private int ct_alphabet = 0;
-        public Boolean ct_caseSensitive = false;
-        // Advanced settings variables
-        private Boolean separateAlphabets = false;
-        //private Boolean useDefaultWordSeparator = true;
-        //private String defaultWordSeparator = " ";
+        private int alphabet = 0;
         private int treatmentInvalidChars = 0;
 
         #endregion
 
         #region Initialization / Constructor
 
-        public void Initialize(){
-            if (separateAlphabets==true){
-                hideSettingsElement("boAlphabet");
-                showSettingsElement("ptAlphabet");
-                showSettingsElement("ctAlphabet");  
-            }else{
-                showSettingsElement("boAlphabet");
-                hideSettingsElement("ptAlphabet");
-                hideSettingsElement("ctAlphabet");
-            }
+        public void Initialize()
+        {
+ 
         }
 
         #endregion
 
         #region TaskPane Settings
 
-        // Settings if plaintext alphabet equals ciphertext alphabet
         [TaskPane("ChooseAlphabetCaption", "ChooseAlphabetTooltip", "AlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1"})]
-        public int boAlphabet
+            new string[] { "ChooseAlphabetList1"})] //Add new value for another language, do it in the resource files to have multi-language support
+        public int Alphabet
         {
-            get { return bo_alphabet; }
-            set
-            {
-                bo_alphabet = value;
-                switch (bo_alphabet)
-                {
-                    case 0:
-                    case 1:
-                        showSettingsElement("boCaseSensitive");
-                        break;
-                    case 2:
-                        hideSettingsElement("boCaseSensitive");
-                        break;
-                }
-            }
+            get { return alphabet; }
+            set { alphabet = value; }
         }
-        /*
-        [TaskPane("CaseSensitiveCaption", "CaseSensitiveTooltip", "AlphabetGroup", 2, false, ControlType.CheckBox, null)]
-        public Boolean boCaseSensitive
-        {
-            get { return bo_caseSensitive; }
-            set { bo_caseSensitive = value; }
-        }
-        */
-        // Settings for plaintext alphabet
-        /*
-        [TaskPane("PTChooseAlphabetCaption", "PTChooseAlphabetTooltip","PTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1"})] */
-        public int ptAlphabet
-        {
-            get { return pt_alphabet; }
-            set
-            {
-                pt_alphabet = value;
-                switch (pt_alphabet)
-                {
-                    case 0:
-                    case 1:
-                        showSettingsElement("ptCaseSensitive");
-                        break;
-                    case 2:
-                        hideSettingsElement("ptCaseSensitive");
-                        break;
-                }
-            }
-        }
-        /*
-        [TaskPane("PTCaseSensitiveCaption", "PTCaseSensitiveTooltip", "PTAlphabetGroup", 2, false, ControlType.CheckBox, null)]
-        public Boolean ptCaseSensitive
-        {
-            get { return pt_caseSensitive; }
-            set { pt_caseSensitive = value; }
-        }*/
-      
-        // Settings for ciphertext alphabet
-        /*
-        [TaskPane("CTChooseAlphabetCaption", "CTChooseAlphabetTooltip", "CTAlphabetGroup", 1, false, ControlType.ComboBox,
-            new string[] { "ChooseAlphabetList1"})]*/
-        public int ctAlphabet
-        {
-            get { return ct_alphabet; }
-            set {
-                ct_alphabet = value;
-                switch (ct_alphabet)
-                {
-                    case 0:
-                    case 1:
-                        showSettingsElement("ctCaseSensitive");
-                        break;
-                    case 2:
-                        hideSettingsElement("ctCaseSensitive");
-                        break;
-                }
-            }
-        }
-
-        /*
-        [TaskPane("CTCaseSensitiveCaption", "CTCaseSensitiveTooltip","CTAlphabetGroup", 2, false, ControlType.CheckBox,null)]
-        public Boolean ctCaseSensitive
-        {
-            get { return ct_caseSensitive; }
-            set { ct_caseSensitive = value; }
-        }*/
-     
-        // Advanced settings
-        /*
-        [TaskPane("SeparateAlphabetsCaption", "SeparateAlphabetsTooltip", "AdvancedSettingsGroup", 1, false, ControlType.CheckBox, null)]*/
-        public Boolean SeparateAlphabets
-        {
-            get { return separateAlphabets; }
-            set { 
-                separateAlphabets = value;
-                OnPropertyChanged("SeparateAlphabets");
-                if (separateAlphabets == true)
-                {
-                    hideSettingsElement("boAlphabet");
-                    hideSettingsElement("boCaseSensitive");
-                    showSettingsElement("ptAlphabet");
-                    showSettingsElement("ptCaseSensitive");
-                    showSettingsElement("ctAlphabet");
-                    showSettingsElement("ctCaseSensitive");
-                }
-                else
-                {
-                    showSettingsElement("boAlphabet");
-                    showSettingsElement("boCaseSensitive");
-                    hideSettingsElement("ptAlphabet");
-                    hideSettingsElement("ptCaseSensitive");
-                    hideSettingsElement("ctAlphabet");
-                    hideSettingsElement("ctCaseSensitive");
-                }
-            }
-        } 
-
+ 
         [TaskPane("TreatmentInvalidCharsCaption", "TreatmentInvalidCharsTooltip", "AdvancedSettingsGroup", 2, false, ControlType.ComboBox, new string[] { "ChooseInvalidCharsList1","ChooseInvalidCharsList2", "ChooseInvalidCharsList3"})]
         public int TreatmentInvalidChars
         {
@@ -197,18 +63,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 OnPropertyChanged("TreatmentInvalidChars");
             }
         }
-
-         /*
-        [TaskPane("DefaultWordSeparatorCaption", "DefaultWordSeparatorTooltip", "AdvancedSettingsGroup", 3, false, ControlType.TextBox, null)]
-        public String DefaultWordSeparator
-        {
-            get { return defaultWordSeparator; }
-            set
-            {
-                defaultWordSeparator = value;
-                OnPropertyChanged("DefaultWordSeparator");
-            }
-        }*/
 
         #endregion
 

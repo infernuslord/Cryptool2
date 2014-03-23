@@ -54,9 +54,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private Frequencies langFreq = null;
         private Dictionary langDic = null;
         private Text cText = null;
-        private Text refText = null;
-        private Boolean caseSensitive = false;
-        private String wordSeparator;
         private List<KeyCandidate> keyCandidates;
 
         // Statistics
@@ -65,11 +62,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Input property variables
         private String ciphertext;
-        private String ciphertext_alphabet;
-        private String plaintext_alphabet;
-        private ICryptoolStream reference_text;
-        private ICryptoolStream language_dictionary;
-
+      
         // Output property variables
         private String plaintext;
         private String plaintext_alphabet_output;
@@ -80,10 +73,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         private DateTime endTime;
 
         // Alphabet constants
-        private const String smallEng = "abcdefghijklmnopqrstuvwxyz";
-        private const String capEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private const String smallGer = "abcdefghijklmnopqrstuvwxyz";
-        private const String capGer = "ABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ";
+        private const String English = "abcdefghijklmnopqrstuvwxyz";
 
         // Attackers
         private DictionaryAttacker dicAttacker;
@@ -99,47 +89,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             get { return this.ciphertext; }
             set { this.ciphertext = value; }
         }
-        /*
-        [PropertyInfo(Direction.InputData, "PropCiphertextalphabetCaption", "PropCiphertextalphabetTooltip", false)]
-        public String Ciphertext_Alphabet
-        {
-            get { return this.ciphertext_alphabet; }
-            set {
-                this.ciphertext_alphabet = value;
-                //this.ciphertext_alphabet_has_changed = true;
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "PropPlaintextalphabetCaption", "PropPlaintextalphabetTooltip", false)]
-        public String Plaintext_Alphabet
-        {
-            get { return this.plaintext_alphabet; }
-            set{
-                this.plaintext_alphabet = value;
-                //this.plaintext_alphabet_has_changed = true;
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "PropReferencetextCaption", "PropReferencetextTooltip", false)]
-        public ICryptoolStream Reference_Text
-        {
-            get { return this.reference_text; }
-            set {
-                this.reference_text = value;
-                //this.reference_text_has_changed = true;
-            }
-        }
-        
-        [PropertyInfo(Direction.InputData, "PropDictionaryCaption", "PropDictionaryTooltip", false)]
-        public ICryptoolStream Language_Dictionary
-        {
-            get { return this.language_dictionary; }
-            set {
-                this.language_dictionary = value;
-                //this.language_dictionary_has_changed = true;
-            }
-        }*/
-
+       
         [PropertyInfo(Direction.OutputData, "PropPlaintextCaption", "PropPlaintextTooltip", true)]
         public String Plaintext
         {
@@ -202,206 +152,40 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             // Prepare the cryptanalysis of the ciphertext
 
-            // Set ciphertext alphabet, plaintext alphabet 
-            if (settings.SeparateAlphabets == false)
+            // Set alphabet 
+            alpha = detAlphabet(settings.Alphabet);
+            this.ptAlphabet = new Alphabet(alpha, 1, settings.Alphabet);
+            this.ctAlphabet = new Alphabet(alpha, 1, settings.Alphabet);
+
+            // N-gram probabilities    
+            String helper = IdentifyNGramFile(settings.Alphabet);
+            if (helper != null)
             {
-                // Set ciphertext and plaintext alphabet
-                if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
-                {
-                    alpha = detAlphabet(settings.boAlphabet, settings.bo_caseSensitive);
-                    this.ptAlphabet = new Alphabet(alpha, 1, settings.boAlphabet);
-                    this.ctAlphabet = new Alphabet(alpha, 1, settings.boAlphabet);
-                    this.caseSensitive = settings.bo_caseSensitive;
-                }
-                else if (settings.boAlphabet == 2)
-                {
-                    //this.PTAlphabet = this.plainAlphabet;
-                    //this.CTAlphabet = this.cipherAlphabet;
-                }
+                this.langFreq = new Frequencies(this.ptAlphabet);
+                this.langFreq.ReadProbabilitiesFromNGramFile(helper);
             }
-            else if (settings.SeparateAlphabets == true)
+            else
             {
-                // Set plaintext alphabet
-                if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
-                {
-                    alpha = detAlphabet(settings.ptAlphabet, settings.pt_caseSensitive);
-                    this.ptAlphabet = new Alphabet(alpha, 1, settings.ptAlphabet);
-
-                }
-                else if (settings.ptAlphabet == 2)
-                {
-                    //this.PTAlphabet = this.plainAlphabet;  
-                }
-
-                // Set ciphertext alphabet
-                if (settings.ctAlphabet == 0 || settings.ctAlphabet == 1)
-                {
-                    alpha = detAlphabet(settings.ctAlphabet, settings.ct_caseSensitive);
-                    this.ctAlphabet = new Alphabet(alpha, 1, settings.ptAlphabet);
-                    this.caseSensitive = settings.ct_caseSensitive;
-                }
-                else if (settings.ctAlphabet == 2)
-                {
-                    // this.CTAlphabet = this.cipherAlphabet;
-                }
+                GuiLogMessage(Resources.no_ngram_file, NotificationLevel.Error);
             }
-
-            // N-gram probabilities 
-            if (settings.SeparateAlphabets == false)
-            {
-                if (settings.boAlphabet == 0 || settings.boAlphabet == 1)
-                {
-                    String helper = IdentifyNGramFile(settings.boAlphabet, this.caseSensitive);
-                    if (helper != null)
-                    {
-                        this.langFreq = new Frequencies(this.ptAlphabet);
-                        this.langFreq.ReadProbabilitiesFromNGramFile(helper);
-                    }
-                    else
-                    {
-                        GuiLogMessage(Resources.no_ngram_file, NotificationLevel.Error);
-                    }
-                }
-                else if (settings.boAlphabet == 2)
-                {
-                    String helper = null;
-                    try
-                    {
-                        helper = returnStreamContent(this.reference_text);
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.no_reference_text, NotificationLevel.Error);
-                        this.refText = null;
-                    }
-                    if (helper != null)
-                    {
-                        this.refText = new Text(helper, this.ptAlphabet, settings.TreatmentInvalidChars);
-                        this.langFreq = new Frequencies(this.ptAlphabet);
-                        this.langFreq.CreateProbabilitiesFromReferenceText(this.refText);
-                    }
-                }
-            }
-            else if (settings.SeparateAlphabets == true)
-            {
-                if (settings.ptAlphabet == 0 || settings.ptAlphabet == 1)
-                {
-                    String helper = IdentifyNGramFile(settings.ptAlphabet, this.caseSensitive);
-                    if (helper != null)
-                    {
-                        this.langFreq = new Frequencies(this.ptAlphabet);
-                        this.langFreq.ReadProbabilitiesFromNGramFile(helper);
-                    }
-                    else
-                    {
-                        GuiLogMessage(Resources.no_ngram_file, NotificationLevel.Error);
-                    }
-                }
-                else if (settings.ptAlphabet == 2)
-                {
-                    String helper = null;
-                    try
-                    {
-                        helper = returnStreamContent(this.reference_text);
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.no_reference_text, NotificationLevel.Error);
-                        this.refText = null;
-                    }
-                    if (helper != null)
-                    {
-                        this.refText = new Text(helper, this.ptAlphabet, settings.TreatmentInvalidChars);
-                        this.langFreq = new Frequencies(this.ptAlphabet);
-                        this.langFreq.CreateProbabilitiesFromReferenceText(this.refText);
-                    }
-                }
-            }
-
-
+             
             // Dictionary
-            if (settings.SeparateAlphabets == false)
+            if (settings.Alphabet == 0)
             {
-                if (settings.boAlphabet == 0)
+                try
                 {
-                    try
-                    {
-                        this.langDic = new Dictionary("en-small.dic");
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
+                    this.langDic = new Dictionary("en-small.dic");
                 }
-                else if (settings.boAlphabet == 1)
+                catch
                 {
-                    try
-                    {
-                        this.langDic = new Dictionary("de-small.dic");
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
-                }
-                else if (settings.boAlphabet == 2)
-                {
-                    String helper = null;
-                    try
-                    {
-                        helper = returnStreamContent(this.language_dictionary);
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
-                    if (helper != null)
-                    {
-                        this.langDic = new Dictionary(helper);
-                    }
+                    GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                 }
             }
-            else if (settings.SeparateAlphabets == true)
-            {
-                if (settings.ptAlphabet == 0)
-                {
-                    try
-                    {
-                        this.langDic = new Dictionary("en-small.dic");
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
-                }
-                else if (settings.ptAlphabet == 1)
-                {
-                    try
-                    {
-                        this.langDic = new Dictionary("de-small.dic");
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
-                }
-                else if (settings.ptAlphabet == 2)
-                {
-                    String helper = null;
-                    try
-                    {
-                        helper = returnStreamContent(this.language_dictionary);
-                    }
-                    catch
-                    {
-                        GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
-                    }
-                    if (helper != null)
-                    {
-                        this.langDic = new Dictionary(helper);
-                    }
-                }
-            }
+            // Add new case for another language
+            // elseif (settings.Alphabet == 1)
+            // {
+            // ......
+            // }
 
             // Set ciphertext
             String helper1 = null;
@@ -765,48 +549,40 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             return res;
         }
 
-        private string detAlphabet(int lang, bool caseSensitive)
+        private string detAlphabet(int lang)
         {
             String alpha = "";
+            // English
             if (lang == 0)
             {
-                if (caseSensitive == true)
-                {
-                    alpha = AnalysisMonoalphabeticSubstitution.smallEng + AnalysisMonoalphabeticSubstitution.capEng;
-                }
-                else
-                {
-                    alpha = AnalysisMonoalphabeticSubstitution.smallEng;
-                }
+                alpha = AnalysisMonoalphabeticSubstitution.English;
             }
-            else if ( lang == 1)
-            {
-                if (caseSensitive == true)
-                {
-                    alpha = AnalysisMonoalphabeticSubstitution.smallGer + AnalysisMonoalphabeticSubstitution.capGer;
-                }
-                else
-                {
-                    alpha = AnalysisMonoalphabeticSubstitution.smallGer;
-                }
-            }
+            // Add another case for a new language
+            //else if ( lang == 1)
+            //{
+            //
+            //}
 
             return alpha;
         }
 
-        private string IdentifyNGramFile(int alpha_nr, bool cs)
+        private string IdentifyNGramFile(int alpha_nr)
         {
+            bool cs = false;
             string name = "";
             string lang = "";
             string casesen = "";
+
             if (alpha_nr == 0)
             {
                 lang = "en";
-            } 
-            else if (alpha_nr == 1)
-            {
-                lang = "de";
             }
+            // Add another case for a new language
+            //else if (alpha_nr == 1)
+            //{
+            //    lang = "xx";
+            //}
+
             if (cs == false)
             {
                 casesen = "nocs";
@@ -815,6 +591,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 casesen = "cs";
             }
 
+            // It is always looked for a 4-gram file at first. If the 4-gram file is not found the 3-gram file is choosen
             for (int i = 4; i > 2; i--)
             {
                 name = lang + "-" + i.ToString() + "gram-" + casesen + ".lm";
