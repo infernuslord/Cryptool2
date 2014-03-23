@@ -871,6 +871,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Inverse R^(-1) des privaten Schlüssels R ähnelt.
+        /// </summary>
+        public static string labelPrivateKeyR1 {
+            get {
+                return ResourceManager.GetString("labelPrivateKeyR1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Privater Schlüssel s ähnelt.
         /// </summary>
         public static string labelPrivateKeyS {
@@ -912,6 +921,15 @@ namespace LatticeCrypto.Properties {
         public static string labelPublicKeyB {
             get {
                 return ResourceManager.GetString("labelPublicKeyB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Inverse B^(-1) des öffentlichen Schlüssels B ähnelt.
+        /// </summary>
+        public static string labelPublicKeyB1 {
+            get {
+                return ResourceManager.GetString("labelPublicKeyB1", resourceCulture);
             }
         }
         

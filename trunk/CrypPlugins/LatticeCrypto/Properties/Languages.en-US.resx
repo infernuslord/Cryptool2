@@ -543,4 +543,10 @@
   <data name="defaultMessageRSA" xml:space="preserve">
     <value>The new password is: 1234</value>
   </data>
+  <data name="labelPrivateKeyR1" xml:space="preserve">
+    <value>Inverse R^(-1) of the private key R</value>
+  </data>
+  <data name="labelPublicKeyB1" xml:space="preserve">
+    <value>Inverse B^(-1) of the public key B</value>
+  </data>
 </root>

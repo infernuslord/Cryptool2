@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace LatticeCrypto.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -220,6 +223,16 @@ namespace LatticeCrypto.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap ImgBabai {
+            get {
+                object obj = ResourceManager.GetObject("ImgBabai", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ImgDeterminantLattice {
             get {
                 object obj = ResourceManager.GetObject("ImgDeterminantLattice", resourceCulture);
@@ -344,8 +357,13 @@ namespace LatticeCrypto.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Merkle-Hellman-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
-        ///    Todo&lt;/p&gt;
-        /// ähnelt.
+        ///    Das
+        ///    &lt;strong&gt;Merkle-Hellman-Kryptosystem&lt;/strong&gt; (benannt nach Ralph Merkle und 
+        ///    Martin Hellman) enstand 1987 neben dem RSA-Kryptosystem als eines der ersten 
+        ///    asymmetrischen Kryptosystem überhaupt. Es zeichnete sich dadurch aus, dass es 
+        ///    relativ leicht zu verstehen ist. Von diesen beiden setzte sich allerdings nur RSA durch, da 
+        ///    Merkle-Hellman schon bald eindruchsvoll mithilfe von Gittern gebrochen werden konnte.&lt;/p&gt;
+        ///&lt;p&gt;Das Merkle-Hell [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string MerkleHellman {
             get {
@@ -380,10 +398,10 @@ namespace LatticeCrypto.Properties {
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;h2&gt;
-        ///        Gitterbasierte Kryptographie&lt;/h2&gt;
+        ///        fGitterbasierte Kryptographie&lt;/h2&gt;
         ///    &lt;p align=&quot;justify&quot;&gt;
         ///        In diesem Kryptotutorial lernen Sie Gitter kennen und erfahren über ihren Einsatz in der Kryptographie, 
-        ///        insbesondere der Kryptoanalyse. D [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///        insbesondere der Kryptoanalyse.  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Start {
             get {

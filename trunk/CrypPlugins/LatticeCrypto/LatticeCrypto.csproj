@@ -494,6 +494,7 @@
     <Resource Include="OnlineHelp\Resources\ImgSuccessiveMinima.png" />
     <Resource Include="OnlineHelp\Resources\ImgTwoBasis.png" />
     <Resource Include="OnlineHelp\Resources\ImgHermite.png" />
+    <Content Include="OnlineHelp\Resources\ImgBabai.PNG" />
     <Content Include="OnlineHelp\Resources\ImgGauss.png" />
     <Content Include="OnlineHelp\Resources\ImgMerkleHellman.PNG" />
     <Content Include="OnlineHelp\Start.htm">
