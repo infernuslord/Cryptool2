@@ -176,6 +176,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, false);
                     change = nextGen.dev;
                     curGen++;
+
+                    this.pluginProgress(50.0 + (((double)(curRep + 1) * curGen) / (this.repetitions * GeneticAttacker.maxGenerations)) / 2 * 100, 100.0);
                 }
 
                 nextGen = CreateNextGeneration(nextGen, this.ciphertext, this.ciphertext_alphabet, true);
@@ -184,8 +186,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 
                 bestkeys[curRep] = nextGen.keys[0];
                 bestkeys_fit[curRep] = nextGen.fitness[0];
-
-                this.pluginProgress(50.0 + (((double)(curRep+1) * GeneticAttacker.maxGenerations)/(this.repetitions*GeneticAttacker.maxGenerations))/2*100, 100.0);
 
                 Text plainTxt = DecryptCiphertext(bestkeys[curRep], this.ciphertext, this.ciphertext_alphabet);
                 String plain = plainTxt.ToString(this.plaintext_alphabet);

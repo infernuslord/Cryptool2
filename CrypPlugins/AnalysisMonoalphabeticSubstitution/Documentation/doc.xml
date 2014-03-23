@@ -24,7 +24,8 @@
   element of the key swapped with an other element. The fitness of a key is calculated with the help of letter group frequencies (n-gram frequencies) on the plaintext 
   wich results from encrypting with this key. <newline />
   After the population evolved several generations the fitness of the fittest key does not change anymore. At this point the search is stopped and the key is reported.
-  This process is conducted several times during one analysis.
+  This process is conducted several times during one analysis. <newline />
+  The power of this method strongly depends on the prior calculated n-gram frequencies. These have been provided by Ulrich Kunitz and are based on absolute discounting. 
   </section>
   
   </introduction>
