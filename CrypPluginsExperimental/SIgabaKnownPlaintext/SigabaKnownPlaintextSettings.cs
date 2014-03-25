@@ -25,7 +25,7 @@ namespace SigabaKnownPlaintext
     {
         #region Private Variables
 
-        private bool action = false;
+        public bool action = false;
 
         #endregion
 
