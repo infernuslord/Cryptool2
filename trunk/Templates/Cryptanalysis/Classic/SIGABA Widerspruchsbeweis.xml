@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">SIGABA contraposition Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>SIGABA</i> using contraposition</summary>
+  <description lang="en">This template shows the cryptanalysis of the <i>SIGABA</i> using contraposition.</description>
+  <keywords>SGIABA, USA, Navy</keywords>
+
+  <title lang="de">SIGABA Widerspruchs-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>SIGABA</i> mit dem Widerspruchsverfahren</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SIGABA</i> mit dem Widerspruchsverfahren.</description>
+  <keywords lang="de">SIGABA, USA, Navy</keywords>
+
+  <icon file="SIGABA Widerspruchsbeweis.png" />
+  <relevantPlugins>
+    <plugin name="TextInput" />
+    <plugin name="TextOutput" />
+    <plugin name="Keysearcher" />
+    <plugin name="Sigaba" />
+    <plugin name="SIgabaKnownPlaintext" />
+  </relevantPlugins>
+
+</sample>
