@@ -71,6 +71,13 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Header="{Loc AttackHeader}" DisplayMemberBinding="{Binding Path=Attack}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="{Loc KeyHeader}" DisplayMemberBinding="{Binding Path=Key}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>

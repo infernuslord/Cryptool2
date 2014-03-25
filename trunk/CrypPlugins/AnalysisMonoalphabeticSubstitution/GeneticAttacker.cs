@@ -190,7 +190,11 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 Text plainTxt = DecryptCiphertext(bestkeys[curRep], this.ciphertext, this.ciphertext_alphabet);
                 String plain = plainTxt.ToString(this.plaintext_alphabet);
                 String key_string = CreateAlphabetOutput(bestkeys[curRep], this.plaintext_alphabet);
-                this.updateKeyDisplay(new KeyCandidate(bestkeys[curRep], bestkeys_fit[curRep], plain, key_string));
+
+                // Report keyCan
+                KeyCandidate newKeyCan = new KeyCandidate(bestkeys[curRep], bestkeys_fit[curRep], plain, key_string);
+                newKeyCan.GenAttack = true;
+                this.updateKeyDisplay(newKeyCan);
             }
         }
 

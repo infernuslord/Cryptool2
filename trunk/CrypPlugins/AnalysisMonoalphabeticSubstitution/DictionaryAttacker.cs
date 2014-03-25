@@ -719,6 +719,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             double fit = this.freq.CalculateFitnessOfKey(plaintext);
             String key_string = CreateAlphabetOutput(key,this.palpha);
             KeyCandidate keyCan = new KeyCandidate(key, fit, plain, key_string);
+            keyCan.DicAttack = true;
             this.updateKeyDisplay(keyCan);
         }
 

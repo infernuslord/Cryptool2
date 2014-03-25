@@ -330,4 +330,13 @@
   <data name="no_reference_text" xml:space="preserve">
     <value>No reference text is available.</value>
   </data>
+  <data name="AttackHeader" xml:space="preserve">
+    <value>Attack</value>
+  </data>
+  <data name="DicAttackDisplay" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="GenAttackDisplay" xml:space="preserve">
+    <value>G</value>
+  </data>
 </root>

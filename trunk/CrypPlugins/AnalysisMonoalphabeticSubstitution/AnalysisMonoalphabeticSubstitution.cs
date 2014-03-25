@@ -420,19 +420,45 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private void UpdateKeyDisplay(KeyCandidate keyCan)
         {
+            bool update = false;
+
             // Add key if key does not already exists
             if (!this.keyCandidates.Contains(keyCan))
             {
                 this.keyCandidates.Add(keyCan);
                 this.keyCandidates.Sort(new KeyCandidateComparer());
-                //this.masPresentation.RefreshGUI();
 
                 if (this.keyCandidates.Count > 20)
                 {
-                    this.keyCandidates.RemoveAt(this.keyCandidates.Count-1);
+                    this.keyCandidates.RemoveAt(this.keyCandidates.Count - 1);
                 }
+                update = true;
+            }
+            else
+            {
+                int index = this.keyCandidates.IndexOf(keyCan);
+                KeyCandidate keyCanAlreadyInList = this.keyCandidates[index];
+                if (keyCan.DicAttack == true)
+                {
+                    if (keyCanAlreadyInList.DicAttack == false)
+                    {
+                        keyCanAlreadyInList.DicAttack = true;
+                        update = true;
+                    }
+                }
+                if (keyCan.GenAttack == true)
+                {
+                    if (keyCanAlreadyInList.GenAttack == false)
+                    {
+                        keyCanAlreadyInList.GenAttack = true;
+                        update = true;
+                    }
+                }
+            }
 
-                // Display output
+            // Display output
+            if (update)
+            {
                 this.plaintext = this.keyCandidates[0].Plaintext;
                 OnPropertyChanged("Plaintext");
 
@@ -451,13 +477,27 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                         entry.Ranking = i.ToString();
                         entry.Text = keyCandidate.Plaintext;
                         entry.Key = keyCandidate.Key_string;
+
+                        if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == false)
+                        {
+                            entry.Attack = Resources.GenAttackDisplay;
+                        }
+                        else if (keyCandidate.DicAttack == true && keyCandidate.GenAttack == false)
+                        {
+                            entry.Attack = Resources.DicAttackDisplay;
+                        }
+                        else if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == true)
+                        {
+                            entry.Attack = Resources.GenAttackDisplay + ", " + Resources.DicAttackDisplay;
+                        }
+
                         double f = Math.Log10(Math.Abs(keyCandidate.Fitness));
-                        entry.Value = string.Format("{0:0.00000} ",f);
+                        entry.Value = string.Format("{0:0.00000} ", f);
                         ((AssignmentPresentation)Presentation).entries.Add(entry);
 
                     }
                 }, null);
-            }  
+            }
         }  
         
 
@@ -635,7 +675,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         public string Value { get; set; }
         public string Key { get; set; }
         public string Text { get; set; }
-
+        public string Attack { get; set; }
     }
 
     public class StopFlag
