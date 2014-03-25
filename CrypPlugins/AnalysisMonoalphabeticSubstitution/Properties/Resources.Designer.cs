@@ -97,6 +97,15 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Attack ähnelt.
+        /// </summary>
+        internal static string AttackHeader {
+            get {
+                return ResourceManager.GetString("AttackHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Case sensitive ähnelt.
         /// </summary>
         internal static string CaseSensitiveCaption {
@@ -259,6 +268,15 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die D ähnelt.
+        /// </summary>
+        internal static string DicAttackDisplay {
+            get {
+                return ResourceManager.GetString("DicAttackDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Elapsed: ähnelt.
         /// </summary>
         internal static string ElapsedLabel {
@@ -318,6 +336,15 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         internal static string gen_attack_testedkeys {
             get {
                 return ResourceManager.GetString("gen_attack_testedkeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die G ähnelt.
+        /// </summary>
+        internal static string GenAttackDisplay {
+            get {
+                return ResourceManager.GetString("GenAttackDisplay", resourceCulture);
             }
         }
         
