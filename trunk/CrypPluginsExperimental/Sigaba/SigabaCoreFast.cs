@@ -313,6 +313,14 @@ namespace Sigaba
             }
         }
 
+        public void setIndexMaze2(int[] steppingmaze)
+        {
+
+            for (int i = 0; i < 26;i++ )
+                IndexMaze[i] = (byte)steppingmaze[i];
+            
+        }
+
         public void InitializeRotors()
         {
             CodeWheels = new RotorByte[16];

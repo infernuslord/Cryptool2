@@ -474,6 +474,11 @@ namespace Sigaba
             plugin._fastCore.setIndexMaze(indexmaze);
         }
 
+        public void setIndexMaze2(int[] indexmaze)
+        {
+            plugin._fastCore.setIndexMaze2(indexmaze);
+        }
+
         public void setPositionsControl(byte ix, byte i, byte position)
         {
             plugin._fastCore.setPositionsControl(ix,i,position);

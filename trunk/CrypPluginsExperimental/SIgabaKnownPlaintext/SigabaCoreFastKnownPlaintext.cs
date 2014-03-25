@@ -501,12 +501,14 @@ namespace SigabaKnownPlaintext
                                         }
 
                                //         Console.WriteLine((double)counter1 / survCan.posarr.Length + "  " + (double)counter2 / survCan.posarr.Length + "  " + (double)counter3 / survCan.posarr.Length + "  " + (double)counter4 / survCan.posarr.Length + "  " + (double)counter5 / survCan.posarr.Length + "  ");
-            
 
-                                        if( WinnerConfirmCompact(survCan.posarr, winner, survCan.temp));
+                                        if (((SigabaKnownPlaintextSettings)facade.Settings).action)
                                         {
-                                          //  Console.WriteLine("WCC");
-                      
+                                            if (WinnerfastDeciph(survCan.posarr, winner, survCan.temp)) ;
+                                        }
+                                        else
+                                        {
+                                            if (WinnerConfirmCompact(survCan.posarr, winner, survCan.temp)) ;
                                         }
                                     }
                                     
@@ -956,6 +958,191 @@ namespace SigabaKnownPlaintext
 
 
 
+            return true;
+        }
+
+        public Boolean WinnerfastDeciph(int[][] input2, Candidate winner, int[][] temp)
+        {
+            List<Candidate> winnerList2 = new List<Candidate>();
+            int[] rest = new int[2];
+            bool b = true;
+            for (int i = 0; i < 5; i++)
+            {
+                if (!winner.RotorType.Contains(i))
+                {
+                    if (b)
+                    {
+                        rest[0] = i;
+                        b = false;
+                    }
+                    else
+                    {
+                        rest[1] = i;
+                    }
+
+                }
+            }
+
+            for (int re = 0; re < 2; re++)
+            {
+                RotorByte testRotor = CodeWheels2[rest[re]];
+
+                for (int rev = 0; rev < 2; rev++)
+                {
+                    testRotor.Reverse = (rev == 1);
+                    for (int pos = 0; pos < 26; pos++)
+                    {
+                        testRotor.Position = pos;
+                        int[][] pseudo = new int[26][];
+                        if (pos == 0)
+                            Console.Write("");
+                        int[][] temp2 = new int[input2.Length][];
+                        for (int letters = 0; letters < input2.Length - 1; letters++)
+                        {
+                            int tempf = temp[letters][0];
+                            int tempg = temp[letters][1];
+                            int temph = temp[letters][2];
+                            int tempi = temp[letters][3];
+
+                            if (testRotor.Reverse)
+                            {
+                                tempf =
+                                    testRotor.RotSubMatRevBack[testRotor.Position, tempf];
+                                tempg =
+                                    testRotor.RotSubMatRevBack[testRotor.Position, tempg];
+                                temph =
+                                    testRotor.RotSubMatRevBack[testRotor.Position, temph];
+                                tempi =
+                                    testRotor.RotSubMatRevBack[testRotor.Position, tempi];
+                            }
+                            else
+                            {
+                                tempf = testRotor.RotSubMatBack[testRotor.Position, tempf];
+                                tempg = testRotor.RotSubMatBack[testRotor.Position, tempg];
+                                temph = testRotor.RotSubMatBack[testRotor.Position, temph];
+                                tempi = testRotor.RotSubMatBack[testRotor.Position, tempi];
+                            }
+
+                            int[] tmp = new int[] { tempf, tempg, temph, tempi, 0 };
+
+                            temp2[letters] = tmp;
+
+                            if (pseudo[tempf] == null)
+                                pseudo[tempf] = input2[letters];
+                            else
+                            {
+                                pseudo[tempf] = pseudo[tempf].Intersect(input2[letters]).ToArray();
+                                if (pseudo[tempf].Count() == 0)
+                                {
+                                    break;
+                                }
+                            }
+                            if (pseudo[tempg] == null)
+                                pseudo[tempg] = input2[letters];
+                            else
+                            {
+                                pseudo[tempg] = pseudo[tempg].Intersect(input2[letters]).ToArray();
+                                if (pseudo[tempg].Count() == 0)
+                                {
+                                    break;
+                                }
+                            }
+                            if (pseudo[temph] == null)
+                                pseudo[temph] = input2[letters];
+                            else
+                            {
+                                pseudo[temph] = pseudo[temph].Intersect(input2[letters]).ToArray();
+                                if (pseudo[temph].Count() == 0)
+                                {
+                                    break;
+                                }
+                            }
+                            if (pseudo[tempi] == null)
+                                pseudo[tempi] = input2[letters];
+                            else
+                            {
+                                pseudo[tempi] = pseudo[tempi].Intersect(input2[letters]).ToArray();
+                                if (pseudo[tempi].Count() == 0)
+                                {
+                                    break;
+                                }
+                            }
+                            if (letters == input2.Length - 2)
+                            {
+                                /*Console.WriteLine("we have got a winner");
+                                Console.WriteLine("Rotor1: " + winner.RotorType[0] + " REverse: " +
+                                                  winner.Reverse[0] + " POsition: " + winner.Positions[0] +
+                                                  " Rotor2: " + winner.RotorType[1] + " REverse: " +
+                                                  winner.Reverse[1] + " POsition: " + winner.Positions[1] +
+                                                  " Rotor3: " + winner.RotorType[2] + " REverse: " +
+                                                  winner.Reverse[2] + " POsition: " + winner.Positions[2]);
+                                */
+
+                                for (int i = 0; i < 26; i++)
+                                {
+                                    if (pseudo[i]==null)
+                                    {
+                                        pseudo[i] = new int[]{0,1,2,3,4};
+                                    }
+                                }
+
+                                int[] loopvars = new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                                int[] test = new int[26];
+                                do
+                                {
+                                    
+                                    test[0] = pseudo[0][loopvars[0]];
+                                    test[1] = pseudo[1][loopvars[1]];
+                                    test[2] = pseudo[2][loopvars[2]];
+                                    test[3] = pseudo[3][loopvars[3]];
+                                    test[4] = pseudo[4][loopvars[4]];
+                                    test[5] = pseudo[5][loopvars[5]];
+                                    test[6] = pseudo[6][loopvars[6]];
+                                    test[7] = pseudo[7][loopvars[7]];
+                                    test[8] = pseudo[8][loopvars[8]];
+                                    test[9] = pseudo[9][loopvars[9]];
+                                    test[10] = pseudo[10][loopvars[10]];
+                                    test[11] = pseudo[11][loopvars[11]];
+                                    test[12] = pseudo[12][loopvars[12]];
+                                    test[13] = pseudo[13][loopvars[13]];
+                                    test[14] = pseudo[14][loopvars[14]];
+                                    test[15] = pseudo[15][loopvars[15]];
+                                    test[16] = pseudo[16][loopvars[16]];
+                                    test[17] = pseudo[17][loopvars[17]];
+                                    test[18] = pseudo[18][loopvars[18]];
+                                    test[19] = pseudo[19][loopvars[19]];
+                                    test[20] = pseudo[20][loopvars[20]];
+                                    test[21] = pseudo[21][loopvars[21]];
+                                    test[22] = pseudo[22][loopvars[22]];
+                                    test[23] = pseudo[23][loopvars[23]];
+                                    test[24] = pseudo[24][loopvars[24]];
+                                    test[25] = pseudo[25][loopvars[25]];
+
+                                    
+                                    facade.AddEntryComplete2(winner,pos,realWheels[rest[re]],(rev!=0), test);
+
+                                } while (increment2(loopvars, pseudo));
+                                facade.AddEntryConfirmed(winner, realWheels[rest[re]], realWheels[rest[re == 0 ? 1 : 0]]);
+
+                                if (!winnerList2.Contains(winner))
+                                {
+                                    winnerList2.Add(winner);
+
+                                }
+
+                                break;
+                            }
+
+                            if (temp[letters][4] == 1)
+                            {
+                                testRotor.IncrementPosition();
+                            }
+
+
+                        }
+                    }
+                }
+            }
             return true;
         }
 

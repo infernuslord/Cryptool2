@@ -251,9 +251,10 @@ namespace SigabaKnownPlaintext
         }
 
         ResultEntry actRes ;
-
+        private DateTime lastUpdate;
         private void survivorProducer()
         {
+            lastUpdate=DateTime.Now;
             List<long> ticklist = new List<long>();
             var foo = new int[10] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             IEnumerable<IEnumerable<int>> combis = foo.Combinations(5);
@@ -603,6 +604,113 @@ namespace SigabaKnownPlaintext
             //throw new NotImplementedException();
         }
 
+        internal void AddEntryComplete2(Candidate winner, int pos, int p, bool p_3, int[] pseudo)
+        {
+            int[] b = new int[] { (byte)(actRes.CipherRotors[0] - 48), (byte)(actRes.CipherRotors[1] - 48), (byte)(actRes.CipherRotors[2] - 48), (byte)(actRes.CipherRotors[3] - 48), (byte)(actRes.CipherRotors[4] - 48), (winner.RotorTypeReal[0]), (winner.RotorTypeReal[1]), (winner.RotorTypeReal[2]), p };
+            byte[] b2 = new byte[] { (byte)(actRes.CipherKey[0] - 48), (byte)(actRes.CipherKey[1] - 48), (byte)(actRes.CipherKey[2] - 48), (byte)(actRes.CipherKey[3] - 48), (byte)(actRes.CipherKey[4] - 48), (byte)winner.Positions[0], (byte)winner.Positions[1], (byte)winner.Positions[2], (byte)pos};
+
+            controlMaster.setPositionsControl((byte)(winner.RotorTypeReal[0]), 5, (byte)winner.Positions[0]);
+            controlMaster.setPositionsControl((byte)(winner.RotorTypeReal[1]), 6, (byte)winner.Positions[1]);
+            controlMaster.setPositionsControl((byte)(winner.RotorTypeReal[2]), 7, (byte)winner.Positions[2]);
+            controlMaster.setPositionsControl((byte)(p), 8, (byte)pos);
+
+            controlMaster.setBool((byte)(winner.RotorTypeReal[0]), 5, winner.Reverse[0]);
+            controlMaster.setBool((byte)(winner.RotorTypeReal[1]), 6, winner.Reverse[1]);
+            controlMaster.setBool((byte)(winner.RotorTypeReal[2]), 7, winner.Reverse[2]);
+            controlMaster.setBool((byte)p, 8, p_3);
+
+            Task t1 = Task.Factory.StartNew(() => controlMaster.setControlRotors(5, (byte)(winner.RotorTypeReal[0])));
+            Task t2 = Task.Factory.StartNew(() => controlMaster.setControlRotors(6, (byte)(winner.RotorTypeReal[1])));
+            Task t3 = Task.Factory.StartNew(() => controlMaster.setControlRotors(7, (byte)(winner.RotorTypeReal[2])));
+            Task t4 = Task.Factory.StartNew(() => controlMaster.setControlRotors(8, (byte)(p)));
+
+            Task.WaitAll(new[] { t1, t2, t3, t4});
+            controlMaster.setIndexMaze2(pseudo);
+
+            byte[] plain = controlMaster.DecryptFast(Encoding.ASCII.GetBytes(Cipher), b, b2);
+
+            double val =
+                costMaster.CalculateCost(plain);
+
+            /*  if (
+                  costMaster.
+                      GetRelationOperator() ==
+                  RelationOperator.LessThen)
+              {*/
+            /*if (val <= bestlist.Last())
+            {
+                bestlist.Add(val);
+                bestlist.Sort();
+
+                if (bestlist.Count > 10)
+                    bestlist.RemoveAt(10);
+            */
+
+
+            var valkey =
+                new ValueKey();
+            String keyStr = "";
+
+            var builderCipherKey =
+                new StringBuilder();
+
+
+
+            var builderControlKey =
+                new StringBuilder();
+            builderControlKey.Append(
+                (char)(winner.Positions[0] + 65));
+            builderControlKey.Append(
+                (char)(winner.Positions[1] + 65));
+            builderControlKey.Append(
+                (char)(winner.Positions[2] + 65));
+            builderControlKey.Append(
+                (char)(pos + 65));
+           
+            string controlKey =
+                builderControlKey.
+                    ToString();
+            var builderIndexKey =
+                new StringBuilder();
+            string indexKey = builderIndexKey.ToString();
+
+            string ControlRotors =
+                winner.RotorTypeReal[0] + "" +
+                (winner.Reverse[0] ? "R" : " ") + "" +
+                winner.RotorTypeReal[1] + "" +
+                (winner.Reverse[1] ? "R" : " ") + "" +
+                winner.RotorTypeReal[2] + "" +
+                (winner.Reverse[2] ? "R" : " ") + "" +
+                p + "" +
+                (p_3 ? "R" : " ") + "" ;
+            string IndexRotors ="";
+            valkey.decryption = plain;
+
+            valkey.indexKey =
+                indexKey;
+            valkey.controlKey =
+                controlKey;
+            valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + " " + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + " " + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + " " + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
+            valkey.cipherKey = (char)(actRes.CipherKey[0] + 17) + "" + (char)(actRes.CipherKey[1] + 17) + "" + (char)(actRes.CipherKey[2] + 17) + "" + (char)(actRes.CipherKey[3] + 17) + "" + (char)(actRes.CipherKey[4] + 17);
+            valkey.controlRotors =
+                ControlRotors;
+            valkey.indexRotors =
+                IndexRotors;
+            valkey.value = val;
+            valuequeue.Enqueue(
+                valkey);
+            //}
+            //}
+            if (lastUpdate.AddMilliseconds(500) < DateTime.Now)
+            {
+                UpdatePresentationList(0, 0, DateTime.Now);
+                lastUpdate = DateTime.Now;
+            }
+
+
+        }
+
+
         internal void AddEntryComplete(Candidate winner, int[] steppingmaze, int pos, int pos2, int p, int p_2, bool p_3, bool p_4,List<int[]> indexkey)
         {
             Console.WriteLine(actRes.CipherKey);
@@ -615,6 +723,12 @@ namespace SigabaKnownPlaintext
             controlMaster.setPositionsControl( (byte)(winner.RotorTypeReal[2]), 7,(byte)winner.Positions[2]);
             controlMaster.setPositionsControl( (byte)(p), 8,(byte)pos);
             controlMaster.setPositionsControl( (byte)(p_2), 9,(byte)pos2);
+
+            controlMaster.setBool( (byte)(winner.RotorTypeReal[0]), 5,winner.Reverse[0]);
+            controlMaster.setBool( (byte)(winner.RotorTypeReal[1]), 6,winner.Reverse[1]);
+            controlMaster.setBool( (byte)(winner.RotorTypeReal[2]), 7,winner.Reverse[2]);
+            controlMaster.setBool( (byte)p, 8,p_3);
+            controlMaster.setBool( (byte)p_2,9, p_4);
 
             Task t1 = Task.Factory.StartNew(() => controlMaster.setControlRotors(5, (byte)(winner.RotorTypeReal[0])));
             Task t2 = Task.Factory.StartNew(() => controlMaster.setControlRotors(6, (byte)(winner.RotorTypeReal[1])));

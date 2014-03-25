@@ -13,7 +13,7 @@ namespace Cryptool.PluginBase.Control
             void changeSettings(string setting, object value);
 
             byte[] DecryptFast(byte[] ciphertext, int[] a, byte[] positions);
-
+            
             void setCipherRotors(int i, byte a);
 
             void setControlRotors(byte i, byte b);
@@ -23,6 +23,8 @@ namespace Cryptool.PluginBase.Control
             void setIndexMaze();
 
             void setIndexMaze(int[] indexmaze);
+            
+            void setIndexMaze2(int[] indexmaze);
 
             void setBool(byte ix, byte i, bool rev);
 
