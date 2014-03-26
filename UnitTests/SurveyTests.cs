@@ -58,7 +58,7 @@ namespace Tests
                 var selectQuestion = q as SelectSurveyQuestion;
                 if (selectQuestion != null) {
                     var answer = selectQuestion.Answers.First();
-                    Assert.AreEqual(1, answer.ID);
+                    Assert.AreEqual("1", answer.ID);
                     Assert.AreEqual("Antwort1", answer.GetTextByLanguage("DE"));
                     Assert.AreEqual("Answer1", answer.GetTextByLanguage("EN"));
                     Assert.AreEqual("help1DE", answer.GetHelpByLanguage("DE"));
@@ -91,7 +91,7 @@ namespace Tests
             
             Assert.IsTrue(File.Exists("test.xml"), "push survey should have saved the file");
             surveyModel = com.FetchSurvey(); // reload form xml file
-
+            Assert.Fail("unit test incomplete");
             Assert.AreEqual("123", surveyModel.BuildNumber, "buildnumber should have been changed");
 
         }
