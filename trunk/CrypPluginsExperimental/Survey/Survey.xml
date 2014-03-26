@@ -1,0 +1,75 @@
+<survey version="123" uid="456">
+  <questions>
+	<question id="4">
+      <text lang="de">Please indicate your gender:</text>
+      <text lang="en">Please indicate your gender:</text>
+      <help lang="de">Please indicate your gender:</help>
+      <help lang="en">Please indicate your gender:</help>
+      <answers type="Combobox">
+        <answer id="1">
+          <text lang="de">I prefer not to answer this question</text>
+          <text lang="en">I prefer not to answer this question</text>
+          <help lang="de">I prefer not to answer this question</help>
+          <help lang="en">I prefer not to answer this question</help>
+		</answer>  
+		<answer id="2">
+          <text lang="de">Female</text>
+          <text lang="en">Female</text>
+          <help lang="de">Female</help>
+          <help lang="en">Female</help>
+		</answer>
+		<answer id="3">
+          <text lang="de">Male</text>
+          <text lang="en">Male</text>
+          <help lang="de">Male</help>
+          <help lang="en">Male</help>
+		</answer>
+      </answers>
+    </question>
+	
+    <question id="2">
+      <text lang="de">Please state your age:</text>
+      <text lang="en">Please state your age:</text>
+      <help lang="de">Please state your age:</help>
+      <help lang="en">Please state your age:</help>
+      <answers type="Number" from="0" to="99"/>
+    </question>
+	
+	<question id="1">
+      <text lang="de">Please rate the usability of Cryptool2:</text>
+      <text lang="en">Please rate the usability of Cryptool2:</text>
+      <help lang="de">Please rate the usability of Cryptool2:</help>
+      <help lang="en">Please rate the usability of Cryptool2:</help>
+      <answers type="Rage" from="0" to="10">
+      </answers>
+    </question>
+	
+    <question id="3">
+      <text lang="de">Which Checkbox do you prefer?</text>
+      <text lang="en">Which Checkbox do you prefer?</text>
+      <help lang="de">Which Checkbox do you prefer?</help>
+      <help lang="en">Which Checkbox do you prefer?</help>
+      <answers type="Checkbox">
+        <answer id="1">
+          <text lang="de">hi</text>
+          <text lang="en">hi</text>
+          <help lang="de">hi</help>
+          <help lang="en">hi</help>
+        </answer>
+        <answer id="2">
+          <text lang="de">chose me, chose me!</text>
+          <text lang="en">chose me, chose me!</text>
+          <help lang="de">chose me, chose me!</help>
+          <help lang="en">chose me, chose me!</help>
+        </answer>
+		<answer id="3">
+          <text lang="de">o_O</text>
+          <text lang="en">o_O</text>
+          <help lang="de">o_O</help>
+          <help lang="en">o_O</help>
+        </answer>
+      </answers>
+    </question>
+    
+  </questions>
+</survey>
