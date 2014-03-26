@@ -520,7 +520,7 @@ namespace AnalysisMonoalphabeticSubstitution.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Plaintext alphabet with letters in the order to decrypt the ciphertext ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Plaintext alphabet ähnelt.
         /// </summary>
         internal static string PropPlaintextalphabetoutputTooltip {
             get {

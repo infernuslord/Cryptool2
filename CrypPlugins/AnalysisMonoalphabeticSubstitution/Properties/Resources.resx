@@ -229,7 +229,7 @@
     <value>Plaintext alphabet</value>
   </data>
   <data name="PropPlaintextalphabetoutputTooltip" xml:space="preserve">
-    <value>Plaintext alphabet with letters in the order to decrypt the ciphertext</value>
+    <value>Plaintext alphabet</value>
   </data>
   <data name="PropPlaintextalphabetTooltip" xml:space="preserve">
     <value>Assumed alphabet of the plaintext</value>
