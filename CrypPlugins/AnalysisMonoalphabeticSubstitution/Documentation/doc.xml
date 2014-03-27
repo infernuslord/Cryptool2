@@ -22,7 +22,7 @@
   <section headline="Genetic Attack">
   The genetic attack is based on a genetic algorithm which is a type of a heuristic search. A population of keys evolves over several generations. Each generation is
   created from the previous generation where only the fittest keys are selected. Additionally, with a certain probability a key mutates, that means a randomly chosen
-  element of the key is swapped with an other element. The fitness of a key is calculated with the help of letter group frequencies (n-gram frequencies) of the plaintext 
+  element of the key is swapped with another element. The fitness of a key is calculated with the help of letter group frequencies (n-gram frequencies) of the plaintext 
   resulting from decrypting the given ciphertext with this key. <newline />
   After the population evolved several generations the fitness of the fittest key does not change anymore. At this point the search is stopped and the key is reported.
   This process is conducted several times during one analysis. <newline />
@@ -63,7 +63,7 @@
       Zusätzlich mutiert ein Schlüssel mit einer gewissen Wahrscheinlichkeit, d. h. ein zufällig ausgewähltes Element des Schlüssels wird mit einem anderen
       Element vertauscht. Die Güte des Schlüssels wird anhand von Wahrscheinlichkeiten der Buchstabengruppen (n-gram) des Klartextes, der bei der Entschlüsselung
       mit dem Schlüssel entstanden ist, bestimmt.<newline />
-      Nach dem sich die Population über mehrere Generationen entwickelt hat, ändert sich die Güte des besten Schlüssels nicht mehr. An diesem Punkt wird die
+      Nachdem sich die Population über mehrere Generationen entwickelt hat, ändert sich die Güte des besten Schlüssels nicht mehr. An diesem Punkt wird die
       Suche angehalten und der Schlüssel als Ergebnis gemeldet. Dieser Prozess wird mehrmals während eines Analysevorgangs durchgeführt.<newline />
       Die Mächtigkeit dieser Methode hängt sehr stark von vorher berechneten n-gram Wahrscheinlichkeiten ab. Die in dieser Komponente verwendeten Wahrscheinlichkeiten
       wurden von Ulrich Kunitz zur Verfügung gestellt und basieren auf dem Absolute Discounting Algorithmus.
