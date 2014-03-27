@@ -6,7 +6,7 @@
   
   <description lang="en">This template shows the cryptanalysis of the monoalphabetic substitution cipher. 
   A sample ciphertext is entered in the text input. After starting the workspace the Monoalphabetic Substitution Analyzer processes 
-  the ciphertext and shows the best found keys as well as the according ciphertexts.  </description>
+  the ciphertext and shows the best found keys as well as the according plaintexts.  </description>
   
   <keywords>Monoalphabetic Substitution Cipher, Frequencies, Dictionary Attack, Analysis</keywords>
 
@@ -14,7 +14,7 @@
   <summary lang="de">Angriff auf die monoalphabetische Substitution</summary>
   
   <description lang="de">Dieses Template zeigt die Kryptoanalyse der monoalphabetischen Substitution basierend auf Buchstabenhäufigkeiten und einem Wörterbuchangriff.
-  Ein Geheimtext als Beispiel ist bereits in die Texteingabebox eingetragen. Nach dem der Wprkspace gestartet wurde, wird der
+  Ein Beispiel-Geheimtext ist bereits in die Texteingabebox eingetragen. Nach dem der Workspace gestartet wurde, wird der
   Geheimtext von dem Plugin analysiert. Die besten Kandidaten für den möglichen Schlüssel und den dazugehörigen Klartext werden in der
   Komponente dargestellt.</description>
   
