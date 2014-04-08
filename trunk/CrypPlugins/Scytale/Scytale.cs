@@ -27,7 +27,6 @@ namespace Cryptool.Scytale
     public class Scytale : ICrypComponent
     {
         private readonly ScytaleSettings settings;
-        private int CharsPerRow;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
@@ -108,60 +107,47 @@ namespace Cryptool.Scytale
                 //remove line breaks since they do not make any sense in the scytale
                 inputString = inputString.Replace("\r", "").Replace("\n","");
 
-                CharsPerRow = inputString.Length / settings.StickSize + 1;
-                outputString = string.Empty;
+                Progress(0,1);
+                
                 switch (settings.Action)
                 {
                     case 0:
-                        EncryptIt();
+                        OutputString = Encrypt(inputString, settings.StickSize);
                         break;
                     case 1:
-                        DecryptIt();
+                        OutputString = Decrypt(inputString, settings.StickSize);
                         break;
                     default:
                         break;
-
                 }
-                OnPropertyChanged("OutputString");
+
+                Progress(1,1);
             }
         }
 
-        private void DecryptIt()
+        private string Decrypt(string s, int size)
         {
-            int Position = 0;
-            for (int i = 0; i < inputString.Length - 1; i++)
-            {
-                outputString += inputString[Position];
-                Position += settings.StickSize;
-                if (Position >= inputString.Length)
-                    Position -= inputString.Length - 1;
+            string result = "";
 
-                //show the progress
-                Progress(i, inputString.Length - 2);
-            }
-            outputString = outputString.Replace('_', ' ').Trim();
+            for (int ofs = 0; ofs < size; ofs++)
+                for (int i = ofs; i < s.Length; i += size)
+                    result += s[i];
+
+            return result.Replace('_', ' ').Trim();
         }
 
-        private void EncryptIt()
+        private string Encrypt(string s, int size)
         {
-            inputString = inputString.Replace(' ', '_');
-            int Position = 0;
-            int totalChars = settings.StickSize * CharsPerRow;
-            for (int i = 0; i < totalChars; i++)
-            {
-                if (Position > inputString.Length - 1)
-                    outputString += "_";
-                else
-                {
-                    outputString += inputString[Position];
-                }
-                Position += CharsPerRow;
-                if (Position >= settings.StickSize * CharsPerRow)
-                    Position -= settings.StickSize * CharsPerRow - 1;
+            string result = "";
 
-                //show the progress
-                Progress(i, totalChars - 1);
-            }
+            s = s.Replace('_', ' ');
+
+            int CharsPerRow = (s.Length + size - 1) / size;
+            for (int ofs = 0; ofs < CharsPerRow; ofs++)
+                for (int i = 0, j = ofs; i < size; i++, j += CharsPerRow)
+                    result += (j < s.Length) ? s[j] : '_';
+
+            return result;
         }
 
         public void PostExecution()
