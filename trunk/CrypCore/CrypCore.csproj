@@ -78,6 +78,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Globals.cs" />
     <Compile Include="Properties\Resources.de.Designer.cs">
       <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
