@@ -80,7 +80,6 @@ namespace Cryptool.CrypWin
     [Cryptool.PluginBase.Attributes.Localization("Cryptool.CrypWin.Properties.Resources")]
     public partial class MainWindow : DevComponents.WpfRibbon.RibbonWindow
     {
-
         #region private variables
         private List<NotificationLevel> listFilter = new List<NotificationLevel>();
         private ObservableCollection<LogMessage> collectionLogMessages = new ObservableCollection<LogMessage>();
@@ -300,6 +299,7 @@ namespace Cryptool.CrypWin
                     var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
                     docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("de", noIcons, showAuthors));
                     docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator("en", noIcons, showAuthors));
+                    //docGenerator.Generate(DirectoryHelper.BaseDirectory, new LaTeXGenerator(noIcons, showAuthors));
                     generatingDocWindow.Close();                    
                 }
                 catch(Exception ex)
@@ -332,6 +332,12 @@ namespace Cryptool.CrypWin
                     //wtf?
                 }
                 Environment.Exit(0);
+            }
+
+            // Do not replace the place holders in templates.
+            if (IsCommandParameterGiven("-NoTemplateReplacement"))
+            {
+                Cryptool.Core.Globals.templateReplacement = false;
             }
 
             if (!EstablishSingleInstance())

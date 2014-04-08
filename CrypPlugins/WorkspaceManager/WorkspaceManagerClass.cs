@@ -199,7 +199,7 @@ namespace WorkspaceManager
                 GuiLogMessage(String.Format(Resources.WorkspaceManagerClass_Open_Loading_Model___0_, fileName), NotificationLevel.Info);
                 var persistance = new ModelPersistance();
                 persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
-                WorkspaceModel = persistance.loadModel(fileName);
+                WorkspaceModel = persistance.loadModel(fileName,Cryptool.Core.Globals.templateReplacement);
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 var dispatcherOp = WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 HandleTemplateLoadingDispatcher(dispatcherOp, fileName);
