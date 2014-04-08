@@ -120,6 +120,9 @@
   <data name="Back_to_overview" xml:space="preserve">
     <value>Back to overview</value>
   </data>
+  <data name="Category_URL" xml:space="preserve">
+    <value>Category URL:</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Crypto Tutorials</value>
   </data>
