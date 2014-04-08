@@ -18,4 +18,22 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Monoalphabetische_Substituti
     <plugin name="Substitution" />
   </relevantPlugins>
 
+ <replacements lang="de">
+	<replacement key="$plaintext$" value="Klartext"/>
+	<replacement key="$sourcealphabet$" value="Quellalphabet"/>
+	<replacement key="$destinationalphabet$" value="Zielalphabet"/>
+	<replacement key="$ciphertext$" value="Geheimtext"/>
+	<replacement key="$decipheredciphertext$" value="Entschlüsselter Geheimtext"/>
+	<replacement key="$text$" value="Als monoalphabetische Substitution (von griechisch: μόνο (mono) = „einzig“ und αλφάβητο (alphabeto) = „Alphabet“ sowie von lateinisch: substituere = „ersetzen“) bezeichnet man in der Kryptographie, also in dem Wissenschaftszweig der Kryptologie, der sich mit den Geheimschriften befasst, Verschlüsselungsverfahren, bei der nur ein einziges (festes) Alphabet zur Verschlüsselung, also zur Umwandlung des Klartextes in den Geheimtext, verwendet wird.&#13;&#10;&#13;&#10;Source: http://de.wikipedia.org/wiki/Monoalphabetische_Substitution"/>
+ </replacements>
+
+ <replacements lang="en">
+	<replacement key="$plaintext$" value="Plaintext"/>
+	<replacement key="$sourcealphabet$" value="Source Alphabet"/>
+	<replacement key="$destinationalphabet$" value="Destination Alphabet"/>
+	<replacement key="$ciphertext$" value="Ciphertext"/>
+	<replacement key="$decipheredciphertext$" value="Deciphered Ciphertext"/>
+	<replacement key="$text$" value="In cryptography, a substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext, according to a regular system; the &quot;units&quot; may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.&#13;&#10;&#13;&#10;Source: http://en.wikipedia.org/wiki/Substitution_cipher"/>
+ </replacements>
+
 </sample>
