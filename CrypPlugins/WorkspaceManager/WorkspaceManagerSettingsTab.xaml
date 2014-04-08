@@ -21,7 +21,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
-                    <CheckBox Content="Global Progressbar" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}"/>
+                    <CheckBox Content="{Loc Global_Progressbar}" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_UseGlobalProgressbar, Mode=TwoWay}"/>
                     <CheckBox Content="{Loc Show_ComponentConnection_Proposition}" Style="{StaticResource ResourceKey=settingsStyle}" Height="21" ToolTip="{Loc Show_ComponentConnection_Proposition_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_ShowComponentConnectionProposition, Mode=TwoWay}"/>
                     <Grid ToolTip="{Loc ComponentConnection_Delay_Tooltip}" Style="{StaticResource ResourceKey=settingsStyle}">
                         <Grid.ColumnDefinitions>
