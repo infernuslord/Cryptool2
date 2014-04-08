@@ -147,4 +147,73 @@
   <data name="Error" xml:space="preserve">
     <value>Fehler beim Laden der Vorlage!</value>
   </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>speichern</value>
+  </data>
+  <data name="AddTooltip" xml:space="preserve">
+    <value>Wert im Parameterspeicher ablegen</value>
+  </data>
+  <data name="ApplyHeader" xml:space="preserve">
+    <value>Anwenden</value>
+  </data>
+  <data name="AvailableKeys" xml:space="preserve">
+    <value>Verfügbare Schlüssel:</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CreatedHeader" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
+  <data name="LoadButton" xml:space="preserve">
+    <value>laden</value>
+  </data>
+  <data name="LoadTooltip" xml:space="preserve">
+    <value>Wert aus dem Parameterspeicher laden</value>
+  </data>
+  <data name="ModifyButton" xml:space="preserve">
+    <value>ändern</value>
+  </data>
+  <data name="No_stored_value_available" xml:space="preserve">
+    <value>Kein gespeicherter Wert vorhanden.</value>
+  </data>
+  <data name="RemoveEntry" xml:space="preserve">
+    <value>Eintrag entfernen</value>
+  </data>
+  <data name="RemoveEntryQuestion" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie den ausgewählten Eintrag entfernen wollen?</value>
+  </data>
+  <data name="RemoveHeader" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="ShowOnStartupCaption" xml:space="preserve">
+    <value>Wizard beim Start anzeigen.</value>
+  </data>
+  <data name="ShowOnStartupTooltip" xml:space="preserve">
+    <value>Beim Start anzeigen</value>
+  </data>
+  <data name="StorageButton" xml:space="preserve">
+    <value>Parameterspeicher</value>
+  </data>
+  <data name="StorageContainer_LoadButtonClicked_Not_available" xml:space="preserve">
+    <value>Nicht verfügbar</value>
+  </data>
+  <data name="StorageHeader" xml:space="preserve">
+    <value>PARAMETERSPEICHER</value>
+  </data>
+  <data name="StorageTooltip" xml:space="preserve">
+    <value>Parameterspeicher anzeigen</value>
+  </data>
+  <data name="StoreDescription" xml:space="preserve">
+    <value>Beschreibung:</value>
+  </data>
+  <data name="StoreKey" xml:space="preserve">
+    <value>Schlüssel:</value>
+  </data>
+  <data name="StoreValue" xml:space="preserve">
+    <value>Wert:</value>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Wert</value>
+  </data>
 </root>

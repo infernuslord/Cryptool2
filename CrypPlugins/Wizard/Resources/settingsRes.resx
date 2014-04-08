@@ -127,7 +127,7 @@
     <value>Show Animations</value>
   </data>
   <data name="ShowAnimationsTooltip" xml:space="preserve">
-    <value>Check to show animations</value>
+    <value>Check to show animations.</value>
   </data>
   <data name="WizardSettings" xml:space="preserve">
     <value>Wizard</value>
