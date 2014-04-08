@@ -130,7 +130,7 @@
     <value>Paketlimit</value>
   </data>
   <data name="PackageLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wieviel Paketen die Komponente anhalten soll. 0 bedeutet "halte nicht".</value>
+    <value>Anzahl der Pakete, nach denen die Komponente anhalten soll. 0 bedeutet "halte nicht".</value>
   </data>
   <data name="PaylodHeader" xml:space="preserve">
     <value>Empfangene Daten</value>
@@ -172,7 +172,7 @@
     <value>Zeitlimit</value>
   </data>
   <data name="TimeLimitTooltip" xml:space="preserve">
-    <value>Gibt an, nach wievielen Sekunden die Komponente anhalten soll. 0 bedeutet "halte nicht".</value>
+    <value>Zeitspanne in Sekunden, nach der die Komponente anhalten soll. 0 bedeutet "halte nicht".</value>
   </data>
   <data name="TORHeader" xml:space="preserve">
     <value>Empfangen um</value>
