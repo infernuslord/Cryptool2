@@ -19,4 +19,25 @@ Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei d
     <plugin name="Xor" />
   </relevantPlugins>
 
+  <replacements lang="de">
+	 <replacement key="$message$" value="Nachricht"/>
+	 <replacement key="$ciphertext$" value="Geheimtext"/>
+	 <replacement key="$plaintext$" value="Klartext"/>
+	 <replacement key="$key$" value="Schlüssel"/>
+	 <replacement key="$stringdecoder$" value="String-Decoder"/>
+	 <replacement key="$stringencoder$" value="String-Encoder"/>
+	 <replacement key="$xorenc$" value="XOR (verschlüsseln)"/>
+	 <replacement key="$xordec$" value="XOR (entschlüsseln)"/>
+  </replacements>
+  <replacements lang="en">
+	 <replacement key="$message$" value="Message"/>
+	 <replacement key="$ciphertext$" value="Ciphertext"/>
+	 <replacement key="$plaintext$" value="Plaintext"/>
+	 <replacement key="$key$" value="Key"/>
+	 <replacement key="$stringdecoder$" value="StringDecoder"/>
+	 <replacement key="$stringencoder$" value="StringEncoder"/>
+	 <replacement key="$xorenc$" value="XOR Encode"/>
+	 <replacement key="$xordec$" value="XOR Decode"/>
+  </replacements>
+
 </sample>
