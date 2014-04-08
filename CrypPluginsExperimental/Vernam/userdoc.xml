@@ -25,7 +25,7 @@ Wenn z.B. der Klartext "a" und der Schlüsseltext "c" lautet und das Alphabet au
   <usage lang="en">
    After dragging the Vernam-component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
     <newline/>
-	Next you have to do the same to specify the data source for you key text. This input is not mandatory but your text will not be encrypted or decrypted if you dont set a key.
+	Next you have to do the same to specify the data source for you key text. This input is not mandatory but your text will not be encrypted or decrypted if you don't set a key.
 	<newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can change the alphabet. You can also specify how unknown symbols (characters which are not part of the alphabet) are treated.
   </usage>

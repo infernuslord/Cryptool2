@@ -187,7 +187,7 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Indicates the amount of packages after which the component will stop. 0 means &apos;dont stop&apos;. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Indicates the amount of packages after which the component will stop. 0 means &quot;don&apos;t stop&quot;. ähnelt.
         /// </summary>
         internal static string PackageLimitTooltip {
             get {
@@ -367,7 +367,7 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Indicates the number of seconds after which the component will stop. 0 means &apos;dont stop&apos;. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Indicates the number of seconds after which the component will stop. 0 means &quot;don&apos;t stop&quot;. ähnelt.
         /// </summary>
         internal static string TimeLimitTooltip {
             get {

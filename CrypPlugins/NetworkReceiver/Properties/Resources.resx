@@ -130,7 +130,7 @@
     <value>Package limit</value>
   </data>
   <data name="PackageLimitTooltip" xml:space="preserve">
-    <value>Indicates the amount of packages after which the component will stop. 0 means 'dont stop'.</value>
+    <value>Indicates the amount of packages after which the component will stop. 0 means "don't stop".</value>
   </data>
   <data name="PaylodHeader" xml:space="preserve">
     <value>Received Data</value>
@@ -172,7 +172,7 @@
     <value>Time Limit</value>
   </data>
   <data name="TimeLimitTooltip" xml:space="preserve">
-    <value>Indicates the number of seconds after which the component will stop. 0 means 'dont stop'.</value>
+    <value>Indicates the number of seconds after which the component will stop. 0 means "don't stop".</value>
   </data>
   <data name="TORHeader" xml:space="preserve">
     <value>Received at</value>
