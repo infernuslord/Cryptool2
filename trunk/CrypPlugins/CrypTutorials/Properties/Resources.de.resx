@@ -120,6 +120,9 @@
   <data name="Back_to_overview" xml:space="preserve">
     <value>Zurück zur Übersicht</value>
   </data>
+  <data name="Category_URL" xml:space="preserve">
+    <value>Kategorien-URL:</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Kryptotutorien</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="Show_Video" xml:space="preserve">
     <value>Zeige Video</value>
+  </data>
+  <data name="VideoTutorialsSettings" xml:space="preserve">
+    <value>Video-Tutorial</value>
   </data>
   <data name="Welcome_Cryptutorials" xml:space="preserve">
     <value>Willkommen bei den Kryptutorialen. Hier können Sie sich YouTube-Videos (Tutoriale) anschauen, die Ihnen die Arbeit mit CrypTool 2 erläutern.</value>

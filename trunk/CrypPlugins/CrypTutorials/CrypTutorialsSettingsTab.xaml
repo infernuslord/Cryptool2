@@ -9,11 +9,11 @@
     <StackPanel>
         
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-            <TextBlock Text="URL:" VerticalAlignment="Center" Width="80"></TextBlock>
+            <TextBlock Text="URL:" VerticalAlignment="Center" Width="90"></TextBlock>
             <TextBox Height="25" Width="300" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=CrypVideoTutorials_URL, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="10">
-            <TextBlock Text="Category URL:" VerticalAlignment="Center" Width="80"></TextBlock>
+            <TextBlock Text="{Loc Category_URL}" VerticalAlignment="Center" Width="90"></TextBlock>
             <TextBox Height="25" Width="300" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=CrypVideoTutorials_CatURL, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
         </StackPanel>
 
