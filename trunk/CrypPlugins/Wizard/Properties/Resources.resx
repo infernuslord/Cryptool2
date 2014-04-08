@@ -207,4 +207,13 @@
   <data name="StorageContainer_LoadButtonClicked_Not_available" xml:space="preserve">
     <value>Not available</value>
   </data>
+  <data name="AddTooltip" xml:space="preserve">
+    <value>Add the parameter to the storage.</value>
+  </data>
+  <data name="LoadTooltip" xml:space="preserve">
+    <value>Load a parameter from the storage.</value>
+  </data>
+  <data name="StorageTooltip" xml:space="preserve">
+    <value>Show the parameter storage.</value>
+  </data>
 </root>
