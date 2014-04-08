@@ -115,7 +115,7 @@ namespace Cryptool.CrypTutorials.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Welcome to the Cryptutorials. In this section you can watch YouTube videos concerning the work with CrypTool 2. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Welcome to the Crypto Videos. In this section you can watch YouTube videos concerning the work with CrypTool 2. ähnelt.
         /// </summary>
         internal static string Welcome_Cryptutorials {
             get {
