@@ -870,11 +870,11 @@ namespace SigabaBruteforce
         {
             var valueKey = new ValueKey();
             valueKey.value = best;
-            valueKey.cipherKey = "dummykey";
-            valueKey.controlKey = "dummykey";
-            valueKey.indexKey = "dummykey";
-            valueKey.cipherRotors = "dummykey";
-            valueKey.controlRotors = "dummykey";
+            valueKey.cipherKey = "";
+            valueKey.controlKey = "";
+            valueKey.indexKey = "";
+            valueKey.cipherRotors = "";
+            valueKey.controlRotors = "";
 
             valueKey.decryption = new byte[0];
             var list = new LinkedList<ValueKey>();
