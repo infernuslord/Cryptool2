@@ -80,7 +80,7 @@ namespace Sigaba
             RotSubMatBack = new byte[subalphaCount, subalphaCount];
             RotSubMatRev = new byte[subalphaCount, subalphaCount];
             RotSubMatRevBack = new byte[subalphaCount, subalphaCount];
-            Console.WriteLine("Hello1");
+            
             for (int i = 0; i < subalphaCount; i++)
             {
                 for (int j = 0; j < subalphaCount; j++)
@@ -93,7 +93,7 @@ namespace Sigaba
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("Hello2");
+            
         }
 
         public Rotor(char[] subalpha, int position, Boolean reverse)

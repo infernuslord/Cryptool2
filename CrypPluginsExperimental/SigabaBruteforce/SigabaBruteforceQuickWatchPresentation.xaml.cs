@@ -36,6 +36,7 @@ namespace SigabaBruteforce
         }
         public void HandleDoubleClick(Object sender, EventArgs eventArgs)
         {
+            if(sender!=null)
                doppelClick(sender,eventArgs);
         }
     }

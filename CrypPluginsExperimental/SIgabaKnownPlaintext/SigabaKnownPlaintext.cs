@@ -64,6 +64,7 @@ namespace SigabaKnownPlaintext
             _sigpa = new SigabaKnownPlaintextPresentaion();
             _core = new SigabaCoreFastKnownPlaintext(this);
             this.Presentation= _sigpa;
+            _sigpa.doppelClick += doppelClick;
             //         _coreP2 = new SigabaCoreFastPhaseII(this);
         }
 
@@ -151,14 +152,16 @@ namespace SigabaKnownPlaintext
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-            List<double> bestlist = new List<double>();
+            bestlist= new List<ValueKey>();
             double best = Double.MinValue;
-            bestlist.Add(Double.MinValue);
+            bestlist.Add(new ValueKey(){value = Double.MinValue});
+
+            startime = DateTime.Now;
 
             if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 best = Double.MaxValue;
-                bestlist.Add(Double.MaxValue);
+                bestlist.Add(new ValueKey(){value = Double.MaxValue});
             }
             list1 = getDummyLinkedList(best);
             valuequeue = Queue.Synchronized(new Queue());
@@ -252,8 +255,15 @@ namespace SigabaKnownPlaintext
 
         ResultEntry actRes ;
         private DateTime lastUpdate;
+        private DateTime startime;
+
+        private List<ValueKey> bestlist ;
+
         private void survivorProducer()
         {
+            int total = 967200*26^5;
+            int tickbig = 0;
+            int ticksmall = 0;
             lastUpdate=DateTime.Now;
             List<long> ticklist = new List<long>();
             var foo = new int[10] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -267,6 +277,7 @@ namespace SigabaKnownPlaintext
 
             for (int enumi = 0; enumi <252; enumi++)
             {
+                
                 int[] arr = combis.ElementAt(enumi).ToArray();
 
                 int[] f = foo.Except(arr).ToArray();
@@ -278,6 +289,7 @@ namespace SigabaKnownPlaintext
                     }
                     for (int ix = 0; ix < 32; ix++)
                     {
+                        
                         String s = GetIntBinaryString(ix);
                         _core.setBool((byte)arr[0], 0, s[0] == '1');
                         _core.setBool((byte)arr[1], 1, s[1] == '1');
@@ -303,6 +315,9 @@ namespace SigabaKnownPlaintext
 
                         do
                         {
+                            tickbig++;
+                            ProgressChanged(tickbig, total);
+                            
                             var retlst = new List<int[][]>();
 
                             _core.setCodeWheels(arr);
@@ -351,6 +366,7 @@ namespace SigabaKnownPlaintext
 
                                     }
                                 }
+                                
 
                                 for (int j = 0; j < treetlst.Count() - 1; j++)
                                 {
@@ -434,6 +450,9 @@ namespace SigabaKnownPlaintext
                                 controlMaster.setCipherRotors(3, (byte) (arr[3]));
                                 controlMaster.setCipherRotors(4, (byte) (arr[4]));
 
+                                //ProgressChanged(ticksmall, retlst.Count);
+
+                                ticksmall++;
                                 if (!treetlst.Contains(null))
                                     if (_core.stepOneCompact(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars,
                                                              treetlst, pathLst))
@@ -445,9 +464,14 @@ namespace SigabaKnownPlaintext
                                         Console.WriteLine("time" + ts.Minutes + ":  " + ts.Seconds);
                                         Console.WriteLine("How many?" + ticklist.Count + " :  " + counter);
                                     }
-                            }
-                        } while (increment2(loopvars, test2));
 
+                                
+                            }
+                            
+                            
+                            
+                        } while (increment2(loopvars, test2));
+                        
                     }
                 } while (NextPermutation(arr));
                                            
@@ -458,7 +482,16 @@ namespace SigabaKnownPlaintext
         }
 
         
-
+        int calculateSet(int[][] con)
+        {
+            int ret = 0;
+            for(int i = 0;i< con.Length;i++)
+            {
+                
+                ret += con[i].Length - 1;
+            }
+            return ret;
+        }
 
         static bool increment2(byte[] inc, int[][] con)
         {
@@ -604,8 +637,11 @@ namespace SigabaKnownPlaintext
             //throw new NotImplementedException();
         }
 
-        internal void AddEntryComplete2(Candidate winner, int pos, int p, bool p_3, int[] pseudo)
+
+
+        internal void AddEntryComplete2(Candidate winner, int pos, int p, bool p_3, int[] pseudo, int[][] temp2, int[][]input2)
         {
+
             int[] b = new int[] { (byte)(actRes.CipherRotors[0] - 48), (byte)(actRes.CipherRotors[1] - 48), (byte)(actRes.CipherRotors[2] - 48), (byte)(actRes.CipherRotors[3] - 48), (byte)(actRes.CipherRotors[4] - 48), (winner.RotorTypeReal[0]), (winner.RotorTypeReal[1]), (winner.RotorTypeReal[2]), p };
             byte[] b2 = new byte[] { (byte)(actRes.CipherKey[0] - 48), (byte)(actRes.CipherKey[1] - 48), (byte)(actRes.CipherKey[2] - 48), (byte)(actRes.CipherKey[3] - 48), (byte)(actRes.CipherKey[4] - 48), (byte)winner.Positions[0], (byte)winner.Positions[1], (byte)winner.Positions[2], (byte)pos};
 
@@ -625,85 +661,195 @@ namespace SigabaKnownPlaintext
             Task t4 = Task.Factory.StartNew(() => controlMaster.setControlRotors(8, (byte)(p)));
 
             Task.WaitAll(new[] { t1, t2, t3, t4});
-            controlMaster.setIndexMaze2(pseudo);
+
+            int[] pseudo2 = (int[])pseudo.Clone();
+            controlMaster.setIndexMaze2((int[])pseudo2.Clone());
+
+            
+                int[] test2 = new int[] { 4, 4, 3, 3, 2, 4, 4, 2, 3, 4, 3, 1, 4, 4, 4, 3, 1, 4, 4, 4, 4, 2, 4, 3, 3, 3 };
+
+                Boolean blup = true;
+                if (pseudo != null)
+                {
+                    for (int i = 0; i < test2.Length; i++)
+                    {
+                        if (pseudo[i] != test2[i])
+                            blup = false;
+                    }
+
+                    if (blup)
+                        Console.WriteLine("Something went wrong");
+                }
+            
 
             byte[] plain = controlMaster.DecryptFast(Encoding.ASCII.GetBytes(Cipher), b, b2);
 
             double val =
                 costMaster.CalculateCost(plain);
-
-            /*  if (
-                  costMaster.
-                      GetRelationOperator() ==
-                  RelationOperator.LessThen)
-              {*/
-            /*if (val <= bestlist.Last())
+            
+            if (
+                costMaster.
+                    GetRelationOperator() ==
+                RelationOperator.LessThen)
             {
-                bestlist.Add(val);
-                bestlist.Sort();
+                if (val < bestlist.Last().value)
+                {
+                    ValueKey vk = new ValueKey();
+                    vk.temp2 = temp2;
+                    vk.value = val;
+                    vk.pseudo = (int[])pseudo.Clone();
+                    vk.input2 = input2;
+                    bestlist.Add(vk);
+                
+                    bestlist = bestlist.OrderBy(x => x.value).ToList();
 
-                if (bestlist.Count > 10)
-                    bestlist.RemoveAt(10);
-            */
-
-
-            var valkey =
-                new ValueKey();
-            String keyStr = "";
-
-            var builderCipherKey =
-                new StringBuilder();
-
+                    if (bestlist.Count > 10)
+                        bestlist.RemoveAt(10);
 
 
-            var builderControlKey =
-                new StringBuilder();
-            builderControlKey.Append(
-                (char)(winner.Positions[0] + 65));
-            builderControlKey.Append(
-                (char)(winner.Positions[1] + 65));
-            builderControlKey.Append(
-                (char)(winner.Positions[2] + 65));
-            builderControlKey.Append(
-                (char)(pos + 65));
-           
-            string controlKey =
-                builderControlKey.
-                    ToString();
-            var builderIndexKey =
-                new StringBuilder();
-            string indexKey = builderIndexKey.ToString();
 
-            string ControlRotors =
-                winner.RotorTypeReal[0] + "" +
-                (winner.Reverse[0] ? "R" : " ") + "" +
-                winner.RotorTypeReal[1] + "" +
-                (winner.Reverse[1] ? "R" : " ") + "" +
-                winner.RotorTypeReal[2] + "" +
-                (winner.Reverse[2] ? "R" : " ") + "" +
-                p + "" +
-                (p_3 ? "R" : " ") + "" ;
-            string IndexRotors ="";
-            valkey.decryption = plain;
+                    var valkey =
+                        new ValueKey();
+                    String keyStr = "";
 
-            valkey.indexKey =
-                indexKey;
-            valkey.controlKey =
-                controlKey;
-            valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + " " + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + " " + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + " " + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
-            valkey.cipherKey = (char)(actRes.CipherKey[0] + 17) + "" + (char)(actRes.CipherKey[1] + 17) + "" + (char)(actRes.CipherKey[2] + 17) + "" + (char)(actRes.CipherKey[3] + 17) + "" + (char)(actRes.CipherKey[4] + 17);
-            valkey.controlRotors =
-                ControlRotors;
-            valkey.indexRotors =
-                IndexRotors;
-            valkey.value = val;
-            valuequeue.Enqueue(
-                valkey);
-            //}
-            //}
-            if (lastUpdate.AddMilliseconds(500) < DateTime.Now)
+                    var builderCipherKey =
+                        new StringBuilder();
+
+
+
+                    var builderControlKey =
+                        new StringBuilder();
+                    builderControlKey.Append(
+                        (char)(winner.Positions[0] + 65));
+                    builderControlKey.Append(
+                        (char)(winner.Positions[1] + 65));
+                    builderControlKey.Append(
+                        (char)(winner.Positions[2] + 65));
+                    
+
+                    string controlKey =
+                        builderControlKey.
+                            ToString();
+                    var builderIndexKey =
+                        new StringBuilder();
+                    string indexKey = builderIndexKey.ToString();
+
+                    string ControlRotors =
+                        winner.RotorTypeReal[0] + "" +
+                        (winner.Reverse[0] ? "R" : " ") + "" +
+                        winner.RotorTypeReal[1] + "" +
+                        (winner.Reverse[1] ? "R" : " ") + "" +
+                        winner.RotorTypeReal[2] + "" +
+                        (winner.Reverse[2] ? "R" : " ") ;
+                    string IndexRotors = "";
+                    valkey.decryption = plain;
+
+                    valkey.indexKey =
+                        indexKey;
+                    valkey.controlKey =
+                        controlKey;
+                    valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + "" + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + "" + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + "" + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
+                    valkey.cipherKey = (char)(actRes.CipherKey[0] + 17) + "" + (char)(actRes.CipherKey[1] + 17) + "" + (char)(actRes.CipherKey[2] + 17) + "" + (char)(actRes.CipherKey[3] + 17) + "" + (char)(actRes.CipherKey[4] + 17);
+                    valkey.controlRotors =
+                        ControlRotors;
+                    valkey.indexRotors =
+                        IndexRotors;
+                    valkey.pseudo = pseudo;
+                    valkey.value = val;
+                    valkey.temp2 = temp2;
+                    valkey.input2 = input2;
+                    valkey.tested = false;
+                    valkey.winner = winner;
+                    valuequeue.Enqueue(
+                        valkey);
+                   
+                }
+            }
+            else
             {
-                UpdatePresentationList(0, 0, DateTime.Now);
+                if (val > bestlist.Last().value)
+                {
+                    ValueKey vk = new ValueKey();
+                    vk.temp2 = temp2;
+                    vk.value = val;
+                    vk.pseudo = (int[])pseudo.Clone();
+                    vk.input2 = input2;
+
+                    bestlist.Add(vk);
+                    bestlist = bestlist.OrderBy(x => x.value).ToList();
+                    bestlist.Reverse();
+
+                    if (bestlist.Count > 10)
+                        bestlist.RemoveAt(10);
+
+                    var valkey =
+                        new ValueKey();
+                    String keyStr = "";
+
+                    var builderCipherKey =
+                        new StringBuilder();
+
+
+
+                    var builderControlKey =
+                        new StringBuilder();
+                    builderControlKey.Append(
+                        (char) (winner.Positions[0] + 65));
+                    builderControlKey.Append(
+                        (char) (winner.Positions[1] + 65));
+                    builderControlKey.Append(
+                        (char) (winner.Positions[2] + 65));
+                    
+
+                    string controlKey =
+                        builderControlKey.
+                            ToString();
+                    var builderIndexKey =
+                        new StringBuilder();
+                    string indexKey = builderIndexKey.ToString();
+
+                    string ControlRotors =
+                        winner.RotorTypeReal[0] + "" +
+                        (winner.Reverse[0] ? "R" : " ") + "" +
+                        winner.RotorTypeReal[1] + "" +
+                        (winner.Reverse[1] ? "R" : " ") + "" +
+                        winner.RotorTypeReal[2] + "" +
+                        (winner.Reverse[2] ? "R" : " ") ;
+                    string IndexRotors = "";
+                    valkey.decryption = plain;
+
+                    valkey.indexKey =
+                        indexKey;
+                    valkey.controlKey =
+                        controlKey;
+                    valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" +
+                                          actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") +
+                                          "" + actRes.CipherRotors[2] + "" +
+                                          (actRes.CipherRotors[7] == '0' ? " " : "R") + "" + actRes.CipherRotors[3] +
+                                          "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + "" +
+                                          actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
+                    valkey.cipherKey = (char) (actRes.CipherKey[0] + 17) + "" + (char) (actRes.CipherKey[1] + 17) + "" +
+                                       (char) (actRes.CipherKey[2] + 17) + "" + (char) (actRes.CipherKey[3] + 17) + "" +
+                                       (char) (actRes.CipherKey[4] + 17);
+                    valkey.controlRotors =
+                        ControlRotors;
+                    valkey.indexRotors =
+                        IndexRotors;
+                    valkey.pseudo = pseudo;
+                    valkey.value = val;
+                    valkey.temp2 = temp2;
+                    valkey.input2 = input2;
+                    valkey.tested = false;
+                    valkey.winner = winner;
+                    valuequeue.Enqueue(
+                        valkey); 
+                    
+                    
+                }
+            }
+            if (lastUpdate.AddMilliseconds(1000) < DateTime.Now)
+            {
+                UpdatePresentationList(0, 0, startime);
                 lastUpdate = DateTime.Now;
             }
 
@@ -762,19 +908,21 @@ namespace SigabaKnownPlaintext
             double val =
                 costMaster.CalculateCost(plain);
 
-          /*  if (
-                costMaster.
-                    GetRelationOperator() ==
+          if (
+                costMaster.GetRelationOperator() ==
                 RelationOperator.LessThen)
-            {*/
-                /*if (val <= bestlist.Last())
+            {
+                if (val <= bestlist.Last().value)
                 {
-                    bestlist.Add(val);
-                    bestlist.Sort();
+                    bestlist.Add(new ValueKey(){value = val});
+                    bestlist.Sort(delegate(ValueKey p1, ValueKey p2)
+                                      {
+                                          return p1.value.CompareTo(p2.value);
+                                      });
 
                     if (bestlist.Count > 10)
                         bestlist.RemoveAt(10);
-                */
+                
 
 
                     var valkey =
@@ -829,7 +977,7 @@ namespace SigabaKnownPlaintext
                         indexKey;
                     valkey.controlKey =
                         controlKey;
-                    valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + " " + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + " " + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + " " + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
+                    valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + "" + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + "" + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + "" + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
                     valkey.cipherKey= (char)(actRes.CipherKey[0] +17)+ "" + (char)(actRes.CipherKey[1]+17) + "" + (char)(actRes.CipherKey[2] +17)+ "" + (char)(actRes.CipherKey[3]+17) + "" + (char)(actRes.CipherKey[4]+17);
                     valkey.controlRotors =
                         ControlRotors;
@@ -838,32 +986,221 @@ namespace SigabaKnownPlaintext
                     valkey.value = val;
                     valuequeue.Enqueue(
                         valkey);
-                //}
-            //}
+                }
+            }else
+          {
+              if (val >= bestlist.Last().value)
+              {
+                  bestlist.Add(new ValueKey() { value = val });
+                  bestlist.Sort(delegate(ValueKey p1, ValueKey p2)
+                  {
+                      return p1.value.CompareTo(p2.value);
+                  });
 
-                    UpdatePresentationList(0,0,DateTime.Now);
+
+                  var valkey =
+                      new ValueKey();
+                  String keyStr = "";
+
+                  var builderCipherKey =
+                      new StringBuilder();
+
+
+
+                  var builderControlKey =
+                      new StringBuilder();
+                  builderControlKey.Append(
+                      (char)(winner.Positions[0] + 65));
+                  builderControlKey.Append(
+                      (char)(winner.Positions[1] + 65));
+                  builderControlKey.Append(
+                      (char)(winner.Positions[2] + 65));
+                  builderControlKey.Append(
+                      (char)(pos + 65));
+                  builderControlKey.Append(
+                      (char)(pos2 + 65));
+                  string controlKey =
+                      builderControlKey.
+                          ToString();
+                  var builderIndexKey =
+                      new StringBuilder();
+                  builderIndexKey.Append(indexkey[0][0]);
+                  builderIndexKey.Append(indexkey[0][1]);
+                  builderIndexKey.Append(indexkey[0][2]);
+                  builderIndexKey.Append(indexkey[0][3]);
+                  builderIndexKey.Append(indexkey[0][4]);
+                  string indexKey = builderIndexKey.ToString();
+
+                  string ControlRotors =
+                      winner.RotorTypeReal[0] + "" +
+                      (winner.Reverse[0] ? "R" : " ") + "" +
+                      winner.RotorTypeReal[1] + "" +
+                      (winner.Reverse[1] ? "R" : " ") + "" +
+                      winner.RotorTypeReal[2] + "" +
+                      (winner.Reverse[2] ? "R" : " ") + "" +
+                      p + "" +
+                      (p_3 ? "R" : " ") + "" +
+                      p_2 + "" +
+                      (p_4 ? "R" : " ");
+                  string IndexRotors =
+                      (int)(indexkey[1][0] + 1) + " " + (int)(indexkey[1][1] + 1) + " " + (int)(indexkey[1][2] + 1) + " " + (int)(indexkey[1][3] + 1) + " " + (int)(indexkey[1][4] + 1);
+                  valkey.decryption = plain;
+
+                  valkey.indexKey =
+                      indexKey;
+                  valkey.controlKey =
+                      controlKey;
+                  valkey.cipherRotors = actRes.CipherRotors[0] + "" + (actRes.CipherRotors[5] == '0' ? " " : "R") + "" + actRes.CipherRotors[1] + "" + (actRes.CipherRotors[6] == '0' ? " " : "R") + "" + actRes.CipherRotors[2] + "" + (actRes.CipherRotors[7] == '0' ? " " : "R") + "" + actRes.CipherRotors[3] + "" + (actRes.CipherRotors[8] == '0' ? " " : "R") + "" + actRes.CipherRotors[4] + "" + (actRes.CipherRotors[9] == '0' ? " " : "R");
+                  valkey.cipherKey = (char)(actRes.CipherKey[0] + 17) + "" + (char)(actRes.CipherKey[1] + 17) + "" + (char)(actRes.CipherKey[2] + 17) + "" + (char)(actRes.CipherKey[3] + 17) + "" + (char)(actRes.CipherKey[4] + 17);
+                  valkey.controlRotors =
+                      ControlRotors;
+                  valkey.indexRotors =
+                      IndexRotors;
+                  valkey.value = val;
+                  valuequeue.Enqueue(
+                      valkey);
+              }
+          }
+
+                    UpdatePresentationList(0,0,startime);
 
         }
 
         #region Prestnation stuff
 
+
+
         private void doppelClick(object sender, EventArgs e)
         {
+            SigabaCoreFastKnownPlaintext _coreTemp = new SigabaCoreFastKnownPlaintext(this);
             var lvi = sender as ListViewItem;
             var rse = lvi.Content as ResultEntry;
-            Output = rse.Text;
-            OnPropertyChanged("Output");
+            Console.WriteLine(Int32.Parse(rse.Ranking) - 1 +"TEst");
+            if (!list1.ElementAt( Int32.Parse(rse.Ranking)-1).tested) 
+            if (rse != null)
+            {
+                int[] rotorTypReal = new int[]
+                                         {
+                                             rse.ControlRotors[0] - 48, rse.ControlRotors[2] - 48,
+                                             rse.ControlRotors[4] - 48
+                                         };
+
+                /*foreach (ValueKey valueKey in bestlist)
+                {
+                    int[] test2 = new int[]
+                                      {4, 4, 3, 3, 2, 4, 4, 2, 3, 4, 3, 1, 4, 4, 4, 3, 1, 4, 4, 4, 4, 2, 4, 3, 3, 3};
+
+                    Boolean blup = true;
+                    if (valueKey.pseudo != null)
+                    {
+                        for (int i = 0; i < test2.Length; i++)
+                        {
+                            if (valueKey.pseudo[i] != test2[i])
+                                blup = false;
+                        }
+
+                        if (blup)
+                            Console.WriteLine("Something went wrong");
+                    }
+                }*/
+                int[] tmp = (int[]) rotorTypReal.Clone();
+                    Array.Sort(tmp);
+                    int[] rotorTyp = new int[4];
+                    for (int i = 0; i < rotorTypReal.Length; i++)
+                        rotorTyp[i] = Array.IndexOf(tmp, rotorTypReal[i]);
+                
+/*                int[] test2 = new int[] { 4, 4, 3, 3, 2, 4, 4, 2, 3, 4, 3, 1, 4, 4, 4, 3, 1, 4, 4, 4, 4, 2, 4, 3, 3, 3 };
+
+                Boolean blup = true;
+                for (int i = 0; i < test2.Length; i++)
+                {
+                    if (bestlist[rse.Ranking[0] - 49].pseudo[i] != test2[i])
+                        blup = false;
+                }
+
+                if (blup)
+                    Console.WriteLine("Hello");
+                    */
+
+                Candidate c = new Candidate()
+                                  {
+                                      Positions =
+                                          new int[]
+                                              {
+                                                  rse.ControlKey[0] - 65, rse.ControlKey[1] - 65, rse.ControlKey[2] - 65
+                                                  
+                                              },
+                                      RotorType = new int[] { rotorTyp[0], rotorTyp[1], rotorTyp[2]},
+                                      RotorTypeReal = rotorTypReal,
+                                      Reverse =
+                                          new bool[]
+                                              {
+                                                  rse.ControlRotors[1] == 'R', rse.ControlRotors[3] == 'R',
+                                                  rse.ControlRotors[5] == 'R'
+                                              }
+                                              ,
+                                      Pseudo = list1.ElementAt(Int32.Parse(rse.Ranking) - 1).winner.Pseudo
+                                  };
+
+                _coreTemp.setCodeWheels(new int[]
+                                            {
+                                                rse.CipherRotors[0] - 48, rse.CipherRotors[2] - 48,
+                                                rse.CipherRotors[4] - 48, rse.CipherRotors[6] - 48,
+                                                rse.CipherRotors[8] - 48
+                                            });
+                
+                String[] s = _coreTemp.FindSteppingMazeCompletionCompact2(bestlist[Int32.Parse(rse.Ranking)-1].input2, c,
+                                                            bestlist[Int32.Parse(rse.Ranking)-1].temp2,
+                                                            bestlist[Int32.Parse(rse.Ranking)-1].pseudo);
+                
+                rse.IndexKey = "";
+                ValueKey valkey = bestlist[rse.Ranking[0] - 49];
+                valkey.indexKey = "";
+                bestlist[rse.Ranking[0] - 49] = valkey;
+
+                
+                if (s != null)
+                {
+                    ValueKey valkey2 = list1.ElementAt(Int32.Parse(rse.Ranking) - 1);
+                    valkey2.indexKey = s[3];
+                    valkey2.indexRotors = s[4];
+                    valkey2.controlKey = valkey2.controlKey + s[1];
+                    valkey2.controlRotors = valkey2.controlRotors + s[0] + s[2];
+                    valkey2.tested = true;
+
+                    list1.Find(list1.ElementAt(Int32.Parse(rse.Ranking)-1)).Value = valkey2;
+
+                    ((SigabaKnownPlaintextPresentaion) Presentation).entries[Int32.Parse(rse.Ranking)-1] = rse;
+                    UpdatePresentationList(0, 0, startime);
+                }
+                else
+                {
+                    ValueKey valkey2 = list1.ElementAt(rse.Ranking[0] - 49);
+                    valkey2.indexKey = "NOT VALID";
+                    valkey2.controlKey = "NOT VALID";
+                    valkey2.controlRotors = "NOT VALID";
+                    valkey2.tested = true;
+
+                    list1.Find(list1.ElementAt(Int32.Parse(rse.Ranking) - 1)).Value = valkey2;
+
+                    ((SigabaKnownPlaintextPresentaion)Presentation).entries[Int32.Parse(rse.Ranking)-1] = rse;
+                    UpdatePresentationList(0, 0, startime);
+                }
+            }
+            //Output = rse.Text;
+            //OnPropertyChanged("Output");
+
         }
 
         private LinkedList<ValueKey> getDummyLinkedList(double best)
         {
             var valueKey = new ValueKey();
             valueKey.value = best;
-            valueKey.cipherKey = "dummykey";
-            valueKey.controlKey = "dummykey";
-            valueKey.indexKey = "dummykey";
-            valueKey.cipherRotors = "dummykey";
-            valueKey.controlRotors = "dummykey";
+            valueKey.cipherKey = "";
+            valueKey.controlKey = "";
+            valueKey.indexKey = "";
+            valueKey.cipherRotors = "";
+            valueKey.controlRotors = "";
 
             valueKey.decryption = new byte[0];
             var list = new LinkedList<ValueKey>();
@@ -1163,8 +1500,7 @@ namespace SigabaKnownPlaintext
                                                                                                                               Value
                                                                                                                               .
                                                                                                                               indexRotors;
-                                                                                                                      entry
-                                                                                                                          .
+                                                                                                                      entry.
                                                                                                                           Value
                                                                                                                           =
                                                                                                                           Math
@@ -1177,23 +1513,14 @@ namespace SigabaKnownPlaintext
                                                                                                                                    value,
                                                                                                                                2) +
                                                                                                                           "";
-
+                                                                                                                      entry.Button = new System.Web.UI.WebControls.Button(){Text = ""};
 
                                                                                                                       ((
                                                                                                                        SigabaKnownPlaintextPresentaion
                                                                                                                        )
-                                                                                                                       Presentation)
-                                                                                                                          .
-                                                                                                                          entries
-                                                                                                                          .
-                                                                                                                          Add
-                                                                                                                          (entry);
+                                                                                                                       Presentation).entries.Add(entry);
 
-                                                                                                                      linkedListNode
-                                                                                                                          =
-                                                                                                                          linkedListNode
-                                                                                                                              .
-                                                                                                                              Next;
+                                                                                                                      linkedListNode =linkedListNode.Next;
                                                                                                                   }
                                                                                                               }
                                                                                                           }
@@ -1280,7 +1607,12 @@ namespace SigabaKnownPlaintext
         public String indexKey;
         public String indexRotors;
         public byte[] keyArray;
+        public int[] pseudo;
+        public int[][] temp2;
+        public int[][] input2;
         public double value;
+        public bool tested;
+        public Candidate winner;
     };
 
     public class ResultEntry
@@ -1294,15 +1626,9 @@ namespace SigabaKnownPlaintext
         public string ControlRotors { get; set; }
         public string IndexRotors { get; set; }
         public string Text { get; set; }
+        public System.Web.UI.WebControls.Button Button { get; set; }
     }
     #endregion
-
-    public struct Node
-    {
-        public int[] Pfad;
-        public int[] Children;
-        
-    }
 
     public struct Survivor
     {

@@ -961,6 +961,311 @@ namespace SigabaKnownPlaintext
             return true;
         }
 
+        public String[] FindSteppingMazeCompletionCompact2(int[][] input2, Candidate winner, int[][] temp, int[] pseudo)
+        {
+            String[] returnString;
+            List<int[]> alreadyTested = new List<int[]>();
+            int[] test = new int[26];
+            int[][] test2 = new int[26][];
+
+            test2 = winner.Pseudo;
+            int[] loopvars = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+            do
+            {
+                test[0] = test2[0][loopvars[0]];
+                test[1] = test2[1][loopvars[1]];
+                test[2] = test2[2][loopvars[2]];
+                test[3] = test2[3][loopvars[3]];
+                test[4] = test2[4][loopvars[4]];
+                test[5] = test2[5][loopvars[5]];
+                test[6] = test2[6][loopvars[6]];
+                test[7] = test2[7][loopvars[7]];
+                test[8] = test2[8][loopvars[8]];
+                test[9] = test2[9][loopvars[9]];
+                test[10] = test2[10][loopvars[10]];
+                test[11] = test2[11][loopvars[11]];
+                test[12] = test2[12][loopvars[12]];
+                test[13] = test2[13][loopvars[13]];
+                test[14] = test2[14][loopvars[14]];
+                test[15] = test2[15][loopvars[15]];
+                test[16] = test2[16][loopvars[16]];
+                test[17] = test2[17][loopvars[17]];
+                test[18] = test2[18][loopvars[18]];
+                test[19] = test2[19][loopvars[19]];
+                test[20] = test2[20][loopvars[20]];
+                test[21] = test2[21][loopvars[21]];
+                test[22] = test2[22][loopvars[22]];
+                test[23] = test2[23][loopvars[23]];
+                test[24] = test2[24][loopvars[24]];
+                test[25] = test2[25][loopvars[25]];
+
+
+                int counter1 = 0;
+                int counter2 = 0;
+                int counter3 = 0;
+                int counter4 = 0;
+                int counter5 = 0;
+
+
+
+                foreach (int ix1 in test)
+                {
+                    if (ix1 == 0)
+                        counter1++;
+                    if (ix1 == 1)
+                        counter2++;
+                    if (ix1 == 2)
+                        counter3++;
+                    if (ix1 == 3)
+                        counter4++;
+                    if (ix1 == 4)
+                        counter5++;
+                }
+
+                int[] countarr = new int[5] { counter1, counter2, counter3, counter4, counter5 };
+
+                if (counter1 < 1 || counter2 < 1 || counter3 < 1 || counter4 < 1 || counter5 < 1 || counter1 > 11 ||
+                    counter2 > 11 || counter3 > 11 || counter4 > 11 || counter5 > 11)
+                {
+                    //increment2(loopvars, test2);
+                    goto RESTART;
+                }
+
+                /* if (counter1 + counter2 + counter3 + counter4 + counter5 != 26) //Wegen der Schleife über temp immer ==26 außer im error case
+                  {
+                      //increment2(loopvars, test2);
+                      goto RESTART;
+                  }*/
+
+
+                Array.Sort(countarr);
+
+
+                Boolean brB = false;
+                for (int cm = 0; cm < alreadyTested.Count; cm++)
+                {
+                    Boolean bev = false;
+                    for (int cn = 0; cn < alreadyTested[cm].Length; cn++)
+                    {
+                        if (alreadyTested[cm][cn] != countarr[4 - cn])
+                        {
+                            bev = true;
+                        }
+                    }
+                    if (!bev)
+                    {
+                        brB = true;
+                        break;
+                    }
+                }
+
+                if (brB)
+                {
+                    goto RESTART;
+                }
+
+                alreadyTested.Add(countarr);
+
+
+                List<int[][]> l3 = IndexPermutations(countarr);
+
+                int[] rest = new int[2];
+
+                bool b = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    if (!winner.RotorType.Contains(i))
+                    {
+                        if (b)
+                        {
+                            rest[0] = i;
+                            b = false;
+                        }
+                        else
+                        {
+                            rest[1] = i;
+                        }
+
+                    }
+                }
+
+
+
+                for (int re = 0; re < 2; re++)
+                {
+                    RotorByte[] testRotor = new RotorByte[2];
+                    testRotor[0] = CodeWheels2[rest[re]];
+                    // Console.WriteLine("");
+                    if (re == 1)
+                    {
+                        testRotor[1] = CodeWheels2[rest[0]];
+                        // Console.Write(rest[0]);
+                        // Console.Write(rest[1]);
+                    }
+                    else
+                    {
+                        testRotor[1] = CodeWheels2[rest[1]];
+                        //Console.Write(rest[1]);
+                        //Console.Write(rest[0]);
+                    }
+
+
+                    for (int indpo = 0; indpo < l3.Count; indpo++)
+                    {
+                        int[] steppingmaze = new int[10];
+
+                        for (int i = 0; i < 10; i++)
+                        {
+                            for (int ix = 0; ix < 5; ix++)
+                            {
+                                if (l3[indpo][ix].Contains(i))
+                                {
+                                    steppingmaze[i] = ix;
+                                }
+                            }
+
+                        }
+                        for (int rev1 = 0; rev1 < 2; rev1++)
+                        {
+                            testRotor[0].Reverse = (rev1 == 1);
+                            for (int rev2 = 0; rev2 < 2; rev2++)
+                            {
+                                testRotor[1].Reverse = (rev2 == 1);
+                                for (int pos = 0; pos < 26; pos++)
+                                {
+                                    for (int pos2 = 0; pos2 < 26; pos2++)
+                                    {
+
+                                        testRotor[0].Position = pos;
+                                        testRotor[1].Position = pos2;
+
+
+
+                                        for (int letters = 0; letters < input2.Length - 1; letters++)
+                                        {
+                                            int tempf = temp[letters][0];
+                                            int tempg = temp[letters][1];
+                                            int temph = temp[letters][2];
+                                            int tempi = temp[letters][3];
+
+                                            for (int i = 0; i < 2; i++)
+                                            {
+                                                if (testRotor[i].Reverse)
+                                                {
+                                                    tempf =
+                                                        testRotor[i].RotSubMatRevBack[
+                                                            testRotor[i].Position, tempf];
+                                                    tempg =
+                                                        testRotor[i].RotSubMatRevBack[
+                                                            testRotor[i].Position, tempg];
+                                                    temph =
+                                                        testRotor[i].RotSubMatRevBack[
+                                                            testRotor[i].Position, temph];
+                                                    tempi =
+                                                        testRotor[i].RotSubMatRevBack[
+                                                            testRotor[i].Position, tempi];
+                                                }
+                                                else
+                                                {
+                                                    tempf =
+                                                        testRotor[i].RotSubMatBack[testRotor[i].Position, tempf];
+                                                    tempg =
+                                                        testRotor[i].RotSubMatBack[testRotor[i].Position, tempg];
+                                                    temph =
+                                                        testRotor[i].RotSubMatBack[testRotor[i].Position, temph];
+                                                    tempi =
+                                                        testRotor[i].RotSubMatBack[testRotor[i].Position, tempi];
+                                                }
+                                            }
+
+                                            /*Console.Write((char)(tempf + 65) + "");
+                                                Console.Write((char)(tempg + 65) + "");
+                                                Console.Write((char)(temph + 65) + "");
+                                                Console.Write((char)(tempi + 65) + "" + letters);
+                                                Console.WriteLine();
+                                                Console.ReadKey();*/
+
+
+
+                                            tempf = ConstantsByte.Transform[0][tempf];
+                                            tempg = ConstantsByte.Transform[0][tempg];
+                                            temph = ConstantsByte.Transform[0][temph];
+                                            tempi = ConstantsByte.Transform[0][tempi];
+
+                                            tempf = steppingmaze[tempf];
+                                            tempg = steppingmaze[tempg];
+                                            temph = steppingmaze[temph];
+                                            tempi = steppingmaze[tempi];
+
+                                            if (!input2[letters].Contains(tempf) ||
+                                                !input2[letters].Contains(tempg) ||
+                                                !input2[letters].Contains(temph) ||
+                                                !input2[letters].Contains(tempi))
+                                                break;
+
+                                            if (letters == input2.Length - 2)
+                                            {
+                                                Console.WriteLine("we have got a winner");
+                                                //Console.WriteLine("Rotor 4: " + pos + testRotor.Reverse + rest[re] + wi);
+                                                Console.WriteLine("Rotor1: " + realWheels[winner.RotorType[0]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[0] + " POsition: " +
+                                                                  winner.Positions[0] +
+                                                                  " Rotor2: " + realWheels[winner.RotorType[1]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[1] + " POsition: " +
+                                                                  winner.Positions[1] +
+                                                                  " Rotor3: " + realWheels[winner.RotorType[2]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[2] + " POsition: " +
+                                                                  winner.Positions[2] +
+                                                                  " Rotor4: " + realWheels[rest[0]] + " REverse: " +
+                                                                  testRotor[0].Reverse + " POsition: " + pos +
+                                                                  " Rotor5: " + realWheels[rest[1]] + " REverse: " +
+                                                                  testRotor[1].Reverse + " POsition: " + pos2
+                                                    );
+                                                List<int[]> indexKey = findIndexMaze(steppingmaze);
+                                                /*facade.AddEntryComplete(winner, steppingmaze, pos, pos2,
+                                                                        realWheels[rest[re]],
+                                                                        realWheels[rest[re == 0 ? 1 : 0]], rev1 == 1,
+                                                                        rev2 == 1, indexKey);*/
+                                                returnString = new string[5];
+                                                returnString[0] = "" + realWheels[rest[0]] + "" +realWheels[rest[1]];
+                                                returnString[1] = "" + (char)(pos + 65) + "" + (char)(pos2 + 65);
+                                                returnString[2] = (testRotor[0].Reverse ? "R" : " ") + (testRotor[0].Reverse ? "R" : " ");
+                                                List<int[]> indma =  findIndexMaze(steppingmaze);
+
+                                                returnString[3] = indma[0][0] + " " +indma[0][1] + " "+indma[0][2] + " "+indma[0][3] + " "+indma[0][4] ;
+                                                returnString[4] = (indma[1][0] + 1) + " " + (indma[1][1] + 1) + " " + (indma[1][2] + 1) + " " + (indma[1][3] + 1) + " " + (indma[1][4] + 1);
+
+                                                return returnString;
+
+
+                                                break;
+                                            }
+
+                                            if (temp[letters][4] == 1)
+                                            {
+                                                testRotor[0].IncrementPosition();
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            RESTART:
+                ;
+            } while (increment2(loopvars, test2));
+
+
+
+            return null;
+        }
+
         public Boolean WinnerfastDeciph(int[][] input2, Candidate winner, int[][] temp)
         {
             List<Candidate> winnerList2 = new List<Candidate>();
@@ -1118,8 +1423,36 @@ namespace SigabaKnownPlaintext
                                     test[24] = pseudo[24][loopvars[24]];
                                     test[25] = pseudo[25][loopvars[25]];
 
-                                    
-                                    facade.AddEntryComplete2(winner,pos,realWheels[rest[re]],(rev!=0), test);
+                                    int counter1 = 0;
+                                    int counter2 = 0;
+                                    int counter3 = 0;
+                                    int counter4 = 0;
+                                    int counter5 = 0;
+
+
+
+                                    foreach (int ix1 in test)
+                                    {
+                                        if (ix1 == 0)
+                                            counter1++;
+                                        if (ix1 == 1)
+                                            counter2++;
+                                        if (ix1 == 2)
+                                            counter3++;
+                                        if (ix1 == 3)
+                                            counter4++;
+                                        if (ix1 == 4)
+                                            counter5++;
+                                    }
+
+                                    int[] countarr = new int[5] { counter1, counter2, counter3, counter4, counter5 };
+
+
+                                    if (counter1 > 0 && counter2 > 0 && counter3 > 0 && counter4 > 0 && counter5 > 0 && counter1 < 12 && counter2 < 12 && counter3 < 12 && counter4 < 12 && counter5 < 12)
+                                    {
+                                        facade.AddEntryComplete2(winner, pos, realWheels[rest[re]], (rev != 0), test,
+                                                                 temp, input2);
+                                    }
 
                                 } while (increment2(loopvars, pseudo));
                                 facade.AddEntryConfirmed(winner, realWheels[rest[re]], realWheels[rest[re == 0 ? 1 : 0]]);
@@ -1146,6 +1479,243 @@ namespace SigabaKnownPlaintext
             return true;
         }
 
+        public String[] FindSteppingMazeCompletionCompact(int[][] input2, Candidate winner, int[][] temp, int[] pseudo)
+        {
+
+            String[] returnString ;
+
+            List<int[]> alreadyTested = new List<int[]>();
+            int[] test = pseudo;
+            
+            
+                int counter1 = 0;
+                int counter2 = 0;
+                int counter3 = 0;
+                int counter4 = 0;
+                int counter5 = 0;
+
+
+
+                foreach (int ix1 in test)
+                {
+                    if (ix1 == 0)
+                        counter1++;
+                    if (ix1 == 1)
+                        counter2++;
+                    if (ix1 == 2)
+                        counter3++;
+                    if (ix1 == 3)
+                        counter4++;
+                    if (ix1 == 4)
+                        counter5++;
+                }
+
+                int[] countarr = new int[5] { counter1, counter2, counter3, counter4, counter5 };
+
+                if (counter1 < 1 || counter2 < 1 || counter3 < 1 || counter4 < 1 || counter5 < 1 || counter1 > 11 ||
+                    counter2 > 11 || counter3 > 11 || counter4 > 11 || counter5 > 11)
+                {
+                    //increment2(loopvars, test2);
+                    goto RESTART;
+                }
+
+                /* if (counter1 + counter2 + counter3 + counter4 + counter5 != 26) //Wegen der Schleife über temp immer ==26 außer im error case
+                  {
+                      //increment2(loopvars, test2);
+                      goto RESTART;
+                  }*/
+
+
+                Array.Sort(countarr);
+
+
+                Boolean brB = false;
+                for (int cm = 0; cm < alreadyTested.Count; cm++)
+                {
+                    Boolean bev = false;
+                    for (int cn = 0; cn < alreadyTested[cm].Length; cn++)
+                    {
+                        if (alreadyTested[cm][cn] != countarr[4 - cn])
+                        {
+                            bev = true;
+                        }
+                    }
+                    if (!bev)
+                    {
+                        brB = true;
+                        break;
+                    }
+                }
+
+                if (brB)
+                {
+                    goto RESTART;
+                }
+
+                alreadyTested.Add(countarr);
+
+
+                List<int[][]> l3 = IndexPermutations(countarr);
+
+                int rest = new int();
+
+                bool b = true;
+                for (int i = 0; i < 5; i++)
+                {
+                    if (!winner.RotorType.Contains(i))
+                    {
+                        rest = i;
+                    }
+                }
+
+
+
+                for (int re = 0; re < 2; re++)
+                {
+                    RotorByte testRotor;
+                    testRotor = CodeWheels2[rest];
+                    
+
+                    for (int indpo = 0; indpo < l3.Count; indpo++)
+                    {
+                        int[] steppingmaze = new int[10];
+
+                        for (int i = 0; i < 10; i++)
+                        {
+                            for (int ix = 0; ix < 5; ix++)
+                            {
+                                if (l3[indpo][ix].Contains(i))
+                                {
+                                    steppingmaze[i] = ix;
+                                }
+                            }
+
+                        }
+                        for (int rev1 = 0; rev1 < 2; rev1++)
+                        {
+                            testRotor.Reverse = (rev1 == 1);
+                                for (int pos = 0; pos < 26; pos++)
+                                {
+                    
+                                    testRotor.Position = pos;
+                    
+
+
+
+                                        for (int letters = 0; letters < input2.Length - 1; letters++)
+                                        {
+                                            int tempf = temp[letters][0];
+                                            int tempg = temp[letters][1];
+                                            int temph = temp[letters][2];
+                                            int tempi = temp[letters][3];
+
+                                            
+                                                if (testRotor.Reverse)
+                                                {
+                                                    tempf =
+                                                        testRotor.RotSubMatRevBack[
+                                                            testRotor.Position, tempf];
+                                                    tempg =
+                                                        testRotor.RotSubMatRevBack[
+                                                            testRotor.Position, tempg];
+                                                    temph =
+                                                        testRotor.RotSubMatRevBack[
+                                                            testRotor.Position, temph];
+                                                    tempi =
+                                                        testRotor.RotSubMatRevBack[
+                                                            testRotor.Position, tempi];
+                                                }
+                                                else
+                                                {
+                                                    tempf =
+                                                        testRotor.RotSubMatBack[testRotor.Position, tempf];
+                                                    tempg =
+                                                        testRotor.RotSubMatBack[testRotor.Position, tempg];
+                                                    temph =
+                                                        testRotor.RotSubMatBack[testRotor.Position, temph];
+                                                    tempi =
+                                                        testRotor.RotSubMatBack[testRotor.Position, tempi];
+                                                }
+                                            
+
+                                            /*Console.Write((char)(tempf + 65) + "");
+                                                Console.Write((char)(tempg + 65) + "");
+                                                Console.Write((char)(temph + 65) + "");
+                                                Console.Write((char)(tempi + 65) + "" + letters);
+                                                Console.WriteLine();
+                                                Console.ReadKey();*/
+
+
+
+                                            tempf = ConstantsByte.Transform[0][tempf];
+                                            tempg = ConstantsByte.Transform[0][tempg];
+                                            temph = ConstantsByte.Transform[0][temph];
+                                            tempi = ConstantsByte.Transform[0][tempi];
+
+                                            tempf = steppingmaze[tempf];
+                                            tempg = steppingmaze[tempg];
+                                            temph = steppingmaze[temph];
+                                            tempi = steppingmaze[tempi];
+
+                                            if (!input2[letters].Contains(tempf) ||
+                                                !input2[letters].Contains(tempg) ||
+                                                !input2[letters].Contains(temph) ||
+                                                !input2[letters].Contains(tempi))
+                                                break;
+
+                                            if (letters == input2.Length - 2)
+                                            {
+                                                Console.WriteLine("we have got a winner");
+                                                //Console.WriteLine("Rotor 4: " + pos + testRotor.Reverse + rest[re] + wi);
+                                                Console.WriteLine("Rotor1: " + realWheels[winner.RotorType[0]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[0] + " POsition: " +
+                                                                  winner.Positions[0] +
+                                                                  " Rotor2: " + realWheels[winner.RotorType[1]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[1] + " POsition: " +
+                                                                  winner.Positions[1] +
+                                                                  " Rotor3: " + realWheels[winner.RotorType[2]] +
+                                                                  " REverse: " +
+                                                                  winner.Reverse[2] + " POsition: " +
+                                                                  winner.Positions[2] +
+                                                                  " Rotor5: " + realWheels[rest] + " REverse: " +
+                                                                  testRotor.Reverse + " POsition: " + pos
+                                                    );
+                                                returnString = new string[3];
+                                                returnString[0] = "" + realWheels[rest];
+                                                returnString[1] = "" + (char)(pos+65);
+                                                returnString[2] = testRotor.Reverse? "R": " ";
+                                                
+                                                
+                                                List<int[]> indexKey = findIndexMaze(steppingmaze);
+                                                /*facade.AddEntryComplete(winner, steppingmaze, pos, pos2,
+                                                                        realWheels[rest[re]],
+                                                                        realWheels[rest[re == 0 ? 1 : 0]], rev1 == 1,
+                                                                        rev2 == 1, indexKey);*/
+
+                                                return returnString;
+                                                break;
+                                            }
+
+                                            
+
+                                        }
+                                    
+                                
+                            }
+                        }
+                    }
+                }
+            RESTART:
+                ;
+            
+
+
+
+            return null;
+        }
+        
         private List<int[]> findIndexMaze(int[] steppingmaze)
         {
             int[] ret = new int[5];
