@@ -192,46 +192,46 @@
   <data name="Control_master" xml:space="preserve">
     <value>Kontroll-Meister</value>
   </data>
-  <data name="CiphersModernAsymmetric" xml:space="preserve">
+  <data name="Category_CiphersModernAsymmetric" xml:space="preserve">
     <value>Moderne asymmetrische Verfahren</value>
   </data>
-  <data name="CiphersModernSymmetric" xml:space="preserve">
+  <data name="Category_CiphersModernSymmetric" xml:space="preserve">
     <value>Moderne symmetrische Verfahren</value>
   </data>
-  <data name="Classic_Ciphers" xml:space="preserve">
+  <data name="Category_Classic_Ciphers" xml:space="preserve">
     <value>Klassische Verfahren</value>
   </data>
-  <data name="CryptanalysisGeneric" xml:space="preserve">
+  <data name="Category_CryptanalysisGeneric" xml:space="preserve">
     <value>Generische Kryptoanalyse</value>
   </data>
-  <data name="CryptanalysisSpecific" xml:space="preserve">
+  <data name="Category_CryptanalysisSpecific" xml:space="preserve">
     <value>Spezifische Kryptoanalyse</value>
   </data>
-  <data name="HashFunctions" xml:space="preserve">
+  <data name="Category_HashFunctions" xml:space="preserve">
     <value>Hash-Funktionen</value>
   </data>
-  <data name="Protocols" xml:space="preserve">
+  <data name="Category_Protocols" xml:space="preserve">
     <value>Protokolle</value>
   </data>
-  <data name="Steganography" xml:space="preserve">
+  <data name="Category_Steganography" xml:space="preserve">
     <value>Steganographie</value>
   </data>
-  <data name="ToolsBoolean" xml:space="preserve">
-    <value>Werkzeuge Boolean</value>
+  <data name="Category_ToolsBoolean" xml:space="preserve">
+    <value>Werkzeuge - Boolean</value>
   </data>
-  <data name="ToolsDataflow" xml:space="preserve">
-    <value>Werkzeuge Dataflow</value>
+  <data name="Category_ToolsDataflow" xml:space="preserve">
+    <value>Werkzeuge - Dataflow</value>
   </data>
-  <data name="ToolsDataInputOutput" xml:space="preserve">
-    <value>Werkzeuge Daten-Input/Daten-Output</value>
+  <data name="Category_ToolsDataInputOutput" xml:space="preserve">
+    <value>Werkzeuge - Daten-Ein- und Ausgabe</value>
   </data>
-  <data name="ToolsMisc" xml:space="preserve">
-    <value>Werkzeuge diverse</value>
+  <data name="Category_ToolsMisc" xml:space="preserve">
+    <value>Werkzeuge - Diverse</value>
   </data>
-  <data name="ToolsP2P" xml:space="preserve">
-    <value>Werkzeuge Peer2Peer</value>
+  <data name="Category_ToolsP2P" xml:space="preserve">
+    <value>Werkzeuge - Peer2Peer</value>
   </data>
-  <data name="Unknown_Category" xml:space="preserve">
+  <data name="Category_Unknown" xml:space="preserve">
     <value>Andere</value>
   </data>
   <data name="LatexGenerator_ChapterSubTitle" xml:space="preserve">
@@ -240,8 +240,38 @@
   <data name="LatexGenerator_ChapterTitle" xml:space="preserve">
     <value>Übersicht über die Vorlagen</value>
   </data>
+  <data name="ComponentTemplate_Introduction" xml:space="preserve">
+    <value>Einleitung</value>
+  </data>
+  <data name="ComponentTemplate_Presentation" xml:space="preserve">
+    <value>Präsentation</value>
+  </data>
+  <data name="ComponentTemplate_Usage" xml:space="preserve">
+    <value>Benutzung</value>
+  </data>
+  <data name="HtmlGenerator_GenerateConnectorListCode_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Key_text_box" xml:space="preserve">
+    <value>Key text box</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LaTeXTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Generators\LaTeXGenerator\LaTeXTemplate.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="LaTeXTmpl_Appendix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-appendix.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LaTeXTmpl_Components" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-components-de.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LaTeXTmpl_Templates" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-templates-de.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Null" xml:space="preserve">
+    <value>Null</value>
+  </data>
+  <data name="ComponentTemplate_Connections" xml:space="preserve">
+    <value>Konnektoren</value>
+  </data>
+  <data name="ComponentTemplate_Settings" xml:space="preserve">
+    <value>Einstellungen</value>
   </data>
 </root>

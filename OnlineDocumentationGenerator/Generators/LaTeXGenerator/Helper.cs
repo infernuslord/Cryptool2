@@ -12,13 +12,20 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         {
             var sb = new StringBuilder(value);
 
-            sb.Replace("\\", "\\textbackslash").Replace("&", "\\&").Replace("%", "\\%")
-                .Replace("#", "\\#").Replace("_", "\\_")
+            sb.Replace("\\", "$\\textbackslash$")
                 .Replace("{", "\\{").Replace("}", "\\}")
                 .Replace("[", "{[}").Replace("]", "{]}")
-                .Replace("~", "\\textasciitilde").Replace("^", "\\textasciicircum")
-                .Replace("`", "\\glq ").Replace("´", "\\grq ")
-                .Replace("\"", "{\\textquotedblright}").Replace("“", "\"'").Replace("„", "\"`");
+                .Replace("#", "{\\#}").Replace("_", "{\\_}")
+                .Replace("&", "\\&").Replace("%", "\\%")
+                .Replace("~", "{\\textasciitilde}").Replace("^", "{\\textasciicircum}")
+                .Replace("`", "{\\glq}").Replace("´", "{\\grq}")
+                .Replace("\"", "{\\textquotedblright}").Replace("“", "\"'").Replace("„", "\"`")
+                .Replace("∈", "$\\in$")
+                .Replace("∨", "$\\vee$")
+                .Replace("∧", "$\\wedge$")
+                .Replace("¬", "$\\lnot$")
+                .Replace("<", "{\\textless}")
+                .Replace(">", "{\\textgreater}");
 
             var greekLetters = new Dictionary<char, string>() {
                   //{'ά', " \\'{$\\alpha$} "}
@@ -39,7 +46,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 , {'ɛ', "{\\textepsilon}"}
                 , {'ʁ', "{\\textinvscr}"}
                 , {'ˌ', "{\\textsecstress}"}
-            };
+            }; 
             
             int c = sb.Length - 1;
             foreach (var letter in sb.ToString().ToLower().Reverse())
