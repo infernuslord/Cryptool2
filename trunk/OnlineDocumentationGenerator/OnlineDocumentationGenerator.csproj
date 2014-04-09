@@ -117,6 +117,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Appendix.tex" />
+    <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Components-de.tex" />
+    <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Components-en.tex" />
+    <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Templates-de.tex" />
+    <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Templates-en.tex" />
     <None Include="Resources\LaTeXAppendix.txt" />
     <Resource Include="StaticDocs\Images\CT2-Paillier.png" />
     <Resource Include="StaticDocs\Images\Voting-Example.jpeg" />
@@ -165,13 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Generators\HtmlGenerator\MathJax.zip" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Generators\LaTeXGenerator\LaTeXTemplate.tex" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Generators\LaTeXGenerator\LaTeXTemplate-en.tex" />
-    <Resource Include="Generators\LaTeXGenerator\LaTeXAppendix.tex" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

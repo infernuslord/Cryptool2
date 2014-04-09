@@ -17,7 +17,7 @@ using WorkspaceManager.Model;
 namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
 {
     /// <summary>
-    /// Class for converting an object to an LaTeX representation.
+    /// Class for converting an object to LaTeX representation.
     /// </summary>
     class ObjectConverter
     {
@@ -56,7 +56,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             }
             if (theObject is Reference.ReferenceList)
             {
-                return ((Reference.ReferenceList)theObject).ToHTML(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
+                return ((Reference.ReferenceList)theObject).ToLaTeX(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
             }
             if (theObject is PropertyInfoAttribute[])
             {
@@ -75,20 +75,25 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             if ((settings != null) && (settings.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table width=\"100%\"  border=\"1\">");
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>",
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
-                                                     Resources.HtmlGenerator_GenerateSettingsListCode_Type));
+
+                codeBuilder.AppendLine(@"\begin{tabular}{ | p{5cm} | p{7cm} | l | }");
+                codeBuilder.AppendLine(@"\hline");
+                codeBuilder.AppendLine(string.Format(@" {0} & {1} & {2} \\ \hline\hline",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Name) + "}",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Description) + "}",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateSettingsListCode_Type) + "}"));
 
                 foreach (var setting in settings)
                 {
-                    codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
-                                                         HttpUtility.HtmlEncode(setting.Caption), HttpUtility.HtmlEncode(setting.ToolTip),
-                                                         GetControlTypeString(setting.ControlType)));
+                    codeBuilder.AppendLine(
+                        string.Format(@" {0} & {1} & {2} \\ \hline",
+                                      Helper.EscapeLaTeX(setting.Caption),
+                                      Helper.EscapeLaTeX(setting.ToolTip),
+                                      GetControlTypeString(setting.ControlType)));
                 }
 
-                codeBuilder.AppendLine("</table>");
+                codeBuilder.AppendLine(@"\end{tabular}");
+
                 return codeBuilder.ToString();
             }
             return Resources.NoContent;
@@ -134,26 +139,27 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             if ((connectors != null) && (connectors.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table width=\"100%\"  border=\"1\">");
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>",
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Type));
+
+                codeBuilder.AppendLine(@"\begin{tabular}{ | p{3cm} | p{6cm} | l | l | }");
+                codeBuilder.AppendLine(@"\hline");
+                codeBuilder.AppendLine(string.Format(@" {0} & {1} & {2} & {3} \\ \hline\hline",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Name) + "}",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Description) + "}",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Direction) + "}",
+                                                     @"\textbf{" + Helper.EscapeLaTeX(Resources.HtmlGenerator_GenerateConnectorListCode_Type) + "}"));
                 
                 foreach (var connector in connectors)
                 {
-                    var type = connector.PropertyInfo.PropertyType.Name;
-                    var color = ColorHelper.GetLineColor(connector.PropertyInfo.PropertyType);
                     codeBuilder.AppendLine(
-                        string.Format("<tr> <td bgcolor=\"#{0}{1}{2}\">{3}</td> <td bgcolor=\"#{0}{1}{2}\">{4}</td> <td bgcolor=\"#{0}{1}{2}\" nowrap>{5}</td> <td bgcolor=\"#{0}{1}{2}\">{6}</td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
-                                      HttpUtility.HtmlEncode(connector.Caption),
-                                      HttpUtility.HtmlEncode(connector.ToolTip),
+                        string.Format(@" {0} & {1} & {2} & {3} \\ \hline",
+                                      Helper.EscapeLaTeX(connector.Caption),
+                                      Helper.EscapeLaTeX(connector.ToolTip),
                                       GetDirectionString(connector.Direction),
-                                      type));
+                                      Helper.EscapeLaTeX(connector.PropertyInfo.PropertyType.Name)));
                 }
 
-                codeBuilder.AppendLine("</table>");
+                codeBuilder.AppendLine(@"\end{tabular}");
+
                 return codeBuilder.ToString();
             }
             return Resources.NoContent;
@@ -164,13 +170,13 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
             switch (direction)
             {
                 case Direction.InputData:
-                    return string.Format("◄ {0}", Resources.Input_data);
+                    return string.Format(@"$\blacktriangleleft$ {0}", Resources.Input_data);
                 case Direction.OutputData:
-                    return string.Format("► {0}", Resources.Output_data);
+                    return string.Format(@"$\blacktriangleright$ {0}", Resources.Output_data);
                 case Direction.ControlSlave:
-                    return string.Format("▲ {0}", Resources.Control_slave);
+                    return string.Format(@"$\blacktriangle$ {0}", Resources.Control_slave);
                 case Direction.ControlMaster:
-                    return string.Format("▼ {0}", Resources.Control_master);
+                    return string.Format(@"$\blacktriangledown$ {0}", Resources.Control_master);
                 default:
                     throw new ArgumentOutOfRangeException("direction");
             }
@@ -211,12 +217,13 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
         {
             var imagePath = GetImagePath(imageSource, filename);
             var sb = new StringBuilder();
-            sb.AppendLine("\\begin{figure}[!ht]");
-            sb.AppendLine("\\begin{center}");
-            sb.AppendLine("\\includegraphics[width=32pt, height=32pt]{" + imagePath + "}");
-            sb.AppendLine("\\end{center}");
-            sb.AppendLine("\\caption{" + Helper.EscapeLaTeX(caption) + "}");
-            sb.AppendLine("\\end{figure}");
+            sb.AppendLine(@"\begin{figure}[!ht]");
+            sb.AppendLine(@"\begin{center}");
+            //sb.AppendLine("@\includegraphics[width=32pt, height=32pt]{" + imagePath + "}");
+            sb.AppendLine(@"\includegraphics[max height=5cm,max width=\textwidth]{" + imagePath + "}");
+            sb.AppendLine(@"\end{center}");
+            sb.AppendLine(@"\caption{" + Helper.EscapeLaTeX(caption) + "}");
+            sb.AppendLine(@"\end{figure}");
             return sb.ToString();
         }
 
@@ -260,6 +267,8 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 {
                     string text = ((XText)node).Value;
                     text = Regex.Replace(text, "[\r\n]+", "\n");
+                    text = Regex.Replace(text, "[\t ]+\n", "\n");
+                    text = Regex.Replace(text, "[\t ]+\\\\\n", "\\\\\n");
                     result.Append(Helper.EscapeLaTeX(text));
                 }
                 else if (node is XElement)
@@ -270,7 +279,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                         case "b":
                         case "i":
                         case "u":
-                            var fontDict = new Dictionary<string, string> {{"b", "\\textbf"}, {"i", "\\textit"}, {"u", "\\textbf"}};
+                            var fontDict = new Dictionary<string, string> {{"b", "\\textbf"}, {"i", "\\textit"}, {"u", "\\underline"}};
                             var nodeRep = ConvertXElement((XElement)node, entityDocumentationPage);
                             result.Append(fontDict[nodeName] + "{" + nodeRep + "}");
                             break;
@@ -297,11 +306,13 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                                 var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
                                     srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
                                 var filename = string.Format("{0}_{1}", entityDocumentationPage.Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
-                                result.Append(ConvertImageSource(image, filename, Path.GetFileNameWithoutExtension(srcAtt.Value)));
+                                var captionAtt = ((XElement)node).Attribute("caption");
+                                var caption = (captionAtt != null) ? captionAtt.Value : Path.GetFileNameWithoutExtension(srcAtt.Value);
+                                result.Append(ConvertImageSource(image, filename, caption));
                             }
                             break;
                         case "newline":
-                            result.AppendLine("\\\\\n");
+                            result.Append("\\\\\n");
                             break;
                         case "section":
                             var headline = ((XElement) node).Attribute("headline");

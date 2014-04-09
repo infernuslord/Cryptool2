@@ -239,46 +239,46 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     switch (page.Category)
                     {
                         case ComponentCategory.CiphersClassic:
-                            categoryName = Properties.Resources.Classic_Ciphers;
+                            categoryName = Properties.Resources.Category_Classic_Ciphers;
                             break;
                         case ComponentCategory.CiphersModernSymmetric:
-                            categoryName = Properties.Resources.CiphersModernSymmetric;
+                            categoryName = Properties.Resources.Category_CiphersModernSymmetric;
                             break;
                         case ComponentCategory.CiphersModernAsymmetric:
-                            categoryName = Properties.Resources.CiphersModernAsymmetric;
+                            categoryName = Properties.Resources.Category_CiphersModernAsymmetric;
                             break;
                         case ComponentCategory.Steganography:
-                            categoryName = Properties.Resources.Steganography;
+                            categoryName = Properties.Resources.Category_Steganography;
                             break;
                         case ComponentCategory.HashFunctions:
-                            categoryName = Properties.Resources.HashFunctions;
+                            categoryName = Properties.Resources.Category_HashFunctions;
                             break;
                         case ComponentCategory.CryptanalysisSpecific:
-                            categoryName = Properties.Resources.CryptanalysisSpecific;
+                            categoryName = Properties.Resources.Category_CryptanalysisSpecific;
                             break;
                         case ComponentCategory.CryptanalysisGeneric:
-                            categoryName = Properties.Resources.CryptanalysisGeneric;
+                            categoryName = Properties.Resources.Category_CryptanalysisGeneric;
                             break;
                         case ComponentCategory.Protocols:
-                            categoryName = Properties.Resources.Protocols;
+                            categoryName = Properties.Resources.Category_Protocols;
                             break;
                         case ComponentCategory.ToolsBoolean:
-                            categoryName = Properties.Resources.ToolsBoolean;
+                            categoryName = Properties.Resources.Category_ToolsBoolean;
                             break;
                         case ComponentCategory.ToolsDataflow:
-                            categoryName = Properties.Resources.ToolsDataflow;
+                            categoryName = Properties.Resources.Category_ToolsDataflow;
                             break;
                         case ComponentCategory.ToolsDataInputOutput:
-                            categoryName = Properties.Resources.ToolsDataInputOutput;
+                            categoryName = Properties.Resources.Category_ToolsDataInputOutput;
                             break;
                         case ComponentCategory.ToolsMisc:
-                            categoryName = Properties.Resources.ToolsMisc;
+                            categoryName = Properties.Resources.Category_ToolsMisc;
                             break;
                         case ComponentCategory.ToolsP2P:
-                            categoryName = Properties.Resources.ToolsP2P;
+                            categoryName = Properties.Resources.Category_ToolsP2P;
                             break;
                         default:
-                            categoryName = Properties.Resources.Unknown_Category;
+                            categoryName = Properties.Resources.Category_Unknown;
                             break;
                     }
                     stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h1></td><td></td></tr>", categoryName));

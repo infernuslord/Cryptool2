@@ -208,46 +208,46 @@
   <data name="Control_master" xml:space="preserve">
     <value>Control master</value>
   </data>
-  <data name="CiphersModernAsymmetric" xml:space="preserve">
+  <data name="Category_CiphersModernAsymmetric" xml:space="preserve">
     <value>Modern asymmetric ciphers</value>
   </data>
-  <data name="CiphersModernSymmetric" xml:space="preserve">
+  <data name="Category_CiphersModernSymmetric" xml:space="preserve">
     <value>Modern symmetric ciphers</value>
   </data>
-  <data name="Classic_Ciphers" xml:space="preserve">
+  <data name="Category_Classic_Ciphers" xml:space="preserve">
     <value>Classic ciphers</value>
   </data>
-  <data name="CryptanalysisGeneric" xml:space="preserve">
-    <value>Cryptanalysis generic</value>
+  <data name="Category_CryptanalysisGeneric" xml:space="preserve">
+    <value>Cryptanalysis - Generic</value>
   </data>
-  <data name="CryptanalysisSpecific" xml:space="preserve">
-    <value>Cryptanalysis specific</value>
+  <data name="Category_CryptanalysisSpecific" xml:space="preserve">
+    <value>Cryptanalysis - Specific</value>
   </data>
-  <data name="HashFunctions" xml:space="preserve">
+  <data name="Category_HashFunctions" xml:space="preserve">
     <value>Hash functions</value>
   </data>
-  <data name="Protocols" xml:space="preserve">
+  <data name="Category_Protocols" xml:space="preserve">
     <value>Protocols</value>
   </data>
-  <data name="Steganography" xml:space="preserve">
+  <data name="Category_Steganography" xml:space="preserve">
     <value>Steganography</value>
   </data>
-  <data name="ToolsBoolean" xml:space="preserve">
-    <value>Tools boolean</value>
+  <data name="Category_ToolsBoolean" xml:space="preserve">
+    <value>Tools - Boolean</value>
   </data>
-  <data name="ToolsDataflow" xml:space="preserve">
-    <value>Tools dataflow</value>
+  <data name="Category_ToolsDataflow" xml:space="preserve">
+    <value>Tools - Dataflow</value>
   </data>
-  <data name="ToolsDataInputOutput" xml:space="preserve">
-    <value>Tools data input output</value>
+  <data name="Category_ToolsDataInputOutput" xml:space="preserve">
+    <value>Tools - Data input and output</value>
   </data>
-  <data name="ToolsMisc" xml:space="preserve">
-    <value>Tools misc</value>
+  <data name="Category_ToolsMisc" xml:space="preserve">
+    <value>Tools - Miscellaneous</value>
   </data>
-  <data name="ToolsP2P" xml:space="preserve">
-    <value>Tools Peer2Peer</value>
+  <data name="Category_ToolsP2P" xml:space="preserve">
+    <value>Tools - Peer2Peer</value>
   </data>
-  <data name="Unknown_Category" xml:space="preserve">
+  <data name="Category_Unknown" xml:space="preserve">
     <value>Others</value>
   </data>
   <data name="Key_text_box" xml:space="preserve">
@@ -274,16 +274,34 @@
   <data name="TemplateEditorIndex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templateeditorindex.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="LaTeXTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\generators\latexgenerator\latextemplate-en.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="LatexGenerator_ChapterSubTitle" xml:space="preserve">
     <value>The Templates</value>
   </data>
   <data name="LatexGenerator_ChapterTitle" xml:space="preserve">
     <value>Overview over the Templates</value>
   </data>
-  <data name="LaTeXAppendix" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\generators\latexgenerator\latexappendix.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="ComponentTemplate_Introduction" xml:space="preserve">
+    <value>Introduction</value>
+  </data>
+  <data name="ComponentTemplate_Presentation" xml:space="preserve">
+    <value>Presentation</value>
+  </data>
+  <data name="ComponentTemplate_Usage" xml:space="preserve">
+    <value>Usage</value>
+  </data>
+  <data name="LaTeXTmpl_Appendix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-appendix.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LaTeXTmpl_Components" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-components-en.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="LaTeXTmpl_Templates" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\latexgenerator\latextmpl-templates-en.tex;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ComponentTemplate_Connections" xml:space="preserve">
+    <value>Connections</value>
+  </data>
+  <data name="ComponentTemplate_Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>
