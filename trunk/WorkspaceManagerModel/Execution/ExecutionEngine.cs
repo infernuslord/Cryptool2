@@ -276,11 +276,8 @@ namespace WorkspaceManager.Execution
                 }
                                 
                 GuiLogMessage(Resources.ExecutionEngine_Stop_All_threads_stopped, NotificationLevel.Debug);
-
                 workspaceModel.resetStates();
-
                 GuiLogMessage(Resources.ExecutionEngine_Stop_WorkspaceModel_states_resetted,NotificationLevel.Debug);
-
                 GuiLogMessage(Resources.ExecutionEngine_Stop_ExecutionEngine_successfully_stopped, NotificationLevel.Info);
             }
             catch(Exception ex)
