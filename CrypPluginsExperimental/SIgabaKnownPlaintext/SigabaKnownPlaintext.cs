@@ -1075,52 +1075,25 @@ namespace SigabaKnownPlaintext
             SigabaCoreFastKnownPlaintext _coreTemp = new SigabaCoreFastKnownPlaintext(this);
             var lvi = sender as ListViewItem;
             var rse = lvi.Content as ResultEntry;
-            Console.WriteLine(Int32.Parse(rse.Ranking) - 1 +"TEst");
+            
             if (!list1.ElementAt( Int32.Parse(rse.Ranking)-1).tested) 
             if (rse != null)
             {
+                Console.WriteLine(Int32.Parse(rse.Ranking) - 1 + "TEst");
                 int[] rotorTypReal = new int[]
                                          {
                                              rse.ControlRotors[0] - 48, rse.ControlRotors[2] - 48,
                                              rse.ControlRotors[4] - 48
                                          };
 
-                /*foreach (ValueKey valueKey in bestlist)
-                {
-                    int[] test2 = new int[]
-                                      {4, 4, 3, 3, 2, 4, 4, 2, 3, 4, 3, 1, 4, 4, 4, 3, 1, 4, 4, 4, 4, 2, 4, 3, 3, 3};
-
-                    Boolean blup = true;
-                    if (valueKey.pseudo != null)
-                    {
-                        for (int i = 0; i < test2.Length; i++)
-                        {
-                            if (valueKey.pseudo[i] != test2[i])
-                                blup = false;
-                        }
-
-                        if (blup)
-                            Console.WriteLine("Something went wrong");
-                    }
-                }*/
+               
                 int[] tmp = (int[]) rotorTypReal.Clone();
                     Array.Sort(tmp);
                     int[] rotorTyp = new int[4];
                     for (int i = 0; i < rotorTypReal.Length; i++)
                         rotorTyp[i] = Array.IndexOf(tmp, rotorTypReal[i]);
                 
-/*                int[] test2 = new int[] { 4, 4, 3, 3, 2, 4, 4, 2, 3, 4, 3, 1, 4, 4, 4, 3, 1, 4, 4, 4, 4, 2, 4, 3, 3, 3 };
 
-                Boolean blup = true;
-                for (int i = 0; i < test2.Length; i++)
-                {
-                    if (bestlist[rse.Ranking[0] - 49].pseudo[i] != test2[i])
-                        blup = false;
-                }
-
-                if (blup)
-                    Console.WriteLine("Hello");
-                    */
 
                 Candidate c = new Candidate()
                                   {
