@@ -200,17 +200,16 @@ namespace TextOutput
             else if (value is System.Collections.IEnumerable)
             {
                 var enumerable = value as System.Collections.IEnumerable;
-                StringBuilder sb = new StringBuilder();
 
+                List<string> s = new List<string>();
                 foreach (var obj in enumerable)
-                {
-                    sb.AppendLine(obj == null ? "null" : obj.ToString());
-                }
-                fillValue = sb.ToString();
+                    s.Add((obj == null ? "null" : obj.ToString()));
+
+                fillValue = String.Join("\n",s);
             }
             else
             {
-                    fillValue = value.ToString();
+                fillValue = value.ToString();
             }
 
             if (fillValue.Length > settings.MaxLength)
