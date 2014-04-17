@@ -36,12 +36,15 @@ using Cryptool.PluginBase.Control;
 
 namespace SigabaKnownPlaintext
 {
-    // HOWTO: Change author name, email address, organization and URL.
-    [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("SIGABA-Widerspruchsbeweis", "", "SigabaPhaseI/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
+
+    [Author("Julian Weyers", "weyers@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
+
+
+    //[PluginInfo("SIGABA-Widerspruchsbeweis", "", "SigabaPhaseI/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("SigabaKnownPlaintext.Properties.Resources", "PluginCaption", "PluginToolTip",
+        "Enigma/DetailedDescription/doc.xml",
+        "Sigaba/Images/Icon.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
+
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class SigabaKnownPlaintext : ICrypComponent
     {
@@ -51,7 +54,7 @@ namespace SigabaKnownPlaintext
         private IControlCost costMaster;
         private SigabaKnownPlaintextPresentaion _sigpa;
         private readonly SigabaKnownPlaintextSettings settings = new SigabaKnownPlaintextSettings();
-        private SigabaCoreFastKnownPlaintext _core ;
+        private SigabaCoreFastKnownPlaintext _core;
         private SigabaCoreFastPhaseI _coreP1 = new SigabaCoreFastPhaseI();
 
         private LinkedList<ValueKey> list1;
@@ -63,7 +66,7 @@ namespace SigabaKnownPlaintext
         {
             _sigpa = new SigabaKnownPlaintextPresentaion();
             _core = new SigabaCoreFastKnownPlaintext(this);
-            this.Presentation= _sigpa;
+            this.Presentation = _sigpa;
             _sigpa.doppelClick += doppelClick;
             //         _coreP2 = new SigabaCoreFastPhaseII(this);
         }
@@ -94,29 +97,17 @@ namespace SigabaKnownPlaintext
         /// You can add more input properties of other type if needed.
         /// </summary>
         [PropertyInfo(Direction.InputData, "Cipher", "Input tooltip description")]
-        public string Cipher
-        {
-            get;
-            set;
-        }
+        public string Cipher { get; set; }
 
         [PropertyInfo(Direction.InputData, "Crib", "Input tooltip description")]
-        public string Crib
-        {
-            get;
-            set;
-        }
+        public string Crib { get; set; }
 
         /// <summary>
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
-        public string Output
-        {
-            get;
-            set;
-        }
+        public string Output { get; set; }
 
         #endregion
 
@@ -142,8 +133,10 @@ namespace SigabaKnownPlaintext
         {
         }
 
-        BlockingCollection<KeyValuePair<Survivor, int[][]>> _blocc = new BlockingCollection<KeyValuePair<Survivor, int[][]>>(100);
-        Task[] _tasks = new Task[Environment.ProcessorCount];
+        private BlockingCollection<KeyValuePair<Survivor, int[][]>> _blocc =
+            new BlockingCollection<KeyValuePair<Survivor, int[][]>>(100);
+
+        private Task[] _tasks = new Task[Environment.ProcessorCount];
 
         /// <summary>
         /// Called every time this plugin is run in the workflow execution.
@@ -152,30 +145,30 @@ namespace SigabaKnownPlaintext
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-            bestlist= new List<ValueKey>();
+            bestlist = new List<ValueKey>();
             double best = Double.MinValue;
-            bestlist.Add(new ValueKey(){value = Double.MinValue});
+            bestlist.Add(new ValueKey() {value = Double.MinValue});
 
             startime = DateTime.Now;
 
             if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 best = Double.MaxValue;
-                bestlist.Add(new ValueKey(){value = Double.MaxValue});
+                bestlist.Add(new ValueKey() {value = Double.MaxValue});
             }
             list1 = getDummyLinkedList(best);
             valuequeue = Queue.Synchronized(new Queue());
             // HOWTO: After you have changed an output property, make sure you announce the name of the changed property to the CT2 core.
             //SomeOutput = SomeInput - settings.SomeParameter;
 
-            
+
             survivorProducer();
-           
+
             Console.WriteLine(DateTime.Now);
 
             OnPropertyChanged("SomeOutput");
 
-            
+
             ProgressChanged(1, 1);
         }
 
@@ -192,7 +185,7 @@ namespace SigabaKnownPlaintext
         /// </summary>
         public void Stop()
         {
-           
+
         }
 
         /// <summary>
@@ -214,7 +207,7 @@ namespace SigabaKnownPlaintext
         private void survivorConsumer()
         {
             KeyValuePair<Survivor, int[][]> survivor;
-            
+
             while (_blocc.TryTake(out survivor, Timeout.Infinite))
             {
                 foreach (byte c in survivor.Key.key)
@@ -231,7 +224,7 @@ namespace SigabaKnownPlaintext
                 {
                     Console.Write(c);
                 }
-                foreach ( int[] c in survivor.Value)
+                foreach (int[] c in survivor.Value)
                 {
                     foreach (int i in c)
                     {
@@ -243,162 +236,200 @@ namespace SigabaKnownPlaintext
                 Console.WriteLine();
 
                 //_coreP2.setCodeWheels(survivor.Key.type);
-                Stopwatch sw= new Stopwatch();
+                Stopwatch sw = new Stopwatch();
                 sw.Start();
                 //List<Candidate> winnerList = _coreP2.stepOneCompact(survivor.Value);
                 sw.Stop();
                 Console.WriteLine(sw.Elapsed + "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                
+
 
             }
         }
 
-        ResultEntry actRes ;
+        private ResultEntry actRes;
         private DateTime lastUpdate;
         private DateTime startime;
 
-        private List<ValueKey> bestlist ;
+        private List<ValueKey> bestlist;
 
         private void survivorProducer()
         {
-            int total = 967200*26^5;
+            int total = 967200*26 ^ 5;
             int tickbig = 0;
             int ticksmall = 0;
-            lastUpdate=DateTime.Now;
+
+            List<string> RotorRevList = new List<string>();
+
+            for (int i = 0; i < 32; i++)
+            {
+                String s = GetIntBinaryString(i);
+                if (checkWithSetting(s))
+                {
+                    RotorRevList.Add(s);
+                }
+            }
+
+            lastUpdate = DateTime.Now;
+
             List<long> ticklist = new List<long>();
             var foo = new int[10] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             IEnumerable<IEnumerable<int>> combis = foo.Combinations(5);
-            
-            
+
             int counter = 0;
 
             //int inter = end - start;
             _core.InitializeRotors();
 
-            for (int enumi = 0; enumi <252; enumi++)
+            for (int enumi = 0; enumi < 252; enumi++)
             {
-                
-                int[] arr = combis.ElementAt(enumi).ToArray();
 
+                int[] arr = combis.ElementAt(enumi).ToArray();
                 int[] f = foo.Except(arr).ToArray();
+                if(checkWithSetting(arr))
                 do
                 {
                     for (int y = 0; y < 5; y++)
                     {
-                        _core.setCipherRotors(y, (byte)arr[y]);
+                        _core.setCipherRotors(y, (byte) arr[y]);
                     }
-                    for (int ix = 0; ix < 32; ix++)
+
+                    controlMaster.setCipherRotors(4, (byte)(arr[0]));
+                    controlMaster.setCipherRotors(3, (byte)(arr[1]));
+                    controlMaster.setCipherRotors(2, (byte)(arr[2]));
+                    controlMaster.setCipherRotors(1, (byte)(arr[3]));
+                    controlMaster.setCipherRotors(0, (byte)(arr[4]));
+
+                    for (int ix = 0; ix < RotorRevList.Count; ix++)
                     {
-                        
-                        String s = GetIntBinaryString(ix);
-                        _core.setBool((byte)arr[0], 0, s[0] == '1');
-                        _core.setBool((byte)arr[1], 1, s[1] == '1');
-                        _core.setBool((byte)arr[2], 2, s[2] == '1');
-                        _core.setBool((byte)arr[3], 3, s[3] == '1');
-                        _core.setBool((byte)arr[4], 4, s[4] == '1');
 
+                        String s = RotorRevList[ix];
                         
 
-                        
+
+                        _core.setBool((byte) arr[0], 0, s[0] == '1');
+                        _core.setBool((byte) arr[1], 1, s[1] == '1');
+                        _core.setBool((byte) arr[2], 2, s[2] == '1');
+                        _core.setBool((byte) arr[3], 3, s[3] == '1');
+                        _core.setBool((byte) arr[4], 4, s[4] == '1');
+
+                        controlMaster.setBool((byte)arr[0], 4, s[0] == '1');
+                        controlMaster.setBool((byte)arr[1], 3, s[1] == '1');
+                        controlMaster.setBool((byte)arr[2], 2, s[2] == '1');
+                        controlMaster.setBool((byte)arr[3], 1, s[3] == '1');
+                        controlMaster.setBool((byte)arr[4], 0, s[4] == '1');
+
                         var enc = new ASCIIEncoding();
 
-                        byte[] loopvars = new byte[] { 0, 0, 0, 0, 0};
+                        byte[] loopvars = new byte[] {  (byte)settings.cipherRotorFrom[0], 
+                                                        (byte)settings.cipherRotorFrom[1], 
+                                                        (byte)settings.cipherRotorFrom[2], 
+                                                        (byte)settings.cipherRotorFrom[3], 
+                                                        (byte)settings.cipherRotorFrom[4] };
 
-                        
-                        
                         int[][] test2 = new int[5][];
 
                         for (int i = 0; i < 5; i++)
                         {
-                            test2[i] = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 };
+                            List<int> temp = new List<int>();
+
+                            for (int x = (int)settings.cipherRotorFrom[i]; x < (int)settings.cipherRotorTo[i];x++ )
+                            {
+                                temp.Add(x);
+                            }
+
+                            test2[i] = temp.ToArray();
                         }
 
+
+                        if(checkWithSetting(s))
                         do
                         {
-                            tickbig++;
-                            ProgressChanged(tickbig, total);
-                            
-                            var retlst = new List<int[][]>();
-
-                            _core.setCodeWheels(arr);
-                            retlst = _core.PhaseI3(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars);
-                            if (retlst.Count != 0)
+                            //if(checkWithSetting( loopvars))
                             {
-                                List<int[]>[] treetlst = new List<int[]>[Crib.Length];
-                                List<List<int>>[] pathLst = new List<List<int>>[Crib.Length];
+                                tickbig++;
+                                ProgressChanged(tickbig, total);
 
-                                for (int i = 0; i < retlst.Count; i++)
+                                var retlst = new List<int[][]>();
+
+                                _core.setCodeWheels(arr);
+                                retlst = _core.PhaseI3(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars);
+                                if (retlst.Count != 0)
                                 {
-                                    for (int j = 0; j < retlst[i].Length; j++)
+                                    List<int[]>[] treetlst = new List<int[]>[Crib.Length];
+                                    List<List<int>>[] pathLst = new List<List<int>>[Crib.Length];
+
+                                    for (int i = 0; i < retlst.Count; i++)
                                     {
-                                        if (treetlst[j] == null)
+                                        for (int j = 0; j < retlst[i].Length; j++)
                                         {
-
-                                            treetlst[j] = new List<int[]>();
-                                            treetlst[j].Add(retlst[i][j]);
-                                            pathLst[j] = new List<List<int>>() {new List<int>()};
-
-                                            //pathLst[j].Last().Add(Array.IndexOf(treetlst[j + 1].ToArray(), retlst[i][j + 1]));
-
-                                        }
-
-                                        Boolean b = true;
-                                        for (int iy = 0; iy < treetlst[j].Count(); iy++)
-                                        {
-                                            if (ArraysEqual(treetlst[j][iy], retlst[i][j]))
+                                            if (treetlst[j] == null)
                                             {
-                                                b = false;
-                                                /*    if(j>0)
+
+                                                treetlst[j] = new List<int[]>();
+                                                treetlst[j].Add(retlst[i][j]);
+                                                pathLst[j] = new List<List<int>>() {new List<int>()};
+
+                                                //pathLst[j].Last().Add(Array.IndexOf(treetlst[j + 1].ToArray(), retlst[i][j + 1]));
+
+                                            }
+
+                                            Boolean b = true;
+                                            for (int iy = 0; iy < treetlst[j].Count(); iy++)
+                                            {
+                                                if (ArraysEqual(treetlst[j][iy], retlst[i][j]))
+                                                {
+                                                    b = false;
+                                                    /*    if(j>0)
                                                     if(!pathLst[j].Last().Contains(Array.IndexOf(treetlst[j+1].ToArray(),retlst[i][j+1])))
                                                     {
                                                         pathLst[j].Last().Add(Array.IndexOf(treetlst[j+1].ToArray(),retlst[i][j+1]));
                                                     }*/
+                                                }
                                             }
-                                        }
 
 
-                                        if (b)
-                                        {
-                                            pathLst[j].Add(new List<int>());
-                                            treetlst[j].Add(retlst[i][j]);
-
-                                        }
-
-                                    }
-                                }
-                                
-
-                                for (int j = 0; j < treetlst.Count() - 1; j++)
-                                {
-                                    for (int iy = 0; iy < treetlst[j].Count(); iy++)
-                                    {
-                                        for (int i = 0; i < retlst.Count; i++)
-                                        {
-                                            if (ArraysEqual(treetlst[j][iy], retlst[i][j]))
+                                            if (b)
                                             {
-                                                if (
-                                                    !pathLst[j][iy].Contains(
-                                                        treetlst[j + 1].FindLastIndex(
-                                                            item =>
-                                                            ArraysEqual(item.ToArray(), retlst[i][j + 1].ToArray()))))
+                                                pathLst[j].Add(new List<int>());
+                                                treetlst[j].Add(retlst[i][j]);
+
+                                            }
+
+                                        }
+                                    }
+
+
+                                    for (int j = 0; j < treetlst.Count() - 1; j++)
+                                    {
+                                        for (int iy = 0; iy < treetlst[j].Count(); iy++)
+                                        {
+                                            for (int i = 0; i < retlst.Count; i++)
+                                            {
+                                                if (ArraysEqual(treetlst[j][iy], retlst[i][j]))
                                                 {
-                                                    /*int xgh=Array.IndexOf(treetlst[j + 1].ToArray(), retlst[i][j + 1]);
+                                                    if (
+                                                        !pathLst[j][iy].Contains(
+                                                            treetlst[j + 1].FindLastIndex(
+                                                                item =>
+                                                                ArraysEqual(item.ToArray(), retlst[i][j + 1].ToArray()))))
+                                                    {
+                                                        /*int xgh=Array.IndexOf(treetlst[j + 1].ToArray(), retlst[i][j + 1]);
                                                     
                                                     int[][] llist = treetlst[j + 1].ToArray();
                                                     int[] gh = retlst[i][j + 1];
                                                     int xgh2 = Array.IndexOf(llist, gh);
                                                     Console.WriteLine(gh+""+xgh+"" +llist+""+xgh2);*/
-                                                    pathLst[j][iy].Add(
-                                                        treetlst[j + 1].FindLastIndex(
-                                                            item =>
-                                                            ArraysEqual(item.ToArray(), retlst[i][j + 1].ToArray())));
+                                                        pathLst[j][iy].Add(
+                                                            treetlst[j + 1].FindLastIndex(
+                                                                item =>
+                                                                ArraysEqual(item.ToArray(), retlst[i][j + 1].ToArray())));
+                                                    }
                                                 }
                                             }
-                                        }
 
+                                        }
                                     }
-                                }
-                                /*
+                                    /*
                                 List<Node> nodeList = new List<Node>();
 
                                 for (int i = 0; i < retlst.Count; i++)
@@ -434,54 +465,133 @@ namespace SigabaKnownPlaintext
                                     }
                                 }*/
 
-                                Stopwatch sw = new Stopwatch();
-                                sw.Start();
+                                    Stopwatch sw = new Stopwatch();
+                                    sw.Start();
 
-                                counter++;
-                                actRes = new ResultEntry();
-                                actRes.CipherKey = loopvars[0] + "" + loopvars[1] + "" + loopvars[2] + "" + loopvars[3] +
-                                                   "" + loopvars[4];
-                                actRes.CipherRotors = "" + arr[0] + "" + arr[1] + "" + arr[2] + "" + arr[3] + "" +
-                                                      arr[4] + "" + s[0] + "" + s[1] + "" + s[2] + "" + s[3] + "" + s[4];
+                                    counter++;
+                                    actRes = new ResultEntry();
+                                    actRes.CipherKey = loopvars[0] + "" + loopvars[1] + "" + loopvars[2] + "" +
+                                                       loopvars[3] +
+                                                       "" + loopvars[4];
+                                    actRes.CipherRotors = "" + arr[0] + "" + arr[1] + "" + arr[2] + "" + arr[3] + "" +
+                                                          arr[4] + "" + s[0] + "" + s[1] + "" + s[2] + "" + s[3] + "" +
+                                                          s[4];
 
-                                controlMaster.setCipherRotors(0, (byte) (arr[0]));
-                                controlMaster.setCipherRotors(1, (byte) (arr[1]));
-                                controlMaster.setCipherRotors(2, (byte) (arr[2]));
-                                controlMaster.setCipherRotors(3, (byte) (arr[3]));
-                                controlMaster.setCipherRotors(4, (byte) (arr[4]));
+                                    controlMaster.setCipherRotors(0, (byte) (arr[0]));
+                                    controlMaster.setCipherRotors(1, (byte) (arr[1]));
+                                    controlMaster.setCipherRotors(2, (byte) (arr[2]));
+                                    controlMaster.setCipherRotors(3, (byte) (arr[3]));
+                                    controlMaster.setCipherRotors(4, (byte) (arr[4]));
 
-                                //ProgressChanged(ticksmall, retlst.Count);
+                                    
 
-                                ticksmall++;
-                                if (!treetlst.Contains(null))
-                                    if (_core.stepOneCompact(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars,
-                                                             treetlst, pathLst))
-                                    {
+                                    //ProgressChanged(ticksmall, retlst.Count);
 
-                                        sw.Stop();
-                                        ticklist.Add(sw.Elapsed.Ticks);
-                                        TimeSpan ts = new TimeSpan((long) ticklist.Average());
-                                        Console.WriteLine("time" + ts.Minutes + ":  " + ts.Seconds);
-                                        Console.WriteLine("How many?" + ticklist.Count + " :  " + counter);
-                                    }
+                                    ticksmall++;
+                                    if (!treetlst.Contains(null))
+                                        if (_core.stepOneCompact(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars,
+                                                                 treetlst, pathLst))
+                                        {
 
-                                
+                                            sw.Stop();
+                                            ticklist.Add(sw.Elapsed.Ticks);
+                                            TimeSpan ts = new TimeSpan((long) ticklist.Average());
+                                            Console.WriteLine("time" + ts.Minutes + ":  " + ts.Seconds);
+                                            Console.WriteLine("How many?" + ticklist.Count + " :  " + counter);
+                                        }
+
+
+                                }
+
                             }
-                            
-                            
-                            
+
                         } while (increment2(loopvars, test2));
-                        
+
                     }
                 } while (NextPermutation(arr));
-                                           
+
             }
 
-                Console.WriteLine(counter);
-                                     
+            Console.WriteLine(counter);
+
         }
 
-        
+        private bool checkWithSetting(byte[] loopvars )
+        {
+            bool retb = true;
+            for (int i = 0;i<5;i++)
+            {
+                if ((int)settings.cipherRotorFrom[i] > loopvars[i])
+                {
+                    retb = false;
+                }
+                
+                if (settings.cipherRotorTo[i] < loopvars[i])
+                {
+                    retb = false;
+                }
+
+                
+
+            }
+
+            return retb;
+        }
+
+        private bool checkWithSetting( int[] arr)
+        {
+            bool retb = true;
+            
+            
+            if (!settings.cipher1AnalysisUseRotor[arr[0]-1])
+            {
+                retb = false;
+            }
+            if (!settings.cipher2AnalysisUseRotor[arr[1] - 1])
+            {
+                retb = false;
+            }    
+            if (!settings.cipher3AnalysisUseRotor[arr[2] - 1])
+            {
+                retb = false;
+            }
+            if (!settings.cipher4AnalysisUseRotor[arr[3] - 1])
+            {
+                retb = false;
+            }
+            if (!settings.cipher5AnalysisUseRotor[arr[4] - 1])
+            {
+                retb = false;
+            }    
+
+            
+
+            return retb;
+        }
+
+        private bool checkWithSetting( String s)
+        {
+            bool retb = true;
+            for (int i = 0; i < 5; i++)
+            {
+               
+
+                if (s[i] == '0')
+                {
+                    if (settings.cipherRotorRev[i] == 2)
+                    { retb = false; }
+                }
+                else
+                {
+                    if (settings.cipherRotorRev[i] == 1)
+                    { retb = false; }
+                }
+
+            }
+
+            return retb;
+        }
+
         int calculateSet(int[][] con)
         {
             int ret = 0;
@@ -644,6 +754,8 @@ namespace SigabaKnownPlaintext
 
             int[] b = new int[] { (byte)(actRes.CipherRotors[0] - 48), (byte)(actRes.CipherRotors[1] - 48), (byte)(actRes.CipherRotors[2] - 48), (byte)(actRes.CipherRotors[3] - 48), (byte)(actRes.CipherRotors[4] - 48), (winner.RotorTypeReal[0]), (winner.RotorTypeReal[1]), (winner.RotorTypeReal[2]), p };
             byte[] b2 = new byte[] { (byte)(actRes.CipherKey[0] - 48), (byte)(actRes.CipherKey[1] - 48), (byte)(actRes.CipherKey[2] - 48), (byte)(actRes.CipherKey[3] - 48), (byte)(actRes.CipherKey[4] - 48), (byte)winner.Positions[0], (byte)winner.Positions[1], (byte)winner.Positions[2], (byte)pos};
+
+            
 
             controlMaster.setPositionsControl((byte)(winner.RotorTypeReal[0]), 5, (byte)winner.Positions[0]);
             controlMaster.setPositionsControl((byte)(winner.RotorTypeReal[1]), 6, (byte)winner.Positions[1]);
@@ -1076,8 +1188,9 @@ namespace SigabaKnownPlaintext
             var lvi = sender as ListViewItem;
             var rse = lvi.Content as ResultEntry;
             
-            if (!list1.ElementAt( Int32.Parse(rse.Ranking)-1).tested) 
+            
             if (rse != null)
+            if (!list1.ElementAt(Int32.Parse(rse.Ranking) - 1).tested) 
             {
                 Console.WriteLine(Int32.Parse(rse.Ranking) - 1 + "TEst");
                 int[] rotorTypReal = new int[]
