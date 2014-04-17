@@ -442,10 +442,10 @@
     <value>Z</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>SigabaBruteforce</value>
+    <value>SIGABA Known Plaintext</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>Analyzing tool for the American rotor cipher machine SIGABA</value>
+    <value>Analyzing tool for the American rotor cipher machine SIGABA with known plaintext</value>
   </data>
   <data name="SigabaSettings_SigabaSettings_Cipher" xml:space="preserve">
     <value>Encrypt</value>
