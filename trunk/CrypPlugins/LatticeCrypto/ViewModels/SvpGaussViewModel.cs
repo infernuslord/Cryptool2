@@ -153,10 +153,7 @@ namespace LatticeCrypto.ViewModels
                 paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelDensity)));
                 paragraph.Inlines.Add(" " + Util.FormatDoubleToPercentageLog(Lattice.Density) + " / " + Util.FormatDoubleToPercentageLog(Lattice.DensityRelToOptimum) + "\r\n");
             }
-
-            paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelSuccessiveMinima)));
-            paragraph.Inlines.Add(" " + Lattice.VectorReducedLengthToString() + "\r\n");
-
+            
             paragraph.Inlines.Add(new Bold(new Run("   " + Languages.labelMinimalVector)));
             paragraph.Inlines.Add(" " + Lattice.GetMinimalReducedVector() + "\r\n");
 
