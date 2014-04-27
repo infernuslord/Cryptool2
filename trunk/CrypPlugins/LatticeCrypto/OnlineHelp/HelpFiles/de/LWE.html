@@ -6,7 +6,7 @@
     
     Seien m, n und q ganze Zahlen und sei X auf Zq eine (normale) 
     Wahrscheinlichkeitsverteilung. Gegeben sei nun das Paar (A, b), wobei die 
-    quadratisch Matrix A aus Zq^(m x n) zufällig gewählt sei, und der Vektor b = As 
+    quadratische Matrix A aus Zq^(m x n) zufällig gewählt sei, und der Vektor b = As 
     + e, mit einem ebenfalls zufällig gewählten Vektor s aus Zq^n und einem 
     Störvektor e aus Zq^m , welcher gemäß X^m gewählt sei. Das Problem ist, den 
     Vektor s zu finden.</p>
@@ -21,7 +21,7 @@
 
 <img src="ImgLWE1" />
 
-<p>Die Gleichungen sind korrekt bis auf einen kleinen Störwert, z.B. 1, welcher dazuaddiert
+<p>Die Gleichungen sind korrekt bis auf einen kleinen Störwert, z.B. 1, welcher dazu addiert
 wurde. In diesem Beispiel ist der Vektor s = [5 7 11].</p>
 
 <p>Die Fehlerverteilung  ist eine Normalverteilung, welche auf die nächste ganze Zahl gerundet
@@ -30,7 +30,7 @@ wurde. In diesem Beispiel ist der Vektor s = [5 7 11].</p>
     
 <img src="ImgLWE2" />
 
-<p>Die Fehlerverteilung ist angegeben mit q = 113 und alpha= 0,05</p>
+<p>Die Fehlerverteilung ist angegeben mit q = 113 und alpha= 0,05.</p>
 
 <p>Der private Schlüssel ist s, der öffentliche Schlüssel ist b = As + e, wobei A zufällig und e anhand X generiert werden. 
     Für die Verschlüsselung wird ein Zufallsvektor r aus {0,1}^m generiert. Dieser 
