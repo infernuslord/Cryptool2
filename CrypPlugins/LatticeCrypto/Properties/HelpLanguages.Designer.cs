@@ -201,8 +201,12 @@ namespace LatticeCrypto.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;GGH-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
-        ///    Todo&lt;/p&gt;
-        /// ähnelt.
+        ///    Das GGH-Kryptosystem basiert auf der Annahme, dass es sehr leicht ist, mittels 
+        ///    einer Basis B und einem kleinen Störvektor e einen Vektor zu konstruieren, der 
+        ///    ebenfalls im Vektorraum V und sehr nahe an einem Gitterpunkt im Gitter L liegt. 
+        ///    Auf der anderen Seite ist es schwer, aus diesem Vektor den ursprünglichen 
+        ///    Gitterpunkt zu rekonstruieren, der in der Nähe dieses Vektors liegt. 
+        ///    Andererseits könnte auch das Finden einer sehr kleinen Basis die  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string GGH {
             get {
@@ -276,6 +280,26 @@ namespace LatticeCrypto.Properties {
         public static System.Drawing.Bitmap ImgLengthVector {
             get {
                 object obj = ResourceManager.GetObject("ImgLengthVector", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ImgLWE1 {
+            get {
+                object obj = ResourceManager.GetObject("ImgLWE1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap ImgLWE2 {
+            get {
+                object obj = ResourceManager.GetObject("ImgLWE2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -374,8 +398,13 @@ namespace LatticeCrypto.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;RSA-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
-        ///    Todo&lt;/p&gt;
-        /// ähnelt.
+        ///    Das RSA-Verfahren, siehe 
+        ///    [RSA78], basiert auf dem Problem der Primfaktorzerlegung. Auf der einen 
+        ///    Seite ist es leicht, zwei große Primzahlen miteinander zu multiplizieren, um 
+        ///    dadurch ein RSA-Modul zu erhalten. Auf der anderen Seite ist es schwer, eine 
+        ///    beliebige, große biprime Zahl in ihre beiden unbekannten, großen Primfaktoren zu 
+        ///    zerlegen. Es wird daher angenommen, dass es sich um eine Falltürfunktion 
+        ///    handelt. Das RSA-Verfahren macht si [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string RSA {
             get {
@@ -398,10 +427,10 @@ namespace LatticeCrypto.Properties {
         ///&lt;/head&gt;
         ///&lt;body&gt;
         ///    &lt;h2&gt;
-        ///        fGitterbasierte Kryptographie&lt;/h2&gt;
+        ///        Gitterbasierte Kryptographie&lt;/h2&gt;
         ///    &lt;p align=&quot;justify&quot;&gt;
         ///        In diesem Kryptotutorial lernen Sie Gitter kennen und erfahren über ihren Einsatz in der Kryptographie, 
-        ///        insbesondere der Kryptoanalyse.  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///        insbesondere der Kryptoanalyse. D [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Start {
             get {
