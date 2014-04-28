@@ -18,7 +18,7 @@ using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace StampChallenge2
+namespace Cryptool.Plugins.ExamplePluginCT2
 {
     // HOWTO: rename class (click name, press F2)
     public class ExamplePluginCT2Settings : ISettings
