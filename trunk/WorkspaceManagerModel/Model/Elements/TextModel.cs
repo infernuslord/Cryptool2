@@ -87,7 +87,7 @@ namespace WorkspaceManager.Model
         /// <param name="rtb"></param>
         public void saveRTB(RichTextBox rtb){
 
-            if (rtb.Document.Blocks.Count == 0)
+            if (rtb == null || rtb.Document == null || rtb.Document.Blocks.Count == 0)
             {
                 return;
             }
