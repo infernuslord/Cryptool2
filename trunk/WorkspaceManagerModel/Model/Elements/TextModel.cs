@@ -64,12 +64,21 @@ namespace WorkspaceManager.Model
                 return;
             }
 
-            MemoryStream memoryStream = new MemoryStream(data);
-            FlowDocument flowDocument = new FlowDocument();
-            TextRange textRange = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd);
-            textRange.Load(memoryStream, System.Windows.DataFormats.XamlPackage);
-            rtb.Document = flowDocument;
-            memoryStream.Close();
+            try
+            {
+
+                var memoryStream = new MemoryStream(data);
+                var flowDocument = new FlowDocument();
+                var textRange = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd);
+                textRange.Load(memoryStream, System.Windows.DataFormats.XamlPackage);
+                rtb.Document = flowDocument;
+                memoryStream.Close();
+            }
+            catch (Exception ex)
+            {
+                //wtf?
+                //not a hard failure if a rtb of a template can not be loaded... we can not do anything here... so
+            }
         }
 
         /// <summary>
@@ -83,14 +92,21 @@ namespace WorkspaceManager.Model
                 return;
             }
 
-            MemoryStream memoryStream = new MemoryStream();
-            TextRange textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            textRange.Save(memoryStream, System.Windows.DataFormats.XamlPackage);
+            try
+            {
+                var memoryStream = new MemoryStream();
+                var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+                textRange.Save(memoryStream, System.Windows.DataFormats.XamlPackage);
 
-            data = new byte[memoryStream.Length];
-            data = memoryStream.ToArray();
-            memoryStream.Close();
-            
+                data = new byte[memoryStream.Length];
+                data = memoryStream.ToArray();
+                memoryStream.Close();
+            }
+            catch (Exception)
+            {
+                //wtf?
+                //not a hard failure if a rtb of a template can not be saved... we can not do anything here... so
+            }
         }
 
         public bool IsEnabled { get; set; }
