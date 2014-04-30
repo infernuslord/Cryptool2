@@ -32,6 +32,7 @@ namespace Cryptool.Substitution
         private int _action = 0;
         private string _inputSeparatorSymbol = "";
         private string _outputSeparatorSymbol = "";
+        private bool _processPolypartit = true;
 
         [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public UnknownSymbolHandling UnknownSymbolHandling
@@ -133,6 +134,23 @@ namespace Cryptool.Substitution
             {
                 _action = value;
                 OnPropertyChanged("Action");
+            }
+        }
+
+        [TaskPane("ProcessPolypartitCaption", "ProcessPolypartitTooltip", null, 3, false, ControlType.CheckBox, null)]
+        public bool ProcessPolypartit
+        {
+            get
+            {
+                return _processPolypartit;
+            }
+            set
+            {
+                if (value != _processPolypartit)
+                {
+                    _processPolypartit = value;
+                    OnPropertyChanged("ProcessPolypartit");
+                }
             }
         }
 
