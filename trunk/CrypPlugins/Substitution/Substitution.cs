@@ -36,8 +36,9 @@ namespace Cryptool.Substitution
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Substitution : ICrypComponent
     {
-
+        const uint MAX_MAPPING_ELEMENTS = 100;
         private SubstitutionPresentation _presentation = new SubstitutionPresentation();
+        private bool _stopped;
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
@@ -68,16 +69,16 @@ namespace Cryptool.Substitution
         }
 
 
-        private SubstitutionSettings _settings = new SubstitutionSettings();
+        private SubstitutionSettings _settings = new SubstitutionSettings();        
 
         public void PreExecution()
         {
-            
+            _stopped = false;
         }
 
         public void PostExecution()
         {
-            
+            _stopped = true;
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -145,8 +146,11 @@ namespace Cryptool.Substitution
                 }
                 
             }
-            OnPropertyChanged("OutputString");
-            ProgressChanged(1, 1);
+            if (!_stopped)
+            {
+                OnPropertyChanged("OutputString");
+                ProgressChanged(1, 1);
+            }
         }
 
         /// <summary>
@@ -155,6 +159,7 @@ namespace Cryptool.Substitution
         /// <param name="dict"></param>
         private void GeneratePresentationMapping(Dictionary<string, string> dict)
         {
+            int counter = 0;
             _presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 try
@@ -253,6 +258,73 @@ namespace Cryptool.Substitution
                         }
 
                         _presentation.Stackpanel.Children.Add(grid);
+                        counter++;
+                        if (counter == MAX_MAPPING_ELEMENTS)
+                        {
+                            //If we have more elements than MAX_MAPPING_ELEMENTS we generate
+                            //[...] ----> [...]
+                            // to indicate we have more elements. Thus, the user can not generate infinity
+                            // ui elements and crash CT2
+                            grid = new Grid();
+                            Rectangle fromRectangle = new Rectangle();
+                            SolidColorBrush fromsolidBrushColor = new SolidColorBrush();
+                            fromsolidBrushColor.Color = Color.FromArgb(255, 100, 255, 100);
+                            fromRectangle.ToolTip = "...";
+                            fromRectangle.Fill = fromsolidBrushColor;
+                            fromRectangle.StrokeThickness = 2;
+                            fromRectangle.Stroke = Brushes.Black;
+                            fromRectangle.Width = 50;
+                            fromRectangle.Height = 50;
+                            fromRectangle.SetValue(Grid.RowProperty, 0);
+                            fromRectangle.SetValue(Grid.ColumnProperty, fromColumnCounter);
+                            TextBlock fromText = new TextBlock();
+                            fromText.Text = "...";
+                            fromText.ToolTip = "...";
+                            fromText.FontSize = 11;
+                            fromText.VerticalAlignment = VerticalAlignment.Center;
+                            fromText.HorizontalAlignment = HorizontalAlignment.Center;
+                            fromText.SetValue(Grid.RowProperty, 0);
+                            fromText.SetValue(Grid.ColumnProperty, fromColumnCounter);
+                            grid.Children.Add(fromRectangle);
+                            grid.Children.Add(fromText);
+                            Rectangle toRectangle = new Rectangle();
+                            SolidColorBrush tosolidBrushColor = new SolidColorBrush();
+                            tosolidBrushColor.Color = Color.FromArgb(255, 255, 100, 100);
+                            toRectangle.ToolTip = "...";
+                            toRectangle.Fill = tosolidBrushColor;
+                            toRectangle.StrokeThickness = 2;
+                            toRectangle.Stroke = Brushes.Black;
+                            toRectangle.Width = 50;
+                            toRectangle.Height = 50;
+                            toRectangle.SetValue(Grid.RowProperty, 2);
+                            toRectangle.SetValue(Grid.ColumnProperty, toColumnCounter);
+                            TextBlock toText = new TextBlock();
+                            toText.Text = "...";
+                            toText.ToolTip = "...";
+                            toText.FontSize = 11;
+                            toText.VerticalAlignment = VerticalAlignment.Center;
+                            toText.HorizontalAlignment = HorizontalAlignment.Center;
+                            toText.SetValue(Grid.RowProperty, 2);
+                            toText.SetValue(Grid.ColumnProperty, toColumnCounter);
+                            grid.Children.Add(toRectangle);
+                            grid.Children.Add(toText);
+                            Line line = new Line();
+                            line.X1 = 25;
+                            line.Y1 = -5;
+                            line.X2 = 25;
+                            line.Y2 = 55;
+                            SolidColorBrush lineSolidBrushColor = new SolidColorBrush();
+                            lineSolidBrushColor.Color = Colors.Black;
+                            line.Fill = lineSolidBrushColor;
+                            line.Stroke = lineSolidBrushColor;
+                            line.StrokeThickness = 2;
+                            line.HorizontalAlignment = HorizontalAlignment.Left;
+                            line.SetValue(Grid.RowProperty, 1);
+                            line.SetValue(Grid.ColumnProperty, 0);
+                            line.SetValue(Grid.ColumnSpanProperty, Math.Max(froms.Length, tos.Length));
+                            grid.Children.Add(line);
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -265,7 +337,7 @@ namespace Cryptool.Substitution
 
         public void Stop()
         {
-            
+            _stopped = true;
         }
 
         public void Initialize()
@@ -296,7 +368,7 @@ namespace Cryptool.Substitution
             var dictionary = new Dictionary<string, string>();
             
             for (int si = 0, di = 0; si < sourceAlphabet.Length && di < destinationAlphabet.Length; si++)
-            {
+            {                
                 var sourceCharacter = "";
                 var destinationCharacter = "";
                 //1. Find next source character (a "character" may be one or more chars in the string)
@@ -373,6 +445,11 @@ namespace Cryptool.Substitution
             var polyCounterDictionary = new Dictionary<string, int>();
             for (var position = 0; position < text.Length;)
             {
+                if (_stopped)
+                {
+                    return String.Empty;
+                }
+
                 for (var lengthActualCharacter = Math.Min(maxLength,(text.Length - position)); lengthActualCharacter >= 0; lengthActualCharacter--)
                 {
                     actualCharacter = text.Substring(position, lengthActualCharacter);
@@ -561,7 +638,12 @@ namespace Cryptool.Substitution
             {
                 return true;
             }
-            //We did not find it, so we have to search all Keys
+                       
+            //We did not find it, so we have to search all Keys, but only if we want to process polypartit
+            if (!_settings.ProcessPolypartit)
+            {
+                return false;
+            }
             foreach (var key in substitutionDictionary.Keys)
             {
                 //we only have to check keys which are arrays

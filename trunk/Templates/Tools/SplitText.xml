@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Split a text</title>
+  <summary lang="en">Splits a text using a dictionary</summary>
+  <description lang="en">This template shows how to split a text having no whitespaces using a dictionary and the substitution component.</description>
+  <keywords>Text, Substitution, Split</keywords>
+
+  <title lang="de">Text zerlegen</title>
+  <summary lang="de">Zerlegt einen Text mit Hilfe eines Wörterbuchs</summary>
+  <description lang="de">Diese Vorlage zeigt, wie man einen Text, welcher keine Leerzeichen beinhaltet, mit Hilfe der Substitution und eines Wörterbuchs wieder in einzelne Wörter zerlegen kann.</description>
+  <keywords lang="de">kamera, foto</keywords>
+
+  <icon file="SplitText.png" />
+  <relevantPlugins>
+    <plugin name="Substitution" />
+    <plugin name="Dictionary" />
+  </relevantPlugins>
+
+</sample>

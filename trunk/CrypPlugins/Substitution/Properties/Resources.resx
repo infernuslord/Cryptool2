@@ -204,4 +204,10 @@
   <data name="OutputSeparatorSymbolTooltip" xml:space="preserve">
     <value>The symbol which should be used to split the output into tokens.</value>
   </data>
+  <data name="ProcessPolypartitCaption" xml:space="preserve">
+    <value>Process polypartit</value>
+  </data>
+  <data name="ProcessPolypartitTooltio" xml:space="preserve">
+    <value>Process polypartit substitution</value>
+  </data>
 </root>
