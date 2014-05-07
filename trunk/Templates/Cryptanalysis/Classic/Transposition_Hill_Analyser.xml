@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Transposition Hill Climbing Analysis</title>
+  <summary lang="en">Cryptanalysis of the <i>Transposition</i> cipher using a hill climbing algorithm</summary>
+  <description lang="en">This template shows the cryptanalysis of the single <i>Transposition</i> cipher with the <i>Transposition Analyser</i> using a hill climbing algorithm. It is a ciphertext-only attack, as no part of the plaintext is known in advance.</description>
+  <keywords>Attack, Analysis, Transposition, Permutation</keywords>
+
+  <title lang="de">Transposition Hill-Climbing-Analyse</title>
+  <summary lang="de">Kryptoanalyse der <i>Transpositionsverschlüsselung</i> mit einem Hill-Climbing-Algorithmus</summary>
+  <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der einstufigen <i>Transpositionsverschlüsselung</i> mit der Komponente <i>Transpositions-Analyse</i> mit einem Hill-Climbing-Algorithmus. Es handelt sich hierbei um eine Ciphertext-only-Analyse, da keine Informationen über den Klartext bekannt sind.</description>
+  <keywords lang="de">Transposition, Permutation, Angriff</keywords>
+
+  <icon file="Transposition.png" />
+  <relevantPlugins>
+    <plugin name="CostFunction" />
+    <plugin name="Transposition" />
+    <plugin name="TranspositionAnalyser" />
+  </relevantPlugins>
+
+</sample>
