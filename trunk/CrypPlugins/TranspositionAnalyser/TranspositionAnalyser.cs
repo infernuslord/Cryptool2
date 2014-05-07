@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
-using Cryptool.PluginBase.Control;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Threading;
 using System.Threading;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
-
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Control;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace TranspositionAnalyser
 {
@@ -25,16 +23,20 @@ namespace TranspositionAnalyser
         private enum ReadInMode { byRow = 0, byColumn = 1 };
         private enum PermutationMode { byRow = 0, byColumn = 1 };
         private enum ReadOutMode { byRow = 0, byColumn = 1 };
+
         private byte[] crib;
         private byte[] input;
-        private Queue valuequeue;
-        LinkedList<ValueKey> list1;
-        private TranspositionAnalyserQuickWatchPresentation myPresentation;
-        private Random rd;
+        private HighscoreList TOPLIST;
+        ValueKeyComparer comparer;
+
+        private Random rd = new Random(System.DateTime.Now.Millisecond);
         private AutoResetEvent ars;
 
-        TranspositionAnalyserSettings settings;
+        private TranspositionAnalyserSettings settings;
+        private TranspositionAnalyserQuickWatchPresentation myPresentation;
+
         #region Properties
+
         [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
         public Byte[] Input
         {
@@ -66,8 +68,6 @@ namespace TranspositionAnalyser
             }
         }
 
-
-
         #endregion
 
         /// <summary>
@@ -80,14 +80,19 @@ namespace TranspositionAnalyser
             Presentation = myPresentation;
             myPresentation.doppelClick += new EventHandler(this.doppelClick);
             ars = new AutoResetEvent(false);
-            
         }
 
         private void doppelClick(object sender, EventArgs e)
         {
-            ListViewItem lvi = sender as ListViewItem;
-            ResultEntry rse = lvi.Content as ResultEntry;
-            Output = System.Text.Encoding.GetEncoding(1252).GetBytes(rse.Text);
+            try
+            {
+                ListViewItem lvi = sender as ListViewItem;
+                ResultEntry rse = lvi.Content as ResultEntry;
+                Output = System.Text.Encoding.GetEncoding(1252).GetBytes(rse.Text);
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private IControlTranspoEncryption controlMaster;
@@ -103,8 +108,6 @@ namespace TranspositionAnalyser
                 OnPropertyChanged("ControlMaster");
             }
         }
-
-
 
         private IControlCost costMaster;
         [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", false)]
@@ -159,28 +162,46 @@ namespace TranspositionAnalyser
 
         public void PreExecution()
         {
-
         }
 
         public void Execute()
         {
-
-
-            if (this.input != null)
+            if (this.input == null)
             {
-                if (this.ControlMaster != null && this.input != null)
-                    this.process(this.ControlMaster);
-                else
-                {
-                    GuiLogMessage("You have to connect the Transposition Plugin to the Transpostion Analyzer Control!", NotificationLevel.Warning);
-                }
+                GuiLogMessage("No input!", NotificationLevel.Error);
+                return;
             }
+
+            if (this.ControlMaster == null)
+            {
+                GuiLogMessage("You have to connect the Transposition component to the Transpostion Analyzer control!", NotificationLevel.Error);
+                return;
+            }
+
+            if (this.costMaster == null)
+            {
+                GuiLogMessage("You have to connect the Cost Function component to the Transpostion Analyzer control!", NotificationLevel.Error);
+                return;
+            }
+
+            comparer = new ValueKeyComparer(costMaster.GetRelationOperator() != RelationOperator.LargerThen);
+            TOPLIST = new HighscoreList(comparer, 10);
+
+            myPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate { myPresentation.entries.Clear(); }, null);
+
+            switch (this.settings.Analysis_method)
+            {
+                case 0: GuiLogMessage("Starting Brute-Force Analysis", NotificationLevel.Info); BruteforceAnalysis(); break;
+                case 1: GuiLogMessage("Starting Crib Analysis", NotificationLevel.Info); CribAnalysis(crib, input); break;
+                case 2: GuiLogMessage("Starting Genetic Analysis", NotificationLevel.Info); GeneticAnalysis(); break;
+                case 3: GuiLogMessage("Starting Hill Climbing Analysis", NotificationLevel.Info); HillClimbingAnalysis(); break;
+            }
+
             ProgressChanged(1, 1);
         }
 
         public void PostExecution()
         {
-
         }
 
         private Boolean stop;
@@ -192,13 +213,11 @@ namespace TranspositionAnalyser
 
         public void Initialize()
         {
-            this.settings.UpdateTaskPaneVisibility(); 
-
+            this.settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
         {
-
         }
 
         public void OnPropertyChanged(string name)
@@ -214,185 +233,80 @@ namespace TranspositionAnalyser
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(propertyname));
         }
 
-        public void process(IControlTranspoEncryption sender)
-        {
-            if (input != null)
-            {
-                switch (this.settings.Analysis_method)
-                {
-                    case 0: Output = costfunction_bruteforce(sender); GuiLogMessage("Starting Brute-Force Analysis", NotificationLevel.Info); break;
-
-                    case 1: GuiLogMessage("Starting Analysis with crib", NotificationLevel.Info); cribAnalysis(sender, this.crib, this.input); break;
-
-                    case 2: GuiLogMessage("Starting genetic analysis", NotificationLevel.Info); geneticAnalysis(sender); break;
-                }
-            }
-            else
-            {
-                GuiLogMessage("No Input!", NotificationLevel.Error);
-            }
-
-
-        }
-
-        private void updateToplist(LinkedList<ValueKey> costList)
-        {
-            LinkedListNode<ValueKey> node;
-
-            while (valuequeue.Count != 0)
-            {
-                ValueKey vk = (ValueKey)valuequeue.Dequeue();
-                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
-                {
-                    if (vk.value > costList.Last().value)
-                    {
-                        node = costList.First;
-                        int i = 0;
-                        while (node != null)
-                        {
-                            if (vk.value > node.Value.value)
-                            {
-                                costList.AddBefore(node, vk);
-                                costList.RemoveLast();
-                                if (i == 0)
-                                {
-                                    Output = vk.decryption;
-                                }
-                                // value_threshold = costList.Last.Value.value;
-                                break;
-                            }
-                            node = node.Next;
-                            i++;
-                        }//end while
-                    }//end if
-                }
-                else
-                {
-                    if (vk.value < costList.Last().value)
-                    {
-                        node = costList.First;
-                        int i = 0;
-                        while (node != null)
-                        {
-                            if (vk.value < node.Value.value)
-                            {
-                                costList.AddBefore(node, vk);
-                                costList.RemoveLast();
-                                if (i == 0)
-                                {
-                                    Output = vk.decryption;
-                                }
-
-                                // value_threshold = costList.Last.Value.value;
-                                break;
-                            }
-                            node = node.Next;
-                            i++;
-                        }//end while
-                    }//end if
-                }
-            }
-        }
-
         public void ProgressChanged(double value, double max)
         {
             if (OnPluginProgressChanged != null)
             {
                 OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
-
             }
         }
 
-        private void showProgress(DateTime startTime, long size, long sum)
+        private void showProgress(DateTime startTime, ulong totalKeys, ulong doneKeys)
         {
-            LinkedListNode<ValueKey> linkedListNode;
-            if (Presentation.IsVisible && !stop)
+            if (!Presentation.IsVisible || stop) return;
+
+            long ticksPerSecond = 10000000;
+
+            TimeSpan elapsedtime = DateTime.Now.Subtract(startTime);
+            double totalSeconds = elapsedtime.TotalSeconds;
+            if (totalSeconds == 0) totalSeconds = 0.001;
+            elapsedtime = new TimeSpan(elapsedtime.Ticks - (elapsedtime.Ticks % ticksPerSecond));   // truncate to seconds
+
+            TimeSpan timeleft = new TimeSpan();
+            DateTime endTime = new DateTime();
+            double secstodo;
+
+            double keysPerSec = doneKeys / totalSeconds;
+            if (keysPerSec > 0)
             {
-                DateTime currentTime = DateTime.Now;
-
-                TimeSpan elapsedtime = DateTime.Now.Subtract(startTime); ;
-                TimeSpan elapsedspan = new TimeSpan(elapsedtime.Days, elapsedtime.Hours, elapsedtime.Minutes, elapsedtime.Seconds, 0);
-
-
-
-                TimeSpan span = currentTime.Subtract(startTime);
-                int seconds = span.Seconds;
-                int minutes = span.Minutes;
-                int hours = span.Hours;
-                int days = span.Days;
-
-                long allseconds = seconds + 60 * minutes + 60 * 60 * hours + 24 * 60 * 60 * days;
-                if (allseconds == 0) allseconds = 1;
-
-                if (allseconds == 0)
-                    allseconds = 1;
-
-                long keysPerSec = sum / allseconds;
-
-                long keystodo = (size - sum);
-
-                
-                if (keysPerSec == 0)
-                    keysPerSec = 1;
-
-                long secstodo = keystodo / keysPerSec;
-
-                //dummy Time 
-                DateTime endTime = new DateTime(1970, 1, 1);
-                try
-                {
-                    endTime = DateTime.Now.AddSeconds(secstodo);
-                }
-                catch
-                {
-
-                }
-
-
-                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-
-                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
-                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).keysPerSecond.Content = "" + keysPerSec;
-
-
-                    if (endTime != (new DateTime(1970, 1, 1)))
-                    {
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).elapsedTime.Content = "" + elapsedspan;
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "" + endTime;
-                    }
-                    else
-                    {
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "incalculable";
-
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "in a galaxy far, far away...";
-                    }
-                    if (list1 != null)
-                    {
-                        linkedListNode = list1.First;
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Clear();
-                        int i = 0;
-                        while (linkedListNode != null)
-                        {
-                            i++;
-                            ResultEntry entry = new ResultEntry();
-                            entry.Ranking = i.ToString();
-                            String dec = Encoding.ASCII.GetString(linkedListNode.Value.decryption);
-                            entry.Text = dec;
-                            entry.Key = Regex.Replace(linkedListNode.Value.key, ", $", ""); // remove trailing ,
-                            entry.Value = Math.Round(linkedListNode.Value.value, 5) + "";
-
-                            ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);
-
-                            linkedListNode = linkedListNode.Next;
-                        }
-
-                    }
-                }
-                , null);
-
+                if (totalKeys < doneKeys) totalKeys = doneKeys;
+                secstodo = (totalKeys - doneKeys) / keysPerSec;
+                timeleft = new TimeSpan((long)secstodo * ticksPerSecond);
+                endTime = DateTime.Now.AddSeconds(secstodo);
+                endTime = new DateTime(endTime.Ticks - (endTime.Ticks % ticksPerSecond));   // truncate to seconds
             }
+
+            ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                var culture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+                myPresentation.startTime.Content = "" + startTime;
+                myPresentation.keysPerSecond.Content = String.Format(culture, "{0:##,#}", (ulong)keysPerSec);
+
+                if (keysPerSec > 0)
+                {
+                    myPresentation.timeLeft.Content = "" + timeleft;
+                    myPresentation.elapsedTime.Content = "" + elapsedtime;
+                    myPresentation.endTime.Content = "" + endTime;
+                }
+                else
+                {
+                    myPresentation.timeLeft.Content = "incalculable";
+                    myPresentation.endTime.Content = "in a galaxy far, far away...";
+                }
+
+                myPresentation.entries.Clear();
+
+                for (int i = 0; i < TOPLIST.Count; i++)
+                {
+                    ValueKey v = TOPLIST[i];
+                    ResultEntry entry = new ResultEntry();
+
+                    entry.Ranking = (i + 1).ToString();
+                    entry.Value = String.Format("{0:0.00000}", v.score);
+                    entry.Key = "[" + String.Join(",", v.key) + "]";
+                    entry.Text = Encoding.GetEncoding(1252).GetString(v.plaintext);
+
+                    myPresentation.entries.Add(entry);
+                }
+            }
+            , null);
+        }
+
+        private void UpdatePresentationList(ulong totalKeys, ulong doneKeys, DateTime starttime)
+        {
+            showProgress(starttime, totalKeys, doneKeys);
+            ProgressChanged(doneKeys, totalKeys);
         }
 
         #endregion
@@ -407,94 +321,55 @@ namespace TranspositionAnalyser
 
         private int[] getBruteforceSettings()
         {
-            int[] set;
-            int sum = 0;
-            if (settings.ColumnColumnColumn) sum++;
-            if (settings.ColumnColumnRow) sum++;
-            if (settings.RowColumnColumn) sum++;
-            if (settings.RowColumnRow) sum++;
-
-            if (sum > 0)
-            {
-                set = new int[sum];
-                int count = 0;
-                if (settings.ColumnColumnColumn)
-                {
-                    set[count] = 0;
-                    count++;
-                }
-                if (settings.ColumnColumnRow)
-                {
-                    set[count] = 1;
-                    count++;
-                }
-                if (settings.RowColumnColumn)
-                {
-                    set[count] = 2;
-                    count++;
-                }
-
-                if (settings.RowColumnRow)
-                {
-                    set[count] = 3;
-                    count++;
-                }
-                return set;
-            }
-            else
-            {
-                return null;
-            }
-
+            List<int> set = new List<int>();
+            if (settings.ColumnColumnColumn) set.Add(0);
+            if (settings.ColumnColumnRow) set.Add(1);
+            if (settings.RowColumnColumn) set.Add(2);
+            if (settings.RowColumnRow) set.Add(3);
+            return (set.Count > 0) ? set.ToArray() : null;
         }
 
-        private byte[] costfunction_bruteforce(IControlTranspoEncryption sender)
+        private void BruteforceAnalysis()
         {
-            valuequeue = Queue.Synchronized(new Queue());
             int[] set = getBruteforceSettings();
-            stop = false;
-            if (sender == null || costMaster == null || set == null)
+
+            if (set == null)
             {
-                GuiLogMessage("Error: No costfunction applied.", NotificationLevel.Error);
-                return null;
+                GuiLogMessage("Specify the type of transposition to examine.", NotificationLevel.Error);
+                return;
             }
 
-            GuiLogMessage("start", NotificationLevel.Info);
-            double best = Double.MinValue;
-
-            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
+            if (settings.MaxLength < 2 || settings.MaxLength > 20)
             {
-                best = Double.MaxValue;
+                GuiLogMessage("Check transposition bruteforce length. Min length is 2, max length is 20!", NotificationLevel.Error);
+                return;
             }
 
-            list1 = getDummyLinkedList(best);
+            ValueKey vk = new ValueKey();
 
             //Just for fractional-calculation:
             PermutationGenerator per = new PermutationGenerator(2);
-            DateTime starttime = DateTime.Now;
-            DateTime lastUpdate = DateTime.Now;
 
-            int max = settings.MaxLength;
-            //GuiLogMessage("Max: " + max, NotificationLevel.Info);
-            if (max < 2 || max > 20)
-            {
-                GuiLogMessage("Error: Check transposition bruteforce length. Min length is 2, max length is 20!",
-                              NotificationLevel.Error);
-                return null;
-            }
+            DateTime startTime = DateTime.Now;
+            DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
 
-            long size = 0;
-            for (int i = 2; i <= max; i++)
+            ulong totalKeys = 0;
+            for (int i = 1; i <= settings.MaxLength; i++) totalKeys += (ulong)per.getFactorial(i);
+            totalKeys *= (ulong)set.Length;
+
+            ulong doneKeys = 0;
+
+            stop = false;
+
+            for (int keylength = 1; keylength <= settings.MaxLength; keylength++)
             {
-                size = size + per.getFactorial(i);
-            }
-            size = size*set.Length;
-            long sum = 0;
-            for (int i = 1; i <= max; i++)
-            {
+                if (stop) break;
+
                 // for every selected bruteforce mode:
                 for (int s = 0; s < set.Length; s++)
                 {
+                    if (stop) break;
+
                     switch (set[s])
                     {
                         case (0):
@@ -519,122 +394,50 @@ namespace TranspositionAnalyser
                             break;
                     }
 
-                    per = new PermutationGenerator(i);
+                    byte[] key = new byte[keylength];
+
+                    per = new PermutationGenerator(keylength);
 
                     while (per.hasMore() && !stop)
                     {
-                        best = list1.Last.Value.value;
-                        int[] key = per.getNext();
-                        byte[] b = new byte[key.Length];
-                        for (int j = 0; j < b.Length; j++)
-                        {
-                            b[j] = Convert.ToByte(key[j]);
-                        }
-                        byte[] dec = sender.Decrypt(input, b);
-                        if (dec != null)
-                        {
-                            double val = costMaster.CalculateCost(dec);
-                            if (val.Equals(new Double()))
-                            {
-                                return new byte[0];
-                            }
-                            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-                            {
-                                if (val <= best)
-                                {
-                                    ValueKey valkey = new ValueKey();
-                                    String keyStr = "";
-                                    foreach (int xyz in key)
-                                    {
-                                        keyStr += xyz + ", ";
-                                    }
-                                    valkey.decryption = dec;
-                                    valkey.key = keyStr;
-                                    valkey.value = val;
-                                    valuequeue.Enqueue(valkey);
-                                }
-                            }
-                            else
-                            {
-                                if (val >= best)
-                                {
-                                    ValueKey valkey = new ValueKey();
-                                    String keyStr = "";
-                                    foreach (int xyz in key)
-                                    {
-                                        keyStr += xyz;
-                                    }
-                                    valkey.decryption = dec;
-                                    valkey.key = keyStr;
-                                    valkey.value = val;
-                                    valuequeue.Enqueue(valkey);
-                                }
-                            }
-                        }
+                        int[] keyInt = per.getNext();
 
-                        sum++;
-                        if (DateTime.Now >= lastUpdate.AddMilliseconds(1000))
+                        for (int i = 0; i < key.Length; i++)
+                            key[i] = Convert.ToByte(keyInt[i]);
+
+                        decrypt(vk, key);
+
+                        if (TOPLIST.isBetter(vk))
+                            Output = vk.plaintext;
+
+                        TOPLIST.Add(vk);
+                        doneKeys++;
+
+                        if (DateTime.Now >= nextUpdate)
                         {
-                            lastUpdate = UpdatePresentationList(size, sum, starttime);
+                            UpdatePresentationList(totalKeys, doneKeys, startTime);
+                            nextUpdate = DateTime.Now.AddMilliseconds(1000);
                         }
                     }
                 }
             }
 
-            // wander 2011-12-29: ensure presentation list is updated at least once
-            UpdatePresentationList(size, sum, starttime);
-
-            return list1.First.Value.decryption;
-        }
-
-        private DateTime UpdatePresentationList(long size, long sum, DateTime starttime)
-        {
-            DateTime lastUpdate;
-            updateToplist(list1);
-            showProgress(starttime, size, sum);
-            ProgressChanged(sum, size);
-            lastUpdate = DateTime.Now;
-            return lastUpdate;
+            UpdatePresentationList(totalKeys, doneKeys, startTime);
         }
 
         #endregion
 
-        private LinkedList<ValueKey> getDummyLinkedList(double best)
-        {
-            ValueKey valueKey = new ValueKey();
-            valueKey.value = best;
-            valueKey.key = "dummykey";
-            valueKey.decryption = new byte[0];
-            LinkedList<ValueKey> list = new LinkedList<ValueKey>();
-            LinkedListNode<ValueKey> node = list.AddFirst(valueKey);
-            for (int i = 0; i < 9; i++)
-            {
-                node = list.AddAfter(node, valueKey);
-            }
-            return list;
-        }
-
         #region cribAnalysis
 
         private ArrayList bestlist;
-        private ArrayList valList;
-        private long sumBinKeys;
-        private int countBinKeys;
-        private int binKeysPerSec;
-        private int[] keysLastTenSecs;
-        private int poskeysLastTenSecs;
         private int searchPosition;
-        private DateTime starttime;
-        private DateTime lastUpdate;
 
-        private void cribAnalysis(IControlTranspoEncryption sender, byte[] crib, byte[] cipher)
+        private void CribAnalysis(byte[] crib, byte[] cipher)
         {
-            stop = false;
-            valList = new ArrayList();
             bestlist = new ArrayList();
-            valuequeue = Queue.Synchronized(new Queue());
-            starttime = DateTime.Now;
-            lastUpdate = DateTime.Now;
+
+            DateTime starttime = DateTime.Now;
+            DateTime nextUpdate = starttime.AddMilliseconds(100);
 
             int maxKeylength = settings.CribSearchKeylength;
 
@@ -668,104 +471,61 @@ namespace TranspositionAnalyser
                 return;
             }
 
+            ulong totalKeys = 0;
+            for (int i = 2; i <= settings.CribSearchKeylength; i++) totalKeys += (ulong)binomial_iter(i, cipher.Length % i);
 
+            ulong doneKeys = 0;
+
+            stop = false;
 
             for (int keylength = 2; keylength <= maxKeylength; keylength++)
             {
-                sumBinKeys += binomial_iter(keylength, cipher.Length % keylength);
-            }
+                if (stop) break;
 
-            GuiLogMessage("KEYS INSG: " + sumBinKeys,NotificationLevel.Debug);
-
-            keysLastTenSecs = new int[10];
-            poskeysLastTenSecs = 0;
-
-            for (int keylength = 2; keylength <= maxKeylength && !stop; keylength++)
-            {
                 GuiLogMessage("Keylength: " + keylength, NotificationLevel.Debug);
+
                 int[] binaryKey = getDefaultBinaryKey(cipher, keylength);
                 int[] firstKey = (int[])binaryKey.Clone();
 
                 do
                 {
-                    countBinKeys++;
-                    binKeysPerSec++;
                     byte[,] cipherMatrix = cipherToMatrix(cipher, binaryKey);
                     byte[,] cribMatrix = cribToMatrix(crib, keylength);
 
-                    if(possibleCribForCipher(cipherMatrix,cribMatrix,keylength))
+                    if (possibleCribForCipher(cipherMatrix, cribMatrix, keylength))
                     {
-                        ArrayList possibleList = analysis(sender, cipher, cipherMatrix, cribMatrix, keylength);
-
-                        Boolean eq;
+                        ArrayList possibleList = analysis(cipher, cipherMatrix, cribMatrix, keylength);
                         foreach (int[] k in possibleList)
-                        {
-                            eq = false;
-                            foreach (int[] kbest in bestlist)
-                            {
-                                if (arrayEquals(k, kbest))
-                                    eq = true;
-                            }
-                            if (!eq)
-                            {
-                                addToBestList(sender, k);
-                            }
-                        }
+                            if (!ContainsList(bestlist, k)) addToBestList(k);
                     }
 
                     binaryKey = nextPossible(binaryKey, binaryKey.Sum());
 
-                    if (DateTime.Now >= lastUpdate.AddMilliseconds(1000))
+                    doneKeys++;
+
+                    if (DateTime.Now >= nextUpdate)
                     {
-                        keysLastTenSecs[(poskeysLastTenSecs++ % 10)] = binKeysPerSec;
-
-                        if (DateTime.Now < starttime.AddMilliseconds(12000))
-                        {
-                            showProgressCribAnalysis(starttime, sumBinKeys, countBinKeys, binKeysPerSec);
-                        }
-                        else
-                        {
-                            int keysPerSec = keysLastTenSecs.Sum() / 10;
-                            showProgressCribAnalysis(starttime, sumBinKeys, countBinKeys, keysPerSec);
-                        }
-
-                        showBestKeysCribSearch();
-                        binKeysPerSec = 0;
-                        lastUpdate = DateTime.Now;
-                        showProgress(starttime, sumBinKeys, countBinKeys);
-                        ProgressChanged(countBinKeys, sumBinKeys);
+                        UpdatePresentationList(totalKeys, doneKeys, starttime);
+                        nextUpdate = DateTime.Now.AddMilliseconds(1000);
                     }
 
-                } while (!arrayEquals(firstKey, binaryKey)&&!stop);
+                } while (!arrayEquals(firstKey, binaryKey) && !stop);
             }
 
-            showBestKeysCribSearch();
-            showProgress(starttime, 1, 1);
-            ProgressChanged(1, 1);
+            UpdatePresentationList(totalKeys, doneKeys, starttime);
         }
 
-        private void showBestKeysCribSearch()
+        private bool ContainsList(ArrayList list, int[] search)
         {
-            valList = updateValueKeyArrayList(valList, 12);
-
-            Double best = Double.MinValue;
-
-            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-            {
-                best = Double.MaxValue;
-            }
-
-            foreach (ValueKey v in valList)
-            {
-                valuequeue.Enqueue(v);
-            }
-
-            list1 = getDummyLinkedList(best);
-            updateToplist(list1);
+            foreach (int[] k in list)
+                if (arrayEquals(k, search)) return true;
+            return false;
         }
 
-        private void addToBestList(IControlTranspoEncryption sender, int[] k)
+        private void addToBestList(int[] k)
         {
+            ValueKey vk = new ValueKey();
+
             int[] first = (int[])k.Clone();
 
             do
@@ -774,27 +534,16 @@ namespace TranspositionAnalyser
 
                 int[] keyPlusOne = new int[k.Length];
                 for (int i = 0; i < k.Length; i++)
-                {
                     keyPlusOne[i] = k[i] + 1;
-                }
 
                 byte[] key = intArrayToByteArray(keyPlusOne);
 
-                ValueKey tmpValue = new ValueKey();
-                byte[] dec = sender.Decrypt(input, key);
-                double val = costMaster.CalculateCost(dec);
+                decrypt(vk, key);
 
-                String keyStr = "";
-                foreach (byte bb in key)
-                {
-                    keyStr += bb + ", ";
-                }
+                if (TOPLIST.isBetter(vk))
+                    Output = vk.plaintext;
 
-                tmpValue.keyArray = key;
-                tmpValue.decryption = dec;
-                tmpValue.key = keyStr;
-                tmpValue.value = val;
-                valList.Add(tmpValue);
+                TOPLIST.Add(vk);
 
                 k = shiftKey(k);
 
@@ -806,14 +555,12 @@ namespace TranspositionAnalyser
             int[] ret = new int[key.Length];
             ret[0] = key[key.Length - 1];
             for (int i = 1; i < ret.Length; i++)
-            {
                 ret[i] = key[i - 1];
-            }
 
             return ret;
         }
 
-        private ArrayList analysis(IControlTranspoEncryption sender, byte[] cipher, byte[,] cipherMatrix, byte[,] cribMatrix, int keylength)
+        private ArrayList analysis(byte[] cipher, byte[,] cipherMatrix, byte[,] cribMatrix, int keylength)
         {
             ArrayList possibleList = new ArrayList();
             int[] key = new int[keylength];
@@ -939,10 +686,10 @@ namespace TranspositionAnalyser
         private byte[] getColumn(byte[,] input, int column, int keylength)
         {
             byte[] output = new byte[input.Length / keylength];
+
             for (int i = 0; i < output.Length; i++)
-            {
                 output[i] = input[column, i];
-            }
+
             return output;
         }
 
@@ -958,79 +705,47 @@ namespace TranspositionAnalyser
             }
 
             for (int i = startSearchAt; i <= max; i++)
-            {
                 if (one[i] == two[0])
-                {
                     for (int j = 1; j < two.Length; j++)
                     {
-                        if (i + j >= one.Length)
-                        {
-                            break;
-                        }
+                        if (i + j >= one.Length) break;
 
                         if (two[j].Equals(new byte()))
                         {
-                            if (searchPosition == -1)
-                            {
-                                searchPosition = i;
-                            }
-                            return true;
+                            if (searchPosition == -1) searchPosition = i;
                         }
-
                         else
                         {
-                            if (one[i + j] != two[j])
-                            {
-                                break;
-                            }
+                            if (one[i + j] != two[j]) break;
 
-                            if (j == two.Length - 1)
-
-                                if (searchPosition == -1)
-                                {
-                                    searchPosition = i;
-                                }
-                            return true;
+                            if (j == two.Length - 1 && searchPosition == -1)
+                                searchPosition = i;
                         }
+                        return true;
                     }
-                }
-            }
+
             return false;
         }
 
         Boolean contains(byte[] one, byte[] two)
         {
             for (int i = 0; i < one.Length; i++)
-            {
                 if (one[i] == two[0])
-                {
                     for (int j = 1; j < two.Length; j++)
                     {
-                        if (i + j >= one.Length)
-                        {
-                            break;
-                        }
+                        if (i + j >= one.Length) break;
 
                         if (two[j].Equals(new byte()))
                         {
-                            if (searchPosition == -1)
-                            {
-                                searchPosition = i;
-                            }
-                            return true;
+                            if (searchPosition == -1) searchPosition = i;
                         }
-
                         else
                         {
-                            if (one[i + j] != two[j])
-                            {
-                                break;
-                            }
-                            return true;
+                            if (one[i + j] != two[j]) break;
                         }
+                        return true;
                     }
-                }
-            }
+
             return false;
         }
 
@@ -1047,13 +762,7 @@ namespace TranspositionAnalyser
 
         private int[] nextPossible(int[] input, int numberOfOnes)
         {
-            Boolean found = false;
-            while (!found)
-            {
-                input = addBinOne(input);
-                if (count(input, 1) == numberOfOnes)
-                    found = true;
-            }
+            do input = addBinOne(input); while (count(input, 1) != numberOfOnes);
             return input;
         }
 
@@ -1084,50 +793,29 @@ namespace TranspositionAnalyser
         private long binomial_iter(int n, int k)
         {
             long produkt = 1;
-            if (k > n / 2)
-                k = n - k;
+
+            if (k > n / 2) k = n - k;
+
             for (int i = 1; i <= k; ++i)
-            {
                 produkt = produkt * n-- / i;
-            }
+
             return produkt;
         }
 
         private int[] getDefaultBinaryKey(byte[] cipher, int keylength)
         {
-            int offset = cipher.Length % keylength;
             int[] binaryKey = new int[keylength];
+            int offset = (keylength - (cipher.Length % keylength)) % keylength;
 
             for (int i = 0; i < keylength; i++)
-            {
-                if (i + offset < keylength)
-                {
-                    binaryKey[i] = 0;
-                }
-                else
-                {
-                    binaryKey[i] = 1;
-                }
-            }
-            if (binaryKey.Sum() == 0)
-            {
-                for (int i = 0; i < keylength; i++)
-                {
-                    binaryKey[i] = 1;
-                }
-            }
+                binaryKey[i] = (i < offset) ? 0 : 1;
 
             return binaryKey;
         }
 
         private byte[,] cipherToMatrix(byte[] cipher, int[] key)
         {
-            int height = cipher.Length / key.Length;
-            if (cipher.Length % key.Length != 0)
-            {
-                height++;
-            }
-
+            int height = (cipher.Length + key.Length - 1) / key.Length;
             byte[,] cipherMatrix = new byte[key.Length, height];
             int pos = 0;
 
@@ -1145,17 +833,13 @@ namespace TranspositionAnalyser
                     }
                 }
             }
+
             return cipherMatrix;
         }
 
         private byte[,] cribToMatrix(byte[] crib, int keylength)
         {
-            int height = crib.Length / keylength;
-            if (crib.Length % keylength != 0)
-            {
-                height++;
-            }
-
+            int height = (crib.Length + keylength - 1) / keylength;
             byte[,] cribMatrix = new byte[keylength, height];
             int pos = 0;
 
@@ -1167,6 +851,7 @@ namespace TranspositionAnalyser
                         cribMatrix[a, b] = crib[pos++];
                 }
             }
+
             return cribMatrix;
         }
 
@@ -1174,13 +859,12 @@ namespace TranspositionAnalyser
         {
             Boolean found;
 
-
-            for(int i=0; i<keylength; i++)
+            for (int i = 0; i < keylength; i++)
             {
-                byte[] cribCol = getColumn(crib,i,keylength);
+                byte[] cribCol = getColumn(crib, i, keylength);
                 found = false;
 
-                for(int j=0; j< keylength; j++)
+                for (int j = 0; j < keylength; j++)
                 {
                     byte[] cipherCol = getColumn(cipher, j, keylength);
 
@@ -1198,98 +882,6 @@ namespace TranspositionAnalyser
             return true;
         }
 
-        private void showProgressCribAnalysis(DateTime startTime, long size, long sum, long keysPerSec)
-        {
-            LinkedListNode<ValueKey> linkedListNode;
-            if (Presentation.IsVisible && !stop)
-            {
-                DateTime currentTime = DateTime.Now;
-
-                TimeSpan elapsedtime = DateTime.Now.Subtract(startTime); ;
-                TimeSpan elapsedspan = new TimeSpan(elapsedtime.Days, elapsedtime.Hours, elapsedtime.Minutes, elapsedtime.Seconds, 0);
-
-
-
-                TimeSpan span = currentTime.Subtract(startTime);
-                int seconds = span.Seconds;
-                int minutes = span.Minutes;
-                int hours = span.Hours;
-                int days = span.Days;
-
-                long allseconds = seconds + 60 * minutes + 60 * 60 * hours + 24 * 60 * 60 * days;
-                if (allseconds == 0) allseconds = 1;
-
-                long keystodo = (size - sum);
-
-                long secstodo = keystodo / keysPerSec;
-
-                //dummy Time 
-                DateTime endTime = new DateTime(1970, 1, 1);
-                try
-                {
-                    endTime = DateTime.Now.AddSeconds(secstodo);
-                }
-                catch
-                {
-
-                }
-
-
-                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-
-                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
-                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).keysPerSecond.Content = "" + keysPerSec;
-
-
-                    if (endTime != (new DateTime(1970, 1, 1)))
-                    {
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).elapsedTime.Content = "" + elapsedspan;
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "" + endTime;
-                    }
-                    else
-                    {
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "incalculable";
-
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "in a galaxy far, far away...";
-                    }
-                    if (list1 != null)
-                    {
-                        linkedListNode = list1.First;
-                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Clear();
-                        int i = 0;
-                        while (linkedListNode != null)
-                        {
-                            i++;
-                            ResultEntry entry = new ResultEntry();
-                            entry.Ranking = i.ToString();
-
-
-                            String dec = System.Text.Encoding.ASCII.GetString(linkedListNode.Value.decryption);
-                            if (dec.Length > 2500) // Short strings need not to be cut off
-                            {
-                                dec = dec.Substring(0, 2500);
-                            }
-                            entry.Text = dec;
-                            entry.Key = linkedListNode.Value.key;
-                            entry.Value = Math.Round(linkedListNode.Value.value, 2) + "";
-
-
-                            ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);
-
-                            linkedListNode = linkedListNode.Next;
-                        }
-
-                    }
-                }
-
-
-                , null);
-
-            }
-        }
-
         private byte[] intArrayToByteArray(int[] input)
         {
             byte[] output = new byte[input.Length];
@@ -1303,125 +895,40 @@ namespace TranspositionAnalyser
 
         #endregion
 
-
-
-
         #region genetic analysis
 
-        private void geneticAnalysis(IControlTranspoEncryption sender)
+        private void GeneticAnalysis()
         {
-            stop = false;
-
-            valuequeue = Queue.Synchronized(new Queue());
-
-            int size = settings.Iterations;
-            int keylength = settings.KeySize;
-            int repeatings = settings.Repeatings;
-
-            if (size < 2 || keylength < 2 || repeatings < 1)
+            if (settings.Iterations < 2 || settings.KeySize < 2 || settings.Repeatings < 1)
             {
                 GuiLogMessage("Check keylength and iterations", NotificationLevel.Error);
                 return;
             }
 
-            if (sender == null || costMaster == null || input == null)
-            {
-                if (sender == null)
-                {
-                    GuiLogMessage("sender == null", NotificationLevel.Error);
-                }
-                if (costMaster == null)
-                {
-                    GuiLogMessage("costMaster == null", NotificationLevel.Error);
-                }
-                if (input == null)
-                {
-                    GuiLogMessage("input == null", NotificationLevel.Error);
-                }
-                return;
-            }
+            ValueKey vk = new ValueKey();
+
             DateTime startTime = DateTime.Now;
-            DateTime lastUpdate = DateTime.Now;
+            DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
 
-            ArrayList bestOf = null;
+            HighscoreList ROUNDLIST = new HighscoreList(comparer, 12);
 
-            for (int it = 0; it < repeatings; it++)
+            ulong totalKeys = (ulong)settings.Repeatings * (ulong)settings.Iterations * 6;
+            ulong doneKeys = 0;
+
+            stop = false;
+
+            for (int repeating = 0; repeating < settings.Repeatings; repeating++)
             {
-                ArrayList valList = new ArrayList();
+                if (stop) break;
 
-                for (int i = 0; i < 12; i++)
+                ROUNDLIST.Clear();
+
+                for (int i = 0; i < ROUNDLIST.Capacity; i++)
+                    ROUNDLIST.Add(createKey(randomArray(settings.KeySize)));
+
+                for (int iteration = 0; iteration < settings.Iterations; iteration++)
                 {
-                    byte[] rndkey = randomArray(keylength);
-                    byte[] dec = sender.Decrypt(input, rndkey);
-                    double val = costMaster.CalculateCost(dec);
-
-                    String keyStr = "";
-                    foreach (byte tmp in rndkey)
-                    {
-                        keyStr += tmp + ", ";
-                    }
-
-
-                    ValueKey v = new ValueKey();
-                    v.decryption = dec;
-                    v.key = keyStr;
-                    v.keyArray = rndkey;
-                    v.value = val;
-                    valList.Add(v);
-                }
-
-                valuequeue = Queue.Synchronized(new Queue());
-
-                int iteration = 0;
-                while (iteration < size && !stop)
-                {
-                    valList = updateValueKeyArrayList(valList, 12);
-
-
-                    //valListe sortieren
-                    ArrayList tmpList = new ArrayList(12);
-
-                    double best = Double.MinValue;
-                    int bestpos = -1;
-                    for (int a = 0; a < 12; a++)
-                    {
-                        best = Double.MinValue;
-                        bestpos = -1;
-
-                        for (int b = 0; b < valList.Count; b++)
-                        {
-                            ValueKey v = (ValueKey)valList[b];
-
-                            if (best == Double.MinValue)
-                            {
-                                best = v.value;
-                                bestpos = b;
-                            }
-
-                            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-                            {
-                                if (v.value < best)
-                                {
-                                    best = v.value;
-                                    bestpos = b;
-                                }
-                            }
-                            else
-                            {
-                                if (v.value > best)
-                                {
-                                    best = v.value;
-                                    bestpos = b;
-                                }
-                            }
-                        }
-                        tmpList.Add(valList[bestpos]);
-                        valList.RemoveAt(bestpos);
-
-                    }
-
-                    valList = tmpList;
-
+                    if (stop) break;
 
                     // Kinder der besten Keys erstellen
                     int rndInt = 0;
@@ -1429,268 +936,199 @@ namespace TranspositionAnalyser
                     for (int a = 0; a < 6; a++)
                     {
                         if (a % 2 == 0)
-                        {
-                            rndInt = (rd.Next(0, int.MaxValue)) % (keylength);
-                            while (rndInt == 0)
-                            {
-                                rndInt = (rd.Next(0, int.MaxValue)) % (keylength);
-                            }
-                        }
+                            rndInt = rd.Next(settings.KeySize - 1) + 1;
 
-                        ValueKey parent1 = (ValueKey)valList[a];
-                        byte[] child = new byte[parent1.keyArray.Length];
-                        for (int b = 0; b < rndInt; b++)
-                        {
-                            child[b] = parent1.keyArray[b];
-                        }
+                        // combine DNA of two parents
+                        ValueKey parent1 = ROUNDLIST[a];
+                        ValueKey parent2 = ROUNDLIST[(a % 2 == 0) ? a + 1 : a - 1];
+
+                        byte[] child = new byte[parent1.key.Length];
+                        Array.Copy(parent1.key, child, rndInt);
 
                         int pos = rndInt;
-                        if (a % 2 == 0)
+                        for (int b = 0; b < parent2.key.Length; b++)
                         {
-                            ValueKey parent2 = (ValueKey)valList[a + 1];
-                            for (int b = 0; b < parent2.keyArray.Length; b++)
+                            for (int c = rndInt; c < parent1.key.Length; c++)
                             {
-                                for (int c = rndInt; c < parent1.keyArray.Length; c++)
+                                if (parent1.key[c] == parent2.key[b])
                                 {
-                                    if (parent1.keyArray[c] == parent2.keyArray[b])
-                                    {
-                                        child[pos] = parent1.keyArray[c];
-                                        pos++;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ValueKey parent2 = (ValueKey)valList[a - 1];
-                            for (int b = 0; b < parent2.keyArray.Length; b++)
-                            {
-                                for (int c = rndInt; c < parent1.keyArray.Length; c++)
-                                {
-                                    if (parent1.keyArray[c] == parent2.keyArray[b])
-                                    {
-                                        child[pos] = parent1.keyArray[c];
-                                        pos++;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        int apos = (rd.Next(0, int.MaxValue)) % keylength;
-                        int bpos = (rd.Next(0, int.MaxValue)) % keylength;
-                        while (apos == bpos)
-                        {
-                            apos = (rd.Next(0, int.MaxValue)) % keylength;
-                            bpos = (rd.Next(0, int.MaxValue)) % keylength;
-                        }
-                        byte tmp = child[apos];
-                        child[apos] = child[bpos];
-                        child[bpos] = tmp;
-
-                        Boolean eq = false;
-                        foreach (ValueKey v in valList)
-                        {
-
-                            if (arrayEquals(v.keyArray, child))
-                            {
-                                //GuiLogMessage("ZWEI GLEICHE", NotificationLevel.Debug);
-                                ValueKey tmpValue = new ValueKey();
-                                tmpValue.keyArray = randomArray(keylength);
-                                byte[] dec = sender.Decrypt(input, tmpValue.keyArray);
-                                double val = costMaster.CalculateCost(dec);
-
-                                String keyStr = "";
-                                foreach (byte bb in child)
-                                {
-                                    keyStr += bb + ", ";
-                                }
-
-                                tmpValue.decryption = dec;
-                                tmpValue.key = keyStr;
-                                tmpValue.value = val;
-                                valList.Add(tmpValue);
-                                eq = true;
-                                break;
-                            }
-                        }
-                        if (!eq && bestOf != null)
-                        {
-                            foreach (ValueKey v in bestOf)
-                            {
-
-                                if (arrayEquals(v.keyArray, child))
-                                {
-                                    //GuiLogMessage("ZWEI GLEICHE", NotificationLevel.Debug);
-                                    ValueKey tmpValue = new ValueKey();
-                                    tmpValue.keyArray = randomArray(keylength);
-                                    byte[] dec = sender.Decrypt(input, tmpValue.keyArray);
-                                    double val = costMaster.CalculateCost(dec);
-
-                                    String keyStr = "";
-                                    foreach (byte bb in child)
-                                    {
-                                        keyStr += bb + ", ";
-                                    }
-
-                                    tmpValue.decryption = dec;
-                                    tmpValue.key = keyStr;
-                                    tmpValue.value = val;
-                                    valList.Add(tmpValue);
-                                    eq = true;
+                                    child[pos] = parent1.key[c];
+                                    pos++;
                                     break;
                                 }
                             }
                         }
-                        if (!eq)
+
+                        // add a single mutation
+                        int apos = rd.Next(settings.KeySize);
+                        int bpos = (apos + rd.Next(1, settings.KeySize)) % settings.KeySize;
+                        swap(child, apos, bpos);
+
+                        decrypt(vk, child);
+
+                        ROUNDLIST.Add(vk);
+
+                        if (TOPLIST.isBetter(vk))
                         {
-                            ValueKey tmpValue = new ValueKey();
-                            byte[] dec = sender.Decrypt(input, child);
-                            double val = costMaster.CalculateCost(dec);
-
-                            String keyStr = "";
-                            foreach (byte bb in child)
-                            {
-                                keyStr += bb + ", ";
-                            }
-
-                            tmpValue.keyArray = child;
-                            tmpValue.decryption = dec;
-                            tmpValue.key = keyStr;
-                            tmpValue.value = val;
-                            valList.Add(tmpValue);
+                            TOPLIST.Add(vk);
+                            Output = vk.plaintext;
                         }
+
+                        doneKeys++;
                     }
 
-                    if (DateTime.Now >= lastUpdate.AddMilliseconds(1000))
+                    if (DateTime.Now >= nextUpdate)
                     {
-                        best = Double.MinValue;
-
-                        if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
-                        {
-                            best = Double.MaxValue;
-                        }
-
-                        list1 = getDummyLinkedList(best);
-
-                        if (bestOf != null)
-                        {
-                            foreach (ValueKey v in bestOf)
-                            {
-                                valuequeue.Enqueue(v);
-                            }
-                        }
-
-                        foreach (ValueKey v in valList)
-                        {
-                            valuequeue.Enqueue(v);
-                        }
-
-                        updateToplist(list1);
-                        showProgress(startTime, size * repeatings, it * size + iteration);
-                        ProgressChanged(it * size + iteration, size * repeatings);
-                        lastUpdate = DateTime.Now;
+                        TOPLIST.Merge(ROUNDLIST);
+                        UpdatePresentationList(totalKeys, doneKeys, startTime);
+                        nextUpdate = DateTime.Now.AddMilliseconds(1000);
                     }
-                    iteration++;
                 }
-                foreach (ValueKey v in valList)
-                {
-                    if (bestOf == null)
-                        bestOf = new ArrayList();
-                    bestOf.Add(v);
-                }
-                bestOf = updateValueKeyArrayList(bestOf, 12);
             }
+
+            TOPLIST.Merge(ROUNDLIST);
+            UpdatePresentationList(totalKeys, doneKeys, startTime);
         }
 
         #endregion
 
+        #region Hill climbing
 
-        private ArrayList updateValueKeyArrayList(ArrayList list, int rest)
+        private void HillClimbingAnalysis()
         {
-            //Dummy ValueKey erstellen:
-            ValueKey best = new ValueKey();
-            ArrayList ret = new ArrayList();
+            if (settings.Iterations < 2 || settings.KeySize < 2)
+            {
+                GuiLogMessage("Check keylength and iterations", NotificationLevel.Error);
+                return;
+            }
 
-            // Schlechtesten x Keys löschen
-            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
+            DateTime startTime = DateTime.Now;
+            DateTime nextUpdate = DateTime.Now.AddMilliseconds(100);
+
+            HighscoreList ROUNDLIST = new HighscoreList(comparer, 10);
+
+            ValueKey vk = new ValueKey();
+
+            ulong totalKeys = (ulong)settings.Repeatings * (ulong)settings.Iterations;
+            ulong doneKeys = 0;
+
+            stop = false;
+
+            for (int repeating = 0; repeating < settings.Repeatings; repeating++)
             {
-                for (int a = 0; a < rest; a++)
+                if (stop) break;
+
+                ROUNDLIST.Clear();
+
+                byte[] key = randomArray(settings.KeySize);
+                byte[] oldkey = new byte[settings.KeySize];
+
+                for (int iteration = 0; iteration < settings.Iterations; iteration++)
                 {
-                    best.value = int.MaxValue;
-                    int pos = -1;
-                    for (int b = 0; b < list.Count; b++)
+                    if (stop) break;
+
+                    Array.Copy(key, oldkey, key.Length);
+
+                    int r = rd.Next(100);
+                    if (r < 50)
                     {
-                        ValueKey v = (ValueKey)list[b];
-                        if (v.value < best.value)
+                        for (int i = 0; i < rd.Next(10); i++)
+                            swap(key, rd.Next(key.Length), rd.Next(key.Length));
+                    }
+                    else if (r < 70)
+                    {
+                        for (int i = 0; i < rd.Next(3); i++)
                         {
-                            best = v;
-                            pos = b;
+                            int l = rd.Next(key.Length - 1) + 1;
+                            int f = rd.Next(key.Length);
+                            int t = (f + l + rd.Next(key.Length - l)) % key.Length;
+                            blockswap(key, f, t, l);
                         }
                     }
-                    if (pos != -1)
+                    else if (r < 90)
                     {
-                        ret.Add(list[pos]);
-                        list.RemoveAt(pos);
+                        int l = 1 + rd.Next(key.Length - 1);
+                        int f = rd.Next(key.Length);
+                        int t = (f + 1 + rd.Next(key.Length - 1)) % key.Length;
+                        blockshift(key, f, t, l);
+                    }
+                    else
+                    {
+                        pivot(key, rd.Next(key.Length - 1) + 1);
+                    }
+
+                    decrypt(vk, key);
+
+                    if (ROUNDLIST.Add(vk))
+                    {
+                        if (TOPLIST.isBetter(vk))
+                        {
+                            TOPLIST.Add(vk);
+                            Output = vk.plaintext;
+                        }
+                    }
+                    else
+                        Array.Copy(oldkey, key, key.Length);
+
+                    doneKeys++;
+
+                    if (DateTime.Now >= nextUpdate)
+                    {
+                        TOPLIST.Merge(ROUNDLIST);
+                        UpdatePresentationList(totalKeys, doneKeys, startTime);
+                        nextUpdate = DateTime.Now.AddMilliseconds(1000);
                     }
                 }
             }
-            //costmMaster Relation Operator == Larger Than
-            else
+
+            TOPLIST.Merge(ROUNDLIST);
+            UpdatePresentationList(totalKeys, doneKeys, startTime);
+        }
+
+        #endregion
+
+        private void swap(byte[] arr, int i, int j)
+        {
+            byte tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+        }
+
+        private void blockswap(byte[] arr, int f, int t, int l)
+        {
+            for (int i = 0; i < l; i++)
+                swap(arr, (f + i) % arr.Length, (t + i) % arr.Length);
+        }
+
+        private void pivot(byte[] arr, int p)
+        {
+            byte[] tmp = new byte[arr.Length];
+            Array.Copy(arr, tmp, arr.Length);
+
+            Array.Copy(tmp, p, arr, 0, arr.Length - p);
+            Array.Copy(tmp, 0, arr, arr.Length - p, p);
+        }
+
+        private void blockshift(byte[] arr, int f, int t, int l)
+        {
+            byte[] tmp = new byte[arr.Length];
+            Array.Copy(arr, tmp, arr.Length);
+
+            int t0 = (t - f + arr.Length) % arr.Length;
+            int n = (t0 + l) % arr.Length;
+
+            for (int i = 0; i < n; i++)
             {
-                for (int a = 0; a < rest; a++)
-                {
-                    best.value = int.MinValue;
-                    int pos = -1;
-                    for (int b = 0; b < list.Count; b++)
-                    {
-                        ValueKey v = (ValueKey)list[b];
-                        if (v.value > best.value)
-                        {
-                            best = v;
-                            pos = b;
-                        }
-                    }
-                    if (pos != -1)
-                    {
-                        ret.Add(list[pos]);
-                        list.RemoveAt(pos);
-                    }
-                }
+                int ff = (f + i) % arr.Length;
+                int tt = (((t0 + i) % n) + f) % arr.Length;
+                arr[tt] = tmp[ff];
             }
-            return ret;
         }
 
         private byte[] randomArray(int length)
         {
-            int[] src = new int[length];
-            for (int i = 0; i < length; i++)
-            {
-                src[i] = i + 1;
-            }
-
-            int[] tmp = new int[src.Length];
-
-            int num = src.Length;
-            int index;
-
-            if (rd == null) rd = new Random(System.DateTime.Now.Millisecond);
-
-            for (int i = 0; i < src.Length; i++)
-            {
-                index = (rd.Next(0, int.MaxValue)) % num;
-                tmp[i] = src[index];
-                src[index] = src[num - 1];
-                num--;
-            }
-
-            byte[] output = new byte[length];
-            for (int i = 0; i < output.Length; i++)
-            {
-                output[i] = Convert.ToByte(tmp[i]);
-            }
-
-            return output;
+            byte[] result = new byte[length];
+            for (int i = 0; i < length; i++) result[i] = (byte)(i + 1);
+            for (int i = 0; i < length; i++) swap(result, rd.Next(length), rd.Next(length));
+            return result;
         }
 
         private Boolean arrayEquals(byte[] a, byte[] b)
@@ -1704,22 +1142,26 @@ namespace TranspositionAnalyser
             return true;
         }
 
+        private void decrypt(ValueKey vk, byte[] key)
+        {
+            vk.key = key;
+            vk.plaintext = this.controlMaster.Decrypt(this.input, vk.key);
+            vk.score = this.costMaster.CalculateCost(vk.plaintext);
+        }
 
+        private ValueKey createKey(byte[] key)
+        {
+            ValueKey result = new ValueKey();
+            decrypt(result, (byte[])key.Clone());
+            return result;
+        }
     }
 
-    public struct ValueKey
-    {
-        public byte[] keyArray;
-        public double value;
-        public String key;
-        public byte[] decryption;
-    };
     public class ResultEntry
     {
         public string Ranking { get; set; }
         public string Value { get; set; }
         public string Key { get; set; }
         public string Text { get; set; }
-
     }
 }

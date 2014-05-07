@@ -181,7 +181,7 @@
     <value>Iterationen</value>
   </data>
   <data name="IterationsTooltip" xml:space="preserve">
-    <value>Geben Sie die maximale Anzahl der Iterationen des genetischen Algorithmus an.</value>
+    <value>Geben Sie die Anzahl der Iterationen des Algorithmus an.</value>
   </data>
   <data name="KeySizeCaption" xml:space="preserve">
     <value>Schlüsselgröße</value>
@@ -196,10 +196,10 @@
     <value>Geben Sie die maximale Länge für die Brute-Force-Analyse an (max. 20).</value>
   </data>
   <data name="RepeatingsCaption" xml:space="preserve">
-    <value>Wiederholungen des genetischen Algorithmus</value>
+    <value>Wiederholungen</value>
   </data>
   <data name="RepeatingsTooltip" xml:space="preserve">
-    <value>Geben Sie die maximale Anzahl der Wiederholungen des genetischen Algorithmus an.</value>
+    <value>Geben Sie die Anzahl der Wiederholungen des Algorithmus an.</value>
   </data>
   <data name="RowColumnColumnCaption" xml:space="preserve">
     <value>Z-S-S</value>
@@ -251,5 +251,8 @@
   </data>
   <data name="ValueHeader" xml:space="preserve">
     <value>Wert</value>
+  </data>
+  <data name="Analysis_methodList4" xml:space="preserve">
+    <value>Hill Climbing</value>
   </data>
 </root>

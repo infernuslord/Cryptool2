@@ -14,8 +14,6 @@ namespace TranspositionAnalyser
 
         internal void UpdateTaskPaneVisibility()
         {
-            
-
             if (TaskPaneAttributeChanged == null)
                 return;
 
@@ -26,41 +24,53 @@ namespace TranspositionAnalyser
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Visible)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Visible)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Visible)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Collapsed)));
                         break;
-                case 1: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Hidden)));
+                case 1: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Collapsed)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Visible)));
                         break;
-                case 2: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Hidden)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Hidden)));
+                case 2: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Collapsed)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Visible)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Visible)));
                         TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Visible)));
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Hidden)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Collapsed)));
+                        break;
+                case 3: TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("MaxLength", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnColumn", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RowColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnRow", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ColumnColumnColumn", Visibility.Collapsed)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("KeySize", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Repeatings", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Iterations", Visibility.Visible)));
+                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CribSearchKeylength", Visibility.Collapsed)));
                         break;
             }
         }
+
         //[PropertySaveOrder(1)]
-        [TaskPane("Analysis_methodCaption", "Analysis_methodTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Analysis_methodList1", "Analysis_methodList2", "Analysis_methodList3" })]
+        [TaskPane("Analysis_methodCaption", "Analysis_methodTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Analysis_methodList1", "Analysis_methodList2", "Analysis_methodList3", "Analysis_methodList4" })]
         public int Analysis_method
         {
             get
             {
                 return this.selected_method;
             }
+
             set
             {
                 if (value != selected_method)
@@ -70,13 +80,12 @@ namespace TranspositionAnalyser
                     OnPropertyChanged("Analysis_method");   
                 }                
             }
-
         }
 
         // FIX: REGEX 
         private int bruteforce_length = 12;
         [PropertySaveOrder(2)]
-        [TaskPaneAttribute( "MaxLengthCaption", "MaxLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "MaxLengthCaption", "MaxLengthTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int MaxLength
         {
             get { return bruteforce_length; }
@@ -88,12 +97,11 @@ namespace TranspositionAnalyser
                     OnPropertyChanged("MaxLength");   
                 }
             }
-        
         }
 
         private int keysize = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute( "KeySizeCaption", "KeySizeTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "KeySizeCaption", "KeySizeTooltip", null, 4, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int KeySize
         {
             get { return keysize; }
@@ -109,7 +117,6 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_column = true;
         [PropertySaveOrder(4)]
-        [ContextMenu( "RowColumnColumnCaption", "RowColumnColumnTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
         [TaskPane( "RowColumnColumnCaption", "RowColumnColumnTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool RowColumnColumn
         {
@@ -126,7 +133,6 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_row = true;
         [PropertySaveOrder(5)]
-        [ContextMenu( "RowColumnRowCaption", "RowColumnRowTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
         [TaskPane( "RowColumnRowCaption", "RowColumnRowTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool RowColumnRow
         {
@@ -144,7 +150,6 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_row = true;
         [PropertySaveOrder(6)]
-        [ContextMenu( "ColumnColumnRowCaption", "ColumnColumnRowTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
         [TaskPane( "ColumnColumnRowCaption", "ColumnColumnRowTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool ColumnColumnRow
         {
@@ -161,7 +166,6 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_column = true;
         [PropertySaveOrder(7)]
-        [ContextMenu( "ColumnColumnColumnCaption", "ColumnColumnColumnTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
         [TaskPane( "ColumnColumnColumnCaption", "ColumnColumnColumnTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool ColumnColumnColumn
         {
@@ -194,7 +198,7 @@ namespace TranspositionAnalyser
 
         private int iterations = 5000;
         [PropertySaveOrder(9)]
-        [TaskPaneAttribute( "IterationsCaption", "IterationsTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "IterationsCaption", "IterationsTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Iterations
         {
             get { return iterations; }
@@ -210,7 +214,7 @@ namespace TranspositionAnalyser
 
         private int cribSearchKeylength = 12;
         [PropertySaveOrder(10)]
-        [TaskPaneAttribute( "CribSearchKeylengthCaption", "CribSearchKeylengthTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "CribSearchKeylengthCaption", "CribSearchKeylengthTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int CribSearchKeylength
         {
             get { return cribSearchKeylength; }
