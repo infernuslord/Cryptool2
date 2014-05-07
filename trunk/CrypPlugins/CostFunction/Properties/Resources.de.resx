@@ -175,7 +175,7 @@
     <value>Textkörper</value>
   </data>
   <data name="StatisticsCorpusTooltip" xml:space="preserve">
-    <value>Wählen Sie den zu verwendenden Textkörper (Voreinstellung ist DE)</value>
+    <value>Wählen Sie den zu verwendenden Textkörper</value>
   </data>
   <data name="entropyCaption" xml:space="preserve">
     <value>Entropie-Funktion</value>
@@ -208,13 +208,13 @@
     <value>Entropie</value>
   </data>
   <data name="FunctionTypeList3" xml:space="preserve">
-    <value>Bigramme: log 2</value>
+    <value>N-Gramme: log 2</value>
   </data>
   <data name="FunctionTypeList4" xml:space="preserve">
-    <value>Bigramme: Sinkov</value>
+    <value>N-Gramme: Sinkov</value>
   </data>
   <data name="FunctionTypeList5" xml:space="preserve">
-    <value>Bigramme: Prozentual</value>
+    <value>N-Gramme: Prozentual</value>
   </data>
   <data name="FunctionTypeList6" xml:space="preserve">
     <value>Reguläre Ausdrücke</value>
@@ -223,10 +223,10 @@
     <value>Gewichtete Bigramme/Trigramme</value>
   </data>
   <data name="StatisticsCorpusList1" xml:space="preserve">
-    <value>Textkörper (DE)</value>
+    <value>deutsch</value>
   </data>
   <data name="StatisticsCorpusList2" xml:space="preserve">
-    <value>Textkörper (EN)</value>
+    <value>englisch</value>
   </data>
   <data name="StatisticsCorpusList3" xml:space="preserve">
     <value>benutzerdefiniert (...)</value>
@@ -251,5 +251,11 @@
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
     <value>Wieviele Buchstaben sollen zu einem Zeichen (Block) zusammengefasst werden?</value>
+  </data>
+  <data name="NgramSizeCaption" xml:space="preserve">
+    <value>N-Gramm-Größe</value>
+  </data>
+  <data name="NgramSizeTooltip" xml:space="preserve">
+    <value>Größe der zu verwendenden N-Gramme</value>
   </data>
 </root>
