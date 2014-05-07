@@ -36,6 +36,7 @@ namespace Cryptool.Plugins.CostFunction
     public class CostFunction : ICrypComponent
     {
         #region private variables
+
         private CostFunctionSettings settings = new CostFunctionSettings();
         private byte[] inputText = null;
         private double value = 0.0;
@@ -53,22 +54,47 @@ namespace Cryptool.Plugins.CostFunction
         private double beta = 1.0;
         private double gamma = 1.0;
 
-       
         private DataManager dataMgr = new DataManager(); 
         private const string DATATYPE = "transposition";
 
         private IDictionary<String, DataFileMetaInfo> txtList;
-        private IDictionary<int, IDictionary<string, double[]>> statistics;
+        private IDictionary<int, IDictionary<string, double[]>> statistics = new Dictionary<int, IDictionary<string, double[]>>();
 
         private RegEx regularexpression = null;
 
         #endregion
+
         #region internal constants
+
         internal const int ABSOLUTE = 0;
         internal const int PERCENTAGED = 1;
         internal const int LOG2 = 2;
         internal const int SINKOV = 3;
+
         #endregion
+
+        #region public interface
+
+        public CostFunction()
+        {
+            this.settings = new CostFunctionSettings();
+            this.settings.PropertyChanged += settings_OnPropertyChange;
+        }
+
+        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "StatisticsCorpus")
+            {
+                // delete statistics corpuses after a language change,
+                // so that the correct language can be loaded
+                corpusBigrams = null;
+                corpusTrigrams = null;
+                statistics.Clear();
+            }
+        }
+
+        #endregion
+
         #region CostFunctionInOut
 
         [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip")]
@@ -84,7 +110,9 @@ namespace Cryptool.Plugins.CostFunction
                 OnPropertyChanged("InputText");
             }
         }
+
         #region testing
+
         public void changeFunctionType(int type)
         {
             this.settings.changeFunctionType(type);
@@ -95,10 +123,12 @@ namespace Cryptool.Plugins.CostFunction
             this.testing = true;
             this.settings.customFilePath = path;
         }
+
         public void setRegEx(string regex)
         {
             this.settings.RegEx = regex;
         }
+
         #endregion
 
         [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip")]
@@ -183,53 +213,48 @@ namespace Cryptool.Plugins.CostFunction
 
                 //Create a new Array of size of bytesToUse
                 byte[] array = new byte[bytesToUse];
-                for (int i = 0; i < bytesToUse; i++)
-                {
-                    array[i] = InputText[i + bytesOffset];
-                }
+                Array.Copy(InputText, bytesOffset, array, 0, bytesToUse);
 
                 ProgressChanged(0.5, 1);
-                bigramInput = ByteArrayToString(array);
-                switch (settings.FunctionType)
-                {
-                    case 0: // Index of Coincidence
-                        this.Value = calculateIndexOfCoincidence(array,settings.BlocksizeToUseInteger);
-                        break;
 
-                    case 1: // Entropy
-                        this.Value = calculateEntropy(array);
-                        break;
+                this.Value = CalculateCost(array);
 
-                    case 2: // Log 2 Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 2,false);
-                        break;
-
-                    case 3: // sinkov Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 3,false);
-                        break;
-
-                    case 4: //percentaged Bigrams
-                        this.Value = calculateNGrams(bigramInput, 2, 1,false);
-                        break;
-
-                    case 5: //regular expressions
-                        this.Value = regex(array);
-                        break;
-
-                    case 6: // Weighted Bigrams/Trigrams (used by genetic algorithm in transposition analyser)
-                        this.Value = calculateWeighted(bigramInput);
-                        break;
-
-                    default:
-                        this.Value = -1;
-                        break;
-                }//end switch               
-
-               
                 ProgressChanged(1, 1);
 
             }//end if
 
+        }
+
+        public double CalculateCost(byte[] text)
+        {
+            switch (settings.FunctionType)
+            {
+                case 0: //Index of coincidence 
+                    if (settings.BlockSize == 1)
+                        return calculateFastIndexOfCoincidence(text, settings.BytesToUseInteger);
+                    return calculateIndexOfCoincidence(text, settings.BytesToUseInteger, settings.BlockSize);
+
+                case 1: //Entropy
+                    return calculateEntropy(text, settings.BytesToUseInteger);
+
+                case 2: // N-grams: log 2
+                    return calculateNGrams(ByteArrayToString(text), settings.NgramSize, LOG2, false);
+
+                case 3: // N-grams: Sinkov
+                    return calculateNGrams(ByteArrayToString(text), settings.NgramSize, SINKOV, true);
+
+                case 4: // N-grams: Percentaged
+                    return calculateNGrams(ByteArrayToString(text), settings.NgramSize, PERCENTAGED, false);
+
+                case 5: // regular expression
+                    return regex(text);
+
+                case 6:
+                    return calculateWeighted(ByteArrayToString(text));
+
+                default:
+                    throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented.");
+            }
         }
 
         public void PostExecution()
@@ -244,7 +269,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Initialize()
         {
-            
+            settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
@@ -352,29 +377,22 @@ namespace Cryptool.Plugins.CostFunction
         //    }
         //    return -1.0;
         //}
+
         public double calculateWeighted(string input)
         {
-            
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
 
-            if (fwt == null) { fillfwt(); } 
-            if (corpusBigrams == null)
-            {
-                if (corpusTrigrams == null)
-                {
+            if (fwt == null) fillfwt();
 
-                    corpusBigrams = GetStatistics(2); // Get Known Language statistics for Bigrams
-                    corpusTrigrams = GetStatistics(3); // and Trigrams
-                }
+            if (corpusBigrams == null) corpusBigrams = GetStatistics(2); // Get Known Language statistics for Bigrams
+            if (corpusTrigrams == null) corpusTrigrams = GetStatistics(3); // and Trigrams
 
-            }
             input = input.ToUpper();
 
-            double bigramscore = calculateNGrams(input, 2, 3, true); // Sinkov
-            double trigramscore = calculateNGrams(input, 3, 3, true);
+            double bigramscore = calculateNGrams(input, 2, SINKOV, true); // Sinkov
+            double trigramscore = calculateNGrams(input, 3, SINKOV, true);
          
             return (beta * bigramscore) + (gamma * trigramscore);
-            
         }
 
         private string lastRegex = null;
@@ -591,13 +609,13 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>The trigram score result</returns>
         public double calculateNGrams(string input, int length, int valueSelection, bool weighted)
         {
-            this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
+            //this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
-            if (corpusBigrams == null && length == 2)
-            { corpusBigrams = GetStatistics(length); }
 
-            if (corpusTrigrams == null && length == 3)
-            { corpusTrigrams = GetStatistics(length); }
+            if (corpusBigrams == null && length == 2) corpusBigrams = GetStatistics(length);
+            if (corpusTrigrams == null && length == 3) corpusTrigrams = GetStatistics(length);
+            var corpus = GetStatistics(length);
+
             input = input.ToUpper();
             // FIXME: case handling?
 
@@ -606,31 +624,24 @@ namespace Cryptool.Plugins.CostFunction
             foreach (string g in GramTokenizer.tokenize(input, length, false))
             {
                 // ensure each n-gram is counted only once
-                if (inputGrams.Add(g))
+                if (!weighted || inputGrams.Add(g))
                 {
-                    if (corpusBigrams.ContainsKey(g) && length == 2 )
+                    if (corpus.ContainsKey(g))
                     {
-                        score += corpusBigrams[g][valueSelection];
-                        if (weighted) { weights(g, 2); }
-                    }
-                    if (length == 3 )
-                    {
-                        if (corpusTrigrams.ContainsKey(g))
-                        {
-                            score += corpusTrigrams[g][valueSelection];
-                            if (weighted) { weights(g, 3); }
-                        }
+                        score += corpus[g][valueSelection];
+                        if (weighted) weights(g, length);
                     }
                 }
             }
 
             return score;
         }
+
         public IDictionary<string, double[]> GetStatistics(int gramLength)
         {
             // FIXME: inputTriGrams is not being used!
-
             // FIXME: implement exception handling
+
             if (!statistics.ContainsKey(gramLength))
             {
                 //GuiLogMessage("Trying to load default statistics for " + gramLength + "-grams", NotificationLevel.Info);
@@ -642,74 +653,46 @@ namespace Cryptool.Plugins.CostFunction
 
         private IDictionary<string, double[]> LoadDefaultStatistics(int length)
         {
-            
             txtList = dataMgr.LoadDirectory(DATATYPE);
-            if (testing) { return calculateAbsolutes(this.settings.customFilePath, length); }
+
+            if (testing) return calculateAbsolutes(this.settings.customFilePath, length);
+
             switch (this.settings.StatisticsCorpus)
             {
-                case 0:
-                    return calculateAbsolutes(txtList["statisticscorpusde"].DataFile.FullName, length);
-                   
-                case 1:
-                    return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
                 case 2:
                     return calculateAbsolutes(this.settings.customFilePath, length);
-                //to prevent a poss. initial-err
-                //default:
-                //    return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
+                
+                case 1:
+                    return calculateAbsolutes(txtList["statisticscorpusen"].DataFile.FullName, length);
 
+                case 0:
+                default:
+                    return calculateAbsolutes(txtList["statisticscorpusde"].DataFile.FullName, length);
             }
-            return calculateAbsolutes(txtList["statisticscorpusde"].DataFile.FullName, length); //default
-           
         }
 
         private IDictionary<string, double[]> calculateAbsolutes(String path, int length)
         {
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
-            int checkLength;
             StreamReader reader = new StreamReader(path);
-            String text = reader.ReadToEnd();
 
-            text.ToUpper();
+            String text = reader.ReadToEnd();
+            text = text.ToUpper();
+            text = text.Replace("Ä", "AE").Replace("Ö", "OE").Replace("Ü", "UE").Replace("ß", "SS");
             text = Regex.Replace(text, "[^A-Z]*", "");
 
-            if (length == 2)
+            for (int i = 0; i+length <= text.Length; i++)
             {
-                checkLength = text.Length - 1;
-            }
-            else
-            {
-                checkLength = text.Length - 2;
-            }
-            for (int i = 0; i < checkLength; i++)
-            {
-                char a = text[i];
-                char b = text[i + 1];
-                String key;
-                if (length == 3) // Trigrams
-                {
-                    char c = text[i + 2];
-                    key = a.ToString();
-                    key = key + b.ToString();
-                    key = key + c.ToString();
-                }
-                else // Bigrams
-                {
-                    key = a.ToString();
-                    key = key + b.ToString();
-                }
+                String key = text.Substring(i, length);
 
                 if (!grams.ContainsKey(key))
-                {
-                    grams.Add(key, new double[] { 1, 0, 0, 0}); 
-                }
-                else
-                {
-                    grams[key][0] = grams[key][0] + 1.0;
-                }
+                    grams.Add(key, new double[] { 0, 0, 0, 0 });
+
+                grams[key][0]++;
             }
 
-            double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+            //double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+            int sum = text.Length - length + 1;
             GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
 
             // calculate scaled values
@@ -720,8 +703,6 @@ namespace Cryptool.Plugins.CostFunction
                 g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
             }
 
-
-
             return grams;
         }
 
@@ -731,10 +712,7 @@ namespace Cryptool.Plugins.CostFunction
             return enc.GetString(arr);
         }
 
-
         #endregion
-
-
     }
 
     #region slave
@@ -882,12 +860,12 @@ namespace Cryptool.Plugins.CostFunction
         {
             switch (settings.FunctionType)
             {
-                case 0: //Index of coincidence 
+                case 0: // Index of coincidence 
                     return RelationOperator.LargerThen;
-                case 1: //Entropy
+                case 1: // Entropy
                     return RelationOperator.LessThen;
-                case 2: // Bigrams: log 2
-                    return RelationOperator.LessThen;
+                case 2: // Log 2
+                    return RelationOperator.LargerThen;
                 case 3: // Sinkov
                     return RelationOperator.LargerThen;
                 case 4: // percentage
@@ -918,29 +896,7 @@ namespace Cryptool.Plugins.CostFunction
              * Note: If being used together with KeySearcher, the text given here is already shortened and thus
              * bytesToUse and bytesOffset will have no further effect (neither positive nor negative).
              */
-            switch (settings.FunctionType)
-            {
-                case 0: //Index of coincidence 
-                    if (((CostFunctionSettings)plugin.Settings).BlocksizeToUseInteger == 1)
-                    {
-                        return  plugin.calculateFastIndexOfCoincidence(text, bytesToUse());
-                    }                  
-                    return plugin.calculateIndexOfCoincidence(text, bytesToUse(), ((CostFunctionSettings)plugin.Settings).BlocksizeToUseInteger);
-                case 1: //Entropy
-                    return plugin.calculateEntropy(text, bytesToUse());
-                case 2: // Bigrams: log 2
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 2, false);
-                case 3: // Bigrams: Sinkov
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 3, false);
-                case 4: // Bigrams: Percentaged
-                    return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 1, false);
-                case 5: // regular expression
-                    return plugin.regex(text);
-                case 6:
-                    return plugin.calculateWeighted(plugin.ByteArrayToString(text));
-                default:
-                    throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented.");
-            }//end switch
+            return plugin.CalculateCost(text);
         }
 
 
@@ -948,4 +904,3 @@ namespace Cryptool.Plugins.CostFunction
     }
 
 }
-
