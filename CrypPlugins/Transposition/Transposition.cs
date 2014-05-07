@@ -437,87 +437,80 @@ namespace Transposition
         {
             //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
 
-            if (new_key != null && input != null && new_key.Length > 0)
-            {
-                if (is_Valid_Keyword(new_key))
-                {
-                    char[] decrypted = null;
-                    if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
-                    {
-                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
-                        {
-                            case TranspositionSettings.ReadOutMode.byRow:
-                                read_in_matrix = dec_read_in_by_row_if_row_perm(input, new_key); break;
-                            case TranspositionSettings.ReadOutMode.byColumn:
-                                read_in_matrix = dec_read_in_by_column_if_row_perm(input, new_key); break;
-                            default:
-                                break;
-                        }
-
-                        permuted_matrix = dec_permut_by_row(read_in_matrix, new_key);
-
-                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
-                        {
-                            case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row_if_row_perm(permuted_matrix, new_key.Length); break;
-                            case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column_if_row_perm(permuted_matrix, new_key.Length); break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    // permute by column:
-                    else
-                    {
-                        switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
-                        {
-                            case TranspositionSettings.ReadOutMode.byRow:
-                                read_in_matrix = dec_read_in_by_row(input, new_key); break;
-                            case TranspositionSettings.ReadOutMode.byColumn:
-                                read_in_matrix = dec_read_in_by_column(input, new_key); break;
-                            default:
-                                break;
-                        }
-
-                        permuted_matrix = dec_permut_by_column(read_in_matrix, new_key);
-
-                        switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
-                        {
-                            case TranspositionSettings.ReadInMode.byRow:
-                                decrypted = read_out_by_row(permuted_matrix, new_key.Length); break;
-                            case TranspositionSettings.ReadInMode.byColumn:
-                                decrypted = read_out_by_column(permuted_matrix, new_key.Length); break;
-                            default:
-                                break;
-                        }
-                    }
-                    return decrypted;
-                }
-                else
-                {
-                    Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
-                    return null;
-                }
-            }
-            else
+            if (new_key == null || input == null || new_key.Length <= 0)
             {
                 // 2do: Anzeige "Kein gültiges Keyword
                 return null;
             }
+
+            if (!is_Valid_Keyword(new_key))
+            {
+                Transposition_LogMessage("Keyword is not valid", NotificationLevel.Error);
+                return null;
+            }
+
+            char[] decrypted = null;
+
+            if (((TranspositionSettings.PermutationMode)settings.Permutation).Equals(TranspositionSettings.PermutationMode.byRow))
+            {
+                switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                {
+                    case TranspositionSettings.ReadOutMode.byRow:
+                        read_in_matrix = dec_read_in_by_row_if_row_perm(input, new_key); break;
+                    case TranspositionSettings.ReadOutMode.byColumn:
+                        read_in_matrix = dec_read_in_by_column_if_row_perm(input, new_key); break;
+                    default:
+                        break;
+                }
+
+                permuted_matrix = dec_permut_by_row(read_in_matrix, new_key);
+
+                switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                {
+                    case TranspositionSettings.ReadInMode.byRow:
+                        decrypted = read_out_by_row_if_row_perm(permuted_matrix, new_key.Length); break;
+                    case TranspositionSettings.ReadInMode.byColumn:
+                        decrypted = read_out_by_column_if_row_perm(permuted_matrix, new_key.Length); break;
+                    default:
+                        break;
+                }
+            }
+
+            // permute by column:
+            else
+            {
+                switch ((TranspositionSettings.ReadOutMode)settings.ReadOut)
+                {
+                    case TranspositionSettings.ReadOutMode.byRow:
+                        read_in_matrix = dec_read_in_by_row(input, new_key); break;
+                    case TranspositionSettings.ReadOutMode.byColumn:
+                        read_in_matrix = dec_read_in_by_column(input, new_key); break;
+                    default:
+                        break;
+                }
+
+                permuted_matrix = dec_permut_by_column(read_in_matrix, new_key);
+
+                switch ((TranspositionSettings.ReadInMode)settings.ReadIn)
+                {
+                    case TranspositionSettings.ReadInMode.byRow:
+                        decrypted = read_out_by_row(permuted_matrix, new_key.Length); break;
+                    case TranspositionSettings.ReadInMode.byColumn:
+                        decrypted = read_out_by_column(permuted_matrix, new_key.Length); break;
+                    default:
+                        break;
+                }
+            }
+
+            return decrypted;
         }
 
         public byte[] byteDecrypt(byte[] input, int[] new_key)
         {
             //Transposition_LogMessage("hier normales decrypt: " + new_key[0] + " / " +input[0], NotificationLevel.Debug);
 
-
-
-            char[] c =  decrypt(System.Text.Encoding.ASCII.GetString(input).ToCharArray(), new_key);
-
-            return ASCIIEncoding.ASCII.GetBytes(c);
-            
-
+            char[] c = decrypt(Encoding.GetEncoding("iso-8859-15").GetString(input).ToCharArray(), new_key);
+            return Encoding.GetEncoding("iso-8859-15").GetBytes(c);
         }
 
         private char[,] enc_read_in_by_row(char[] input, int keyword_length)
@@ -1112,24 +1105,7 @@ namespace Transposition
 
         private bool is_Valid_Keyword(int[] keyword)
         {
-            for (int i = 1; i <= keyword.Length; i++)
-            {
-                bool exists = false;
-
-                for (int j = 0; j < keyword.Length; j++)
-                {
-                    if (i.Equals(keyword[j]))
-                    {
-                        exists = true;
-                    }
-                }
-
-                if (!exists)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return (new HashSet<int>(keyword)).Count == keyword.Length;
         }
 
         public int[] sortKey(String input)
