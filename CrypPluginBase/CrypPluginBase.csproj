@@ -125,6 +125,7 @@
     <Compile Include="Attributes\PropertyInfoAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Miscellaneous\ModMatrix.cs" />
     <Compile Include="Miscellaneous\Msieve.cs" />
     <Compile Include="Miscellaneous\LocExtension.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
