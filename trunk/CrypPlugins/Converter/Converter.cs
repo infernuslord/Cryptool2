@@ -595,6 +595,24 @@ namespace Cryptool.Plugins.Converter
                     Output = result;
                     return true;
                 }
+                if (this.settings.Converter == OutputTypes.BigIntegerType)
+                {
+                    BigInteger[] result = new BigInteger[inputarray.Length];
+                    try // can be read as parseable expression?
+                    {
+                        for (int i = 0; i < inputarray.Length; i++)
+                        {
+                            result[i] = BigIntegerHelper.ParseExpression(inputarray[i]);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        GuiLogMessage("Could not convert input to BigInteger", NotificationLevel.Error);
+                        return false;
+                    }
+                    Output = result;
+                    return true;
+                }
             }
 
             // the string representation is used for all upcoming operations
