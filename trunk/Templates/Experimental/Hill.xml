@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Hill Cipher</title>
+  <summary lang="en">Usage of the <i>Hill</i> cipher</summary>
+  <description lang="en">This template shows the usage of the <i>Hill</i> cipher.</description>
+  <keywords>Matrix, linear, algebra, polygraphic</keywords>
+
+  <title lang="de">Hill-Chiffre</title>
+  <summary lang="de">Benutzung der <i>Hill</i>-Chiffre</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Hill</i>-Chiffre.</description>
+  <keywords lang="de">Matrix, Lineare, Algebra, polygraphisch</keywords>
+
+  <relevantPlugins>
+    <plugin name="Hill" />
+  </relevantPlugins>
+
+</sample>
