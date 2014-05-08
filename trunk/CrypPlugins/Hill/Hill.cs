@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.Hill
 {
     [Author("Armin Krauß", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.Hill.Properties.Resources", "PluginCaption", "PluginTooltip", "Hill/DetailedDescription/doc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.Hill.Properties.Resources", "PluginCaption", "PluginTooltip", "Hill/DetailedDescription/doc.xml", new[] { "Hill/Hill.png" })]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Hill : ICrypComponent
     {
