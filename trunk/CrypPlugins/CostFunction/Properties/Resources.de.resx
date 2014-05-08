@@ -250,7 +250,7 @@
     <value>Blockgröße</value>
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
-    <value>Wieviele Buchstaben sollen zu einem Zeichen (Block) zusammengefasst werden?</value>
+    <value>Wie viele Buchstaben sollen zu einem Block zusammengefasst werden?</value>
   </data>
   <data name="NgramSizeCaption" xml:space="preserve">
     <value>N-Gramm-Größe</value>
