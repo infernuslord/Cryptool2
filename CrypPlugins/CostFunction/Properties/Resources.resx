@@ -250,7 +250,7 @@
     <value>Blocksize</value>
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
-    <value>How many character should be combined to one letter (block)?</value>
+    <value>How many characters should be combined to one block?</value>
   </data>
   <data name="NgramSizeCaption" xml:space="preserve">
     <value>N-gram size</value>
