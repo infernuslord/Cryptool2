@@ -11,6 +11,8 @@
   <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Hill</i>-Chiffre.</description>
   <keywords lang="de">Matrix, Lineare, Algebra, polygraphisch</keywords>
 
+  <icon file="Hill.png" />
+
   <relevantPlugins>
     <plugin name="Hill" />
   </relevantPlugins>
