@@ -22,7 +22,7 @@ namespace TranspositionAnalyser.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace TranspositionAnalyser.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TranspositionAnalyser.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace TranspositionAnalyser.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analysis Method ähnelt.
         /// </summary>
-        internal static string Analysis_methodCaption {
+        public static string Analysis_methodCaption {
             get {
                 return ResourceManager.GetString("Analysis_methodCaption", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bruteforce Analysis ähnelt.
         /// </summary>
-        internal static string Analysis_methodList1 {
+        public static string Analysis_methodList1 {
             get {
                 return ResourceManager.GetString("Analysis_methodList1", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analysis with Crib ähnelt.
         /// </summary>
-        internal static string Analysis_methodList2 {
+        public static string Analysis_methodList2 {
             get {
                 return ResourceManager.GetString("Analysis_methodList2", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Genetic algorithm ähnelt.
         /// </summary>
-        internal static string Analysis_methodList3 {
+        public static string Analysis_methodList3 {
             get {
                 return ResourceManager.GetString("Analysis_methodList3", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Hill Climbing ähnelt.
         /// </summary>
-        internal static string Analysis_methodList4 {
+        public static string Analysis_methodList4 {
             get {
                 return ResourceManager.GetString("Analysis_methodList4", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the Analysis Method ähnelt.
         /// </summary>
-        internal static string Analysis_methodTooltip {
+        public static string Analysis_methodTooltip {
             get {
                 return ResourceManager.GetString("Analysis_methodTooltip", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die C-C-C ähnelt.
         /// </summary>
-        internal static string ColumnColumnColumnCaption {
+        public static string ColumnColumnColumnCaption {
             get {
                 return ResourceManager.GetString("ColumnColumnColumnCaption", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column ähnelt.
         /// </summary>
-        internal static string ColumnColumnColumnTooltip {
+        public static string ColumnColumnColumnTooltip {
             get {
                 return ResourceManager.GetString("ColumnColumnColumnTooltip", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die C-C-R ähnelt.
         /// </summary>
-        internal static string ColumnColumnRowCaption {
+        public static string ColumnColumnRowCaption {
             get {
                 return ResourceManager.GetString("ColumnColumnRowCaption", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row ähnelt.
         /// </summary>
-        internal static string ColumnColumnRowTooltip {
+        public static string ColumnColumnRowTooltip {
             get {
                 return ResourceManager.GetString("ColumnColumnRowTooltip", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Control Master ähnelt.
         /// </summary>
-        internal static string ControlMasterCaption {
+        public static string ControlMasterCaption {
             get {
                 return ResourceManager.GetString("ControlMasterCaption", resourceCulture);
             }
@@ -162,16 +162,52 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Used for bruteforcing ähnelt.
         /// </summary>
-        internal static string ControlMasterTooltip {
+        public static string ControlMasterTooltip {
             get {
                 return ResourceManager.GetString("ControlMasterTooltip", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy all ähnelt.
+        /// </summary>
+        public static string Copy_all {
+            get {
+                return ResourceManager.GetString("Copy_all", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy key ähnelt.
+        /// </summary>
+        public static string Copy_key {
+            get {
+                return ResourceManager.GetString("Copy_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy text ähnelt.
+        /// </summary>
+        public static string Copy_text {
+            get {
+                return ResourceManager.GetString("Copy_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy value ähnelt.
+        /// </summary>
+        public static string Copy_value {
+            get {
+                return ResourceManager.GetString("Copy_value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cost Master ähnelt.
         /// </summary>
-        internal static string CostMasterCaption {
+        public static string CostMasterCaption {
             get {
                 return ResourceManager.GetString("CostMasterCaption", resourceCulture);
             }
@@ -180,7 +216,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Used for cost calculation ähnelt.
         /// </summary>
-        internal static string CostMasterTooltip {
+        public static string CostMasterTooltip {
             get {
                 return ResourceManager.GetString("CostMasterTooltip", resourceCulture);
             }
@@ -189,7 +225,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crib ähnelt.
         /// </summary>
-        internal static string CribCaption {
+        public static string CribCaption {
             get {
                 return ResourceManager.GetString("CribCaption", resourceCulture);
             }
@@ -198,7 +234,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Maximum keylength for crib analysis ähnelt.
         /// </summary>
-        internal static string CribSearchKeylengthCaption {
+        public static string CribSearchKeylengthCaption {
             get {
                 return ResourceManager.GetString("CribSearchKeylengthCaption", resourceCulture);
             }
@@ -207,7 +243,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum keylength for the crib-based analysis. ähnelt.
         /// </summary>
-        internal static string CribSearchKeylengthTooltip {
+        public static string CribSearchKeylengthTooltip {
             get {
                 return ResourceManager.GetString("CribSearchKeylengthTooltip", resourceCulture);
             }
@@ -216,7 +252,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crib for Analysis ähnelt.
         /// </summary>
-        internal static string CribTooltip {
+        public static string CribTooltip {
             get {
                 return ResourceManager.GetString("CribTooltip", resourceCulture);
             }
@@ -225,7 +261,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Elapsed: ähnelt.
         /// </summary>
-        internal static string ElapsedLabel {
+        public static string ElapsedLabel {
             get {
                 return ResourceManager.GetString("ElapsedLabel", resourceCulture);
             }
@@ -234,7 +270,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die End: ähnelt.
         /// </summary>
-        internal static string EndLabel {
+        public static string EndLabel {
             get {
                 return ResourceManager.GetString("EndLabel", resourceCulture);
             }
@@ -243,7 +279,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
         /// </summary>
-        internal static string InputCaption {
+        public static string InputCaption {
             get {
                 return ResourceManager.GetString("InputCaption", resourceCulture);
             }
@@ -252,7 +288,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input data for Analysis ähnelt.
         /// </summary>
-        internal static string InputTooltip {
+        public static string InputTooltip {
             get {
                 return ResourceManager.GetString("InputTooltip", resourceCulture);
             }
@@ -261,7 +297,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Iterations ähnelt.
         /// </summary>
-        internal static string IterationsCaption {
+        public static string IterationsCaption {
             get {
                 return ResourceManager.GetString("IterationsCaption", resourceCulture);
             }
@@ -270,7 +306,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number of iterations of the algorithm. ähnelt.
         /// </summary>
-        internal static string IterationsTooltip {
+        public static string IterationsTooltip {
             get {
                 return ResourceManager.GetString("IterationsTooltip", resourceCulture);
             }
@@ -279,7 +315,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
         /// </summary>
-        internal static string KeyHeader {
+        public static string KeyHeader {
             get {
                 return ResourceManager.GetString("KeyHeader", resourceCulture);
             }
@@ -288,7 +324,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Keys / sec.: ähnelt.
         /// </summary>
-        internal static string Keys_secLabel {
+        public static string Keys_secLabel {
             get {
                 return ResourceManager.GetString("Keys_secLabel", resourceCulture);
             }
@@ -297,7 +333,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Keysize ähnelt.
         /// </summary>
-        internal static string KeySizeCaption {
+        public static string KeySizeCaption {
             get {
                 return ResourceManager.GetString("KeySizeCaption", resourceCulture);
             }
@@ -306,7 +342,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the keysize to be searched. ähnelt.
         /// </summary>
-        internal static string KeySizeTooltip {
+        public static string KeySizeTooltip {
             get {
                 return ResourceManager.GetString("KeySizeTooltip", resourceCulture);
             }
@@ -315,7 +351,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Local ähnelt.
         /// </summary>
-        internal static string LocalLabel {
+        public static string LocalLabel {
             get {
                 return ResourceManager.GetString("LocalLabel", resourceCulture);
             }
@@ -324,7 +360,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Transposition Bruteforce length ähnelt.
         /// </summary>
-        internal static string MaxLengthCaption {
+        public static string MaxLengthCaption {
             get {
                 return ResourceManager.GetString("MaxLengthCaption", resourceCulture);
             }
@@ -333,7 +369,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the max length to be bruteforced (max: 20). ähnelt.
         /// </summary>
-        internal static string MaxLengthTooltip {
+        public static string MaxLengthTooltip {
             get {
                 return ResourceManager.GetString("MaxLengthTooltip", resourceCulture);
             }
@@ -342,7 +378,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
-        internal static string OutputCaption {
+        public static string OutputCaption {
             get {
                 return ResourceManager.GetString("OutputCaption", resourceCulture);
             }
@@ -351,7 +387,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
-        internal static string OutputTooltip {
+        public static string OutputTooltip {
             get {
                 return ResourceManager.GetString("OutputTooltip", resourceCulture);
             }
@@ -360,7 +396,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Transposition Analyser ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
@@ -369,7 +405,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die This component performs several kinds of attacks against the columnar transposition. ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
@@ -378,7 +414,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Remaining: ähnelt.
         /// </summary>
-        internal static string RemainingLabel {
+        public static string RemainingLabel {
             get {
                 return ResourceManager.GetString("RemainingLabel", resourceCulture);
             }
@@ -387,7 +423,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Repetitions ähnelt.
         /// </summary>
-        internal static string RepeatingsCaption {
+        public static string RepeatingsCaption {
             get {
                 return ResourceManager.GetString("RepeatingsCaption", resourceCulture);
             }
@@ -396,7 +432,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number of repetitions of the algorithm. ähnelt.
         /// </summary>
-        internal static string RepeatingsTooltip {
+        public static string RepeatingsTooltip {
             get {
                 return ResourceManager.GetString("RepeatingsTooltip", resourceCulture);
             }
@@ -405,7 +441,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die R-C-C ähnelt.
         /// </summary>
-        internal static string RowColumnColumnCaption {
+        public static string RowColumnColumnCaption {
             get {
                 return ResourceManager.GetString("RowColumnColumnCaption", resourceCulture);
             }
@@ -414,7 +450,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column ähnelt.
         /// </summary>
-        internal static string RowColumnColumnTooltip {
+        public static string RowColumnColumnTooltip {
             get {
                 return ResourceManager.GetString("RowColumnColumnTooltip", resourceCulture);
             }
@@ -423,7 +459,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die R-C-R ähnelt.
         /// </summary>
-        internal static string RowColumnRowCaption {
+        public static string RowColumnRowCaption {
             get {
                 return ResourceManager.GetString("RowColumnRowCaption", resourceCulture);
             }
@@ -432,7 +468,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row ähnelt.
         /// </summary>
-        internal static string RowColumnRowTooltip {
+        public static string RowColumnRowTooltip {
             get {
                 return ResourceManager.GetString("RowColumnRowTooltip", resourceCulture);
             }
@@ -441,7 +477,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Start: ähnelt.
         /// </summary>
-        internal static string StartLabel {
+        public static string StartLabel {
             get {
                 return ResourceManager.GetString("StartLabel", resourceCulture);
             }
@@ -450,7 +486,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
         /// </summary>
-        internal static string TextHeader {
+        public static string TextHeader {
             get {
                 return ResourceManager.GetString("TextHeader", resourceCulture);
             }
@@ -459,7 +495,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Top Ten ähnelt.
         /// </summary>
-        internal static string TopTenLabel {
+        public static string TopTenLabel {
             get {
                 return ResourceManager.GetString("TopTenLabel", resourceCulture);
             }
@@ -468,7 +504,7 @@ namespace TranspositionAnalyser.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Value ähnelt.
         /// </summary>
-        internal static string ValueHeader {
+        public static string ValueHeader {
             get {
                 return ResourceManager.GetString("ValueHeader", resourceCulture);
             }

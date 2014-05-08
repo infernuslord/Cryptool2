@@ -255,4 +255,16 @@
   <data name="Analysis_methodList4" xml:space="preserve">
     <value>Hill Climbing</value>
   </data>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Kopiere alles</value>
+  </data>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Kopiere Schlüssel</value>
+  </data>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Kopiere Text</value>
+  </data>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Kopiere Wert</value>
+  </data>
 </root>

@@ -294,6 +294,7 @@ namespace TranspositionAnalyser
 
                     entry.Ranking = (i + 1).ToString();
                     entry.Value = String.Format("{0:0.00000}", v.score);
+                    entry.KeyArray = v.key;
                     entry.Key = "[" + String.Join(",", v.key) + "]";
                     entry.Text = Encoding.GetEncoding(1252).GetString(v.plaintext);
 
@@ -1162,6 +1163,7 @@ namespace TranspositionAnalyser
         public string Ranking { get; set; }
         public string Value { get; set; }
         public string Key { get; set; }
+        public byte[] KeyArray { get; set; }
         public string Text { get; set; }
     }
 }
