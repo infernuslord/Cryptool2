@@ -169,7 +169,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Copy all ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy all lines ähnelt.
         /// </summary>
         public static string Copy_all {
             get {
@@ -183,6 +183,15 @@ namespace TranspositionAnalyser.Properties {
         public static string Copy_key {
             get {
                 return ResourceManager.GetString("Copy_key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy selected line ähnelt.
+        /// </summary>
+        public static string Copy_line {
+            get {
+                return ResourceManager.GetString("Copy_line", resourceCulture);
             }
         }
         

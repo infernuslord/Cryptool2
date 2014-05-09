@@ -24,10 +24,32 @@ namespace TranspositionAnalyser
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
         public event EventHandler doppelClick;
 
+        const string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   // used for converting the numeric key to a keyword
+
         public TranspositionAnalyserQuickWatchPresentation()
         {
             InitializeComponent();
             this.DataContext = entries;
+        }
+
+        // Convert the numeric key to a keyword based upon the alphabet string
+        string getKeyword(byte[] key)
+        {
+            string keyword = "";
+            foreach (var i in key) keyword += alphabet[i];
+            return keyword;
+        }
+        
+        string entryToText(ResultEntry entry)
+        {
+            string key = (entry.KeyArray.Length <= alphabet.Length)
+                ? "Key (numeric): " + String.Join(" ", entry.KeyArray) + "\n" + "Key (alphabetic): " + getKeyword(entry.KeyArray)
+                : "Key: " + String.Join(" ", entry.KeyArray);
+
+            return "Rank: " + entry.Ranking + "\n" +
+                   "Value: " + entry.Value + "\n" +
+                   key + "\n" +
+                   "Text: " + entry.Text;
         }
 
         public void ContextMenuHandler(Object sender, EventArgs eventArgs)
@@ -48,23 +70,15 @@ namespace TranspositionAnalyser
             {
                 Clipboard.SetText(entry.Key);
             }
+            else if ((string)(menu.Tag) == "copy_line")
+            {
+                Clipboard.SetText(entryToText(entry));
+            }
             else if ((string)(menu.Tag) == "copy_all")
             {
-                string abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                string key = "";
-                if (entry.KeyArray.Length <= abc.Length)
-                {
-                    foreach(var i in entry.KeyArray)
-                        key += abc[i];
-                    key = "Key (numeric): " + String.Join(" ", entry.KeyArray) + "\n" + "Key (alphabetic): " + key;
-                } else {
-                   key = "Key: " + String.Join(" ", entry.KeyArray);
-                }
-                Clipboard.SetText(
-                   "Rank: " + entry.Ranking + "\n" +
-                   "Value: " + entry.Value + "\n" +
-                   key + "\n" +
-                   "Text: " + entry.Text);
+                List<string> lines = new List<string>();
+                foreach (var e in entries) lines.Add(entryToText(e));
+                Clipboard.SetText(String.Join("\n\n",lines));
             }
         }
 

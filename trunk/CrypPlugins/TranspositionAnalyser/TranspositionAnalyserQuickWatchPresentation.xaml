@@ -58,6 +58,7 @@
                                 <MenuItem Header="{x:Static properties:Resources.Copy_value}" Tag="copy_value" CommandParameter="{Binding}" Click="ContextMenuHandler" />
                                 <MenuItem Header="{x:Static properties:Resources.Copy_key}" Tag="copy_key" CommandParameter="{Binding}" Click="ContextMenuHandler" />
                                 <MenuItem Header="{x:Static properties:Resources.Copy_text}" Tag="copy_text" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                                <MenuItem Header="{x:Static properties:Resources.Copy_line}" Tag="copy_line" CommandParameter="{Binding}" Click="ContextMenuHandler" />
                                 <MenuItem Header="{x:Static properties:Resources.Copy_all}" Tag="copy_all" CommandParameter="{Binding}" Click="ContextMenuHandler" />
                             </ContextMenu>
                         </ListView.Resources>
