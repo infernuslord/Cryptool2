@@ -229,7 +229,7 @@
     <value>Plaintext alphabet</value>
   </data>
   <data name="PropPlaintextalphabetoutputTooltip" xml:space="preserve">
-    <value>Plaintext alphabet</value>
+    <value>Plaintext alphabet with letters in the order to decrypt the ciphertext</value>
   </data>
   <data name="PropPlaintextalphabetTooltip" xml:space="preserve">
     <value>Assumed alphabet of the plaintext</value>
@@ -338,5 +338,20 @@
   </data>
   <data name="GenAttackDisplay" xml:space="preserve">
     <value>G</value>
+  </data>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Copy all lines</value>
+  </data>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Copy key</value>
+  </data>
+  <data name="Copy_line" xml:space="preserve">
+    <value>Copy selected line</value>
+  </data>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Copy value</value>
   </data>
 </root>

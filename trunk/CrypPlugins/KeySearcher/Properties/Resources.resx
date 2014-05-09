@@ -774,4 +774,19 @@
   <data name="seconds" xml:space="preserve">
     <value>seconds</value>
   </data>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Copy all lines</value>
+  </data>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Copy key</value>
+  </data>
+  <data name="Copy_line" xml:space="preserve">
+    <value>Copy selected line</value>
+  </data>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Copy value</value>
+  </data>
 </root>

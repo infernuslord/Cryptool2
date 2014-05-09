@@ -342,4 +342,19 @@
   <data name="GenAttackDisplay" xml:space="preserve">
     <value>G</value>
   </data>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Kopiere alle Zeilen</value>
+  </data>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Kopiere Schlüssel</value>
+  </data>
+  <data name="Copy_line" xml:space="preserve">
+    <value>Kopiere ganze Zeile</value>
+  </data>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Kopiere Text</value>
+  </data>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Kopiere Wert</value>
+  </data>
 </root>

@@ -1296,8 +1296,6 @@ namespace KeySearcher
 
         internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, long keysPerSecond)
         {
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-
             LinkedListNode<ValueKey> linkedListNode;
             ProgressChanged((double)keycounter / (double)size, 1.0);
 
@@ -1371,7 +1369,7 @@ namespace KeySearcher
                         entry.Ranking = "" + i;
                         entry.Value = "" + Math.Round(linkedListNode.Value.value, 3);
                         entry.Key = linkedListNode.Value.key;
-                        entry.Text = enc.GetString(linkedListNode.Value.decryption);
+                        entry.Text = Encoding.GetEncoding(1252).GetString(linkedListNode.Value.decryption);
 
                         localQuickWatchPresentation.entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
@@ -1396,7 +1394,7 @@ namespace KeySearcher
                         entry.Ranking = "" + i;
                         entry.Value = "" + Math.Round(linkedListNode.Value.value, 3);
                         entry.Key = linkedListNode.Value.key;
-                        entry.Text = enc.GetString(linkedListNode.Value.decryption);
+                        entry.Text = Encoding.GetEncoding(1252).GetString(linkedListNode.Value.decryption);
 
                         localQuickWatchPresentation.entries.Add(entry);
                         linkedListNode = linkedListNode.Next;
