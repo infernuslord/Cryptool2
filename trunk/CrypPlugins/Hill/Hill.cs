@@ -108,16 +108,17 @@ namespace Cryptool.Plugins.Hill
                 return false;
             }
 
-            if (Input.Length % dim !=0)
-            {
-                GuiLogMessage(String.Format("The length of the input must be a multiple of the matrix dimension ({0})!", dim), NotificationLevel.Error);
-                return false;
-            }
-
             if (settings.Modulus < 2)
             {
                 GuiLogMessage(String.Format("The input alphabet must contain at least 2 different characters!"), NotificationLevel.Error);
                 return false;
+            }
+
+            if (Input.Length % dim !=0)
+            {
+                GuiLogMessage(String.Format("The input was padded so that its length is a multiple of the matrix dimension ({0})!", dim), NotificationLevel.Warning);
+                char paddingChar = settings.Alphabet.Contains("X") ? 'X' : (settings.Alphabet.Contains("x") ? 'x' : settings.Alphabet[settings.Modulus-1]);
+                Input += new String(paddingChar, dim - (Input.Length % dim));
             }
 
             for (int j = 0; j < Input.Length; j++)
