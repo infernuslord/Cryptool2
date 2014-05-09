@@ -1,6 +1,12 @@
 ﻿<UserControl x:Class="Cryptool.Plugins.AnalysisMonoalphabeticSubstitution.AssignmentPresentation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="263">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    mc:Ignorable="d" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:AnalysisMonoalphabeticSubstitution.Properties"
+    d:DesignHeight="263">
+    
     <UserControl.Resources>
         <RotateTransform x:Key="HeaderRotate" Angle="270" />
         <Style x:Key="ValueRow1">
@@ -49,9 +55,21 @@
                         <Label Name="topTenLabel" Content="{Loc TopTenLabel}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="50" />
                     </Border>
                     <ListView Name="ListView" Background="#AFE2FFCE" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10" Grid.Column="1" Height="250">
+
+                        <ListView.Resources>
+                            <ContextMenu x:Key="ItemContextMenu">
+                                <MenuItem Header="{x:Static properties:Resources.Copy_value}" Tag="copy_value" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                                <MenuItem Header="{x:Static properties:Resources.Copy_key}" Tag="copy_key" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                                <MenuItem Header="{x:Static properties:Resources.Copy_text}" Tag="copy_text" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                                <MenuItem Header="{x:Static properties:Resources.Copy_line}" Tag="copy_line" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                                <MenuItem Header="{x:Static properties:Resources.Copy_all}" Tag="copy_all" CommandParameter="{Binding}" Click="ContextMenuHandler" />
+                            </ContextMenu>
+                        </ListView.Resources>
+
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <EventSetter Event= "MouseDoubleClick" Handler="HandleDoubleClick" />
+                                <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}"/>
                             </Style>
                         </ListView.ItemContainerStyle>
 
