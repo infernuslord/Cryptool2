@@ -87,7 +87,6 @@
     <Compile Include="DictionaryAttacker.cs" />
     <Compile Include="KeyCandidate.cs" />
     <Compile Include="Mapping.cs" />
-    <Compile Include="Properties\Resources.de.Designer.cs" />
     <Compile Include="Properties\Resources.de1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
