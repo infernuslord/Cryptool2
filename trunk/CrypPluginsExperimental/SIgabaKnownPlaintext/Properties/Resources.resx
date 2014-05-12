@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Choose the mode of opertation</value>
+    <value>Choose the mode of operation</value>
   </data>
   <data name="AnalysisUseRotorICaption" xml:space="preserve">
     <value>Use code wheel 01</value>
@@ -566,5 +566,47 @@
   </data>
   <data name="TopTenLabel" xml:space="preserve">
     <value>Top Ten</value>
+  </data>
+  <data name="CipherRotor3FromCaption" xml:space="preserve">
+    <value>Cipher rotor 3: From</value>
+  </data>
+  <data name="CipherRotor4FromCaption" xml:space="preserve">
+    <value>Cipher rotor 4: From</value>
+  </data>
+  <data name="CipherRotor5FromCaption" xml:space="preserve">
+    <value>Cipher rotor 5: From</value>
+  </data>
+  <data name="ControlRotor1FromCaption" xml:space="preserve">
+    <value>Control rotor 1: From</value>
+  </data>
+  <data name="ControlRotor2FromCaption" xml:space="preserve">
+    <value>Control rotor 2: From</value>
+  </data>
+  <data name="ControlRotor3FromCaption" xml:space="preserve">
+    <value>Control rotor 3: From</value>
+  </data>
+  <data name="ControlRotor4FromCaption" xml:space="preserve">
+    <value>Control rotor 4: From</value>
+  </data>
+  <data name="ControlRotor5FromCaption" xml:space="preserve">
+    <value>Control rotor 5: From</value>
+  </data>
+  <data name="IndexRotor1FromCaption" xml:space="preserve">
+    <value>Index rotor 1: From</value>
+  </data>
+  <data name="IndexRotor2FromCaption" xml:space="preserve">
+    <value>Index rotor 2: From</value>
+  </data>
+  <data name="IndexRotor3FromCaption" xml:space="preserve">
+    <value>Index rotor 3: From</value>
+  </data>
+  <data name="IndexRotor4FromCaption" xml:space="preserve">
+    <value>Index rotor 4: From</value>
+  </data>
+  <data name="IndexRotor5FromCaption" xml:space="preserve">
+    <value>Index rotor 5: From</value>
+  </data>
+  <data name="PositionOptionsGroup" xml:space="preserve">
+    <value>Wheel positions</value>
   </data>
 </root>
