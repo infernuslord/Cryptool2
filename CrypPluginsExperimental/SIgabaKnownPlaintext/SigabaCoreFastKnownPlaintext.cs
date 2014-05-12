@@ -398,7 +398,7 @@ namespace SigabaKnownPlaintext
 
                     counter++;
 
-                    facade.ProgressChanged(counter, 60);
+                    facade.ActualProgressChanged(counter, 60);
 
                     ControlRotors[0] = CodeWheels2[arr[0]];
                     ControlRotors[1] = CodeWheels2[arr[1]];
@@ -455,7 +455,7 @@ namespace SigabaKnownPlaintext
                                     int[][] posarr = new int[crib.Length][];
                                     
                                     List<SurvCan> survcanlist = new List<SurvCan>();
-
+                                    
                                     recursiveMethod(cipher, crib, foo2, types, positions, posarr, 0, ControlRotors, pseudo, co1, co2, co3, treetlst, pathlst, new int[]{0,1,2}, temp, co1, co2, co3, survcanlist);
 
                                     foreach (SurvCan survCan in survcanlist)

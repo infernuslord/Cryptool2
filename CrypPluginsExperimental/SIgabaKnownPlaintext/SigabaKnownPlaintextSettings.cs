@@ -14,7 +14,9 @@
    limitations under the License.
 */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -497,6 +499,7 @@ namespace SigabaKnownPlaintext
                 cipherRotor2From = value;
                 
                 this.cipherRotorFrom[1] = (int)value;
+                
                 OnPropertyChanged("CipherRotor2From");
                 
 
@@ -519,13 +522,13 @@ namespace SigabaKnownPlaintext
             {
 
                 cipherRotor2To = value;
-                this.cipherRotorTo[0] = (int)value;
+                this.cipherRotorTo[1] = (int)value;
                 OnPropertyChanged("CipherRotor2To");
                 
                 if (value < cipherRotor2From)
                 {
                     CipherRotor2From = value;
-                    this.cipherRotorFrom[0] = (int)value;
+                    this.cipherRotorFrom[1] = (int)value;
                 }
 
             }
@@ -1465,6 +1468,330 @@ namespace SigabaKnownPlaintext
         #endregion
 
         #endregion
+
+        public int setKeyspace(String s)
+        {
+
+            int sumkeyspace2 = 1;
+
+            int summax = (CipherRotor1To + 1 - CipherRotor1From) *
+                         (CipherRotor2To + 1 - CipherRotor2From) *
+                         (CipherRotor3To + 1 - CipherRotor3From) *
+                         (CipherRotor4To + 1 - CipherRotor4From) *
+                         (CipherRotor5To + 1 - CipherRotor5From);
+
+            if (summax == 0)
+                summax = 1;
+
+
+            int[][] controlarr = rotorSettings();
+
+            int[] arr2 = setStartingArr(controlarr);
+
+            var foo = new int[10] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            IEnumerable<IEnumerable<int>> combis = foo.Combinations(5);
+
+            for (int enumi = 0; enumi < 252; enumi++)
+            {
+                int[] arr = combis.ElementAt(enumi).ToArray();
+                if(checkWithSetting(arr))
+                while (NextPermutation(arr, controlarr))
+                    {
+                        sumkeyspace2++;
+                    }
+            }
+            
+            summax *= sumkeyspace2;
+
+            summax *= getWhiteList().Length;
+
+            int[] whitelist = getWhiteList();
+
+            return summax;
+        }
+
+        private bool checkWithSetting(int[] arr)
+        {
+            bool retb = true;
+
+
+            if (!cipher1AnalysisUseRotor[arr[0] - 1])
+            {
+                retb = false;
+            }
+            if (!cipher2AnalysisUseRotor[arr[1] - 1])
+            {
+                retb = false;
+            }
+            if (!cipher3AnalysisUseRotor[arr[2] - 1])
+            {
+                retb = false;
+            }
+            if (!cipher4AnalysisUseRotor[arr[3] - 1])
+            {
+                retb = false;
+            }
+            if (!cipher5AnalysisUseRotor[arr[4] - 1])
+            {
+                retb = false;
+            }
+            return retb;
+        }
+
+        public int[] getWhiteList()
+        {
+            int[] getSettings = new[]
+                            {
+                                CipherRotor1Rev, CipherRotor2Rev, CipherRotor3Rev,
+                                CipherRotor4Rev, CipherRotor5Rev
+                            };
+
+            List<int> value = new List<int>();
+
+            for (int r = 0; r < 32; r++)
+            {
+            start:
+
+                if (r == 32)
+                    break;
+                string bin = GetIntBinaryString(r);
+                //reversekey = bin.Replace('1', 'R').Replace('0', ' ');
+
+                bool b = true;
+                for (int i = 0; i < bin.Length; i++)
+                {
+                    if (getSettings[i] == 1 && bin[i] == '1')
+                    {
+                        r++;
+                        goto start;
+                    }
+                    if (getSettings[i] == 2 && bin[i] == '0')
+                    {
+                        r++;
+                        goto start;
+                    }
+
+
+                }
+                value.Add(r);
+            }
+
+            int[] ret = new int[value.Count];
+
+            for (int i = 0; i < value.Count; i++)
+            {
+                ret[i] = value[i];
+            }
+
+            return ret;
+        }
+
+        private static string GetIntBinaryString(int n)
+        {
+            var b = new char[5];
+            int pos = 4;
+            int i = 0;
+
+            while (i < 5)
+            {
+                if ((n & (1 << i)) != 0)
+                {
+                    b[pos] = '1';
+                }
+                else
+                {
+                    b[pos] = '0';
+                }
+                pos--;
+                i++;
+            }
+            return new string(b);
+        }
+
+        public bool NextPermutation(int[] numList, int[][] controlarr)
+        {
+            /*
+             * 
+             * http://stackoverflow.com/questions/11208446/generating-permutations-of-a-set-most-efficiently
+             Knuths
+             1. Find the largest index j such that a[j] < a[j + 1]. If no such index exists, the permutation is the last permutation.
+             2. Find the largest index l such that a[j] < a[l]. Since j + 1 is such an index, l is well defined and satisfies j < l.
+             3. Swap a[j] with a[l].
+             4. Reverse the sequence from a[j + 1] up to and including the final element a[n].
+
+             */
+
+            Boolean b = true;
+            while (b)
+            {
+
+                var largestIndex = -1;
+                for (var i = numList.Length - 2; i >= 0; i--)
+                {
+                    if (numList[i] < numList[i + 1])
+                    {
+                        largestIndex = i;
+                        break;
+                    }
+                }
+
+                if (largestIndex < 0) return false;
+
+                var largestIndex2 = -1;
+                for (var i = numList.Length - 1; i >= 0; i--)
+                {
+                    if (numList[largestIndex] < numList[i])
+                    {
+                        largestIndex2 = i;
+                        break;
+                    }
+                }
+
+                var tmp = numList[largestIndex];
+                numList[largestIndex] = numList[largestIndex2];
+                numList[largestIndex2] = tmp;
+
+                for (int i = largestIndex + 1, j = numList.Length - 1; i < j; i++, j--)
+                {
+                    tmp = numList[i];
+                    numList[i] = numList[j];
+                    numList[j] = tmp;
+                }
+
+                for (int i = 0; i < numList.Length; i++)
+                {
+                    if (!controlarr[i].Contains(numList[i]))
+                    {
+                        break;
+                    }
+                    if (i == numList.Length - 1)
+                    {
+                        b = false;
+                    }
+
+                }
+            }
+            return true;
+        }
+
+        public int[] setStartingArr(int[][] indexarr)
+        {
+
+            int[] arr2 = new int[indexarr.GetLength(0)];
+            for (int i = 0; i < indexarr.GetLength(0); i++)
+            {
+                arr2[i] = i + 1;
+            }
+
+            for (int i = 0; i < arr2.Length; i++)
+            {
+                for (int ix = 0; ix < indexarr[i].Length; ix++)
+                {
+                    if (indexarr[i][ix] != -1)
+                    {
+                        Boolean notbefore = false;
+                        for (int j = 0; j < i; j++)
+                        {
+
+                            if (arr2[j] == indexarr[i][ix])
+                            {
+                                break;
+                            }
+                            if (j == i - 1)
+                            {
+                                notbefore = true;
+                            }
+
+                        }
+                        if (notbefore)
+                        {
+                            arr2[i] = indexarr[i][ix];
+                            break;
+                        }
+                    }
+                }
+            }
+            return arr2;
+        }
+
+        public int[][] rotorSettings()
+        {
+            int[][] value = new int[][]
+                                {
+                                    new int[]
+                                        {
+                                            
+                                            Cipher1AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher1AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher1AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher1AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher1AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher1AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher1AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher1AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher1AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher1AnalysisUseRotor0 ? 10 : -1,
+                                        },
+                                    new int[]
+                                        {
+                                            Cipher2AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher2AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher2AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher2AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher2AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher2AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher2AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher2AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher2AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher2AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher3AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher3AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher3AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher3AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher3AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher3AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher3AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher3AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher3AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher3AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher4AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher4AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher4AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher4AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher4AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher4AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher4AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher4AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher4AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher4AnalysisUseRotor0 ? 10: -1
+                                        },
+                                    new int[]
+                                        {
+                                            
+                                            Cipher5AnalysisUseRotor1 ? 1 : -1,
+                                            Cipher5AnalysisUseRotor2 ? 2 : -1,
+                                            Cipher5AnalysisUseRotor3 ? 3 : -1,
+                                            Cipher5AnalysisUseRotor4 ? 4 : -1,
+                                            Cipher5AnalysisUseRotor5 ? 5 : -1,
+                                            Cipher5AnalysisUseRotor6 ? 6 : -1,
+                                            Cipher5AnalysisUseRotor7 ? 7 : -1,
+                                            Cipher5AnalysisUseRotor8 ? 8 : -1,
+                                            Cipher5AnalysisUseRotor9 ? 9 : -1,
+                                            Cipher5AnalysisUseRotor0 ? 10: -1
+                                        }
+                                };
+
+
+            return value;
+        }
 
         #region Events
 

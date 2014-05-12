@@ -145,6 +145,9 @@ namespace SigabaKnownPlaintext
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
+
+            
+
             bestlist = new List<ValueKey>();
             double best = Double.MinValue;
             bestlist.Add(new ValueKey() {value = Double.MinValue});
@@ -252,11 +255,16 @@ namespace SigabaKnownPlaintext
 
         private List<ValueKey> bestlist;
 
+        private int tickbig = 0;
+        private double keypSpaceCipher;
+
         private void survivorProducer()
         {
             int total = 967200*26 ^ 5;
-            int tickbig = 0;
+            tickbig = 0;
             int ticksmall = 0;
+
+             keypSpaceCipher = settings.setKeyspace("");
 
             List<string> RotorRevList = new List<string>();
 
@@ -344,10 +352,12 @@ namespace SigabaKnownPlaintext
                         if(checkWithSetting(s))
                         do
                         {
-                            //if(checkWithSetting( loopvars))
+                            if(checkWithSetting( loopvars))
                             {
-                                tickbig++;
-                                ProgressChanged(tickbig, total);
+                                
+                                //ProgressChanged(tickbig, keypSpaceCipher);
+
+                               
 
                                 var retlst = new List<int[][]>();
 
@@ -488,6 +498,8 @@ namespace SigabaKnownPlaintext
                                     //ProgressChanged(ticksmall, retlst.Count);
 
                                     ticksmall++;
+                                    tickbig++;
+
                                     if (!treetlst.Contains(null))
                                         if (_core.stepOneCompact(enc.GetBytes(Cipher), enc.GetBytes(Crib), arr, loopvars,
                                                                  treetlst, pathLst))
@@ -728,6 +740,13 @@ namespace SigabaKnownPlaintext
         private void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        public void ActualProgressChanged(double value, double max)
+        {
+            double actual = value/max;
+            showProgress(startime,(int)((tickbig - 1) + actual*10), (int)keypSpaceCipher*10);
+            ProgressChanged((tickbig-1)+actual*10,keypSpaceCipher*10);
         }
 
         public void ProgressChanged(double value, double max)
@@ -1302,11 +1321,11 @@ namespace SigabaKnownPlaintext
         {
             DateTime lastUpdate;
             updateToplist(list1);
-            showProgress(starttime, size, sum);
-
+            showProgress(starttime, (int)keypSpaceCipher,tickbig);
+            //ProgressChanged(tickbig, (int)keypSpaceCipher);
             double d = (((double)sum / (double)size) * 100);
 
-            ProgressChanged(d, 100);
+            //ProgressChanged(d, 100);
             lastUpdate = DateTime.Now;
             return lastUpdate;
         }
@@ -1336,7 +1355,7 @@ namespace SigabaKnownPlaintext
                 if (allseconds == 0)
                     allseconds = 1;
 
-                double keysPerSec = Math.Round((double) sum/allseconds, 2);
+                double keysPerSec = (double) sum/allseconds;
 
                 int keystodo = (size - sum);
 
