@@ -74,6 +74,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Alphabet constants
         private const String English = "abcdefghijklmnopqrstuvwxyz";
+        private const String German = "abcdefghijklmnopqrstuvwxyz";
 
         // Attackers
         private DictionaryAttacker dicAttacker;
@@ -181,6 +182,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
                 }
             }
+            else if (settings.Alphabet == 1)
+            {
+                try
+                {
+                    this.langDic = new Dictionary("de-small.dic");
+                }
+                catch
+                {
+                    GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
+                }
+            }                   
             // Add new case for another language
             // elseif (settings.Alphabet == 1)
             // {
@@ -597,6 +609,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 alpha = AnalysisMonoalphabeticSubstitution.English;
             }
+            else if (lang == 1)
+            {
+                alpha = AnalysisMonoalphabeticSubstitution.German;
+            }
             // Add another case for a new language
             //else if ( lang == 1)
             //{
@@ -605,6 +621,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
             return alpha;
         }
+
 
         private string IdentifyNGramFile(int alpha_nr)
         {
@@ -616,6 +633,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             if (alpha_nr == 0)
             {
                 lang = "en";
+            }
+            else if (alpha_nr == 1)
+            {
+                lang = "de";
             }
             // Add another case for a new language
             //else if (alpha_nr == 1)
