@@ -458,21 +458,32 @@ namespace HexBox
 
         DataBlock GetDataBlock(long findOffset, out long blockOffset)
         {
-            if (findOffset < 0 || findOffset > _totalLength)
+            try
             {
-               throw new ArgumentOutOfRangeException("findOffset");
-            }
-
-            // Iterate over the blocks until the block containing the required offset is encountered.
-            blockOffset = 0;
-            for (DataBlock block = _dataMap.FirstBlock; block != null; block = block.NextBlock)
-            {
-                if ((blockOffset <= findOffset && blockOffset + block.Length > findOffset) || block.NextBlock == null)
+                if (findOffset < 0 || findOffset > _totalLength)
                 {
-                    return block;
+                    throw new ArgumentOutOfRangeException("findOffset");
                 }
-                blockOffset += block.Length;
+
+                // Iterate over the blocks until the block containing the required offset is encountered.
+                blockOffset = 0;
+                for (DataBlock block = _dataMap.FirstBlock; block != null; block = block.NextBlock)
+                {
+                    if ((blockOffset <= findOffset && blockOffset + block.Length > findOffset) ||
+                        block.NextBlock == null)
+                    {
+                        return block;
+                    }
+                    blockOffset += block.Length;
+                }
             }
+            catch (Exception)
+            {
+                //Something went really bad... so we do not return a block and
+                //the offset remains 0
+                blockOffset = 0;
+                return null;
+            }            
             return null;
         }
 
