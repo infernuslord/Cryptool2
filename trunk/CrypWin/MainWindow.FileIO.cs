@@ -278,18 +278,28 @@ namespace Cryptool.CrypWin
 
         private string CreateOpenProjectFilter()
         {
-            string a = string.Empty,b = string.Empty,filter = string.Empty;
-            foreach (Type type in ComponentInformations.EditorExtension.Values)
+            try
             {
-                filter += string.Format("{0} (*.{1}) | *.{1}|", type.GetPluginInfoAttribute().Caption, type.GetEditorInfoAttribute().DefaultExtension);
-                b += string.Format("*.{0};", type.GetEditorInfoAttribute().DefaultExtension);
+                string a = string.Empty, b = string.Empty, filter = string.Empty;
+                foreach (Type type in ComponentInformations.EditorExtension.Values)
+                {
+                    filter += string.Format("{0} (*.{1}) | *.{1}|", type.GetPluginInfoAttribute().Caption,
+                        type.GetEditorInfoAttribute().DefaultExtension);
+                    b += string.Format("*.{0};", type.GetEditorInfoAttribute().DefaultExtension);
+                }
+                if (b.Length > 0)
+                    b.Remove(b.Length - 1, 1);
+                a = string.Format("All ({0}) | {1}", b, b);
+                filter = filter.Substring(0, filter.Length - 1);
+                a += "|" + filter;
+                return a;
             }
-            if (b.Length > 0)
-                b.Remove(b.Length - 1, 1);
-            a = string.Format("All ({0}) | {1}", b ,b);
-            filter = filter.Substring(0, filter.Length - 1);
-            a += "|" + filter;
-            return a;
+            catch (Exception ex)
+            {
+                //creating the default extensions using the plugins failed
+                //so return only cwm since this is the default file extension
+                return "cwm (*.cwm)";
+            }
         }
 
         private string CreateSaveProjectFilter()
