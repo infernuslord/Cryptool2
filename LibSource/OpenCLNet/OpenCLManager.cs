@@ -204,7 +204,16 @@ namespace OpenCLNet
                 if (CQ != null)
                 {
                     foreach (CommandQueue cq in CQ)
-                        cq.Dispose();
+                    {
+                        //we had an error in CT2 concerning a null reference in this method
+                        //this can be the only reference which could be null
+                        //so we add the null check...
+                        //Nils Kopal, 20.05.2014
+                        if(cq != null)
+                        {
+                            cq.Dispose();
+                        }
+                    }
                     CQ = null;
                 }
 
