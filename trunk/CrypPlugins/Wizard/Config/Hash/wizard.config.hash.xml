@@ -85,7 +85,7 @@
     <task lang="en">Input your message and watch the SHA-1 output here.</task>
     <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-1-Ausgabe.</task>
 
-    <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
+    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
       <defaultvalue lang="de">Der Begriff 'secure hash algorithm' (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptographischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden (Kollisionssicherheit). Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte man daher in neuen Entwicklungen SHA-1 nicht mehr als sicheren Hash-Algorithmus vorsehen.</defaultvalue>
@@ -106,7 +106,7 @@
     <task lang="en">Input your message and watch the SHA-256 output here.</task>
     <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-256-Ausgabe.</task>
 
-    <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
+    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
       <defaultvalue lang="de">Der Begriff 'secure hash algorithm' (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptographischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden (Kollisionssicherheit). Ob SHA-256 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche des SHA-1 Algorithmus entdeckt und publik gemacht wurde. SHA-256 ist davon zwar auch betroffen, allerdings ist der Angriff bei SHA-256 durch die größere Länge des Hashes (256 Bit) noch deutlich schwächer. Grundsätzlich sollte man allerdings bei neuen Entwicklungen die gesamte SHA-Familie kritisch betrachten und wenn möglich vermeiden.</defaultvalue>
