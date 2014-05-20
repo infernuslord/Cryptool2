@@ -432,83 +432,98 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private void UpdateKeyDisplay(KeyCandidate keyCan)
         {
-            bool update = false;
-
-            // Add key if key does not already exists
-            if (!this.keyCandidates.Contains(keyCan))
+            try
             {
-                this.keyCandidates.Add(keyCan);
-                this.keyCandidates.Sort(new KeyCandidateComparer());
+                bool update = false;
 
-                if (this.keyCandidates.Count > 20)
+                // Add key if key does not already exists
+                if (!this.keyCandidates.Contains(keyCan))
                 {
-                    this.keyCandidates.RemoveAt(this.keyCandidates.Count - 1);
+                    this.keyCandidates.Add(keyCan);
+                    this.keyCandidates.Sort(new KeyCandidateComparer());
+
+                    if (this.keyCandidates.Count > 20)
+                    {
+                        this.keyCandidates.RemoveAt(this.keyCandidates.Count - 1);
+                    }
+                    update = true;
                 }
-                update = true;
+                else
+                {
+                    int index = this.keyCandidates.IndexOf(keyCan);
+                    KeyCandidate keyCanAlreadyInList = this.keyCandidates[index];
+                    if (keyCan.DicAttack == true)
+                    {
+                        if (keyCanAlreadyInList.DicAttack == false)
+                        {
+                            keyCanAlreadyInList.DicAttack = true;
+                            update = true;
+                        }
+                    }
+                    if (keyCan.GenAttack == true)
+                    {
+                        if (keyCanAlreadyInList.GenAttack == false)
+                        {
+                            keyCanAlreadyInList.GenAttack = true;
+                            update = true;
+                        }
+                    }
+                }
+
+                // Display output
+                if (update)
+                {
+                    this.plaintext = this.keyCandidates[0].Plaintext;
+                    OnPropertyChanged("Plaintext");
+
+                    this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key, this.ctAlphabet);
+                    OnPropertyChanged("Plaintext_Alphabet_Output");
+
+                    ((AssignmentPresentation) Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                        (SendOrPostCallback) delegate
+                        {
+                            try
+                            {
+                                ((AssignmentPresentation) Presentation).entries.Clear();
+
+                                for (int i = 0; i < this.keyCandidates.Count; i++)
+                                {
+                                    KeyCandidate keyCandidate = this.keyCandidates[i];
+
+                                    ResultEntry entry = new ResultEntry();
+                                    entry.Ranking = i.ToString();
+                                    entry.Text = keyCandidate.Plaintext;
+                                    entry.Key = keyCandidate.Key_string;
+
+                                    if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == false)
+                                    {
+                                        entry.Attack = Resources.GenAttackDisplay;
+                                    }
+                                    else if (keyCandidate.DicAttack == true && keyCandidate.GenAttack == false)
+                                    {
+                                        entry.Attack = Resources.DicAttackDisplay;
+                                    }
+                                    else if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == true)
+                                    {
+                                        entry.Attack = Resources.GenAttackDisplay + ", " + Resources.DicAttackDisplay;
+                                    }
+
+                                    double f = Math.Log10(Math.Abs(keyCandidate.Fitness));
+                                    entry.Value = string.Format("{0:0.00000} ", f);
+                                    ((AssignmentPresentation) Presentation).entries.Add(entry);
+
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                GuiLogMessage("Exception during UpdateKeyDisplay Presentation.Dispatcher: " + ex.Message, NotificationLevel.Error);
+                            }
+                        }, null);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                int index = this.keyCandidates.IndexOf(keyCan);
-                KeyCandidate keyCanAlreadyInList = this.keyCandidates[index];
-                if (keyCan.DicAttack == true)
-                {
-                    if (keyCanAlreadyInList.DicAttack == false)
-                    {
-                        keyCanAlreadyInList.DicAttack = true;
-                        update = true;
-                    }
-                }
-                if (keyCan.GenAttack == true)
-                {
-                    if (keyCanAlreadyInList.GenAttack == false)
-                    {
-                        keyCanAlreadyInList.GenAttack = true;
-                        update = true;
-                    }
-                }
-            }
-
-            // Display output
-            if (update)
-            {
-                this.plaintext = this.keyCandidates[0].Plaintext;
-                OnPropertyChanged("Plaintext");
-
-                this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key, this.ctAlphabet);
-                OnPropertyChanged("Plaintext_Alphabet_Output");
-
-                ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    ((AssignmentPresentation)Presentation).entries.Clear();
-
-                    for (int i = 0; i < this.keyCandidates.Count; i++)
-                    {
-                        KeyCandidate keyCandidate = this.keyCandidates[i];
-
-                        ResultEntry entry = new ResultEntry();
-                        entry.Ranking = i.ToString();
-                        entry.Text = keyCandidate.Plaintext;
-                        entry.Key = keyCandidate.Key_string;
-
-                        if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == false)
-                        {
-                            entry.Attack = Resources.GenAttackDisplay;
-                        }
-                        else if (keyCandidate.DicAttack == true && keyCandidate.GenAttack == false)
-                        {
-                            entry.Attack = Resources.DicAttackDisplay;
-                        }
-                        else if (keyCandidate.GenAttack == true && keyCandidate.DicAttack == true)
-                        {
-                            entry.Attack = Resources.GenAttackDisplay + ", " + Resources.DicAttackDisplay;
-                        }
-
-                        double f = Math.Log10(Math.Abs(keyCandidate.Fitness));
-                        entry.Value = string.Format("{0:0.00000} ", f);
-                        ((AssignmentPresentation)Presentation).entries.Add(entry);
-
-                    }
-                }, null);
+                GuiLogMessage("Exception during UpdateKeyDisplay: " +ex.Message,NotificationLevel.Error);
             }
         }  
         
