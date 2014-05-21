@@ -46,6 +46,8 @@ namespace Cryptool.Core
             stream.Write(postEncoded, 0, postEncoded.Length);
             stream.Close();
 
+            client.Dispose();
+
             lastMailTime = DateTime.Now;
         }
 
