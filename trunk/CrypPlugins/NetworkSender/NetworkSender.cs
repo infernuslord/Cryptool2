@@ -1,60 +1,53 @@
-﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+﻿// Copyright 2014 Christopher Konze, University of Kassel
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//      http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+#region
 
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
 using System;
 using System.ComponentModel;
-using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Timers;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using System.Net.Sockets;
-using System.Net;
 using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
+using NetworkSender;
 using Timer = System.Timers.Timer;
 
+#endregion
 
 namespace Cryptool.Plugins.NetworkSender
 {
-
     [Author("Mirko Sartorius", "mirkosartorius@web.de", "University of Kassel", "")]
-    [PluginInfo("NetworkSender.Properties.Resources", "PluginCaption", "PluginToolTip", "NetworkSender/userdoc.xml", new[] { "NetworkSender/Images/package.png" })]
+    [PluginInfo("NetworkSender.Properties.Resources", "PluginCaption", "PluginToolTip", "NetworkSender/userdoc.xml",
+        new[] {"NetworkSender/Images/package.png"})]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkInput : ICrypComponent
     {
+        #region Member
 
-        #region Private Variables
-        private const int UpdateSendingrate = 1;
-        private Timer calculateSpeedrate = null;
-        private readonly NetworkSenderSettings settings;
+        private const int UpdateSendingRate = 1; 
+        private readonly NetworkConnectionStore availableConnections = NetworkConnectionStore.Instance;
         private readonly NetworkSenderPresentation presentation;
-        private string addr;
-        private IPEndPoint endPoint;
-        private bool valid = false;
-        private IPAddress ip;
-        private bool isRunning;
-        private CStreamReader streamReader;
-        private Socket clientSocket;
-        private int packageCount;
-        private DateTime startTime;
-        private static ManualResetEvent connectDone;
-        private bool shutdown;
-
-        private int SendDataSize;
+        private readonly NetworkSenderSettings settings;
+        private int sendDataSize;
+        private Timer calculateSpeedrate; 
+        private int packageCount; 
+        private DateTime startTime; 
 
         #endregion
 
@@ -62,164 +55,40 @@ namespace Cryptool.Plugins.NetworkSender
         {
             presentation = new NetworkSenderPresentation(this);
             settings = new NetworkSenderSettings();
-        }
-
-        #region Helper Function
-
-        //TCP Functions
-
-
-        public void ConnectCallback(IAsyncResult ar)
-        {
-            if (!shutdown)
-            {
-                try
-                {
-                    if (!settings.TryConnect)
-                    {
-                        clientSocket.EndConnect(ar);
-                    }
-                    else
-                    {
-                        if (clientSocket.Connected)
-                        {
-                            clientSocket.EndConnect(ar);
-                            GuiLogMessage("Client Connected!", NotificationLevel.Info);
-                            connectDone.Set();
-                        }
-                        else
-                        {
-                            clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
-                                              new AsyncCallback(ConnectCallback), null);
-                            connectDone.WaitOne(settings.ConnectIntervall);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    GuiLogMessage(e.Message, NotificationLevel.Error);
-                }  
-            }
-            
-        }
-
-        public void SendCallback(IAsyncResult ar)
-        {
-            if (!shutdown)
-            {
-                try
-                {
-                    clientSocket.EndSend(ar);
-                }
-                catch (Exception e)
-                {
-                    GuiLogMessage(e.Message, NotificationLevel.Error);
-                }
-            }
-            
-        }
-
+        }   
+        
+        #region IPlugin Data Properties
 
         /// <summary>
-        /// creates a size string corespornsing to the size of the given amount of bytes with a B or kB ending
-        /// </summary>
-        /// <returns></returns>
-        private string generateSizeString(int size)
-        {
-            if (size < 1024)
-            {
-                return size + " B";
-            }
-            else
-            {
-                return Math.Round((double)(size / 1024.0), 2) + " kB";
-            }
-        }
-
-        public void WriteToPresentation()
-        {
-            using (streamReader = PackageStream.CreateReader())
-            {
-                var streamBuffer = new byte[65507]; //maximum payload size for udp
-                int bytesRead;
-                while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
-                {
-                    var packetData = new byte[bytesRead];
-                    for (int i = 0; i < bytesRead; i++)
-                    {
-
-                        packetData[i] = streamBuffer[i];
-                    }
-                    clientSocket.BeginSend(packetData, 0, packetData.Length, SocketFlags.None, new AsyncCallback(SendCallback), null);
-                    presentation.RefreshMetaData(++packageCount);
-                    SendDataSize += packetData.Length;
-                    //updates the presentation
-                    presentation.AddPresentationPackage(new PresentationPackage
-                    {
-
-                        IPFrom = clientSocket.LocalEndPoint.ToString(),
-                        Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData) : BitConverter.ToString(packetData)),
-                        PackageSize = generateSizeString(packetData.Length) + "yte"
-                    });
-
-                }
-            }
-        }
-
-        //check ip adress to be valid
-        public bool IsValidIP(string addr)
-        {
-            this.addr = addr;
-            //boolean variable to hold the status
-            //check to make sure an ip address was provided
-            if (string.IsNullOrEmpty(addr))
-            {
-                //address wasnt provided so return false
-                valid = false;
-            }
-            else
-            {
-                //use TryParse to see if this is a
-                //valid ip address. TryParse returns a
-                //boolean based on the validity of the
-                //provided address, so assign that value
-                //to our boolean variable
-                valid = IPAddress.TryParse(addr, out ip);
-            }
-            //return the value
-            return valid;
-        }
-
-        #endregion
-
-        #region Data Properties
-
-        /// <summary>
-        /// Data to be send inside of a package over a network
+        ///   Data to be send inside of a package over a network
         /// </summary>
         [PropertyInfo(Direction.InputData, "StreamInput", "StreamInputTooltip")]
-        public ICryptoolStream PackageStream
-        {
-            get;
-            set;
-        }
+        public ICryptoolStream PackageStream { get; set; }
 
         /// <summary>
-        /// DestinationIp 
+        ///   Socket ID
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "ConnectionIDInput", "ConnectionIDInputTooltip")]
+        public int ConnectionIDInput { get; set; }
+
+        /// <summary>
+        ///   Socket ID
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "ConnectionIDOutput", "ConnectionIDOutputTooltip")]
+        public int ConnectionIDOutput { get; set; }
+
+        /// <summary>
+        ///   DestinationIp
         /// </summary>
         [PropertyInfo(Direction.InputData, "IpInput", "IpInputTooltip")]
-        public string DestinationIp_i
-        {
-            get;
-            set;
-        }
+        public string DestinationIpI { get; set; }
 
         #endregion
 
         #region IPlugin Members
 
         /// <summary>
-        /// Provide plugin-related parameters (per instance) or return null.
+        ///   Provide plugin-related parameters (per instance) or return null.
         /// </summary>
         public ISettings Settings
         {
@@ -227,57 +96,55 @@ namespace Cryptool.Plugins.NetworkSender
         }
 
         /// <summary>
-        /// Provide custom presentation to visualize the execution or return null.
+        ///   Provide custom presentation to visualize the execution or return null.
         /// </summary>
         public UserControl Presentation
         {
             get { return presentation; }
         }
 
+        #endregion
+
+        #region IPlugin init/stop/dispose
+    
         /// <summary>
-        /// Called once when workflow execution starts.
+        ///   Called once when plugin is loaded into editor workspace.
+        /// </summary>
+        public void Initialize() { }
+
+        /// <summary>
+        ///   Called once when plugin is removed from editor workspace.
+        /// </summary>
+        public void Dispose() { }
+
+        /// <summary>
+        ///   Triggered time when user clicks stop button.
+        ///   Shall abort long-running execution.
+        /// </summary>
+        public void Stop()
+        {
+            availableConnections.Stop();
+            calculateSpeedrate.Stop();
+        }
+
+        #endregion
+
+        #region IPlugin execution lifecycle
+
+        /// <summary>
+        ///   Called once when workflow execution starts.
         /// </summary>
         public void PreExecution()
         {
             ProgressChanged(0, 1);
 
-            if (settings.Protocol == 1)
-            {
-
-                //    var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
-                try
-                {
-                    clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    if (!settings.TryConnect)
-                    {
-                        clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
-                                              new AsyncCallback(ConnectCallback), null);
-                    }
-                    else
-                    {
-                        connectDone = new ManualResetEvent(false);
-                        clientSocket.BeginConnect(new IPEndPoint(IPAddress.Parse(settings.DeviceIP), settings.Port),
-                                              new AsyncCallback(ConnectCallback), null);
-                        connectDone.WaitOne(settings.ConnectIntervall);
-                    }
-                }
-                catch (Exception)
-                {
-                    GuiLogMessage("Fehler bei der Verbindung vom Sender", NotificationLevel.Error);
-                }
-                
-                shutdown = false;
-
-                //   endMark = Encoding.ASCII.GetBytes("<$EOM$>");
-
-            }
-
-            DestinationIp_i = "";
             //init
-            isRunning = true;
             startTime = DateTime.Now;
             packageCount = 0;
-            SendDataSize = 0;
+            sendDataSize = 0; 
+            DestinationIpI = "";
+            ConnectionIDInput = 0;
+            ConnectionIDOutput = 0;
 
             //resets the presentation
             presentation.ClearList();
@@ -285,156 +152,206 @@ namespace Cryptool.Plugins.NetworkSender
             presentation.SetStaticMetaData(startTime.ToLongTimeString(), settings.Port);
 
             //start speedrate calculator
-            calculateSpeedrate = new System.Timers.Timer { Interval = UpdateSendingrate * 1000 }; // seconds
-            calculateSpeedrate.Elapsed += new ElapsedEventHandler(CalculateSpeedrateTick);
+            calculateSpeedrate = new Timer {Interval = UpdateSendingRate*1000}; // seconds
+            calculateSpeedrate.Elapsed += CalculateSpeedrateTick;
             calculateSpeedrate.Start();
         }
 
         /// <summary>
-        /// Called every time this plugin is run in the workflow execution.
+        ///   Called every time this plugin is run in the workflow execution.
         /// </summary>
         public void Execute()
         {
+            ProgressChanged(1, 100);
 
-            if (settings.Protocol == 0)
+            //get or create Connection
+            if (ConnectionIDInput == 0)
             {
-                ProgressChanged(1, 100);
-
-                //if DestinationIp_i is empty we use the ip in the settings.
-                var destinationIP = ("".Equals(DestinationIp_i)) ? settings.DeviceIP : DestinationIp_i;
-
-                if (IsValidIP(destinationIP))
+                var con = TryCreateNewConnection();
+                if (con == null)
                 {
-                    // Init
-                    endPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
-                    clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                    GuiLogMessage("Could not create Connections", NotificationLevel.Error);
+                    return;
+                }
 
-                    using (streamReader = PackageStream.CreateReader())
-                    {
-                        var streamBuffer = new byte[65507]; //maximum payload size for udp
-                        int bytesRead;
-                        while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
-                        {
-                            var packetData = new byte[bytesRead];
+                ConnectionIDInput = availableConnections.AddConnection(con);
+            }
+            var connection = availableConnections.GetConnection(ConnectionIDInput); 
 
-                            for (int i = 0; i < bytesRead; i++)
-                            {
+            //chop and send data
+            using (var streamReader = PackageStream.CreateReader())
+            {
+                var streamBuffer = new byte[65507];
+                int bytesRead;
+                while ((bytesRead = streamReader.Read(streamBuffer)) > 0)
+                {
+                    var packetData = new byte[bytesRead];
+                    Array.Copy(streamBuffer, packetData, bytesRead);
 
-                                packetData[i] = streamBuffer[i];
-                            }
-
-                            presentation.RefreshMetaData(++packageCount);
-                            SendDataSize += packetData.Length;
-                            //updates the presentation
-                            var length = packetData.Length % 100;
-                            presentation.AddPresentationPackage(new PresentationPackage
-                            {
-                                IPFrom = endPoint.Address.ToString(),
-                                Payload = (settings.ByteAsciiSwitch ? Encoding.ASCII.GetString(packetData,0,length) : BitConverter.ToString(packetData,0,length)),
-                                PackageSize = generateSizeString(packetData.Length) + "yte"
-                            });
-
-                            //sends input data
-                            clientSocket.SendTo(packetData, endPoint);
-                        }
+                    if (TrySendData(connection, packetData, bytesRead))
+                    { 
+                        UpdateOutputs(connection.ID);
+                        UpdatePresentation(packetData, connection.RemoteEndPoint);
                     }
                 }
-                else
-                {
-                    GuiLogMessage("IP ungueltig!", NotificationLevel.Error);
-
-                }
-
-
-
-                // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
-                ProgressChanged(1, 1);
-
             }
-            else if (settings.Protocol == 1 && !shutdown)
-            {
-                if (settings.TryConnect)
-                {
-                    if (clientSocket.Connected)
-                    {
-                        ProgressChanged(1, 100);
-
-                        WriteToPresentation();
-                        
-                        ProgressChanged(1, 1);
-                    }
-                    else
-                    {
-                        GuiLogMessage("Client hasn't connected yet...", NotificationLevel.Warning);
-                    }
-                }
-                else if(!settings.TryConnect)
-                {
-                    ProgressChanged(1, 100);
-
-                    WriteToPresentation();
-
-                    ProgressChanged(1, 1);
-                }  
-            }
+            ProgressChanged(1, 1);
         }
 
         /// <summary>
-        /// Called once after workflow execution has stopped.
+        /// Tries the send data and returns true if succeeded
         /// </summary>
-        public void PostExecution()
+        /// <param name="connection">The connection.</param>
+        /// <param name="packetData">The packet data.</param>
+        /// <param name="bytesRead">The bytes read.</param>
+        /// <returns></returns>
+        private bool TrySendData(NetworkConnection connection, byte[] packetData, int bytesRead)
         {
-            if (clientSocket != null && settings.Protocol == 0)
+            if (connection is TCPConnection)
             {
-                clientSocket.Close();
-            }
-            if (settings.Protocol == 1)
-            {
-                shutdown = true;
-            }
-            if (settings.Protocol == 1 && clientSocket != null)
-            {
-                if (clientSocket.Connected)
+                var tcpClient = (connection as TCPConnection).TCPClient;
+                if (!tcpClient.Connected) 
                 {
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                    clientSocket.Disconnect(true);
-                    clientSocket.Close();
-                }
-                else
-                {
-                    clientSocket.Close();
+                    GuiLogMessage("Not connected", NotificationLevel.Error);
+                    return false;
                 }
 
+                tcpClient.GetStream().Write(packetData, 0, bytesRead);
+                
+            } else
+            {
+                ((UDPConnection) connection).UDPClient.Send(packetData, packetData.Length, connection.RemoteEndPoint);
             }
+            return true;
         }
 
         /// <summary>
-        /// Triggered time when user clicks stop button.
-        /// Shall abort long-running execution.
-        /// </summary>
-        public void Stop()
+        /// Creates a new connection. Returns null if no connections could been created
+        /// </summary> 
+        /// <returns></returns>
+        private NetworkConnection TryCreateNewConnection()
         {
-            calculateSpeedrate.Stop();
-            isRunning = false;
+            var destinationIP = ("".Equals(DestinationIpI)) ? settings.DeviceIP : DestinationIpI;
+            if (!ValidateIP(destinationIP))
+            {
+                GuiLogMessage("invalid IP!", NotificationLevel.Error);
+                return null;
+            }
+            //create remote endpoint
+            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
 
+            NetworkConnection newConnection;
+            if (settings.Protocol.Equals(NetworkSenderSettings.udpProtocol))
+            {
+                newConnection = new UDPConnection
+                {
+                    RemoteEndPoint = remoteEndPoint,
+                    UDPClient = new UdpClient()
+                };
+            } else
+            {
+                var client = new TcpClient();
+                Task.Factory.StartNew(() => client.Connect(remoteEndPoint));
+                newConnection = new TCPConnection
+                {
+                    RemoteEndPoint = remoteEndPoint,
+                    TCPClient = client
+                };
+                Thread.Sleep(100);
+            }
+            return newConnection;
         }
 
         /// <summary>
-        /// Called once when plugin is loaded into editor workspace.
+        ///   Called once after workflow execution has stopped.
         /// </summary>
-        public void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Called once when plugin is removed from editor workspace.
-        /// </summary>
-        public void Dispose()
-        {
-        }
+        public void PostExecution(){}
 
         #endregion
 
+        #region IPlugin Updates
+
+        /// <summary>
+        /// Updates the presentation.
+        /// </summary>
+        /// <param name="packetData">The packet data.</param>
+        /// <param name="remoteEndPoint"></param>
+        private void UpdatePresentation(byte[] packetData, IPEndPoint remoteEndPoint)
+        {
+            presentation.RefreshMetaData(++packageCount);
+            sendDataSize += packetData.Length;
+            var length = packetData.Length % 100;
+            presentation.AddPresentationPackage(new PresentationPackage
+            {
+                IPFrom = remoteEndPoint.Address.ToString(),
+                Payload = (settings.ByteAsciiSwitch
+                    ? Encoding.ASCII.GetString(packetData, 0, length)
+                    : BitConverter.ToString(packetData, 0, length)),
+                PackageSize = GenerateSizeString(packetData.Length) + "yte"
+            });
+        }
+
+        /// <summary>
+        /// Updates the outputs.
+        /// </summary>
+        /// <param name="id"></param>
+        private void UpdateOutputs(int id)
+        {
+            if (ConnectionIDOutput != id)
+            {
+                ConnectionIDOutput = id;
+                OnPropertyChanged("ConnectionIDOutput");
+            }  
+        }
+
+        #endregion
+        
+        #region Helper Function
+
+        /// <summary>
+        ///   tickmethod for the CalculateSpeedrateTick timer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CalculateSpeedrateTick(object sender, EventArgs e)
+        {
+            var speedrate = sendDataSize / UpdateSendingRate;
+            presentation.UpdateSpeedrate(GenerateSizeString(speedrate) + "/s"); // 42kb +"/s"
+            sendDataSize = 0;
+        }
+
+        /// <summary>
+        ///   creates a size string corespornsing to the size of the given amount of bytes with a B or kB ending
+        /// </summary>
+        /// <returns></returns>
+        private static string GenerateSizeString(int size)
+        {
+            if (size < 1024)
+            {
+                return size + " B";
+            }
+
+            return Math.Round(size/1024.0, 2) + " kB";
+        }
+      
+        /// <summary>
+        ///   Validates the ipaddress.
+        /// </summary>
+        /// <param name="ip">The ip.</param>
+        /// <returns></returns>
+        public static bool ValidateIP(string ip)
+        {
+            if (string.IsNullOrEmpty(ip))
+            {
+                return false;
+            }
+
+            IPAddress ipOut;
+            return IPAddress.TryParse(ip, out ipOut);
+        }
+
+        #endregion
+        
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -459,17 +376,7 @@ namespace Cryptool.Plugins.NetworkSender
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
-        /// <summary>
-        /// tickmethod for the CalculateSpeedrateTick timer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CalculateSpeedrateTick(object sender, EventArgs e)
-        {
-            var speedrate = SendDataSize / UpdateSendingrate;
-            presentation.UpdateSpeedrate(generateSizeString(speedrate) + "/s"); // 42kb +"/s"
-            SendDataSize = 0;
-        }
+
 
         #endregion
     }

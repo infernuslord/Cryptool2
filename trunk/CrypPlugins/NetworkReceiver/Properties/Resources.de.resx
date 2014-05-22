@@ -234,4 +234,16 @@
   <data name="TCPServerConditions" xml:space="preserve">
     <value>TCP-Eigenschaften</value>
   </data>
+  <data name="ConnectionIDInput" xml:space="preserve">
+    <value>Verbindungseingang</value>
+  </data>
+  <data name="ConnectionIDInputTooltip" xml:space="preserve">
+    <value>Gibt an, welche Verbindung der Empfänger überwachen soll.</value>
+  </data>
+  <data name="ConnectionIDOutput" xml:space="preserve">
+    <value>Verbindungsausgang</value>
+  </data>
+  <data name="ConnectionIDOutputTooltip" xml:space="preserve">
+    <value>Gibt die ID der aktuellen Verbindung an.</value>
+  </data>
 </root>

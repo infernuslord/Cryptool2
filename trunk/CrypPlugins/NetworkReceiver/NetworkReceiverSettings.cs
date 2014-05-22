@@ -27,11 +27,12 @@ namespace Cryptool.Plugins.NetworkReceiver
 {
     public class NetworkReceiverSettings : ISettings
     {
+        public static int udpProtocol = 0;
+        public static int tcpProtocol = 1;
+
         #region Private Variables
 
-        private int port;
-        private int timeout;
-        private int packageLimit;
+        private int port; 
         private string deviceIp;
         private bool networkDevice = true;
         private readonly NetworkReceiver caller;
@@ -44,6 +45,8 @@ namespace Cryptool.Plugins.NetworkReceiver
         {
             this.caller = caller;
             NetworkDevice = true;
+
+            UpdateTaskPaneVisibility();
         }
 
         #endregion
@@ -125,41 +128,6 @@ namespace Cryptool.Plugins.NetworkReceiver
                 }
             }
         }
-        
-        [TaskPane("TimeLimit", "TimeLimitTooltip", "StopConditions", 4, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int Timeout
-        {
-            get
-            {
-                return timeout;
-            }
-            set
-            {
-                if (timeout != value)
-                {
-                    timeout = value;
-                    OnPropertyChanged("Timeout");
-                }
-            }
-        }
-
-        [TaskPane("PackageLimit", "PackageLimitTooltip", "StopConditions", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        public int PackageLimit
-        {
-            get
-            {
-                return packageLimit;
-            }
-            set
-            {
-                if (packageLimit != value)
-                {
-                    packageLimit = value;
-                    OnPropertyChanged("PackageLimit");
-                }
-            }
-        }
-
 
         [TaskPane("Protocol", "ProtocolTooltip", "NetworkConditions", 3, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
         public int Protocol
@@ -242,20 +210,8 @@ namespace Cryptool.Plugins.NetworkReceiver
             if (TaskPaneAttributeChanged == null)
                 return;
 
-
-
-            switch (Protocol)
-            {
-                case 0:
-                    TaskPaneAttribteContainer tba = new TaskPaneAttribteContainer("NumberOfClients", Visibility.Collapsed);
-                    TaskPaneAttributeChangedEventArgs tbac = new TaskPaneAttributeChangedEventArgs(tba);
-                    TaskPaneAttributeChanged(this, tbac);
-                    break;
-
-                case 1:
-                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NumberOfClients", Visibility.Visible)));  
-                    break;
-            }
+            var tba = new TaskPaneAttribteContainer("NumberOfClients", protocol == udpProtocol ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
         }
     }
 }
