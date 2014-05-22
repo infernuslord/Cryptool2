@@ -210,4 +210,16 @@
   <data name="TCPIPSettings" xml:space="preserve">
     <value>TCP/IP Settings</value>
   </data>
+  <data name="ConnectionIDInput" xml:space="preserve">
+    <value>Connection Input</value>
+  </data>
+  <data name="ConnectionIDInputTooltip" xml:space="preserve">
+    <value>Specifies which connection should be used for transmitting.</value>
+  </data>
+  <data name="ConnectionIDOutput" xml:space="preserve">
+    <value>Connection Output</value>
+  </data>
+  <data name="ConnectionIDOutputTooltip" xml:space="preserve">
+    <value>gives the ID of the current connection</value>
+  </data>
 </root>

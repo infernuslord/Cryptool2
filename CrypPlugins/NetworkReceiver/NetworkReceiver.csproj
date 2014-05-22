@@ -102,6 +102,10 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\NetworkSender\NetworkSender.csproj">
+      <Project>{0C1A5699-1EB4-40C1-8743-931486D344F5}</Project>
+      <Name>NetworkSender</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

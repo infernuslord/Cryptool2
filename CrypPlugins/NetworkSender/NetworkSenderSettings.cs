@@ -18,14 +18,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Navigation;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.NetworkSender;
 
-namespace Cryptool.Plugins.NetworkSender
-{
-    public class NetworkSenderSettings : ISettings
-    {
+namespace Cryptool.Plugins.NetworkSender {
+    public class NetworkSenderSettings : ISettings {
+        public static int udpProtocol = 0;
+        public static int tcpProtocol = 1;
+
         #region Private Variables
 
         private int port;
@@ -37,30 +39,24 @@ namespace Cryptool.Plugins.NetworkSender
 
         #endregion
 
-
         #region TaskPane Settings
+
         [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
-        public string DeviceIP
-        {
+        public string DeviceIP {
             get { return deviceIP; }
-            set
-            {
+            set {
                 deviceIP = value;
                 OnPropertyChanged("DeviceIp");
             }
         }
-   
+
         [TaskPane("Port", "PortToolTip", "NetworkConditions", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
-        public int Port
-        {
-            get
-            {
+        public int Port {
+            get {
                 return port;
             }
-            set
-            {
-                if (port != value)
-                {
+            set {
+                if (port != value) {
                     port = value;
                     OnPropertyChanged("Port");
                 }
@@ -68,45 +64,35 @@ namespace Cryptool.Plugins.NetworkSender
         }
 
         [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings", 3, false, ControlType.CheckBox)]
-        public bool ByteAsciiSwitch
-        {
+        public bool ByteAsciiSwitch {
             get { return byteAsciiSwitch; }
-            set
-            {
-                if (value != byteAsciiSwitch)
-                {
+            set {
+                if (value != byteAsciiSwitch) {
                     byteAsciiSwitch = value;
                     OnPropertyChanged("ByteAsciiSwitch");
                 }
             }
         }
 
-        [TaskPane("Protocol", "ProtocolToolTip", "NetworkConditions", 2, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
-        public int Protocol
-        {
-            get
-            {
+        [TaskPane("Protocol", "ProtocolToolTip", "NetworkConditions", 2, false, ControlType.ComboBox, new[] {"UDP", "TCP"})]
+        public int Protocol {
+            get {
                 return protocol;
             }
-            set
-            {
-                if (protocol != value)
-                {
+            set {
+                if (protocol != value) {
                     protocol = value;
                     OnPropertyChanged("Protocol");
                     UpdateTaskPaneVisibility();
                 }
             }
         }
-
+        /*
         [TaskPane("TryConnectCaption", "TryConnectCaptionToolTip", "TCPIPSettings", 4, false, ControlType.CheckBox)]
-        public bool TryConnect
-        {
+        public bool TryConnect {
             get { return tryConnect; }
-            set
-            {
-                if (value != tryConnect)
-                {
+            set {
+                if (value != tryConnect) {
                     tryConnect = value;
                     OnPropertyChanged("TryConnect");
                     UpdateTaskPaneVisibility();
@@ -114,81 +100,63 @@ namespace Cryptool.Plugins.NetworkSender
             }
         }
 
-        [TaskPane("ConnectIntervallCaption", "ConnectIntervallCaptionToolTip", "TCPIPSettings", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 100, 10000)]
-        public int ConnectIntervall
-        {
-            get
-            {
+        [TaskPane("ConnectIntervallCaption", "ConnectIntervallCaptionToolTip", "TCPIPSettings", 5, false, ControlType.NumericUpDown,
+            ValidationType.RangeInteger, 100, 10000)]
+        public int ConnectIntervall {
+            get {
                 return connectIntervall;
             }
-            set
-            {
-                if (connectIntervall != value)
-                {
+            set {
+                if (connectIntervall != value) {
                     connectIntervall = value;
                     OnPropertyChanged("ConnectIntervall");
                 }
             }
-        }
+        }*/
 
         #endregion
 
-        #region events
+        public void Initialize() {}
 
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
-
-        #endregion
-
-        internal void UpdateTaskPaneVisibility()
-        {
-            
-            if (TaskPaneAttributeChanged == null)
+        internal void UpdateTaskPaneVisibility() {
+            if (TaskPaneAttributeChanged == null) {
                 return;
-
-            
-
-            switch (Protocol)
-            {
-                case 0:
-                    TaskPaneAttribteContainer tba = new TaskPaneAttribteContainer("TryConnect", Visibility.Collapsed);
-                    TaskPaneAttribteContainer tbb = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
-                    TaskPaneAttributeChangedEventArgs tbac = new TaskPaneAttributeChangedEventArgs(tba);
-                    TaskPaneAttributeChangedEventArgs tbbc = new TaskPaneAttributeChangedEventArgs(tbb);
-                    TaskPaneAttributeChanged(this, tbac);
-                    TaskPaneAttributeChanged(this, tbbc);
-                    break;
-
-                case 1:
-                    
-                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("TryConnect", Visibility.Visible)));
-                    if (tryConnect)
-                    {
-                        TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Visible)));
-                    }
-                    else
-                    {
-                        TaskPaneAttribteContainer tbaa = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
-                        TaskPaneAttributeChangedEventArgs tbbb = new TaskPaneAttributeChangedEventArgs(tbaa);
-                        TaskPaneAttributeChanged(this, tbbb);
-                    }
-                  //  TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Visible)));
-                    break;
             }
+
+            if (Protocol == udpProtocol) {
+                var tba = new TaskPaneAttribteContainer("TryConnect", Visibility.Collapsed);
+                var tbb = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
+                var tbac = new TaskPaneAttributeChangedEventArgs(tba);
+                var tbbc = new TaskPaneAttributeChangedEventArgs(tbb);
+                TaskPaneAttributeChanged(this, tbac);
+                TaskPaneAttributeChanged(this, tbbc);
+                return;
+            }
+            /*
+            //Protocol == tcp
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("TryConnect", Visibility.Visible)));
+            if (tryConnect) {
+                TaskPaneAttributeChanged(this,
+                    new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Visible)));
+            } else {
+                var tbaa = new TaskPaneAttribteContainer("ConnectIntervall", Visibility.Collapsed);
+                var tbbb = new TaskPaneAttributeChangedEventArgs(tbaa);
+                TaskPaneAttributeChanged(this, tbbb);
+            }*/
         }
 
         #region Events
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void Initialize()
-        {
-            
-        }
 
-        private void OnPropertyChanged(string propertyName)
-        {
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private void OnPropertyChanged(string propertyName) {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
         }
 
         #endregion
     }
 }
+
