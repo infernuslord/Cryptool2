@@ -115,7 +115,7 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to gives the ID of the current connection.
+        ///   Looks up a localized string similar to Shows the ID of the current connection..
         /// </summary>
         internal static string ConnectionIDOutputTooltip {
             get {

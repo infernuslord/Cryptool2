@@ -220,6 +220,6 @@
     <value>Connection Output</value>
   </data>
   <data name="ConnectionIDOutputTooltip" xml:space="preserve">
-    <value>gives the ID of the current connection</value>
+    <value>Shows the ID of the current connection.</value>
   </data>
 </root>
