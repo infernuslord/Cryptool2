@@ -246,4 +246,10 @@
   <data name="ConnectionIDOutputTooltip" xml:space="preserve">
     <value>Gibt die ID der aktuellen Verbindung an.</value>
   </data>
+  <data name="ConnectionCaption" xml:space="preserve">
+    <value>Nur Verbindungs-eingang benutzen</value>
+  </data>
+  <data name="ConnectionCaptionTooltip" xml:space="preserve">
+    <value>Die Komponente erstellt keine eigenen Verbindungen. Sie wird nur die übergebenen Verbindung verwenden.</value>
+  </data>
 </root>

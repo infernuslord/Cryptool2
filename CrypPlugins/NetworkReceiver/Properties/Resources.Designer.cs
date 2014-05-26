@@ -88,6 +88,24 @@ namespace NetworkReceiver.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only use Connection Input.
+        /// </summary>
+        internal static string ConnectionCaption {
+            get {
+                return ResourceManager.GetString("ConnectionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Component wont create a new Connection. It will only use the spezified Connection on the Connection Input..
+        /// </summary>
+        internal static string ConnectionCaptionTooltip {
+            get {
+                return ResourceManager.GetString("ConnectionCaptionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection Input.
         /// </summary>
         internal static string ConnectionIDInput {

@@ -94,7 +94,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SurveyTests.cs" />
     <Compile Include="CRCTest.cs" />
     <Compile Include="KeccakTest.cs" />
     <Compile Include="CamelliaTest.cs" />

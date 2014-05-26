@@ -34,9 +34,10 @@ namespace Cryptool.Plugins.NetworkReceiver
 
         private int port; 
         private string deviceIp;
-        private bool networkDevice = true;
+        private bool networkDevice;
         private readonly NetworkReceiver caller;
         private bool byteAsciiSwitch;
+        private bool connectionSwitch;
         private int protocol;
         private int numberOfClients;
         private int speedrateIntervall;
@@ -44,16 +45,34 @@ namespace Cryptool.Plugins.NetworkReceiver
         public NetworkReceiverSettings(NetworkReceiver caller)
         {
             this.caller = caller;
-            NetworkDevice = true;
+           
+        }
 
-            UpdateTaskPaneVisibility();
+        public void Initialize()
+        {
+            NetworkDevice = true;
         }
 
         #endregion
 
         #region TaskPane Settings
-        
-        [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
+
+        [TaskPane("ConnectionCaption", "ConnectionCaptionTooltip", "NetworkConditions", 0, false, ControlType.CheckBox)]
+        public bool ConnectionSwitch
+        {
+            get { return connectionSwitch; }
+            set
+            {
+                if (value != connectionSwitch)
+                {
+                    connectionSwitch = value;
+                    OnPropertyChanged("ConnectionSwitch");
+                    UpdateTaskPaneVisibility();
+                }
+            }
+        }
+
+        [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 1, false, ControlType.TextBox)]
         public string DeviceIp
         {
             get { return deviceIp; }
@@ -64,7 +83,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
      
-        [TaskPane("NetworkDeviceCaption", "NetworkDeviceCaptionTooltip", "NetworkConditions", 1, false, ControlType.CheckBox)]
+        [TaskPane("NetworkDeviceCaption", "NetworkDeviceCaptionTooltip", "NetworkConditions", 2, false, ControlType.CheckBox)]
         public bool NetworkDevice
         {
             get { return networkDevice; }
@@ -98,7 +117,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
 
-        [TaskPane("Port", "PortTooltip", "NetworkConditions", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
+        [TaskPane("Port", "PortTooltip", "NetworkConditions", 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65535)]
         public int Port
         {
             get
@@ -115,21 +134,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
 
-        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings" , 3, false, ControlType.CheckBox)]
-        public bool ByteAsciiSwitch
-        {
-            get { return byteAsciiSwitch; }
-            set
-            {
-                if (value != byteAsciiSwitch)
-                {
-                    byteAsciiSwitch = value;
-                    OnPropertyChanged("ByteAsciiSwitch");
-                }
-            }
-        }
-
-        [TaskPane("Protocol", "ProtocolTooltip", "NetworkConditions", 3, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
+        [TaskPane("Protocol", "ProtocolTooltip", "NetworkConditions", 4, false, ControlType.ComboBox, new[] { "UDP", "TCP" })]
         public int Protocol
         {
             get
@@ -147,6 +152,20 @@ namespace Cryptool.Plugins.NetworkReceiver
             }
         }
 
+        [TaskPane("ByteAsciiSwitchCaption", "ByteAsciiSwitchCaptionTooltip", "PresentationSettings" , 3, false, ControlType.CheckBox)]
+        public bool ByteAsciiSwitch
+        {
+            get { return byteAsciiSwitch; }
+            set
+            {
+                if (value != byteAsciiSwitch)
+                {
+                    byteAsciiSwitch = value;
+                    OnPropertyChanged("ByteAsciiSwitch");
+                }
+            }
+        } 
+     
         [TaskPane("NumberOfClientsCaption", "NumberOfClientsTooltip", "TCPServerConditions", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
         public int NumberOfClients
         {
@@ -163,6 +182,28 @@ namespace Cryptool.Plugins.NetworkReceiver
                 }
             }
         }
+
+        private void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            var tba = new TaskPaneAttribteContainer("NumberOfClients", protocol == udpProtocol ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
+
+            tba = new TaskPaneAttribteContainer("DeviceIp", ConnectionSwitch ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
+
+            tba = new TaskPaneAttribteContainer("NetworkDevice", ConnectionSwitch ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
+
+            tba = new TaskPaneAttribteContainer("Port", ConnectionSwitch ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
+
+            tba = new TaskPaneAttribteContainer("Protocol", ConnectionSwitch ? Visibility.Collapsed : Visibility.Visible);
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
+        }
+        
         /// <summary>
         /// returns a list with all available networkinterfaces
         /// </summary>
@@ -192,10 +233,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
     
         public event PropertyChangedEventHandler PropertyChanged;
-        public void Initialize()
-        {
-            
-        }
+     
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -204,14 +242,5 @@ namespace Cryptool.Plugins.NetworkReceiver
       
         #endregion
 
-        internal void UpdateTaskPaneVisibility()
-        {
-
-            if (TaskPaneAttributeChanged == null)
-                return;
-
-            var tba = new TaskPaneAttribteContainer("NumberOfClients", protocol == udpProtocol ? Visibility.Collapsed : Visibility.Visible);
-            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(tba));
-        }
     }
 }

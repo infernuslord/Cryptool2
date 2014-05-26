@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.NetworkReceiver
             localEndPoint = new IPEndPoint(!settings.NetworkDevice ? IPAddress.Parse(settings.DeviceIp) : IPAddress.Any, settings.Port);
 
             //init or reuse socket
-            if (settings.Protocol == NetworkSenderSettings.tcpProtocol)
+            if (!settings.ConnectionSwitch && settings.Protocol == NetworkSenderSettings.tcpProtocol)
             {
                 StartTCPListener();
             }
@@ -172,7 +172,7 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// </summary>
         public void Execute()
         {
-            if (ConnectionIDInput == 0 && settings.Protocol == NetworkSenderSettings.udpProtocol)
+            if (!settings.ConnectionSwitch && settings.Protocol == NetworkSenderSettings.udpProtocol)
             {
                 var udpClient = new UdpClient(localEndPoint);
                 ConnectionIDInput = availableConnections.AddConnection(new UDPConnection
