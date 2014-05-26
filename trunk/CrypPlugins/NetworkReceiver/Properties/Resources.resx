@@ -246,4 +246,10 @@
   <data name="ConnectionIDOutputTooltip" xml:space="preserve">
     <value>Shows the ID of the current connection.</value>
   </data>
+  <data name="ConnectionCaption" xml:space="preserve">
+    <value>Only use Connection Input</value>
+  </data>
+  <data name="ConnectionCaptionTooltip" xml:space="preserve">
+    <value>The Component wont create a new Connection. It will only use the spezified Connection on the Connection Input.</value>
+  </data>
 </root>

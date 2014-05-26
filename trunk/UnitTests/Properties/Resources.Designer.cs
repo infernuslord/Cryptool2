@@ -59,28 +59,5 @@ namespace UnitTests.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;survey version=&quot;123&quot;&gt;
-        ///	&lt;questions&gt;
-        ///			&lt;question id=&quot;1&quot;&gt;
-        ///				&lt;text lang=&quot;de&quot;&gt;question1DE&lt;/text&gt;
-        ///				&lt;text lang=&quot;en&quot;&gt;question1EN&lt;/text&gt;
-        ///				&lt;help lang=&quot;de&quot;&gt;question1DEHelp&lt;/help&gt;
-        ///				&lt;help lang=&quot;en&quot;&gt;question1ENHelp&lt;/help&gt;
-        ///				&lt;answers type=&quot;Rage&quot; from=0 to=10/&gt;
-        ///			&lt;/question&gt;
-        ///			&lt;question id=&quot;2&quot;&gt;
-        ///				&lt;text lang=&quot;de&quot;&gt;question2DE&lt;/text&gt;
-        ///				&lt;text lang=&quot;en&quot;&gt;question2EN&lt;/text&gt;
-        ///				&lt;help lang=&quot;de&quot;&gt;question2DEHelp&lt;/help&gt;
-        ///				&lt;help lang=&quot;en&quot;&gt;question2ENHelp&lt;/help&gt;
-        ///				&lt;answers type=&quot;number&quot; from=0 to= [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string surveyTestQuestions {
-            get {
-                return ResourceManager.GetString("surveyTestQuestions", resourceCulture);
-            }
-        }
     }
 }
