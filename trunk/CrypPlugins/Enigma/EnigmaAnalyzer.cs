@@ -692,7 +692,7 @@ namespace Cryptool.Enigma
                     cfg.Ring3.ToString("00"), cfg.Ring2.ToString("00"), cfg.Ring1.ToString("00"),
                     cfg.Key, pluginFacade.pB2String(cfg.PlugBoard));
             }
-
+            pluginFacade.OutputKey = message.ToString();
             pluginFacade.LogMessage(message.ToString(), NotificationLevel.Info);
         }
 

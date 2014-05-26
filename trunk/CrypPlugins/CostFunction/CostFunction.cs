@@ -129,6 +129,15 @@ namespace Cryptool.Plugins.CostFunction
             this.settings.RegEx = regex;
         }
 
+        public void changBytesToUse(string byts)
+        {
+            this.settings.BytesToUse = byts;
+        }
+
+        public void setBlocksizeToUse(int blocksize)
+        {
+            this.settings.BlockSize = blocksize;
+        }
         #endregion
 
         [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip")]

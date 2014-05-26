@@ -67,6 +67,7 @@ namespace Cryptool.Enigma
         // FIXME: enable optional statistics input
         //private IDictionary<string, double[]> inputTriGrams;
         private string outputString;
+        private string outputKey;
         private string savedKey;
         public Boolean isrunning;
         
@@ -367,10 +368,8 @@ namespace Cryptool.Enigma
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             EnigmaSettings dummyset = sender as EnigmaSettings;
-            //myPresentation.settingsChanged(dummyset);
-            
-            
-            LogMessage("OnPropertyChange " + e.PropertyName, NotificationLevel.Debug);
+            //myPresentation.settingsChanged(dummyset);                        
+            //LogMessage("OnPropertyChange " + e.PropertyName, NotificationLevel.Debug);
         }
 
         #endregion
@@ -430,6 +429,18 @@ namespace Cryptool.Enigma
                 OnPropertyChanged("OutputString");
             }
         }
+
+        [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip", false)]
+        public string OutputKey
+        {
+            get { return this.outputKey; }
+            set
+            {
+                outputKey = value;
+                OnPropertyChanged("OutputKey");
+            }
+        }
+
 
         #endregion
 
@@ -500,8 +511,7 @@ namespace Cryptool.Enigma
                     outputString = FormattedEncrypt(settings.Alphabet.IndexOf(settings.Key[2]), 
                         settings.Alphabet.IndexOf(settings.Key[1]),
                         settings.Alphabet.IndexOf(settings.Key[0]), 
-                        0, inputString);
-
+                        0, inputString);                    
 
                     // FIXME: output all scorings
                     LogMessage("Enigma encryption done. The resulting index of coincidences is " + analyzer.calculateScore(outputString, 0), NotificationLevel.Info);
@@ -559,12 +569,12 @@ namespace Cryptool.Enigma
 
         public void Initialize()
         {
-            LogMessage("Initializing..", NotificationLevel.Debug);
+            //LogMessage("Initializing..", NotificationLevel.Debug);
         }
 
         public void Dispose()
         {
-            LogMessage("Dispose", NotificationLevel.Debug);
+            //LogMessage("Dispose", NotificationLevel.Debug);
         }
 
 
