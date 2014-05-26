@@ -805,6 +805,6 @@
     <value>Schlüsselausgabe</value>
   </data>
   <data name="OutputKeyTooltip" xml:space="preserve">
-    <value>Die aktuell während der Analyse besten gefunden Schlüssel</value>
+    <value>Die aktuell besten während der Analyse gefundenen Schlüssel</value>
   </data>
 </root>
