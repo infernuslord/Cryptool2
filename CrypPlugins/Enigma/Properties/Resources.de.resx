@@ -801,4 +801,10 @@
   <data name="PresentationActivation" xml:space="preserve">
     <value>Präsentation aktivieren</value>
   </data>
+  <data name="OutputKeyCaption" xml:space="preserve">
+    <value>Schlüsselausgabe</value>
+  </data>
+  <data name="OutputKeyTooltip" xml:space="preserve">
+    <value>Die aktuell während der Analyse besten gefunden Schlüssel</value>
+  </data>
 </root>
