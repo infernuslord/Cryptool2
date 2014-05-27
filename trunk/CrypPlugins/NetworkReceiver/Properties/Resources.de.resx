@@ -178,7 +178,7 @@
     <value>Empfangen um</value>
   </data>
   <data name="UniqueIPLabel" xml:space="preserve">
-    <value>Unterschiedliche Absender:</value>
+    <value>Absender:</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
     <value>Netzwerkkarten-IP:</value>
