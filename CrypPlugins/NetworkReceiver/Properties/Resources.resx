@@ -178,7 +178,7 @@
     <value>Received at</value>
   </data>
   <data name="UniqueIPLabel" xml:space="preserve">
-    <value>Unique Consignor:</value>
+    <value>Sources:</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
     <value>Networkdevice IP:</value>
