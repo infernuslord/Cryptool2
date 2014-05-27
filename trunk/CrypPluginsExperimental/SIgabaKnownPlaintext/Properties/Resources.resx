@@ -565,7 +565,7 @@
     <value>Main</value>
   </data>
   <data name="TopTenLabel" xml:space="preserve">
-    <value>Top Ten</value>
+    <value>Top ten</value>
   </data>
   <data name="CipherRotor3FromCaption" xml:space="preserve">
     <value>Cipher rotor 3: From</value>
