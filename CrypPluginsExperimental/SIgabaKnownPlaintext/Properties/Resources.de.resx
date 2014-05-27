@@ -232,7 +232,7 @@
     <value>Auswahl für Chiffre-Rotor 5</value>
   </data>
   <data name="CipherGroup" xml:space="preserve">
-    <value>Chiffrebank</value>
+    <value>Chiffre-Bank</value>
   </data>
   <data name="CipherKeyCaption" xml:space="preserve">
     <value>Schlüssel Chiffre-Bank</value>
@@ -244,10 +244,10 @@
     <value>Stellt die Positionen der Chiffre-Rotoren dar</value>
   </data>
   <data name="CipherRotor1Caption" xml:space="preserve">
-    <value>Chiffre Rotor 1 (ganz links)</value>
+    <value>Chiffre-Rotor 1 (ganz links)</value>
   </data>
   <data name="CipherRotor1From" xml:space="preserve">
-    <value>Chiffre Rotor 1: Von</value>
+    <value>Chiffre-Rotor 1: Von</value>
   </data>
   <data name="CipherRotor1ReverseCaption" xml:space="preserve">
     <value>Rückwärts</value>
@@ -256,16 +256,16 @@
     <value>Bestimmt den Typ von Chiffre Rotor 1</value>
   </data>
   <data name="CipherRotor2Caption" xml:space="preserve">
-    <value>Chiffre Rotor 2</value>
+    <value>Chiffre-Rotor 2</value>
   </data>
   <data name="CipherRotor2FromCaption" xml:space="preserve">
-    <value>Chiffre Rotor 2: Von</value>
+    <value>Chiffre-Rotor 2: Von</value>
   </data>
   <data name="CipherRotor2ReverseTooltip" xml:space="preserve">
     <value>bestimmt die Ausrichtung des Rotoren</value>
   </data>
   <data name="CipherRotor2Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des zweiten Chiffre-Rotoren</value>
+    <value>Bestimmt den Typ des zweiten Chiffre-Rotors</value>
   </data>
   <data name="CipherRotor3Caption" xml:space="preserve">
     <value>Chiffre-Rotor 3</value>
@@ -274,7 +274,7 @@
     <value>Chiffre-Rotor 3: Von</value>
   </data>
   <data name="CipherRotor3ToolTip" xml:space="preserve">
-    <value>Bestimmt den Typ des dritten Chiffre-Rotoren</value>
+    <value>Bestimmt den Typ des dritten Chiffre-Rotors</value>
   </data>
   <data name="CipherRotor4Caption" xml:space="preserve">
     <value>Chiffre-Rotor 4</value>
@@ -283,7 +283,7 @@
     <value>Chiffre-Rotor 4: Von</value>
   </data>
   <data name="CipherRotor4Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des vierten Chiffre-Rotoren</value>
+    <value>Bestimmt den Typ des vierten Chiffre-Rotors</value>
   </data>
   <data name="CipherRotor5Caption" xml:space="preserve">
     <value>Chiffre-Rotor 5 ganz rechts)</value>
@@ -292,7 +292,7 @@
     <value>Chiffre-Rotor 5: Von</value>
   </data>
   <data name="CipherRotor5Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des fünften Chiffre-Rotoren</value>
+    <value>Bestimmt den Typ des fünften Chiffre-Rotors</value>
   </data>
   <data name="CipherRotorsHeader" xml:space="preserve">
     <value>Chiffre-Rotoren</value>
@@ -316,13 +316,13 @@
     <value>Steuerlabyrinth</value>
   </data>
   <data name="ControlKeyCaption" xml:space="preserve">
-    <value>Schlüssel Steuerbank</value>
+    <value>Schlüssel Steuer-Bank</value>
   </data>
   <data name="ControlKeyHeader" xml:space="preserve">
-    <value>Schlüssel Steuerbank</value>
+    <value>Schlüssel Steuer-Bank</value>
   </data>
   <data name="ControlKeyTooltip" xml:space="preserve">
-    <value>Bestimmt die Position der Steuerrotoren</value>
+    <value>Bestimmt die Position der Steuer-Rotoren</value>
   </data>
   <data name="ControlRotor1Caption" xml:space="preserve">
     <value>Steuer-Rotor 1 (ganz rechts)</value>
@@ -346,7 +346,7 @@
     <value>Bestimmt die Ausrichtung des Rotoren</value>
   </data>
   <data name="ControlRotor2Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typen des zweiten Steuer-Rotoren</value>
+    <value>Bestimmt den Typen des zweiten Steuer-Rotors</value>
   </data>
   <data name="ControlRotor3Caption" xml:space="preserve">
     <value>Steuer-Rotor 3</value>
@@ -355,7 +355,7 @@
     <value>Steuer-Rotor 3: Von</value>
   </data>
   <data name="ControlRotor3Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typen des dritten Steuer-Rotoren</value>
+    <value>Bestimmt den Typen des dritten Steuer-Rotors</value>
   </data>
   <data name="ControlRotor4Caption" xml:space="preserve">
     <value>Steuer-Rotor 4</value>
@@ -364,7 +364,7 @@
     <value>Steuer-Rotor 4: Von</value>
   </data>
   <data name="ControlRotor4ToolTip" xml:space="preserve">
-    <value>Bestimmt den Typen des vierten Steuer-Rotoren</value>
+    <value>Bestimmt den Typen des vierten Steuer-Rotors</value>
   </data>
   <data name="ControlRotor5Caption" xml:space="preserve">
     <value>Steuer-Rotor 5 (ganz links)</value>
@@ -373,7 +373,7 @@
     <value>Steuer-Rotor 5: Von</value>
   </data>
   <data name="ControlRotor5ToolTip" xml:space="preserve">
-    <value>Bestimmt den Typen des fünften Steuer-Rotoren</value>
+    <value>Bestimmt den Typen des fünften Steuer-Rotors</value>
   </data>
   <data name="ControlRotorsHeader" xml:space="preserve">
     <value>Steuer-Rotoren</value>
@@ -400,25 +400,25 @@
     <value>Benutze Index-Rotor 50</value>
   </data>
   <data name="IndexGroup" xml:space="preserve">
-    <value>Index Labyrinth</value>
+    <value>Index-Labyrinth</value>
   </data>
   <data name="IndexKeyCaption" xml:space="preserve">
-    <value>Schlüssel Indexbank</value>
+    <value>Schlüssel Index-Bank</value>
   </data>
   <data name="IndexKeyHeader" xml:space="preserve">
-    <value>Schlüssel Indexbank</value>
+    <value>Schlüssel Index-Bank</value>
   </data>
   <data name="IndexKeyTooltip" xml:space="preserve">
     <value>Bestimmt die Positionen der Index-Rotoren</value>
   </data>
   <data name="IndexRotor1Caption" xml:space="preserve">
-    <value>Index Rotor 1 (ganz links)</value>
+    <value>Index-Rotor 1 (ganz links)</value>
   </data>
   <data name="IndexRotor1FromCaption" xml:space="preserve">
     <value>Index-Rotor 1: Von</value>
   </data>
   <data name="IndexRotor1Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des ersten Index-Rotoren</value>
+    <value>Bestimmt den Typ des ersten Index-Rotors</value>
   </data>
   <data name="IndexRotor2Caption" xml:space="preserve">
     <value>Index-Rotor 2</value>
@@ -427,7 +427,7 @@
     <value>Index-Rotor 2: Von</value>
   </data>
   <data name="IndexRotor2Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des zweiten Index-Rotoren</value>
+    <value>Bestimmt den Typ des zweiten Index-Rotors</value>
   </data>
   <data name="IndexRotor3Caption" xml:space="preserve">
     <value>Index-Rotor 3</value>
@@ -436,7 +436,7 @@
     <value>Index-Rotor 3: Von</value>
   </data>
   <data name="IndexRotor3Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des dritten Index-Rotoren</value>
+    <value>Bestimmt den Typ des dritten Index-Rotors</value>
   </data>
   <data name="IndexRotor4Caption" xml:space="preserve">
     <value>Index-Rotor 4</value>
@@ -445,7 +445,7 @@
     <value>Index-Rotor 4: Von</value>
   </data>
   <data name="IndexRotor4Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des vierten Index-Rotoren</value>
+    <value>Bestimmt den Typ des vierten Index-Rotors</value>
   </data>
   <data name="IndexRotor5Caption" xml:space="preserve">
     <value>Index-Rotor 5  (ganz rechts)</value>
@@ -454,7 +454,7 @@
     <value>Index-Rotor 5: Von</value>
   </data>
   <data name="IndexRotor5Tooltip" xml:space="preserve">
-    <value>Bestimmt den Typ des fünften Index-Rotoren</value>
+    <value>Bestimmt den Typ des fünften Index-Rotors</value>
   </data>
   <data name="IndexRotorHeader" xml:space="preserve">
     <value>Index-Rotoren</value>
@@ -562,7 +562,7 @@
     <value>SIGABA-Schlüsselsucher</value>
   </data>
   <data name="PluginCaption11" xml:space="preserve">
-    <value>SIGABA Angriff mit bekanntem Schlüssel</value>
+    <value>SIGABA-Angriff mit bekanntem Schlüssel</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
     <value>Amerikanische Rotorverschlüsselungsmaschine</value>
@@ -571,7 +571,8 @@
     <value>Amerikanische Rotorverschlüsselungsmaschine</value>
   </data>
   <data name="PluginToolTip11" xml:space="preserve">
-    <value>Analyse Werkzeug für die amerikanische Rotorverschlüsselungsmaschine SIGABA, mit bekanntem Klartext</value>
+    <value>Analyse der Rotorverschlüsselungsmaschine SIGABA (mit bekanntem
+Klartext)</value>
   </data>
   <data name="PositionOptionsGroup" xml:space="preserve">
     <value>Rotor-Positionen</value>
@@ -625,7 +626,8 @@
     <value>Ersetzen mit 'X'</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Was soll mit Zeichen geschehn, die nicht im Alphabet der Maschine enthalten sind?</value>
+    <value>Was soll mit Zeichen geschehen, die nicht im Alphabet der Maschine
+enthalten sind?</value>
   </data>
   <data name="ValueHeader" xml:space="preserve">
     <value>Wert</value>
