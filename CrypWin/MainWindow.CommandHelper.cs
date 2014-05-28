@@ -301,6 +301,23 @@ namespace Cryptool.CrypWin
             }
         }
 
+        public void CloseProjectInGuiThread()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                CloseProject();
+                tabToContentMap.Last().Key.Close();
+            }
+            else
+            {
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    CloseProject();
+                    tabToContentMap.Last().Key.Close();
+                }, null);
+            }
+        }
+
         private void StopProjectExecution(IEditor editor)
         {
             if (editor != null)

@@ -59,7 +59,7 @@ namespace Cryptool.CrypWin
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                OpenProject(fileName, null);
+                OpenProject(fileName, null);                
             }, null);
         }
 
