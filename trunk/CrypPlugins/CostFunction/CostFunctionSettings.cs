@@ -28,7 +28,7 @@ using System.Windows.Forms;
 
 namespace Cryptool.Plugins.CostFunction
 {
-    class CostFunctionSettings : ISettings
+    public class CostFunctionSettings : ISettings
     {
         public enum FunctionTypes { IOC = 0, Entropy, NgramsLog2, NgramsSinkov, NGramsPercentage, Regex, Weighted };
 

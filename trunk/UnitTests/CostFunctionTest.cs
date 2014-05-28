@@ -30,58 +30,60 @@ namespace Tests
             string input = "In der Kryptographie ist die Transposition ein Verschluesselungsverfahren, bei dem die Zeichen einer Botschaft (des Klartextes) umsortiert werden. Jedes Zeichen bleibt unveraendert erhalten, jedoch wird die Stelle, an der es steht, geaendert. Dies steht im Gegensatz zu den Verfahren der (monoalphabetischen oder polyalphabetischen) Substitution, bei denen jedes Zeichen des Klartextes seinen Platz behaelt, jedoch durch ein anderes Zeichen ersetzt (substituiert) wird.";
             double epsilon = 0.000001;
 
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding(); // String to Byte Conversion
-            CostFunction cf = new CostFunction();
-            
+            System.Text.ASCIIEncoding enc = new ASCIIEncoding(); // String to Byte Conversion
+            CostFunction cf = new CostFunction();            
+            cf.setBlocksizeToUse(1);
+            cf.setTextToUse("" + input.Length);
+
             //Index of Conincidence
-            double target = 0.0738051470588235;
+            double target = 0.0717292657591165;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
             testContextInstance.WriteLine(enc.GetString(cf.InputText));
-            cf.changeFunctionType(0);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.IOC);
             cf.PreExecution(); // important, wont work without this
             cf.Execute();
 
             Assert.AreEqual(target, cf.Value, epsilon); // This _is_ close enough. => Floating point arithmetic!
 
             //Entropy
-            target = 4.25374598691653;
+            target = 4.31723445412447;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(1);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.Entropy);
             cf.PreExecution(); 
             cf.Execute();
 
             Assert.AreEqual(target, cf.Value, epsilon); 
             
             //Bigrams: log 2
-            target = 265.318365029242;
+            target = 4989.51650232229;
             string path = Path.Combine(Environment.CurrentDirectory, "CrypPlugins\\Data\\StatisticsCorpusDE"); // TODO: not platform specific (x64/x86)            
             this.testContextInstance.WriteLine(path);
             cf.setDataPath(path);
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(2);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.NgramsLog2);
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, epsilon); 
 
             //Bigrams: Sinkov
-            target = -548.360297827531;
+            target = -103.695213603301;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(3);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.NgramsSinkov);
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
             Assert.AreEqual(target, cf.Value, epsilon); 
 
             //Bigrams: Percentaged
-            target = 0.20132645541636;
+            target = 30.9596836679693;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(4);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.NGramsPercentage);
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());
@@ -91,7 +93,7 @@ namespace Tests
             target = 1.0;
             cf.Initialize();
             cf.InputText = enc.GetBytes("In der Kryptographie 1234567890");
-            cf.changeFunctionType(5);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.Regex);
             cf.setRegEx("[a-zA-Z0-9 ]*");
             cf.PreExecution(); 
             cf.Execute();
@@ -99,10 +101,10 @@ namespace Tests
             Assert.AreEqual(target, cf.Value, epsilon); 
 
             //RegEx - Not a Match
-            target = -256.0;
+            target = -469.0;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(5);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.Regex);
             cf.setRegEx("[0-9]"); // String = Number?
             cf.PreExecution(); 
             cf.Execute();
@@ -110,10 +112,10 @@ namespace Tests
             Assert.AreEqual(target, cf.Value, epsilon);
 
             //Weighted Bigrams/Trigrams
-            target = -777.230685764826;
+            target = -1827.29001210328;
             cf.Initialize();
             cf.InputText = enc.GetBytes(input);
-            cf.changeFunctionType(6);
+            cf.changeFunctionType((int)CostFunctionSettings.FunctionTypes.Weighted); ;
             cf.PreExecution(); 
             cf.Execute();
             testContextInstance.WriteLine(cf.Value.ToString());

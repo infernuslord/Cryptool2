@@ -20,7 +20,7 @@ namespace Tests.TemplateAndPluginTests
             var pluginInstance = TestHelpers.GetPluginInstance("StegoLeastSignificantBit");
             var scenario = new PluginTestScenario(pluginInstance, new[] { "InputData", "InputCarrier", "InputPassword", ".Action", ".CustomizeRegions", ".OutputFileFormat" }, new[] { "OutputData", "OutputCarrier" });
 
-            CStreamWriter carrierImage = new CStreamWriter("..\\..\\..\\Templates\\Steganography\\cryptool2.jpg", true);
+            CStreamWriter carrierImage = new CStreamWriter("..\\..\\Templates\\Steganography\\cryptool2.jpg", true);
 
             foreach (TestVector vector in testvectors)
             {
