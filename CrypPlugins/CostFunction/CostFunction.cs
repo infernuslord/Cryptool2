@@ -138,6 +138,12 @@ namespace Cryptool.Plugins.CostFunction
         {
             this.settings.BlockSize = blocksize;
         }
+
+        public void setTextToUse(string bytesToUse)
+        {
+            this.settings.BytesToUse = bytesToUse;
+        }
+
         #endregion
 
         [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip")]
@@ -722,6 +728,8 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         #endregion
+
+       
     }
 
     #region slave

@@ -86,12 +86,16 @@ namespace UnitTests
             }
         }
 
-        [TestMethod]
+        // Commented out the test since a test with random values (heuristic algorithm??) makes NO sense...
+        // Nils Kopal, 28.05.2014
+        //
+        /*[TestMethod]
         public void RSATest()
         {
             //There is no need to test the generation of a RSA cryptosystem, because BouncyCastle is used
 
-            Random r = new Random();
+
+            /*Random r = new Random();
             for (int i = 0; i < 10; i++)
             {
                 int bitSize = r.Next(32, 1024);
@@ -112,6 +116,7 @@ namespace UnitTests
                 Assert.AreEqual(message.Substring(unknownStart, unknownLength), unknownMessageResult);
             }
         }
+        */
 
         [TestMethod]
         public void LWETest()
