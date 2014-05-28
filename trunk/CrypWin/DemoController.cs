@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using System.IO;
@@ -82,7 +83,7 @@ namespace Cryptool.CrypWin
                 if (shallStop)
                     continue;
 
-                window.PlayProjectInGuiThread();
+                window.PlayProjectInGuiThread();                
                 lock (thread)
                 {
                     Monitor.Wait(thread, Properties.Settings.Default.DemoInterval*1000);
@@ -103,6 +104,7 @@ namespace Cryptool.CrypWin
 
                 window.DeleteAllMessagesInGuiThread();
                 window.StopProjectInGuiThread();
+                window.CloseProjectInGuiThread();
 
                 if (++currentFile >= filelist.Length)
                 {
