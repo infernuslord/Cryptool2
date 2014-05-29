@@ -144,10 +144,9 @@ namespace Cryptool.CrypWin.Helper
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
             TabControl tabctrl = (TabControl)this.Parent;
-            while (tabctrl.Items.Count > 0)
-            {
-                tabctrl.Items.Cast<CTTabItem>().ToList<CTTabItem>()[0].Close();
-            }
+            var list = tabctrl.Items.Cast<CTTabItem>().ToList();
+            foreach (CTTabItem o in list)
+                o.Close();
         }
 
         private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
