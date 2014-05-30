@@ -1,3 +1,29 @@
+[b]Beta 11 (rc1)[b]
+This is a bug-fixing release and the release candidate 1. We think that we can release CT2 in mid of this year!!
+We hope you have as much fun using CrypTool 2.0 Beta 10 as we had creating it. If you find any bugs please do not 
+hesitate using our bug reporting form at https://www.cryptool.org/trac/CrypTool2/newticket or use the contact form 
+on the upper right side under the "About" menu in the CrypTool 2.0 application.
+
+Sincerly yours,
+The CrypTool 2.0 Developer Team
+
+Bugs fixed:
+- TripleDES fixed
+
+New components:
+- Spanish Strip Cipher
+- Analysis Monoalphabetic Substitution
+- Cost function on "blocks"
+- ADFGVX dictionary attack
+- Hamming distance
+
+New templates:
+- CBC attack template
+
+Many templates updated...
+Many bugs fixed...
+Many typos fixed...
+
 [b]Beta 10[/b]
 Many new components found their way into this beta release.
 For a detailed overview of new components please use the list beneath this text. We hope you have as much fun 
@@ -5,7 +31,7 @@ using CrypTool 2.0 Beta 10 as we had creating it. If you find any bugs please do
 reporting form at https://www.cryptool.org/trac/CrypTool2/newticket or use the contact form on the upper 
 right side under the "About" menu in the CrypTool 2.0 application.
 
-[b]New components:[/b]
+New components:
 - VisualEncoder
 - VisualDecoder
 - Webcam
@@ -20,7 +46,7 @@ right side under the "About" menu in the CrypTool 2.0 application.
 - CSVReader
 - Camellia
 
-[b]Components updated/fixed:[/b]
+Components updated/fixed:
 - WorkspaceManager
   - Global Progress Bar added
 - Enigma
@@ -38,7 +64,7 @@ right side under the "About" menu in the CrypTool 2.0 application.
   - The AutoUpdater now shows the current download speed
 - and many more bugfixes and layout fixes. Improved Online Help...
 
-[b]Templates:[/b]
+Templates:
 New category added: Codes
 Added new templates:
 - Simple_Multiple_Client_Communication
@@ -54,3 +80,152 @@ Added new templates:
 - One time pad misusage
 - Chaining modes
 - and many more...
+
+[b]Beta 9[/b]
+The Beta 9 is a bug fixing beta. Nevertheless many new components found their way into this beta release.
+Several bugs were fixed and the graphical editor "WorkspaceManager" is declared as "feature complete".
+For a detailed overview of new components please use the list beneath this text. We hope you have as much fun 
+using CrypTool 2.0 Beta 9 as we had creating it. If you find any bugs please do not hesitate using our bug 
+reporting form at https://www.cryptool.org/trac/CrypTool2/newticket or use the contact form on the upper 
+right side under the "about" menue in the CrypTool 2.0 application.
+
+Sincerly yours,
+The CrypTool 2.0 Developer Team
+
+Detailed changelog of Beta 9
+
+CrypTool 2.0
+- The application now restores the "session"; So all tabs which
+  were opened in the last session will be opened in the new one
+- License tab added which shows the CrypTool 2.0 license
+- Several bug fixes
+	
+Workspace Manager
+- Defined as "stable" and "feature complete"
+- Several bug fixes
+	
+New components added:
+- Achterbahn (stream cipher)
+- MICKEY2 (stream cipher)
+- Password Strength
+- Rabbit  (stream cipher)
+- Salsa20 (stream cipher)	
+- SAT Solver
+- Sosemanuk (stream cipher)
+	
+Redesigned/updated components:
+- File Input (new WPF hexbox)
+- File Output (new WPF hexbox)
+- Number Input (new presentation added)	
+- Primes (several updates/bug fixes)
+- And many more small changes...
+	
+Online documentation:
+- Added MathJax library for formular support
+- Redesigned the layout of the components pages and the overview pages
+- Addded common doc page about "homomorphic ciphers"
+- added several new documentation pages/updated several existing documentation pages
+
+[b]Beta 8b[/b]
+
+- made some functions more robust
+- added additional template metainfos
+
+[b]Beta 8[/b]
+
+- A lot of minor bug fixes and improvements
+- Renamed CrypTutorials to Crypto Tutorials
+- Added new certificate for auto updater
+- Externally opened cwm files will now be opened in the running CT2 instance
+- Removed RSS viewer
+- Key text box added (in wizard and KeySearcher)
+- Startcenter always open if no other tab is open
+- Context dependent tab switching
+- Added purple component
+- Improved all templates (icons, description and layout)
+
+Editor:
+  - Undo/Redo/Copy/Paste/Cut operations implemented
+  - Connection line highlighting on mouseover
+  - Input and output values of components may now be copied to clipboard
+  - Added component connection statistics for giving the user connection proposals during his work with the workspace manager
+  - Some components are now opened by default when added to the workspace
+  - Zoomlevel is set for the local workspace manager now (and not globally anymore)
+
+Online Help:
+  - Added lots of new documentations
+  - Added component overview side structured by category
+  - Print function
+
+Wizard:
+  - Style changes
+  - Added progressbar
+
+NumberInput:
+  - Support hex inputs
+  - Style changes
+
+StringOperations:
+ - Added replace and replace regex operations
+ 
+ FileInput:
+  - Replace existing HexBox with a new HexBox component
+
+[b]Beta 7b[/b]
+
+This version contains some minor bug fixes:
+- Some text corrections
+- Connecting two components with different connector types now works as expected
+- Fixed wizard template bug
+- Fixed title of main window
+- Startcenter closes handles on image files now
+- Fixed opening templates from online help
+- Fixed exception handling when loading images in workspace manager
+- Added new certificate, so the AutoUpdate will work also with the new server certificate
+
+Please update soon!
+
+[b]Beta 7[/b]
+
+Updater:
+- Added this changelog
+- Zip updater removes old files of previous update (fixes problems which regularly occur due to obsolete DLLs)
+
+Editor:
+- Replaced component parameter panel with new one
+- New feature to change plugin depth (top/bottom) on workspace
+- AnotherEditor (.cte files) is no longer shipped, use WorkspaceManager (.cwm files) instead
+
+Editor execution engine:
+- Does not lose data anymore (occured in (N)LFSR and Enigma templates)
+- Reworked starting logic of components (manual "repeat start" option no longer used)
+- Supports implicit UTF-8 conversion of ICryptoolStream <-> string similar to already existing byte[] <-> string conversion
+
+ADFGVX:
+- Rewritten from scratch, fixes some issues of former implementation
+- Supports now also ADFGX variant (5x5 polybius square)
+
+Online Help:
+- Various (crash) fixes during help generation
+- External weblinks are now opened in system default webbrowser
+- Internal links to CWM templates are opened directly in CrypTool 2
+
+Text/binary input handling:
+- Renamed StreamToString/StringToStream to StringEncoder/StringDecoder
+- Moved hex/binary conversions from TextInput/TextOutput to StringEncoder/StringDecoder
+- TextInput now only uses plain strings
+- TextOutput prints binary data as hex, everything else as plain strings
+
+Factorizer:
+- Fixed infinite loop bug
+
+Caesar:
+- Removed ambigous key character input ('C'), shows character mapping instead ('A -> D')
+
+Primes and PKCS1:
+- Removed from "Standalone" component panel, added into "CrypTutorial" ribbon tab instead
+
+Plugin interface:
+- Removed dynamic properties (too complicated and did not work properly)
+- Removed handling of HasChanges property from plugins (now handled by editor internally)
+- Removed some no longer needed parameters (QuickWatchFormat, startable, hasDefaultValue)
