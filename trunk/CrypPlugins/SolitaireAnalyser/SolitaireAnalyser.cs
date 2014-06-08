@@ -202,11 +202,10 @@ namespace SolitaireAnalyser
             {
                 maxLength = Math.Max(wordDictionary[i].Length, maxLength);
             }
+
             var dictionary = wordDictionary
                 .GroupBy(item => item, StringComparer.OrdinalIgnoreCase)
                 .ToDictionary(item => item.Key, item => item.First(), StringComparer.OrdinalIgnoreCase);
-
-                
 
             indexList = new int[10];
             scoreList = new string[10];
@@ -218,6 +217,7 @@ namespace SolitaireAnalyser
             string remaining = "";
             bool test;
             sw.Start();
+
             for (i = 0; i < passDictionary.Length & !stop; i++)
             {
                 if (i != 0 & i % 1000 == 0) 
@@ -272,6 +272,8 @@ namespace SolitaireAnalyser
                     updateList(i, j, score, passDictionary[i], decryption);
                 }
             }
+
+            updateDicPos(i);
             Password = passDictionary[indexList[0]];
             OutputString = decrypt(passDictionary[indexList[0]].ToUpper(), inputString);
         }
