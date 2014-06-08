@@ -144,24 +144,29 @@ namespace WorkspaceManagerModel.Model.Tools
                 switch (array.Length)
                 {
                     case 0:
-                        return "null";
-                    case 1:
-                        return array.GetValue(0).ToString();
+                        return "[]";
+                    //case 1:
+                    //    return ConvertDataPresentation(array.GetValue(0));
                     default:
-                        var str = "" + array.GetValue(0) + ",";
+                        var str = "";
                         var counter = 0;
-                        for (var i = 1; i < array.Length - 1; i++)
+                        for (var i = 0; i < array.Length - 1; i++)
                         {
-                            str += (array.GetValue(i) + ",");
-                            counter++;
-                            if (counter == MaxUsedArrayValues)
-                            {
-                                return str;
-                            }
+                            str += ConvertDataPresentation(array.GetValue(i)) + ",";
+                            if (++counter == MaxUsedArrayValues) return str;
                         }
-                        str += array.GetValue(array.Length - 1);
-                        return str;
+                        str += ConvertDataPresentation(array.GetValue(array.Length - 1));
+                        return "[" + str + "]";
                 }
+            }
+
+            Type t = data.GetType();
+            //bool isDict = t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+            if (t.IsGenericType && t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+            {
+                var key = t.GetProperty("Key").GetValue(data, null);
+                var val = t.GetProperty("Value").GetValue(data, null);
+                return "[" + ConvertDataPresentation(key) + "->" + ConvertDataPresentation(val) + "]";
             }
 
             var enumerable = data as System.Collections.IEnumerable;
@@ -172,11 +177,12 @@ namespace WorkspaceManagerModel.Model.Tools
                 foreach (var obj in enumerable)
                 {
                     if (l.Count >= MaxUsedArrayValues) break;
-                    l.Add(obj == null ? "null" : obj.ToString());
+                    l.Add(obj == null ? "" : ConvertDataPresentation(obj));
                 }
 
-                return (l.Count == 0) ? "null" : String.Join(",", l);
+                return "[" + ((l.Count == 0) ? "" : String.Join(",", l)) + "]";
             }
+
 
             return data.ToString();
         }
