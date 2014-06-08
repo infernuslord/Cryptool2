@@ -1,21 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
+  
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en">The Solitaire Cipher was designed by Bruce Schneier upon a request of Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book Cryptonomicon. 
-Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools". For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html. <newline />
-This plugin attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute-force attack is too complex, a dictionary attack on the original password is implemented. Thus this only works if the initial deck for encryption was created using a password!
-</introduction>
-  <introduction lang="de-DE"></introduction>
-  <usage lang="en">To try to decrypt a ciphertext, the user must know the amount of cards used. If this number is wrong, analysis will not work correctly. Furthermore, it is important to use a good password dictionary. The plugin can only try each password in this dictionary. If it is not present, it will also fail. <newline />
-To verify the password, the plugin decrypts the first 20 characters and tries to recognize words from the language dictionary. To do this, the length of the longest word in the dictionary is taken from the beginning of the decrypted text. If this substring is not in the dictionary, the last letter is dropped, until it is found in the dictionary.
-Now the square of the length of this word is added to the score of this password. If the word is smaller than 3, it does not count. The top 10 passwords are shown at all times. 
-</usage>
-  <usage lang="de-DE"></usage>
-  <presentation lang="en">The presentation gives real time feedback on remaining time, passwords per second and password dictionary index. This index runs from 0 to the dictionary length with steps of 1000. <newline />
-Also, the user can see the top 10 passwords at all times. It might be possible that the correct password will not end in the first position, but it should with reasonable probability end within the top 10. So if the plugin is finished, the decrypted text might be unreadable, but the correct password should be visible somewhere in the top 10.
-</presentation>
-  <presentation lang="de-DE"></presentation>
+  
+  <introduction lang="en">
+    The Solitaire cipher was designed by Bruce Schneier upon a request of Neal Stephenson. It appears as 'Pontifex' (to hide that it employs a deck of cards) in Stephenson's book <i>Cryptonomicon</i>.
+    <newline />
+    Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools".
+    For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html.
+    <newline />
+    This component attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute-force attack is too complex, a dictionary attack on the original keyword is implemented.
+    Thus this only works if the initial deck for encryption was created using a keyword!
+  </introduction>
+
+  <introduction lang="de-DE">
+    Die Solitaire-Chiffre wurde von Bruce Schneier auf Anfrage von Neal Stephenson entworfen. Sie erscheint unter dem Namen 'Pontifex' (um zu verschleiern, dass sie ein Kartenspiel verwendet) in
+    Stephensons Roman <i>Cryptonomicon</i>.
+    <newline />
+    Laut Schneier entwarf er die Chiffre, um Agenten eine sichere Kommunikation zu ermöglichen, ohne von elektronischen Geräten oder verräterischen Utensilien abhängig zu sein.
+    Eine detailierte Beschreibung ist auf Schneiers Website http://www.schneier.com/solitaire.html zu finden.
+    <newline />
+    Diese Komponente versucht, Geheimtexte, die mit der Solitaire-Chiffre verschlüsselt wurden, zu entschlüsseln.
+    Da ein Brute-Force-Angriff für diese Verschlüsselung nicht erfolgversprechend ist, implementiert die Komponente einen Wörterbuchangriff.
+    Daher funktioniert dieser Angriff auch nur bei Geheimtexten, deren initialer Kartenstapel mit einem Schlüsselwort generiert wurde.
+  </introduction>
+  
+  <usage lang="en">
+    To try to decrypt a ciphertext, the user must know the amount of cards used. If this number is wrong, analysis will not work correctly. Furthermore, it is important to use a good keyword dictionary.
+    The component can only try each keyword in this dictionary. If it is not present, it will also fail. <newline />
+    To verify the keyword, the component decrypts the first 20 characters and tries to recognize words from the language dictionary. To do this, the length of the longest word in the dictionary is taken from the beginning of the decrypted text.
+    If this substring is not in the dictionary, the last letter is dropped, until it is found in the dictionary.
+    Now the square of the length of this word is added to the score of this keyword. If the word is smaller than 3, it does not count. The top 10 keyword are shown in the presentation view of the component at all times.
+  </usage>
+
+  <usage lang="de-DE">
+    Die Komponente benötigt als Eingabe den zu untersuchenden Geheimtext, der mit der Solitaire-Chiffre verschlüsselt wurde, sowie zwei Wörterbücher: ein Schlüsselwort-Wörterbuch und ein Klartext-Wörterbuch.
+    <newline />
+    Um einen Geheimtext entschlüsseln zu können, muss die Größe des verwendeten Kartenspiels bekannt sein. Wird die Analyse mit der falschen Kartenzahl durchgeführt, wird sie möglicherweise nicht erfolgreich sein.
+    Ausserdem ist die Verwendung eines guten Wörterbuches wichtig. Die Komponente testet jedes Wort im Schlüsselwort-Wörterbuch als Schlüsselwort. Wenn das tatsächlich verwendete Schlüsselwort nicht im Wörterbuch vorkommt, kann es auch nicht gefunden werden.
+    <newline />
+    Um zu überprüfen, ob ein getestetes Wort das korrekte Schlüsselwort ist, werden die ersten 20 Zeichen der Eingabe mit dem potentiellen Schlüsselwort entschlüsselt und der entstandene Klartext wird nach Wörtern des Klartext-Wörterbuches durchsucht.
+    Dazu wird für alle Worte des Klartext-Wörterbuches, beginnend mit den längsten, getestet, ob der Klartext mit diesem Wort beginnt. Bei einem Treffer wird das gefundene Wort vom Beginn des Klartextes gelöscht und der Bewertung des momentanen Schlüsselwortes
+    wird um das Quadrat der Länge des gefundenen Wortes erhöht. Dies wird solange wiederholt, bis keine Worte mehr am Beginn der Klartextes gefunden werden können.
+    <newline />
+    Die 10 besten auf diese Weise gefundenen Schlüsselworte werden in der Präsentationsansicht der Komponente aufgezählt.
+  </usage>
+
+  <presentation lang="en">
+    The presentation gives real time feedback on remaining time, keywords per second and keyword dictionary index. This index runs from 0 to the dictionary length with steps of 1000. <newline />
+    Also, the user can see the top 10 keywords at all times. It might be possible that the correct keyword will not end in the first position, but it should with reasonable probability end within the top 10.
+    So if the component is finished, the decrypted text might be unreadable, but the correct keyword should be visible somewhere in the top 10.
+  </presentation>
+
+  <presentation lang="de-DE">
+    Die Präsentationsansicht der Komponente gibt Informationen über die verbleibende Laufzeit, Anzahl der pro Sekunde getesteten Schlüsselworte und der insgesamt getesteten Schlüsselworte.<newline />
+    Ausserdem werden die 10 am besten bewerteten Schlüsselworte mit den sich jeweils ergebenden Klartexten dargestellt. Es ist möglich, dass das korrekte Schlüsselwort nicht auf Platz 1 erscheint, aber
+    mit einiger Wahrscheinlichkeit wird es sich unter den ersten 10 Plätzen befinden.
+  </presentation>
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://www.schneier.com/solitaire.html"/>
+      <caption lang="en">Bruce Schneier - The Solitaire Encryption Algorithm</caption>
+      <link lang="de" url="http://www.schneier.com/solitaire.html"/>
+      <caption lang="de">Bruce Schneier - The Solitaire Encryption Algorithm (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="de" url="http://www.nplaumann.de/kryptografie/solitaire.html"/>
+      <caption lang="de">Der 'Solitaire'-Verschlüsselungsalgorithmus</caption>
+    </linkReference>
   </references>
+  
 </documentation>

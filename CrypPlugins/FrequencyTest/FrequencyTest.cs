@@ -347,11 +347,4 @@ namespace Cryptool.FrequencyTest
         #endregion
 
     }
-   
-  
 }
-
-
-
-
-

@@ -282,9 +282,9 @@ namespace Solitaire
                     else GuiLogMessage("Given deckstate missing!", NotificationLevel.Error);
                     break;
 
-                case 3: //Password
+                case 3: //Keyword
                     if (password != null) KeyTheDeckPassword(password, settings.NumberOfCards);
-                    else GuiLogMessage("Password missing!", NotificationLevel.Error);
+                    else GuiLogMessage("Keyword missing!", NotificationLevel.Error);
                     break;
 
                 case 4: //Random

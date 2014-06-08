@@ -7,18 +7,19 @@
   <introduction lang="en">
     This component provides different comparators for two inputs. The success of this operation depends on the comparability of
     the given inputs. If possible, the types will be cast automatically (from one object type to a compatible one) and compared afterwards.
-    Otherwise, an error will be shown.<newline/>
-    <newline/>
-    Hint: A "String" and a "CryptoolStream" will be compared using their binary representaion.
+    Otherwise, an error will be shown.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente implementiert verschiedene Vergleichsoperatoren für ihre beiden Eingaben. Der Erfolg der Vergleichsoperation hängt von der
+    Vergleichbarkeit der Eingaben ab. Falls die Datentypen der Eingaben unterschiedlich sind, versucht die Komponente automatisch eine Typkonversion vorzunehmen.
+    Ist dies nicht möglich, so bricht die Komponente mit einer Fehlermeldung ab.
   </introduction>
 
   <usage lang="en">
     To use the comparator component, the user has to put it onto the workspace. Both inputs have to be connected with compatible types (for example
-    two Strings or a String and a CryptoolStream). The output of the comparison is a boolean value which is true, if the comparison succeeded and
-    false, if it failed<newline/>
+    two BigIntegers or a BigInteger and a Integer). The output of the comparison is a boolean value which is true, if the comparison succeeded and
+    false, if it failed.<newline/>
     <newline/>
     Within the settings of the component, the user may choose which comparison method/operator shall be used:<newline/>
     <newline/>
@@ -26,16 +27,32 @@
     <newline/>
     != The comparison is true if both given inputs are unequal.<newline/>
     <newline/>
-    &gt; The comparison is true if the first input is greater than the second one ("Greater" depends on the input type).<newline/>
+    &gt; The comparison is true if the first input is greater than the second one ("Greater" depends on the input type.)<newline/>
     <newline/>
-    &lt; The comparison is true if the first input is smaller than the second one ("Smaller" depends on the input type).<newline/>
+    &lt; The comparison is true if the first input is smaller than the second one ("Smaller" depends on the input type.)<newline/>
     <newline/>
-    &gt;= The comparison is true if the first input is greater or equal than the second one ("Greater" depends on the input type).<newline/>
+    &gt;= The comparison is true if the first input is greater or equal than the second one ("Greater" depends on the input type.)<newline/>
     <newline/>
-    &lt;= The comparison is true if the first input is smaller or equal than the second one ("Smaller" depends on the input type).<newline/>
+    &lt;= The comparison is true if the first input is smaller or equal than the second one ("Smaller" depends on the input type.)<newline/>
   </usage>
 
   <usage lang="de-DE">
+    Um die Komparator-Komponente zu verwenden muss sie auf die Arbeitsfläche gezogen werden. Beide Eingänge müssen mit kompatiblen Typen belegt werden
+    (z.B. zwei BigInteger oder ein BigInteger und ein Integer). Die Ausgabe der Komponente ist ein boolescher Wert, der den Ausgang des Vergleichs darstellt.<newline/>
+    <newline/>
+    In den Einstellungen der Komponente kann man den zu verwendenden Vergleichsoperator bestimmen:<newline/>
+    <newline/>
+    == Das Vergleichsresultat ist wahr genau dann, wenn die beiden Eingaben gleich sind.<newline/>
+    <newline/>
+    != Das Vergleichsresultat ist wahr genau dann, wenn die beiden Eingaben ungleich sind.<newline/>
+    <newline/>
+    &gt; Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe größer als die zweite Eingabe ist. ("Größer" hängt vom Datentyp der Eingabe ab.)<newline/>
+    <newline/>
+    &lt; Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe kleiner als die zweite Eingabe ist. ("Kleiner" hängt vom Datentyp der Eingabe ab.)<newline/>
+    <newline/>
+    &gt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe größer oder gleich der zweiten Eingabe ist. ("Größer" hängt vom Datentyp der Eingabe ab.)<newline/>
+    <newline/>
+    &lt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe kleiner oder gleich der zweiten Eingabe ist. ("Kleiner" hängt vom Datentyp der Eingabe ab.)<newline/>
   </usage>
   
   <presentation lang="en">
@@ -46,4 +63,5 @@
   
   <references>
   </references>
+  
 </documentation>

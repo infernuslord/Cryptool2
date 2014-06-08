@@ -136,7 +136,7 @@
     <value>Zeichen:absolute Häufigkeit des Zeichens:relative Häufigkeit des Zeichens (in %)</value>
   </data>
   <data name="ArrayOutputCaption" xml:space="preserve">
-    <value>Ausgabe (Liste)</value>
+    <value>Listenausgabe</value>
   </data>
   <data name="ArrayOutputTooltip" xml:space="preserve">
     <value>Absolute Buchstabenhäufigkeiten</value>
