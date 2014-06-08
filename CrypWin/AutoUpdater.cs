@@ -435,9 +435,11 @@ namespace Cryptool.CrypWin
 
         private void ReadXml(char userAgentRef)
         {
+            WebClient client = null;
+
             try
             {
-                WebClient client = new WebClient();
+                client = new WebClient();
                 client.Headers["User-Agent"] = GetUserAgentString(userAgentRef);
 
                 Stream s = client.OpenRead(XmlPath);
@@ -454,17 +456,21 @@ namespace Cryptool.CrypWin
                     serverNotAvailableMessage = null;
                     GuiLogMessage("AutoUpdate: Checking for updates successful, connection to server available.", NotificationLevel.Debug);
                 }
-                
+
             }
             catch (Exception ex)
             {
                 if (serverAvailable)
                 {
-                    serverAvailable = false;   
+                    serverAvailable = false;
                 }
 
                 serverNotAvailableMessage = ex.Message;
                 GuiLogMessage("AutoUpdate: Cannot check for updates:" + ex.Message, NotificationLevel.Warning);
+            }
+            finally
+            {
+                if (client != null) client.Dispose();
             }
         }
 
