@@ -136,10 +136,10 @@
     <value>Input the dictionary of the plaintext language</value>
   </data>
   <data name="PassDictionaryCaption" xml:space="preserve">
-    <value>Password dictionary input</value>
+    <value>Keyword dictionary input</value>
   </data>
   <data name="PassDictionaryTooltip" xml:space="preserve">
-    <value>Input the password dictionary to be used in bruteforce</value>
+    <value>Input the keyword dictionary to be used in bruteforce</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Plaintext Output</value>
@@ -148,10 +148,10 @@
     <value>Plaintext after decryption</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
-    <value>Password Output</value>
+    <value>Keyword Output</value>
   </data>
   <data name="PasswordTooltip" xml:space="preserve">
-    <value>Password used for decryption</value>
+    <value>Keyword used for decryption</value>
   </data>
   <data name="NumberOfCardsCaption" xml:space="preserve">
     <value>Cards</value>
@@ -169,10 +169,10 @@
     <value>Nr.</value>
   </data>
   <data name="labelPassSec" xml:space="preserve">
-    <value>Pass./Sec.:</value>
+    <value>Keys/Sec.:</value>
   </data>
   <data name="labelPassword" xml:space="preserve">
-    <value>Password</value>
+    <value>Keyword</value>
   </data>
   <data name="labelRemainingTime" xml:space="preserve">
     <value>Remaining Time:</value>

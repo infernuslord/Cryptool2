@@ -10,8 +10,8 @@
             <ColumnDefinition Width="40*" />
             <ColumnDefinition Width="90*" />
             <ColumnDefinition Width="190*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="205*" />
+            <ColumnDefinition Width="115*" />
+            <ColumnDefinition Width="165*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30*" />
@@ -37,7 +37,7 @@
         <Label Content="{Loc labelNr}" Grid.Row="2" Name="label5" VerticalAlignment="Center" Padding="0" />
         <Label Content="{Loc labelScore}" Grid.Column="1" Grid.Row="2" Name="label6" Margin="0,0,20,0" VerticalAlignment="Center" Padding="0" />
         <Label Content="{Loc labelPassword}" Grid.Column="1" Grid.Row="2" Name="label7" Grid.ColumnSpan="2" Margin="80,0,0,0" VerticalAlignment="Center" Padding="0" />
-        <Label Content="{Loc labelStartofPlaintext}" Grid.Column="3" Grid.Row="2" Name="label8" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
+        <Label Content="{Loc labelStartofPlaintext}" Grid.Column="3" Grid.Row="2" Name="label8" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
         <Label Content="1." Grid.Row="3" Name="label9" VerticalAlignment="Center" Padding="0,0,10,0" HorizontalContentAlignment="Right" />
         <Label Content="2." Grid.Row="4" Name="label10" VerticalAlignment="Center" Padding="0,0,10,0" HorizontalContentAlignment="Right" />
         <Label Content="3." Grid.Row="5" Name="label11" VerticalAlignment="Center" Padding="0,0,10,0" HorizontalContentAlignment="Right" />
@@ -68,16 +68,16 @@
         <Label Content="" Grid.Column="1" Grid.Row="10" Name="pass8" Grid.ColumnSpan="2" Margin="80,0,0,0" VerticalAlignment="Center" Padding="0" />
         <Label Content="" Grid.Column="1" Grid.Row="11" Name="pass9" Grid.ColumnSpan="2" Margin="80,0,0,0" VerticalAlignment="Center" Padding="0" />
         <Label Content="" Grid.Column="1" Grid.Row="12" Name="pass10" Grid.ColumnSpan="2" Margin="80,0,0,0" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="3" Name="text1" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="4" Name="text2" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="5" Name="text3" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="6" Name="text4" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="7" Name="text5" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="8" Name="text6" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="9" Name="text7" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="10" Name="text8" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="11" Name="text9" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
-        <Label Content="" Grid.Column="3" Grid.Row="12" Name="text10" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" />
+        <Label Content="" Grid.Column="3" Grid.Row="3" Name="text1" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="4" Name="text2" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="5" Name="text3" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="6" Name="text4" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="7" Name="text5" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="8" Name="text6" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="9" Name="text7" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="10" Name="text8" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="11" Name="text9" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
+        <Label Content="" Grid.Column="3" Grid.Row="12" Name="text10" Grid.ColumnSpan="2" VerticalAlignment="Center" Padding="0" Height="30" VerticalContentAlignment="Center" />
         <Label Content="{Loc labelDicPos}" Grid.Column="3" Name="label3" />
         <Label Content="{Loc labelPassSec}" Grid.Column="3" Grid.Row="1"  Name="label4" />
         <Label Grid.Column="4" Name="dicPos" />

@@ -121,7 +121,7 @@
     <value>Solitaire</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Solitaire</value>
+    <value>Solitaire-Chiffre aus dem Roman 'Cryptonomicon'</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>
@@ -130,10 +130,10 @@
     <value>Geben Sie den zu verarbeitenden Text ein.</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
-    <value>Passwort-Eingabe</value>
+    <value>Schlüsselwort-Eingabe</value>
   </data>
   <data name="PasswordTooltip" xml:space="preserve">
-    <value>Geben Sie das Passwort an, mit dem der initiale Kartenstapel generiert werden soll.</value>
+    <value>Geben Sie das Schlüsselwort an, mit dem der initiale Kartenstapel generiert werden soll.</value>
   </data>
   <data name="DeckstateCaption" xml:space="preserve">
     <value>Eingabe des Kartenstapels</value>
@@ -179,7 +179,7 @@
 - Aufsteigend: sortiere die Karten in aufsteigender Reihenfolge (beginnend mit der niedrigsten)
 - Absteigend: sortiere die Karten in absteigender Reihenfolge (beginnend mit der höchsten)
 - Eingabe: verwende angegebene Reihenfolge
-- Passwort: erzeuge Reihenfolge mittels eines Passwortes
+- Schlüsselwort: erzeuge Reihenfolge mittels eines Schlüsselwortes
 - Zufall: erzeuge eine zufällige Reihenfolge</value>
   </data>
   <data name="NumberOfCardsCaption" xml:space="preserve">
@@ -213,7 +213,7 @@ Die Grundeinstellung ist 54 Karten (52 normale Karten und 2 Joker). Dies ist die
     <value>Eingabe</value>
   </data>
   <data name="GenerationTypeList4" xml:space="preserve">
-    <value>Passwort</value>
+    <value>Schlüsselwort</value>
   </data>
   <data name="GenerationTypeList5" xml:space="preserve">
     <value>Zufall</value>

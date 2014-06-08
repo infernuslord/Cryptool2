@@ -121,7 +121,7 @@
     <value>Solitaire-Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin führt die Kryptoanalyse des Solitaire-Verfahrens durch.</value>
+    <value>Dieses Komponente führt die Kryptoanalyse des Solitaire-Verfahrens durch.</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Geheimtext</value>
@@ -136,7 +136,7 @@
     <value>Geben Sie das zu verwendende Wörterbuch für die Klartextsuche an.</value>
   </data>
   <data name="PassDictionaryCaption" xml:space="preserve">
-    <value>Passwort-Wörterbuch</value>
+    <value>Schlüsselwort-Wörterbuch</value>
   </data>
   <data name="PassDictionaryTooltip" xml:space="preserve">
     <value>Geben Sie das für die Brute-Force-Suche zu verwendende Wörterbuch an.</value>
@@ -148,10 +148,10 @@
     <value>Ausgabe des Klartextes</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
-    <value>Passwort</value>
+    <value>Schlüsselwort</value>
   </data>
   <data name="PasswordTooltip" xml:space="preserve">
-    <value>Ausgabe des gefundenen Passwortes</value>
+    <value>Ausgabe des gefundenen Schlüsselwortes</value>
   </data>
   <data name="NumberOfCardsCaption" xml:space="preserve">
     <value>Kartenzahl</value>
@@ -169,10 +169,10 @@
     <value>Nr.</value>
   </data>
   <data name="labelPassSec" xml:space="preserve">
-    <value>Pass./Sek.:</value>
+    <value>Schlüssel/Sek.:</value>
   </data>
   <data name="labelPassword" xml:space="preserve">
-    <value>Passwort</value>
+    <value>Schlüsselwort</value>
   </data>
   <data name="labelRemainingTime" xml:space="preserve">
     <value>verbleibende Zeit:</value>

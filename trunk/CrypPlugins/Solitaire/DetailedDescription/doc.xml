@@ -11,10 +11,16 @@
     For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html.
   </introduction>
 
-  <introduction lang="de-DE"></introduction>
+  <introduction lang="de-DE">
+    Die Solitaire-Chiffre wurde von Bruce Schneier auf Anfrage von Neal Stephenson entworfen. Sie erscheint unter dem Namen 'Pontifex' (um zu verschleiern, dass sie ein Kartenspiel verwendet) in
+    Stephensons Roman <i>Cryptonomicon</i>.
+    <newline />
+    Laut Schneier entwarf er die Chiffre, um Agenten eine sichere Kommunikation zu ermöglichen, ohne von elektronischen Geräten oder verräterischen Utensilien abhängig zu sein.
+    Eine detailierte Beschreibung ist auf Schneiers Website http://www.schneier.com/solitaire.html zu finden.
+  </introduction>
 
   <usage lang="en">
-    To encrypt with Solitaire, you need a deck of cards with 2 jokers. Not all other cards are needed, anything from 1 card up to all 52 works, only the 2 jokers are required.
+    To encrypt with Solitaire, you need a deck of cards with 2 distinguishable jokers. Not all other cards are needed, anything from 1 card up to all 52 works, only the 2 jokers are required.
     Hence, in the plugin one can choose the amount of cards.
     <newline />
     If you want to decrypt a message, it is important that the same amount of cards is chosen as was used to encrypt the message. Otherwise, the decryption will be incorrect.
@@ -25,22 +31,49 @@
       <item>Ascending</item>
       <item>Descending</item>
       <item>Given state</item>
-      <item>Password</item>
+      <item>Keyword</item>
       <item>Random</item>
     </list>
 
-    Ascending, descending and random speak for themselves, where ascending order of colors is Clubs - Diamonds - Hearts - Spades, ascending order of cards is Ace, 2 through 10, Jack, Queen, King.
+    Ascending, descending and random speak for themselves, where ascending order of colors is Clubs - Diamonds - Hearts - Spades, ascending order of cards is Ace, 2 through 10, Jack, Queen, King, followed by the two jokers.
     <newline />
     For Given state, it is required to input the order of cards as numbers separated by commas, e.g. 1,2,3,4 will become Ace and 2 of spades followed by joker 1 and joker 2.
     <newline />
-    The initial deck can also be created by using a password. See Schneier's website (http://www.schneier.com/solitaire.html) for details on how this is done.
+    The initial deck can also be created by using a keyword. See Schneier's website (http://www.schneier.com/solitaire.html) for details on how this is done.
     <newline />
     The input text is padded with X until the length is a multiple of 5. Then a cipher stream is created with the same length as the padded input text, which is ultimately 'added' to the input text (modulo 26).
     <newline />
     Generation of the cipher stream can be done automatically for speed and manually to see exactly what happens.
   </usage>
 
-  <usage lang="de-DE"></usage>
+  <usage lang="de-DE">
+    Für die Verschlüsselung mit Solitaire benötigt man ein Kartenspiel mit zwei unterscheidbaren Jokern. Es werden nicht notwendigerweise sämtliche Karten gebraucht, daher können beliebige Kartenspiele verwendet werden (z.B. 32 oder 52 Karten).
+    Es ist lediglich notwendig, dass das Kartenspiel zwei Joker enthält. Die Komponente lässt in den Einstellungen die Angabe der Größe des Kartenspiels zu.
+    <newline />
+    Für die Entschlüsselung ist es allerdings wichtig, dieselbe Kartenanzahl wie bei der Verschlüsselung zu wählen. Ansonsten liefert die Entschlüsselung ein falsches Resultat.
+    <newline />
+    Sie können auswählen, wie der initiale Kartenstapel generiert wird:
+
+    <list>
+      <item>Aufsteigend</item>
+      <item>Absteigend</item>
+      <item>Eingabe</item>
+      <item>Schlüsselwort</item>
+      <item>Zufall</item>
+    </list>
+
+    'Aufsteigend', 'absteigend' und 'Zufall' sind selbsterklärend, wobei die aufsteigende Reihenfolge der Kartenfarben Kreuz - Karo - Herz - Pik ist, die aufsteigende Reihenfolge der Kartenwerte ist As, 2 bis 10, Bube, Dame, König.
+    Die beiden Joker haben die höchsten Werte.
+    <newline />
+    Bei 'Eingabe' wird die Reihenfolge der Karten als eine durch Kommas getrennte Liste von Karten erwartet, wobei die Karten entsprechend ihrer Wertigkeit durchnummeriert sind und die zwei Joker mit A und B bezeichnet werden. 
+    Die Eingabe 1,2,A,B steht also für die Karten Kreuz As, Kreuz 2, Joker 1 und Joker 2.
+    <newline />
+    Der initiale Kartenstapel kann auch durch ein Schlüsselwort erzeugt werden. Für eine detailierte Beschreibung (auf englisch) finden Sie auf der Webseite von Bruce Schneier: http://www.schneier.com/solitaire.html
+    <newline />
+    An den Eingabetext werden 'X' angehängt, bis seine Länge ein Vielfaches von 5 ist. Dann wird ein Schlüsselstrom mit der selben Länge wie der ergänzte Eingabetext erzeugt, der schliesslich zum Eingabetext addiert wird (modulo 26).
+    <newline />
+    Die Erzeugung des Schlüsselstroms kann entweder automatisch geschehen, oder man kann sie manuell ausführen, um die einzelnen Schritte der Schlüsselgenerierung genau nachvollziehen zu können.
+  </usage>
 
   <presentation lang="en">
     If manual cipher stream generation is chosen, the presentation must be used. When the workspace is executed, the presentation button "Initialize" will be enabled.
@@ -53,7 +86,16 @@
     If all steps are clear, the user can choose to generated the remaining characters automatically by clicking this button.
   </presentation>
 
-  <presentation lang="de-DE"></presentation>
+  <presentation lang="de-DE">
+    Wenn die manuelle Schlüsselgenerierung in den Einstellungen der Komponente ausgewählt ist, muss die Komponente in der Präsentationsansicht dargestellt sein.
+    Wird die Arbeitsfläche gestartet, so wird der Button "Initialisierung" aktiviert. Sobald dieser gedrückt wird, wird der in den Einstellungen spezifizierte initiale Kartenstapel erzeugt.
+    <newline />
+    Danach kann man die 5 Schritte, wie sie in Schneiers Beschreibung (http://www.schneier.com/solitaire.html) dargestellt sind, einzeln ausführen.
+    Nach jedem Schritt wird der Kartenstapel aktualisiert und die Karten, deren Position sich verändert hat, werden in fetten Buchstaben dargestellt.
+    <newline />
+    Jeder Durchgang von 5 Schritten erzeugt ein Zeichen des Schlüsselstroms. Um den gesamten Text zu ver- oder entschlüsseln müssen so viele Schlüsselstromzeichen generiert werden, wie Zeichen im Eingabetext vorhanden sind.
+    Wenn alle Schritte einer Runde beendet sind, kann man die restlichen Zeichen automatisch erzeugen lassen, indem man den entsprechenden Button drückt.
+  </presentation>
 
   <references>
     <linkReference>

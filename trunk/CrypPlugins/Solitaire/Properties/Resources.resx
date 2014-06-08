@@ -121,7 +121,7 @@
     <value>Solitaire</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Try the Solitaire Cipher</value>
+    <value>Solitaire cipher from the novel 'Cryptonomicon'</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
@@ -130,10 +130,10 @@
     <value>Input a string to be processed</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
-    <value>Password input</value>
+    <value>Keyword input</value>
   </data>
   <data name="PasswordTooltip" xml:space="preserve">
-    <value>Input the password with which the initial deck will be generated</value>
+    <value>Input the keyword with which the initial deck will be generated</value>
   </data>
   <data name="DeckstateCaption" xml:space="preserve">
     <value>Deckstate input</value>
@@ -181,7 +181,7 @@ Seperate the cards with a comma, e.g. '1,2,3,4'. Maximum number of cards is 54.<
 - Ascending: sorts the cards in ascending order (starting with the lowest).
 - Descending: sorts the cards in descending order (starting with the highest).
 - Given state: use a deckstate as entered
-- Password: generate the initial deck from password
+- Keyword: generate the initial deck from a keyword
 - Random: randomly generate the initial deck</value>
   </data>
   <data name="NumberOfCardsCaption" xml:space="preserve">
@@ -216,7 +216,7 @@ The minimum setting is 3 cards, a single card and 2 jokers.</value>
     <value>Given State</value>
   </data>
   <data name="GenerationTypeList4" xml:space="preserve">
-    <value>Password</value>
+    <value>Keyword</value>
   </data>
   <data name="GenerationTypeList5" xml:space="preserve">
     <value>Random</value>
