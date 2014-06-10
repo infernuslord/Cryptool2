@@ -234,6 +234,73 @@ Wählen Sie diesen Punkt, um einen mit der Enigma verschlüsselten Text zu analy
   <!-- Transposition input -->
   <file resource="Wizard.Config.Analysis.wizard.config.transposition.xml"/>
 
+  <!-- Monoalphabetic Substitution input -->
+  <input image="Substitution">
+    <name lang="en" >Monoalphabetic Substitution</name>
+    <name lang="de" >Monoalphabetische Substitution</name>
+    <description lang="en" >
+      Monoalphabetic Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+      By selecting this, you can analyze some ciphertext that was encrypted with the Substitution algorithm.
+    </description>
+    <description lang="de" >
+      Die Monoalphabetische Substitution ist ein klassisches Verschlüsselungsverfahren.
+      Wählen Sie diesen Punkt, um einen mit dem Substitutions-Verfahren verschlüsselten Text zu analysieren.
+    </description>
+
+    <headline lang="en">Monoalphabetic Substitution Analysis</headline>
+    <headline lang="de">Monoalphabetische Substitution-Analyse</headline>
+    <task lang="en">Please input the ciphertext and text language.</task>
+    <task lang="de">Bitte geben Sie den Geheimtext ein und wählen die Textsprache aus.</task>
+
+    <inputBox plugin="Input of the ciphertext" property="Text" alignment="Stretch" visibleLines="5">
+      <description lang="en">Ciphertext:</description>
+      <description lang="de">Geheimtext:</description>
+      <defaultvalue>Mc gsaqxpisbqva b twftxmxwxmpc gmqvhs mt b ohxvpj pl hcgsaqxmpc fa dvmgv wcmxt pl qnbmcxhzx bsh shqnbghj dmxv gmqvhsxhzx bggpsjmci xp b shiwnbs tatxho xvh wcmxt oba fh tmcinh nhxxhst xvh optx gpoopc qbmst pl nhxxhst xsmqnhxt pl nhxxhst omzxwsht pl xvh bfpuh bcj tp lpsxv Xvh shghmuhs jhgmqvhst xvh xhzx fa qhslpsomci bc mcuhsth twftxmxwxmpc</defaultvalue>
+    </inputBox>
+
+    <comboBox plugin="Cryptanalysis of the ciphertext. Different plaintext candidates and the according keys are shown" property="Alphabet" defaultValue="0" width="20%" alignment="Left">
+      <description lang="en">Language of the cleartext message:</description>
+      <description lang="de">Sprache der Klartext-Nachricht:</description>
+      <item content="English" lang="en"/>
+      <item content="German" lang="en"/>
+      <item content="Englisch" lang="de"/>
+      <item content="Deutsch" lang="de"/>
+    </comboBox>
+
+    <sampleViewer image="Substitution" file="Cryptanalysis\Classic\AnalysisMonoalphabeticSubstitution.cwm">
+      <name lang="en">Monoalphabetic Substitution Analysis Output</name>
+      <name lang="de">Monoalphabetische Substitution-Analyse: Ausgabe</name>
+      <description lang="en">Monoalphabetic Substitution Analysis Output</description>
+      <description lang="de">Monoalphabetische Substitutions-Analyse: Ausgabe</description>
+
+      <headline lang="en">Monoalphabetic Substitution Analysis Output</headline>
+      <headline lang="de">Monoalphabetische Substitution-Analyse: Ausgabe</headline>
+      <task lang="en">Here, you can view the results.</task>
+      <task lang="de">Hier können Sie die Ergebnisse sehen.</task>
+
+      <presentation plugin="Cryptanalysis of the ciphertext. Different plaintext candidates and the according keys are shown" alignment="Stretch" width="100%" group="PresentationGroup" height="350">
+        <description lang="en">Analysis:</description>
+        <description lang="de">Analyse:</description>
+      </presentation>
+
+      <progressBar plugin="Cryptanalysis of the ciphertext. Different plaintext candidates and the according keys are shown" >
+        <description lang="en">Progress:</description>
+        <description lang="de">Fortschritt:</description>
+      </progressBar>
+
+      <outputBox plugin="Output of the plaintext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Deciphered Ciphertext:</description>
+        <description lang="de">Entschlüsselter Geheimtext:</description>
+      </outputBox>
+
+      <outputBox plugin="Output of the key" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Key (Cipher Alphabet):</description>
+        <description lang="de">Schlüssel (Chiffre-Alphabet):</description>
+      </outputBox>     
+    </sampleViewer>
+
+  </input>
+  
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
