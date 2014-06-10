@@ -291,8 +291,10 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     AnalyzeGenetic();
                 }
                 //this.masPresentation.EnableGUI();
-                this.UpdateDisplayEnd();
+                this.UpdateDisplayEnd();                
             }
+            //set final plugin progress to 100%:
+            OnPluginProgressChanged(this,new PluginProgressEventArgs(1.0,1.0));
         }
 
         public void PostExecution()
