@@ -220,7 +220,8 @@ namespace Cryptool.Plugins.NetworkReceiver
             isRunning = false;
             availableConnections.Stop();
             calculateSpeedrate.Stop();
-            if (settings.Protocol == NetworkReceiverSettings.tcpProtocol)
+            if (settings.Protocol == NetworkReceiverSettings.tcpProtocol 
+                && tcpServer != null) // null chk needed for the "use given connection"-mode
             {
                 tcpServer.Stop();
             }
