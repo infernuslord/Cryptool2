@@ -249,7 +249,14 @@ namespace WorkspaceManager.Execution
                 foreach (var pluginModel in workspaceModel.AllPluginModels)
                 {
                     pluginModel.Stop = true;
-                    pluginModel.Plugin.Stop();
+                    try
+                    {
+                        pluginModel.Plugin.Stop();
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage(string.Format(Resources.An_Error_occured_while_stopping_0_1, pluginModel.Name, ex.Message), NotificationLevel.Error);
+                    }
                     pluginModel.resetEvent.Set();
                 }
                 benchmarkTimer.Enabled = false;
