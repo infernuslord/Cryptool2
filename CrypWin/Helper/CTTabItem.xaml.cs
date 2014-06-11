@@ -223,12 +223,10 @@ namespace Cryptool.CrypWin.Helper
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
-            if (!(Tag is ToolTip))
-                return;
-
-            var tp = Tag as ToolTip;
-
-            Clipboard.SetText(tp.ToString());
+            if (info != null && info.CopyText != null)
+            {
+                Clipboard.SetText(info.CopyText);
+            }
         }
 
         private TabInfo info;

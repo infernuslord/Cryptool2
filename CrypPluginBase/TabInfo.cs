@@ -39,6 +39,9 @@ namespace Cryptool.PluginBase
         private string title;
         public string Title { get { return title; } set { title = value; } }
 
+        private string copyText;
+        public string CopyText { get { return copyText; } set { copyText = value; } }
+
         private FileInfo filename;
         public FileInfo Filename
         {
@@ -86,6 +89,10 @@ namespace Cryptool.PluginBase
                     {
                         iconFile = Path.Combine(file.Directory.FullName, xml.Element("icon").Attribute("file").Value);
                     }
+
+                    CopyText = (titleElement != null ? (titleElement.Value + Environment.NewLine) : "") + 
+                        (summaryElement != null ? (summaryElement.Value + Environment.NewLine) : "") +
+                        (descriptionElement != null ? descriptionElement.Value : "");
                 }
                 catch (Exception)
                 {
