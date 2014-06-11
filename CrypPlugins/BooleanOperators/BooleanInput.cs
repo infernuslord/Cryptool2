@@ -59,6 +59,8 @@ namespace Cryptool.Plugins.BooleanOperators
         private void presentation_StatusChanged(object sender, EventArgs e)
         {
             settings.Value = presentation.Value ? 1 : 0;
+            Output = (settings.Value == 1);
+            settings_OnPluginStatusChanged(this, new StatusEventArgs(StatusChangedMode.ImageUpdate, settings.Value));
         }
 
         [PropertyInfo(Direction.OutputData, "BI_OutputCaption", "BI_OutputTooltip", false)]
