@@ -240,7 +240,7 @@ Wählen Sie diesen Punkt, um einen mit der Enigma verschlüsselten Text zu analy
     <name lang="de" >Monoalphabetische Substitution</name>
     <description lang="en" >
       Monoalphabetic Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-      By selecting this, you can analyze some ciphertext that was encrypted with the Substitution algorithm.
+      Selecting this allows to analyze ciphertext which was encrypted with monoalphabetic Substitution.
     </description>
     <description lang="de" >
       Die Monoalphabetische Substitution ist ein klassisches Verschlüsselungsverfahren.
@@ -294,8 +294,8 @@ Wählen Sie diesen Punkt, um einen mit der Enigma verschlüsselten Text zu analy
       </outputBox>
 
       <outputBox plugin="Output of the key" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Key (Cipher Alphabet):</description>
-        <description lang="de">Schlüssel (Chiffre-Alphabet):</description>
+        <description lang="en">Key (permutated alphabet):</description>
+        <description lang="de">Schlüssel (Permutiertes Alphabet):</description>
       </outputBox>     
     </sampleViewer>
 
