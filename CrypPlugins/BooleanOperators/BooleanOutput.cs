@@ -45,13 +45,16 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanOutputSettings();
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
             pres = new ButtonOutputPresentation();
+            settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+            CurrentValue = "False";
+            input = false;
             pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 pres.myimg.Source = this.GetImage(0).Source;
             }, null);
         }
 
-        [PropertyInfo(Direction.InputData, "BO_InputCaption", "BO_InputTooltip")]
+        [PropertyInfo(Direction.InputData, "BO_InputCaption", "BO_InputTooltip", true)]
         public Boolean Input
         {
             get
@@ -116,6 +119,13 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void PreExecution()
         {
+            settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+            CurrentValue = "False";
+            input = false;
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                pres.myimg.Source = this.GetImage(0).Source;
+            }, null);
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -131,6 +141,13 @@ namespace Cryptool.Plugins.BooleanOperators
 
         public void Stop()
         {
+            settings_OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
+            CurrentValue = "False";
+            input = false;
+            pres.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                pres.myimg.Source = this.GetImage(0).Source;
+            }, null);
         }
 
         #endregion

@@ -166,61 +166,22 @@ namespace WorkspaceManager.Execution
                         return;
                     }
 
-                    if (Editor != null && Editor.Presentation != null && Editor.Presentation.IsVisible)
-                    {
-
-                        Editor.Presentation.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, (SendOrPostCallback)delegate
-                        {
-                            foreach (var pluginModel in workspaceModel.AllPluginModels)
-                            {
-                                if (pluginModel.GuiNeedsUpdate)
-                                {
-                                    if (pluginModel.UpdateableView != null)
-                                        pluginModel.UpdateableView.update();
-                                    pluginModel.GuiNeedsUpdate = false;
-                                }
-                            }
-
-                            //in the current version line updates are not possible
-                            //so i out commented the code
-                            //nils kopal
-                            foreach (var connectionModel in workspaceModel.AllConnectionModels)
-                            {
-                                if (connectionModel.GuiNeedsUpdate)
-                                {
-                                    if (connectionModel.UpdateableView != null)
-                                        connectionModel.UpdateableView.update();
-                                    connectionModel.GuiNeedsUpdate = false;
-                                }
-                            }
-
-                            foreach (var connectorModel in workspaceModel.AllConnectorModels)
-                            {
-                                if (connectorModel.GuiNeedsUpdate)
-                                {
-                                    if (connectorModel.UpdateableView != null)
-                                        connectorModel.UpdateableView.update();
-                                    connectorModel.GuiNeedsUpdate = false;
-                                }
-                            }
-                        }
-                        , null);
-                    }
+                    UpdateGuiElements();
 
                     double finishedPercentage = 0;
                     double count = 0;
                     foreach (PluginModel plugin in workspaceModel.GetAllPluginModels())
                     {
                         bool sIcontrolSlave = false;
-                        foreach(ConnectorModel connector in plugin.GetInputConnectors())
+                        foreach (ConnectorModel connector in plugin.GetInputConnectors())
                         {
-                            if(connector.IControl && connector.InputConnections.Count == 1)
+                            if (connector.IControl && connector.InputConnections.Count == 1)
                             {
                                 sIcontrolSlave = true;
                                 break;
                             }
                         }
-                        if(!sIcontrolSlave)
+                        if (!sIcontrolSlave)
                         {
                             count++;
                             finishedPercentage += plugin.PercentageFinished;
@@ -235,6 +196,46 @@ namespace WorkspaceManager.Execution
             {
                 GuiLogMessage(String.Format(Resources.ExecutionEngine_CheckGui_Exception_occured_during_update_of_GUI_of_Workspace___0__, ex.Message), NotificationLevel.Error);
             }
+        }
+
+        private void UpdateGuiElements(Boolean forceupdate=false)
+        {
+            if (Editor != null && Editor.Presentation != null && Editor.Presentation.IsVisible)
+            {
+                Editor.Presentation.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, (SendOrPostCallback)delegate
+                {
+                    foreach (var pluginModel in workspaceModel.AllPluginModels)
+                    {
+                        if (pluginModel.GuiNeedsUpdate || forceupdate)
+                        {
+                            if (pluginModel.UpdateableView != null)
+                                pluginModel.UpdateableView.update();
+                            pluginModel.GuiNeedsUpdate = false;
+                        }
+                    }
+
+                    foreach (var connectionModel in workspaceModel.AllConnectionModels)
+                    {
+                        if (connectionModel.GuiNeedsUpdate || forceupdate)
+                        {
+                            if (connectionModel.UpdateableView != null)
+                                connectionModel.UpdateableView.update();
+                            connectionModel.GuiNeedsUpdate = false;
+                        }
+                    }
+
+                    foreach (var connectorModel in workspaceModel.AllConnectorModels)
+                    {
+                        if (connectorModel.GuiNeedsUpdate || forceupdate)
+                        {
+                            if (connectorModel.UpdateableView != null)
+                                connectorModel.UpdateableView.update();
+                            connectorModel.GuiNeedsUpdate = false;
+                        }
+                    }
+                }
+                , null);
+            }            
         }
 
         /// <summary>
@@ -280,10 +281,11 @@ namespace WorkspaceManager.Execution
                         GuiLogMessage(string.Format(Resources.ExecutionEngine_Stop_Aborting___0___now, t.Name), NotificationLevel.Debug);
                         t.Abort();
                     }
-                }
+                }                
                                 
                 GuiLogMessage(Resources.ExecutionEngine_Stop_All_threads_stopped, NotificationLevel.Debug);
                 workspaceModel.resetStates();
+                UpdateGuiElements(true);
                 GuiLogMessage(Resources.ExecutionEngine_Stop_WorkspaceModel_states_resetted,NotificationLevel.Debug);
                 GuiLogMessage(Resources.ExecutionEngine_Stop_ExecutionEngine_successfully_stopped, NotificationLevel.Info);
             }
