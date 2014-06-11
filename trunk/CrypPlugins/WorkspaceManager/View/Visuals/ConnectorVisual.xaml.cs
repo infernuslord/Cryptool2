@@ -411,7 +411,7 @@ namespace WorkspaceManager.View.Visuals
 
         public void update()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void MouseEnterHandler(object sender, MouseEventArgs e)

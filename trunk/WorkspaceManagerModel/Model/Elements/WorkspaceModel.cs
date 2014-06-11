@@ -509,6 +509,7 @@ namespace WorkspaceManager.Model
             foreach (PluginModel pluginModel in this.AllPluginModels)
             {
                 pluginModel.State = PluginModelState.Normal;
+                pluginModel.PercentageFinished = 0;
             }
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {
