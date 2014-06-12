@@ -209,11 +209,24 @@ namespace Cryptool.Plugins.NetworkSender
         {
             if (connection is TCPConnection)
             {
-                var tcpClient = (connection as TCPConnection).TCPClient;
-                if (!tcpClient.Connected) 
+                var tcpConnection = (connection as TCPConnection);
+                var tcpClient = tcpConnection.TCPClient;
+
+                var retryCount = 0;
+                while (!tcpClient.Connected && retryCount < 5) 
+                {
+                    try
+                    {
+                        tcpClient.Connect(tcpConnection.RemoteEndPoint);
+                    } catch (Exception){} 
+                    retryCount++;
+                    Thread.Sleep(100);
+                }
+
+                if (!tcpClient.Connected)
                 {
                     GuiLogMessage("Not connected", NotificationLevel.Error);
-                    return false;
+                    return false;  
                 }
 
                 tcpClient.GetStream().Write(packetData, 0, bytesRead);
@@ -251,7 +264,17 @@ namespace Cryptool.Plugins.NetworkSender
             } else
             {
                 var client = new TcpClient();
-                Task.Factory.StartNew(() => client.Connect(remoteEndPoint));
+                Task.Factory.StartNew(() => 
+                {
+                    try
+                    {
+                        client.Connect(remoteEndPoint);
+                    }
+                    catch (Exception e)
+                    {
+                        GuiLogMessage("Connection Failed: " + e.Message, NotificationLevel.Error);
+                    }
+                });
                 newConnection = new TCPConnection
                 {
                     RemoteEndPoint = remoteEndPoint,

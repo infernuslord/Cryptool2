@@ -1053,8 +1053,7 @@ namespace Wizard
                 triangle.Fill = bg;
                 triangle.Stretch = Stretch.Uniform;
                 triangle.Width = 32;
-                sp.Children.Add(triangle);
-
+                sp.Children.Add(triangle); 
                 if (page.image != null && FindResource(page.image) != null)
                 {
                     var im = new Image { Source = (ImageSource)FindResource(page.image), Width = 32 };
