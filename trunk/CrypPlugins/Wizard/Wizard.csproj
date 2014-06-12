@@ -125,8 +125,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\settingsRes.de.resx">
       <SubType>Designer</SubType>
@@ -138,7 +138,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Config\wizard.dtd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -328,6 +330,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Images\Figure3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HeartbeatTest.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Heartbeat Test</title>
+  <title lang="de">Heartbeat Test</title>
+  
+  <summary lang="en">Heartbeat and Heartbleed Test</summary>
+  <summary lang="de">Heartbeat und Heartbleed Test</summary>
+
+  <description lang="en" >Here, you can test whether a server supports heartbeat and is vulnerable to the heartbleed-bug.</description>
+  <description lang="de" >Hier können Sie überprüfen, ob ein Server mittels des Heartbleed-Bug angreifbar ist.</description>
+  
+  <keywords>heartbeat, heartbleed</keywords>
+  <keywords lang="de">heartbeat, heartbleed</keywords>
+
+  <icon file="HeartbeatTest.png" />
+  <relevantPlugins>
+	<plugin name="NetworkInput"/>
+	<plugin name="NetworkReceiver"/>
+  </relevantPlugins>
+
+</sample>
