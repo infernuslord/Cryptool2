@@ -17,8 +17,26 @@
         In this crypto tutorial you will learn about lattices and their use in cryptography 
         especially cryptanalysis. This introduction is intended to provide the basics, 
         to better understand the following chapters.
-        <br/>
-        This is an early version. Please understand that many help texts are either missing or have not yet been translated.
+    </p>
+     <p>
+        <strong>Lattices</strong></br> A lattice consists of linearly independent vectors that are linearly combined with each other and thereby generate lattice points. The difference between lattices and a "normal" vector space is the fact that the vectors are combined integer.</br>
+        Taking all vectors together this is so called a basis for the lattice. This basis can be written in the form of a matrix. The vectors can be written down in column notation, this is the most common way in papers. The vectors define so-called parallelepipeds, in the two-dimensional case these are parallelograms.
+        The volume of this parallelepiped is equal to the absolute value of the determinant.
+        </br></br>
+        Please note that in this crypto tutorial all values ​​are integers, since big integers are commonly in cryptography. This however is not a requirement for lattices. The benefit of this limitation will arise in the later chapters "Merkle-Hellman" and "RSA".
+     </p>
+     <p>
+        <strong>Lattice problems</strong></br> An important characteristic of lattices is 
+         the fact that they
+can have different bases producing the same lattice. All bases therby have the same determinant. Regarding lattices, vectors with minimum length are interesting. This problem is called the Shortest Vector Problem (SVP) and relates to the search for "successive minima".</br>
+        The first minimum is the shortest vector. All other vectos are linearly independent to this and to each other, they also are as short as possible. 
+        An upper bound for the shortest vector is determined by the Hermite constant. The shortest vector is also interesting for the packing density of a lattice. Here circles are constructed around each
+Lattice point being as large as possible without overlapping each other 
+        (both the Hermite-circuit and the package circuits can be enabled in the settings).
+        It can be easily observed that after reduction the vectors are very much orthogonal to each other, ideally they even have the angle of 90 °.</br>
+        Another interesting problem is the Closest Vector Problem (CVP). Here an arbitrary 
+         is point
+specified and it is to be searched for a lattice point that is closest to this point.
     </p>
     <p align="justify">
         Note: This plugin uses icons with Creative Commons Attribution NonCommercial licence (BY-NC). Designers of these icons are "iconshock.com", "gentleface.com" and "wpzoom.com".
