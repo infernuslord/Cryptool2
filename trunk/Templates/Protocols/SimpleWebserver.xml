@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Simple Webserver</title>
+  <summary lang="en">Creating a simple webserver</summary>
+  <description lang="en">This template shows how to create a simple webserver.</description>
+  <keywords>smart card</keywords>
+
+  <title lang="de">Einfacher Webserver</title>
+  <summary lang="de">Einfachen Webserver erstellen</summary>
+  <description lang="de">Diese Vorlage demonstriert, wie man einen einfachen Webserver erstellen kann.</description>
+  <keywords lang="de">smartcard</keywords>
+
+  <icon file="SimpleWebserver.png" />
+
+  <relevantPlugins>
+    <plugin name="NetworkSender" />
+    <plugin name="NetworkReceiver" />
+  </relevantPlugins>
+
+</sample>

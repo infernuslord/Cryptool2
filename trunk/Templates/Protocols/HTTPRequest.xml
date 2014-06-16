@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">HTTP Request</title>
+  <summary lang="en">Make a HTTP request to a webserver</summary>
+  <description lang="en">This template shows how a HTTP request to a webserver can be made</description>
+  <keywords>oblivious transfer</keywords>
+
+  <title lang="de">HTTP Anfrage</title>
+  <summary lang="de">Mache eine HTTP Anfrage an einen Webserver</summary>
+  <description lang="de">Diese Vorlage zeigt wie eine HTTP Anfrage an einen Webserver gemacht werden kann.</description>
+  <keywords lang="de">oblivious transfer</keywords>
+
+  <icon file="HTTPRequest.png" />
+
+  <relevantPlugins>
+    <plugin name="NetworkSender" />
+    <plugin name="NetworkReceiver" />
+  </relevantPlugins>
+
+</sample>
