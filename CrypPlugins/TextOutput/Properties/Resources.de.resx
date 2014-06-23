@@ -180,4 +180,16 @@
   <data name="ShowCharsGroup" xml:space="preserve">
     <value>Statuszeile</value>
   </data>
+  <data name="Bit" xml:space="preserve">
+    <value>Bit</value>
+  </data>
+  <data name="Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+  <data name="Digit" xml:space="preserve">
+    <value>Dezimalziffer</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>Dezimalziffern</value>
+  </data>
 </root>
