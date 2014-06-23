@@ -121,7 +121,7 @@
     <value>Transmitted Packages:</value>
   </data>
   <data name="IPFromHeader" xml:space="preserve">
-    <value>Receiver IP Addresse</value>
+    <value>Receiver IP Address</value>
   </data>
   <data name="MetaLabel" xml:space="preserve">
     <value>Info</value>
@@ -157,10 +157,10 @@
     <value>Transmitted at</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
-    <value>Networkdevice IP Addresse:</value>
+    <value>Networkdevice IP Address:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Type in the IP addresse of the reciever, to send to this device</value>
+    <value>Type in the IP address of the reciever, to send to this device</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port:</value>
@@ -175,10 +175,10 @@
     <value>show bytes as ASCII</value>
   </data>
   <data name="IpInput" xml:space="preserve">
-    <value>Destination IP Addresse</value>
+    <value>Destination IP Address</value>
   </data>
   <data name="IpInputTooltip" xml:space="preserve">
-    <value>Set the IP addresse of your destination here or in the settings of the component.</value>
+    <value>Set the IP address of your destination here or in the settings of the component.</value>
   </data>
   <data name="Protocol" xml:space="preserve">
     <value>Protocol</value>
