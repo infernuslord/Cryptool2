@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.NetworkSender
                 var con = TryCreateNewConnection();
                 if (con == null)
                 {
-                    GuiLogMessage("Could not create Connections", NotificationLevel.Error);
+                    GuiLogMessage("Could not create a network connection", NotificationLevel.Error);
                     return;
                 }
 
@@ -244,14 +244,30 @@ namespace Cryptool.Plugins.NetworkSender
         /// <returns></returns>
         private NetworkConnection TryCreateNewConnection()
         {
-            var destinationIP = ("".Equals(DestinationIpI)) ? settings.DeviceIP : DestinationIpI;
-            if (!ValidateIP(destinationIP))
+            var destinationIp = ("".Equals(DestinationIpI)) ? settings.DeviceIP : DestinationIpI;
+            IPEndPoint remoteEndPoint = null;
+            if (ValidateIP(destinationIp))
             {
-                GuiLogMessage("invalid IP!", NotificationLevel.Error);
-                return null;
+                remoteEndPoint = new IPEndPoint(IPAddress.Parse(destinationIp), settings.Port);
             }
-            //create remote endpoint
-            var remoteEndPoint = new IPEndPoint(IPAddress.Parse(destinationIP), settings.Port);
+            else
+            {
+                try
+                {
+                    var remoteAddress = Dns.GetHostAddresses(destinationIp);
+                    if (remoteAddress.Length == 0)
+                    {
+                        GuiLogMessage(string.Format("Could not get an IP address to given DNS name ({0}).", destinationIp), NotificationLevel.Error);
+                        return null;
+                    }
+                    remoteEndPoint = new IPEndPoint(remoteAddress[0], settings.Port);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Error while creation of Endpoint to IP addresse or DNS name ({0}) : {1}",destinationIp, ex.Message), NotificationLevel.Error);
+                    return null;
+                }
+            }
 
             NetworkConnection newConnection;
             if (settings.Protocol.Equals(NetworkSenderSettings.udpProtocol))
@@ -372,8 +388,7 @@ namespace Cryptool.Plugins.NetworkSender
             IPAddress ipOut;
             return IPAddress.TryParse(ip, out ipOut);
         }
-
-        #endregion
+        #endregion        
         
         #region Event Handling
 
