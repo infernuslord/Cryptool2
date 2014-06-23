@@ -160,7 +160,7 @@
     <value>Networkdevice IP Address:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Type in the IP address of the reciever, to send to this device</value>
+    <value>Enter the IP address of the receiver.</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port:</value>
