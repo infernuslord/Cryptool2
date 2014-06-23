@@ -183,4 +183,16 @@
   <data name="ShowCharsGroup" xml:space="preserve">
     <value>Status bar</value>
   </data>
+  <data name="Bit" xml:space="preserve">
+    <value>bit</value>
+  </data>
+  <data name="Bits" xml:space="preserve">
+    <value>bits</value>
+  </data>
+  <data name="Digit" xml:space="preserve">
+    <value>decimal digit</value>
+  </data>
+  <data name="Digits" xml:space="preserve">
+    <value>decimal digits</value>
+  </data>
 </root>

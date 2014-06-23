@@ -29,6 +29,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace TextOutput
 {
@@ -265,9 +266,49 @@ namespace TextOutput
         void setStatusBar()
         {
             // create status line string
-
             string s = textOutputPresentation.textBox.Text;
             string label = "";
+
+            if (Input is string)
+            {
+                try
+                {
+                    input = BigInteger.Parse((string)Input);
+                }
+                catch (Exception ex)
+                {
+                    //we had no to BigInt convertable string...
+                }
+            }
+
+            if (Input is BigInteger || Input is Int16 || Input is Int32)
+            {
+                int digits = 0;
+                int bits;
+                try
+                {
+                    var number = (BigInteger)Input;
+                    bits = number.BitCount();
+                    if (number < 0)
+                    {
+                        number = -number;
+                    }
+                    if (number != 0)
+                    {
+                        digits = (int)Math.Floor(BigInteger.Log10(number)) + 1;
+                    }
+                }
+                catch (Exception)
+                {
+                    digits = 0;
+                    bits = 0;
+                }
+                string digitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
+                string bitText = (bits == 1) ? Properties.Resources.Bit : Properties.Resources.Bits;
+                label = string.Format(" {0:#,0} {1}, {2} {3}", digits, digitText, bits, bitText);
+                textOutputPresentation.labelBytes.Content = label;
+                return;
+            }
 
             if (settings.ShowChars)
             {
