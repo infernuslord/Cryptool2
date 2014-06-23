@@ -181,7 +181,7 @@
     <value>Absender:</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
-    <value>Netzwerkkarten-IP:</value>
+    <value>IP-Adresse:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
     <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>

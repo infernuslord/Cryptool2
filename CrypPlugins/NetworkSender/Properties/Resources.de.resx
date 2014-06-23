@@ -157,7 +157,7 @@
     <value>Gesendet Um</value>
   </data>
   <data name="DeviceIpCaption" xml:space="preserve">
-    <value>Netzwerkkarten IP:</value>
+    <value>IP-Adresse:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
     <value>Geben Sie die IP des Empfängers an, um an diese zu senden.</value>
