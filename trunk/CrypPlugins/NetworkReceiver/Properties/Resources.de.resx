@@ -121,7 +121,7 @@
     <value>Empfangene Pakete:</value>
   </data>
   <data name="IPFromHeader" xml:space="preserve">
-    <value>Absender-IP</value>
+    <value>Absender-IP-Adresse</value>
   </data>
   <data name="MetaLabel" xml:space="preserve">
     <value>Info</value>
@@ -184,7 +184,7 @@
     <value>IP-Adresse:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+    <value>Geben Sie die IP-Adresse Ihrer Netzwerkkarte an, um nur von dieser IP-Adresse zu empfangen.</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port: </value>
@@ -196,7 +196,7 @@
     <value>Alle Netzwerkgeräte benutzen</value>
   </data>
   <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
+    <value>Geben Sie die IP-Adresse ihrer Netzwerkkarte an, um nur von dieser zu empfangen.</value>
   </data>
   <data name="ByteAsciiSwitchCaption" xml:space="preserve">
     <value>Bytes als ASCII anzeigen  </value>

@@ -184,7 +184,7 @@
     <value>Networkdevice IP:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Enter the IP of your network device to only receive from this device.</value>
+    <value>Enter the IP addresse of your network device to only receive from this device.</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port:</value>
@@ -196,7 +196,7 @@
     <value>Use all network interfaces</value>
   </data>
   <data name="NetworkDeviceCaptionTooltip" xml:space="preserve">
-    <value>Enter the IP of your network interface to only receive from this device.</value>
+    <value>Enter the IP addresse of your network interface to only receive from this device.</value>
   </data>
   <data name="ByteAsciiSwitchCaption" xml:space="preserve">
     <value>show bytes as ASCII</value>

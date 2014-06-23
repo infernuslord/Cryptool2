@@ -160,7 +160,7 @@
     <value>IP-Adresse:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">
-    <value>Geben Sie die IP des Empfängers an, um an diese zu senden.</value>
+    <value>Geben Sie die IP-Adresse des Empfängers an, um an diese IP-Adresse zu senden.</value>
   </data>
   <data name="LisPort" xml:space="preserve">
     <value>Port: </value>
@@ -178,7 +178,7 @@
     <value>Ziel IP</value>
   </data>
   <data name="IpInputTooltip" xml:space="preserve">
-    <value>Setzen sie die Ziel IP hier oder in den Einstellungen der Komponente.</value>
+    <value>Setzen sie die Ziel IP-Adresse hier oder in den Einstellungen der Komponente.</value>
   </data>
   <data name="Protocol" xml:space="preserve">
     <value>Protokoll</value>
