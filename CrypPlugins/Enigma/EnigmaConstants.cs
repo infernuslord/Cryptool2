@@ -32,9 +32,7 @@ namespace Cryptool.Enigma
                                             // Kommerzielle Enigma D
                                             "JWULCMNOHPQZYXIRADKEGVBTSF",  
                                             // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
-                                            //"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                                            "QWERTZUIOASDFGHJKPYXCVBNML",
-                                            //"JWULCMNOHPQZYXIRADKEGVBTSF",  
+                                            "QWERTZUIOASDFGHJKPYXCVBNML", // see reference: "D. H. Hamer, G. Sullivan, and F. Weierud, “ENIGMA VARIATIONS : AN EXTENDED FAMILY OF MACHINES,” vol. 140, no. 3, pp. 1–17, 1993."
                                             // Enigma I, ab 1930, Walzen IV ab 1938, Walzen V-VII ab 1938
                                             "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
                                             // Enigma M4 "Shark"
@@ -68,7 +66,7 @@ namespace Cryptool.Enigma
                                             "JGDQOXUSCAMIFRVTPNEWKBLZYH",
                                             "NTZPSFBOKMWRCJDIVLAEYUXHGQ",
                                             "JVIUBHTCDYAKEQZPOSGXNRMWFL",
-                                            "", // "CIWTBKXNRESPFLYDAGVHQUOJZM", //a rotor from Enigma T - just used for the challenge C2 (Multiple encryptions)
+                                            "", //"CIWTBKXNRESPFLYDAGVHQUOJZM", //a rotor from Enigma T - just used for the challenge on MTC3 (Cascading encryption - Part 3/3)
                                             "",
                                             "",
                                             "",
@@ -109,7 +107,7 @@ namespace Cryptool.Enigma
                                                         ""  
                                                     },
                                                     {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941
-                                                        "QYHOGNECVPUZTFDJAXWMKISRBL", 
+                                                        "QYHOGNECVPUZTFDJAXWMKISRBL",  // see reference: "D. H. Hamer, G. Sullivan, and F. Weierud, “ENIGMA VARIATIONS : AN EXTENDED FAMILY OF MACHINES,” vol. 140, no. 3, pp. 1–17, 1993."
                                                         "", 
                                                         ""  
                                                     },
@@ -146,11 +144,11 @@ namespace Cryptool.Enigma
                                                    "", // VII
                                                    ""  // VIII
                                                 },
-                                                {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941 // notches: V,M,G see reference: ENIGMA VARIATIONS: AN EXTENDED FAMILY OF MACHINES by Hamer, Sullivan, Weierud
-                                                   "N",  // I
-                                                   "E",  // II
-                                                   "Y",  // III
-                                                   "",   //"EHNTZ",  // notches for a rotor from Enigma T - just used for the challenge C2 (Multiple encryptions)
+                                                {  // Enigma der Reichsbahn („Rocket“), ab 7. Feb 1941 // notches: V,M,G see reference: "D. H. Hamer, G. Sullivan, and F. Weierud, “ENIGMA VARIATIONS : AN EXTENDED FAMILY OF MACHINES,” vol. 140, no. 3, pp. 1–17, 1993."
+                                                   "V",  // I
+                                                   "M",  // II
+                                                   "G",  // III
+                                                   "", //"EHNTZ",  // notches for a rotor from Enigma T - just used for the challenge MTC3 (Cascading encryption - Part 3/3)
                                                    "",  
                                                    "", 
                                                    "", 

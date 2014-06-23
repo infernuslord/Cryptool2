@@ -112,7 +112,7 @@ namespace Cryptool.Enigma
 
         private static int[] getRotorsAsInt(int model, int rotor)
         {
-            int[] value = new int[26];
+            int[] value = new int[EnigmaCore.rotors[model, rotor].Length];
 
             for (int i = 0; i < EnigmaCore.rotors[model, rotor].Length; i++)
             {
@@ -123,7 +123,7 @@ namespace Cryptool.Enigma
 
         private static int[] getNotchesAsInt(int model, int rotor)
         {
-            int[] value = new int[2];
+            int[] value = new int[EnigmaCore.notches[model, rotor].Length];
             for (int i = 0; i < EnigmaCore.notches[model, rotor].Length; i++)
             {
                 value[i] = EnigmaCore.notches[model, rotor][i] - 65;
