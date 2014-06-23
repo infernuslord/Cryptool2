@@ -532,7 +532,7 @@ namespace Cryptool.Enigma
                         break;
                     case 2: // Reichsbahn (Rocket)
                         SetList(actionStrings, "Action1","Action4");
-                        SetList(rotorAStrings, "RotorA15", "RotorA16", "RotorA17"); // "RotorA4"); //you must add a  Rotor 4 for the challenge C" (Multiple encryptions)
+                        SetList(rotorAStrings, "RotorA15", "RotorA16", "RotorA17"); // "RotorA4"); //you must add a  Rotor 4 for the challenge on MTC3 (Cascading encryption - Part 3/3)
                         SetList(rotorBStrings, "RotorB1");
                         SetList(reflectorStrings, "Reflector5");
 
