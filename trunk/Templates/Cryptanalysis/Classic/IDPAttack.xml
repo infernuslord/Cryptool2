@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Dictionary attack on the Double Columnar Transposition Cipher</title>
+  <summary lang="en">Usage of the <i>IDP Analyser</i></summary>
+  <description lang="en">This template shows a dictionary attack on the double columnar transposition cipher using the <i>IDP Analysis</i> component.</description>
+  <keywords>IDP,double,columnar,transposition,dct,index,digraphic,potential,dictionary,keyphrase,keyword</keywords>
+
+  <title lang="de">Wörterbuchangriff auf die doppelte Spaltentransposition</title>
+  <summary lang="de">Benutzung der <i>IDP-Analyse</i></summary>
+  <description lang="de">Diese Vorlage zeigt einen Wörterbuchangriff auf die doppelte Spaltentransposition unter Verwendung der Komponente <i>IDP-Analyse</i>.</description>
+  <keywords lang="de">IDP,doppelte,spaltentransposition,digraphisch,potential,Wörterbuch,schlüsselwort,phrase</keywords>
+
+  <icon file="IDPAttack.png" />
+
+  <relevantPlugins>
+    <plugin name="IDPAnalyser" />
+    <plugin name="TranspositionAnalyser" />
+  </relevantPlugins>
+
+</sample>
