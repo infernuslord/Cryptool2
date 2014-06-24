@@ -169,6 +169,10 @@ namespace Startcenter
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
+            if (RecentFileListBox == null || RecentFileListBox.SelectedItem == null)
+            {
+                return;
+            }
             var file = ((RecentFileInfo) RecentFileListBox.SelectedItem).File;
             _recentFileList.RemoveFile(file);
         }
