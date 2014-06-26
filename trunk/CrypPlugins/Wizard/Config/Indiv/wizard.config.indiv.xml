@@ -183,7 +183,7 @@
       </inputBox>
 
       <presentation plugin="HeartbeatState" width="25%" alignment="Center" group="2">
-        <description lang="en">The server accepts malicious heartbeat message: </description>
+        <description lang="en">The server accepts malicious heartbeat messages: </description>
         <description lang="de">Der Server akzeptiert bösartige Heartbeat-Nachrichten: </description>
       </presentation>
 	  

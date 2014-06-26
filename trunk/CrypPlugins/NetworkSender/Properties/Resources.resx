@@ -156,7 +156,7 @@
   <data name="TOSHeader" xml:space="preserve">
     <value>Transmitted at</value>
   </data>
-  <data name="DeviceIpCaption" xml:space="preserve">
+  <data name="DeviceIp" xml:space="preserve">
     <value>Networkdevice IP Address:</value>
   </data>
   <data name="DeviceIpCaptionTooltip" xml:space="preserve">

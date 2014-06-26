@@ -13,15 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-using System;
-using System.Collections.Generic;
+ 
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Navigation;
+using System.Windows; 
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.Plugins.NetworkSender;
+using Cryptool.PluginBase.Miscellaneous; 
 
 namespace Cryptool.Plugins.NetworkSender {
     public class NetworkSenderSettings : ISettings {
@@ -41,7 +37,7 @@ namespace Cryptool.Plugins.NetworkSender {
 
         #region TaskPane Settings
 
-        [TaskPane("DeviceIpCaption", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
+        [TaskPane("DeviceIp", "DeviceIpCaptionTooltip", "NetworkConditions", 0, false, ControlType.TextBox)]
         public string DeviceIP {
             get { return deviceIP; }
             set {
