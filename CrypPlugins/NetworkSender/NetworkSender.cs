@@ -80,8 +80,8 @@ namespace Cryptool.Plugins.NetworkSender
         /// <summary>
         ///   DestinationIp
         /// </summary>
-        [PropertyInfo(Direction.InputData, "IpInput", "IpInputTooltip")]
-        public string DestinationIpI { get; set; }
+        [PropertyInfo(Direction.InputData, "DeviceIP", "IpInputTooltip")]
+        public string DeviceIP { get; set; }
 
         #endregion
 
@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.NetworkSender
             startTime = DateTime.Now;
             packageCount = 0;
             sendDataSize = 0; 
-            DestinationIpI = "";
+            DeviceIP = "";
             ConnectionIDInput = 0;
             ConnectionIDOutput = 0;
 
@@ -244,7 +244,7 @@ namespace Cryptool.Plugins.NetworkSender
         /// <returns></returns>
         private NetworkConnection TryCreateNewConnection()
         {
-            var destinationIp = ("".Equals(DestinationIpI)) ? settings.DeviceIP : DestinationIpI;
+            var destinationIp = ("".Equals(DeviceIP)) ? settings.DeviceIP : DeviceIP;
             IPEndPoint remoteEndPoint = null;
             if (ValidateIP(destinationIp))
             {
