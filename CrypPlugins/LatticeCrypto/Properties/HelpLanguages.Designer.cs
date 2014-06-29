@@ -369,8 +369,14 @@ namespace LatticeCrypto.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;LWE-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
-        ///    Todo&lt;/p&gt;
-        /// ähnelt.
+        ///    Learning with errors (kurz LWE) ist ein Problem, welches im Jahr 2005 von Oded 
+        ///    Regev eingeführt wurde, siehe [Reg05]. Es kann folgendermaßen definiert werden:&lt;/p&gt;
+        ///&lt;p&gt;
+        ///    
+        ///    Seien m, n und q ganze Zahlen und sei X auf Zq eine (normale) 
+        ///    Wahrscheinlichkeitsverteilung. Gegeben sei nun das Paar (A, b), wobei die 
+        ///    quadratische Matrix A aus Zq^(m x n) zufällig gewählt sei, und der Vektor b = As 
+        ///    + e, mit einem ebenfalls zufällig gewählten Vektor s aus [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string LWE {
             get {
@@ -382,12 +388,12 @@ namespace LatticeCrypto.Properties {
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h2&gt;Merkle-Hellman-Kryptosystem&lt;/h2&gt;
         ///&lt;p&gt;
         ///    Das
-        ///    &lt;strong&gt;Merkle-Hellman-Kryptosystem&lt;/strong&gt; (benannt nach Ralph Merkle und 
-        ///    Martin Hellman) enstand 1987 neben dem RSA-Kryptosystem als eines der ersten 
+        ///    Merkle-Hellman-Kryptosystem (benannt nach Ralph Merkle und 
+        ///    Martin Hellman) entstand 1987 neben dem RSA-Kryptosystem als eines der ersten 
         ///    asymmetrischen Kryptosystem überhaupt. Es zeichnete sich dadurch aus, dass es 
         ///    relativ leicht zu verstehen ist. Von diesen beiden setzte sich allerdings nur RSA durch, da 
-        ///    Merkle-Hellman schon bald eindruchsvoll mithilfe von Gittern gebrochen werden konnte.&lt;/p&gt;
-        ///&lt;p&gt;Das Merkle-Hell [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///    Merkle-Hellman schon bald eindrucksvoll mithilfe von Gittern gebrochen werden konnte.&lt;/p&gt;
+        ///&lt;p&gt;Das Merkle-Hellman-Kryptosystem [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string MerkleHellman {
             get {
@@ -428,9 +434,9 @@ namespace LatticeCrypto.Properties {
         ///&lt;body&gt;
         ///    &lt;h2&gt;
         ///        Gitterbasierte Kryptographie&lt;/h2&gt;
-        ///    &lt;p align=&quot;justify&quot;&gt;
+        ///    &lt;p&gt;
         ///        In diesem Kryptotutorial lernen Sie Gitter kennen und erfahren über ihren Einsatz in der Kryptographie, 
-        ///        insbesondere der Kryptoanalyse. D [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///        insbesondere der Kryptoanalyse. Diese Einführung  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         public static string Start {
             get {
@@ -537,7 +543,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Online-Hilfe Gitterabasierte Kryptographie ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Online-Hilfe Gitterbasierte Kryptographie ähnelt.
         /// </summary>
         public static string title {
             get {
