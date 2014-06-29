@@ -385,6 +385,60 @@ namespace IDPAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Language ähnelt.
+        /// </summary>
+        public static string LanguageCaption {
+            get {
+                return ResourceManager.GetString("LanguageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die english ähnelt.
+        /// </summary>
+        public static string LanguageList1 {
+            get {
+                return ResourceManager.GetString("LanguageList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die german ähnelt.
+        /// </summary>
+        public static string LanguageList2 {
+            get {
+                return ResourceManager.GetString("LanguageList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die french ähnelt.
+        /// </summary>
+        public static string LanguageList3 {
+            get {
+                return ResourceManager.GetString("LanguageList3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die italian ähnelt.
+        /// </summary>
+        public static string LanguageList4 {
+            get {
+                return ResourceManager.GetString("LanguageList4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the language of the ciphertext. ähnelt.
+        /// </summary>
+        public static string LanguageTooltip {
+            get {
+                return ResourceManager.GetString("LanguageTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Local ähnelt.
         /// </summary>
         public static string LocalLabel {

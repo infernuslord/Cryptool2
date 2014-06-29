@@ -141,7 +141,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="DetailedDescription\doc.xml" />
+    <Resource Include="DetailedDescription\doc.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

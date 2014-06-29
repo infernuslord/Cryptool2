@@ -267,4 +267,22 @@
   <data name="KeywordsTooltip" xml:space="preserve">
     <value>Enter a list of keywords.</value>
   </data>
+  <data name="LanguageCaption" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageList1" xml:space="preserve">
+    <value>english</value>
+  </data>
+  <data name="LanguageList2" xml:space="preserve">
+    <value>german</value>
+  </data>
+  <data name="LanguageList3" xml:space="preserve">
+    <value>french</value>
+  </data>
+  <data name="LanguageList4" xml:space="preserve">
+    <value>italian</value>
+  </data>
+  <data name="LanguageTooltip" xml:space="preserve">
+    <value>Select the language of the ciphertext.</value>
+  </data>
 </root>
