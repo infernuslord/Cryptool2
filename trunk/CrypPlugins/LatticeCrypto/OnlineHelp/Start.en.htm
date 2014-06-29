@@ -21,7 +21,7 @@
      <p>
         <strong>Lattices</strong></br> A lattice consists of linearly independent vectors that are linearly combined with each other and thereby generate lattice points. 
          The difference between lattices and a &quot;normal&quot; vector space is the fact that the 
-         vectors are multiplied with integer factors instaed of real factors.</br>
+         vectors are multiplied with integer factors instead of real factors.</br>
          All the vectors form a so called basis for the lattice. This basis can be written in the form of a matrix. The vectors can be written down in column notation, this is the most common way in papers. The vectors define so-called parallelepipeds, in the two-dimensional case these are parallelograms.
         The volume of this parallelepiped is equal to the absolute value of the determinant.
         </br></br>
@@ -33,10 +33,10 @@
      <p>
         <strong>Lattice problems</strong></br> An important characteristic of lattices is 
          the fact that they
-can have different bases producing the same lattice. The determinant of all these bases 
+can have different bases producing the same lattice. The determinants of all these bases 
          have the same value. Regarding lattices, vectors with minimum length are 
          interesting. The problem to find these vectors is called the Shortest Vector 
-         Problem (SVP) and relates to the search for "successive minima".</brThe first minimum is the shortest vector. All other vectors are linearly independent to this and to each other, they are 
+         Problem (SVP) and relates to the search for "successive minima".</br>The first minimum is the shortest vector. All other vectors are linearly independent to this and to each other, they are 
          also as short as possible. 
         An upper bound for the shortest vector is determined by the Hermite constant. The shortest vector is also interesting for the packing density of a lattice. Here circles are constructed around each
 Lattice point being as large as possible without overlapping each other 
@@ -50,8 +50,7 @@ Lattice point being as large as possible without overlapping each other
         <strong>Lattice reduction</strong></br> 
         There are two important methods that implement the search for shortest vectors. One of these is the Gaussian algorithm for dimension 2 and secondly the LLL algorithm, named after Arjen Lenstra, Hendrik Lenstra and László Lovász, for an arbitrary lattice dimension.
         The Gaussian algorithm works similar to the Euclidean algorithm for searching 
-        the greatest common divisor (gcd) of two integers. By combining and subtraction 
-        of two vectors the basis&nbsp;improves after each iteration with a shorter vector. 
+        the greatest common divisor (gcd) of two integers. By combining and subtracting of two vectors the basis&nbsp;improves after each iteration with a shorter vector. 
         The LLL algorithm works similar to the Gauss algorithm, but for higher 
         dimensions it produces only an approximation to the shortest vector. An 
         important part of the algorithm is the Gram-Schmidt orthogonalization.</p>

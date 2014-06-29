@@ -1159,7 +1159,7 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gauss-Algorithmus ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gauß-Algorithmus ähnelt.
         /// </summary>
         public static string tabGaussAlgorithm {
             get {
