@@ -348,14 +348,14 @@
     Der Unterschied zwischen einer Verbindung im Arbeitsbereich, über die Konnektoren und einer Erweiterung durch die Schnittstelle für integrierte Komponenten, besteht darin, dass eine Komponente die andere steuern kann. In der CrypTool Sprache wird hierbei von Master(engl. für Meister)- und Slave(engl. für Knecht)-Komponenten gesprochen. Die Masterkomponente ist dabei die Hauptkomponente welche die Slavekomponente einbindet, steuern und auf deren Funktionen zugreifen kann. Der Hintergrund ist der, dass die Masterkomponente beispielsweise auf Funktionen der Slavekomponente angewiesen ist, oder aber auch das eine äquivalente Implementierung über den Arbeitsbereich kompliziert wäre.
     Technisch gesehen reduziert dies Redundanzen bei der Programmierung und macht Komponenten (wie z.B. den KeySearcher) für verschiedene Einsatzmöglichkeiten (z.B. verschiedene Verschlüsselungsverfahren) wiederverwendbar.
     <newline/> <newline/>
-    Unterstützt eine Komponente die Funktionalität für integrierte Komponenten, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl Menü listet alle Komponenten auf, welche die definierte integrierte Komponenten Schnittstelle unterstützen, siehe Abbildung 16. 
+    Unterstützt eine Komponente die Funktionalität für integrierte Komponenten, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl-Menü listet alle Komponenten auf, welche die definierte integrierte Komponenten Schnittstelle unterstützen, siehe Abbildung 16. 
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
     <newline/> <newline/>
     Die Einstellungen der eingebundenen Komponenten, erscheinen in eigenen Reitern, in der Ansicht:"Einstellungen" der Komponente, die sie einbindet.
     <newline/> <newline/>
-    Beim Erstellen eines Arbeitsbereiches mit Komponenten die integrierte Koponenten unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten in der integrierte Koponenten Schnittstelle.
+    Beim Erstellen eines Arbeitsbereiches mit Komponenten die integrierte Komponenten unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten in der integrierte Komponenten Schnittstelle.
 
     <newline/> <newline/>    
    <b>Globale Einstellungen:</b>
@@ -376,35 +376,35 @@
     <newline/> <newline/>
       <b>  Komponenten-Konnektoren-Statistik zurücksetzen, Schaltfläche:</b>
     <newline/> <newline/>
-        Das Drücken dieser Schaltfläche bewirkt eine Zurücksetzung der Statistik, die zur Erstellung der Verbindungsvorschläge nötig ist. Die Statistik wird danach automatisch gemäß der Benutzung neu erstellt.
+        Das Drücken dieser Schaltfläche bewirkt ein Zurücksetzen der Statistik, die zur Erstellung der Verbindungsvorschläge nötig ist. Die Statistik wird danach automatisch gemäß der Benutzung neu erstellt.
     <newline/> <newline/>
       <b>  Standardmäßige Darstellung von Komponenten, Auswahlfeld:</b>
     <newline/> <newline/>
-        In diesem Auswahlfeld kann gewählt werden, ob Kompoenenten standardmäßig immer geöffnet, also unter Darstellung einer der vier Ansichten, geschlossen, also in der kleinst möglichen Repräsentation nur unter Anzeigen der Ikone dargestellt werden soll, oder ob die Komponente diese Entscheidung selbst treffen soll.
+        In diesem Auswahlfeld kann gewählt werden, ob Kompoenenten standardmäßig immer geöffnet, also unter Darstellung einer der vier Ansichten, geschlossen, also in der kleinstmöglichen Repräsentation nur unter Anzeigen der Ikone dargestellt werden soll, oder ob die Komponente diese Entscheidung selbst treffen soll.
     <newline/> <newline/>
       <b>  GUI updateintervall, Schieberegler:</b>
     <newline/> <newline/>
-        Mit diesem Schieberegler kann Bestimmt werden, wie oft die Oberfläche des Arbeitsbereichs und damit auch die Darstellungen der Komponenten aktualisiert werden sollen. Die Intervall Dauer wird in Millisekunden angegeben.
+        Mit diesem Schieberegler kann bestimmt werden, wie oft die Oberfläche des Arbeitsbereichs und damit auch die Darstellungen der Komponenten aktualisiert werden sollen. Die Intervalldauer wird in Millisekunden angegeben.
     <newline/> <newline/>
       <b>  Synchrone Ereignisse, Auswahlkasten:</b>
     <newline/> <newline/>
-        Wählt die Art der Ereignisbehandlung der Ausführungs Maschine
+        Wählt die Art der Ereignisbehandlung der Ausführungsmaschine
     <newline/> <newline/>
      <b>   Benchmark, Auswahlkasten:</b>
     <newline/> <newline/>
-        In diesem Auswahlkasten kann eingestellt werden, ob die Ausführungs Maschine die aufgerufenen Funktionen auf sekunden Basis evaluieren soll, oder nicht.
+        In diesem Auswahlkasten kann eingestellt werden, ob die Ausführungsmaschine die aufgerufenen Funktionen auf Sekundenbasis evaluieren soll, oder nicht.
     <newline/> <newline/>
       <b>  Datentyp-Farben, Dropdown Menu:</b>
     <newline/> <newline/>
-        In diesen Dropdown Menüs kann eingestellt werden, in welchen Farben die verschiedenen Datentypen innerhalb des Arbeitsbereiches dargestellt werden.
+        In diesen Dropdown-Menüs kann eingestellt werden, in welchen Farben die verschiedenen Datentypen innerhalb des Arbeitsbereiches dargestellt werden.
     <newline/> <newline/>
      <b>   Funktionen-Farben, Dropdown Menu:</b>
     <newline/> <newline/>
-        In diesen Dropdown Menüs kann eingestellt werden, in welchen Farben die verschiedenen Funktionen innerhalb des Arbeitsbereiches dargestellt werden.
+        In diesen Dropdown-Menüs kann eingestellt werden, in welchen Farben die verschiedenen Funktionen innerhalb des Arbeitsbereiches dargestellt werden.
     <newline/> <newline/>
      <b>   Farben zurücksetzen, Schaltfläche:</b>
     <newline/> <newline/>
-       Das Drücken dieser Schaltfläche bewirkt eine Zurücksetzung der Farben für die Darstellung von Datentypen und Funktionen innerhalb des Arbeitsbereichs.
+       Das Drücken dieser Schaltfläche bewirkt ein Zurücksetzen der Farben für die Darstellung von Datentypen und Funktionen innerhalb des Arbeitsbereichs.
     <newline/> <newline/>
       <b>  Schriftart, Dropdown Menu:</b>
     <newline/> <newline/>
@@ -438,7 +438,7 @@
       </tr>
       <tr>
         <td><b>Strg + Y:</b></td>
-        <td>Führt letzten wiederuften Befehl erneut aus</td>
+        <td>Führt letzten widerrufenen Befehl erneut aus</td>
       </tr>
       <tr>
       <td><b>Strg + Maus-Rad:</b></td>

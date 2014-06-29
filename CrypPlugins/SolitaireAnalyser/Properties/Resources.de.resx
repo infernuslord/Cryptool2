@@ -169,7 +169,7 @@
     <value>Nr.</value>
   </data>
   <data name="labelPassSec" xml:space="preserve">
-    <value>Schlüssel/Sek.:</value>
+    <value>Schlüssel / sec:</value>
   </data>
   <data name="labelPassword" xml:space="preserve">
     <value>Schlüsselwort</value>

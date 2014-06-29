@@ -139,7 +139,7 @@
     <value>Keyword dictionary input</value>
   </data>
   <data name="PassDictionaryTooltip" xml:space="preserve">
-    <value>Input the keyword dictionary to be used in bruteforce</value>
+    <value>Input the keyword dictionary to be used in brute-force attack</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Plaintext Output</value>

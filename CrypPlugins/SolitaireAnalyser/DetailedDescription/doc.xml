@@ -10,7 +10,7 @@
     Schneier says he "designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools".
     For a detailed description of the cipher see Schneier's website http://www.schneier.com/solitaire.html.
     <newline />
-    This component attempts to break ciphertexts encrypted with the solitaire cipher. Since a brute-force attack is too complex, a dictionary attack on the original keyword is implemented.
+    This component attempts to break ciphertexts encrypted with the Solitaire cipher. Since a brute-force attack is too complex, a dictionary attack on the original keyword is implemented.
     Thus this only works if the initial deck for encryption was created using a keyword!
   </introduction>
 
@@ -37,8 +37,8 @@
   <usage lang="de-DE">
     Die Komponente benötigt als Eingabe den zu untersuchenden Geheimtext, der mit der Solitaire-Chiffre verschlüsselt wurde, sowie zwei Wörterbücher: ein Schlüsselwort-Wörterbuch und ein Klartext-Wörterbuch.
     <newline />
-    Um einen Geheimtext entschlüsseln zu können, muss die Größe des verwendeten Kartenspiels bekannt sein. Wird die Analyse mit der falschen Kartenzahl durchgeführt, wird sie möglicherweise nicht erfolgreich sein.
-    Ausserdem ist die Verwendung eines guten Wörterbuches wichtig. Die Komponente testet jedes Wort im Schlüsselwort-Wörterbuch als Schlüsselwort. Wenn das tatsächlich verwendete Schlüsselwort nicht im Wörterbuch vorkommt, kann es auch nicht gefunden werden.
+    Um einen Geheimtext entschlüsseln zu können, muss die Größe des verwendeten Kartenspiels bekannt sein. Wird die Analyse mit der falschen Kartenzahl durchgeführt, wird sie nicht erfolgreich sein.
+    Außerdem ist die Verwendung eines guten Wörterbuches wichtig. Die Komponente testet jedes Wort im Schlüsselwort-Wörterbuch als Schlüsselwort. Wenn das tatsächlich verwendete Schlüsselwort nicht im Wörterbuch vorkommt, kann es auch nicht gefunden werden.
     <newline />
     Um zu überprüfen, ob ein getestetes Wort das korrekte Schlüsselwort ist, werden die ersten 20 Zeichen der Eingabe mit dem potentiellen Schlüsselwort entschlüsselt und der entstandene Klartext wird nach Wörtern des Klartext-Wörterbuches durchsucht.
     Dazu wird für alle Worte des Klartext-Wörterbuches, beginnend mit den längsten, getestet, ob der Klartext mit diesem Wort beginnt. Bei einem Treffer wird das gefundene Wort vom Beginn des Klartextes gelöscht und der Bewertung des momentanen Schlüsselwortes
@@ -55,7 +55,7 @@
 
   <presentation lang="de-DE">
     Die Präsentationsansicht der Komponente gibt Informationen über die verbleibende Laufzeit, Anzahl der pro Sekunde getesteten Schlüsselworte und der insgesamt getesteten Schlüsselworte.<newline />
-    Ausserdem werden die 10 am besten bewerteten Schlüsselworte mit den sich jeweils ergebenden Klartexten dargestellt. Es ist möglich, dass das korrekte Schlüsselwort nicht auf Platz 1 erscheint, aber
+    Außerdem werden die 10 am besten bewerteten Schlüsselworte mit den sich jeweils ergebenden Klartexten dargestellt. Es ist möglich, dass das korrekte Schlüsselwort nicht auf Platz 1 erscheint, aber
     mit einiger Wahrscheinlichkeit wird es sich unter den ersten 10 Plätzen befinden.
   </presentation>
 

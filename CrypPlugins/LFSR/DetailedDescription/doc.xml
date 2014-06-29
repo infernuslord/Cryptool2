@@ -15,7 +15,7 @@
   <introduction lang="de-DE">
     Die LFSR-Komponente implementiert die Funktionalität eines linear rückgekoppelten Schieberegisters (engl. Linear feedback shift register, LFSR).
     Für ein gegebenes Polynom und einen Startwert berechnet es so viele Bits, wie in den Einstellungen der Komponente angefordert werden.
-    Ausserdem stellt die Komponente eine graphische Präsentation der Vorgänge im LFSR dar.
+    Außerdem stellt die Komponente eine graphische Präsentation der Vorgänge im LFSR dar.
     Weiterhin kann die Komponente mit einem externen Takt geschaltet werden.
     Um ein spezielles internes Zustandsbit der Komponente auslesen zu können, wird ein zusätzliches Ausgabebit zur Verfügung gestellt. Das ausgelesene Zustandsbit wird in der Präsentation orange dargestellt.
     Falls der gesamte Zustand des Schieberegisters benötigt wird, so können die Zustandsbits an einem weiteren Ausgang der Komponente komplett als ein Bit-Array ausgelesen werden.<newline /><newline />
