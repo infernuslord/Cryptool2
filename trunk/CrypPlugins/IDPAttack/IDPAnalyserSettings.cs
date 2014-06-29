@@ -63,9 +63,28 @@ namespace IDPAnalyser
             }
         }
 
+        private int language = 0;
+        [TaskPane("LanguageCaption", "LanguageTooltip", null, 2, false, ControlType.ComboBox, new string[] { "LanguageList1", "LanguageList2", "LanguageList3", "LanguageList4" })]
+        public int Language
+        {
+            get
+            {
+                return this.language;
+            }
+
+            set
+            {
+                if (value != language)
+                {
+                    this.language = value;
+                    OnPropertyChanged("Language");
+                }
+            }
+        }
+
         private int key1Size = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key1SizeCaption", "Key1SizeTooltip", "KeyGroup", 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key1SizeCaption", "Key1SizeTooltip", "KeyGroup", 3, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key1Size
         {
             get { return key1Size; }
@@ -81,7 +100,7 @@ namespace IDPAnalyser
 
         private int key2Size = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key2SizeCaption", "Key2SizeTooltip", "KeyGroup", 3, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key2SizeCaption", "Key2SizeTooltip", "KeyGroup", 4, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key2Size
         {
             get { return key2Size; }
@@ -97,7 +116,7 @@ namespace IDPAnalyser
 
         private int key1Min = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key1MinCaption", "Key1MinTooltip", "KeyGroup", 4, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key1MinCaption", "Key1MinTooltip", "KeyGroup", 5, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key1Min
         {
             get { return key1Min; }
@@ -113,7 +132,7 @@ namespace IDPAnalyser
 
         private int key1Max = 10;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key1MaxCaption", "Key1MaxTooltip", "KeyGroup", 5, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key1MaxCaption", "Key1MaxTooltip", "KeyGroup", 6, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key1Max
         {
             get { return key1Max; }
@@ -129,7 +148,7 @@ namespace IDPAnalyser
 
         private int key2Min = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key2MinCaption", "Key2MinTooltip", "KeyGroup", 6, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key2MinCaption", "Key2MinTooltip", "KeyGroup", 7, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key2Min
         {
             get { return key2Min; }
@@ -145,7 +164,7 @@ namespace IDPAnalyser
 
         private int key2Max = 10;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Key2MaxCaption", "Key2MaxTooltip", "KeyGroup", 7, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("Key2MaxCaption", "Key2MaxTooltip", "KeyGroup", 8, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Key2Max
         {
             get { return key2Max; }
@@ -161,7 +180,7 @@ namespace IDPAnalyser
 
         private int repeatings = 10;
         [PropertySaveOrder(8)]
-        [TaskPaneAttribute("RepeatingsCaption", "RepeatingsTooltip", null, 8, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("RepeatingsCaption", "RepeatingsTooltip", null, 9, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Repeatings
         {
             get { return repeatings; }
@@ -177,7 +196,7 @@ namespace IDPAnalyser
 
         private int iterations = 5000;
         [PropertySaveOrder(9)]
-        [TaskPaneAttribute("IterationsCaption", "IterationsTooltip", null, 9, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute("IterationsCaption", "IterationsTooltip", null, 10, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Iterations
         {
             get { return iterations; }

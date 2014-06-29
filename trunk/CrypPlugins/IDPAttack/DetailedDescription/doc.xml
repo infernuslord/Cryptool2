@@ -18,10 +18,13 @@
     <newline />
     <newline />
     The component can operate in two different modes, "Dictionary Search" or "Hill Climbing". You can switch between the two modes in the settings of the component.
+    For a successful analysis, the component also needs to know in what language the ciphertext is written. You can adjust the language in the settings of the component.
+    <newline />
+    <newline />
     In "Dictionary Search" mode, an array of keywords is expected at the second input of the component (typically provided by a <i>Dictionary</i> component).
     The <i>IDP Analyser</i> component will then produce an intermediate ciphertext for each keyword by undoing the SCT on the ciphertext, that would result from the present keyword.
     It then tries to sort the columns of the intermediate ciphertext in a straightforward way and examines the bigrams, that would occur in this order of columns.
-    If the bigrams that occur this way are frequent in the English language, the attained score will be high and the examined keyword is a good candidate for decryption.
+    If the bigrams that occur this way are frequent in the selected language, the attained score will be high and the examined keyword is a good candidate for decryption.
     <newline />
     In the settings of the component, you can enter limits for the sizes of the two keys of the DCT. Those words of the dictionary whose size does not lie in the interval for key 2 are ignored.
     <newline />
@@ -64,6 +67,9 @@
     <newline />
     <newline />
     Man kann die Komponente in zwei Betriebsarten verwendet werden, nämlich der "Wörterbuch-Suche" und "Hill Climbing", zwischen denen in den Einstellungen der Komponente umgeschaltet werden kann.
+    Für eine erfolgreiche Analyse muss die Komponente auch wissen, in welcher Sprache der Geheimtext geschrieben wurde. Die Sprache kann in den Einstellungen der Komponente gewählt werden.
+    <newline />
+    <newline />
     Bei der "Wörterbuch-Suche" wird am zweiten Eingang der Komponente eine Liste von Schlüsselworten erwartet (typischerweise von einer <i>Wörterbuch</i>-Komponente zur Verfügung gestellt).
     Die <i>IDP-Analyse</i>-Komponente erzeugt dann für jedes Schlüsselwort einen Zwischen-Geheimtext, indem es die Umkehrung der sich aus diesem Schlüsselwort ergebenden einfachen Spaltentransposition auf den Geheimtext anwendet.
     Danach wird versucht, die Spalten des Zwischen-Geheimtextes so zu sortieren, dass die sich dadurch ergebenden Bigramme in aufeinanderfolgenden Spalten möglichst häufig in natürlichem Englisch vorkommen.

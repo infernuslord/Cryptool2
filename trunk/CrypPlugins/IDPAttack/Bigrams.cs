@@ -14,6 +14,25 @@ namespace IDPAnalyser
         //    return FlatList[b0 - 'A', b1 - 'A'];
         //}
 
+        public static void InitLanguage(int lang)
+        {
+            int[,] FlatList;
+
+            switch(lang) {
+                case 1: FlatList = FlatList_DE; break;
+                case 2: FlatList = FlatList_FR; break;
+                case 3: FlatList = FlatList_IT; break;
+                default: FlatList = FlatList_EN; break;
+            }
+
+            for (int i = 0; i < 26; i++)
+                for (int j = 0; j < 26; j++)
+                {
+                    FlatList2[(i + 'A') * 256 + (j + 'A')] = FlatList[i, j];
+                    FlatList2[(i + 'a') * 256 + (j + 'a')] = FlatList[i, j];
+                }
+        }
+
         public static int[] FlatList2 = new int[256*256];
 
         public static int[,] FlatList_EN = new int[26, 26] {

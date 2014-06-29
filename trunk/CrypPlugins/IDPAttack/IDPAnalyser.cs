@@ -78,13 +78,6 @@ namespace IDPAnalyser
             Presentation = myPresentation;
             myPresentation.doppelClick += new EventHandler(this.doppelClick);
             ars = new AutoResetEvent(false);
-
-            for (int i = 0; i < 26; i++)
-                for (int j = 0; j < 26; j++)
-                {
-                    Bigrams.FlatList2[(i + 'A') * 256 + (j + 'A')] = Bigrams.FlatList_EN[i, j];
-                    Bigrams.FlatList2[(i + 'a') * 256 + (j + 'a')] = Bigrams.FlatList_EN[i, j];
-                }
         }
 
         private void doppelClick(object sender, EventArgs e)
@@ -173,6 +166,8 @@ namespace IDPAnalyser
         public void Execute()
         {
             //Finished = false;
+
+            Bigrams.InitLanguage(settings.Language);
 
             if (this.input == null)
             {
