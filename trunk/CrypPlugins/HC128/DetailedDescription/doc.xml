@@ -34,7 +34,7 @@
     Nachdem Sie die HC128-Komponente auf den Arbeitsbereich gezogen
     haben, müssen Sie die Eingänge 'Eingabe', 'Schlüssel' und 'IV' mit Datenquellen verbinden.
 
-    Ausserdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
+    Außerdem muss der Ausgang mit einer Textausgabe-Komponente verbunden werden.
   </usage>
 
   <references>

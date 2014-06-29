@@ -18,7 +18,7 @@
 
   <usage lang="en">
     To use the comparator component, the user has to put it onto the workspace. Both inputs have to be connected with compatible types (for example
-    two BigIntegers or a BigInteger and a Integer). The output of the comparison is a boolean value which is true, if the comparison succeeded and
+    two BigIntegers or a BigInteger and an Integer). The output of the comparison is a boolean value which is true, if the comparison succeeded and
     false, if it failed.<newline/>
     <newline/>
     Within the settings of the component, the user may choose which comparison method/operator shall be used:<newline/>
@@ -31,9 +31,9 @@
     <newline/>
     &lt; The comparison is true if the first input is smaller than the second one ("Smaller" depends on the input type.)<newline/>
     <newline/>
-    &gt;= The comparison is true if the first input is greater or equal than the second one ("Greater" depends on the input type.)<newline/>
+    &gt;= The comparison is true if the first input is greater or equal than the second one ("Greater or equal" depends on the input type.)<newline/>
     <newline/>
-    &lt;= The comparison is true if the first input is smaller or equal than the second one ("Smaller" depends on the input type.)<newline/>
+    &lt;= The comparison is true if the first input is smaller or equal than the second one ("Smaller or equal" depends on the input type.)<newline/>
   </usage>
 
   <usage lang="de-DE">
@@ -50,9 +50,9 @@
     <newline/>
     &lt; Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe kleiner als die zweite Eingabe ist. ("Kleiner" hängt vom Datentyp der Eingabe ab.)<newline/>
     <newline/>
-    &gt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe größer oder gleich der zweiten Eingabe ist. ("Größer" hängt vom Datentyp der Eingabe ab.)<newline/>
+    &gt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe größer oder gleich der zweiten Eingabe ist. ("Größer-gleich" hängt vom Datentyp der Eingabe ab.)<newline/>
     <newline/>
-    &lt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe kleiner oder gleich der zweiten Eingabe ist. ("Kleiner" hängt vom Datentyp der Eingabe ab.)<newline/>
+    &lt;= Das Vergleichsresultat ist wahr genau dann, wenn die erste Eingabe kleiner oder gleich der zweiten Eingabe ist. ("Kleiner-gleich" hängt vom Datentyp der Eingabe ab.)<newline/>
   </usage>
   
   <presentation lang="en">

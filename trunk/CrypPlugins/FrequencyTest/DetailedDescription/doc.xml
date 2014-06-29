@@ -7,7 +7,7 @@
   <introduction lang="en">
     Frequency analysis reveals statistical information about a text, which can be used as an aid or as a breaking tool itself (in the case of monoalphabetical ciphers).<newline/>
     <newline/>
-    A monoalphabetic cipher is especially vulnerable to frequency analysis. Frequency analysis is simple count of the reoccurring letters in the ciphertext and comparing it to previously calculated frequency of occurrences in a given language.
+    A monoalphabetic cipher is especially vulnerable to frequency analysis. Frequency analysis is simply counting of the reoccurring letters in the ciphertext and comparing it to previously calculated frequencies of occurrences in a given language.
     Here is an example of how a monoalphabetic cipher (in our case Caesar’s cipher) can be broken with the help of frequency analysis:<newline/>
     <newline/>
     <img src="FrequencyTest/DetailedDescription/Images/frequencies.png" />
@@ -20,10 +20,10 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Die Frequenzanalyse liefert statistische Informationen über einen Text, die hilfreich für Analysezwecke sind oder, z.B. im Falle der monoalphabetischen Chiffre, bereits als Entschlüsselungswerkzeug Verwendung finden kann.<newline/>
+    Die Frequenzanalyse liefert statistische Informationen über einen Text, die hilfreich für Analysezwecke sind oder, z.B. im Falle der monoalphabetischen Chiffre, bereits als Entschlüsselungswerkzeug Verwendung finden können.<newline/>
     <newline/>
     Monoalphabetische Chiffren sind besonders anfällig gegenüber der Frequenzanalyse. Bei der Frequenzanalyse wird einfach die Häufigkeit der im Geheimtext auftretenden Buchstaben festgestellt und kann dann mit den bekannten Buchstabenhäufigkeiten
-    von Texten in verschiedenen Sprachen verglichen werden. Exemplarisch wird hier gezeigt, wie eine monoalphabetische Chiffre, die Caesar-Chiffre, mit Hilfe der Frequenzanalyse gebrochen werden kann:<newline/>
+    von Texten in verschiedenen Sprachen verglichen werden. Am Bespiel der Caesar-Chiffre wird hier gezeigt, wie eine monoalphabetische Chiffre mit Hilfe der Frequenzanalyse gebrochen werden kann:<newline/>
     <newline/>
     <img src="FrequencyTest/DetailedDescription/Images/frequencies.png" />
     <newline/>
@@ -73,7 +73,7 @@
     Voreingestellt ist der Wert 1, was bedeutet, dass die statistische Untersuchung auf Einzelbuchstaben beruht.
     Weiterhin kann man festlegen, wie ungültige (also nichtalphabetische) Zeichen behandelt werden sollen: sie können mitgezählt oder ignoriert werden. In der Standardeinstellung werden sie ignoriert.<newline/>
     Die Einstellung für Groß-/Kleinschreibung legt fest, ob große und kleine Buchstaben als gleiche oder als unterschiedliche Zeichen behandelt werden sollen. Voreingestellt ist die Gleichbehandlung.<newline/>
-    Schliesslich kann noch eingestellt werden, ob Fragmente an Wortgrenzen bei der Erzeugung der N-Gramme mitberücksichtigt werden sollen. Ein Beispiel soll die Wirkungsweise verdeutlichen: Die N-Gramm-Größe sei 3 und
+    Schließlich kann noch eingestellt werden, ob Fragmente an Wortgrenzen bei der Erzeugung der N-Gramme mitberücksichtigt werden sollen. Ein Beispiel soll die Wirkungsweise verdeutlichen: Die N-Gramm-Größe sei 3 und
     das Eingabewort sei "KIRSCHE". Sollen Fragmente nicht mitgezählt werden, so betrachtet die Komponente nur die fünf Trigramme "KIR", "IRS", "RSC", "SCH" und "CHE". Sollen Fragmente berücksichtigt werden, so werden auch
     die mit Leerzeichen aufgefüllten Trigramme am Beginn und am Ende eines Wortes mitgezählt und man erhält neun Trigramme: "__K", "_KI", "KIR", "IRS", "RSC", "SCH", "CHE", "HE_" und "E__" (wobei der Unterstrich für das Leerzeichen steht).
   </usage>
@@ -86,7 +86,7 @@
   </presentation>
   
   <presentation lang="de-DE">
-    Die Frequenzanalyse-Komponente visualisiert die Häufigkeiten als Balkendiagramm. In der Einstellungen der Komponente kann ausgewählt werden, ob sich das Diagramm automatisch an den Darstellungsbereich angepassen soll.
+    Die Frequenzanalyse-Komponente visualisiert die Häufigkeiten als Balkendiagramm. In den Einstellungen der Komponente kann ausgewählt werden, ob sich das Diagramm automatisch an den Darstellungsbereich angepassen soll.
     Es besteht auch die Möglichkeit einer manuellen Größenanpassung und der Angabe eines Zoomfaktors.<newline/>
     <newline/>
     <img src="FrequencyTest/DetailedDescription/Images/presentation.png" />

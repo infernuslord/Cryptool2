@@ -241,13 +241,13 @@
     <value>Schlüssel pro Block:</value>
   </data>
   <data name="Keys_Sec_" xml:space="preserve">
-    <value>Schlüssel / Sek.:</value>
+    <value>Schlüssel / sec:</value>
   </data>
   <data name="Keys_sec_CPU_" xml:space="preserve">
-    <value>Schlüssel/Sek (CPU):</value>
+    <value>Schlüssel / sec (CPU):</value>
   </data>
   <data name="Keys_sec_OpenCL_" xml:space="preserve">
-    <value>Schlüssel/Sek (OpenCL):</value>
+    <value>Schlüssel / sec (OpenCL):</value>
   </data>
   <data name="Launching_p2p_based_bruteforce_logic___" xml:space="preserve">
     <value>Starte Logik der verteilten Schlüsselsuche...</value>
@@ -607,7 +607,7 @@
     <value>Unter Konstruktion</value>
   </data>
   <data name="StatisticsPresentation_SetCurrentRate" xml:space="preserve">
-    <value>{0:0,0} Schlüssel/Sek</value>
+    <value>{0:0,0} Schlüssel / sec</value>
   </data>
   <data name="KeyPoolTree_" xml:space="preserve">
     <value>Schlüsselbaum</value>

@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    <i>Purple</i> is an electromechanical cipher machine that was used by japanese diplomats during World War II.
+    <i>Purple</i> is an electromechanical cipher machine which was used by Japanese diplomats during World War II.
     <newline /><newline />
     It works on a principle similar to that of the Enigma: The plaintext is entered on a keyboard. Each pressed key will close an electric circuit, that leads from the keyboard through several permutation units to the output unit.
     After each encrypted letter, the inner permutation units are advanced according to certain rules.
@@ -28,8 +28,8 @@
     position 25) and one advances with slow speed (only after the medium speed switch reaches position 25). The user can decide, which of the three 20-switches is the slow, the medium and the fast one.
     The key consists of the starting positions of the four switches, the speed assignments and the configuration of a plugboard, that realizes the input and output permutation.
     <newline /><newline />
-    The american cryptologist William Friedman and his team were able to break the <i>Purple</i>, which is generally viewed as one of the greatest achievements in the history of cryptology. They were able to reconstruct the encryption principle
-    of <i>Purple</i> only from intercepted ciphertexts without any prior knowledge of its inner workings, and built a replication of the machine. The name <i>Purple</i> was the codename assigned to it by the american cryptologists. The japanese
+    The American cryptologist William Friedman and his team broke the <i>Purple</i>, which is generally viewed as one of the greatest achievements in the history of cryptology. They were able to reconstruct the encryption principle
+    of <i>Purple</i> only from intercepted ciphertexts without any prior knowledge of its inner workings, and built a replication of the machine. The name <i>Purple</i> was the codename assigned to it by the American cryptologists. The Japanese
     inventors called the machine "<i>97-shiki O-bun In-ji-ki</i>" (Alphabetical Typewriter '97).
   </introduction>
 
@@ -58,14 +58,14 @@
     einer mit mittlerer Geschwindigkeit (nach jedem Überlauf des schnellen) und einer langsam (nach jedem Überlauf des mittleren) weiterschaltet. Da der Benutzer selbst bestimmen kann, wie die drei Geschwindigkeiten den drei 20er-Schaltern
     zugeordnet werden sollen, ist dies ebenso Teil des Schlüssels wie die Startpositionen aller vier Schalter sowie die durch ein Steckerbrett realisierte Eingangs- und Ausgangspermutation.
 	  <newline /><newline />
-	  Die Entschlüsselung der <i>Purple</i> gelang dem amerikanischen Kryptologen William Friedman und seinen Mitarbeitern und wird als eine der größten Leistungen in der Kryptologie angesehen, da es ihnen gelang, das Verschlüsselungsprinzip
+    <i>Purple</i> wurde von dem amerikanischen Kryptologen William Friedman und seinen Mitarbeitern gebrochen, was als eine der größten Leistungen in der Kryptologie gilt, da es ihnen gelang, das Verschlüsselungsprinzip
     alleine aus den abgefangenen Geheimtexten und ohne Kenntnis des inneren Aufbaus der <i>Purple</i> zu rekonstruieren und die Maschine nachzubauen. Der Name <i>Purple</i> ist hierbei nur der von den amerikanischen Kryptologen verwendete
     Codename. Die japanischen Konstrukteure nannten die Maschine "<i>97-shiki O-bun In-ji-ki</i>" (Alphabetische Schreibmaschine 97). 
   </introduction>
 
   <usage lang="en">
     The <i>Purple</i> component has the two operation modes <i>Encryption</i> and <i>Decryption</i>, which can be selected in the settings of the component.
-    In <i>Encryption</i> mode, the component expects the plaintext as a string on its input, in <i>Decryption</i> mode, it expects the encrypted ciphertext.
+    In <i>Encryption</i> mode, the component expects the plaintext as a string on its input, in <i>Decryption</i> mode, it expects the ciphertext.
     <newline /><newline />
     In the settings, you can also enter the key for the encryption or decryption.
     In the textfield <i>Alphabet</i>, you must enter a string that is a permutation of the 26 letters. This permutation defines the input and output permutation, that the plugboard of the <i>Purple</i> implements.
@@ -88,7 +88,7 @@
 
   <usage lang="de-DE">
     Die <i>Purple</i>-Komponente hat zwei Betriebsarten, <i>Verschlüsselung</i> und <i>Entschlüsselung</i>, zwischen denen in den Einstellungen des Plugins gewählt werden kann.
-    In der Betriebsart <i>Verschlüsselung</i> wird der zu verschlüsselnde Klartext als Zeichenfolge am Eingang der Komponente angelegt, in der Betriebsart <i>Entschlüsselung</i> der verschlüsselte Geheimtext.
+    In der Betriebsart <i>Verschlüsselung</i> wird der zu verschlüsselnde Klartext als Zeichenfolge am Eingang der Komponente angelegt, in der Betriebsart <i>Entschlüsselung</i> der Geheimtext.
     <newline /><newline />
     In den Einstellungen wird auch der zu verwendende Schlüssel eingegeben: Im Textfeld <i>Alphabet</i> wird eine Permutation der 26 Buchstaben erwartet, die die durch das Steckerbrett realisierte Eingangspermutation definiert.
     Die ersten 6 Buchstaben der hier angegebenen Zeichenfolge werden auf die Buchstaben "AEIOUY" abgebildet und durchlaufen bei der Verschlüsselung den 6er-Vermittlungsschalter. Die restlichen Buchstaben werden daher durch die drei
@@ -97,7 +97,7 @@
     In der Rubrik <i>Position</i> können die Startpositionen der vier Vermittlungsschalter festgelegt werden, wobei jeder Schalter 25 Positionen hat, die von 1 bis 25 durchnummeriert sind.
     <newline /><newline />
     In der Rubrik <i>Geschwindigkeit</i> kann angegeben werden, mit welcher Geschwindigkeit die drei 20er-Schalter weitergeschaltet werden sollen. Als Eingabe wird hier eine Permutation der Zahlen 1, 2 und 3 erwartet, wobei "1" langsame 
-    Geschwindigkeit bedeutet, "2" mittlere Geschwindigkeit und "3" schnelle Geschwindigkeit. Die Eingabe "231" heisst dann, dass der Vermittlungsschalter #1 mit mittlerer Geschwindigkeit ("2") betrieben wird, Vermittlungsschalter #2
+    Geschwindigkeit bedeutet, "2" mittlere Geschwindigkeit und "3" schnelle Geschwindigkeit. Die Eingabe "231" heißt dann, dass der Vermittlungsschalter #1 mit mittlerer Geschwindigkeit ("2") betrieben wird, Vermittlungsschalter #2
     schnell ("3") und Vermittlungsschalter #3 langsam ("1").
     <newline /><newline />
     In der Rubrik <i>Text-Optionen</i> kann eingestellt werden, wie auf Zeichen in der Eingabe reagiert werden soll, die nicht Bestandteil des von der <i>Purple</i> verwendeten Standardalphabets A-Z sind. Werden unbekannte Zeichen ignoriert,

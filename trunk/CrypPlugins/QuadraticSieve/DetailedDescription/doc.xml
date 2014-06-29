@@ -13,8 +13,8 @@
     </section>
 
     <section headline="About this component">
-      This component is a wrapper for the quadratic sieve C implementation Msieve written by Jason Stratos Papadopoulos. The C code is integrated into a 32bit dll and a 64bit dll. Depending on the user's system,
-      the according dll is loaded during the startup phase of CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application.
+      This component is a wrapper for the quadratic sieve C implementation Msieve written by Jason Stratos Papadopoulos. The C code is integrated into a 32bit dll and
+      is loaded during the startup phase of CrypTool 2. The dll also extends the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application.
       If you want to get further information about Msieve please have a look at the author's website on SourceForge at <ref id="msieve"/>.
     </section>
   </introduction>
@@ -49,15 +49,15 @@
       $$O(\exp(\log(n) \cdot \log(n) \cdot \log(n))$$
     </section>
 
-    <section headline="Über diese Koponente">
-      Diese Komponente ist ein Wrapper für Msieve, eine Implementierung in C des quadratischen Siebs von Jason Stratos Papadopoulos. Der kompilierte C-Code liegt in als 32-Bit-DLL und als 64-Bit-DLL vor.
-      Abhängig vom verwendeten Betriebssystem wird die entsprechende DLL beim Start von CrypTool 2 geladen. Die DLLs erweitern die Funktionalität von Msieve um Multithreading. Msieve ist ursprünglich eine Konsolenanwendung.
-      Für weitere Informationen über Msieve gehen Sie bitte auf die Website des Authors auf SourceForge: <ref id="msieve"/>.
+    <section headline="Über diese Komponente">
+      Diese Komponente ist ein Wrapper für Msieve, eine Implementierung in C des quadratischen Siebs von Jason Stratos Papadopoulos. Der kompilierte C-Code liegt als 32-Bit-DLL vor.
+      Beim Start wird diese von CrypTool 2 geladen. Die DLL erweitert die Funktionalität von Msieve um Multithreading. Msieve ist ursprünglich eine Konsolenanwendung.
+      Für weitere Informationen über Msieve gehen Sie bitte auf die Website des Autors auf SourceForge: <ref id="msieve"/>.
     </section>
   </introduction>
 
   <usage lang="de">
-    Die Komponente hat einen Eingang, an dem die zu faktoriserende Zahl als BigNumber anliegen muss. Dies kann z.B. mittels der <docRef item="Cryptool.Plugins.Numbers.NumberInput"/>-Komponente geschehen, über die Zahlen oder auch
+    Die Komponente hat einen Eingang, an dem die zu faktorisierende Zahl als BigNumber anliegen muss. Dies kann z.B. mittels der <docRef item="Cryptool.Plugins.Numbers.NumberInput"/>-Komponente geschehen, über die Zahlen oder auch
     arithmetische Ausdrücke wie $2^{12}+17+2^{32}$ eingegeben werden können. Allerdings akzeptiert die QS-Komponente nur Zahlen mit weniger als 275 Dezimalstellen als Eingabe.
     Die Komponente hat nur einen Ausgang. An diesem wird ein Array von BigInteger-Zahlen, nämlich den gefundenen Primfaktoren, ausgegeben. In den Einstellungen der Komponente kann man die Anzahl der für die Faktorisierung zu verwendenden CPUs
     angeben, wobei als Maximum automatisch die Anzahl der vorhandenen CPUs des Systems angegeben ist.
@@ -66,7 +66,7 @@
 
   <presentation lang="de">
     In der Präsentation der Komponente werden die voraussichtliche Dauer der Berechnungen und der momentane Status des Siebvorgangs sowie die bisher gefundenen Primfaktoren angezeigt.
-    Ausserdem wird die Anzahl bisher gefundenen und der von Msieve für die Faktorisierung benötigten Relationen angezeigt.
+    Außerdem wird die Anzahl bisher gefundenen und der von Msieve für die Faktorisierung benötigten Relationen angezeigt.
     Sobald das quadratische Sieb genügend Relationen gefunden hat, wird der Siebvorgang beendet.
   </presentation>
   

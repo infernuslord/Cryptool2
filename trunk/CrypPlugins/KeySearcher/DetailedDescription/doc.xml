@@ -8,7 +8,7 @@
     The KeySearcher can be used to brute-force symmetric algorithms. Brute-forcing means to test every existing key of a key space to obtain the correct key to break a cipher.
     Currently the KeySearcher supports AES, DES and SDES for brute-forcing.
     <section headline="Technical background">
-      This component uses the new implemented technology called IControl. IControls are special nodes on a CrypTool 2 component. Compared to the normal inputs and outputs the IControl uses direct method calls to communicate with other components.
+      This component uses the newly implemented technology called IControl. IControls are special nodes on a CrypTool 2 component. Compared to the normal inputs and outputs the IControl uses direct method calls to communicate with other components.
       This is much faster than the normal inputs and outputs because the CrypTool environment does not need to copy data from one component to another. The KeySearcher is able to communicate with AES, DES and SDES and with
       the CostFunction component through IControl interfaces. So the key-searching process can be sped up considerably.
     </section>
@@ -23,7 +23,7 @@
     This pattern is a regular expression representing the key space to brute-force. Example: 1-1-1-1-1-**-**-** for SDES means that the KeySearcher sets the first 6 bits of a SDES key to 1 and changes only the * (* is a wildcard in a KeyPattern).
     Depending on the connected algorithm, the KeyPattern will be set to the default pattern for the algorithm automatically. The second important thing the user can set in the configuration bar is the amount of
     cores which the KeySearcher is allowed to use.
-    <section headline="Peer-to-Peer distribution">
+    <section headline="Peer-to-peer distribution">
       This component can also be used to demonstrate a distributed attack on any supported symmetric algorithm. To use this feature, enable it in the settings pane by clicking "Use Peer-to-Peer network".
       The key space will then be equally distributed among participating CrypTool 2.0 instances. Keys are calculated in so-called chunks, whose size you can choose before starting the job. The chunk size specifies the amount
       of keys calculated in each turn. If you are an experienced user, you can display peer-to-peer network related information by clicking "Display verbose information". You may find further information about the peer-to-peer network,
@@ -33,14 +33,14 @@
 
   <presentation lang="en">
     The KeySearcher component offers a presentation showing the "Keys per second" and the expected ending time of the brute-forcing. It also shows a list with the best decryption results (using the connected cost-function to calculate a value).
-    If you enable the peer-to-peer-based KeySearcher, the visualization will be expanded and display additional information about the distributed calculation and its results.
+    If you enable the peer-to-peer-based KeySearcher, the visualization will be expanded and displays additional information about the distributed calculation and its results.
   </presentation>
 
   <introduction lang="de-DE">
     Die Schlüsselsucher-Komponente kann für den Brute-Force-Angriff auf symmetrische Verschlüsselungen verwendet werden. Bei einem Brute-Force-Angriff werden sämtliche Schlüssel des Schlüsselraumes untersucht, um den korrekten
     Schlüssel zu finden. Momentan unterstützt die Komponente den Angriff auf die Verfahren AES, DES und SDES.
     
-    <section headline="Teschnischer Hintergrund">
+    <section headline="Technischer Hintergrund">
       Diese Komponente verwendet sogenannte IControls zur Kommunikation mit anderen Komponenten. Im Gegensatz zu den normalen Eingabe- und Ausgabe-Konnektoren kann die Schlüsselsucher-Komponente dadurch direkt auf Methoden der angeschlossenen
       Komponenten zugreifen. Dies erlaubt einen effizienteren Datenaustausch zwischen den beteiligten Komponenten und sorgt so für eine deutlich effektivere Durchsuchung des Schlüsselraumes. Die Schlüsselsucher-Komponente kann über IControls
       mit den Chiffrier-Komponenten AES, DES und SDES sowie mit der Kostenfunktions-Komponente kommunizieren.
@@ -56,31 +56,31 @@
     In den Einstellungen der Komponente kann ein regulärer Ausdruck als Muster für die zu untersuchenden Schlüssel angegeben werden.
     Beispiel: 1-1-1-1-1-**-**-** für SDES bedeutet, dass die Schlüsselsucher-Komponente die ersten 6 Bits des SDES-Schlüssels auf 1 setzt und nur die mit dem Platzhalterzeichen * gekennzeichneten Positionen variiert.
     Abhängig von der angeschlossenen Verschlüsselungs-Komponente wird das Schlüsselmuster automatisch mit einem passenden Startwert vorbelegt.
-    Ausserdem kann der Benutzer in den Einstellungen angeben, wie viele Prozessoren die Komponente für die Schlüsselsuche einsetzen darf.
-    <section headline="Peer-to-Peer distribution">
+    Außerdem kann der Benutzer in den Einstellungen angeben, wie viele Prozessoren die Komponente für die Schlüsselsuche einsetzen darf.
+    <section headline="Netzwerk-basierter Angriff">
       Diese Komponente kann auch für einen verteilten Angriff auf einen der unterstützten symmetrischen Algorithmen verwendet werden. Dazu müssen Sie in den Einstellungen der Komponente die Option "Verwende Netzwerk" aktivieren.
-      Der Schlüsselraum wird dann gleichmäßig unter den teilnehmenden Instanzen von CrypTool 2.0 aufgeteilt. Die Schlüssel werden hierbei in Blöcke aufgeteilt, deren Größe vor in den Einstellungen festgelegt werden kann.
+      Der Schlüsselraum wird dann gleichmäßig unter den teilnehmenden Instanzen von CrypTool 2.0 aufgeteilt. Die Schlüssel werden hierbei in Blöcke aufgeteilt, deren Größe in den Einstellungen festgelegt werden kann.
       Die Blöckgröße gibt dabei an, wie viele Schlüssel in jedem Durchgang getestet werden.
-      Als erfahrener Benutzer können Sie sich weitere Informationen zum netzwerk-basierten Angriff durch Aktivierung der Option "Ausführliche Informationen" anzeigen lassen.
+      Als erfahrener Benutzer können Sie sich weitere Informationen zum Netzwerk-basierten Angriff durch Aktivierung der Option "Ausführliche Informationen" anzeigen lassen.
     </section>
   </usage>
 
   <presentation lang="de-DE">
-    In der Präsentationsansicht der Komponente wird angezeigt, wieviele Schlüssel pro Sekunde untersucht werden und wie viel Zeit für die Berechnungen voraussichtlich noch benötigt wird.
-    Ausserdem wird eine Liste der besten Entschlüsselungsergebnisse (bewertet von der angeschlossenen Kostenfunktions-Komponente) angezeigt.
-    Falls die netzwerk-basierte Schlüsselsuche aktiviert ist, werden zusätzliche Informationen über die verteilte Berechnung und ihre Resultate dargestellt.
+    In der Präsentationsansicht der Komponente wird angezeigt, wie viele Schlüssel pro Sekunde untersucht werden und wie viel Zeit für die Berechnungen voraussichtlich noch benötigt wird.
+    Außerdem wird eine Liste der besten Entschlüsselungsergebnisse (bewertet von der angeschlossenen Kostenfunktions-Komponente) angezeigt.
+    Falls die Netzwerk-basierte Schlüsselsuche aktiviert ist, werden zusätzliche Informationen über die verteilte Berechnung und ihre Resultate dargestellt.
   </presentation>
 
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Brute-force_search" lang="en" />
-      <caption lang="en">Brute-Force-Search in wikipedia</caption>
+      <caption lang="en">Brute-Force-Search in Wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/Brute-Force-Methode" lang="de" />
       <caption lang="en">Brute-Force-Methode in Wikipedia</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Cost_function" lang="en" />
-      <caption lang="en">Cost-Function (optimization) in wikipedia</caption>
+      <caption lang="en">Cost-Function (optimization) in Wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/Bewertungsfunktion" lang="de" />
       <caption lang="en">Bewertungsfunktion in Wikipedia</caption>
     </linkReference>

@@ -110,7 +110,7 @@
     normaler oder in umgekehrter Reihenfolge ausgegeben werden sollen. Dies ermöglicht z.B. die Konvertierung von Zahlen im Big-Endian-Format
     in das Little-Endian-Format.
     <newline/>
-    Bei der Konvertierung in den Typ Byte-Array kann ausserdem angegeben werden, ob bei der Eingabe einer Zeichenfolge diese numerisch
+    Bei der Konvertierung in den Typ Byte-Array kann außerdem angegeben werden, ob bei der Eingabe einer Zeichenfolge diese numerisch
     interpretiert und die resultierende Zahl in ihrer Byte-Darstellung ausgegeben werden soll. Für das Format der Eingabe gilt hierbei dasselbe
     wie im Punkt 'Konvertierung in eine Ganzzahl'.
     <newline/>

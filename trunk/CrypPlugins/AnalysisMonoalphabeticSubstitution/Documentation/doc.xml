@@ -44,7 +44,7 @@
 
   <introduction lang="de-DE">
     Der Monoalphabetic Substitution Analyzer entschlüsselt Geheimtexte, die durch die Anwendung der monoalphabetischen Substitution entstanden sind.
-    Die Analyse verwendet zwei Angriffe zum Auffinden des Klartextes und den dazugehörigen Schlüssel. Als erstes wird ein sogenannter Wörterbuchangriff
+    Die Analyse verwendet zwei Angriffe, um sowohl den Klartext als auch den dazugehörigen Schlüssel zu finden. Als erstes wird ein sogenannter Wörterbuchangriff
     ausgeführt, der Wörter im Geheimtext zu Wörtern der angenommenen Klartextsprache zuordnet und aus dieser Zuordnung einen Schlüssel erstellt.
     Neben dem Wörterbuchangriff wird eine heuristische Suche, die auf einem genetischen Algorithmus und Häufigkeiten von Buchstabengruppen basiert, ausgeführt.
     Dieser Angriff erstellt rundenweise neue Schlüsselkandidaten und bewertet sie anhand einer Kostenfunktion.<newline />
@@ -85,8 +85,8 @@
   </introduction>
 
   <usage lang="en">
-    Using the Monoalphabetic Substitution Analyzer is very simple due to the few options. Currently, the component is only able to analyze
-    ciphertexts based on an English plaintext. The required input is the ciphertext. Furthermore, the outputs are the plaintext and the
+    Using the Monoalphabetic Substitution Analyzer is very simple due to the few options. Currently, the component can analyze
+    ciphertexts based on English and German plaintexts. The required input is the ciphertext. Furthermore, the outputs are the plaintext and the
     according key.<newline/>
     Within the settings section of this plugin it is possible to choose the language of the ciphertext that should be analyzed. Besides this option
     there is an extended option section where the treatment of invalid characters can be configured. Invalid characters are characters that are not a
@@ -95,7 +95,7 @@
 
   <usage lang="de-DE">
     Die Benutzung des Monoalphabetic Substitution Analyzer ist sehr einfach durch die geringe Anzahl von Optionen. Gegenwärtig können
-    nur Geheimtexte analysiert werden, die auf einem englischen Klartext basieren.<newline />
+    Geheimtexte analysiert werden, die auf einem englischen oder deutschen Klartext basieren.<newline />
     Die Einstellungen dieser Komponente ermöglichen die Auswahl der Sprache des Geheimtextes. Neben dieser Option kann im Bereich der erweiterten Optionen
     die Behandlung unbekannter Zeichen des Geheimtextes ausgewählt werden. Unbekannte Zeichen sind Buchstaben, die nicht Teil des Alphabets der ausgewählten
     Sprache sind. Diese Zeichen können ausgelassen, gelöscht oder durch ein Fragezeichen ersetzt werden.
@@ -139,4 +139,5 @@
       <caption lang="en">DeCrypto Project</caption>
     </linkReference>
   </references>
+  
 </documentation>
