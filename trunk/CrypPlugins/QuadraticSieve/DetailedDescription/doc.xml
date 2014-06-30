@@ -66,7 +66,7 @@
 
   <presentation lang="de">
     In der Präsentation der Komponente werden die voraussichtliche Dauer der Berechnungen und der momentane Status des Siebvorgangs sowie die bisher gefundenen Primfaktoren angezeigt.
-    Außerdem wird die Anzahl bisher gefundenen und der von Msieve für die Faktorisierung benötigten Relationen angezeigt.
+    Außerdem wird die Anzahl der bisher gefundenen und der von Msieve für die Faktorisierung benötigten Relationen angezeigt.
     Sobald das quadratische Sieb genügend Relationen gefunden hat, wird der Siebvorgang beendet.
   </presentation>
   

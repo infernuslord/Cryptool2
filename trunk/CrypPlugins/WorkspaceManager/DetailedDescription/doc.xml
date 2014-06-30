@@ -348,14 +348,14 @@
     Der Unterschied zwischen einer Verbindung im Arbeitsbereich, über die Konnektoren und einer Erweiterung durch die Schnittstelle für integrierte Komponenten, besteht darin, dass eine Komponente die andere steuern kann. In der CrypTool Sprache wird hierbei von Master(engl. für Meister)- und Slave(engl. für Knecht)-Komponenten gesprochen. Die Masterkomponente ist dabei die Hauptkomponente welche die Slavekomponente einbindet, steuern und auf deren Funktionen zugreifen kann. Der Hintergrund ist der, dass die Masterkomponente beispielsweise auf Funktionen der Slavekomponente angewiesen ist, oder aber auch das eine äquivalente Implementierung über den Arbeitsbereich kompliziert wäre.
     Technisch gesehen reduziert dies Redundanzen bei der Programmierung und macht Komponenten (wie z.B. den KeySearcher) für verschiedene Einsatzmöglichkeiten (z.B. verschiedene Verschlüsselungsverfahren) wiederverwendbar.
     <newline/> <newline/>
-    Unterstützt eine Komponente die Funktionalität für integrierte Komponenten, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl-Menü listet alle Komponenten auf, welche die definierte integrierte Komponenten Schnittstelle unterstützen, siehe Abbildung 16. 
+    Unterstützt eine Komponente die Funktionalität für integrierte Komponenten, befindet sich neben den normalen Fenster-Kontrollelementen ein Blitzsymbol, wie in Abbildung 15 zu sehen. Die Komponenten können durch Anklicken der Schaltfläche unterhalb der Ikonen eingesetzt und getauscht werden. Ein vertikales Auswahl-Menü listet alle Komponenten auf, welche die definierte integrierte Komponenten-Schnittstelle unterstützen: siehe Abbildung 16.  
     <newline/> <newline/>
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt.png" />    
     <img src="WorkspaceManager/DetailedDescription/Images/thunderbolt2.png" />    
     <newline/> <newline/>
     Die Einstellungen der eingebundenen Komponenten, erscheinen in eigenen Reitern, in der Ansicht:"Einstellungen" der Komponente, die sie einbindet.
     <newline/> <newline/>
-    Beim Erstellen eines Arbeitsbereiches mit Komponenten die integrierte Komponenten unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten in der integrierte Komponenten Schnittstelle.
+    Beim Erstellen eines Arbeitsbereiches mit Komponenten, die integrierte Komponenten unterstützen, sollten Sie als Benutzer sorgfältig die Dokumentation der Komponente lesen, um die richtigen Komponenten und Einstellungen zu wählen. Manche Komponenten benötigen zur Ausführung zwingend Komponenten für die integrierte Komponenten-Schnittstelle.
 
     <newline/> <newline/>    
    <b>Globale Einstellungen:</b>
@@ -380,7 +380,7 @@
     <newline/> <newline/>
       <b>  Standardmäßige Darstellung von Komponenten, Auswahlfeld:</b>
     <newline/> <newline/>
-        In diesem Auswahlfeld kann gewählt werden, ob Kompoenenten standardmäßig immer geöffnet, also unter Darstellung einer der vier Ansichten, geschlossen, also in der kleinstmöglichen Repräsentation nur unter Anzeigen der Ikone dargestellt werden soll, oder ob die Komponente diese Entscheidung selbst treffen soll.
+        In diesem Auswahlfeld kann gewählt werden, ob Komponenten standardmäßig geöffnet (also unter Darstellung einer der vier Ansichten) oder geschlossen (also in der kleinstmöglichen Repräsentation, bei der nur das Icon der Komponente angezeigt wird) dargestellt werden sollen, oder ob die Komponente diese Entscheidung selbst treffen soll.
     <newline/> <newline/>
       <b>  GUI updateintervall, Schieberegler:</b>
     <newline/> <newline/>
@@ -392,7 +392,7 @@
     <newline/> <newline/>
      <b>   Benchmark, Auswahlkasten:</b>
     <newline/> <newline/>
-        In diesem Auswahlkasten kann eingestellt werden, ob die Ausführungsmaschine die aufgerufenen Funktionen auf Sekundenbasis evaluieren soll, oder nicht.
+        In diesem Auswahlkasten kann eingestellt werden, ob die Ausführungsmaschine die aufgerufenen Funktionen auf Sekundenbasis evaluieren soll oder nicht.
     <newline/> <newline/>
       <b>  Datentyp-Farben, Dropdown Menu:</b>
     <newline/> <newline/>
