@@ -19,7 +19,7 @@
     Stephensons Roman <i>Cryptonomicon</i>.
     <newline />
     Laut Schneier entwarf er die Chiffre, um Agenten eine sichere Kommunikation zu ermöglichen, ohne von elektronischen Geräten oder verräterischen Utensilien abhängig zu sein.
-    Eine detailierte Beschreibung ist auf Schneiers Website http://www.schneier.com/solitaire.html zu finden.
+    Eine detaillierte Beschreibung ist auf Schneiers Website http://www.schneier.com/solitaire.html zu finden.
     <newline />
     Diese Komponente versucht, Geheimtexte, die mit der Solitaire-Chiffre verschlüsselt wurden, zu entschlüsseln.
     Da ein Brute-Force-Angriff für diese Verschlüsselung nicht erfolgversprechend ist, implementiert die Komponente einen Wörterbuchangriff.

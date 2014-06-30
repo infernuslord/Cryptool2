@@ -7,7 +7,7 @@
   <introduction lang="en">
     Frequency analysis reveals statistical information about a text, which can be used as an aid or as a breaking tool itself (in the case of monoalphabetical ciphers).<newline/>
     <newline/>
-    A monoalphabetic cipher is especially vulnerable to frequency analysis. Frequency analysis is simply counting of the reoccurring letters in the ciphertext and comparing it to previously calculated frequencies of occurrences in a given language.
+    A monoalphabetic cipher is especially vulnerable to frequency analysis. Frequency analysis is simply counting of the reoccurring letters in the ciphertext and comparing them to previously calculated frequencies of occurrences in a given language.
     Here is an example of how a monoalphabetic cipher (in our case Caesar’s cipher) can be broken with the help of frequency analysis:<newline/>
     <newline/>
     <img src="FrequencyTest/DetailedDescription/Images/frequencies.png" />
