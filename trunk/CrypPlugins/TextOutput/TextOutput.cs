@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -269,16 +270,22 @@ namespace TextOutput
             string s = textOutputPresentation.textBox.Text;
             string label = "";
 
-            if (Input is string)
+            var value = Input as string;
+            if (value != null)
             {
-                try
+                var isBigInt = value.All(c => c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9');
+                if (isBigInt)
                 {
-                    input = BigInteger.Parse((string)Input);
+                    try
+                    {
+                        input = BigInteger.Parse(value);
+                    }
+                    catch (Exception)
+                    {
+                        //wtf ?
+                    }
                 }
-                catch (Exception ex)
-                {
-                    //we had no to BigInt convertable string...
-                }
+
             }
 
             if (Input is BigInteger || Input is Int16 || Input is Int32)
