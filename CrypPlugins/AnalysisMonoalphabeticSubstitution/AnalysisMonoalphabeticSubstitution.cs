@@ -146,7 +146,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             Boolean inputOK = true;
 
             // Clear presentation
-            ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((AssignmentPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 ((AssignmentPresentation)Presentation).entries.Clear();
             }, null);
@@ -481,7 +481,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     this.plaintext_alphabet_output = CreateAlphabetOutput(this.keyCandidates[0].Key, this.ctAlphabet);
                     OnPropertyChanged("Plaintext_Alphabet_Output");
 
-                    ((AssignmentPresentation) Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                    ((AssignmentPresentation) Presentation).Dispatcher.Invoke(DispatcherPriority.Normal,
                         (SendOrPostCallback) delegate
                         {
                             try
@@ -532,7 +532,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private void UpdateDisplayStart()
         {
-             ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate{
+             ((AssignmentPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate{
                  this.startTime = DateTime.Now;
                  ((AssignmentPresentation)Presentation).startTime.Content = "" + startTime;
                  ((AssignmentPresentation)Presentation).endTime.Content = "";
@@ -542,7 +542,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         private void UpdateDisplayEnd()
         {
-            ((AssignmentPresentation)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((AssignmentPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.endTime = DateTime.Now;
                 TimeSpan elapsedtime = this.endTime.Subtract(this.startTime);
