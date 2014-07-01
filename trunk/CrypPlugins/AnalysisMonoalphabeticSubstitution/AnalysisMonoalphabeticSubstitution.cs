@@ -177,9 +177,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     this.langDic = new Dictionary("en-small.dic");
                 }
-                catch
+                catch(Exception ex)
                 {
-                    GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
+                    GuiLogMessage(Resources.error_dictionary + " :" + ex.Message, NotificationLevel.Error);
                 }
             }
             else if (settings.Alphabet == 1)
@@ -188,9 +188,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 {
                     this.langDic = new Dictionary("de-small.dic");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    GuiLogMessage(Resources.error_dictionary, NotificationLevel.Error);
+                    GuiLogMessage(Resources.error_dictionary + " :" + ex.Message, NotificationLevel.Error);
                 }
             }                   
             // Add new case for another language
