@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Heartbeat Test</title>
-  <title lang="de">Heartbeat Test</title>
+  <title lang="en">Hearttbleed Test</title>
+  <title lang="de">Heartbleed Test</title>
   
   <summary lang="en">Heartbeat and Heartbleed Test</summary>
   <summary lang="de">Heartbeat und Heartbleed Test</summary>
