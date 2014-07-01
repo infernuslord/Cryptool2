@@ -672,7 +672,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             // It is always looked for a 4-gram file at first. If the 4-gram file is not found the 3-gram file is choosen
             for (int i = 4; i > 2; i--)
             {
-                name = lang + "-" + i.ToString() + "gram-" + casesen + ".lm";
+                name = lang + "-" + i.ToString() + "gram-" + casesen + ".bin";
                 if (File.Exists(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, name)))
                 {
                     return name;

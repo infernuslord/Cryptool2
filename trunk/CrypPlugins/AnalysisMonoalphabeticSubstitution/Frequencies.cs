@@ -103,16 +103,18 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         /// 
         public void ReadProbabilities1Gram(String filename)
         {
-            this.ngram = 1;
-            this.prob1gram = new double[this.size];
+            ngram = 1;
+            prob1gram = new double[size];
 
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename),FileMode.Open))
             {
-                for (int i = 0; i < this.prob1gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    string line = reader.ReadLine();
-                    double nr = double.Parse(line);
-                    this.prob1gram[i] = nr;
+                    for (int i = 0; i < this.prob1gram.Length; i++)
+                    {
+                        var bytes = reader.ReadBytes(8);
+                        prob1gram[i] = BitConverter.ToDouble(bytes,0);
+                    }
                 }
             }
             
@@ -126,18 +128,20 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             for (int i = 0; i < this.size; i++)
             {
                 this.prob2gram[i] = new double[this.size];
-            }
+            }         
 
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob2gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob2gram.Length; j++)
+                    for (int i = 0; i < this.prob2gram.Length; i++)
                     {
-                        string line = reader.ReadLine();
-                        double nr = double.Parse(line);
-                        this.prob2gram[i][j] = nr;
-                    }
+                        for (int j = 0; j < this.prob2gram.Length; j++)
+                        {
+                            var bytes = reader.ReadBytes(8);
+                            this.prob2gram[i][j] = BitConverter.ToDouble(bytes, 0); ;
+                        }
+                    }                   
                 }
             }
 
@@ -157,22 +161,23 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob3gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob3gram.Length; j++)
+                    for (int i = 0; i < this.prob3gram.Length; i++)
                     {
-                        for (int k = 0; k < this.prob3gram.Length; k++)
+                        for (int j = 0; j < this.prob3gram.Length; j++)
                         {
-                            string line = reader.ReadLine();
-                            double nr = double.Parse(line);
-                            this.prob3gram[i][j][k] = nr;
+                            for (int k = 0; k < this.prob3gram.Length; k++)
+                            {
+                                var bytes = reader.ReadBytes(8);
+                                this.prob3gram[i][j][k] = BitConverter.ToDouble(bytes, 0);
+                            }
                         }
                     }
                 }
             }
-
         }
 
         public void ReadProbabilities4Gram(String filename)
@@ -192,20 +197,21 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob4gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob4gram.Length; j++)
+                    for (int i = 0; i < this.prob4gram.Length; i++)
                     {
-                        for (int k = 0; k < this.prob4gram.Length; k++)
+                        for (int j = 0; j < this.prob4gram.Length; j++)
                         {
-                            for (int l = 0; l < this.prob4gram.Length; l++)
+                            for (int k = 0; k < this.prob4gram.Length; k++)
                             {
-                                string line = reader.ReadLine();
-                                double nr = double.Parse(line);
-                                this.prob4gram[i][j][k][l] = nr;
+                                for (int l = 0; l < this.prob4gram.Length; l++)
+                                {
+                                    var bytes = reader.ReadBytes(8);
+                                    this.prob4gram[i][j][k][l] = BitConverter.ToDouble(bytes, 0);
+                                }
                             }
                         }
                     }
@@ -234,29 +240,30 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+           
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob5gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob5gram.Length; j++)
+                    for (int i = 0; i < this.prob5gram.Length; i++)
                     {
-                        for (int k = 0; k < this.prob5gram.Length; k++)
+                        for (int j = 0; j < this.prob5gram.Length; j++)
                         {
-                            for (int l = 0; l < this.prob5gram.Length; l++)
+                            for (int k = 0; k < this.prob5gram.Length; k++)
                             {
-                                for (int m = 0; m < this.prob5gram.Length; m++)
+                                for (int l = 0; l < this.prob5gram.Length; l++)
                                 {
-                                    string line = reader.ReadLine();
-                                    double nr = double.Parse(line);
-                                    this.prob5gram[i][j][k][l][m] = nr;
+                                    for (int m = 0; m < this.prob5gram.Length; m++)
+                                    {
+                                        var bytes = reader.ReadBytes(8);
+                                        this.prob5gram[i][j][k][l][m] = BitConverter.ToDouble(bytes, 0);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
         }
 
         public void ReadProbabilities6Gram(String filename)
@@ -284,24 +291,26 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+           
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob6gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob6gram.Length; j++)
+                    for (int i = 0; i < this.prob6gram.Length; i++)
                     {
-                        for (int k = 0; k < this.prob6gram.Length; k++)
+                        for (int j = 0; j < this.prob6gram.Length; j++)
                         {
-                            for (int l = 0; l < this.prob6gram.Length; l++)
+                            for (int k = 0; k < this.prob6gram.Length; k++)
                             {
-                                for (int m = 0; m < this.prob6gram.Length; m++)
+                                for (int l = 0; l < this.prob6gram.Length; l++)
                                 {
-                                    for (int n = 0; n < this.prob6gram.Length; n++)
+                                    for (int m = 0; m < this.prob6gram.Length; m++)
                                     {
-                                        string line = reader.ReadLine();
-                                        double nr = double.Parse(line);
-                                        this.prob6gram[i][j][k][l][m][n] = nr;
+                                        for (int n = 0; n < this.prob6gram.Length; n++)
+                                        {
+                                            var bytes = reader.ReadBytes(8);
+                                            this.prob6gram[i][j][k][l][m][n] = BitConverter.ToDouble(bytes, 0);
+                                        }
                                     }
                                 }
                             }
@@ -309,7 +318,6 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
         }
 
         public void ReadProbabilities7Gram(String filename)
@@ -341,26 +349,27 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
-            using (TextReader reader = new StreamReader(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename)))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
             {
-                for (int i = 0; i < this.prob7gram.Length; i++)
+                using (var reader = new BinaryReader(fileStream))
                 {
-                    for (int j = 0; j < this.prob7gram.Length; j++)
+                    for (int i = 0; i < this.prob7gram.Length; i++)
                     {
-                        for (int k = 0; k < this.prob7gram.Length; k++)
+                        for (int j = 0; j < this.prob7gram.Length; j++)
                         {
-                            for (int l = 0; l < this.prob7gram.Length; l++)
+                            for (int k = 0; k < this.prob7gram.Length; k++)
                             {
-                                for (int m = 0; m < this.prob7gram.Length; m++)
+                                for (int l = 0; l < this.prob7gram.Length; l++)
                                 {
-                                    for (int n = 0; n < this.prob7gram.Length; n++)
+                                    for (int m = 0; m < this.prob7gram.Length; m++)
                                     {
-                                        for (int o = 0; o < this.prob7gram.Length; o++)
+                                        for (int n = 0; n < this.prob7gram.Length; n++)
                                         {
-                                            string line = reader.ReadLine();
-                                            double nr = double.Parse(line);
-                                            this.prob7gram[i][j][k][l][m][n][o] = nr;
+                                            for (int o = 0; o < this.prob7gram.Length; o++)
+                                            {
+                                                var bytes = reader.ReadBytes(8);
+                                                this.prob7gram[i][j][k][l][m][n][o] = BitConverter.ToDouble(bytes, 0);
+                                            }
                                         }
                                     }
                                 }
@@ -369,7 +378,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-
+         
         }
 
         public void ReadProbabilitiesFromNGramFile(String filename)
