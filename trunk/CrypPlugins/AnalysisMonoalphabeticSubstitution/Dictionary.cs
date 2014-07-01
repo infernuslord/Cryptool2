@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     return new List<byte[]>();
                 }
             }
-            return actualNode.Words;
+            return (actualNode.Words ?? new List<byte[]>());
         }
     }
 
