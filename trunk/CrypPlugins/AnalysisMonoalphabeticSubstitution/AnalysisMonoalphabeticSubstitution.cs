@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
         // Alphabet constants
         private const String English = "abcdefghijklmnopqrstuvwxyz";
-        private const String German = "abcdefghijklmnopqrstuvwxyz";
+        private const String German = "abcdefghijklmnopqrstuvwxyzäüöß";
 
         // Attackers
         private DictionaryAttacker dicAttacker;
@@ -175,7 +175,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 try
                 {
-                    this.langDic = new Dictionary("en-small.dic");
+                    this.langDic = new Dictionary("en-small.dic",ctAlphabet.Length);
                 }
                 catch(Exception ex)
                 {
@@ -186,7 +186,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             {
                 try
                 {
-                    this.langDic = new Dictionary("de-small.dic");
+                    this.langDic = new Dictionary("de-small.dic", ctAlphabet.Length);
                 }
                 catch (Exception ex)
                 {

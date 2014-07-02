@@ -13,15 +13,17 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
         #region Variables
         
         private Boolean stopFlag;
-        private readonly Node root = new Node();
+        private readonly Node root;
+        private int amountOfCharacters;
 
         #endregion
 
         #region Constructor
 
-        public Dictionary(String filename)
+        public Dictionary(String filename, int amountOfCharacters)
         {
-            
+            this.amountOfCharacters = amountOfCharacters;
+            this.root = new Node(amountOfCharacters);
             using (var ms = new MemoryStream())
             {
                 using (var fs = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open,FileAccess.Read))
@@ -75,13 +77,13 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             var actualNode = root;
             for (var i = 0; i < pattern.Length; i++)
             {
-                if (pattern[i] > 25)
+                if (pattern[i] > amountOfCharacters)
                 {
-                    throw new Exception("Symbol > 25 not possible in dictionary");
+                    throw new Exception("Symbol > " + amountOfCharacters +" not possible in dictionary");
                 }
                 if (actualNode.Nodes[pattern[i]] == null)
                 {
-                    actualNode.Nodes[pattern[i]] = new Node();
+                    actualNode.Nodes[pattern[i]] = new Node(amountOfCharacters);
                 }
                 actualNode = actualNode.Nodes[pattern[i]];
             }
@@ -109,9 +111,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             var actualNode = root;
             for (var i = 0; i < pattern.Length; i++)
             {
-                if (pattern[i] > 25)
+                if (pattern[i] > amountOfCharacters)
                 {
-                    throw new Exception("Symbol > 25 not possible in dictionary");
+                    throw new Exception("Symbol > " + amountOfCharacters + " not possible in dictionary");
                 }
                 actualNode = actualNode.Nodes[pattern[i]];
                 if (actualNode == null)
@@ -125,7 +127,14 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
 
     public class Node
     {
-        public Node[] Nodes = new Node[26];
+        private int amountOfCharacters;
+        public Node(int amountOfCharacters)
+        {
+            this.amountOfCharacters = amountOfCharacters;
+            this.Nodes = new Node[this.amountOfCharacters];
+        }
+
+        public Node[] Nodes;
         public List<byte[]> Words { get; set; }
     }
 }
