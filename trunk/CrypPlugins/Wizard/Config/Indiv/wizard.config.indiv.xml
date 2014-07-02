@@ -147,7 +147,7 @@
   </input>
 
   <!-- Heartbeat input -->
-  <input image="HeartbeatTest" >    
+  <input image="HeartbleedTest" >    
     <name lang="en" >Heartbleed analysis</name>
     <name lang="de" >Heartbleed-Analyse</name>
     <description lang="en" >Here, you can test whether a server is vulnerable to the heartbleed-bug.</description>
@@ -165,7 +165,7 @@
     </inputBox>
 
 
-    <sampleViewer image="HeartbeatTest" file="Protocols\HeartbeatTest.cwm">
+    <sampleViewer image="HeartbleedTest" file="Protocols\HeartbleedTest.cwm">
       <name lang="en" >Result</name>
       <name lang="de" >Ergebnis</name>
       <description lang="en" >-</description>

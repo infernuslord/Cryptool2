@@ -49,7 +49,7 @@
         <BitmapImage x:Key="Enc" UriSource="Images/Enc.png"/>
         <BitmapImage x:Key="Dec" UriSource="Images/Dec.png"/>
         <BitmapImage x:Key="PasswordStrength" UriSource="Images/PasswordStrength.png"/>
-        <BitmapImage x:Key="HeartbeatTest" UriSource="Images/HeartbeatTest.png"/>
+        <BitmapImage x:Key="HeartbleedTest" UriSource="Images/HeartbleedTest.png"/>
         <BitmapImage x:Key="Codes" UriSource="Images/Codes.png"/>
         <BitmapImage x:Key="MorseCode" UriSource="Images/MorseCode.png"/>
         <BitmapImage x:Key="VisualCode" UriSource="Images/VisualCode.png"/>
