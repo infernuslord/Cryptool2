@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             ngram = 1;
             prob1gram = new double[size];
 
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename),FileMode.Open))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
@@ -128,9 +128,9 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
             for (int i = 0; i < this.size; i++)
             {
                 this.prob2gram[i] = new double[this.size];
-            }         
+            }
 
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
@@ -161,7 +161,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                 }
             }
 
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
@@ -197,7 +197,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
@@ -291,8 +291,8 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-           
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
+
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
@@ -349,7 +349,7 @@ namespace Cryptool.Plugins.AnalysisMonoalphabeticSubstitution
                     }
                 }
             }
-            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
