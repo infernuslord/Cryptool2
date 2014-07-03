@@ -163,18 +163,24 @@ namespace KeySearcher.KeyPattern
                     }
                     else
                     {
-                        Wildcard wc1 = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+                        Wildcard patternWc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
                         while (pattern[pcount++] != ']') ;
-                        Wildcard wc2 = null;
+                        Wildcard wildcardKeyWc = null;
                         if (wildcardKey[kcount] == '[')
                         {
-                            wc2 = new Wildcard(wildcardKey.Substring(kcount, wildcardKey.IndexOf(']', kcount) + 1 - kcount));
+                            wildcardKeyWc = new Wildcard(wildcardKey.Substring(kcount, wildcardKey.IndexOf(']', kcount) + 1 - kcount), patternWc);
+                            if (wildcardKeyWc.getLength() == 0)
+                            {
+                                throw new Exception("Invalid wildcard pattern: wildcard must contain at least one character!");
+                            }
                             while (wildcardKey[++kcount] != ']') ;
                         }
                         else if (wildcardKey[kcount] != '*')
-                            wc2 = new Wildcard("" + wildcardKey[kcount]);
+                        {
+                            wildcardKeyWc = new Wildcard("" + wildcardKey[kcount]);
+                        }
 
-                        if (!wc1.contains(wc2) && !(wildcardKey[kcount] == '*'))
+                        if (!patternWc.contains(wildcardKeyWc) && !(wildcardKey[kcount] == '*'))
                             return false;
                         kcount++;
                     }
@@ -203,14 +209,15 @@ namespace KeySearcher.KeyPattern
             {
                 if (pattern[pcount] == '[')
                 {
+                    Wildcard patternWc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
+
                     if (wildcardKey[i] == '*')
                     {
-                        Wildcard wc = new Wildcard(pattern.Substring(pcount, pattern.IndexOf(']', pcount) + 1 - pcount));
-                        wildcardList.Add(wc);
-                      }
+                        wildcardList.Add(patternWc);
+                    }
                     else if (wildcardKey[i] == '[')
                     {
-                        Wildcard wc = new Wildcard(wildcardKey.Substring(i, wildcardKey.IndexOf(']', i) + 1 - i));
+                        Wildcard wc = new Wildcard(wildcardKey.Substring(i, wildcardKey.IndexOf(']', i) + 1 - i), patternWc);
                         wildcardList.Add(wc);
                         while (wildcardKey[++i] != ']') ;
                     }
