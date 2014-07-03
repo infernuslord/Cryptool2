@@ -28,7 +28,7 @@ namespace KeySearcher.KeyPattern
             private set;
         }
 
-        public Wildcard(string valuePattern)
+        public Wildcard(string valuePattern, Wildcard referenceWildcard = null)
         {
             isSplit = false;
             counter = 0;
@@ -45,17 +45,64 @@ namespace KeySearcher.KeyPattern
                 {
                     if (valuePattern[i + 1] == '-')
                     {
-                        for (char c = valuePattern[i]; c <= valuePattern[i + 2]; c++)
-                            values[length++] = c;
+                        var startChar = valuePattern[i];
+                        var endChar = valuePattern[i + 2];
+                        if (startChar > endChar)
+                        {
+                            throw new Exception("Invalid wildcard format!");
+                        }
+
+                        if (referenceWildcard != null)
+                        {
+                            TakeWildcardRangeFromReference(referenceWildcard, startChar, endChar);
+                        }
+                        else
+                        {
+                            for (char c = startChar; c <= endChar; c++)
+                            {
+                                values[length++] = c;
+                            }
+                        }
+
                         i += 2;
                     }
                     else
+                    {
                         values[length++] = valuePattern[i];
+                    }
                     i++;
                 }
             }
 
             Array.Sort(values, 0, length);
+        }
+
+        private void TakeWildcardRangeFromReference(Wildcard referenceWildcard, char startChar, char endChar)
+        {
+            bool startFound = false;
+            bool endFound = false;
+            for (int ri = 0; ri < referenceWildcard.length; ri++)
+            {
+                var currentRC = referenceWildcard.values[ri];
+                if (!startFound && currentRC == startChar)
+                {
+                    startFound = true;
+                }
+                if (startFound && !endFound)
+                {
+                    values[length++] = currentRC;
+                }
+                if (currentRC == endChar)
+                {
+                    endFound = true;
+                    break;
+                }
+            }
+
+            if (!startFound || !endFound)
+            {
+                throw new Exception("Invalid wildcard format with respect to reference wildcard!");
+            }
         }
 
         public Wildcard(Wildcard wc)
