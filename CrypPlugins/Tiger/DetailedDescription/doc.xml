@@ -4,24 +4,32 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Tiger is a cryptographic hash function that was designed by the cryptography experts Ross Anderson and Eli Biham in 1996.
+    The Tiger algorithm calculates a hash value of 192 bits (24 bytes) length for its input of arbitrary length.
+    Internally, Tiger operates on 64-bit words and is therefore optimized for the use on 64-bit architectures.
+    CrypTool2 implements version 2 of the Tiger algorithm.
+    <newline />
+    Tiger is patent-free and is not subjected to any limitations of use.
   </introduction>
 
   <introduction lang="de-DE">
 	  Tiger ist eine kryptographische Hash-Funktion und wurde 1996 von den Kryptographieexperten Ross Anderson und Eli Biham entworfen. 
 	  Der Tiger-Algorithmus berechnet für eine Eingabe beliebiger Länge einen Hashwert mit einer Länge von 192 Bits (24 Bytes).
 	  Er arbeitet intern mit 64-Bit-Worten und ist daher optimiert für die Verwendung auf 64-Bit-Architekturen.
-	  In CrypTool ist die Version 2 des Tiger-Algorithmus implementiert.
+	  In CrypTool2 ist die Version 2 des Tiger-Algorithmus implementiert.
 	  <newline />
 	  Tiger ist patentfrei und unterliegt keinen Nutzungsbeschränkungen.
   </introduction>
 
   <usage lang="en">
+    The Tiger component expects the data of which to calculate the hash value either as a byte array on the input labeled "Input Data" or as a data stream on the input labeled "Input Data Stream".
+    The resulting hash value is provided at the outputs of the component, again as a byte array and as a data stream.
   </usage>
 
   <usage lang="de-DE">
-	  Die Tiger-Komponente erwartet die Daten, deren Hashwert berechnet werden soll, entweder als Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom".
-	  Der resultierende Tiger-Hashwert wird an den Ausgängen der Komponente wiederum als Datenstrom und als Byte-Array bereitgestellt.
+    Die Tiger-Komponente erwartet die Daten, deren Hashwert berechnet werden soll, entweder als Byte-Array am Eingang "Eingabedaten" oder als Datenstrom am Eingang "Eingabedatenstrom".
+    Der resultierende Tiger-Hashwert wird an den Ausgängen der Komponente wiederum als Datenstrom und als Byte-Array bereitgestellt.
   </usage>
   
   <presentation lang="en">

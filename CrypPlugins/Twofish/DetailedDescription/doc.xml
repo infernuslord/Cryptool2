@@ -4,7 +4,12 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Twofish is a symmetric block cipher. It encrypts blocks of 128 bits and can operate with key sizes of 128, 192 or 256 bits.
+    Like DES, TDES and TEA, it belongs to the class of Feistel ciphers and it passes through 16 rounds.
+    Twofish was designed by the crptography expert Bruce Schneier and his team and was one of the 5 finalists in the search for
+    a successor for AES.
+    The Twofish cipher has not been patented and has been placed in the public domain. As a result, the Twofish algorithm is free for anyone to use without any restrictions.
   </introduction>
 
   <introduction lang="de-DE">
@@ -17,6 +22,44 @@
   </introduction>
 
   <usage lang="en">
+    The Twofish component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
+    <newline />
+    <newline />
+    
+    <section headline="Encryption">
+      In "Encryption" mode, the component expects the plaintext as a data stream on the input labeled "Input Data Stream".
+      Twofish works with a block size of 128 bits (16 bytes). If the size of the input is not a multiple of 16 bytes, as many bytes as are necessary to achieve
+      a multiple of 16 bytes are padded. You can choose between several padding methods in the settings of the component.
+      When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      The key is expected as a byte array on the input labeled "Key".
+      In the settings of the component, you can determine the size of the key: 128 bits, 192 bits or 256 bits.
+      If the selected key size does not correspond to the size of the entered key, a warning will be issued and the key is either padded with null bytes or
+      reduced to the required size.
+      The encrypted data block is then sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+    
+    <section headline="Decryption">
+      In "Decryption" mode, the component expects the ciphertext that is to be decrypted on the input labeled "Input Data Stream".
+      The size of the input must be a multiple of the block size of Twofish (16 bytes). Otherwise, the component stops with an error message.
+      The key is entered in the same way as in "Encryption" mode.
+      Finally, the plaintext will be sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+    
+    <section headline="Cryptographic Mode">
+      Block ciphers divide their input data into blocks of a fixed size (Twofish: 16 bytes) and apply the encryption or decryption function on the blocks of the input.
+      The chaining mode determines the way in which consecutive blocks, after being en- or decryted, are combined in order to achieve better security or error tolerance.
+      The Twofish component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
+      Select the appropriate chaining mode in the settings of the component.
+      <newline />
+      In ECB mode, each block is encrypted separately with the Twofish algorithm. In the other modes however, a plaintext block is combined with the previous ciphertext block.
+      As there is no previous block for the first block, we must provide one for these modes. This extra block is given by the initialization vector (IV), which must be provided as a byte array
+      on the input of the component. Thus the size of the IV must correspond to the block size of Twofish (16 bytes). If the provided IV is too short, it is filled with null bytes. If it is too long, it is truncated to 16 bytes.
+      If no IV is given, the component will assume an IV consisting of 16 null bytes.
+    </section>
   </usage>
 
   <usage lang="de-DE">
@@ -30,10 +73,10 @@
       angehängt werden, bis sie ohne Rest in 16-Bytes-Blöcke zerlegt werden kann. Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen
       Padding-Methoden wählen. Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der
       Verschlüsselung verwendet wurde.
-      Der Schlüssel wird als Datenstrom am Eingang "Schlüssel" erwartet. In den Einstellungen kann
+      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet. In den Einstellungen kann
       die Größe des zu verwendenden Schlüssels bestimmt werden: 128 Bits, 192 Bits oder 256 Bits. Stimmt die Größe des eingegebenen
       Schlüssels nicht mit dieser Einstellung überein, so wird eine Warnung ausgegeben und der Schlüssel entweder mit Nullbytes aufgefüllt
-      oder auf die korrekte Größe beschnitten. Der verschlüsselte Datenblock wird dann an den Ausgängen der Komponente als Datenstrom zur Verfügung gestellt.
+      oder auf die korrekte Größe beschnitten. Der verschlüsselte Datenblock wird dann am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
     <newline />
     <newline />
     </section>
@@ -88,4 +131,5 @@
       <caption lang="en">Block cipher (Wikipedia)</caption>
     </linkReference>
   </references>
+  
 </documentation>
