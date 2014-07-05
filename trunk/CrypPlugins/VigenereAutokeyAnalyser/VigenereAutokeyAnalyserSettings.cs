@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             get { return this.alphabet; }
             set
             {
-                string a = removeEqualChars(value);     //removes all char that are used twice in the alphabet
+                string a = removeEqualChars(value);     //removes all chars that are used twice in the alphabet
 
                 if (a.Length > 0 && !alphabet.Equals(a)) //only if not empty
                 {

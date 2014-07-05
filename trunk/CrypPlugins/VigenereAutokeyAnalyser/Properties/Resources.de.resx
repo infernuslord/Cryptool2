@@ -181,13 +181,13 @@
     <value>Ausgabe des Schlüssels</value>
   </data>
   <data name="OutputKeyTooltip" xml:space="preserve">
-    <value>Der wahrscheinlichste Selbstschlüssel für den analysierten Geheimtext</value>
+    <value>Der wahrscheinlichste Schlüssel für den analysierten Geheimtext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère-Autokey-Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ciphertext-Only-Angriff auf das Vigenère-Selbstschlüssel-Verfahren (Autokey)</value>
+    <value>Ciphertext-Only-Angriff auf das klassische Vigenère-Verfahren und das Vigenère-Selbstschlüssel-Verfahren (Autokey)</value>
   </data>
   <data name="InputAlphabetCaption" xml:space="preserve">
     <value>Eingabe-Alphabet</value>

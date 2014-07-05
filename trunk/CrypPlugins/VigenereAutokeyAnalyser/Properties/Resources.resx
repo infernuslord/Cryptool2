@@ -181,13 +181,13 @@
     <value>Key Output</value>
   </data>
   <data name="OutputKeyTooltip" xml:space="preserve">
-    <value>The most probable autokey for the analysed ciphertext</value>
+    <value>The most probable key for the analysed ciphertext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère Autokey Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ciphertext-only attack on Vigenère autokey encryption</value>
+    <value>Ciphertext-only attack on the classic Vigenère encryption and the Vigenère autokey encryption</value>
   </data>
   <data name="InputAlphabetCaption" xml:space="preserve">
     <value>External alphabet input</value>
