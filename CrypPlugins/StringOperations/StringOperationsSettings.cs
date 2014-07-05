@@ -107,7 +107,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("String2Caption", "String2Tooltip", null, 2, false, ControlType.TextBox)]
+        [TaskPane("String2Caption", "String2Tooltip", null, 3, false, ControlType.TextBox)]
         public string String2
         {
             get
@@ -121,7 +121,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("String3Caption", "String3Tooltip", null, 2, false, ControlType.TextBox)]
+        [TaskPane("String3Caption", "String3Tooltip", null, 4, false, ControlType.TextBox)]
         public string String3
         {
             get
@@ -135,7 +135,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("Value1Caption", "Value1Tooltip", null, 2, false, ControlType.NumericUpDown)]
+        [TaskPane("Value1Caption", "Value1Tooltip", null, 5, false, ControlType.NumericUpDown)]
         public int Value1
         {
             get
@@ -149,7 +149,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("Value2Caption", "Value2Tooltip", null, 2, false, ControlType.NumericUpDown)]
+        [TaskPane("Value2Caption", "Value2Tooltip", null, 6, false, ControlType.NumericUpDown)]
         public int Value2
         {
             get
@@ -163,7 +163,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+        [TaskPane("BlocksizeCaption", "BlocksizeTooltip", null, 7, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
         public int Blocksize
         {
             get
@@ -177,7 +177,7 @@ namespace StringOperations
             }
         }
 
-        [TaskPane("OrderCaption", "OrderTooltip", null, 4, false, ControlType.ComboBox, new[] { "Ascending", "Descending" })]
+        [TaskPane("OrderCaption", "OrderTooltip", null, 8, false, ControlType.ComboBox, new[] { "Ascending", "Descending" })]
         public int Order
         {
             get
