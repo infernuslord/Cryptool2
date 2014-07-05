@@ -161,7 +161,7 @@
 	<inputBox plugin="ServerIP" property="Text" alignment="Left" width="10%" visibleLines="1"> 
         <description lang="en">Server address:</description>
         <description lang="de">Server Adresse:</description>
-        <defaultvalue>141.51.125.19</defaultvalue>
+        <defaultvalue>heartbleed.ais.uni-kassel.de</defaultvalue>
     </inputBox>
 
 
@@ -179,7 +179,7 @@
       <inputBox plugin="ServerIP" property="Text" alignment="left" width="10%" visibleLines="1" group="1"> 
         <description lang="en">Server address:</description>
         <description lang="de">Server Adresse:</description>
-        <defaultvalue>141.51.125.19</defaultvalue>
+        <defaultvalue>heartbleed.ais.uni-kassel.de</defaultvalue>
       </inputBox>
 
       <presentation plugin="HeartbeatState" width="25%" alignment="Center" group="2">
