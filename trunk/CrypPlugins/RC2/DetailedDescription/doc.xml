@@ -2,25 +2,55 @@
 <documentation>
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en"></introduction>
-  <introduction lang="de-DE">RC2 ist eine 64 Bit Blockchiffre mit variabler Schlüssellänge, die von Ronald Rivest als möglicher Ersatz für DES im Jahr 1987 entwickelt wurde. RC steht für Rivest Cipher oder Ron’s Code, weitere Blockchiffren die von Ronald Rivest entwickelt worden sind: RC4, RC5, und RC6. 
-  <newline/>
-  <newline/>
-  Der RC2 Algorithmus benutzt einen Schlüssel variabler Länge. Die Geschwindigkeit der Verschlüsselung hängt dabei nicht von der Schlüssellänge ab, da aus dem Schlüssel vorab eine schlüsselabhängige Tabelle mit 128 Byte berechnet wird. Die 18 Runden sind als Feistelnetzwerk angelegt, 16 davon sind des Typs MIXING, 2 weitere des Typs MASHING. Eine Runde des Typs MIXING besteht aus der vierfachen Anwendung der Mix-Tansformation wie sie in der Illustration gezeigt wird. 
-  <newline/>
-  <newline/>
-  <i>Quelle: <ref id="wikipedia" /></i>
+
+  <introduction lang="en">
+    RC2 is a 64-bit block cipher with variable key length, that was designed by Ronald Rivest as a possible replacement for DES in 1987. RC stands for Rivest Cipher or Ron’s Code.
+    Rivest has also designed the block ciphers RC4, RC5 and RC6.
+    <newline/>
+    <newline/>
+    The RC2 algorithm uses a key of variable size. The speed of the encryption does not exclusively depend on the used key size, as the key is used to generate a 128-byte table in a first step.
+    The 18 rounds of RC2 are arranged as a Feistel network, with 16 rounds of type MIXING and two rounds of type MASHING. A MIXING round consists of four applications of the MIX transformation.
   </introduction>
-  <usage lang="en"></usage>
-  <usage lang="de-DE">
-  Die RC2 Komponente besitzt drei Eingänge und einen Ausgang. Zum einen wird ein 64bit großer Schlüssel als Byte-Array benötigt. Optional kann ein 64 Bit großer Initialisierungsvektor angegeben werden, der für die Blockverkettungsmodi CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output feedback) benötigt wird. Der zu ver- oder entschlüssende Text wird als Datenstrom übergeben. Ebenso wird der ausgehende ent- oder verschlüsselte Text als Datenstrom ausgeben.
+
+  <introduction lang="de-DE">
+    RC2 ist eine 64-Bit-Blockchiffre mit variabler Schlüssellänge, die von Ronald Rivest als möglicher Ersatz für DES im Jahr 1987 entwickelt wurde. RC steht für Rivest Cipher oder Ron’s Code, weitere Blockchiffren
+    die von Ronald Rivest entwickelt worden sind: RC4, RC5 und RC6.
+    <newline/>
+    <newline/>
+    Der RC2-Algorithmus benutzt einen Schlüssel variabler Länge. Die Geschwindigkeit der Verschlüsselung hängt dabei nicht von der Schlüssellänge ab, da aus dem Schlüssel vorab eine schlüsselabhängige Tabelle mit 128 Bytes berechnet wird.
+    Die 18 Runden sind als Feistelnetzwerk angelegt, 16 davon sind vom Typ MIXING, 2 weitere vom Typ MASHING. Eine Runde des Typs MIXING besteht aus der vierfachen Anwendung der Mix-Tansformation.
+    <newline/>
+    <newline/>
+    <i>Quelle: <ref id="wikipedia" /></i>
+  </introduction>
+
+  <usage lang="en">
+    The RC2 component has three inputs and one output. On one input, it expects the RC2 key as a byte array. The size of the key must be between 40 and 128 bits, so the provided byte array must consist of 5 to 16 bytes.
+    If you use one of the block chaining modes CBC (Cipher Block Chaining), CFB (Cipher Feedback) or OFB (Output feedback), you must also provide a byte array with 8 bytes which is used as the 64 bit initialization vector.
+    The ciphertext to decrypt or plaintext to encrypt is expected as a data stream on the third input of the component, and the resulting ciphertext/plaintext is then available as a data stream on the component's output.
+    RC2 internally uses a block size of 64 bits (8 bytes). Thus messages whose length is not a multiple of 8 bytes must be padded accordingly. You can select the kind of padding to use in the settings of the component.
   </usage>
-  <presentation lang="en"></presentation>
-  <presentation lang="de-DE"></presentation>
+
+  <usage lang="de-DE">
+    Die RC2-Komponente besitzt drei Eingänge und einen Ausgang. Am Eingang "Schlüssel" wird der RC2-Schlüssel als Byte-Array erwartet. Der Schlüssel kann 40 bis 128 Bits lang sein, so dass das Byte-Array zwischen 5 und 16 Bytes groß sein muss.
+    Optional kann ein 64 Bit großer Initialisierungsvektor angegeben werden, der für die Blockverkettungsmodi CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output feedback) benötigt wird. 
+    Der zu ver- oder entschlüssende Text wird als Datenstrom übergeben. Ebenso wird der ausgehende ent- oder verschlüsselte Text als Datenstrom ausgeben.
+    RC2 arbeitet mit einer Blockgröße von 64 Bits (8 Bytes). Daher müssen Nachrichten, deren Länge kein Vielfaches von 8 Bytes ist, entsprechend aufgefüllt werden. Die Art des Paddings kann in den Einstellungen gewählt werden.
+  </usage>
+
+  <presentation lang="en">
+  </presentation>
+
+  <presentation lang="de-DE">
+  </presentation>
+  
   <references>
     <linkReference  id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/RC2" lang="en" />
+      <caption lang="en">RC2 in Wikipedia</caption>
       <link url="http://de.wikipedia.org/wiki/RC2_(Verschlüsselungsverfahren)" lang="de-DE" />
-      <caption lang="de-DE">RC2_(Verschlüsselungsverfahren) in Wikipedia</caption>
+      <caption lang="de-DE">RC2 in Wikipedia</caption>
     </linkReference>
   </references>
+
 </documentation>

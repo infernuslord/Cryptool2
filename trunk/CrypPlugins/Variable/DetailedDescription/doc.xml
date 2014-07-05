@@ -1,23 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
+
   <language culture="en" />
+
   <introduction lang="en">
-</introduction>
+    The <i>Variable</i> component can store and load variables to and from memory. This makes it possible to transfer data between components on the workspace without having to directly connect them.
+  </introduction>
+
   <usage lang="en">
-</usage>
+    For using variables, pull a <i>Variable Store</i> component onto the workspace and enter the name you want to give to the variable in its settings (for example X).
+    Connect the input of the <i>Variable</i> component with the output connector of the component, that delivers the value you want to save in the variable.
+    Any data type is accepted as input.
+    <newline /><newline />
+    To use the stored variable on another place of the workspace, pull a <i>Variable Load</i> component onto the workspace and enter the name of the variable you want to access in the settings of the component (for example X).
+    When the variable X is stored or updated in one place of the worksapce by the <i>Variable Store</i> component, the new value of X is automatically available at the <i>Variable Load</i> components that reference X.
+  </usage>
+
   <presentation lang="en">
-</presentation>
+  </presentation>
+
   <language culture="de-DE" />
-  <introduction lang="de-DE">Mittels der Variablenkomponenten können Variablen im Speicher geschrieben und gelesen werden. So können auch Teile der Arbeitsfläche miteinander kommunizieren, die über keine direkte Verbindung miteinander verfügen.
-</introduction>
-  <usage lang="de-DE">Um mit Variablen zu arbeiten, wird eine "Variable speichern" Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Der Variable kann ein Datum eines beliebigen Datentyps übergeben werden.<newline /><newline />Um an anderer Stelle den Wert der Variablen zu nutzen, wird die "Variable lesen" Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Sobald X nun an anderer Stelle im Arbeitsplatz gespeichert wird, gibt die "Variable lesen" Komponente den Wert von X automatisch weiter.
-</usage>
+
+  <introduction lang="de-DE">
+    Mittels der Variablenkomponenten können Variablen im Speicher geschrieben und gelesen werden. So können auch Teile der Arbeitsfläche miteinander kommunizieren, die über keine direkte Verbindung miteinander verfügen.
+  </introduction>
+
+  <usage lang="de-DE">
+    Um mit Variablen zu arbeiten, wird eine "Variable speichern"-Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X).
+    Der Variable kann ein Datum eines beliebigen Datentyps übergeben werden.
+    <newline /><newline />
+    Um an anderer Stelle den Wert der Variablen zu nutzen, wird die "Variable lesen"-Komponente auf den Arbeitsplatz gezogen.
+    Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Sobald X nun an anderer Stelle im Arbeitsplatz gespeichert wird, gibt die "Variable lesen"-Komponente den Wert von X automatisch weiter.
+  </usage>
+
   <presentation lang="de-DE">
-</presentation>
+  </presentation>
+
   <references>
     <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Variable_(computer_science)" lang="en" />
+      <caption lang="en">Variable (Wikipedia)</caption>
       <link url="http://de.wikipedia.org/wiki/Variable_%28Programmierung%29" lang="de-DE" />
-      <caption lang="de-DE">Variable (Programmierung) in der deutschen Wikipedia</caption>
+      <caption lang="de-DE">Variable (Wikipedia)</caption>
     </linkReference>
   </references>
+
 </documentation>

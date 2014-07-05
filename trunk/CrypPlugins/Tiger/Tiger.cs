@@ -128,25 +128,19 @@ namespace Tiger
     [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false)]
     public byte[] InputData
     {
-      get
-      {
-        return inputdata;
-      }
-      set
-      {
-          if (inputdata != value)
-          {
-              if (value == null)
-              {
-                  inputdata = new byte[0];
-              }else
-              {
-                  inputdata = value;
-              }
-              GuiLogMessage("InputData changed.", NotificationLevel.Debug);
-              NotifyUpdateInput();
-          }
-      }
+        get
+        {
+            return inputdata;
+        }
+        set
+        {
+            if (inputdata != value)
+            {
+                inputdata = (value == null) ? new byte[0] : value;
+                GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+                NotifyUpdateInput();
+            }
+        }
     }
     #endregion
 

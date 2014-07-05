@@ -5,48 +5,83 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The Vigenère Autokey Analyzer is used for a ciphertext-only attack on <docRef item="Cryptool.Vigenere.Vigenere"/> or autokey ciphers.
-    For more information on the autokey cipher have a look at <ref id="autokey"/>    
+    The <i>Vigenère Autokey Analyzer</i> is used for a ciphertext-only attack on a text that was encrypted with the classic <docRef item="Cryptool.Vigenere.Vigenere"/> cipher or with the <docRef item="Cryptool.Vigenere.Vigenere"/> autokey cipher.
+    For more information on the autokey cipher have a look at <ref id="autokey"/>
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die Komponente <i>Vigenère-Selbstschlüssel-Analyse</i> führt einen Ciphertext-Only-Angriff auf einen mit der klassischen <docRef item="Cryptool.Vigenere.Vigenere"/>-Chiffre oder der
+    <docRef item="Cryptool.Vigenere.Vigenere"/>-Selbstschlüssel-Chiffre (Autokey) verschlüsselten Text durch.
   </introduction>
 
-  <usage lang="en">    
-    <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic3.JPG"/>
-    
-    As seen above the component has three inputs and one output. The output delivers the most likely keyword your text was encrypted with. To find the most likely key letters for each column of the cipher,
-    the component uses "the sum of least squares" method. To calculate this key only a ciphertext and a guess about the language is required. <newline/>
+  <usage lang="en">
+    <newline />
+    The component has four inputs and one output. The output delivers the most likely keyword your text was encrypted with. To find the most likely key letters for each column of the cipher,
+    the component uses the <i>sum of least squares method</i>. To calculate this key only a ciphertext and a guess about the language is required. <newline/>
 
     <section headline="Configuring the component">
-      The first input requires the ciphertext that needs to be analyzed, however the other two inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a
-      language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with. Instead of using these two optional inputs you can just select a language in the task pane on
-      the right side of your CrypTool window:
+      The first input requires the ciphertext that needs to be analyzed, however the other inputs are optional. You can either give a text corpus to the second input, so that the component can refer to a
+      language you assume the plaintext to be, or supply an assumed key length that the analyzer should work with.
+      On the fourth input, you can enter the alphabet that represents all characters the plaintext was most likely shifted with. Normally you don't need to change those characters.
+      Instead of using these optional inputs you can just adapt the values in the settings pane of the component on the right side of your CrypTool window.
       <newline/>
-      <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic2.JPG"/>
-      
-      Just select the language you assume the original plaintext to be. Also don't forget to select between the two modes of the analyzer whether you try to break an autokey or a classic Vigenère cipher.
-      The alphabet represents all characters the plaintext was most likely shifted with. Normally you don't need to change those characters.
+      Also don't forget to select between the two modes of the analyzer whether you try to break an autokey or a classic Vigenère cipher.
     </section>
 
     <section headline="Using the component">
       After setting up the task pane options and the cipher input you can start the process.
       <newline/>
+      <newline/>
       <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic1.JPG"/>
       <newline/>
-      The quickwatch as seen above will now represent all calculated keys if there was no key length given. If the third input was set, there will only one possible key be seen in here. You can now select one of
+      <newline/>
+      The presentation as seen above will now represent all calculated keys if there was no key length given. If the third input was set, there will only one possible key be seen in here. You can now select one of
       the keys by double clicking them. The grey key is the most probable one as it gains the highest index of coincidence for all possible plaintexts. If your cipher wasn't encoded correctly, try to use the frequency
-      of another language, or use your own text corpus to help with the analysis.<newline/>
+      of another language, or use your own text corpus to help with the analysis.
+      <newline/>
+      <newline/>
       This component tries all possible key lengths up until 1/40 of your ciphertext's length if there is no key length set at the third input. To find a most probable key length,
       use the <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/> component on your ciphertext and connect its output with the third input of this component.
     </section>
   </usage>
 
   <usage lang="de-DE">
+    Die Komponente hat vier Eingänge und einen Ausgang. Am Ausgang wird der Schlüssel mit der besten Bewertung ausgegeben.
+    Die Komponente verwendet zur Bestimmung des wahrscheinlichsten Schlüssels für eine gegebene Schlüssellänge die <i>Methode der kleinsten Quadrate</i>.
+    Diese Angriffsmethode benötigt neben dem Geheimtext lediglich eine Vermutung über die Sprache, in der der Klartext verfasst ist.<newline/>
+
+    <section headline="Konfiguration der Komponente">
+      Am ersten Eingang wird der zu analysierende Geheimtext erwartet. Die anderen Eingänge sind optional. Am zweiten Eingang kann ein Textkorpus in der Sprache eingegeben werden, die man für den Geheimtext vermutet.
+      Wird hier nichts angegeben, so kann man die vermutete Sprache in den Einstellungen der Komponente einstellen.
+      Wenn man bereits eine Vermutung zur Schlüssellänge hat (z.B. durch die Verwendung der Komponente <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/>), so kann man diesen Wert am dritten Eingang angeben
+      und die Komponente wird die Suche auf diese Schlüssellänge beschränken.
+      Am vierten Eingang kann das der Verschlüsselung zugrunde liegende Alphabet angegeben werden. Wird hier nichts eingegeben, so wird das in den Einstellungen vordefinierte Alphabet verwendet.
+      <newline/>
+      Die Komponente kann Geheimtexte analysieren, die mit der Vigenère-Chiffre oder der Vigenère-Selbstschlüssel-Chiffre (Autokey) verschlüsselt wurden. Wählen Sie in den Einstellungen, mit welcher der beiden Chiffren der Klartext verschlüsselt wurde.
+    </section>
+
+    <section headline="Verwendung der Komponente">
+      Nachdem die Komponente konfiguriert wurde, kann die Vorlage gestartet werden.
+      <newline/>
+      <newline/>
+      <img src="VigenereAutokeyanalyser/DetailedDescription/Images/pic1.JPG"/>
+      <newline/>
+      <newline/>
+      In der Präsentationsansicht werden nun für alle untersuchten Schlüssellängen die besten gefundenen Schlüssel aufgelistet. Falls eine Schlüssellänge vorgegeben wurde, wird hier nur ein Schlüssel angezeigt.
+      Der wahrscheinlichste Schlüssel ist derjenige mit dem höchsten Koinzidenzindex. Dieser ist grau unterlegt, und der zugehörige Klartext wird am Ausgang der Komponente ausgegeben.
+      Sie können einen anderen der angezeigten Schlüssel mit einem Doppelklick selektieren. Die Ausgabe der Komponente wird dann entsprechend verändert.
+      <newline/>
+      <newline/>
+      Liefert keiner der gefundenen Schlüssel den korrekten Klartext, dann könnte dem Klartext eine andere als die vermutete Sprache zugrunde liegen.
+      Eine erneute Analyse mit einer anderen Sprache oder einem anderen Textkorpus könnte in diesem Fall das gewünschte Ergebnis liefern.
+      <newline/>
+      <newline/>
+      Wenn keine Eingabe über die vermutete Schlüssellänge vorliegt, dann werden alle Schlüssellängen bis 1/40 der Länge des Geheimtextes probiert. 
+      Wenden Sie die Komponente <docRef item="Cryptool.Plugins.AutokorrelationFunction.AutokorrelationFunction"/> auf den Geheimtext an, um die wahrscheinlichste Schlüssellänge zu finden.
+    </section>
   </usage>
   
   <presentation lang="en">
-    See above.
   </presentation>
   
   <presentation lang="de-DE">
@@ -55,9 +90,16 @@
   <references>
     <linkReference id="autokey">
       <link lang="en" url="http://en.wikipedia.org/wiki/Autokey_cipher"/>
-      <caption lang="en">Autokey cipher in Wikipedia</caption>
-      <caption lang="de">Autokey-Cipher in der englischen Wikipedia</caption>
+      <caption lang="en">Autokey cipher (Wikipedia)</caption>
+      <caption lang="de">Autokey-Cipher (Wikipedia, englisch)</caption>
     </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Least_squares"/>
+      <caption lang="en">Method of least squares (Wikipedia)</caption>
+      <link lang="de" url="http://de.wikipedia.org/wiki/Methode_der_kleinsten_Quadrate"/>
+      <caption lang="de">Methode der kleinsten Quadrate (Wikipedia)</caption>
+    </linkReference>
+    
   </references>
   
 </documentation>
