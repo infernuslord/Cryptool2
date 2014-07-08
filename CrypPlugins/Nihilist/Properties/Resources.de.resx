@@ -121,7 +121,7 @@
     <value>Nihilist</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Nihilist -- klassische bigraphische polyalphabetische Substitutionschiffre, bei der jedes Zeichen durch eine zweistellige Zahl ersetzt wird.</value>
+    <value>Nihilist -- klassische bigraphische polyalphabetische Substitutions-Chiffre, bei der jedes Zeichen durch eine zweistellige Zahl ersetzt wird.</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe als Byte-Array</value>

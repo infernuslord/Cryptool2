@@ -320,7 +320,7 @@
   <input image="Playfair">
     <name lang="en" >Playfair</name>
     <description lang="en" >The Playfair cipher or Playfair square is a manual symmetric encryption technique and was the first literal digraph substitution cipher.</description>
-    <description lang="de" >Die Playfair-Verschlüsselung ist symmetrisches Verschlüsselungsverfahren, das manuell ausgeführt werden kann und war die erste bigraphische Substitutionsverschlüsselung.</description>
+    <description lang="de" >Die Playfair-Verschlüsselung ist symmetrisches Verschlüsselungsverfahren, das manuell ausgeführt werden kann und war die erste bigraphische Substitutions-Verschlüsselung.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -398,13 +398,13 @@
 
     <inputBox plugin="ADFGVX Encrypt" property="SubstitutionPass" alignment="Stretch" visibleLines="1" group="settings">
       <description lang="en">Substitution Password:</description>
-	  <description lang="de">Substitutionskennwort:</description>
+	  <description lang="de">Substitutions-Kennwort:</description>
       <defaultvalue>BAUM</defaultvalue>
     </inputBox>
 
     <inputBox plugin="ADFGVX Encrypt" property="TranspositionPass" alignment="Stretch" visibleLines="1" group="settings">
       <description lang="en">Transposition Password:</description>
-      <description lang="de">Transpositionskennwort:</description>
+      <description lang="de">Transpositions-Kennwort:</description>
       <defaultvalue>HAUS</defaultvalue>
     </inputBox>
 
