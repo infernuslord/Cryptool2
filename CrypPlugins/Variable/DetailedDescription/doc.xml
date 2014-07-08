@@ -12,8 +12,8 @@
     Connect the input of the <i>Variable</i> component with the output connector of the component, that delivers the value you want to save in the variable.
     Any data type is accepted as input.
     <newline /><newline />
-    To use the stored variable on another place of the workspace, pull a <i>Variable Load</i> component onto the workspace and enter the name of the variable you want to access in the settings of the component (for example X).
-    When the variable X is stored or updated in one place of the worksapce by the <i>Variable Store</i> component, the new value of X is automatically available at the <i>Variable Load</i> components that reference X.
+    To use the stored variable on another place of the workspace, pull a <i>Variable Load</i> component onto the workspace and enter the name you want to give to the variable in the settings of the component.
+    If a variable is stored or updated under the name "X" in one place of the worksapce by the <i>Variable Store</i> component, the new value of "X" is automatically available at the <i>Variable Load</i> components that reference "X".
   </usage>
 
   <presentation lang="en">
@@ -26,11 +26,13 @@
   </introduction>
 
   <usage lang="de-DE">
-    Um mit Variablen zu arbeiten, wird eine "Variable speichern"-Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X).
+    Um mit Variablen zu arbeiten, wird eine "Variable speichern"-Komponente auf den Arbeitsplatz gezogen. Über eine Einstellung kann der Variablenname eingegeben werden, über den eine "Variable lesen"-Komponente auf diesen Wert
+    zugreifen kann.
     Der Variable kann ein Datum eines beliebigen Datentyps übergeben werden.
     <newline /><newline />
-    Um an anderer Stelle den Wert der Variablen zu nutzen, wird die "Variable lesen"-Komponente auf den Arbeitsplatz gezogen.
-    Über eine Einstellung kann der Variablenname eingegeben werden (z.B. X). Sobald X nun an anderer Stelle im Arbeitsplatz gespeichert wird, gibt die "Variable lesen"-Komponente den Wert von X automatisch weiter.
+    Um an anderer Stelle den Wert der Variable zu nutzen, wird die "Variable lesen"-Komponente auf den Arbeitsplatz gezogen.
+    Über eine Einstellung kann der Variablenname, unter dem die Variable zuvor gespeichert wurde, eingegeben werden (z.B. X). Sobald X nun an anderer Stelle im Arbeitsplatz gespeichert wird, gibt die "Variable lesen"-Komponente den
+    Wert von X automatisch weiter.
   </usage>
 
   <presentation lang="de-DE">

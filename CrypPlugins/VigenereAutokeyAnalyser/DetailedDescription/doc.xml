@@ -5,13 +5,13 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The <i>Vigenère Autokey Analyzer</i> is used for a ciphertext-only attack on a text that was encrypted with the classic <docRef item="Cryptool.Vigenere.Vigenere"/> cipher or with the <docRef item="Cryptool.Vigenere.Vigenere"/> autokey cipher.
+    The <i>Vigenère Autokey Analyzer</i> is used for a ciphertext-only attack on a text that was encrypted with the classic <docRef item="Cryptool.Vigenere.Vigenere"/> cipher or with the Vigenère autokey cipher.
     For more information on the autokey cipher have a look at <ref id="autokey"/>
   </introduction>
 
   <introduction lang="de-DE">
     Die Komponente <i>Vigenère-Selbstschlüssel-Analyse</i> führt einen Ciphertext-Only-Angriff auf einen mit der klassischen <docRef item="Cryptool.Vigenere.Vigenere"/>-Chiffre oder der
-    <docRef item="Cryptool.Vigenere.Vigenere"/>-Selbstschlüssel-Chiffre (Autokey) verschlüsselten Text durch.
+    Vigenère-Selbstschlüssel-Chiffre (Autokey) verschlüsselten Text durch.
   </introduction>
 
   <usage lang="en">

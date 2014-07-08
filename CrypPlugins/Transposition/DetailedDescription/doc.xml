@@ -6,10 +6,10 @@
     The columnar transposition requires a codeword or a permuted number sequence as key. A matrix is generated, that has the same number of columns as the length of the key, and as many rows as are necessary to enter the entire plaintext
     into the cells of the matrix. Then the key is written over the columns of the matrix, one letter (or number) per column, and the plaintext is entered into the cells of the matrix, row by row.
     If the plaintext does not completely fill the last row of the matrix, the empty cells are either filled with placeholder characters (complete transposition), or they are left empty and are ignored in the further encryption process
-    (incomplete transposition). If the key is a codeword, the columns are numberd according to the alphabetical order of the letters of the codeword. The ciphertext is then read out of the matrix row by row in the sequence of the numbering of the rows.
+    (incomplete transposition). If the key is a codeword, the columns are numbered according to the alphabetical order of the letters of the codeword. The ciphertext is then read out of the matrix row by row in the sequence of the numbering of the rows.
     <newline />
     For the decryption process the receiver of the ciphertext creates an empty matrix and writes the known key over the columns of the matrix. The columns are then numbered in the same way as in the encryption process.
-    The ciphertext is then entered columnwise in the columns of the matrix in the order of the column numbers. The plaintext can then be read out of the matrix rowwise from top to bottom. In the case of the incomplete transposition, one has to take 
+    The ciphertext is then entered column by column in the columns of the matrix in the order of the column numbers. The plaintext can then be read out of the matrix row by row from top to bottom. In case of the incomplete transposition, one has to take 
     into account the number of empty cells in the last row of the matrix. When the ciphertext is entered rowwise, these cells must be left empty. The number Z of non-empty cells in the last row can be calculated from the message length M and the
     length K of the key:
     <newline />
@@ -21,18 +21,18 @@
 
     <enum>
       <item>read the plaintext into the matrix</item>
-      <item>transposition of the columns/rows</item>
+      <item>transpose the columns/rows</item>
       <item>read the ciphertext out of the matrix</item>
     </enum>
 
     For each of these operations you can decide whether they should act on rows or columns of the matrix by adjusting it in the settings of the component.
     If you select to enter the ciphertext rowwise into the matrix, the ciphertext is entered into the rows from left to right, otherwise it is entered into the columns from top to bottom.
-    Thus there are 8 possibilities to enter the ciphertext into the matrix, of which the complimentary settings generate identical results (for example read in by <b>column</b>, permute by <b>column</b> and read out by <b>row</b>
+    Thus there are 8 possibilities to enter the ciphertext into the matrix, of which the complimentary settings generate identical results, leaving only 4 different results (for example read in by <b>column</b>, permute by <b>column</b> and read out by <b>row</b>
     will produce the same output as read in by <b>row</b>, permute by <b>row</b> and read out by <b>column</b>).
     <newline />
     <newline />
     In the settings of the component you can also select whether it should work in encryption or in decryption mode.
-    When you choose decryption, the rows rsp. columns will not be orderd according to the permutation that results from the keyword, but by its inverse.
+    When you choose decryption, the rows or columns will not be orderd according to the permutation that results from the keyword, but by its inverse.
     Furthermore, the reading-in and reading-out operations are swapped, allowing for the same operation settings for the encryption process as for the decryption process.
   </usage>
 
@@ -74,7 +74,7 @@
 
     Für jede dieser Operationen kann in den Einstellungen gewählt werden, ob diese reihen- oder spaltenweise erfolgen soll. Erfolgt die Einlese-Operation reihenweise, wird der Klartext von links nach rechts in die Matrix eingetragen;
     erfolgt sie spaltenweise, wird von oben nach unten eingelesen.
-    Dadurch ergeben sich theoretisch acht verschiedene Möglichkeiten zur Einstellung. Allerdings liefern komplementäre Einstellungen jeweils dasselbe Ergebnis (z.B. <b>spaltenweise</b> einlesen, <b>spaltenweise</b> Permutation
+    Dadurch ergeben sich theoretisch acht verschiedene Möglichkeiten zur Einstellung. Allerdings liefern komplementäre Einstellungen jeweils dasselbe Ergebnis, so dass es real nur vier verschiedene Ergebnisse gibt (z.B. <b>spaltenweise</b> einlesen, <b>spaltenweise</b> Permutation
     und <b>zeilenweise</b> auslesen ergibt dieselbe Ausgabe wie <b>zeilenweise</b> einlesen, <b>zeilenweise</b> Permutation und <b>spaltenweise</b> auslesen).
     <newline />
     <newline />
