@@ -8,7 +8,7 @@
       SDES (Simplified Data Encryption Standard) is a simplified algorithm similar to DES. It has been developed for educational purposes.
       Compared to DES it is more easily possible to implement the algorithm.
       SDES needs a key length of 10 bits for encryption and decryption.
-      Like DES the SDES algorithm is symmetric &#8211; this means the same key is used for en- and for decryption.
+      Like DES the SDES algorithm is symmetric &#8211; this means the same key is used for encryption and for decryption.
       SDES can be easily broken by using a brute-force attack, because of its very small key space (2^10 = 1024 possible keys).
   </introduction>
 

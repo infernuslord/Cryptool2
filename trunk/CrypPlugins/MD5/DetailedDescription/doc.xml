@@ -9,14 +9,13 @@
     MD5 was designed in 1991 by Ron L. Rivest.
     A typical use of MD5 hash values is the verification of data integrity.
     <section headline="History">
-      MD5 is one in a series of cryptographic hash functions designed by Professor Ronald L. Rivest of the Massachusetts Institute of Technology.
+      MD5 is one in a series of cryptographic hash functions designed by Ronald L. Rivest of the Massachusetts Institute of Technology.
       When analytic work indicated, that its predecessor MD4 was likely to be insecure, MD5 was designed in 1991 to be a secure replacement.
       Hans Dobbertin later found indeed weaknesses in MD4.
       In 1996, Dobbertin found a collision in the compression function of MD5.
       While this did not compromise the full MD5 hash function, cryptographers recommended switching to a more secure algorithm, such as SHA-256 or RIPEMD-160.
-      In August 2004, chinese researchers found collisions for the full MD5 function. It remains to be seen how this discovery affects the use of MD5.
+      In August 2004, chinese researchers found collisions for the full MD5 function.
       These attacks only affect collision attacks on MD5. They have no impact on preimage attacks. No method for computing a preimage in a reasonable timespan is presently known.
-      Thus an existing MD5-based certificate can still be considered valid.
     </section>
 
     <section headline="Algorithm">
@@ -36,19 +35,17 @@
     MD5 (Message-Digest Algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion, die einen 128-Bit-Hashwert erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt.
     Die errechneten MD5-Summen (kurz md5sum) werden zum Beispiel zur Integritätsprüfung von Dateien eingesetzt.
     <section headline="Geschichte">
-      MD5 ist ein Vertreter aus einer Reihe von (kryptographischen) Hash-Funktionen, die von Professor Ronald L. Rivest am Massachusetts Institute of Technology entwickelt wurden.
+      MD5 ist ein Vertreter aus einer Reihe von (kryptographischen) Hash-Funktionen, die von Ronald L. Rivest am Massachusetts Institute of Technology entwickelt wurden.
       Als Analysen ergaben, dass der Vorgänger MD4 wahrscheinlich unsicher ist, wurde MD5 1991 als sicherer Ersatz entwickelt. Tatsächlich wurden später von Hans Dobbertin Schwächen in MD4 gefunden.
       1996 meldete Dobbertin eine Kollision in der Kompressionsfunktion von MD5. Dies war zwar kein Angriff auf die vollständige MD5-Funktion, dennoch empfahlen Kryptographen bereits damals, wenn möglich,
-      auf sicherere Algorithmen wie SHA-256 oder RIPEMD-160 umzusteigen. Im August 2004 fanden chinesische Forscher Kollisionen für die vollständige MD5-Funktion. Wie sich diese Entdeckung auf die Verwendung
-      von MD5 auswirkt, bleibt abzuwarten.
-      Diese Attacken wirken sich allerdings nur auf Kollisionsangriffe aus, Preimage-Angriffe können auch mit diesen Methoden nicht in sinnvoller Zeit durchgeführt werden. So kann ein bestehendes,
-      mit MD5 erzeugtes Zertifikat nach wie vor nicht gefälscht werden.
+      auf sicherere Algorithmen wie SHA-256 oder RIPEMD-160 umzusteigen. Im August 2004 fanden chinesische Forscher Kollisionen für die vollständige MD5-Funktion.
+      Diese Attacken wirken sich allerdings nur auf Kollisionsangriffe aus, Preimage-Angriffe können auch mit diesen Methoden nicht in sinnvoller Zeit durchgeführt werden.
     </section>
 
     <section headline="Algorithmus">
       MD5 erzeugt aus einer Nachricht variabler Länge eine Ausgabe fester Länge (128 Bit). Die Ausgangsnachricht wird zunächst so aufgefüllt, dass ihre Länge 64 Bits davon entfernt ist, durch 512 teilbar zu sein.
       Als erstes wird eine Eins angehängt, dann so viele Nullen wie nötig. Bei dem unwahrscheinlichen Fall, dass die Ausgangsnachricht schon die gewünschte Länge besitzt, wird trotzdem eine Eins angehängt.
-      Nun wird eine 64-Bit Zahl, die die Länge der Ausgangsnachricht repräsentiert, angehängt. Die Nachrichtenlänge ist jetzt durch 512 teilbar.
+      Nun wird eine 64-Bit-Zahl, die die Länge der Ausgangsnachricht repräsentiert, angehängt. Die Nachrichtenlänge ist jetzt durch 512 teilbar.
       Der Hauptalgorithmus von MD5 arbeitet mit einem 128-Bit-Puffer, der in vier 32-Bit-Wörter A, B, C und D unterteilt ist. Diese werden mit bestimmten Konstanten initialisiert.
       Auf diesen Puffer wird nun die Verschlüsselungsfunktion (häufig auch Komprimierungsfunktion genannt) mit dem ersten 512-Bit-Block als Schlüsselparameter aufgerufen.
       Die Behandlung eines Nachrichtenblocks geschieht in vier einander ähnlichen Stufen, von Kryptographen „Runden“ genannt. Jede Runde besteht aus 16 Operationen, basierend auf einer nichtlinearen Funktion „F“,

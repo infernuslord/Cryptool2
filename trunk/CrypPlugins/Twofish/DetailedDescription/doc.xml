@@ -7,7 +7,7 @@
   <introduction lang="en">
     Twofish is a symmetric block cipher. It encrypts blocks of 128 bits and can operate with key sizes of 128, 192 or 256 bits.
     Like DES, TDES and TEA, it belongs to the class of Feistel ciphers and it passes through 16 rounds.
-    Twofish was designed by the crptography expert Bruce Schneier and his team and was one of the 5 finalists in the search for
+    Twofish was designed by the cryptography expert Bruce Schneier and his team and was one of the 5 finalists in the search for
     a successor for AES.
     The Twofish cipher has not been patented and has been placed in the public domain. As a result, the Twofish algorithm is free for anyone to use without any restrictions.
   </introduction>
@@ -51,7 +51,7 @@
     
     <section headline="Cryptographic Mode">
       Block ciphers divide their input data into blocks of a fixed size (Twofish: 16 bytes) and apply the encryption or decryption function on the blocks of the input.
-      The chaining mode determines the way in which consecutive blocks, after being en- or decryted, are combined in order to achieve better security or error tolerance.
+      The chaining mode determines the way in which consecutive blocks, after being encrypted or decryted, are combined in order to achieve better security or error tolerance.
       The Twofish component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
       Select the appropriate chaining mode in the settings of the component.
       <newline />

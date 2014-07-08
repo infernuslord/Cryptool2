@@ -14,7 +14,7 @@
   <headline lang="de-DE">Codierungsauswahl</headline>
 
   <!-- This is the step's description. -->
-  <task lang="en" >Select the algorithm for en- or decoding you want to use.</task>
+  <task lang="en" >Select the algorithm for encoding or decoding you want to use.</task>
   <task lang="de-DE" >Wählen Sie ein Codierungs- oder Decodierungsverfahren aus.</task>
 
   <!-- Crosscoding input -->
