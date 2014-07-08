@@ -169,7 +169,7 @@
     <value>Verarbeite polypartit</value>
   </data>
   <data name="ProcessPolypartitTooltio" xml:space="preserve">
-    <value>Verarbeite polypartite Substitutionssyntax</value>
+    <value>Verarbeite polypartite Substitutions-Syntax</value>
   </data>
   <data name="ReplacementSymbolCaption" xml:space="preserve">
     <value>Ersetzung unbekannter Symbole</value>

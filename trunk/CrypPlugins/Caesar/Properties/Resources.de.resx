@@ -121,7 +121,7 @@
     <value>Caesar</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet-Verschiebung</value>
+    <value>Caesar – Klassische Substitutions-Verschlüsselung durch Alphabet-Verschiebung</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>

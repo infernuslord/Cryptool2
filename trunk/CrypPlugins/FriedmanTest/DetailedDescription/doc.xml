@@ -22,7 +22,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Mit dem Friedman-Test kann man die wahrscheinliche Schlüssellänge einer polyalphabetischen Substitutionsverschlüsselung berechnen.
+    Mit dem Friedman-Test kann man die wahrscheinliche Schlüssellänge einer polyalphabetischen Substitutions-Verschlüsselung berechnen.
     Der Kryptologe William F. Friedman entwickelte eine Methode, mit der man die Schlüssellänge einer Vigenère-Verschlüsselung berechnen kann. Er verwendete hierfür den Koinzidenzindex, der ein Maß für die Zufälligkeit
     der Buchstabenhäufigkeiten eines gegebenen Textes ist.
     Wenn κp die Wahrscheinlichkeit ist, dass zwei zufällig ausgewählte Buchstaben eines Textes in einer gegebenen Sprache gleich sind (etwa 0.067 bei englischen Texten), und die Wahrscheinlichkeit κr der Übereinstimmung

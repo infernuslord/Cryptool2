@@ -14,8 +14,8 @@
   <introduction lang="de-DE">
     Das ADFGVX-Verschlüsselungsverfahren wurde von Fritz Nebel entwickelt und ab Frühjahr 1918 von der Deutschen Reichswehr eingesetzt. Das Verfahren ist eine effektive zweistufige Kaskade aus einer Substitution gefolgt von einer Spaltentransposition.
     <newline />
-    Ein ADFGVX-Schlüssel besteht aus zwei Teilen: einem Substitutionspasswort und einem Transpositionspasswort.
-    Basierend auf diesen Passwörtern werden eine Substitutionsmatrix und eine Transpositionsmatrix erzeugt.
+    Ein ADFGVX-Schlüssel besteht aus zwei Teilen: einem Substitutions-Passwort und einem Transpositions-Passwort.
+    Basierend auf diesen Passwörtern werden eine Substitutions-Matrix und eine Transpositions-Matrix erzeugt.
     <newline />
     In der ersten Verschlüsselungsstufe (Substitution) wird für jeden Klartextbuchstaben seine Position in der Matrix bestimmt und durch den Zeilen- und Spaltenidentifikator ersetzt. Ein Buchstabe des Klartextes wird also durch zwei Buchstaben Ciphertext ersetzt.
     Die Sicherheit dieses Systems beruht darauf, dass jeder Buchstabe des Klartextes durch jeweils zwei Buchstaben substituiert wird, die bei der Transposition voneinander getrennt werden. Eine Bigramm-Frequenzanalyse vor Analyse der Transposition ist also sinnlos.
@@ -30,7 +30,7 @@ Instead of ADFGVX you can decide to use the predecessor variant ADFGX which is t
   <usage lang="de-DE">
     Ziehen Sie die ADFGVX-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist erforderlich.
     <newline />
-    In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können Substitutions- sowie Transpositionspasswort angeben. Anstatt ADFGVX kann auch die Vorgängervariante ADFGX eingestellt werden, die denselben Algorithmus verwendet, allerdings basierend auf einem Klartextalphabet aus 25 Buchstaben (statt 36) und einem Geheimtextalphabet aus 5 Buchstaben (statt 6).
+    In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können das Substitutions- sowie Transpositions-Passwort angeben. Anstatt ADFGVX kann auch die Vorgängervariante ADFGX eingestellt werden, die denselben Algorithmus verwendet, allerdings basierend auf einem Klartextalphabet aus 25 Buchstaben (statt 36) und einem Geheimtextalphabet aus 5 Buchstaben (statt 6).
   </usage>
   <presentation lang="en">
 </presentation>

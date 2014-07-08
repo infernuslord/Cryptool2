@@ -145,7 +145,7 @@
     <value>Transposition Spaltenreihenfolge</value>
   </data>
   <data name="CleanTranspositionPassTooltip" xml:space="preserve">
-    <value>Reihenfolge der Spalten in der Transpositionsstufe</value>
+    <value>Reihenfolge der Spalten in der Transpositions-Stufe</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Eingabetext</value>
@@ -169,16 +169,16 @@
     <value>Zufallsschlüssel</value>
   </data>
   <data name="RandomMatrixTooltip" xml:space="preserve">
-    <value>Erzeuge zufällige Substitutionsmatrix und Transpositionsschlüssel</value>
+    <value>Erzeuge zufällige Substitutions-Matrix und Transpositions-Schlüssel</value>
   </data>
   <data name="StandardMatrixCaption" xml:space="preserve">
     <value>Schlüssel zurücksetzen</value>
   </data>
   <data name="StandardMatrixTooltip" xml:space="preserve">
-    <value>Setze Substitionsmatrix und Transpositionsschlüssel zurück</value>
+    <value>Setze Substitions-Matrix und Transpositions-Schlüssel zurück</value>
   </data>
   <data name="SubstitutionMatrixCaption" xml:space="preserve">
-    <value>Substitutionsmatrix</value>
+    <value>Substitutions-Matrix</value>
   </data>
   <data name="SubstitutionMatrixTooltip" xml:space="preserve">
     <value>Matrix für die Ver-/Entschlüsselung</value>
@@ -193,6 +193,6 @@
     <value>Transpositions-Kennwort</value>
   </data>
   <data name="TranspositionPassTooltip" xml:space="preserve">
-    <value>Kennwort, das für die Spaltenreihenfolge in der Transposition verwendet wird. Verwendet dasselbe Alphabet wie die Substitutionsmatrix, d.h. das Klartextalphabet.</value>
+    <value>Kennwort, das für die Spaltenreihenfolge in der Transposition verwendet wird. Verwendet dasselbe Alphabet wie die Substitutions-Matrix, d.h. das Klartextalphabet.</value>
   </data>
 </root>

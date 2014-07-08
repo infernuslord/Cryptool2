@@ -121,7 +121,7 @@
     <value>Friedman-Test</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Berechnet die wahrscheinliche Schlüssellänge einer polyalphabetischen Substitutionsverschlüsselung</value>
+    <value>Berechnet die wahrscheinliche Schlüssellänge einer polyalphabetischen Substitutions-Verschlüsselung</value>
   </data>
   <data name="StringOutputCaption" xml:space="preserve">
     <value>Ergebnisse</value>
