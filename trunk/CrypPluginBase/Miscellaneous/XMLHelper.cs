@@ -39,7 +39,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             return foundElements.First();
         }
 
-        public static Inline ConvertFormattedXElement(XElement xelement)
+        public static Inline ConvertFormattedXElement(XElement xelement, bool isNewLine = true)
         {
             var span = new Span();
 
@@ -48,34 +48,38 @@ namespace Cryptool.PluginBase.Miscellaneous
                 if (node is XText)
                 {
                     var line = ((XText) node).Value;
-                    line = new Regex("\\s*\\n").Replace(line, " ");
+                    line = new Regex(@"\s*[\r\n]+\s*").Replace(line, " ");
+                    if (isNewLine) line = line.TrimStart();
+                    isNewLine = false;
                     span.Inlines.Add(new Run(line));
                 }
                 else if (node is XElement)
                 {
+                    isNewLine = false;
                     var nodeName = ((XElement)node).Name.ToString();
                     switch (nodeName)
                     {
                         case "b":
-                            var nodeRep = ConvertFormattedXElement((XElement)node);
+                            var nodeRep = ConvertFormattedXElement((XElement)node, isNewLine);
                             span.Inlines.Add(new Bold(nodeRep));
                             break;
                         case "i":
-                            nodeRep = ConvertFormattedXElement((XElement)node);
+                            nodeRep = ConvertFormattedXElement((XElement)node, isNewLine);
                             span.Inlines.Add(new Italic(nodeRep));
                             break;
                         case "u":
-                            nodeRep = ConvertFormattedXElement((XElement)node);
+                            nodeRep = ConvertFormattedXElement((XElement)node, isNewLine);
                             span.Inlines.Add(new Underline(nodeRep));
                             break;
                         case "newline":
                             span.Inlines.Add(new LineBreak());
+                            isNewLine = true;
                             break;
                         case "external":
                             var reference = ((XElement)node).Attribute("ref");
                             if (reference != null)
                             {
-                                var linkText = ConvertFormattedXElement((XElement)node);
+                                var linkText = ConvertFormattedXElement((XElement)node, isNewLine);
                                 if (linkText == null)
                                 {
                                     linkText = new Run(reference.Value);
@@ -89,7 +93,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                             var plugin = ((XElement)node).Attribute("plugin");
                             if (plugin != null)
                             {
-                                var linkText = ConvertFormattedXElement((XElement)node);
+                                var linkText = ConvertFormattedXElement((XElement)node, isNewLine);
                                 if (linkText == null)
                                 {
                                     linkText = new Run(plugin.Value);
