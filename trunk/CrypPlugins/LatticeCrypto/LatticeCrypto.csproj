@@ -499,6 +499,7 @@
     <Content Include="OnlineHelp\Resources\ImgLWE1.PNG" />
     <Content Include="OnlineHelp\Resources\ImgLWE2.png" />
     <Content Include="OnlineHelp\Resources\ImgMerkleHellman.PNG" />
+    <Content Include="OnlineHelp\Resources\ImgSuccessiveMinimaEng.png" />
     <Content Include="OnlineHelp\Start.htm">
       <SubType>Designer</SubType>
     </Content>
