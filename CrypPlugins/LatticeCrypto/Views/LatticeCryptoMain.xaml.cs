@@ -27,12 +27,13 @@ namespace LatticeCrypto.Views
             InitializeComponent();
             Initialize();
 
-            KeyDown += delegate (object sender, KeyEventArgs args)
-                           {
-                               if (args.Key != Key.F5)
-                                   return;
-                               Util.CreateSaveBitmap(mainGrid);
-                           };
+            //Screenshot Function
+            //KeyDown += delegate (object sender, KeyEventArgs args)
+            //               {
+            //                   if (args.Key != Key.F5)
+            //                       return;
+            //                   Util.CreateSaveBitmap(mainGrid);
+            //               };
         }
 
         private void Initialize()
