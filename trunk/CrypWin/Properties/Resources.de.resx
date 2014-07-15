@@ -665,7 +665,7 @@
     <value>Sind Sie sicher, dass Sie diese Nachricht an die CrypTool 2-Entwickler schicken wollen?</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>abbrechen</value>
+    <value>Abbrechen</value>
   </data>
   <data name="Contact_Developers" xml:space="preserve">
     <value>Kontakt aufnehmen</value>
@@ -692,7 +692,7 @@
     <value>Bitte füllen Sie alle benötigten Felder aus!</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>senden</value>
+    <value>Senden</value>
   </data>
   <data name="Sending_done" xml:space="preserve">
     <value>Senden erfolgreich</value>
@@ -921,5 +921,8 @@
   </data>
   <data name="ToolTip_Copy" xml:space="preserve">
     <value>Kurzinfo kopieren</value>
+  </data>
+  <data name="Homepage" xml:space="preserve">
+    <value>https://www.cryptool.org/de/cryptool2</value>
   </data>
 </root>
