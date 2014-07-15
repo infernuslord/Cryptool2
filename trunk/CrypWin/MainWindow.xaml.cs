@@ -98,8 +98,8 @@ namespace Cryptool.CrypWin
         private bool shutdown = false;
         private string personalDir;
         private IEditor lastEditor = null;
-        private SystemInfos systemInfos = new SystemInfos();
-        private LicensesTab licenses = new LicensesTab();
+        private SystemInfos systemInfos;
+        private LicensesTab licenses;
         private System.Windows.Forms.MenuItem playStopMenuItem;
         private EditorTypePanelManager editorTypePanelManager = new EditorTypePanelManager();
         private System.Windows.Forms.Timer hasChangesCheckTimer;
@@ -261,6 +261,10 @@ namespace Cryptool.CrypWin
         {
             SetLanguage();
             LoadResources();
+
+            // systemInfos and licenses must be initialized after the language has been set, otherwise they are initialized with the wrong language
+            systemInfos = new SystemInfos();
+            licenses = new LicensesTab();
 
             if (AssemblyHelper.InstallationType == Ct2InstallationType.ZIP)
             {
@@ -2368,7 +2372,7 @@ namespace Cryptool.CrypWin
         private void buttonWebsite_Click(object sender, RoutedEventArgs e)
         {
             e.Handled = true;
-            System.Diagnostics.Process.Start("http://www.cryptool2.vs.uni-due.de");
+            System.Diagnostics.Process.Start(Properties.Resources.Homepage);
         }
 
         private void buttonLicenses_Click(object sender, RoutedEventArgs e)
