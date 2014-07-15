@@ -121,13 +121,13 @@
     <value>Bevor dieser Fehler gemeldet wird, können Sie die Umstände beschreiben, unter denen er aufgetreten ist.</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>abbrechen</value>
+    <value>Abbrechen</value>
   </data>
   <data name="Please_wait_seconds_before_trying_again" xml:space="preserve">
     <value>Bitte warten Sie {0} Sekunden, bevor Sie es erneut versuchen.</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>senden</value>
+    <value>Senden</value>
   </data>
   <data name="The_following_informations_will_be_sent_to_the_developers" xml:space="preserve">
     <value>Die folgenden Informationen werden an die Entwickler geschickt:</value>

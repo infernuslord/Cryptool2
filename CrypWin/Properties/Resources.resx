@@ -866,7 +866,7 @@
     <value>Licenses</value>
   </data>
   <data name="View_Licenses" xml:space="preserve">
-    <value>View licenses</value>
+    <value>View Licenses</value>
   </data>
   <data name="CrypToolLicenses" xml:space="preserve">
     <value>CrypTool 2.0 and all its components are based on the Apache license 2.0 if not marked otherwise</value>
@@ -942,5 +942,8 @@
   </data>
   <data name="ToolTip_Copy" xml:space="preserve">
     <value>Copy Tooltip</value>
+  </data>
+  <data name="Homepage" xml:space="preserve">
+    <value>https://www.cryptool.org/en/cryptool2-en</value>
   </data>
 </root>
