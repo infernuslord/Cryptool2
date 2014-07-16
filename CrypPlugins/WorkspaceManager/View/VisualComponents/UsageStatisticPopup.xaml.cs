@@ -162,47 +162,27 @@ namespace WorkspaceManager.View.VisualComponents
             window = Window.GetWindow(_editor);
             if (window != null)
             {
-                //var win = AdornerLayer.GetAdornerLayer((FrameworkElement)window.Content);
-
-                if (this._editor.SelectedConnector == null)
+                if (_editor.SelectedConnector == null)
                 {
-                    //timer.Stop();
-                    //timer2.Stop();
-                    //if (_currentAdorner != null)
-                    //    win.Remove(_currentAdorner);
                     return;
                 }
                 SelectedConnector = this._editor.SelectedConnector;
 
-                var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
-                if (list == null)
-                    return;
                 Suggestions = new ObservableCollection<SuggestionContainer>();
+                var list = ComponentConnectionStatistics.GetMostlyUsedComponentsFromConnector(SelectedConnector.Model.PluginModel.PluginType, SelectedConnector.Model.GetName());
+                
+                if (list == null)
+                {
+                    //we have no connectors accociated with this one. So we show AN EMPTY list...                    
+                    return;
+                }
                 foreach (var componentConnector in list)
                 {
                     Type t = componentConnector.Component;
                     string name = componentConnector.ConnectorName;
                     Suggestions.Add(new SuggestionContainer(name, t));
                 }
-
-                //timer.Interval = TimeSpan.FromSeconds(3);
-                //timer.Tick += delegate(object o, EventArgs args)
-                //                  {
-                //                      timer.Stop();
-                //                      timer2.Interval = TimeSpan.FromSeconds(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BlingDelay);
-                //                      _currentAdorner = new CricularLineProgressAdorner((FrameworkElement)window.Content, new CricularLineProgress());
-                //                      win.Add(_currentAdorner);
-                //                      timer2.Tick += delegate(object o2, EventArgs args2)
-                //                      {
-                //                          timer2.Stop();
-                //                          win.Remove(_currentAdorner);
-                //                          IsOpen = true;
-                //                      };
-                //                      timer2.Start();
-                //                  };
-                //timer.Start();
             }
-
         }
 
         private void Close()
