@@ -73,7 +73,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
           <defaultvalue>23</defaultvalue>
         </inputBox>
 
-        <inputBox plugin="Cleartext" property="Text" visibleLines="5" alignment="Left">
+        <inputBox plugin="Plaintext" property="Text" visibleLines="5" alignment="Left">
           <description lang="en">Text message to encrypt:</description>
           <description lang="de">Zu verschlüsselnde Textnachricht:</description>
           <defaultvalue lang="en">In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.</defaultvalue>
@@ -96,7 +96,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
           <task lang="en">Here, you can see the RSA encryption output.</task>
           <task lang="de">Hier können Sie die RSA-Verschlüsselungsausgabe sehen.</task>
 
-          <presentation plugin="Ciphertext" width="90%" alignment="Left">
+          <presentation plugin="Ciphertext (encrypted Plaintext)" width="90%" alignment="Left">
             <description lang="en">Ciphertext (in Hex):</description>
             <description lang="de">Geheimtext (in Hex):</description>
           </presentation>
