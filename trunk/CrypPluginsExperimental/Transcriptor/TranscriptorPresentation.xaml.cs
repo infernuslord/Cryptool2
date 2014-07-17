@@ -20,17 +20,15 @@ namespace Transcriptor
     /// </summary>
     public partial class TranscriptorPresentation : UserControl
     {
-        String rectangleColor = null;
+        String rectangleColor;
         List<Rectangle> rectangleList = new List<Rectangle>();
 
         public TranscriptorPresentation()
         {
             InitializeComponent();
-
-
         }
 
-        public String Color
+        public String RectangleColor
         {
             get { return rectangleColor; }
             set { rectangleColor = value; }
@@ -47,7 +45,7 @@ namespace Transcriptor
                 Rectangle rectangle = new Rectangle
                 {
                     Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor),
+                    Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor),
                     StrokeThickness = 2,
                     Width = 20,
                     Height = 20,
@@ -64,7 +62,7 @@ namespace Transcriptor
                 rcFrom.Width = (int)((rect.Width) * (picture.Source.Width) / (picture.Width));
                 rcFrom.Height = (int)((rect.Height) * (picture.Source.Height) / (picture.Height));
                 BitmapSource bs = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
-                croppedImage.Source = bs;  
+                croppedImage.Source = bs;
             }
         }
     }

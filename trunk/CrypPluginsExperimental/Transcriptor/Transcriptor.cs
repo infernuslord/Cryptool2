@@ -108,7 +108,13 @@ namespace Cryptool.Plugins.Transcriptor
         {
             // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
-            transcriptorPresentation.Color = settings.Color;
+
+            switch (settings.Color)
+            {
+                case 0: transcriptorPresentation.RectangleColor = "#000000"; break;
+                case 1: transcriptorPresentation.RectangleColor = "#ffffff"; break;
+                case 2: transcriptorPresentation.RectangleColor = "#ff0000"; break;
+            }
 
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
