@@ -27,7 +27,7 @@ namespace Cryptool.Plugins.Transcriptor
         #region Private Variables
 
         private String fileName;
-        private String color = null;
+        private int color;
 
         #endregion
 
@@ -56,10 +56,20 @@ namespace Cryptool.Plugins.Transcriptor
         }
 
         [TaskPane("Color", "Chose the Color of the Rectangle", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
-        public String Color
+        public int Color
         {
-            get;
-            set;
+            get
+            {
+                return color;
+            }
+            set
+            {
+                if (color != value)
+                {
+                    color = value;
+                    OnPropertyChanged("Color");
+                }
+            }
 
         }
 
