@@ -10,7 +10,7 @@
   <title lang="de">XOR-Chiffre</title>
   <summary lang="de">Benutzung der <i>XOR</i>-Chiffre</summary>
   <description lang="de">Das One-Time-Pad (Abkürzung: OTP, deutsch: Einmalverschlüsselung oder Einmalschlüssel-Verfahren, wörtlich Einmal-Block, nicht zu verwechseln mit dem Einmal-Passwort-Verfahren) ist ein symmetrisches Verschlüsselungsverfahren zur geheimen Nachrichtenübermittlung. Kennzeichnend ist, dass ein Schlüssel verwendet wird, der (mindestens) so lang ist wie die Nachricht selbst. Das OTP ist informationstheoretisch sicher und kann nachweislich nicht gebrochen werden – vorausgesetzt, es wird bestimmungsgemäß verwendet. Voraussetzung ist, dass dieser Schlüssel zufällig ist und nur einmal verwendet wird.<newline /><newline />
-Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei denen die einzelnen Buchstaben (oder Zeichen) in jeweils andere Buchstaben (oder Zeichen) umgewandelt (verschlüsselt) werden.<newline /><newline />
+Das One-Time-Pad gehört zu den polyalphabetischen Substitutions-Verfahren, bei denen die einzelnen Buchstaben (oder Zeichen) in jeweils andere Buchstaben (oder Zeichen) umgewandelt (verschlüsselt) werden.<newline /><newline />
 <external ref="http://de.wikipedia.org/wiki/One-Time-Pad" /></description>
   <keywords lang="de">one-time, pad</keywords>
 
@@ -22,7 +22,7 @@ Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei d
   <replacements lang="de">
 	 <replacement key="$message$" value="Nachricht"/>
 	 <replacement key="$ciphertext$" value="Geheimtext"/>
-	 <replacement key="$plaintext$" value="Klartext"/>
+	 <replacement key="$plaintext$" value="Entschlüsselter Geheimtext"/>
 	 <replacement key="$key$" value="Schlüssel"/>
 	 <replacement key="$stringdecoder$" value="String-Decoder"/>
 	 <replacement key="$stringencoder$" value="String-Encoder"/>
@@ -30,9 +30,9 @@ Das One-Time-Pad gehört zu den polyalphabetischen Substitutionsverfahren, bei d
 	 <replacement key="$xordec$" value="XOR (entschlüsseln)"/>
   </replacements>
   <replacements lang="en">
-	 <replacement key="$message$" value="Message"/>
+	 <replacement key="$message$" value="Plaintext"/>
 	 <replacement key="$ciphertext$" value="Ciphertext"/>
-	 <replacement key="$plaintext$" value="Plaintext"/>
+	 <replacement key="$plaintext$" value="Decrypted Ciphertext"/>
 	 <replacement key="$key$" value="Key"/>
 	 <replacement key="$stringdecoder$" value="StringDecoder"/>
 	 <replacement key="$stringencoder$" value="StringEncoder"/>

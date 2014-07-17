@@ -32,7 +32,7 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Monoalphabetische_Substituti
 	<replacement key="$sourcealphabet$" value="Source Alphabet"/>
 	<replacement key="$destinationalphabet$" value="Destination Alphabet"/>
 	<replacement key="$ciphertext$" value="Ciphertext"/>
-	<replacement key="$decipheredciphertext$" value="Deciphered Ciphertext"/>
+	<replacement key="$decipheredciphertext$" value="Decrypted Ciphertext"/>
 	<replacement key="$text$" value="In cryptography, a substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext, according to a regular system; the &quot;units&quot; may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.&#13;&#10;&#13;&#10;Source: http://en.wikipedia.org/wiki/Substitution_cipher"/>
  </replacements>
 
