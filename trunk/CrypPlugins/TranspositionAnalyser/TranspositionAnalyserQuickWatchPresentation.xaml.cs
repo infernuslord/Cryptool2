@@ -24,7 +24,9 @@ namespace TranspositionAnalyser
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();
         public event EventHandler doppelClick;
 
-        const string alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";   // used for converting the numeric key to a keyword
+        // Alphabets used for converting the numeric key to a key word
+        const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; // for key sizes <= 52
+        const string alphabet2 = "0123456789" + alphabet;                               // for key sizes <= 62 (use numbers only if letters do not suffice)
 
         public TranspositionAnalyserQuickWatchPresentation()
         {
@@ -35,16 +37,20 @@ namespace TranspositionAnalyser
         // Convert the numeric key to a keyword based upon the alphabet string
         string getKeyword(byte[] key)
         {
+            if (key.Length >= alphabet2.Length) return null;
+            string abc = (key.Length <= alphabet.Length) ? alphabet : alphabet2;
             string keyword = "";
-            foreach (var i in key) keyword += alphabet[i];
+            foreach (var i in key) keyword += abc[i];
             return keyword;
         }
         
         string entryToText(ResultEntry entry)
         {
-            string key = (entry.KeyArray.Length <= alphabet.Length)
-                ? "Key (numeric): " + String.Join(" ", entry.KeyArray) + "\n" + "Key (alphabetic): " + getKeyword(entry.KeyArray)
-                : "Key: " + String.Join(" ", entry.KeyArray);
+            string keyword = getKeyword(entry.KeyArray);
+
+            string key = String.IsNullOrEmpty(keyword)
+                ? "Key: " + String.Join(" ", entry.KeyArray)
+                : "Key (numeric): " + String.Join(" ", entry.KeyArray) + "\n" + "Key (alphabetic): " + keyword;
 
             return "Rank: " + entry.Ranking + "\n" +
                    "Value: " + entry.Value + "\n" +
