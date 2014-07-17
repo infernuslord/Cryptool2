@@ -92,7 +92,7 @@
             <StackPanel >
                 <Label Content="{x:Static Properties:Languages.labelVisualizationForDim2}" FontWeight="Bold"/>
                <Button Name="buttonGenerate" Content="{x:Static Properties:Languages.buttonGenerateNewLattice}" Margin="0,10,0,0"  Click="Button_Click" HorizontalAlignment="Center"/>
-                <GroupBox HorizontalAlignment="Center" Margin="0,20,0,0">
+                <GroupBox HorizontalAlignment="Stretch" Margin="0,20,0,0">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="{x:Static Properties:Languages.labelCodomain}" HorizontalAlignment="Center" Background="LightBlue" />
@@ -118,7 +118,7 @@
                     </Grid>
                 </GroupBox>
                 <Button Content="{x:Static Properties:Languages.buttonEnterLatticeManually}" Margin="0,10,0,0" Click="Button_Click_1" HorizontalAlignment="Center"/>
-                <GroupBox HorizontalAlignment="Center" Margin="0,20,0,0">
+                <GroupBox HorizontalAlignment="Stretch" Margin="0,20,0,0">
                     <GroupBox.Header>
                         <Label Content="{x:Static Properties:Languages.labelLatticeBasis}" HorizontalAlignment="Center" Background="#CCDC143C" />
                     </GroupBox.Header>
@@ -170,7 +170,7 @@
                     </GroupBox.Content>
                 </GroupBox>
 
-                <GroupBox HorizontalAlignment="Center" Margin="0,20,0,0">
+                <GroupBox HorizontalAlignment="Stretch" Margin="0,20,0,0">
                     <GroupBox.Header>
                         <Label Content="{x:Static Properties:Languages.labelReducedLatticeBasis}" HorizontalAlignment="Center" Background="#CC008000"/>
                     </GroupBox.Header>
