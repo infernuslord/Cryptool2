@@ -53,8 +53,18 @@ namespace Cryptool.Plugins.ImageProcessor
         /// <summary>
         /// Description
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip")]
-        public ICryptoolStream InputData
+        [PropertyInfo(Direction.InputData, "InputImage1", "This is the standard image used for the processing.")]
+        public ICryptoolStream InputImage1
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "InputImage1", "This is the second image only used for the and- and or-functions.")]
+        public ICryptoolStream InputImage2
         {
             get;
             set;
@@ -104,13 +114,20 @@ namespace Cryptool.Plugins.ImageProcessor
         {
             ProgressChanged(0, 1);
 
-            if (InputData == null)
+            if (InputImage1 == null)
             {
-                GuiLogMessage("Please select an image.", NotificationLevel.Error);
-                return;
+                if (InputImage2 != null)
+                {
+                    InputImage1 = InputImage2;
+                }
+                else
+                {
+                    GuiLogMessage("Please select an image.", NotificationLevel.Error);
+                    return;
+                }
             }
-            
-            using (CStreamReader reader = InputData.CreateReader())
+
+            using (CStreamReader reader = InputImage1.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
@@ -132,31 +149,57 @@ namespace Cryptool.Plugins.ImageProcessor
                                 }
                                 break;
                             case ActionType.gray: // Gray Scale
-                                Image<Gray, double> grayImg = img.Convert<Gray, byte>().Convert<Gray, double>();
-                                CreateOutputStream(grayImg.ToBitmap());
+                                using (Image<Gray, double> grayImg = img.Convert<Gray, byte>().Convert<Gray, double>())
+                                {
+                                    CreateOutputStream(grayImg.ToBitmap());
+                                }
                                 break;
                             case ActionType.smooth: // Smoothing
                                 img._SmoothGaussian(settings.Smooth);
                                 CreateOutputStream(img.ToBitmap());
                                 break;
                             case ActionType.resize: // Resizeing
-                                Image<Bgr, byte> img2 = img.Resize(settings.SizeX, settings.SizeY, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-                                CreateOutputStream(img2.ToBitmap());
+                                using (Image<Bgr, byte> newImg = img.Resize(settings.SizeX, settings.SizeY, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR))
+                                {
+                                    CreateOutputStream(newImg.ToBitmap());
+                                }
                                 break;
                             case ActionType.rotate: // Rotating
-                                Image<Bgr, byte> img3 = img.Rotate(settings.Degrees, new Bgr(Color.White));
-                                CreateOutputStream(img3.ToBitmap());
+                                using (Image<Bgr, byte> newImg = img.Rotate(settings.Degrees, new Bgr(Color.White)))
+                                {
+                                    CreateOutputStream(newImg.ToBitmap());
+                                }
                                 break;
                             case ActionType.invert: // Inverting
-                                Image<Bgr, byte> img4 = img.Not();
-                                CreateOutputStream(img4.ToBitmap());
+                                using (Image<Bgr, byte> newImg = img.Not())
+                                {
+                                    CreateOutputStream(newImg.ToBitmap());
+                                }
                                 break;
                             case ActionType.create: // Create Image
-                                Image<Gray, Single> img5 = new Image<Gray, Single>(settings.SizeX, settings.SizeY);
-                                CreateOutputStream(img5.ToBitmap());
+                                using (Image<Gray, Single> newImg = new Image<Gray, Single>(settings.SizeX, settings.SizeY))
+                                {
+                                    CreateOutputStream(newImg.ToBitmap());
+                                }
                                 break;
-
-                                //TODO: and, or, rauschen
+                            case ActionType.and:    // and-connect Images
+                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                {
+                                    using (Image<Bgr, byte> newImg = img.And(secondImg))
+                                    {
+                                        CreateOutputStream(newImg.ToBitmap());
+                                    }
+                                }
+                                break;
+                            case ActionType.or:    // and-connect Images
+                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                {
+                                    using (Image<Bgr, byte> newImg = img.Or(secondImg))
+                                    {
+                                        CreateOutputStream(newImg.ToBitmap());
+                                    }
+                                }
+                                break;
                         }
 
                         OnPropertyChanged("OutputData");

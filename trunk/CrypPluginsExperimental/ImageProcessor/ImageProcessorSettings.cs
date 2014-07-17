@@ -22,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.ImageProcessor
 {
 
-    public enum ActionType { flip, gray, smooth, resize, rotate, invert, create, and, or };
+    public enum ActionType { flip, gray, smooth, resize, rotate, invert, and, or, create };
 
     public class ImageProcessorSettings : ISettings
     {
@@ -49,6 +49,8 @@ namespace Cryptool.Plugins.ImageProcessor
             "Resize Image",
             "Rotate Image",
             "Invert Image",
+            "And-Connect Images",
+            "Or-Connect Images",
             "Create Image" })]
         public ActionType Action
         {
