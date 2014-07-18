@@ -22,6 +22,7 @@ namespace Cryptool.Plugins.WebHits
     /// <summary>
     /// Interaktionslogik für URLTablePresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.Plugins.WebHits.Properties.Resources")]
     public partial class URLTablePresentation : UserControl
     {
         //List<ResultEntry> urls = new List<ResultEntry>();
