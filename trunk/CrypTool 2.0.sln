@@ -387,6 +387,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hill", "CrypPlugins\Hill\Hi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDPAnalyser", "CrypPlugins\IDPAttack\IDPAnalyser.csproj", "{597D534E-32F3-4741-865B-79B32C3175E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHits", "CrypPluginsExperimental\WebHits\WebHits.csproj", "{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = CrypTool 2.0.vsmdi
@@ -1505,6 +1507,12 @@ Global
 		{597D534E-32F3-4741-865B-79B32C3175E3}.Release|x86.Build.0 = Release|x86
 		{597D534E-32F3-4741-865B-79B32C3175E3}.Test|x86.ActiveCfg = Debug|x86
 		{597D534E-32F3-4741-865B-79B32C3175E3}.Test|x86.Build.0 = Debug|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Debug|x86.ActiveCfg = Debug|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Debug|x86.Build.0 = Debug|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Release|x86.ActiveCfg = Release|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Release|x86.Build.0 = Release|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Test|x86.ActiveCfg = Debug|x86
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60}.Test|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1685,6 +1693,7 @@ Global
 		{D11F3E7B-4F9E-43CC-ACA0-DE6AE47E1F5C} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{B4102241-4BEF-4659-9EB2-541BD15937DE} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 		{D16D6A08-AA57-41FF-AFA6-F09EF0321337} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
+		{3D4DCC8E-85D2-4DAE-B03C-C996B7A14B60} = {97840ABA-BC56-482F-8EAA-11B7A6744EC1}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
