@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    With the help of WebHits component can be checked whether a particular search term, eg a MD5 hash value, can be found on the web using the Google search engine.
+  </introduction>
+
+  <introduction lang="de-DE"> 
+    Mit Hilfe der WebHits-Komponente kann geprüft werden, ob ein bestimmter Suchbegriff, z.B. ein MD5-Hashwert, über die Suchmaschine Google im Web gefunden wird.
+  </introduction>
+
+  <usage lang="en">
+    After dragging the WebHits component onto the workspace, you need to specify a data source that represents the value to be searched on Google. This input is mandatory.
+  </usage>
+
+  <usage lang="de-DE">
+    Nachdem Sie die WebHits-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die den Begriff repräsentiert, wonach in Google gesucht werden soll. Diese Datenquelle ist notwendig.
+  </usage>
+  
+  <presentation lang="en">
+    The WebHits component offers a presentation showing the search term, the duration of the search, the total number of hits, and a table with the URLs of the first ten results. By clicking on a link, the page opens in a browser.
+    <newline/>
+    Note: Due to the Google-API, the indicated total number of hits does not reflect all possible Google hits.
+  </presentation>
+  
+  <presentation lang="de-DE">
+    In der Präsentationsansicht der Komponente wird die Gesamtzahl der gefundenen Treffer, die Dauer der Suche sowie eine Tabelle mit den URLs der ersten zehn Treffer angezeigt. Beim Klicken auf eine URL, wird die verlinkte Webseite im Browser geöffnet.
+    <newline/>
+    Hinweis: Bedingt durch die Google-API, bildet die angezeigte Gesamtanzahl der Treffer nicht alle möglichen Google-Treffer ab.
+  </presentation>
+  
+  <references>
+    <linkReference>
+      <link url="https://developers.google.com/custom-search/" lang="en" />
+      <caption lang="en">Custom Search Google API</caption>
+      <link url="https://developers.google.com/custom-search/" lang="de-DE" />
+      <caption lang="de-DE">Custom-Search-Google-API</caption>
+    </linkReference>
+  </references>
+</documentation>

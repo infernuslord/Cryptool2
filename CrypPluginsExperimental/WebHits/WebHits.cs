@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.WebHits
     [Author("Olga Kieselmann", "kieselmann@uni-kassel.de", "CrypTool 2 Team", "http://www.ais.uni-kassel.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Cryptool.Plugins.WebHits.Properties.Resources", "WebHitsCaption", "PluginTooltip", "WebHits/userdoc.xml", new[] { "WebHits/images/search.png" })]
+    [PluginInfo("Cryptool.Plugins.WebHits.Properties.Resources", "WebHitsCaption", "PluginTooltip", "WebHits/DetailedDescription/doc.xml", new[] { "WebHits/images/search.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class WebHits : ICrypComponent
@@ -175,7 +175,7 @@ namespace Cryptool.Plugins.WebHits
                     GuiLogMessage("Failure: Bad domain name, " + ex.Message, NotificationLevel.Error);                   
                 else if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
-                    HttpWebResponse response = (HttpWebResponse)ex.Response;                 
+                    var response = (HttpWebResponse)ex.Response;                 
                     GuiLogMessage("Failure: " + response.StatusDescription, NotificationLevel.Error); 
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         GuiLogMessage("Failure: Not there! " + response.StatusCode, NotificationLevel.Error); 
