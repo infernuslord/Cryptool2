@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.WebHits
     [Author("Olga Kieselmann", "kieselmann@uni-kassel.de", "CrypTool 2 Team", "http://www.ais.uni-kassel.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("WebHits Plugin", "Search for a certain value by Google", "WebHits/userdoc.xml", new[] { "WebHits/images/search.png" })]
+    [PluginInfo("Cryptool.Plugins.WebHits.Properties.Resources", "WebHitsCaption", "PluginTooltip", "WebHits/userdoc.xml", new[] { "WebHits/images/search.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class WebHits : ICrypComponent
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.WebHits
         /// You can add more input properties of other type if needed.
         /// </summary>
         /// 
-        [PropertyInfo(Direction.InputData, "Search string", "Put here your value that you are looking for", false)]
+        [PropertyInfo(Direction.InputData, "Search string", "InputstringTooltip", mandatory: false)]
         public string SearchTerm
         {
             get { return this.searchTerm; }
@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.WebHits
         /// You can add more output properties ot other type if needed.
         /// </summary>
 
-        [PropertyInfo(Direction.OutputData, "Number", "Number of search results", false)]
+        [PropertyInfo(Direction.OutputData, "Number", "OutputStringTooltip", false)]
         public int Number
         {
             get;
@@ -136,12 +136,12 @@ namespace Cryptool.Plugins.WebHits
                 ProgressChanged(0, 100);
                 urls.Clear();
                 GoogleSearch();                                          
-                //OnPropertyChanged("Number");                
+                OnPropertyChanged("Number");                
                 ProgressChanged(100, 100);
             }
             catch (System.Exception ex)
             {
-                GuiLogMessage("Failure: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage(string.Format("Failure: {0}", ex.Message), NotificationLevel.Error);
             }
 
         }
@@ -149,9 +149,6 @@ namespace Cryptool.Plugins.WebHits
         private void GoogleSearch()
         {
             ////key and cx are given from Google 
-            //string key = "AIzaSyBmxXXzv-slWLGCjIXUh3fTlJfsIS_eW0I";
-            //string cx = "014281063156427125855:hmtxyd_p_n4";
-
             string key = "AIzaSyCS2IgxYgcd5eMdCv6wiiBJlcRtMhdE8fg";
             string cx = "008159240840838912779:vtvqbhheguo";
 
@@ -168,18 +165,6 @@ namespace Cryptool.Plugins.WebHits
                 MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(json));
                 RootObject obj = (RootObject)jsonSer.ReadObject(stream);               
 
-                //int i = 1;
-                //ResultEntry re;
-
-                //foreach (Item item in obj.items)
-                //{
-                //    re = new ResultEntry();
-                //    re.Ranking = i;
-                //    re.HitURL = item.link;
-                //    urls.Add(re);
-                //    i++;
-                //}
-                
                 this.presentation.Assign_Values(obj, SearchTerm);
 
                 Number = Convert.ToInt32(obj.searchInformation.totalResults);
