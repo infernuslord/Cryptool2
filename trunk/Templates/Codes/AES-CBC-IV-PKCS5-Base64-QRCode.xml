@@ -6,7 +6,7 @@
   <description lang="en">In this template we provide a quick way to encrypt plaintext with AES [1] by using a simple password (which is converted to an AES-key by using PKCS#5 [2]).
 	The result is base64-encoded and stored in a QR Code.
 	Decryption is also possible with this template: First the AES <b>component</b> needs to be switched to "Decrypt" and the <b>Switch</b> component must be set to <i>True</i>.
-	With the help of the <b>Switch</b> component, the data takes a different path, i.e. for decryption we first need to base64-decode it, 
+	With the help of the <b>Switch</b> component, the data takes a different path, i.e. for decryption we first need to base64 decode it, 
 	while when encrypting we encode it in base64 after encryption.
 	Finally, start the template and put an encrypted QR Code in front of your webcam until the <b>Visual decoder</b> component decodes it.
 	<newline />
@@ -25,7 +25,7 @@ Sources:<newline />
   <summary lang="de">Benutzung der <i>AES</i>-Chiffre im CBC-Modus mit einem Initialisierungsvektor, wobei der Sitzungsschlüssel
 	per <i>PKCS#5</i> aus einem Passwort erzeugt wird und der Geheimtext in Base-64 codiert und als QR-Code ausgegeben wird</summary>
 	<description lang="de">Mit dieser Vorlage ist es möglich, einen Eingabetext mit Hilfe eines Passwortes zu verschlüsseln. 
-	Für die Verschlüsselung wird dabei AES [1] verwendet; und um aus dem Passwort einen geeigneten AES-Schlüssel zu generieren, wird PKCS#5 [2] 
+	Für die Verschlüsselung wird AES [1] verwendet; und um aus dem Passwort einen geeigneten AES-Schlüssel zu generieren, wird PKCS#5 [2] 
 	verwendet. Das verschlüsselte Ergebnis wird als Base-64-codierter QR-Code ausgegeben.<newline /><newline />
 	Auch das Entschlüsseln einer solchen Nachricht ist mit dieser Vorlage möglich: Zunächst muss die AES-<b>Komponente</b> auf "Entschlüsseln" und die <b>Switch</b>-Komponente auf <i>Wahr</i> geschaltet werden. 
 	Mit Hilfe der <b>Switch</b>-Komponente wird der Datenpfad für das Ver- bzw. Entschlüsseln jeweils entsprechend angepasst: Bei der Entschlüsselung muss die Eingabe zunächst 
