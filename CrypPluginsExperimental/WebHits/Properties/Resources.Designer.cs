@@ -124,6 +124,15 @@ namespace Cryptool.Plugins.WebHits.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failure: {0}. You cannot add more annotations to the account because you have reached the limit for annotations. ähnelt.
+        /// </summary>
+        internal static string WebHits_GoogleSearch_Failure_Limit {
+            get {
+                return ResourceManager.GetString("WebHits_GoogleSearch_Failure_Limit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die WebHits ähnelt.
         /// </summary>
         internal static string WebHitsCaption {

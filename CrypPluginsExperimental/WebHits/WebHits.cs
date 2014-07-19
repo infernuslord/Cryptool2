@@ -26,6 +26,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.Plugins.WebHits.Properties;
 
 
 namespace Cryptool.Plugins.WebHits
@@ -175,8 +176,17 @@ namespace Cryptool.Plugins.WebHits
                     GuiLogMessage("Failure: Bad domain name, " + ex.Message, NotificationLevel.Error);                   
                 else if (ex.Status == WebExceptionStatus.ProtocolError)
                 {
-                    var response = (HttpWebResponse)ex.Response;                 
-                    GuiLogMessage("Failure: " + response.StatusDescription, NotificationLevel.Error); 
+                    var response = (HttpWebResponse)ex.Response;
+                    if (response.StatusDescription.Contains("Forbidden"))
+                    {
+                        GuiLogMessage(string.Format(Resources.WebHits_GoogleSearch_Failure_Limit, response.StatusDescription),          
+                        NotificationLevel.Error)
+                        ;
+                    }
+                    else
+                    {
+                        GuiLogMessage("Failure: " + response.StatusDescription, NotificationLevel.Error);
+                    }
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         GuiLogMessage("Failure: Not there! " + response.StatusCode, NotificationLevel.Error); 
                 }
