@@ -141,4 +141,7 @@
   <data name="This_is_a_WorkspaceManager_file_" xml:space="preserve">
     <value>This is a workspace editor file.</value>
   </data>
+  <data name="WebHits_GoogleSearch_Failure_Limit" xml:space="preserve">
+    <value>Failure: {0} You cannot add more annotations to the account because you have reached the limit for annotations.</value>
+  </data>
 </root>
