@@ -141,4 +141,7 @@
   <data name="WebHitsCaption" xml:space="preserve">
     <value>WebHits</value>
   </data>
+  <data name="WebHits_GoogleSearch_Failure_Limit" xml:space="preserve">
+    <value>Failure: {0}. Es können keine Ergebnisse geliefert werden, da das Limit für zuläßige 100 Anfragen pro Tag erreicht wurde.</value>
+  </data>
 </root>
