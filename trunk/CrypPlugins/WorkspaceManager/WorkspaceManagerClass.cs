@@ -580,7 +580,7 @@ namespace WorkspaceManager
 
         public bool CanCut
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool CanCopy

@@ -365,7 +365,7 @@ namespace Cryptool.CrypWin
 
         private void Cut_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = ActiveEditor != null;
+            e.CanExecute = ActiveEditor != null && ActiveEditor.CanCut;
         }
 
         private void Cut_Executed(object sender, ExecutedRoutedEventArgs e)
