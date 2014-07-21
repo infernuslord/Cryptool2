@@ -24,13 +24,17 @@
   <presentation lang="en">
     The WebHits component offers a presentation showing the search term, the duration of the search, the total number of hits, and a table with the URLs of the first ten results. By clicking on a link, the page opens in a browser.
     <newline/>
-    Note: Due to the Google-API, the indicated total number of hits does not reflect all possible Google hits.
+    Note 1: Due to the Google-API, the indicated total number of hits does not reflect all possible Google hits.
+    <newline/>
+    Note 2: The Google-API provides 100 search queries per day for free. When the limit for 100 free requests per day is reached, no further search results are delivered. You can try it the next day again.
   </presentation>
   
   <presentation lang="de-DE">
-    In der Präsentationsansicht der Komponente wird die Gesamtzahl der gefundenen Treffer, die Dauer der Suche sowie eine Tabelle mit den URLs der ersten zehn Treffer angezeigt. Beim Klicken auf eine URL, wird die verlinkte Webseite im Browser geöffnet.
+    In der Präsentationsansicht der Komponente wird die Gesamtzahl der gefundenen Treffer, die Dauer der Suche sowie eine Tabelle mit den URLs der ersten zehn Treffer angezeigt. Beim Klicken auf eine URL wird die verlinkte Webseite im Browser geöffnet.
     <newline/>
-    Hinweis: Bedingt durch die Google-API, bildet die angezeigte Gesamtanzahl der Treffer nicht alle möglichen Google-Treffer ab.
+    Hinweis 1: Bedingt durch die Google-API, bildet die angezeigte Gesamtanzahl der Treffer nicht alle möglichen Google-Treffer ab.
+    <newline/>
+    Hinweis 2: Die Google-API bietet 100 Suchanfragen pro Tag kostenlos. Wenn das Limit für 100 kostenlose Anfragen pro Tag erreicht wurde, werden keine weiteren Suchergebnisse geliefert. Sie können es am nächsten Tag wieder versuchen.
   </presentation>
   
   <references>

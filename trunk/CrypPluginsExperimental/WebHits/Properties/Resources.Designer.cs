@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.WebHits.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Failure: {0}. You cannot add more annotations to the account because you have reached the limit for annotations. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Failure: {0}. You cannot add more search requests because you have reached the limit set by Google for 100 free search requests per day. Please try again tomorrow. ähnelt.
         /// </summary>
         internal static string WebHits_GoogleSearch_Failure_Limit {
             get {
