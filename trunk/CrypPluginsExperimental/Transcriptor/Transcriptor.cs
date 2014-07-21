@@ -111,10 +111,14 @@ namespace Cryptool.Plugins.Transcriptor
 
             switch (settings.Color)
             {
-                case 0: transcriptorPresentation.RectangleColor = "#000000"; break;
-                case 1: transcriptorPresentation.RectangleColor = "#ffffff"; break;
-                case 2: transcriptorPresentation.RectangleColor = "#ff0000"; break;
+                case 0: transcriptorPresentation.RectangleColor = "Black"; break;
+                case 1: transcriptorPresentation.RectangleColor = "White"; break;
+                case 2: transcriptorPresentation.RectangleColor = "Red"; break;
             }
+
+            transcriptorPresentation.StrokeThicknes = settings.Stroke;
+
+            //transcriptorPresentation.RectangleColor = settings.Color;
 
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
