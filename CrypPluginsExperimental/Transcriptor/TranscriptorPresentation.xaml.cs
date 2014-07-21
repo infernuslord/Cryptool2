@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
@@ -21,11 +16,19 @@ namespace Transcriptor
     public partial class TranscriptorPresentation : UserControl
     {
         String rectangleColor;
+        int strokeThicknes;
         List<Rectangle> rectangleList = new List<Rectangle>();
+        double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
 
         public TranscriptorPresentation()
         {
             InitializeComponent();
+        }
+
+        public int StrokeThicknes
+        {
+            get { return strokeThicknes;  }
+            set { strokeThicknes = value; }
         }
 
         public String RectangleColor
@@ -36,23 +39,32 @@ namespace Transcriptor
 
         private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            xCordinateDown = e.GetPosition(canvas).X;
+            yCordinateDown = e.GetPosition(canvas).Y;
+        }
+
+        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
             if (picture.Source == null)
             {
             }
             else
             {
-                //Draws a rectangles in the Image
+                xCordinateUp = e.GetPosition(canvas).X;
+                yCordinateUp = e.GetPosition(canvas).Y;
+
+                //Draws a rectangle in the Image
                 Rectangle rectangle = new Rectangle
                 {
                     Fill = Brushes.Transparent,
-                    Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor),
-                    StrokeThickness = 2,
-                    Width = 20,
-                    Height = 20,
+                    Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor),
+                    StrokeThickness = strokeThicknes,
+                    Width = (int) (xCordinateUp - xCordinateDown),
+                    Height = (int) (yCordinateUp - yCordinateDown),
                 };
 
-                Canvas.SetLeft(rectangle, e.GetPosition(canvas).X);
-                Canvas.SetTop(rectangle, e.GetPosition(canvas).Y);
+                Canvas.SetLeft(rectangle, xCordinateDown);
+                Canvas.SetTop(rectangle, yCordinateDown);
                 canvas.Children.Add(rectangle);
 
                 Rect rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);

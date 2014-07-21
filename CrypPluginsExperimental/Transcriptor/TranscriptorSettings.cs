@@ -28,6 +28,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         private String fileName;
         private int color;
+        private int stroke;
 
         #endregion
 
@@ -55,7 +56,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("Color", "Chose the Color of the Rectangle", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
+        [TaskPane("Color", "Choose the Color of the Rectangle", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
         public int Color
         {
             get
@@ -71,6 +72,23 @@ namespace Cryptool.Plugins.Transcriptor
                 }
             }
 
+        }
+
+        [TaskPane("Stroke", "Choose the Thikness of the Rectangle", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 3)]
+        public int Stroke
+        {
+            get
+            {
+                return stroke;
+            }
+            set
+            {
+                if (stroke != value)
+                {
+                    stroke = value;
+                    OnPropertyChanged("Stroke");
+                }
+            }
         }
 
         #endregion
